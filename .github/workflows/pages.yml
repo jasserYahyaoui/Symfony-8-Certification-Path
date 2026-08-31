@@ -110,11 +110,19 @@ jobs:
           done
 
           # The landing page must actually render, not merely return 200.
-          curl -sL "$BASE_URL/" | grep -q 'Symfony 8 Certification Path' \
+          #
+          # Fetched to a file rather than piped into grep: under `pipefail`,
+          # `curl | grep -q` fails the pipeline on a *successful* match, because
+          # grep exits at the first hit and curl dies of SIGPIPE. That produced
+          # a false "did not render" the moment the page grew large enough for
+          # the race to bite.
+          curl -sL -o /tmp/landing "$BASE_URL/"
+          grep -q 'Symfony 8 Certification Path' /tmp/landing \
             || { echo "::error::landing page did not render expected content"; fail=1; }
 
           # Practice payload must never carry the holdout pool (§7.3).
-          pool=$(curl -sL "$BASE_URL/data/practice.json" | python3 -c 'import json,sys; print(json.load(sys.stdin)["pool"])')
+          curl -sL -o /tmp/practice.json "$BASE_URL/data/practice.json"
+          pool=$(python3 -c 'import json;print(json.load(open("/tmp/practice.json"))["pool"])')
           if [ "$pool" != "LEARNING" ]; then
             echo "::error::practice payload declares pool $pool"
             fail=1

@@ -204,6 +204,16 @@ Getting there took three failures, each recorded rather than smoothed over:
   precisely what a smoke test against the real URL exists to catch, and it is
   the reason §16 requires one rather than accepting a successful deploy as
   proof.
+- Run [`33443386811`](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/actions/runs/33443386811)
+  failed the landing-page content assertion while all ten URLs returned 200 —
+  a bug in the smoke test itself, not in the site. Under `set -o pipefail`,
+  `curl … | grep -q` fails the pipeline on a *successful* match: `grep -q`
+  exits at the first hit, curl dies of SIGPIPE, and pipefail propagates
+  curl's error (reproduced locally: exit 141). It stayed latent until the
+  page grew large enough for the race to bite. Fixed by fetching to a file
+  and grepping the file. Worth recording: the tempting reading was "CDN
+  served a stale page", and accepting it would have left a test that fails
+  at random forever.
 
 ## Gates
 
