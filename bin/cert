@@ -1,0 +1,165 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use CertPath\Build\SiteBuilder;
+use CertPath\Coverage\CoverageCalculator;
+use CertPath\Coverage\CoverageMarkdownRenderer;
+use CertPath\Schema\SchemaException;
+use CertPath\Support\EntityType;
+use CertPath\Support\Id;
+use CertPath\Support\Project;
+use CertPath\Validation\RuleSet;
+use CertPath\Validation\Severity;
+use CertPath\Validation\Validator;
+
+require __DIR__.'/../vendor/autoload.php';
+
+$project = Project::locate();
+$command = $argv[1] ?? 'help';
+
+/**
+ * Master Plan §12: CI fails on mandatory-rule violations.
+ */
+function commandValidate(Project $project): int
+{
+    $validator = new Validator(RuleSet::mandatory());
+
+    try {
+        $content = $project->loadContentSet();
+    } catch (SchemaException $e) {
+        fwrite(\STDERR, '[ERROR] schema: '.$e->getMessage()."\n");
+
+        return 1;
+    }
+
+    $violations = $validator->run($content);
+
+    echo \sprintf("Rules executed: %d\n", \count($validator->rules()));
+    echo \sprintf("Official items: %d\n", \count($content->matrix->officialItems()));
+    echo \sprintf("Questions:      %d\n\n", \count($content->questions));
+
+    if ([] === $violations) {
+        echo "No violations.\n";
+
+        return 0;
+    }
+
+    $errors = 0;
+    foreach ($violations as $violation) {
+        echo $violation->format()."\n";
+        if (Severity::Error === $violation->severity) {
+            ++$errors;
+        }
+    }
+
+    echo \sprintf("\n%d violation(s), %d blocking.\n", \count($violations), $errors);
+
+    return $errors > 0 ? 1 : 0;
+}
+
+function commandCoverage(Project $project): int
+{
+    try {
+        $matrix = $project->loadMatrix();
+    } catch (SchemaException $e) {
+        fwrite(\STDERR, '[ERROR] schema: '.$e->getMessage()."\n");
+
+        return 1;
+    }
+
+    $report = (new CoverageCalculator())->calculate($matrix);
+    $markdown = (new CoverageMarkdownRenderer())->render($report, $matrix->syllabusRevision);
+
+    file_put_contents($project->path('docs/syllabus/coverage-report.md'), $markdown);
+
+    if (!$report->isDenominatorEstablished()) {
+        echo "Coverage: UNDEFINED (the official syllabus has not been imported).\n";
+
+        return 0;
+    }
+
+    echo \sprintf(
+        "Coverage: %s%% (%d/%d EXAM_READY)\n",
+        $report->percentage(),
+        $report->examReadyItems,
+        $report->totalOfficialItems,
+    );
+
+    return 0;
+}
+
+function commandBuild(Project $project): int
+{
+    try {
+        $content = $project->loadContentSet();
+    } catch (SchemaException $e) {
+        fwrite(\STDERR, '[ERROR] schema: '.$e->getMessage()."\n");
+
+        return 1;
+    }
+
+    $written = (new SiteBuilder($project))->build($content);
+
+    echo \sprintf("Built %d file(s) into %s:\n", \count($written), $project->buildDir());
+    foreach ($written as $file) {
+        echo '  '.$file."\n";
+    }
+
+    return 0;
+}
+
+/**
+ * §11: persistent ids are minted, never derived from a file name or slug.
+ */
+function commandMintId(string ...$args): int
+{
+    $typeName = $args[0] ?? null;
+    if (null === $typeName) {
+        fwrite(\STDERR, "Usage: bin/cert id:mint <EntityType> [count]\n");
+        fwrite(\STDERR, 'Types: '.implode(', ', array_column(EntityType::cases(), 'value'))."\n");
+
+        return 1;
+    }
+
+    $type = EntityType::tryFrom($typeName);
+    if (null === $type) {
+        fwrite(\STDERR, \sprintf("Unknown entity type \"%s\".\n", $typeName));
+
+        return 1;
+    }
+
+    $count = max(1, (int) ($args[1] ?? 1));
+    for ($i = 0; $i < $count; ++$i) {
+        echo Id::mint($type)->value."\n";
+    }
+
+    return 0;
+}
+
+function commandHelp(): int
+{
+    echo <<<'TXT'
+        cert — Symfony 8 Certification Path toolchain
+
+        Usage: bin/cert <command>
+
+          validate    Run the mandatory content rules of Master Plan §12.
+          coverage    Recompute docs/syllabus/coverage-report.md (§3.5).
+          build       Generate the static GitHub Pages site into build/.
+          id:mint     Mint persistent ids, e.g. `id:mint OfficialItem 5` (§11).
+          help        Show this message.
+
+        TXT;
+
+    return 0;
+}
+
+exit(match ($command) {
+    'validate' => commandValidate($project),
+    'coverage' => commandCoverage($project),
+    'build' => commandBuild($project),
+    'id:mint' => commandMintId(...\array_slice($argv, 2)),
+    default => commandHelp(),
+});

@@ -1,0 +1,20 @@
+# Atomic official syllabus matrix — the coverage denominator (Master Plan §3.5).
+#
+# STATUS: EMPTY AND BLOCKED.
+#
+# Every entry here must be imported VERBATIM from the official Symfony 8
+# Certification syllabus (§3.1). At the time of the Lot 0 audit,
+# `certification.symfony.com` is unreachable from the build environment, so no
+# official item has been imported.
+#
+# The lot descriptions in the Master Plan §14 must NOT be used to populate this
+# file. §3.1 is explicit: "Lot descriptions are operational groupings only.
+# They are never the coverage denominator and may not replace, merge,
+# abbreviate or rename official items."
+#
+# Each item requires every field listed in §3.3. See docs/policy/matrix-field-guide.md.
+# Mint ids with: bin/cert id:mint OfficialItem <count>
+
+schema_version: 1
+syllabus_revision: null
+items: []

@@ -1,0 +1,76 @@
+# Source-verification map (Master Plan §2.2, §2.3, §2.4).
+#
+# Records which authority is used for which kind of claim, at which version,
+# and by which reachable route. Reachability was measured during the Lot 0
+# audit; see docs/reports/lot-00-audit-report.md §10.
+
+schema_version: 1
+
+scope_authority:
+  # §2.1 — determines what is examinable. Currently unreachable (blocker B-1).
+  - id: SRC-SYLLABUS
+    role: "Official syllabus — the only valid source of atomic official items."
+    url: "https://certification.symfony.com/exams/symfony.html"
+    reachable: false
+    blocked_reason: "Egress-blocked in the build environment (audit 2026-08-31)."
+  - id: SRC-FAQ
+    role: "Official certification FAQ and published exam constraints."
+    url: "https://certification.symfony.com/faq.html"
+    reachable: false
+    blocked_reason: "Egress-blocked in the build environment (audit 2026-08-31)."
+
+technical_authority:
+  # §2.2 — determines how Symfony 8.0 actually behaves.
+  - id: SRC-SF-DOCS
+    role: "Symfony 8.0 documentation (upstream RST source of symfony.com/doc/8.0)."
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    raw_base: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/"
+    reachable: true
+    verified_at: "2026-08-31"
+
+  - id: SRC-SF-SOURCE
+    role: "Symfony 8.0 source code and tests."
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    raw_base: "https://raw.githubusercontent.com/symfony/symfony/8.0/"
+    reachable: true
+    verified_at: "2026-08-31"
+    notes: >-
+      Kernel::VERSION on this branch is 8.0.17-DEV, ahead of the latest release
+      (v8.0.9). Prefer a v8.0.x tag when a behavioural claim is version-sensitive.
+
+  - id: SRC-PHP
+    role: "Official PHP documentation up to PHP 8.4 (upstream source of php.net)."
+    repository: "php/doc-en"
+    branch: "master"
+    raw_base: "https://raw.githubusercontent.com/php/doc-en/master/"
+    reachable: true
+    verified_at: "2026-08-31"
+    notes: "www.php.net is egress-blocked; the doc-en repository is its upstream."
+
+  - id: SRC-RFC9110
+    role: "RFC 9110 — HTTP semantics."
+    url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+    reachable: true
+    verified_at: "2026-08-31"
+    notes: "www.rfc-editor.org is egress-blocked; the HTTP WG mirror is authoritative."
+
+  - id: SRC-TWIG
+    role: "Twig official documentation."
+    repository: "twigphp/Twig"
+    branch: "3.x"
+    raw_base: "https://raw.githubusercontent.com/twigphp/Twig/3.x/doc/"
+    reachable: true
+    verified_at: "2026-08-31"
+    notes: >-
+      UNKNOWN_NEEDS_VERIFICATION — the Master Plan pins Twig 3.22, but Symfony
+      8.0 requires "^3.21|^4.0" and the 3.x branch is at 3.29. The examinable
+      Twig version must be confirmed against the official syllabus (blocker B-5).
+
+forbidden_sources:
+  - pattern: "/doc/current/"
+    reason: "Master Plan §2.3 — never use /current/ as a primary source."
+    enforced_by: "CI rule SRC-001 and VER-001."

@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Technical gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # Symfony 8.0 requires PHP >= 8.4 (symfony/symfony@8.0 composer.json).
+          php-version: '8.4'
+          extensions: json, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Lint PHP sources
+        run: find src bin tests -type f \( -name '*.php' -o -name 'cert' \) -print0 | xargs -0 -n1 php -l
+
+      - name: Lint YAML
+        run: vendor/bin/yaml-lint docs/syllabus content --parse-tags
+
+      # Master Plan §12. CI fails on mandatory-rule violations, and §12 also
+      # states: "Never weaken tests merely to obtain a green build."
+      - name: Content rules
+        run: php bin/cert validate
+
+      - name: Unit and integration tests
+        run: vendor/bin/phpunit
+
+      - name: Coverage report is up to date
+        run: |
+          php bin/cert coverage
+          git diff --exit-code docs/syllabus/coverage-report.md
+
+      - name: Static site builds
+        run: php bin/cert build
+
+      - name: Deployed artefact contains no server-side code
+        run: |
+          if grep -rIl --include='*.html' --include='*.js' --include='*.json' '<?php' build/; then
+            echo "::error::PHP found in the static build output"
+            exit 1
+          fi

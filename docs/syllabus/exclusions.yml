@@ -1,0 +1,81 @@
+# Official and policy exclusions.
+#
+# Source: Master Plan §1.5 "Prohibited expansion".
+# An excluded term may appear only in a clearly labelled explanation of an
+# exclusion or comparison, and must never be required to earn points. The
+# CI rule SCOPE-001 enforces this: a scored question containing one of the
+# `match_terms` below fails unless it carries the `exclusion-note` tag.
+#
+# `match_terms` are matched case-insensitively as substrings against question
+# prompts, choices and explanations.
+
+schema_version: 1
+
+excluded_topics:
+  - id: EXC-UX
+    label: Symfony UX
+    reason: "Master Plan §1.5 — not part of the examinable scope."
+    match_terms: ["symfony ux", "stimulus", "turbo"]
+
+  - id: EXC-AI
+    label: Symfony AI
+    reason: "Master Plan §1.5."
+    match_terms: ["symfony ai"]
+
+  - id: EXC-DOCTRINE
+    label: Doctrine and databases
+    reason: "Master Plan §1.5 — Doctrine and database topics are excluded."
+    match_terms: ["doctrine", "entitymanager", "dbal"]
+
+  - id: EXC-MONOLOG
+    label: Monolog
+    reason: "Master Plan §1.5."
+    match_terms: ["monolog"]
+
+  - id: EXC-ASSETS
+    label: AssetMapper and Webpack Encore
+    reason: "Master Plan §1.5."
+    match_terms: ["assetmapper", "asset mapper", "webpack encore", "encore"]
+
+  - id: EXC-POLYFILL
+    label: PHP Polyfills
+    reason: "Master Plan §1.5."
+    match_terms: ["polyfill"]
+
+  - id: EXC-PHPUNIT-BRIDGE
+    label: PHPUnit Bridge
+    reason: "Master Plan §1.5 and §14 Lot 13 — explicitly excluded."
+    match_terms: ["phpunit bridge", "phpunit-bridge"]
+
+  - id: EXC-ESI
+    label: ESI
+    reason: "Master Plan §1.5 and §14 Lot 17 — explicitly excluded."
+    match_terms: ["esi", "edge side include"]
+
+  - id: EXC-INTL-ICU
+    label: ICU data access utilities from the Intl component
+    reason: "Master Plan §1.5 and §14 Lot 16 — ICU data access utilities excluded."
+    match_terms: ["icu data", "intl data"]
+
+  - id: EXC-THIRD-PARTY-BRIDGES
+    label: Bridges to third-party services
+    reason: "Master Plan §1.5; also §14 Lots 11, 22 and 26."
+    match_terms: ["third-party bridge", "amazon ses", "sendgrid", "mailgun", "amqp", "rabbitmq"]
+
+  - id: EXC-THIRD-PARTY-BUNDLES
+    label: Third-party bundles and projects
+    reason: "Master Plan §1.5."
+    match_terms: ["easyadmin", "api platform", "api-platform", "sonata"]
+
+# Scope boundaries that cannot be reduced to a keyword match. These are
+# enforced by human review during the Pedagogical Gate (§17), not by CI.
+review_only_exclusions:
+  - id: EXC-POST-8.0
+    label: Features introduced after Symfony 8.0
+    reason: "Master Plan §1.5 and §10 — the exam covers Symfony 8.0 only."
+    enforcement: "CI rule VER-001 catches source URLs; behavioural claims need human review."
+
+  - id: EXC-UNLISTED-COMPONENTS
+    label: Symfony components not explicitly named in the official syllabus
+    reason: "Master Plan §1.5."
+    enforcement: "Blocked until the official syllabus is imported (§3.1); see docs/syllabus/official-syllabus.md."
