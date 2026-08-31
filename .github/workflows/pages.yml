@@ -45,8 +45,12 @@ jobs:
       - name: Build
         run: php bin/cert build
 
+      # `enablement: true` creates the Pages site on the first run, so the
+      # deployment does not require a manual visit to repository settings.
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
