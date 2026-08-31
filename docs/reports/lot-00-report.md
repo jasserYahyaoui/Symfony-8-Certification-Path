@@ -25,34 +25,41 @@ intention.
 
 ## Atomic official items
 
-- **Assigned:** 0
+- **Imported:** 115, across 10 of the 15 official topics
 - **EXAM_READY:** 0
-- **Blocked:** all of them — the denominator does not exist
+- **Blocked:** the denominator itself — the import is incomplete
 
-Coverage is reported as **UNDEFINED**, not `0%`. §3.5 defines coverage as
-`EXAM_READY atomic official items / total atomic official items * 100`; with no
-imported syllabus there is no denominator, and an undefined denominator is a
-different claim from a zero numerator (§19).
+Coverage is reported as **UNDEFINED**, not as `0 / 115`. The matrix declares
+`syllabus_complete: false`, and the engine refuses to publish a percentage
+while that holds: 115 is not the real total.
 
-Lot 0 assigns no atomic official items by design: it is infrastructure and
-governance. The syllabus *import* is its content deliverable, and that is what
-is blocked.
+Lot 0 assigns no atomic official items for *teaching* by design — it is
+infrastructure and governance. Its content deliverable is the syllabus import
+itself, and that is now partially done.
 
 ## Content decisions
 
-- **MINIMAL:** 0
-- **STANDARD:** 0
-- **DEEP:** 0
+- **MINIMAL / STANDARD / DEEP:** 0 assigned. All 115 imported items sit at
+  `NOT_STARTED`; a content level is a research output, not an import-time
+  guess, and `PED-001` requires one only from `SPECIFIED` onward.
 - **Removed or shortened:** nothing — the repository was greenfield
 
-One decision worth recording is what was **not** built. The Master Plan §14 lot
+Two decisions worth recording. The first is what was **not** built. The Master Plan §14 lot
 list enumerates topic areas in enough detail that a plausible syllabus matrix
 could have been synthesised from it, which would have made this lot look
 complete. §3.1 forbids exactly that: *"Lot descriptions are operational
 groupings only. They are never the coverage denominator."* Populating the matrix
 from §14 would have substituted an unofficial denominator that then looked
 entirely credible, and every coverage figure for the rest of the project would
-have measured the wrong thing. The matrix was left empty instead.
+have measured the wrong thing. The matrix was left empty until the real text
+arrived.
+
+The second is the `syllabus_complete` flag. When the syllabus did arrive it was
+truncated, and a partial import is the more dangerous of the two failure modes:
+an empty matrix is obviously empty, whereas a partial one yields a percentage
+that reads entirely credible while measuring against the wrong total — and it
+always reads *higher* than the truth. The flag defaults to `false` when absent,
+so a partial import cannot pass itself off as complete by omission.
 
 ## Delivered
 
