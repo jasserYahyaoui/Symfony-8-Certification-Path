@@ -84,7 +84,7 @@ const config: Config = {
         {
           title: 'Apprendre',
           items: [
-            {label: 'Introduction', to: '/docs/'},
+            {label: 'Introduction', to: '/docs'},
             {label: 'Couverture officielle', to: '/docs/syllabus/coverage'},
             {label: 'Exclusions', to: '/docs/syllabus/exclusions'},
           ],

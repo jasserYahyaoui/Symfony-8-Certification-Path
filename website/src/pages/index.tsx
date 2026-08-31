@@ -19,7 +19,7 @@ export default function Home(): React.JSX.Element {
             officiel de la certification Symfony 8.0.
           </p>
           <div className="certpath-actions">
-            <Link className="button button--secondary button--lg" to="/docs/">
+            <Link className="button button--secondary button--lg" to="/docs">
               Commencer
             </Link>
             <Link className="button button--outline button--secondary button--lg" to="/practice">
@@ -38,7 +38,7 @@ export default function Home(): React.JSX.Element {
               les distinctions et les pièges qui font la différence le jour J.
               Pas une encyclopédie Symfony.
             </p>
-            <Link to="/docs/">Documentation →</Link>
+            <Link to="/docs">Documentation →</Link>
           </div>
 
           <div className="col col--4">

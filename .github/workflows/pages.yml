@@ -94,7 +94,9 @@ jobs:
         run: |
           set -euo pipefail
           fail=0
-          for path in "" "docs/" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
+          # `trailingSlash: false` means the docs index is served at /docs,
+          # not /docs/ — the latter is a genuine 404.
+          for path in "" "docs" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
                       "practice" "exam" "progression" \
                       "data/practice.json" "data/exam.json" "data/coverage.json"; do
             url="$BASE_URL/$path"

@@ -216,7 +216,7 @@ export default function Practice(): React.JSX.Element {
 
         <p className="certpath-note">
           Votre progression reste dans ce navigateur.{' '}
-          <Link to="/docs/">En savoir plus</Link>.
+          <Link to="/docs">En savoir plus</Link>.
         </p>
       </main>
     </Layout>
