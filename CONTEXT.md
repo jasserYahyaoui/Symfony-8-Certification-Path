@@ -7,91 +7,122 @@
 ## Current lot
 
 **Lot 0 — Infrastructure, governance and initial audit.**
-Sub-step: §20 initial audit — **complete and reported**.
-Lot 0 implementation: **not started** (blocked, see below).
+
+- §20 initial audit: **complete**, decision `CONDITIONAL_GO`.
+- Lot 0 infrastructure: **complete and merged**.
+- Lot 0 content deliverable (verbatim syllabus import): **blocked** — see B-1.
+- Lot 0.5 Golden Slice: **not started**, gated on B-1.
 
 ## Current branch
 
-`master` — created by this session. The repository previously had **no
-commits and no branches at all**. Direct commits to `master` per plan §0
-("Primary branch: master") and explicit user instruction.
+`master`. The repository had no commits and no branches before this session.
+Direct commits to `master` per Master Plan §0 and explicit user instruction.
 
 ## Completed work
 
-- Full §20 initial audit (17 sections) executed.
-- Repository inspected: confirmed fully empty — 0 commits, 0 branches,
-  no `CLAUDE.md` / `AGENTS.md` / `CONTEXT.md` / `README.md` / `.github/`.
-- Installed Claude Code skills inspected; plan §18 pipeline confirmed absent.
-- Toolchain verified: PHP 8.4.19, Composer 2.8.12, Node 22.22.2, Python 3.11.15, Git 2.43.0.
-- All §2.3 mandatory sources probed for reachability (results in the report).
-- Commit SHAs resolved for evidence anchoring (§2.4):
-  - `symfony/symfony-docs@8.0` → `eea05cbfe063b9cf99afaf303b8cad76757f43bb`
-  - `symfony/symfony@8.0` → `6f841c00f41e5c037d40e1d739e2dc602c8f289d`
-- Version facts verified against primary sources: Symfony 8.0 requires PHP `>=8.4`;
-  `Kernel::VERSION` = `8.0.17-DEV`; latest release `v8.0.9`; Twig constraint `^3.21|^4.0`.
-- Report written: `docs/reports/lot-00-audit-report.md`.
-- **Decision issued: `CONDITIONAL_GO`.**
+### Audit (§20, 17 sections)
+
+Full report: [`docs/reports/lot-00-audit-report.md`](docs/reports/lot-00-audit-report.md).
+Repository confirmed greenfield; all §2.3 sources probed; commit SHAs resolved
+for evidence anchoring; toolchain verified.
+
+### Architecture decisions
+
+- **[ADR-0001](docs/adr/0001-build-time-php-static-runtime.md)** — resolves the
+  plan's PHP-vs-GitHub-Pages contradiction (B-2). PHP 8.4 at build time; the
+  deployed artefact is static HTML/CSS/JS + JSON with `localStorage`.
+  Decided by the project owner.
+- **[ADR-0002](docs/adr/0002-persistent-identifiers.md)** — minted persistent
+  ids, never derived from a file name or slug (§11).
+
+### Implementation
+
+- **Domain model:** 16 canonical entities of §11, typed enums for
+  classification, content level, lifecycle status, pool, language, answer mode
+  and verification status.
+- **Schemas:** versioned registry + migration runner; a gap in the migration
+  chain fails loudly.
+- **Loaders:** matrix and question bank; every §3.3 / §7.1 field mandatory —
+  a missing field is an error, never a default.
+- **Coverage engine (§3.5):** counts an item only when `exam_ready`, lifecycle
+  status *and* verification status agree. Reports UNDEFINED, not `0%`, when the
+  denominator does not exist.
+- **Validation (§12):** 14 mandatory rules, listed in `src/Validation/RuleSet.php`.
+- **Review scheduler (§6):** deterministic, specified in
+  [`docs/policy/review-algorithm.md`](docs/policy/review-algorithm.md), pinned
+  by tests, with no efficacy claim attached.
+- **Runtime (§9, §13):** Practice Mode (filters, weakness replay, answer hidden
+  until submission) and Exam Mode (configurable timer, nothing revealed before
+  final submission, timeout submits rather than discards). Holdout isolation is
+  structural — the Practice payload is built from the learning pool alone.
+- **Accessibility baseline (§13):** documented in
+  [`docs/policy/accessibility-baseline.md`](docs/policy/accessibility-baseline.md).
+- **CI/CD:** `ci.yml` (13 steps) and `pages.yml` (build → deploy → production
+  smoke test).
+- **Canonical data:** `exclusions.yml` populated from §1.5; `source-map.yml`
+  records every authority with its reachable route and commit SHA;
+  `syllabus-matrix.yml` deliberately empty.
 
 ## Remaining work
 
-Everything after the audit. Immediate next steps once unblocked:
-
 1. Import the official syllabus verbatim → `docs/syllabus/official-syllabus.md`.
-2. Build `docs/syllabus/syllabus-matrix.yml` with all §3.3 fields.
-3. Author `docs/syllabus/exclusions.yml` from §1.5 + official exclusions.
-4. Create `docs/syllabus/source-map.yml` and `coverage-report.md`.
-5. Define the 15 canonical entities (§11), schema versions, migrations and
-   the persistent-ID policy (IDs must not derive from file names or slugs).
-6. Implement the coverage engine and the 20 CI checks of §12.
-7. Specify and test the flashcard review algorithm (§6, required in Lot 0).
-8. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
-9. Establish the GitHub Pages pipeline and accessibility baseline (§13).
-10. Then Lot 0.5 Golden Slice.
+2. Populate `syllabus-matrix.yml` (`bin/cert id:mint OfficialItem <n>`).
+3. Generate `docs/syllabus/wording.lock.yml` so rule `SYL-002` becomes active.
+4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
+5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
+   end to end, then approve or correct the architecture before scaling.
+6. Lots 1–27.
 
 ## Atomic items affected
 
-**None yet.** No atomic official item has been imported, specified or
-implemented. Coverage is `0 / UNKNOWN`. The denominator is unavailable —
-see Blocker B-1.
+**None.** No atomic official item has been imported, specified or implemented.
+Coverage is `0 / UNKNOWN` — the denominator does not exist.
 
 ## Known issues
 
 | ID | Issue | Severity | Status |
 |---|---|---|---|
-| **B-1** | `certification.symfony.com` is egress-blocked. Official syllabus + FAQ unreachable → coverage denominator undefined; verbatim import (§3.1) impossible. | CRITICAL | **Open — needs human** |
-| **B-2** | Plan contradiction: §14 Lot 0.5 requires a PHP end-to-end slice; §13 requires static GitHub Pages (no PHP runtime). Irreversible architecture decision. | CRITICAL | **Open — needs human** |
-| B-3 | GitHub Pages not enablable on an empty repo. | Minor | Resolved by the first push to `master` |
-| B-4 | Plan §18 skills (`/research`, `/to-spec`, `/to-tickets`, `/implement`, `/tdd`) are not installed in this environment. | Minor | Accepted — native workflow used |
-| B-5 | Plan pins Twig 3.22; Symfony 8.0 allows `^3.21\|^4.0`, Twig 3.x branch is at 3.29. Unverifiable without the syllabus. | Medium | Open — resolves with B-1 |
-| V-3 | Branch `8.0` HEAD is `8.0.17-DEV`, ahead of released `v8.0.9`. Risk of documenting unreleased behaviour. | Medium | Mitigation: anchor to pinned SHA; prefer release tags for version-sensitive claims |
+| **B-1** | `certification.symfony.com` is egress-blocked. The official syllabus and FAQ cannot be read, so the verbatim import (§3.1) is impossible and the §3.5 denominator is undefined. Unlike the other blocked domains, this one has **no upstream repository** to substitute. | **CRITICAL** | **Open — blocks every content lot** |
+| B-2 | PHP-vs-static-Pages contradiction. | — | **Resolved** by ADR-0001 |
+| B-3 | Pages not enabled on the repository. | Minor | Fixed via `enablement: true` in `pages.yml` |
+| B-4 | Master Plan §18 skill pipeline (`/research`, `/to-spec`, `/to-tickets`, `/implement`, `/tdd`) is not installed here. | Minor | Accepted — native workflow used |
+| B-5 | Plan pins Twig 3.22; Symfony 8.0 requires `^3.21\|^4.0` and Twig 3.x is at 3.29. Marked `UNKNOWN_NEEDS_VERIFICATION`; no Lot 6 content may be scored against a specific Twig minor. | Medium | Open — resolves with B-1 |
+| V-3 | Branch `8.0` HEAD is `8.0.17-DEV`, ahead of released `v8.0.9`. | Medium | Mitigated — anchor to the pinned SHA; prefer release tags for version-sensitive claims |
+| ENV-1 | `api.github.com` is blocked, so Composer cannot fetch dist archives in this container. Use `composer install --prefer-source`. CI is unaffected. | Minor | Workaround documented in `CLAUDE.md` |
+| ENV-2 | `jasseryahyaoui.github.io` is egress-blocked from this container, so production cannot be smoke-tested from here. The smoke test therefore runs as a CI job on GitHub's runners. | Minor | By design |
 
 ## Tests executed and actual results
 
-**No tests were executed — no test suite exists.**
-Only read-only inspection and network reachability probes were performed.
-No functional code change was made (§20: "No functional code change is
-allowed before this audit").
+Locally, on PHP 8.4.19:
+
+```text
+php bin/cert validate  → 14 rules, 0 official items, 0 questions, no violations
+php bin/cert coverage  → Coverage: UNDEFINED (syllabus not imported)
+php bin/cert build     → 9 files generated
+vendor/bin/phpunit     → OK (55 tests, 371 assertions)
+```
+
+In CI (run `33439599181`, commit `a41cdd8`): all 13 steps of the technical gate
+**passed**, including composer validation, PHP lint, YAML lint, content rules,
+the test suite, the coverage-freshness diff, the site build and the assertion
+that no PHP reaches the deployed artefact.
+
+No accessibility audit tool has been run — there is no deployed page to run it
+against yet. The accessibility baseline is a design commitment verified by
+inspection, not a passed gate.
 
 ## Next action
 
-Await the human decision on **B-1** and **B-2**.
+**Resolve B-1.** Either allow-list `certification.symfony.com` for this
+environment, or paste the official syllabus and FAQ text so it can be imported
+verbatim. Everything downstream is gated on it.
 
-- On B-1 resolved: begin the verbatim syllabus import and build the atomic matrix.
-- On B-2 resolved: scaffold Lot 0 infrastructure against the approved architecture.
-- Recommended B-2 resolution (pending approval): **PHP as build-time toolchain
-  (canonical data, validation, coverage engine, static site generation, PHPUnit)
-  + static HTML/CSS/JS runtime with `localStorage`**, deployed to GitHub Pages.
-
-Work that is **not** blocked and may start the moment B-2 is approved:
-schema definitions, ID policy, CI harness skeleton, Pages workflow,
-accessibility baseline. These do not depend on B-1.
+Once B-1 clears, the sequence is: import → matrix → wording lock → Lot 0.5
+Golden Slice → architecture approval → content lots.
 
 ## Blocked decisions
 
-1. **B-1 — Syllabus access.** Allow-list `certification.symfony.com` for this
-   environment, or supply the official syllabus and FAQ text verbatim for
-   import. Paraphrase is not acceptable (§3.1). The plan's §14 lot
-   descriptions must **not** be used as a substitute — §3.1 forbids treating
-   lot descriptions as the coverage denominator.
-2. **B-2 — Target architecture.** Approve or amend the recommended
-   build-time-PHP / static-runtime split described above.
+1. **B-1 — Syllabus access.** Still open. The Master Plan §14 lot descriptions
+   must not be used as a substitute (§3.1 forbids treating lot descriptions as
+   the coverage denominator).
+2. **B-5 — Examinable Twig version.** Resolves with B-1.

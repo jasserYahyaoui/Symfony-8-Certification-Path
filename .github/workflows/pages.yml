@@ -45,12 +45,13 @@ jobs:
       - name: Build
         run: php bin/cert build
 
-      # `enablement: true` creates the Pages site on the first run, so the
-      # deployment does not require a manual visit to repository settings.
+      # Requires GitHub Pages to be enabled once, with "Source: GitHub Actions",
+      # under Settings > Pages. `enablement: true` was tried and rejected: the
+      # workflow GITHUB_TOKEN cannot call the create-Pages-site API ("Resource
+      # not accessible by integration"), which needs repository admin rights.
+      # Every push deploys automatically once that one-time setting is made.
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
