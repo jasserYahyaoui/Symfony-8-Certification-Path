@@ -15,6 +15,8 @@ final readonly class SyllabusMatrix
     public function __construct(
         public array $items,
         public ?string $syllabusRevision = null,
+        public bool $syllabusComplete = false,
+        public ?string $missingTopicsNote = null,
     ) {
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CertPath\Validation\Rule;
 
 use CertPath\Domain\ContentLevel;
+use CertPath\Domain\ItemStatus;
 use CertPath\Validation\ContentSet;
 use CertPath\Validation\Rule;
 use CertPath\Validation\Severity;
@@ -34,6 +35,21 @@ final class LearningOutcomeRule implements Rule
         $violations = [];
 
         foreach ($content->matrix->officialItems() as $item) {
+            // An item that has only been imported or researched legitimately
+            // has no outcomes yet; the requirement begins at SPECIFIED (§3.4).
+            if (!$item->status->isAtLeast(ItemStatus::Specified)) {
+                continue;
+            }
+
+            if (null === $item->contentLevel) {
+                $violations[] = new Violation(
+                    $this->id(),
+                    Severity::Error,
+                    'Item is SPECIFIED or beyond but declares no content level.',
+                    $item->id->value,
+                );
+            }
+
             if ([] === $item->learningOutcomes) {
                 $violations[] = new Violation(
                     $this->id(),
@@ -43,7 +59,7 @@ final class LearningOutcomeRule implements Rule
                 );
             }
 
-            $justification = trim($item->contentLevelJustification);
+            $justification = trim((string) $item->contentLevelJustification);
             if ('' === $justification) {
                 $violations[] = new Violation(
                     $this->id(),

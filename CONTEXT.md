@@ -71,8 +71,9 @@ for evidence anchoring; toolchain verified.
 
 ## Remaining work
 
-1. Import the official syllabus verbatim → `docs/syllabus/official-syllabus.md`.
-2. Populate `syllabus-matrix.yml` (`bin/cert id:mint OfficialItem <n>`).
+1. ~~Import the official syllabus verbatim~~ — done for 10 of 15 topics;
+   the head is still missing.
+2. ~~Populate `syllabus-matrix.yml`~~ — 115 items imported at `NOT_STARTED`.
 3. Generate `docs/syllabus/wording.lock.yml` so rule `SYL-002` becomes active.
 4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
@@ -81,18 +82,34 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**None.** No atomic official item has been imported, specified or implemented.
-Coverage is `0 / UNKNOWN` — the denominator does not exist.
+**115 imported, 0 specified, 0 implemented.**
+
+| Topic | Items | Lot |
+|---|---:|---|
+| Routing | 12 | lot-05 |
+| Templating with Twig | 14 | lot-06 |
+| Forms | 13 | lot-07 |
+| Data Validation | 8 | lot-08 |
+| Dependency Injection | 12 | lot-09 |
+| Security | 12 | lot-10 |
+| Messenger | 7 | lot-11 |
+| Console | 9 | lot-12 |
+| Automated Tests | 9 | lot-13 |
+| Miscellaneous | 19 | lot-14 |
+
+All at `NOT_STARTED` / `UNVERIFIED`. Coverage is **UNDEFINED**: the matrix
+declares `syllabus_complete: false`, and the engine refuses a percentage while
+that holds — 115 is not the real denominator.
 
 ## Known issues
 
 | ID | Issue | Severity | Status |
 |---|---|---|---|
-| **B-1** | `certification.symfony.com` is egress-blocked. The official syllabus and FAQ cannot be read, so the verbatim import (§3.1) is impossible and the §3.5 denominator is undefined. Unlike the other blocked domains, this one has **no upstream repository** to substitute. | **CRITICAL** | **Open — blocks every content lot** |
+| **B-1** | Syllabus import is **partial**. The owner supplied the text on 2026-08-31, but it begins mid-item with the fragment `resolvers`: the topics preceding `Routing` are absent. 10 of 15 topics imported. | **CRITICAL** | **Partially resolved — the head of the syllabus is still needed** |
 | B-2 | PHP-vs-static-Pages contradiction. | — | **Resolved** by ADR-0001 |
 | B-6 | GitHub Pages was not enabled on the repository. | — | **Resolved** — enabled by the owner; deploy and production smoke test both green |
 | B-4 | Master Plan §18 skill pipeline (`/research`, `/to-spec`, `/to-tickets`, `/implement`, `/tdd`) is not installed here. | Minor | Accepted — native workflow used |
-| B-5 | Plan pins Twig 3.22; Symfony 8.0 requires `^3.21\|^4.0` and Twig 3.x is at 3.29. Marked `UNKNOWN_NEEDS_VERIFICATION`; no Lot 6 content may be scored against a specific Twig minor. | Medium | Open — resolves with B-1 |
+| B-5 | Examinable Twig version. | — | **Resolved** — the syllabus states "Twig syntax up to 3.22 version" verbatim. Lot 6 is scored against 3.22; later Twig features are out of scope. |
 | V-3 | Branch `8.0` HEAD is `8.0.17-DEV`, ahead of released `v8.0.9`. | Medium | Mitigated — anchor to the pinned SHA; prefer release tags for version-sensitive claims |
 | ENV-1 | `api.github.com` is blocked, so Composer cannot fetch dist archives in this container. Use `composer install --prefer-source`. CI is unaffected. | Minor | Workaround documented in `CLAUDE.md` |
 | ENV-2 | `jasseryahyaoui.github.io` is egress-blocked from this container, so production cannot be verified from here. The smoke test therefore runs as a CI job on GitHub's runners. | Minor | By design |
@@ -120,10 +137,20 @@ inspection, not a passed gate.
 
 ## Next action
 
-**Resolve B-1 — the only remaining blocker.** `certification.symfony.com` is
-still egress-blocked from the build container (re-probed after the environment
-change that unblocked Pages). The syllabus text must be supplied directly, or
-the domain allow-listed. Everything downstream is gated on it.
+**Complete the syllabus import.** The supplied text is missing everything
+before `Routing` — roughly five topics, including the one whose last item ends
+in `resolvers`. Until those are imported:
+
+- coverage stays UNDEFINED (the denominator is knowingly partial);
+- the "any component not explicitly mentioned" allow-list cannot be enforced
+  mechanically, because a component named only in the missing head would be
+  wrongly rejected;
+- `official_topic_order` 1–4 is reserved, so completing the import will not
+  renumber the 115 items already present.
+
+Work that is **not** blocked and can start now: Lot 0.5 Golden Slice on the
+imported topics — one MINIMAL, one STANDARD and one justified DEEP item drawn
+from Routing, Twig or Security, taken end to end.
 
 Once B-1 clears, the sequence is: import → matrix → wording lock → Lot 0.5
 Golden Slice → architecture approval → content lots.

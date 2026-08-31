@@ -24,6 +24,7 @@ final readonly class CoverageReport
         public array $byLot,
         public array $byTopic,
         public array $blockedItemIds,
+        public bool $syllabusComplete = false,
     ) {
     }
 
@@ -37,12 +38,22 @@ final readonly class CoverageReport
     }
 
     /**
-     * The denominator is unknown until the official syllabus has been imported
-     * verbatim (§3.1). Reporting "0%" and reporting "undefined" are different
-     * claims, and conflating them would be a false completeness signal.
+     * A usable denominator requires the syllabus to be BOTH imported and
+     * complete (§3.1, §3.5).
+     *
+     * A partial import is the more dangerous of the two failure modes: an
+     * empty matrix is obviously empty, whereas a partial one yields a
+     * percentage that looks entirely credible while measuring against the
+     * wrong total — and it always reads higher than the truth.
      */
     public function isDenominatorEstablished(): bool
     {
-        return $this->totalOfficialItems > 0;
+        return $this->totalOfficialItems > 0 && $this->syllabusComplete;
+    }
+
+    /** Items are present, but the syllabus itself is known to be truncated. */
+    public function isPartialImport(): bool
+    {
+        return $this->totalOfficialItems > 0 && !$this->syllabusComplete;
     }
 }

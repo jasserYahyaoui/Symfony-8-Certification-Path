@@ -22,12 +22,15 @@ final class CoverageCalculatorTest extends TestCase
      */
     public function testCoverageCountsOnlyExamReadyOfficialItems(): void
     {
-        $matrix = new SyllabusMatrix([
-            ItemFactory::examReady('Topic A', 'lot-01'),
-            ItemFactory::examReady('Topic A', 'lot-01'),
-            ItemFactory::notReady('Topic B', 'lot-02'),
-            ItemFactory::notReady('Topic B', 'lot-02'),
-        ]);
+        $matrix = new SyllabusMatrix(
+            items: [
+                ItemFactory::examReady('Topic A', 'lot-01'),
+                ItemFactory::examReady('Topic A', 'lot-01'),
+                ItemFactory::notReady('Topic B', 'lot-02'),
+                ItemFactory::notReady('Topic B', 'lot-02'),
+            ],
+            syllabusComplete: true,
+        );
 
         $report = (new CoverageCalculator())->calculate($matrix);
 
@@ -42,11 +45,14 @@ final class CoverageCalculatorTest extends TestCase
      */
     public function testNonOfficialItemsAreExcludedFromTheDenominator(): void
     {
-        $matrix = new SyllabusMatrix([
-            ItemFactory::examReady('Topic A', 'lot-01'),
-            ItemFactory::prerequisite('Topic A', 'lot-01'),
-            ItemFactory::enrichment('Topic A', 'lot-01'),
-        ]);
+        $matrix = new SyllabusMatrix(
+            items: [
+                ItemFactory::examReady('Topic A', 'lot-01'),
+                ItemFactory::prerequisite('Topic A', 'lot-01'),
+                ItemFactory::enrichment('Topic A', 'lot-01'),
+            ],
+            syllabusComplete: true,
+        );
 
         $report = (new CoverageCalculator())->calculate($matrix);
 
@@ -67,6 +73,48 @@ final class CoverageCalculatorTest extends TestCase
         self::assertSame(0, $report->examReadyItems);
     }
 
+    /**
+     * The dangerous case: a partial import yields a credible-looking
+     * percentage against the wrong total, and it always reads high.
+     */
+    public function testPartialSyllabusImportNeverPublishesAPercentage(): void
+    {
+        $matrix = new SyllabusMatrix(
+            items: [
+                ItemFactory::examReady('Routing', 'lot-05'),
+                ItemFactory::notReady('Routing', 'lot-05'),
+            ],
+            syllabusRevision: '2026-08-31-partial',
+            syllabusComplete: false,
+        );
+
+        $report = (new CoverageCalculator())->calculate($matrix);
+
+        self::assertTrue($report->isPartialImport());
+        self::assertFalse($report->isDenominatorEstablished());
+
+        $markdown = (new CoverageMarkdownRenderer())->render($report, $matrix->syllabusRevision);
+
+        self::assertStringContainsString('UNDEFINED', $markdown);
+        self::assertStringContainsString('incomplete', $markdown);
+        self::assertStringNotContainsString('Coverage: 50%', $markdown);
+    }
+
+    public function testCompleteSyllabusPublishesAPercentage(): void
+    {
+        $matrix = new SyllabusMatrix(
+            items: [ItemFactory::examReady('Routing', 'lot-05'), ItemFactory::notReady('Routing', 'lot-05')],
+            syllabusRevision: '2026-09-01',
+            syllabusComplete: true,
+        );
+
+        $report = (new CoverageCalculator())->calculate($matrix);
+
+        self::assertTrue($report->isDenominatorEstablished());
+        self::assertFalse($report->isPartialImport());
+        self::assertSame(50.0, $report->percentage());
+    }
+
     public function testEmptyMatrixReportsAnUndefinedDenominatorRatherThanZeroPercent(): void
     {
         $report = (new CoverageCalculator())->calculate(new SyllabusMatrix([]));
@@ -82,11 +130,14 @@ final class CoverageCalculatorTest extends TestCase
 
     public function testBreakdownsAreGroupedByTopicAndLot(): void
     {
-        $matrix = new SyllabusMatrix([
-            ItemFactory::examReady('Routing', 'lot-05'),
-            ItemFactory::notReady('Routing', 'lot-05'),
-            ItemFactory::examReady('Security', 'lot-10'),
-        ]);
+        $matrix = new SyllabusMatrix(
+            items: [
+                ItemFactory::examReady('Routing', 'lot-05'),
+                ItemFactory::notReady('Routing', 'lot-05'),
+                ItemFactory::examReady('Security', 'lot-10'),
+            ],
+            syllabusComplete: true,
+        );
 
         $report = (new CoverageCalculator())->calculate($matrix);
 
@@ -97,7 +148,11 @@ final class CoverageCalculatorTest extends TestCase
 
     public function testRenderedReportStatesTheOfficialFormula(): void
     {
-        $matrix = new SyllabusMatrix([ItemFactory::examReady('Routing', 'lot-05')], 'rev-2026-01');
+        $matrix = new SyllabusMatrix(
+            items: [ItemFactory::examReady('Routing', 'lot-05')],
+            syllabusRevision: 'rev-2026-01',
+            syllabusComplete: true,
+        );
 
         $markdown = (new CoverageMarkdownRenderer())
             ->render((new CoverageCalculator())->calculate($matrix), $matrix->syllabusRevision);

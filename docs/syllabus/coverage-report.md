@@ -5,7 +5,7 @@
 > No generation timestamp is embedded: CI regenerates this file and
 > fails on any diff, which a changing timestamp would make impossible.
 
-**Syllabus revision:** not imported
+**Syllabus revision:** 2026-08-31-partial
 
 ## Official coverage (Master Plan §3.5)
 
@@ -15,7 +15,160 @@ EXAM_READY atomic official items / total atomic official items * 100
 
 **Coverage: UNDEFINED.**
 
-The atomic official syllabus has not been imported, so the denominator
-does not exist. This is deliberately not reported as `0%`: an undefined
-denominator and a zero numerator are different claims (§19).
+The syllabus import is **incomplete**: 115 atomic official items are present,
+but the matrix declares `syllabus_complete: false`, so the total is not
+the real total.
+
+For the record, 0 of the 115 imported items are EXAM_READY — but that ratio
+is **not** the coverage figure and must never be quoted as one. A
+percentage over a partial denominator always reads higher than the
+truth, and reads entirely credible while doing so.
+
+## By official topic
+
+| Official topic | EXAM_READY | Total | % |
+|---|---:|---:|---:|
+| Automated Tests | 0 | 9 | 0.0 |
+| Console | 0 | 9 | 0.0 |
+| Data Validation | 0 | 8 | 0.0 |
+| Dependency Injection | 0 | 12 | 0.0 |
+| Forms | 0 | 13 | 0.0 |
+| Messenger | 0 | 7 | 0.0 |
+| Miscellaneous | 0 | 19 | 0.0 |
+| Routing | 0 | 12 | 0.0 |
+| Security | 0 | 12 | 0.0 |
+| Templating with Twig | 0 | 14 | 0.0 |
+
+## By lot
+
+| Lot | EXAM_READY | Total | % |
+|---|---:|---:|---:|
+| lot-05 | 0 | 12 | 0.0 |
+| lot-06 | 0 | 14 | 0.0 |
+| lot-07 | 0 | 13 | 0.0 |
+| lot-08 | 0 | 8 | 0.0 |
+| lot-09 | 0 | 12 | 0.0 |
+| lot-10 | 0 | 12 | 0.0 |
+| lot-11 | 0 | 7 | 0.0 |
+| lot-12 | 0 | 9 | 0.0 |
+| lot-13 | 0 | 9 | 0.0 |
+| lot-14 | 0 | 19 | 0.0 |
+
+## Not yet EXAM_READY (115)
+
+- `OIT-ceaw3ewfsw85`
+- `OIT-egy2wn3z7gb7`
+- `OIT-1cj08dhtp9hj`
+- `OIT-ff0kghjbzvpm`
+- `OIT-81b2c0jmv2j3`
+- `OIT-d51jbkfs21pt`
+- `OIT-4pgc74ctc3vc`
+- `OIT-21m4pmtymygn`
+- `OIT-e2zrm9qkpx7j`
+- `OIT-5g82spham3vm`
+- `OIT-xxcpx1qssp93`
+- `OIT-8sr74a2wnb3r`
+- `OIT-b9x8az2bx4t8`
+- `OIT-vhd83fn6w9wy`
+- `OIT-ns36thqnh2jk`
+- `OIT-g3p8wdtww344`
+- `OIT-dp7w7s85wxjg`
+- `OIT-sqekx9pkbe5v`
+- `OIT-ds2p5d4eg0pq`
+- `OIT-84j0qwkbcgq6`
+- `OIT-yh6zx9shv9vs`
+- `OIT-c34hn4px3czj`
+- `OIT-sd08j04k60m0`
+- `OIT-30gnb617ksex`
+- `OIT-tw3xaqbz8xjy`
+- `OIT-3r7rp470754w`
+- `OIT-tsxxgp3ppj1n`
+- `OIT-fhpttc4c5x0k`
+- `OIT-mgvdw7cfpwyz`
+- `OIT-5xvjqa4203xe`
+- `OIT-gxew257vwhm8`
+- `OIT-j2vjdxcer4ft`
+- `OIT-dmkbj2x94rks`
+- `OIT-j6tqs8s8f54f`
+- `OIT-p810t98zedem`
+- `OIT-58r9dadx916v`
+- `OIT-v7zyhcm44m88`
+- `OIT-gcs0jathkv9b`
+- `OIT-rj9web4whgmz`
+- `OIT-6wd8860brzfy`
+- `OIT-d3yp0sq36xrx`
+- `OIT-9x3strrjdng7`
+- `OIT-ttwpe00f32q9`
+- `OIT-kkhb3wd341ex`
+- `OIT-rwavvsx2d7nq`
+- `OIT-hcdrp2y7kbct`
+- `OIT-0wnxbapegqhv`
+- `OIT-92ctf3sy3ddk`
+- `OIT-79f4n087b66c`
+- `OIT-dy7108w6bf4z`
+- `OIT-ar4h3zfskjsp`
+- `OIT-stze9x4aydp3`
+- `OIT-adhs2ny9hc5f`
+- `OIT-83sac57rw0xn`
+- `OIT-qj4xfkhwdrx7`
+- `OIT-h2n7d7dbr56p`
+- `OIT-3y0b9gxyandm`
+- `OIT-wm3qdqemtap9`
+- `OIT-gkhcbtygef69`
+- `OIT-942znmbjwvad`
+- `OIT-z9c24d68et6w`
+- `OIT-3qgn13f7zvqx`
+- `OIT-xh63g15rz6n3`
+- `OIT-45p7535dk4s2`
+- `OIT-rwa6m06crs1h`
+- `OIT-gkh08ztwdme1`
+- `OIT-ta627mbwfz7m`
+- `OIT-fw6db7ryrk4q`
+- `OIT-cwfr5t1ngj23`
+- `OIT-s3jh7wg5km19`
+- `OIT-kqm5mxq4jnkj`
+- `OIT-hs1297vvhr89`
+- `OIT-ckr67pq9npyb`
+- `OIT-9a8aa389vk48`
+- `OIT-dctf03ftx44f`
+- `OIT-76x1t7z916f4`
+- `OIT-amnpjdprky6z`
+- `OIT-16at9vwzww43`
+- `OIT-481gmkgbksnr`
+- `OIT-zgq6w4jqamvb`
+- `OIT-kbg00jqxxwhq`
+- `OIT-1hdmw4gm819r`
+- `OIT-nr9m883d15qq`
+- `OIT-65sswf0qhw6c`
+- `OIT-v6wxp78gk42c`
+- `OIT-cqs3m73y3rpy`
+- `OIT-dv5400dtksfg`
+- `OIT-c6wd3f444qjn`
+- `OIT-favt42nvgdqh`
+- `OIT-bc3brs4a4mtt`
+- `OIT-se21g2xv6h4r`
+- `OIT-t0qx5z264tyf`
+- `OIT-mtbcyaax2xsk`
+- `OIT-bswvewkkkj1q`
+- `OIT-bzkq4e7wks9a`
+- `OIT-vj24gwq6r1r4`
+- `OIT-tvc5rjv6qvse`
+- `OIT-kv7mbksn7m8v`
+- `OIT-xgrbftkj67ds`
+- `OIT-6xqn9ybksrbr`
+- `OIT-d1qsxrtv25kk`
+- `OIT-3dd7821h069b`
+- `OIT-zezwg9nya501`
+- `OIT-78k7kbfpgfxt`
+- `OIT-qpjnpc56hjj0`
+- `OIT-s601ppsyb9f7`
+- `OIT-tjn6kyvyc2h9`
+- `OIT-a1anzcv85my3`
+- `OIT-8xcczyjyyanz`
+- `OIT-j4vpn5bh9f27`
+- `OIT-9xdjjsqcbn13`
+- `OIT-qkcr4bat6dsb`
+- `OIT-43pt66xsft9f`
+- `OIT-r3qcmsehzex1`
+- `OIT-fr58jzaj6jtb`
 

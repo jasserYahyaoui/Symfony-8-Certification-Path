@@ -1,6 +1,9 @@
 # Official and policy exclusions.
 #
-# Source: Master Plan §1.5 "Prohibited expansion".
+# Source: the official syllabus section "The following is a list of the topics
+# not included in the exam", imported verbatim on 2026-08-31, cross-checked
+# against Master Plan §1.5 "Prohibited expansion". The two agree; where the
+# official list is broader, the official list governs.
 # An excluded term may appear only in a clearly labelled explanation of an
 # exclusion or comparison, and must never be required to earn points. The
 # CI rule SCOPE-001 enforces this: a scored question containing one of the
@@ -64,8 +67,18 @@ excluded_topics:
 
   - id: EXC-THIRD-PARTY-BUNDLES
     label: Third-party bundles and projects
-    reason: "Master Plan §1.5."
+    reason: "Official syllabus: \"Third-party bundles and projects\"."
     match_terms: ["easyadmin", "api platform", "api-platform", "sonata"]
+
+  - id: EXC-UNNAMED-COMPONENTS
+    label: Symfony components not explicitly named in the syllabus
+    reason: >-
+      Official syllabus: "Any Symfony component not explicitly mentioned in the
+      above list (e.g. String, Uid, TypeInfo, Lock, etc.)". This is an
+      allow-list, not a deny-list. Only the examples the syllabus itself names
+      are matched here; the general rule is enforced by review, see
+      review_only_exclusions below.
+    match_terms: ["typeinfo", "symfony\\string", "uid component", "lock component"]
 
 # Scope boundaries that cannot be reduced to a keyword match. These are
 # enforced by human review during the Pedagogical Gate (§17), not by CI.
@@ -75,7 +88,51 @@ review_only_exclusions:
     reason: "Master Plan §1.5 and §10 — the exam covers Symfony 8.0 only."
     enforcement: "CI rule VER-001 catches source URLs; behavioural claims need human review."
 
+  - id: EXC-POST-TWIG-3.22
+    label: Twig features introduced after 3.22
+    reason: >-
+      Official syllabus: "Twig syntax up to 3.22 version". This settles the
+      examinable Twig version, notwithstanding that Symfony 8.0 allows
+      ^3.21|^4.0 and the Twig 3.x branch has reached 3.29.
+    enforcement: "Human review of Lot 6 content against the Twig 3.22 changelog."
+
   - id: EXC-UNLISTED-COMPONENTS
     label: Symfony components not explicitly named in the official syllabus
-    reason: "Master Plan §1.5."
-    enforcement: "Blocked until the official syllabus is imported (§3.1); see docs/syllabus/official-syllabus.md."
+    reason: >-
+      Official syllabus: "Any Symfony component not explicitly mentioned in the
+      above list". An allow-list: a component is out of scope unless the
+      syllabus names it.
+    enforcement: >-
+      Cannot yet be enforced mechanically. The imported syllabus is incomplete
+      (its head is missing), so a component named only in the missing topics
+      would be wrongly rejected. Enforce by review until
+      docs/syllabus/syllabus-matrix.yml declares syllabus_complete: true.
+    named_components:
+      - Routing
+      - FrameworkBundle
+      - TwigBundle
+      - Form
+      - Validator
+      - DependencyInjection
+      - Security Core
+      - CSRF
+      - PasswordHasher
+      - Messenger
+      - CssSelector
+      - DomCrawler
+      - WebProfiler bundle
+      - DotEnv
+      - ExpressionLanguage
+      - Console
+      - Cache
+      - Clock
+      - EventDispatcher
+      - Filesystem
+      - Finder
+      - Event
+      - Mailer
+      - Mime
+      - Process
+      - PropertyAccess
+      - Runtime
+      - Serializer

@@ -41,8 +41,16 @@ final readonly class MatrixLoader
         }
 
         $revision = $document['syllabus_revision'] ?? null;
+        $note = $document['missing_topics_note'] ?? null;
 
-        return new SyllabusMatrix($items, \is_scalar($revision) ? (string) $revision : null);
+        return new SyllabusMatrix(
+            items: $items,
+            syllabusRevision: \is_scalar($revision) ? (string) $revision : null,
+            // Absent means incomplete. A partial import must never be able to
+            // masquerade as a complete denominator by omitting a flag.
+            syllabusComplete: true === ($document['syllabus_complete'] ?? false),
+            missingTopicsNote: \is_scalar($note) ? (string) $note : null,
+        );
     }
 
     /**
@@ -70,11 +78,16 @@ final readonly class MatrixLoader
             lot: $this->string($raw, 'lot', $ctx),
             chapter: $this->optionalString($raw, 'chapter'),
             classification: Classification::from($this->string($raw, 'classification', $ctx)),
-            contentLevel: ContentLevel::from($this->string($raw, 'content_level', $ctx)),
-            contentLevelJustification: $this->string($raw, 'content_level_justification', $ctx),
-            learningOutcomes: $this->stringList($raw, 'learning_outcomes', $ctx),
-            requiredAssessmentModes: $this->stringList($raw, 'required_assessment_modes', $ctx),
-            minimumEvidence: $this->string($raw, 'minimum_evidence', $ctx),
+            // Pedagogical fields are unknown until an item has been researched
+            // and specified (§3.4). They are optional here and enforced by the
+            // lifecycle-aware rule PED-001, not by the parser.
+            contentLevel: ($level = $this->optionalString($raw, 'content_level')) !== null
+                ? ContentLevel::from($level)
+                : null,
+            contentLevelJustification: $this->optionalString($raw, 'content_level_justification'),
+            learningOutcomes: $this->stringList($raw, 'learning_outcomes', $ctx, allowEmpty: true),
+            requiredAssessmentModes: $this->stringList($raw, 'required_assessment_modes', $ctx, allowEmpty: true),
+            minimumEvidence: $this->optionalString($raw, 'minimum_evidence'),
             exclusionBoundaries: $this->string($raw, 'exclusion_boundaries', $ctx),
             versionConstraints: $this->string($raw, 'version_constraints', $ctx),
             officialSources: $sources,

@@ -35,12 +35,33 @@ final class CoverageMarkdownRenderer
         if (!$report->isDenominatorEstablished()) {
             $lines[] = '**Coverage: UNDEFINED.**';
             $lines[] = '';
-            $lines[] = 'The atomic official syllabus has not been imported, so the denominator';
-            $lines[] = 'does not exist. This is deliberately not reported as `0%`: an undefined';
-            $lines[] = 'denominator and a zero numerator are different claims (§19).';
+
+            if ($report->isPartialImport()) {
+                $lines[] = \sprintf(
+                    'The syllabus import is **incomplete**: %d atomic official items are present,',
+                    $report->totalOfficialItems,
+                );
+                $lines[] = 'but the matrix declares `syllabus_complete: false`, so the total is not';
+                $lines[] = 'the real total.';
+                $lines[] = '';
+                $lines[] = \sprintf(
+                    'For the record, %d of the %d imported items are EXAM_READY — but that ratio',
+                    $report->examReadyItems,
+                    $report->totalOfficialItems,
+                );
+                $lines[] = 'is **not** the coverage figure and must never be quoted as one. A';
+                $lines[] = 'percentage over a partial denominator always reads higher than the';
+                $lines[] = 'truth, and reads entirely credible while doing so.';
+            } else {
+                $lines[] = 'The atomic official syllabus has not been imported, so the denominator';
+                $lines[] = 'does not exist. This is deliberately not reported as `0%`: an undefined';
+                $lines[] = 'denominator and a zero numerator are different claims (§19).';
+            }
+
             $lines[] = '';
 
-            return implode("\n", $lines)."\n";
+            return implode("\n", $lines)."\n"
+                .($report->isPartialImport() ? $this->breakdown($report) : '');
         }
 
         $lines[] = \sprintf(
@@ -50,6 +71,15 @@ final class CoverageMarkdownRenderer
             $report->totalOfficialItems,
         );
         $lines[] = '';
+        $lines[] = rtrim($this->breakdown($report));
+        $lines[] = '';
+
+        return implode("\n", $lines)."\n";
+    }
+
+    private function breakdown(CoverageReport $report): string
+    {
+        $lines = [];
         $lines[] = '## By official topic';
         $lines[] = '';
         $lines[] = '| Official topic | EXAM_READY | Total | % |';

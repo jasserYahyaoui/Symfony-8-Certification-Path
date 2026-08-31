@@ -326,7 +326,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
                 "| [%s](./%s.md) | `%s` | `%s` |\n",
                 $item->officialItem,
                 $this->slug($item->officialItem),
-                $item->contentLevel->value,
+                $this->levelLabel($item),
                 $item->status->value,
             );
         }
@@ -345,7 +345,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 | | |
 |---|---|
 | Sujet officiel | {$item->officialTopic} |
-| Niveau de contenu | `{$item->contentLevel->value}` |
+| Niveau de contenu | `{$this->levelLabel($item)}` |
 | Classification | `{$item->classification->value}` |
 | Statut | `{$item->status->value}` |
 | Contraintes de version | {$item->versionConstraints} |
@@ -358,7 +358,9 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             $markdown .= '- '.$outcome."\n";
         }
 
-        $markdown .= "\n## Justification du niveau\n\n".$item->contentLevelJustification."\n";
+        if (null !== $item->contentLevelJustification) {
+            $markdown .= "\n## Justification du niveau\n\n".$item->contentLevelJustification."\n";
+        }
 
         if (ContentLevel::Deep === $item->contentLevel) {
             $markdown .= "\n:::info Niveau DEEP\nCe niveau n'est jamais le défaut. Il est réservé aux concepts structurels ou fréquemment confondus.\n:::\n";
@@ -378,6 +380,12 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         }
 
         return $markdown;
+    }
+
+    /** An un-researched item has no content level yet (§3.4). */
+    private function levelLabel(OfficialItem $item): string
+    {
+        return $item->contentLevel?->value ?? 'à définir';
     }
 
     private function frontMatter(string $title, int $position, string $slug): string

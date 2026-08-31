@@ -74,6 +74,17 @@ function commandCoverage(Project $project): int
 
     file_put_contents($project->path('docs/syllabus/coverage-report.md'), $markdown);
 
+    if ($report->isPartialImport()) {
+        echo \sprintf(
+            "Coverage: UNDEFINED — the syllabus import is incomplete (%d items present).\n"
+            ."%d of those are EXAM_READY, which is NOT a coverage figure.\n",
+            $report->totalOfficialItems,
+            $report->examReadyItems,
+        );
+
+        return 0;
+    }
+
     if (!$report->isDenominatorEstablished()) {
         echo "Coverage: UNDEFINED (the official syllabus has not been imported).\n";
 

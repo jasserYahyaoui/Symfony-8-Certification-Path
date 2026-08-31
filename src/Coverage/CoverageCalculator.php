@@ -39,6 +39,7 @@ final class CoverageCalculator
             byLot: $byLot,
             byTopic: $byTopic,
             blockedItemIds: $blocked,
+            syllabusComplete: $matrix->syllabusComplete,
         );
     }
 
