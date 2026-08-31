@@ -3,6 +3,7 @@
 **Date:** 2026-08-31
 **Branch:** `master`
 **Plan reference:** SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md §14 (Lot 0), §16, §19
+**Production:** <https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/>
 
 ---
 
@@ -10,13 +11,17 @@
 
 `BLOCKED`
 
-The infrastructure half of Lot 0 is complete, merged and green in CI. The
-content half — the verbatim syllabus import, which §14 lists first among Lot 0's
-deliverables — could not be performed, and the deployment could not be
-completed. Two blockers remain, both requiring human access.
+The infrastructure half of Lot 0 is complete, merged, green in CI, and **live
+in production with a passing smoke test**. The content half — the verbatim
+syllabus import, which §14 lists first among Lot 0's deliverables — could not
+be performed. One blocker remains, requiring human access.
 
-Per §16, no part of this lot is reported as `DONE`, `COMPLETE`, `VALIDATED` or
-`DEPLOYED`.
+The lot is therefore reported as blocked, not done: a platform with no
+syllabus is a platform that cannot yet teach anything.
+
+Per §16, `DEPLOYED` is claimed here only because a real production smoke test
+passed against the real URL; nothing else in this report is claimed from
+intention.
 
 ## Atomic official items
 
@@ -58,6 +63,7 @@ have measured the wrong thing. The matrix was left empty instead.
 | Initial audit, 17 sections (§20) | [`docs/reports/lot-00-audit-report.md`](lot-00-audit-report.md) |
 | ADR-0001 — build-time PHP, static runtime (resolves B-2) | [`docs/adr/0001-build-time-php-static-runtime.md`](../adr/0001-build-time-php-static-runtime.md) |
 | ADR-0002 — minted persistent identifiers (§11) | [`docs/adr/0002-persistent-identifiers.md`](../adr/0002-persistent-identifiers.md) |
+| ADR-0003 — Docusaurus presentation layer | [`docs/adr/0003-docusaurus-presentation-layer.md`](../adr/0003-docusaurus-presentation-layer.md) |
 | Source-verification policy (§2) | [`docs/policy/source-verification.md`](../policy/source-verification.md) |
 | Review algorithm specification (§6) | [`docs/policy/review-algorithm.md`](../policy/review-algorithm.md) |
 | Matrix field guide (§3.3) | [`docs/policy/matrix-field-guide.md`](../policy/matrix-field-guide.md) |
@@ -173,31 +179,37 @@ None. Direct to `master`, per Master Plan §0 and explicit instruction.
 
 ### Deployment URL
 
-`https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/` — **not live.**
+**<https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/> — live.**
 
 ### Production smoke test
 
-**Not performed.** There is no production environment to test.
+**Passed**, run [`33442231941`](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/actions/runs/33442231941),
+commit `bf5a4c5`. Build, deploy and smoke test all green. Ten URLs returned
+HTTP 200 against the real production host, the landing page was checked for
+rendered content rather than only a status code, and the shipped
+`data/practice.json` was confirmed to declare pool `LEARNING`.
 
-Two deployment attempts ran and both failed at `Configure Pages`:
+Getting there took three failures, each recorded rather than smoothed over:
 
-- Run [`33439599488`](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/actions/runs/33439599488):
-  `Get Pages site failed … Not Found` — the repository has no Pages site.
-- Run [`33439704885`](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/actions/runs/33439704885),
-  after adding `enablement: true`:
-  `Resource not accessible by integration` — the workflow `GITHUB_TOKEN` cannot
-  call the create-Pages-site API, which requires repository admin rights.
-
-The `enablement: true` attempt was reverted, because it replaces a clear
-"Pages is not enabled" message with a confusing permissions error. Both jobs
-built the site successfully and passed the content gate before failing; only
-publication is blocked.
+- Runs `33439599488` and `33439704885` failed at `Configure Pages` — the
+  repository had no Pages site, and `enablement: true` could not create one
+  (`Resource not accessible by integration`: that API needs repository admin
+  rights, which the workflow token lacks). Resolved by the owner enabling
+  Pages once, with source "GitHub Actions" (blocker B-6).
+- Run [`33441769401`](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/actions/runs/33441769401)
+  deployed successfully but its smoke test caught a real 404: with
+  `trailingSlash: false` the docs index is served at `/docs`, not `/docs/`.
+  Client-side navigation resolved both, so `onBrokenLinks: 'throw'` stayed
+  silent — a direct hit or a shared link would have landed on a 404. This is
+  precisely what a smoke test against the real URL exists to catch, and it is
+  the reason §16 requires one rather than accepting a successful deploy as
+  proof.
 
 ## Gates
 
 | Gate | Result |
 |---|---|
-| **Technical** | **PARTIAL.** Build, tests, linting, schema validation, scoring logic, question-pool isolation, persistence, migrations and CI all pass. Deployment and the production HTTP smoke test **fail** — blocked by B-6. |
+| **Technical** | **PASS.** Build, tests, linting, schema and type validation, routes, assets, scoring logic, question-pool isolation, persistence, migrations, CI/CD, deployment and the production HTTP smoke test all pass. |
 | **Pedagogical** | **NOT ASSESSABLE.** There is no content, and no syllabus to assess it against. |
 | **Accessibility** | **NOT ASSESSABLE by tooling.** The baseline is implemented and documented, and verified by inspection; no automated audit has been run because there is no deployed page to run it against. Recording this as "passed" would be a claim from intention (§16). |
 
@@ -206,7 +218,7 @@ publication is blocked.
 | ID | Blocker | Owner |
 |---|---|---|
 | **B-1** | `certification.symfony.com` is egress-blocked. The verbatim import of §3.1 is impossible, so the §3.5 denominator is undefined and no content lot may begin. Unlike the other blocked domains, this one has no upstream repository to substitute. | **Human** — allow-list the domain, or supply the syllabus text |
-| **B-6** | GitHub Pages is not enabled on the repository, and the workflow token cannot enable it. | **Human** — Settings → Pages → Source: "GitHub Actions", once |
+| ~~B-6~~ | ~~GitHub Pages not enabled.~~ | **Resolved** — Pages enabled; deploy and smoke test green |
 
 ## Remaining risks
 
@@ -233,15 +245,12 @@ publication is blocked.
 
 `FIX`
 
-Both blockers are single, well-defined human actions, and neither requires any
-change to the work already delivered:
+**One blocker remains, and it is the one that matters.**
 
-1. **B-6 (two minutes):** enable GitHub Pages with source "GitHub Actions".
-   The next push then builds, deploys and runs the production smoke test
-   automatically — the pipeline is already written and already passes its
-   build and gate steps.
-2. **B-1 (the real blocker):** allow-list `certification.symfony.com`, or paste
-   the official syllabus and FAQ text for verbatim import.
+**B-1:** allow-list `certification.symfony.com`, or supply the official
+syllabus and FAQ text for verbatim import. It was re-probed after the
+environment change that unblocked Pages and is still refused by the egress
+proxy.
 
 Once B-1 clears, the sequence is: import → matrix → wording lock → Lot 0.5
 Golden Slice → architecture approval → content lots.
