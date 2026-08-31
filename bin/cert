@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use CertPath\Build\SiteBuilder;
+use CertPath\Build\DocsGenerator;
 use CertPath\Coverage\CoverageCalculator;
 use CertPath\Coverage\CoverageMarkdownRenderer;
 use CertPath\Schema\SchemaException;
@@ -100,12 +100,13 @@ function commandBuild(Project $project): int
         return 1;
     }
 
-    $written = (new SiteBuilder($project))->build($content);
+    $written = (new DocsGenerator($project))->generate($content);
 
-    echo \sprintf("Built %d file(s) into %s:\n", \count($written), $project->buildDir());
+    echo \sprintf("Generated %d file(s) into website/:\n", \count($written));
     foreach ($written as $file) {
         echo '  '.$file."\n";
     }
+    echo "\nRun `npm --prefix website run build` to render the static site.\n";
 
     return 0;
 }
@@ -147,7 +148,7 @@ function commandHelp(): int
 
           validate    Run the mandatory content rules of Master Plan §12.
           coverage    Recompute docs/syllabus/coverage-report.md (§3.5).
-          build       Generate the static GitHub Pages site into build/.
+          build       Generate the Docusaurus content tree from the canonical data.
           id:mint     Mint persistent ids, e.g. `id:mint OfficialItem 5` (§11).
           help        Show this message.
 

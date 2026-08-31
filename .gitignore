@@ -1,4 +1,14 @@
 /vendor/
-/build/
 /.phpunit.cache/
 .phpunit.result.cache
+
+# Node + Docusaurus build artefacts
+/website/node_modules/
+/website/build/
+/website/.docusaurus/
+
+# Generated from the canonical YAML by `php bin/cert build`.
+# The canonical data is the single source of truth (Master Plan §11), so the
+# generated tree is never committed and never edited by hand.
+/website/docs/
+/website/static/data/

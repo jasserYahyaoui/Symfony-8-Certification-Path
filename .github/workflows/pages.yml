@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build static site
+    name: Build documentation site
     runs-on: ubuntu-latest
 
     steps:
@@ -27,36 +27,45 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: json, mbstring
+          extensions: json, mbstring, iconv
           coverage: none
           tools: composer:v2
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress --no-dev --optimize-autoloader
-
-      # A deployment must never publish content that fails the mandatory rules
-      # of Master Plan §12, so the gate runs again here rather than trusting CI.
-      - name: Install dev dependencies for the content gate
+      - name: Install PHP dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      # A deployment must never publish content that fails the mandatory rules
+      # of Master Plan §12, so the gate runs here rather than trusting CI.
       - name: Content rules
         run: php bin/cert validate
 
-      - name: Build
+      - name: Generate the documentation tree from canonical data
         run: php bin/cert build
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install site dependencies
+        run: npm --prefix website ci
+
+      - name: Build the documentation site
+        run: npm --prefix website run build
 
       # Requires GitHub Pages to be enabled once, with "Source: GitHub Actions",
       # under Settings > Pages. `enablement: true` was tried and rejected: the
       # workflow GITHUB_TOKEN cannot call the create-Pages-site API ("Resource
       # not accessible by integration"), which needs repository admin rights.
-      # Every push deploys automatically once that one-time setting is made.
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: website/build
 
   deploy:
     name: Deploy
@@ -85,11 +94,11 @@ jobs:
         run: |
           set -euo pipefail
           fail=0
-          for path in "" "index.html" "practice.html" "exam.html" \
-                      "assets/css/app.css" "assets/js/app.js" \
+          for path in "" "docs/" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
+                      "practice" "exam" "progression" \
                       "data/practice.json" "data/exam.json" "data/coverage.json"; do
             url="$BASE_URL/$path"
-            code=$(curl -s -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
+            code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
               echo "::error::$url returned HTTP $code"
               fail=1
@@ -98,12 +107,12 @@ jobs:
             fi
           done
 
-          # The home page must actually render, not just return 200.
-          curl -s "$BASE_URL/index.html" | grep -q 'Symfony 8 Certification Path' \
-            || { echo "::error::home page did not render expected content"; fail=1; }
+          # The landing page must actually render, not merely return 200.
+          curl -sL "$BASE_URL/" | grep -q 'Symfony 8 Certification Path' \
+            || { echo "::error::landing page did not render expected content"; fail=1; }
 
           # Practice payload must never carry the holdout pool (§7.3).
-          pool=$(curl -s "$BASE_URL/data/practice.json" | python3 -c 'import json,sys; print(json.load(sys.stdin)["pool"])')
+          pool=$(curl -sL "$BASE_URL/data/practice.json" | python3 -c 'import json,sys; print(json.load(sys.stdin)["pool"])')
           if [ "$pool" != "LEARNING" ]; then
             echo "::error::practice payload declares pool $pool"
             fail=1

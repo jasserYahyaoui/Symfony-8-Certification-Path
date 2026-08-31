@@ -39,14 +39,23 @@ CI rule, and a deployment blocker needing human access.
 ```bash
 php bin/cert validate     # mandatory content rules (§12)
 php bin/cert coverage     # regenerate docs/syllabus/coverage-report.md
-php bin/cert build        # static site into build/
+php bin/cert build        # generate the Docusaurus content tree
 php bin/cert id:mint <EntityType> [count]
 vendor/bin/phpunit
 composer gate             # validate + coverage + tests
+
+npm --prefix website run build   # render the site (needs `bin/cert build` first)
+npm --prefix website start       # dev server
 ```
 
 CI regenerates the coverage report and fails on any diff, so run
 `php bin/cert coverage` before committing a matrix change.
+
+**`website/docs/` and `website/static/data/` are generated and gitignored**
+(ADR-0003). Editing them by hand is always wrong — the next `bin/cert build`
+overwrites the change, and the canonical YAML is the single source of truth.
+To change a page, change the generator in `src/Build/DocsGenerator.php` or the
+canonical data it reads.
 
 ## Adding content
 

@@ -1,0 +1,197 @@
+/*
+ * Accessibility baseline, Master Plan §13. Docusaurus supplies the shell;
+ * these rules cover the assessment UI it does not know about, and tighten
+ * focus visibility, which the gate requires on every interactive element.
+ */
+
+:root {
+  --ifm-color-primary: #0b4f9c;
+  --ifm-color-primary-dark: #0a4789;
+  --ifm-color-primary-darker: #094381;
+  --ifm-color-primary-darkest: #07376a;
+  --ifm-color-primary-light: #0c57af;
+  --ifm-color-primary-lighter: #0d5bb7;
+  --ifm-color-primary-lightest: #0f67ce;
+  --ifm-code-font-size: 92%;
+
+  --certpath-correct: #14622f;
+  --certpath-incorrect: #97180f;
+  --certpath-focus: #b8400a;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #7fb6ff;
+  --ifm-color-primary-dark: #5aa1ff;
+  --ifm-color-primary-darker: #4796ff;
+  --ifm-color-primary-darkest: #0f6dff;
+  --ifm-color-primary-light: #a4cbff;
+  --ifm-color-primary-lighter: #b7d6ff;
+  --ifm-color-primary-lightest: #eff6ff;
+
+  --certpath-correct: #63d68c;
+  --certpath-incorrect: #ff9d94;
+  --certpath-focus: #ffb066;
+}
+
+/* §13: focus must stay visible on every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--certpath-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.certpath-question {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.certpath-question legend {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  padding: 0 0.4rem;
+}
+
+.certpath-prompt {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.certpath-choice {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.45rem 0.5rem;
+  border-radius: var(--ifm-global-radius);
+}
+
+.certpath-choice:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.certpath-choice input {
+  margin-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.certpath-choice label {
+  cursor: pointer;
+}
+
+.certpath-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.certpath-filters {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.certpath-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.certpath-field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.certpath-field select,
+.certpath-field input[type='number'] {
+  font: inherit;
+  padding: 0.45rem 0.5rem;
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: var(--ifm-global-radius);
+}
+
+/*
+ * §13: a result is never communicated by colour alone — each verdict carries
+ * a text label and a glyph as well.
+ */
+.certpath-feedback {
+  border-left: 4px solid var(--ifm-color-emphasis-400);
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0 var(--ifm-global-radius) var(--ifm-global-radius) 0;
+  margin-bottom: 1.5rem;
+}
+
+.certpath-feedback[data-result='correct'] {
+  border-left-color: var(--certpath-correct);
+}
+
+.certpath-feedback[data-result='incorrect'] {
+  border-left-color: var(--certpath-incorrect);
+}
+
+.certpath-verdict {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.certpath-verdict[data-result='correct'] {
+  color: var(--certpath-correct);
+}
+
+.certpath-verdict[data-result='correct']::before {
+  content: '\2713\00a0';
+}
+
+.certpath-verdict[data-result='incorrect'] {
+  color: var(--certpath-incorrect);
+}
+
+.certpath-verdict[data-result='incorrect']::before {
+  content: '\2717\00a0';
+}
+
+.certpath-timer {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0.5rem 0 1rem;
+}
+
+.certpath-timer[data-state='warning'] {
+  color: var(--certpath-incorrect);
+}
+
+.certpath-note {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.certpath-empty {
+  border: 1px dashed var(--ifm-color-emphasis-400);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-700);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

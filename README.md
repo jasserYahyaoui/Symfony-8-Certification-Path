@@ -15,39 +15,54 @@ Published exam constraints (`OFFICIAL_FORMAT`): 75 questions, 90 minutes,
 
 ## Architecture
 
-PHP at build time, static site at runtime ([ADR-0001](docs/adr/0001-build-time-php-static-runtime.md)).
+PHP owns the data and the rules at build time; Docusaurus renders the site;
+the deployed artefact is static ([ADR-0001](docs/adr/0001-build-time-php-static-runtime.md),
+[ADR-0003](docs/adr/0003-docusaurus-presentation-layer.md)).
 
 ```text
-YAML canonical data  ──►  PHP toolchain (bin/cert)  ──►  build/  ──►  GitHub Pages
-docs/, content/           validate · coverage · build      static HTML/CSS/JS/JSON
+docs/syllabus/*.yml, content/questions/*.yml      canonical data
+        │
+        ▼  php bin/cert validate · coverage · build
+website/docs/**.md          generated pages
+website/static/data/*.json  generated Practice and Exam payloads
+        │
+        ▼  npm --prefix website run build
+website/build/              static site  ──►  GitHub Pages
 ```
 
 Nothing executes on the server. Learner progress lives in the browser's
 `localStorage`: no account, no network call, no secret in client code.
 
+`website/docs/` and `website/static/data/` are **generated and gitignored** —
+the YAML is the single source of truth. Never edit them by hand.
+
 ## Requirements
 
 - PHP 8.4 or later — the same floor Symfony 8.0 itself requires
 - Composer 2
+- Node 20 or later
 
 ## Usage
 
 ```bash
 composer install
+npm --prefix website ci
 
 php bin/cert validate    # the 14 mandatory content rules of Master Plan §12
 php bin/cert coverage    # recompute docs/syllabus/coverage-report.md
-php bin/cert build       # generate the static site into build/
+php bin/cert build       # generate the Docusaurus content tree
 php bin/cert id:mint OfficialItem 20
 
 vendor/bin/phpunit       # unit and integration tests
 composer gate            # validate + coverage + tests
 ```
 
-To preview the built site locally:
+To preview the site locally, generate the tree first, then serve it:
 
 ```bash
-php bin/cert build && php -S localhost:8000 -t build
+php bin/cert build
+npm --prefix website start     # dev server with hot reload
+npm --prefix website run build # production build into website/build/
 ```
 
 ## Layout
@@ -59,8 +74,8 @@ php bin/cert build && php -S localhost:8000 -t build
 | `docs/policy/` | Review algorithm, source verification, matrix field guide, accessibility baseline |
 | `docs/reports/` | One report per lot, with real evidence |
 | `content/questions/` | Question bank, one file per official topic |
-| `src/` | Domain model, schemas, coverage engine, validation rules, site builder |
-| `assets/` | Templates, stylesheet and the Practice/Exam runtime |
+| `src/` | Domain model, schemas, coverage engine, validation rules, docs generator |
+| `website/` | Docusaurus site — config, React pages for Practice and Exam, styles |
 | `tests/` | PHPUnit suites |
 
 ## Governing rules

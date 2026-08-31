@@ -53,9 +53,15 @@ final readonly class Project
         return $this->path('content/questions');
     }
 
+    public function websiteDir(): string
+    {
+        return $this->path('website');
+    }
+
+    /** Rendered static site, produced by Docusaurus from the generated tree. */
     public function buildDir(): string
     {
-        return $this->path('build');
+        return $this->path('website/build');
     }
 
     public function loadMatrix(): SyllabusMatrix
@@ -127,7 +133,7 @@ final readonly class Project
                 static function (\SplFileInfo $file): bool {
                     $name = $file->getFilename();
 
-                    return !\in_array($name, ['vendor', 'build', '.git', 'node_modules'], true);
+                    return !\in_array($name, ['vendor', 'build', '.git', 'node_modules', 'website'], true);
                 },
             ),
         );

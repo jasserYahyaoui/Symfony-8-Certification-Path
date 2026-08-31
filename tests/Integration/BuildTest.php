@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CertPath\Tests\Integration;
 
+use CertPath\Build\DocsGenerator;
 use CertPath\Build\PayloadBuilder;
-use CertPath\Build\SiteBuilder;
 use CertPath\Domain\Pool;
 use CertPath\Domain\SyllabusMatrix;
 use CertPath\Support\Project;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(PayloadBuilder::class)]
-#[CoversClass(SiteBuilder::class)]
+#[CoversClass(DocsGenerator::class)]
 final class BuildTest extends TestCase
 {
     /**
@@ -66,43 +66,85 @@ final class BuildTest extends TestCase
         self::assertCount(1, $payload['questions']);
     }
 
-    /**
-     * The build must produce a deployable static site with no server runtime.
-     */
-    public function testBuildProducesADeployableStaticSite(): void
+    public function testGeneratorProducesTheDocusaurusContentTree(): void
     {
         $project = Project::locate();
-        $content = new ContentSet(matrix: new SyllabusMatrix([]));
 
-        $written = (new SiteBuilder($project))->build($content);
+        $written = (new DocsGenerator($project))->generate(new ContentSet(matrix: new SyllabusMatrix([])));
 
-        foreach (['index.html', 'practice.html', 'exam.html', '.nojekyll', 'data/practice.json', 'data/coverage.json', 'assets/css/app.css', 'assets/js/app.js'] as $expected) {
+        foreach ([
+            'docs/index.md',
+            'docs/syllabus/coverage.md',
+            'docs/syllabus/exclusions.md',
+            'static/data/practice.json',
+            'static/data/exam.json',
+            'static/data/coverage.json',
+        ] as $expected) {
             self::assertContains($expected, $written, $expected.' should be generated');
-            self::assertFileExists($project->buildDir().'/'.$expected);
+            self::assertFileExists($project->path('website/'.$expected));
         }
+    }
 
-        $index = file_get_contents($project->buildDir().'/index.html');
-        self::assertIsString($index);
-        self::assertStringContainsString('<html lang="fr">', $index);
-        self::assertStringNotContainsString('{{content}}', $index, 'no placeholder may survive rendering');
-        self::assertStringNotContainsString('<?php', $index, 'the deployed artefact must contain no PHP');
+    public function testGeneratedDocsCarryFrontMatterAndNoUnresolvedPlaceholder(): void
+    {
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate(new ContentSet(matrix: new SyllabusMatrix([])));
+
+        $intro = file_get_contents($project->path('website/docs/index.md'));
+        self::assertIsString($intro);
+        self::assertStringStartsWith("---\ntitle:", $intro);
+        self::assertStringNotContainsString('{{', $intro);
+        self::assertStringNotContainsString('<?php', $intro);
     }
 
     /**
      * §19: an empty syllabus is reported as undefined, never as 0% coverage.
      */
-    public function testCoveragePayloadReportsAnUndefinedDenominatorWhenTheSyllabusIsEmpty(): void
+    public function testCoverageReportsAnUndefinedDenominatorWhenTheSyllabusIsEmpty(): void
     {
         $project = Project::locate();
-        (new SiteBuilder($project))->build(new ContentSet(matrix: new SyllabusMatrix([])));
+        (new DocsGenerator($project))->generate(new ContentSet(matrix: new SyllabusMatrix([])));
 
-        $json = file_get_contents($project->buildDir().'/data/coverage.json');
+        $json = file_get_contents($project->path('website/static/data/coverage.json'));
         self::assertIsString($json);
 
         $coverage = json_decode($json, true);
         self::assertIsArray($coverage);
         self::assertFalse($coverage['denominator_established']);
         self::assertSame(0, $coverage['total_official_items']);
+
+        $page = file_get_contents($project->path('website/docs/syllabus/coverage.md'));
+        self::assertIsString($page);
+        self::assertStringContainsString('UNDEFINED', $page);
+        self::assertStringNotContainsString('Couverture : **0', $page);
+    }
+
+    /**
+     * The generated tree must contain a page per official item, so that adding
+     * a syllabus item adds a course page and a sidebar entry with no second
+     * place to keep in sync.
+     */
+    public function testEachOfficialItemGetsItsOwnPage(): void
+    {
+        $project = Project::locate();
+
+        $written = (new DocsGenerator($project))->generate(new ContentSet(
+            matrix: new SyllabusMatrix([
+                ItemFactory::make(['lot' => 'lot-05', 'officialItem' => 'Route requirements']),
+                ItemFactory::make(['lot' => 'lot-05', 'officialItem' => 'URL generation']),
+            ]),
+        ));
+
+        self::assertContains('docs/courses/lot-05/index.md', $written);
+        self::assertContains('docs/courses/lot-05/route-requirements.md', $written);
+        self::assertContains('docs/courses/lot-05/url-generation.md', $written);
+
+        $page = file_get_contents($project->path('website/docs/courses/lot-05/route-requirements.md'));
+        self::assertIsString($page);
+        self::assertStringContainsString('Verbatim wording', $page, 'the official wording must be reproduced');
+
+        // Leave the working tree in the state the real build produces.
+        (new DocsGenerator($project))->generate($project->loadContentSet());
     }
 
     private static function contentWithBothPools(): ContentSet

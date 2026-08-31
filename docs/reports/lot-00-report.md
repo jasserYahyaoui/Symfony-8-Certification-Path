@@ -117,7 +117,7 @@ already entered** rather than discarding them.
 Holdout isolation is structural rather than behavioural: the Practice payload
 is assembled at build time from the learning pool alone, so a holdout question
 is absent from the file the Practice page fetches. A front-end bug cannot leak
-what was never shipped. `SiteBuilder` asserts this on every build.
+what was never shipped. The generator asserts this on every build.
 
 ## Evidence
 
