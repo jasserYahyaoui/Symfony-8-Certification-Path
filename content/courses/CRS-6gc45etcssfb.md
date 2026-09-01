@@ -38,11 +38,6 @@ identifiants à vérifier.
 - Firewalls — `must-know` (topic Security, item *Firewalls*).
 - Users et user providers — `must-know` (items *Users*, *Providers*).
 
-> **Livraison anticipée.** Cet item est publié avant le reste du topic Security.
-> Les deux prérequis ci-dessus **ne sont pas encore disponibles** sur la
-> plateforme : ils arrivent avec le lot Security. La page se lit seule, mais le
-> parcours de révision recommandé les placera avant elle.
-
 ## Explication pour débuter
 
 Trois objets, trois rôles distincts :

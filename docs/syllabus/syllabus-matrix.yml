@@ -5717,26 +5717,46 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois paquets independants que le nom commun fait confondre, et une consequence directe :
+      hacher un mot de passe ou proteger un formulaire n'exige pas le systeme complet. Le candidat
+      doit attribuer une responsabilite, pas reciter une liste.
+    learning_outcomes:
+      - Attribuer une responsabilite au bon composant
+      - Enoncer que password-hasher et security-csrf s'utilisent seuls
+      - Situer security-core comme ignorant HTTP
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "components"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-awb7sd999c5j"
+    flashcard_refs:
+      - "FLC-pd0dmdcagt1k"
+    question_refs:
+      - "QST-xe6gkw0420ba"
+      - "QST-wfkk6ayjt3qb"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-g2w9we1mx2we"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-z9c24d68et6w
     official_topic_order: 10
     official_topic: "Security"
@@ -5747,26 +5767,47 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un enchainement pare-feu, authenticator, jeton, TokenStorage, plus une frontiere avec
+      l'autorisation que getUser() et isGranted() materialisent, et l'effet de stateless.
+      Application, pas reconnaissance.
+    learning_outcomes:
+      - Decrire le trajet d'une authentification
+      - Situer l'utilisateur courant dans le TokenStorage
+      - Distinguer authentification et autorisation
+      - Enoncer l'effet de stateless
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "authentication"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-rdzx4ka72saj"
+    flashcard_refs:
+      - "FLC-y9jp85bpbh2v"
+    question_refs:
+      - "QST-472n92c01v8z"
+      - "QST-eazddxd7m5ht"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-dm95708qd8nc"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-3qgn13f7zvqx
     official_topic_order: 10
     official_topic: "Security"
@@ -5777,26 +5818,50 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le passage obligatoire par les votants, y compris pour un role, trois familles d'attributs a
+      distinguer, et un code de statut qui depend de l'authentification et non de l'autorisation.
+    learning_outcomes:
+      - Enoncer que tout attribut passe par un votant
+      - Distinguer role, etat d'authentification et verbe metier
+      - Expliquer pourquoi le statut n'est pas toujours 403
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "ACCESS_*"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "authorization"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-8hwpzyk1hrq9"
+    flashcard_refs:
+      - "FLC-qtz62rzb36q3"
+    question_refs:
+      - "QST-71pfa2rprjj4"
+      - "QST-ty80h8rawm9h"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-f698yhb20693"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-xh63g15rz6n3
     official_topic_order: 10
     official_topic: "Security"
@@ -5807,26 +5872,46 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre sections aux roles distincts et deux regles de premiere correspondance qui se
+      ressemblent au point d'etre fusionnees a tort. Lire une configuration exige de les separer.
+    learning_outcomes:
+      - Attribuer une question a la bonne section
+      - Distinguer la regle d'ordre des pare-feux de celle d'access_control
+      - 'Reconnaitre l''effet de security: false'
+      - Utiliser debug:config pour la configuration resolue
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "configuration"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-yvhg325ax38y"
+    flashcard_refs:
+      - "FLC-paer6jdxzr95"
+    question_refs:
+      - "QST-xpq3ys8psrac"
+      - "QST-2eztey3aja7g"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-h788rvr0rp3d"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-45p7535dk4s2
     official_topic_order: 10
     official_topic: "Security"
@@ -5837,26 +5922,52 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux methodes appelees a deux moments differents, dont l'une a chaque requete avec des
+      consequences observables — utilisateur supprime, roles modifies — et une contrainte de
+      configuration quand plusieurs fournisseurs coexistent.
+    learning_outcomes:
+      - Distinguer loadUserByIdentifier() de refreshUser()
+      - Enoncer l'effet du rechargement a chaque requete
+      - Nommer les quatre types fournis
+      - Enoncer la contrainte a plusieurs fournisseurs
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "provider contract"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst"
+        branch: "8.0"
+        symbol_or_lines: "providers"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-enbbsykx22xe"
+    flashcard_refs:
+      - "FLC-zpyvxwvf1x8a"
+    question_refs:
+      - "QST-f49jfgm58qr0"
+      - "QST-b10yfhxnfhh6"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-qr5kt3yxsge7"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-rwa6m06crs1h
     official_topic_order: 10
     official_topic: "Security"
@@ -5867,26 +5978,48 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une regle d'ordre dont l'oubli desactive silencieusement la securite, un contexte de session
+      par pare-feu qui surprend, et deux options — lazy, security: false — dont le sens exact decide
+      d'une reponse.
+    learning_outcomes:
+      - Enoncer qu'un seul pare-feu traite la requete
+      - Placer correctement un pare-feu sans pattern
+      - Expliquer le contexte de session par pare-feu
+      - 'Distinguer lazy de stateless et de security: false'
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "firewalls"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-x5frtpg07mmd"
+    flashcard_refs:
+      - "FLC-9j0hj0sv3c6j"
+    question_refs:
+      - "QST-qyh60jqm5etd"
+      - "QST-rpz1syn7rpsv"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-0qfww09cp9hf"
+      - "QST-5xa3m20p2k57"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-gkh08ztwdme1
     official_topic_order: 10
     official_topic: "Security"
@@ -5897,26 +6030,47 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un contrat reduit a deux methodes en 8.0, dont la memoire des versions anterieures fausse la
+      restitution, un mot de passe deliberement place dans une autre interface, et une frontiere avec
+      le user checker.
+    learning_outcomes:
+      - Enumerer les methodes de UserInterface en 8.0
+      - Situer getPassword() dans PasswordAuthenticatedUserInterface
+      - Distinguer getUserIdentifier() d'une cle primaire
+      - Attribuer l'etat du compte a un user checker
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "getRoles, getUserIdentifier"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-n9ngfssrq1bt"
+    flashcard_refs:
+      - "FLC-ygn9w70dncp1"
+    question_refs:
+      - "QST-62t90ghtbqzj"
+      - "QST-fy4096tmhna5"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-qzmh0dtgpccg"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-ta627mbwfz7m
     official_topic_order: 10
     official_topic: "Security"
@@ -5927,26 +6081,46 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une signature contre-intuitive, un hachage auto-descriptif qui rend un changement d'algorithme
+      inoffensif, et une migration transparente dont l'echec est silencieux si le fournisseur ne
+      l'implemente pas.
+    learning_outcomes:
+      - Appeler hashPassword() avec les bons arguments
+      - Enoncer pourquoi changer d'algorithme ne casse rien
+      - Configurer migrate_from et nommer sa dependance
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst"
+        branch: "8.0"
+        symbol_or_lines: "hashing and migrating"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-g4sth72ww979"
+    flashcard_refs:
+      - "FLC-y8dwv3bw5s2b"
+    question_refs:
+      - "QST-cqx6wvrkts6w"
+      - "QST-k73jk5cstrtv"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-vz4hmhw240zg"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-fw6db7ryrk4q
     official_topic_order: 10
     official_topic: "Security"
@@ -5957,26 +6131,43 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Reconnaissance : une contrainte de nommage unique, une hierarchie statique, et trois attributs
+      qui ressemblent a des roles sans en etre. Aucune application, aucun raisonnement multi-etapes.
+    learning_outcomes:
+      - Enoncer la contrainte de nommage d'un role
+      - Reconnaitre role_hierarchy comme statique
+      - Distinguer IS_AUTHENTICATED_* d'un role
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+        branch: "8.0"
+        symbol_or_lines: "roles"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2s6e4qgkcqza"
+    flashcard_refs:
+      - "FLC-dxqgyh6g3w9z"
+    question_refs:
+      - "QST-n2z3zbszfmvt"
+      - "QST-1cerp5ba1czy"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-cwfr5t1ngj23
     official_topic_order: 10
     official_topic: "Security"
@@ -5987,26 +6178,47 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une regle de premiere correspondance dont l'inversion rend une regle stricte inatteignable sans
+      aucune erreur, un path qui est une expression reguliere, et une limite de fond : aucune
+      connaissance de l'objet.
+    learning_outcomes:
+      - Ordonner les regles du plus specifique au plus general
+      - Enoncer que seule la premiere regle s'applique
+      - Reconnaitre path comme une expression reguliere
+      - Enoncer la limite face a une regle portant sur un objet
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst"
+        branch: "8.0"
+        symbol_or_lines: "first match wins"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2ec5yksjfm9s"
+    flashcard_refs:
+      - "FLC-1vc4j2vszk96"
+    question_refs:
+      - "QST-np172gaybtec"
+      - "QST-8grwagdms0k7"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-rqcrbt7zx180"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
   - id: OIT-s3jh7wg5km19
     official_topic_order: 10
     official_topic: "Security"
@@ -6083,26 +6295,56 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Deux methodes dont l'une signifie abstention et non refus, trois valeurs de vote, quatre
+      strategies d'agregation qui donnent des reponses opposees sur les memes votes, et deux options
+      de cas limite dont les defauts different. Chaque etage change la reponse.
+    learning_outcomes:
+      - Ecrire supports() et voteOnAttribute()
+      - Enoncer que supports() a false vaut abstention
+      - Enumerer les trois valeurs de vote
+      - Distinguer les quatre strategies sur des votes identiques
+      - Enoncer les defauts de allow_if_equal_granted_denied et allow_if_all_abstain
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst"
+        branch: "8.0"
+        symbol_or_lines: "voters and strategies"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "ACCESS_*"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-y3g0v9nmne3t"
+    flashcard_refs:
+      - "FLC-kmf16st6cbrg"
+    question_refs:
+      - "QST-bff9s30tjw46"
+      - "QST-qmjm8vzvrzh9"
+      - "QST-c8gpyvw5shmy"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-2yyvqea9bx5j"
+      - "QST-x42gj2f3rb8q"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 10 — Security."
 
   # ---- Topic 11: Messenger (7 items) ----
   - id: OIT-hs1297vvhr89

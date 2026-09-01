@@ -1,0 +1,1742 @@
+# Lot 10 — Security question bank (Master Plan §7).
+#
+# 23 LEARNING questions (2 per official item, 3 for the DEEP one), 10
+# VALIDATION questions — one per STANDARD or DEEP item, as rule POOL-002
+# requires — and 2 HOLDOUT questions reserved for the final mocks.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-xe6gkw0420ba
+  version: 1
+  official_topic: Security
+  official_item: OIT-942znmbjwvad
+  domain: symfony
+  subtopic: components
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application hashes passwords for an external system but has no login, no firewall and no
+    users. What does it need?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - components
+  choices:
+  - id: CHO-3rwteany8g44
+    text: The password-hasher component alone
+    correct: true
+  - id: CHO-p16q3pad9k4q
+    text: The full security bundle with at least one firewall
+    correct: false
+    explanation: Hashing is a standalone component and needs no firewall.
+  - id: CHO-shbfbkeb53dv
+    text: security-core, because hashing lives there
+    correct: false
+    explanation: Hashing has its own package; security-core holds the user model and authorization.
+  - id: CHO-wvyy4d67x70h
+    text: Nothing — hashing is part of the PHP standard library
+    correct: false
+    explanation: PHP provides password_hash, but the Symfony abstraction lives in its own component.
+  explanation: The three security packages are independent. password-hasher installs and works alone,
+    which is why hashing requires no authentication system.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-wfkk6ayjt3qb
+  version: 1
+  official_topic: Security
+  official_item: OIT-942znmbjwvad
+  domain: symfony
+  subtopic: components
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which package knows nothing about HTTP?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - components
+  choices:
+  - id: CHO-zcqqg7cn2w3z
+    text: security-core
+    correct: true
+  - id: CHO-fnsyct742d2n
+    text: security-http
+    correct: false
+    explanation: Its whole purpose is to connect the model to the request.
+  - id: CHO-mcy8em825b5m
+    text: SecurityBundle
+    correct: false
+    explanation: 'It wires the system into the framework and exposes the security: configuration key.'
+  - id: CHO-ws8rg3exajvd
+    text: security-csrf
+    correct: false
+    explanation: CSRF tokens are verified against request data.
+  explanation: security-core holds the user model, tokens, voters and role hierarchy. Turning a request
+    into an authentication attempt is security-http's job.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-g2w9we1mx2we
+  version: 1
+  official_topic: Security
+  official_item: OIT-942znmbjwvad
+  domain: symfony
+  subtopic: components
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The Form component protects a form with a CSRF token in an application that has no firewall.
+    Is that possible?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - components
+  - csrf
+  choices:
+  - id: CHO-kw9enkbqwmq8
+    text: Yes — the CSRF component is independent of authentication
+    correct: true
+  - id: CHO-4fqqyejj4pdw
+    text: No — CSRF tokens are stored in the security token storage
+    correct: false
+    explanation: CSRF tokens are unrelated to the authentication token.
+  - id: CHO-zb24r17kvwpd
+    text: No — a firewall is required to generate a token
+    correct: false
+    explanation: Token generation needs no firewall.
+  - id: CHO-mzmxcnfqw1vh
+    text: Only if the session is disabled
+    correct: false
+    explanation: Stateful CSRF tokens use the session; that is not a restriction on firewalls.
+  explanation: security-csrf is a standalone component, which is exactly how the Form component protects
+    forms in applications with no security configured.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-472n92c01v8z
+  version: 1
+  official_topic: Security
+  official_item: OIT-z9c24d68et6w
+  domain: symfony
+  subtopic: authentication
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: $this->getUser() returns null. What does that establish?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authentication
+  choices:
+  - id: CHO-ysbhw57mwenc
+    text: The request is not authenticated
+    correct: true
+  - id: CHO-sfshr13af9ps
+    text: The user is authenticated but lacks the required role
+    correct: false
+    explanation: That is an authorization outcome, reported by isGranted().
+  - id: CHO-yjr7xtvv2gvh
+    text: The session expired and must be restarted manually
+    correct: false
+    explanation: An expired session is one cause among several; the fact established is only the absence
+      of authentication.
+  - id: CHO-0a1bxfjy02p9
+    text: The firewall is misconfigured
+    correct: false
+    explanation: An anonymous request on a correctly configured firewall also returns null.
+  explanation: getUser() answers the authentication question. Whether a known user may do something is
+    a separate question answered by isGranted().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-eazddxd7m5ht
+  version: 1
+  official_topic: Security
+  official_item: OIT-z9c24d68et6w
+  domain: symfony
+  subtopic: authentication
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An API firewall is declared stateless: true. What is the consequence for each request?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authentication
+  - stateless
+  choices:
+  - id: CHO-28nv916928jp
+    text: The token is not stored in the session, so every request authenticates again
+    correct: true
+  - id: CHO-e6ns1gn8k073
+    text: The token is cached in memory between requests
+    correct: false
+    explanation: Nothing survives the request; each one starts from the credentials it carries.
+  - id: CHO-dssznsgx2hgg
+    text: Authorization is skipped for that firewall
+    correct: false
+    explanation: Authorization is unaffected by statelessness.
+  - id: CHO-vchqsa4pn2ec
+    text: Only the first request of a session is authenticated
+    correct: false
+    explanation: That describes the stateful behaviour, not the stateless one.
+  explanation: Stateless means the token is never persisted, which is what an API using per-request credentials
+    needs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-dm95708qd8nc
+  version: 1
+  official_topic: Security
+  official_item: OIT-z9c24d68et6w
+  domain: symfony
+  subtopic: authentication
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where does the rest of the application read the currently authenticated user from?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authentication
+  choices:
+  - id: CHO-a1cz1c0a2zmc
+    text: The TokenStorage, which holds the token for the current request
+    correct: true
+  - id: CHO-c6fw377b5ygv
+    text: The session, read directly
+    correct: false
+    explanation: The session may persist the token, but the application reads the storage.
+  - id: CHO-24a294vmt8gp
+    text: The user provider, queried on demand
+    correct: false
+    explanation: The provider loads and refreshes the user; it is not where the current one is read.
+  - id: CHO-p1rjky61tvjm
+    text: The firewall configuration
+    correct: false
+    explanation: Configuration declares how to authenticate, not who is authenticated.
+  explanation: TokenStorage is the memory of the current request. Security::getUser() and the controller
+    shortcut both read it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-71pfa2rprjj4
+  version: 1
+  official_topic: Security
+  official_item: OIT-3qgn13f7zvqx
+  domain: symfony
+  subtopic: authorization
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An anonymous visitor hits a page protected by denyAccessUnlessGranted(). What does the visitor
+    get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authorization
+  choices:
+  - id: CHO-ye5ecte7202a
+    text: A redirect to the login page, driven by the firewall entry point
+    correct: true
+  - id: CHO-mf3a9rr9av4v
+    text: A 403 response
+    correct: false
+    explanation: 403 is what a known user gets; an anonymous one is sent to authenticate first.
+  - id: CHO-999ehv890tye
+    text: A 401 response with a WWW-Authenticate header
+    correct: false
+    explanation: That is the HTTP-Basic behaviour, not the general case.
+  - id: CHO-923p90rerv70
+    text: A 404, to avoid disclosing the page's existence
+    correct: false
+    explanation: Symfony does not hide protected pages behind 404 by default.
+  explanation: 'The exception is the same in both cases. What differs is whether the user is known: a
+    known user is refused with 403, an anonymous one is sent to the entry point.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-ty80h8rawm9h
+  version: 1
+  official_topic: Security
+  official_item: OIT-3qgn13f7zvqx
+  domain: symfony
+  subtopic: authorization
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which check cannot be expressed with a role alone?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authorization
+  - voters
+  choices:
+  - id: CHO-6bzkrea71n8d
+    text: Only the author of an article may edit it
+    correct: true
+  - id: CHO-nq2ajw017vs9
+    text: Only administrators may open the back office
+    correct: false
+    explanation: That is exactly what a role expresses.
+  - id: CHO-xe763a4h87sw
+    text: Only fully authenticated users may see the page
+    correct: false
+    explanation: IS_AUTHENTICATED_FULLY covers it.
+  - id: CHO-mg7bpety4w43
+    text: Only users of the admin firewall may log in there
+    correct: false
+    explanation: That is a firewall matter, not an authorization attribute.
+  explanation: A role describes what a user is, independently of any object. A rule that depends on the
+    object needs a voter, which receives the subject.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-f698yhb20693
+  version: 1
+  official_topic: Security
+  official_item: OIT-3qgn13f7zvqx
+  domain: symfony
+  subtopic: authorization
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is the attribute ROLE_ADMIN evaluated by isGranted()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authorization
+  choices:
+  - id: CHO-sp0mm3ht34xb
+    text: By a voter, like any other attribute
+    correct: true
+  - id: CHO-dyb5gx5z89jp
+    text: By a direct string comparison against the user's roles, bypassing voters
+    correct: false
+    explanation: No attribute bypasses the voter mechanism; a role is checked by a voter too.
+  - id: CHO-rsy2mfvqkce1
+    text: By the firewall, before the controller runs
+    correct: false
+    explanation: The firewall authenticates; isGranted() is an authorization call made later.
+  - id: CHO-4vz6te97d728
+    text: By access_control, which owns all role checks
+    correct: false
+    explanation: access_control protects URLs; isGranted() works anywhere and still goes through voters.
+  explanation: The access decision manager knows nothing about roles specifically. Roles are just attributes
+    that a role voter happens to understand.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-xpq3ys8psrac
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  subtopic: configuration
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A firewall with no pattern is declared first in security.yaml. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - configuration
+  - firewalls
+  choices:
+  - id: CHO-c2rgeva7thed
+    text: It matches every request, so the later firewalls are never used
+    correct: true
+  - id: CHO-zv96xpd5ytqt
+    text: Firewalls without a pattern are skipped
+    correct: false
+    explanation: A missing pattern means it matches everything.
+  - id: CHO-0bxn5qsn4j4c
+    text: The container refuses to compile
+    correct: false
+    explanation: The configuration is valid; the effect is a silent one.
+  - id: CHO-7wmycckjq1jv
+    text: The most specific firewall wins regardless of order
+    correct: false
+    explanation: Order decides, not specificity.
+  explanation: Firewalls are tried in declaration order and the first matching one takes the request,
+    so a catch-all must be declared last.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-2eztey3aja7g
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  subtopic: configuration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which section decides WHAT is required to reach a URL, rather than HOW a visitor proves their
+    identity?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-qxt2kcbh8h7m
+    text: access_control
+    correct: true
+  - id: CHO-82egr9x9cbd7
+    text: firewalls
+    correct: false
+    explanation: A firewall decides how identity is established, not what a URL requires.
+  - id: CHO-dqwbyztj03rh
+    text: providers
+    correct: false
+    explanation: Providers decide where the user object is loaded from.
+  - id: CHO-5z9qvxcg2xtg
+    text: password_hashers
+    correct: false
+    explanation: That section governs how passwords are stored and verified.
+  explanation: 'The two are easy to merge mentally: firewalls answer how you authenticate, access_control
+    answers what you need to enter.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-h788rvr0rp3d
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  subtopic: configuration
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which command shows the security configuration actually in force, defaults included?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-7jghxzhy5vsk
+    text: debug:config security
+    correct: true
+  - id: CHO-2w5yk2pt7j4j
+    text: config:dump-reference security
+    correct: false
+    explanation: That prints the reference tree, not the resolved values of this application.
+  - id: CHO-4hdv73ef93yh
+    text: debug:container security
+    correct: false
+    explanation: That lists services whose id matches, not configuration.
+  - id: CHO-arpezvykjt5n
+    text: Reading config/packages/security.yaml
+    correct: false
+    explanation: The file does not show the defaults that Symfony fills in.
+  explanation: debug:config prints the resolved configuration, which answers questions the raw file cannot.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-f49jfgm58qr0
+  version: 1
+  official_topic: Security
+  official_item: OIT-45p7535dk4s2
+  domain: symfony
+  subtopic: providers
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A user row is deleted from the database while that user has an active session. What happens
+    on their next request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - providers
+  choices:
+  - id: CHO-cphc1k9tbg4y
+    text: Refreshing the user fails and the session is invalidated
+    correct: true
+  - id: CHO-kkc4kascce58
+    text: Nothing, because the user object is kept in the session
+    correct: false
+    explanation: The user is reloaded on every request rather than trusted from the session.
+  - id: CHO-r51kvhcek5m0
+    text: The user keeps their roles until the session expires
+    correct: false
+    explanation: The reload happens first, and it fails.
+  - id: CHO-tp1h7g0ptb20
+    text: A 500 error, since the provider throws an unhandled exception
+    correct: false
+    explanation: The failure is handled by logging the user out.
+  explanation: refreshUser() runs on every request, which is what makes deletions and role changes take
+    effect immediately.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    branch: '8.0'
+    symbol_or_lines: user providers
+    verified_at: '2026-09-01'
+- id: QST-b10yfhxnfhh6
+  version: 1
+  official_topic: Security
+  official_item: OIT-45p7535dk4s2
+  domain: symfony
+  subtopic: providers
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which provider method is called when the visitor first logs in?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - providers
+  choices:
+  - id: CHO-64z5bf9zk7yb
+    text: loadUserByIdentifier()
+    correct: true
+  - id: CHO-c5mt6425dwwp
+    text: refreshUser()
+    correct: false
+    explanation: That one runs on the requests that follow, to reload a user already known.
+  - id: CHO-r6t859xcj8rz
+    text: supportsClass()
+    correct: false
+    explanation: It only declares which class the provider handles.
+  - id: CHO-e9wapk2rszj3
+    text: getUser()
+    correct: false
+    explanation: No such method exists on the provider contract.
+  explanation: loadUserByIdentifier() turns the submitted identifier into a user object; refreshUser()
+    keeps it current afterwards.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    branch: '8.0'
+    symbol_or_lines: user providers
+    verified_at: '2026-09-01'
+- id: QST-qr5kt3yxsge7
+  version: 1
+  official_topic: Security
+  official_item: OIT-45p7535dk4s2
+  domain: symfony
+  subtopic: providers
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two providers are declared and a firewall does not name one. What is the outcome?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - providers
+  choices:
+  - id: CHO-b21sqcf7rbke
+    text: The configuration is ambiguous and fails
+    correct: true
+  - id: CHO-kjvz2cxzvm8p
+    text: The first declared provider is used silently
+    correct: false
+    explanation: Symfony does not pick one for you when several exist.
+  - id: CHO-3nnb0x0db6t9
+    text: Both are tried in order, like a chain provider
+    correct: false
+    explanation: A chain provider must be declared explicitly for that behaviour.
+  - id: CHO-g8q5cy7e358v
+    text: The firewall runs with no provider and authenticates nobody
+    correct: false
+    explanation: The failure happens at configuration time, not at runtime.
+  explanation: A firewall uses exactly one provider. With several declared, the choice must be explicit.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    branch: '8.0'
+    symbol_or_lines: user providers
+    verified_at: '2026-09-01'
+- id: QST-qyh60jqm5etd
+  version: 1
+  official_topic: Security
+  official_item: OIT-rwa6m06crs1h
+  domain: symfony
+  subtopic: firewalls
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How many firewalls handle a single incoming request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - firewalls
+  choices:
+  - id: CHO-a4k5j6s0wcx6
+    text: Exactly one — the first whose pattern matches
+    correct: true
+  - id: CHO-8jt8czr9qrtk
+    text: All of them, in declaration order
+    correct: false
+    explanation: Firewalls are not middlewares; matching stops at the first.
+  - id: CHO-3qjpesrtf6se
+    text: One per authenticator declared
+    correct: false
+    explanation: A firewall may carry several authenticators, but it is still one firewall.
+  - id: CHO-xtg5t7fr6xgp
+    text: None, unless access_control matches first
+    correct: false
+    explanation: access_control is evaluated separately and later.
+  explanation: Firewall selection stops at the first matching pattern, which is why a firewall without
+    a pattern must come last.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-rpz1syn7rpsv
+  version: 1
+  official_topic: Security
+  official_item: OIT-rwa6m06crs1h
+  domain: symfony
+  subtopic: firewalls
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A user logs into the main firewall but appears anonymous on the admin firewall. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - firewalls
+  choices:
+  - id: CHO-89wndpk6zn3b
+    text: Each firewall has its own session context unless context is shared
+    correct: true
+  - id: CHO-ymwkn9k6am3m
+    text: The admin firewall is stateless
+    correct: false
+    explanation: That is one possible cause but not the default explanation for two stateful firewalls.
+  - id: CHO-ntt3s66541qv
+    text: Roles are not shared between firewalls
+    correct: false
+    explanation: Roles travel with the user; it is the authentication that is scoped.
+  - id: CHO-dzt5774gaghv
+    text: The user provider differs, so the user is not the same object
+    correct: false
+    explanation: A shared provider would still not share the authentication context.
+  explanation: Authentication is scoped to a firewall context. Sharing it between two firewalls requires
+    giving them the same context key.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-0qfww09cp9hf
+  version: 1
+  official_topic: Security
+  official_item: OIT-rwa6m06crs1h
+  domain: symfony
+  subtopic: firewalls
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does security: false on a firewall mean?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - firewalls
+  choices:
+  - id: CHO-pb0h6c8ghdjy
+    text: The security system does not process those URLs at all
+    correct: true
+  - id: CHO-2txajzwc3n7a
+    text: Every visitor is granted access to those URLs
+    correct: false
+    explanation: It is not an authorization decision; access_control still applies separately.
+  - id: CHO-6mxy2k2yhvm3
+    text: Only anonymous visitors may use those URLs
+    correct: false
+    explanation: No such restriction is implied.
+  - id: CHO-nyk99bhnaqt2
+    text: The firewall is disabled and the next one takes over
+    correct: false
+    explanation: The firewall still matches; it simply performs no authentication.
+  explanation: It switches the firewall off as an authentication mechanism for the matched URLs, typically
+    the profiler and static assets.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-62t90ghtbqzj
+  version: 1
+  official_topic: Security
+  official_item: OIT-gkh08ztwdme1
+  domain: symfony
+  subtopic: users
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which methods does UserInterface declare in Symfony 8.0?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - users
+  choices:
+  - id: CHO-t9acdqgcmrmt
+    text: getRoles() and getUserIdentifier()
+    correct: true
+  - id: CHO-geqvz1db8p6f
+    text: getRoles(), getUserIdentifier() and eraseCredentials()
+    correct: false
+    explanation: eraseCredentials() was deprecated and then removed; it is not part of the 8.0 contract.
+  - id: CHO-eqykzdsq6z6d
+    text: getRoles(), getUsername() and getPassword()
+    correct: false
+    explanation: getUsername() was replaced by getUserIdentifier(), and the password lives in another
+      interface.
+  - id: CHO-g0bqqnax50bx
+    text: getRoles(), getUserIdentifier() and getPassword()
+    correct: false
+    explanation: getPassword() belongs to PasswordAuthenticatedUserInterface.
+  explanation: The 8.0 contract is two methods. The password is deliberately elsewhere, because a user
+    may authenticate without one.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+    branch: '8.0'
+    symbol_or_lines: UserInterface
+    verified_at: '2026-09-01'
+- id: QST-fy4096tmhna5
+  version: 1
+  official_topic: Security
+  official_item: OIT-gkh08ztwdme1
+  domain: symfony
+  subtopic: users
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A user account is disabled. Where does that check belong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - users
+  choices:
+  - id: CHO-zdgyczhw9e46
+    text: In a user checker, which throws before authentication succeeds
+    correct: true
+  - id: CHO-pxkh5m0hrk4m
+    text: In getRoles(), by returning an empty array
+    correct: false
+    explanation: An empty role list is an authorization matter and would still leave the user authenticated.
+  - id: CHO-c0pr1rrga6w6
+    text: In the voter that grants the page
+    correct: false
+    explanation: A voter answers a per-object question; account state is not one.
+  - id: CHO-9h5kz4b5kk14
+    text: In access_control, with a dedicated rule
+    correct: false
+    explanation: access_control matches URLs and knows nothing about account state.
+  explanation: Account state is checked by a user checker, which throws a dedicated exception at the right
+    moment in the authentication flow.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-qzmh0dtgpccg
+  version: 1
+  official_topic: Security
+  official_item: OIT-gkh08ztwdme1
+  domain: symfony
+  subtopic: users
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Symfony 8.0 removed a method from UserInterface that earlier versions declared. Which one,
+    and what replaced its role?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - users
+  choices:
+  - id: CHO-zyqrd53x48zh
+    text: eraseCredentials(), which no longer exists and is called by nothing
+    correct: true
+  - id: CHO-fwgzmtygrxmx
+    text: getUsername(), whose role moved to getPassword()
+    correct: false
+    explanation: getUsername() was indeed replaced, but by getUserIdentifier(), and that change predates
+      8.0.
+  - id: CHO-sh8f44fax3cp
+    text: getSalt(), whose role moved to the password hasher configuration
+    correct: false
+    explanation: getSalt() belongs to the legacy password interface, not to UserInterface.
+  - id: CHO-5s8ejgy24v1s
+    text: getRoles(), whose role moved to role_hierarchy
+    correct: false
+    explanation: getRoles() is still part of the contract; the hierarchy only expands what it returns.
+  explanation: The 8.0 contract is getRoles() and getUserIdentifier(). eraseCredentials() was deprecated
+    and then removed; a class that still declares it is simply never called.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+    branch: '8.0'
+    symbol_or_lines: UserInterface
+    verified_at: '2026-09-01'
+- id: QST-cqx6wvrkts6w
+  version: 1
+  official_topic: Security
+  official_item: OIT-ta627mbwfz7m
+  domain: symfony
+  subtopic: hashers
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The hashing algorithm is changed in security.yaml. What happens to passwords already stored?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - hashers
+  choices:
+  - id: CHO-r15mrhhnjbhc
+    text: They keep working, because the stored hash carries its own algorithm
+    correct: true
+  - id: CHO-kzgqgckmg0ks
+    text: They all become invalid and must be reset
+    correct: false
+    explanation: Nothing is re-hashed or invalidated by a configuration change.
+  - id: CHO-gjb2w6e4qfxj
+    text: They are re-hashed the next time the container compiles
+    correct: false
+    explanation: Re-hashing needs the plaintext password, which is only available at login.
+  - id: CHO-1mg5sfsc2gbk
+    text: They keep working only if migrate_from lists the old algorithm
+    correct: false
+    explanation: The stored hash is self-describing; migrate_from governs upgrading, not verification.
+  explanation: A stored hash records the algorithm that produced it, so verification still works. migrate_from
+    is what re-encodes it at the next successful login.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    branch: '8.0'
+    symbol_or_lines: password hashing
+    verified_at: '2026-09-01'
+- id: QST-k73jk5cstrtv
+  version: 1
+  official_topic: Security
+  official_item: OIT-ta627mbwfz7m
+  domain: symfony
+  subtopic: hashers
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does hashPassword() take as its first argument?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - hashers
+  choices:
+  - id: CHO-qasdts6an4zm
+    text: The user object
+    correct: true
+  - id: CHO-m7e0k5995yw4
+    text: The plaintext password
+    correct: false
+    explanation: The plaintext is the second argument; the user comes first.
+  - id: CHO-w09q47xp1yhz
+    text: The algorithm name
+    correct: false
+    explanation: The algorithm comes from the configuration for that user class.
+  - id: CHO-17ve07asbpqs
+    text: The user provider
+    correct: false
+    explanation: The provider is not involved in hashing.
+  explanation: The user is passed because the configuration can map a different algorithm to each user
+    class.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    branch: '8.0'
+    symbol_or_lines: password hashing
+    verified_at: '2026-09-01'
+- id: QST-vz4hmhw240zg
+  version: 1
+  official_topic: Security
+  official_item: OIT-ta627mbwfz7m
+  domain: symfony
+  subtopic: hashers
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: migrate_from is configured, users log in successfully, but the stored hashes never change.
+    What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - hashers
+  choices:
+  - id: CHO-zpcd4ej0fmt4
+    text: The provider does not implement PasswordUpgraderInterface
+    correct: true
+  - id: CHO-bx9epszpwbyk
+    text: The new algorithm is not supported by the PHP installation
+    correct: false
+    explanation: An unsupported algorithm would fail loudly rather than silently skip the upgrade.
+  - id: CHO-fhtq5ke3y2dr
+    text: migrate_from must list the new algorithm, not the old one
+    correct: false
+    explanation: It lists the legacy algorithms still accepted.
+  - id: CHO-f05vrsqftzvz
+    text: Re-hashing only happens when the password is changed by the user
+    correct: false
+    explanation: The whole point is to upgrade transparently at login.
+  explanation: Verification succeeds and the new hash is computed, but nothing persists it without a provider
+    able to store the upgrade.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    branch: '8.0'
+    symbol_or_lines: password hashing
+    verified_at: '2026-09-01'
+- id: QST-n2z3zbszfmvt
+  version: 1
+  official_topic: Security
+  official_item: OIT-fw6db7ryrk4q
+  domain: symfony
+  subtopic: roles
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the only constraint Symfony places on a role name?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - roles
+  choices:
+  - id: CHO-zrtertf9thm4
+    text: It must start with ROLE_
+    correct: true
+  - id: CHO-8mdy57hth50r
+    text: It must be uppercase
+    correct: false
+    explanation: Convention, not a rule; only the prefix is enforced.
+  - id: CHO-19c1swds3sz0
+    text: It must exist in role_hierarchy
+    correct: false
+    explanation: A role needs no hierarchy entry.
+  - id: CHO-4e8cahwvszms
+    text: It must be declared in security.yaml
+    correct: false
+    explanation: Roles are not declared anywhere; they come from the user.
+  explanation: Everything after the prefix is free. Without ROLE_, the string is not treated as a role
+    by the security system.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-1cerp5ba1czy
+  version: 1
+  official_topic: Security
+  official_item: OIT-fw6db7ryrk4q
+  domain: symfony
+  subtopic: roles
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Can role_hierarchy be computed from the database at runtime?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - roles
+  choices:
+  - id: CHO-2ptzs0fhh8kd
+    text: No — the hierarchy is static configuration
+    correct: true
+  - id: CHO-qbfkbr53kgwv
+    text: Yes, by implementing a custom role hierarchy service
+    correct: false
+    explanation: The documentation states the values are static; this is not the documented behaviour.
+  - id: CHO-kn85zq00kff3
+    text: Yes, if the roles are stored as entities
+    correct: false
+    explanation: How roles are stored on the user is unrelated to the hierarchy.
+  - id: CHO-7xwdray6sb3t
+    text: Only in the dev environment
+    correct: false
+    explanation: The environment makes no difference.
+  explanation: role_hierarchy is resolved from configuration, which is why a data-driven hierarchy is
+    not expressible there.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'
+- id: QST-np172gaybtec
+  version: 1
+  official_topic: Security
+  official_item: OIT-cwfr5t1ngj23
+  domain: symfony
+  subtopic: access-control
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Rule ^/admin requiring ROLE_ADMIN is listed before ^/admin/users requiring ROLE_SUPER_ADMIN.
+    What is the effect?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - access-control
+  choices:
+  - id: CHO-hfmn2vh5kydv
+    text: The stricter rule is unreachable; /admin/users only requires ROLE_ADMIN
+    correct: true
+  - id: CHO-cb6jj8psdn3v
+    text: Both apply, so ROLE_SUPER_ADMIN is required in practice
+    correct: false
+    explanation: Rules are not cumulative; only the first match is used.
+  - id: CHO-xzjd3w3ff3bd
+    text: The most specific rule wins regardless of order
+    correct: false
+    explanation: Specificity plays no part; order does.
+  - id: CHO-md6r09nxnest
+    text: The configuration fails to compile
+    correct: false
+    explanation: It is valid, which is what makes the mistake silent.
+  explanation: Only the first matching access_control rule is used, so specific rules must be listed before
+    general ones.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    branch: '8.0'
+    symbol_or_lines: access_control
+    verified_at: '2026-09-01'
+- id: QST-8grwagdms0k7
+  version: 1
+  official_topic: Security
+  official_item: OIT-cwfr5t1ngj23
+  domain: symfony
+  subtopic: access-control
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why can access_control not express 'the author may edit their own article'?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - access-control
+  - voters
+  choices:
+  - id: CHO-drp0r2sp6v6k
+    text: It matches on the request, and knows nothing about the object
+    correct: true
+  - id: CHO-s61r80ka0q2g
+    text: It only supports roles, not custom attributes
+    correct: false
+    explanation: It supports several criteria; the limitation is the absence of a subject.
+  - id: CHO-qwyby6yrmstk
+    text: It runs before the user is authenticated
+    correct: false
+    explanation: It is evaluated after authentication.
+  - id: CHO-ph41t1zqgm7w
+    text: It cannot be combined with voters
+    correct: false
+    explanation: Both can coexist; the point is that only a voter receives the object.
+  explanation: access_control protects URLs. A rule that depends on which article is being edited needs
+    a voter, which receives the subject.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    branch: '8.0'
+    symbol_or_lines: access_control
+    verified_at: '2026-09-01'
+- id: QST-rqcrbt7zx180
+  version: 1
+  official_topic: Security
+  official_item: OIT-cwfr5t1ngj23
+  domain: symfony
+  subtopic: access-control
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is the path key of an access_control rule interpreted?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - access-control
+  choices:
+  - id: CHO-f66gwhbty0ke
+    text: As a regular expression
+    correct: true
+  - id: CHO-eawe67dm3n6s
+    text: As a literal prefix
+    correct: false
+    explanation: It is a regex, which is why entries conventionally start with ^.
+  - id: CHO-y59e79gfcmev
+    text: As a route name
+    correct: false
+    explanation: A separate route key exists for that.
+  - id: CHO-358zj9ad8dy3
+    text: As a glob pattern
+    correct: false
+    explanation: Glob syntax is not used here.
+  explanation: path is a regular expression matched against the request path, which is why ^ appears at
+    the start of most rules.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    branch: '8.0'
+    symbol_or_lines: access_control
+    verified_at: '2026-09-01'
+- id: QST-bff9s30tjw46
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  subtopic: voters
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A voter's supports() returns false for an attribute. What has it done?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - voters
+  choices:
+  - id: CHO-j90r0ar4ryhz
+    text: Abstained — it takes no part in the decision
+    correct: true
+  - id: CHO-hc67emqr4xb9
+    text: Denied access for that attribute
+    correct: false
+    explanation: Returning false from supports() is not a denial; it means the voter has nothing to say.
+  - id: CHO-6x63fvwps0g6
+    text: Granted access, leaving the decision to others
+    correct: false
+    explanation: An abstention is neither a grant nor a denial.
+  - id: CHO-8npqzt5er7t0
+    text: Caused an error, since every voter must vote
+    correct: false
+    explanation: Abstaining is the normal case for a voter outside its domain.
+  explanation: 'Abstention is what lets independent voters coexist: each speaks only about the attributes
+    and subjects it understands.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
+    branch: '8.0'
+    symbol_or_lines: ACCESS_* constants
+    verified_at: '2026-09-01'
+- id: QST-qmjm8vzvrzh9
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  subtopic: voters
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Two voters respond: one grants, one denies. What does the DEFAULT strategy decide?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-nn9m7z11q0xz
+    text: Access granted
+    correct: true
+  - id: CHO-5g12x3cn9jth
+    text: Access denied
+    correct: false
+    explanation: That is the unanimous strategy, which is not the default.
+  - id: CHO-c9s9h8h3amsb
+    text: A tie, resolved by allow_if_all_abstain
+    correct: false
+    explanation: That option only applies when every voter abstains.
+  - id: CHO-48gxkvpk05jq
+    text: An exception, because the votes conflict
+    correct: false
+    explanation: Conflicting votes are exactly what a strategy exists to resolve.
+  explanation: affirmative is the default and grants as soon as one voter grants, whatever the others
+    say.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    branch: '8.0'
+    symbol_or_lines: voters and strategies
+    verified_at: '2026-09-01'
+- id: QST-c8gpyvw5shmy
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  subtopic: voters
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Under the unanimous strategy, three voters abstain and none denies. What is the decision?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-zedk6kxvfa7k
+    text: Granted, because unanimous means no voter denies
+    correct: true
+  - id: CHO-dpj226b56pv7
+    text: Denied, because no voter granted
+    correct: false
+    explanation: unanimous does not require a grant; it requires the absence of a denial.
+  - id: CHO-84a451h01yjj
+    text: Denied, because abstentions count as denials
+    correct: false
+    explanation: An abstention is neither a grant nor a denial.
+  - id: CHO-xmj4zkqg8802
+    text: Undefined, so allow_if_equal_granted_denied applies
+    correct: false
+    explanation: That option belongs to the consensus strategy.
+  explanation: unanimous is often misread as 'all must grant'. It grants unless someone denies, so abstentions
+    do not block it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    branch: '8.0'
+    symbol_or_lines: voters and strategies
+    verified_at: '2026-09-01'
+- id: QST-2yyvqea9bx5j
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  subtopic: voters
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An attribute reaches the access decision manager and every voter abstains. What happens by
+    default?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-bhpx9rxbs9m2
+    text: Access is denied, because allow_if_all_abstain defaults to false
+    correct: true
+  - id: CHO-536grhd97wgd
+    text: Access is granted, since nobody objected
+    correct: false
+    explanation: The default is deliberately restrictive.
+  - id: CHO-y9fv14mvc06a
+    text: An exception is thrown for the unknown attribute
+    correct: false
+    explanation: No voter is required to understand an attribute.
+  - id: CHO-21gmf6r157bx
+    text: The affirmative strategy grants it
+    correct: false
+    explanation: The strategy has nothing to aggregate when everyone abstains; the option decides.
+  explanation: A typo in an attribute name therefore denies access rather than granting it, which is the
+    safe default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    branch: '8.0'
+    symbol_or_lines: voters and strategies
+    verified_at: '2026-09-01'
+- id: QST-x42gj2f3rb8q
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  subtopic: voters
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Under consensus, grants and denials are equal in number. Which option settles it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-r614mhn6bp01
+    text: allow_if_equal_granted_denied, which defaults to true
+    correct: true
+  - id: CHO-djt46twg6zqw
+    text: allow_if_all_abstain, which defaults to false
+    correct: false
+    explanation: That option only applies when nobody voted either way.
+  - id: CHO-k23cffx8cqsj
+    text: The affirmative fallback
+    correct: false
+    explanation: Strategies do not fall back on one another.
+  - id: CHO-dfe72wkym80q
+    text: Service priority of the voters
+    correct: false
+    explanation: Priority settles the priority strategy, not a consensus tie.
+  explanation: A consensus tie is resolved by allow_if_equal_granted_denied, whose default grants access.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    branch: '8.0'
+    symbol_or_lines: voters and strategies
+    verified_at: '2026-09-01'
+- id: QST-5xa3m20p2k57
+  version: 1
+  official_topic: Security
+  official_item: OIT-rwa6m06crs1h
+  domain: symfony
+  subtopic: firewalls
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which firewall option defers loading the user until something actually asks for it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - firewalls
+  choices:
+  - id: CHO-fq79fh7c7ysq
+    text: lazy
+    correct: true
+  - id: CHO-71j6ganx1mam
+    text: stateless
+    correct: false
+    explanation: That controls whether the token is persisted, not when the user is loaded.
+  - id: CHO-nn434vek6j4z
+    text: context
+    correct: false
+    explanation: That shares authentication between firewalls.
+  - id: CHO-ww2e9tshvga2
+    text: security
+    correct: false
+    explanation: Setting it to false disables the security system for those URLs.
+  explanation: lazy keeps a public page from opening the session, which preserves its cacheability.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    branch: '8.0'
+    symbol_or_lines: security
+    verified_at: '2026-09-01'

@@ -6,9 +6,13 @@
 
 ## Current lot
 
-**Lot 09 — Dependency Injection: PASS** (12 items). Lots 0 through 08 are
-complete. Next: **Lot 10 — Security** (11 items, one already EXAM_READY and
-published ahead of its lot — see the delivery notice on `CRS-6gc45etcssfb`).
+**Lot 10 — Security: PASS** (11 items written; the topic's twelfth was already
+EXAM_READY). Lots 0 through 09 are complete. Next: **Lot 11 — Messenger**
+(7 items).
+
+The early-delivery notice on `CRS-6gc45etcssfb` has been **removed**: its three
+declared prerequisites — Firewalls, Users, Providers — now exist, which is what
+the Lot 10 definition of done required.
 
 Before Lot 08, the six **Priority-1 corrections** of the mid-path professor
 audit were applied and merged (PR #15, merge `fc9b84f`): the SPL hierarchy
@@ -108,7 +112,7 @@ for evidence anchoring; toolchain verified.
 4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
    end to end, then approve or correct the architecture before scaling.
-6. ~~Lots 1–3~~ — done. ~~Lots 04–09~~ — done. Lots 10–27.
+6. ~~Lots 1–3~~ — done. ~~Lots 04–10~~ — done. Lots 11–27.
 7. **Audit Priority 2, due before the mock exams.** P2.1 restore a standard
    `Pièges d'examen` section wherever a trap already exists in prose (~50
    courses, reorganisation only, growth < 2%); P2.2 rewrite the
@@ -121,7 +125,7 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 108 EXAM_READY.**
+**163 imported, 119 EXAM_READY.**
 
 ```text
 coverage = 88 / 163 = 53.99%
@@ -226,25 +230,26 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | PR-1 | The first version of the Lot 08 pull-request description claimed all eight new courses carried a dedicated `Pièges d'examen` section. Six did. | Minor | **Resolved** in `0cde1d5` — the two remaining courses had their existing inline traps promoted into the standard section, which is also the P2.1 objective. Lesson: verify a claim about the artefact against the artefact before writing it down |
 | DRAFT-1 | Two of my own Lot 09 drafts were wrong and only the source caught them: `decoration_priority` was described as putting the highest priority outermost (the documentation's own example compiles to `new Baz(new Bar(new Foo()))`, so the highest is **innermost**), and the env var processors were counted as twenty-two (`EnvVarProcessor::getProvidedTypes()` returns **twenty-one**). | Medium | **Resolved before commit** — both corrected against source. Third and fourth count/order error of the session: any stated count or ordering is verified against the code before it is written down, never against the narrative around it |
 | CRS-3 | `CRS-001` fired three times in Lot 09, each because a correct answer reproduced a snippet also present in the course (an env expression, a decorator nesting, a factory line). | — | **Resolved** — all three **questions** were rewritten to test the mechanism rather than recall the literal string; no course was touched and nothing was moved into a fence |
+| CRS-4 | `CRS-001` fired once in Lot 10: the correct answer of `QST-qzmh0dtgpccg` named `PasswordAuthenticatedUserInterface`, which the *Users* course also names. | — | **Resolved** — the **question** was rewritten to ask which method Symfony 8.0 removed from `UserInterface`, which tests the version-sensitive fact instead of an interface name. No course touched, nothing fenced |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-09-dependency-injection` (`611f40e`), every command run with
+Locally, on PHP 8.4.19, on `lot-10-security`, every command run with
 `set -o pipefail` and its exit code checked:
 
 ```text
 composer validate --strict                                                      (exit 0)
 php -l on src bin tests                                                         (exit 0)
 vendor/bin/yaml-lint docs/syllabus content --parse-tags                         (exit 0)
-php bin/cert validate           → 17 rules, 163 official items, 326 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 66.26% (108/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 825 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 361 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 73.01% (119/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 836 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run typecheck → tsc --noEmit clean                                        (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files, onBrokenLinks: 'throw'     (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
-artefact                        → no server-side code; practice=LEARNING(222), exam=VALIDATION(85);
-                                  19 holdout questions, none in either payload
+artefact                        → no server-side code; practice=LEARNING(245), exam=VALIDATION(95);
+                                  21 holdout questions, none in either payload
 ```
 
 `CRS-001` blocked the first draft once, on `TransformationFailedException` — a
@@ -262,14 +267,17 @@ Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 ## Next action
 
-**Lot 10 — Security** (11 items), in Master Plan §14 order. Dedicated branch,
+**Lot 11 — Messenger** (7 items), in Master Plan §14 order. Dedicated branch,
 Pull Request, CI, controlled merge, deploy, production smoke test, per §15.
 
-One Lot 10 item is already EXAM_READY and published ahead of its lot —
-*Authenticators, Passports and Badges* (`OIT-s3jh7wg5km19`). Its early-delivery
-notice states that the Firewalls, Users and Providers prerequisites arrive with
-this lot; **writing them is what removes that notice**, and removing it belongs
-to Lot 10's definition of done.
+Remaining after that: lot-12 Console (9), lot-13 Automated Tests (9), lot-14
+Miscellaneous (3), then the fifteen single- and double-item lots 15–26, and
+Lot 27 (final review and mock exams). Forty-four items remain.
+
+**Working rule adopted at the owner's instruction:** no sleep, no polling loop,
+no background process waiting on a resource. CI and deploy are checked **once**,
+explicitly; if a job is still running it is reported as such rather than waited
+out.
 
 `POOL-002` stays in force: a lot is not finished until every `STANDARD` or
 `DEEP` item carries a VALIDATION question.
@@ -285,11 +293,10 @@ distinction or an application rather than recognition alone.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: 39 362 body words for 108 items, ~364 per item. Per-lot:
-  376, 407, 397, 329, 286, 329, 341, 420, **415**. Projection to 163 items
-  ≈ 59 000 words. Lots 08 and 09 are the heaviest per item, for the same
-  legible reason: almost nothing fell to MINIMAL, because almost every item
-  needed a distinction or an application rather than recognition.
+- **revision burden**: 43 159 body words for 119 items, ~363 per item. Per-lot:
+  376, 407, 397, 329, 286, 329, 341, 420, 415, **349**. Projection to 163 items
+  ≈ 59 000 words, stable across three lots. Lot 10 came in lighter than 08 and
+  09 because the Security topic splits into more, smaller items.
 - **French questions**: 21 of 287, and the last four lots added none. The
   policy is now **decided** rather than drifting — P2.5 of the audit keeps
   English as the question language, since the exam is sat in English (§5), and
