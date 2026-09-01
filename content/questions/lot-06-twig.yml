@@ -1,0 +1,1923 @@
+# Lot 06 — Templating with Twig question bank (Master Plan §7).
+#
+# 29 LEARNING questions (2 per official item, 3 for the DEEP one), 10
+# VALIDATION questions — one per STANDARD or DEEP item, as rule POOL-002
+# requires — and 2 HOLDOUT questions reserved for the final mocks.
+#
+# Twig claims are anchored to the v3.22.0 tag, the version the syllabus names
+# verbatim. Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+
+questions:
+- id: QST-nqeq65rj5m97
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-b9x8az2bx4t8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which package provides the Twig extensions that expose Symfony's routing and translation inside a template?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - twigbundle
+  choices:
+  - id: CHO-3b734xahjpmx
+    text: symfony/twig-bridge
+    correct: true
+  - id: CHO-55466we1vth6
+    text: twig/twig
+    correct: false
+    explanation: The engine knows nothing about Symfony; it provides only the language and its core filters.
+  - id: CHO-fektbn8ez3d1
+    text: symfony/twig-bundle
+    correct: false
+    explanation: The bundle configures the integration; the extensions themselves come from the bridge.
+  - id: CHO-ragpb86dr4bp
+    text: symfony/framework-bundle
+    correct: false
+    explanation: It wires the framework, not Twig.
+  explanation: 'Three packages, three roles: the engine, the bridge that exposes Symfony components to templates,
+    and the bundle that makes it all configurable.'
+  official_sources: &id001
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
+- id: QST-k1qgrrevaw40
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-b9x8az2bx4t8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A typo in a variable name renders nothing and raises no error. Which option changes that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - twigbundle
+  - strict-variables
+  choices:
+  - id: CHO-rf0axyj3kwnt
+    text: twig.strict_variables
+    correct: true
+  - id: CHO-972chvheezs2
+    text: twig.debug
+    correct: false
+    explanation: Debug affects caching and error pages, not undefined-variable behaviour.
+  - id: CHO-ekmma97qa9dq
+    text: twig.autoescape
+    correct: false
+    explanation: Escaping is about output safety, not about missing variables.
+  - id: CHO-5c5zzcxvmj3z
+    text: framework.strict_variables
+    correct: false
+    explanation: The option belongs to the twig configuration tree, not the framework one.
+  explanation: Without strict_variables an unresolved name yields null. With it, Twig throws Twig\Error\RuntimeError
+    instead.
+  official_sources: *id001
+- id: QST-2xamk5ahfyyn
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: For {{ foo.bar }}, which access does Twig try FIRST?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - syntax
+  - resolution
+  choices:
+  - id: CHO-6e4cyz93wmrf
+    text: $foo['bar']
+    correct: true
+  - id: CHO-zqx7aqm88p3r
+    text: $foo->bar
+    correct: false
+    explanation: The public property is tried second, after the array access.
+  - id: CHO-epcfdct0bs5a
+    text: $foo->getBar()
+    correct: false
+    explanation: The getter comes fourth in the order.
+  - id: CHO-cjr0d789jagw
+    text: $foo->bar()
+    correct: false
+    explanation: The public method comes third.
+  explanation: The order is array, property, method, getter, isser, hasser, then null — or a RuntimeError under
+    strict_variables. An object implementing ArrayAccess therefore sees the array access win.
+  official_sources: *id001
+- id: QST-fendqkqnnjqj
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which operator concatenates two strings in Twig?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - syntax
+  - operators
+  choices:
+  - id: CHO-9sbjj7e7d1vg
+    text: '~'
+    correct: true
+  - id: CHO-pj4vg7chh5z9
+    text: +
+    correct: false
+    explanation: In Twig + is a numeric addition; 'a' + 'b' evaluates to 0.
+  - id: CHO-328h8h6sqkv5
+    text: .
+    correct: false
+    explanation: The dot accesses a property or key; it does not concatenate.
+  - id: CHO-115d4gptav6g
+    text: '&'
+    correct: false
+    explanation: Twig has no & concatenation operator.
+  explanation: 'Logical operators follow the same word-based style: and, or and not, never &&, || or !.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: Operators
+    verified_at: '2026-09-01'
+- id: QST-1s9t39gm4yfj
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which delimiter executes a statement without printing anything?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - syntax
+  - delimiters
+  choices:
+  - id: CHO-1s6hzzd6v8cx
+    text: '{% … %}'
+    correct: true
+  - id: CHO-3kkr99r417a5
+    text: '{{ … }}'
+    correct: false
+    explanation: That one prints the result of an expression.
+  - id: CHO-x5tx5aw56mfk
+    text: '{# … #}'
+    correct: false
+    explanation: That is a comment and is never rendered.
+  - id: CHO-7qnb7w4y7pej
+    text: '{$ … $}'
+    correct: false
+    explanation: No such delimiter exists in Twig.
+  explanation: 'Three delimiters, one role each: {{ }} prints, {% %} executes, {# #} comments.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: Synopsis
+    verified_at: '2026-09-01'
+- id: QST-mr5y3tea9rgw
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A value is inserted into an unquoted HTML attribute: data-role={{ value }}. Which escaping strategy
+    is required?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - escaping
+  choices:
+  - id: CHO-jvb0grhqpx3d
+    text: html_attr
+    correct: true
+  - id: CHO-gb2fg08ktq4q
+    text: html
+    correct: false
+    explanation: html covers the HTML body and attribute values inside quotes; an unquoted attribute needs more.
+  - id: CHO-m78yxhvwzhgd
+    text: url
+    correct: false
+    explanation: url is for a URI subcomponent, not an attribute.
+  - id: CHO-8s5hkstta280
+    text: js
+    correct: false
+    explanation: js is for JavaScript and JSON strings.
+  explanation: The five strategies are html, js, css, url and html_attr. The html/html_attr boundary is exactly
+    the presence of quotes around the attribute value.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+    branch: v3.22.0
+    symbol_or_lines: escaping strategies
+    verified_at: '2026-09-01'
+- id: QST-hqqnvh8n266m
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which filter outputs a value without escaping it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - escaping
+  choices:
+  - id: CHO-dsrqsw24v6wb
+    text: raw
+    correct: true
+  - id: CHO-y0ta3zq796h9
+    text: escape
+    correct: false
+    explanation: 'escape does the opposite: it applies a strategy.'
+  - id: CHO-a15h0y5t86d9
+    text: e
+    correct: false
+    explanation: e is an alias of escape.
+  - id: CHO-tyax5hnspp54
+    text: safe
+    correct: false
+    explanation: No such filter exists in Twig.
+  explanation: Auto-escaping is on by default with the html strategy, and it applies at output time, not at assignment.
+    raw opts a single value out of it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
+    branch: v3.22.0
+    symbol_or_lines: raw filter
+    verified_at: '2026-09-01'
+- id: QST-f9dbbk5scdxt
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-g3p8wdtww344
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A child template extends a parent and writes a paragraph outside any block. What is rendered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - inheritance
+  choices:
+  - id: CHO-t80q6p186yg2
+    text: Nothing — a child renders only its blocks
+    correct: true
+  - id: CHO-9sqz15havj6g
+    text: The paragraph, before the parent's output
+    correct: false
+    explanation: Content outside a block in a child is discarded, not repositioned.
+  - id: CHO-qdxterbbd0kc
+    text: The paragraph, after the parent's output
+    correct: false
+    explanation: It is not appended either.
+  - id: CHO-jd9z38z4ectq
+    text: A Twig syntax error
+    correct: false
+    explanation: The template is valid; the content is simply ignored.
+  explanation: Only blocks cross the inheritance boundary. This fails silently, which is what makes it a common
+    surprise.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
+    branch: v3.22.0
+    symbol_or_lines: child templates render only blocks
+    verified_at: '2026-09-01'
+- id: QST-81q6m585fqxs
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-g3p8wdtww344
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does a child template add to a parent block instead of replacing it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - inheritance
+  choices:
+  - id: CHO-qy7tpps7e005
+    text: By calling {{ parent() }} inside the block
+    correct: true
+  - id: CHO-1by6hw3ykvbz
+    text: By adding the append keyword to the block tag
+    correct: false
+    explanation: Twig has no append keyword for blocks.
+  - id: CHO-vbp77xfpchyk
+    text: By declaring the block twice
+    correct: false
+    explanation: A duplicate block name is an error, not an append.
+  - id: CHO-bzd7g8wj0w8q
+    text: By using {% use %} on the parent
+    correct: false
+    explanation: use imports blocks horizontally; it does not append to one.
+  explanation: 'Inheritance is single: a template extends exactly one parent, and {% extends %} must be its first
+    tag. {% use %} is the separate horizontal-reuse mechanism.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
+    branch: v3.22.0
+    symbol_or_lines: parent()
+    verified_at: '2026-09-01'
+- id: QST-m6pb3s1ek4qg
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-dp7w7s85wxjg
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Twig expression gives the name of the current route?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - globals
+  - app
+  choices:
+  - id: CHO-hcm0b1rp67a6
+    text: app.current_route
+    correct: true
+  - id: CHO-04rw1n33fdwv
+    text: app.route
+    correct: false
+    explanation: No such property exists on the app variable.
+  - id: CHO-gvmvv31q8tzb
+    text: app.request.route
+    correct: false
+    explanation: Request has no route property; the name lives in its attributes.
+  - id: CHO-n0305ggv953q
+    text: path()
+    correct: false
+    explanation: path() generates a URL from a route name; it does not report the current one.
+  explanation: app.current_route is the documented shortcut for app.request.attributes.get('_route'), with app.current_route_parameters
+    alongside it.
+  official_sources: *id001
+- id: QST-m49e8kfejtww
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-dp7w7s85wxjg
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which configuration key makes a value available in every template without a controller passing it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - globals
+  - config
+  choices:
+  - id: CHO-8a5hqnke2e8r
+    text: twig.globals
+    correct: true
+  - id: CHO-s7xmm5rdw24p
+    text: twig.paths
+    correct: false
+    explanation: paths registers template directories, not variables.
+  - id: CHO-373qs893am06
+    text: framework.globals
+    correct: false
+    explanation: No such key exists.
+  - id: CHO-g7arnx5h32x1
+    text: twig.default_path
+    correct: false
+    explanation: That moves the templates directory.
+  explanation: A global suits an application-wide constant. It is not a substitute for passing page data, which
+    stays the controller's job.
+  official_sources: *id001
+- id: QST-kpt3rdmkphrw
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sqekx9pkbe5v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What distinguishes a Twig filter from a Twig function?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - filters
+  choices:
+  - id: CHO-qy98pg8fhqyd
+    text: A filter transforms an existing value and is applied with |
+    correct: true
+  - id: CHO-x1xsp06rqss7
+    text: A filter can take no arguments
+    correct: false
+    explanation: 'Filters accept arguments: number_format(2, '','', '' '') is a filter call.'
+  - id: CHO-x8gdj8tbdcnp
+    text: A function can only be used inside {% %}
+    correct: false
+    explanation: Functions are used in {{ }} expressions too.
+  - id: CHO-bsschvkvakze
+    text: A filter always returns a string
+    correct: false
+    explanation: Filters return whatever their implementation produces.
+  explanation: Start from a value and you want a filter; start from nothing and you want a function. date exists
+    as both, which is what makes the distinction visible.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: Filters and Functions
+    verified_at: '2026-09-01'
+- id: QST-s6snn83ndr2e
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sqekx9pkbe5v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which console command lists the filters, functions and globals actually available in the application?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - filters
+  - debug
+  choices:
+  - id: CHO-mx9sv9s6xft2
+    text: debug:twig
+    correct: true
+  - id: CHO-ztgp9bczrmr3
+    text: lint:twig
+    correct: false
+    explanation: It validates syntax; it lists nothing.
+  - id: CHO-7rc8mecy79g4
+    text: debug:container
+    correct: false
+    explanation: That inspects services, not the Twig environment's extensions.
+  - id: CHO-03a1ds4qam1e
+    text: twig:debug
+    correct: false
+    explanation: The command name is the other way round.
+  explanation: It also reports the registered template paths, which is the fastest way to see why a namespace does
+    not resolve.
+  official_sources: *id001
+- id: QST-ds7wq19b5c0b
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ds2p5d4eg0pq
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the only keyword change on an include?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - include
+  - context
+  choices:
+  - id: CHO-cd4sg8fbtfr4
+    text: The caller's context is no longer inherited
+    correct: true
+  - id: CHO-2jhksmc7nsts
+    text: The template is rendered once and cached
+    correct: false
+    explanation: Nothing about caching is implied.
+  - id: CHO-d5qr069v83qh
+    text: A missing template stops raising an error
+    correct: false
+    explanation: That is what ignore missing does.
+  - id: CHO-p93x0q2c4m16
+    text: The included template may no longer define blocks
+    correct: false
+    explanation: Block definitions are unaffected by the context rules.
+  explanation: 'By default an included template sees the whole calling context plus what is passed to it. only,
+    and with_context: false in the function form, cut that inheritance and force the fragment to declare its inputs.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+    branch: v3.22.0
+    symbol_or_lines: only keyword
+    verified_at: '2026-09-01'
+- id: QST-kvtpnyrtd4xj
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ds2p5d4eg0pq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: You must insert a template AND override one of its blocks at the insertion point. Which tag?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - include
+  - embed
+  choices:
+  - id: CHO-jd1w6dgfnemt
+    text: '{% embed %}'
+    correct: true
+  - id: CHO-wsk573kg466y
+    text: '{% include %}'
+    correct: false
+    explanation: include inserts the rendered template as-is; it cannot override its blocks.
+  - id: CHO-r16qyakp09yz
+    text: '{% extends %}'
+    correct: false
+    explanation: extends builds an inheritance chain; it does not insert a fragment into a page.
+  - id: CHO-yfwbped9aema
+    text: '{% use %}'
+    correct: false
+    explanation: use imports blocks into the current template rather than rendering another one.
+  explanation: embed combines include and extends — the documentation calls an embedded template a micro layout
+    skeleton.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst
+    branch: v3.22.0
+    symbol_or_lines: embed combines include and extends
+    verified_at: '2026-09-01'
+- id: QST-ectrc20a3daw
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the value of loop.index on the first iteration?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - loops
+  choices:
+  - id: CHO-ef5tbgq5vb6z
+    text: '1'
+    correct: true
+  - id: CHO-4bg96abks71x
+    text: '0'
+    correct: false
+    explanation: loop.index0 is the zero-based counter; loop.index starts at 1.
+  - id: CHO-636gbaxjexd2
+    text: 'null'
+    correct: false
+    explanation: It is always defined inside the loop body.
+  - id: CHO-zgd878hzqz9f
+    text: It depends on the array keys
+    correct: false
+    explanation: The counter is independent of the keys.
+  explanation: loop.length, loop.revindex, loop.revindex0 and loop.last are the four that require a PHP array or
+    a Countable object.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    branch: v3.22.0
+    symbol_or_lines: loop variable table
+    verified_at: '2026-09-01'
+- id: QST-12bq5dm5yc6s
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A template must render only active users from a collection. Twig has no break or continue. What does
+    the documentation recommend?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - loops
+  choices:
+  - id: CHO-dp8n32475jx7
+    text: 'Filtering the sequence: users|filter(u => u.isActive)'
+    correct: true
+  - id: CHO-np1erz7d2eeq
+    text: Wrapping the body in an if and letting the loop run
+    correct: false
+    explanation: It works but iterates everything; filter is the documented approach and keeps loop.* meaningful.
+  - id: CHO-awmr3s3jyrjg
+    text: Using {% for %} with a condition clause
+    correct: false
+    explanation: Twig 3 has no condition clause on for.
+  - id: CHO-b8jnykrzvgm5
+    text: Calling loop.break
+    correct: false
+    explanation: No such variable or method exists.
+  explanation: filter, slice and sort restrict the sequence before iteration. The else clause of {% for %} then
+    covers the empty case.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    branch: v3.22.0
+    symbol_or_lines: filter and slice
+    verified_at: '2026-09-01'
+- id: QST-n45xyv1gqstp
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-yh6zx9shv9vs
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the difference between path() and url() in a template?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - urls
+  choices:
+  - id: CHO-1r79ddnczmw5
+    text: path() returns an absolute path, url() an absolute URL
+    correct: true
+  - id: CHO-1hg5q63fjf6m
+    text: path() returns a relative path, url() an absolute path
+    correct: false
+    explanation: path() is absolute-path by default; a relative path needs its third argument.
+  - id: CHO-5ry3ad4s7eh2
+    text: path() works only for internal routes, url() for external ones
+    correct: false
+    explanation: Both take a route name; neither takes an external URL.
+  - id: CHO-qxdhpeynpvz6
+    text: They are aliases of each other
+    correct: false
+    explanation: They differ precisely in the reference type produced.
+  explanation: 'Both take the same arguments: a route name and a parameter array. A parameter absent from the route
+    becomes a query string.'
+  official_sources: &id002
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Twig reference
+    verified_at: '2026-09-01'
+- id: QST-p2ceq2j1mg16
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-yh6zx9shv9vs
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A route defines only {slug}, and a template calls path(''post'', {slug: ''x'', ref: ''nl''}). What
+    is generated?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - urls
+  choices:
+  - id: CHO-ggrf90spzqst
+    text: /post/x?ref=nl
+    correct: true
+  - id: CHO-08w4dkv3a2va
+    text: /post/x
+    correct: false
+    explanation: An extra parameter is not dropped.
+  - id: CHO-ch2mppveyrnv
+    text: /post/x/nl
+    correct: false
+    explanation: A parameter absent from the path is never appended as a segment.
+  - id: CHO-653xvfcg9kn0
+    text: A RouteNotFoundException
+    correct: false
+    explanation: The route exists; unknown parameters are accepted.
+  explanation: The generator behaves identically whether it is called from a controller, a service or a template.
+  official_sources: *id002
+- id: QST-s7bzj5nsnw1g
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-c34hn4px3czj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A sidebar must show data from a controller that has no route. Which template call works?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - render
+  - fragments
+  choices:
+  - id: CHO-eyfxaf8tk2tt
+    text: '{{ render(controller(''App\\Controller\\BlogController::recent'')) }}'
+    correct: true
+  - id: CHO-9a11q2tjh0th
+    text: '{{ render(path(''app_blog_recent'')) }}'
+    correct: false
+    explanation: path() needs a route, and this controller has none.
+  - id: CHO-p3vrkd53z3wb
+    text: '{{ include(''App\\Controller\\BlogController::recent'') }}'
+    correct: false
+    explanation: include renders a template, not a controller.
+  - id: CHO-t0d7vt1wmnk0
+    text: '{{ controller(''App\\Controller\\BlogController::recent'') }}'
+    correct: false
+    explanation: controller() only builds a reference; render() executes it.
+  explanation: render() takes a URL or a controller reference. Each call is a sub-request, which is why they are
+    not free.
+  official_sources: *id001
+- id: QST-nfe9sv3qesa2
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-c34hn4px3czj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which configuration option defines the internal URL used to serve template fragments?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - render
+  - fragments
+  choices:
+  - id: CHO-xejqk6agkyr2
+    text: framework.fragments.path
+    correct: true
+  - id: CHO-sh6ygpceda0h
+    text: twig.fragments.path
+    correct: false
+    explanation: Fragment serving is a framework concern, not a Twig one.
+  - id: CHO-8t17ja32k4am
+    text: framework.router.fragment_path
+    correct: false
+    explanation: No such option exists.
+  - id: CHO-dpvf4hynj7nb
+    text: twig.paths
+    correct: false
+    explanation: That registers template directories.
+  explanation: Controllers called through controller() are reached by a dedicated internal URL, /_fragment by default,
+    rather than by a regular route.
+  official_sources: *id001
+- id: QST-6vv657ts3r2y
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the argument order of the trans filter?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - translation
+  choices:
+  - id: CHO-eq1a3r0ydzfk
+    text: parameters, domain, locale
+    correct: true
+  - id: CHO-e90q760vsfmh
+    text: domain, parameters, locale
+    correct: false
+    explanation: The parameter array comes first.
+  - id: CHO-x79vytnby4k3
+    text: parameters, locale, domain
+    correct: false
+    explanation: The domain precedes the locale.
+  - id: CHO-5490qp2n6cjr
+    text: locale, domain, parameters
+    correct: false
+    explanation: The order is inverted entirely.
+  explanation: An omitted domain means messages; an omitted locale means the request's. trans_default_domain changes
+    the default for a whole template.
+  official_sources: *id002
+- id: QST-q8q1ra28925h
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which requirement applies when a message uses ICU MessageFormat for pluralization?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-7hde9fw49vkv
+    text: The catalogue filename carries the +intl-icu suffix
+    correct: true
+  - id: CHO-61fm07q7btpd
+    text: The message must use %count% as the placeholder
+    correct: false
+    explanation: ICU placeholders are written {count}, with braces, not with percent signs.
+  - id: CHO-35ajywnk4v8c
+    text: The trans filter must receive the locale explicitly
+    correct: false
+    explanation: The locale is resolved as usual.
+  - id: CHO-thjd62sad88h
+    text: The template must declare trans_default_domain
+    correct: false
+    explanation: The default domain is unrelated to ICU.
+  explanation: ICU is the recommended approach and covers gender and locale-specific rules as well as counts. The
+    legacy pipe syntax still works but is no longer recommended.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    branch: '8.0'
+    symbol_or_lines: ICU MessageFormat, +intl-icu suffix
+    verified_at: '2026-09-01'
+- id: QST-z1dcqdz8cm6a
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-30gnb617ksex
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does {{ ''Hello #{name}'' }} output when name is ''Ada''?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - interpolation
+  choices:
+  - id: CHO-8g0rrw8h2rg6
+    text: 'Hello #{name}'
+    correct: true
+  - id: CHO-s36wxm3n6zjz
+    text: Hello Ada
+    correct: false
+    explanation: Interpolation works in double-quoted strings only; this one is single-quoted.
+  - id: CHO-1g5bp0txj9y2
+    text: Hello
+    correct: false
+    explanation: Nothing is stripped from the string.
+  - id: CHO-e6a3vw9adf2z
+    text: A Twig syntax error
+    correct: false
+    explanation: The string is valid; it is simply not interpolated.
+  explanation: In a double-quoted string the same expression would interpolate. A backslash — \#{…} — escapes it
+    when the literal text is wanted.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: String Interpolation
+    verified_at: '2026-09-01'
+- id: QST-e8w4fyajxpm5
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-30gnb617ksex
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What may appear inside #{…} in a double-quoted Twig string?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - interpolation
+  choices:
+  - id: CHO-rdqtjbw2g26r
+    text: Any valid expression
+    correct: true
+  - id: CHO-j7yr2bhpa813
+    text: Only a variable name
+    correct: false
+    explanation: 'Arithmetic and filters are allowed too: "#{1 + 2}" works.'
+  - id: CHO-fvvyv8gep1dd
+    text: Only a variable or a property access
+    correct: false
+    explanation: The restriction does not exist.
+  - id: CHO-jsnmq5g2fnad
+    text: Only a string literal
+    correct: false
+    explanation: That would make interpolation pointless.
+  explanation: 'The documentation states it explicitly: any valid expression may appear, and its evaluated result
+    is inserted into the string.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: String Interpolation
+    verified_at: '2026-09-01'
+- id: QST-sgmgf58d4tja
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-tw3xaqbz8xjy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why write {{ asset('css/app.css') }} instead of a hard-coded /css/app.css?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - assets
+  choices:
+  - id: CHO-9nyhkfkzbb0p
+    text: It applies the base path and the configured version strategy
+    correct: true
+  - id: CHO-zmzze871rbz9
+    text: It minifies the file
+    correct: false
+    explanation: asset() resolves a path; it transforms no file.
+  - id: CHO-7dx8hktpw1pc
+    text: It inlines the file contents
+    correct: false
+    explanation: Nothing is inlined.
+  - id: CHO-v5j6qkne1y03
+    text: It makes the file public
+    correct: false
+    explanation: Files under public/ are already served.
+  explanation: The base path matters whenever the site is not served from the domain root, and the version strategy
+    is what busts the browser cache when a file changes.
+  official_sources: *id002
+- id: QST-px35sagvb53s
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-tw3xaqbz8xjy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the optional second argument of asset()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - assets
+  choices:
+  - id: CHO-q1cc3xmzgyj6
+    text: The package name
+    correct: true
+  - id: CHO-t6h28xgjk5bv
+    text: The version string
+    correct: false
+    explanation: The version comes from the package configuration, not from the call.
+  - id: CHO-9tv09se6paad
+    text: The absolute base URL
+    correct: false
+    explanation: That is configured on the package.
+  - id: CHO-c33s4qfzpjj6
+    text: The MIME type
+    correct: false
+    explanation: asset() does not deal with content types.
+  explanation: framework.assets can declare several packages, each with its own base URL and version. asset_version()
+    reports the current version of one.
+  official_sources: *id002
+- id: QST-9qdj97kmt1m5
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-3r7rp470754w
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where does the output of {% dump articles %} appear?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - debug
+  choices:
+  - id: CHO-fasx4x47d5sk
+    text: In the web debug toolbar, not in the page
+    correct: true
+  - id: CHO-tntwagjvx5xf
+    text: Inline in the page, where the tag appears
+    correct: false
+    explanation: That is the dump() function; the tag deliberately keeps the page intact.
+  - id: CHO-gsyn0m7h0hrz
+    text: In var/log/dev.log
+    correct: false
+    explanation: Dumps are not written to the log file.
+  - id: CHO-47xrvj81fqs3
+    text: In the browser console
+    correct: false
+    explanation: Nothing is emitted as JavaScript.
+  explanation: The tag suits inspecting a variable without disturbing the layout; the function suits seeing the
+    value in place.
+  official_sources: *id001
+- id: QST-tk7sqrt8mcwa
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-3r7rp470754w
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What happens if a dump() call is left in a template deployed to prod?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - debug
+  choices:
+  - id: CHO-9s2ep1g6n5ze
+    text: A PHP error, because the function does not exist there
+    correct: true
+  - id: CHO-kem7pvaww47e
+    text: It renders nothing and is silently ignored
+    correct: false
+    explanation: There is no silent fallback; the function is simply absent.
+  - id: CHO-ncdc8xr3w74j
+    text: It writes to the log instead of the page
+    correct: false
+    explanation: No logging fallback exists.
+  - id: CHO-kn61gy07eb8j
+    text: It works, but only for the profiler
+    correct: false
+    explanation: The profiler is not enabled in prod either.
+  explanation: 'dump() is available in dev and test only. The hard failure is deliberate: a forgotten dump would
+    otherwise leak internal state.'
+  official_sources: *id001
+- id: QST-x9m083b1vy99
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-b9x8az2bx4t8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A bundle is named AcmeBlogBundle. Which Twig namespace does it expose for its templates?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - twigbundle
+  - paths
+  choices:
+  - id: CHO-81nfh3smd3vk
+    text: '@AcmeBlog'
+    correct: true
+  - id: CHO-hm4c4ta7qnpg
+    text: '@AcmeBlogBundle'
+    correct: false
+    explanation: The Bundle suffix is dropped from the namespace.
+  - id: CHO-9jg8m1sascyc
+    text: '@Acme'
+    correct: false
+    explanation: Only the Bundle suffix is removed, not the rest of the name.
+  - id: CHO-y79skgghjdbp
+    text: '@acme_blog'
+    correct: false
+    explanation: The namespace keeps the class-name casing.
+  explanation: The namespace is the bundle name without its Bundle suffix. twig.paths registers further directories
+    under a namespace of your choosing.
+  official_sources: *id001
+- id: QST-1qy9s052f4x7
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: strict_variables is disabled and the template renders {{ user.nmae }}, a typo. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - syntax
+  choices:
+  - id: CHO-5wbaqy5hpd1g
+    text: Nothing is printed and no error is raised
+    correct: true
+  - id: CHO-ptdfmw6czg2s
+    text: A Twig\Error\RuntimeError is thrown
+    correct: false
+    explanation: That is what strict_variables would produce; it is disabled here.
+  - id: CHO-ehfxdp81t0zd
+    text: The literal text user.nmae is printed
+    correct: false
+    explanation: Twig evaluates the expression rather than echoing it.
+  - id: CHO-zyhy3dy4cr28
+    text: A PHP warning is emitted
+    correct: false
+    explanation: The resolution ends at null silently.
+  explanation: The resolution order ends with null when nothing matches. Enabling strict_variables turns that final
+    step into a RuntimeError instead.
+  official_sources: *id001
+- id: QST-xby38797935y
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: At which moment does Twig apply auto-escaping?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - escaping
+  choices:
+  - id: CHO-721134yypkhh
+    text: At output, when the value is printed
+    correct: true
+  - id: CHO-3w2rv2azksvd
+    text: At assignment, when {% set %} runs
+    correct: false
+    explanation: set stores the raw value; nothing is transformed there.
+  - id: CHO-gv5cq98ka4ea
+    text: At compilation of the template
+    correct: false
+    explanation: The value is not known at compile time.
+  - id: CHO-8gnszyeva5dp
+    text: When the controller passes the variable
+    correct: false
+    explanation: The controller is unaware of escaping.
+  explanation: This is why {% set x = y %} followed by {{ x }} escapes once, at the print, and why raw is a per-output
+    decision.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
+    branch: v3.22.0
+    symbol_or_lines: autoescape applies at output
+    verified_at: '2026-09-01'
+- id: QST-x7gb8yzg28gr
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-g3p8wdtww344
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How many templates may a single Twig template extend?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - inheritance
+  choices:
+  - id: CHO-1v7fe0kc6v9r
+    text: Exactly one
+    correct: true
+  - id: CHO-f0r68rbxg4qn
+    text: As many as needed, listed in one extends tag
+    correct: false
+    explanation: Twig inheritance is single by design.
+  - id: CHO-xas4cgj4zc0g
+    text: One per block
+    correct: false
+    explanation: Blocks do not carry their own inheritance.
+  - id: CHO-n1hxqw90t27x
+    text: Unlimited, through repeated extends tags
+    correct: false
+    explanation: A second extends tag is an error.
+  explanation: Single inheritance keeps the hierarchy debuggable. Horizontal reuse — importing blocks from several
+    templates with {% use %} — is the documented answer when more is needed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst
+    branch: v3.22.0
+    symbol_or_lines: single inheritance
+    verified_at: '2026-09-01'
+- id: QST-v0kcvw9tr42j
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-dp7w7s85wxjg
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A layout prints app.flashes twice, in a banner and in a sidebar. What does a visitor see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - globals
+  - flash
+  choices:
+  - id: CHO-fmn239cez3d9
+    text: The messages in the first place only
+    correct: true
+  - id: CHO-gzp9ftkygffz
+    text: The messages in both places
+    correct: false
+    explanation: Reading the flash bag consumes it, so the second read finds nothing.
+  - id: CHO-srty5xagkwq1
+    text: Nothing in either place
+    correct: false
+    explanation: The first read does return the messages.
+  - id: CHO-42yq9taj02zs
+    text: A Twig error on the second call
+    correct: false
+    explanation: An empty flash bag is not an error.
+  explanation: app.flashes consumes. app.session.flashbag.peekAll() reads without consuming and is what a second
+    display needs.
+  official_sources: *id001
+- id: QST-1tw52kh5s9sg
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sqekx9pkbe5v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which construction applies a filter to a whole block of markup?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - filters
+  choices:
+  - id: CHO-fp8z1h59455m
+    text: '{% apply upper %} … {% endapply %}'
+    correct: true
+  - id: CHO-5g13wx2gqqhj
+    text: '{% filter upper %} … {% endfilter %}'
+    correct: false
+    explanation: The filter tag was replaced by apply in Twig 3.
+  - id: CHO-5s3wzjc2mv2k
+    text: '{{ block|upper }}'
+    correct: false
+    explanation: There is no block variable to filter that way.
+  - id: CHO-jj0j315xgq5d
+    text: '{% set x|upper %} … {% endset %}'
+    correct: false
+    explanation: set captures a block but takes no filter in that position.
+  explanation: 'Filters chain left to right, so the order changes the result: |trim|lower and |lower|trim differ
+    when whitespace is significant.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: apply tag
+    verified_at: '2026-09-01'
+- id: QST-9rq28ydkg6wd
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ds2p5d4eg0pq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which keyword makes an include tolerate a template that does not exist?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - include
+  choices:
+  - id: CHO-0qcbnehv3pq0
+    text: ignore missing
+    correct: true
+  - id: CHO-cy7sxekgxwga
+    text: only
+    correct: false
+    explanation: only restricts the context passed to the included template.
+  - id: CHO-b51e0xff3stp
+    text: optional
+    correct: false
+    explanation: No such keyword exists in Twig.
+  - id: CHO-y7hsf0fb4ty1
+    text: if exists
+    correct: false
+    explanation: No such keyword exists in Twig.
+  explanation: 'The keywords combine in a fixed order: ignore missing, then with {…}, then only.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+    branch: v3.22.0
+    symbol_or_lines: ignore missing
+    verified_at: '2026-09-01'
+- id: QST-z8v1jx1y2qtm
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A template iterates a Generator and reads loop.last. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - loops
+  choices:
+  - id: CHO-wz1ff1p2619e
+    text: loop.last is not available for a generator
+    correct: true
+  - id: CHO-dhpvvrw2vscy
+    text: loop.last is true on the final yielded value
+    correct: false
+    explanation: Twig cannot know which value is last without consuming the generator.
+  - id: CHO-72vsmc6mc5c9
+    text: loop.last is always false
+    correct: false
+    explanation: The variable is not defined at all rather than being false.
+  - id: CHO-yrj9v6mxtw0s
+    text: The generator is converted to an array first
+    correct: false
+    explanation: Twig does not silently buffer the sequence.
+  explanation: loop.length, loop.revindex, loop.revindex0 and loop.last require a PHP array or a Countable object.
+    loop.index and loop.first work on any sequence.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    branch: v3.22.0
+    symbol_or_lines: note on loop variables and Countable
+    verified_at: '2026-09-01'
+- id: QST-3kvgb8y3ct0s
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-c34hn4px3czj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the runtime cost of {{ render(controller(...)) }} that a plain include does not have?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - render
+  choices:
+  - id: CHO-xm4pa5kb9911
+    text: It runs a full sub-request through the kernel
+    correct: true
+  - id: CHO-xbmsak4zxr8s
+    text: It opens a second database connection
+    correct: false
+    explanation: Nothing about fragments implies a new connection.
+  - id: CHO-xtv4t3bjth63
+    text: It issues an extra HTTP request from the browser
+    correct: false
+    explanation: The fragment is resolved server-side within the same response.
+  - id: CHO-2e4199wpq8nz
+    text: It disables the template cache for the page
+    correct: false
+    explanation: Template caching is unaffected.
+  explanation: 'That is the trade-off: a fragment gets its own controller and data, at the price of another pass
+    through the kernel. An include renders a template with the current context and costs almost nothing.'
+  official_sources: *id001
+- id: QST-t2dpk8eb1x43
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A template must translate a message from the store domain, leaving parameters and locale alone. Which
+    call is correct?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - translation
+  choices:
+  - id: CHO-x52yb4s0rn56
+    text: '{{ ''checkout.total''|trans({}, ''store'') }}'
+    correct: true
+  - id: CHO-f5ymx5k16n8s
+    text: '{{ ''checkout.total''|trans(''store'') }}'
+    correct: false
+    explanation: The first argument is the parameter array, so 'store' would be read as parameters.
+  - id: CHO-51sq942m9pyt
+    text: '{{ ''checkout.total''|trans({}, null, ''store'') }}'
+    correct: false
+    explanation: The third argument is the locale, not the domain.
+  - id: CHO-y8kbch9vmsd3
+    text: '{{ ''checkout.total''|trans(domain=''store'') }}'
+    correct: false
+    explanation: The filter takes positional arguments here; this is not its documented form.
+  explanation: The signature is trans(arguments, domain, locale). An empty array keeps the parameter slot while
+    reaching the domain.
+  official_sources: *id002
+- id: QST-070cvzmzmcsm
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which PHP function does Twig use internally for the html escaping strategy?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - escaping
+  choices:
+  - id: CHO-7qnn69vfx3c3
+    text: htmlspecialchars
+    correct: true
+  - id: CHO-vmhdndwk59kf
+    text: htmlentities
+    correct: false
+    explanation: It converts every applicable character to an entity, which is broader than what Twig applies.
+  - id: CHO-363je5xpkv6s
+    text: strip_tags
+    correct: false
+    explanation: That removes markup rather than escaping it.
+  - id: CHO-he5rd00pd6xv
+    text: filter_var with FILTER_SANITIZE_STRING
+    correct: false
+    explanation: That filter is unrelated and deprecated in modern PHP.
+  explanation: The escape filter documents this explicitly for the html strategy. The other strategies use their
+    own context-specific encoders.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+    branch: v3.22.0
+    symbol_or_lines: note on htmlspecialchars
+    verified_at: '2026-09-01'
+- id: QST-ptb3z27885ef
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the minus sign do in {{- value -}}?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - syntax
+  - whitespace
+  choices:
+  - id: CHO-mmcpps9gby8c
+    text: It strips the whitespace before and after the tag
+    correct: true
+  - id: CHO-vyvz1cp8s5ec
+    text: It negates the value numerically
+    correct: false
+    explanation: Negation would be written inside the expression, not on the delimiter.
+  - id: CHO-t8e859vn3jt8
+    text: It suppresses auto-escaping for that output
+    correct: false
+    explanation: Escaping is controlled by raw or the autoescape tag.
+  - id: CHO-70jw0vd0q6p0
+    text: It marks the value as optional
+    correct: false
+    explanation: No such meaning exists.
+  explanation: 'The modifier can be used on one side only: {{- value }} trims before, {{ value -}} trims after.
+    {% apply spaceless %} removes whitespace between HTML tags instead.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    branch: v3.22.0
+    symbol_or_lines: Whitespace Control
+    verified_at: '2026-09-01'

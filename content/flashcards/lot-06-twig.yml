@@ -1,0 +1,173 @@
+# Lot 06 flashcards (Master Plan §6).
+#
+# Nine cards covering eight of the fourteen items. Six carry none: TwigBundle,
+# Filters and functions, Template includes and Controller rendering (mechanisms
+# reasoned from a criterion, not recalled), URLs generation (one distinction the
+# course states in a line) and Assets management (one function signature).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-2e8x0yx9hbbp
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    front: "Twig : dans quel ordre {{ foo.bar }} est-il résolu ?"
+    back: "foo['bar'], puis foo->bar, foo->bar(), foo->getBar(), foo->isBar(), foo->hasBar(), sinon null."
+    explanation: >-
+      Le tableau est essayé en premier, avant la propriété : un objet qui
+      implémente ArrayAccess verra donc l'accès tableau gagner. La dernière
+      étape lève une Twig\Error\RuntimeError au lieu de retourner null si
+      l'option strict_variables est active.
+    memorization_justification: >-
+      Séquence ordonnée de six tentatives dont l'ordre décide du résultat, et
+      dont rien dans la syntaxe du gabarit ne donne d'indice.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Template Variables, resolution order"
+        verified_at: "2026-09-01"
+
+  - id: FLC-zv7yngs0n7zm
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    front: "Twig : que vaut {{ 'a' + 'b' }} ?"
+    back: "0. Le + est une addition numérique ; la concaténation s'écrit ~."
+    explanation: >-
+      Les opérateurs logiques suivent la même logique de mots : and, or et not,
+      jamais &&, || ni !.
+    memorization_justification: >-
+      L'habitude de PHP et de JavaScript pousse à écrire +, et le résultat est
+      un 0 silencieux plutôt qu'une erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "section Operators"
+        verified_at: "2026-09-01"
+
+  - id: FLC-a64hqxfhfzpc
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    front: "Twig : quelle stratégie d'échappement pour data-x={{ v }}, sans guillemets ?"
+    back: "html_attr. La stratégie html ne couvre que le corps HTML et les attributs entre guillemets."
+    explanation: >-
+      Les cinq stratégies sont html, js, css, url et html_attr. url ne vaut que
+      pour un sous-composant d'URI, jamais pour une URI entière.
+    memorization_justification: >-
+      La stratégie par défaut semble suffire partout ; la faille ouverte par un
+      attribut sans guillemets ne produit aucun signe visible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "escaping strategies list"
+        verified_at: "2026-09-01"
+
+  - id: FLC-mype643dt889
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    front: "Twig : que devient le contenu écrit hors d'un bloc dans un gabarit qui étend un parent ?"
+    back: "Il est ignoré. Un enfant n'affiche que ses blocs."
+    explanation: >-
+      L'héritage est simple — un seul extends — et la balise extends doit être
+      la première du gabarit. {{ parent() }} reprend le contenu du bloc parent.
+    memorization_justification: >-
+      Le contenu est écrit, valide, et disparaît sans erreur ni avertissement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "child template renders only blocks"
+        verified_at: "2026-09-01"
+
+  - id: FLC-y4mtc33awnjy
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    front: "Twig : loop.index commence à quelle valeur, et quelles variables de loop exigent un tableau ?"
+    back: "loop.index commence à 1. length, revindex, revindex0 et last exigent un tableau ou un Countable."
+    explanation: >-
+      loop.index0 commence à 0. Sur un itérateur ordinaire, Twig ne peut pas
+      connaître la taille sans consommer la séquence, donc ces quatre variables
+      n'existent pas.
+    memorization_justification: >-
+      Un indice à 1 contredit l'habitude PHP, et la restriction sur les
+      itérateurs ne se manifeste qu'à l'exécution, sur un type particulier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "loop variable table and note"
+        verified_at: "2026-09-01"
+
+  - id: FLC-n6w80mr1j8s1
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    front: "Twig : comment sortir d'une boucle par anticipation ?"
+    back: "On ne peut pas : il n'y a ni break ni continue. On restreint la séquence avec filter, slice ou sort."
+    explanation: >-
+      La clause else de {% for %} couvre le cas de la séquence vide, ce qui
+      évite un if englobant.
+    memorization_justification: >-
+      L'absence d'une construction attendue dans tous les autres langages ; on
+      la cherche avant de comprendre qu'il faut filtrer en amont.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "no break/continue, filter and slice"
+        verified_at: "2026-09-01"
+
+  - id: FLC-2qe2jetwm5pq
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    front: "Twig : quel est l'ordre des arguments du filtre trans ?"
+    back: "trans(paramètres, domaine, locale). Domaine par défaut : messages."
+    explanation: >-
+      Les paramètres classiques s'écrivent %nom% ; ICU utilise {nom} et exige un
+      fichier suffixé +intl-icu.
+    memorization_justification: >-
+      Trois arguments positionnels dont deux facultatifs ; inverser domaine et
+      locale produit une traduction manquante plutôt qu'une erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        branch: "8.0"
+        symbol_or_lines: "trans filter signature"
+        verified_at: "2026-09-01"
+
+  - id: FLC-he6t8kt6dpva
+    official_item: OIT-30gnb617ksex
+    language: fr
+    front: "Twig : dans quel type de chaîne l'interpolation #{…} fonctionne-t-elle ?"
+    back: "Uniquement dans une chaîne à guillemets doubles. En guillemets simples, c'est du texte littéral."
+    explanation: >-
+      Le choix des guillemets n'a aucun effet sur les performances : il ne décide
+      que de cela. Une barre oblique inverse échappe l'interpolation.
+    memorization_justification: >-
+      Contrainte arbitraire, sans erreur à la clé : la chaîne s'affiche
+      littéralement, ce qui se remarque tard.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        branch: "v3.22.0"
+        symbol_or_lines: "section String Interpolation"
+        verified_at: "2026-09-01"
+
+  - id: FLC-f2fz5g5z16nj
+    official_item: OIT-3r7rp470754w
+    language: fr
+    front: "Twig : où s'affiche {% dump x %}, et où {{ dump(x) }} ?"
+    back: "La balise envoie à la barre de débogage ; la fonction affiche dans la page."
+    explanation: >-
+      Les deux ne sont disponibles qu'en environnement dev et test. En prod,
+      l'appel produit une erreur PHP, ce qui est délibéré.
+    memorization_justification: >-
+      Deux écritures du même nom pour deux destinations opposées ; se tromper
+      casse la mise en page ou fait chercher une sortie qui n'apparaît pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Debugging Variables"
+        verified_at: "2026-09-01"

@@ -6,27 +6,12 @@
 
 ## Current lot
 
-**UX pass, after the hardening pass — delivered.** The learner-facing navigation
-now shows topic names — `05 — Routing` rather than `lot-05` — from a new
-canonical registry, `docs/syllabus/lots.yml` (Master Plan §14 names; names only,
-never scope). Directory names, URLs and identifiers are unchanged, so no
-redirect was needed. The number is the **recommended revision order only**: not
-an exam weighting, not a priority, and the official syllabus publishes no order.
-Reports and governance pages keep the word "Lot", where a lot really is a unit
-of delivery.
+**Lot 06 — Templating with Twig: PASS** (14 items). Lots 0 through 05 are
+complete. Next: **Lot 07 — Forms** (13 items).
 
-Branch `ux-topic-navigation-labels`, commit `0808ddc`,
-[PR #8](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/8),
-merge `783acc7`. CI run `33512878717` **success**; Deploy run `33512878760`
-**success** across build (`99872613488`), deploy (`99872951066`) and the
-**production smoke test** (`99873030693`).
-Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
-
-**Hardening pass, after Lot 05.** Four corrections requested by the owner:
-`CRS-001` scoped so a fence cannot hide another item's answer; the accessibility
-audit made to refuse a stale build; the `VALIDATION` pool defined and filled
-(ADR-0006); `CLAUDE.md` updated with all three as permanent rules. Lots 0
-through 05 are complete. Next: **Lot 06 — Templating with Twig** (14 items).
+Twig claims are anchored to the **v3.22.0 tag** (`5079583d7313`), the version
+the syllabus names verbatim; `source-map.yml` now records that tag instead of
+the moving `3.x` branch, which is ahead of it.
 
 ## Current branch
 
@@ -110,10 +95,10 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 61 EXAM_READY.**
+**163 imported, 75 EXAM_READY.**
 
 ```text
-coverage = 61 / 163 = 37.42%
+coverage = 75 / 163 = 46.01%
 ```
 
 | Lot | Topic | Items |
@@ -124,22 +109,23 @@ coverage = 61 / 163 = 37.42%
 | 03 | Symfony Architecture | 15 |
 | 04 | Controllers | 14 |
 | 05 | Routing (minus Configuration) | 11 |
+| 06 | Templating with Twig | 14 |
 
-Content: 61 courses (21 745 body words), 44 flashcards, 123 LEARNING and 11
-HOLDOUT questions, 0 exercises. English share of the question bank: 113/134
-overall, 23/24 for Lot 05.
+Content: 75 courses (26 361 body words), 53 flashcards, 152 LEARNING, 56
+VALIDATION and 13 HOLDOUT questions, 0 exercises. English share of the bank:
+200/221.
 
-Level distribution so far — **observation, not a target**: 42 `STANDARD`,
-15 `MINIMAL`, 4 `DEEP`. Three lots, three shapes: Lot 03 10/3/2, Lot 04 8/5/1,
-Lot 05 8/3/**0**. A lot with no `DEEP` item is complete, and Lot 05 is the
-first — routing has no mechanism here whose order is itself scored.
+Level distribution so far — **observation, not a target**: 51 `STANDARD`,
+19 `MINIMAL`, 5 `DEEP`. Four lots, four shapes: Lot 03 10/3/2, Lot 04 8/5/1,
+Lot 05 8/3/0, Lot 06 9/4/1.
 
 Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-01`](docs/reports/lot-01-report.md),
 [`lot-02`](docs/reports/lot-02-report.md),
 [`lot-03`](docs/reports/lot-03-report.md),
 [`lot-04`](docs/reports/lot-04-report.md),
-[`lot-05`](docs/reports/lot-05-report.md).
+[`lot-05`](docs/reports/lot-05-report.md),
+[`lot-06`](docs/reports/lot-06-report.md).
 
 ### Cross-lot boundaries now load-bearing
 
@@ -208,66 +194,55 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `ux-topic-navigation-labels`, every command run with
+Locally, on PHP 8.4.19, on `lot-06-templating-twig`, every command run with
 `set -o pipefail` and its exit code checked:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 180 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)                          (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 787 assertions)                                 (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 221 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 46.01% (75/163 EXAM_READY)                          (exit 0)
+php bin/cert build              → docs tree + coverage.json, exam.json, practice.json           (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 796 assertions)                                 (exit 0)
 npm --prefix website run build  → SUCCESS                                                      (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                        (exit 0)
 ```
 
-Rendered sidebar checked in the built HTML: 26 lot categories read
-`01 — PHP 8.4 Foundations` … `26 — Serializer`, in revision order, with no raw
-`lot-NN` label left. Breadcrumbs read *Parcours de révision › 09 — Dependency
-Injection › Semantic configuration*. Previous/Next are unaffected — they follow
-`sidebar_position`, which now carries the registry's order.
+`CRS-001` blocked the first draft of Lot 06 with five violations across four
+courses — three distinct leaked answers, one of them reaching two other items'
+courses. All three were fixed by rewriting the **questions** so their answer is
+no longer a string the courses must print; no content was cut and nothing was
+moved into a fence.
 
-Responsive check with Playwright at 375, 768 and 1280 px: no horizontal
-overflow at any width, the mobile toggle appears below 997 px, and the topic
-label renders identically in the drawer and the desktop sidebar.
-
-Payloads unchanged by this pass: `practice.json` = LEARNING/123,
-`exam.json` = **VALIDATION**/46, no holdout in either.
+Pools verified against the built payloads: `practice.json` = LEARNING,
+`exam.json` = **VALIDATION**, no holdout question in either.
 
 ## Next action
 
-**Lot 06 — Templating with Twig** (14 items): TwigBundle, Twig syntax up to
-3.22, Auto escaping, Template inheritance, Global variables, Filters and
-functions, Template includes, Loops and conditions, URLs generation, Controller
-rendering, Translations and pluralization, String interpolation, Assets
-management, Debugging variables.
+**Lot 07 — Forms** (13 items): Form component, Forms creation, Forms handling,
+Form types (built-in and custom), Forms rendering with Twig, Forms theming,
+CSRF protection, Handling file upload, Built-in form types, Data transformers,
+Form events, Form type extensions, Form options (OptionsResolver component).
 
 Open the lot on a dedicated branch with a Pull Request, per §15.
 
-Two constraints bite in this lot for the first time:
+Boundaries to honour: *Handling file upload* sits against lot-04's *File
+upload*, which owns `UploadedFile`, `move()` and the untrusted client metadata;
+*CSRF protection* sits against lot-04's `isCsrfTokenValid()`; *Forms rendering
+with Twig* and *Forms theming* sit against lot-06's *Filters and functions*,
+which owns where the form helpers come from.
 
-- **SITE-1** — the Prism `twig` language cannot be enabled in this Docusaurus
-  build, so Twig samples must be fenced as `html` (ADR-0003).
-- **B-5 is resolved but narrow** — the syllabus says "Twig syntax up to 3.22
-  version" verbatim. Score against 3.22; later Twig features are out of scope.
+`POOL-002` is in force: the lot is not finished until every `STANDARD` or `DEEP`
+item it delivers carries a VALIDATION question.
 
-Boundaries to honour: *URLs generation* (lot-06) is the Twig `path()`/`url()`
-side, while lot-05's item owns the generator and its reference types;
-*Translations and pluralization* stops at the Twig surface, lot-16 owns i18n;
-*Assets management* touches AssetMapper, which §1.5 **excludes** — check
-`exclusions.yml` before writing a single question there.
-
-Then Lots 07 → 27 in Master Plan §14 order.
+Then Lots 08 → 27 in Master Plan §14 order.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: 21 745 body words for 61 items, ~356 per item. The
-  per-lot figure keeps falling — 376 (Lot 01), 407 (Lot 02), 397 (Lot 03),
-  329 (Lot 04), **286** (Lot 05) — as the anti-duplication boundaries take
-  effect. A linear projection to 163 items gives roughly 58 000 words;
-  re-estimate per lot rather than assuming linearity.
-- **French questions are decaying by accident**: 1 of 24 in Lot 05. The exam is
-  in English (§5), so this is drift toward the exam language — but it should be
-  a decision, not an accident.
-- `DUP-001` pressure, and the three cross-lot boundaries above.
+- **revision burden**: 26 361 body words for 75 items, ~351 per item. Per-lot:
+  376, 407, 397, 329, 286, **329**. A linear projection to 163 items gives
+  roughly 57 000 words; re-estimate per lot rather than assuming linearity.
+- **French questions**: 21 of 221, and Lot 06 added none. The exam is sat in
+  English (§5), so this is drift toward the exam language — but it should be a
+  decision, not an accident.
 
 ## Blocked decisions
 

@@ -3225,26 +3225,47 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le partage entre moteur, bridge et bundle, plus cinq options de configuration dont
+      strict_variables change un comportement observable, et deux commandes. C'est une repartition a
+      appliquer, pas un mecanisme a derouler.
+    learning_outcomes:
+      - "Distinguer twig/twig, le bridge Twig et TwigBundle"
+      - "Localiser les gabarits par defaut et changer ce repertoire"
+      - "Referencer un gabarit de bundle par son espace de noms"
+      - "Enoncer l'effet de strict_variables"
+      - "Citer debug:twig et lint:twig"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "template locations, namespaces and configuration"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2bj91rj9kvj0"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-nqeq65rj5m97"
+      - "QST-k1qgrrevaw40"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-x9m083b1vy99"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-vhd83fn6w9wy
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3255,26 +3276,61 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
-    exclusion_boundaries: "Twig features introduced after 3.22 are out of scope."
+    content_level: DEEP
+    content_level_justification: >-
+      C'est le socle des treize autres items, et il porte une procedure ordonnee dont l'ordre est note
+      : les sept etapes de resolution de foo.bar, avec le tableau essaye avant la propriete et
+      strict_variables au bout. S'y ajoutent trois delimiteurs a ne pas confondre et un jeu
+      d'operateurs dont trois pieges reviennent. La version compte : le syllabus dit up to 3.22
+      version.
+    learning_outcomes:
+      - "Associer chaque delimiteur a son role"
+      - "Enoncer les sept etapes de resolution de foo.bar dans l'ordre"
+      - "Expliquer l'effet de strict_variables sur la derniere etape"
+      - "Choisir l'operateur correct pour concatener, comparer et tester"
+      - "Distinguer ?: de ??"
+      - "Controler les espaces avec {{- et -}}"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la sequence complete sans support.
+    exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "synopsis, operators, whitespace control"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Template Variables, resolution order"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-x2f8reencvcs"
+    flashcard_refs:
+      - "FLC-2e8x0yx9hbbp"
+      - "FLC-zv7yngs0n7zm"
+    question_refs:
+      - "QST-2xamk5ahfyyn"
+      - "QST-fendqkqnnjqj"
+      - "QST-1s9t39gm4yfj"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-1qy9s052f4x7"
+      - "QST-ptb3z27885ef"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-ns36thqnh2jk
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3285,26 +3341,55 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Cinq strategies dont le choix depend du contexte du document, et une frontiere html / html_attr
+      qui decide de la presence d'une faille. Le moment d'application — a l'affichage — n'est pas
+      devinable. Plus qu'un fait, moins qu'une procedure.
+    learning_outcomes:
+      - "Enoncer la strategie active par defaut et le moment de son application"
+      - "Associer chaque strategie au contexte qu'elle protege"
+      - "Distinguer html de html_attr sur un attribut sans guillemets"
+      - "Employer raw et la balise autoescape a bon escient"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "escaping strategies"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "autoescape tag and raw filter"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-w82wtddwhexg"
+    flashcard_refs:
+      - "FLC-a64hqxfhfzpc"
+    question_refs:
+      - "QST-mr5y3tea9rgw"
+      - "QST-hqqnvh8n266m"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-xby38797935y"
+      - "QST-070cvzmzmcsm"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-g3p8wdtww344
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3315,26 +3400,54 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux regles structurelles — heritage simple, extends en premiere balise — et un comportement
+      silencieux : le contenu hors bloc d'un enfant disparait sans erreur. La reutilisation
+      horizontale par use complete le tableau sans le doubler.
+    learning_outcomes:
+      - "Construire une hierarchie extends / block"
+      - "Enoncer ce qu'il advient du contenu ecrit hors d'un bloc"
+      - "Employer parent() pour completer un bloc"
+      - "Distinguer l'heritage de la reutilisation horizontale"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "extends and blocks"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "horizontal reuse"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-k3v3wrt0hmtx"
+    flashcard_refs:
+      - "FLC-mype643dt889"
+    question_refs:
+      - "QST-f9dbbk5scdxt"
+      - "QST-81q6m585fqxs"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-x7gb8yzg28gr"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-dp7w7s85wxjg
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3345,26 +3458,46 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Onze proprietes de la variable app a connaitre, un raccourci documente vers les attributs de
+      requete, une cle de configuration, et le piege de consommation de app.flashes. Un format MINIMAL
+      ne porterait pas le tableau.
+    learning_outcomes:
+      - "Citer les proprietes de la variable app et leur contenu"
+      - "Reconnaitre l'equivalence de app.current_route"
+      - "Declarer une globale par twig.globals"
+      - "Enoncer que app.flashes consomme les messages"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "the app global variable and twig.globals"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-r56yzzb4pye2"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-m6pb3s1ek4qg"
+      - "QST-m49e8kfejtww"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-v0kcvw9tr42j"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-sqekx9pkbe5v
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3375,26 +3508,53 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      La distinction filtre / fonction est un critere a appliquer, l'ordre d'enchainement a une
+      consequence, et la provenance des extensions Symfony — le bridge, pas le moteur — relie l'item
+      au lot 03. Trois choses a articuler, pas une a retenir.
+    learning_outcomes:
+      - "Distinguer un filtre d'une fonction"
+      - "Enchainer des filtres et expliquer l'effet de l'ordre"
+      - "Employer la balise apply sur un bloc"
+      - "Situer l'origine des extensions Symfony"
+      - "Utiliser debug:twig comme inventaire"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "filters and functions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "filters and functions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-306ppg4454wj"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-kpt3rdmkphrw"
+      - "QST-s6snn83ndr2e"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-1tw52kh5s9sg"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-ds2p5d4eg0pq
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3405,26 +3565,51 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux ecritures equivalentes, un comportement de contexte par defaut qu'il faut savoir couper, un
+      mot-cle de tolerance, et l'arbitrage avec embed. Chacun de ces points change une reponse.
+    learning_outcomes:
+      - "Inclure un gabarit par la fonction et par la balise"
+      - "Restreindre le contexte transmis avec only ou with_context"
+      - "Tolerer un gabarit absent avec ignore missing"
+      - "Choisir entre include et embed"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "include tag and options"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "embed"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-w83y6pfa5edn"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-ds7wq19b5c0b"
+      - "QST-kvtpnyrtd4xj"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-9rq28ydkg6wd"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-84j0qwkbcgq6
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3435,26 +3620,56 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Huit variables de loop, dont quatre soumises a une condition de type qui ne se manifeste qu'a
+      l'execution, un indice a 1 contraire a l'habitude PHP, l'absence de break et la clause else. Le
+      volume de faits a consequence depasse le format MINIMAL.
+    learning_outcomes:
+      - "Parcourir une sequence et employer la clause else"
+      - "Citer les variables de loop et leur valeur de depart"
+      - "Enoncer les quatre variables exigeant un tableau ou Countable"
+      - "Restreindre une sequence sans break ni continue"
+      - "Ecrire une condition et ses tests is / is not"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "for tag and loop variable"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "if tag and tests"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-zbnzvqkhjknh"
+    flashcard_refs:
+      - "FLC-y4mtc33awnjy"
+      - "FLC-n6w80mr1j8s1"
+    question_refs:
+      - "QST-ectrc20a3daw"
+      - "QST-12bq5dm5yc6s"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-z8v1jx1y2qtm"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-yh6zx9shv9vs
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3465,26 +3680,43 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Deux fonctions, une difference, un troisieme argument rarement utile. Le generateur, ses quatre
+      types de reference et le sort des parametres surnumeraires appartiennent a l'item URLs
+      generation du lot 05 ; les reprendre ici serait de la duplication.
+    learning_outcomes:
+      - "Distinguer path() de url()"
+      - "Generer une URL avec des parametres de route"
+      - "Enoncer qu'une URL ne s'ecrit jamais a la main"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "path and url functions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-dpbpbgwjey5c"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-n45xyv1gqstp"
+      - "QST-p2ceq2j1mg16"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-c34hn4px3czj
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3495,26 +3727,46 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux formes d'appel dont l'une seule fonctionne sans route, un cout d'execution reel — une sous-
+      requete par appel — et une option de configuration a nommer. Le forward d'un controleur vers un
+      autre appartient au lot 04.
+    learning_outcomes:
+      - "Executer un controleur route depuis un gabarit"
+      - "Executer un controleur sans route avec controller()"
+      - "Enoncer le cout d'un fragment en sous-requete"
+      - "Nommer l'option qui definit l'URL interne des fragments"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "embedding controllers and fragments path"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-yw6c5hq2mbax"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-s7bzj5nsnw1g"
+      - "QST-nfe9sv3qesa2"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-3kvgb8y3ct0s"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-sd08j04k60m0
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3525,26 +3777,55 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois arguments positionnels dont l'ordre se retient mal, deux ecritures — filtre et balise —,
+      et un changement de doctrine sur le pluriel : ICU recommande, syntaxe a barres toleree.
+      L'organisation des catalogues appartient au lot 16.
+    learning_outcomes:
+      - "Employer le filtre trans avec parametres, domaine et locale"
+      - "Employer la balise trans et trans_default_domain"
+      - "Distinguer les emplacements %nom% des emplacements ICU {nom}"
+      - "Enoncer l'exigence du suffixe +intl-icu"
+      - "Citer t() et l'objet traduisible"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "translations in templates, ICU MessageFormat"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "trans filter signature"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-q18xc1k4yvb9"
+    flashcard_refs:
+      - "FLC-2qe2jetwm5pq"
+    question_refs:
+      - "QST-6vv657ts3r2y"
+      - "QST-q8q1ra28925h"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-t2dpk8eb1x43"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-30gnb617ksex
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3555,26 +3836,44 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une syntaxe, une contrainte sur le type de guillemets, un echappement. Trois faits courts, sans
+      mecanisme a derouler ; l'alternative ~ est deja posee par l'item de syntaxe.
+    learning_outcomes:
+      - "Interpoler une expression dans une chaine"
+      - "Enoncer la contrainte sur le type de guillemets"
+      - "Echapper une interpolation"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "string interpolation"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-dfyab4kpcapw"
+    flashcard_refs:
+      - "FLC-he6t8kt6dpva"
+    question_refs:
+      - "QST-z1dcqdz8cm6a"
+      - "QST-e8w4fyajxpm5"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-tw3xaqbz8xjy
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3585,26 +3884,43 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une fonction, deux arguments, et la raison de ne pas ecrire un chemin en dur. Les outils de
+      construction d'assets — AssetMapper, Webpack Encore — sont exclus du perimetre par la section
+      1.5, ce qui reduit l'item a sa surface Twig.
+    learning_outcomes:
+      - "Referencer une ressource publique avec asset()"
+      - "Justifier l'emploi de asset() plutot qu'un chemin en dur"
+      - "Enoncer le role du second argument"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "asset and asset_version"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-ym86ptkhfgap"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-sgmgf58d4tja"
+      - "QST-px35sagvb53s"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
   - id: OIT-3r7rp470754w
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -3615,26 +3931,44 @@ items:
     lot: lot-06
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Deux ecritures pour deux destinations, une restriction d'environnement, deux commandes. Court,
+      mais l'opposition balise / fonction est reelle et se rate.
+    learning_outcomes:
+      - "Distinguer la balise dump de la fonction dump"
+      - "Enoncer la restriction aux environnements dev et test"
+      - "Citer debug:twig et lint:twig"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "debugging variables"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-vx5kvfhs0p0s"
+    flashcard_refs:
+      - "FLC-f2fz5g5z16nj"
+    question_refs:
+      - "QST-9qdj97kmt1m5"
+      - "QST-tk7sqrt8mcwa"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 06 — Templating with Twig."
 
   # ---- Topic 7: Forms (13 items) ----
   - id: OIT-tsxxgp3ppj1n
