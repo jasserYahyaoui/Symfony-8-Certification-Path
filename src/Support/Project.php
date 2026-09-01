@@ -6,6 +6,7 @@ namespace CertPath\Support;
 
 use CertPath\Domain\CourseLoader;
 use CertPath\Domain\FlashcardLoader;
+use CertPath\Domain\LotRegistry;
 use CertPath\Domain\MatrixLoader;
 use CertPath\Domain\QuestionLoader;
 use CertPath\Domain\SyllabusMatrix;
@@ -45,6 +46,11 @@ final readonly class Project
         return $this->path('docs/syllabus/exclusions.yml');
     }
 
+    public function lotsPath(): string
+    {
+        return $this->path('docs/syllabus/lots.yml');
+    }
+
     public function wordingLockPath(): string
     {
         return $this->path('docs/syllabus/wording.lock.yml');
@@ -79,6 +85,22 @@ final readonly class Project
     public function loadMatrix(): SyllabusMatrix
     {
         return (new MatrixLoader())->load($this->matrixPath());
+    }
+
+    /**
+     * The learner-facing lot names (Master Plan §14).
+     *
+     * A missing file yields an empty registry rather than an error: the
+     * generator then falls back to the lot id, which is visibly wrong and
+     * therefore fixable, instead of inventing a name.
+     */
+    public function loadLotRegistry(): LotRegistry
+    {
+        if (!is_file($this->lotsPath())) {
+            return LotRegistry::empty();
+        }
+
+        return LotRegistry::fromArray((new YamlLoader())->load($this->lotsPath(), SchemaRegistry::SYLLABUS_MATRIX));
     }
 
     public function loadContentSet(): ContentSet
