@@ -31,14 +31,14 @@ flashcards:
   - id: FLC-zv7yngs0n7zm
     official_item: OIT-vhd83fn6w9wy
     language: fr
-    front: "Twig : que vaut {{ 'a' + 'b' }} ?"
-    back: "0. Le + est une addition numérique ; la concaténation s'écrit ~."
+    front: "Twig : que produit {{ 'a' + 'b' }} ?"
+    back: "Une TypeError. Le + est l'addition ; la concaténation s'écrit ~."
     explanation: >-
-      Les opérateurs logiques suivent la même logique de mots : and, or et not,
-      jamais &&, || ni !.
+      Twig compile + vers le + de PHP. Sur PHP 8.4, la version exigée par
+      Symfony 8.0, additionner deux chaînes non numériques lève une TypeError.
     memorization_justification: >-
-      L'habitude de PHP et de JavaScript pousse à écrire +, et le résultat est
-      un 0 silencieux plutôt qu'une erreur.
+      L'habitude de PHP et de JavaScript pousse à écrire +, et l'erreur ne se
+      voit qu'au rendu du gabarit.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"

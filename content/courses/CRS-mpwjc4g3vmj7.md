@@ -70,8 +70,11 @@ ou recharge depuis `var/cache/` — le conteneur de services compilé.
 **3. `kernel.request`.** Le premier événement, dispatché **avant** que le
 contrôleur soit connu. C'est là que le routeur résout la route et dépose ses
 paramètres dans `request->attributes`, dont la clé `_controller`. C'est là aussi
-qu'un écouteur peut court-circuiter : s'il appelle `setResponse()`, tout le reste
-est sauté. Une redirection de sécurité fonctionne exactement ainsi.
+qu'un écouteur peut court-circuiter : s'il appelle `setResponse()`, la résolution
+et l'exécution du contrôleur sont sautées — mais **pas la suite du cycle**.
+`kernel.response`, puis `kernel.finish_request`, puis `kernel.terminate` après
+l'envoi, ont lieu normalement. Une redirection de sécurité fonctionne
+exactement ainsi.
 
 **4. Résolution du contrôleur.** Le `ControllerResolver` lit `_controller` dans
 les attributs et retourne un *callable* PHP. Le noyau ne sait rien d'autre : un
@@ -109,6 +112,8 @@ rien à l'utilisateur.
 - `kernel.finish_request` vient après `kernel.response`, pas avant.
 - `kernel.request` précède la résolution du contrôleur : à ce moment,
   `_controller` peut être encore absent.
+- Un court-circuit sur `kernel.request` saute le contrôleur, **pas**
+  `kernel.response`, `kernel.finish_request` ni `kernel.terminate`.
 - Un seul contrôleur frontal, `public/index.php` — quel que soit l'URL demandée.
 
 ## Points clés

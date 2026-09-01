@@ -637,9 +637,10 @@ questions:
     explanation: It promises the representation never changes, so no revalidation is expected.
   explanation: stale-while-revalidate trades a bounded window of staleness for latency. must-revalidate is its opposite.
   official_sources:
-  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
     branch: master
-    symbol_or_lines: section 5.2 Cache-Control
+    symbol_or_lines: section 5.2 Cache-Control (must-revalidate 5.2.2.2); stale-while-revalidate
+      is RFC 5861 section 3
     verified_at: '2026-09-01'
 - id: QST-b3zzzp5tgmte
   version: 1

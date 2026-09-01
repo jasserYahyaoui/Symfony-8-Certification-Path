@@ -65,10 +65,13 @@ contenu vient de l'application, pas du client.
 
 ```php
 $request->getContent();          // corps brut, utile pour du JSON
-$request->getPayload();          // ParameterBag depuis JSON ou form-data
+$request->getPayload();          // InputBag depuis JSON ou form-data
 $request->isMethod('POST');      // comparaison insensible à la casse
 $request->getMethod();           // méthode effective
 ```
+
+`getPayload()` retourne un **`InputBag`** : la contrainte scalaire ci-dessus s'y
+applique donc aussi, quel que soit le format d'entrée.
 
 ## Client et proxys
 
@@ -94,7 +97,7 @@ client — et c'est le comportement sûr.
 
 - Sept sacs typés ; `$request` = corps POST, `$attributes` = données internes.
 - `InputBag::get()` exige un scalaire et lève sinon ; `all()` pour un tableau.
-- `getPayload()` lit JSON comme form-data.
+- `getPayload()` lit JSON comme form-data, et retourne un `InputBag`.
 - `getClientIp()` n'est fiable qu'avec des trusted proxies déclarés.
 
 ## Sources officielles
