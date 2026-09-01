@@ -1,0 +1,198 @@
+# Lot 04 flashcards (Master Plan §6).
+#
+# Ten cards covering nine of the fourteen items. Five items carry none:
+# HttpKernel component and FrameworkBundle and The base AbstractController
+# class (division-of-labour tables, reasoned from a criterion rather than
+# recalled), Naming conventions (the useful fact is that nothing is imposed,
+# which a card would only flatten), The request (two facts the course already
+# carries), and The cookies (the request/response asymmetry follows from the
+# protocol, and Lot 02 already holds the cookie-attribute card).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-b3yz3wtpa5xx
+    official_item: OIT-emymfwgesh99
+    language: fr
+    front: "Symfony : createNotFoundException() lève-t-elle l'exception ?"
+    back: "Non. Elle la construit et la retourne — il faut écrire throw devant."
+    explanation: >-
+      Sans le throw, le contrôleur poursuit son exécution et la page s'affiche
+      normalement : l'erreur est silencieuse. La méthode n'est qu'un raccourci
+      pour new NotFoundHttpException().
+    memorization_justification: >-
+      Le nom commence par « create », mais la lecture spontanée du code est
+      « lance une 404 » ; l'oubli du throw ne produit aucun message.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Managing Errors and 404 Pages"
+        verified_at: "2026-09-01"
+
+  - id: FLC-5j16211q845x
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    front: "Symfony : quand la session démarre-t-elle réellement ?"
+    back: "Quand on lit, écrit ou teste une valeur — pas quand la configuration l'active."
+    explanation: >-
+      Une page qui ne touche jamais à la session n'émet aucun cookie de session
+      et reste cachable. Un simple has() suffit en revanche à la démarrer.
+    memorization_justification: >-
+      Contre-intuitif : on suppose qu'activer la session la démarre, et le
+      troisième verbe — tester — est celui qu'on oublie systématiquement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        branch: "8.0"
+        symbol_or_lines: "sessions are only started if you read from or write to them"
+        verified_at: "2026-09-01"
+
+  - id: FLC-zm3kmyhm6szz
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    front: "Session : différence entre migrate() et invalidate() ?"
+    back: "migrate() régénère l'identifiant en conservant les données ; invalidate() régénère et supprime tout."
+    explanation: >-
+      migrate() est ce qu'on appelle après une authentification réussie, contre
+      la fixation de session. invalidate() est la déconnexion : elle vide les
+      attributs et les flashs.
+    memorization_justification: >-
+      Deux méthodes voisines dont les noms ne disent pas laquelle préserve les
+      données ; se tromper vide la session d'un utilisateur qui vient de se
+      connecter.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/SessionInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "invalidate() and migrate() docblocks"
+        verified_at: "2026-09-01"
+
+  - id: FLC-gdkt0hht9dce
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    front: "FlashBag : quelles méthodes consomment les messages, et lesquelles non ?"
+    back: "get() et all() consomment. peek() et peekAll() ne consomment pas."
+    explanation: >-
+      Dans un gabarit, app.flashes consomme ; app.session.flashbag.peekAll() ne
+      consomme pas. Afficher les flashs deux fois avec app.flashes en fait
+      disparaître la moitié.
+    memorization_justification: >-
+      Quatre méthodes en deux paires dont seul le préfixe « peek » distingue le
+      comportement ; l'effet d'un mauvais choix ne se voit qu'à l'affichage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Flash Messages, get vs peek"
+        verified_at: "2026-09-01"
+
+  - id: FLC-dkb30nnrfmqs
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    front: "redirectToRoute() : quel code de statut par défaut, et comment en changer ?"
+    back: "302 par défaut. Le troisième argument porte le code : redirectToRoute('r', [], 301)."
+    explanation: >-
+      Le deuxième argument est le tableau des paramètres de route, d'où le []
+      vide. Response::HTTP_MOVED_PERMANENTLY est équivalent à 301.
+    memorization_justification: >-
+      La position du code de statut — troisième et non deuxième — est une
+      convention arbitraire que l'on inverse volontiers.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Redirecting"
+        verified_at: "2026-09-01"
+
+  - id: FLC-zmzjmptaw0gd
+    official_item: OIT-znm2tr61aw9p
+    language: fr
+    front: "forward() : l'URL affichée par le navigateur change-t-elle ?"
+    back: "Non. C'est une sous-requête interne : une seule requête HTTP, URL inchangée."
+    explanation: >-
+      forward() retourne la Response du contrôleur cible. Une redirection, elle,
+      renvoie un 3xx et provoque un second aller-retour, donc un changement
+      d'URL.
+    memorization_justification: >-
+      Le mot « redirect » dans « internal redirect » suggère exactement le
+      contraire de ce qui se passe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst"
+        branch: "8.0"
+        symbol_or_lines: "internal sub-request, returns the target Response"
+        verified_at: "2026-09-01"
+
+  - id: FLC-76q0tk8w87yb
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    front: "Téléversement : pourquoi ne pas utiliser getClientOriginalExtension() ?"
+    back: "Elle vient du navigateur, donc de l'utilisateur. Utiliser guessExtension(), qui déduit du type MIME réel."
+    explanation: >-
+      Toutes les méthodes getClient… — nom, extension, chemin — ainsi que la
+      taille annoncée sont des données fournies par le client et falsifiables.
+    memorization_justification: >-
+      Le préfixe getClient est le seul indice de non-fiabilité, et il se lit
+      comme un simple détail de nommage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst"
+        branch: "8.0"
+        symbol_or_lines: "security note on client-provided file metadata"
+        verified_at: "2026-09-01"
+
+  - id: FLC-s0173seh75yz
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    front: "ValueResolverInterface::resolve() : que doit-elle retourner ?"
+    back: "Toujours un tableau : vide si elle ne sait pas résoudre, un élément pour une valeur, plusieurs pour un variadique."
+    explanation: >-
+      Un tableau vide signifie « je passe la main » et n'est pas une erreur. Le
+      premier résolveur qui fournit une valeur arrête la chaîne.
+    memorization_justification: >-
+      Retourner directement la valeur est l'erreur d'implémentation classique ;
+      la raison — les arguments variadiques — n'est pas devinable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Adding a Custom Value Resolver"
+        verified_at: "2026-09-01"
+
+  - id: FLC-wvcgqvv01k3x
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    front: "RedirectController avec keepRequestMethod: true — quels codes de statut ?"
+    back: "307 pour une redirection temporaire, 308 pour une permanente."
+    explanation: >-
+      301 et 302 autorisent le navigateur à retomber sur GET ; 307 et 308 sont
+      leurs équivalents qui imposent de conserver la méthode d'origine.
+    memorization_justification: >-
+      Quatre codes appariés deux à deux, sans indice mnémonique, et la
+      substitution 302 → 307 est silencieuse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "RedirectController keepRequestMethod option"
+        verified_at: "2026-09-01"
+
+  - id: FLC-50qy4aqc9d2a
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    front: "AbstractController : que retournent render() et renderView() ?"
+    back: "render() retourne une Response, renderView() retourne une chaîne."
+    explanation: >-
+      Retourner renderView() depuis un contrôleur ne produit pas de Response :
+      il faut alors un écouteur de kernel.view. render() accepte en outre une
+      Response en troisième argument pour imposer un statut.
+    memorization_justification: >-
+      Deux noms quasi identiques pour deux types de retour différents ; l'erreur
+      ne se manifeste qu'à l'exécution.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        branch: "8.0"
+        symbol_or_lines: "render() and renderView() signatures"
+        verified_at: "2026-09-01"
