@@ -172,6 +172,22 @@ vendor/bin/phpunit                 75 tests, 646 assertions — OK (after the fi
 Holdout isolation checked against the built payload: the 11 holdout ids are
 absent from `practice.json` and present in `exam.json`.
 
+### Delivery evidence
+
+| | |
+|---|---|
+| Lot commits | `8ea099c` (content), `a06a14b` (generator fix + corrected report) |
+| Pull Request | [#5](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/5) — *Lot 05 — Routing* |
+| CI on the PR head | **Technical gate: success** — the first push **failed** on the site build; see above |
+| Merge commit | `0502775` on `master` |
+| CI on `master` | run `33508164314` — **success** |
+| Deploy | run `33508164385`, job `99857115153` build + job `99857436844` deploy — **success** |
+| Production smoke test | job `99857496596` — **success** |
+| Site | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/ |
+
+The failed first run is left in the PR's history deliberately: it is the record
+that the gate caught the defect the local report had missed.
+
 ## Gates
 
 | Gate | Result |

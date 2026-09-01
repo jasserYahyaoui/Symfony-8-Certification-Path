@@ -12,7 +12,10 @@ Lots 0 through 04 are complete. Next: **Lot 06 — Templating with Twig**
 
 ## Current branch
 
-`lot-05-routing`, branched from `master`. Lot 04 shipped through
+`master`, at merge commit `0502775`. Lot 05 shipped through
+[PR #5](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/5),
+whose first push failed CI on the site build (issue SITE-3) and was fixed in
+`a06a14b`. Lot 04 shipped through
 [PR #3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3)
 (merge `5dd75d7`) and its evidence through PR #4. Lot 03 shipped through
 [PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
@@ -212,6 +215,10 @@ cross-lot leak the rule has caught; both were accidental.
 Holdout isolation checked against the built payload: the 11 holdout ids are
 absent from `practice.json` and present in `exam.json` — **functional isolation,
 not confidentiality** (ADR-0005).
+
+In CI on Lot 05's merge commit `0502775`: run `33508164314` (CI) **success**,
+and run `33508164385` (Deploy) **success** across build, deploy and the
+production smoke test.
 
 In CI on Lot 04's merge commit `5dd75d7`: run `33505523877` (CI) **success**,
 and run `33505523840` (Deploy) **success** across build, deploy and the
