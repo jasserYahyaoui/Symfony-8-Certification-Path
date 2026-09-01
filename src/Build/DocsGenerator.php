@@ -7,6 +7,8 @@ namespace CertPath\Build;
 use CertPath\Coverage\CoverageCalculator;
 use CertPath\Coverage\CoverageReport;
 use CertPath\Domain\ContentLevel;
+use CertPath\Domain\Course;
+use CertPath\Domain\Flashcard;
 use CertPath\Domain\OfficialItem;
 use CertPath\Support\Project;
 use CertPath\Validation\ContentSet;
@@ -290,7 +292,7 @@ donc exécutable, pas seulement documentaire.
 
             foreach ($items as $item) {
                 $pages['courses/'.$slug.'/'.$this->slug($item->officialItem).'.md']
-                    = $this->itemPage($item);
+                    = $this->itemPage($item, $content);
             }
         }
 
@@ -334,7 +336,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         return $markdown;
     }
 
-    private function itemPage(OfficialItem $item): string
+    private function itemPage(OfficialItem $item, ContentSet $content): string
     {
         $markdown = $this->frontMatter($item->officialItem, $item->officialItemOrder, $this->slug($item->officialItem))."
 # {$item->officialItem}
@@ -368,18 +370,69 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 
         $markdown .= "\n## Limites de périmètre\n\n".$item->exclusionBoundaries."\n";
 
+        $course = $this->courseFor($item->id->value, $content);
+        if (null !== $course) {
+            $markdown .= "\n---\n\n".$course->body."\n";
+        }
+
+        $cards = $this->flashcardsFor($item->id->value, $content);
+        if ([] !== $cards) {
+            $markdown .= "\n---\n\n## Flashcards\n\n"
+                ."_La réponse reste masquée jusqu'à ce que vous dépliiez la carte._\n\n";
+
+            foreach ($cards as $card) {
+                // <details> hides the answer before reveal (§6) using a native,
+                // keyboard-operable control rather than a scripted one.
+                $markdown .= "<details>\n<summary>".$this->escapeHtml($card->front)."</summary>\n\n"
+                    ."**".$this->escapeHtml($card->back)."**\n\n"
+                    .$card->explanation."\n\n</details>\n\n";
+            }
+        }
+
         if ([] !== $item->officialSources) {
             $markdown .= "\n## Sources officielles\n\n";
             foreach ($item->officialSources as $source) {
-                $markdown .= '- <'.$source->url.'>';
+                // A Markdown link, not an autolink: MDX parses `<https://…>`
+                // as JSX and fails on the first slash.
+                $markdown .= '- ['.$source->url.']('.$source->url.')';
                 if (null !== $source->commitSha) {
                     $markdown .= ' — `'.substr($source->commitSha, 0, 12).'`';
+                }
+                if (null !== $source->symbolOrLines && '' !== $source->symbolOrLines) {
+                    $markdown .= ' — '.$source->symbolOrLines;
                 }
                 $markdown .= "\n";
             }
         }
 
         return $markdown;
+    }
+
+    private function courseFor(string $itemId, ContentSet $content): ?Course
+    {
+        foreach ($content->courses as $course) {
+            if ($course->officialItemId === $itemId) {
+                return $course;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return list<Flashcard>
+     */
+    private function flashcardsFor(string $itemId, ContentSet $content): array
+    {
+        return array_values(array_filter(
+            $content->flashcards,
+            static fn (Flashcard $c): bool => $c->officialItemId === $itemId,
+        ));
+    }
+
+    private function escapeHtml(string $value): string
+    {
+        return htmlspecialchars($value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
     }
 
     /** An un-researched item has no content level yet (§3.4). */

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CertPath\Support;
 
+use CertPath\Domain\CourseLoader;
+use CertPath\Domain\FlashcardLoader;
 use CertPath\Domain\MatrixLoader;
 use CertPath\Domain\QuestionLoader;
 use CertPath\Domain\SyllabusMatrix;
@@ -53,6 +55,16 @@ final readonly class Project
         return $this->path('content/questions');
     }
 
+    public function coursesDir(): string
+    {
+        return $this->path('content/courses');
+    }
+
+    public function flashcardsDir(): string
+    {
+        return $this->path('content/flashcards');
+    }
+
     public function websiteDir(): string
     {
         return $this->path('website');
@@ -74,6 +86,8 @@ final readonly class Project
         return new ContentSet(
             matrix: $this->loadMatrix(),
             questions: (new QuestionLoader())->loadDirectory($this->questionsDir()),
+            courses: (new CourseLoader())->loadDirectory($this->coursesDir()),
+            flashcards: (new FlashcardLoader())->loadDirectory($this->flashcardsDir()),
             excludedTerms: $this->loadExcludedTerms(),
             wordingFingerprints: $this->loadWordingFingerprints(),
             contentFiles: $this->markdownFiles(),

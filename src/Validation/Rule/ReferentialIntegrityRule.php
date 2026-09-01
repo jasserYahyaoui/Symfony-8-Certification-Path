@@ -34,6 +34,16 @@ final class ReferentialIntegrityRule implements Rule
             $questionIds[$question->id->value] = true;
         }
 
+        $courseIds = [];
+        foreach ($content->courses as $course) {
+            $courseIds[$course->id->value] = true;
+        }
+
+        $flashcardIds = [];
+        foreach ($content->flashcards as $card) {
+            $flashcardIds[$card->id->value] = true;
+        }
+
         $referencedQuestions = [];
 
         foreach ($content->matrix->items as $item) {
@@ -74,6 +84,28 @@ final class ReferentialIntegrityRule implements Rule
                         $this->id(),
                         Severity::Error,
                         \sprintf('Referenced question "%s" does not exist.', $ref),
+                        $item->id->value,
+                    );
+                }
+            }
+
+            foreach ($item->courseRefs as $ref) {
+                if (!isset($courseIds[$ref])) {
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf('Referenced course "%s" does not exist.', $ref),
+                        $item->id->value,
+                    );
+                }
+            }
+
+            foreach ($item->flashcardRefs as $ref) {
+                if (!isset($flashcardIds[$ref])) {
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf('Referenced flashcard "%s" does not exist.', $ref),
                         $item->id->value,
                     );
                 }

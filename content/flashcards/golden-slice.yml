@@ -1,0 +1,98 @@
+# Flashcards for the Golden Slice (Master Plan §6).
+#
+# Four cards for three items. §6 forbids a card for a fact already retained
+# through application, so each one carries a `memorization_justification`
+# stating why rote recall beats re-derivation here. Notably absent: cards for
+# the five status-code classes (derivable from the first digit), for the YAML
+# and attribute syntaxes (retained by writing them), and for the badge list
+# (looked up, not recalled under time pressure).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-bhhj8tz5bqg3
+    official_item: OIT-512se83ab7qj
+    language: fr
+    front: "HTTP : quelle est la différence entre 401 et 403 ?"
+    back: >-
+      401 Unauthorized = authentification manquante ou invalide (« je ne sais
+      pas qui vous êtes »). 403 Forbidden = authentifié mais pas autorisé
+      (« je sais qui vous êtes, et c'est non »).
+    explanation: >-
+      Le nom « 401 Unauthorized » est historiquement trompeur : il concerne
+      l'authentification, pas l'autorisation. Se réauthentifier peut résoudre un
+      401 ; cela ne résoudra jamais un 403.
+    memorization_justification: >-
+      Distinction purement lexicale, non dérivable du numéro, et le nom du code
+      pousse activement vers la mauvaise réponse. Rien dans le code applicatif
+      ne la rappelle au développeur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        anchor: "status.401"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: FLC-bwn83abnd4vh
+    official_item: OIT-512se83ab7qj
+    language: fr
+    front: "HTTP : quels codes de redirection préservent la méthode et le corps de la requête ?"
+    back: "307 Temporary Redirect et 308 Permanent Redirect."
+    explanation: >-
+      301 et 302 sont historiquement transformés en GET par les agents
+      utilisateurs. 307 et 308 ont été introduits précisément pour garantir la
+      préservation de la méthode, ce qui les rend obligatoires après un POST.
+    memorization_justification: >-
+      Quatre codes deux à deux confondables, dont l'appariement (permanent vs
+      temporaire, méthode préservée ou non) ne se déduit d'aucune règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        anchor: "status.307"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: FLC-t45m07frz2sv
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    front: "Routing : deux routes correspondent à une URL. Laquelle Symfony retient-il ?"
+    back: "La première déclarée — jamais la plus spécifique."
+    explanation: >-
+      L'ordre de déclaration décide. En YAML c'est l'ordre du fichier ; en
+      attributs l'ordre de découverte n'est pas contrôlable, d'où l'option
+      `priority` (défaut 0, plus élevé évalué en premier).
+    memorization_justification: >-
+      L'intuition « la plus spécifique gagne » vient d'autres frameworks et
+      résiste à la correction. La règle réelle doit être rappelable
+      immédiatement, avant tout raisonnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        anchor: "priority-parameter"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        verified_at: "2026-09-01"
+
+  - id: FLC-d0cpf8zrpcbj
+    official_item: OIT-s3jh7wg5km19
+    language: fr
+    front: "Security : quel passport construire lorsqu'il n'y a aucun identifiant à vérifier ?"
+    back: "SelfValidatingPassport — le constructeur de Passport exige des credentials."
+    explanation: >-
+      Passport::__construct(UserBadge $userBadge, CredentialsInterface
+      $credentials, array $badges = []) rend les credentials obligatoires. Pour
+      un jeton d'API déjà digne de confiance, on construit
+      SelfValidatingPassport(new UserBadge($token)).
+    memorization_justification: >-
+      Choix binaire à faire au moment d'écrire authenticate(), sans indice dans
+      le contexte. S'en souvenir évite une erreur de conception, pas seulement
+      une erreur de compilation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Passport::__construct, line 40"
+        verified_at: "2026-09-01"

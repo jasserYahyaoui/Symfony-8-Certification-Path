@@ -1,0 +1,435 @@
+# Golden Slice question bank (Master Plan §7).
+#
+# Seven questions for three items. Six are LEARNING (Practice Mode); one is
+# HOLDOUT, present so that pool isolation is exercised against real data rather
+# than an empty set — the build must keep it out of practice.json.
+#
+# Five are in English, matching the exam's language (§5); two are in French for
+# the beginner path. Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+
+questions:
+  # ---------------- HTTP / Status codes (MINIMAL) ----------------
+  - id: QST-z6te5yeyyzpj
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-512se83ab7qj
+    domain: http
+    subtopic: status-codes
+    language: en
+    difficulty: easy
+    cognitive_level: RECOGNIZE
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      A request reaches an endpoint with a valid session, but the authenticated
+      user lacks the required role. Which status code is correct?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 45
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [status-codes, authorization]
+    choices:
+      - id: CHO-baa51j72wjef
+        text: "403 Forbidden"
+        correct: true
+      - id: CHO-je2t9j831kb6
+        text: "401 Unauthorized"
+        correct: false
+        explanation: >-
+          401 means the request lacks valid authentication. Here the user is
+          authenticated; the server knows who they are and is refusing anyway.
+      - id: CHO-c82khamskdqm
+        text: "404 Not Found"
+        correct: false
+        explanation: >-
+          404 hides the existence of the resource. It is a deliberate
+          information-disclosure choice, not the semantically correct answer for
+          a known, existing resource the user may not access.
+      - id: CHO-vc25wsfdm6zy
+        text: "400 Bad Request"
+        correct: false
+        explanation: >-
+          400 signals a malformed request. This request is well-formed; only the
+          caller's permissions are insufficient.
+    explanation: >-
+      403 Forbidden is the code for an authenticated but unauthorized caller.
+      401 concerns authentication, despite being named "Unauthorized".
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        anchor: "status.403"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: QST-enxn0ad65n0w
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-512se83ab7qj
+    domain: http
+    subtopic: status-codes
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which status codes guarantee that a user agent preserves the request
+      method and body when following the redirect? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [status-codes, redirects]
+    choices:
+      - id: CHO-gb86ayf91w36
+        text: "307 Temporary Redirect"
+        correct: true
+      - id: CHO-c6akh0wcm13r
+        text: "308 Permanent Redirect"
+        correct: true
+      - id: CHO-h04jnqd0vm6a
+        text: "301 Moved Permanently"
+        correct: false
+        explanation: >-
+          301 is permanent, but user agents have historically rewritten the
+          method to GET when following it. 308 exists precisely to remove that
+          ambiguity.
+      - id: CHO-41tzw255nn2w
+        text: "302 Found"
+        correct: false
+        explanation: >-
+          302 is the temporary counterpart of 301 and carries the same method
+          rewriting problem. 307 is its method-preserving replacement.
+    explanation: >-
+      307 and 308 were introduced to guarantee method and body preservation,
+      which 301 and 302 do not. After a POST, only 307 or 308 keep the request
+      a POST.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        anchor: "status.307"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  # ---------------- Routing / Configuration (STANDARD) ----------------
+  - id: QST-cfhm8d3qscwq
+    version: 1
+    official_topic: Routing
+    official_item: OIT-egy2wn3z7gb7
+    domain: symfony
+    subtopic: configuration
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Two controller actions are annotated as below. Requesting /blog/list
+      executes show() with $slug = "list". What is the minimal correct fix?
+
+
+      #[Route('/blog/{slug}', name: 'blog_show')] public function show(string
+      $slug) {} — and — #[Route('/blog/list', name: 'blog_list')] public
+      function list() {}
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [routing, priority]
+    choices:
+      - id: CHO-9qgeyn3v01ns
+        text: "Give blog_list a higher priority, e.g. priority: 2"
+        correct: true
+      - id: CHO-e64d7et61wmy
+        text: "Nothing: Symfony already prefers the more specific route"
+        correct: false
+        explanation: >-
+          Symfony does not rank routes by specificity. It evaluates them in
+          declaration order and the first match wins, which is why show()
+          captures the request.
+      - id: CHO-6x6rbrbgamh1
+        text: "Move the list() method above show() in the class"
+        correct: false
+        explanation: >-
+          Method order within a class is not a reliable ordering guarantee for
+          attribute-defined routes. `priority` exists precisely because that
+          order cannot be controlled dependably.
+      - id: CHO-yz2nw2gdmqxz
+        text: "Add requirements: ['slug' => '[a-z]+'] to blog_show"
+        correct: false
+        explanation: >-
+          "list" matches [a-z]+, so the requirement changes nothing here. It
+          would also silently break legitimate slugs containing digits or
+          hyphens.
+    explanation: >-
+      Symfony evaluates routes in declaration order and takes the first match.
+      For attribute-defined routes the discovery order is not controllable, so
+      `priority` (default 0, higher evaluated first) is the intended mechanism.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        anchor: "priority-parameter"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        verified_at: "2026-09-01"
+
+  - id: QST-psqn0fe95khc
+    version: 1
+    official_topic: Routing
+    official_item: OIT-egy2wn3z7gb7
+    domain: symfony
+    subtopic: configuration
+    language: fr
+    difficulty: easy
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Quel import est correct pour utiliser l'attribut #[Route] en Symfony 8.0 ?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 40
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [routing, namespaces]
+    choices:
+      - id: CHO-p4qhk0944213
+        text: "use Symfony\\Component\\Routing\\Attribute\\Route;"
+        correct: true
+      - id: CHO-f2z3txk7g15c
+        text: "use Symfony\\Component\\Routing\\Annotation\\Route;"
+        correct: false
+        explanation: >-
+          Ce namespace date de l'époque des annotations Doctrine et n'existe
+          plus en Symfony 8.0. L'import échoue.
+      - id: CHO-mcek2z6j907p
+        text: "use Symfony\\Bundle\\FrameworkBundle\\Routing\\Route;"
+        correct: false
+        explanation: >-
+          L'attribut appartient au composant Routing, pas au FrameworkBundle,
+          qui se contente de l'intégrer au framework.
+      - id: CHO-5ekewz9cfrf7
+        text: "use Symfony\\Routing\\Route;"
+        correct: false
+        explanation: >-
+          Les composants Symfony vivent tous sous Symfony\\Component\\. Ce
+          namespace n'existe pas.
+    explanation: >-
+      L'attribut est Symfony\\Component\\Routing\\Attribute\\Route. Le namespace
+      Annotation\\ a été supprimé.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        verified_at: "2026-09-01"
+
+  # ---------------- Security / Passports (DEEP) ----------------
+  - id: QST-5darxtca2dmf
+    version: 1
+    official_topic: Security
+    official_item: OIT-s3jh7wg5km19
+    domain: symfony
+    subtopic: passports
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      A custom authenticator handles an API token that is already trusted, so
+      there is nothing left to verify. What must authenticate() return?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 70
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [security, passport]
+    choices:
+      - id: CHO-7855p5j581w2
+        text: "new SelfValidatingPassport(new UserBadge($token))"
+        correct: true
+      - id: CHO-96v6pnrxhah9
+        text: "new Passport(new UserBadge($token))"
+        correct: false
+        explanation: >-
+          Passport::__construct requires a CredentialsInterface as its second
+          argument. Omitting it is a TypeError, which is exactly why
+          SelfValidatingPassport exists.
+      - id: CHO-rkpvfx1ffcfg
+        text: "The UserInterface returned by the user provider"
+        correct: false
+        explanation: >-
+          authenticate() returns a Passport, never a user. Resolving the badges
+          into a user happens afterwards, outside the authenticator.
+      - id: CHO-zsn16300fftv
+        text: "true, to signal that authentication succeeded"
+        correct: false
+        explanation: >-
+          The return type is Passport. An authenticator states what should be
+          checked; it does not itself pronounce success.
+    explanation: >-
+      Passport requires credentials, so a flow with nothing to verify uses
+      SelfValidatingPassport with a UserBadge.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Passport::__construct, line 40"
+        verified_at: "2026-09-01"
+
+  - id: QST-3v9qvehmpvj3
+    version: 1
+    official_topic: Security
+    official_item: OIT-s3jh7wg5km19
+    domain: symfony
+    subtopic: authenticator
+    language: en
+    difficulty: hard
+    cognitive_level: DISTINGUISH
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which statements about AuthenticatorInterface::supports() are correct?
+      (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [security, authenticator]
+    choices:
+      - id: CHO-ckpp0jp9xm7a
+        text: "It returns ?bool, so null is a valid return value"
+        correct: true
+      - id: CHO-swrhdbhmw4x3
+        text: "Returning null means Symfony must call it again on every request"
+        correct: true
+      - id: CHO-mwwbf6ghwmxw
+        text: "Returning false throws an AuthenticationException"
+        correct: false
+        explanation: >-
+          false simply means this authenticator does not handle the request.
+          Another authenticator on the firewall may still handle it.
+      - id: CHO-j6wcytsn82wz
+        text: "It must return the Passport when the request is supported"
+        correct: false
+        explanation: >-
+          The Passport is built by authenticate(). supports() only decides
+          whether this authenticator takes the request at all.
+    explanation: >-
+      supports() is declared as ?bool. true takes the request, false declines
+      it, and null means "possibly, but do not cache this decision" — Symfony
+      re-asks on every request.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "AuthenticatorInterface::supports, line 36"
+        verified_at: "2026-09-01"
+
+  # ---------------- HOLDOUT — must never reach Practice Mode ----------------
+  - id: QST-eb3sm6ytxwb2
+    version: 1
+    official_topic: Security
+    official_item: OIT-s3jh7wg5km19
+    domain: symfony
+    subtopic: badges
+    language: en
+    difficulty: hard
+    cognitive_level: DIAGNOSE
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      An authenticator attaches a RememberMeBadge, but no "remember me" cookie
+      is ever issued. What is the most likely cause?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: HOLDOUT
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [security, badges]
+    choices:
+      - id: CHO-bv6nw6zp69rg
+        text: "remember_me is not enabled on the firewall"
+        correct: true
+      - id: CHO-qpscw8fnt0ae
+        text: "The badge must be passed as the second constructor argument"
+        correct: false
+        explanation: >-
+          The second argument is the credentials. Additional badges go in the
+          third argument, and their position does not affect whether the
+          feature is active.
+      - id: CHO-bwgcr4bamdbm
+        text: "RememberMeBadge must be resolved manually before returning"
+        correct: false
+        explanation: >-
+          Badges are resolved by the security system after authenticate()
+          returns; an authenticator never resolves its own badges.
+      - id: CHO-6yg8289m3pqr
+        text: "A SelfValidatingPassport cannot carry a RememberMeBadge"
+        correct: false
+        explanation: >-
+          SelfValidatingPassport accepts additional badges exactly as Passport
+          does; it differs only in not requiring credentials.
+    explanation: >-
+      RememberMeBadge makes the request eligible for the feature; it does not
+      enable it. Without remember_me configured on the firewall, nothing issues
+      a cookie. A badge expresses a request, not a guarantee.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst"
+        anchor: "security-passport-badges"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        verified_at: "2026-09-01"

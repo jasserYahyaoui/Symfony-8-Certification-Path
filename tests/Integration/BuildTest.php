@@ -98,6 +98,35 @@ final class BuildTest extends TestCase
     }
 
     /**
+     * MDX parses `<https://…>` as JSX and fails on the first slash, so the
+     * generator must never emit Markdown autolinks. This broke the site build
+     * once; the test exists so it cannot break it again silently.
+     */
+    public function testGeneratedPagesContainNoMarkdownAutolinks(): void
+    {
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($project->loadContentSet());
+
+        $offenders = [];
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($project->path('website/docs'), \FilesystemIterator::SKIP_DOTS),
+        );
+
+        foreach ($iterator as $file) {
+            if (!$file instanceof \SplFileInfo || 'md' !== $file->getExtension()) {
+                continue;
+            }
+
+            $body = file_get_contents($file->getPathname());
+            if (\is_string($body) && 1 === preg_match('/<https?:\/\//', $body)) {
+                $offenders[] = $file->getFilename();
+            }
+        }
+
+        self::assertSame([], $offenders, 'generated pages must use [text](url), never <url>');
+    }
+
+    /**
      * §19: an empty syllabus is reported as undefined, never as 0% coverage.
      */
     public function testCoverageReportsAnUndefinedDenominatorWhenTheSyllabusIsEmpty(): void

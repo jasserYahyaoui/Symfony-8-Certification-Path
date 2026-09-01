@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace CertPath\Validation;
 
 use CertPath\Validation\Rule\AssessmentCoverageRule;
+use CertPath\Validation\Rule\CourseIntegrityRule;
 use CertPath\Validation\Rule\DeadInternalLinkRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
 use CertPath\Validation\Rule\EnrichmentBudgetRule;
 use CertPath\Validation\Rule\ExamReadyEvidenceRule;
+use CertPath\Validation\Rule\FlashcardIntegrityRule;
 use CertPath\Validation\Rule\HoldoutIsolationRule;
 use CertPath\Validation\Rule\LearningOutcomeRule;
 use CertPath\Validation\Rule\OfficialWordingLockRule;
@@ -40,6 +42,8 @@ final class RuleSet
             new AssessmentCoverageRule(),
             new SourceAnchorRule(),
             new QuestionIntegrityRule(),
+            new CourseIntegrityRule(),
+            new FlashcardIntegrityRule(),
             new HoldoutIsolationRule(),
             new OutOfScopeContaminationRule(),
             new DuplicateQuestionRule(),

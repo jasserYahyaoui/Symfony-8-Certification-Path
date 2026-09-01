@@ -16,6 +16,7 @@ final class SchemaRegistry
     public const string EXCLUSIONS = 'exclusions';
     public const string ID_REGISTRY = 'id-registry';
     public const string QUESTION_BANK = 'question-bank';
+    public const string FLASHCARD_DECK = 'flashcard-deck';
     public const string EXAM_BLUEPRINT = 'exam-blueprint';
 
     /** Browser-side storage schema (§13), versioned alongside the build-time ones. */
@@ -30,6 +31,7 @@ final class SchemaRegistry
         self::EXCLUSIONS => 1,
         self::ID_REGISTRY => 1,
         self::QUESTION_BANK => 1,
+        self::FLASHCARD_DECK => 1,
         self::EXAM_BLUEPRINT => 1,
         self::LEARNER_STATE => 1,
     ];

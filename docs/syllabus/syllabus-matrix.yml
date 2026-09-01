@@ -344,26 +344,50 @@ items:
     lot: lot-02
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Item factuel et de reconnaissance : la classe se lit sur le premier chiffre. Une explication concise et une table de codes suffisent ; le detailler davantage augmenterait le cout de revision sans ameliorer la reponse a une question officielle.
+    learning_outcomes:
+      - "Identifier la classe d'un code de statut a partir de son premier chiffre"
+      - "Distinguer 401 et 403 dans un scenario d'acces"
+      - "Distinguer les redirections preservant la methode (307/308) des autres"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, dont une a reponses multiples, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        anchor: "section-15"
+        branch: "master"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Response::HTTP_* constants, lines 28-160"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-984c2bv3wh09"
+    flashcard_refs:
+      - "FLC-bhhj8tz5bqg3"
+      - "FLC-bwn83abnd4vh"
+    question_refs:
+      - "QST-z6te5yeyyzpj"
+      - "QST-enxn0ad65n0w"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Golden Slice (Lot 0.5) — validates the pipeline end to end."
   - id: OIT-d3nyk9z0q2pd
     official_topic_order: 2
     official_topic: "HTTP"
@@ -1520,26 +1544,52 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant une distinction et une application : les deux formats sont equivalents en capacite mais divergent sur la maitrise de l'ordre d'evaluation, source d'erreur reelle. Une comparaison et un exemple cible sont necessaires ; un traitement DEEP ne serait pas justifie car le flux interne du routeur n'est pas examinable ici.
+    learning_outcomes:
+      - "Declarer une route equivalente en YAML et en attribut PHP"
+      - "Enoncer la regle d'ordre d'evaluation (premiere correspondance gagnante)"
+      - "Diagnostiquer une collision de routes et choisir la correction minimale"
+      - "Identifier le namespace correct de l'attribut Route en Symfony 8.0"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application (dont un diagnostic), reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        anchor: "creating-routes"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Route::__construct"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-kqq96z5y9r2f"
+    flashcard_refs:
+      - "FLC-t45m07frz2sv"
+    question_refs:
+      - "QST-cfhm8d3qscwq"
+      - "QST-psqn0fe95khc"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Golden Slice (Lot 0.5) — validates the pipeline end to end."
   - id: OIT-1cj08dhtp9hj
     official_topic_order: 5
     official_topic: "Routing"
@@ -3570,26 +3620,62 @@ items:
     lot: lot-10
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Concept structurel et frequemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les roles sont regulierement intervertis, un contrat d'interface a cinq methodes, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructeur, et des badges dont l'effet depend de la configuration du firewall. La capacite DIAGNOSE est requise : reconnaitre la definition ne suffit pas a corriger un flux d'authentification defaillant.
+    learning_outcomes:
+      - "Nommer les cinq methodes d'AuthenticatorInterface et leur role"
+      - "Expliquer les trois etats de retour de supports()"
+      - "Choisir entre Passport et SelfValidatingPassport selon la presence de credentials"
+      - "Identifier le badge obligatoire et l'effet reel des badges optionnels"
+      - "Diagnostiquer un flux d'authentification ou un badge n'a pas l'effet attendu"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic et une a reponses multiples, plus une question holdout reservee aux mocks, reussies sur 2 sessions distinctes en anglais.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst"
+        anchor: "security-passport"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "AuthenticatorInterface, lines 36-86"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Passport::__construct, line 40"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-6gc45etcssfb"
+    flashcard_refs:
+      - "FLC-d0cpf8zrpcbj"
+    question_refs:
+      - "QST-5darxtca2dmf"
+      - "QST-3v9qvehmpvj3"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-eb3sm6ytxwb2"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Golden Slice (Lot 0.5) — validates the pipeline end to end."
   - id: OIT-kqm5mxq4jnkj
     official_topic_order: 10
     official_topic: "Security"

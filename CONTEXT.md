@@ -6,12 +6,7 @@
 
 ## Current lot
 
-**Lot 0 — Infrastructure, governance and initial audit.**
-
-- §20 initial audit: **complete**, decision `CONDITIONAL_GO`.
-- Lot 0 infrastructure: **complete and merged**.
-- Lot 0 content deliverable (verbatim syllabus import): **blocked** — see B-1.
-- Lot 0.5 Golden Slice: **not started**, gated on B-1.
+**Lot 0.5 — Golden Slice: PASS.** Lot 0 complete. Next: Lot 01 (PHP, 9 items).
 
 ## Current branch
 
@@ -82,21 +77,26 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported and verified, 0 specified, 0 implemented.** All 14 enumerated
-official topics present; `syllabus_complete: true`.
+**163 imported, 3 EXAM_READY.**
 
 ```text
-coverage = 0 / 163 = 0%   (a real figure, not an undefined denominator)
+coverage = 3 / 163 = 1.84%
 ```
 
-Per-topic: PHP 9, HTTP 10, Symfony Architecture 15, Controllers 14, Routing 12,
-Twig 14, Forms 13, Data Validation 8, Dependency Injection 12, Security 12,
-Messenger 7, Console 9, Automated Tests 9, Miscellaneous 19.
+Golden Slice items, all `EXAM_READY` with anchored Symfony 8.0 sources:
 
-All items at `NOT_STARTED` / `UNVERIFIED`. Wording lock armed (`SYL-002`),
-verified live by rejecting a test reword.
+| Item | Topic | Level |
+|---|---|---|
+| Status codes | HTTP | `MINIMAL` |
+| Configuration (YAML and PHP attributes) | Routing | `STANDARD` |
+| Authenticators, Passports and Badges | Security | `DEEP` |
 
-Full audit: [`docs/reports/syllabus-and-lot-audit.md`](docs/reports/syllabus-and-lot-audit.md).
+The remaining 160 are `NOT_STARTED` / `UNVERIFIED`. Wording lock covers all 163.
+
+Content: 3 courses (1 635 words), 4 flashcards, 6 LEARNING questions,
+1 HOLDOUT question, 0 exercises.
+
+Report: [`docs/reports/lot-005-golden-slice-report.md`](docs/reports/lot-005-golden-slice-report.md).
 
 ## Known issues
 
@@ -134,21 +134,15 @@ inspection, not a passed gate.
 
 ## Next action
 
-**Start the Golden Slice (Lot 0.5).** No blockers remain. Proposed selection:
+**Lot 01 — PHP (9 items).** Master Plan §14 order, then Lot 02 onward to Lot 27.
+Per-lot workflow: read plan → implement → test → technical gate → pedagogical
+gate → content budget gate → build → deploy → smoke test → verify → commit.
 
-| Level | Candidate item |
-|---|---|
-| `MINIMAL` | HTTP → Status codes |
-| `STANDARD` | Routing → Configuration (YAML and PHP attributes) |
-| `DEEP` | Security → Authenticators, Passports and Badges |
+Watch as volume grows:
 
-For each: classification → content level → course → flashcard → question →
-exercise only if a question cannot test application → validation. Sources
-anchored to `symfony/symfony-docs@8.0` and `symfony/symfony@8.0` with commit
-SHAs, per `docs/policy/source-verification.md`.
-
-Content budget is binding: create nothing that does not demonstrably improve
-the learner's probability of answering an official-scope question correctly.
+- level distribution — `DEEP` must never be the default;
+- the running revision-time estimate (currently ~10–12 min for 3 items);
+- `DUP-001` pressure as related items accumulate.
 
 ## Blocked decisions
 
