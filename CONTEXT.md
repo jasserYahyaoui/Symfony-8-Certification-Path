@@ -6,6 +6,12 @@
 
 ## Current lot
 
+**UX pass, after the hardening pass.** The learner-facing navigation now shows
+topic names — `05 — Routing` rather than `lot-05` — from a new canonical
+registry, `docs/syllabus/lots.yml`. Directory names, URLs and identifiers are
+unchanged. The number is the **recommended revision order only**: not an exam
+weighting, not a priority, and the official syllabus publishes no order.
+
 **Hardening pass, after Lot 05.** Four corrections requested by the owner:
 `CRS-001` scoped so a fence cannot hide another item's answer; the accessibility
 audit made to refuse a stale build; the `VALIDATION` pool defined and filled
@@ -192,25 +198,29 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `hardening-crs001-gate-validation`, every command run
-with `set -o pipefail` and its exit code checked:
+Locally, on PHP 8.4.19, on `ux-topic-navigation-labels`, every command run with
+`set -o pipefail` and its exit code checked:
 
 ```text
 php bin/cert validate           → 17 rules, 163 official items, 180 questions, no violations   (exit 0)
 php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)                          (exit 0)
-php bin/cert build              → docs tree + coverage.json, exam.json, practice.json           (exit 0)
-vendor/bin/phpunit              → OK (80 tests, 654 assertions)                                 (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 787 assertions)                                 (exit 0)
 npm --prefix website run build  → SUCCESS                                                      (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                        (exit 0)
 ```
 
-Payloads after the change: `practice.json` = LEARNING, 123 questions.
-`exam.json` = **VALIDATION**, 46 questions. No payload carries a holdout
-question, and `PayloadBuilder::assertNoHoldoutLeak()` now runs against both.
+Rendered sidebar checked in the built HTML: 26 lot categories read
+`01 — PHP 8.4 Foundations` … `26 — Serializer`, in revision order, with no raw
+`lot-NN` label left. Breadcrumbs read *Parcours de révision › 09 — Dependency
+Injection › Semantic configuration*. Previous/Next are unaffected — they follow
+`sidebar_position`, which now carries the registry's order.
 
-Coverage is unchanged at 37.42% and that is correct: this pass added no official
-item. It added the exam-mode evidence that 46 already-EXAM_READY items were
-claiming without being able to produce.
+Responsive check with Playwright at 375, 768 and 1280 px: no horizontal
+overflow at any width, the mobile toggle appears below 997 px, and the topic
+label renders identically in the drawer and the desktop sidebar.
+
+Payloads unchanged by this pass: `practice.json` = LEARNING/123,
+`exam.json` = **VALIDATION**/46, no holdout in either.
 
 ## Next action
 

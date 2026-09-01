@@ -1,0 +1,102 @@
+# Delivery lots and their display names (Master Plan §14).
+#
+# The single canonical source for how a lot is NAMED. It carries no scope: the
+# denominator is `syllabus-matrix.yml`, whose `lot` field assigns each atomic
+# official item to one of these ids.
+#
+# `display_name` is what a learner sees in the navigation, rendered as
+# "NN — Display Name". The number is the **recommended revision order** and
+# nothing else: it is not an exam weighting, not a difficulty, and not an
+# official priority. The official syllabus publishes no order.
+#
+# `lot` and `official_topic` are different dimensions (ADR-0004). They coincide
+# for topics 1–13; Miscellaneous is one official topic spread over lots 14–26,
+# which is why several display names here have no topic of the same name.
+#
+# The word "Lot" stays in reports and governance pages, where a lot really is a
+# unit of delivery. It is not shown to a learner.
+
+schema_version: 1
+
+lots:
+  - id: lot-01
+    order: 1
+    display_name: "PHP 8.4 Foundations"
+  - id: lot-02
+    order: 2
+    display_name: "HTTP Fundamentals"
+  - id: lot-03
+    order: 3
+    display_name: "Symfony Architecture"
+  - id: lot-04
+    order: 4
+    display_name: "Controllers"
+  - id: lot-05
+    order: 5
+    display_name: "Routing"
+  - id: lot-06
+    order: 6
+    display_name: "Templating with Twig"
+  - id: lot-07
+    order: 7
+    display_name: "Forms"
+  - id: lot-08
+    order: 8
+    display_name: "Data Validation"
+  - id: lot-09
+    order: 9
+    display_name: "Dependency Injection"
+  - id: lot-10
+    order: 10
+    display_name: "Security"
+  - id: lot-11
+    order: 11
+    display_name: "Messenger"
+  - id: lot-12
+    order: 12
+    display_name: "Console"
+  - id: lot-13
+    order: 13
+    display_name: "Automated Tests"
+  - id: lot-14
+    order: 14
+    display_name: "Configuration and Error Handling"
+  - id: lot-15
+    order: 15
+    display_name: "Profiler and Deployment"
+  - id: lot-16
+    order: 16
+    display_name: "Internationalization and Localization"
+  - id: lot-17
+    order: 17
+    display_name: "HTTP Caching"
+  - id: lot-18
+    order: 18
+    display_name: "Cache"
+  - id: lot-19
+    order: 19
+    display_name: "Clock"
+  - id: lot-20
+    order: 20
+    display_name: "EventDispatcher and Event"
+  - id: lot-21
+    order: 21
+    display_name: "Filesystem and Finder"
+  - id: lot-22
+    order: 22
+    display_name: "Mailer and Mime"
+  - id: lot-23
+    order: 23
+    display_name: "Process"
+  - id: lot-24
+    order: 24
+    display_name: "PropertyAccess"
+  - id: lot-25
+    order: 25
+    display_name: "Runtime"
+  - id: lot-26
+    order: 26
+    display_name: "Serializer"
+  - id: lot-27
+    order: 27
+    display_name: "Final Review and Mock Exams"
