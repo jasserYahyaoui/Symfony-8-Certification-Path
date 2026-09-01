@@ -1,35 +1,1485 @@
 # Atomic official syllabus matrix — the coverage denominator (Master Plan §3.5).
 #
-# Imported VERBATIM from https://certification.symfony.com/exams/symfony.html
-# on 2026-08-31 (§3.1). `official_wording` is the exact syllabus text; changing
-# it is a syllabus refresh, not a content edit, and CI rule SYL-002 enforces
-# that once docs/syllabus/wording.lock.yml exists.
+# Imported VERBATIM from the official syllabus PDF supplied by the project
+# owner on 2026-09-01, sourced from
+# https://certification.symfony.com/exams/symfony.html (§3.1).
 #
-# INCOMPLETE. The supplied text began mid-item ("resolvers"), so the topics
-# preceding Routing are absent. `syllabus_complete: false` makes the coverage
-# engine refuse to publish a percentage: a figure computed against a partial
-# denominator would overstate readiness precisely because it would look right.
+# `official_wording` is the exact syllabus text. Line wraps introduced by the
+# PDF layout are rejoined; f-ligature glyphs (fi, fl, ffi) produced by the PDF
+# fonts are normalised back to plain letters. Nothing else is altered: no item
+# is reworded, merged, split, renamed or reordered.
 #
-# official_topic_order starts at 5, leaving 1-4 free for the missing head so
-# that completing the import does not renumber what is already here.
+# COMPLETE. All 14 enumerated official topics and all 163 atomic items are
+# present, so `syllabus_complete: true` and the coverage engine may publish a
+# percentage.
 #
-# Pedagogical fields (content_level, learning_outcomes, minimum_evidence) are
-# absent by design: these items are NOT_STARTED and have not been researched.
-# Rule PED-001 requires them from SPECIFIED onward. See
-# docs/policy/matrix-field-guide.md.
+# Note on the topic count: the exam page advertises "15 topics" while
+# enumerating 14 topic headings. The most likely reading is that "Components:",
+# nested under Miscellaneous, is counted as a topic of its own. Coverage is
+# computed from ITEMS, not topics, so this does not affect any figure; it is
+# recorded in official-syllabus.md rather than silently resolved.
+#
+# `lot` is a DELIVERY grouping (Master Plan §14), not a syllabus dimension.
+# Topics 1-13 map one-to-one onto lots 01-13; the Miscellaneous topic is split
+# across lots 14-26. See docs/adr/0004-lot-numbering.md.
 
 schema_version: 1
-syllabus_revision: "2026-08-31-partial"
-syllabus_complete: false
+syllabus_revision: "2026-09-01-complete"
+syllabus_complete: true
 syllabus_source: "https://certification.symfony.com/exams/symfony.html"
-missing_topics_note: >-
-  Topics preceding "Routing" were not supplied. The trailing fragment
-  "resolvers" belongs to the last item of the topic immediately before Routing
-  and is recorded in official-syllabus.md without a matrix entry.
+syllabus_source_artifact: "Official exam page PDF, supplied 2026-09-01"
 
 items:
 
-  # ---- Routing (12 items) ----
+  # ---- Topic 1: PHP (9 items) ----
+  - id: OIT-46ry8d7dypmb
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 1
+    official_item: "PHP API up to PHP 8.4 version"
+    official_wording: "PHP API up to PHP 8.4 version"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "PHP Polyfills are not included."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-ywrx9x3hg9z8
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 2
+    official_item: "Object Oriented Programming"
+    official_wording: "Object Oriented Programming"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-1kjqdnryaw0h
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 3
+    official_item: "Attributes"
+    official_wording: "Attributes"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-vt0p9cacpkpd
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 4
+    official_item: "Interfaces"
+    official_wording: "Interfaces"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-fhb3vz7xbt5h
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 5
+    official_item: "Anonymous functions and closures"
+    official_wording: "Anonymous functions and closures"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-webdvbgbrfth
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 6
+    official_item: "Abstract classes"
+    official_wording: "Abstract classes"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-bvnvx2b6yt2y
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 7
+    official_item: "Exception and error handling"
+    official_wording: "Exception and error handling"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-n0zfkcr189af
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 8
+    official_item: "Traits"
+    official_wording: "Traits"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-hqz5c2qse24w
+    official_topic_order: 1
+    official_topic: "PHP"
+    official_item_order: 9
+    official_item: "Enums"
+    official_wording: "Enums"
+    learning_domain: php
+    lot: lot-01
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+
+  # ---- Topic 2: HTTP (10 items) ----
+  - id: OIT-7801mj6w73ky
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 1
+    official_item: "HTTP Specification (RFC 9110)"
+    official_wording: "HTTP Specification (RFC 9110)"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-512se83ab7qj
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 2
+    official_item: "Status codes"
+    official_wording: "Status codes"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-d3nyk9z0q2pd
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 3
+    official_item: "HTTP request"
+    official_wording: "HTTP request"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-jh06tkfrhthq
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 4
+    official_item: "HTTP response"
+    official_wording: "HTTP response"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-qnm508g1ktqm
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 5
+    official_item: "HTTP methods"
+    official_wording: "HTTP methods"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-bz1f5nh8g9b2
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 6
+    official_item: "Cookies"
+    official_wording: "Cookies"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-tc39jp8japfc
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 7
+    official_item: "Caching"
+    official_wording: "Caching"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "ESI (Edge Side Includes) is not included."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-mrvrtxm4v2m5
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 8
+    official_item: "Content negotiation"
+    official_wording: "Content negotiation"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-fhjmv9w3wxsb
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 9
+    official_item: "Language detection"
+    official_wording: "Language detection"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-9kh5cqz5qtrb
+    official_topic_order: 2
+    official_topic: "HTTP"
+    official_item_order: 10
+    official_item: "Symfony HttpClient component"
+    official_wording: "Symfony HttpClient component"
+    learning_domain: http
+    lot: lot-02
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+
+  # ---- Topic 3: Symfony Architecture (15 items) ----
+  - id: OIT-y0ah7pq9c4hv
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 1
+    official_item: "HttpFoundation component"
+    official_wording: "HttpFoundation component"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-132nwnh9c6bc
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 2
+    official_item: "Symfony Flex"
+    official_wording: "Symfony Flex"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-347k8phdewem
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 3
+    official_item: "License"
+    official_wording: "License"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-d416348gfhde
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 4
+    official_item: "Components and Bridges"
+    official_wording: "Components and Bridges"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "Any Symfony component not explicitly named by the syllabus is out of scope, as is any bridge to a third-party service."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-p3p7te94qc1n
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 5
+    official_item: "Code organization"
+    official_wording: "Code organization"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-7sewqvmw6468
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 6
+    official_item: "Request handling"
+    official_wording: "Request handling"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-xc4zfr70jjas
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 7
+    official_item: "Exception handling"
+    official_wording: "Exception handling"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-rd9b27fkb72r
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 8
+    official_item: "Event dispatcher and kernel events"
+    official_wording: "Event dispatcher and kernel events"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-hzbednd04fd4
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 9
+    official_item: "Official best practices"
+    official_wording: "Official best practices"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-vk57zg2wpep7
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 10
+    official_item: "Backward compatibility promise"
+    official_wording: "Backward compatibility promise"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-ehf5zdnmdb1j
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 11
+    official_item: "Deprecations best practices"
+    official_wording: "Deprecations best practices"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-efzq92vdtayj
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 12
+    official_item: "Framework overloading"
+    official_wording: "Framework overloading"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-pk5s7cnhk776
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 13
+    official_item: "Release management and roadmap schedule"
+    official_wording: "Release management and roadmap schedule"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-kcj9a5846b1s
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 14
+    official_item: "Framework interoperability and PSRs"
+    official_wording: "Framework interoperability and PSRs"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-c9pjp03cv4bq
+    official_topic_order: 3
+    official_topic: "Symfony Architecture"
+    official_item_order: 15
+    official_item: "Naming conventions"
+    official_wording: "Naming conventions"
+    learning_domain: symfony
+    lot: lot-03
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+
+  # ---- Topic 4: Controllers (14 items) ----
+  - id: OIT-qr7gnht5s847
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 1
+    official_item: "HttpKernel component and FrameworkBundle"
+    official_wording: "HttpKernel component and FrameworkBundle"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-ycc2c8tnv68h
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 2
+    official_item: "Naming conventions"
+    official_wording: "Naming conventions"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-gqpj4rbt0hc7
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 3
+    official_item: "The base AbstractController class"
+    official_wording: "The base AbstractController class"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-6cr9b8ea8g32
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 4
+    official_item: "The request"
+    official_wording: "The request"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-2emwghgkkrdy
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 5
+    official_item: "The response"
+    official_wording: "The response"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-pfrzrr0qcmh3
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 6
+    official_item: "The cookies"
+    official_wording: "The cookies"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-e41m74xaqhy7
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 7
+    official_item: "The session"
+    official_wording: "The session"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-65bev6t7wbna
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 8
+    official_item: "The flash messages"
+    official_wording: "The flash messages"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-bwfqarnn6s2f
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 9
+    official_item: "HTTP redirects"
+    official_wording: "HTTP redirects"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-znm2tr61aw9p
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 10
+    official_item: "Internal redirects"
+    official_wording: "Internal redirects"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-emymfwgesh99
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 11
+    official_item: "Generate 404 pages"
+    official_wording: "Generate 404 pages"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-tb3bnd6b0f01
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 12
+    official_item: "File upload"
+    official_wording: "File upload"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-e93sa9rd4kd9
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 13
+    official_item: "Built-in internal controllers"
+    official_wording: "Built-in internal controllers"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+  - id: OIT-8hs6e05vq91g
+    official_topic_order: 4
+    official_topic: "Controllers"
+    official_item_order: 14
+    official_item: "Argument value resolvers"
+    official_wording: "Argument value resolvers"
+    learning_domain: symfony
+    lot: lot-04
+    chapter: null
+    classification: OFFICIAL
+    content_level: null
+    content_level_justification: null
+    learning_outcomes: []
+    required_assessment_modes: []
+    minimum_evidence: null
+    exclusion_boundaries: "None stated by the syllabus for this item."
+    version_constraints: "Symfony 8.0"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
+    exercise_refs: []
+    exam_refs: []
+    prerequisites: []
+    status: NOT_STARTED
+    verification_status: UNVERIFIED
+    exam_ready: false
+    last_verified_at: null
+    reviewed_by: null
+    notes: null
+
+  # ---- Topic 5: Routing (12 items) ----
   - id: OIT-ceaw3ewfsw85
     official_topic_order: 5
     official_topic: "Routing"
@@ -391,7 +1841,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Templating with Twig (14 items) ----
+  # ---- Topic 6: Templating with Twig (14 items) ----
   - id: OIT-b9x8az2bx4t8
     official_topic_order: 6
     official_topic: "Templating with Twig"
@@ -813,7 +2263,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Forms (13 items) ----
+  # ---- Topic 7: Forms (13 items) ----
   - id: OIT-tsxxgp3ppj1n
     official_topic_order: 7
     official_topic: "Forms"
@@ -1205,7 +2655,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Data Validation (8 items) ----
+  # ---- Topic 8: Data Validation (8 items) ----
   - id: OIT-6wd8860brzfy
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -1447,7 +2897,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Dependency Injection (12 items) ----
+  # ---- Topic 9: Dependency Injection (12 items) ----
   - id: OIT-92ctf3sy3ddk
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -1809,7 +3259,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Security (12 items) ----
+  # ---- Topic 10: Security (12 items) ----
   - id: OIT-942znmbjwvad
     official_topic_order: 10
     official_topic: "Security"
@@ -2171,7 +3621,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Messenger (7 items) ----
+  # ---- Topic 11: Messenger (7 items) ----
   - id: OIT-hs1297vvhr89
     official_topic_order: 11
     official_topic: "Messenger"
@@ -2383,7 +3833,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Console (9 items) ----
+  # ---- Topic 12: Console (9 items) ----
   - id: OIT-481gmkgbksnr
     official_topic_order: 12
     official_topic: "Console"
@@ -2655,7 +4105,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Automated Tests (9 items) ----
+  # ---- Topic 13: Automated Tests (9 items) ----
   - id: OIT-c6wd3f444qjn
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -2911,7 +4361,7 @@ items:
     learning_outcomes: []
     required_assessment_modes: []
     minimum_evidence: null
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "PHPUnit Bridge is not included."
     version_constraints: "Symfony 8.0"
     official_sources: []
     course_refs: []
@@ -2927,7 +4377,7 @@ items:
     reviewed_by: null
     notes: null
 
-  # ---- Miscellaneous (19 items) ----
+  # ---- Topic 14: Miscellaneous (19 items) ----
   - id: OIT-tvc5rjv6qvse
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -3025,7 +4475,7 @@ items:
     official_item: "Deployment best practices"
     official_wording: "Deployment best practices"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-15
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3055,7 +4505,7 @@ items:
     official_item: "Web Profiler, Web Debug Toolbar and Data collectors"
     official_wording: "Web Profiler, Web Debug Toolbar and Data collectors"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-15
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3085,7 +4535,7 @@ items:
     official_item: "Internationalization and localization (Note: Intl component utilities to access ICU data are not included)"
     official_wording: "Internationalization and localization (Note: Intl component utilities to access ICU data are not included)"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-16
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3115,7 +4565,7 @@ items:
     official_item: "HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included"
     official_wording: "HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-17
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3145,7 +4595,7 @@ items:
     official_item: "Cache"
     official_wording: "Cache"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-18
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3175,7 +4625,7 @@ items:
     official_item: "Clock"
     official_wording: "Clock"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-19
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3205,7 +4655,7 @@ items:
     official_item: "EventDispatcher"
     official_wording: "EventDispatcher"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-20
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3235,7 +4685,7 @@ items:
     official_item: "Filesystem"
     official_wording: "Filesystem"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-21
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3265,7 +4715,7 @@ items:
     official_item: "Finder"
     official_wording: "Finder"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-21
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3295,7 +4745,7 @@ items:
     official_item: "Event"
     official_wording: "Event"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-20
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3325,7 +4775,7 @@ items:
     official_item: "Mailer"
     official_wording: "Mailer"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-22
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3355,7 +4805,7 @@ items:
     official_item: "Mime"
     official_wording: "Mime"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-22
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3385,7 +4835,7 @@ items:
     official_item: "Process"
     official_wording: "Process"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-23
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3415,7 +4865,7 @@ items:
     official_item: "PropertyAccess"
     official_wording: "PropertyAccess"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-24
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3445,7 +4895,7 @@ items:
     official_item: "Runtime"
     official_wording: "Runtime"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-25
     chapter: null
     classification: OFFICIAL
     content_level: null
@@ -3475,7 +4925,7 @@ items:
     official_item: "Serializer"
     official_wording: "Serializer"
     learning_domain: symfony
-    lot: lot-14
+    lot: lot-26
     chapter: null
     classification: OFFICIAL
     content_level: null

@@ -82,30 +82,27 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**115 imported, 0 specified, 0 implemented.**
+**163 imported and verified, 0 specified, 0 implemented.** All 14 enumerated
+official topics present; `syllabus_complete: true`.
 
-| Topic | Items | Lot |
-|---|---:|---|
-| Routing | 12 | lot-05 |
-| Templating with Twig | 14 | lot-06 |
-| Forms | 13 | lot-07 |
-| Data Validation | 8 | lot-08 |
-| Dependency Injection | 12 | lot-09 |
-| Security | 12 | lot-10 |
-| Messenger | 7 | lot-11 |
-| Console | 9 | lot-12 |
-| Automated Tests | 9 | lot-13 |
-| Miscellaneous | 19 | lot-14 |
+```text
+coverage = 0 / 163 = 0%   (a real figure, not an undefined denominator)
+```
 
-All at `NOT_STARTED` / `UNVERIFIED`. Coverage is **UNDEFINED**: the matrix
-declares `syllabus_complete: false`, and the engine refuses a percentage while
-that holds — 115 is not the real denominator.
+Per-topic: PHP 9, HTTP 10, Symfony Architecture 15, Controllers 14, Routing 12,
+Twig 14, Forms 13, Data Validation 8, Dependency Injection 12, Security 12,
+Messenger 7, Console 9, Automated Tests 9, Miscellaneous 19.
+
+All items at `NOT_STARTED` / `UNVERIFIED`. Wording lock armed (`SYL-002`),
+verified live by rejecting a test reword.
+
+Full audit: [`docs/reports/syllabus-and-lot-audit.md`](docs/reports/syllabus-and-lot-audit.md).
 
 ## Known issues
 
 | ID | Issue | Severity | Status |
 |---|---|---|---|
-| **B-1** | Syllabus import is **partial**. The owner supplied the text on 2026-08-31, but it begins mid-item with the fragment `resolvers`: the topics preceding `Routing` are absent. 10 of 15 topics imported. | **CRITICAL** | **Partially resolved — the head of the syllabus is still needed** |
+| ~~B-1~~ | Syllabus import. | — | **Closed** — complete PDF supplied 2026-09-01; 163/163 items imported and verified verbatim against the source |
 | B-2 | PHP-vs-static-Pages contradiction. | — | **Resolved** by ADR-0001 |
 | B-6 | GitHub Pages was not enabled on the repository. | — | **Resolved** — enabled by the owner; deploy and production smoke test both green |
 | B-4 | Master Plan §18 skill pipeline (`/research`, `/to-spec`, `/to-tickets`, `/implement`, `/tdd`) is not installed here. | Minor | Accepted — native workflow used |
@@ -137,27 +134,26 @@ inspection, not a passed gate.
 
 ## Next action
 
-**Complete the syllabus import.** The supplied text is missing everything
-before `Routing` — roughly five topics, including the one whose last item ends
-in `resolvers`. Until those are imported:
+**Start the Golden Slice (Lot 0.5).** No blockers remain. Proposed selection:
 
-- coverage stays UNDEFINED (the denominator is knowingly partial);
-- the "any component not explicitly mentioned" allow-list cannot be enforced
-  mechanically, because a component named only in the missing head would be
-  wrongly rejected;
-- `official_topic_order` 1–4 is reserved, so completing the import will not
-  renumber the 115 items already present.
+| Level | Candidate item |
+|---|---|
+| `MINIMAL` | HTTP → Status codes |
+| `STANDARD` | Routing → Configuration (YAML and PHP attributes) |
+| `DEEP` | Security → Authenticators, Passports and Badges |
 
-Work that is **not** blocked and can start now: Lot 0.5 Golden Slice on the
-imported topics — one MINIMAL, one STANDARD and one justified DEEP item drawn
-from Routing, Twig or Security, taken end to end.
+For each: classification → content level → course → flashcard → question →
+exercise only if a question cannot test application → validation. Sources
+anchored to `symfony/symfony-docs@8.0` and `symfony/symfony@8.0` with commit
+SHAs, per `docs/policy/source-verification.md`.
 
-Once B-1 clears, the sequence is: import → matrix → wording lock → Lot 0.5
-Golden Slice → architecture approval → content lots.
+Content budget is binding: create nothing that does not demonstrably improve
+the learner's probability of answering an official-scope question correctly.
 
 ## Blocked decisions
 
-1. **B-1 — Syllabus access.** Still open. The Master Plan §14 lot descriptions
-   must not be used as a substitute (§3.1 forbids treating lot descriptions as
-   the coverage denominator).
-2. **B-5 — Examinable Twig version.** Resolves with B-1.
+**None.** Every blocker raised during Lot 0 is closed:
+B-1 (syllabus), B-2 (architecture), B-5 (Twig version), B-6 (Pages).
+
+Open non-blocking risks are tracked in the Known issues table above and in
+[`docs/reports/syllabus-and-lot-audit.md`](docs/reports/syllabus-and-lot-audit.md).

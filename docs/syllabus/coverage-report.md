@@ -5,7 +5,7 @@
 > No generation timestamp is embedded: CI regenerates this file and
 > fails on any diff, which a changing timestamp would make impossible.
 
-**Syllabus revision:** 2026-08-31-partial
+**Syllabus revision:** 2026-09-01-complete
 
 ## Official coverage (Master Plan §3.5)
 
@@ -13,16 +13,7 @@
 EXAM_READY atomic official items / total atomic official items * 100
 ```
 
-**Coverage: UNDEFINED.**
-
-The syllabus import is **incomplete**: 115 atomic official items are present,
-but the matrix declares `syllabus_complete: false`, so the total is not
-the real total.
-
-For the record, 0 of the 115 imported items are EXAM_READY — but that ratio
-is **not** the coverage figure and must never be quoted as one. A
-percentage over a partial denominator always reads higher than the
-truth, and reads entirely credible while doing so.
+**Coverage: 0%** — 0 of 163 atomic official items are EXAM_READY.
 
 ## By official topic
 
@@ -30,19 +21,27 @@ truth, and reads entirely credible while doing so.
 |---|---:|---:|---:|
 | Automated Tests | 0 | 9 | 0.0 |
 | Console | 0 | 9 | 0.0 |
+| Controllers | 0 | 14 | 0.0 |
 | Data Validation | 0 | 8 | 0.0 |
 | Dependency Injection | 0 | 12 | 0.0 |
 | Forms | 0 | 13 | 0.0 |
+| HTTP | 0 | 10 | 0.0 |
 | Messenger | 0 | 7 | 0.0 |
 | Miscellaneous | 0 | 19 | 0.0 |
+| PHP | 0 | 9 | 0.0 |
 | Routing | 0 | 12 | 0.0 |
 | Security | 0 | 12 | 0.0 |
+| Symfony Architecture | 0 | 15 | 0.0 |
 | Templating with Twig | 0 | 14 | 0.0 |
 
 ## By lot
 
 | Lot | EXAM_READY | Total | % |
 |---|---:|---:|---:|
+| lot-01 | 0 | 9 | 0.0 |
+| lot-02 | 0 | 10 | 0.0 |
+| lot-03 | 0 | 15 | 0.0 |
+| lot-04 | 0 | 14 | 0.0 |
 | lot-05 | 0 | 12 | 0.0 |
 | lot-06 | 0 | 14 | 0.0 |
 | lot-07 | 0 | 13 | 0.0 |
@@ -52,10 +51,70 @@ truth, and reads entirely credible while doing so.
 | lot-11 | 0 | 7 | 0.0 |
 | lot-12 | 0 | 9 | 0.0 |
 | lot-13 | 0 | 9 | 0.0 |
-| lot-14 | 0 | 19 | 0.0 |
+| lot-14 | 0 | 3 | 0.0 |
+| lot-15 | 0 | 2 | 0.0 |
+| lot-16 | 0 | 1 | 0.0 |
+| lot-17 | 0 | 1 | 0.0 |
+| lot-18 | 0 | 1 | 0.0 |
+| lot-19 | 0 | 1 | 0.0 |
+| lot-20 | 0 | 2 | 0.0 |
+| lot-21 | 0 | 2 | 0.0 |
+| lot-22 | 0 | 2 | 0.0 |
+| lot-23 | 0 | 1 | 0.0 |
+| lot-24 | 0 | 1 | 0.0 |
+| lot-25 | 0 | 1 | 0.0 |
+| lot-26 | 0 | 1 | 0.0 |
 
-## Not yet EXAM_READY (115)
+## Not yet EXAM_READY (163)
 
+- `OIT-46ry8d7dypmb`
+- `OIT-ywrx9x3hg9z8`
+- `OIT-1kjqdnryaw0h`
+- `OIT-vt0p9cacpkpd`
+- `OIT-fhb3vz7xbt5h`
+- `OIT-webdvbgbrfth`
+- `OIT-bvnvx2b6yt2y`
+- `OIT-n0zfkcr189af`
+- `OIT-hqz5c2qse24w`
+- `OIT-7801mj6w73ky`
+- `OIT-512se83ab7qj`
+- `OIT-d3nyk9z0q2pd`
+- `OIT-jh06tkfrhthq`
+- `OIT-qnm508g1ktqm`
+- `OIT-bz1f5nh8g9b2`
+- `OIT-tc39jp8japfc`
+- `OIT-mrvrtxm4v2m5`
+- `OIT-fhjmv9w3wxsb`
+- `OIT-9kh5cqz5qtrb`
+- `OIT-y0ah7pq9c4hv`
+- `OIT-132nwnh9c6bc`
+- `OIT-347k8phdewem`
+- `OIT-d416348gfhde`
+- `OIT-p3p7te94qc1n`
+- `OIT-7sewqvmw6468`
+- `OIT-xc4zfr70jjas`
+- `OIT-rd9b27fkb72r`
+- `OIT-hzbednd04fd4`
+- `OIT-vk57zg2wpep7`
+- `OIT-ehf5zdnmdb1j`
+- `OIT-efzq92vdtayj`
+- `OIT-pk5s7cnhk776`
+- `OIT-kcj9a5846b1s`
+- `OIT-c9pjp03cv4bq`
+- `OIT-qr7gnht5s847`
+- `OIT-ycc2c8tnv68h`
+- `OIT-gqpj4rbt0hc7`
+- `OIT-6cr9b8ea8g32`
+- `OIT-2emwghgkkrdy`
+- `OIT-pfrzrr0qcmh3`
+- `OIT-e41m74xaqhy7`
+- `OIT-65bev6t7wbna`
+- `OIT-bwfqarnn6s2f`
+- `OIT-znm2tr61aw9p`
+- `OIT-emymfwgesh99`
+- `OIT-tb3bnd6b0f01`
+- `OIT-e93sa9rd4kd9`
+- `OIT-8hs6e05vq91g`
 - `OIT-ceaw3ewfsw85`
 - `OIT-egy2wn3z7gb7`
 - `OIT-1cj08dhtp9hj`

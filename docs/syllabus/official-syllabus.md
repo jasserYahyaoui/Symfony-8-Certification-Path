@@ -1,50 +1,137 @@
 # Official Symfony 8 Certification syllabus (verbatim import)
 
-## Status: PARTIALLY IMPORTED — head of the syllabus is missing
+## Status: COMPLETE
 
 **Source:** <https://certification.symfony.com/exams/symfony.html>
-**Imported:** 2026-08-31, supplied by the project owner as text.
-**Import fidelity:** verbatim. Wording, ordering and notes are reproduced
-exactly as received; nothing has been reworded, merged, split or renamed (§3.1).
+**Artifact:** official exam page PDF, supplied by the project owner 2026-09-01.
+**Import fidelity:** verbatim. Every item below was verified to appear
+character-for-character in the source PDF text (163 of 163).
 
-> ### ⚠️ This import is incomplete
->
-> The supplied text begins mid-item, with the fragment **`resolvers`** — the
-> tail of an item belonging to a topic that precedes `Routing`. Everything
-> before that fragment is missing.
->
-> The published exam covers **15 topics**. Ten are present below. The missing
-> topics are those preceding `Routing` in the official ordering, plus the item
-> whose tail is the `resolvers` fragment.
->
-> **Consequence:** the coverage denominator is *known to be incomplete*. The
-> matrix therefore carries `syllabus_complete: false`, and the coverage engine
-> refuses to publish a percentage while that flag is false. A percentage
-> computed against a partial denominator would overstate readiness precisely
-> because it would look correct.
->
-> The missing head must be supplied verbatim before any coverage figure is
-> meaningful. It is deliberately **not** reconstructed from the execution
-> plan's lot descriptions (§3.1 forbids treating them as the denominator).
+### Normalisation applied
+
+Two mechanical transformations, neither of which changes wording:
+
+1. **Line wraps rejoined.** The PDF lays topics out in narrow columns, so items
+   such as *"Release management and roadmap schedule"* and *"HttpKernel
+   component and FrameworkBundle"* are split across two rendered lines.
+2. **F-ligatures normalised.** The PDF fonts encode `fi`, `fl`, `ffi` as single
+   ligature glyphs, which extract as `ﬁ`, `ﬂ`, `ﬃ`. These are a rendering
+   artefact, not the official spelling, and are restored to plain letters —
+   `Conﬁguration` → `Configuration`.
+
+Nothing else was altered: no item reworded, merged, split, renamed or reordered.
+
+### A recorded discrepancy: 15 topics or 14?
+
+The exam page states **"15 topics"** while enumerating **14** topic headings.
+This is not resolved by guessing. The most plausible reading is that
+`Components:` — nested under *Miscellaneous* and carrying its own list of
+twelve components — is counted as a topic in its own right.
+
+It affects no figure in this project: coverage is computed from atomic items
+(§3.5), never from topic counts. Recorded here rather than silently reconciled,
+per §2.5.
+
+### Exam constraints
+
+```text
+75 questions
+90 minutes
+15 topics
+English
+Symfony 8.0 only
+```
+
+`OFFICIAL_FORMAT` (§7.4). The page additionally states:
+
+> NOTE: The Symfony 8 Certification exam only includes questions about
+> Symfony 8.0 and not about Symfony 8.1, 8.2, 8.3 and 8.4 versions.
+
+No per-topic weighting is published, so any internal distribution is
+`TRAINING_DISTRIBUTION` (§10).
 
 ---
 
 ## Topics
 
-> Ordering below reflects the supplied text. `official_topic_order` values in
-> the matrix start at 5, leaving 1–4 free for the missing head, so that adding
-> it later does not renumber what is already imported.
 
-### (truncated) — trailing fragment
+### 1. PHP
 
-```text
-resolvers
-```
+*9 atomic items — delivered in lot-01*
 
-Recorded, not interpreted. It is the end of an official item whose full wording
-and parent topic are unknown, so no matrix entry is created for it.
+- PHP API up to PHP 8.4 version
+- Object Oriented Programming
+- Attributes
+- Interfaces
+- Anonymous functions and closures
+- Abstract classes
+- Exception and error handling
+- Traits
+- Enums
 
-### Routing
+> Note: PHP Polyfills are not included.
+
+### 2. HTTP
+
+*10 atomic items — delivered in lot-02*
+
+- HTTP Specification (RFC 9110)
+- Status codes
+- HTTP request
+- HTTP response
+- HTTP methods
+- Cookies
+- Caching
+- Content negotiation
+- Language detection
+- Symfony HttpClient component
+
+> Note: ESI (Edge Side Includes) is not included.
+
+### 3. Symfony Architecture
+
+*15 atomic items — delivered in lot-03*
+
+- HttpFoundation component
+- Symfony Flex
+- License
+- Components and Bridges
+- Code organization
+- Request handling
+- Exception handling
+- Event dispatcher and kernel events
+- Official best practices
+- Backward compatibility promise
+- Deprecations best practices
+- Framework overloading
+- Release management and roadmap schedule
+- Framework interoperability and PSRs
+- Naming conventions
+
+> Note: Any Symfony component not explicitly named by the syllabus is out of scope, as is any bridge to a third-party service.
+
+### 4. Controllers
+
+*14 atomic items — delivered in lot-04*
+
+- HttpKernel component and FrameworkBundle
+- Naming conventions
+- The base AbstractController class
+- The request
+- The response
+- The cookies
+- The session
+- The flash messages
+- HTTP redirects
+- Internal redirects
+- Generate 404 pages
+- File upload
+- Built-in internal controllers
+- Argument value resolvers
+
+### 5. Routing
+
+*12 atomic items — delivered in lot-05*
 
 - Routing component and FrameworkBundle
 - Configuration (YAML and PHP attributes)
@@ -59,7 +146,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - User's locale guessing
 - Router debugging
 
-### Templating with Twig
+### 6. Templating with Twig
+
+*14 atomic items — delivered in lot-06*
 
 - TwigBundle
 - Twig syntax up to 3.22 version
@@ -76,7 +165,11 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Assets management
 - Debugging variables
 
-### Forms
+> Note: Twig features introduced after 3.22 are out of scope.
+
+### 7. Forms
+
+*13 atomic items — delivered in lot-07*
 
 - Form component
 - Forms creation
@@ -92,7 +185,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Form type extensions
 - Form options (OptionsResolver component)
 
-### Data Validation
+### 8. Data Validation
+
+*8 atomic items — delivered in lot-08*
 
 - Validator component
 - PHP object validation
@@ -103,7 +198,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Custom callback validators
 - Violations builder
 
-### Dependency Injection
+### 9. Dependency Injection
+
+*12 atomic items — delivered in lot-09*
 
 - Dependency Injection component
 - Service container
@@ -118,7 +215,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Services autowiring
 - Service locators
 
-### Security
+### 10. Security
+
+*12 atomic items — delivered in lot-10*
 
 - Security Core, CSRF and PasswordHasher components
 - Authentication
@@ -133,7 +232,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Authenticators, Passports and Badges
 - Voters and voting strategies
 
-### Messenger
+### 11. Messenger
+
+*7 atomic items — delivered in lot-11*
 
 - Messenger component
 - Transports
@@ -143,10 +244,12 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Middleware
 - Events
 
-> Note: third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their
-> usage/configuration is not included
+> Note: Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration are not included.
+> Note: Third-party transports and their usage/configuration are not included.
 
-### Console
+### 12. Console
+
+*9 atomic items — delivered in lot-12*
 
 - Console component
 - Built-in commands
@@ -158,7 +261,9 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Console events
 - Verbosity levels
 
-### Automated Tests
+### 13. Automated Tests
+
+*9 atomic items — delivered in lot-13*
 
 - Unit tests with PHPUnit
 - Functional tests with PHPUnit
@@ -170,9 +275,11 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Request and response objects introspection
 - Handling legacy deprecated code
 
-> Note: PHPUnit Bridge is not included
+> Note: PHPUnit Bridge is not included.
 
-### Miscellaneous
+### 14. Miscellaneous
+
+*19 atomic items — delivered in lot-14, lot-15, lot-16, lot-17, lot-18, lot-19, lot-20, lot-21, lot-22, lot-23, lot-24, lot-25, lot-26*
 
 - Configuration (including DotEnv and ExpressionLanguage components)
 - Error handling
@@ -181,26 +288,33 @@ and parent topic are unknown, so no matrix entry is created for it.
 - Web Profiler, Web Debug Toolbar and Data collectors
 - Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included
-- Components:
-  - Cache
-  - Clock
-  - EventDispatcher
-  - Filesystem
-  - Finder
-  - Event
-  - Mailer
-  - Mime
-  - Process
-  - PropertyAccess
-  - Runtime
-  - Serializer
+- Cache
+- Clock
+- EventDispatcher
+- Filesystem
+- Finder
+- Event
+- Mailer
+- Mime
+- Process
+- PropertyAccess
+- Runtime
+- Serializer
+
+> Note: Bridges to third-party services are not included.
+> Note: ESI (Edge Side Includes) is not included.
+> Note: Intl component utilities to access ICU data are not included.
+
+---
+
+**Total: 163 atomic official items across 14 enumerated topics.**
 
 ---
 
 ## Topics not included in the exam
 
-Reproduced verbatim. These are enforced by
-[`exclusions.yml`](exclusions.yml) and CI rule `SCOPE-001`.
+Reproduced verbatim; enforced by [`exclusions.yml`](exclusions.yml) and CI rule
+`SCOPE-001`.
 
 > The following is a list of the topics not included in the exam:
 >
@@ -214,42 +328,33 @@ Reproduced verbatim. These are enforced by
 > - Any Symfony component not explicitly mentioned in the above list (e.g. String, Uid, TypeInfo, Lock, etc.)
 > - Any bridge to third-party services in any component (Mailer, Messenger, Translation, etc.)
 
-### The strictest exclusion
+### The strictest exclusion is an allow-list
 
 > Any Symfony component not explicitly mentioned in the above list
 
-This is an **allow-list, not a deny-list**: a component is out of scope unless
-the syllabus names it. The named components are, in full:
+A component is out of scope **unless the syllabus names it**. Now that the
+import is complete this can finally be enforced, because the set of named
+components is closed. Components named by the syllabus, in full:
 
-Routing, FrameworkBundle, TwigBundle, Form, Validator, DependencyInjection,
-Security Core, CSRF, PasswordHasher, Messenger, Console, PHPUnit (as a testing
-tool), CssSelector, DomCrawler, WebProfiler bundle, DotEnv, ExpressionLanguage,
-Cache, Clock, EventDispatcher, Filesystem, Finder, Event, Mailer, Mime,
-Process, PropertyAccess, Runtime, Serializer — plus whatever the missing head
-of the syllabus names.
+HttpFoundation, HttpKernel, FrameworkBundle, HttpClient, Routing, TwigBundle,
+Form, OptionsResolver, Validator, DependencyInjection, Security Core, CSRF,
+PasswordHasher, Messenger, Console, CssSelector, DomCrawler, WebProfiler
+bundle, DotEnv, ExpressionLanguage, Cache, Clock, EventDispatcher, Filesystem,
+Finder, Event, Mailer, Mime, Process, PropertyAccess, Runtime, Serializer.
 
-Because that list is incomplete, the allow-list cannot yet be enforced
-mechanically: a component named only in the missing head would be wrongly
-rejected. `exclusions.yml` therefore records this boundary as review-only
-until the full syllabus is present.
+Anything outside that list — `String`, `Uid`, `TypeInfo`, `Lock` and every
+other component — is out of scope and may never be required to earn a point.
 
-## Resolved by this import
+## Settled by this import
 
-**B-5 — Twig version.** The syllabus states *"Twig syntax up to 3.22 version"*
-verbatim. The examinable version is settled at **3.22**, notwithstanding that
-Symfony 8.0's `composer.json` allows `^3.21|^4.0` and the Twig 3.x branch has
-advanced to 3.29. Lot 6 content is scored against 3.22, and any Twig feature
-introduced after 3.22 is out of scope.
+**B-1 — syllabus access.** Closed. All 14 enumerated topics and 163 atomic
+items imported and verified against the source.
 
-## Publicly confirmed exam constraints
+**B-5 — Twig version.** Closed. The syllabus states *"Twig syntax up to 3.22
+version"*, settling the examinable version at **3.22** despite Symfony 8.0
+allowing `^3.21|^4.0` and the Twig 3.x branch having reached 3.29.
 
-```text
-75 questions
-90 minutes
-15 topics
-English
-Symfony 8.0 only
-```
+**Lot 01–04.** The truncated first import began at `resolvers`; the complete
+PDF confirms this is the tail of *"Argument value resolvers"*, the last item of
+**Controllers**. See [ADR-0004](../adr/0004-lot-numbering.md).
 
-Labelled `OFFICIAL_FORMAT` (§7.4). No per-topic weighting is published, so any
-internal distribution is `TRAINING_DISTRIBUTION` (§10).
