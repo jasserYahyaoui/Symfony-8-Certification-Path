@@ -6,11 +6,21 @@
 
 ## Current lot
 
-**UX pass, after the hardening pass.** The learner-facing navigation now shows
-topic names — `05 — Routing` rather than `lot-05` — from a new canonical
-registry, `docs/syllabus/lots.yml`. Directory names, URLs and identifiers are
-unchanged. The number is the **recommended revision order only**: not an exam
-weighting, not a priority, and the official syllabus publishes no order.
+**UX pass, after the hardening pass — delivered.** The learner-facing navigation
+now shows topic names — `05 — Routing` rather than `lot-05` — from a new
+canonical registry, `docs/syllabus/lots.yml` (Master Plan §14 names; names only,
+never scope). Directory names, URLs and identifiers are unchanged, so no
+redirect was needed. The number is the **recommended revision order only**: not
+an exam weighting, not a priority, and the official syllabus publishes no order.
+Reports and governance pages keep the word "Lot", where a lot really is a unit
+of delivery.
+
+Branch `ux-topic-navigation-labels`, commit `0808ddc`,
+[PR #8](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/8),
+merge `783acc7`. CI run `33512878717` **success**; Deploy run `33512878760`
+**success** across build (`99872613488`), deploy (`99872951066`) and the
+**production smoke test** (`99873030693`).
+Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 **Hardening pass, after Lot 05.** Four corrections requested by the owner:
 `CRS-001` scoped so a fence cannot hide another item's answer; the accessibility
