@@ -13,7 +13,7 @@
 EXAM_READY atomic official items / total atomic official items * 100
 ```
 
-**Coverage: 53.99%** — 88 of 163 atomic official items are EXAM_READY.
+**Coverage: 58.9%** — 96 of 163 atomic official items are EXAM_READY.
 
 ## By official topic
 
@@ -22,7 +22,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | Automated Tests | 0 | 9 | 0.0 |
 | Console | 0 | 9 | 0.0 |
 | Controllers | 14 | 14 | 100.0 |
-| Data Validation | 0 | 8 | 0.0 |
+| Data Validation | 8 | 8 | 100.0 |
 | Dependency Injection | 0 | 12 | 0.0 |
 | Forms | 13 | 13 | 100.0 |
 | HTTP | 10 | 10 | 100.0 |
@@ -45,7 +45,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-05 | 12 | 12 | 100.0 |
 | lot-06 | 14 | 14 | 100.0 |
 | lot-07 | 13 | 13 | 100.0 |
-| lot-08 | 0 | 8 | 0.0 |
+| lot-08 | 8 | 8 | 100.0 |
 | lot-09 | 0 | 12 | 0.0 |
 | lot-10 | 1 | 12 | 8.3 |
 | lot-11 | 0 | 7 | 0.0 |
@@ -65,16 +65,8 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-25 | 0 | 1 | 0.0 |
 | lot-26 | 0 | 1 | 0.0 |
 
-## Not yet EXAM_READY (75)
+## Not yet EXAM_READY (67)
 
-- `OIT-6wd8860brzfy`
-- `OIT-d3yp0sq36xrx`
-- `OIT-9x3strrjdng7`
-- `OIT-ttwpe00f32q9`
-- `OIT-kkhb3wd341ex`
-- `OIT-rwavvsx2d7nq`
-- `OIT-hcdrp2y7kbct`
-- `OIT-0wnxbapegqhv`
 - `OIT-92ctf3sy3ddk`
 - `OIT-79f4n087b66c`
 - `OIT-dy7108w6bf4z`

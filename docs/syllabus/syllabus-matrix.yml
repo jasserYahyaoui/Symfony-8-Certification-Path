@@ -4651,26 +4651,46 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois methodes d'entree aux roles distincts, et un type de retour qui n'est ni un booleen ni
+      une exception. Le candidat doit choisir la methode et interpreter la liste de violations, ce
+      qui est une application, pas une reconnaissance.
+    learning_outcomes:
+      - Nommer les trois methodes d'entree du validateur
+      - Enoncer ce que retourne validate() et comment le tester
+      - Choisir validatePropertyValue() pour une valeur candidate
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "ValidatorInterface: validate, validateProperty, validatePropertyValue"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-way4aktj2d5m"
+    flashcard_refs:
+      - "FLC-3sceej8y8a54"
+    question_refs:
+      - "QST-ga6bhvbf0ecp"
+      - "QST-m5f3k7za0tpt"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-jwhsasxb0537"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-d3yp0sq36xrx
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4681,26 +4701,51 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre formats de declaration equivalents, une cascade qui n'est pas automatique, et une fusion
+      d'heritage que l'on ne peut pas desactiver. Deux comportements silencieux dont la
+      meconnaissance fait passer une validation qui devrait echouer.
+    learning_outcomes:
+      - Declarer des contraintes en attribut et en PHP
+      - Exiger la cascade par Assert\Valid sur la propriete
+      - Enoncer que les contraintes du parent sont fusionnees, jamais remplacees
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst"
+        branch: "8.0"
+        symbol_or_lines: "mapping formats, Validating Object With Inheritance"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst"
+        branch: "8.0"
+        symbol_or_lines: "Valid"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-ax2v94pgbk0g"
+    flashcard_refs:
+      - "FLC-qb5nx97jkjav"
+    question_refs:
+      - "QST-g22z7fmy0cg3"
+      - "QST-6snh12yz2gz2"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-5jrexz5sjxkf"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-9x3strrjdng7
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4711,26 +4756,53 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le catalogue se consulte, mais quatre paires voisines decident d'une reponse :
+      NotBlank/NotNull, EqualTo/IdenticalTo, Length/Count, All/Collection. Choisir la bonne
+      contrainte est une application, pas une simple reconnaissance de liste.
+    learning_outcomes:
+      - Situer une contrainte dans sa famille
+      - Distinguer NotBlank de NotNull sur une valeur zero
+      - Choisir entre All et Collection
+      - Reconnaitre le role de Sequentially et d'AtLeastOneOf
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc"
+        branch: "8.0"
+        symbol_or_lines: "liste des contraintes natives"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php"
+        branch: "8.0"
+        symbol_or_lines: "NotBlankValidator::validate"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-569y6hb7fwj5"
+    flashcard_refs:
+      - "FLC-7p2ygq8ft3x4"
+    question_refs:
+      - "QST-9zsx244xw271"
+      - "QST-fh0eh8ct9m8r"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-q91f8w8t909e"
+      - "QST-kx920hs0wf1d"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-ttwpe00f32q9
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4741,26 +4813,51 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois portees dont deux se confondent, une regle de nommage arbitraire pour l'accesseur, et une
+      portee classe qui seule permet une regle croisee. Le candidat doit choisir la portee d'apres la
+      regle a exprimer.
+    learning_outcomes:
+      - Nommer les trois portees d'une contrainte
+      - Enoncer la regle de nommage d'un accesseur validable
+      - Choisir la portee classe pour une regle croisee
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst"
+        branch: "8.0"
+        symbol_or_lines: "Constraint Targets, Getters, Classes"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst"
+        branch: "8.0"
+        symbol_or_lines: "Class Constraint Validator, getTargets"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-wzmrks85zyh1"
+    flashcard_refs:
+      - "FLC-swztaetynk4y"
+    question_refs:
+      - "QST-5ryp5r5qg631"
+      - "QST-6sxdmsbatps8"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-pa6gzs0cmgg0"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-kkhb3wd341ex
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4771,26 +4868,46 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux groupes existent sans avoir ete declares, le comportement par defaut n'applique qu'un seul
+      d'entre eux, et Default se separe du groupe portant le nom de la classe des qu'un objet est
+      cascade. Trois faits qui changent la reponse.
+    learning_outcomes:
+      - Enumerer les groupes qu'une classe possede sans declaration
+      - Enoncer quel groupe s'applique sans argument
+      - Distinguer Default du groupe portant le nom de la classe
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst"
+        branch: "8.0"
+        symbol_or_lines: "Default group, class name group"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-vskyr5zdwr2t"
+    flashcard_refs:
+      - "FLC-mvq0exxwwfxa"
+    question_refs:
+      - "QST-1c6zphv3dzgc"
+      - "QST-znrf5tj46jjt"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-vzpzmqn8tz5q"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-rwavvsx2d7nq
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4801,26 +4918,51 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Un ordre d'execution avec arret au premier echec, plus trois effets de bord structurels :
+      Default change de sens et provoque une recursion infinie s'il est inclus, valider un groupe de
+      la sequence la contourne, et la forme du tableau rendu par le provider — plate ou imbriquee —
+      change les groupes reellement valides. Chaque etage modifie la reponse.
+    learning_outcomes:
+      - Decrire l'ordre d'execution et sa condition d'arret
+      - Declarer une sequence avec le nom de la classe et dire pourquoi pas Default
+      - Enoncer l'effet d'une validation explicite d'un groupe de la sequence
+      - Distinguer un tableau plat d'un tableau imbrique dans le provider
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution de l'ordre des groupes sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst"
+        branch: "8.0"
+        symbol_or_lines: "GroupSequence, GroupSequenceProviderInterface"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-bthv5xmh5wea"
+    flashcard_refs:
+      - "FLC-rstx3zwpz28w"
+    question_refs:
+      - "QST-467dyvf9ht74"
+      - "QST-h9d44gg643q8"
+      - "QST-0hcwz5ma0vpr"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-z99j5z8mk6cf"
+      - "QST-dxbhgyewd2ma"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-hcdrp2y7kbct
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4831,26 +4973,46 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux signatures dont les deux premiers arguments s'inversent selon que la methode est
+      d'instance ou statique, et un contrat de retour contre-intuitif : la valeur retournee est
+      ignoree. Les deux decident d'une reponse.
+    learning_outcomes:
+      - Ecrire la signature d'un callback d'instance et d'un callback statique
+      - Enoncer que le retour est ignore et qu'une violation doit etre ajoutee
+      - Reconnaitre un appelable statique externe
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst"
+        branch: "8.0"
+        symbol_or_lines: "Callback, Static Callbacks, External Callbacks"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-96w05v20b8w1"
+    flashcard_refs:
+      - "FLC-6n0qg98nptxe"
+    question_refs:
+      - "QST-mhm4eqjg10s2"
+      - "QST-569d837g7cjg"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-7zka4jhfcgv7"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
   - id: OIT-0wnxbapegqhv
     official_topic_order: 8
     official_topic: "Data Validation"
@@ -4861,26 +5023,52 @@ items:
     lot: lot-08
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux methodes du contexte aux roles differents, et une chaine de constructeur dont l'oubli du
+      dernier maillon ne produit aucune erreur. Le candidat doit aussi savoir attribuer une violation
+      a un champ, ce qui est une application.
+    learning_outcomes:
+      - Distinguer addViolation() de buildViolation() sur le contexte
+      - Enoncer qu'une chaine sans addViolation() n'enregistre rien
+      - Attribuer une violation a une propriete par atPath()
+      - Remplir un emplacement de message par setParameter()
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "ConstraintViolationBuilderInterface"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "addViolation, buildViolation"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-d235sja3h7y2"
+    flashcard_refs:
+      - "FLC-crtrxfbtxbrw"
+    question_refs:
+      - "QST-egqjqhe0s1vv"
+      - "QST-r3bv4np3ttcs"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-vp3ys4f6xypm"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 08 — Data Validation."
 
   # ---- Topic 9: Dependency Injection (12 items) ----
   - id: OIT-92ctf3sy3ddk
