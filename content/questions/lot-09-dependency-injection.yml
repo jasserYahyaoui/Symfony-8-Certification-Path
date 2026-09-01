@@ -1,0 +1,1957 @@
+# Lot 09 — Dependency Injection question bank (Master Plan §7).
+#
+# 26 LEARNING questions (2 per official item, 3 for each DEEP one), 11
+# VALIDATION questions — one per STANDARD or DEEP item, as rule POOL-002
+# requires — and 2 HOLDOUT questions reserved for the final mocks.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-bkff08xmt369
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-92ctf3sy3ddk
+  domain: symfony
+  subtopic: injection
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class receives the whole service container in its constructor and calls get() when it needs
+    something. What is that pattern called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - injection
+  - service-location
+  choices:
+  - id: CHO-bttfzfvx0mh2
+    text: Service location, not dependency injection
+    correct: true
+  - id: CHO-2n5nve9ftmq6
+    text: Constructor injection, since the container arrives through the constructor
+    correct: false
+    explanation: 'What is injected matters more than how: the class can still ask for anything, so its
+      real dependencies are invisible.'
+  - id: CHO-nnzpar28bxp7
+    text: Setter injection
+    correct: false
+    explanation: No setter is involved, and the objection would be the same.
+  - id: CHO-cfrtp4m5x1ja
+    text: Autowiring
+    correct: false
+    explanation: Autowiring is how the container fills an argument by type; it says nothing about what
+      that argument is.
+  explanation: 'Receiving the container is service location: the dependencies leave the signature and
+    can no longer be checked at compile time. Injection names what the class needs.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-ttahda62q0me
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-92ctf3sy3ddk
+  domain: symfony
+  subtopic: injection
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A dependency is mandatory for the object to work at all. Which injection form does Symfony
+    treat as the normal one?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - injection
+  choices:
+  - id: CHO-430hxe7t0nn2
+    text: Constructor injection
+    correct: true
+  - id: CHO-1wvasvyd770p
+    text: 'Setter injection with #[Required]'
+    correct: false
+    explanation: That form exists for optional dependencies or to break a circular reference.
+  - id: CHO-4j1tt4e0hnpx
+    text: Public property assignment
+    correct: false
+    explanation: It breaks encapsulation and is discouraged.
+  - id: CHO-2nvxwgyqbnzq
+    text: Fetching it from the container inside the method
+    correct: false
+    explanation: That is service location, not injection.
+  explanation: 'A mandatory collaborator belongs in the constructor: the object cannot exist in an invalid
+    state. Setters cover the optional case.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-0qda3mr144nt
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-92ctf3sy3ddk
+  domain: symfony
+  subtopic: component
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Outside the framework, what finishes building a ContainerBuilder before it can be used?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - component
+  choices:
+  - id: CHO-rkcgg1d1bk9v
+    text: compile()
+    correct: true
+  - id: CHO-hbrvdsf31429
+    text: boot()
+    correct: false
+    explanation: boot() belongs to the Kernel, not to the container.
+  - id: CHO-y7nz0545qw72
+    text: warmUp()
+    correct: false
+    explanation: Cache warmers run after the container exists.
+  - id: CHO-5txyek6rrs6m
+    text: get() on the first service
+    correct: false
+    explanation: Fetching a service does not resolve parameters or run compiler passes.
+  explanation: compile() resolves the definitions, runs the compiler passes and freezes the container.
+    In a Symfony application it happens once and is cached.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-b9cxe8hzrxnz
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  subtopic: visibility
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: $container->get('App\\Service\\Archiver') throws, yet the class is in src/ and is injected
+    successfully elsewhere. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - visibility
+  choices:
+  - id: CHO-cvcqsq7k3ft2
+    text: The service is private, which is the default
+    correct: true
+  - id: CHO-q9f0f1m7n58j
+    text: The service was never registered, because src/ is not scanned
+    correct: false
+    explanation: It is injected elsewhere, so it exists; discovery worked.
+  - id: CHO-ar8vd8bjf58m
+    text: get() only accepts short ids, not fully-qualified class names
+    correct: false
+    explanation: The FQCN is exactly the id convention.
+  - id: CHO-7bzcqy94b7n0
+    text: The container was not compiled
+    correct: false
+    explanation: An uncompiled container would fail for every service, not this one.
+  explanation: Private is the default. A private service is injectable but not retrievable from outside
+    the container; that is what makes it removable and its uses traceable.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    branch: '8.0'
+    symbol_or_lines: public and private services
+    verified_at: '2026-09-01'
+- id: QST-8cz03w4xazh4
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  subtopic: alias
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What makes an interface usable as a type-hint for autowiring?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - alias
+  - autowiring
+  choices:
+  - id: CHO-gsmyvxvk3wbn
+    text: An alias from the interface to an implementation
+    correct: true
+  - id: CHO-qwatexxwzkpt
+    text: Marking the implementation public
+    correct: false
+    explanation: Visibility governs retrieval from outside, not type resolution.
+  - id: CHO-zgkbamphc5zg
+    text: Tagging the implementation
+    correct: false
+    explanation: Tags are read by passes and iterators; they do not resolve a type-hint.
+  - id: CHO-yqxn81zaeedz
+    text: Nothing — interfaces are autowired by scanning implementations at runtime
+    correct: false
+    explanation: Autowiring is resolved at compile time and needs a single designated service.
+  explanation: No service is named after an interface, so an alias designates the implementation. Symfony
+    creates it automatically when exactly one implementation exists.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    branch: '8.0'
+    symbol_or_lines: public and private services
+    verified_at: '2026-09-01'
+- id: QST-hp7d9gbzhfk0
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  subtopic: compilation
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A change to services.yaml has no effect in production until the cache is cleared. What explains
+    it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - compilation
+  choices:
+  - id: CHO-cq60n5t12za5
+    text: The container is compiled to PHP in var/cache/ and is not re-read at runtime
+    correct: true
+  - id: CHO-cwr39vcaez52
+    text: YAML files are only parsed in the dev environment
+    correct: false
+    explanation: They are parsed in every environment — but at compile time.
+  - id: CHO-h02t4b5msshe
+    text: services.yaml is ignored in production by default
+    correct: false
+    explanation: It is used; it is simply compiled ahead of time.
+  - id: CHO-c2tdgt7mjx9y
+    text: The opcode cache keeps the old YAML
+    correct: false
+    explanation: An opcode cache stores compiled PHP, and the YAML is not what runs.
+  explanation: Compilation resolves parameters, runs the passes and drops unused private services, producing
+    a PHP container. Runtime reads that class, never the configuration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-0mgw5r64r7pf
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-dy7108w6bf4z
+  domain: symfony
+  subtopic: discovery
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which command answers 'which type can I type-hint to get this service?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - debug
+  choices:
+  - id: CHO-zn03te6k66wp
+    text: debug:autowiring
+    correct: true
+  - id: CHO-z0xd29fqcech
+    text: debug:container
+    correct: false
+    explanation: It lists service ids, which is a different question.
+  - id: CHO-f4d9daxmwakh
+    text: debug:config
+    correct: false
+    explanation: It shows the resolved configuration of a bundle.
+  - id: CHO-65zed0mqvap4
+    text: config:dump-reference
+    correct: false
+    explanation: It prints a bundle's configuration reference.
+  explanation: debug:autowiring lists the types usable as type-hints, which is what writing a constructor
+    requires. debug:container lists ids.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-8ejeqdapg6aq
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-dy7108w6bf4z
+  domain: symfony
+  subtopic: discovery
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where do the services you never declared — router, validator, serializer — come from?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - bundles
+  choices:
+  - id: CHO-jqvn5bfkp375
+    text: From the bundles installed in the application, FrameworkBundle first
+    correct: true
+  - id: CHO-vd6vs7atb21n
+    text: From a built-in list hard-coded in the Kernel
+    correct: false
+    explanation: The Kernel registers bundles; the bundles register the services.
+  - id: CHO-nsf9sqyrcd86
+    text: From autowiring, which instantiates vendor classes on demand
+    correct: false
+    explanation: Autowiring resolves arguments against registered services; it registers nothing.
+  - id: CHO-mtkjy3pqvdwj
+    text: From composer.json, which maps packages to service ids
+    correct: false
+    explanation: Composer installs code; it does not populate the container.
+  explanation: 'Each bundle registers its services. That is why composer require is enough: the recipe
+    enables the bundle, the bundle registers its services.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-p6eftemqgsfx
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  subtopic: parameters
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A value must change between deployments without recompiling the container. How should it be
+    referenced?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - parameters
+  - env
+  choices:
+  - id: CHO-av5qaeg5by1s
+    text: '%env(SOME_VAR)%'
+    correct: true
+  - id: CHO-9pm2h1jsfz5j
+    text: '%some.parameter%'
+    correct: false
+    explanation: A parameter is resolved at compile time and baked into the compiled container.
+  - id: CHO-y4w38e9ejrj3
+    text: A PHP class constant
+    correct: false
+    explanation: A constant is fixed in code and requires a deployment to change.
+  - id: CHO-jq1d1yh0vmdh
+    text: A tagged service returning the value
+    correct: false
+    explanation: 'That solves nothing: the tag is read at compile time too.'
+  explanation: Parameters are resolved when the container compiles; environment variables are read at
+    runtime, which is exactly what a per-deployment value needs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes
+    verified_at: '2026-09-01'
+- id: QST-cb9sywaj1nde
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  subtopic: env-processors
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two environment-variable processors are chained on the same variable. In which order do they
+    apply?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - env-processors
+  choices:
+  - id: CHO-k4zzxcxjctcn
+    text: 'Right to left: the one nearest the variable name runs first'
+    correct: true
+  - id: CHO-we3d6pbb4xgk
+    text: Left to right, like a pipeline
+    correct: false
+    explanation: 'The syntax reads like a pipeline but nests like a function call: the innermost is evaluated
+      first.'
+  - id: CHO-d0saqwyqpb3y
+    text: In the order they are declared in the bundle configuration
+    correct: false
+    explanation: Processors are not declared anywhere; they are named inline in the expression.
+  - id: CHO-tgjfee13tgqf
+    text: The order is undefined, so only one processor may be used
+    correct: false
+    explanation: Chaining is supported and its order is deterministic.
+  explanation: Chained processors nest like function calls. The one written closest to the variable name
+    is applied first, and each feeds the next outwards.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes
+    verified_at: '2026-09-01'
+- id: QST-sxw56zsgz0we
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  subtopic: parameters
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is a literal percent sign written in a container configuration value?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - parameters
+  choices:
+  - id: CHO-b1ftaqq8yt3x
+    text: 'By doubling it: %%'
+    correct: true
+  - id: CHO-c1v0rzez04e8
+    text: 'By escaping it with a backslash: \%'
+    correct: false
+    explanation: Backslash escaping is not used for percent signs in container values.
+  - id: CHO-bmddzw5x3x81
+    text: By quoting the whole value
+    correct: false
+    explanation: Quoting is a YAML concern and does not stop parameter resolution.
+  - id: CHO-2gaybryx51dn
+    text: By using %percent%
+    correct: false
+    explanation: No such built-in parameter exists.
+  explanation: A single percent starts a parameter reference. Doubling it produces a literal one; forgetting
+    that makes the container look for a parameter that does not exist.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes
+    verified_at: '2026-09-01'
+- id: QST-gfqb0xrb7tbx
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  subtopic: defaults
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A service declared inside a when@test block of services.yaml is not autowired, although _defaults
+    sets autowire: true at the top of the same file. Why?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - defaults
+  - environments
+  choices:
+  - id: CHO-5v9b2vtbjgxj
+    text: _defaults does not apply inside when@ blocks; each one must redefine it
+    correct: true
+  - id: CHO-vvcbdrevycr5
+    text: Autowiring is disabled in the test environment
+    correct: false
+    explanation: Autowiring is environment-independent.
+  - id: CHO-e9h8h36w0xsz
+    text: when@ blocks only accept parameters, not services
+    correct: false
+    explanation: They accept service definitions.
+  - id: CHO-9mhqcxrndf81
+    text: The service must also be declared in the main services section
+    correct: false
+    explanation: A service may be declared only in an environment block.
+  explanation: _defaults applies to the section it is written in. An environment block is a separate section
+    and inherits nothing, so the service is registered without autowire or autoconfigure.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-q2p4t3hjc5x0
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  subtopic: autoconfigure
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does autoconfigure: true do that autowire: true does not?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autoconfigure
+  choices:
+  - id: CHO-0qjfbzw9f9kx
+    text: It applies tags automatically based on the interfaces the class implements
+    correct: true
+  - id: CHO-qpppr9jczyma
+    text: It makes the services public
+    correct: false
+    explanation: Visibility is a separate option and defaults to private.
+  - id: CHO-ez3vhm1kfwp8
+    text: It resolves constructor arguments by type
+    correct: false
+    explanation: That is exactly what autowire does.
+  - id: CHO-p4tmg123csfj
+    text: It registers the classes found under src/
+    correct: false
+    explanation: That is the resource key of the App\ definition.
+  explanation: Autoconfiguration turns 'implements EventSubscriberInterface' into the kernel.event_subscriber
+    tag, which is why implementing the interface is enough.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-8e8zfpay4pj4
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  subtopic: registration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does listing a directory under exclude actually prevent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - registration
+  choices:
+  - id: CHO-60wjsnamc771
+    text: Its classes being registered automatically as services
+    correct: true
+  - id: CHO-zry934s71gh9
+    text: Its classes being loaded by Composer
+    correct: false
+    explanation: Autoloading is unaffected; only container registration is.
+  - id: CHO-v2ad0r8c9sne
+    text: Its classes being referenced explicitly elsewhere
+    correct: false
+    explanation: An excluded class can still be declared explicitly and will then be registered.
+  - id: CHO-045a7hjp4r52
+    text: Its classes being autowired into other services
+    correct: false
+    explanation: If registered explicitly, such a class is autowired like any other.
+  explanation: exclude removes classes from automatic discovery only. Entities and the Kernel are excluded
+    because they are not services, not because they are forbidden.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: service container
+    verified_at: '2026-09-01'
+- id: QST-3zf09tnf1rkj
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  subtopic: decoration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After decorating a service, how does the decorator reach the original implementation?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - decoration
+  choices:
+  - id: CHO-rn44byemk4g6
+    text: Through the .inner service, injected automatically when autowiring
+    correct: true
+  - id: CHO-96215pxgm4ad
+    text: Through parent::, since the decorator extends the original
+    correct: false
+    explanation: Decoration is composition, not inheritance; the decorator need only share the interface.
+  - id: CHO-z1ahaah0nbys
+    text: The original is gone; the decorator must rebuild it
+    correct: false
+    explanation: The original is kept under a new id, not removed.
+  - id: CHO-xf7dyf0db0mn
+    text: Through $container->get() on the original id
+    correct: false
+    explanation: That id now resolves to the decorator, which would recurse.
+  explanation: The decorated service is renamed and stays available as .inner. That renaming is what lets
+    the decorator keep the original behaviour.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    branch: '8.0'
+    symbol_or_lines: decoration
+    verified_at: '2026-09-01'
+- id: QST-zbx19jnjr7gz
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  subtopic: decoration
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Bar decorates Foo with decoration_priority 5, Baz decorates Foo with decoration_priority 1.
+    Which decorator ends up wrapping Foo directly?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - decoration
+  - priority
+  choices:
+  - id: CHO-033nkbta5egz
+    text: Bar, because a higher priority is applied earlier
+    correct: true
+  - id: CHO-ryvmerjm3d6k
+    text: Baz, because the lowest priority is closest to the target
+    correct: false
+    explanation: Priority is applied in descending order, so the lower value ends up on the outside.
+  - id: CHO-pm2ywnrj0bag
+    text: Whichever is declared first in services.yaml
+    correct: false
+    explanation: Declaration order only breaks ties between equal priorities.
+  - id: CHO-k9bvtahejjtc
+    text: 'Neither: two decorators on one service are applied side by side'
+    correct: false
+    explanation: Decorators stack; they do not run in parallel.
+  explanation: A higher priority is applied earlier, so it wraps the target first and ends up innermost.
+    The lower priority becomes the outer layer, and therefore the one called first at runtime.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    branch: '8.0'
+    symbol_or_lines: decoration
+    verified_at: '2026-09-01'
+- id: QST-cg1wnyzmwgqg
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  subtopic: decoration
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What happens to the services that already depend on a service once it is decorated?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - decoration
+  choices:
+  - id: CHO-vza9r4ybs5t6
+    text: Nothing changes for them; they now receive the decorator under the same id
+    correct: true
+  - id: CHO-a1mwpsee7q5y
+    text: They must be updated to reference the decorator's id
+    correct: false
+    explanation: The decorator takes over the decorated id, which is what makes decoration transparent.
+  - id: CHO-rdpj6vg99dh4
+    text: They keep receiving the original, since .inner preserves it
+    correct: false
+    explanation: .inner is for the decorator's own use; everyone else gets the decorator.
+  - id: CHO-c811r1qp80mf
+    text: They fail to compile until they declare the decorator explicitly
+    correct: false
+    explanation: No change is required anywhere else.
+  explanation: Decoration replaces the service behind its id, so consumers are untouched. That transparency
+    is the point of the mechanism.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    branch: '8.0'
+    symbol_or_lines: decoration
+    verified_at: '2026-09-01'
+- id: QST-t4bgmrx3q0cg
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  subtopic: tags
+  language: en
+  difficulty: medium
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service is tagged app.handler but nothing ever calls it, and no error is raised. What is
+    the most likely cause?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - tags
+  choices:
+  - id: CHO-k7zwt0cr7rgm
+    text: Nothing reads that tag — no compiler pass and no tagged iterator
+    correct: true
+  - id: CHO-2e2rdcfweyvb
+    text: The tag name must be registered before it can be used
+    correct: false
+    explanation: Tag names are arbitrary strings and need no declaration.
+  - id: CHO-jvrsv0ndfk4e
+    text: Tags only work on public services
+    correct: false
+    explanation: Visibility does not affect tagging.
+  - id: CHO-g60py5rbbk0w
+    text: The tag must carry a priority to take effect
+    correct: false
+    explanation: Priority only orders services within a collection that is already being read.
+  explanation: A tag is inert metadata. Something must collect it — a compiler pass or a tagged iterator
+    — for it to mean anything, and its absence produces no error.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    branch: '8.0'
+    symbol_or_lines: service tags
+    verified_at: '2026-09-01'
+- id: QST-wdn59cym1fv8
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  subtopic: tags
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which construct injects every service carrying a given tag, without instantiating them upfront?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - tags
+  - iterator
+  choices:
+  - id: CHO-mfs8c6afnn40
+    text: '!tagged_iterator app.handler'
+    correct: true
+  - id: CHO-vaw2v2vmegxy
+    text: '!service_locator app.handler'
+    correct: false
+    explanation: A service locator is keyed and fetched by id; it is not built from a tag name this way.
+  - id: CHO-am0rc2ksy0be
+    text: '!tagged_array app.handler'
+    correct: false
+    explanation: No such YAML tag exists.
+  - id: CHO-kxafr7xcwyf8
+    text: '@app.handler'
+    correct: false
+    explanation: That references a single service whose id is app.handler.
+  explanation: 'A tagged iterator injects the tagged services lazily: each one is built only when the
+    iteration reaches it. #[AutowireIterator] is its attribute form.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    branch: '8.0'
+    symbol_or_lines: service tags
+    verified_at: '2026-09-01'
+- id: QST-ephbe0rvk2zx
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  subtopic: tags
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a tagged iterator, which service comes first?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - tags
+  - priority
+  choices:
+  - id: CHO-x7n6f8gw9f5z
+    text: The one whose tag carries the highest priority
+    correct: true
+  - id: CHO-k8q65hmgt6qg
+    text: The one with the lowest priority value
+    correct: false
+    explanation: Higher priority runs first, as it does for event listeners.
+  - id: CHO-m63a4hs55z3s
+    text: The one registered first in services.yaml
+    correct: false
+    explanation: Declaration order only settles ties.
+  - id: CHO-xfpxgm1bn9sq
+    text: The order is undefined without an index
+    correct: false
+    explanation: index provides a key, not an order.
+  explanation: 'priority orders the collection, highest first. index is a different attribute: it gives
+    the service a key, turning the iterator into a lookup table.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    branch: '8.0'
+    symbol_or_lines: service tags
+    verified_at: '2026-09-01'
+- id: QST-2q21a2srg5hr
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-qj4xfkhwdrx7
+  domain: symfony
+  subtopic: semantic
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which class declares which keys a bundle's configuration accepts, and validates them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - semantic-config
+  choices:
+  - id: CHO-h34p8jn01wrz
+    text: A class implementing ConfigurationInterface, via a TreeBuilder
+    correct: true
+  - id: CHO-8ceycd40d8w1
+    text: The bundle's Extension, in its load() method
+    correct: false
+    explanation: The extension consumes the already-validated configuration; it does not define the tree.
+  - id: CHO-x97e7znkjxbz
+    text: The Kernel, in registerBundles()
+    correct: false
+    explanation: That only lists which bundles are enabled.
+  - id: CHO-w4r6k7txpxp4
+    text: The compiler pass registered by the bundle
+    correct: false
+    explanation: Passes manipulate definitions after configuration has been processed.
+  explanation: ConfigurationInterface declares the tree — keys, types, defaults, constraints — and the
+    extension turns the validated result into services.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: bundle configuration
+    verified_at: '2026-09-01'
+- id: QST-qzgxkh2b2pa5
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-qj4xfkhwdrx7
+  domain: symfony
+  subtopic: semantic
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A bundle needs to add configuration to another bundle, while letting the application override
+    it. Which mechanism does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - semantic-config
+  - prepend
+  choices:
+  - id: CHO-brrmtcj8s2zc
+    text: prependExtensionConfig(), which places the configuration before the application's
+    correct: true
+  - id: CHO-ray9k2vz2yp3
+    text: Writing the configuration directly in load()
+    correct: false
+    explanation: load() configures the bundle's own extension, not another bundle's.
+  - id: CHO-vk8fjw29b5sq
+    text: A compiler pass running at TYPE_AFTER_REMOVING
+    correct: false
+    explanation: By then configuration has long been processed into definitions.
+  - id: CHO-padm6j66508g
+    text: Overwriting config/packages/ from the bundle at install time
+    correct: false
+    explanation: That is a recipe's job, and it would not let the application override cleanly.
+  explanation: Prepended configuration is placed before the application's, so the application keeps the
+    last word. It is how a bundle registers its template path in Twig.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: bundle configuration
+    verified_at: '2026-09-01'
+- id: QST-5jr8w7tcqm2n
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-qj4xfkhwdrx7
+  domain: symfony
+  subtopic: semantic
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A typo in a bundle's configuration key produces a hard failure rather than being ignored.
+    Why is that by design?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - semantic-config
+  choices:
+  - id: CHO-npsvf4fy0332
+    text: The configuration tree declares the accepted keys, so an unknown one is an error
+    correct: true
+  - id: CHO-xp4t5pv0eqmv
+    text: YAML rejects unknown keys by specification
+    correct: false
+    explanation: YAML has no notion of a schema; the validation comes from the Config component.
+  - id: CHO-h6qxhz3s3y4g
+    text: The container refuses to compile with any unused value
+    correct: false
+    explanation: Unused values are common; it is the unknown key that fails.
+  - id: CHO-97xgs1kmb622
+    text: The bundle must list every key in its recipe
+    correct: false
+    explanation: Recipes install default files; they do not validate keys.
+  explanation: Validating configuration before it is used is the main benefit of semantic configuration
+    over a free-form options array.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: bundle configuration
+    verified_at: '2026-09-01'
+- id: QST-xw4d2n9a8hz5
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-h2n7d7dbr56p
+  domain: symfony
+  subtopic: factories
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A service uses factory: [''App\\Factory'', ''create''] and arguments: [''fabien@example.com''].
+    Where does that argument go?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - factories
+  choices:
+  - id: CHO-4jbrpgyn1z4x
+    text: To App\Factory::create()
+    correct: true
+  - id: CHO-2ns6aq8j2jx3
+    text: To the service class constructor
+    correct: false
+    explanation: With a factory the constructor is not called at all.
+  - id: CHO-tjxsnt6vbrbb
+    text: To both, in order
+    correct: false
+    explanation: Only the factory is invoked.
+  - id: CHO-gmdq3743new8
+    text: Nowhere; factory arguments need the factory_arguments key
+    correct: false
+    explanation: No such key exists; arguments feeds the factory.
+  explanation: With a factory the container calls the factory and registers its return value. The constructor
+    is out of the path, which is why arguments reaches the factory.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    branch: '8.0'
+    symbol_or_lines: factories
+    verified_at: '2026-09-01'
+- id: QST-1ss1gkatj0te
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-h2n7d7dbr56p
+  domain: symfony
+  subtopic: factories
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does factory: [null, ''create''] mean?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - factories
+  choices:
+  - id: CHO-xqvpzdf0e086
+    text: Call the static create() method of the service's own class
+    correct: true
+  - id: CHO-rwfq73c86mr5
+    text: Call a global function named create()
+    correct: false
+    explanation: A plain function is written as a single string, not as a pair with null.
+  - id: CHO-j58zzn8qvcsq
+    text: Disable the factory and use the constructor
+    correct: false
+    explanation: Declaring a factory always bypasses the constructor.
+  - id: CHO-98y3qvgvdeky
+    text: Call create() on a service whose id is null
+    correct: false
+    explanation: null is not an id; it stands for the class being defined.
+  explanation: null stands for the class of the service being defined, which avoids repeating its name
+    when the static factory lives on the class itself.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    branch: '8.0'
+    symbol_or_lines: factories
+    verified_at: '2026-09-01'
+- id: QST-arfb4vy3eesd
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-h2n7d7dbr56p
+  domain: symfony
+  subtopic: factories
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a factory declaration, what changes when the first element is prefixed with @ instead of
+    naming a class?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - factories
+  choices:
+  - id: CHO-46hpbggkjf14
+    text: The container fetches that service and calls the method on the instance
+    correct: true
+  - id: CHO-0a21m3a9gm99
+    text: The method is called statically on the service's class
+    correct: false
+    explanation: Naming a class, without @, is what produces a static call.
+  - id: CHO-7gadrhg5c9mf
+    text: The factory result is cached differently
+    correct: false
+    explanation: The service is shared either way; the prefix only decides what the method is called on.
+  - id: CHO-rkecgcpehfxz
+    text: The factory receives the container as its first argument
+    correct: false
+    explanation: The container is never passed to a factory.
+  explanation: Without @, the first element is read as a class name and the method is called statically.
+    With @, the container resolves a service and calls the method on it, which is what a non-static factory
+    method needs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    branch: '8.0'
+    symbol_or_lines: factories
+    verified_at: '2026-09-01'
+- id: QST-7ns2ad8j7z7a
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-3y0b9gxyandm
+  domain: symfony
+  subtopic: passes
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does a compiler pass receive and manipulate?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - compiler-pass
+  choices:
+  - id: CHO-ranfc47rc8vk
+    text: A ContainerBuilder holding definitions, not instantiated services
+    correct: true
+  - id: CHO-3dbjg8q2jw4f
+    text: The compiled container, with its services already built
+    correct: false
+    explanation: Compilation happens before any service exists.
+  - id: CHO-b320jn5e8f50
+    text: The raw YAML configuration files
+    correct: false
+    explanation: Configuration has already been parsed into definitions by then.
+  - id: CHO-z400mxey2f69
+    text: The Kernel, from which it fetches services
+    correct: false
+    explanation: A pass never fetches a service; it edits descriptions.
+  explanation: Passes edit definitions during compilation. Nothing is instantiated, which is why a pass
+    can add arguments or method calls freely.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    branch: '8.0'
+    symbol_or_lines: PassConfig::TYPE_*, addPass
+    verified_at: '2026-09-01'
+- id: QST-4nq445j72q7w
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-3y0b9gxyandm
+  domain: symfony
+  subtopic: passes
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A pass registered at TYPE_AFTER_REMOVING adds a reference to a private service, and compilation
+    fails saying the service does not exist. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - compiler-pass
+  - passconfig
+  choices:
+  - id: CHO-exgmyp5t9sh4
+    text: Unused private services were already deleted at TYPE_REMOVE
+    correct: true
+  - id: CHO-9kty9qztxyhz
+    text: TYPE_AFTER_REMOVING passes cannot modify definitions
+    correct: false
+    explanation: They can; the problem is what is still there to modify.
+  - id: CHO-a8dcwybr9g4n
+    text: Private services can never be referenced from a pass
+    correct: false
+    explanation: They can, at an earlier stage.
+  - id: CHO-f3xf1cy0phjy
+    text: The pass needs a higher priority
+    correct: false
+    explanation: Priority orders passes within a type; it does not move the pass to an earlier stage.
+  explanation: The stage decides what still exists. A pass that wires a private service must run before
+    TYPE_REMOVE, which drops private services nothing references.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    branch: '8.0'
+    symbol_or_lines: PassConfig::TYPE_*, addPass
+    verified_at: '2026-09-01'
+- id: QST-q1jqvtzhr8ga
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-3y0b9gxyandm
+  domain: symfony
+  subtopic: passes
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which stage does addCompilerPass() use when none is given?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - compiler-pass
+  choices:
+  - id: CHO-gm00ph8j1b9j
+    text: TYPE_BEFORE_OPTIMIZATION
+    correct: true
+  - id: CHO-cwns2panz92j
+    text: TYPE_OPTIMIZE
+    correct: false
+    explanation: That stage resolves aliases, parameters and autowiring.
+  - id: CHO-56yp79twhwk4
+    text: TYPE_REMOVE
+    correct: false
+    explanation: That stage removes unused private services.
+  - id: CHO-mgcv83er65ct
+    text: TYPE_AFTER_REMOVING
+    correct: false
+    explanation: That is the last stage, after cleanup.
+  explanation: The default is the earliest stage, where every definition is still present. It is the safe
+    place for a pass that collects or rewires services.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    branch: '8.0'
+    symbol_or_lines: PassConfig::TYPE_*, addPass
+    verified_at: '2026-09-01'
+- id: QST-qcs153cscpem
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-3y0b9gxyandm
+  domain: symfony
+  subtopic: passes
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two passes are registered at the same stage, with priorities 10 and 0. Which runs first?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - compiler-pass
+  - priority
+  choices:
+  - id: CHO-as0qk972n2xx
+    text: The one with priority 10
+    correct: true
+  - id: CHO-79hqgn4hezv9
+    text: The one with priority 0, since lower means earlier
+    correct: false
+    explanation: Passes are sorted in descending priority, as event listeners are.
+  - id: CHO-9g0jyze3s576
+    text: The one registered first, priority being ignored within a stage
+    correct: false
+    explanation: Priority orders passes inside a stage.
+  - id: CHO-wxfnvawjjnnd
+    text: They run concurrently
+    correct: false
+    explanation: Compilation is sequential.
+  explanation: Within a stage, passes are sorted by descending priority, so the higher value runs first.
+    Priority defaults to 0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    branch: '8.0'
+    symbol_or_lines: PassConfig::TYPE_*, addPass
+    verified_at: '2026-09-01'
+- id: QST-mg33edgvxqrc
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  subtopic: autowiring
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A second class starts implementing TransformerInterface, and an unrelated service that type-hints
+    that interface stops compiling. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autowiring
+  - alias
+  choices:
+  - id: CHO-36f018a0783y
+    text: The automatic interface alias only exists while there is exactly one implementation
+    correct: true
+  - id: CHO-wqcxcea0jxe3
+    text: Two classes cannot implement the same interface in a Symfony application
+    correct: false
+    explanation: They can; the container simply no longer knows which to inject.
+  - id: CHO-j0emb3nw7cdv
+    text: The new class must be excluded from discovery
+    correct: false
+    explanation: Excluding it hides a real service instead of expressing a choice.
+  - id: CHO-z1fjr6tcrpw7
+    text: Interfaces are never autowirable and it worked by accident
+    correct: false
+    explanation: An alias makes an interface autowirable, and Symfony creates it when the implementation
+      is unique.
+  explanation: With one implementation Symfony aliases the interface to it. A second implementation removes
+    that certainty, so the alias disappears and the choice must be declared.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    symbol_or_lines: autowiring
+    verified_at: '2026-09-01'
+- id: QST-egkw6pqr1hvq
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  subtopic: autowiring
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One implementation must be the default, and a particular argument must receive another one.
+    Which declaration expresses that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autowiring
+  - alias
+  choices:
+  - id: CHO-t690fg4v8kq1
+    text: 'A named autowiring alias: ''App\Util\TransformerInterface $shoutyTransformer'''
+    correct: true
+  - id: CHO-wf0ywwg74th7
+    text: A second plain alias for the same interface
+    correct: false
+    explanation: The later alias would simply replace the first; there is no way to distinguish the arguments.
+  - id: CHO-kby54twcqdmp
+    text: Tagging both implementations
+    correct: false
+    explanation: Tags feed collections; they do not resolve a single type-hinted argument.
+  - id: CHO-5tv5ysd3qav0
+    text: Making the second implementation public
+    correct: false
+    explanation: Visibility has no effect on type resolution.
+  explanation: The named autowiring alias combines the interface with an argument name, and it is the
+    one case where the argument name influences autowiring.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    symbol_or_lines: autowiring
+    verified_at: '2026-09-01'
+- id: QST-gscp8fh16xed
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  subtopic: autowiring
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does #[Target] expect as its value?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autowiring
+  - target
+  choices:
+  - id: CHO-5pcr8wwr4shd
+    text: The name used in the named autowiring alias
+    correct: true
+  - id: CHO-21n4wfa6ypav
+    text: The service id of the implementation to inject
+    correct: false
+    explanation: The attribute explicitly does not accept service ids.
+  - id: CHO-rqb1f2n8r5jn
+    text: The fully-qualified class name of the implementation
+    correct: false
+    explanation: A class name is not what the attribute resolves against.
+  - id: CHO-xn1ja8vzfcen
+    text: The name of a tag carried by the implementation
+    correct: false
+    explanation: Tags are unrelated to Target.
+  explanation: '#[Target] names the alias, not the service. That indirection frees the argument name and
+    turns a typo into an exception instead of a silent fallback.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    symbol_or_lines: autowiring
+    verified_at: '2026-09-01'
+- id: QST-959s75p98aqk
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  subtopic: autowiring
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A constructor takes a string $projectDir. Autowiring cannot fill it. What is the reason?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autowiring
+  - scalar
+  choices:
+  - id: CHO-aatn7gy5xs54
+    text: Autowiring resolves by type, and no service corresponds to a scalar
+    correct: true
+  - id: CHO-21kmc1y9rem0
+    text: The argument name must match a parameter name
+    correct: false
+    explanation: Autowiring does not match on names, except for named aliases.
+  - id: CHO-he4gx0me9qkq
+    text: Strings must be injected through a setter
+    correct: false
+    explanation: The injection form is not what blocks it.
+  - id: CHO-vcrydkm7wds8
+    text: A scalar needs the container to be public
+    correct: false
+    explanation: Visibility is unrelated.
+  explanation: 'Only types are resolved, and a scalar names no service. Such an argument needs bind, #[Autowire],
+    or an explicit argument.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    symbol_or_lines: autowiring
+    verified_at: '2026-09-01'
+- id: QST-gkhpzxneegbr
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-gkhcbtygef69
+  domain: symfony
+  subtopic: locator
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why is a service locator not considered the same thing as injecting the container?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - locator
+  choices:
+  - id: CHO-3wj53c0jkqrp
+    text: It exposes only the services the class declared, so dependencies stay checkable
+    correct: true
+  - id: CHO-wv6z77641hpw
+    text: It is read-only, whereas the container can be modified
+    correct: false
+    explanation: Neither is modified at runtime; the difference is scope.
+  - id: CHO-59v7f031tzb3
+    text: It returns new instances each time
+    correct: false
+    explanation: It returns the same shared instances the container holds.
+  - id: CHO-4612b9f7h73v
+    text: It is not a PSR-11 container
+    correct: false
+    explanation: A service locator does implement the PSR-11 interface.
+  explanation: The locator is restricted to the declared list, so the dependencies remain visible and
+    verifiable at compile time — which is what service location loses.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    branch: '8.0'
+    symbol_or_lines: service subscribers and locators
+    verified_at: '2026-09-01'
+- id: QST-qh1cbg5wp55k
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-gkhcbtygef69
+  domain: symfony
+  subtopic: locator
+  language: en
+  difficulty: hard
+  cognitive_level: DIAGNOSE
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A subclass overrides getSubscribedServices() and the parent's services become unavailable.
+    What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - locator
+  - inheritance
+  choices:
+  - id: CHO-5sv5vr6t7r8b
+    text: array_merge(parent::getSubscribedServices(), ...)
+    correct: true
+  - id: CHO-4jpzzyq9x8y0
+    text: The parent must declare the method as abstract
+    correct: false
+    explanation: The parent provides a concrete list that the child is expected to extend.
+  - id: CHO-jjz14h7we47k
+    text: The subclass must re-implement ServiceSubscriberInterface
+    correct: false
+    explanation: The interface is inherited.
+  - id: CHO-s59g8xn7y1gw
+    text: The services must be made public
+    correct: false
+    explanation: A locator injects private services without difficulty.
+  explanation: Overriding replaces the list. Merging with the parent's is what keeps its services available,
+    and forgetting it fails silently until one is used.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    branch: '8.0'
+    symbol_or_lines: service subscribers and locators
+    verified_at: '2026-09-01'
+- id: QST-zq72eg2anghn
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-gkhcbtygef69
+  domain: symfony
+  subtopic: locator
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How must getSubscribedServices() be declared?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - locator
+  choices:
+  - id: CHO-849jrhjf1y05
+    text: As a public static method returning an array
+    correct: true
+  - id: CHO-fy5r609tkt32
+    text: As a public instance method returning an array
+    correct: false
+    explanation: The container reads it on the class, before any instance exists.
+  - id: CHO-bdgm147jge78
+    text: As a protected static method
+    correct: false
+    explanation: It must be callable from outside the class.
+  - id: CHO-6h2khdc1r317
+    text: As a constructor argument, not a method
+    correct: false
+    explanation: The interface defines a method.
+  explanation: The container calls it at compile time on the class itself, so it has to be static.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    branch: '8.0'
+    symbol_or_lines: service subscribers and locators
+    verified_at: '2026-09-01'
+- id: QST-wxhfdd2xw2r7
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  subtopic: decoration
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which option renames the inner service when the default .inner id would clash?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - decoration
+  choices:
+  - id: CHO-e8t5xhad5nvx
+    text: decoration_inner_name
+    correct: true
+  - id: CHO-jz0jq5750rfk
+    text: decoration_priority
+    correct: false
+    explanation: That orders several decorators of the same service.
+  - id: CHO-z7bc3kpzs7q9
+    text: decoration_on_invalid
+    correct: false
+    explanation: That decides what happens when the decorated service is missing.
+  - id: CHO-a3fgz1mszww1
+    text: decorates_inner
+    correct: false
+    explanation: No such option exists.
+  explanation: decoration_inner_name controls the id under which the decorated service remains available,
+    which matters when the generated one is inconvenient.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    branch: '8.0'
+    symbol_or_lines: decoration
+    verified_at: '2026-09-01'
+- id: QST-32aywq9v8vg4
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  subtopic: autowiring
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which #[Autowire] form injects a container parameter into an argument?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autowiring
+  choices:
+  - id: CHO-rmxagk1vets5
+    text: '#[Autowire(param: ''kernel.debug'')]'
+    correct: true
+  - id: CHO-swp3fzj2mpch
+    text: '#[Autowire(service: ''kernel.debug'')]'
+    correct: false
+    explanation: service expects a service id, and kernel.debug is a parameter.
+  - id: CHO-8arrcz5e0g56
+    text: '#[Autowire(env: ''kernel.debug'')]'
+    correct: false
+    explanation: env reads an environment variable, not a container parameter.
+  - id: CHO-xaqzr4v02pg6
+    text: '#[Autowire(expression: ''kernel.debug'')]'
+    correct: false
+    explanation: expression evaluates an ExpressionLanguage expression, which this is not.
+  explanation: 'The attribute has one named argument per source: service, param, env and expression. A
+    bare string value is read as a parameter reference or literal.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    symbol_or_lines: autowiring
+    verified_at: '2026-09-01'

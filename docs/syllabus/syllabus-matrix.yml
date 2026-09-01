@@ -5081,26 +5081,46 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois formes d'injection a distinguer, et surtout une frontiere conceptuelle — injection contre
+      recuperation de services — que le candidat doit appliquer a un extrait de code, pas seulement
+      reconnaitre.
+    learning_outcomes:
+      - Distinguer injection et recuperation de services
+      - Choisir constructeur ou mutateur selon l'obligation de la dependance
+      - Situer le composant comme autonome et nommer compile()
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+        branch: "8.0"
+        symbol_or_lines: "What is a Service Container"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-htvm3b1gas0d"
+    flashcard_refs:
+      - "FLC-1y9kmkwvmjg7"
+    question_refs:
+      - "QST-bkff08xmt369"
+      - "QST-ttahda62q0me"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-0qda3mr144nt"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-79f4n087b66c
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5111,26 +5131,52 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une definition n'est pas un objet, prive est le defaut et n'interdit que la recuperation,
+      l'alias rend une interface autowirable, et la compilation explique qu'une modification de
+      configuration reste sans effet. Quatre faits qui decident d'un diagnostic.
+    learning_outcomes:
+      - Enoncer ce que contient le conteneur et quand l'objet est construit
+      - Distinguer prive et public sur l'injection, la recuperation et la suppression
+      - Expliquer le role d'un alias
+      - Expliquer pourquoi la configuration n'est pas relue a l'execution
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst"
+        branch: "8.0"
+        symbol_or_lines: "public and private services, aliases"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+        branch: "8.0"
+        symbol_or_lines: "service container"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-p1694d5f7r8c"
+    flashcard_refs:
+      - "FLC-cv9s7bswxrh8"
+    question_refs:
+      - "QST-b9cxe8hzrxnz"
+      - "QST-8cz03w4xazh4"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-hp7d9gbzhfk0"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-dy7108w6bf4z
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5141,26 +5187,43 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Reconnaissance : d'ou viennent les services non declares, et quelle commande repond a la
+      question qu'on se pose en ecrivant un constructeur. Aucune liste a memoriser, aucune
+      distinction fine a operer.
+    learning_outcomes:
+      - Situer l'origine des services integres
+      - Choisir debug:autowiring plutot que debug:container
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+        branch: "8.0"
+        symbol_or_lines: "Fetching and using Services"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-jtkmpfp3nwzk"
+    flashcard_refs:
+      - "FLC-7xkwp2t1hefj"
+    question_refs:
+      - "QST-0mgw5r64r7pf"
+      - "QST-8ejeqdapg6aq"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-ar4h3zfskjsp
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5171,26 +5234,52 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux syntaxes voisines resolues a des moments differents, un echappement litteral, et des
+      processeurs qui se composent de droite a gauche. Le candidat doit choisir la bonne forme pour
+      une contrainte donnee.
+    learning_outcomes:
+      - Distinguer la resolution d'un parametre de celle d'une variable d'environnement
+      - Ecrire un pourcent litteral
+      - Composer des processeurs dans le bon ordre
+      - 'Reconnaitre bind et #[Autowire] comme facteurs communs'
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst"
+        branch: "8.0"
+        symbol_or_lines: "env var processors"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php"
+        branch: "8.0"
+        symbol_or_lines: "getProvidedTypes"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-8zmj5ntgdhjv"
+    flashcard_refs:
+      - "FLC-kbnpt2sv2dss"
+    question_refs:
+      - "QST-p6eftemqgsfx"
+      - "QST-cb9sywaj1nde"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-sxw56zsgz0we"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-stze9x4aydp3
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5201,26 +5290,47 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois mecanismes superposes — decouverte, autowire, autoconfigure — que l'on confond, et une
+      portee de _defaults qui ne traverse pas les blocs d'environnement. Le diagnostic exige de les
+      separer.
+    learning_outcomes:
+      - Separer decouverte, autowire et autoconfigure
+      - Declarer un service explicite avec arguments nommes
+      - Enoncer la portee de _defaults
+      - Reconnaitre les attributs de declaration
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+        branch: "8.0"
+        symbol_or_lines: "_defaults, resource, exclude, autoconfigure"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-g8fteyd38nrt"
+    flashcard_refs:
+      - "FLC-6a9ngbsfteyg"
+    question_refs:
+      - "QST-gfqb0xrb7tbx"
+      - "QST-q2p4t3hjc5x0"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-8e8zfpay4pj4"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-adhs2ny9hc5f
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5231,26 +5341,47 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un mecanisme transparent pour les consommateurs, un service original conserve sous un autre
+      identifiant, et un ordre de pile contre-intuitif : la priorite la plus haute est la plus
+      interne. Ce dernier point se rate systematiquement.
+    learning_outcomes:
+      - Decorer un service et atteindre l'original par .inner
+      - Enoncer que l'identifiant est conserve
+      - Ordonner une pile de decorateurs par decoration_priority
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst"
+        branch: "8.0"
+        symbol_or_lines: "decorates, .inner, decoration_priority"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-fkebqqqke5y5"
+    flashcard_refs:
+      - "FLC-xj1bfncctk1r"
+    question_refs:
+      - "QST-3zf09tnf1rkj"
+      - "QST-zbx19jnjr7gz"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-cg1wnyzmwgqg"
+      - "QST-wxhfdd2xw2r7"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-83sac57rw0xn
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5261,26 +5392,47 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un tag est inerte sans lecteur, l'iterateur est paresseux, et deux attributs conventionnels —
+      priority et index — changent respectivement l'ordre et la forme de la collection. Le candidat
+      doit appliquer, pas seulement reconnaitre.
+    learning_outcomes:
+      - Enoncer qu'un tag sans lecteur ne produit rien
+      - Injecter une collection taguee paresseuse
+      - Ordonner par priority et indexer par index
+      - 'Reconnaitre #[AutoconfigureTag] sur une interface'
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst"
+        branch: "8.0"
+        symbol_or_lines: "tagged_iterator, AutoconfigureTag, AsTaggedItem"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-b4g5s2asb9ye"
+    flashcard_refs:
+      - "FLC-tv2t8a6yt50g"
+    question_refs:
+      - "QST-t4bgmrx3q0cg"
+      - "QST-wdn59cym1fv8"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-ephbe0rvk2zx"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-qj4xfkhwdrx7
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5291,26 +5443,51 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux moities aux roles distincts — declarer l'arbre, le consommer — un moment d'execution
+      limite a la compilation, et un mecanisme de prepend dont l'ordre decide qui a le dernier mot.
+    learning_outcomes:
+      - Separer ConfigurationInterface de l'extension
+      - Enoncer qu'une cle inconnue est une erreur
+      - Situer configure() et loadExtension() a la compilation
+      - Expliquer l'effet de prependExtensionConfig()
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst"
+        branch: "8.0"
+        symbol_or_lines: "AbstractBundle::configure, loadExtension"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/extension.rst"
+        branch: "8.0"
+        symbol_or_lines: "extension"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-exs5dvtqa1as"
+    flashcard_refs:
+      - "FLC-dmvk9r2pqhsg"
+    question_refs:
+      - "QST-2q21a2srg5hr"
+      - "QST-qzgxkh2b2pa5"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-5jr8w7tcqm2n"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-h2n7d7dbr56p
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5321,26 +5498,46 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre ecritures de l'option factory a distinguer, dont le null qui designe la classe
+      elle-meme, et une regle contre-intuitive : arguments alimente la fabrique et non le
+      constructeur, qui n'est pas appele.
+    learning_outcomes:
+      - Choisir l'ecriture de factory selon la nature de l'appelable
+      - Enoncer que arguments alimente la fabrique
+      - Interpreter [null, 'create']
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst"
+        branch: "8.0"
+        symbol_or_lines: "factory, static and non-static"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-1bkg7pkf78c7"
+    flashcard_refs:
+      - "FLC-j8n3qsftrmm5"
+    question_refs:
+      - "QST-xw4d2n9a8hz5"
+      - "QST-1ss1gkatj0te"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-arfb4vy3eesd"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-3y0b9gxyandm
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5351,26 +5548,56 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Un point d'extension du compilateur avec cinq etapes ordonnees, une priorite decroissante a
+      l'interieur de chaque etape, et une consequence structurelle : l'etape choisie decide de ce qui
+      existe encore, TYPE_REMOVE ayant deja supprime les services prives non references. Raisonnement
+      multi-etapes, ou chaque etage change la reponse.
+    learning_outcomes:
+      - Ecrire une passe manipulant des definitions
+      - Enregistrer une passe depuis un bundle ou le Kernel
+      - Ordonner les cinq etapes de PassConfig et nommer le defaut
+      - Choisir l'etape en fonction de ce qui doit encore exister
+      - Distinguer ce qui releve de la configuration de ce qui releve d'une passe
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution du mecanisme sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst"
+        branch: "8.0"
+        symbol_or_lines: "CompilerPassInterface, addCompilerPass"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php"
+        branch: "8.0"
+        symbol_or_lines: "TYPE_*, addPass, sortPasses"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-d25bvr0097py"
+    flashcard_refs:
+      - "FLC-3f3jxjqynjmj"
+    question_refs:
+      - "QST-7ns2ad8j7z7a"
+      - "QST-4nq445j72q7w"
+      - "QST-q1jqvtzhr8ga"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-qcs153cscpem"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-wm3qdqemtap9
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5381,26 +5608,52 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Une resolution par le type dont le nom d'argument est normalement absent, sauf dans deux
+      mecanismes de departage ; un alias automatique qui disparait des qu'une interface a deux
+      implementations, avec un message d'erreur qui designe la mauvaise cause ; et trois facons de
+      trancher aux portees differentes. L'enchainement complet est necessaire pour diagnostiquer.
+    learning_outcomes:
+      - Enoncer que la resolution se fait par le type
+      - Expliquer pourquoi une interface exige un alias
+      - 'Departager par alias par defaut, alias nomme ou #[Target]'
+      - 'Enoncer ce que #[Target] attend comme valeur'
+      - Reconnaitre qu'un scalaire ne s'autowire pas
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution du mecanisme sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst"
+        branch: "8.0"
+        symbol_or_lines: "type resolution, named aliases, Target, Autowire"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-w6yfxm6ad4zy"
+    flashcard_refs:
+      - "FLC-yze03t40rkqr"
+    question_refs:
+      - "QST-mg33edgvxqrc"
+      - "QST-egkw6pqr1hvq"
+      - "QST-gscp8fh16xed"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-959s75p98aqk"
+      - "QST-32aywq9v8vg4"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
   - id: OIT-gkhcbtygef69
     official_topic_order: 9
     official_topic: "Dependency Injection"
@@ -5411,26 +5664,47 @@ items:
     lot: lot-09
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une frontiere a tenir avec la recuperation de services, une methode statique dont l'oubli du
+      parent:: en heritage echoue silencieusement, et un comportement paresseux qui est la raison
+      d'etre du mecanisme.
+    learning_outcomes:
+      - Justifier un locator plutot qu'une injection directe
+      - Distinguer un locator de l'injection du conteneur
+      - Declarer getSubscribedServices() et fusionner en heritage
+      - 'Reconnaitre #[AutowireLocator]'
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst"
+        branch: "8.0"
+        symbol_or_lines: "ServiceSubscriberInterface, AutowireLocator"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-0a0d5bp6769e"
+    flashcard_refs:
+      - "FLC-zn7hhaddbzd2"
+    question_refs:
+      - "QST-gkhpzxneegbr"
+      - "QST-qh1cbg5wp55k"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-zq72eg2anghn"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 09 — Dependency Injection."
 
   # ---- Topic 10: Security (12 items) ----
   - id: OIT-942znmbjwvad
