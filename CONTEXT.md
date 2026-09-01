@@ -12,7 +12,9 @@ EXAM_READY from the Golden Slice).
 
 ## Current branch
 
-`lot-04-controllers`, branched from `master`. Lot 03 shipped through
+`master`, at merge commit `5dd75d7`. Lot 04 shipped through
+[PR #3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3).
+Lot 03 shipped through
 [PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
 (merge `6a31ff5`) and its evidence through PR #2 (merge `4802990`).
 Every lot from 03 onward uses branch → Pull Request → CI → controlled merge.
@@ -184,6 +186,10 @@ Holdout isolation checked against the built payload, not assumed: the 9 holdout
 question ids are absent from `practice.json` and present in `exam.json`. That is
 **functional isolation, not confidentiality** — `exam.json` is published with
 correct answers (ADR-0005).
+
+In CI on Lot 04's merge commit `5dd75d7`: run `33505523877` (CI) **success**,
+and run `33505523840` (Deploy to GitHub Pages) **success** across build, deploy
+and the production smoke test (job `99848829928`).
 
 Lot 03's merge commit `6a31ff5` was green in CI (run `33501414293`) and its
 deploy run `33501414261` passed build, deploy and the production smoke test
