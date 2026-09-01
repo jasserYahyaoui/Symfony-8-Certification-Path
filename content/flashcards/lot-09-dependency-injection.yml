@@ -1,0 +1,164 @@
+# Lot 09 — Dependency Injection flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-1y9kmkwvmjg7
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  front: Recevoir le conteneur en argument, est-ce de l'injection de dependances ?
+  back: 'Non. C''est de la recuperation de services : les dependances reelles disparaissent de la signature.'
+  explanation: L'injection nomme ce dont la classe a besoin ; le conteneur permet de demander n'importe
+    quoi, donc plus rien n'est verifiable a la compilation.
+  memorization_justification: Le conteneur etant lui-meme injecte, la formulation trompe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-cv9s7bswxrh8
+  official_item: OIT-79f4n087b66c
+  language: fr
+  front: 'Un service prive : injectable ? recuperable par get() ?'
+  back: Injectable oui, recuperable non. Prive est le defaut, et il autorise la suppression s'il n'est
+    reference nulle part.
+  explanation: Prive ne concerne que l'acces depuis l'exterieur du conteneur, pas le cablage entre services.
+  memorization_justification: Le mot « prive » suggere a tort une restriction d'injection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-7xkwp2t1hefj
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  front: Quelle commande repond a « quel type puis-je type-hinter ? »
+  back: debug:autowiring. debug:container liste les identifiants, pas les types cablables.
+  explanation: Les deux commandes repondent a deux questions differentes ; c'est la premiere que l'on
+    se pose en ecrivant un constructeur.
+  memorization_justification: Les deux noms se ressemblent et on prend l'une pour l'autre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-kbnpt2sv2dss
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  front: '%param% et %env(VAR)% : a quel moment chacun est-il resolu ?'
+  back: '%param% a la compilation, %env(VAR)% a l''execution. Un pourcent litteral s''ecrit %%.'
+  explanation: C'est pourquoi changer une variable d'environnement ne demande pas de recompiler le conteneur.
+  memorization_justification: La syntaxe est presque identique et le comportement radicalement different.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-6a9ngbsfteyg
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  front: _defaults s'applique-t-il aux blocs when@dev du meme fichier ?
+  back: Non. Chaque bloc when@ doit redefinir son propre _defaults, sinon ni autowire ni autoconfigure.
+  explanation: Un service declare dans un bloc d'environnement sans _defaults n'est donc pas cable, sans
+    message explicite.
+  memorization_justification: 'Rien ne signale l''omission : le service existe mais n''est pas autowire.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-xj1bfncctk1r
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  front: 'decoration_priority : la priorite la plus haute finit-elle a l''exterieur ?'
+  back: 'Non, a l''interieur. Appliquee en premier, elle enveloppe la cible directement : priorites 5
+    puis 1 donnent Baz(Bar(Foo)).'
+  explanation: « Applique en premier » veut dire « construit en premier », donc au plus pres du service
+    decore.
+  memorization_justification: L'intuition place le prioritaire devant, alors qu'il est le plus profond.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-tv2t8a6yt50g
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  front: Que produit un tag qu'aucune passe ni aucun iterateur ne lit ?
+  back: Rien, et sans erreur. Un tag est une etiquette inerte tant que quelque chose ne la collecte pas.
+  explanation: 'C''est la meme logique que pour un attribut PHP : la donnee ne produit un effet que par
+    son lecteur.'
+  memorization_justification: L'absence totale de signal rend le defaut difficile a diagnostiquer.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-dmvk9r2pqhsg
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  front: 'Une cle inconnue dans la configuration d''un bundle : ignoree ou erreur ?'
+  back: Erreur au chargement. L'arbre declare par ConfigurationInterface valide la configuration avant
+    qu'elle serve.
+  explanation: C'est le principal apport de la configuration semantique sur un tableau d'options libre.
+  memorization_justification: L'habitude des tableaux d'options laisse croire a une cle simplement ignoree.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-j8n3qsftrmm5
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  front: Avec une fabrique, a qui arguments est-il passe ?
+  back: A la fabrique. Le constructeur du service n'est pas appele du tout.
+  explanation: Le conteneur enregistre la valeur retournee par la fabrique ; le constructeur est hors
+    du chemin.
+  memorization_justification: La cle s'appelle arguments, ce qui evoque le constructeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-3f3jxjqynjmj
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  front: Quel est le type par defaut d'une passe, et que se passe-t-il apres TYPE_REMOVE ?
+  back: 'TYPE_BEFORE_OPTIMIZATION. Apres TYPE_REMOVE, un service prive non reference a deja ete supprime
+    : le cabler echoue.'
+  explanation: L'etape choisie decide de ce que la passe peut encore voir et modifier.
+  memorization_justification: Les cinq etapes se confondent et l'erreur ne se voit qu'a la compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-yze03t40rkqr
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  front: 'Deux classes implementent la meme interface : que devient l''autowiring ?'
+  back: 'L''alias automatique disparait. Il faut un alias par defaut, un alias nomme « Interface $argument
+    », ou #[Target].'
+  explanation: Le message parle d'un service inexistant alors que la cause est l'absence de choix entre
+    deux implementations.
+  memorization_justification: Le message d'erreur oriente vers la mauvaise cause.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-zn7hhaddbzd2
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  front: 'getSubscribedServices() : statique ? et en heritage ?'
+  back: 'Statique. En heritage, il faut fusionner : array_merge(parent::getSubscribedServices(), [...]).'
+  explanation: 'Oublier parent:: retire silencieusement les services declares par la classe parente.'
+  memorization_justification: L'omission ne produit aucune erreur, seulement un service manquant a l'usage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
