@@ -1,18 +1,24 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-01
 
 ---
 
 ## Current lot
 
-**Lot 02 — HTTP: PASS** (9 items). Lots 0, 0.5 and 01 complete.
-Next: **Lot 03 — Symfony Architecture** (15 items, the largest topic).
+**Lot 03 — Symfony Architecture** (15 items, the largest topic), started.
+Lots 0, 0.5, 01 and 02 are complete; the Pre-Lot-03 gate closure is merged
+(accessibility gate closed, PR workflow rule adopted, ADR-0005 opened).
 
 ## Current branch
 
-`master`. The repository had no commits and no branches before this session.
-Direct commits to `master` per Master Plan §0 and explicit user instruction.
+`lot-03-symfony-architecture`, branched from `master` at `7f1fd09`.
+
+Lot 03 is the first lot to ship through the §15 workflow: dedicated branch →
+Pull Request → CI → controlled merge into `master`. The direct-to-`master`
+commits of Lots 0.5–02 remain a **DOCUMENTED_DEVIATION** recorded in their
+reports; that history is not rewritten (CLAUDE.md, "Every lot ships through a
+branch and a Pull Request").
 
 ## Completed work
 
