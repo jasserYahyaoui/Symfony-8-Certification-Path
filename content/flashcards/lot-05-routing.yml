@@ -1,0 +1,142 @@
+# Lot 05 flashcards (Master Plan §6).
+#
+# Seven cards covering six of the eleven new items. Five carry none: Routing
+# component and FrameworkBundle (a division-of-labour table), URLs generation
+# and Special internal routing attributes (reference tables consulted rather
+# than recalled), Domain name matching (one option, one behaviour) and Router
+# debugging (two commands whose names say what they do).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-qtcf6sp62jpq
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    front: "Symfony route /foo : que se passe-t-il si l'URL demandée est /foo/ ?"
+    back: "Redirection 301 vers /foo — mais seulement pour GET et HEAD."
+    explanation: >-
+      La redirection va toujours vers la forme déclarée par la route, dans les
+      deux sens : une route /foo/ redirige /foo vers /foo/. La restriction aux
+      méthodes sûres évite qu'un POST perde son corps.
+    memorization_justification: >-
+      Deux détails arbitraires que rien ne rappelle à la lecture du code : le
+      code exact (301, pas 302) et la restriction aux deux méthodes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "Redirecting URLs with Trailing Slashes, table"
+        verified_at: "2026-09-01"
+
+  - id: FLC-hyrr6qtdkfh9
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    front: "L'option condition d'une route est-elle évaluée lors de la génération d'URL ?"
+    back: "Non. Les conditions sont ignorées à la génération ; elles ne filtrent que l'appariement."
+    explanation: >-
+      Le générateur ne connaît ni la requête ni l'agent utilisateur, donc il ne
+      peut pas évaluer l'expression. Une route sous condition reste générable
+      vers un contexte où elle ne correspondrait pas. requirements, lui, compte
+      dans les deux sens.
+    memorization_justification: >-
+      Asymétrie invisible : rien dans l'écriture d'une condition ne signale
+      qu'elle ne vaut que dans un sens, et le symétrique requirements se
+      comporte autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "note: conditions are not taken into account when generating URLs"
+        verified_at: "2026-09-01"
+
+  - id: FLC-x8ga0twzt6g1
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    front: "Chemin /{page}/blog avec une valeur par défaut pour page : /blog correspond-il ?"
+    back: "Non. Tout ce qui suit un paramètre facultatif doit être facultatif, donc page reste obligatoire."
+    explanation: >-
+      Le chemin est valide, mais comme le segment /blog suit le paramètre et
+      n'est pas facultatif, la valeur par défaut ne rend pas page omissible.
+    memorization_justification: >-
+      Règle structurelle contre-intuitive : la valeur par défaut est bien
+      définie et semble suffire, mais la position dans le chemin décide.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "warning under Optional Parameters"
+        verified_at: "2026-09-01"
+
+  - id: FLC-5j4yp6wp9yzk
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    front: "À quoi sert le préfixe ! dans un paramètre de route, comme /blog/{!page} ?"
+    back: "À forcer l'inclusion de la valeur par défaut dans l'URL générée : /blog/1 au lieu de /blog."
+    explanation: >-
+      C'est une décision de génération d'URL, pas d'appariement : sans le point
+      d'exclamation, une valeur égale au défaut disparaît de l'URL produite.
+    memorization_justification: >-
+      Syntaxe d'un seul caractère, sans mnémonique, et dont l'effet porte sur la
+      génération alors qu'elle s'écrit dans le chemin.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "Optional Parameters, ! character"
+        verified_at: "2026-09-01"
+
+  - id: FLC-s7es8e4pq9vf
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    front: "Une valeur par défaut doit-elle satisfaire le requirement de son paramètre ?"
+    back: "Non. La documentation l'autorise explicitement à ne pas le respecter."
+    explanation: >-
+      Le requirement filtre la valeur venue de l'URL. Une valeur par défaut n'est
+      pas dans l'URL, donc elle n'est pas filtrée.
+    memorization_justification: >-
+      Contre-intuitif : on suppose une validation uniforme, et l'exception ne se
+      manifeste par aucune erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "tip: the default value is allowed to not match the requirement"
+        verified_at: "2026-09-01"
+
+  - id: FLC-v2wg754jbxy7
+    official_item: OIT-5g82spham3vm
+    language: fr
+    front: "Sans option methods, quelles méthodes HTTP une route accepte-t-elle ?"
+    back: "Toutes. La restriction n'existe que si methods est déclarée."
+    explanation: >-
+      Deux routes peuvent donc partager le même chemin et ne différer que par
+      methods. Un formulaire HTML n'envoyant que GET et POST, un champ caché
+      _method simule les autres, si framework.http_method_override vaut true.
+    memorization_justification: >-
+      L'absence d'option se lit spontanément comme « GET seulement », alors que
+      le défaut est le plus permissif possible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        symbol_or_lines: "Matching HTTP Methods, default behaviour and _method tip"
+        verified_at: "2026-09-01"
+
+  - id: FLC-hdwv8cdrrdwb
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    front: "Appeler $request->setLocale() dans un contrôleur configure-t-il le traducteur ?"
+    back: "Non, c'est trop tard. Il faut l'URL, un écouteur prioritaire, ou setLocale() sur le service translator."
+    explanation: >-
+      Un écouteur maison doit passer avant LocaleListener, donc porter une
+      priorité supérieure. Le paramètre _locale dans le chemin pose la locale
+      automatiquement, sans code.
+    memorization_justification: >-
+      L'appel réussit sans erreur et la locale change bien sur la requête ; seul
+      le traducteur reste en arrière, ce qui rend le symptôme déroutant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        branch: "8.0"
+        symbol_or_lines: "note on setLocale() being too late in a controller"
+        verified_at: "2026-09-01"

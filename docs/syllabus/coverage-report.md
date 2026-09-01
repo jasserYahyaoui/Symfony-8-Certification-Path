@@ -13,7 +13,7 @@
 EXAM_READY atomic official items / total atomic official items * 100
 ```
 
-**Coverage: 30.67%** — 50 of 163 atomic official items are EXAM_READY.
+**Coverage: 37.42%** — 61 of 163 atomic official items are EXAM_READY.
 
 ## By official topic
 
@@ -29,7 +29,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | Messenger | 0 | 7 | 0.0 |
 | Miscellaneous | 0 | 19 | 0.0 |
 | PHP | 9 | 9 | 100.0 |
-| Routing | 1 | 12 | 8.3 |
+| Routing | 12 | 12 | 100.0 |
 | Security | 1 | 12 | 8.3 |
 | Symfony Architecture | 15 | 15 | 100.0 |
 | Templating with Twig | 0 | 14 | 0.0 |
@@ -42,7 +42,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-02 | 10 | 10 | 100.0 |
 | lot-03 | 15 | 15 | 100.0 |
 | lot-04 | 14 | 14 | 100.0 |
-| lot-05 | 1 | 12 | 8.3 |
+| lot-05 | 12 | 12 | 100.0 |
 | lot-06 | 0 | 14 | 0.0 |
 | lot-07 | 0 | 13 | 0.0 |
 | lot-08 | 0 | 8 | 0.0 |
@@ -65,19 +65,8 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-25 | 0 | 1 | 0.0 |
 | lot-26 | 0 | 1 | 0.0 |
 
-## Not yet EXAM_READY (113)
+## Not yet EXAM_READY (102)
 
-- `OIT-ceaw3ewfsw85`
-- `OIT-1cj08dhtp9hj`
-- `OIT-ff0kghjbzvpm`
-- `OIT-81b2c0jmv2j3`
-- `OIT-d51jbkfs21pt`
-- `OIT-4pgc74ctc3vc`
-- `OIT-21m4pmtymygn`
-- `OIT-e2zrm9qkpx7j`
-- `OIT-5g82spham3vm`
-- `OIT-xxcpx1qssp93`
-- `OIT-8sr74a2wnb3r`
 - `OIT-b9x8az2bx4t8`
 - `OIT-vhd83fn6w9wy`
 - `OIT-ns36thqnh2jk`

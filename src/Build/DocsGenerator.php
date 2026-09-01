@@ -388,8 +388,12 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             foreach ($cards as $card) {
                 // <details> hides the answer before reveal (§6) using a native,
                 // keyboard-operable control rather than a scripted one.
-                $markdown .= "<details>\n<summary>".$this->escapeHtml($card->front)."</summary>\n\n"
-                    ."**".$this->escapeHtml($card->back)."**\n\n"
+                // Inside <details>/<summary> the text sits in a JSX context, so
+                // it needs the MDX escaping as well as the HTML one: a bare `{`
+                // in a flashcard front — `/{page}/blog` — is read as a JS
+                // expression and fails the build with "page is not defined".
+                $markdown .= "<details>\n<summary>".$this->mdxText($this->escapeHtml($card->front))."</summary>\n\n"
+                    ."**".$this->mdxText($this->escapeHtml($card->back))."**\n\n"
                     .$this->mdxText($card->explanation)."\n\n</details>\n\n";
             }
         }

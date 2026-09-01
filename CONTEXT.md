@@ -6,15 +6,15 @@
 
 ## Current lot
 
-**Lot 04 — Controllers: PASS** (14 items). Lots 0, 0.5, 01, 02 and 03 are
-complete. Next: **Lot 05 — Routing** (12 items, of which 1 is already
-EXAM_READY from the Golden Slice).
+**Lot 05 — Routing: PASS** (11 new items; the 12th was the Golden Slice's).
+Lots 0 through 04 are complete. Next: **Lot 06 — Templating with Twig**
+(14 items).
 
 ## Current branch
 
-`master`, at merge commit `5dd75d7`. Lot 04 shipped through
-[PR #3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3).
-Lot 03 shipped through
+`lot-05-routing`, branched from `master`. Lot 04 shipped through
+[PR #3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3)
+(merge `5dd75d7`) and its evidence through PR #4. Lot 03 shipped through
 [PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
 (merge `6a31ff5`) and its evidence through PR #2 (merge `4802990`).
 Every lot from 03 onward uses branch → Pull Request → CI → controlled merge.
@@ -89,10 +89,10 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 50 EXAM_READY.**
+**163 imported, 61 EXAM_READY.**
 
 ```text
-coverage = 50 / 163 = 30.67%
+coverage = 61 / 163 = 37.42%
 ```
 
 | Lot | Topic | Items |
@@ -102,20 +102,23 @@ coverage = 50 / 163 = 30.67%
 | 02 | HTTP (minus Status codes) | 9 |
 | 03 | Symfony Architecture | 15 |
 | 04 | Controllers | 14 |
+| 05 | Routing (minus Configuration) | 11 |
 
-Content: 50 courses (18 599 body words), 37 flashcards, 101 LEARNING and 9
-HOLDOUT questions, 0 exercises. English share of the question bank: 90/110
-overall, 27/31 for Lot 04.
+Content: 61 courses (21 745 body words), 44 flashcards, 123 LEARNING and 11
+HOLDOUT questions, 0 exercises. English share of the question bank: 113/134
+overall, 23/24 for Lot 05.
 
-Level distribution so far — **observation, not a target**: 34 `STANDARD`,
-12 `MINIMAL`, 4 `DEEP`. Lot 03 came out 10/3/2 and Lot 04 8/5/1: the shape
-changes per lot because the items differ, not because anything is balanced.
+Level distribution so far — **observation, not a target**: 42 `STANDARD`,
+15 `MINIMAL`, 4 `DEEP`. Three lots, three shapes: Lot 03 10/3/2, Lot 04 8/5/1,
+Lot 05 8/3/**0**. A lot with no `DEEP` item is complete, and Lot 05 is the
+first — routing has no mechanism here whose order is itself scored.
 
 Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-01`](docs/reports/lot-01-report.md),
 [`lot-02`](docs/reports/lot-02-report.md),
 [`lot-03`](docs/reports/lot-03-report.md),
-[`lot-04`](docs/reports/lot-04-report.md).
+[`lot-04`](docs/reports/lot-04-report.md),
+[`lot-05`](docs/reports/lot-05-report.md).
 
 ### Cross-lot boundaries now load-bearing
 
@@ -149,9 +152,19 @@ The lot-03 report records a near-miss on the first of these: a draft reproduced
 Lot 02's bag table **and** got `InputBag::get()` wrong by trusting the
 documentation page over the source. Read the source for behavioural claims.
 
+- *Trigger redirects* (lot-05) = redirects the routing layer triggers itself
+  → *HTTP redirects* and *Built-in internal controllers* (lot-04).
+- *User's locale guessing* (lot-05) = how a route sets the locale
+  → *Language detection* (lot-02) owns `Accept-Language`; lot-16 owns
+  translation.
+- *Special internal routing attributes* (lot-05) = the reserved parameters
+  → *Naming conventions* (lot-04) owns the `_controller` notation.
+- *Restrict URL parameters* and *Set default values* (lot-05) teach the two
+  options → *Configuration* (Golden Slice) only lists the option names.
+
 Lot 04 is where the table paid off: three of its items landed at `MINIMAL`
 because the boundary excluded most of their surface, and its average course
-dropped to 329 body words from Lot 03's 397.
+dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Known issues
 
@@ -167,58 +180,78 @@ dropped to 329 body words from Lot 03's 397.
 | ENV-2 | `jasseryahyaoui.github.io` is egress-blocked from this container, so production cannot be verified from here. The smoke test therefore runs as a CI job on GitHub's runners. | Minor | By design |
 | SITE-1 | Prism's `twig` language cannot be enabled: it assumes a global `Prism` the Docusaurus 3.10 SSR bundle does not provide. `php`, `yaml` and `bash` work. | Minor | Open — fence Twig samples as `html` in Lot 6 (ADR-0003) |
 | SITE-2 | A bare `<` or `{` in a canonical matrix field broke the MDX build (`config/packages/<env>/`). | — | **Resolved** in Lot 03 — `DocsGenerator::mdxText()` escapes them; two regression tests pin the behaviour, authored course bodies stay exempt |
+| SITE-3 | A bare `{` in a flashcard front or back broke the MDX build: `<details>`/`<summary>` is a JSX context and `htmlspecialchars` does not escape braces. Two Lot 05 cards quote route paths (`/{page}/blog`). | — | **Resolved** in Lot 05 — both escapings composed for that context, with a regression test asserting no generated `<summary>` carries a bare `{` |
+| PROC-1 | A gate command piped through `tail` and chained with `&&` hides its failure: `&&` reads the exit status of the pipeline's last command. A failed site build was reported as SUCCESS in Lot 05, and the accessibility audit then ran against the previous lot's build directory. | Medium | Open — run every gate command with `set -o pipefail` and check the exit code before reporting anything |
 | DOC-1 | The Symfony 8.0 documentation page for HttpFoundation describes `InputBag::get()` on an array parameter loosely; the source throws `BadRequestException`. A Lot 03 draft followed the page and was wrong. | Medium | Open — for any behavioural claim, read `symfony/symfony` at the pinned SHA, not the docs prose |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-04-controllers`:
+Locally, on PHP 8.4.19, on `lot-05-routing`:
 
 ```text
-php bin/cert validate           → 16 rules, 163 official items, 110 questions, no violations
-php bin/cert coverage           → Coverage: 30.67% (50/163 EXAM_READY)
+php bin/cert validate           → 16 rules, 163 official items, 134 questions, no violations
+php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json
-vendor/bin/phpunit              → OK (74 tests, 601 assertions)
+vendor/bin/phpunit              → OK (75 tests, 646 assertions)
 npm --prefix website run build  → SUCCESS
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
 
-Holdout isolation checked against the built payload, not assumed: the 9 holdout
-question ids are absent from `practice.json` and present in `exam.json`. That is
-**functional isolation, not confidentiality** — `exam.json` is published with
-correct answers (ADR-0005).
+The site build **failed** on the first attempt of this lot and was briefly
+reported as a success (issue PROC-1). Cause: flashcard fronts reach a JSX
+context inside `<details>`, and `htmlspecialchars` does not escape `{`, so a
+route path such as `/{page}/blog` was read as a JavaScript expression. Fixed in
+the generator with a regression test; the figures above were re-run afterwards
+with `set -o pipefail`.
+
+`CRS-001` blocked the first draft of Lot 05: the *Routing component* course
+reproduced, in prose, the correct answer of a Lot 03 question. Fixed by moving
+the dependency list into a fenced block, which the rule exempts. Second
+cross-lot leak the rule has caught; both were accidental.
+
+Holdout isolation checked against the built payload: the 11 holdout ids are
+absent from `practice.json` and present in `exam.json` — **functional isolation,
+not confidentiality** (ADR-0005).
 
 In CI on Lot 04's merge commit `5dd75d7`: run `33505523877` (CI) **success**,
-and run `33505523840` (Deploy to GitHub Pages) **success** across build, deploy
-and the production smoke test (job `99848829928`).
-
-Lot 03's merge commit `6a31ff5` was green in CI (run `33501414293`) and its
-deploy run `33501414261` passed build, deploy and the production smoke test
-(job `99835718227`).
+and run `33505523840` (Deploy) **success** across build, deploy and the
+production smoke test (job `99848829928`).
 
 ## Next action
 
-**Lot 05 — Routing** (12 items): Routing component and FrameworkBundle,
-Configuration (YAML and PHP attributes) *(already EXAM_READY, Golden Slice)*,
-Restrict URL parameters, Set default values to URL parameters, URLs generation,
-Trigger redirects, Special internal routing attributes, Domain name matching,
-Conditional request matching, HTTP methods matching, User's locale guessing,
-Router debugging — so **11 new items**.
+**Lot 06 — Templating with Twig** (14 items): TwigBundle, Twig syntax up to
+3.22, Auto escaping, Template inheritance, Global variables, Filters and
+functions, Template includes, Loops and conditions, URLs generation, Controller
+rendering, Translations and pluralization, String interpolation, Assets
+management, Debugging variables.
 
-Open the lot on a dedicated branch with a Pull Request, per §15. Honour the
-boundaries: Lot 04 owns argument value resolvers, the `_controller` notation and
-`RedirectController`; Lot 05 owns route definition, matching and generation.
-*User's locale guessing* has a standing boundary with Lot 02's *Language
-detection* and Lot 16's i18n.
+Open the lot on a dedicated branch with a Pull Request, per §15.
 
-Then Lots 06 → 27 in Master Plan §14 order.
+Two constraints bite in this lot for the first time:
+
+- **SITE-1** — the Prism `twig` language cannot be enabled in this Docusaurus
+  build, so Twig samples must be fenced as `html` (ADR-0003).
+- **B-5 is resolved but narrow** — the syllabus says "Twig syntax up to 3.22
+  version" verbatim. Score against 3.22; later Twig features are out of scope.
+
+Boundaries to honour: *URLs generation* (lot-06) is the Twig `path()`/`url()`
+side, while lot-05's item owns the generator and its reference types;
+*Translations and pluralization* stops at the Twig surface, lot-16 owns i18n;
+*Assets management* touches AssetMapper, which §1.5 **excludes** — check
+`exclusions.yml` before writing a single question there.
+
+Then Lots 07 → 27 in Master Plan §14 order.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: 18 599 body words for 50 items, ~372 per item. The
-  per-lot figure is not constant — 376 (Lot 01), 407 (Lot 02), 397 (Lot 03),
-  **329** (Lot 04) — and the fall is the anti-duplication boundaries working.
-  A linear projection to 163 items gives roughly 60 000 words; re-estimate per
-  lot rather than assuming linearity.
+- **revision burden**: 21 745 body words for 61 items, ~356 per item. The
+  per-lot figure keeps falling — 376 (Lot 01), 407 (Lot 02), 397 (Lot 03),
+  329 (Lot 04), **286** (Lot 05) — as the anti-duplication boundaries take
+  effect. A linear projection to 163 items gives roughly 58 000 words;
+  re-estimate per lot rather than assuming linearity.
+- **French questions are decaying by accident**: 1 of 24 in Lot 05. The exam is
+  in English (§5), so this is drift toward the exam language — but it should be
+  a decision, not an accident.
 - `DUP-001` pressure, and the three cross-lot boundaries above.
 
 ## Blocked decisions

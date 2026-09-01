@@ -2596,26 +2596,52 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le partage des roles entre composant et bundle demande une liste de classes et une liste
+      d'apports, plus la distinction matcher / generateur qui explique pourquoi une option peut
+      compter dans un seul sens. Ce n'est pas un mecanisme a derouler, mais cela depasse le format
+      MINIMAL.
+    learning_outcomes:
+      - "Enoncer ce que le composant produit a partir d'une requete"
+      - "Nommer les classes centrales du composant et leur role"
+      - "Distinguer UrlMatcher de UrlGenerator"
+      - "Citer ce que FrameworkBundle ajoute au composant"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "description and require keys"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "reference type constants and generate()"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2nwv1v57j7ef"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-am0fchhs6cs8"
+      - "QST-sy8yv5y6kfbe"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-egy2wn3z7gb7
     official_topic_order: 5
     official_topic: "Routing"
@@ -2682,26 +2708,48 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois ecritures equivalentes, une enumeration de constantes, et une exception non devinable : la
+      valeur par defaut n'a pas a satisfaire la contrainte. Le probleme resolu — deux routes
+      indiscernables — demande d'etre pose pour que la regle ait un sens.
+    learning_outcomes:
+      - "Declarer une contrainte de parametre dans les trois ecritures"
+      - "Expliquer le probleme d'ambiguite que requirements resout"
+      - "Citer l'enumeration Requirement et son usage en YAML"
+      - "Enoncer que la valeur par defaut echappe a la contrainte"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Parameters Validation"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-wg3j0t5pm7w1"
+    flashcard_refs:
+      - "FLC-s7es8e4pq9vf"
+    question_refs:
+      - "QST-e4m2fqttjv3f"
+      - "QST-nzk49a60g2w7"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-y5290j4js1md"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-ff0kghjbzvpm
     official_topic_order: 5
     official_topic: "Routing"
@@ -2712,26 +2760,48 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois endroits ou ecrire la valeur par defaut selon le format, une regle structurelle contre-
+      intuitive sur l'ordre des parametres facultatifs, et le prefixe ! qui agit sur la generation et
+      non sur l'appariement. Chacun de ces trois points change une reponse.
+    learning_outcomes:
+      - "Rendre un parametre facultatif dans chaque format de configuration"
+      - "Enoncer la regle sur ce qui suit un parametre facultatif"
+      - "Expliquer l'effet du prefixe ! sur l'URL generee"
+      - "Enoncer que la valeur par defaut peut violer la contrainte"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Optional Parameters"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-vkgr06y3x72g"
+    flashcard_refs:
+      - "FLC-x8ga0twzt6g1"
+      - "FLC-5j4yp6wp9yzk"
+    question_refs:
+      - "QST-8batm9anrn18"
+      - "QST-8ga6z9sfbv40"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-81b2c0jmv2j3
     official_topic_order: 5
     official_topic: "Routing"
@@ -2742,26 +2812,52 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre types de reference a connaitre, un comportement non evident sur les parametres hors
+      route, une exception sur les objets, et une recommandation explicite sur la verification
+      d'existence. La liste des faits exigibles depasse le format MINIMAL.
+    learning_outcomes:
+      - "Generer une URL depuis un controleur, un service et un gabarit"
+      - "Associer chaque constante de type de reference a sa forme d'URL"
+      - "Enoncer le sort d'un parametre absent de la definition de route"
+      - "Enoncer la methode recommandee pour tester l'existence d'une route"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "ABSOLUTE_URL, ABSOLUTE_PATH, RELATIVE_PATH, NETWORK_PATH"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Generating URLs"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-sx61as7r7p0d"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-8k29tz9vy6mt"
+      - "QST-0y1zbrpb67fw"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-jpgvx4x2a99s"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-d51jbkfs21pt
     official_topic_order: 5
     official_topic: "Routing"
@@ -2772,26 +2868,53 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux mecanismes distincts avec des valeurs precises a retenir — un 301 restreint a GET et HEAD,
+      et une option schemes qui agit dans les deux sens. Les redirections emises par un controleur
+      appartiennent au lot 04 ; ce qui reste ici est declenche par le routage lui-meme.
+    learning_outcomes:
+      - "Enoncer le code et les methodes de la redirection de barre finale"
+      - "Lire le tableau de redirection dans les deux sens"
+      - "Expliquer l'effet de schemes a l'appariement et a la generation"
+      - "Justifier qu'une route puisse deleguer a RedirectController"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Redirecting URLs with Trailing Slashes"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Forcing HTTPS on Generated URLs"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-tgbv3wp66rcc"
+    flashcard_refs:
+      - "FLC-qtcf6sp62jpq"
+    question_refs:
+      - "QST-d0mf49sax6yj"
+      - "QST-np471a1fkmv6"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-4pgc74ctc3vc
     official_topic_order: 5
     official_topic: "Routing"
@@ -2802,26 +2925,45 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Cinq parametres reserves, leurs formes courtes dans l'attribut, et une exception a memoriser sur
+      l'usage en import. C'est un tableau de reference dont chaque ligne a un effet different, donc
+      au-dessus du format MINIMAL.
+    learning_outcomes:
+      - "Nommer les cinq parametres reserves et leur effet"
+      - "Expliquer ce que _format change sur la reponse"
+      - "Associer les options locale, format et query a leur parametre reserve"
+      - "Enoncer que _fragment ne s'utilise pas dans un import"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Special Parameters"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-nhebf7arqvn4"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-af1e821vzx6r"
+      - "QST-m5x0wprr2kvf"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-21m4pmtymygn
     official_topic_order: 5
     official_topic: "Routing"
@@ -2832,26 +2974,42 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une option, un comportement par defaut, et la reutilisation des mecanismes deja connus de
+      defaults et requirements. Il n'y a rien de propre a l'hote a expliquer une fois ce point etabli.
+    learning_outcomes:
+      - "Contraindre une route a un nom d'hote"
+      - "Enoncer le comportement en l'absence d'option host"
+      - "Parametrer l'hote avec defaults et requirements"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Sub-Domain Routing"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2b1wzm3rwdrn"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-c8g1bj0n5dqs"
+      - "QST-qq1rr2xpmn82"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-e2zrm9qkpx7j
     official_topic_order: 5
     official_topic: "Routing"
@@ -2862,26 +3020,47 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois variables, deux fonctions, un attribut de service a nommer, et surtout une asymetrie
+      invisible : les conditions ne comptent qu'a l'appariement. Cette derniere est ce qui separe une
+      bonne d'une mauvaise reponse et demande d'etre opposee a requirements.
+    learning_outcomes:
+      - "Ecrire une condition d'appariement de route"
+      - "Nommer les variables et les fonctions disponibles dans une condition"
+      - "Exposer un service aux conditions par AsRoutingConditionService"
+      - "Enoncer que les conditions sont ignorees a la generation d'URL"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Matching Expressions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-f92d09x14ggx"
+    flashcard_refs:
+      - "FLC-hyrr6qtdkfh9"
+    question_refs:
+      - "QST-wackwv87118n"
+      - "QST-zre5tj917bfe"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-5g82spham3vm
     official_topic_order: 5
     official_topic: "Routing"
@@ -2892,26 +3071,44 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une option, un comportement par defaut permissif, et le contournement _method avec l'option de
+      configuration qui l'active. Quatre faits courts, sans mecanisme a derouler.
+    learning_outcomes:
+      - "Enoncer les methodes acceptees en l'absence d'option methods"
+      - "Restreindre une route a certaines methodes"
+      - "Decrire le contournement _method et l'option qui l'active"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Matching HTTP Methods"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-h3q0qxnq8eq0"
+    flashcard_refs:
+      - "FLC-v2wg754jbxy7"
+    question_refs:
+      - "QST-n9mqsvxnxvsz"
+      - "QST-xadb43t30n4e"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-xxcpx1qssp93
     official_topic_order: 5
     official_topic: "Routing"
@@ -2922,26 +3119,54 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux mecanismes de routage distincts — le parametre _locale et les chemins localises —, un repli
+      de configuration, et un piege de sequencement dont le symptome est silencieux. La negociation
+      Accept-Language appartient au lot 02 et la traduction au lot 16 ; ce qui reste ici justifie
+      encore le format STANDARD.
+    learning_outcomes:
+      - "Fixer la locale par le parametre _locale"
+      - "Declarer un chemin par locale et son repli"
+      - "Citer framework.default_locale comme repli global"
+      - "Expliquer pourquoi setLocale() dans un controleur arrive trop tard"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Translating the Locale from the URL, default_locale, LocaleListener"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Localized Routes (i18n)"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-evzcj63fgdb7"
+    flashcard_refs:
+      - "FLC-hdwv8cdrrdwb"
+    question_refs:
+      - "QST-e5r36kab4gdn"
+      - "QST-sx1wkkf00607"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
   - id: OIT-8sr74a2wnb3r
     official_topic_order: 5
     official_topic: "Routing"
@@ -2952,26 +3177,42 @@ items:
     lot: lot-05
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Deux commandes et leurs options principales. La seule information non triviale — debug:router
+      liste dans l'ordre d'evaluation — tient en une phrase.
+    learning_outcomes:
+      - "Lister les routes dans leur ordre d'evaluation"
+      - "Citer les options utiles de debug:router"
+      - "Utiliser router:match pour diagnostiquer une URL"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Debugging Routes"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-8dgxs89hrah0"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-2m6tem2jg4d4"
+      - "QST-d3z5234k4p9k"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 05 — Routing."
 
   # ---- Topic 6: Templating with Twig (14 items) ----
   - id: OIT-b9x8az2bx4t8
