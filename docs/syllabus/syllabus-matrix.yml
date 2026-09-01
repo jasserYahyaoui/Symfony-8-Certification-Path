@@ -1013,26 +1013,51 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Vu comme item d'architecture, le composant se reduit a trois faits : il remplace les
+      superglobales par des objets fabricables, il est autonome et c'est le framework qui en depend,
+      et il fournit RequestStack. Le modele des sacs et la contrainte de InputBag::get() sont deja
+      traites par l'item HTTP request du lot 02, et l'usage de Request et Response dans un controleur
+      appartient au lot 04 ; les reprendre ici serait de la duplication.
+    learning_outcomes:
+      - "Enoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
+      - "Justifier que le composant est autonome et que la dependance va du framework vers lui"
+      - "Citer le role de RequestStack et de ses trois accesseurs"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "introduction and installation"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getCurrentRequest, getMainRequest, getParentRequest"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-epx8j3fhb38n"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-cs5czk986ceh"
+      - "QST-811tsrpkggk6"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-132nwnh9c6bc
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1043,26 +1068,51 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Flex se resume a quatre faits — plugin Composer, alias, recette, symfony.lock — mais chacun est
+      exigible et les deux depots de recettes ont des comportements distincts. Le format MINIMAL ne
+      porterait pas cette derniere distinction.
+    learning_outcomes:
+      - "Enoncer que Flex est un plugin Composer"
+      - "Distinguer un alias d'une recette"
+      - "Justifier que symfony.lock est committe"
+      - "Distinguer symfony/recipes de symfony/recipes-contrib"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Symfony Flex"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Flex Recipes and Aliases"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-tyf3yfxjc3sa"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-eprt4675bxt3"
+      - "QST-fdw0fry94aqb"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-347k8phdewem
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1073,26 +1123,47 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Item purement factuel : une licence, un titulaire, une obligation. Il n'y a rien a mettre en
+      oeuvre ni aucune confusion connue a lever ; deux phrases epuisent le sujet.
+    learning_outcomes:
+      - "Nommer la licence de Symfony"
+      - "Enoncer la seule obligation qu'elle impose"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "lines 1-21, MIT text and copyright holder"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "license key"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-y84syktt20ww"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-2phg00bdwb17"
+      - "QST-wc38szf5asj9"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-d416348gfhde
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1103,26 +1174,50 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
-    exclusion_boundaries: "Any Symfony component not explicitly named by the syllabus is out of scope, as is any bridge to a third-party service."
+    content_level: STANDARD
+    content_level_justification: >-
+      La distinction composant / bridge / bundle est un critere a appliquer, pas un fait a retenir :
+      la question posee est toujours « lequel est-ce ? ». Un tableau a trois criteres est necessaire,
+      un traitement approfondi ne l'est pas.
+    learning_outcomes:
+      - "Definir un composant, un bridge et un bundle"
+      - "Classer un paquet Symfony dans l'une des trois categories"
+      - "Enoncer que seul le bundle configure le framework"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
+    exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "replace and provide keys"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "description and require keys"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-1bxqx6ks853z"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-2wczm0rxvsj1"
+      - "QST-930jj2sxej0j"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-p3p7te94qc1n
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1133,26 +1228,51 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      L'arborescence seule serait MINIMAL, mais les mecanismes de deplacement ne le sont pas : la cle
+      extra de composer.json et les methodes getCacheDir() et getLogDir() ne suivent pas la meme
+      logique, et c'est cette asymetrie qui est interrogee.
+    learning_outcomes:
+      - "Nommer le role de chaque repertoire par defaut"
+      - "Identifier public/ comme seul repertoire expose"
+      - "Choisir le bon mecanisme pour deplacer un repertoire donne"
+      - "Expliquer le role de config/packages/<env>/"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Use the Default Directory Structure"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "sections Cache, Log, Source and Public directories"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-156khyjssm25"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-anhjdyw3sw5z"
+      - "QST-ys2pndyx4es9"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-7sewqvmw6468
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1163,26 +1283,63 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Le trajet d'une requete est une procedure ordonnee dont chaque etape a un acteur, un pouvoir et
+      une condition ; l'ordre lui-meme est note. Trois pieges cumules — kernel.view conditionnel,
+      terminate apres l'envoi, finish_request apres response — ne se corrigent pas par un tableau.
+      C'est le mecanisme central sur lequel s'appuient les lots 04 et 10.
+    learning_outcomes:
+      - "Enoncer la signature de HttpKernelInterface::handle et le role de ses trois arguments"
+      - "Ordonner les evenements du noyau pour une requete nominale"
+      - "Nommer l'acteur de chaque etape : Runtime, Kernel, ControllerResolver"
+      - "Expliquer pourquoi kernel.view peut ne pas etre dispatche"
+      - "Situer kernel.terminate par rapport a l'envoi de la reponse"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la sequence complete sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "The Request-Response Lifecycle"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Kernel Events"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Usage"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-mpwjc4g3vmj7"
+    flashcard_refs:
+      - "FLC-jjsdae8j3b56"
+      - "FLC-62g2dayy67zs"
+    question_refs:
+      - "QST-7b5q7zedg43v"
+      - "QST-ewzwmzm44g5g"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-tb0rrqg413gx"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-xc4zfr70jjas
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1193,26 +1350,47 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une seule regle en cascade a trois branches, plus une interface et une methode d'echappement.
+      C'est court mais contre-intuitif — un 204 devient 500 — donc au-dessus de MINIMAL, et sans
+      procedure a derouler, donc en dessous de DEEP.
+    learning_outcomes:
+      - "Enoncer les trois regles de determination du code de statut, dans l'ordre"
+      - "Identifier HttpExceptionInterface comme porteuse du statut"
+      - "Justifier l'appel a allowCustomResponseCode()"
+      - "Enoncer les deux leviers de ExceptionEvent"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section kernel.exception, status code logic"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-kd67y4vnd0mm"
+    flashcard_refs:
+      - "FLC-79nmwswd5a50"
+    question_refs:
+      - "QST-0rxv1000z941"
+      - "QST-2mew7wbq7j4s"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-rd9b27fkb72r
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1223,26 +1401,61 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Deux corps de connaissance se superposent : la mecanique du dispatcher — ecouteur, abonne,
+      priorite signee, propagation — et le catalogue des huit evenements du noyau, chacun avec un
+      pouvoir propre. Le tableau des pouvoirs est ce qui separe une bonne d'une mauvaise reponse, et
+      il ne tient pas dans un format STANDARD.
+    learning_outcomes:
+      - "Distinguer un ecouteur d'un abonne et leur mode d'enregistrement"
+      - "Enoncer la semantique de la priorite et sa valeur par defaut"
+      - "Delimiter l'effet de stopPropagation()"
+      - "Associer chaque evenement du noyau a sa classe et a son pouvoir"
+      - "Nommer les constantes de KernelEvents"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la sequence complete sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "addListener(), getSubscribedEvents(), stopPropagation()"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "class constants"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/Attribute/AsEventListener.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "AsEventListener::__construct"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-2hpcy2rscq7m"
+    flashcard_refs:
+      - "FLC-4hjvn6s53v7y"
+    question_refs:
+      - "QST-y51441y0byrz"
+      - "QST-chxqtjssb1tr"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-hzbednd04fd4
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1253,26 +1466,46 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une trentaine de recommandations ne tiennent pas dans un format MINIMAL, mais rien ici ne
+      demande d'etre approfondi : c'est de la reconnaissance. Le cours retient la regle des trois
+      niveaux de configuration et les recommandations contre-intuitives, et laisse le reste au
+      document officiel.
+    learning_outcomes:
+      - "Choisir entre variable d'environnement, secret, parametre et constante"
+      - "Enoncer la convention de prefixe app. pour les parametres"
+      - "Reconnaitre les recommandations contre-intuitives"
+      - "Enoncer qu'aucun bundle applicatif n'est recommande"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "sections Configuration, Business Logic and Tests"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-k2xvr11x936e"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-7gk1cdmy0rxh"
+      - "QST-nz6jxdj32j14"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-vk57zg2wpep7
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1283,26 +1516,50 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      La promesse est un tableau de cas d'usage, pas un mecanisme : on l'applique, on ne la deroule
+      pas. Deux exceptions etroites — arguments nommes, ajout de membre dans une classe etendue —
+      imposent plus qu'un format MINIMAL.
+    learning_outcomes:
+      - "Distinguer utiliser, etendre et implementer au regard de la promesse"
+      - "Identifier les deux cas non garantis lors de l'extension d'une classe"
+      - "Enoncer la portee de la garantie sur les arguments nommes"
+      - "Citer les exclusions : @internal, experimental, traductions internes"
+      - "Distinguer final de @final"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Using Symfony Code, use-case tables and note [10]"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-21ec5kwrcmkm"
+    flashcard_refs:
+      - "FLC-rzxtm8jvz6k3"
+      - "FLC-tbf0byhf3qkz"
+    question_refs:
+      - "QST-z8vj7aat8jkk"
+      - "QST-daw9r7qrsmpc"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-0jd9nbbaqczb"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-ehf5zdnmdb1j
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1313,26 +1570,47 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      La fenetre mineure / majeure et les deux signaux — @deprecated et trigger_deprecation() —
+      forment un ensemble de regles exigibles, avec un paquet a nommer. Rien n'y demande une
+      explication approfondie.
+    learning_outcomes:
+      - "Enoncer dans quelle version une depreciation peut etre introduite puis supprimee"
+      - "Distinguer @deprecated de trigger_deprecation()"
+      - "Nommer le paquet fournissant trigger_deprecation()"
+      - "Citer les trois fichiers a mettre a jour"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Deprecating Code, Removing Deprecated Code"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-rkq1d437dw5d"
+    flashcard_refs:
+      - "FLC-9m8p1pfmbs1b"
+    question_refs:
+      - "QST-qyf1tg8cm0w6"
+      - "QST-0cakcdv6cmbb"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-efzq92vdtayj
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1343,26 +1621,45 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un mecanisme different par sous-systeme, et deux pieges reels : la boucle infinie du gabarit
+      surcharge et l'impossibilite de remplacer une contrainte de validation. C'est un tableau plus
+      deux avertissements, pas un mecanisme a derouler.
+    learning_outcomes:
+      - "Associer chaque partie surchargeable a son mecanisme"
+      - "Localiser un gabarit de surcharge"
+      - "Justifier l'emploi du prefixe @!"
+      - "Enoncer que les contraintes de validation s'ajoutent sans se remplacer"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "sections Templates, Services and Validation Metadata"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-f9s8mpaydnbx"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-afrgkknny4fv"
+      - "QST-xms6c8xjd03a"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-pk5s7cnhk776
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1373,26 +1670,49 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Item chiffre : rythme, phases, durees de maintenance. Le nombre de valeurs a retenir et
+      l'asymetrie 3 ans / 4 ans de la LTS depassent le format MINIMAL, mais il n'y a aucun mecanisme a
+      expliquer.
+    learning_outcomes:
+      - "Enoncer la frequence des versions correctives, mineures et majeures"
+      - "Situer les mois de publication"
+      - "Enoncer les durees de maintenance standard et LTS"
+      - "Identifier X.4 comme version LTS"
+      - "Expliquer le developpement en parallele d'une majeure et de la derniere mineure"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "sections Development, Maintenance and Backward Compatibility"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-6m32av3nr9eh"
+    flashcard_refs:
+      - "FLC-9m38p016nbap"
+      - "FLC-p6z5q1gh8any"
+    question_refs:
+      - "QST-bjgx2g2df63b"
+      - "QST-c4e421nb4abj"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-kcj9a5846b1s
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1403,26 +1723,51 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une liste de PSR ne serait que de la reconnaissance, mais la ligne de partage entre implementee,
+      suivie et pontee est la seule chose reellement interrogee, et elle demande un critere. STANDARD
+      suffit ; le detail du pont PSR-7 n'appelle pas de traitement approfondi.
+    learning_outcomes:
+      - "Citer les PSR implementees par Symfony"
+      - "Distinguer une PSR implementee d'une PSR suivie"
+      - "Enoncer que PSR-7 et PSR-17 passent par un pont"
+      - "Associer le conteneur a PSR-11 et le dispatcher a PSR-14"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "provide key"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "installation and usage sections"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-f74jcpnrrkhz"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-snvr37zq14z9"
+      - "QST-0djgsnp61392"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
   - id: OIT-c9pjp03cv4bq
     official_topic_order: 3
     official_topic: "Symfony Architecture"
@@ -1433,26 +1778,45 @@ items:
     lot: lot-03
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Un tableau de casses et une liste de prefixes et suffixes. Rien a mettre en oeuvre, rien a
+      demontrer : la reconnaissance est le seul mode d'evaluation utile. La convention propre aux
+      controleurs est un item distinct du lot 04.
+    learning_outcomes:
+      - "Associer chaque categorie d'element a sa casse"
+      - "Enoncer les prefixes et suffixes conventionnels"
+      - "Distinguer les prefixes d'attribut As... et Map..."
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Naming Conventions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-9g4qrgfs7nm4"
+    flashcard_refs:
+      - "FLC-00w816qz6wh8"
+    question_refs:
+      - "QST-0r834aw9wqn9"
+      - "QST-ph0fe1zhzeya"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 03 — Symfony Architecture."
 
   # ---- Topic 4: Controllers (14 items) ----
   - id: OIT-qr7gnht5s847

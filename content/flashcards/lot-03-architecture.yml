@@ -1,0 +1,206 @@
+# Lot 03 flashcards (Master Plan §6).
+#
+# Ten cards for fifteen items. Deliberately absent: License (one fact, held
+# by the course), Code organization and Official best practices (tables that are
+# read, not recalled), Components and Bridges, Framework overloading and
+# Framework interoperability (distinctions that are reasoned from a criterion,
+# and a card would only restate the table), Symfony Flex (mechanism, not recall)
+# and HttpFoundation (the InputBag reflex already has a card in Lot 02).
+# A card exists only where the fact is arbitrary, or where the intuition is
+# actively wrong.
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-9m38p016nbap
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    front: "Symfony : durées de maintenance d'une version standard et d'une LTS ?"
+    back: "Standard : 8 mois de bugs, 8 mois de sécurité. LTS : 3 ans de bugs, 4 ans de sécurité."
+    explanation: >-
+      Les deux durées d'une version standard sont identiques ; celles d'une LTS
+      ne le sont pas. La correction des bugs s'arrête un an avant celle des
+      failles de sécurité.
+    memorization_justification: >-
+      Quatre nombres arbitraires sans aucune logique dérivable, dont
+      l'asymétrie 3/4 de la LTS que l'on aligne spontanément sur le 8/8 de la
+      version standard.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Maintenance, table of version types"
+        verified_at: "2026-09-01"
+
+  - id: FLC-p6z5q1gh8any
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    front: "Symfony : quand sortent une mineure et une majeure ?"
+    back: "Mineure tous les 6 mois, en mai et en novembre. Majeure tous les 2 ans, en novembre des années impaires."
+    explanation: >-
+      Le modèle est basé sur le temps, pas sur le contenu : la date est connue
+      avant la liste des fonctionnalités. Un correctif sort environ tous les
+      mois.
+    memorization_justification: >-
+      Dates calendaires arbitraires, non déductibles, et régulièrement
+      interrogées sous forme « quelle affirmation est vraie ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        branch: "8.0"
+        symbol_or_lines: "introduction, time-based model list"
+        verified_at: "2026-09-01"
+
+  - id: FLC-rzxtm8jvz6k3
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    front: "Promesse de rétrocompatibilité : les arguments nommés sont-ils couverts ?"
+    back: "Non — sauf pour les constructeurs de classes d'attribut."
+    explanation: >-
+      Les noms de paramètres ne font partie de la promesse que là. Ailleurs, un
+      appel en arguments nommés peut casser lors d'une montée de version
+      mineure, alors même que la signature reste compatible.
+    memorization_justification: >-
+      Exception étroite et contre-intuitive : la promesse est réputée large, et
+      rien dans l'usage quotidien ne signale que le nom d'un paramètre n'en fait
+      pas partie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        branch: "8.0"
+        symbol_or_lines: "note [10]"
+        verified_at: "2026-09-01"
+
+  - id: FLC-tbf0byhf3qkz
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    front: "Vous étendez une classe Symfony : ajouter une nouvelle méthode est-il couvert par la promesse ?"
+    back: "Non. Ajouter une propriété ou une méthode dans une classe étendue n'est pas garanti."
+    explanation: >-
+      Symfony peut ajouter une méthode du même nom dans une version mineure, et
+      la collision est alors inévitable. Surcharger une méthode existante, en
+      revanche, est couvert.
+    memorization_justification: >-
+      Deux lignes « No » au milieu d'un tableau de « Yes » ; l'ajout paraît plus
+      inoffensif que la surcharge, alors que c'est l'inverse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Using our Classes, use-case table"
+        verified_at: "2026-09-01"
+
+  - id: FLC-4hjvn6s53v7y
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    front: "EventDispatcher : quelle priorité s'exécute en premier, et quelle est la valeur par défaut ?"
+    back: "La plus grande s'exécute en premier. Défaut : 0. Les valeurs négatives sont valides."
+    explanation: >-
+      À priorité égale, l'ordre est celui de l'enregistrement auprès du
+      dispatcher.
+    memorization_justification: >-
+      Convention arbitraire que l'intuition inverse volontiers, par analogie
+      avec les priorités numérotées 1, 2, 3.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        branch: "8.0"
+        symbol_or_lines: "addListener() third argument"
+        verified_at: "2026-09-01"
+
+  - id: FLC-jjsdae8j3b56
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    front: "Ordre des événements du noyau pour une requête traitée sans erreur ?"
+    back: "request → controller → controller_arguments → view → response → finish_request → terminate."
+    explanation: >-
+      kernel.exception ne figure pas dans cette liste : il n'est dispatché que
+      si une exception survient, et il peut interrompre la séquence à tout
+      moment.
+    memorization_justification: >-
+      Séquence ordonnée de sept noms, dont deux paires voisines
+      (controller / controller_arguments, response / finish_request) qui
+      s'intervertissent facilement de mémoire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Kernel Events"
+        verified_at: "2026-09-01"
+
+  - id: FLC-62g2dayy67zs
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    front: "Quand kernel.view est-il dispatché ?"
+    back: "Uniquement si le contrôleur n'a pas retourné d'objet Response."
+    explanation: >-
+      Son rôle est de convertir la valeur retournée en réponse. Si le contrôleur
+      retourne déjà une Response, l'événement n'a jamais lieu — contrairement à
+      kernel.response, qui est toujours dispatché.
+    memorization_justification: >-
+      Seul événement conditionnel de la séquence nominale ; l'oublier fait
+      répondre faux à toute question sur un écouteur de kernel.view.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        branch: "8.0"
+        symbol_or_lines: "section kernel.view"
+        verified_at: "2026-09-01"
+
+  - id: FLC-79nmwswd5a50
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    front: "kernel.exception : comment le code de statut de la réponse est-il choisi ?"
+    back: "1) réponse 4xx, 5xx ou 3xx → son code ; 2) sinon exception HttpExceptionInterface → getStatusCode() ; 3) sinon 500."
+    explanation: >-
+      Une réponse construite avec un statut 200 ou 204 ne passe aucune des deux
+      premières règles : elle sortira en 500, à moins d'appeler
+      allowCustomResponseCode() avant de la définir.
+    memorization_justification: >-
+      Règle en cascade à trois branches dont l'ordre change la réponse, et dont
+      la conclusion — « mon 204 devient 500 » — contredit frontalement
+      l'intuition.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        branch: "8.0"
+        symbol_or_lines: "section kernel.exception, status code logic"
+        verified_at: "2026-09-01"
+
+  - id: FLC-00w816qz6wh8
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    front: "Symfony : que préfixent respectivement As... et Map... dans un attribut PHP ?"
+    back: "As... configure un service (#[AsCommand]). Map... concerne un argument de contrôleur (#[MapEntity])."
+    explanation: >-
+      La convention est officielle et vaut pour tout attribut nouvellement
+      introduit ; elle permet de deviner le rôle d'un attribut inconnu à son
+      seul nom.
+    memorization_justification: >-
+      Association arbitraire entre deux préfixes et deux rôles, sans aucun
+      indice sémantique permettant de les retrouver.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        branch: "8.0"
+        symbol_or_lines: "section Naming Conventions"
+        verified_at: "2026-09-01"
+
+  - id: FLC-9m8p1pfmbs1b
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    front: "Symfony : dans quelles versions une fonctionnalité peut-elle être dépréciée, puis supprimée ?"
+    back: "Dépréciée dans une version mineure ; supprimée seulement dans la majeure suivante."
+    explanation: >-
+      Il en découle qu'une nouvelle classe ou méthode ne peut pas être
+      introduite déjà dépréciée. Le signal d'exécution est trigger_deprecation(),
+      fourni par le paquet symfony/deprecation-contracts.
+    memorization_justification: >-
+      Fenêtre en deux temps souvent réduite à « déprécié puis supprimé », sans
+      la contrainte de version qui en est tout l'intérêt.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        branch: "8.0"
+        symbol_or_lines: "sections Deprecating Code and Removing Deprecated Code"
+        verified_at: "2026-09-01"

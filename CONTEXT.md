@@ -1,18 +1,24 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-01
 
 ---
 
 ## Current lot
 
-**Lot 02 — HTTP: PASS** (9 items). Lots 0, 0.5 and 01 complete.
-Next: **Lot 03 — Symfony Architecture** (15 items, the largest topic).
+**Lot 03 — Symfony Architecture: PASS** (15 items). Lots 0, 0.5, 01 and 02 are
+complete. Next: **Lot 04 — Controllers** (14 items).
 
 ## Current branch
 
-`master`. The repository had no commits and no branches before this session.
-Direct commits to `master` per Master Plan §0 and explicit user instruction.
+`lot-03-symfony-architecture`, branched from `master` at `7f1fd09`, merged
+through PR #1.
+
+Lot 03 is the first lot shipped through the §15 workflow: dedicated branch →
+Pull Request → CI → controlled merge into `master`. The direct-to-`master`
+commits of Lots 0.5–02 remain a **DOCUMENTED_DEVIATION** recorded in their
+reports; that history is not rewritten (CLAUDE.md, "Every lot ships through a
+branch and a Pull Request").
 
 ## Completed work
 
@@ -74,14 +80,14 @@ for evidence anchoring; toolchain verified.
 4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
    end to end, then approve or correct the architecture before scaling.
-6. Lots 1–27.
+6. ~~Lots 1–3~~ — done. Lots 4–27.
 
 ## Atomic items affected
 
-**163 imported, 21 EXAM_READY.**
+**163 imported, 36 EXAM_READY.**
 
 ```text
-coverage = 21 / 163 = 12.88%
+coverage = 36 / 163 = 22.09%
 ```
 
 | Lot | Topic | Items |
@@ -89,16 +95,19 @@ coverage = 21 / 163 = 12.88%
 | 0.5 | Golden Slice (HTTP, Routing, Security) | 3 |
 | 01 | PHP | 9 |
 | 02 | HTTP (minus Status codes) | 9 |
+| 03 | Symfony Architecture | 15 |
 
-Content: 21 courses (8 677 words), 17 flashcards, 42 LEARNING and 5 HOLDOUT
-questions, 0 exercises. English share of practice pool: 33/42.
+Content: 36 courses (13 993 body words), 27 flashcards, 72 LEARNING and 7
+HOLDOUT questions, 0 exercises. English share of the practice pool: 63/79
+overall, 25/32 for Lot 03.
 
-Level distribution so far — **observation, not a target**: 16 `STANDARD`,
-4 `MINIMAL`, 1 `DEEP`.
+Level distribution so far — **observation, not a target**: 26 `STANDARD`,
+7 `MINIMAL`, 3 `DEEP`.
 
 Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-01`](docs/reports/lot-01-report.md),
-[`lot-02`](docs/reports/lot-02-report.md).
+[`lot-02`](docs/reports/lot-02-report.md),
+[`lot-03`](docs/reports/lot-03-report.md).
 
 ### Cross-lot boundaries now load-bearing
 
@@ -108,6 +117,20 @@ Stated in prose only; no CI rule enforces them. Later lots must honour them:
 - *Language detection* (HTTP) = `Accept-Language` → *User's locale guessing*
   (lot-05) = route locale → *i18n* (lot-16) = translation.
 - *Status codes* (Lot 0.5) → *HTTP response* owns the `isRedirect()` trap.
+- *HttpFoundation component* (lot-03) = the component's place in the
+  architecture → *HTTP request* (lot-02) owns the bag model and the
+  `InputBag::get()` restriction → *The request* (lot-04) owns controller usage.
+- *Request handling* (lot-03) = the `handle()` flow → *HttpKernel component*,
+  *Argument value resolvers* and *Internal redirects* (lot-04).
+- *Request handling* (lot-03) = the trajectory → *Event dispatcher and kernel
+  events* (lot-03) = the dispatcher mechanics and the per-event powers.
+- *Naming conventions* (lot-03) = framework-wide casing, prefixes and suffixes
+  → *Naming conventions* (lot-04, same official wording, distinct item) =
+  controller naming.
+
+The lot-03 report records a near-miss on the first of these: a draft reproduced
+Lot 02's bag table **and** got `InputBag::get()` wrong by trusting the
+documentation page over the source. Read the source for behavioural claims.
 
 ## Known issues
 
@@ -122,43 +145,52 @@ Stated in prose only; no CI rule enforces them. Later lots must honour them:
 | ENV-1 | `api.github.com` is blocked, so Composer cannot fetch dist archives in this container. Use `composer install --prefer-source`. CI is unaffected. | Minor | Workaround documented in `CLAUDE.md` |
 | ENV-2 | `jasseryahyaoui.github.io` is egress-blocked from this container, so production cannot be verified from here. The smoke test therefore runs as a CI job on GitHub's runners. | Minor | By design |
 | SITE-1 | Prism's `twig` language cannot be enabled: it assumes a global `Prism` the Docusaurus 3.10 SSR bundle does not provide. `php`, `yaml` and `bash` work. | Minor | Open — fence Twig samples as `html` in Lot 6 (ADR-0003) |
+| SITE-2 | A bare `<` or `{` in a canonical matrix field broke the MDX build (`config/packages/<env>/`). | — | **Resolved** in Lot 03 — `DocsGenerator::mdxText()` escapes them; two regression tests pin the behaviour, authored course bodies stay exempt |
+| DOC-1 | The Symfony 8.0 documentation page for HttpFoundation describes `InputBag::get()` on an array parameter loosely; the source throws `BadRequestException`. A Lot 03 draft followed the page and was wrong. | Medium | Open — for any behavioural claim, read `symfony/symfony` at the pinned SHA, not the docs prose |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19:
+Locally, on PHP 8.4.19, on `lot-03-symfony-architecture`:
 
 ```text
-php bin/cert validate  → 14 rules, 0 official items, 0 questions, no violations
-php bin/cert coverage  → Coverage: UNDEFINED (syllabus not imported)
-php bin/cert build     → 9 files generated
-vendor/bin/phpunit     → OK (55 tests, 371 assertions)
+php bin/cert validate           → 16 rules, 163 official items, 79 questions, no violations
+php bin/cert coverage           → Coverage: 22.09% (36/163 EXAM_READY)
+php bin/cert build              → docs tree + coverage.json, exam.json, practice.json
+vendor/bin/phpunit              → OK (74 tests, 601 assertions)
+npm --prefix website run build  → SUCCESS
+npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
 
-In CI (run `33439599181`, commit `a41cdd8`): all 13 steps of the technical gate
-**passed**, including composer validation, PHP lint, YAML lint, content rules,
-the test suite, the coverage-freshness diff, the site build and the assertion
-that no PHP reaches the deployed artefact.
+Holdout isolation checked against the built payload, not assumed: the 7 holdout
+question ids are absent from `practice.json` and present in `exam.json`. That is
+**functional isolation, not confidentiality** — `exam.json` is published with
+correct answers (ADR-0005).
 
-No accessibility audit tool has been run — there is no deployed page to run it
-against yet. The accessibility baseline is a design commitment verified by
-inspection, not a passed gate.
+The accessibility audit is a real gate since the Pre-Lot-03 closure:
+`website/tools/a11y-audit.mjs` drives axe-core over the built site on six
+surfaces and runs in CI on every push.
 
 ## Next action
 
-**Lot 03 — Symfony Architecture** (15 items): HttpFoundation component, Symfony
-Flex, License, Components and Bridges, Code organization, Request handling,
-Exception handling, Event dispatcher and kernel events, Official best practices,
-Backward compatibility promise, Deprecations best practices, Framework
-overloading, Release management and roadmap schedule, Framework interoperability
-and PSRs, Naming conventions.
+**Lot 04 — Controllers** (14 items): HttpKernel component and FrameworkBundle,
+Naming conventions, The base AbstractController class, The request, The
+response, The cookies, The session, The flash messages, HTTP redirects,
+Internal redirects, Generate 404 pages, File upload, Built-in internal
+controllers, Argument value resolvers.
 
-Then Lots 04 → 27 in Master Plan §14 order.
+Open the lot on a dedicated branch with a Pull Request, per §15. Honour the
+boundaries Lot 03 left in place — Lot 04 owns the request, the response, the
+session, the cookies, file upload, argument value resolvers, internal redirects
+and controller naming.
+
+Then Lots 05 → 27 in Master Plan §14 order.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: ~400 words/item (376 Lot 01, 407 Lot 02); across 163
-  items that projects to roughly 65 000 words. Re-estimate per lot rather than
-  assuming linearity.
+- **revision burden**: ~397 words/item on Lot 03, close to Lot 01 (376) and
+  Lot 02 (407); 13 993 body words for 36 items. Across 163 items that still
+  projects to roughly 63 000 words. Re-estimate per lot rather than assuming
+  linearity.
 - `DUP-001` pressure, and the three cross-lot boundaries above.
 
 ## Blocked decisions
@@ -170,5 +202,6 @@ cannot be claimed. Does not block content lots. **A decision is required before
 Lot 27 begins.**
 
 **Process:** Lots 0–02 were committed directly to `master` on the owner's
-instruction — a documented deviation from §15, not an inapplicable step. From
-Lot 03 onward: branch, Pull Request, CI, controlled merge.
+instruction — a documented deviation from §15, not an inapplicable step. Lot 03
+was the first lot shipped as branch → Pull Request → CI → controlled merge, and
+every later lot follows it.
