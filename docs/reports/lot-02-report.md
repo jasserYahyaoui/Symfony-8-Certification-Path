@@ -69,13 +69,13 @@ stated in the course itself, so a later lot cannot quietly re-teach it:
 
 | Resource | Lot 02 | Project total |
 |---|---:|---:|
-| Courses | 9 (3 661 words) | 21 (8 677 words) |
+| Courses | 9 (3 349 body words) | 21 (8 034 body words) |
 | Flashcards | 6 | 17 |
 | Questions (LEARNING) | 18 | 42 |
 | Questions (HOLDOUT) | 2 | 5 |
 | Exercises / Labs / Source Tours | 0 | 0 |
 
-407 words per item. Estimated revision time for Lot 02: **24–28 minutes**.
+372 body words per item. Estimated revision time for Lot 02: **24–28 minutes**.
 
 ## Evidence
 
@@ -112,7 +112,18 @@ practice.json  pool=LEARNING  42 questions
 exam.json      pool=HOLDOUT    5 questions
 ```
 
-English share of the practice pool: **33 / 42**.
+Holdout questions are **absent from the Practice payload**: the build assembles
+`practice.json` from the learning pool alone, so Practice Mode cannot serve one
+even if the UI were wrong.
+
+They are **not confidential**. `exam.json` is published at
+`/data/exam.json` and carries each holdout question with its `correct` flags and
+explanation, so anyone who fetches that URL can read the answers. The same is
+true of `practice.json`. This is inherent to static hosting (ADR-0001), not a
+defect in the build: nothing on GitHub Pages can withhold data from a client
+that asks for it. Holdout integrity is therefore a **convention protecting a
+learner from themselves**, not an access control.
+
 
 ## A rule defect this lot exposed
 
@@ -160,9 +171,9 @@ and `CLAUDE.md`, so it binds future lots rather than depending on memory.
 
 ## Remaining risks
 
-- **Revision burden is tracking at roughly 400 words per item** (376 for Lot 01,
-  407 for Lot 02, 545 for the DEEP-containing slice). Extrapolated across 163
-  items that is on the order of 65 000 words — several hours of revision. Still
+- **Revision burden is tracking at roughly 370 body words per item** (351 for
+  Lot 01, 372 for Lot 02, 508 for the DEEP-containing slice). Extrapolated
+  across 163 items that is on the order of 60 000 words — several hours of revision. Still
   plausible for a certification, but it is the number to watch, and it should be
   re-estimated rather than assumed linear.
 - **Three cross-lot boundaries are now load-bearing** (Caching ↔ lot-17,

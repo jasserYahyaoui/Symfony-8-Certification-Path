@@ -83,7 +83,7 @@ much as the output:
 
 | Resource | Count | Size |
 |---|---:|---|
-| Courses | 3 | 1 635 words total (408 / 514 / 713) |
+| Courses | 3 | 1 523 body words (383 / 480 / 660), front matter excluded |
 | Flashcards | 4 | — |
 | Questions (LEARNING) | 6 | 4 English, 2 French |
 | Questions (HOLDOUT) | 1 | English |
@@ -138,11 +138,20 @@ exercised with a real holdout question:
 ```text
 practice.json  pool=LEARNING  6 questions
 exam.json      pool=HOLDOUT   1 question
-QST-eb3sm6ytxwb2 present in practice payload: False
 ```
 
-The holdout question is not hidden by the UI — it is absent from the file the
-Practice page fetches.
+Holdout questions are **absent from the Practice payload**: the build assembles
+`practice.json` from the learning pool alone, so Practice Mode cannot serve one
+even if the UI were wrong.
+
+They are **not confidential**. `exam.json` is published at `/data/exam.json`
+and carries each holdout question with its `correct` flags and explanation, so
+anyone who fetches that URL can read the answers. The same is true of
+`practice.json`. This is inherent to static hosting (ADR-0001), not a defect in
+the build: nothing on GitHub Pages can withhold data from a client that asks
+for it. Holdout integrity is therefore a **convention protecting a learner from
+themselves**, not an access control.
+
 
 ### New CI rules
 
@@ -229,8 +238,9 @@ Each resource was admitted only against §1.2 and §1.4:
 - **No accessibility audit has been run** against the deployed slice. The
   `<details>` flashcards use a native, keyboard-operable control, but that is
   inspection, not measurement.
-- **One holdout question is not a holdout pool.** Isolation is proven
-  mechanically; statistical integrity needs Lot 27.
+- **One holdout question is not a holdout pool.** Functional isolation is proven
+  mechanically; statistical integrity needs Lot 27. And because the payload is
+  public, holdout secrecy depends on the learner not looking — see above.
 
 ## Recommendation
 

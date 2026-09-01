@@ -66,13 +66,13 @@ one item would have duplicated the whole lot.
 
 | Resource | Lot 01 | Project total |
 |---|---:|---:|
-| Courses | 9 (3 381 words) | 12 (5 016 words) |
+| Courses | 9 (3 162 body words) | 12 (4 685 body words) |
 | Flashcards | 7 | 11 |
 | Questions (LEARNING) | 18 | 24 |
 | Questions (HOLDOUT) | 2 | 3 |
 | Exercises / Labs / Source Tours | 0 | 0 |
 
-Average 376 words per item — below the Golden Slice's 545, because this lot has
+Average 351 body words per item — below the Golden Slice's 545, because this lot has
 no `DEEP` item. Estimated revision time for Lot 01: **22–26 minutes**.
 
 ## Evidence
@@ -114,11 +114,20 @@ npm run build         → SUCCESS
 ```text
 practice.json  pool=LEARNING  24 questions
 exam.json      pool=HOLDOUT    3 questions
-holdout leaked into practice: False
 ```
 
-English share of the practice pool: **20 / 24**, above the 50% floor §5 sets
-for advanced practice.
+Holdout questions are **absent from the Practice payload**: the build assembles
+`practice.json` from the learning pool alone, so Practice Mode cannot serve one
+even if the UI were wrong.
+
+They are **not confidential**. `exam.json` is published at
+`/data/exam.json` and carries each holdout question with its `correct` flags and
+explanation, so anyone who fetches that URL can read the answers. The same is
+true of `practice.json`. This is inherent to static hosting (ADR-0001), not a
+defect in the build: nothing on GitHub Pages can withhold data from a client
+that asks for it. Holdout integrity is therefore a **convention protecting a
+learner from themselves**, not an access control.
+
 
 ### A source-quality finding
 

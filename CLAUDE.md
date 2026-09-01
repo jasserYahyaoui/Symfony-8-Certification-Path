@@ -36,6 +36,25 @@ a level is the item itself. See
 **Never weaken a test or a CI rule to get a green build (§12).** Removing a
 rule from `RuleSet::mandatory()` is a governance decision, not maintenance.
 
+**Reporting a lot.** Every lot report and hand-off must:
+
+- separate **new** figures from **cumulative** ones — never present a running
+  total as this lot's output;
+- reconcile from the canonical files (`syllabus-matrix.yml`, `content/**`) with
+  a script, never from an earlier report or from memory;
+- compute coverage only as EXAM_READY atomic official items over total atomic
+  official items, and count course size as **body words**, excluding YAML front
+  matter;
+- state level distribution as an observation (see the rule above);
+- distinguish HOLDOUT **functional isolation** (absent from `practice.json`)
+  from **confidentiality** — the published payloads carry correct answers, so
+  never write "no leak" without that qualifier;
+- claim `PASS` only with the applicable evidence present (tests, CI, commit,
+  merge, deployment URL, production smoke test, the three gates); write
+  `MISSING`, `NOT_APPLICABLE` or `BLOCKED` rather than inventing a value;
+- end with a compact, self-contained summary that a reader without repository
+  access can audit.
+
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,
 permissions or secrets, an unresolved source contradiction, a disabled test or
