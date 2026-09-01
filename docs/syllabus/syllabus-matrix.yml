@@ -3981,26 +3981,46 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Les trois couches de donnees et les deux sens de traversee forment le modele mental dont depend
+      tout le lot. C'est un modele a comprendre, avec un exemple qui les separe nettement, mais aucune
+      procedure a derouler : les transformateurs eux-memes sont un item distinct.
+    learning_outcomes:
+      - "Enoncer le probleme que le composant resout"
+      - "Nommer les trois couches de donnees et leur contenu"
+      - "Decrire le sens de traversee au rendu et a la soumission"
+      - "Situer createForm() et getData() sur la couche modele"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "The Data Transformation Lifecycle"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-txp6tjhjtfy8"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-a4xhs81g86kj"
+      - "QST-174t76nj5hh1"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-511yz29wg73f"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-fhpttc4c5x0k
     official_topic_order: 7
     official_topic: "Forms"
@@ -4011,26 +4031,47 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux endroits ou construire, trois arguments d'add(), une option de classe, une correspondance
+      nom-propriete, et le cas du champ non mappe dont l'oubli fait echouer le formulaire. Plusieurs
+      faits a consequence, sans mecanisme ordonne.
+    learning_outcomes:
+      - "Construire un formulaire dans un controleur et en classe de type"
+      - "Employer add() avec son nom, son type et ses options"
+      - "Declarer data_class"
+      - "Expliquer la correspondance entre le nom du champ et la propriete"
+      - "Declarer et lire un champ non mappe"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Building Forms and Mapping Fields to Object Properties"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-8msvfwe13mpb"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-b4y5mz01a7na"
+      - "QST-6ygjf6k55wpk"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-3pfgr2whbm74"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-mgvdw7cfpwyz
     official_topic_order: 7
     official_topic: "Forms"
@@ -4041,26 +4082,50 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une sequence courte mais ordonnee — handleRequest, isSubmitted, isValid — plus l'alternative
+      submit() dont le second argument a un effet de bord non devinable sur la validation. Cela
+      depasse le format MINIMAL sans constituer un mecanisme a plusieurs etages.
+    learning_outcomes:
+      - "Traiter une soumission dans une action unique"
+      - "Enoncer l'ordre de isSubmitted() et isValid()"
+      - "Enoncer que l'objet d'origine est mis a jour"
+      - "Employer submit() et son argument clearMissing"
+      - "Enoncer l'effet de clearMissing sur la validation"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Processing Forms and Using the submit() Method"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-nfkzx2s1n3r3"
+    flashcard_refs:
+      - "FLC-jsbfc1cnv01y"
+    question_refs:
+      - "QST-zkgdt4kc1h0g"
+      - "QST-fy9ptsw9q7d7"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-rjcze5zym546"
+      - "QST-hz8yhn240jyw"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-5xvjqa4203xe
     official_topic_order: 7
     official_topic: "Forms"
@@ -4071,26 +4136,46 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre methodes dont aucune n'est obligatoire, un heritage de types qui explique la brievete du
+      code, et la distinction entre specialiser et composer. C'est un critere a appliquer, pas une
+      liste a retenir.
+    learning_outcomes:
+      - "Enoncer qu'un formulaire est lui-meme un type"
+      - "Associer chaque methode d'AbstractType a son role"
+      - "Employer getParent() et citer le parent implicite"
+      - "Distinguer heriter d'un type et l'ajouter comme champ"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "creating a custom form field type"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-f9pen0bdyrr9"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-hhxx71xmb9jk"
+      - "QST-yyzehfrg9w4n"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-34jsz8p52p6r"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-gxew257vwhm8
     official_topic_order: 7
     official_topic: "Forms"
@@ -4101,26 +4186,48 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Neuf fonctions de rendu a trois niveaux de granularite, et un comportement implicite a
+      consequence de securite : form_end rend les champs restants, donc le jeton CSRF. Le tableau et
+      l'avertissement ne tiennent pas dans un format MINIMAL.
+    learning_outcomes:
+      - "Associer chaque fonction de rendu a ce qu'elle produit"
+      - "Choisir le niveau de granularite adapte"
+      - "Enoncer que form_end rend les champs restants, dont le jeton CSRF"
+      - "Configurer l'action, la methode et les attributs du formulaire"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Rendering Forms"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-b5nj93xzz10b"
+    flashcard_refs:
+      - "FLC-yvey5gkx1zhd"
+    question_refs:
+      - "QST-nnj43wzztp2y"
+      - "QST-4915capts8mb"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-m9pvk08gts1f"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-j2vjdxcer4ft
     official_topic_order: 7
     official_topic: "Forms"
@@ -4131,26 +4238,51 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une chaine de recherche a trois niveaux dont la syntaxe du bloc le plus specifique ne s'invente
+      pas, cinq parties de champ, et un ordre de consultation de twig.form_themes inverse de l'ordre
+      de lecture. Trois choses non devinables, aucune procedure a derouler.
+    learning_outcomes:
+      - "Decrire la chaine de recherche des blocs, du plus specifique au plus general"
+      - "Ecrire le nom du bloc ciblant un champ precis d'un formulaire precis"
+      - "Nommer les cinq parties d'un champ"
+      - "Appliquer un theme globalement, par gabarit, ou sur place avec _self"
+      - "Enoncer l'ordre de consultation de twig.form_themes"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "how form themes work"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-r3xywnpwrwh7"
+    flashcard_refs:
+      - "FLC-8yczcp0s4a1c"
+      - "FLC-5g65x0xtgdn7"
+    question_refs:
+      - "QST-6tbd9rk49r20"
+      - "QST-psfqmcny5kpw"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-f67fd9fny984"
+      - "QST-fh0ab67q1ej4"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-dmkbj2x94rks
     official_topic_order: 7
     official_topic: "Forms"
@@ -4161,26 +4293,47 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une protection automatique dont le mecanisme doit etre compris pour ne pas la casser, trois
+      options de formulaire, et la distinction entre jetons avec et sans etat qui a une consequence
+      sur la session et la cachabilite. La verification manuelle appartient au lot 04.
+    learning_outcomes:
+      - "Expliquer ce que le formulaire pose et verifie automatiquement"
+      - "Enoncer l'effet d'un jeton absent sur isValid()"
+      - "Citer les trois options csrf du formulaire"
+      - "Justifier un csrf_token_id different par formulaire"
+      - "Distinguer jetons avec et sans etat"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "CSRF protection in Symfony forms"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-0yhqc0b1q7hz"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-z6w320n9hz0m"
+      - "QST-8xa0cc55zffm"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-tewn0nb82g44"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-j6tqs8s8f54f
     official_topic_order: 7
     official_topic: "Forms"
@@ -4191,26 +4344,43 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une fois exclu ce que possede l'item File upload du lot 04 — UploadedFile, move(), les
+      metadonnees client non fiables — il ne reste que le branchement sur le formulaire : FileType,
+      mapped false, et la lecture par $form->get(). Trois faits.
+    learning_outcomes:
+      - "Declarer un champ FileType non mappe"
+      - "Justifier le choix de mapped false"
+      - "Lire la valeur d'un champ non mappe"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "adding the file field to the form"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-cpvcczhj7bzx"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-h3r0j23kcfbe"
+      - "QST-5vpn3hptj28b"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-p810t98zedem
     official_topic_order: 7
     official_topic: "Forms"
@@ -4221,26 +4391,44 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Un catalogue a reconnaitre, organise en familles, plus la combinaison multiple/expanded de
+      ChoiceType. La reconnaissance est le seul mode d'evaluation utile ; EntityType et les champs
+      Symfony UX sont hors perimetre.
+    learning_outcomes:
+      - "Reconnaitre les familles de types natifs"
+      - "Situer ChoiceType comme parent de la famille des choix"
+      - "Associer multiple et expanded au rendu obtenu"
+      - "Identifier les types hors perimetre d'examen"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "supported field types"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-zsgx3tvpy1kn"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-kr1xezgf2gp6"
+      - "QST-1hb2524n0hsk"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-58r9dadx916v
     official_topic_order: 7
     official_topic: "Forms"
@@ -4251,26 +4439,48 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux methodes dont le sens de lecture se rate, deux niveaux d'attachement a distinguer, une
+      exception dediee dont l'usage conditionne le comportement du formulaire, et le cas de null.
+      Quatre points a consequence.
+    learning_outcomes:
+      - "Distinguer transform() de reverseTransform() par leur sens"
+      - "Choisir entre addModelTransformer et addViewTransformer"
+      - "Signaler un echec par TransformationFailedException"
+      - "Traiter le cas de null dans transform()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "using data transformers"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-cj36gys6vatx"
+    flashcard_refs:
+      - "FLC-tta4ns1abpfy"
+    question_refs:
+      - "QST-bj8py053ynmp"
+      - "QST-xa0hazmsb5mc"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-6rpjqqwv1qg9"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-v7zyhcm44m88
     official_topic_order: 7
     official_topic: "Forms"
@@ -4281,26 +4491,54 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Six evenements en deux phases, dans un ordre fixe, dont deux seulement autorisent une
+      modification de structure ; un verrouillage a partir de SUBMIT ; la validation portee par un
+      ecouteur sur POST_SUBMIT ; et un motif contre-intuitif pour les champs dependants, qui
+      s'ajoutent au parent. Chaque etage change la reponse, et l'ordre lui-meme est note.
+    learning_outcomes:
+      - "Ordonner les six evenements en deux phases"
+      - "Associer chaque evenement a la couche de donnee qu'il porte"
+      - "Enoncer a partir de quel evenement la structure est verrouillee"
+      - "Situer la validation sur POST_SUBMIT"
+      - "Ajouter un champ dependant au bon formulaire"
+      - "Choisir entre PRE_SET_DATA et PRE_SUBMIT selon l'origine de la donnee"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la sequence complete sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "form events, order and constraints"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-b2pn9zz55e4n"
+    flashcard_refs:
+      - "FLC-e83vsz7hvkpp"
+      - "FLC-7904k5rak62c"
+      - "FLC-gg8d18g1cqqv"
+    question_refs:
+      - "QST-ra9z9d42ddqa"
+      - "QST-tv47j0hjexr0"
+      - "QST-5x6x0fgxqk43"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-cneae0nf93c6"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-gcs0jathkv9b
     official_topic_order: 7
     official_topic: "Forms"
@@ -4311,26 +4549,43 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une classe de base, une methode obligatoire, un tag pose par autoconfiguration, et une
+      distinction avec le type personnalise. Court et sans piege ordonne.
+    learning_outcomes:
+      - "Distinguer une extension d'un type personnalise"
+      - "Implementer getExtendedTypes() et citer sa signature"
+      - "Enoncer l'effet d'etendre FormType"
+      - "Citer le tag form.type_extension"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "creating a form type extension"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-k4ejsd624d1p"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-mc97gbqdk57v"
+      - "QST-vp34fa6btm3y"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
   - id: OIT-rj9web4whgmz
     official_topic_order: 7
     official_topic: "Forms"
@@ -4341,26 +4596,49 @@ items:
     lot: lot-07
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Sept methodes dont trois se confondent — setDefaults, setDefined, setRequired — plus les defauts
+      paresseux qui permettent a une option d'en dependre d'une autre. Le composant sert au-dela des
+      formulaires, ce qui justifie de le traiter pour lui-meme.
+    learning_outcomes:
+      - "Distinguer setDefaults, setDefined et setRequired"
+      - "Contraindre le type et la valeur d'une option"
+      - "Employer un normaliseur"
+      - "Ecrire un defaut paresseux dependant d'une autre option"
+      - "Enoncer ce qui arrive a une option inconnue"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "the OptionsResolver component"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-pchb259hnbh3"
+    flashcard_refs:
+      - "FLC-rpr50wc4n7f6"
+    question_refs:
+      - "QST-7ef7528zsm5p"
+      - "QST-0gsam1vp228d"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-0gvqdjk0prdr"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 07 — Forms."
 
   # ---- Topic 8: Data Validation (8 items) ----
   - id: OIT-6wd8860brzfy

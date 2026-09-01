@@ -1,0 +1,1844 @@
+# Lot 07 — Forms question bank (Master Plan §7).
+#
+# 27 LEARNING questions (2 per official item, 3 for the DEEP one), 10
+# VALIDATION questions — one per STANDARD or DEEP item, as rule POOL-002
+# requires — and 2 HOLDOUT questions reserved for the final mocks.
+#
+# EntityType and Symfony UX fields are out of scope (§1.5) and are not tested.
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+
+questions:
+- id: QST-a4xhs81g86kj
+  version: 1
+  official_topic: Forms
+  official_item: OIT-tsxxgp3ppj1n
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How many data representations does a form value pass through?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - form-component
+  choices:
+  - id: CHO-4yev3wcgwj1w
+    text: 'Three: model, normalized and view'
+    correct: true
+  - id: CHO-222j3pgqxeqe
+    text: 'Two: model and view'
+    correct: false
+    explanation: The normalized layer sits between them and differs for types such as DateType.
+  - id: CHO-6asec8y0e0n4
+    text: Four, one per transformer
+    correct: false
+    explanation: The number of layers is fixed at three, whatever the transformers.
+  - id: CHO-hrj77pyhan69
+    text: 'One: the form works on the submitted strings only'
+    correct: false
+    explanation: That is the view layer alone; the model layer is what the application uses.
+  explanation: Rendering goes model to view; submission goes view to model. The normalized layer is identical to
+    the model for most types.
+  official_sources: &id001
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Forms documentation
+    verified_at: '2026-09-01'
+- id: QST-174t76nj5hh1
+  version: 1
+  official_topic: Forms
+  official_item: OIT-tsxxgp3ppj1n
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: For a DateType rendered as three select elements, what is the normalized data?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - form-component
+  - layers
+  choices:
+  - id: CHO-39gt658m5152
+    text: An array of integers, keyed year, month and day
+    correct: true
+  - id: CHO-jd5c2cavaq5p
+    text: A DateTime object
+    correct: false
+    explanation: That is the model data, before normalization.
+  - id: CHO-n1sjw0d1fm9f
+    text: An array of strings
+    correct: false
+    explanation: Strings are the view data, as the browser submits them.
+  - id: CHO-7nzybz0gcypq
+    text: A formatted date string
+    correct: false
+    explanation: No layer represents this field as a single string.
+  explanation: 'Model: a DateTime. Normalized: integers in an array. View: the same array with string values. The
+    layers become visible exactly when a field misbehaves.'
+  official_sources: *id001
+- id: QST-b4y5mz01a7na
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form has an 'agree to terms' checkbox that no entity property matches. What is required?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - creation
+  - mapped
+  choices:
+  - id: CHO-8hq9frcy3cv5
+    text: Declaring the field with 'mapped' => false
+    correct: true
+  - id: CHO-d19vzw8ad0yd
+    text: Adding a public property of that name to the entity
+    correct: false
+    explanation: That works but stores data the model does not need; the option exists precisely to avoid it.
+  - id: CHO-zh7vs6d5ssby
+    text: Setting 'required' => false on the field
+    correct: false
+    explanation: That governs whether a value must be supplied, not whether it maps to a property.
+  - id: CHO-p21rhpvkvbd5
+    text: Omitting the field from data_class
+    correct: false
+    explanation: data_class names the class, not the field list.
+  explanation: Without it the form tries to read and write a property that does not exist. An unmapped field's value
+    is read with $form->get('name')->getData().
+  official_sources: *id001
+- id: QST-6ygjf6k55wpk
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which option declares the class a form type maps to?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - creation
+  choices:
+  - id: CHO-vvjsajdm2n3v
+    text: data_class
+    correct: true
+  - id: CHO-tg2h7rqqjbc9
+    text: entity_class
+    correct: false
+    explanation: No such form option exists.
+  - id: CHO-zk4zzcmqcmbg
+    text: model_class
+    correct: false
+    explanation: No such form option exists.
+  - id: CHO-tdvzyak1422k
+    text: mapped_class
+    correct: false
+    explanation: mapped is a per-field boolean, unrelated to naming a class.
+  explanation: It is set in configureOptions() and decides whether getData() returns an object or an array.
+  official_sources: *id001
+- id: QST-zkgdt4kc1h0g
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why is the guard written as isSubmitted() && isValid() rather than isValid() alone?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - handling
+  choices:
+  - id: CHO-r2hvq4qh7f0y
+    text: A form that was never submitted has nothing to validate
+    correct: true
+  - id: CHO-8gcbwmkgm1ah
+    text: isValid() throws when the form was not submitted
+    correct: false
+    explanation: It does not throw; the guard exists for correctness of the flow, not to avoid an exception.
+  - id: CHO-00e3qvtwwex5
+    text: isSubmitted() populates the object
+    correct: false
+    explanation: handleRequest() does that; isSubmitted() only reports.
+  - id: CHO-y0333pe4xsj1
+    text: isValid() only checks CSRF
+    correct: false
+    explanation: It runs the full validation.
+  explanation: The same action renders and processes, so on a GET the form is simply not submitted and the template
+    is rendered.
+  official_sources: *id001
+- id: QST-fy9ptsw9q7d7
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A PATCH endpoint calls submit($data, false). What does the second argument change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - handling
+  - submit
+  choices:
+  - id: CHO-8a30mhyegx51
+    text: Fields missing from the submission keep their current value
+    correct: true
+  - id: CHO-pkr1edfba0hm
+    text: Missing fields are set to null
+    correct: false
+    explanation: That is the default behaviour, with the argument left at true.
+  - id: CHO-cmw7k8dyvkrm
+    text: Validation is skipped entirely
+    correct: false
+    explanation: Validation still runs, but only over the submitted fields.
+  - id: CHO-gkg78w6ekb3p
+    text: The form is marked as not submitted
+    correct: false
+    explanation: The form is submitted either way.
+  explanation: 'The documented caveat: with clearMissing false, validation applies only to the submitted fields.
+    A field that must still be validated has to be added to the submitted data explicitly, with a null value.'
+  official_sources: *id001
+- id: QST-hhxx71xmb9jk
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does getParent() do in a custom form type?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - types
+  choices:
+  - id: CHO-dactwdcpscmj
+    text: It names the type whose fields, options and rendering are inherited
+    correct: true
+  - id: CHO-cwnkpq2zazvk
+    text: It names the parent form the type is embedded in
+    correct: false
+    explanation: Embedding is done by adding the type as a field, not by getParent().
+  - id: CHO-1vxrj20ec0fr
+    text: It sets the Twig block prefix
+    correct: false
+    explanation: That is getBlockPrefix().
+  - id: CHO-r37y13y87x4t
+    text: It declares the PHP class the type maps to
+    correct: false
+    explanation: That is the data_class option.
+  explanation: Without getParent(), the implicit parent is FormType, the root of every type. Extending specialises
+    a type; adding it as a field composes.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    branch: '8.0'
+    symbol_or_lines: getParent()
+    verified_at: '2026-09-01'
+- id: QST-yyzehfrg9w4n
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which method of a custom form type adds its child fields?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - types
+  choices:
+  - id: CHO-jmkhd9d3zsj0
+    text: buildForm()
+    correct: true
+  - id: CHO-sjwev4tphz7p
+    text: configureOptions()
+    correct: false
+    explanation: That declares options and their defaults.
+  - id: CHO-tsvm3qpkakem
+    text: buildView()
+    correct: false
+    explanation: That passes variables to the template at render time.
+  - id: CHO-kraxhmnj6syf
+    text: getBlockPrefix()
+    correct: false
+    explanation: That names the Twig blocks used for rendering.
+  explanation: 'None of the four methods is mandatory: a type that only imposes options implements configureOptions()
+    and getParent() alone.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    branch: '8.0'
+    symbol_or_lines: AbstractType methods
+    verified_at: '2026-09-01'
+- id: QST-nnj43wzztp2y
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gxew257vwhm8
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A template renders every field with form_row() and then calls form_end(form, {''render_rest'': false}).
+    What breaks?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - rendering
+  - csrf
+  choices:
+  - id: CHO-y2g90hk612qj
+    text: The CSRF token is no longer rendered, so submissions become invalid
+    correct: true
+  - id: CHO-qatgnk61e9m2
+    text: Nothing — every field was rendered explicitly
+    correct: false
+    explanation: The token is a hidden field that was never rendered explicitly.
+  - id: CHO-8trmfrsx9spy
+    text: The closing form tag is omitted
+    correct: false
+    explanation: form_end() still emits it.
+  - id: CHO-e82hkghhq25d
+    text: The form method reverts to GET
+    correct: false
+    explanation: The method is unaffected by this option.
+  explanation: form_end() renders the fields not yet rendered, which is what carries the hidden CSRF field. Disabling
+    that is rarely what is wanted.
+  official_sources: *id001
+- id: QST-4915capts8mb
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gxew257vwhm8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does form_row() render that form_widget() does not?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - rendering
+  choices:
+  - id: CHO-w7dhwt1ppvcm
+    text: The label, help text and errors around the input
+    correct: true
+  - id: CHO-dsk2jcmb6j4q
+    text: The opening form tag
+    correct: false
+    explanation: That is form_start().
+  - id: CHO-yvwn6kcqw1dj
+    text: The hidden CSRF field
+    correct: false
+    explanation: That comes with form_end().
+  - id: CHO-swdz2wkt8gnb
+    text: Nothing — they are aliases
+    correct: false
+    explanation: form_widget() renders the input alone.
+  explanation: The parts are form_label, form_widget, form_help and form_errors; form_row is their container.
+  official_sources: *id001
+- id: QST-6tbd9rk49r20
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which block name customises only the 'email' field of a form named 'user'?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - theming
+  choices:
+  - id: CHO-tdmdn5zcg459
+    text: _user_email_widget
+    correct: true
+  - id: CHO-3mp51eg5z4jp
+    text: user_email_widget
+    correct: false
+    explanation: The most specific block name begins with an underscore.
+  - id: CHO-nehpxt6zqgqx
+    text: email_widget
+    correct: false
+    explanation: That customises every EmailType field in the application.
+  - id: CHO-t5qc2gwbvakv
+    text: text_widget
+    correct: false
+    explanation: That customises every text-based field.
+  explanation: 'The lookup goes from the most specific to the most general: _form_field_part, then type_part, then
+    text_part.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: block lookup chain
+    verified_at: '2026-09-01'
+- id: QST-psfqmcny5kpw
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: twig.form_themes lists three themes. Which one is consulted first?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - theming
+  - config
+  choices:
+  - id: CHO-646xp5rcq6bg
+    text: The last one in the list
+    correct: true
+  - id: CHO-ba7j0messh20
+    text: The first one in the list
+    correct: false
+    explanation: The list is walked from the end; the first entry is the last fallback.
+  - id: CHO-ch4fc56d9gdf
+    text: The one matching the field type
+    correct: false
+    explanation: Themes are not selected per type; they are searched in order.
+  - id: CHO-mzjdv9p4099n
+    text: The default form_div_layout theme, always
+    correct: false
+    explanation: It is only the fallback when it is listed first.
+  explanation: The order is inverted relative to reading order, and an override placed on the first line therefore
+    has no visible effect.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: form_themes ordering
+    verified_at: '2026-09-01'
+- id: QST-z6w320n9hz0m
+  version: 1
+  official_topic: Forms
+  official_item: OIT-dmkbj2x94rks
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: CSRF protection is enabled and a form is submitted without its token. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - csrf
+  choices:
+  - id: CHO-6fytpwg3r604
+    text: isValid() returns false
+    correct: true
+  - id: CHO-jq5hx9qbbqs6
+    text: An exception is thrown before the controller runs
+    correct: false
+    explanation: The failure surfaces as an invalid form, not as an exception.
+  - id: CHO-ndw7nzqb5eq3
+    text: The request is rejected with a 403 by the firewall
+    correct: false
+    explanation: Form CSRF is checked by the form, not by the firewall.
+  - id: CHO-f126spgsjz33
+    text: The token is regenerated and the form is accepted
+    correct: false
+    explanation: Nothing regenerates a missing token.
+  explanation: The check is part of validation, which is why no explicit verification appears in a controller that
+    uses the Form component.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    branch: '8.0'
+    symbol_or_lines: CSRF protection in Symfony forms
+    verified_at: '2026-09-01'
+- id: QST-8xa0cc55zffm
+  version: 1
+  official_topic: Forms
+  official_item: OIT-dmkbj2x94rks
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which form option sets the arbitrary string used to generate the token?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - csrf
+  - options
+  choices:
+  - id: CHO-mbfn3je8qy2h
+    text: csrf_token_id
+    correct: true
+  - id: CHO-41d3qpzfbn6d
+    text: csrf_field_name
+    correct: false
+    explanation: That names the hidden HTML field, _token by default.
+  - id: CHO-4xj49sqjtpb6
+    text: csrf_protection
+    correct: false
+    explanation: That enables or disables the protection.
+  - id: CHO-n23qa1v2kxb5
+    text: csrf_token_manager
+    correct: false
+    explanation: That would replace the service, not set the identifier.
+  explanation: 'Using a different value per form improves security with stateful tokens: a token minted for one
+    form is then not valid for another.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    branch: '8.0'
+    symbol_or_lines: form CSRF options
+    verified_at: '2026-09-01'
+- id: QST-h3r0j23kcfbe
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j6tqs8s8f54f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A FileType field is declared with 'mapped' => false. How is the uploaded file read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - upload
+  choices:
+  - id: CHO-bqj5c52rszkm
+    text: $form->get('brochure')->getData()
+    correct: true
+  - id: CHO-t8abfw7z8x3s
+    text: $form->getData()->getBrochure()
+    correct: false
+    explanation: An unmapped field never reaches the object.
+  - id: CHO-0be1r2vrrrjt
+    text: $request->files->get('brochure')
+    correct: false
+    explanation: That bypasses the form; the field is namespaced under the form name.
+  - id: CHO-xphzp0rns9tv
+    text: $form->getExtraData()['brochure']
+    correct: false
+    explanation: Extra data holds values submitted for fields the form does not define.
+  explanation: The field is unmapped because the entity stores a filename, not a file. Its value is read from the
+    form itself, and may be null when the upload is optional.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    branch: '8.0'
+    symbol_or_lines: unmapped FileType field
+    verified_at: '2026-09-01'
+- id: QST-5vpn3hptj28b
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j6tqs8s8f54f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why is a FileType field usually declared unmapped?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - upload
+  choices:
+  - id: CHO-gxy9k6edta4q
+    text: The entity stores a filename, not an uploaded file object
+    correct: true
+  - id: CHO-nmy4bxw5y287
+    text: FileType cannot be mapped to any property
+    correct: false
+    explanation: It can; it is simply rarely what the model wants.
+  - id: CHO-3k5nfbp60mkd
+    text: Unmapped fields skip validation
+    correct: false
+    explanation: Constraints still apply to unmapped fields.
+  - id: CHO-dthaya67qyt4
+    text: Mapped file fields are a security risk
+    correct: false
+    explanation: The reason is a type mismatch, not a vulnerability.
+  explanation: Mapping it would write an UploadedFile into a property that expects a string. The file is moved and
+    its name stored separately.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    branch: '8.0'
+    symbol_or_lines: the trick to make it work
+    verified_at: '2026-09-01'
+- id: QST-kr1xezgf2gp6
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A ChoiceType is configured with 'multiple' => false and 'expanded' => true. What is rendered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - built-in-types
+  choices:
+  - id: CHO-wz3r355xh2t5
+    text: Radio buttons
+    correct: true
+  - id: CHO-k8wav8fbg1tp
+    text: A single-selection dropdown
+    correct: false
+    explanation: That is expanded false.
+  - id: CHO-bdfpzp6afvv1
+    text: Checkboxes
+    correct: false
+    explanation: Checkboxes need multiple true as well.
+  - id: CHO-4rm1rarfv85d
+    text: A multiple-selection dropdown
+    correct: false
+    explanation: That is multiple true with expanded false.
+  explanation: The two booleans combine into four renderings, and ChoiceType is the parent of the whole choice family.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    branch: '8.0'
+    symbol_or_lines: ChoiceType options
+    verified_at: '2026-09-01'
+- id: QST-1hb2524n0hsk
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which built-in type renders two inputs whose values must match?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - built-in-types
+  choices:
+  - id: CHO-d721krq1ae6f
+    text: RepeatedType
+    correct: true
+  - id: CHO-nhhnaafkgc4f
+    text: CollectionType
+    correct: false
+    explanation: That renders a variable number of embedded forms.
+  - id: CHO-zhf1w8cfhx84
+    text: ChoiceType
+    correct: false
+    explanation: That renders a selection widget.
+  - id: CHO-wqvy4xgkfgwg
+    text: PasswordType
+    correct: false
+    explanation: That renders one masked input; the confirmation pattern wraps it in RepeatedType.
+  explanation: It is the password-confirmation pattern, and it works with any inner type.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    branch: '8.0'
+    symbol_or_lines: supported field types
+    verified_at: '2026-09-01'
+- id: QST-bj8py053ynmp
+  version: 1
+  official_topic: Forms
+  official_item: OIT-58r9dadx916v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which direction does reverseTransform() handle?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - transformers
+  choices:
+  - id: CHO-9y4q1bpr5b9a
+    text: From the submitted value back to the model
+    correct: true
+  - id: CHO-gag7qn005msv
+    text: From the model to the view, at render time
+    correct: false
+    explanation: That is transform().
+  - id: CHO-2jtwczyj2yn3
+    text: Between two model objects
+    correct: false
+    explanation: Transformers convert between layers, not within one.
+  - id: CHO-6nahw52es45e
+    text: From the normalized data to the view
+    correct: false
+    explanation: That is a view transformer's transform(), not reverseTransform().
+  explanation: The method names read from the model outwards. reverseTransform() is the return path, the one that
+    handles what the browser sent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    branch: '8.0'
+    symbol_or_lines: transform and reverseTransform
+    verified_at: '2026-09-01'
+- id: QST-xa0hazmsb5mc
+  version: 1
+  official_topic: Forms
+  official_item: OIT-58r9dadx916v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A transformer throws the exception the component defines for an unconvertible value. What does the form
+    do with it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - transformers
+  choices:
+  - id: CHO-d103kge3pt4k
+    text: It records a validation error on the field, so isValid() returns false
+    correct: true
+  - id: CHO-sb0nynw15d25
+    text: It re-throws it, producing a 500 response
+    correct: false
+    explanation: That is what any other exception type would cause.
+  - id: CHO-zjw4p36ex4kf
+    text: It silently substitutes null for the field
+    correct: false
+    explanation: Nothing is substituted; the failure is reported.
+  - id: CHO-t4gvrdcydtst
+    text: It marks the whole form as not submitted
+    correct: false
+    explanation: The form is submitted; it is simply invalid.
+  explanation: 'That is why the dedicated exception must be used: any other type escapes the form and reaches the
+    user as an error page.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    branch: '8.0'
+    symbol_or_lines: TransformationFailedException
+    verified_at: '2026-09-01'
+- id: QST-ra9z9d42ddqa
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: From which form event onward can fields no longer be added or removed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - events
+  choices:
+  - id: CHO-dcv1ymxwp3mz
+    text: SUBMIT
+    correct: true
+  - id: CHO-f06jke2cwpge
+    text: POST_SUBMIT
+    correct: false
+    explanation: The structure is already locked one event earlier.
+  - id: CHO-jq76twb6badn
+    text: PRE_SUBMIT
+    correct: false
+    explanation: PRE_SUBMIT is precisely where fields are added from submitted data.
+  - id: CHO-t7s9e7gape1b
+    text: POST_SET_DATA
+    correct: false
+    explanation: Structure may still change during submission, at PRE_SUBMIT.
+  explanation: Structure changes happen at PRE_SET_DATA, from the initial data, or at PRE_SUBMIT, from the raw request
+    data.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: the field structure is locked
+    verified_at: '2026-09-01'
+- id: QST-tv47j0hjexr0
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On which form event does validation run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - events
+  - validation
+  choices:
+  - id: CHO-zxb3hxa7wy3k
+    text: POST_SUBMIT
+    correct: true
+  - id: CHO-411frpgaexhs
+    text: SUBMIT
+    correct: false
+    explanation: Validation runs after the data has been reverse-transformed into the model.
+  - id: CHO-bnbjwss1ya7k
+    text: PRE_SUBMIT
+    correct: false
+    explanation: At that point the data is still raw request strings.
+  - id: CHO-j8jvm8spk8hw
+    text: POST_SET_DATA
+    correct: false
+    explanation: Nothing has been submitted yet.
+  explanation: Validation is registered as a listener on POST_SUBMIT, which is why a populated and validated object
+    is available once submission completes.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: validation runs through a listener on POST_SUBMIT
+    verified_at: '2026-09-01'
+- id: QST-5x6x0fgxqk43
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: PRE_SET_DATA and PRE_SUBMIT differ in the data they carry. Which pair is correct?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - events
+  - data
+  choices:
+  - id: CHO-e2qa66kescrj
+    text: PRE_SET_DATA gets model data, PRE_SUBMIT gets raw request data
+    correct: true
+  - id: CHO-rhee66hm8bcm
+    text: PRE_SET_DATA gets raw request data, PRE_SUBMIT gets model data
+    correct: false
+    explanation: The two are inverted.
+  - id: CHO-xnq1gtgt1xey
+    text: Both get normalized data
+    correct: false
+    explanation: Normalized data is what SUBMIT carries.
+  - id: CHO-xfds2y4tjpak
+    text: Both get view data
+    correct: false
+    explanation: Neither event carries view data.
+  explanation: 'The question that decides between them: are you reacting to initial data, which comes from the object,
+    or to submitted data, which comes from the request?'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: tip on PRE_SET_DATA versus PRE_SUBMIT
+    verified_at: '2026-09-01'
+- id: QST-mc97gbqdk57v
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the only method a form type extension must implement?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - type-extensions
+  choices:
+  - id: CHO-5d40bsag61h1
+    text: getExtendedTypes()
+    correct: true
+  - id: CHO-qa7yadp2wh7p
+    text: buildForm()
+    correct: false
+    explanation: It is optional; an extension may only declare an option.
+  - id: CHO-an8jzd1deehv
+    text: configureOptions()
+    correct: false
+    explanation: Also optional.
+  - id: CHO-s9mdyaxq8w8m
+    text: getExtendedType()
+    correct: false
+    explanation: The singular form was replaced by the plural, static one.
+  explanation: It is static and returns an iterable, so one extension can target several types. Extending FormType::class
+    affects every field.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    branch: '8.0'
+    symbol_or_lines: getExtendedTypes
+    verified_at: '2026-09-01'
+- id: QST-vp34fa6btm3y
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What distinguishes a form type extension from a custom form type?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - type-extensions
+  choices:
+  - id: CHO-2bhas71mkgca
+    text: An extension modifies existing types instead of creating a new one
+    correct: true
+  - id: CHO-1t9e72mnxpy2
+    text: An extension cannot declare new options
+    correct: false
+    explanation: Declaring an option on an existing type is one of its main uses.
+  - id: CHO-t9t8dxt5x7x8
+    text: An extension applies to one form only
+    correct: false
+    explanation: It applies to every field of the targeted types, application-wide.
+  - id: CHO-cnwj4smwp8tx
+    text: An extension must be registered manually
+    correct: false
+    explanation: Autoconfiguration applies the form.type_extension tag.
+  explanation: That is why an extension is the way to add an option to a Symfony-provided type without replacing
+    it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    branch: '8.0'
+    symbol_or_lines: form type extensions
+    verified_at: '2026-09-01'
+- id: QST-7ef7528zsm5p
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does setDefined() do that setDefaults() does not?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - options-resolver
+  choices:
+  - id: CHO-gtaz243grf1d
+    text: It declares an option as accepted without giving it a value
+    correct: true
+  - id: CHO-b5tb9qgt9hga
+    text: It makes the option mandatory
+    correct: false
+    explanation: That is setRequired().
+  - id: CHO-9qtm113tgwp7
+    text: It restricts the option's type
+    correct: false
+    explanation: That is setAllowedTypes().
+  - id: CHO-cq023hwhjdmg
+    text: It marks the option as deprecated
+    correct: false
+    explanation: That is setDeprecated().
+  explanation: An option that is neither defined nor defaulted raises an exception when passed — which is the point
+    of the component.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    branch: '8.0'
+    symbol_or_lines: setDefined
+    verified_at: '2026-09-01'
+- id: QST-0gsam1vp228d
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An option's default must depend on the value of another option. How is that written?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - options-resolver
+  choices:
+  - id: CHO-yjztnrmyt9cr
+    text: As a closure receiving the resolved Options
+    correct: true
+  - id: CHO-hjkkt07tdv68
+    text: By declaring the options in dependency order
+    correct: false
+    explanation: Declaration order is irrelevant; the component resolves dependencies itself.
+  - id: CHO-q9vk062wk78j
+    text: With setNormalizer() on the dependency
+    correct: false
+    explanation: A normalizer transforms a value after validation; it does not supply a default.
+  - id: CHO-3nt5ekgmrhs2
+    text: It is not possible; the value must be computed in buildForm()
+    correct: false
+    explanation: Lazy defaults exist precisely for this.
+  explanation: The closure receives the options already resolved, so it can read them. Declaration order does not
+    matter.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    branch: '8.0'
+    symbol_or_lines: lazy options
+    verified_at: '2026-09-01'
+- id: QST-511yz29wg73f
+  version: 1
+  official_topic: Forms
+  official_item: OIT-tsxxgp3ppj1n
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In which direction does a form move data when it is being rendered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - form-component
+  choices:
+  - id: CHO-19edyyj99x1g
+    text: From the model outwards to the view
+    correct: true
+  - id: CHO-rbwy7ea7jtjy
+    text: From the view inwards to the model
+    correct: false
+    explanation: That is the submission direction.
+  - id: CHO-baqgp484ye6z
+    text: Only within the normalized layer
+    correct: false
+    explanation: Rendering traverses all three layers.
+  - id: CHO-tmcqrgfvtn98
+    text: It depends on whether data_class is set
+    correct: false
+    explanation: data_class names the class; it does not reverse the flow.
+  explanation: Rendering descends model to normalized to view; submission climbs back the other way through the
+    same transformers.
+  official_sources: *id001
+- id: QST-3pfgr2whbm74
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A field is named dueDate. Which accessor does the form use to read it from the object?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - creation
+  choices:
+  - id: CHO-jmb1k246ccrk
+    text: A public $dueDate property, or getDueDate(), isDueDate() or hasDueDate()
+    correct: true
+  - id: CHO-wvghzss4z729
+    text: Only a public $dueDate property
+    correct: false
+    explanation: PropertyAccess falls back to the accessor methods.
+  - id: CHO-jy5kdv7jgvzp
+    text: Only getDueDate()
+    correct: false
+    explanation: The public property is tried too, as are isser and hasser.
+  - id: CHO-2sr64vzch7mq
+    text: A method named dueDate()
+    correct: false
+    explanation: A bare method of that name is not part of the accessor conventions.
+  explanation: PropertyAccess resolves the field name against the object, and a setter is used to write back after
+    submission.
+  official_sources: *id001
+- id: QST-rjcze5zym546
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After a valid submission, what is the relationship between $form->getData() and the object passed to
+    createForm()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - handling
+  choices:
+  - id: CHO-83w9pytw4tbe
+    text: They are the same object; it has already been updated
+    correct: true
+  - id: CHO-b02h53b2ewm1
+    text: getData() returns a copy, leaving the original untouched
+    correct: false
+    explanation: The form writes back into the object it was given.
+  - id: CHO-hm29dwymg8cc
+    text: getData() returns an array of submitted values
+    correct: false
+    explanation: With data_class set it returns the object.
+  - id: CHO-x485xrahevqv
+    text: The original is updated only after an explicit call to setData()
+    correct: false
+    explanation: No such call is needed.
+  explanation: 'The documentation notes it explicitly: the original variable has also been updated, which is why
+    the controller can persist it directly.'
+  official_sources: *id001
+- id: QST-34jsz8p52p6r
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom type declares no getParent(). Which type does it inherit from?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - types
+  choices:
+  - id: CHO-2a4m3dmhmpk9
+    text: FormType
+    correct: true
+  - id: CHO-q3kqp1c0amjg
+    text: TextType
+    correct: false
+    explanation: Text is not the implicit root; it is itself a descendant of FormType.
+  - id: CHO-5pk175m9yb4j
+    text: AbstractType
+    correct: false
+    explanation: That is the PHP class extended, not a form type in the hierarchy.
+  - id: CHO-m1swk0nsd81t
+    text: None — the type is standalone
+    correct: false
+    explanation: Every type has a parent in the hierarchy.
+  explanation: FormType is the root every other type descends from, which is also why extending FormType::class
+    in a type extension affects every field.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    branch: '8.0'
+    symbol_or_lines: implicit parent
+    verified_at: '2026-09-01'
+- id: QST-m9pvk08gts1f
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gxew257vwhm8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which call sets the form's action URL and HTTP method in a template?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - rendering
+  choices:
+  - id: CHO-s80hfrrdv607
+    text: 'form_start(form, {''action'': path(''target''), ''method'': ''GET''})'
+    correct: true
+  - id: CHO-mzzsqep768aw
+    text: 'form(form, {''action'': path(''target'')})'
+    correct: false
+    explanation: form() renders everything at once and is not where those are set in the documented example.
+  - id: CHO-5qykv05sxk3y
+    text: 'form_end(form, {''action'': path(''target'')})'
+    correct: false
+    explanation: form_end() closes the tag; it cannot set its attributes.
+  - id: CHO-fy1f1r7wezjs
+    text: 'form_widget(form, {''method'': ''GET''})'
+    correct: false
+    explanation: form_widget renders inputs, not the form tag.
+  explanation: form_start() also takes attr for arbitrary attributes, such as novalidate to disable the browser's
+    own validation.
+  official_sources: *id001
+- id: QST-f67fd9fny984
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which keyword makes a template define form theme blocks for itself?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - theming
+  choices:
+  - id: CHO-xx9v0jgn8wtm
+    text: _self
+    correct: true
+  - id: CHO-g7xzn6pts3rv
+    text: this
+    correct: false
+    explanation: No such keyword exists in the form_theme tag.
+  - id: CHO-d4m7c6ypesk0
+    text: current
+    correct: false
+    explanation: No such keyword exists.
+  - id: CHO-1yjned62w2jj
+    text: _current
+    correct: false
+    explanation: No such keyword exists.
+  explanation: '{% form_theme form _self %} lets the blocks be declared in the same template, which suits a customisation
+    used on one page only.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: _self keyword
+    verified_at: '2026-09-01'
+- id: QST-tewn0nb82g44
+  version: 1
+  official_topic: Forms
+  official_item: OIT-dmkbj2x94rks
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the practical benefit of stateless CSRF tokens over the default stateful ones?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - csrf
+  choices:
+  - id: CHO-9ze3xjtc7wvg
+    text: No session is started just to protect a form
+    correct: true
+  - id: CHO-sk8ngms5jzqg
+    text: The token cannot be stolen
+    correct: false
+    explanation: Neither mode prevents theft; they differ in where the token lives.
+  - id: CHO-v7m01d1kf1hj
+    text: The token never expires
+    correct: false
+    explanation: Expiry is not the distinction.
+  - id: CHO-5v5kp958p6jy
+    text: They work without JavaScript, unlike stateful tokens
+    correct: false
+    explanation: Stateful tokens need no JavaScript either.
+  explanation: A stateful token is stored in the session, so using one starts a session and emits its cookie, which
+    costs the page its cacheability by a shared proxy.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    branch: '8.0'
+    symbol_or_lines: stateless CSRF tokens
+    verified_at: '2026-09-01'
+- id: QST-6rpjqqwv1qg9
+  version: 1
+  official_topic: Forms
+  official_item: OIT-58r9dadx916v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which method attaches a transformer that converts between the model and the normalized data?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - transformers
+  choices:
+  - id: CHO-x48fnh0gz4tq
+    text: addModelTransformer()
+    correct: true
+  - id: CHO-cgbvtm92z2qv
+    text: addViewTransformer()
+    correct: false
+    explanation: That one sits between the normalized and the view data.
+  - id: CHO-nq636n60wsvw
+    text: addDataTransformer()
+    correct: false
+    explanation: No such method exists on the builder.
+  - id: CHO-3qh8msft2sa8
+    text: setDataMapper()
+    correct: false
+    explanation: A data mapper distributes data across child fields; it is a different concern.
+  explanation: Converting a submitted number into a domain object is a model concern; changing how an already-normalized
+    value is displayed is a view concern.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    branch: '8.0'
+    symbol_or_lines: addModelTransformer and addViewTransformer
+    verified_at: '2026-09-01'
+- id: QST-cneae0nf93c6
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A child field must add a dependent field once its own value is submitted. Where is the field added?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - events
+  - nested
+  choices:
+  - id: CHO-d8ep8nfx664x
+    text: To the parent form, from the child's POST_SUBMIT
+    correct: true
+  - id: CHO-8dw5zkb6mts6
+    text: To the child form, from its own POST_SUBMIT
+    correct: false
+    explanation: The child's structure is already fixed by then.
+  - id: CHO-wpeyyqw2ec4e
+    text: To the child form, from SUBMIT
+    correct: false
+    explanation: Structure is locked from SUBMIT onward.
+  - id: CHO-fjzm24x4rwb5
+    text: To the parent form, from POST_SET_DATA
+    correct: false
+    explanation: Nothing has been submitted at that point.
+  explanation: This is the dependent-dropdown pattern, and it is counter-intuitive precisely because the field cannot
+    be added to the form whose value triggered it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: events in nested forms
+    verified_at: '2026-09-01'
+- id: QST-0gvqdjk0prdr
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which method restricts an option to a fixed set of acceptable values?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - options-resolver
+  choices:
+  - id: CHO-gewddqdzah19
+    text: setAllowedValues()
+    correct: true
+  - id: CHO-gby776kwwjr2
+    text: setAllowedTypes()
+    correct: false
+    explanation: That constrains the type, not the value.
+  - id: CHO-032445g9hb3j
+    text: setDefined()
+    correct: false
+    explanation: That declares the option exists.
+  - id: CHO-er2gyzdc65xe
+    text: setNormalizer()
+    correct: false
+    explanation: That transforms the value after it has been validated.
+  explanation: setAllowedTypes accepts type expressions such as 'int|null' or 'DateTime[]'; setAllowedValues takes
+    a list or a callback.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    branch: '8.0'
+    symbol_or_lines: setAllowedValues
+    verified_at: '2026-09-01'
+- id: QST-hz8yhn240jyw
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does handleRequest() do when the incoming request is a GET and the form was not submitted?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - handling
+  choices:
+  - id: CHO-s1xffhkwcx5x
+    text: Nothing — the form stays unsubmitted
+    correct: true
+  - id: CHO-72mydd5ahpr5
+    text: It populates the form from the query string
+    correct: false
+    explanation: It only reads data when the form was actually submitted.
+  - id: CHO-tz7smbajrvy0
+    text: It throws, because no data is present
+    correct: false
+    explanation: No exception is raised.
+  - id: CHO-2cvrh5ycbdxs
+    text: It marks the form as submitted with empty data
+    correct: false
+    explanation: isSubmitted() would then be true, breaking the single-action pattern.
+  explanation: 'That is what allows one action to both render and process: on a GET the guard fails and the template
+    is rendered.'
+  official_sources: *id001
+- id: QST-fh0ab67q1ej4
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which block name customises the help text of every EmailType field in the application?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - theming
+  choices:
+  - id: CHO-ma0685ge35yy
+    text: email_help
+    correct: true
+  - id: CHO-rw657qmcwjcf
+    text: _email_help
+    correct: false
+    explanation: The leading underscore belongs to the form-and-field specific name, not to a type-level block.
+  - id: CHO-fpmhp27dr94j
+    text: email_widget_help
+    correct: false
+    explanation: The part suffix is appended to the type name directly.
+  - id: CHO-k4zj4641vrdn
+    text: form_help_email
+    correct: false
+    explanation: The type name comes first, then the part.
+  explanation: The parts are _row, _label, _widget, _help and _errors, appended to the block name at whichever level
+    of the lookup chain is being customised.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: form field parts
+    verified_at: '2026-09-01'
