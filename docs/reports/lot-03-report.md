@@ -130,6 +130,23 @@ npm --prefix website run build     SUCCESS
 npm --prefix website run a11y      6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
 
+### Delivery evidence
+
+| | |
+|---|---|
+| Lot commit | `90b963b` on `lot-03-symfony-architecture` |
+| Pull Request | [#1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1) — *Lot 03 — Symfony Architecture* |
+| CI on the PR head | check run `99834847070`, **Technical gate: success** |
+| Merge commit | `6a31ff5` on `master` (merge commit, branch history preserved) |
+| CI on `master` | run `33501414293` — **success** |
+| Deploy | run `33501414261`, job `99835397240` build + job `99835650551` deploy — **success** |
+| Production smoke test | job `99835718227`, "Check every published page and payload" — **success** |
+| Site | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/ |
+
+The smoke test runs on GitHub's runners rather than from the build container,
+because `jasseryahyaoui.github.io` is egress-blocked here (issue ENV-2). It is a
+real request against the deployed site, not a local check.
+
 ## A build defect this lot exposed
 
 `php bin/cert build` produced MDX that Docusaurus refused to parse:

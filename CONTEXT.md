@@ -11,8 +11,10 @@ complete. Next: **Lot 04 — Controllers** (14 items).
 
 ## Current branch
 
-`lot-03-symfony-architecture`, branched from `master` at `7f1fd09`, merged
-through PR #1.
+`master`, at merge commit `6a31ff5`. Lot 03 was developed on
+`lot-03-symfony-architecture` (`90b963b`) and merged through
+[PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
+after a green Technical gate.
 
 Lot 03 is the first lot shipped through the §15 workflow: dedicated branch →
 Pull Request → CI → controlled merge into `master`. The direct-to-`master`
@@ -160,6 +162,10 @@ vendor/bin/phpunit              → OK (74 tests, 601 assertions)
 npm --prefix website run build  → SUCCESS
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
+
+In CI on the merge commit `6a31ff5`: run `33501414293` (CI) **success**, and run
+`33501414261` (Deploy to GitHub Pages) **success** across all three jobs — build,
+deploy, and the production smoke test (job `99835718227`).
 
 Holdout isolation checked against the built payload, not assumed: the 7 holdout
 question ids are absent from `practice.json` and present in `exam.json`. That is
