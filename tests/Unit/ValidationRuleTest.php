@@ -28,6 +28,7 @@ use CertPath\Validation\Rule\QuestionIntegrityRule;
 use CertPath\Validation\Rule\ReferentialIntegrityRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
 use CertPath\Validation\Rule\UniqueItemIdsRule;
+use CertPath\Validation\Rule\ValidationPoolCoverageRule;
 use CertPath\Validation\Rule\VersionContaminationRule;
 use CertPath\Validation\Severity;
 use CertPath\Validation\Validator;
@@ -35,6 +36,61 @@ use PHPUnit\Framework\TestCase;
 
 final class ValidationRuleTest extends TestCase
 {
+    /**
+     * ADR-0006 / POOL-002: a STANDARD or DEEP item states that its evidence
+     * includes a success in exam mode. Exam mode serves the VALIDATION pool,
+     * so without a VALIDATION question that evidence cannot be produced.
+     */
+    public function testExamReadyStandardItemWithoutAValidationQuestionIsRejected(): void
+    {
+        $item = ItemFactory::make(['contentLevel' => ContentLevel::Standard]);
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'pool' => Pool::Learning,
+            ])],
+        );
+
+        $violations = (new ValidationPoolCoverageRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertSame('POOL-002', $violations[0]->ruleId);
+    }
+
+    public function testExamReadyStandardItemWithAValidationQuestionPasses(): void
+    {
+        $item = ItemFactory::make(['contentLevel' => ContentLevel::Standard]);
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [
+                QuestionFactory::make(['officialItemId' => $item->id->value, 'pool' => Pool::Learning]),
+                QuestionFactory::make(['officialItemId' => $item->id->value, 'pool' => Pool::Validation]),
+            ],
+        );
+
+        self::assertSame([], (new ValidationPoolCoverageRule())->check($content));
+    }
+
+    /**
+     * A MINIMAL item's stated evidence does not mention exam mode, so demanding
+     * a VALIDATION question for it would invent a requirement the matrix never
+     * makes.
+     */
+    public function testMinimalItemsAreExemptFromTheValidationPoolRequirement(): void
+    {
+        $item = ItemFactory::make(['contentLevel' => ContentLevel::Minimal]);
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'pool' => Pool::Learning,
+            ])],
+        );
+
+        self::assertSame([], (new ValidationPoolCoverageRule())->check($content));
+    }
+
     public function testDuplicateItemIdsAreRejected(): void
     {
         $id = Id::mint(EntityType::OfficialItem);

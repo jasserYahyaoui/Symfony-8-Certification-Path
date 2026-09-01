@@ -37,9 +37,15 @@ final class PayloadBuilder
     }
 
     /**
+     * The exam-mode bank served during study.
+     *
+     * ADR-0006: this is the VALIDATION pool, not the holdout. Exam Mode used to
+     * serve HOLDOUT, which spent the pool §22 reserves for a protected unseen
+     * final assessment on every practice exam a learner sat.
+     *
      * @return array<string, mixed>
      */
-    public function examPayload(ContentSet $content, Pool $pool = Pool::Holdout): array
+    public function examPayload(ContentSet $content, Pool $pool = Pool::Validation): array
     {
         $questions = array_values(array_filter(
             $content->questions,
@@ -56,6 +62,9 @@ final class PayloadBuilder
     /**
      * Asserts the invariant that §17 treats as a critical blocker.
      *
+     * ADR-0006 widened it: no *published* payload may carry a holdout question,
+     * not just the practice one. The holdout is not deployed at all.
+     *
      * @param array<string, mixed> $payload
      */
     public static function assertNoHoldoutLeak(array $payload, ContentSet $content): void
@@ -71,7 +80,7 @@ final class PayloadBuilder
             $id = (string) ($exported['id'] ?? '');
             if (isset($holdout[$id])) {
                 throw new \LogicException(\sprintf(
-                    'Holdout question "%s" reached the Practice Mode payload (§7.3).',
+                    'Holdout question "%s" reached a published payload (§7.3, ADR-0006).',
                     $id,
                 ));
             }

@@ -18,12 +18,20 @@ use CertPath\Validation\Violation;
  * option verbatim silently destroys that question's discriminating power, and
  * nobody notices until the mock-exam scores look implausibly good.
  *
- * The check deliberately ignores fenced code blocks. A course teaching
- * `use Symfony\Component\Routing\Attribute\Route;` and a question asking
- * which import is correct necessarily share that line — demanding otherwise
- * would forbid courses from showing correct code, or forbid questions from
- * testing what was taught. What §4.3 actually guards against is a course
- * giving away a question's *phrasing* in prose, so that is what is matched.
+ * The fenced-code exemption is deliberately narrow, and it is scoped to the
+ * course's own official item. A course teaching
+ * `use Symfony\Component\Routing\Attribute\Route;` and a question on the same
+ * item asking which import is correct necessarily share that line — demanding
+ * otherwise would forbid courses from showing correct code, or forbid questions
+ * from testing what was taught.
+ *
+ * A correct answer belonging to a *different* item has no such excuse. It is a
+ * leak wherever it appears, fence or not: the learner reading it sees the answer
+ * either way, and the fence only hides it from this rule. Lot 05 proved the
+ * point — a routing course quoted a `composer.json` excerpt that happened to
+ * contain the verbatim answer to a Lot 03 deprecation question, and moving the
+ * string into a fence made the violation disappear from the report while
+ * leaving it fully visible on the published page.
  */
 final class CourseIntegrityRule implements Rule
 {
@@ -84,12 +92,18 @@ final class CourseIntegrityRule implements Rule
         $leaks = [];
 
         foreach ($content->questions as $question) {
+            // A course may show the code its own item teaches, even when a
+            // question on that item tests it. Anything from another item is
+            // matched across the whole page, fenced code included.
+            $sameItem = $question->officialItemId === $course->officialItemId;
+            $haystack = $sameItem ? self::prose($course->body) : $course->body;
+
             foreach ($question->choices as $choice) {
                 if (!$choice->correct) {
                     continue;
                 }
 
-                if ($this->isLeaked($choice, $course)) {
+                if ($this->isLeaked($choice, $haystack)) {
                     $leaks[] = $question->id->value;
                     break;
                 }
@@ -99,7 +113,7 @@ final class CourseIntegrityRule implements Rule
         return $leaks;
     }
 
-    private function isLeaked(Choice $choice, Course $course): bool
+    private function isLeaked(Choice $choice, string $haystack): bool
     {
         $text = trim($choice->text);
 
@@ -107,7 +121,7 @@ final class CourseIntegrityRule implements Rule
             return false;
         }
 
-        return str_contains(mb_strtolower(self::prose($course->body)), mb_strtolower($text));
+        return str_contains(mb_strtolower($haystack), mb_strtolower($text));
     }
 
     /**

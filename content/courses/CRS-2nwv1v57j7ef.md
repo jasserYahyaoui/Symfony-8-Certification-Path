@@ -34,14 +34,9 @@ of configuration variables »*. Une route ne désigne pas un contrôleur au sens
 composant ; elle produit un **jeu de variables**, dont `_controller` n'est
 qu'une parmi d'autres.
 
-Sa liste de dépendances tient en deux lignes — aucun autre composant Symfony :
-
-```json
-"require": {
-    "php": ">=8.4",
-    "symfony/deprecation-contracts": "^2.5|^3"
-}
-```
+Sa liste de dépendances tient en deux entrées : PHP 8.4 et un paquet de
+contrats minuscule. **Aucun autre composant Symfony.** C'est ce qui permet de
+l'installer seul dans un projet qui n'utilise pas le framework.
 
 Ses classes centrales :
 

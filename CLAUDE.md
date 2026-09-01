@@ -72,6 +72,29 @@ reaches a rendered page — including the generator, the CSS and the React pages
 justified by a diff showing no UI-reaching change. CI runs the audit on every
 push.
 
+**Run a gate command so its failure can be seen (PROC-1).** Piping a gate
+through `tail` and chaining with `&&` reads the exit status of the *pipeline's
+last command*, not of the gate. A failed site build was reported as a success
+that way, and the accessibility audit then ran against a stale build directory.
+Run each gate command with `set -o pipefail`, check `$?`, and prefer
+`composer gate-full`, which builds before it audits. `npm --prefix website run
+a11y` now refuses to run against a build older than its inputs.
+
+**The three pools have distinct jobs (§7.3, [ADR-0006](docs/adr/0006-exam-mode-serves-the-validation-pool.md)).**
+`LEARNING` is Practice Mode. `VALIDATION` is the exam-mode bank used during
+study, and it is what `exam.json` contains. `HOLDOUT` is reserved for the final
+mocks and is **never deployed** in any payload. Every `STANDARD` or `DEEP` item
+that is `EXAM_READY` needs at least one `VALIDATION` question, because its
+stated evidence requires a success in exam mode — rule `POOL-002` enforces this,
+so a lot is not finished until its VALIDATION questions exist.
+
+**A fence is not a hiding place (§4.3, rule `CRS-001`).** A course may show the
+code its **own** item teaches inside a fenced block, even when a question on
+that item tests it. A correct answer belonging to **another** item is a leak
+wherever it appears — the learner reading the page sees it either way, and the
+fence only hides it from the rule. If `CRS-001` fires, fix the content; moving
+the string into a fence is gaming the check, not passing it.
+
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,
 permissions or secrets, an unresolved source contradiction, a disabled test or
@@ -86,6 +109,7 @@ php bin/cert build        # generate the Docusaurus content tree
 php bin/cert id:mint <EntityType> [count]
 vendor/bin/phpunit
 composer gate             # validate + coverage + tests
+composer gate-full        # the above, then bin/cert build and the site build + a11y
 
 npm --prefix website run build   # render the site (needs `bin/cert build` first)
 npm --prefix website start       # dev server

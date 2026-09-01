@@ -25,7 +25,7 @@ final class BuildTest extends TestCase
      */
     public function testPracticePayloadNeverContainsHoldoutQuestions(): void
     {
-        $content = self::contentWithBothPools();
+        $content = self::contentWithAllPools();
 
         $payload = (new PayloadBuilder())->practicePayload($content);
         $ids = array_column($payload['questions'], 'id');
@@ -42,7 +42,7 @@ final class BuildTest extends TestCase
 
     public function testHoldoutLeakAssertionRejectsAContaminatedPayload(): void
     {
-        $content = self::contentWithBothPools();
+        $content = self::contentWithAllPools();
 
         $holdout = null;
         foreach ($content->questions as $question) {
@@ -58,12 +58,35 @@ final class BuildTest extends TestCase
         PayloadBuilder::assertNoHoldoutLeak($contaminated, $content);
     }
 
-    public function testExamPayloadContainsTheHoldoutPool(): void
+    /**
+     * ADR-0006: Exam Mode serves the VALIDATION pool. It used to serve HOLDOUT,
+     * which spent the pool §22 reserves for a protected unseen assessment on
+     * every practice exam a learner sat.
+     */
+    public function testExamPayloadContainsTheValidationPool(): void
     {
-        $payload = (new PayloadBuilder())->examPayload(self::contentWithBothPools());
+        $payload = (new PayloadBuilder())->examPayload(self::contentWithAllPools());
 
-        self::assertSame(Pool::Holdout->value, $payload['pool']);
+        self::assertSame(Pool::Validation->value, $payload['pool']);
         self::assertCount(1, $payload['questions']);
+    }
+
+    /**
+     * The holdout is not deployed at all, so neither published payload may
+     * carry one. This is the invariant §17 treats as a critical blocker.
+     */
+    public function testNeitherPublishedPayloadCarriesAHoldoutQuestion(): void
+    {
+        $content = self::contentWithAllPools();
+        $builder = new PayloadBuilder();
+
+        foreach ([$builder->practicePayload($content), $builder->examPayload($content)] as $payload) {
+            PayloadBuilder::assertNoHoldoutLeak($payload, $content);
+
+            foreach ($payload['questions'] as $exported) {
+                self::assertNotSame(Pool::Holdout->value, $exported['pool'] ?? null);
+            }
+        }
     }
 
     public function testGeneratorProducesTheDocusaurusContentTree(): void
@@ -303,7 +326,7 @@ final class BuildTest extends TestCase
         (new DocsGenerator($project))->generate($project->loadContentSet());
     }
 
-    private static function contentWithBothPools(): ContentSet
+    private static function contentWithAllPools(): ContentSet
     {
         $item = ItemFactory::make();
 
@@ -311,6 +334,7 @@ final class BuildTest extends TestCase
             matrix: new SyllabusMatrix([$item]),
             questions: [
                 QuestionFactory::make(['officialItemId' => $item->id->value, 'pool' => Pool::Learning]),
+                QuestionFactory::make(['officialItemId' => $item->id->value, 'pool' => Pool::Validation]),
                 QuestionFactory::make(['officialItemId' => $item->id->value, 'pool' => Pool::Holdout]),
             ],
         );

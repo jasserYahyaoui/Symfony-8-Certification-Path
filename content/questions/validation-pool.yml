@@ -1,0 +1,2237 @@
+# VALIDATION pool — the exam-mode bank used during study (ADR-0006).
+#
+# One question per EXAM_READY item at STANDARD or DEEP level, which are the
+# levels whose stated minimum evidence requires a success "en mode examen".
+# MINIMAL items are exempt and carry none. Rule POOL-002 enforces the coverage.
+#
+# These questions are served by Exam Mode and are deliberately absent from
+# Practice Mode: the learner meets them under exam conditions, not while
+# revising. They are distinct from the LEARNING questions on the same item —
+# DUP-001 checks that no two questions share a normalized prompt.
+#
+# All questions are in English, matching the exam language (§5).
+
+schema_version: 1
+
+questions:
+- id: QST-kscwk0ja0heb
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these is a property hook, as introduced in PHP 8.4?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - php84
+  choices:
+  - id: CHO-dzdgck6pb8pg
+    text: public string $name { get => ucfirst($this->raw); }
+    correct: true
+  - id: CHO-e68p5m7ve2nz
+    text: public string $name { __get() { return $this->raw; } }
+    correct: false
+    explanation: Property hooks use get and set, not the magic-method names.
+  - id: CHO-mq6mj1ftg70b
+    text: 'public getName(): string { return $this->raw; }'
+    correct: false
+    explanation: That is an ordinary method, not a hook, and the syntax is invalid.
+  - id: CHO-demvvvec0751
+    text: '#[Hook] public string $name;'
+    correct: false
+    explanation: Hooks are syntax, not an attribute.
+  explanation: Property hooks attach get and set behaviour to a declared property. They are new in PHP 8.4, alongside
+    asymmetric visibility.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/language/oop5/property-hooks.xml
+    branch: master
+    symbol_or_lines: property hooks syntax
+    verified_at: '2026-09-01'
+- id: QST-5565an30ezds
+  version: 1
+  official_topic: PHP
+  official_item: OIT-ywrx9x3hg9z8
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A class declares `public static function make(): static { return new static(); }`. A child class calls
+    Child::make(). What is returned?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - oop
+  - late-static-binding
+  choices:
+  - id: CHO-z5d4ks0ae5bm
+    text: An instance of Child
+    correct: true
+  - id: CHO-6s1fv0xwtjjc
+    text: An instance of the parent class
+    correct: false
+    explanation: That is what `new self()` would give; `static` resolves to the called class.
+  - id: CHO-5nt02nh75hg3
+    text: 'A fatal error: static cannot be used as a return type'
+    correct: false
+    explanation: '`static` is a valid return type since PHP 8.0.'
+  - id: CHO-ncqfhtjsvqy0
+    text: null, because the constructor is not declared
+    correct: false
+    explanation: A class without an explicit constructor is still instantiable.
+  explanation: '`static` is late static binding: it resolves to the class the method was called on, not the one
+    it was written in. `self` would resolve to the declaring class.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+    branch: master
+    symbol_or_lines: new static
+    verified_at: '2026-09-01'
+- id: QST-6znevyf4d7c2
+  version: 1
+  official_topic: PHP
+  official_item: OIT-1kjqdnryaw0h
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: When is the constructor of a PHP attribute class actually executed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - attributes
+  choices:
+  - id: CHO-hvqcf0y4ayd4
+    text: When the attribute is instantiated through reflection
+    correct: true
+  - id: CHO-csv96nb07qxh
+    text: When the class carrying the attribute is autoloaded
+    correct: false
+    explanation: Autoloading does not evaluate attributes.
+  - id: CHO-b72d3rxdjdm7
+    text: At compile time, once per file
+    correct: false
+    explanation: Attributes are metadata; nothing runs at compile time.
+  - id: CHO-pmbbrf08r15j
+    text: When the object carrying the attribute is constructed
+    correct: false
+    explanation: Instantiating the annotated class does not touch its attributes.
+  explanation: Attributes are inert metadata until something calls newInstance() on a ReflectionAttribute. That
+    is why bad arguments produce no error until a reader asks for the object.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes/reflection.xml
+    branch: master
+    symbol_or_lines: ReflectionAttribute::newInstance
+    verified_at: '2026-09-01'
+- id: QST-4yrcba7f660p
+  version: 1
+  official_topic: PHP
+  official_item: OIT-fhb3vz7xbt5h
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A closure needs to modify a variable of the enclosing scope so the change is visible after the call.
+    What is required?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - closures
+  choices:
+  - id: CHO-5cygmxjyaq57
+    text: Capturing it by reference with use (&$x)
+    correct: true
+  - id: CHO-vb1anw8qjjeh
+    text: Capturing it by value with use ($x)
+    correct: false
+    explanation: A by-value capture copies the variable; the outer one is unchanged.
+  - id: CHO-q41je74rdq6t
+    text: Using an arrow function, which captures by reference
+    correct: false
+    explanation: Arrow functions capture by value automatically, never by reference.
+  - id: CHO-3twkny0p7knm
+    text: Declaring the variable static inside the closure
+    correct: false
+    explanation: A static variable is local to the closure and unrelated to the outer one.
+  explanation: Only `use (&$x)` binds the outer variable itself. Arrow functions capture automatically but always
+    by value, which is why they cannot be used here.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    branch: master
+    symbol_or_lines: anonymous functions, use by reference
+    verified_at: '2026-09-01'
+- id: QST-m6z1h0jxyp41
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which statement about an abstract class in PHP is correct?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - abstract
+  choices:
+  - id: CHO-q5hkqdrhcskn
+    text: It may contain no abstract methods at all
+    correct: true
+  - id: CHO-6q2k6d1z3tz0
+    text: It must declare at least one abstract method
+    correct: false
+    explanation: Nothing requires that; `abstract` on the class alone is enough to forbid instantiation.
+  - id: CHO-hgbnghme5m90
+    text: It cannot declare a constructor
+    correct: false
+    explanation: An abstract class may declare a constructor, which subclasses call.
+  - id: CHO-asfsb11frn3a
+    text: Its abstract methods may be private
+    correct: false
+    explanation: 'An abstract method cannot be private: no subclass could implement it.'
+  explanation: Marking a class abstract only prevents instantiation. A class with a constructor and fully implemented
+    methods can still be abstract.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    branch: master
+    symbol_or_lines: abstract classes
+    verified_at: '2026-09-01'
+- id: QST-c8pj1ywz2erw
+  version: 1
+  official_topic: PHP
+  official_item: OIT-bvnvx2b6yt2y
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which type must a catch block use to intercept both exceptions and PHP engine errors?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - exceptions
+  choices:
+  - id: CHO-48mte5dmx4md
+    text: \Throwable
+    correct: true
+  - id: CHO-36wy8yrmrt41
+    text: \Exception
+    correct: false
+    explanation: Error does not extend Exception, so a TypeError escapes this catch.
+  - id: CHO-w2z7n5av4y23
+    text: \Error
+    correct: false
+    explanation: It catches engine errors only, not application exceptions.
+  - id: CHO-f6m11th6z20d
+    text: \ErrorException
+    correct: false
+    explanation: It is an ordinary Exception subclass used to wrap warnings, not a common supertype.
+  explanation: Throwable is the interface both Exception and Error implement. Catching Exception alone misses TypeError,
+    ValueError and the rest.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
+    branch: master
+    symbol_or_lines: Throwable hierarchy
+    verified_at: '2026-09-01'
+- id: QST-zxsw2qb185qq
+  version: 1
+  official_topic: PHP
+  official_item: OIT-n0zfkcr189af
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two traits used by one class both define `log()`, and the class does not redeclare it. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - traits
+  choices:
+  - id: CHO-y4z525hgmeq8
+    text: A fatal error, unless the conflict is resolved with insteadof
+    correct: true
+  - id: CHO-k81jt0e4q3p4
+    text: The first listed trait wins silently
+    correct: false
+    explanation: PHP does not pick a winner; the collision is fatal.
+  - id: CHO-1xz1t2y1r2p6
+    text: The last listed trait wins silently
+    correct: false
+    explanation: There is no last-wins rule for traits.
+  - id: CHO-0mwkj17fav2n
+    text: Both methods are kept and PHP calls them in order
+    correct: false
+    explanation: A class cannot hold two methods of the same name.
+  explanation: Trait conflicts are a compile-time fatal error. `insteadof` chooses one implementation and `as` can
+    alias the other.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    branch: master
+    symbol_or_lines: conflict resolution
+    verified_at: '2026-09-01'
+- id: QST-gv3s2ye1csv7
+  version: 1
+  official_topic: PHP
+  official_item: OIT-hqz5c2qse24w
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which statement about a pure (non-backed) PHP enum is correct?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - enums
+  choices:
+  - id: CHO-wnh17jv6kypt
+    text: It cannot be used with from() or tryFrom()
+    correct: true
+  - id: CHO-kvpqqpmfeb4a
+    text: Its cases have a value property that defaults to the case name
+    correct: false
+    explanation: Only backed enums have a value property.
+  - id: CHO-e8tvxvrn2d1m
+    text: It can be serialized to JSON without a custom encoder
+    correct: false
+    explanation: JsonSerializable is implemented by backed enums, not pure ones.
+  - id: CHO-vs0yvnpxetwp
+    text: It may declare properties on its cases
+    correct: false
+    explanation: Enum cases cannot hold state in either kind of enum.
+  explanation: from() and tryFrom() exist only on BackedEnum. A pure enum's cases are identified by name alone.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    branch: master
+    symbol_or_lines: backed enumerations
+    verified_at: '2026-09-01'
+- id: QST-ayp9bpzrf6p6
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A JSON API receives a POST whose body is a JSON document. Which call reads it as an array of parameters?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - request
+  choices:
+  - id: CHO-bxjkzdrkef3n
+    text: $request->getPayload()
+    correct: true
+  - id: CHO-5nvseamrxnjp
+    text: $request->request
+    correct: false
+    explanation: That bag is populated from form-encoded bodies, not from a JSON document.
+  - id: CHO-ag66nswgnxcw
+    text: $request->query
+    correct: false
+    explanation: query holds the URL's query string, not the body.
+  - id: CHO-sm86e7zp2g5z
+    text: $request->attributes
+    correct: false
+    explanation: attributes is filled by the application and the router, never from the body.
+  explanation: getPayload() returns the submitted data whether it arrived form-encoded or as JSON, which is why
+    it is the safe choice for an API endpoint.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    branch: '8.0'
+    symbol_or_lines: getPayload
+    verified_at: '2026-09-01'
+- id: QST-2myxyc059q6w
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Symfony Response subclass sends its body progressively as it is produced?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - response
+  choices:
+  - id: CHO-hzy0p73c1rbh
+    text: StreamedResponse
+    correct: true
+  - id: CHO-vwrthwft0vbv
+    text: BinaryFileResponse
+    correct: false
+    explanation: It serves an existing file; it does not stream generated output.
+  - id: CHO-3mwcgwb452wp
+    text: JsonResponse
+    correct: false
+    explanation: It builds a complete JSON body in memory.
+  - id: CHO-mwvb6amtxm64
+    text: RedirectResponse
+    correct: false
+    explanation: It carries a Location header and no meaningful body.
+  explanation: StreamedResponse takes a callback that echoes output as it goes, so the response starts before the
+    whole body exists.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php
+    branch: '8.0'
+    symbol_or_lines: class docblock
+    verified_at: '2026-09-01'
+- id: QST-cdnj5f56wpn9
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-qnm508g1ktqm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which HTTP method is safe, and therefore also idempotent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - methods
+  choices:
+  - id: CHO-kmnd041gpm8p
+    text: HEAD
+    correct: true
+  - id: CHO-tvn359x7zk4s
+    text: POST
+    correct: false
+    explanation: POST is neither safe nor idempotent.
+  - id: CHO-4gszpnrf28ze
+    text: PUT
+    correct: false
+    explanation: 'PUT is idempotent but not safe: it changes state.'
+  - id: CHO-zcbq9bznpm5b
+    text: PATCH
+    correct: false
+    explanation: PATCH describes a relative modification, so it is neither safe nor idempotent.
+  explanation: Safe means read-only, and every safe method is idempotent by construction. PUT and DELETE are idempotent
+    without being safe.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 9.2 Common Method Properties
+    verified_at: '2026-09-01'
+- id: QST-tk5666pjm2ta
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A cookie is set with path=/admin. Calling clearCookie('session') with no arguments does not delete it.
+    Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-k9daa7scnj2d
+    text: Deletion must repeat the same path and domain
+    correct: true
+  - id: CHO-2r9r69enmp5v
+    text: clearCookie only works before the response is sent
+    correct: false
+    explanation: It sets an expired Set-Cookie header like any other cookie operation.
+  - id: CHO-ghvcz6par6cn
+    text: The cookie is HttpOnly and cannot be removed from PHP
+    correct: false
+    explanation: HttpOnly restricts JavaScript, not the server.
+  - id: CHO-h5mwaby6zpnz
+    text: A cookie can only be deleted by the browser
+    correct: false
+    explanation: Expiring it from the server is the standard mechanism.
+  explanation: A cookie is identified by name plus path plus domain. Clearing with a different path writes a second,
+    unrelated cookie.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+    branch: '8.0'
+    symbol_or_lines: clearCookie
+    verified_at: '2026-09-01'
+- id: QST-5pybfq9ra7ff
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Cache-Control directive lets a shared cache serve a stored response while it revalidates in the
+    background?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - caching
+  choices:
+  - id: CHO-n273skftdckb
+    text: stale-while-revalidate
+    correct: true
+  - id: CHO-aycvs1bf0pf1
+    text: must-revalidate
+    correct: false
+    explanation: It forbids serving a stale response at all.
+  - id: CHO-mt3bwr1nvygp
+    text: no-cache
+    correct: false
+    explanation: It forces revalidation before every reuse.
+  - id: CHO-69b8exp01z9v
+    text: immutable
+    correct: false
+    explanation: It promises the representation never changes, so no revalidation is expected.
+  explanation: stale-while-revalidate trades a bounded window of staleness for latency. must-revalidate is its opposite.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 5.2 Cache-Control
+    verified_at: '2026-09-01'
+- id: QST-b3zzzp5tgmte
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A response varies by Accept-Language but the Vary header is missing. What is the consequence?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - negotiation
+  choices:
+  - id: CHO-zqw7d97c3j6p
+    text: A shared cache may serve one language to every visitor
+    correct: true
+  - id: CHO-aa95pxxtkrmj
+    text: The client receives a 406 Not Acceptable
+    correct: false
+    explanation: Negotiation still succeeds; only caching is broken.
+  - id: CHO-pbgvzmemm4fy
+    text: The server ignores the Accept-Language header
+    correct: false
+    explanation: The application still negotiates; the header only tells caches what varies.
+  - id: CHO-ayj52hqqrdx1
+    text: The response cannot be cached at all
+    correct: false
+    explanation: It can be cached — incorrectly, which is the problem.
+  explanation: Vary names the request headers a cache must include in its key. Without it, the first stored representation
+    is reused for everyone.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 12.5.5 Vary
+    verified_at: '2026-09-01'
+- id: QST-fnzna81jz7gv
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which HttpClient call blocks until the response headers have arrived?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - httpclient
+  choices:
+  - id: CHO-e6n5328wag7y
+    text: $response->getStatusCode()
+    correct: true
+  - id: CHO-nqjsc51mdav3
+    text: $client->request()
+    correct: false
+    explanation: request() returns immediately; the transfer runs in the background.
+  - id: CHO-m46hhzcnakm7
+    text: $client->withOptions()
+    correct: false
+    explanation: It only returns a reconfigured client.
+  - id: CHO-qgth2sq56gcb
+    text: HttpClient::create()
+    correct: false
+    explanation: It builds the client and performs no request.
+  explanation: HttpClient is asynchronous by default. The wait happens on the first call that needs data — reading
+    the status code, the headers or the content.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    branch: '8.0'
+    symbol_or_lines: asynchronous requests
+    verified_at: '2026-09-01'
+- id: QST-bbqz6qq7vqjg
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A package is installed with Composer but its recipe is never applied. Which explanation fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - flex
+  choices:
+  - id: CHO-ww17h95evtbt
+    text: The recipe lives in the contrib repository and the prompt was declined
+    correct: true
+  - id: CHO-57y6b9m3kgy2
+    text: Recipes only apply to packages listed in symfony.lock
+    correct: false
+    explanation: symfony.lock records what was applied; it is a result, not a precondition.
+  - id: CHO-9cbagrs15fca
+    text: Recipes require the package to declare a bundle
+    correct: false
+    explanation: A recipe can configure any package, bundle or not.
+  - id: CHO-r4yj61ampe43
+    text: Recipes are applied by bin/console, not by Composer
+    correct: false
+    explanation: Flex is a Composer plugin; no console command applies recipes.
+  explanation: Flex consults symfony/recipes without asking, but asks permission before applying anything from symfony/recipes-contrib,
+    which is not curated.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    branch: '8.0'
+    symbol_or_lines: main and contrib recipe repositories
+    verified_at: '2026-09-01'
+- id: QST-q9vmvxwtk6n4
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-d416348gfhde
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A package provides the Twig extensions that expose Symfony's URL generation inside a template. What
+    is it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - bridges
+  choices:
+  - id: CHO-xrz5dd7e3b2h
+    text: A bridge
+    correct: true
+  - id: CHO-q1n44hrjtg03
+    text: A bundle
+    correct: false
+    explanation: A bundle registers services and a configuration tree in the framework; this package does neither.
+  - id: CHO-d3hrjwx9qmf3
+    text: A component
+    correct: false
+    explanation: A component is standalone; this one is useless without Twig on one side and Symfony on the other.
+  - id: CHO-xm1bbr0xvrqv
+    text: A pack
+    correct: false
+    explanation: A pack contains no code, only dependencies.
+  explanation: A bridge is integration code between a Symfony component and an external library. It needs both sides
+    present and configures nothing in the framework.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    branch: '8.0'
+    symbol_or_lines: description
+    verified_at: '2026-09-01'
+- id: QST-g2947y0fdcyw
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-p3p7te94qc1n
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Configuration in config/packages/test/ applies when?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - structure
+  choices:
+  - id: CHO-v645bg98xy45
+    text: Only in the test environment, on top of the common configuration
+    correct: true
+  - id: CHO-7ack2rw3y789
+    text: In every environment, overriding config/packages/
+    correct: false
+    explanation: An environment subdirectory is scoped to that environment.
+  - id: CHO-abw679hc0r6y
+    text: Only when APP_DEBUG is true
+    correct: false
+    explanation: Debug and environment are independent settings.
+  - id: CHO-95hrrjm6mbzw
+    text: Only when running phpunit directly
+    correct: false
+    explanation: It is the environment that decides, not the test runner.
+  explanation: Files directly under config/packages/ are common; a subdirectory named after an environment is merged
+    over them in that environment only.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: configuration environments
+    verified_at: '2026-09-01'
+- id: QST-81e3prrcnqx7
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A kernel.request listener calls $event->setResponse(). Which events are still dispatched for that request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - kernel
+  - events
+  choices:
+  - id: CHO-nma8my6d53f6
+    text: kernel.response, kernel.finish_request and kernel.terminate
+    correct: true
+  - id: CHO-dhw69s7ww82b
+    text: None — the kernel returns immediately
+    correct: false
+    explanation: The response still has to be filtered and sent, so the later events run.
+  - id: CHO-tfcgwwjn31dh
+    text: kernel.controller and everything after it
+    correct: false
+    explanation: Setting a response short-circuits controller resolution entirely.
+  - id: CHO-88p9e1ssx5w3
+    text: Only kernel.terminate
+    correct: false
+    explanation: kernel.response is dispatched for every response, whatever produced it.
+  explanation: Returning a response early skips controller resolution and kernel.view, but the response still travels
+    through kernel.response, finish_request and, after sending, terminate.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    branch: '8.0'
+    symbol_or_lines: kernel.request, kernel.response
+    verified_at: '2026-09-01'
+- id: QST-w6dwd7mt2gh4
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An uncaught \RuntimeException reaches the kernel and no listener sets a response. What status code is
+    sent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - exception
+  choices:
+  - id: CHO-9xpjqj5e0qwd
+    text: '500'
+    correct: true
+  - id: CHO-j1pfwj66p99y
+    text: '400'
+    correct: false
+    explanation: 400 would require the exception to carry that status through HttpExceptionInterface.
+  - id: CHO-s1kxv0pq2mna
+    text: '404'
+    correct: false
+    explanation: Nothing maps a RuntimeException to a missing resource.
+  - id: CHO-ctsghzt6x8ep
+    text: '503'
+    correct: false
+    explanation: There is no fallback to 503.
+  explanation: The status is taken from the exception only when it implements HttpExceptionInterface. An ordinary
+    exception falls through to 500.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    branch: '8.0'
+    symbol_or_lines: lines 255-262
+    verified_at: '2026-09-01'
+- id: QST-s76mhj526gjc
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which listener runs first: one registered with priority 0, or one registered later with priority -100?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - dispatcher
+  choices:
+  - id: CHO-yh3pv0cg2rbx
+    text: The priority 0 listener
+    correct: true
+  - id: CHO-msgpq71sjkjr
+    text: The priority -100 listener, because negative priorities run first
+    correct: false
+    explanation: 'Order is descending: higher runs earlier.'
+  - id: CHO-3sh21p9mvtje
+    text: The priority -100 listener, because it was registered later
+    correct: false
+    explanation: Registration order only breaks ties between equal priorities.
+  - id: CHO-bmgpfdkk71na
+    text: They run concurrently
+    correct: false
+    explanation: Listeners are called one after another.
+  explanation: Priorities are signed integers sorted descending, so 0 precedes -100. Registration order decides
+    only among listeners sharing a priority.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: addListener priority
+    verified_at: '2026-09-01'
+- id: QST-wbwnzkcsd67w
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: According to the official best practices, where does a database connection URL belong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - best-practices
+  choices:
+  - id: CHO-necdwt9tbf8w
+    text: In an environment variable
+    correct: true
+  - id: CHO-t1406te9kc9m
+    text: In a service container parameter
+    correct: false
+    explanation: Parameters are for application configuration, not for values that change per deployment.
+  - id: CHO-70rmne4y1hhb
+    text: In a PHP constant on the related class
+    correct: false
+    explanation: Constants are recommended for options that rarely change, not for infrastructure.
+  - id: CHO-18t365yygzfy
+    text: In config/services.yaml, committed to the repository
+    correct: false
+    explanation: That would commit an infrastructure value, and often a secret, to version control.
+  explanation: 'The best practices split configuration three ways: environment variables for infrastructure, secrets
+    for sensitive values, parameters for application configuration — and constants for what almost never changes.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    branch: '8.0'
+    symbol_or_lines: Use Environment Variables for Infrastructure Configuration
+    verified_at: '2026-09-01'
+- id: QST-j61dvcf3m7va
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which code is explicitly excluded from Symfony's backward compatibility promise?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - bc-promise
+  choices:
+  - id: CHO-vqkna5h99ser
+    text: Anything in a *\Tests\ namespace
+    correct: true
+  - id: CHO-nzjy6vjp1c2f
+    text: Any class marked final
+    correct: false
+    explanation: Final classes are covered; being final only restricts how you may use them.
+  - id: CHO-hss8y17t7jdq
+    text: Any protected method
+    correct: false
+    explanation: Protected members are covered for classes you extend.
+  - id: CHO-rnhbc7yxg6hc
+    text: Any interface with more than one method
+    correct: false
+    explanation: The number of methods is irrelevant to the promise.
+  explanation: The exclusions are code tagged @internal, experimental features, internal security and validation
+    translations, and everything under a Tests namespace.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    branch: '8.0'
+    symbol_or_lines: warning on @internal and Tests namespaces
+    verified_at: '2026-09-01'
+- id: QST-y5v8b5zq051t
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Can a brand-new class be introduced already carrying a @deprecated tag?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - deprecations
+  choices:
+  - id: CHO-n1vge202r585
+    text: No — a new class cannot be introduced as deprecated
+    correct: true
+  - id: CHO-mcvqk8ctwd32
+    text: Yes, if the replacement is named in the message
+    correct: false
+    explanation: The conventions forbid it outright, whatever the message says.
+  - id: CHO-1qxrgfky28hc
+    text: Yes, but only in a major version
+    correct: false
+    explanation: A major version removes deprecated code; it does not introduce it.
+  - id: CHO-6tn1rhsdzmn7
+    text: Yes, if trigger_deprecation() is also called
+    correct: false
+    explanation: The triggering mechanism does not license the practice.
+  explanation: 'The conventions are explicit: a new class, interface or trait cannot be introduced as deprecated
+    or contain deprecated methods, and neither can a new method.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    branch: '8.0'
+    symbol_or_lines: Deprecating Code
+    verified_at: '2026-09-01'
+- id: QST-wt21gvjc33t8
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: You must remove a service definition registered by a third-party bundle. Which mechanism is required?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - overriding
+  choices:
+  - id: CHO-vnyqspjf95ph
+    text: A compiler pass
+    correct: true
+  - id: CHO-pfjd9bbejn5n
+    text: Service decoration
+    correct: false
+    explanation: Decoration wraps a service; it cannot remove a definition.
+  - id: CHO-jv0bcqxf6nff
+    text: An entry in config/services.yaml
+    correct: false
+    explanation: Configuration can redefine a service but not delete another bundle's definition.
+  - id: CHO-z3apkexardzh
+    text: A file under templates/bundles/
+    correct: false
+    explanation: That directory overrides templates only.
+  explanation: Decoration handles behaviour changes. Removing or rewriting another bundle's definition happens during
+    container compilation, in a compiler pass.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    branch: '8.0'
+    symbol_or_lines: Services & Configuration
+    verified_at: '2026-09-01'
+- id: QST-cge7acyf998v
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How many minor versions does a Symfony major branch contain?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - releases
+  choices:
+  - id: CHO-0gv76p3sgq59
+    text: 'Five: X.0 through X.4'
+    correct: true
+  - id: CHO-fcn41rdmqww1
+    text: 'Four: X.0 through X.3'
+    correct: false
+    explanation: The branch runs to X.4, which is the LTS.
+  - id: CHO-9zjpbp8c9nmz
+    text: 'Six: X.0 through X.5'
+    correct: false
+    explanation: The branch stops at X.4.
+  - id: CHO-c7h9gtpgn51t
+    text: It varies with the number of features accepted
+    correct: false
+    explanation: The model is time-based, so the count is fixed.
+  explanation: Five minors per branch, released every six months; the last one, X.4, is the long-term support version.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    branch: '8.0'
+    symbol_or_lines: Maintenance
+    verified_at: '2026-09-01'
+- id: QST-0cvjqaqn7pay
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-kcj9a5846b1s
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which PSR is NOT implemented natively by Symfony?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - psr
+  choices:
+  - id: CHO-azjwzvc693km
+    text: PSR-7
+    correct: true
+  - id: CHO-8jn70ryq9z9h
+    text: PSR-11
+    correct: false
+    explanation: The service container implements it.
+  - id: CHO-1nenewqa1zzd
+    text: PSR-14
+    correct: false
+    explanation: The event dispatcher implements it.
+  - id: CHO-bqgatv2edcyn
+    text: PSR-6
+    correct: false
+    explanation: The Cache component implements it.
+  explanation: HttpFoundation has its own request and response model, older than PSR-7 and mutable where PSR-7 is
+    immutable. Interoperability goes through a dedicated bridge plus a third-party implementation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    branch: '8.0'
+    symbol_or_lines: provide key
+    verified_at: '2026-09-01'
+- id: QST-35tar5pn92ca
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-qr7gnht5s847
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which statement about the HttpKernel component is correct?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - httpkernel
+  choices:
+  - id: CHO-70vbh794jjjp
+    text: It can drive a framework of your own, without FrameworkBundle
+    correct: true
+  - id: CHO-ecyt2y4m8mz0
+    text: It requires FrameworkBundle to dispatch its events
+    correct: false
+    explanation: The component owns the dispatching; the bundle only registers listeners.
+  - id: CHO-q6x6jzsxdka4
+    text: 'It defines the framework: configuration tree'
+    correct: false
+    explanation: That tree comes from FrameworkBundle.
+  - id: CHO-d90avpb5jhpb
+    text: It provides AbstractController
+    correct: false
+    explanation: AbstractController is a FrameworkBundle class.
+  explanation: The component defines the handle() contract, the Kernel class, the events and the resolvers. The
+    bundle wires them into a container and adds the developer conveniences.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    branch: '8.0'
+    symbol_or_lines: abstract class Kernel
+    verified_at: '2026-09-01'
+- id: QST-0p9e7tp6k2k1
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why does AbstractController declare its services with a leading '?' in getSubscribedServices()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - abstractcontroller
+  choices:
+  - id: CHO-qrd77n3m3mmg
+    text: To mark each service optional, so the class works when one is absent
+    correct: true
+  - id: CHO-2gzad3sexqm7
+    text: To mark them lazily instantiated
+    correct: false
+    explanation: Laziness is a separate concern from optionality.
+  - id: CHO-se1c07vsh3cq
+    text: To make them public in the container
+    correct: false
+    explanation: The prefix has nothing to do with visibility.
+  - id: CHO-xkh82b1acpm1
+    text: To allow them to be overridden by a subclass
+    correct: false
+    explanation: Overriding a subscribed service is not what the prefix expresses.
+  explanation: 'The ''?'' means the container entry may be missing. That is why an application without Twig still
+    boots: only the helper needing it fails, with an explicit message.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    branch: '8.0'
+    symbol_or_lines: getSubscribedServices
+    verified_at: '2026-09-01'
+- id: QST-k4029jtwsdn3
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller must serve a PDF so the browser displays it in the page rather than downloading it. What
+    is needed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - response
+  choices:
+  - id: CHO-mct00tq19680
+    text: '$this->file(..., disposition: ResponseHeaderBag::DISPOSITION_INLINE)'
+    correct: true
+  - id: CHO-e427vt85b0xq
+    text: $this->file(...) with no further argument
+    correct: false
+    explanation: The default disposition is attachment, which downloads.
+  - id: CHO-7wahde752y73
+    text: $this->render() with a Content-Type header
+    correct: false
+    explanation: render() renders a template; it does not serve a file.
+  - id: CHO-8cjqdsjjky43
+    text: A StreamedResponse with the file path as content
+    correct: false
+    explanation: That would send the path as text, not the file.
+  explanation: file() returns a BinaryFileResponse whose disposition defaults to attachment. DISPOSITION_INLINE
+    is what asks the browser to display it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    branch: '8.0'
+    symbol_or_lines: file()
+    verified_at: '2026-09-01'
+- id: QST-03ch87xctc42
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A page is meant to stay cacheable by a shared proxy. Which single line breaks that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - session
+  choices:
+  - id: CHO-4gcyfjn3yxek
+    text: $request->getSession()->has('cart')
+    correct: true
+  - id: CHO-9xpha1c4r9et
+    text: $request->query->get('page')
+    correct: false
+    explanation: Reading the query string touches nothing stateful.
+  - id: CHO-nv1ewzr2gews
+    text: $request->headers->get('User-Agent')
+    correct: false
+    explanation: Reading a request header starts no session.
+  - id: CHO-2tp65v90z6wh
+    text: $this->generateUrl('homepage')
+    correct: false
+    explanation: URL generation is stateless.
+  explanation: 'Session start is lazy but a mere check counts: reading, writing or testing a value starts it, which
+    emits a session cookie and makes the response unsuitable for a shared cache.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    branch: '8.0'
+    symbol_or_lines: sessions are only started if you read from or write to them
+    verified_at: '2026-09-01'
+- id: QST-m8bcgkbxqkdc
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: forward() is given ['color' => 'green', 'name' => 'Ada'] and the target signature is fancy(string $name,
+    string $color). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - forward
+  choices:
+  - id: CHO-297tx6tv4jc5
+    text: Both arguments are filled correctly, because matching is by name
+    correct: true
+  - id: CHO-3f9v5msagwdm
+    text: $name receives 'green', because matching is positional
+    correct: false
+    explanation: The array is not positional; keys are matched to argument names.
+  - id: CHO-dmc7vj8yn16k
+    text: A TypeError, because the array order differs from the signature
+    correct: false
+    explanation: Order is irrelevant.
+  - id: CHO-hd39g1zht15n
+    text: Only $name is filled and $color stays null
+    correct: false
+    explanation: Both keys match an argument name.
+  explanation: As with a routed controller, forward() matches its array keys to argument names. Reordering the target's
+    signature changes nothing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    branch: '8.0'
+    symbol_or_lines: the order of the arguments does not matter
+    verified_at: '2026-09-01'
+- id: QST-sh4w393jtsyz
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom 404 template renders the logged-in user's name, but in production the page always shows a guest.
+    Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - '404'
+  choices:
+  - id: CHO-84a3a82fdk4p
+    text: Security information is not available on 404 pages
+    correct: true
+  - id: CHO-da89bfabjj2z
+    text: The error template is rendered before the firewall is configured in config
+    correct: false
+    explanation: The firewall is configured at compile time; the cause is the request-time ordering.
+  - id: CHO-p5xn85m4gpa6
+    text: Twig cannot access app.user inside an error template
+    correct: false
+    explanation: Twig has no such restriction; the token is simply absent.
+  - id: CHO-g3hd5w8yq4r5
+    text: The session is destroyed when a 404 is thrown
+    correct: false
+    explanation: Nothing destroys the session.
+  explanation: Because of the order in which routing and security load, the security token is not populated for
+    a 404. It works in tests and fails in production — the documentation flags this explicitly.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    branch: '8.0'
+    symbol_or_lines: Security & 404 Pages
+    verified_at: '2026-09-01'
+- id: QST-hbgc4v2p0mhp
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An uploaded file is validated and then left where PHP put it. What happens to it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - upload
+  choices:
+  - id: CHO-kjt5jk9jxctk
+    text: It is deleted when the request ends
+    correct: true
+  - id: CHO-kmtrdbg94p8g
+    text: It is moved to var/uploads automatically
+    correct: false
+    explanation: Symfony chooses no destination for you.
+  - id: CHO-4dx58sskx42k
+    text: It stays in the system temporary directory indefinitely
+    correct: false
+    explanation: PHP removes the temporary upload at the end of the request.
+  - id: CHO-7t5ejd9mmyhv
+    text: It is kept until the session expires
+    correct: false
+    explanation: Uploads are not tied to the session.
+  explanation: The uploaded file lives in a temporary location that PHP cleans up at the end of the request. move()
+    is what makes it persist.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    branch: '8.0'
+    symbol_or_lines: moving the uploaded file
+    verified_at: '2026-09-01'
+- id: QST-zbn2g0es3f4g
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e93sa9rd4kd9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A legacy path must permanently redirect to an external URL, with no application code. Which route configuration
+    does it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - builtin-controllers
+  choices:
+  - id: CHO-fx4ks98rcwf7
+    text: 'RedirectController with the path option and permanent: true'
+    correct: true
+  - id: CHO-p1f22rr3weq9
+    text: 'RedirectController with the route option and permanent: true'
+    correct: false
+    explanation: route targets an internal route name, not an external URL.
+  - id: CHO-01sjhe2g2292
+    text: TemplateController with a Location header
+    correct: false
+    explanation: TemplateController renders a template; it does not redirect.
+  - id: CHO-7e90zappqvxe
+    text: 'A route with schemes: [''https''] only'
+    correct: false
+    explanation: That enforces a scheme, not a destination.
+  explanation: RedirectController takes either route, for an internal route name, or path, for an absolute path
+    or URL. permanent turns the 302 into a 301.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: RedirectController options
+    verified_at: '2026-09-01'
+- id: QST-qc5p8whh9gs7
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom value resolver is tagged and returns a value, but the argument still receives something else.
+    What is the most likely cause?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - value-resolver
+  choices:
+  - id: CHO-9cc9zaaeab14
+    text: A higher-priority resolver supplied a value first
+    correct: true
+  - id: CHO-dn55n8hhghft
+    text: The resolver returned an array instead of a scalar
+    correct: false
+    explanation: Returning an array is exactly what the contract requires.
+  - id: CHO-cbp78bfrzhk0
+    text: Custom resolvers only run for variadic arguments
+    correct: false
+    explanation: They run for any argument.
+  - id: CHO-h696ac0c8p9q
+    text: The tag must be applied to the controller, not the resolver
+    correct: false
+    explanation: The tag belongs on the resolver service.
+  explanation: 'Resolvers are called in priority order until one supplies a value, and the first to do so ends the
+    chain. The documented remedy is to raise the priority or target the resolver with #[ValueResolver].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst
+    branch: '8.0'
+    symbol_or_lines: Managing Value Resolvers
+    verified_at: '2026-09-01'
+- id: QST-pj29e0t9evjt
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which class turns a set of route parameters back into a URL?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - routing-component
+  choices:
+  - id: CHO-nne9zjrkx09g
+    text: UrlGenerator
+    correct: true
+  - id: CHO-dr5r02c1tyvv
+    text: UrlMatcher
+    correct: false
+    explanation: 'It works the other way: from a URL to a set of variables.'
+  - id: CHO-2jtwf4ff42pa
+    text: RequestContext
+    correct: false
+    explanation: It holds the current host, scheme, method and port; it generates nothing.
+  - id: CHO-qax8rac26pp1
+    text: RouteCollection
+    correct: false
+    explanation: It is the ordered set of routes, not a generator.
+  explanation: Matching and generation are two separate classes, one per direction. That separation is why an option
+    such as condition can count for matching only.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+    branch: '8.0'
+    symbol_or_lines: generate()
+    verified_at: '2026-09-01'
+- id: QST-j4bn00687cya
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two routes match the same incoming URL. Which one handles the request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-6zvygysypz28
+    text: The one declared first
+    correct: true
+  - id: CHO-e327c5c83ce4
+    text: The one with the most specific path
+    correct: false
+    explanation: Symfony does not rank by specificity; order decides.
+  - id: CHO-xv78y7cjjwfd
+    text: The one with the most requirements
+    correct: false
+    explanation: Requirements filter a route in or out; they do not rank it.
+  - id: CHO-jen0z3kqrr8t
+    text: The one whose controller is declared as a service
+    correct: false
+    explanation: Service registration has no bearing on matching.
+  explanation: Matching stops at the first route that matches. The priority option exists precisely to change that
+    order without moving declarations.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: route evaluation order
+    verified_at: '2026-09-01'
+- id: QST-bz8ywsah25vt
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route /blog/{page} requires page to be digits, and the request is for /blog/archive. What does the
+    router do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - requirements
+  choices:
+  - id: CHO-kwtwgmpatb55
+    text: It skips this route and keeps testing the following ones
+    correct: true
+  - id: CHO-wqjqb8thmvw0
+    text: It matches the route and passes 'archive' to the controller
+    correct: false
+    explanation: A failed requirement excludes the whole route from matching.
+  - id: CHO-vbbyvpcghfs0
+    text: It returns 404 immediately, without testing later routes
+    correct: false
+    explanation: Matching continues; 404 comes only if no route matches at all.
+  - id: CHO-h1khj25fvasa
+    text: It returns 400, because the parameter is malformed
+    correct: false
+    explanation: A requirement is a matching condition, not an input validator.
+  explanation: 'A requirement is part of the match: if it fails, the route simply does not match and the router
+    moves on. A 404 is produced only when the whole collection has been exhausted.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Parameters Validation
+    verified_at: '2026-09-01'
+- id: QST-mwp8zhtceb6d
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route is /blog/{page} with a default of 1. What URL does generating it with page = 1 produce?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - defaults
+  choices:
+  - id: CHO-75cd465z2565
+    text: /blog
+    correct: true
+  - id: CHO-7q1y0v4v1wmm
+    text: /blog/1
+    correct: false
+    explanation: A value equal to the default is omitted unless the parameter is marked with '!'.
+  - id: CHO-1r44zgn60f02
+    text: /blog?page=1
+    correct: false
+    explanation: page is part of the path, so it never becomes a query parameter.
+  - id: CHO-xc0854f0e4th
+    text: /blog/{page}
+    correct: false
+    explanation: Placeholders are always substituted.
+  explanation: A default value disappears from the generated URL. Writing /blog/{!page} forces it to be included.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Optional Parameters
+    verified_at: '2026-09-01'
+- id: QST-mgckk1edgaen
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Twig function generates an absolute URL including scheme and host?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - url-generation
+  choices:
+  - id: CHO-k3zc9a89bym3
+    text: url()
+    correct: true
+  - id: CHO-ja9k9mtvw14v
+    text: path()
+    correct: false
+    explanation: path() produces an absolute path such as /blog/2.
+  - id: CHO-g6sctdvzmd4a
+    text: asset()
+    correct: false
+    explanation: asset() resolves a public asset path, not a route.
+  - id: CHO-gwhpe80tpp6v
+    text: absolute_url() applied to a route name
+    correct: false
+    explanation: absolute_url() takes a path, not a route name.
+  explanation: path() maps to ABSOLUTE_PATH and url() to ABSOLUTE_URL, the two reference types a template normally
+    needs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Generating URLs in Templates
+    verified_at: '2026-09-01'
+- id: QST-r2h1zt5ykzee
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route is declared as /foo and a client sends POST to /foo/. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - redirect
+  choices:
+  - id: CHO-9g0rm6avfzgj
+    text: 'No redirect: the trailing-slash redirect applies only to GET and HEAD'
+    correct: true
+  - id: CHO-gqrfb680fm0c
+    text: A 301 redirect to /foo, preserving the body
+    correct: false
+    explanation: 301 would not preserve the method, which is why the redirect is restricted.
+  - id: CHO-qacncpsj54w5
+    text: A 308 redirect to /foo
+    correct: false
+    explanation: Symfony issues 301 for this case, and only for safe methods.
+  - id: CHO-27j5ktcaatr6
+    text: The route matches and the controller runs
+    correct: false
+    explanation: The URL still differs from the declared path.
+  explanation: The redirect is limited to GET and HEAD so that a POST never loses its body to a method-changing
+    redirect.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Redirecting URLs with Trailing Slashes
+    verified_at: '2026-09-01'
+- id: QST-fvhwatsy529v
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route path ends with .{_format} and the request is for /search.json. What does Symfony do with the
+    matched value?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - special-parameters
+  choices:
+  - id: CHO-ghm6xqra6451
+    text: It sets the request format, which drives the response Content-Type
+    correct: true
+  - id: CHO-2g5drgnmkj1s
+    text: It selects the template extension to render
+    correct: false
+    explanation: Template selection is the controller's decision.
+  - id: CHO-zqss4sdawh41
+    text: It chooses the serializer to use
+    correct: false
+    explanation: No serializer is selected by the router.
+  - id: CHO-e1rfab3s4qd0
+    text: It restricts the route to JSON clients
+    correct: false
+    explanation: Restricting values is what requirements do.
+  explanation: '_format sets the request format on the Request object; json then translates into Content-Type: application/json.
+    It is what lets /search.json and /search.xml share one route.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Special Parameters
+    verified_at: '2026-09-01'
+- id: QST-8vdjp0hj9nra
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which expression variable exposes the already-matched route parameters inside a condition?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - condition
+  choices:
+  - id: CHO-z9gcpkk06atn
+    text: params
+    correct: true
+  - id: CHO-6yngahc8zgf5
+    text: context
+    correct: false
+    explanation: 'context is the RequestContext: host, scheme, method and port.'
+  - id: CHO-s5tvddamytth
+    text: request
+    correct: false
+    explanation: request is the Request object; route parameters reach it later, in attributes.
+  - id: CHO-6w4gxrdjd4dx
+    text: route
+    correct: false
+    explanation: No such variable is exposed to conditions.
+  explanation: The three variables are context, request and params, plus the functions env() and service(). params
+    is what allows a condition such as params['id'] < 1000.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Matching Expressions
+    verified_at: '2026-09-01'
+- id: QST-hxqdbk2mxzwm
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A localized route defines an English and a Dutch path, plus one path with no locale. What is that third
+    entry for?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - locale
+  choices:
+  - id: CHO-1dgy5jvj8vbc
+    text: Any locale that matches neither of the others
+    correct: true
+  - id: CHO-a7hc2wgbyrbq
+    text: The path used when JavaScript is disabled
+    correct: false
+    explanation: Localized paths have nothing to do with client capabilities.
+  - id: CHO-wt8srpp70vsb
+    text: A canonical URL for search engines
+    correct: false
+    explanation: No canonical semantics are attached to it.
+  - id: CHO-y2jgx3rm1my6
+    text: The path used only in the dev environment
+    correct: false
+    explanation: Environments play no part in localized routing.
+  explanation: The unkeyed path is the fallback for locales the route does not name. When a localized route matches,
+    Symfony uses that locale for the whole request.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    branch: '8.0'
+    symbol_or_lines: Localized Routes (i18n)
+    verified_at: '2026-09-01'
+- id: QST-r7w7wktajt2p
+  version: 1
+  official_topic: Security
+  official_item: OIT-s3jh7wg5km19
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which badge must a Passport carry for the credentials themselves to be verified?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - authenticator
+  - passport
+  choices:
+  - id: CHO-kv81vjmgs4sh
+    text: A credentials badge, such as PasswordCredentials
+    correct: true
+  - id: CHO-5tgq2x6wcyh9
+    text: RememberMeBadge
+    correct: false
+    explanation: It enables the remember-me cookie; it verifies nothing.
+  - id: CHO-6vwqhngnsdjs
+    text: CsrfTokenBadge
+    correct: false
+    explanation: It validates a CSRF token, not the user's credentials.
+  - id: CHO-zcw637mx31fv
+    text: UserBadge alone
+    correct: false
+    explanation: UserBadge identifies who is authenticating; it does not check a secret.
+  explanation: A Passport pairs a UserBadge with a credentials badge. SelfValidatingPassport exists precisely for
+    schemes — an API token, for instance — where there is no secret left to check.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst
+    branch: '8.0'
+    symbol_or_lines: Passport badges
+    verified_at: '2026-09-01'
