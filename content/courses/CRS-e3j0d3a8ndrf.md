@@ -85,6 +85,14 @@ $response->setVary(['Accept-Language', 'Accept-Encoding']);
 lui, un cache partagé peut servir la version française à un client anglophone —
 c'est le bug de cache classique.
 
+## Trois directives voisines
+
+| Directive | Effet |
+|---|---|
+| `must-revalidate` | interdit de servir une réponse périmée |
+| `stale-while-revalidate=N` | autorise au contraire le périmé pendant `N` secondes, le temps de revalider en arrière-plan |
+| `immutable` | la réponse ne changera pas : ne pas revalider avant échéance |
+
 ## Pièges d'examen
 
 **`private` est le défaut de Symfony.** Une réponse n'est pas mise en cache
@@ -109,4 +117,5 @@ revalidation avant chaque usage. « Ne pas stocker » s'écrit `no-store`.
 ## Sources officielles
 
 - RFC 9110 §8.8 et §12.5.5
+- RFC 9111 §5.2 (`must-revalidate`), RFC 5861 §3, RFC 8246
 - `Symfony\Component\HttpFoundation\Response` (branche 8.0, `6f841c0`)

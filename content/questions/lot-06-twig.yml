@@ -181,7 +181,8 @@ questions:
   - id: CHO-pj4vg7chh5z9
     text: +
     correct: false
-    explanation: In Twig + is a numeric addition; 'a' + 'b' evaluates to 0.
+    explanation: In Twig + is addition, not concatenation. On PHP 8.4 it raises
+      a TypeError for two non-numeric strings.
   - id: CHO-328h8h6sqkv5
     text: .
     correct: false

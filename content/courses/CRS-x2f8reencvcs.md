@@ -82,8 +82,9 @@ Pour forcer l'appel d'une méthode, il existe la syntaxe explicite
 
 Trois pièges reviennent :
 
-- la concaténation est `~`, pas `+`. `{{ 'a' + 'b' }}` fait une addition
-  numérique et vaut `0` ;
+- la concaténation est `~`, pas `+`. `+` est l'addition : sur deux chaînes non
+  numériques, PHP 8.4 lève une `TypeError`, donc `{{ 'a' + 'b' }}` casse le
+  rendu au lieu de concaténer ;
 - `//` est la division **entière**, `/` la division ordinaire ;
 - `?:` retourne l'opérande de gauche s'il est *vrai*, `??` s'il est *défini*.
   Sur une variable absente, `?:` déclenche `strict_variables`, `??` non.
