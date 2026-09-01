@@ -74,6 +74,18 @@ Le message porte des emplacements entre doubles accolades, remplis par
 `setParameter()`. C'est ce qui permet de traduire le message sans y interpoler la
 valeur à la main.
 
+## Pièges d'examen
+
+**`buildViolation()` seule n'enregistre rien.** Sans `addViolation()` au bout de
+la chaîne, la validation passe alors que la règle est violée.
+
+**`addViolation()` existe des deux côtés** : sur le contexte, elle enregistre
+directement ; sur le constructeur, elle termine la chaîne. Ce ne sont pas les
+mêmes méthodes.
+
+**Sans `atPath()`, une violation de portée classe reste attachée à l'objet** et
+le formulaire l'affiche en tête, pas sur le champ.
+
 ## Points clés
 
 - `addViolation()` sur le contexte : direct. `buildViolation()` : configurable.

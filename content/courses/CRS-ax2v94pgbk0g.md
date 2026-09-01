@@ -84,6 +84,17 @@ Ne pas confondre avec la fusion décrite dans *Framework overloading* : celle-ci
 porte sur les fichiers de validation de **plusieurs bundles**, celle-là sur une
 **hiérarchie de classes**. Les deux fusionnent, pour des raisons différentes.
 
+## Pièges d'examen
+
+**Sans `#[Assert\Valid]`, l'objet imbriqué est ignoré** — aucune erreur, aucune
+violation, une validation qui passe à tort.
+
+**Redéclarer une contrainte dans la fille ne remplace pas celle du parent** :
+les deux s'appliquent, et le comportement ne se désactive pas.
+
+**`loadValidatorMetadata()` est statique.** Écrite comme méthode d'instance,
+elle n'est jamais appelée.
+
 ## Points clés
 
 - Quatre formats équivalents ; attribut usuel, `loadValidatorMetadata()` statique.
