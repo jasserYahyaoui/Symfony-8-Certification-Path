@@ -6,15 +6,16 @@
 
 ## Current lot
 
-**Lot 03 — Symfony Architecture: PASS** (15 items). Lots 0, 0.5, 01 and 02 are
-complete. Next: **Lot 04 — Controllers** (14 items).
+**Lot 04 — Controllers: PASS** (14 items). Lots 0, 0.5, 01, 02 and 03 are
+complete. Next: **Lot 05 — Routing** (12 items, of which 1 is already
+EXAM_READY from the Golden Slice).
 
 ## Current branch
 
-`master`, at merge commit `6a31ff5`. Lot 03 was developed on
-`lot-03-symfony-architecture` (`90b963b`) and merged through
+`lot-04-controllers`, branched from `master`. Lot 03 shipped through
 [PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
-after a green Technical gate.
+(merge `6a31ff5`) and its evidence through PR #2 (merge `4802990`).
+Every lot from 03 onward uses branch → Pull Request → CI → controlled merge.
 
 Lot 03 is the first lot shipped through the §15 workflow: dedicated branch →
 Pull Request → CI → controlled merge into `master`. The direct-to-`master`
@@ -86,10 +87,10 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 36 EXAM_READY.**
+**163 imported, 50 EXAM_READY.**
 
 ```text
-coverage = 36 / 163 = 22.09%
+coverage = 50 / 163 = 30.67%
 ```
 
 | Lot | Topic | Items |
@@ -98,18 +99,21 @@ coverage = 36 / 163 = 22.09%
 | 01 | PHP | 9 |
 | 02 | HTTP (minus Status codes) | 9 |
 | 03 | Symfony Architecture | 15 |
+| 04 | Controllers | 14 |
 
-Content: 36 courses (13 993 body words), 27 flashcards, 72 LEARNING and 7
-HOLDOUT questions, 0 exercises. English share of the practice pool: 63/79
-overall, 25/32 for Lot 03.
+Content: 50 courses (18 599 body words), 37 flashcards, 101 LEARNING and 9
+HOLDOUT questions, 0 exercises. English share of the question bank: 90/110
+overall, 27/31 for Lot 04.
 
-Level distribution so far — **observation, not a target**: 26 `STANDARD`,
-7 `MINIMAL`, 3 `DEEP`.
+Level distribution so far — **observation, not a target**: 34 `STANDARD`,
+12 `MINIMAL`, 4 `DEEP`. Lot 03 came out 10/3/2 and Lot 04 8/5/1: the shape
+changes per lot because the items differ, not because anything is balanced.
 
 Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-01`](docs/reports/lot-01-report.md),
 [`lot-02`](docs/reports/lot-02-report.md),
-[`lot-03`](docs/reports/lot-03-report.md).
+[`lot-03`](docs/reports/lot-03-report.md),
+[`lot-04`](docs/reports/lot-04-report.md).
 
 ### Cross-lot boundaries now load-bearing
 
@@ -130,9 +134,22 @@ Stated in prose only; no CI rule enforces them. Later lots must honour them:
   → *Naming conventions* (lot-04, same official wording, distinct item) =
   controller naming.
 
+- *The response* (lot-04) = ce qu'un contrôleur retourne et avec quel raccourci
+  → *HTTP response* (lot-02) owns the subclass catalogue and `isRedirect()`.
+- *The cookies* (lot-04) = the request/response asymmetry → *Cookies* (lot-02)
+  owns `SameSite`, `Secure`, `HttpOnly` and the deletion constraint.
+- *HttpKernel component and FrameworkBundle* (lot-04) = the division of labour
+  → *Request handling* (lot-03) owns the `handle()` flow.
+- *Argument value resolvers* (lot-04) owns the resolver chain and the `Map…`
+  attributes; lot-03's *Request handling* names them and defers.
+
 The lot-03 report records a near-miss on the first of these: a draft reproduced
 Lot 02's bag table **and** got `InputBag::get()` wrong by trusting the
 documentation page over the source. Read the source for behavioural claims.
+
+Lot 04 is where the table paid off: three of its items landed at `MINIMAL`
+because the boundary excluded most of their surface, and its average course
+dropped to 329 body words from Lot 03's 397.
 
 ## Known issues
 
@@ -152,51 +169,50 @@ documentation page over the source. Read the source for behavioural claims.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-03-symfony-architecture`:
+Locally, on PHP 8.4.19, on `lot-04-controllers`:
 
 ```text
-php bin/cert validate           → 16 rules, 163 official items, 79 questions, no violations
-php bin/cert coverage           → Coverage: 22.09% (36/163 EXAM_READY)
+php bin/cert validate           → 16 rules, 163 official items, 110 questions, no violations
+php bin/cert coverage           → Coverage: 30.67% (50/163 EXAM_READY)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json
 vendor/bin/phpunit              → OK (74 tests, 601 assertions)
 npm --prefix website run build  → SUCCESS
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
 
-In CI on the merge commit `6a31ff5`: run `33501414293` (CI) **success**, and run
-`33501414261` (Deploy to GitHub Pages) **success** across all three jobs — build,
-deploy, and the production smoke test (job `99835718227`).
-
-Holdout isolation checked against the built payload, not assumed: the 7 holdout
+Holdout isolation checked against the built payload, not assumed: the 9 holdout
 question ids are absent from `practice.json` and present in `exam.json`. That is
 **functional isolation, not confidentiality** — `exam.json` is published with
 correct answers (ADR-0005).
 
-The accessibility audit is a real gate since the Pre-Lot-03 closure:
-`website/tools/a11y-audit.mjs` drives axe-core over the built site on six
-surfaces and runs in CI on every push.
+Lot 03's merge commit `6a31ff5` was green in CI (run `33501414293`) and its
+deploy run `33501414261` passed build, deploy and the production smoke test
+(job `99835718227`).
 
 ## Next action
 
-**Lot 04 — Controllers** (14 items): HttpKernel component and FrameworkBundle,
-Naming conventions, The base AbstractController class, The request, The
-response, The cookies, The session, The flash messages, HTTP redirects,
-Internal redirects, Generate 404 pages, File upload, Built-in internal
-controllers, Argument value resolvers.
+**Lot 05 — Routing** (12 items): Routing component and FrameworkBundle,
+Configuration (YAML and PHP attributes) *(already EXAM_READY, Golden Slice)*,
+Restrict URL parameters, Set default values to URL parameters, URLs generation,
+Trigger redirects, Special internal routing attributes, Domain name matching,
+Conditional request matching, HTTP methods matching, User's locale guessing,
+Router debugging — so **11 new items**.
 
 Open the lot on a dedicated branch with a Pull Request, per §15. Honour the
-boundaries Lot 03 left in place — Lot 04 owns the request, the response, the
-session, the cookies, file upload, argument value resolvers, internal redirects
-and controller naming.
+boundaries: Lot 04 owns argument value resolvers, the `_controller` notation and
+`RedirectController`; Lot 05 owns route definition, matching and generation.
+*User's locale guessing* has a standing boundary with Lot 02's *Language
+detection* and Lot 16's i18n.
 
-Then Lots 05 → 27 in Master Plan §14 order.
+Then Lots 06 → 27 in Master Plan §14 order.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: ~397 words/item on Lot 03, close to Lot 01 (376) and
-  Lot 02 (407); 13 993 body words for 36 items. Across 163 items that still
-  projects to roughly 63 000 words. Re-estimate per lot rather than assuming
-  linearity.
+- **revision burden**: 18 599 body words for 50 items, ~372 per item. The
+  per-lot figure is not constant — 376 (Lot 01), 407 (Lot 02), 397 (Lot 03),
+  **329** (Lot 04) — and the fall is the anti-duplication boundaries working.
+  A linear projection to 163 items gives roughly 60 000 words; re-estimate per
+  lot rather than assuming linearity.
 - `DUP-001` pressure, and the three cross-lot boundaries above.
 
 ## Blocked decisions

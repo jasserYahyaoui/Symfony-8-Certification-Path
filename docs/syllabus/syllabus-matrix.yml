@@ -1829,26 +1829,51 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le partage des roles entre le composant et le bundle est un critere a appliquer, avec une liste
+      d'apports a connaitre. Le deroule de la requete appartient au lot 03 ; ce qui reste ici est une
+      repartition, pas un mecanisme, donc au-dessus de MINIMAL et en dessous de DEEP.
+    learning_outcomes:
+      - "Distinguer ce que fournit le composant HttpKernel de ce qu'ajoute FrameworkBundle"
+      - "Citer les interfaces implementees par la classe Kernel"
+      - "Situer AbstractController et MicroKernelTrait du cote du bundle"
+      - "Enoncer que le composant fonctionne sans le bundle"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "MicroKernelTrait usage"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-tygmreqkkds3"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-1rm2gsd2rpg3"
+      - "QST-kd99n7e6g9ka"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-ycc2c8tnv68h
     official_topic_order: 4
     official_topic: "Controllers"
@@ -1859,26 +1884,49 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Un tableau de conventions dont la seule information reellement utile est qu'aucune n'est
+      obligatoire, plus le format de _controller et la generation du nom de route. Les conventions
+      generales du framework sont un item distinct du lot 03.
+    learning_outcomes:
+      - "Enoncer que le suffixe Controller est une convention et non une contrainte"
+      - "Ecrire la notation _controller pour une methode et pour une classe invocable"
+      - "Enoncer ce qui se passe lorsque l'option name d'une route est omise"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section A Basic Controller"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "route names and FQCN aliases"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-9fz4erg0wmbq"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-j3r9v4jqw00n"
+      - "QST-kyp8v8zrb8r3"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-gqpj4rbt0hc7
     official_topic_order: 4
     official_topic: "Controllers"
@@ -1889,26 +1937,53 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      La classe elle-meme demande plus qu'un tableau : la portee protected de ses methodes et le
+      mecanisme ServiceSubscriberInterface avec ses services optionnels ont des consequences
+      observables. La production de la reponse est traitee par l'item The response ; sans elle, DEEP
+      serait de la surproduction.
+    learning_outcomes:
+      - "Enoncer que la classe de base est optionnelle et vient de FrameworkBundle"
+      - "Expliquer la consequence de methodes declarees protected"
+      - "Decrire le mecanisme de ServiceSubscriberInterface et le prefixe ?"
+      - "Situer setContainer() et son attribut Required"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "class declaration, setContainer, getSubscribedServices"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "The Base Controller Class & Services"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-h8s87edcx8ae"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-dnxpede76ew1"
+      - "QST-2vj8n6hfss62"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-hkf8ss1gkr0r"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-6cr9b8ea8g32
     official_topic_order: 4
     official_topic: "Controllers"
@@ -1919,26 +1994,45 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Vu depuis le controleur, l'item se reduit a trois faits : le type-hint suffit, les parametres de
+      route passent par attributes et sont apparies par nom, getPayload() lit le corps. Le modele des
+      sacs appartient a l'item HTTP request du lot 02 et le composant a l'item HttpFoundation du lot
+      03.
+    learning_outcomes:
+      - "Obtenir la requete dans un controleur et dans un service"
+      - "Expliquer l'appariement par nom des parametres de route"
+      - "Citer _route et _controller comme attributs de requete"
+      - "Distinguer getPayload() du sac request"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "The Request Object as a Controller Argument"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-ea3twt9jcan2"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-da21bxhgtjcr"
+      - "QST-ahd7kee2rcdn"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-2emwghgkkrdy
     official_topic_order: 4
     official_topic: "Controllers"
@@ -1949,26 +2043,54 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le choix du raccourci de production de reponse comporte plusieurs distinctions a consequence :
+      render contre renderView, le 422 automatique d'un formulaire invalide, la disposition par defaut
+      de file(). Le catalogue des sous-classes de Response appartient au lot 02.
+    learning_outcomes:
+      - "Enoncer l'obligation de retourner une Response et ce qui arrive sinon"
+      - "Distinguer render() de renderView() par leur type de retour"
+      - "Enoncer le statut retourne par render() avec un formulaire invalide"
+      - "Choisir entre json(), file() et stream() selon le cas"
+      - "Enoncer la disposition par defaut de file()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "render, renderView, stream, json, file"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Returning JSON Response"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-a669jpap5zf2"
+    flashcard_refs:
+      - "FLC-50qy4aqc9d2a"
+    question_refs:
+      - "QST-qbvmn4ak00xe"
+      - "QST-f1y8ffw897x7"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-pfrzrr0qcmh3
     official_topic_order: 4
     official_topic: "Controllers"
@@ -1979,26 +2101,42 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Il ne reste qu'une asymetrie a fixer — lire sur la requete, ecrire sur la reponse — et un piege,
+      l'usage de setcookie(). Les attributs de securite et la contrainte de suppression sont deja
+      traites par l'item Cookies du lot 02 ; les reprendre serait de la duplication.
+    learning_outcomes:
+      - "Lire un cookie depuis la requete et l'ecrire sur la reponse"
+      - "Justifier pourquoi setcookie() de PHP est a eviter"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "setCookie, removeCookie, clearCookie"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-thmkagkjcvh3"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-11nk5754rpdh"
+      - "QST-trtmk0t0xknv"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-e41m74xaqhy7
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2009,26 +2147,54 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois voies d'acces, un demarrage paresseux dont la consequence sur la cachabilite n'est pas
+      devinable, et deux methodes de securite que l'on confond. Cela depasse le format MINIMAL sans
+      constituer une procedure ordonnee.
+    learning_outcomes:
+      - "Obtenir la session dans un controleur et dans un service"
+      - "Enoncer les trois actions qui demarrent la session"
+      - "Expliquer l'effet du demarrage sur le cookie et la cachabilite"
+      - "Distinguer migrate() de invalidate()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "lazy session start, migrate and invalidate"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Managing the Session"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-a51fqgqynr2d"
+    flashcard_refs:
+      - "FLC-5j16211q845x"
+      - "FLC-zm3kmyhm6szz"
+    question_refs:
+      - "QST-b5rsrffwd1ja"
+      - "QST-mgyhknb5qevq"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-65bev6t7wbna
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2039,26 +2205,44 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Un mecanisme court : un message de session consomme a la lecture, un raccourci, et l'opposition
+      get / peek. Rien n'appelle un traitement plus long.
+    learning_outcomes:
+      - "Enoncer ce qu'est un message flash et quand il disparait"
+      - "Citer l'equivalence de addFlash()"
+      - "Distinguer get() et all() de peek() et peekAll()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Flash Messages"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-ak7sdgcdjb7e"
+    flashcard_refs:
+      - "FLC-gdkt0hht9dce"
+    question_refs:
+      - "QST-hw8ee6r7vmgd"
+      - "QST-ts94r3a8c3f0"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-bwfqarnn6s2f
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2069,26 +2253,45 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Deux methodes, un statut par defaut, une position d'argument et un avertissement de securite. Le
+      format MINIMAL les porte sans perte ; l'opposition avec le forward est traitee par l'item
+      Internal redirects.
+    learning_outcomes:
+      - "Choisir entre redirect() et redirectToRoute()"
+      - "Enoncer le statut par defaut et la position de l'argument qui le change"
+      - "Enoncer le risque de redirection non validee de redirect()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "section Redirecting"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-7zy5ndjgnpk1"
+    flashcard_refs:
+      - "FLC-dkb30nnrfmqs"
+    question_refs:
+      - "QST-rh33zfabnd6v"
+      - "QST-w5n16306gg5v"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-znm2tr61aw9p
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2099,26 +2302,54 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      La valeur de l'item est entierement dans le contraste avec la redirection HTTP, qui demande un
+      tableau a cinq lignes, plus deux comportements non devinables : l'appariement des arguments par
+      nom et le vidage de app.current_route. Le nom meme de l'item induit en erreur.
+    learning_outcomes:
+      - "Decrire ce que forward() execute et ce qu'il retourne"
+      - "Opposer forward() et redirectToRoute() sur l'URL et le nombre de requetes"
+      - "Enoncer que les arguments sont apparies par nom"
+      - "Enoncer l'effet du forward sur app.current_route"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "internal sub-request and its side effects"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "forward()"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-fd24qxy0x1s6"
+    flashcard_refs:
+      - "FLC-zmzjmptaw0gd"
+    question_refs:
+      - "QST-8gc5zq1h2p98"
+      - "QST-jm00zq4z9sez"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-8g75z12e1pjp"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-emymfwgesh99
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2129,26 +2360,54 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un piege silencieux — la methode ne leve pas l'exception —, une regle de resolution de gabarit
+      en deux temps, une route de previsualisation et une limite de securite propre aux pages 404.
+      Cela fait quatre faits a consequence, au-dessus du format MINIMAL.
+    learning_outcomes:
+      - "Produire un 404 depuis un controleur, en levant l'exception"
+      - "Localiser et nommer le gabarit d'erreur, avec sa regle de repli"
+      - "Citer les variables fournies au gabarit d'erreur"
+      - "Utiliser la route _error en developpement"
+      - "Enoncer l'indisponibilite des informations de securite sur une page 404"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Overriding the Default Error Templates, Security & 404 Pages"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Managing Errors and 404 Pages"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-p57qsnnfpd2a"
+    flashcard_refs:
+      - "FLC-b3yz3wtpa5xx"
+    question_refs:
+      - "QST-5kn8tfb5k3s3"
+      - "QST-z3r0at4fmp23"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-tb3bnd6b0f01
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2159,26 +2418,54 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux voies de recuperation, une obligation de deplacement, et surtout une liste de methodes dont
+      les valeurs viennent du client et ne sont pas fiables. La consequence est une regle de securite,
+      pas un simple rappel d'API.
+    learning_outcomes:
+      - "Recuperer un fichier televerse par le sac files ou par MapUploadedFile"
+      - "Enoncer le comportement de MapUploadedFile en l'absence de fichier"
+      - "Justifier l'appel a move()"
+      - "Identifier les methodes getClient... comme non fiables"
+      - "Justifier l'emploi de guessExtension()"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "security note on client-provided metadata"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Mapping Uploaded Files"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-5pns7nw7612s"
+    flashcard_refs:
+      - "FLC-76q0tk8w87yb"
+    question_refs:
+      - "QST-cztz9ndc5pc0"
+      - "QST-myjwe916hpfp"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-e93sa9rd4kd9
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2189,26 +2476,53 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois controleurs, chacun avec ses options de route, dont une — keepRequestMethod et sa
+      substitution 302/301 en 307/308 — a un effet observable qui ne se devine pas. Un format MINIMAL
+      ne porterait pas les tableaux d'options.
+    learning_outcomes:
+      - "Referencer un controleur du framework depuis une route"
+      - "Configurer TemplateController et citer son option obligatoire"
+      - "Distinguer les options route et path de RedirectController"
+      - "Enoncer l'effet de keepRequestMethod sur le code de statut"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "redirecting directly from a route"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "rendering a template directly from a route"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-zmg0wrxvqqdq"
+    flashcard_refs:
+      - "FLC-wvcgqvv01k3x"
+    question_refs:
+      - "QST-1kdkyp9r94d1"
+      - "QST-df9adrfdyn46"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
   - id: OIT-8hs6e05vq91g
     official_topic_order: 4
     official_topic: "Controllers"
@@ -2219,26 +2533,57 @@ items:
     lot: lot-04
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      C'est le mecanisme qui explique la moitie du lot : un contrat au retour contre-intuitif, une
+      chaine ordonnee par priorite ou le premier servi arrete tout, un catalogue de dix resolveurs, et
+      la notion de resolveur cible dont les attributs Map... ne sont que la forme confortable. Chacune
+      de ces couches change la reponse a une question, et l'ordre lui-meme est note.
+    learning_outcomes:
+      - "Enoncer le contrat de ValueResolverInterface::resolve et son type de retour"
+      - "Expliquer la selection par priorite et l'arret au premier resolveur servi"
+      - "Justifier l'ordre entre SessionValueResolver et DefaultValueResolver"
+      - "Associer chaque resolveur integre a ce qu'il remplit"
+      - "Distinguer un resolveur cible d'un resolveur ordinaire"
+      - "Enoncer le statut retourne pour une valeur d'enumeration invalide"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la sequence complete sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "built-in resolvers, priority, targeted resolvers"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Automatic Mapping Of The Request"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-d5ffd8b704zs"
+    flashcard_refs:
+      - "FLC-s0173seh75yz"
+    question_refs:
+      - "QST-a8y5n999x97w"
+      - "QST-wqmsve0rpm50"
+      - "QST-9rwkjyzgr7hg"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 04 — Controllers."
 
   # ---- Topic 5: Routing (12 items) ----
   - id: OIT-ceaw3ewfsw85
