@@ -16,6 +16,12 @@ use CertPath\Validation\Violation;
  * §1.5 allows an excluded term to appear inside a clearly labelled explanation
  * of an exclusion, so a question may mention one only when it is explicitly
  * tagged `exclusion-note` — and never when points depend on it.
+ *
+ * Matching is word-boundary aware rather than a raw substring search. Short
+ * exclusion terms are otherwise unusable: `esi` matched inside `SameSite`,
+ * failing two legitimate cookie questions. Boundaries keep the rule sharp —
+ * `ESI` as a word still trips it — without punishing words that merely contain
+ * the letters.
  */
 final class OutOfScopeContaminationRule implements Rule
 {
@@ -72,7 +78,7 @@ final class OutOfScopeContaminationRule implements Rule
                     continue;
                 }
 
-                if (str_contains($haystack, $needle)) {
+                if (self::mentionsTerm($haystack, $needle)) {
                     $violations[] = new Violation(
                         $this->id(),
                         Severity::Error,
@@ -88,5 +94,16 @@ final class OutOfScopeContaminationRule implements Rule
         }
 
         return $violations;
+    }
+
+    /**
+     * True when the term appears as a whole word (or whole phrase), rather
+     * than merely as a run of characters inside a longer word.
+     */
+    public static function mentionsTerm(string $haystack, string $needle): bool
+    {
+        $pattern = '/(?<![\p{L}\p{N}])'.preg_quote($needle, '/').'(?![\p{L}\p{N}])/u';
+
+        return 1 === preg_match($pattern, $haystack);
     }
 }

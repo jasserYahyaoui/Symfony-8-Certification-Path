@@ -26,6 +26,13 @@ alone (§16).** A deployment claim requires a real production smoke test; a test
 claim requires real output. Do not invent commits, URLs, percentages or scores
 (§19).
 
+**Level distribution is an outcome, never a target.** There is no target ratio
+of `MINIMAL` / `STANDARD` / `DEEP`, and no minimum number of `DEEP` items for
+the project or for any lot. A lot with zero `DEEP` items is complete. Never
+promote an item because a percentage looks low; the only admissible reason for
+a level is the item itself. See
+[the field guide](docs/policy/matrix-field-guide.md#level-distribution-is-an-outcome-never-a-target).
+
 **Never weaken a test or a CI rule to get a green build (§12).** Removing a
 rule from `RuleSet::mandatory()` is a governance decision, not maintenance.
 

@@ -1,0 +1,138 @@
+# Lot 02 flashcards (Master Plan §6).
+#
+# Six cards for nine items. Deliberately absent: RFC 9110 (structural framing,
+# not recall), Language detection (MINIMAL, derivable from one example) and
+# Content negotiation (the q rules are applied, not recalled — the questions
+# exercise them, and a card for "q defaults to 1.0" is exactly the reflex
+# over-production §6 forbids).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-fwh5svxege2c
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    front: "HTTP : PUT et DELETE sont-ils sûrs ? idempotents ?"
+    back: "Non sûrs, mais idempotents. POST et PATCH ne sont ni l'un ni l'autre."
+    explanation: >-
+      Sûre = lecture seule. Idempotente = rejouer N fois équivaut à jouer une
+      fois. PUT remplace par la même valeur, DELETE supprime ce qui l'est déjà :
+      l'état final est identique, même si le code de statut diffère. PATCH
+      décrit une modification relative, donc non idempotente.
+    memorization_justification: >-
+      Classification à trois axes indépendants dont l'intuition « DELETE échoue
+      la seconde fois, donc non idempotent » est fausse et tenace.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2 Common Method Properties"
+        verified_at: "2026-09-01"
+
+  - id: FLC-c3jxj5v9jt5n
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    front: "Symfony : Response::isRedirect() couvre quels statuts ?"
+    back: "201, 301, 302, 303, 307, 308 — donc 201 inclus, 300 et 304 exclus."
+    explanation: >-
+      isRedirection() teste littéralement la classe 3xx. isRedirect() liste les
+      statuts qui portent réellement un en-tête Location : il inclut 201 Created,
+      qui est 2xx, et exclut 300 et 304, qui sont 3xx. Les deux ne sont ni
+      équivalents ni imbriqués.
+    memorization_justification: >-
+      Deux méthodes aux noms quasi identiques dont les ensembles se croisent
+      sans s'inclure ; aucune règle ne permet de reconstituer la liste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "isRedirect line 1254"
+        verified_at: "2026-09-01"
+
+  - id: FLC-ke52b2c0c9vm
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    front: "Symfony : que fait $request->query->get('tags') si l'URL contient ?tags[]=a&tags[]=b ?"
+    back: "Elle lève une BadRequestException. InputBag::get() n'accepte que des scalaires ; il faut all()."
+    explanation: >-
+      $query, $request et $cookies sont des InputBag, qui refusent les valeurs
+      non scalaires parce qu'elles viennent du client. $attributes est un
+      ParameterBag, sans cette restriction, parce que son contenu vient de
+      l'application.
+    memorization_justification: >-
+      Comportement défensif contre-intuitif : on attend null ou le premier
+      élément, on obtient une exception. Le distinguo InputBag / ParameterBag
+      n'est visible nulle part à l'appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "InputBag::get, BadRequestException"
+        verified_at: "2026-09-01"
+
+  - id: FLC-m9c0rxyaz2dj
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    front: "Cookies : quelle contrainte impose SameSite=none ?"
+    back: "L'attribut Secure est obligatoire. Sans lui, le navigateur rejette purement et simplement le cookie."
+    explanation: >-
+      Ce n'est pas un avertissement : le cookie n'est pas posé du tout. Rappel
+      des rôles — HttpOnly atténue le XSS, SameSite atténue le CSRF, Secure
+      impose HTTPS.
+    memorization_justification: >-
+      Dépendance entre deux attributs, invisible dans le code, dont l'échec est
+      silencieux côté serveur et ne se voit que dans le navigateur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "SAMESITE_NONE lines 21-23"
+        verified_at: "2026-09-01"
+
+  - id: FLC-17ebjqxfdy6d
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    front: "Cache HTTP : quelle est la différence entre no-cache et no-store ?"
+    back: "no-cache = stocker mais revalider avant chaque usage. no-store = ne rien conserver du tout."
+    explanation: >-
+      Le nom « no-cache » suggère l'inverse de ce qu'il fait. Pour interdire
+      réellement la conservation d'une réponse sensible, c'est no-store qu'il
+      faut.
+    memorization_justification: >-
+      Directive dont le nom contredit la sémantique ; l'erreur produit une fuite
+      de données en cache sans aucun symptôme fonctionnel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 5.2 Cache-Control"
+        verified_at: "2026-09-01"
+
+  - id: FLC-7cnykd5c7nxy
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    front: "Symfony HttpClient : à quel moment la requête est-elle réellement attendue ?"
+    back: >-
+      Pas à l'appel de request(), qui est asynchrone, mais à la première lecture
+      de la réponse : getStatusCode(), getHeaders(), getContent() ou toArray().
+    explanation: >-
+      C'est ce qui rend le parallélisme gratuit : émettre toutes les requêtes,
+      puis les lire. Lire chaque réponse dans la boucle qui l'émet redevient
+      séquentiel, sans erreur visible.
+    memorization_justification: >-
+      Le comportement par défaut contredit l'intuition synchrone, et l'erreur
+      n'a aucun symptôme fonctionnel — seulement une lenteur inexpliquée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "asynchronous by default"
+        verified_at: "2026-09-01"

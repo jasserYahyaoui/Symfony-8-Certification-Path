@@ -192,6 +192,62 @@ final class ValidationRuleTest extends TestCase
     }
 
     /**
+     * The narrowing that made short exclusion terms usable must not become a
+     * loophole: a standalone excluded word is still rejected.
+     */
+    public function testExcludedTermIsStillCaughtAsAStandaloneWord(): void
+    {
+        $item = ItemFactory::make();
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'question' => 'How is an ESI fragment rendered?',
+            ])],
+            excludedTerms: ['esi'],
+        );
+
+        self::assertViolates(new OutOfScopeContaminationRule(), $content, 'SCOPE-001');
+    }
+
+    /**
+     * The false positive that motivated word-boundary matching: the term "esi"
+     * occurs inside "SameSite", which is entirely in scope.
+     */
+    public function testExcludedTermInsideALongerWordIsNotAMatch(): void
+    {
+        $item = ItemFactory::make();
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'question' => 'Which cookie attribute mitigates CSRF? SameSite does.',
+            ])],
+            excludedTerms: ['esi'],
+        );
+
+        self::assertSame([], (new OutOfScopeContaminationRule())->check($content));
+    }
+
+    /**
+     * Multi-word exclusions must keep matching as phrases.
+     */
+    public function testMultiWordExcludedPhraseStillMatches(): void
+    {
+        $item = ItemFactory::make();
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'question' => 'How does Symfony UX handle this?',
+            ])],
+            excludedTerms: ['symfony ux'],
+        );
+
+        self::assertViolates(new OutOfScopeContaminationRule(), $content, 'SCOPE-001');
+    }
+
+    /**
      * §1.5 permits an excluded term inside a labelled exclusion explanation.
      */
     public function testExcludedTopicIsAllowedWhenTaggedAsAnExclusionNote(): void

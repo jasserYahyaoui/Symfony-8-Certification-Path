@@ -6,8 +6,8 @@
 
 ## Current lot
 
-**Lot 01 — PHP: PASS** (9 items). Lot 0 and Lot 0.5 complete.
-Next: **Lot 02 — HTTP** (10 items, 1 already EXAM_READY from the Golden Slice).
+**Lot 02 — HTTP: PASS** (9 items). Lots 0, 0.5 and 01 complete.
+Next: **Lot 03 — Symfony Architecture** (15 items, the largest topic).
 
 ## Current branch
 
@@ -78,22 +78,36 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 12 EXAM_READY.**
+**163 imported, 21 EXAM_READY.**
 
 ```text
-coverage = 12 / 163 = 7.36%
+coverage = 21 / 163 = 12.88%
 ```
 
-- **Lot 0.5 (Golden Slice):** Status codes `MINIMAL`, Routing configuration
-  `STANDARD`, Authenticators/Passports/Badges `DEEP`.
-- **Lot 01 (PHP), all 9 items:** Interfaces `MINIMAL`; the other eight
-  `STANDARD`. No `DEEP` — none earned it.
+| Lot | Topic | Items |
+|---|---|---:|
+| 0.5 | Golden Slice (HTTP, Routing, Security) | 3 |
+| 01 | PHP | 9 |
+| 02 | HTTP (minus Status codes) | 9 |
 
-Content: 12 courses (5 016 words), 11 flashcards, 24 LEARNING questions,
-3 HOLDOUT questions, 0 exercises. English share of practice pool: 20/24.
+Content: 21 courses (8 677 words), 17 flashcards, 42 LEARNING and 5 HOLDOUT
+questions, 0 exercises. English share of practice pool: 33/42.
 
-Reports: [`lot-005-golden-slice-report.md`](docs/reports/lot-005-golden-slice-report.md),
-[`lot-01-report.md`](docs/reports/lot-01-report.md).
+Level distribution so far — **observation, not a target**: 16 `STANDARD`,
+4 `MINIMAL`, 1 `DEEP`.
+
+Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
+[`lot-01`](docs/reports/lot-01-report.md),
+[`lot-02`](docs/reports/lot-02-report.md).
+
+### Cross-lot boundaries now load-bearing
+
+Stated in prose only; no CI rule enforces them. Later lots must honour them:
+
+- *Caching* (HTTP) = protocol headers → *HTTP Caching* (lot-17) = Symfony reverse proxy.
+- *Language detection* (HTTP) = `Accept-Language` → *User's locale guessing*
+  (lot-05) = route locale → *i18n* (lot-16) = translation.
+- *Status codes* (Lot 0.5) → *HTTP response* owns the `isRedirect()` trap.
 
 ## Known issues
 
@@ -131,21 +145,21 @@ inspection, not a passed gate.
 
 ## Next action
 
-**Lot 02 — HTTP.** 10 items; *Status codes* is already `EXAM_READY`, so 9
-remain: HTTP Specification (RFC 9110), HTTP request, HTTP response, HTTP
-methods, Cookies, Caching, Content negotiation, Language detection, Symfony
-HttpClient component.
+**Lot 03 — Symfony Architecture** (15 items): HttpFoundation component, Symfony
+Flex, License, Components and Bridges, Code organization, Request handling,
+Exception handling, Event dispatcher and kernel events, Official best practices,
+Backward compatibility promise, Deprecations best practices, Framework
+overloading, Release management and roadmap schedule, Framework interoperability
+and PSRs, Naming conventions.
 
-The `isRedirect()` / `isRedirection()` trap was deliberately deferred from
-*Status codes* and belongs to **HTTP response** — pick it up there.
+Then Lots 04 → 27 in Master Plan §14 order.
 
-Then Lots 03 → 27 in Master Plan §14 order.
+Watch — the figure the learner pays:
 
-Watch as volume grows:
-
-- level distribution — `DEEP` must never be the default (so far: 1 of 12);
-- revision time — 376 words/item without `DEEP`, 545 with;
-- `DUP-001` pressure as related items accumulate.
+- **revision burden**: ~400 words/item (376 Lot 01, 407 Lot 02); across 163
+  items that projects to roughly 65 000 words. Re-estimate per lot rather than
+  assuming linearity.
+- `DUP-001` pressure, and the three cross-lot boundaries above.
 
 ## Blocked decisions
 
