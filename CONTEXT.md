@@ -6,12 +6,28 @@
 
 ## Current lot
 
-**Lot 07 — Forms: PASS** (13 items). Lots 0 through 06 are complete.
-Next: **Lot 08 — Data Validation** (8 items).
+**Lot 08 — Data Validation: PASS** (8 items). Lots 0 through 07 are complete.
+Next: **Lot 09** in Master Plan §14 order.
+
+Before Lot 08, the six **Priority-1 corrections** of the mid-path professor
+audit were applied and merged (PR #15, merge `fc9b84f`): the SPL hierarchy
+diagram, the Twig `+` claim on strings (four occurrences, not three), the
+`getPayload()` return type, the `kernel.request` short-circuit wording, three
+cache directives that a VALIDATION question tested without teaching, and an
+early-delivery notice on the orphan Security item. Priority 2 of that audit
+remains **open and is due before the mock exams** — see *Remaining work*.
 
 ## Current branch
 
-`master`, at merge commit `0502775`. Lot 05 shipped through
+`master`, at merge commit `ff25863` (Lot 08), CI run `33549262471` and deploy
+run `33549471335` both green, **production smoke-test job `99995551340`
+success**. Lot 08 shipped through
+[PR #16](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/16);
+the audit's Priority-1 corrections through
+[PR #15](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/15)
+(merge `fc9b84f`); the Form-events count fix through
+[PR #14](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/14)
+(merge `2682415`). Earlier history: merge commit `0502775`. Lot 05 shipped through
 [PR #5](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/5),
 whose first push failed CI on the site build (issue SITE-3) and was fixed in
 `a06a14b`. Lot 04 shipped through
@@ -87,11 +103,20 @@ for evidence anchoring; toolchain verified.
 4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
    end to end, then approve or correct the architecture before scaling.
-6. ~~Lots 1–3~~ — done. Lots 4–27.
+6. ~~Lots 1–3~~ — done. ~~Lots 04–08~~ — done. Lots 09–27.
+7. **Audit Priority 2, due before the mock exams.** P2.1 restore a standard
+   `Pièges d'examen` section wherever a trap already exists in prose (~50
+   courses, reorganisation only, growth < 2%); P2.2 rewrite the
+   backward-compatibility HOLDOUT stem, 0.88 similar to its VALIDATION
+   counterpart; P2.3 the `dump()`-in-prod error kind; P2.4 the positive
+   constant-expression list in *Attributes*; P2.5 the question-language policy
+   plus small FR→EN terminology blocks; P2.6 de-duplicate the upgrade paragraph
+   between *Release management* and *Deprecations*; P2.7 normalise 14
+   `cognitive_level` values; P2.8 restore accents on the Lot 07 flashcards.
 
 ## Atomic items affected
 
-**163 imported, 88 EXAM_READY.**
+**163 imported, 96 EXAM_READY.**
 
 ```text
 coverage = 88 / 163 = 53.99%
@@ -189,19 +214,30 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | CRS-1 | `CRS-001` exempted every fenced code block, so moving a leaked answer into a fence silenced the rule while leaving the answer fully visible on the published page. Lot 05 did exactly that. | — | **Resolved** — the exemption is now scoped to the course's own item; another item's answer is a leak fence or not, with tests both ways |
 | DOC-1 | The Symfony 8.0 documentation page for HttpFoundation describes `InputBag::get()` on an array parameter loosely; the source throws `BadRequestException`. A Lot 03 draft followed the page and was wrong. | Medium | Open — for any behavioural claim, read `symfony/symfony` at the pinned SHA, not the docs prose |
 | CNT-1 | The Lot 07 *Form events* course claimed "six événements" in two places, and the matrix learning outcome and level justification repeated it. `FormEvents` declares five constants and five aliases; the course's own list enumerated five. The count came from the eight numbered steps, which interleaved the three transformations with the events. Caught by the owner reading the page. | Medium | **Resolved** — corrected in all four places against `symfony/symfony` 8.0 `FormEvents.php`, and the list now numbers the events only, with the transformations as indented lines. Lesson: a stated count is a factual claim and must be read off the source, never off the narrative around it |
+| AUD-1 | Mid-path professor audit of all 88 EXAM_READY items: 2 BLOCKER and 5 MAJOR findings. Two courses taught a wrong fact (SPL hierarchy; Twig `'a' + 'b'` = 0, also drilled by a flashcard), one DEEP course contradicted its own VALIDATION question, one VALIDATION question tested three untaught cache directives, and a published Security item declared prerequisites that do not exist. | High | **Priority 1 resolved** in PR #15 (`fc9b84f`); Priority 2 open, due before the mock exams |
+| AUD-2 | Grep during the P1 fix found a **fourth** `'a' + 'b'` occurrence the audit had missed (a distractor explanation), and the flashcard's `explanation` field described the logical operators rather than its own front and back. | Medium | **Resolved** — a textual sweep now accompanies every content correction; a green test suite does not prove an old wording is gone |
+| AUD-3 | `QST-5pybfq9ra7ff` cited RFC 9110 for `Cache-Control`, which is RFC 9111, and for `stale-while-revalidate`, which is RFC 5861 and appears in neither. Verified: RFC 9111 contains `must-revalidate` 23 times and the other two zero times. | Medium | **Resolved** — citation corrected on both the course and the question |
+| CRS-2 | `CRS-001` fired in Lot 08: the correct answer of `QST-mhm4eqjg10s2` reproduced the course's callback signature line verbatim. | — | **Resolved** — the **question** was rewritten to ask why the static form shifts its arguments; the course was untouched and nothing was moved into a fence |
+| PR-1 | The first version of the Lot 08 pull-request description claimed all eight new courses carried a dedicated `Pièges d'examen` section. Six did. | Minor | **Resolved** in `0cde1d5` — the two remaining courses had their existing inline traps promoted into the standard section, which is also the P2.1 objective. Lesson: verify a claim about the artefact against the artefact before writing it down |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-07-forms`, every command run with
+Locally, on PHP 8.4.19, on `lot-08-data-validation` (`0cde1d5`), every command run with
 `set -o pipefail` and its exit code checked:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 260 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 53.99% (88/163 EXAM_READY)                          (exit 0)
-php bin/cert build              → docs tree + coverage.json, exam.json, practice.json           (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 805 assertions)                                 (exit 0)
-npm --prefix website run build  → SUCCESS                                                      (exit 0)
-npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                        (exit 0)
+composer validate --strict                                                      (exit 0)
+php -l on src bin tests                                                         (exit 0)
+vendor/bin/yaml-lint docs/syllabus content --parse-tags                         (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 287 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 58.9% (96/163 EXAM_READY)                          (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 813 assertions)                                (exit 0)
+php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
+npm --prefix website run typecheck → tsc --noEmit clean                                        (exit 0)
+npm --prefix website run build  → [SUCCESS] Generated static files, onBrokenLinks: 'throw'     (exit 0)
+npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
+artefact                        → no server-side code; practice=LEARNING(196), exam=VALIDATION(74);
+                                  17 holdout questions, none in either payload
 ```
 
 `CRS-001` blocked the first draft once, on `TransformationFailedException` — a
@@ -219,26 +255,32 @@ Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 ## Next action
 
-**Lot 08 — Data Validation** (8 items). Open it on a dedicated branch with a
-Pull Request, per §15.
+**Lot 09**, in Master Plan §14 order. Dedicated branch, Pull Request, CI,
+controlled merge, deploy, production smoke test, per §15.
 
-Boundary to draw first: constraints are declared on the **object**, and the form
-merely reports them. Lot 07's *Forms handling* owns `isValid()` and the
-submission sequence; Lot 08 owns constraints, groups, validators and the
-`Validator` service. Expect several `MINIMAL` items once that seam is cut.
+`POOL-002` stays in force: a lot is not finished until every `STANDARD` or
+`DEEP` item carries a VALIDATION question.
 
-`POOL-002` is in force: the lot is not finished until every `STANDARD` or `DEEP`
-item carries a VALIDATION question.
-
-Then Lots 09 → 27 in Master Plan §14 order.
+The Lot 08 boundary held as planned and is now load-bearing: Lot 07's *Form
+events* owns **when** validation runs (`POST_SUBMIT`); Lot 03's *Framework
+overloading* owns the **bundle-level** merge; Lot 08 owns constraints, scopes,
+groups, sequences, callbacks and the violations builder — and *PHP object
+validation* names the Lot 03 boundary explicitly so the two merges are not
+conflated. The forecast of "several MINIMAL items" was wrong: the observed
+distribution is 7 STANDARD and 1 DEEP, because every item turned out to need a
+distinction or an application rather than recognition alone.
 
 Watch — the figure the learner pays:
 
-- **revision burden**: 30 795 body words for 88 items, ~350 per item. Per-lot:
-  376, 407, 397, 329, 286, 329, **341**. Projection to 163 items ≈ 57 000 words.
-- **French questions**: 21 of 260, and the last three lots added none. The exam
-  is sat in English (§5), so this is drift toward the exam language — but it
-  should be a decision, not an accident.
+- **revision burden**: 34 377 body words for 96 items, ~358 per item. Per-lot:
+  376, 407, 397, 329, 286, 329, 341, **420**. Projection to 163 items
+  ≈ 58 000 words. Lot 08 is the heaviest per item so far, and the reason is
+  legible: no item fell to MINIMAL.
+- **French questions**: 21 of 287, and the last four lots added none. The
+  policy is now **decided** rather than drifting — P2.5 of the audit keeps
+  English as the question language, since the exam is sat in English (§5), and
+  replaces the idea of a French quota with small FR→EN terminology blocks in
+  the most terminology-dense courses. Not yet applied.
 
 ## Blocked decisions
 
