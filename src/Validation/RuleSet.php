@@ -19,6 +19,7 @@ use CertPath\Validation\Rule\QuestionIntegrityRule;
 use CertPath\Validation\Rule\ReferentialIntegrityRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
 use CertPath\Validation\Rule\UniqueItemIdsRule;
+use CertPath\Validation\Rule\ValidationPoolCoverageRule;
 use CertPath\Validation\Rule\VersionContaminationRule;
 
 /**
@@ -45,6 +46,7 @@ final class RuleSet
             new CourseIntegrityRule(),
             new FlashcardIntegrityRule(),
             new HoldoutIsolationRule(),
+            new ValidationPoolCoverageRule(),
             new OutOfScopeContaminationRule(),
             new DuplicateQuestionRule(),
             new ReferentialIntegrityRule(),

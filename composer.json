@@ -34,6 +34,13 @@
             "@validate-content",
             "@coverage",
             "@test"
+        ],
+        "gate-full": [
+            "@validate-content",
+            "@coverage",
+            "@test",
+            "@build",
+            "npm --prefix website run gate"
         ]
     }
 }

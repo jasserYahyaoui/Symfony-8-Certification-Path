@@ -49,7 +49,14 @@ final readonly class DocsGenerator
         PayloadBuilder::assertNoHoldoutLeak($practice, $content);
 
         $written[] = $this->writeJson($dataDir.'/practice.json', $practice);
-        $written[] = $this->writeJson($dataDir.'/exam.json', $this->payloads->examPayload($content));
+
+        // ADR-0006: the exam-mode bank is the VALIDATION pool. The holdout is
+        // never deployed, so both payloads are checked against the same
+        // invariant.
+        $exam = $this->payloads->examPayload($content);
+        PayloadBuilder::assertNoHoldoutLeak($exam, $content);
+
+        $written[] = $this->writeJson($dataDir.'/exam.json', $exam);
 
         $report = $this->coverage->calculate($content->matrix);
 

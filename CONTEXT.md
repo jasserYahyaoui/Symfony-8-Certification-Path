@@ -6,9 +6,11 @@
 
 ## Current lot
 
-**Lot 05 — Routing: PASS** (11 new items; the 12th was the Golden Slice's).
-Lots 0 through 04 are complete. Next: **Lot 06 — Templating with Twig**
-(14 items).
+**Hardening pass, after Lot 05.** Four corrections requested by the owner:
+`CRS-001` scoped so a fence cannot hide another item's answer; the accessibility
+audit made to refuse a stale build; the `VALIDATION` pool defined and filled
+(ADR-0006); `CLAUDE.md` updated with all three as permanent rules. Lots 0
+through 05 are complete. Next: **Lot 06 — Templating with Twig** (14 items).
 
 ## Current branch
 
@@ -59,7 +61,7 @@ for evidence anchoring; toolchain verified.
 - **Coverage engine (§3.5):** counts an item only when `exam_ready`, lifecycle
   status *and* verification status agree. Reports UNDEFINED, not `0%`, when the
   denominator does not exist.
-- **Validation (§12):** 14 mandatory rules, listed in `src/Validation/RuleSet.php`.
+- **Validation (§12):** 17 mandatory rules, listed in `src/Validation/RuleSet.php`.
 - **Review scheduler (§6):** deterministic, specified in
   [`docs/policy/review-algorithm.md`](docs/policy/review-algorithm.md), pinned
   by tests, with no efficacy claim attached.
@@ -184,45 +186,31 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | SITE-1 | Prism's `twig` language cannot be enabled: it assumes a global `Prism` the Docusaurus 3.10 SSR bundle does not provide. `php`, `yaml` and `bash` work. | Minor | Open — fence Twig samples as `html` in Lot 6 (ADR-0003) |
 | SITE-2 | A bare `<` or `{` in a canonical matrix field broke the MDX build (`config/packages/<env>/`). | — | **Resolved** in Lot 03 — `DocsGenerator::mdxText()` escapes them; two regression tests pin the behaviour, authored course bodies stay exempt |
 | SITE-3 | A bare `{` in a flashcard front or back broke the MDX build: `<details>`/`<summary>` is a JSX context and `htmlspecialchars` does not escape braces. Two Lot 05 cards quote route paths (`/{page}/blog`). | — | **Resolved** in Lot 05 — both escapings composed for that context, with a regression test asserting no generated `<summary>` carries a bare `{` |
-| PROC-1 | A gate command piped through `tail` and chained with `&&` hides its failure: `&&` reads the exit status of the pipeline's last command. A failed site build was reported as SUCCESS in Lot 05, and the accessibility audit then ran against the previous lot's build directory. | Medium | Open — run every gate command with `set -o pipefail` and check the exit code before reporting anything |
+| PROC-1 | A gate command piped through `tail` and chained with `&&` hides its failure: `&&` reads the exit status of the pipeline's last command. A failed site build was reported as SUCCESS in Lot 05, and the accessibility audit then ran against the previous lot's build directory. | Medium | **Resolved** — `npm run a11y` refuses a build older than its inputs, `composer gate-full` builds before auditing, and CLAUDE.md carries the rule |
+| CRS-1 | `CRS-001` exempted every fenced code block, so moving a leaked answer into a fence silenced the rule while leaving the answer fully visible on the published page. Lot 05 did exactly that. | — | **Resolved** — the exemption is now scoped to the course's own item; another item's answer is a leak fence or not, with tests both ways |
 | DOC-1 | The Symfony 8.0 documentation page for HttpFoundation describes `InputBag::get()` on an array parameter loosely; the source throws `BadRequestException`. A Lot 03 draft followed the page and was wrong. | Medium | Open — for any behavioural claim, read `symfony/symfony` at the pinned SHA, not the docs prose |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-05-routing`:
+Locally, on PHP 8.4.19, on `hardening-crs001-gate-validation`, every command run
+with `set -o pipefail` and its exit code checked:
 
 ```text
-php bin/cert validate           → 16 rules, 163 official items, 134 questions, no violations
-php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)
-php bin/cert build              → docs tree + coverage.json, exam.json, practice.json
-vendor/bin/phpunit              → OK (75 tests, 646 assertions)
-npm --prefix website run build  → SUCCESS
-npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
+php bin/cert validate           → 17 rules, 163 official items, 180 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)                          (exit 0)
+php bin/cert build              → docs tree + coverage.json, exam.json, practice.json           (exit 0)
+vendor/bin/phpunit              → OK (80 tests, 654 assertions)                                 (exit 0)
+npm --prefix website run build  → SUCCESS                                                      (exit 0)
+npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                        (exit 0)
 ```
 
-The site build **failed** on the first attempt of this lot and was briefly
-reported as a success (issue PROC-1). Cause: flashcard fronts reach a JSX
-context inside `<details>`, and `htmlspecialchars` does not escape `{`, so a
-route path such as `/{page}/blog` was read as a JavaScript expression. Fixed in
-the generator with a regression test; the figures above were re-run afterwards
-with `set -o pipefail`.
+Payloads after the change: `practice.json` = LEARNING, 123 questions.
+`exam.json` = **VALIDATION**, 46 questions. No payload carries a holdout
+question, and `PayloadBuilder::assertNoHoldoutLeak()` now runs against both.
 
-`CRS-001` blocked the first draft of Lot 05: the *Routing component* course
-reproduced, in prose, the correct answer of a Lot 03 question. Fixed by moving
-the dependency list into a fenced block, which the rule exempts. Second
-cross-lot leak the rule has caught; both were accidental.
-
-Holdout isolation checked against the built payload: the 11 holdout ids are
-absent from `practice.json` and present in `exam.json` — **functional isolation,
-not confidentiality** (ADR-0005).
-
-In CI on Lot 05's merge commit `0502775`: run `33508164314` (CI) **success**,
-and run `33508164385` (Deploy) **success** across build, deploy and the
-production smoke test.
-
-In CI on Lot 04's merge commit `5dd75d7`: run `33505523877` (CI) **success**,
-and run `33505523840` (Deploy) **success** across build, deploy and the
-production smoke test (job `99848829928`).
+Coverage is unchanged at 37.42% and that is correct: this pass added no official
+item. It added the exam-mode evidence that 46 already-EXAM_READY items were
+claiming without being able to produce.
 
 ## Next action
 
@@ -264,10 +252,14 @@ Watch — the figure the learner pays:
 ## Blocked decisions
 
 **Deferred, with a deadline:** holdout distribution — see
-[ADR-0005](docs/adr/0005-holdout-distribution-deferred.md). Holdout answers are
-publicly readable in `exam.json`, so §22's "protected unseen holdout assessment"
-cannot be claimed. Does not block content lots. **A decision is required before
-Lot 27 begins.**
+[ADR-0005](docs/adr/0005-holdout-distribution-deferred.md), amended by
+[ADR-0006](docs/adr/0006-exam-mode-serves-the-validation-pool.md). The holdout
+is **no longer deployed in any payload**: Exam Mode serves the `VALIDATION`
+pool. But this repository is **public**, so holdout answers stay readable in
+`content/questions/*.yml`. The exposure narrowed from *served by the
+application* to *readable in the source*; §22's "protected unseen holdout
+assessment" still cannot be claimed. Does not block content lots. **A decision
+is required before Lot 27 begins.**
 
 **Process:** Lots 0–02 were committed directly to `master` on the owner's
 instruction — a documented deviation from §15, not an inapplicable step. Lot 03

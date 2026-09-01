@@ -10,13 +10,77 @@
 import {chromium} from 'playwright';
 import {AxeBuilder} from '@axe-core/playwright';
 import {createServer} from 'node:http';
-import {readFile} from 'node:fs/promises';
+import {readFile, stat, readdir} from 'node:fs/promises';
 import {extname, join} from 'node:path';
 
 const ROOT = new URL('../build/', import.meta.url).pathname;
+const WEBSITE = new URL('../', import.meta.url).pathname;
+const REPO = new URL('../../', import.meta.url).pathname;
 const PORT = 4599;
 const BASE = `/Symfony-8-Certification-Path`;
 const TYPES = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml'};
+
+/**
+ * Refuse to audit a build that is older than its inputs.
+ *
+ * A passing audit is only evidence about the artefact it actually loaded. In
+ * Lot 05 the site build failed, the failure was hidden by a `tail`, and this
+ * script happily audited the PREVIOUS lot's build directory and reported 6/6
+ * PASS — a real result about the wrong bytes. The gate now refuses rather than
+ * producing a reassuring number nobody can trust.
+ */
+async function newestMtime(dir, skip = new Set(['node_modules', 'build', '.git', '.docusaurus', 'vendor'])) {
+  let newest = 0;
+  let entries;
+  try {
+    entries = await readdir(dir, {withFileTypes: true});
+  } catch {
+    return 0;
+  }
+  for (const entry of entries) {
+    if (entry.name.startsWith('.') || skip.has(entry.name)) continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      newest = Math.max(newest, await newestMtime(full, skip));
+    } else {
+      const {mtimeMs} = await stat(full);
+      newest = Math.max(newest, mtimeMs);
+    }
+  }
+  return newest;
+}
+
+async function assertBuildIsFresh() {
+  let built;
+  try {
+    ({mtimeMs: built} = await stat(join(ROOT, 'index.html')));
+  } catch {
+    console.error('\nFAIL  no build to audit: website/build/index.html is missing.');
+    console.error('      Run `php bin/cert build && npm --prefix website run build` first.\n');
+    process.exit(2);
+  }
+
+  // What the rendered pages are built from: the generated docs tree and the
+  // payloads, the React pages and CSS, and the Docusaurus configuration.
+  const inputs = await Promise.all([
+    newestMtime(join(WEBSITE, 'docs')),
+    newestMtime(join(WEBSITE, 'static')),
+    newestMtime(join(WEBSITE, 'src')),
+    newestMtime(join(REPO, 'content')),
+    stat(join(WEBSITE, 'docusaurus.config.ts')).then((s) => s.mtimeMs, () => 0),
+  ]);
+  const newestInput = Math.max(...inputs);
+
+  if (newestInput > built) {
+    const age = Math.round((newestInput - built) / 1000);
+    console.error(`\nFAIL  stale build: an input is ${age}s newer than website/build/index.html.`);
+    console.error('      Auditing it would report on bytes that are not the ones under review.');
+    console.error('      Run `php bin/cert build && npm --prefix website run build` first.\n');
+    process.exit(2);
+  }
+}
+
+await assertBuildIsFresh();
 
 const server = createServer(async (req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]).replace(BASE, '') || '/';

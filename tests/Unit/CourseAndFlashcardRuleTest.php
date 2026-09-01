@@ -49,10 +49,12 @@ final class CourseAndFlashcardRuleTest extends TestCase
     }
 
     /**
-     * The same text inside a fenced code block is not a leak: a course must be
-     * able to show correct code, and a question must be able to test it.
+     * The same text inside a fenced code block is not a leak **when the question
+     * belongs to the same official item**: a course must be able to show the
+     * code its own item teaches, and a question on that item must be able to
+     * test it.
      */
-    public function testCourseShowingTheSameTextInsideACodeFenceIsAllowed(): void
+    public function testCourseShowingItsOwnItemsAnswerInsideACodeFenceIsAllowed(): void
     {
         $body = "Use the right import:\n\n```php\n".self::LEAKED_ANSWER."\n```\n\nThat is all.";
 
@@ -72,6 +74,42 @@ final class CourseAndFlashcardRuleTest extends TestCase
         $content = self::content(courseBody: $body, correctChoiceText: self::LEAKED_ANSWER);
 
         self::assertCount(1, (new CourseIntegrityRule())->check($content));
+    }
+
+    /**
+     * The fence exemption is scoped to the course's own item. A correct answer
+     * belonging to ANOTHER item is a leak wherever it appears: the learner
+     * reading the page sees it either way, and the fence only hides it from
+     * this rule.
+     *
+     * Lot 05 proved the point — a routing course quoted a composer.json excerpt
+     * that happened to contain the verbatim answer to a Lot 03 deprecation
+     * question, and moving the string into a fence made the violation vanish
+     * from the report while leaving it fully visible on the published page.
+     */
+    public function testAnotherItemsAnswerInsideACodeFenceIsStillALeak(): void
+    {
+        $courseItem = ItemFactory::make();
+        $otherItem = ItemFactory::make();
+
+        $body = "Dependencies:\n\n```json\n".self::LEAKED_ANSWER."\n```\n\nThat is all.";
+
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$courseItem, $otherItem]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $otherItem->id->value,
+                'choices' => [
+                    new Choice(Id::mint(EntityType::Choice), self::LEAKED_ANSWER, true),
+                    new Choice(Id::mint(EntityType::Choice), 'Something else', false, 'Wrong because.'),
+                ],
+            ])],
+            courses: [self::course($courseItem->id->value, $body)],
+        );
+
+        $violations = (new CourseIntegrityRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertSame('CRS-001', $violations[0]->ruleId);
     }
 
     public function testShortChoicesNeverCountAsLeaks(): void

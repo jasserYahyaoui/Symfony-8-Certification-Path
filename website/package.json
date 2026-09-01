@@ -10,7 +10,8 @@
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
     "typecheck": "tsc --noEmit",
-    "a11y": "node tools/a11y-audit.mjs"
+    "a11y": "node tools/a11y-audit.mjs",
+    "gate": "npm run build && npm run a11y"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
