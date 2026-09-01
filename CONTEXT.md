@@ -211,6 +211,11 @@ useful fact. Nothing was moved into a fence.
 Pools verified against the built payloads: `practice.json` = LEARNING (179),
 `exam.json` = **VALIDATION** (66), no holdout question in either.
 
+In CI on the merge commit `e3e091c`: run `33532924201` (CI) **success**, and run
+`33532924208` (Deploy) **success** across build (`99940220219`), deploy
+(`99940558830`) and the **production smoke test** (`99940629755`).
+Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
+
 ## Next action
 
 **Lot 08 — Data Validation** (8 items). Open it on a dedicated branch with a

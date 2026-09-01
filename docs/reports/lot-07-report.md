@@ -113,6 +113,19 @@ npm --prefix website run a11y      6/6 surfaces PASS, TOTAL VIOLATIONS: 0       
 Pools verified against the built payloads: `practice.json` = LEARNING (179),
 `exam.json` = **VALIDATION** (66), no holdout question in either.
 
+### Delivery evidence
+
+| | |
+|---|---|
+| Lot commit | `2889326` on `lot-07-forms` |
+| Pull Request | [#12](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/12) |
+| CI on the PR head | **Technical gate: success** |
+| Merge commit | `e3e091c` on `master` |
+| CI on `master` | run `33532924201` — **success** |
+| Deploy | run `33532924208`, job `99940220219` build + job `99940558830` deploy — **success** |
+| Production smoke test | job `99940629755` — **success** |
+| Site | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/ |
+
 ## Gates
 
 | Gate | Result |
