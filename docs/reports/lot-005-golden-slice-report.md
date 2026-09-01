@@ -194,6 +194,7 @@ for.
 |---|---|
 | **Technical** | **PASS** — build, 69 tests, 16 content rules, lint, typecheck, pool isolation, site build |
 | **Pedagogical** | **PASS** — see below |
+| **Accessibility** | **PASS** — `npm --prefix website run a11y`, 0 violations across 6 surfaces (axe WCAG 2.1 AA + structural). This lot changed rendered UI (`<details>` flashcards; first real questions in Practice/Exam), audited retroactively 2026-09-01. |
 | **Content Budget** | **PASS** — see below |
 
 ### Pedagogical Gate detail

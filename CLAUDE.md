@@ -55,6 +55,23 @@ rule from `RuleSet::mandatory()` is a governance decision, not maintenance.
 - end with a compact, self-contained summary that a reader without repository
   access can audit.
 
+**Every lot ships through a branch and a Pull Request (§15).** The plan's
+per-lot workflow is `… > PULL REQUEST > MERGE TO MASTER > DEPLOY`. Committing
+straight to `master` is **never** compliant by default and must never be
+reported as `NOT_APPLICABLE`: it is a **documented process deviation**, recorded
+as such in the lot report with the instruction that authorised it. Lots 0, 0.5,
+01 and 02 were delivered this way on the owner's explicit instruction and are
+recorded accordingly; history is not rewritten. From Lot 03 onward: branch,
+push, open a PR, let CI run, then merge.
+
+**Accessibility is a gate, not a note (§13, §17).** Run
+`npm --prefix website run a11y` (axe-core, WCAG 2.1 AA, plus single-h1,
+heading-order and focus-affordance checks) whenever a lot changes anything that
+reaches a rendered page — including the generator, the CSS and the React pages.
+`MISSING` is not an acceptable gate value: it is `PASS`, or `NOT_APPLICABLE`
+justified by a diff showing no UI-reaching change. CI runs the audit on every
+push.
+
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,
 permissions or secrets, an unresolved source contradiction, a disabled test or

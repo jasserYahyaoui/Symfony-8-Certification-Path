@@ -83,6 +83,15 @@ jobs:
       - name: Build the documentation site
         run: npm --prefix website run build
 
+      # Accessibility gate (§13, §17). Audits the built artefact with axe-core
+      # against WCAG 2.1 AA, plus structural checks axe cannot make (single h1,
+      # no heading-level skips, focus affordance on every control).
+      - name: Install Chromium for the accessibility audit
+        run: npx --prefix website playwright install --with-deps chromium
+
+      - name: Accessibility audit
+        run: npm --prefix website run a11y
+
       - name: Deployed artefact contains no server-side code
         run: |
           if grep -rIl --include='*.html' --include='*.js' --include='*.json' '<?php' website/build/; then

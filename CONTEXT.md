@@ -163,8 +163,12 @@ Watch — the figure the learner pays:
 
 ## Blocked decisions
 
-**None.** Every blocker raised during Lot 0 is closed:
-B-1 (syllabus), B-2 (architecture), B-5 (Twig version), B-6 (Pages).
+**Deferred, with a deadline:** holdout distribution — see
+[ADR-0005](docs/adr/0005-holdout-distribution-deferred.md). Holdout answers are
+publicly readable in `exam.json`, so §22's "protected unseen holdout assessment"
+cannot be claimed. Does not block content lots. **A decision is required before
+Lot 27 begins.**
 
-Open non-blocking risks are tracked in the Known issues table above and in
-[`docs/reports/syllabus-and-lot-audit.md`](docs/reports/syllabus-and-lot-audit.md).
+**Process:** Lots 0–02 were committed directly to `master` on the owner's
+instruction — a documented deviation from §15, not an inapplicable step. From
+Lot 03 onward: branch, Pull Request, CI, controlled merge.

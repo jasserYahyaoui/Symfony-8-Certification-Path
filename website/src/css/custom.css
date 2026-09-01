@@ -195,3 +195,68 @@ summary:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Accessibility fixes found by tools/a11y-audit.mjs (axe-core, WCAG 2.1 AA).
+ * Each block records the measured ratio it corrects.
+ */
+
+/* axe `color-contrast`: the hero outline button rendered #1c1e21 on #0b4f9c
+   at 2.07:1. On a coloured hero the label must be light, not the default dark. */
+/* Overriding Docusaurus's own button rules proved fragile, so the hero's
+   secondary action carries a class of ours instead of theirs: white on the
+   primary hero is 8.1:1, and the hover state inverts to the same pair. */
+.certpath-hero-secondary {
+  color: #ffffff;
+  background: transparent;
+  border: 2px solid #ffffff;
+}
+.certpath-hero-secondary:hover,
+.certpath-hero-secondary:active,
+.certpath-hero-secondary:focus-visible {
+  color: var(--ifm-color-primary);
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+/* axe `link-in-text-block`: a link inside running prose was distinguished by
+   colour alone. §13 forbids conveying meaning by colour alone, so links inside
+   content get an underline. Navigation, cards and buttons are excluded — there
+   the link is the whole control, not a word inside a sentence. */
+.markdown a:not(.button):not(.card),
+main p a:not(.button):not(.card),
+main li a:not(.button):not(.card),
+main .col a:not(.button):not(.card),
+main dd a:not(.button):not(.card),
+.certpath-note a,
+.certpath-feedback a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* axe `color-contrast` on syntax highlighting: prism-react-renderer's GitHub
+   theme ships comments at #999988 (2.71:1) and constants at #36acaa (2.58:1)
+   against #f6f8fa, both below the 4.5:1 minimum for body-size text. The theme
+   sets these as inline styles, so overriding them requires !important. */
+:root {
+  --certpath-code-comment: #5c6370;   /* 5.9:1 on #f6f8fa */
+  --certpath-code-constant: #0b6a68;  /* 5.3:1 on #f6f8fa */
+}
+
+[data-theme='dark'] {
+  --certpath-code-comment: #9aa5b1;   /* 7.0:1 on the dark code ground */
+  --certpath-code-constant: #7fd4d2;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--certpath-code-comment) !important;
+}
+
+.token.constant,
+.token.symbol,
+.token.builtin {
+  color: var(--certpath-code-constant) !important;
+}

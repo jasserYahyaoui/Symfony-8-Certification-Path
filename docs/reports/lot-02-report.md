@@ -148,12 +148,35 @@ The distinction matters: had it been "solved" by tagging the two questions
 SameSite until someone disabled it — and a rule everyone routes around has
 stopped protecting anything.
 
+## Accessibility audit (retroactive, covers Lots 0.5–02)
+
+```bash
+php bin/cert build && npm --prefix website run build
+npm --prefix website run a11y        # tools/a11y-audit.mjs
+```
+
+axe-core against WCAG 2.1 AA on six surfaces — landing, docs index, a generated
+item page carrying `<details>` flashcards, Practice, Exam, Progression — plus
+structural checks axe cannot make: exactly one `h1`, no heading-level skips, and
+a focus affordance on every control.
+
+**Result: 0 violations.** Three real defects were found and fixed first:
+
+| Violation | Measured | Fix |
+|---|---|---|
+| `color-contrast` — hero outline button | 2.07:1 (`#1c1e21` on `#0b4f9c`) | Own class rather than overriding Docusaurus's cascade; white on primary = 8.1:1 |
+| `link-in-text-block` — 3 pages | colour-only link distinction | Underline links inside prose; §13 forbids meaning by colour alone |
+| `color-contrast` — Prism tokens, 26 nodes | comments 2.71:1, constants 2.58:1 | Accessible token colours (5.9:1 / 5.3:1), light and dark |
+
+The audit now runs in CI on every push, so this cannot regress silently.
+
 ## Gates
 
 | Gate | Result |
 |---|---|
 | **Technical** | **PASS** |
 | **Pedagogical** | **PASS** |
+| **Accessibility** | **NOT_APPLICABLE** — diff `dfd9310` touches no UI-reaching file. The audit tooling landed in this lot; results in the section above. |
 | **Content Budget** | **PASS** |
 
 `DO NOT SCALE` not triggered.

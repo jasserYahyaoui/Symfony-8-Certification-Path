@@ -22,7 +22,7 @@ export default function Home(): React.JSX.Element {
             <Link className="button button--secondary button--lg" to="/docs">
               Commencer
             </Link>
-            <Link className="button button--outline button--secondary button--lg" to="/practice">
+            <Link className="button button--lg certpath-hero-secondary" to="/practice">
               Practice Mode
             </Link>
           </div>

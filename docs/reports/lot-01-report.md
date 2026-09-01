@@ -146,6 +146,7 @@ stops working.
 |---|---|
 | **Technical** | **PASS** |
 | **Pedagogical** | **PASS** |
+| **Accessibility** | **NOT_APPLICABLE** — diff `6c80d03` touches no UI-reaching file: no `website/src/**`, no `custom.css`, no `DocsGenerator.php`. Content only, rendered by already-audited components. |
 | **Content Budget** | **PASS** |
 
 ### Content Budget detail
