@@ -25,32 +25,41 @@ mécanisme qui rend un formulaire dynamique.
 
 Les trois couches de données du composant Form, et le dispatcher d'événements.
 
-## Deux moments, six événements
+## Deux moments, cinq événements
 
 Le cycle se divise en deux phases : la **mise en place** de la donnée initiale,
 et la **soumission**.
 
 ### Mise en place
 
+Les entrées numérotées sont les événements. Les lignes en retrait entre elles ne
+sont pas des événements : ce sont les transformations que le composant effectue.
+
 1. **`PRE_SET_DATA`** — la donnée du **modèle**, avant toute transformation. Les
    champs ne sont pas encore tous construits : **c'est ici qu'on en ajoute ou
    qu'on en retire** en fonction de la donnée initiale.
-2. *(les trois représentations sont calculées)*
-3. **`POST_SET_DATA`** — les trois représentations existent. Bon endroit pour
+
+   *→ le composant calcule les trois représentations*
+
+2. **`POST_SET_DATA`** — les trois représentations existent. Bon endroit pour
    décider en connaissant l'état complet, par exemple « l'objet est-il neuf ou
    existant ? ».
 
 ### Soumission
 
-4. **`PRE_SUBMIT`** — la donnée **brute de la requête**, chaînes et tableaux, non
+3. **`PRE_SUBMIT`** — la donnée **brute de la requête**, chaînes et tableaux, non
    transformée. C'est le moment pour assainir une valeur, ou pour ajouter des
    champs d'après ce que l'utilisateur a envoyé — le cas des listes dépendantes.
-5. *(vue → normalisée)*
-6. **`SUBMIT`** — la donnée **normalisée**. On peut encore changer les valeurs,
+
+   *→ le composant transforme la vue en normalisée*
+
+4. **`SUBMIT`** — la donnée **normalisée**. On peut encore changer les valeurs,
    mais **la structure est verrouillée** : à partir d'ici, plus aucun champ ne
    peut être ajouté ni retiré.
-7. *(normalisée → modèle)*
-8. **`POST_SUBMIT`** — la donnée entièrement transformée. La structure de *ce*
+
+   *→ le composant transforme la normalisée en modèle*
+
+5. **`POST_SUBMIT`** — la donnée entièrement transformée. La structure de *ce*
    formulaire est figée. **La validation s'exécute par un écouteur sur cet
    événement**, ce qui explique qu'un objet peuplé et validé soit disponible une
    fois la soumission terminée.
@@ -101,7 +110,7 @@ injectable.
 
 ## Points clés
 
-- Six événements, deux phases, un ordre fixe.
+- Cinq événements, deux phases, un ordre fixe.
 - Ajout et retrait de champs : `PRE_SET_DATA` ou `PRE_SUBMIT` uniquement.
 - `SUBMIT` verrouille la structure ; `POST_SUBMIT` porte la validation.
 - Le choix se fait sur l'origine de la donnée : objet ou requête.
