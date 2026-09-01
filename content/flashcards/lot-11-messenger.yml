@@ -1,0 +1,98 @@
+# Lot 11 — Messenger flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-7wbtaz9pzty2
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  front: dispatch() signifie-t-il que le message est traite ?
+  back: Non. En asynchrone, dispatch() rend la main avant tout traitement ; le resultat ne se lit que
+    sur l'enveloppe retournee, en synchrone.
+  explanation: Le bus confie le message ; c'est le routage qui decide de la suite.
+  memorization_justification: Le verbe suggere une execution, alors qu'il s'agit d'une remise.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-g0g67y6cwvv1
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  front: Que devient un message qui n'est route vers aucun transport ?
+  back: Il est traite immediatement, de facon synchrone — sans erreur ni avertissement.
+  explanation: 'C''est ce qui rend une cle de routage erronee silencieuse : le message continue d''etre
+    traite, mais dans la requete.'
+  memorization_justification: On attend une mise en attente ou une erreur ; il n'y a ni l'une ni l'autre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-c1z191gbhw72
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  front: Qu'est-ce qui associe un handler a son message ?
+  back: 'Le type de l''argument de __invoke(), plus l''attribut #[AsMessageHandler]. Aucune interface,
+    aucune table de correspondance.'
+  explanation: Plusieurs handlers peuvent traiter le meme message ; tous sont appeles.
+  memorization_justification: On cherche une interface ou une configuration qui n'existent pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-sh7aqjgp5mzt
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  front: Apres un deploiement, pourquoi un worker execute-t-il encore l'ancien code ?
+  back: Parce qu'il a charge le code a son demarrage. messenger:stop-workers demande un arret apres le
+    message courant ; le superviseur relance.
+  explanation: 'La commande ne tue pas le processus : elle pose un signal lu entre deux messages.'
+  memorization_justification: Le worker etant invisible, on oublie qu'il n'est pas redemarre par le deploiement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-7hfxx70j2rhg
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  front: 'max_retries: 3 — combien de tentatives au total ?'
+  back: 'Quatre : la tentative initiale plus trois reessais, avec un delai croissant.'
+  explanation: Sans failure_transport, le message est definitivement perdu une fois les tentatives epuisees.
+  memorization_justification: Le nom de l'option fait compter la tentative initiale dans le total.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-c1cqrva0by96
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  front: Combien de fois la chaine de middleware s'execute-t-elle pour un message asynchrone ?
+  back: 'Deux fois : a l''envoi, puis a la reception par le worker.'
+  explanation: Un middleware qui journalise ecrit donc deux lignes ; le ReceivedStamp distingue les deux
+    passages.
+  memorization_justification: On raisonne comme sur une requete HTTP, qui ne traverse la chaine qu'une
+    fois.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-69qezsfk9bcg
+  official_item: OIT-16at9vwzww43
+  language: fr
+  front: WorkerRunningEvent est-il emis quand la file est vide ?
+  back: Oui, a chaque iteration de la boucle. isWorkerIdle() le signale.
+  explanation: Y placer un traitement couteux le fait donc tourner en permanence.
+  memorization_justification: Le nom laisse croire a un evenement lie au traitement d'un message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'

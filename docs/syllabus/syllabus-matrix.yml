@@ -6357,26 +6357,45 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
-    exclusion_boundaries: "Third-party transports and their usage/configuration are not included."
+    content_level: STANDARD
+    content_level_justification: >-
+      Six concepts a nommer correctement, et une semantique contre-intuitive : dispatch() remet le
+      message sans le traiter. Le candidat doit interpreter un extrait, pas reciter un glossaire.
+    learning_outcomes:
+      - Nommer les six concepts du composant
+      - Enoncer ce que dispatch() fait et ne fait pas
+      - Situer les stamps sur l'enveloppe retournee
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
+    exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "concepts"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-5gezsra1sp01"
+    flashcard_refs:
+      - "FLC-7wbtaz9pzty2"
+    question_refs:
+      - "QST-4s59dzkg2rff"
+      - "QST-2vt07hzxfmvq"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-ep0z3tq9s4wk"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-ckr67pq9npyb
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6387,26 +6406,46 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
-    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration are not included."
+    content_level: STANDARD
+    content_level_justification: >-
+      Une regle silencieuse — un message non route est traite immediatement — et deux transports
+      particuliers dont la confusion change la reponse. Application, pas reconnaissance.
+    learning_outcomes:
+      - Router un message vers un transport
+      - Enoncer ce qui arrive a un message non route
+      - Distinguer sync:// de in-memory://
+      - Reconnaitre qu'un message peut viser plusieurs transports
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
+    exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "transports and routing"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-se1jr6cxh2n7"
+    flashcard_refs:
+      - "FLC-g0g67y6cwvv1"
+    question_refs:
+      - "QST-tvzx2c0cqeh8"
+      - "QST-7ay2hp5jexwb"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-t248g7r5b5y8"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-9a8aa389vk48
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6417,26 +6456,47 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Aucune interface a implementer, un appariement par le type de l'argument, plusieurs handlers
+      legitimes, et une contrainte de serialisation qui interdit de transporter une entite. Quatre
+      faits qui decident d'une reponse.
+    learning_outcomes:
+      - Ecrire un message et son handler sans interface
+      - Enoncer ce qui apparie handler et message
+      - Enoncer l'effet de plusieurs handlers
+      - Justifier de transporter un identifiant plutot qu'une entite
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "messages and handlers"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-ckdp50w2dmy4"
+    flashcard_refs:
+      - "FLC-c1z191gbhw72"
+    question_refs:
+      - "QST-mzsqzvya53dc"
+      - "QST-sra8bgw85a7j"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-b070jhpm2vjt"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-dctf03ftx44f
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6447,26 +6507,48 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un processus long dont le modele d'exploitation est contre-intuitif : s'arreter regulierement
+      est la methode prevue, pas un palliatif. Plus un piege de deploiement et un partage d'etat
+      entre messages.
+    learning_outcomes:
+      - Consommer une file et exprimer une priorite par l'ordre
+      - Justifier les options de limite
+      - Enoncer pourquoi un worker execute l'ancien code apres un deploiement
+      - Enoncer que les services sont partages entre messages
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "workers"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-e5astysks0ty"
+    flashcard_refs:
+      - "FLC-sh7aqjgp5mzt"
+    question_refs:
+      - "QST-c0qzhz7ded47"
+      - "QST-66bdw5shb7py"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-bzvvb66w5ftd"
+      - "QST-s3zd9exve0a5"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-76x1t7z916f4
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6477,26 +6559,52 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: DEEP
+    content_level_justification: >-
+      Trois mecanismes superposes dont l'ordre decide : la strategie de reessai avec son delai
+      exponentiel, deux exceptions qui la court-circuitent dans les deux sens, et un transport
+      d'echec dont l'absence fait perdre le message. Le comptage des tentatives et l'enchainement
+      complet exigent un raisonnement multi-etapes.
+    learning_outcomes:
+      - Configurer une strategie de reessai et compter les tentatives
+      - Distinguer Unrecoverable et Recoverable
+      - Enoncer ce qui arrive sans failure_transport
+      - Decrire l'enchainement complet d'un echec
+      - Utiliser messenger:failed:*
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "retries and failures"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-hgkzgm1dh3my"
+    flashcard_refs:
+      - "FLC-7hfxx70j2rhg"
+    question_refs:
+      - "QST-0v3j82n0d4m7"
+      - "QST-9c3nh6jtp3px"
+      - "QST-8vfdesj0zh4w"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-cf72hjvcjyj2"
+      - "QST-ak25s8rfe3jy"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-amnpjdprky6z
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6507,26 +6615,46 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une chaine dont l'interruption est silencieuse, et un double passage en asynchrone que l'on ne
+      soupconne pas. Les deux se diagnostiquent, ils ne se reconnaissent pas.
+    learning_outcomes:
+      - Ecrire un middleware et continuer la chaine
+      - Enoncer l'effet d'un $stack->next() omis
+      - Enoncer que la chaine s'execute deux fois en asynchrone
+      - Situer HandleMessageMiddleware en bout de chaine
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "middleware"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-h9bfar3cxyet"
+    flashcard_refs:
+      - "FLC-c1cqrva0by96"
+    question_refs:
+      - "QST-863psghen6px"
+      - "QST-rpw04mwksvg4"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-ap1bw4et0s4j"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
   - id: OIT-16at9vwzww43
     official_topic_order: 11
     official_topic: "Messenger"
@@ -6537,26 +6665,46 @@ items:
     lot: lot-11
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un catalogue dont la forme se retient mieux que le compte, un evenement emis meme a vide, et
+      une frontiere a tenir avec le middleware : observer ou modifier.
+    learning_outcomes:
+      - Situer les evenements dans le cycle de vie
+      - Enoncer que WorkerRunningEvent est emis a vide
+      - Utiliser willRetry() pour distinguer un echec transitoire
+      - Choisir entre evenement et middleware
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
+      reussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+        branch: "8.0"
+        symbol_or_lines: "messenger events"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-3pbkhqmw83b2"
+    flashcard_refs:
+      - "FLC-69qezsfk9bcg"
+    question_refs:
+      - "QST-kwdxjwjwg4j4"
+      - "QST-1wqesyz1sknh"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-6waqrfvtwdc7"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 11 — Messenger."
 
   # ---- Topic 12: Console (9 items) ----
   - id: OIT-481gmkgbksnr
