@@ -215,6 +215,11 @@ moved into a fence.
 Pools verified against the built payloads: `practice.json` = LEARNING,
 `exam.json` = **VALIDATION**, no holdout question in either.
 
+In CI on the merge commit `dd806b7`: run `33530315787` (CI) **success**, and run
+`33530315781` (Deploy) **success** across build (`99931518573`), deploy
+(`99931882080`) and the **production smoke test** (`99931965535`).
+Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
+
 ## Next action
 
 **Lot 07 — Forms** (13 items): Form component, Forms creation, Forms handling,
