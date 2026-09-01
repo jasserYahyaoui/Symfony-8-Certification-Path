@@ -91,6 +91,41 @@ at `eea05cbfe063`, `symfony/symfony` at `6f841c00f41e`.
 - **`debug:router` lists routes in evaluation order** — which is what makes it a
   diagnostic rather than an inventory.
 
+### A build failure I first reported as a success
+
+The site build for this lot **failed**, and the first version of this report
+said it had passed. The mistake was mine and worth recording precisely, because
+it is the exact failure mode §16 exists to prevent.
+
+I ran the gate as `npm --prefix website run build 2>&1 | tail -2 && …`. Two
+things went wrong at once: `tail -2` cut the error away and showed only
+Docusaurus's version footer, which looks identical to a successful tail; and
+`&&` tested the exit status of `tail`, not of `npm`, so the chain continued.
+The accessibility audit then ran happily against the **previous** lot's
+`website/build/` directory and reported 6/6 PASS — a real result about the wrong
+artefact.
+
+The underlying defect was in the generator. Flashcard fronts and backs are
+emitted inside `<details>`/`<summary>`, which is a **JSX context** in MDX. They
+were passed through `escapeHtml()`, and `htmlspecialchars` does not touch `{`.
+Two Lot 05 flashcards quote route paths — `/{page}/blog` and `/blog/{!page}` —
+so MDX read `{page}` as a JavaScript expression:
+
+```text
+ReferenceError: page is not defined
+Can't render static file for pathname
+  "/docs/courses/lot-05/set-default-values-to-url-parameters"
+```
+
+The fix composes both escapings for that context —
+`mdxText(escapeHtml($card->front))` — and a regression test asserts that no
+generated `<summary>` line contains a bare `{`. This is the second half of the
+same defect class as Lot 03's `<env>`: canonical data reaching a context whose
+syntax it does not know about.
+
+Everything in the *Tests actually executed* block below was re-run afterwards
+with `set -o pipefail` and an explicit exit-code check.
+
 ### A CI rule caught a real leak
 
 `php bin/cert validate` refused the first draft of the *Routing component*
@@ -128,9 +163,10 @@ and two commands whose names say what they do. None of those is recall.
 ```text
 php bin/cert validate     16 rules, 163 official items, 134 questions — no violations
 php bin/cert coverage     37.42% (61/163)
-vendor/bin/phpunit        74 tests, 601 assertions — OK
-npm --prefix website run build     SUCCESS
+vendor/bin/phpunit        75 tests, 646 assertions — OK
+npm --prefix website run build     SUCCESS (exit 0, verified — see below)
 npm --prefix website run a11y      6/6 surfaces PASS, TOTAL VIOLATIONS: 0
+vendor/bin/phpunit                 75 tests, 646 assertions — OK (after the fix)
 ```
 
 Holdout isolation checked against the built payload: the 11 holdout ids are
@@ -140,7 +176,7 @@ absent from `practice.json` and present in `exam.json`.
 
 | Gate | Result |
 |---|---|
-| **Technical** | **PASS** — validate, phpunit, site build and CI all green |
+| **Technical** | **PASS** — validate, phpunit, site build and CI all green, after the generator fix described above |
 | **Pedagogical** | **PASS** — every item has outcomes, a justified level, teaching content and ≥2 questions |
 | **Accessibility** | **PASS** — `npm --prefix website run a11y`, 6/6 surfaces, 0 violations |
 | **Content Budget** | **PASS** — 286 body words per new item on average (MINIMAL 184–210, STANDARD 292–347) |
@@ -180,6 +216,10 @@ Average body words per item across the project is now 356, still falling
   target — but the project should decide whether French questions serve a
   purpose at all rather than let the share decay by accident.
 - **Cross-lot boundaries held by prose** — seventeen now.
+- **Verification hygiene.** Piping a gate command through `tail` and chaining
+  with `&&` hides failures, because `&&` reads the exit status of the last
+  command in the pipeline. Every gate command must be run with `set -o pipefail`
+  and its exit code checked. Recorded as issue PROC-1 in `CONTEXT.md`.
 
 ## Recommendation
 

@@ -180,6 +180,8 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | ENV-2 | `jasseryahyaoui.github.io` is egress-blocked from this container, so production cannot be verified from here. The smoke test therefore runs as a CI job on GitHub's runners. | Minor | By design |
 | SITE-1 | Prism's `twig` language cannot be enabled: it assumes a global `Prism` the Docusaurus 3.10 SSR bundle does not provide. `php`, `yaml` and `bash` work. | Minor | Open — fence Twig samples as `html` in Lot 6 (ADR-0003) |
 | SITE-2 | A bare `<` or `{` in a canonical matrix field broke the MDX build (`config/packages/<env>/`). | — | **Resolved** in Lot 03 — `DocsGenerator::mdxText()` escapes them; two regression tests pin the behaviour, authored course bodies stay exempt |
+| SITE-3 | A bare `{` in a flashcard front or back broke the MDX build: `<details>`/`<summary>` is a JSX context and `htmlspecialchars` does not escape braces. Two Lot 05 cards quote route paths (`/{page}/blog`). | — | **Resolved** in Lot 05 — both escapings composed for that context, with a regression test asserting no generated `<summary>` carries a bare `{` |
+| PROC-1 | A gate command piped through `tail` and chained with `&&` hides its failure: `&&` reads the exit status of the pipeline's last command. A failed site build was reported as SUCCESS in Lot 05, and the accessibility audit then ran against the previous lot's build directory. | Medium | Open — run every gate command with `set -o pipefail` and check the exit code before reporting anything |
 | DOC-1 | The Symfony 8.0 documentation page for HttpFoundation describes `InputBag::get()` on an array parameter loosely; the source throws `BadRequestException`. A Lot 03 draft followed the page and was wrong. | Medium | Open — for any behavioural claim, read `symfony/symfony` at the pinned SHA, not the docs prose |
 
 ## Tests executed and actual results
@@ -190,10 +192,17 @@ Locally, on PHP 8.4.19, on `lot-05-routing`:
 php bin/cert validate           → 16 rules, 163 official items, 134 questions, no violations
 php bin/cert coverage           → Coverage: 37.42% (61/163 EXAM_READY)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json
-vendor/bin/phpunit              → OK (74 tests, 601 assertions)
+vendor/bin/phpunit              → OK (75 tests, 646 assertions)
 npm --prefix website run build  → SUCCESS
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 ```
+
+The site build **failed** on the first attempt of this lot and was briefly
+reported as a success (issue PROC-1). Cause: flashcard fronts reach a JSX
+context inside `<details>`, and `htmlspecialchars` does not escape `{`, so a
+route path such as `/{page}/blog` was read as a JavaScript expression. Fixed in
+the generator with a regression test; the figures above were re-run afterwards
+with `set -o pipefail`.
 
 `CRS-001` blocked the first draft of Lot 05: the *Routing component* course
 reproduced, in prose, the correct answer of a Lot 03 question. Fixed by moving

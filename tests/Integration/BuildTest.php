@@ -156,6 +156,42 @@ final class BuildTest extends TestCase
     }
 
     /**
+     * A flashcard front or back is emitted inside `<details>`/`<summary>`,
+     * which is a JSX context in MDX. A bare `{` there — a route path such as
+     * `/{page}/blog` — is read as a JS expression and fails the site build
+     * with "page is not defined". HTML escaping alone does not touch braces,
+     * so both escapings are needed.
+     */
+    public function testFlashcardMarkupEscapesBracesInsideTheJsxContext(): void
+    {
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($project->loadContentSet());
+
+        $checked = 0;
+        foreach ($this->generatedPages($project) as $name => $body) {
+            foreach ($this->summaryLinesOf($body) as $line) {
+                self::assertStringNotContainsString('{', $line, $name.' leaks a bare brace into JSX');
+                ++$checked;
+            }
+        }
+
+        self::assertGreaterThan(0, $checked, 'no generated page renders a flashcard');
+    }
+
+    /** @return list<string> the `<summary>` lines of a generated page */
+    private function summaryLinesOf(string $body): array
+    {
+        $lines = [];
+        foreach (explode("\n", $body) as $line) {
+            if (str_starts_with($line, '<summary>')) {
+                $lines[] = $line;
+            }
+        }
+
+        return $lines;
+    }
+
+    /**
      * An authored course body is Markdown written for this pipeline: it uses
      * fenced code and `<details>` on purpose, so it must reach the page
      * unescaped. Escaping it would render the flashcard markup as text.
