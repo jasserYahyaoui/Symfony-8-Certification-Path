@@ -59,16 +59,18 @@ technical_authority:
     notes: "www.rfc-editor.org is egress-blocked; the HTTP WG mirror is authoritative."
 
   - id: SRC-TWIG
-    role: "Twig official documentation."
+    role: "Twig official documentation, at the examinable version."
     repository: "twigphp/Twig"
-    branch: "3.x"
-    raw_base: "https://raw.githubusercontent.com/twigphp/Twig/3.x/doc/"
+    branch: "v3.22.0"
+    commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+    raw_base: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/"
     reachable: true
-    verified_at: "2026-08-31"
+    verified_at: "2026-09-01"
     notes: >-
-      UNKNOWN_NEEDS_VERIFICATION — the Master Plan pins Twig 3.22, but Symfony
-      8.0 requires "^3.21|^4.0" and the 3.x branch is at 3.29. The examinable
-      Twig version must be confirmed against the official syllabus (blocker B-5).
+      B-5 resolved. The syllabus says "Twig syntax up to 3.22 version"
+      verbatim, so claims are anchored to the v3.22.0 tag rather than to the
+      moving 3.x branch, which is ahead of it. Symfony 8.0 itself requires
+      "^3.21|^4.0"; anything a later Twig added is out of scope.
 
 forbidden_sources:
   - pattern: "/doc/current/"
