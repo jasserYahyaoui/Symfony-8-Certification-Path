@@ -156,6 +156,19 @@ possible.
 Pools verified against the built payloads: `practice.json` = LEARNING,
 `exam.json` = **VALIDATION**, and no holdout question appears in either.
 
+### Delivery evidence
+
+| | |
+|---|---|
+| Lot commit | `9498272` on `lot-06-templating-twig` |
+| Pull Request | [#10](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/10) |
+| CI on the PR head | **Technical gate: success** |
+| Merge commit | `dd806b7` on `master` |
+| CI on `master` | run `33530315787` — **success** |
+| Deploy | run `33530315781`, job `99931518573` build + job `99931882080` deploy — **success** |
+| Production smoke test | job `99931965535` — **success** |
+| Site | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/ |
+
 ## Gates
 
 | Gate | Result |
