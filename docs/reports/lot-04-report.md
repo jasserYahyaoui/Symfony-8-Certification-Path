@@ -135,6 +135,19 @@ npm --prefix website run a11y      6/6 surfaces PASS, TOTAL VIOLATIONS: 0
 Holdout isolation checked against the built payload, not assumed: the 9 holdout
 question ids are absent from `practice.json` and present in `exam.json`.
 
+### Delivery evidence
+
+| | |
+|---|---|
+| Lot commit | `45bce89` on `lot-04-controllers` |
+| Pull Request | [#3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3) — *Lot 04 — Controllers* |
+| CI on the PR head | **Technical gate: success** |
+| Merge commit | `5dd75d7` on `master` |
+| CI on `master` | run `33505523877` — **success** |
+| Deploy | run `33505523840`, job `99848522717` build + job `99848771922` deploy — **success** |
+| Production smoke test | job `99848829928` — **success** |
+| Site | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/ |
+
 ## Gates
 
 | Gate | Result |
