@@ -13,7 +13,7 @@
 EXAM_READY atomic official items / total atomic official items * 100
 ```
 
-**Coverage: 1.84%** — 3 of 163 atomic official items are EXAM_READY.
+**Coverage: 7.36%** — 12 of 163 atomic official items are EXAM_READY.
 
 ## By official topic
 
@@ -28,7 +28,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | HTTP | 1 | 10 | 10.0 |
 | Messenger | 0 | 7 | 0.0 |
 | Miscellaneous | 0 | 19 | 0.0 |
-| PHP | 0 | 9 | 0.0 |
+| PHP | 9 | 9 | 100.0 |
 | Routing | 1 | 12 | 8.3 |
 | Security | 1 | 12 | 8.3 |
 | Symfony Architecture | 0 | 15 | 0.0 |
@@ -38,7 +38,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 
 | Lot | EXAM_READY | Total | % |
 |---|---:|---:|---:|
-| lot-01 | 0 | 9 | 0.0 |
+| lot-01 | 9 | 9 | 100.0 |
 | lot-02 | 1 | 10 | 10.0 |
 | lot-03 | 0 | 15 | 0.0 |
 | lot-04 | 0 | 14 | 0.0 |
@@ -65,17 +65,8 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-25 | 0 | 1 | 0.0 |
 | lot-26 | 0 | 1 | 0.0 |
 
-## Not yet EXAM_READY (160)
+## Not yet EXAM_READY (151)
 
-- `OIT-46ry8d7dypmb`
-- `OIT-ywrx9x3hg9z8`
-- `OIT-1kjqdnryaw0h`
-- `OIT-vt0p9cacpkpd`
-- `OIT-fhb3vz7xbt5h`
-- `OIT-webdvbgbrfth`
-- `OIT-bvnvx2b6yt2y`
-- `OIT-n0zfkcr189af`
-- `OIT-hqz5c2qse24w`
 - `OIT-7801mj6w73ky`
 - `OIT-d3nyk9z0q2pd`
 - `OIT-jh06tkfrhthq`

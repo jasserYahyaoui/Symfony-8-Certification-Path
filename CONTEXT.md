@@ -6,7 +6,8 @@
 
 ## Current lot
 
-**Lot 0.5 — Golden Slice: PASS.** Lot 0 complete. Next: Lot 01 (PHP, 9 items).
+**Lot 01 — PHP: PASS** (9 items). Lot 0 and Lot 0.5 complete.
+Next: **Lot 02 — HTTP** (10 items, 1 already EXAM_READY from the Golden Slice).
 
 ## Current branch
 
@@ -77,26 +78,22 @@ for evidence anchoring; toolchain verified.
 
 ## Atomic items affected
 
-**163 imported, 3 EXAM_READY.**
+**163 imported, 12 EXAM_READY.**
 
 ```text
-coverage = 3 / 163 = 1.84%
+coverage = 12 / 163 = 7.36%
 ```
 
-Golden Slice items, all `EXAM_READY` with anchored Symfony 8.0 sources:
+- **Lot 0.5 (Golden Slice):** Status codes `MINIMAL`, Routing configuration
+  `STANDARD`, Authenticators/Passports/Badges `DEEP`.
+- **Lot 01 (PHP), all 9 items:** Interfaces `MINIMAL`; the other eight
+  `STANDARD`. No `DEEP` — none earned it.
 
-| Item | Topic | Level |
-|---|---|---|
-| Status codes | HTTP | `MINIMAL` |
-| Configuration (YAML and PHP attributes) | Routing | `STANDARD` |
-| Authenticators, Passports and Badges | Security | `DEEP` |
+Content: 12 courses (5 016 words), 11 flashcards, 24 LEARNING questions,
+3 HOLDOUT questions, 0 exercises. English share of practice pool: 20/24.
 
-The remaining 160 are `NOT_STARTED` / `UNVERIFIED`. Wording lock covers all 163.
-
-Content: 3 courses (1 635 words), 4 flashcards, 6 LEARNING questions,
-1 HOLDOUT question, 0 exercises.
-
-Report: [`docs/reports/lot-005-golden-slice-report.md`](docs/reports/lot-005-golden-slice-report.md).
+Reports: [`lot-005-golden-slice-report.md`](docs/reports/lot-005-golden-slice-report.md),
+[`lot-01-report.md`](docs/reports/lot-01-report.md).
 
 ## Known issues
 
@@ -134,14 +131,20 @@ inspection, not a passed gate.
 
 ## Next action
 
-**Lot 01 — PHP (9 items).** Master Plan §14 order, then Lot 02 onward to Lot 27.
-Per-lot workflow: read plan → implement → test → technical gate → pedagogical
-gate → content budget gate → build → deploy → smoke test → verify → commit.
+**Lot 02 — HTTP.** 10 items; *Status codes* is already `EXAM_READY`, so 9
+remain: HTTP Specification (RFC 9110), HTTP request, HTTP response, HTTP
+methods, Cookies, Caching, Content negotiation, Language detection, Symfony
+HttpClient component.
+
+The `isRedirect()` / `isRedirection()` trap was deliberately deferred from
+*Status codes* and belongs to **HTTP response** — pick it up there.
+
+Then Lots 03 → 27 in Master Plan §14 order.
 
 Watch as volume grows:
 
-- level distribution — `DEEP` must never be the default;
-- the running revision-time estimate (currently ~10–12 min for 3 items);
+- level distribution — `DEEP` must never be the default (so far: 1 of 12);
+- revision time — 376 words/item without `DEEP`, 545 with;
 - `DUP-001` pressure as related items accumulate.
 
 ## Blocked decisions

@@ -1,0 +1,146 @@
+# Lot 01 flashcards (Master Plan §6).
+#
+# Seven cards for nine items. Deliberately absent: Interfaces (MINIMAL, and its
+# rules are derivable from the one code sample) and Abstract classes (its value
+# is the comparison table, which is reference material rather than recall — and
+# a card would duplicate the `self`/`static` card's job of testing resolution).
+
+schema_version: 1
+
+flashcards:
+  - id: FLC-ef5rh3zk8shg
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    front: "PHP : quelles sont les quatre nouveautés de langage de PHP 8.4 ?"
+    back: "Property hooks, visibilité asymétrique (private(set)), objets paresseux, attribut #[\\Deprecated]."
+    explanation: >-
+      Symfony 8.0 exige PHP >= 8.4, donc ces quatre ajouts sont dans le
+      périmètre examinable. Ne pas les confondre avec 8.3 (constantes de classe
+      typées, #[\Override]) ni 8.1 (enums, readonly, callable de première classe).
+    memorization_justification: >-
+      Attribution version-par-fonctionnalité : rien dans la syntaxe n'indique sa
+      version d'introduction, et l'examen porte explicitement sur 8.4.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
+        repository: "php/php-src"
+        branch: "PHP-8.4"
+        symbol_or_lines: "New Features > Core"
+        verified_at: "2026-09-01"
+
+  - id: FLC-xcnrvq0mddck
+    official_item: OIT-ywrx9x3hg9z8
+    language: fr
+    front: "PHP : quelle est la différence entre self et static dans une méthode statique ?"
+    back: >-
+      self se résout à la classe où le code est écrit ; static se résout à la
+      classe réellement appelée (liaison statique tardive).
+    explanation: >-
+      new self() dans une classe parente renvoie toujours le parent, même appelé
+      via l'enfant. new static() renvoie l'enfant. C'est la différence entre une
+      factory cassée et une factory correcte.
+    memorization_justification: >-
+      Deux mots-clés visuellement interchangeables aux sémantiques opposées,
+      dont l'erreur ne se manifeste qu'à l'exécution et dans la sous-classe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: FLC-nt75xsr5ygw0
+    official_item: OIT-n0zfkcr189af
+    language: fr
+    front: "PHP : quel est l'ordre de précédence entre classe courante, trait et classe parente ?"
+    back: "Classe courante > trait > classe parente."
+    explanation: >-
+      Une méthode définie dans la classe écrase celle du trait ; le trait écrase
+      celle héritée du parent. L'intuition inverse (« le trait est plus proche,
+      donc il gagne ») est fausse.
+    memorization_justification: >-
+      Ordre à trois niveaux, contre-intuitif, et silencieux : le mauvais modèle
+      mental ne produit aucune erreur, juste le mauvais comportement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Precedence"
+        verified_at: "2026-09-01"
+
+  - id: FLC-8xtkgssqtqmg
+    official_item: OIT-bvnvx2b6yt2y
+    language: fr
+    front: "PHP : catch (Exception $e) rattrape-t-il un TypeError ?"
+    back: "Non. Error et Exception sont deux branches sœurs sous Throwable."
+    explanation: >-
+      TypeError, ValueError, DivisionByZeroError et ArgumentCountError étendent
+      Error, pas Exception. Pour tout rattraper il faut catch (Throwable $e).
+    memorization_justification: >-
+      Erreur de conception fréquente qui ne se voit qu'au moment où l'erreur
+      survient en production, et que le nom « Exception » rend contre-intuitive.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: FLC-h8jcxsh0da3t
+    official_item: OIT-hqz5c2qse24w
+    language: fr
+    front: "PHP : quelle est la différence entre Enum::from() et Enum::tryFrom() ?"
+    back: "from() lève une \\ValueError si aucun cas ne correspond ; tryFrom() renvoie null."
+    explanation: >-
+      Sur une entrée non fiable, tryFrom() suivi de ?? est la forme sûre. Les
+      deux n'existent que sur les enums adossées (backed) ; une enum pure n'a
+      ni from() ni ->value.
+    memorization_justification: >-
+      Deux méthodes de noms proches aux modes d'échec opposés, choisies au
+      moment d'écrire le code, sans indice contextuel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+
+  - id: FLC-ypkjgzcsjn5v
+    official_item: OIT-fhb3vz7xbt5h
+    language: fr
+    front: "PHP : comment une fonction fléchée (fn) capture-t-elle les variables externes ?"
+    back: "Automatiquement et par valeur. Pas de use, et la capture par référence est impossible."
+    explanation: >-
+      function () use ($x) capture explicitement, par valeur au moment de la
+      définition, ou par référence avec &$x. fn () => n'offre aucune de ces
+      options et n'accepte qu'une seule expression.
+    memorization_justification: >-
+      Deux syntaxes interchangeables en apparence mais aux règles de capture
+      différentes, dont l'écart ne se révèle que si la variable change ensuite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Arrow functions"
+        verified_at: "2026-09-01"
+
+  - id: FLC-6rbhadxrw3sh
+    official_item: OIT-1kjqdnryaw0h
+    language: fr
+    front: "PHP : que renvoie ReflectionMethod::getAttributes() ?"
+    back: "Des objets ReflectionAttribute — pas des instances. C'est newInstance() qui construit l'attribut."
+    explanation: >-
+      Tant que newInstance() n'est pas appelé, la classe d'attribut n'est jamais
+      instanciée : ses validations et ses erreurs de constructeur n'apparaissent
+      pas. Un attribut sans lecteur est totalement inerte.
+    memorization_justification: >-
+      Étape intermédiaire facile à oublier, et dont l'oubli produit un attribut
+      silencieusement sans effet plutôt qu'une erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"

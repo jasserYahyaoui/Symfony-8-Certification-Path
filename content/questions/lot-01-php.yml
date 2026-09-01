@@ -1,0 +1,1010 @@
+# Lot 01 — PHP question bank (Master Plan §7).
+#
+# 18 LEARNING questions (2 per item) and 2 HOLDOUT questions reserved for the
+# final mocks. 14 are in English, matching the exam language (§5). Every
+# distractor carries an explanation (§7.2).
+
+schema_version: 1
+
+questions:
+  - id: QST-g3y2dqj5820q
+    version: 1
+    official_topic: PHP
+    official_item: OIT-46ry8d7dypmb
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      Which language feature was introduced in PHP 8.4?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 45
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [php84, versions]
+    choices:
+      - id: CHO-8291q5m8f78j
+        text: "Property hooks"
+        correct: true
+      - id: CHO-xmyfssp59e1q
+        text: "Enums"
+        correct: false
+        explanation: >-
+          Enums were introduced in PHP 8.1.
+      - id: CHO-1598aw2p1krn
+        text: "The #[\\Override] attribute"
+        correct: false
+        explanation: >-
+          #[\Override] is PHP 8.3. It is easy to confuse with 8.4's #[\Deprecated].
+      - id: CHO-psghrg8yqzmv
+        text: "Constructor property promotion"
+        correct: false
+        explanation: >-
+          Promotion arrived with PHP 8.0, alongside named arguments and match.
+    explanation: >-
+      Property hooks are one of PHP 8.4's core additions, together with asymmetric property visibility, lazy objects and the #[\Deprecated] attribute.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
+        repository: "php/php-src"
+        branch: "PHP-8.4"
+        symbol_or_lines: "New Features > Core"
+        verified_at: "2026-09-01"
+  - id: QST-7etwbjrngfd0
+    version: 1
+    official_topic: PHP
+    official_item: OIT-46ry8d7dypmb
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: DISTINGUISH
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which statements correctly describe `public private(set) string $title;` in PHP 8.4? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [php84, visibility]
+    choices:
+      - id: CHO-hy1mh0eqhysw
+        text: "The property can be read from anywhere"
+        correct: true
+      - id: CHO-8ym0ht9fzkxj
+        text: "The property can only be written from inside the declaring class"
+        correct: true
+      - id: CHO-xzxeax9zt2xs
+        text: "The property can only be written once"
+        correct: false
+        explanation: >-
+          That is `readonly`. Asymmetric visibility restricts WHO may write, not HOW MANY times.
+      - id: CHO-d5t7nrj6kxvh
+        text: "The property is implicitly readonly outside the class"
+        correct: false
+        explanation: >-
+          It is not writable at all outside the class, which is a different guarantee from readonly.
+    explanation: >-
+      Asymmetric visibility gives read and write separate scopes. `public private(set)` means readable everywhere, writable only by the declaring class — and writable as often as that class likes, unlike readonly.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-9be1jmm121k3
+    version: 1
+    official_topic: PHP
+    official_item: OIT-ywrx9x3hg9z8
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      A parent class declares `public static function create(): self { return new self(); }`. A child class extends it without overriding. What does `Child::create()` return?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 70
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [oop, late-static-binding]
+    choices:
+      - id: CHO-f84qyarv4a5d
+        text: "An instance of the parent class"
+        correct: true
+      - id: CHO-tewen10qah85
+        text: "An instance of the child class"
+        correct: false
+        explanation: >-
+          That would require `new static()`. `self` does not follow late static binding.
+      - id: CHO-fsa54vffnmnc
+        text: "A fatal error, because self is not allowed in a static method"
+        correct: false
+        explanation: >-
+          `self` is valid there; it simply resolves to the declaring class.
+      - id: CHO-xtb2c9pjhxd5
+        text: "An instance of the child class only if the child redeclares create()"
+        correct: false
+        explanation: >-
+          Redeclaring would change which code runs, but the existing parent code returns the parent regardless.
+    explanation: >-
+      `self` resolves to the class where the code is written; `static` resolves to the class actually called. This is why factories use `new static()`.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-ytndnvdgvahh
+    version: 1
+    official_topic: PHP
+    official_item: OIT-ywrx9x3hg9z8
+    domain: php
+    language: fr
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Une propriété declaree `private readonly array $items;` est initialisee dans le constructeur. Que se passe-t-il si une methode de la meme classe fait `$this->items[] = 'x';` ?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 65
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [oop, readonly]
+    choices:
+      - id: CHO-mvz6q55bw66r
+        text: "Une Error : on ne peut pas modifier une propriete readonly"
+        correct: true
+      - id: CHO-xv0vcdnb6yxj
+        text: "Rien, la classe declarante a le droit de modifier ses propres readonly"
+        correct: false
+        explanation: >-
+          La portee declarante permet la premiere initialisation, pas les suivantes.
+      - id: CHO-r1eqsqrwz4a8
+        text: "Rien, readonly n'empeche que la reaffectation complete"
+        correct: false
+        explanation: >-
+          Pour un tableau, l'ajout d'un element EST une modification de la propriete.
+      - id: CHO-ac3vx2bxhd13
+        text: "Une erreur de compilation"
+        correct: false
+        explanation: >-
+          L'erreur survient a l'execution, au moment de la tentative de modification.
+    explanation: >-
+      readonly autorise une seule initialisation depuis la portee declarante. Toute ecriture ulterieure, y compris l'ajout dans un tableau, leve une Error.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-rj0n6b7rxh74
+    version: 1
+    official_topic: PHP
+    official_item: OIT-1kjqdnryaw0h
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      A custom attribute's constructor throws on invalid input, yet placing it with bad arguments produces no error at all. Why?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 70
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [attributes, reflection]
+    choices:
+      - id: CHO-kb3ve5739w4b
+        text: "getAttributes() was never followed by newInstance()"
+        correct: true
+      - id: CHO-nj8faby1vgnb
+        text: "Attribute constructors are never executed by PHP"
+        correct: false
+        explanation: >-
+          They are executed — but only when newInstance() is called.
+      - id: CHO-8pwnb8cj495p
+        text: "The attribute is missing the #[Attribute] marker"
+        correct: false
+        explanation: >-
+          A missing marker makes newInstance() fail; it does not silence a constructor that is being called.
+      - id: CHO-am28dnp1b6zf
+        text: "Attribute arguments are validated at compile time only"
+        correct: false
+        explanation: >-
+          Arguments must be constant expressions, but they are not passed to the constructor until instantiation.
+    explanation: >-
+      getAttributes() returns ReflectionAttribute objects, not instances. Nothing constructs the attribute class until newInstance() is called, so its validation never runs.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-trxpf8mvw13a
+    version: 1
+    official_topic: PHP
+    official_item: OIT-1kjqdnryaw0h
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which are valid arguments to a PHP attribute? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [attributes]
+    choices:
+      - id: CHO-sah6sb6bncet
+        text: "A literal string"
+        correct: true
+      - id: CHO-39at9r7kvd6z
+        text: "A class constant such as Requirement::DIGITS"
+        correct: true
+      - id: CHO-c02avamv34rv
+        text: "A call to a function such as sprintf('%s', $x)"
+        correct: false
+        explanation: >-
+          Attribute arguments must be constant expressions; a function call is not one.
+      - id: CHO-ee22tbtqn5qp
+        text: "A variable defined in the surrounding scope"
+        correct: false
+        explanation: >-
+          Attributes are evaluated without access to runtime scope, so no variable is available.
+    explanation: >-
+      Attribute arguments must be constant expressions: literals, constants, class constants, enum cases and constant arithmetic. Function calls and variables are rejected at compile time.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-z4f4sxjhrhk1
+    version: 1
+    official_topic: PHP
+    official_item: OIT-vt0p9cacpkpd
+    domain: php
+    language: en
+    difficulty: easy
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      Which of these may an interface declare?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 45
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [interfaces]
+    choices:
+      - id: CHO-zwydyc9j4j6n
+        text: "A constant"
+        correct: true
+      - id: CHO-fccx0pmhjbxf
+        text: "A private method"
+        correct: false
+        explanation: >-
+          Interface methods are implicitly public; a private one could not be implemented.
+      - id: CHO-tnp4e5xgtad8
+        text: "A property holding state"
+        correct: false
+        explanation: >-
+          Interfaces declare no state. PHP 8.4 hooks allow abstract property declarations, but still no stored value.
+      - id: CHO-v7dv804h1hnv
+        text: "A method with a body"
+        correct: false
+        explanation: >-
+          Interface methods are implicitly abstract. Shared behaviour belongs to an abstract class or a trait.
+    explanation: >-
+      An interface may declare constants and implicitly public abstract methods. It may not declare state, method bodies, or non-public members.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-9r75z716zt0h
+    version: 1
+    official_topic: PHP
+    official_item: OIT-vt0p9cacpkpd
+    domain: php
+    language: fr
+    difficulty: easy
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      Combien d'interfaces une classe PHP peut-elle implementer, et de combien de classes peut-elle heriter ?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 40
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [interfaces]
+    choices:
+      - id: CHO-vcx8mxd7qfs2
+        text: "Plusieurs interfaces, une seule classe parente"
+        correct: true
+      - id: CHO-t3v8frk3gj0m
+        text: "Une seule interface, une seule classe parente"
+        correct: false
+        explanation: >-
+          PHP autorise `implements A, B, C`. La limite a un seul parent ne concerne que `extends` sur les classes.
+      - id: CHO-9qpdwx68e615
+        text: "Plusieurs interfaces, plusieurs classes parentes"
+        correct: false
+        explanation: >-
+          PHP n'a pas d'heritage multiple de classes. Pour partager du code entre hierarchies, on utilise un trait.
+      - id: CHO-js9bzxvft992
+        text: "Autant que l'on veut des deux"
+        correct: false
+        explanation: >-
+          L'heritage de classes reste simple ; seules les interfaces sont multiples.
+    explanation: >-
+      Une classe implemente autant d'interfaces que necessaire mais n'etend qu'une seule classe. Une interface, elle, peut en etendre plusieurs.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-wd0d31jfm7vq
+    version: 1
+    official_topic: PHP
+    official_item: OIT-fhb3vz7xbt5h
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Given `$f = 3; $g = function (int $n) use ($f) { return $n * $f; }; $f = 10;` — what does $g(5) return?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 65
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [closures]
+    choices:
+      - id: CHO-w51h7s9pv1sa
+        text: "15"
+        correct: true
+      - id: CHO-07h0r5t3j0rd
+        text: "50"
+        correct: false
+        explanation: >-
+          That would require capture by reference: `use (&$f)`.
+      - id: CHO-zhbzpper1ckw
+        text: "A TypeError, because $f changed type"
+        correct: false
+        explanation: >-
+          $f stays an int throughout; nothing about the type changes.
+      - id: CHO-nra02mkqvn0f
+        text: "null, because $f is out of scope inside the closure"
+        correct: false
+        explanation: >-
+          `use` brings it into scope; without `use` it would be undefined, not null.
+    explanation: >-
+      `use` captures by value at the moment the closure is DEFINED. Reassigning $f afterwards has no effect. `use (&$f)` would capture by reference and yield 50.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Anonymous functions"
+        verified_at: "2026-09-01"
+  - id: QST-kabex2vv2wme
+    version: 1
+    official_topic: PHP
+    official_item: OIT-fhb3vz7xbt5h
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: DISTINGUISH
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which statements about arrow functions (`fn`) are correct? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [closures]
+    choices:
+      - id: CHO-nstq8rfjv0yy
+        text: "They capture outer variables automatically by value"
+        correct: true
+      - id: CHO-3m4ry5v5rksc
+        text: "They may contain only a single expression"
+        correct: true
+      - id: CHO-v20fedxmse2x
+        text: "They can capture by reference using fn () use (&$x)"
+        correct: false
+        explanation: >-
+          There is no `use` clause on an arrow function at all, so capture by reference is impossible.
+      - id: CHO-m6nyzzq4pxaf
+        text: "They are never bound to $this"
+        correct: false
+        explanation: >-
+          An arrow function in a class is bound to $this like any closure, unless declared static.
+    explanation: >-
+      Arrow functions capture automatically and by value, and hold exactly one expression whose value is returned. They have no `use` clause, so by-reference capture is unavailable.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Arrow functions"
+        verified_at: "2026-09-01"
+  - id: QST-e35gsy2e4vr3
+    version: 1
+    official_topic: PHP
+    official_item: OIT-webdvbgbrfth
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Which declaration causes a fatal error?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 55
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [abstract]
+    choices:
+      - id: CHO-yw643dwcttfr
+        text: "abstract private function handle(): void;"
+        correct: true
+      - id: CHO-k7hm1rssk126
+        text: "abstract protected function handle(): void;"
+        correct: false
+        explanation: >-
+          Protected abstract methods are valid and common; the child can implement them.
+      - id: CHO-pvk5xds496m3
+        text: "abstract public function handle(): void;"
+        correct: false
+        explanation: >-
+          This is the most common form of abstract method.
+      - id: CHO-jg7kjb03v2wx
+        text: "An abstract class with no abstract methods at all"
+        correct: false
+        explanation: >-
+          Perfectly legal: it simply cannot be instantiated.
+    explanation: >-
+      An abstract private method could never be implemented by a subclass, since private members are invisible to it. PHP rejects the combination outright.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-jhbpm176qdkc
+    version: 1
+    official_topic: PHP
+    official_item: OIT-webdvbgbrfth
+    domain: php
+    language: fr
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      Vous devez partager un constructeur et un etat commun entre plusieurs classes liees. Quel outil choisir ?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [abstract, design]
+    choices:
+      - id: CHO-8vdhh7spwzre
+        text: "Une classe abstraite"
+        correct: true
+      - id: CHO-01s6vnqdmvh1
+        text: "Une interface"
+        correct: false
+        explanation: >-
+          Une interface ne declare ni constructeur ni etat : elle ne peut rien partager d'implemente.
+      - id: CHO-6tf4jkef1vef
+        text: "Un trait, car il evite l'heritage"
+        correct: false
+        explanation: >-
+          Un trait porte de l'etat mais n'est pas un type et ne remplace pas une hierarchie ; ici la relation est bien un heritage.
+      - id: CHO-wzc8m9q3qa6e
+        text: "Une enum implementant une interface"
+        correct: false
+        explanation: >-
+          Une enum n'a pas d'etat d'instance et ne peut pas etre etendue.
+    explanation: >-
+      Une classe abstraite est le seul de ces outils a fournir a la fois un constructeur, de l'etat et du comportement partage au sein d'une hierarchie.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-hdx34ew6s8ah
+    version: 1
+    official_topic: PHP
+    official_item: OIT-bvnvx2b6yt2y
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      Code wrapped in `try { ... } catch (Exception $e) { ... }` still crashes on a TypeError. Why?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [exceptions]
+    choices:
+      - id: CHO-wpnw9td31enq
+        text: "TypeError extends Error, not Exception"
+        correct: true
+      - id: CHO-bqjyw5wd2exv
+        text: "TypeError cannot be caught in PHP"
+        correct: false
+        explanation: >-
+          It can: since PHP 7 most engine errors are catchable Throwables.
+      - id: CHO-5rv4fd9yjz48
+        text: "The catch block must be declared before the try block"
+        correct: false
+        explanation: >-
+          catch always follows try; ordering between blocks is not the issue.
+      - id: CHO-mayqdwym4b01
+        text: "TypeError is only catchable inside a finally block"
+        correct: false
+        explanation: >-
+          finally does not catch anything; it always runs regardless.
+    explanation: >-
+      Error and Exception are sibling branches under the Throwable interface. catch (Exception) never sees an Error; catch (Throwable) sees both.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-fhrga35d77wa
+    version: 1
+    official_topic: PHP
+    official_item: OIT-bvnvx2b6yt2y
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      How must an application define its own throwable type in PHP?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [exceptions]
+    choices:
+      - id: CHO-85pq0rn2jf5q
+        text: "By extending Exception or Error"
+        correct: true
+      - id: CHO-padm2mjp0p74
+        text: "By implementing Throwable directly"
+        correct: false
+        explanation: >-
+          PHP forbids userland classes from implementing Throwable directly; it must be reached by extension.
+      - id: CHO-2rr3534mtv2t
+        text: "By implementing Stringable and Throwable together"
+        correct: false
+        explanation: >-
+          Throwable already extends Stringable, and implementing Throwable directly remains forbidden.
+      - id: CHO-38y7p6bw7yb7
+        text: "By extending any class and adding a getMessage() method"
+        correct: false
+        explanation: >-
+          Matching the shape is not enough; only the real hierarchy can be thrown.
+    explanation: >-
+      PHP classes cannot implement Throwable directly. A custom throwable must extend Exception or Error, optionally also implementing an application marker interface.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-jg9dftsvh67e
+    version: 1
+    official_topic: PHP
+    official_item: OIT-n0zfkcr189af
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      A base class, a trait used by the child, and the child itself all define `save()`. Which implementation runs when the child's save() is called?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 70
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [traits]
+    choices:
+      - id: CHO-8pq3h2k2j0np
+        text: "The one defined in the child class"
+        correct: true
+      - id: CHO-x0ca1167hy4h
+        text: "The one from the trait, because it is inserted into the child"
+        correct: false
+        explanation: >-
+          The trait overrides the BASE class, but the child's own definition overrides the trait.
+      - id: CHO-gyh0y6hc86h2
+        text: "The one from the base class"
+        correct: false
+        explanation: >-
+          The base class has the lowest precedence of the three.
+      - id: CHO-yhx0amxn9tt3
+        text: "A fatal error, because of the ambiguity"
+        correct: false
+        explanation: >-
+          A fatal error occurs only when two TRAITS collide; this precedence chain is well defined.
+    explanation: >-
+      Precedence is: current class > trait > base class. The child's own method wins.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Precedence"
+        verified_at: "2026-09-01"
+  - id: QST-gpz2ww98k670
+    version: 1
+    official_topic: PHP
+    official_item: OIT-n0zfkcr189af
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: DISTINGUISH
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Two traits used by the same class both define export(). Which statements are correct? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [traits]
+    choices:
+      - id: CHO-x5pdh9438tt8
+        text: "Without conflict resolution this is a fatal error"
+        correct: true
+      - id: CHO-9dx8n8bty7q1
+        text: "insteadof selects which implementation is used"
+        correct: true
+      - id: CHO-b8jq5zsr5qzz
+        text: "as alone resolves the conflict by renaming one of them"
+        correct: false
+        explanation: >-
+          `as` adds an alias but leaves the original name in place, so the collision persists.
+      - id: CHO-wrxa6980y7hm
+        text: "PHP silently uses the trait listed first"
+        correct: false
+        explanation: >-
+          PHP never picks silently; an unresolved trait collision always fails.
+    explanation: >-
+      An unresolved collision between two traits is a fatal error. `insteadof` excludes an implementation; `as` only creates an additional name (and may change visibility).
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Conflict Resolution"
+        verified_at: "2026-09-01"
+  - id: QST-99hmydsyg0qy
+    version: 1
+    official_topic: PHP
+    official_item: OIT-hqz5c2qse24w
+    domain: php
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: >-
+      A backed enum is built from unvalidated user input. Which call avoids an uncaught error on an unknown value?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [enums]
+    choices:
+      - id: CHO-xf2pn4ya26ws
+        text: "Status::tryFrom($input) ?? Status::Draft"
+        correct: true
+      - id: CHO-e95bxhpzgx60
+        text: "Status::from($input)"
+        correct: false
+        explanation: >-
+          from() throws a \ValueError when no case matches, which is exactly the uncaught error to avoid.
+      - id: CHO-37q8nj6peby6
+        text: "new Status($input)"
+        correct: false
+        explanation: >-
+          Enums cannot be instantiated with new; they have no constructor.
+      - id: CHO-gc50m3r51en9
+        text: "Status::cases()[$input]"
+        correct: false
+        explanation: >-
+          cases() is a list of case objects; indexing it by an arbitrary input is unrelated to the backing value and may not exist.
+    explanation: >-
+      tryFrom() returns null instead of throwing, so it composes with ?? for a safe default. from() throws \ValueError.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-6bn09p657t3v
+    version: 1
+    official_topic: PHP
+    official_item: OIT-hqz5c2qse24w
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: KNOW
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: >-
+      Which are true of PHP enums? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [enums]
+    choices:
+      - id: CHO-y7rj7ks4kb5d
+        text: "An enum may implement interfaces"
+        correct: true
+      - id: CHO-ezqc59scv9ky
+        text: "An enum may define constants and methods"
+        correct: true
+      - id: CHO-jyzyvqgbhcd4
+        text: "An enum may declare instance properties to hold state"
+        correct: false
+        explanation: >-
+          Enum cases are singletons without instance state; only name and value exist, both readonly.
+      - id: CHO-7ztbs8vwm1sx
+        text: "An enum may extend another class"
+        correct: false
+        explanation: >-
+          Enums cannot extend anything. They may only implement interfaces.
+    explanation: >-
+      Enums support methods, static methods, constants, attributes and interfaces. They support no instance state, no inheritance and no instantiation.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-95yb2ee8eb52
+    version: 1
+    official_topic: PHP
+    official_item: OIT-n0zfkcr189af
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: DIAGNOSE
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      A trait declares `abstract public function getId(): int;`. A class uses the trait but never defines getId(). What happens?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: HOLDOUT
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [traits]
+    choices:
+      - id: CHO-66k80as9ewxp
+        text: "A fatal error, unless the class is declared abstract"
+        correct: true
+      - id: CHO-xyc53yqea2dt
+        text: "Nothing; abstract methods in traits are advisory"
+        correct: false
+        explanation: >-
+          They are a real requirement placed on the using class, enforced at compile time.
+      - id: CHO-r3bsrb8d0dsc
+        text: "The trait's abstract method is silently dropped"
+        correct: false
+        explanation: >-
+          Requirements declared by a trait are inserted into the class like any other member.
+      - id: CHO-bg19z3hf86z0
+        text: "A TypeError is raised the first time getId() is called"
+        correct: false
+        explanation: >-
+          The failure happens when the class is compiled, not when the method is called.
+    explanation: >-
+      An abstract method in a trait becomes an abstract member of the using class. A concrete class must implement it; otherwise the class itself must be abstract.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"
+  - id: QST-7d499p3ps6s7
+    version: 1
+    official_topic: PHP
+    official_item: OIT-bvnvx2b6yt2y
+    domain: php
+    language: en
+    difficulty: hard
+    cognitive_level: DIAGNOSE
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: >-
+      A try block returns 1, and its finally block returns 2. What does the function return?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: HOLDOUT
+    verification_status: VERIFIED
+    reviewers: [tech-lead]
+    reviewed_at: "2026-09-01"
+    tags: [exceptions]
+    choices:
+      - id: CHO-cn4cmfb583n4
+        text: "2"
+        correct: true
+      - id: CHO-3bxhy2ww5dnp
+        text: "1"
+        correct: false
+        explanation: >-
+          The try's return value is computed, but the finally's own return replaces it before the function exits.
+      - id: CHO-b9pcp494qwm1
+        text: "1, and the finally return is ignored"
+        correct: false
+        explanation: >-
+          A return inside finally is not ignored; it overrides.
+      - id: CHO-1rhc1qv9g6qs
+        text: "A fatal error: return is not allowed in finally"
+        correct: false
+        explanation: >-
+          It is allowed, which is precisely why it is a trap.
+    explanation: >-
+      finally always runs, and a return inside it overrides a return from the try block. This is why returning from finally is discouraged.
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        verified_at: "2026-09-01"

@@ -42,26 +42,49 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalite a sa version, or Symfony 8.0 impose PHP 8.4 et une reponse valable en 8.1 peut etre fausse. Un tableau de versions et les quatre ajouts 8.4 suffisent ; le detail de chaque API PHP n'est ni examinable ni revisable.
+    learning_outcomes:
+      - "Attribuer une fonctionnalite du langage a sa version d'introduction"
+      - "Enumerer les quatre ajouts de langage de PHP 8.4"
+      - "Distinguer readonly de la visibilite asymetrique private(set)"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "PHP Polyfills are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
+        repository: "php/php-src"
+        branch: "PHP-8.4"
+        symbol_or_lines: "New Features > Core"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "sections Property Visibility and Asymmetric Property Visibility"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-722pscs6e2m0"
+    flashcard_refs:
+      - "FLC-ef5rh3zk8shg"
+    question_refs:
+      - "QST-g3y2dqj5820q"
+      - "QST-7etwbjrngfd0"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-ywrx9x3hg9z8
     official_topic_order: 1
     official_topic: "PHP"
@@ -72,26 +95,49 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : la resolution self/static est une erreur silencieuse classique, et la portee de private est liee a la classe declarante et non a l'instance. Le contenu se limite volontairement a ce que les items Attributes, Interfaces, Abstract classes, Traits et Enums ne couvrent pas, pour eviter la duplication.
+    learning_outcomes:
+      - "Distinguer self et static dans une methode statique"
+      - "Enoncer la portee reelle de private (classe declarante, pas instance)"
+      - "Appliquer readonly et la promotion de constructeur correctement"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "sections Property Visibility and Asymmetric Property Visibility"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Late Static Bindings usage"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-3424z948caan"
+    flashcard_refs:
+      - "FLC-xcnrvq0mddck"
+    question_refs:
+      - "QST-9be1jmm121k3"
+      - "QST-ytndnvdgvahh"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-1kjqdnryaw0h
     official_topic_order: 1
     official_topic: "PHP"
@@ -102,26 +148,50 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant application : les attributs portent l'essentiel de la configuration Symfony 8, et l'etape de lecture par reflexion (getAttributes puis newInstance) est systematiquement negligee. Sans elle un attribut est inerte, ce qui produit une panne silencieuse plutot qu'une erreur.
+    learning_outcomes:
+      - "Declarer un attribut avec ses cibles et IS_REPEATABLE"
+      - "Identifier ce qui est admis comme argument d'attribut"
+      - "Lire un attribut par reflexion et distinguer getAttributes de newInstance"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "sections Attribute syntax and Reading Attributes with the Reflection API"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "Route class, #[Attribute] declaration and __construct"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-tqcp2kn9r3b5"
+    flashcard_refs:
+      - "FLC-6rbhadxrw3sh"
+    question_refs:
+      - "QST-rj0n6b7rxh74"
+      - "QST-trxpf8mvw13a"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-vt0p9cacpkpd
     official_topic_order: 1
     official_topic: "PHP"
@@ -132,26 +202,40 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Item factuel et de reconnaissance : les regles tiennent en un exemple et une liste de ce qui est interdit. La comparaison avec les classes abstraites appartient a l'item Abstract classes, qui en est le proprietaire ; la dupliquer ici doublerait le cout de revision sans gain.
+    learning_outcomes:
+      - "Identifier ce qu'une interface peut declarer et ce qu'elle ne peut pas"
+      - "Enoncer les regles d'implementation et d'extension multiples"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Object Interfaces"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-e4y7gtn5k4f0"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-z4f4sxjhrhk1"
+      - "QST-9r75z716zt0h"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-fhb3vz7xbt5h
     official_topic_order: 1
     official_topic: "PHP"
@@ -162,26 +246,43 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : deux syntaxes apparemment interchangeables aux regles de capture differentes, dont l'ecart ne se manifeste qu'a l'execution. La liaison de $this et le mot-cle static sur une closure sont une seconde source d'erreur reelle.
+    learning_outcomes:
+      - "Distinguer la capture par use de la capture automatique de fn"
+      - "Determiner la valeur capturee au moment de la definition"
+      - "Expliquer la liaison de $this et l'effet de static sur une closure"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Anonymous functions, Arrow functions"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-e7m4xbcxegyc"
+    flashcard_refs:
+      - "FLC-ypkjgzcsjn5v"
+    question_refs:
+      - "QST-wd0d31jfm7vq"
+      - "QST-kabex2vv2wme"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-webdvbgbrfth
     official_topic_order: 1
     official_topic: "PHP"
@@ -192,26 +293,40 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : cet item est proprietaire de la comparaison interface / classe abstraite, qui est un choix de conception reellement teste. Les regles propres (abstract private interdit, un seul parent) sont courtes mais piegeuses.
+    learning_outcomes:
+      - "Ecrire une classe abstraite valide et identifier les declarations interdites"
+      - "Choisir entre interface et classe abstraite selon le besoin"
+    required_assessment_modes:
+      - "QUESTION"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "section Class Abstraction"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-0jtjh77tabt1"
     flashcard_refs: []
-    question_refs: []
+    question_refs:
+      - "QST-e35gsy2e4vr3"
+      - "QST-jhbpm176qdkc"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-bvnvx2b6yt2y
     official_topic_order: 1
     official_topic: "PHP"
@@ -222,26 +337,52 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs du moteur. C'est une erreur de conception frequente qui ne se revele qu'en production.
+    learning_outcomes:
+      - "Situer Error, Exception et Throwable dans la hierarchie"
+      - "Choisir le type a rattraper selon la defaillance visee"
+      - "Definir un type throwable applicatif correctement"
+      - "Predire le comportement de finally et l'ordre des catch"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Throwable interface synopsis"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "sections Extending Exceptions and finally"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-yc9fry0vz4gh"
+    flashcard_refs:
+      - "FLC-8xtkgssqtqmg"
+    question_refs:
+      - "QST-hdx34ew6s8ah"
+      - "QST-fhrga35d77wa"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-7d499p3ps6s7"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-n0zfkcr189af
     official_topic_order: 1
     official_topic: "PHP"
@@ -252,26 +393,45 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : l'ordre de precedence classe > trait > parent est contre-intuitif et silencieux, et la resolution de conflit par insteadof et as est une syntaxe a part que rien d'autre dans le langage ne rappelle.
+    learning_outcomes:
+      - "Enoncer l'ordre de precedence entre classe courante, trait et parent"
+      - "Resoudre un conflit de traits avec insteadof et as"
+      - "Identifier ce qu'un trait peut contenir et pourquoi il n'est pas un type"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+      - "EXAM"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Precedence, Conflict Resolution"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-bshgpd44ykba"
+    flashcard_refs:
+      - "FLC-nt75xsr5ygw0"
+    question_refs:
+      - "QST-jg9dftsvh67e"
+      - "QST-gpz2ww98k670"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-95yb2ee8eb52"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
   - id: OIT-hqz5c2qse24w
     official_topic_order: 1
     official_topic: "PHP"
@@ -282,26 +442,43 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Concept important exigeant distinction et application : la distinction pure / adossee commande la disponibilite de value, from et tryFrom, et le choix from / tryFrom est un choix de robustesse fait a l'ecriture. Les interdits (pas d'etat, pas d'heritage, pas de new) sont regulierement mal repondus.
+    learning_outcomes:
+      - "Distinguer enum pure et enum adossee"
+      - "Choisir entre from() et tryFrom() selon la fiabilite de l'entree"
+      - "Identifier ce qu'une enum peut et ne peut pas declarer"
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "sections Backed Enumerations and Enum methods"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-3sggmeyd01x6"
+    flashcard_refs:
+      - "FLC-h8jcxsh0da3t"
+    question_refs:
+      - "QST-99hmydsyg0qy"
+      - "QST-6bn09p657t3v"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 01 — PHP."
 
   # ---- Topic 2: HTTP (10 items) ----
   - id: OIT-7801mj6w73ky
