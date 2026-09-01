@@ -4493,12 +4493,12 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Six evenements en deux phases, dans un ordre fixe, dont deux seulement autorisent une
+      Cinq evenements en deux phases, dans un ordre fixe, dont deux seulement autorisent une
       modification de structure ; un verrouillage a partir de SUBMIT ; la validation portee par un
       ecouteur sur POST_SUBMIT ; et un motif contre-intuitif pour les champs dependants, qui
       s'ajoutent au parent. Chaque etage change la reponse, et l'ordre lui-meme est note.
     learning_outcomes:
-      - "Ordonner les six evenements en deux phases"
+      - "Ordonner les cinq evenements en deux phases"
       - "Associer chaque evenement a la couche de donnee qu'il porte"
       - "Enoncer a partir de quel evenement la structure est verrouillee"
       - "Situer la validation sur POST_SUBMIT"

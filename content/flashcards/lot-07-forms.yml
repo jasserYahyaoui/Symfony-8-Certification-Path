@@ -32,7 +32,7 @@ flashcards:
     explanation: >-
       Les ajouts de champs se font donc sur PRE_SET_DATA, d'apres la donnee initiale, ou sur PRE_SUBMIT, d'apres la donnee brute soumise.
     memorization_justification: >-
-      Six evenements dont deux seulement autorisent une modification de structure ; se tromper produit un champ absent sans erreur explicite.
+      Cinq evenements dont deux seulement autorisent une modification de structure ; se tromper produit un champ absent sans erreur explicite.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
