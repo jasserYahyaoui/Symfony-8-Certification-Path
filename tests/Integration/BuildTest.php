@@ -127,6 +127,97 @@ final class BuildTest extends TestCase
     }
 
     /**
+     * MDX reads a bare `<` as a JSX tag and a bare `{` as an expression, so a
+     * matrix field such as `config/packages/<env>/` failed the site build with
+     * a parse error pointing nowhere near the canonical file that caused it.
+     * The generator escapes; the canonical data stays readable prose.
+     */
+    public function testGeneratedPagesEscapeMdxControlCharactersFromCanonicalProse(): void
+    {
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($project->loadContentSet());
+
+        // The learning-outcome list is generated wholly from the matrix, so it
+        // is where unescaped canonical prose would surface. An authored course
+        // body is exempt on purpose and may carry `<env>` inside inline code.
+        $escaped = 0;
+        foreach ($this->generatedPages($project) as $name => $body) {
+            $outcomes = $this->sectionOf($body, "## Objectifs d'apprentissage");
+            self::assertStringNotContainsString('<', $outcomes, $name.' leaks a bare JSX-like tag');
+
+            // Only `<` is escaped: a bare `>` is harmless to MDX, and escaping
+            // it too would make the canonical prose harder to read in a diff.
+            if (str_contains($outcomes, '&lt;env>')) {
+                ++$escaped;
+            }
+        }
+
+        self::assertGreaterThan(0, $escaped, 'no generated page exercises the escaping');
+    }
+
+    /**
+     * An authored course body is Markdown written for this pipeline: it uses
+     * fenced code and `<details>` on purpose, so it must reach the page
+     * unescaped. Escaping it would render the flashcard markup as text.
+     */
+    public function testAuthoredCourseMarkupIsNotEscaped(): void
+    {
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($project->loadContentSet());
+
+        $body = $this->generatedPageContaining($project, '<details>');
+
+        self::assertStringContainsString('<summary>', $body);
+        self::assertStringNotContainsString('&lt;details&gt;', $body);
+    }
+
+    /** The text between a heading and the next one, or '' when absent. */
+    private function sectionOf(string $body, string $heading): string
+    {
+        $start = strpos($body, $heading);
+        if (false === $start) {
+            return '';
+        }
+
+        $start += \strlen($heading);
+        $end = strpos($body, "\n#", $start);
+
+        return false === $end ? substr($body, $start) : substr($body, $start, $end - $start);
+    }
+
+    /**
+     * @return iterable<string, string> generated page bodies, keyed by filename
+     */
+    private function generatedPages(Project $project): iterable
+    {
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($project->path('website/docs'), \FilesystemIterator::SKIP_DOTS),
+        );
+
+        foreach ($iterator as $file) {
+            if (!$file instanceof \SplFileInfo || 'md' !== $file->getExtension()) {
+                continue;
+            }
+
+            $body = file_get_contents($file->getPathname());
+            if (\is_string($body)) {
+                yield $file->getFilename() => $body;
+            }
+        }
+    }
+
+    private function generatedPageContaining(Project $project, string $needle): string
+    {
+        foreach ($this->generatedPages($project) as $body) {
+            if (str_contains($body, $needle)) {
+                return $body;
+            }
+        }
+
+        self::fail(\sprintf('no generated page contains "%s"', $needle));
+    }
+
+    /**
      * §19: an empty syllabus is reported as undefined, never as 0% coverage.
      */
     public function testCoverageReportsAnUndefinedDenominatorWhenTheSyllabusIsEmpty(): void

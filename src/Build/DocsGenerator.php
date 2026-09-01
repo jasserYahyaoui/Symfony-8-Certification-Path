@@ -338,37 +338,42 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 
     private function itemPage(OfficialItem $item, ContentSet $content): string
     {
+        $officialItem = $this->mdxText($item->officialItem);
+        $officialWording = $this->mdxText($item->officialWording);
+        $officialTopic = $this->mdxText($item->officialTopic);
+        $versionConstraints = $this->mdxText($item->versionConstraints);
+
         $markdown = $this->frontMatter($item->officialItem, $item->officialItemOrder, $this->slug($item->officialItem))."
-# {$item->officialItem}
+# {$officialItem}
 
 > **Item officiel, formulation verbatim :**
-> {$item->officialWording}
+> {$officialWording}
 
 | | |
 |---|---|
-| Sujet officiel | {$item->officialTopic} |
+| Sujet officiel | {$officialTopic} |
 | Niveau de contenu | `{$this->levelLabel($item)}` |
 | Classification | `{$item->classification->value}` |
 | Statut | `{$item->status->value}` |
-| Contraintes de version | {$item->versionConstraints} |
+| Contraintes de version | {$versionConstraints} |
 
 ## Objectifs d'apprentissage
 
 ";
 
         foreach ($item->learningOutcomes as $outcome) {
-            $markdown .= '- '.$outcome."\n";
+            $markdown .= '- '.$this->mdxText($outcome)."\n";
         }
 
         if (null !== $item->contentLevelJustification) {
-            $markdown .= "\n## Justification du niveau\n\n".$item->contentLevelJustification."\n";
+            $markdown .= "\n## Justification du niveau\n\n".$this->mdxText($item->contentLevelJustification)."\n";
         }
 
         if (ContentLevel::Deep === $item->contentLevel) {
             $markdown .= "\n:::info Niveau DEEP\nCe niveau n'est jamais le défaut. Il est réservé aux concepts structurels ou fréquemment confondus.\n:::\n";
         }
 
-        $markdown .= "\n## Limites de périmètre\n\n".$item->exclusionBoundaries."\n";
+        $markdown .= "\n## Limites de périmètre\n\n".$this->mdxText($item->exclusionBoundaries)."\n";
 
         $course = $this->courseFor($item->id->value, $content);
         if (null !== $course) {
@@ -385,7 +390,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
                 // keyboard-operable control rather than a scripted one.
                 $markdown .= "<details>\n<summary>".$this->escapeHtml($card->front)."</summary>\n\n"
                     ."**".$this->escapeHtml($card->back)."**\n\n"
-                    .$card->explanation."\n\n</details>\n\n";
+                    .$this->mdxText($card->explanation)."\n\n</details>\n\n";
             }
         }
 
@@ -399,7 +404,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
                     $markdown .= ' — `'.substr($source->commitSha, 0, 12).'`';
                 }
                 if (null !== $source->symbolOrLines && '' !== $source->symbolOrLines) {
-                    $markdown .= ' — '.$source->symbolOrLines;
+                    $markdown .= ' — '.$this->mdxText($source->symbolOrLines);
                 }
                 $markdown .= "\n";
             }
@@ -433,6 +438,23 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
     private function escapeHtml(string $value): string
     {
         return htmlspecialchars($value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    /**
+     * Canonical prose inlined into a generated page, made safe for MDX.
+     *
+     * MDX reads a bare `<` as the start of a JSX tag and a bare `{` as the
+     * start of an expression, so a legitimate matrix field such as
+     * `config/packages/<env>/` fails the site build with a parse error far
+     * from its cause. The canonical data must stay readable prose, so the
+     * generator escapes rather than the author.
+     *
+     * Authored course bodies are deliberately NOT passed through here: they
+     * are Markdown written for this pipeline and use `<details>` on purpose.
+     */
+    private function mdxText(string $value): string
+    {
+        return str_replace(['<', '{'], ['&lt;', '&#123;'], $value);
     }
 
     /** An un-researched item has no content level yet (§3.4). */
