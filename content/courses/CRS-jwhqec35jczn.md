@@ -92,9 +92,7 @@ $finder->directories();  // répertoires seuls
 
 **Par défaut, le Finder rend les deux.** `files()` et `directories()` restreignent.
 
-`followLinks()` suit les liens symboliques — mais **ne les résout pas** : un lien
-vers un fichier apparaît comme lien, tandis qu'un lien vers un répertoire fait
-entrer son contenu dans les résultats.
+Les liens symboliques ne sont pas suivis par défaut ; `followLinks()` les suit.
 
 ## Les fichiers de gestion de version
 
@@ -113,15 +111,11 @@ racine.
 $finder->depth('== 0');            // enfants directs seulement
 $finder->depth(['> 2', '< 5']);    // ou par chaînage
 
-$finder->sortByName();
-$finder->sortByName(true);         // ordre naturel : file2 avant file10
+$finder->sortByName();             // true pour l'ordre naturel
 $finder->sortByType();             // répertoires d'abord, puis fichiers
 ```
 
 Le parcours est **récursif par défaut** ; `depth()` le borne.
-
-`sortByName()` utilise `strcmp()` — donc `file1`, `file10`, `file2`. Passer
-`true` bascule sur l'ordre **naturel**.
 
 ## Récupérer les résultats
 
@@ -140,10 +134,6 @@ résultats s'écrasent.
 **Sans `files()` ni `directories()`, les deux sont rendus.**
 
 **`in()` est le seul critère obligatoire.**
-
-**`followLinks()` suit sans résoudre.**
-
-**`sortByName()` n'est pas naturel par défaut** — `file10` avant `file2`.
 
 **Plusieurs `in()` : `iterator_to_array($finder, false)`.**
 

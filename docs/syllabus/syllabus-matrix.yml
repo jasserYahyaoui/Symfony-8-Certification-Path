@@ -8166,6 +8166,7 @@ items:
       - Construire une recherche par critères chaînés
       - Expliquer pourquoi un Finder réutilisé doit être cloné
       - Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés
+      - Convertir les résultats en tableau après plusieurs emplacements de recherche
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
