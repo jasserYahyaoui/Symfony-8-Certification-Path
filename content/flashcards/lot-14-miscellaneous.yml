@@ -1,0 +1,49 @@
+# Lot 14 — Miscellaneous (Configuration, Error handling, Code debugging)
+# flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-nb0mh2t8j7r9
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  front: Une vraie variable d'environnement et un fichier .env définissent la même clé. Laquelle gagne ?
+  back: La vraie variable d'environnement, toujours. Les fichiers .env n'ajoutent que ce qui manque, ils n'écrasent
+    rien.
+  explanation: C'est ce qui permet à un hébergeur de fixer une valeur qu'aucun fichier versionné ne peut contredire.
+  memorization_justification: L'ordre de la cascade .env est bien retenu, mais on oublie ce qui la surplombe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-63tca08n26r1
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  front: D'où vient le code de statut HTTP d'une page d'erreur ?
+  back: De l'exception, si elle implémente HttpExceptionInterface et donc getStatusCode(). Toute autre exception
+    donne 500.
+  explanation: 'C''est pourquoi createNotFoundException() existe : lever une RuntimeException ordinaire donnerait
+    un 500.'
+  memorization_justification: On suppose que le sens métier de l'exception suffit à choisir le statut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-1f4raf4m8wng
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  front: Que se passe-t-il si un dump() reste dans du code déployé en production ?
+  back: 'Une Error fatale : symfony/var-dumper est une dépendance --dev, donc la fonction n''existe pas.'
+  explanation: Ce n'est ni un affichage indésirable ni une exception applicative rattrapable — la page tombe.
+  memorization_justification: On imagine un oubli cosmétique, alors que l'absence de la dépendance rend l'appel
+    impossible.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
