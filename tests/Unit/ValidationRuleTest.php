@@ -351,6 +351,47 @@ final class ValidationRuleTest extends TestCase
         self::assertViolates(new ReferentialIntegrityRule(), $content, 'REF-001');
     }
 
+    public function testTwoItemsClaimingTheSameQuestionFails(): void
+    {
+        $question = QuestionFactory::make(['officialItemId' => 'OIT-000000000001']);
+
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([
+                ItemFactory::make([
+                    'id' => Id::parse('OIT-000000000001'),
+                    'courseRefs' => [],
+                    'questionRefs' => [$question->id->value],
+                ]),
+                ItemFactory::make([
+                    'id' => Id::parse('OIT-000000000002'),
+                    'courseRefs' => [],
+                    'questionRefs' => [$question->id->value],
+                ]),
+            ]),
+            questions: [$question],
+        );
+
+        self::assertViolates(new ReferentialIntegrityRule(), $content, 'REF-001');
+    }
+
+    public function testItemReferencingAnotherItemsQuestionFails(): void
+    {
+        $question = QuestionFactory::make(['officialItemId' => 'OIT-000000000002']);
+
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([
+                ItemFactory::make([
+                    'id' => Id::parse('OIT-000000000001'),
+                    'courseRefs' => [],
+                    'questionRefs' => [$question->id->value],
+                ]),
+            ]),
+            questions: [$question],
+        );
+
+        self::assertViolates(new ReferentialIntegrityRule(), $content, 'REF-001');
+    }
+
     public function testEnrichmentAboveTenPercentFails(): void
     {
         $items = [ItemFactory::enrichment('T', 'lot-01')];

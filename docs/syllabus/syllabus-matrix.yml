@@ -8463,36 +8463,49 @@ items:
     lot: lot-25
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur une inversion : le fichier d'entrée retourne une fonction au lieu
+      d'exécuter l'application, et le runtime réexécute ce script, ce qui interdit tout effet de bord.
+      S'y ajoute une résolution d'arguments sensible au nom autant qu'au type. Le nombre de runtimes
+      disponibles n'est pas de la complexité, et écrire son propre runtime est hors périmètre utile.
+    learning_outcomes:
+      - Expliquer pourquoi le fichier d'entrée retourne une fonction plutôt que d'exécuter l'application
+      - Connaître la séquence d'amorçage et savoir que le script d'entrée y est réexécuté
+      - En déduire l'interdiction de tout effet de bord dans ce script
+      - Savoir que la résolution des arguments dépend du type et du nom de la variable
+      - Sélectionner un runtime par variable d'environnement ou par la configuration de Composer
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
         anchor: "usage"
         repository: "symfony/symfony-docs"
         branch: "8.0"
         verified_at: "2026-09-02"
     course_refs:
-      - "CRS-82d40ncj59k9"
+      - "CRS-pm5kj5kh3gt2"
     flashcard_refs:
-      - "FLC-x73mesgmmv9b"
+      - "FLC-0p88y5fvnr6d"
     question_refs:
-      - "QST-7fsdtzgc219c"
-      - "QST-mpsdvd7w472c"
-      - "QST-4qhtngjnh5k3"
+      - "QST-rez80g9m6w88"
+      - "QST-ymqf2vmf7842"
+      - "QST-qvrh3419534q"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 25 — Miscellaneous."
   - id: OIT-fr58jzaj6jtb
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -8510,20 +8523,10 @@ items:
     minimum_evidence: null
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst"
-        anchor: "transport-setup"
-        repository: "symfony/symfony-docs"
-        branch: "8.0"
-        verified_at: "2026-09-02"
-    course_refs:
-      - "CRS-h304h6ht87kc"
-    flashcard_refs:
-      - "FLC-xnqfscd5c1cy"
-    question_refs:
-      - "QST-08dprb9gp7c9"
-      - "QST-x1q4fk8g682j"
-      - "QST-42tvpnq0tkt2"
+    official_sources: []
+    course_refs: []
+    flashcard_refs: []
+    question_refs: []
     exercise_refs: []
     exam_refs: []
     prerequisites: []

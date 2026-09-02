@@ -22,7 +22,8 @@ final class ReferentialIntegrityRule implements Rule
 
     public function description(): string
     {
-        return 'Prerequisites and question references resolve, and no question is orphaned.';
+        return 'Prerequisites and question references resolve, each reference belongs to the item '
+            .'that claims it, and no question is orphaned.';
     }
 
     public function check(ContentSet $content): array
@@ -43,6 +44,23 @@ final class ReferentialIntegrityRule implements Rule
         foreach ($content->flashcards as $card) {
             $flashcardIds[$card->id->value] = true;
         }
+
+        // A reference names content that belongs to the referencing item. Two items
+        // claiming the same course, flashcard or question is a splice accident, and
+        // it stayed invisible until Lot 25 because the wrongly credited items were
+        // NOT_STARTED, which no readiness rule inspects.
+        $ownerOf = [];
+        foreach ($content->courses as $course) {
+            $ownerOf[$course->id->value] = $course->officialItemId;
+        }
+        foreach ($content->flashcards as $card) {
+            $ownerOf[$card->id->value] = $card->officialItemId;
+        }
+        foreach ($content->questions as $question) {
+            $ownerOf[$question->id->value] = $question->officialItemId;
+        }
+
+        $claimedBy = [];
 
         $referencedQuestions = [];
 
@@ -106,6 +124,37 @@ final class ReferentialIntegrityRule implements Rule
                         $this->id(),
                         Severity::Error,
                         \sprintf('Referenced flashcard "%s" does not exist.', $ref),
+                        $item->id->value,
+                    );
+                }
+            }
+
+            $refs = [...$item->courseRefs, ...$item->flashcardRefs, ...$item->questionRefs];
+
+            foreach ($refs as $ref) {
+                if (isset($claimedBy[$ref])) {
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf(
+                            'Reference "%s" is also claimed by item "%s"; content belongs to one item.',
+                            $ref,
+                            $claimedBy[$ref],
+                        ),
+                        $item->id->value,
+                    );
+                }
+                $claimedBy[$ref] = $item->id->value;
+
+                if (isset($ownerOf[$ref]) && $ownerOf[$ref] !== $item->id->value) {
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf(
+                            'Referenced "%s" declares item "%s" as its own, not this one.',
+                            $ref,
+                            $ownerOf[$ref],
+                        ),
                         $item->id->value,
                     );
                 }
