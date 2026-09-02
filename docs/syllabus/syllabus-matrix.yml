@@ -8258,26 +8258,46 @@ items:
     lot: lot-22
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur ce que rend un envoi et sur le moment où il part : MailerInterface ne rend rien parce que l'envoi peut être différé, TransportInterface rend un SentMessage et envoie toujours de façon synchrone, et Messenger rend l'asynchrone le défaut. Le nombre de transports et d'options du composant n'est pas de la complexité, et les ponts tiers sont hors périmètre.
+    learning_outcomes:
+      - Choisir un transport intégré et reconnaître celui que la documentation déconseille
+      - Expliquer pourquoi MailerInterface::send() ne rend rien et ce que rend TransportInterface
+      - Savoir que l'envoi est asynchrone par défaut dès que Messenger est présent
+      - Sélectionner un transport parmi plusieurs et savoir que l'en-tête de sélection est retiré
+      - Distinguer l'acceptation par le transport de la remise au destinataire
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst"
+        anchor: "transport-setup"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-h304h6ht87kc"
+    flashcard_refs:
+      - "FLC-xnqfscd5c1cy"
+    question_refs:
+      - "QST-08dprb9gp7c9"
+      - "QST-x1q4fk8g682j"
+      - "QST-42tvpnq0tkt2"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 22 — Miscellaneous."
   - id: OIT-9xdjjsqcbn13
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -8288,26 +8308,45 @@ items:
     lot: lot-22
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur la structure produite : quel conteneur multipart correspond à quelle intention, et où se place la version préférée. S'y ajoute une devinette de type qui lit le contenu et non le nom. Deux API pour un même message ne font pas un item DEEP.
+    learning_outcomes:
+      - Composer un message avec l'API haut niveau et savoir quand l'API bas niveau se justifie
+      - Associer chaque conteneur multipart à son intention et placer la version préférée en dernier
+      - Reconnaître que la devinette de type MIME inspecte le contenu et non le nom du fichier
+      - Connaître la restriction UTF-8 propre à l'adresse d'expéditeur
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst"
+        anchor: "usage"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-82d40ncj59k9"
+    flashcard_refs:
+      - "FLC-x73mesgmmv9b"
+    question_refs:
+      - "QST-7fsdtzgc219c"
+      - "QST-mpsdvd7w472c"
+      - "QST-4qhtngjnh5k3"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 22 — Miscellaneous."
   - id: OIT-qkcr4bat6dsb
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -8385,10 +8424,20 @@ items:
     minimum_evidence: null
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst"
+        anchor: "usage"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-82d40ncj59k9"
+    flashcard_refs:
+      - "FLC-x73mesgmmv9b"
+    question_refs:
+      - "QST-7fsdtzgc219c"
+      - "QST-mpsdvd7w472c"
+      - "QST-4qhtngjnh5k3"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
@@ -8415,10 +8464,20 @@ items:
     minimum_evidence: null
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst"
+        anchor: "transport-setup"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-h304h6ht87kc"
+    flashcard_refs:
+      - "FLC-xnqfscd5c1cy"
+    question_refs:
+      - "QST-08dprb9gp7c9"
+      - "QST-x1q4fk8g682j"
+      - "QST-42tvpnq0tkt2"
     exercise_refs: []
     exam_refs: []
     prerequisites: []

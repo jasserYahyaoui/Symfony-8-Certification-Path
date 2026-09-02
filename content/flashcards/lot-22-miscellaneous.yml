@@ -1,0 +1,41 @@
+# Lot 22 — Miscellaneous (Mailer, Mime) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-xnqfscd5c1cy
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  front: Pourquoi MailerInterface::send() ne rend-il rien ?
+  back: 'Parce qu''il peut différer l''envoi : avec Messenger installé, les messages partent de façon asynchrone
+    par défaut. C''est TransportInterface::send() qui rend un SentMessage, et lui envoie toujours de façon synchrone.'
+  explanation: Passer d'une interface à l'autre est la manière documentée d'obtenir les informations de débogage
+    d'un envoi.
+  memorization_justification: Un envoi qui ne rend rien passe pour un oubli d'API ; c'est en réalité la trace d'un
+    envoi différé, et la distinction ne se retient pas à la lecture.
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    branch: '8.0'
+    symbol_or_lines: mailer-debugging-emails
+    verified_at: '2026-09-02'
+- id: FLC-x73mesgmmv9b
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  front: Dans un conteneur multipart/alternative, où se place la version préférée ?
+  back: En dernier. Les parties d'un conteneur alternative sont des variantes du même contenu, et la forme préférée
+    doit être ajoutée en dernière position.
+  explanation: C'est ce qui décide de la version qu'un client affiche quand texte et HTML sont tous deux présents.
+  memorization_justification: 'La position encode la préférence : rien dans le nom du conteneur ne le rappelle,
+    et l''ordre paraît arbitraire.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    branch: '8.0'
+    symbol_or_lines: creating-raw-email-messages
+    verified_at: '2026-09-02'
