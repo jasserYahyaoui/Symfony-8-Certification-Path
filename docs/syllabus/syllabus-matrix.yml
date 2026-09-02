@@ -8357,26 +8357,49 @@ items:
     lot: lot-23
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur le moment où l'appel rend la main et sur ce qui interrompt le
+      processus : run() et mustRun() attendent là où start() rend la main tout de suite, et un
+      délai configuré n'est pas surveillé sur un processus asynchrone. Le nombre de méthodes du
+      composant — signaux, pid, TTY, chercheurs d'exécutable — n'est pas de la complexité.
+    learning_outcomes:
+      - Choisir entre un lancement bloquant et un lancement asynchrone, et savoir lequel lève
+      - Reconnaître que le tableau d'arguments est la forme recommandée et ce qu'une chaîne transfère à l'appelant
+      - Savoir que le délai par défaut vaut 60 secondes et qu'un processus asynchrone impose une vérification explicite
+      - Distinguer le délai total du délai d'inactivité
+      - Connaître les conséquences de la désactivation de la sortie
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst"
+        anchor: "usage"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-am0qe9xa8vzk"
+    flashcard_refs:
+      - "FLC-1ppn91nts4vh"
+    question_refs:
+      - "QST-qz4v99xfbh3t"
+      - "QST-cayjxkrtsp55"
+      - "QST-x7skxav0fpzg"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 23 — Miscellaneous."
   - id: OIT-43pt66xsft9f
     official_topic_order: 14
     official_topic: "Miscellaneous"

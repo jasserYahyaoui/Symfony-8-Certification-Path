@@ -1,0 +1,165 @@
+# Lot 23 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question — one per STANDARD item,
+# as rule POOL-002 requires. No HOLDOUT question: the pool already exercises
+# this reasoning and adding one for shape alone would fail the value gate.
+#
+# Stems describe situations and avoid naming the methods the course names,
+# so a candidate cannot answer by lexical recognition (CRS-001). Every
+# distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-qz4v99xfbh3t
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  subtopic: timeout
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A long-running external program is started without blocking, and a time limit was configured on it. The
+    program overruns that limit and nothing interrupts it. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - timeout
+  - async
+  choices:
+  - id: CHO-2avn0t7aef3x
+    text: On a process started without blocking, the limit is not watched for you; the caller has to check it periodically
+    correct: true
+  - id: CHO-2nms5z067wxw
+    text: The limit only applies to the error output, not to the total runtime
+    correct: false
+    explanation: The limit configured here bounds the total runtime.
+  - id: CHO-j70tacm8jg5d
+    text: The limit was silently replaced by the operating system's own maximum
+    correct: false
+    explanation: No such substitution takes place.
+  - id: CHO-23bn90r42j3r
+    text: A limit cannot be set at all on a program started without blocking
+    correct: false
+    explanation: It can be set; it simply is not enforced without a check.
+  explanation: The documentation states that for long running commands it is the caller's responsibility to perform
+    the timeout check regularly.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    branch: '8.0'
+    symbol_or_lines: process-timeout
+    verified_at: '2026-09-02'
+- id: QST-cayjxkrtsp55
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  subtopic: arguments
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command is defined as a plain string rather than as a list of arguments. What does the developer take
+    on by doing so?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - arguments
+  - shell
+  choices:
+  - id: CHO-9vfz1x9hpgvw
+    text: Escaping and portability across operating systems
+    correct: true
+  - id: CHO-cjj44vft3ja1
+    text: Nothing; the two forms are handled identically
+    correct: false
+    explanation: The list form is the one that handles escaping for you.
+  - id: CHO-933kmbrndqge
+    text: Only the choice of which shell interprets the command
+    correct: false
+    explanation: The shell is not selected by the developer here.
+  - id: CHO-xwrx9922vtxg
+    text: Responsibility for reading the output, which the list form does automatically
+    correct: false
+    explanation: Output retrieval is the same in both forms.
+  explanation: The array of arguments is the recommended form because it saves the developer from escaping; a string
+    is for shell features, and then escaping and portability become the developer's responsibility.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    branch: '8.0'
+    symbol_or_lines: using-features-from-the-os-shell
+    verified_at: '2026-09-02'
+- id: QST-x7skxav0fpzg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  subtopic: output
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Output collection is switched off on a process to save memory. Which configuration call also becomes unavailable
+    as a result?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - output
+  - timeout
+  choices:
+  - id: CHO-h3vze7nt7ry2
+    text: The one that limits how long the process may go without producing anything
+    correct: true
+  - id: CHO-1896yvn4g4mh
+    text: The one that limits total runtime
+    correct: false
+    explanation: The total runtime limit stays available.
+  - id: CHO-8fdcp6ezesxq
+    text: The one that sets environment variables for the process
+    correct: false
+    explanation: Environment variables are unaffected.
+  - id: CHO-085v7j5v2kzk
+    text: The one that stops the process
+    correct: false
+    explanation: Stopping the process remains available.
+  explanation: Disabling output makes the output getters and the idle timeout setter unavailable, because the idle
+    timeout is measured from the output the process produces.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    branch: '8.0'
+    symbol_or_lines: disabling-output
+    verified_at: '2026-09-02'

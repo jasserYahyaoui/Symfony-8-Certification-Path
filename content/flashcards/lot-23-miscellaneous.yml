@@ -1,0 +1,25 @@
+# Lot 23 — Miscellaneous (Process) flashcards (Master Plan §6).
+#
+# One card for the official item: the point fact that re-reading the course
+# does not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-1ppn91nts4vh
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  front: Un processus lancé de façon asynchrone dépasse son délai. Qui s'en aperçoit ?
+  back: Personne, sauf si l'appelant appelle checkTimeout() lui-même. Le délai n'est vérifié automatiquement que
+    pendant un appel bloquant ; sur un processus démarré en asynchrone, la vérification régulière est à la charge
+    de l'appelant.
+  explanation: Le délai total vaut 60 secondes par défaut et l'expiration lève ProcessTimedOutException.
+  memorization_justification: On suppose qu'un délai configuré se surveille tout seul ; ici la configuration existe
+    mais la surveillance n'a pas lieu.
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    branch: '8.0'
+    symbol_or_lines: process-timeout
+    verified_at: '2026-09-02'
