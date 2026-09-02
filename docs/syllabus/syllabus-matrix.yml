@@ -8109,26 +8109,45 @@ items:
     lot: lot-21
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Des opérations dont les garanties diffèrent — écriture atomique, exception au lieu d'un retour
+      silencieux — que le candidat doit distinguer sur un cas, non énumérer.
+    learning_outcomes:
+      - Choisir l'opération adaptée parmi celles du composant
+      - Expliquer ce que garantit l'écriture atomique
+      - Reconnaître qu'un échec lève une exception portant le chemin fautif
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
+        branch: "8.0"
+        symbol_or_lines: "filesystem-utilities"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-h9nryezt8wnb"
+    flashcard_refs:
+      - "FLC-e2refpyf7ra0"
+    question_refs:
+      - "QST-q1g70cf81t0a"
+      - "QST-3xhbezx2h2e2"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-at67jvy54v5b"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 21 — Miscellaneous."
   - id: OIT-a1anzcv85my3
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -8139,26 +8158,46 @@ items:
     lot: lot-21
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une API fluide dont l'objet est à état : deux critères successifs s'additionnent au lieu de se
+      remplacer. Diagnostiquer une recherche trop étroite demande d'avoir compris ce point.
+    learning_outcomes:
+      - Construire une recherche par critères chaînés
+      - Expliquer pourquoi un Finder réutilisé doit être cloné
+      - Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés
+      - Convertir les résultats en tableau après plusieurs emplacements de recherche
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst"
+        branch: "8.0"
+        symbol_or_lines: "usage"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-jwhqec35jczn"
+    flashcard_refs:
+      - "FLC-zw88x7tcje1m"
+    question_refs:
+      - "QST-9vdyrx07zz9j"
+      - "QST-5a5z84vv3kvc"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-y8xczgk8cn9z"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 21 — Miscellaneous."
   - id: OIT-8xcczyjyyanz
     official_topic_order: 14
     official_topic: "Miscellaneous"
