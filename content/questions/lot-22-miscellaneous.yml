@@ -1,0 +1,320 @@
+# Lot 22 — Miscellaneous question bank (Master Plan §7).
+#
+# 4 LEARNING questions and 2 VALIDATION questions — one per STANDARD item,
+# as rule POOL-002 requires. No HOLDOUT question: the pool already exercises
+# this reasoning and adding one for shape alone would fail the value gate.
+#
+# Stems describe situations and avoid naming the classes, methods and headers
+# the courses name, so a candidate cannot answer by lexical recognition
+# (CRS-001). Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-08dprb9gp7c9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  subtopic: sending
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer wants the identifier of a message just handed to the mail service, but the call returns nothing
+    at all. What explains it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - sending
+  - debugging
+  choices:
+  - id: CHO-jfm4r69xm3r6
+    text: The interface they type-hinted may defer delivery, so it has nothing to return; the transport-level interface
+      returns a result object and always delivers synchronously
+    correct: true
+  - id: CHO-qj62e9pv66c5
+    text: The message was rejected by the server, so no result could be produced
+    correct: false
+    explanation: A refusal raises an exception rather than returning nothing.
+  - id: CHO-fhea5wpyv8ag
+    text: Results are only returned once the message has actually reached the recipient
+    correct: false
+    explanation: Delivery to the recipient is outside the application's reach either way.
+  - id: CHO-066b3ce5xsjq
+    text: The identifier has to be set on the message before sending
+    correct: false
+    explanation: The value in question is produced by sending, not supplied to it.
+  explanation: The mailer-level send method returns nothing because delivery can be deferred; the transport-level
+    one returns a SentMessage and always sends synchronously.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    branch: '8.0'
+    symbol_or_lines: mailer-debugging-emails
+    verified_at: '2026-09-02'
+- id: QST-x1q4fk8g682j
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  subtopic: async
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application has the Messenger component installed and no mail-specific routing was configured. How
+    are emails delivered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - async
+  - messenger-boundary
+  choices:
+  - id: CHO-p3cveetryv3j
+    text: Asynchronously, because that is the default once Messenger is present
+    correct: true
+  - id: CHO-1g8h0pxfn77n
+    text: Synchronously, until a mail message class is explicitly routed to a transport
+    correct: false
+    explanation: The default applies without any routing being declared.
+  - id: CHO-wnbgxfzhdpcw
+    text: Synchronously, because Messenger only affects classes the developer wrote
+    correct: false
+    explanation: The mail message dispatched by the component is routed like any other.
+  - id: CHO-fk38hb3y8xrh
+    text: It depends on the mail transport protocol chosen in the DSN
+    correct: false
+    explanation: The DSN selects how the message leaves, not whether sending is deferred.
+  explanation: The documentation states that when the Messenger component is installed, all emails are sent asynchronously
+    by default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    branch: '8.0'
+    symbol_or_lines: creating-sending-messages
+    verified_at: '2026-09-02'
+- id: QST-42tvpnq0tkt2
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  subtopic: transports
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two delivery routes are declared under a single application, and one message must take the second one.
+    What makes that happen, and what becomes of the instruction afterwards?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - transports
+  - headers
+  choices:
+  - id: CHO-v8mx546wa8qm
+    text: A dedicated header names the route; the component strips that header from the message it finally sends
+    correct: true
+  - id: CHO-nxa13hrgyw45
+    text: A dedicated header names the route, and it stays in the delivered message as a delivery record
+    correct: false
+    explanation: The component removes it, so it never reaches the recipient.
+  - id: CHO-jen44zyqphdz
+    text: The route is chosen by the order of declaration alone and cannot be overridden per message
+    correct: false
+    explanation: Declaration order only sets the default.
+  - id: CHO-2prjtavw33rs
+    text: A second mail service must be injected, one per declared route
+    correct: false
+    explanation: One service handles all declared routes.
+  explanation: The first declared transport is the default; an X-Transport header selects another and Mailer removes
+    it from the final email.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    branch: '8.0'
+    symbol_or_lines: multiple-email-transports
+    verified_at: '2026-09-02'
+- id: QST-7fsdtzgc219c
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  subtopic: structure
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A message carries a plain-text and an HTML rendering of the same content. Inside the container that holds
+    those two alternatives, which one is added last?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - multipart
+  - structure
+  choices:
+  - id: CHO-7emqabxwgaqp
+    text: The preferred one
+    correct: true
+  - id: CHO-hh3dc037kt62
+    text: The plain-text one, as the safest fallback
+    correct: false
+    explanation: Position encodes preference, not safety; the fallback goes first.
+  - id: CHO-e7jas6xazn9r
+    text: Whichever was set first on the message object, since order is not significant here
+    correct: false
+    explanation: Order is significant in this container.
+  - id: CHO-21gbj8fvn2af
+    text: Neither; the client decides from the content types alone and order is ignored
+    correct: false
+    explanation: The standard uses position to express which alternative is preferred.
+  explanation: In a multipart/alternative container the parts are variants of the same content and the preferred format
+    must be added last.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    branch: '8.0'
+    symbol_or_lines: creating-raw-email-messages
+    verified_at: '2026-09-02'
+- id: QST-mpsdvd7w472c
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  subtopic: mime-types
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A file named report.pdf is inspected by the component's type-detection utility, which reports it as a
+    plain-text type. Is that a bug?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - mime-types
+  - guessing
+  choices:
+  - id: CHO-ec2qa0yns5wv
+    text: No; detection inspects the file's contents rather than its name, so a mislabelled file is reported for what
+      it really is
+    correct: true
+  - id: CHO-r6hwa9xczscf
+    text: Yes; the extension is authoritative and should have been used
+    correct: false
+    explanation: The utility deliberately does not read the name.
+  - id: CHO-4spvr7sb0t3g
+    text: Yes; a missing optional PHP extension makes detection return wrong answers
+    correct: false
+    explanation: That extension affects performance, not correctness.
+  - id: CHO-f5m00ywre9fe
+    text: No, but only because the file was unreadable and a default was returned
+    correct: false
+    explanation: A concrete type was reported, which means the contents were inspected.
+  explanation: 'Guessing is not based on the file name: the utility inspects part of the file contents, so a wrongly
+    named file is reported by its real type.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    branch: '8.0'
+    symbol_or_lines: components-mime-type-guess
+    verified_at: '2026-09-02'
+- id: QST-4qhtngjnh5k3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  subtopic: addresses
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Non-ASCII characters appear in the local part of several addresses on one message. Which position is the
+    exception that does not accept them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - addresses
+  - encoding
+  choices:
+  - id: CHO-vdv67w7hjv06
+    text: The sender address
+    correct: true
+  - id: CHO-7k68yfabnbd3
+    text: Every recipient in the blind-copy list
+    correct: false
+    explanation: Blind-copy recipients are ordinary recipient addresses.
+  - id: CHO-q3mvrf25c95j
+    text: The reply-to address
+    correct: false
+    explanation: It is an ordinary address like the recipients.
+  - id: CHO-3fcp1q6z03cp
+    text: None; the restriction applies to the domain part rather than to any particular position
+    correct: false
+    explanation: The documented exception is about one position, not the domain.
+  explanation: UTF-8 characters are allowed in the local part of addresses except for the sender address, to avoid
+    problems with bounced emails.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    branch: '8.0'
+    symbol_or_lines: usage
+    verified_at: '2026-09-02'
