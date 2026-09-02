@@ -1,0 +1,308 @@
+# Lot 20 — Miscellaneous question bank (Master Plan §7).
+#
+# 4 LEARNING questions (2 per official item) and 2 VALIDATION questions —
+# one per STANDARD item, as rule POOL-002 requires. No HOLDOUT question:
+# the pool carries 27 and already exercises this reasoning.
+#
+# The HTTP kernel events belong to Symfony Architecture and the console
+# events to the Console topic; neither is retested here.
+#
+# Stems are situations, not sentences lifted from the course (CRS-001).
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-xa6bq0yg86z5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  subtopic: priority
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Three listeners are registered for one event with priorities -5, 0 and 20. In which order does the dispatcher
+    call them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - priority
+  choices:
+  - id: CHO-b98pjs7aj28k
+    text: 20, then 0, then -5
+    correct: true
+  - id: CHO-373ysd19c8m7
+    text: -5, then 0, then 20
+    correct: false
+    explanation: That reads the number as a rank, where 1 would come first; the dispatcher does the opposite.
+  - id: CHO-wn08bgx7phaj
+    text: 0, then 20, then -5
+    correct: false
+    explanation: The default value has no special standing; it is simply the number zero.
+  - id: CHO-a8bqema9z67v
+    text: In the order they were registered, since priorities only break ties
+    correct: false
+    explanation: Registration order is the tie-breaker between equal priorities, not the primary rule.
+  explanation: A higher number means earlier. Registration order decides only between listeners sharing a priority.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: connecting-listeners
+    verified_at: '2026-09-02'
+- id: QST-d95psbyzz9x4
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  subtopic: subscribers
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What can a subscriber express that a single listener registration cannot?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - subscriber
+  choices:
+  - id: CHO-8d84vzpsq48x
+    text: Several methods on the same event, each with its own priority
+    correct: true
+  - id: CHO-734mmzzcvrjy
+    text: A listener that runs before the dispatcher itself is built
+    correct: false
+    explanation: Nothing runs before the dispatcher exists; subscription still happens through it.
+  - id: CHO-an3kt0ggkmzt
+    text: Registration without the dispatcher knowing the event name
+    correct: false
+    explanation: The names are exactly what the subscriber declares.
+  - id: CHO-dpfc1mv7s98q
+    text: An event handler that cannot be disabled
+    correct: false
+    explanation: If anything, the documentation notes the opposite advantage for listeners.
+  explanation: getSubscribedEvents() may map one event to a list of method-and-priority pairs, which is why the
+    framework uses subscribers internally.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: using-event-subscribers
+    verified_at: '2026-09-02'
+- id: QST-c6j2y7wpcswr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  subtopic: dispatch
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An event object is dispatched with no name argument. Under what name do listeners have to subscribe?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - dispatch
+  choices:
+  - id: CHO-exfdt52ajc5b
+    text: The event object's class name
+    correct: true
+  - id: CHO-np6et07gt9pm
+    text: An empty string, which matches every listener
+    correct: false
+    explanation: No wildcard subscription exists; a concrete name is always used.
+  - id: CHO-133nbgmjjwvf
+    text: The name given when the class was declared as a service
+    correct: false
+    explanation: Service identifiers play no part in naming a dispatched event.
+  - id: CHO-j62edwpxs3wc
+    text: A name derived from the method that dispatched it
+    correct: false
+    explanation: The caller's method is not inspected.
+  explanation: The name argument is optional; omitted, the class of the event instance serves as the name, which
+    is why subscriptions are commonly keyed on ::class.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: creating-and-dispatching-an-event
+    verified_at: '2026-09-02'
+- id: QST-dxvqjgxd3vyq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  subtopic: propagation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener calls stopPropagation(). What happens to the listeners that already ran?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - propagation
+  choices:
+  - id: CHO-xsvyjj99aw6n
+    text: 'Nothing: their work stands, only the remaining listeners are skipped'
+    correct: true
+  - id: CHO-b5wc3wgf9q5e
+    text: They are rolled back, since the event is cancelled
+    correct: false
+    explanation: No rollback mechanism exists; the dispatcher simply stops notifying.
+  - id: CHO-x7w5q0zznvx7
+    text: They are called a second time to let them react
+    correct: false
+    explanation: Nothing is re-notified.
+  - id: CHO-28znpnc89yq4
+    text: An exception is raised so the dispatcher can unwind them
+    correct: false
+    explanation: Stopping propagation is an ordinary, quiet control-flow decision.
+  explanation: The method only prevents further notifications, which makes its effect entirely dependent on the
+    priority order.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: stopping-event-flow-propagation
+    verified_at: '2026-09-02'
+- id: QST-99x1vnm3rtx4
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  subtopic: base-class
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why does an application usually define its own event class rather than dispatching the base Event?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - event-class
+  choices:
+  - id: CHO-nkkncxhkhbqp
+    text: The base class is deliberately minimal and carries no application data
+    correct: true
+  - id: CHO-ye749t03jwte
+    text: The base class is abstract and cannot be instantiated
+    correct: false
+    explanation: Dispatching it is possible; it simply conveys nothing useful.
+  - id: CHO-ks4n0m10pwep
+    text: The dispatcher refuses an event that is not a subclass
+    correct: false
+    explanation: Any event object is accepted.
+  - id: CHO-31rvkrqwr3c2
+    text: Subclassing is required to give the event a name
+    correct: false
+    explanation: A name can be passed explicitly to the dispatch call.
+  explanation: It offers little beyond propagation control, so data is carried by a subclass exposing accessors
+    — or by GenericEvent's subject and arguments.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    symbol_or_lines: event-names-and-event-objects
+    verified_at: '2026-09-02'
+- id: QST-yxwtwshs91fd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  subtopic: generic-event
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does GenericEvent offer over the base event class?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - generic-event
+  choices:
+  - id: CHO-17dfvch8w4ms
+    text: A subject plus optional keyed arguments, with array access to those arguments
+    correct: true
+  - id: CHO-hcc6br375n1t
+    text: Automatic naming of the event from its subject
+    correct: false
+    explanation: Naming is unrelated; it follows the same rules as any event.
+  - id: CHO-9kzbbn0aakd4
+    text: A guarantee that listeners cannot stop propagation
+    correct: false
+    explanation: It inherits propagation control like any other event.
+  - id: CHO-3qx0gn3k468r
+    text: Typed accessors generated from the subject's class
+    correct: false
+    explanation: Its accessors are generic by design, which is the trade-off it makes.
+  explanation: It suits an application willing to use one event object throughout, at the cost of untyped data reached
+    by key.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst
+    branch: '8.0'
+    symbol_or_lines: the-generic-event-object
+    verified_at: '2026-09-02'
