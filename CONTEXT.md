@@ -6,57 +6,45 @@
 
 ## Current lot
 
-**Lot 12 — Console: delivered, awaiting CI** (9 items). Lots 0 through 11 are
-complete. Next: **Lot 13 — Automated Tests** (9 items).
+**Lot 12 — Console: PASS** (9 items). Lots 0 through 12 are complete.
+**Lot 13 — Automated Tests: delivered, awaiting CI** (9 items).
+Next: **Lot 14 — Miscellaneous** (3 items).
 
 Lot 12 covers the Console topic in full: 9 courses (4245 body words), 9
-flashcards, 27 questions (18 LEARNING, 7 VALIDATION, 2 HOLDOUT). Level
-distribution **7 STANDARD, 2 MINIMAL, 0 DEEP** — an observation, not a target:
-no item here shows the multi-step complexity that would justify DEEP.
+flashcards, 27 questions. Levels 7 STANDARD, 2 MINIMAL, 0 DEEP.
 
-The early-delivery notice on `CRS-6gc45etcssfb` has been **removed**: its three
-declared prerequisites — Firewalls, Users, Providers — now exist, which is what
-the Lot 10 definition of done required.
+Lot 13 covers Automated Tests in full: 9 courses (3889 body words), 9
+flashcards, 27 questions. Levels 7 STANDARD, 2 MINIMAL, 0 DEEP. The syllabus
+excludes the **PHPUnit Bridge** on three of its items, including *Handling
+legacy deprecated code* — whose usual tool it is — so that item is taught
+without it and no question relies on it.
 
 Before Lot 08, the six **Priority-1 corrections** of the mid-path professor
-audit were applied and merged (PR #15, merge `fc9b84f`): the SPL hierarchy
-diagram, the Twig `+` claim on strings (four occurrences, not three), the
-`getPayload()` return type, the `kernel.request` short-circuit wording, three
-cache directives that a VALIDATION question tested without teaching, and an
-early-delivery notice on the orphan Security item. Priority 2 of that audit
-remains **open and is due before the mock exams** — see *Remaining work*.
+audit were applied and merged (PR #15, merge `fc9b84f`). Priority 2 of that
+audit remains **open and is due before the mock exams** — see *Remaining work*.
 
 ## Current branch
 
-`lot-12-console`, at commit `a3476dc`, pushed and open as
-[PR #22](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/22).
-CI check run `100130050367` (*Technical gate*) was **queued** at the single
+`lot-13-automated-tests`, at commit `c263433`, pushed and open as
+[PR #23](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/23).
+CI check run `100136480419` (*Technical gate*) was **in progress** at the single
 explicit check; it is **not** yet a PASS and must not be reported as one.
 
-Previously `master`, at merge commit `56743e0` (Lot 11), then `505eb58` (Lot 09), CI run `33553008230` and deploy
-run `33553221047` both green, **production smoke-test job `100008013813`
-success**. Lot 09 shipped through
-[PR #18](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/18).
-Previously `ff25863` (Lot 08), CI run `33549262471` and deploy
-run `33549471335` both green, **production smoke-test job `99995551340`
-success**. Lot 08 shipped through
-[PR #16](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/16);
-the audit's Priority-1 corrections through
-[PR #15](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/15)
-(merge `fc9b84f`); the Form-events count fix through
-[PR #14](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/14)
-(merge `2682415`). Earlier history: merge commit `0502775`. Lot 05 shipped through
-[PR #5](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/5),
-whose first push failed CI on the site build (issue SITE-3) and was fixed in
-`a06a14b`. Lot 04 shipped through
-[PR #3](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/3)
-(merge `5dd75d7`) and its evidence through PR #4. Lot 03 shipped through
-[PR #1](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/1)
-(merge `6a31ff5`) and its evidence through PR #2 (merge `4802990`).
+`master` is at merge commit `0fc51e1` (Lot 12, PR #22). Its evidence is real
+and complete: Technical gate check run `100130374274` **success** on head
+`8b87743`; Deploy run `33594048974` **success** across build
+(`100133752203`), deploy (`100133915007`) and the **production smoke test**
+(`100133956362`).
+Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
+
+Earlier: `56743e0` (Lot 11, PR #21), `ae1373d` (Lot 10, PR #20), `505eb58`
+(Lot 09, PR #18), `ff25863` (Lot 08, PR #16), `fc9b84f` (audit P1, PR #15),
+`2682415` (Form-events fix, PR #14), `e3e091c` (Lot 07, PR #12), `dd806b7`
+(Lot 06, PR #10), `0502775` (Lot 05, PR #5), `5dd75d7` (Lot 04, PR #3),
+`6a31ff5` (Lot 03, PR #1).
 Every lot from 03 onward uses branch → Pull Request → CI → controlled merge.
 
-Lot 03 is the first lot shipped through the §15 workflow: dedicated branch →
-Pull Request → CI → controlled merge into `master`. The direct-to-`master`
+Lot 03 is the first lot shipped through the §15 workflow. The direct-to-`master`
 commits of Lots 0.5–02 remain a **DOCUMENTED_DEVIATION** recorded in their
 reports; that history is not rewritten (CLAUDE.md, "Every lot ships through a
 branch and a Pull Request").
@@ -121,7 +109,7 @@ for evidence anchoring; toolchain verified.
 4. Define minimum `EXAM_READY` evidence (§9.3) — after question-bank design, not before.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
    end to end, then approve or correct the architecture before scaling.
-6. ~~Lots 1–3~~ — done. ~~Lots 04–11~~ — done. ~~Lot 12~~ — delivered. Lots 13–27.
+6. ~~Lots 1–3~~ — done. ~~Lots 04–12~~ — done. ~~Lot 13~~ — delivered. Lots 14–27.
 7. **Audit Priority 2, due before the mock exams.** P2.1 restore a standard
    `Pièges d'examen` section wherever a trap already exists in prose (~50
    courses, reorganisation only, growth < 2%); P2.2 rewrite the
@@ -140,11 +128,11 @@ for evidence anchoring; toolchain verified.
 Reconciled from `docs/syllabus/syllabus-matrix.yml` and `content/**` with a
 script, not from an earlier report.
 
-**163 imported, 135 EXAM_READY.**
+**163 imported, 144 EXAM_READY.**
 
 ```text
 coverage = EXAM_READY atomic official items / total atomic official items * 100
-         = 135 / 163 = 82.82%
+         = 144 / 163 = 88.34%
 ```
 
 | Lot | Topic | EXAM_READY items |
@@ -161,16 +149,19 @@ coverage = EXAM_READY atomic official items / total atomic official items * 100
 | 10 | Security | 12 |
 | 11 | Messenger | 7 |
 | 12 | Console | 9 |
+| 13 | Automated Tests | 9 |
 
 The three Golden Slice items are counted inside the lots that own their topics.
 
-**Cumulative content:** 135 courses (50 306 body words, YAML front matter
-excluded), 109 flashcards, 412 questions — 278 LEARNING, 109 VALIDATION,
-25 HOLDOUT. Question language: 391 English, 21 French.
+**Cumulative content:** 144 courses (54 195 body words, YAML front matter
+excluded), 118 flashcards, 439 questions —
+296 LEARNING, 116 VALIDATION, 27 HOLDOUT.
+Question language: 418 English, 21 French.
 
-**Level distribution — observation, not a target:** 98 `STANDARD`,
-26 `MINIMAL`, 11 `DEEP`. Lot 12 contributed 7/2/0; a lot with zero `DEEP`
-items is complete, and no item was promoted to make a ratio look better.
+**Level distribution — observation, not a target:** 105 `STANDARD`,
+28 `MINIMAL`, 11 `DEEP`. Lots 12 and 13 each contributed
+7/2/0; a lot with zero `DEEP` items is complete, and no item was promoted to make
+a ratio look better.
 
 Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-01`](docs/reports/lot-01-report.md),
@@ -180,6 +171,7 @@ Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
 [`lot-05`](docs/reports/lot-05-report.md),
 [`lot-06`](docs/reports/lot-06-report.md),
 [`lot-07`](docs/reports/lot-07-report.md).
+Lots 08 onward were reported in session rather than as files.
 
 ### Cross-lot boundaries now load-bearing
 
@@ -257,49 +249,54 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | SCOPE-1 | Two Lot 11 questions were rejected by `SCOPE-001`: one used `doctrine://default` as a distractor and one asked why a **Doctrine entity** should not travel in a message. Doctrine is an excluded topic (§1.5), so neither may be the subject of a scored question. | Medium | **Resolved** — the distractor was replaced by a generic queue-backed transport, and the question was rewritten to ask why a message carries an **identifier rather than the loaded object**, which teaches the same serialisation fact without leaving the exam scope. The rule caught a scope drift I had not noticed while writing |
 | CNT-2 | The Lot 11 *Events* course first claimed **seven** Messenger events. The documented list has **ten** — my own grep pattern had missed `MessageSentToTransportsEvent`, `WorkerMessageRetriedEvent` and `WorkerRateLimitedEvent`. | Medium | **Resolved before commit** — corrected by reading the source list rather than trusting my filter, and the course now teaches the *shape* of the catalogue rather than the bare count. Fifth count error of the session; the DRAFT-1 rule held, but only because the check was actually performed |
 | FR-1 | French accents are missing throughout the flashcard banks of lots **07 to 11** (`traite` for `traité`, `resultat` for `résultat`, `facon` for `façon`) and throughout the matrix `content_level_justification` and `learning_outcomes` written over the same period. A line count confirms it: lots 01–06 carry 36 to 58 accented lines each, lots 07–11 carry 1 to 5. The cause is my own generator scripts, which were written in unaccented French to sidestep encoding trouble. No automated rule detects it, and no gate fails. | Medium | **Open — folded into audit item P2.8, whose scope this widens.** Lot 12 was generated with accents throughout (`allow_unicode=True`, accented source strings) and is not affected. Repairing lots 07–11 is not mechanical: each sentence has to be read to re-accent it correctly, so it is scheduled with P2 rather than done in passing. Lesson: a generator script is content, and shortcuts taken inside it reach the learner |
+| CRS-5 | `CRS-001` fired twice on Lot 13, and both were content faults rather than rule noise. (a) The *Handling legacy deprecated code* course restated nearly all of *Deprecations best practices* (lot-03) — the two markers, the mineure/majeure calendar, the CHANGELOG and UPGRADE trace — and so reproduced that item's correct answer. (b) The *Request and response objects introspection* course used `$response->getStatusCode()`, which is the correct answer to a lot-02 HttpClient question. | Medium | **Resolved** — (a) the course was rewritten around what its item actually owns (a silenced `E_USER_DEPRECATED` notice: nothing fails, nothing prints, it exists only if an error handler collects it), with the lot-03 boundary stated on the page; its flashcard and its two LEARNING questions were realigned so nothing is asked that the course no longer teaches. (b) the example now shows headers and content. Neither was fixed by rewriting a validated question or by fencing. The rule caught duplication that the §1.4 value gate should have caught first |
+| SPLICE-1 | The matrix splicer hard-coded the default `exclusion_boundaries` line. Three Lot 13 items carry `"PHPUnit Bridge is not included."` instead, so the splice would have silently replaced the syllabus's own scope note with the default text. | High | **Resolved before any data was lost** — the script's own guard refused to run rather than writing a near-match. It now matches that line with a regex and writes it back unchanged. Lesson: a splicer that assumes a constant template will corrupt the first record that differs, and only an assertion makes that visible |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-12-console`, every command run with
+Locally, on PHP 8.4.19, on `lot-13-automated-tests`, every command run with
 `set -o pipefail` and its exit code checked:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 412 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 82.82% (135/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 852 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 439 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 88.34% (144/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 861 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
-Pools verified against the built payloads: the 18 LEARNING questions are all in
-`practice.json`, the 7 VALIDATION questions all in `exam.json`, and **neither of
-the 2 HOLDOUT questions appears in either**. That is functional isolation; the
-published payloads carry correct answers, so it is not a confidentiality claim.
+Pools verified against the built payloads: Lot 13's 18 LEARNING questions are
+all in `practice.json`, its 7 VALIDATION questions all in `exam.json`, and
+**neither of its 2 HOLDOUT questions appears in either**. That is functional
+isolation; the published payloads carry correct answers, so it is not a
+confidentiality claim.
 
-`CRS-001` did **not** fire on this lot, and no course content was moved into a
-fenced block at any point.
+`CRS-001` fired twice on the first run and both were fixed in the **courses** —
+see issue CRS-5. No question was rewritten to accommodate a course, and nothing
+was moved into a fenced block.
 
-**In CI:** check run `100130050367` (*Technical gate*) on PR #22 was **queued**
-at the single explicit check. Per the working rule below it was not waited out.
-CI, deploy and the production smoke test are therefore `MISSING` for Lot 12 at
-the time of writing, not `PASS`.
+**In CI:** check run `100136480419` (*Technical gate*) on PR #23 was
+**in progress** at the single explicit check. CI, deploy and the production
+smoke test are therefore `MISSING` for Lot 13, not `PASS`.
 
-For Lot 11, on merge commit `56743e0`, CI and Deploy were both green and the
-production smoke test succeeded.
+**Lot 12, complete evidence** — merge commit `0fc51e1`; Technical gate check run
+`100130374274` success on head `8b87743`; Deploy run `33594048974` success
+across build `100133752203`, deploy `100133915007` and the production smoke
+test `100133956362`.
 Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 ## Next action
 
-**Confirm CI on PR #22, merge, deploy, run the production smoke test**, then
-emit the Lot 12 report. The check run was queued at the single explicit check;
-until it reports success, Lot 12 is `DELIVERED`, not `PASS`.
+**Confirm CI on PR #23, merge, deploy, run the production smoke test**, then
+emit the Lot 13 report. Until the check run reports success, Lot 13 is
+`DELIVERED`, not `PASS`.
 
-Then **Lot 13 — Automated Tests** (9 items), in Master Plan §14 order.
+Then **Lot 14 — Miscellaneous** (3 items), in Master Plan §14 order.
 
-Remaining after Lot 12: lot-13 Automated Tests (9), lot-14 Miscellaneous (3),
-then the fifteen single- and double-item lots 15–26, and Lot 27 (final review
-and mock exams). Twenty-eight items remain.
+Remaining after Lot 13: lot-14 Miscellaneous (3), then the single- and
+double-item lots 15–26, and Lot 27 (final review and mock exams). **Nineteen
+items remain.**
 
 **Working rule adopted at the owner's instruction:** no sleep, no polling loop,
 no background process waiting on a resource. CI and deploy are checked **once**,
@@ -308,26 +305,6 @@ out.
 
 `POOL-002` stays in force: a lot is not finished until every `STANDARD` or
 `DEEP` item carries a VALIDATION question.
-
-The Lot 08 boundary held as planned and is now load-bearing: Lot 07's *Form
-events* owns **when** validation runs (`POST_SUBMIT`); Lot 03's *Framework
-overloading* owns the **bundle-level** merge; Lot 08 owns constraints, scopes,
-groups, sequences, callbacks and the violations builder — and *PHP object
-validation* names the Lot 03 boundary explicitly so the two merges are not
-conflated. The forecast of "several MINIMAL items" was wrong: the observed
-distribution is 7 STANDARD and 1 DEEP, because every item turned out to need a
-distinction or an application rather than recognition alone.
-
-Watch — the figure the learner pays:
-
-- **revision burden**: 46 061 body words for 126 items, ~366 per item. Per-lot:
-  376, 407, 397, 329, 286, 329, 341, 420, 415, 349, **414**. Projection to 163
-  items ≈ 59 500 words, stable across four lots.
-- **French questions**: 21 of 287, and the last four lots added none. The
-  policy is now **decided** rather than drifting — P2.5 of the audit keeps
-  English as the question language, since the exam is sat in English (§5), and
-  replaces the idea of a French quota with small FR→EN terminology blocks in
-  the most terminology-dense courses. Not yet applied.
 
 ## Blocked decisions
 
