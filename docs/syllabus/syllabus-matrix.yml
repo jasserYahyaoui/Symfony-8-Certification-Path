@@ -8010,26 +8010,46 @@ items:
     lot: lot-19
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois implémentations à choisir selon le besoin, et un comportement contre-intuitif — une
+      horloge simulée qui n'avance pas — dont dépend la lecture d'un test. Le candidat doit appliquer,
+      pas reconnaître un vocabulaire.
+    learning_outcomes:
+      - Expliquer pourquoi le composant existe : découpler du temps système
+      - Choisir entre NativeClock, MockClock et MonotonicClock
+      - Utiliser ClockAwareTrait dans un service et ClockSensitiveTrait dans un test
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst"
+        branch: "8.0"
+        symbol_or_lines: "clock_usage"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-6hcrc92xv6vt"
+    flashcard_refs:
+      - "FLC-bhhw8akr7mb5"
+    question_refs:
+      - "QST-f2th6k9hk377"
+      - "QST-39ytp7h11m85"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-j5mgcztv2w1x"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 19 — Miscellaneous."
   - id: OIT-s601ppsyb9f7
     official_topic_order: 14
     official_topic: "Miscellaneous"
