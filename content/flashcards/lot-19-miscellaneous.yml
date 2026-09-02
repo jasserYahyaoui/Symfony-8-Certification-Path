@@ -1,0 +1,22 @@
+# Lot 19 — Miscellaneous (Clock) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-bhhw8akr7mb5
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  front: Deux appels successifs à now() sur une MockClock rendent-ils des heures différentes ?
+  back: Non. MockClock est figée à l'heure de son instanciation et n'avance jamais d'elle-même ; seuls sleep() ou
+    modify() la déplacent.
+  explanation: sleep() déplace l'heure simulée instantanément — sleep(600) ne fait pas patienter le test dix minutes.
+  memorization_justification: Le mot « horloge » suggère un écoulement ; ici il n'y en a aucun, et c'est exactement
+    ce qui rend le test déterministe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'

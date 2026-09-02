@@ -1,0 +1,159 @@
+# Lot 19 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question for the single STANDARD
+# item, as rule POOL-002 requires. No HOLDOUT question: the pool carries 27
+# and covers this kind of reasoning already.
+#
+# Stems are situations, not sentences lifted from the course (CRS-001).
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-f2th6k9hk377
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  subtopic: testing
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test builds a clock fixed at 15:20, asserts a token is valid, then asserts it has expired five minutes
+    later without touching the clock. The second assertion fails. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - mock-clock
+  choices:
+  - id: CHO-yy4taqqh7m0f
+    text: 'The clock never advanced: it stays at 15:20 until the test moves it explicitly'
+    correct: true
+  - id: CHO-v8f061eavt3z
+    text: The assertions ran too quickly for the clock to change
+    correct: false
+    explanation: Real elapsed time is irrelevant here; this clock is not driven by it at all.
+  - id: CHO-d5drp5ysrxvf
+    text: Expiry checks need the token's own timestamp, not the clock
+    correct: false
+    explanation: Comparing against the clock is the intended design; the problem is that the clock did not move.
+  - id: CHO-xnz9cs91rsvg
+    text: A frozen clock rejects comparisons with future dates
+    correct: false
+    explanation: Comparisons work normally; only the value returned stayed the same.
+  explanation: A mocked clock is fixed at the time it was built. Advancing it is an explicit call, which is precisely
+    what makes the test deterministic.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    branch: '8.0'
+    symbol_or_lines: mockclock
+    verified_at: '2026-09-02'
+- id: QST-39ytp7h11m85
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  subtopic: implementations
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which clock implementation should measure how long an operation took?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - monotonic
+  choices:
+  - id: CHO-eayr46y6a2tw
+    text: MonotonicClock, which increases steadily and ignores system clock adjustments
+    correct: true
+  - id: CHO-xzh066kqf1f5
+    text: NativeClock, since it reports the real system time
+    correct: false
+    explanation: The system time can be adjusted mid-measurement, which corrupts a duration.
+  - id: CHO-vkanh34jypt1
+    text: MockClock, since it can be moved forward by a known amount
+    correct: false
+    explanation: Moving it yourself would produce the duration you already assumed, measuring nothing.
+  - id: CHO-0rvfmknj1f8g
+    text: Any of them, because all three return the same kind of value
+    correct: false
+    explanation: They return comparable values but differ in exactly the property a measurement needs.
+  explanation: It relies on hrtime() for a high-resolution monotonic reading, which is what a stopwatch requires.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    branch: '8.0'
+    symbol_or_lines: monotonic-clock
+    verified_at: '2026-09-02'
+- id: QST-j5mgcztv2w1x
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  subtopic: services
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service uses ClockAwareTrait. What supplies its clock, and how does the service read the time?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - clock-aware
+  choices:
+  - id: CHO-b23wqzbdyr8n
+    text: Autoconfiguration calls the trait's setter, and the service calls $this->now()
+    correct: true
+  - id: CHO-9qfzvjqk7hwj
+    text: The trait instantiates a system clock on first use, read through $this->clock
+    correct: false
+    explanation: The trait does not build its own clock; the container provides it, which is what makes it replaceable
+      in a test.
+  - id: CHO-50cbgrqxjk63
+    text: The clock must be passed to the constructor, then read through $this->now()
+    correct: false
+    explanation: Using the trait is the alternative to a constructor argument.
+  - id: CHO-etv2amt7pa0m
+    text: A static accessor is used, so no injection happens at all
+    correct: false
+    explanation: A global accessor exists in the component, but it is not what this trait relies on.
+  explanation: Because the container supplies the clock, a test can substitute a mocked one without changing the
+    service.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    branch: '8.0'
+    symbol_or_lines: clock_use-inside-a-service
+    verified_at: '2026-09-02'

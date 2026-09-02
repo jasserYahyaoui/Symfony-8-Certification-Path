@@ -6,23 +6,22 @@
 
 ## Current lot
 
-Lots 0 through 17 are **complete, merged and deployed**.
-**Lot 18 — Miscellaneous / Cache: delivered, awaiting CI** (1 item).
-Next: **Lot 19 — Clock** (1 item).
+Lots 0 through 18 are **complete, merged and deployed**.
+**Lot 19 — Miscellaneous / Clock: delivered, awaiting CI** (1 item).
+Next: **Lot 20 — EventDispatcher and Event** (2 items).
 
-Coverage is **152/163 = 93.25%**. Eleven items remain, all in the Miscellaneous
-topic, across lots 19 to 26.
+Coverage is **153/163 = 93.87%**. 10 items remain, all in the
+Miscellaneous topic, across lots 20 to 26.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**
-— see *Remaining work*. Priority 1 was applied and merged before Lot 08
-(PR #15, merge `fc9b84f`).
+— see *Remaining work*.
 
 ## Current branch
 
-`lot-18-miscellaneous`, pushed and open as a Pull Request. CI is **not** yet
+`lot-19-miscellaneous`, pushed and open as a Pull Request. CI is **not** yet
 confirmed and must not be reported as PASS.
 
-`master` is at merge commit `db40346` (Lot 17, PR #27).
+`master` is at merge commit `301ab8b` (Lot 18, PR #28).
 
 Verified, with real identifiers:
 
@@ -34,10 +33,11 @@ Verified, with real identifiers:
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
 | 16 — i18n | `35b550c` | `100142369730` | MISSING | MISSING |
 | 17 — HTTP Caching | `db40346` | `100145067830` | MISSING | MISSING |
+| 18 — Cache | `301ab8b` | `100147813907` | `33599377684` | `100149755378` |
 
-Deploy and smoke-test identifiers for lots 14 to 17 were **not captured** at the
-time. The runs exist and the production site reflects them, but this file does
-not invent ids it did not read: those cells are `MISSING`, not failures.
+Lot 18's deploy run also carries build `100149464773` and deploy
+`100149712658`, both success. Deploy and smoke ids for lots 14 to 17 were not
+captured at the time and are recorded as `MISSING` rather than invented.
 Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 Every lot from 03 onward ships through branch → Pull Request → CI → controlled
@@ -124,51 +124,24 @@ for evidence anchoring; toolchain verified.
 Reconciled from `docs/syllabus/syllabus-matrix.yml` and `content/**` with a
 script, not from an earlier report.
 
-**163 imported, 151 EXAM_READY.**
+**163 imported, 153 EXAM_READY.**
 
 ```text
 coverage = EXAM_READY atomic official items / total atomic official items * 100
-         = 151 / 163 = 92.64%
+         = 153 / 163 = 93.87%
 ```
 
-| Lot | Topic | EXAM_READY items |
-|---|---|---:|
-| 01 | PHP | 9 |
-| 02 | HTTP | 10 |
-| 03 | Symfony Architecture | 15 |
-| 04 | Controllers | 14 |
-| 05 | Routing | 12 |
-| 06 | Templating with Twig | 14 |
-| 07 | Forms | 13 |
-| 08 | Data Validation | 8 |
-| 09 | Dependency Injection | 12 |
-| 10 | Security | 12 |
-| 11 | Messenger | 7 |
-| 12 | Console | 9 |
-| 13 | Automated Tests | 9 |
-| 14 | Misc — Config, Errors, Debugging | 3 |
-| 15 | Misc — Deployment, Profiler | 2 |
-| 16 | Misc — i18n | 1 |
-| 17 | Misc — HTTP Caching | 1 |
+**Cumulative content:** 153 courses (60089 body words, YAML front matter
+excluded), 127 flashcards, 466 questions — 314 LEARNING,
+125 VALIDATION, 27 HOLDOUT.
 
-The three Golden Slice items are counted inside the lots that own their topics.
+**Level distribution — observation, not a target:** 114 `STANDARD`,
+28 `MINIMAL`, 11 `DEEP`.
 
-**Cumulative content:** 151 courses (58523 body words, YAML front matter
-excluded), 125 flashcards, 460 questions — 310 LEARNING,
-123 VALIDATION, 27 HOLDOUT. Question language:
-439 English, 21 French.
-
-**Level distribution — observation, not a target:** 112 `STANDARD`,
-28 `MINIMAL`, 11 `DEEP`. No item was promoted to make a
-ratio look better, and several recent lots carry zero `DEEP` items, which is
-complete.
-
-**Still to do — 12 items, all Miscellaneous:**
+**Still to do — 10 items, all Miscellaneous:**
 
 | Lot | Items |
 |---|---|
-| lot-18 | Cache |
-| lot-19 | Clock |
 | lot-20 | EventDispatcher; Event |
 | lot-21 | Filesystem; Finder |
 | lot-22 | Mailer; Mime |
@@ -176,16 +149,6 @@ complete.
 | lot-24 | PropertyAccess |
 | lot-25 | Runtime |
 | lot-26 | Serializer |
-
-Reports: [`lot-005`](docs/reports/lot-005-golden-slice-report.md),
-[`lot-01`](docs/reports/lot-01-report.md),
-[`lot-02`](docs/reports/lot-02-report.md),
-[`lot-03`](docs/reports/lot-03-report.md),
-[`lot-04`](docs/reports/lot-04-report.md),
-[`lot-05`](docs/reports/lot-05-report.md),
-[`lot-06`](docs/reports/lot-06-report.md),
-[`lot-07`](docs/reports/lot-07-report.md).
-Lots 08 onward were reported in session rather than as files.
 
 ### Cross-lot boundaries now load-bearing
 
@@ -269,61 +232,53 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-17-miscellaneous`, every command run with
-`set -o pipefail` and its exit code checked:
+Locally, on PHP 8.4.19, on `lot-19-miscellaneous`, every command run as its own
+command with `set -o pipefail` and its exit code read:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 460 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 92.64% (151/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 868 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 466 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 93.87% (153/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 870 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
-`CRS-001` did not fire on lots 14 to 17. It fired twice on Lot 13 and both were
-content faults, fixed in the courses — see CRS-5. Nothing has ever been moved
-into a fenced block to satisfy it.
+Pools verified against the built payloads: both LEARNING questions are in
+`practice.json` and the VALIDATION question is in `exam.json`.
 
-Lots 14 to 17 add no HOLDOUT question. The pool carries 27 across the earlier
-lots and covers these mechanisms; adding one per lot to preserve a shape would
-fail the §1.4 value gate. `POOL-002` is unaffected — every `STANDARD` item in
-these lots carries its `VALIDATION` question.
+`CRS-001` did not fire on Lot 19. It fired twice on Lot 13 and both were content
+faults fixed in the courses — see CRS-5. Nothing has ever been moved into a
+fenced block to satisfy it.
 
-**In CI:** Lot 17's Technical gate had not been read at the time of writing, so
+**In CI:** Lot 19's Technical gate had not been read at the time of writing, so
 CI, deploy and the production smoke test are `MISSING` for it, not `PASS`.
 
 ## Next action
 
-**Confirm CI on the Lot 17 Pull Request, merge, deploy, run the production
-smoke test.** Until the check reports success, Lot 17 is `DELIVERED`, not
-`PASS`.
+**Confirm CI on the Lot 19 Pull Request, merge, deploy, run the production
+smoke test.** Until all three are green, Lot 19 is `DELIVERED`, not `PASS`, and
+**Lot 20 must not begin** — the owner's workflow requires merge AND deploy AND
+smoke before the next lot starts.
 
-Then continue lot by lot, same strategy: **18 Cache**, **19 Clock**,
-**20 EventDispatcher + Event**, **21 Filesystem + Finder**,
-**22 Mailer + Mime** (third-party bridges excluded), **23 Process**,
-**24 PropertyAccess**, **25 Runtime**, **26 Serializer** (bridges excluded),
-then **Lot 27** — final review and mock exams.
+Then, one lot at a time: **20 EventDispatcher + Event**, **21 Filesystem +
+Finder**, **22 Mailer + Mime** (bridges to third-party services excluded),
+**23 Process**, **24 PropertyAccess**, **25 Runtime**, **26 Serializer**
+(bridges excluded), then **Lot 27** — final review and mock exams.
 
-**Twelve items remain**, all in the Miscellaneous topic.
+**Ten items remain**, all in the Miscellaneous topic.
 
-**Boundaries to honour when writing those lots**, so no course re-teaches
-another's item:
+**Boundaries to honour**, so no course re-teaches another's item:
 
-- **Lot 18 (Cache)** is the *Cache component* — pools, adapters, PSR-6 and
-  PSR-16, tags. It is **not** HTTP caching: lot-02 owns the protocol headers
-  and lot-17 owns the Symfony reverse proxy.
-- **Lot 20 (EventDispatcher, Event)** must not restate lot-03's kernel events
-  or lot-12's console events; it owns the dispatcher itself and the generic
-  `Event` object.
+- **Lot 20** owns the dispatcher itself and the generic `Event` object. It must
+  not restate lot-03's kernel events nor lot-12's console events.
 - **Lots 22 and 26** carry the syllabus note *"Bridges to third-party services
   are not included"*.
 
-**Working rule adopted at the owner's instruction:** no sleep, no polling loop,
-no background process waiting on a resource. CI and deploy are checked **once**,
-explicitly. The Actions view lags by minutes on every endpoint (see issue
-API-1), so a job still shown as running is reported as such and re-checked at
-the next check-in, never declared stuck or green from one read.
+**Working rules in force:** no sleep, no polling loop, no background process
+waiting on a resource; CI and deploy are checked **once** per turn, and the
+Actions view lags by minutes on every endpoint (issue API-1), so a job shown as
+running is re-checked later rather than declared stuck or green.
 
 `POOL-002` stays in force: a lot is not finished until every `STANDARD` or
 `DEEP` item carries a VALIDATION question.
