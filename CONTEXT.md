@@ -6,12 +6,12 @@
 
 ## Current lot
 
-Lots 0 through 23 are **complete, merged and deployed**.
-Next: **Lot 24 — PropertyAccess** (1 item).
+Lots 0 through 24 are **complete, merged and deployed**.
+Next: **Lot 25 — Runtime** (1 item).
 
-Coverage is **160/163 = 98.16%**. 3 items remain, all in the
-Miscellaneous topic: PropertyAccess (lot-24), Runtime (lot-25),
-Serializer (lot-26). Then Lot 27, final review and mock exams.
+Coverage is **161/163 = 98.77%**. 2 items remain, both in the
+Miscellaneous topic: Runtime (lot-25) and Serializer (lot-26). Then
+Lot 27, final review and mock exams.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**.
 
@@ -40,6 +40,7 @@ Verified, with real identifiers:
 | 21 — Filesystem, Finder | `7c89adc` | `33653840108` | `33656689995` | `100337628436` |
 | 22 — Mailer, Mime | `25fe900` | `33659872155` | `33660554878` | `100350157086` |
 | 23 — Process | `df88caa` | `33661598698` | `33685599410` | `100433156037` |
+| 24 — PropertyAccess | `2a8f0e8` | `33686497465` | `33686874047` | `100437028877` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
@@ -243,30 +244,34 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-23-process`, every command run as its own
-command with `set -o pipefail` and its exit code read:
+Locally, on PHP 8.4.19, on `lot-24-propertyaccess`, every command run as its
+own command with `set -o pipefail` and its exit code read:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 487 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 98.16% (160/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 877 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 490 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 98.77% (161/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 878 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
 Pools verified against the built payloads: the 2 LEARNING questions are in
-`practice.json` (328) and the 1 VALIDATION question in `exam.json` (132), with
+`practice.json` (330) and the 1 VALIDATION question in `exam.json` (133), with
 no wrong-pool leak and no HOLDOUT question published. That is **functional
 isolation**, not confidentiality: both published payloads carry correct
 answers.
 
-`CRS-001` has not fired since Lot 13. The discipline that changed is writing the
+`CRS-001` has not fired since Lot 13. Lot 24 is the clearest case of why: the
+accessor-resolution conventions are the correct answer of the lot-07
+VALIDATION question `QST-3pfgr2whbm74`, the collision was found by grepping
+the banks **before** drafting, and it was resolved by scoping the course to
+what PropertyAccess uniquely owns — never by fencing the string. The discipline that changed is writing the
 boundary into the course before drafting rather than discovering it from the
 rule afterwards.
 
-**In CI:** Lot 23's Technical gate is run `33661598698` on head `6e479e5`
-(success). Deploy run `33685599410` on `df88caa` succeeded in all three jobs,
+**In CI:** Lot 24's Technical gate is run `33686497465` on head `d89a302`
+(success). Deploy run `33686874047` on `2a8f0e8` succeeded in all three jobs,
 and the production smoke-test log was read rather than assumed: ten production
 URLs at 200, landing page rendered, `practice.json` declaring pool `LEARNING`.
 
@@ -288,11 +293,11 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Start Lot 24 — PropertyAccess** (`OIT-43pt66xsft9f`), after this evidence PR
-is merged. Re-read `components/property_access.rst` on branch 8.0 before
-writing, and write the cross-lot boundary into the course *before* drafting:
-Forms (lot-07) and the coming Serializer (lot-26) both lean on property
-access, so grep both banks for collisions first.
+**Start Lot 25 — Runtime** (`OIT-r3qcmsehzex1`), after this evidence PR is
+merged. Re-read `components/runtime.rst` on branch 8.0 before writing, and
+write the cross-lot boundary into the course *before* drafting: the kernel
+and the HTTP cycle belong to lots 01 and 03, and console entry points to
+lot 12.
 
 Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
 third-party services excluded), **23 Process**, **24 PropertyAccess**,
