@@ -7613,26 +7613,46 @@ items:
     lot: lot-14
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux mécanismes aux moments de résolution distincts, une cascade de quatre fichiers surplombée
+      par l'environnement réel, et des processeurs chaînés. Le candidat doit trancher une précédence
+      sur un cas, pas réciter une liste.
+    learning_outcomes:
+      - Distinguer paramètre et variable d'environnement par leur moment de résolution
+      - Ordonner la cascade .env et ce qui la surplombe
+      - Lire une expression ExpressionLanguage et ses deux modes
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst"
+        branch: "8.0"
+        symbol_or_lines: "configuration-multiple-env-files"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-b7wpm5anh7c6"
+    flashcard_refs:
+      - "FLC-nb0mh2t8j7r9"
+    question_refs:
+      - "QST-8h7ynmfznjpe"
+      - "QST-bftzbt0t3q8y"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-hs62x7n8hq15"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 14 — Miscellaneous."
   - id: OIT-kv7mbksn7m8v
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -7643,26 +7663,45 @@ items:
     lot: lot-14
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une règle unique gouverne le code de statut, et quatre niveaux d'intervention se choisissent
+      selon le besoin. Choisir le bon niveau est une application, pas une reconnaissance.
+    learning_outcomes:
+      - Énoncer d'où vient le code de statut d'une erreur
+      - Choisir le niveau d'intervention adapté au besoin
+      - Situer le comportement de dev face à celui de prod
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst"
+        branch: "8.0"
+        symbol_or_lines: "how-to-customize-error-pages"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-fppjrr6r23tk"
+    flashcard_refs:
+      - "FLC-63tca08n26r1"
+    question_refs:
+      - "QST-3bbtms3dk9ca"
+      - "QST-cs8r5jz7rb07"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-s7m8f73zn04x"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 14 — Miscellaneous."
   - id: OIT-xgrbftkj67ds
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -7673,26 +7712,45 @@ items:
     lot: lot-14
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux familles d'outils — inspecter une valeur, interroger la configuration comprise — et une
+      conséquence non évidente de la dépendance de développement. Le candidat doit diagnostiquer.
+    learning_outcomes:
+      - Utiliser dump(), dd() et le serveur de dump
+      - Expliquer où va un dump dans une application Symfony
+      - Choisir la commande debug:* qui répond à une question donnée
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst"
+        branch: "8.0"
+        symbol_or_lines: "components-var-dumper-dump"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-wf523wdsg2xp"
+    flashcard_refs:
+      - "FLC-1f4raf4m8wng"
+    question_refs:
+      - "QST-btrt51f6nnnv"
+      - "QST-1er6x1ts9xk4"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-qay1zj2m10me"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 14 — Miscellaneous."
   - id: OIT-6xqn9ybksrbr
     official_topic_order: 14
     official_topic: "Miscellaneous"

@@ -1,0 +1,452 @@
+# Lot 14 — Miscellaneous question bank (Master Plan §7).
+#
+# 6 LEARNING questions (2 per official item) and 3 VALIDATION questions —
+# one per STANDARD item, as rule POOL-002 requires. No HOLDOUT question:
+# the holdout pool already carries 27 across the earlier lots, and this lot
+# adds nothing it does not already cover.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-8h7ynmfznjpe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  subtopic: env
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A value is set both in .env and as a real environment variable on the server. Which one does the application
+    see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - dotenv
+  choices:
+  - id: CHO-tjy7zvqjw83m
+    text: The real environment variable, because .env never overwrites an existing one
+    correct: true
+  - id: CHO-8x0fxe35q2pj
+    text: .env, because it is parsed later in the boot sequence
+    correct: false
+    explanation: Parsing order is not what decides; existing variables are left untouched by design.
+  - id: CHO-rg3ste2dgk4r
+    text: Whichever was defined last alphabetically
+    correct: false
+    explanation: No such rule exists.
+  - id: CHO-y3p47frzg6x7
+    text: 'Neither: the conflict raises an error at boot'
+    correct: false
+    explanation: Nothing is raised; the two coexist and one simply wins.
+  explanation: The .env files supply defaults; a variable already present in the environment is never overwritten.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: configuration-multiple-env-files
+    verified_at: '2026-09-02'
+- id: QST-bftzbt0t3q8y
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  subtopic: env
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which .env file is deliberately ignored in the test environment?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - test
+  choices:
+  - id: CHO-qpr57ycem8m1
+    text: .env.local
+    correct: true
+  - id: CHO-vs9xcghp43jv
+    text: .env.test.local
+    correct: false
+    explanation: That one is read; it is the machine-specific override for the test environment.
+  - id: CHO-911kzjsd0vms
+    text: .env.test
+    correct: false
+    explanation: That is the committed test-environment file and is read.
+  - id: CHO-p5b9bs1k33cf
+    text: .env
+    correct: false
+    explanation: The base file is always read.
+  explanation: .env.local is skipped in tests so that the suite produces the same result on every machine.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: configuration-multiple-env-files
+    verified_at: '2026-09-02'
+- id: QST-hs62x7n8hq15
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  subtopic: parameters
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the practical difference between a container parameter and an environment variable reference?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - parameters
+  choices:
+  - id: CHO-e11k51x0h4yh
+    text: The parameter is resolved when the container is compiled; the environment variable is read at runtime
+    correct: true
+  - id: CHO-dwz08nyh25za
+    text: The parameter can hold an array, the environment variable cannot
+    correct: false
+    explanation: An environment variable can carry structured data through a processor; that is not the defining
+      difference.
+  - id: CHO-0s5xf8033czm
+    text: The parameter is public, the environment variable private
+    correct: false
+    explanation: Visibility applies to services, not to either of these.
+  - id: CHO-qkgh9x1pvx7f
+    text: The parameter is typed, the environment variable is not
+    correct: false
+    explanation: Parameters are not typed either; processors are what type an environment variable.
+  explanation: Because the environment variable is read at runtime, the same compiled container can be deployed
+    to machines that give it different values.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    branch: '8.0'
+    symbol_or_lines: configuration-parameters
+    verified_at: '2026-09-02'
+- id: QST-3bbtms3dk9ca
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  subtopic: status
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller throws a plain RuntimeException meaning "not found". What status does the error page carry?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - exception
+  choices:
+  - id: CHO-ksyjv1htjx66
+    text: 500, because the exception does not implement HttpExceptionInterface
+    correct: true
+  - id: CHO-rzqsnaj97qpe
+    text: 404, because the message says the resource is missing
+    correct: false
+    explanation: The message is never inspected to derive a status.
+  - id: CHO-a9p9rn2zx0p2
+    text: 400, the default for an unhandled application exception
+    correct: false
+    explanation: The default is 500, not 400.
+  - id: CHO-4rvqx5jhvywa
+    text: 'No status: the response is empty'
+    correct: false
+    explanation: A response is always produced, with a status.
+  explanation: Only an exception implementing HttpExceptionInterface supplies its own status through getStatusCode();
+    everything else is 500.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    branch: '8.0'
+    symbol_or_lines: how-to-customize-error-pages
+    verified_at: '2026-09-02'
+- id: QST-cs8r5jz7rb07
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  subtopic: templates
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does the Twig error renderer choose its template?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - templates
+  choices:
+  - id: CHO-xtt4mgw9aag8
+    text: It looks for one named after the status code, then falls back to a generic one
+    correct: true
+  - id: CHO-82vrpkfvy5h0
+    text: It always uses a single generic template
+    correct: false
+    explanation: A per-status template is tried first.
+  - id: CHO-b5xx2kg4wx8f
+    text: It picks the template named after the exception class
+    correct: false
+    explanation: The class name plays no part in the lookup.
+  - id: CHO-36w0nh2n0ax7
+    text: It requires a template for every status code that can occur
+    correct: false
+    explanation: The generic fallback exists precisely so that is unnecessary.
+  explanation: error404.html.twig first, then error.html.twig; both live in templates/bundles/TwigBundle/Exception/.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    branch: '8.0'
+    symbol_or_lines: controller-error-pages-by-status-code
+    verified_at: '2026-09-02'
+- id: QST-s7m8f73zn04x
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  subtopic: environments
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer customises the production error page and cannot see it while working locally. Why, and what
+    shows it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - dev
+  choices:
+  - id: CHO-vfxef92a6v3d
+    text: The dev environment shows the detailed exception page instead; the framework's /_error routes preview
+      the real one
+    correct: true
+  - id: CHO-ga7cys5c6nhe
+    text: The template must be cleared from the cache before it appears
+    correct: false
+    explanation: Caching is not the obstacle; the environment is.
+  - id: CHO-r2yhea2xce59
+    text: Custom error pages only apply once the application is deployed
+    correct: false
+    explanation: They apply wherever the generic page is shown; dev simply shows a different page.
+  - id: CHO-c64m30t1sd2t
+    text: The template has to be registered in the configuration first
+    correct: false
+    explanation: Overriding by location is enough; no registration step exists.
+  explanation: The dev environment deliberately shows the exception page with its trace, so the customised page
+    is previewed through the routes FrameworkBundle loads under when@dev.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    branch: '8.0'
+    symbol_or_lines: testing-error-pages
+    verified_at: '2026-09-02'
+- id: QST-btrt51f6nnnv
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  subtopic: vardumper
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What distinguishes dd() from dump()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - dump
+  choices:
+  - id: CHO-9qcygg5xc6ba
+    text: dd() stops execution after dumping; dump() returns the value it was given
+    correct: true
+  - id: CHO-tfr873891j66
+    text: dd() dumps to the console, dump() to the browser
+    correct: false
+    explanation: The destination depends on the context and the bundle, not on which function is used.
+  - id: CHO-hb08ezns2mdn
+    text: dd() works in production, dump() does not
+    correct: false
+    explanation: Both come from the same development-only package.
+  - id: CHO-4wrwmrx941zt
+    text: dd() dumps several variables, dump() only one
+    correct: false
+    explanation: Both accept several arguments.
+  explanation: dd() is "dump and die"; dump() returns its argument, so it can be inserted into a chain of calls.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    branch: '8.0'
+    symbol_or_lines: components-var-dumper-dump
+    verified_at: '2026-09-02'
+- id: QST-1er6x1ts9xk4
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  subtopic: commands
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A URL returns 404 and the route looks correct in the configuration file. Which command explains it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - router
+  choices:
+  - id: CHO-6pwndq8fcaew
+    text: router:match with the URL, which reports the routes tried and why each failed
+    correct: true
+  - id: CHO-k344tmqxebaa
+    text: debug:container, which lists the services
+    correct: false
+    explanation: Services are not what resolves a URL.
+  - id: CHO-psthme4d7e6j
+    text: debug:config framework, which shows merged configuration
+    correct: false
+    explanation: That shows configuration, not the outcome of matching one URL.
+  - id: CHO-0v68f8hx68yc
+    text: cache:clear, which rebuilds the routing cache
+    correct: false
+    explanation: That may hide the symptom but explains nothing.
+  explanation: Reading the file shows what was written; router:match shows what the router actually does with a
+    given path.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: running-commands
+    verified_at: '2026-09-02'
+- id: QST-qay1zj2m10me
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  subtopic: vardumper
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a Symfony application with DebugBundle installed, where does dump() output go?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - debug-bundle
+  choices:
+  - id: CHO-reb8m7nsbybj
+    text: To the web debug toolbar, so the response is not corrupted
+    correct: true
+  - id: CHO-td7p7wtz916j
+    text: To the response body, immediately where it was called
+    correct: false
+    explanation: That is what the bundle avoids; printing there could break headers or the view.
+  - id: CHO-gnzvw4r9482d
+    text: To the application log only
+    correct: false
+    explanation: Dumps are not routed to the logger.
+  - id: CHO-bxvmpkcfnzar
+    text: Nowhere, unless the dump server is running
+    correct: false
+    explanation: The dump server is an alternative destination, not a requirement.
+  explanation: The bundle redirects dumps to the toolbar; they fall back to the regular output when the toolbar
+    cannot be rendered, such as after dd() or a fatal error.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    branch: '8.0'
+    symbol_or_lines: debugbundle-and-twig-integration
+    verified_at: '2026-09-02'

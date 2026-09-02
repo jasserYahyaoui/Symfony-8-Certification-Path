@@ -13,7 +13,7 @@
 EXAM_READY atomic official items / total atomic official items * 100
 ```
 
-**Coverage: 88.34%** — 144 of 163 atomic official items are EXAM_READY.
+**Coverage: 90.18%** — 147 of 163 atomic official items are EXAM_READY.
 
 ## By official topic
 
@@ -27,7 +27,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | Forms | 13 | 13 | 100.0 |
 | HTTP | 10 | 10 | 100.0 |
 | Messenger | 7 | 7 | 100.0 |
-| Miscellaneous | 0 | 19 | 0.0 |
+| Miscellaneous | 3 | 19 | 15.8 |
 | PHP | 9 | 9 | 100.0 |
 | Routing | 12 | 12 | 100.0 |
 | Security | 12 | 12 | 100.0 |
@@ -51,7 +51,7 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-11 | 7 | 7 | 100.0 |
 | lot-12 | 9 | 9 | 100.0 |
 | lot-13 | 9 | 9 | 100.0 |
-| lot-14 | 0 | 3 | 0.0 |
+| lot-14 | 3 | 3 | 100.0 |
 | lot-15 | 0 | 2 | 0.0 |
 | lot-16 | 0 | 1 | 0.0 |
 | lot-17 | 0 | 1 | 0.0 |
@@ -65,11 +65,8 @@ EXAM_READY atomic official items / total atomic official items * 100
 | lot-25 | 0 | 1 | 0.0 |
 | lot-26 | 0 | 1 | 0.0 |
 
-## Not yet EXAM_READY (19)
+## Not yet EXAM_READY (16)
 
-- `OIT-tvc5rjv6qvse`
-- `OIT-kv7mbksn7m8v`
-- `OIT-xgrbftkj67ds`
 - `OIT-6xqn9ybksrbr`
 - `OIT-d1qsxrtv25kk`
 - `OIT-3dd7821h069b`
