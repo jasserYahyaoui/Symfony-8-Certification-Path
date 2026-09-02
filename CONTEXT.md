@@ -6,12 +6,11 @@
 
 ## Current lot
 
-Lots 0 through 24 are **complete, merged and deployed**.
-Next: **Lot 25 — Runtime** (1 item).
+Lots 0 through 25 are **complete, merged and deployed**.
+Next: **Lot 26 — Serializer** (1 item), the last content item.
 
-Coverage is **161/163 = 98.77%**. 2 items remain, both in the
-Miscellaneous topic: Runtime (lot-25) and Serializer (lot-26). Then
-Lot 27, final review and mock exams.
+Coverage is **162/163 = 99.39%**. 1 item remains: Serializer (lot-26).
+Then Lot 27, final review and mock exams.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**.
 
@@ -41,6 +40,7 @@ Verified, with real identifiers:
 | 22 — Mailer, Mime | `25fe900` | `33659872155` | `33660554878` | `100350157086` |
 | 23 — Process | `df88caa` | `33661598698` | `33685599410` | `100433156037` |
 | 24 — PropertyAccess | `2a8f0e8` | `33686497465` | `33686874047` | `100437028877` |
+| 25 — Runtime | `130f7e8` | `33687839072` | `33688747560` | `100442702932` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
@@ -240,24 +240,25 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | FR-1 | French accents are missing throughout the flashcard banks of lots **07 to 11** (`traite` for `traité`, `resultat` for `résultat`, `facon` for `façon`) and throughout the matrix `content_level_justification` and `learning_outcomes` written over the same period. A line count confirms it: lots 01–06 carry 36 to 58 accented lines each, lots 07–11 carry 1 to 5. The cause is my own generator scripts, which were written in unaccented French to sidestep encoding trouble. No automated rule detects it, and no gate fails. | Medium | **Open — folded into audit item P2.8, whose scope this widens.** Lot 12 was generated with accents throughout (`allow_unicode=True`, accented source strings) and is not affected. Repairing lots 07–11 is not mechanical: each sentence has to be read to re-accent it correctly, so it is scheduled with P2 rather than done in passing. Lesson: a generator script is content, and shortcuts taken inside it reach the learner |
 | CRS-5 | `CRS-001` fired twice on Lot 13, and both were content faults rather than rule noise. (a) The *Handling legacy deprecated code* course restated nearly all of *Deprecations best practices* (lot-03) — the two markers, the mineure/majeure calendar, the CHANGELOG and UPGRADE trace — and so reproduced that item's correct answer. (b) The *Request and response objects introspection* course used `$response->getStatusCode()`, which is the correct answer to a lot-02 HttpClient question. | Medium | **Resolved** — (a) the course was rewritten around what its item actually owns (a silenced `E_USER_DEPRECATED` notice: nothing fails, nothing prints, it exists only if an error handler collects it), with the lot-03 boundary stated on the page; its flashcard and its two LEARNING questions were realigned so nothing is asked that the course no longer teaches. (b) the example now shows headers and content. Neither was fixed by rewriting a validated question or by fencing. The rule caught duplication that the §1.4 value gate should have caught first |
 | SPLICE-1 | The matrix splicer hard-coded the default `exclusion_boundaries` line. Three Lot 13 items carry `"PHPUnit Bridge is not included."` instead, so the splice would have silently replaced the syllabus's own scope note with the default text. | High | **Resolved before any data was lost** — the script's own guard refused to run rather than writing a near-match. It now matches that line with a regex and writes it back unchanged. Lesson: a splicer that assumes a constant template will corrupt the first record that differs, and only an assertion makes that visible |
-| API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
+| SPLICE-2 | The Lot 22 matrix splice wrote the level and outcomes but not the tails, and my fallback positional patch — whose **own guard was faulty** — then wrote **Mailer's** references into the **Serializer** item and **Mime's** into the **Runtime** item, in addition to the correct ones. Ten references ended up claimed by two items each. | High | **Resolved in Lot 25.** No gate caught it: `REF-001` checked that references *resolve*, never that they *belong*, and both wrongly credited items were `NOT_STARTED`, which no readiness rule inspects. The corruption reached `master` in Lot 22 and survived lots 23 and 24; it surfaced only because Lot 25 tried to splice Runtime and found the slot occupied. A full audit of every course, flashcard and question reference found exactly those ten duplicates and no others. `REF-001` now reports a reference claimed by two items **and** a reference whose content declares a different owning item — the sharper invariant, since content records its own item — pinned by two regression tests confirmed to fail against the previous rule. Lesson, and the second of its kind after SPLICE-1: **an assertion that is itself wrong protects nothing**, and a positional patch must be verified against the block it claims to have edited, not against its own success message. |
+| API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. Lot 25 added a new shape: the *filtered* run listings (by `status`, or by `status` plus `actor`) reported no deploy at all for `130f7e8` while the **unfiltered** listing already showed it completed and successful, so a filter can hide a run that exists rather than merely delay its status. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-24-propertyaccess`, every command run as its
-own command with `set -o pipefail` and its exit code read:
+Locally, on PHP 8.4.19, on `lot-25-runtime`, every command run as its own
+command with `set -o pipefail` and its exit code read:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 490 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 98.77% (161/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 878 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 493 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 99.39% (162/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (84 tests, 885 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
 Pools verified against the built payloads: the 2 LEARNING questions are in
-`practice.json` (330) and the 1 VALIDATION question in `exam.json` (133), with
+`practice.json` (332) and the 1 VALIDATION question in `exam.json` (134), with
 no wrong-pool leak and no HOLDOUT question published. That is **functional
 isolation**, not confidentiality: both published payloads carry correct
 answers.
@@ -270,8 +271,8 @@ what PropertyAccess uniquely owns — never by fencing the string. The disciplin
 boundary into the course before drafting rather than discovering it from the
 rule afterwards.
 
-**In CI:** Lot 24's Technical gate is run `33686497465` on head `d89a302`
-(success). Deploy run `33686874047` on `2a8f0e8` succeeded in all three jobs,
+**In CI:** Lot 25's Technical gate is run `33687839072` on head `a1c54ae`
+(success). Deploy run `33688747560` on `130f7e8` succeeded in all three jobs,
 and the production smoke-test log was read rather than assumed: ten production
 URLs at 200, landing page rendered, `practice.json` declaring pool `LEARNING`.
 
@@ -293,11 +294,12 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Start Lot 25 — Runtime** (`OIT-r3qcmsehzex1`), after this evidence PR is
-merged. Re-read `components/runtime.rst` on branch 8.0 before writing, and
-write the cross-lot boundary into the course *before* drafting: the kernel
-and the HTTP cycle belong to lots 01 and 03, and console entry points to
-lot 12.
+**Start Lot 26 — Serializer** (`OIT-fr58jzaj6jtb`), the **last content item**,
+after this evidence PR is merged. Read its `exclusion_boundaries` in the matrix
+first, then re-read `components/serializer.rst` on branch 8.0 before writing.
+Grep the banks for `Serializer`, `normalizer`, `encoder`, `denormalize` and
+`groups` before drafting: Forms (lot-07), PropertyAccess (lot-24) and
+Messenger (lot-11) serialization all touch it.
 
 Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
 third-party services excluded), **23 Process**, **24 PropertyAccess**,
