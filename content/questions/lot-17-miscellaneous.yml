@@ -1,0 +1,159 @@
+# Lot 17 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question for the single STANDARD
+# item, as rule POOL-002 requires. No HOLDOUT question: the pool carries 27.
+#
+# ESI is excluded by the syllabus, so no question relies on it. Header
+# semantics belong to the HTTP topic's Caching item and are not retested here.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-713sjezq7b99
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  subtopic: proxy
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is Symfony's own gateway cache turned on?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - reverse-proxy
+  choices:
+  - id: CHO-77s628jp48qe
+    text: By setting framework.http_cache to true, typically under when@prod
+    correct: true
+  - id: CHO-0vt96wbt3r85
+    text: By registering an HttpCache class in public/index.php by hand
+    correct: false
+    explanation: No manual wiring is needed; the option is enough.
+  - id: CHO-j5nmzbyrtyfz
+    text: By installing a separate reverse-proxy package
+    correct: false
+    explanation: The proxy ships with the framework.
+  - id: CHO-9h8nhe5ht54c
+    text: By adding an attribute to every controller that should be cached
+    correct: false
+    explanation: An attribute declares a policy; it does not install a proxy.
+  explanation: The kernel then acts as a reverse proxy, storing responses and serving them back. It is written in
+    PHP, so it is slower than Varnish, but the application is unchanged if you switch.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    branch: '8.0'
+    symbol_or_lines: symfony-reverse-proxy
+    verified_at: '2026-09-02'
+- id: QST-a9rqdpxw13gm
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  subtopic: safe-methods
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why does the documentation warn against changing application state in a GET handler?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - methods
+  choices:
+  - id: CHO-3gbgvt9r6bgt
+    text: Because a cached response means later requests may never reach the server
+    correct: true
+  - id: CHO-dcs5cqrw8f5w
+    text: Because GET requests cannot carry a body
+    correct: false
+    explanation: Body support is unrelated to the caching consequence being described.
+  - id: CHO-mdmp6kpsf154
+    text: Because the router rejects state changes on GET
+    correct: false
+    explanation: Nothing in the framework prevents it; the risk is behavioural.
+  - id: CHO-qeswr1rg6rdd
+    text: Because GET responses are always stored by the browser
+    correct: false
+    explanation: Storage depends on the headers, and the warning is about the effect when storage does happen.
+  explanation: HTTP caching applies to safe methods, so a GET that mutates state may simply stop being executed
+    once its response is cached.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    branch: '8.0'
+    symbol_or_lines: safe-methods-only-caching-get-or-head-requests
+    verified_at: '2026-09-02'
+- id: QST-478vmvbdbme2
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  subtopic: attribute
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A controller action carries #[Cache(maxage: 3600)] and also calls $response->setMaxAge(60). Which value
+    reaches the client?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - attribute
+  choices:
+  - id: CHO-tf2sqzmbzyg6
+    text: 60, because headers set in the controller take precedence over the attribute
+    correct: true
+  - id: CHO-z6szn12hxkwb
+    text: 3600, because the attribute is evaluated after the controller returns
+    correct: false
+    explanation: The documented precedence is the other way round.
+  - id: CHO-yy4rkj0w09q2
+    text: Whichever is smaller, as a safety rule
+    correct: false
+    explanation: No such arbitration exists.
+  - id: CHO-cp7nvaba2z3w
+    text: 'Neither: the conflicting settings cancel each other out'
+    correct: false
+    explanation: Nothing is cancelled; one source simply wins.
+  explanation: The attribute sets a default policy that code in the controller is allowed to contradict.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    branch: '8.0'
+    symbol_or_lines: expiration-caching
+    verified_at: '2026-09-02'
