@@ -1,0 +1,24 @@
+# Lot 26 — Miscellaneous (Serializer) flashcards (Master Plan §6).
+#
+# One card for the official item: the point fact that re-reading the course
+# does not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-50daktpqmkv9
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  front: Que traverse toujours une donnée entre l'objet et le format, dans les deux sens ?
+  back: Un tableau. La normalisation transforme l'objet en tableau et l'encodage transforme ce tableau en format
+    ; à la lecture, l'inverse. Plusieurs normaliseurs interviennent, mais un seul encodeur, celui du format demandé.
+  explanation: C'est ce découpage qui sépare le choix des propriétés de la production du format.
+  memorization_justification: On se représente la sérialisation comme une conversion directe vers JSON ; l'étape
+    intermédiaire, qui porte toute la logique de sélection, est invisible.
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    branch: '8.0'
+    symbol_or_lines: the-serialization-process-normalizers-and-encoders
+    verified_at: '2026-09-02'
