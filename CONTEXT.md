@@ -7,7 +7,8 @@
 ## Current lot
 
 Lots 0 through 20 are **complete, merged and deployed**.
-**Lot 21 — Miscellaneous / Filesystem and Finder: delivered, awaiting CI** (2 items).
+**Lot 21 — Miscellaneous / Filesystem and Finder: delivered, CI running on the
+audited head** (2 items).
 Next: **Lot 22 — Mailer and Mime** (2 items).
 
 Coverage is **157/163 = 96.32%**. 6 items remain, all in the
@@ -17,8 +18,13 @@ Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**
 
 ## Current branch
 
-`lot-21-miscellaneous`, pushed and open as a Pull Request. CI is **not** yet
-confirmed and must not be reported as PASS.
+`lot-21-miscellaneous`, open as PR #31, head `efaf14c`.
+
+CI run `33622202938` on the previous head `8bf0758` completed **success**. The
+pedagogical sufficiency audit then trimmed the Finder course, so `efaf14c` is a
+new head and run `33653775788` is **queued** on it. A gate that has not
+completed is `MISSING`, never `PASS`; the earlier success does not carry over to
+a commit it never ran on.
 
 `master` is at merge commit `da87b7e` (Lot 20, PR #30).
 
@@ -249,14 +255,27 @@ Pools verified against the built payloads: the 4 LEARNING questions are in
 boundary into the course before drafting rather than discovering it from the
 rule afterwards.
 
-**In CI:** Lot 21's Technical gate had not been read at the time of writing, so
-CI, deploy and the production smoke test are `MISSING` for it, not `PASS`.
+**In CI:** run `33622202938` succeeded on head `8bf0758`. Run `33653775788` is
+queued on the audited head `efaf14c` and its result is unread, so Lot 21's
+Technical gate, deploy and production smoke test are `MISSING`, not `PASS`.
+
+**Pedagogical sufficiency audit (six named details).** Four are tied to a
+learning outcome and carry an assessment: `dumpFile()` atomicity (Filesystem
+outcome 2, flashcard + VALIDATION `QST-at67jvy54v5b`); Finder statefulness and
+cloning (Finder outcome 2, flashcard + LEARNING `QST-9vdyrx07zz9j`); the default
+without `files()`/`directories()` (Finder outcome 3, LEARNING
+`QST-5a5z84vv3kvc`); `iterator_to_array(..., false)` (VALIDATION
+`QST-y8xczgk8cn9z`, whose outcome was missing and has been added). Two carried
+neither outcome nor assessment while being asserted as exam traps —
+`followLinks()` and `sortByName()` ordering — and were shortened to a single
+default-behaviour clause and a code comment respectively. Finder course
+593 → 529 body words.
 
 ## Next action
 
-**Confirm CI on the Lot 21 Pull Request, merge, deploy, run the production
-smoke test.** Until all three are green, Lot 21 is `DELIVERED`, not `PASS`, and
-**Lot 22 must not begin**.
+**Read run `33653775788` on head `efaf14c`, then merge PR #31, deploy and run
+the production smoke test.** Until all three are green, Lot 21 is `DELIVERED`,
+not `PASS`, and **Lot 22 must not begin**.
 
 Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
 third-party services excluded), **23 Process**, **24 PropertyAccess**,
