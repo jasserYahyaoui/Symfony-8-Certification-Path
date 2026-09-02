@@ -6,12 +6,12 @@
 
 ## Current lot
 
-Lots 0 through 22 are **complete, merged and deployed**.
-Next: **Lot 23 — Process** (1 item).
+Lots 0 through 23 are **complete, merged and deployed**.
+Next: **Lot 24 — PropertyAccess** (1 item).
 
-Coverage is **159/163 = 97.55%**. 4 items remain, all in the
-Miscellaneous topic: Process (lot-23), PropertyAccess (lot-24), Runtime
-(lot-25), Serializer (lot-26). Then Lot 27, final review and mock exams.
+Coverage is **160/163 = 98.16%**. 3 items remain, all in the
+Miscellaneous topic: PropertyAccess (lot-24), Runtime (lot-25),
+Serializer (lot-26). Then Lot 27, final review and mock exams.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**.
 
@@ -39,6 +39,7 @@ Verified, with real identifiers:
 | 12 — Console | `0fc51e1` | `100130374274` | `33594048974` | `100133956362` |
 | 21 — Filesystem, Finder | `7c89adc` | `33653840108` | `33656689995` | `100337628436` |
 | 22 — Mailer, Mime | `25fe900` | `33659872155` | `33660554878` | `100350157086` |
+| 23 — Process | `df88caa` | `33661598698` | `33685599410` | `100433156037` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
@@ -242,20 +243,20 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-22-mailer-mime`, every command run as its own
+Locally, on PHP 8.4.19, on `lot-23-process`, every command run as its own
 command with `set -o pipefail` and its exit code read:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 484 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 97.55% (159/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (82 tests, 876 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 487 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 98.16% (160/163 EXAM_READY)                        (exit 0)
+vendor/bin/phpunit              → OK (82 tests, 877 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
-Pools verified against the built payloads: the 4 LEARNING questions are in
-`practice.json` (326) and the 2 VALIDATION questions in `exam.json` (131), with
+Pools verified against the built payloads: the 2 LEARNING questions are in
+`practice.json` (328) and the 1 VALIDATION question in `exam.json` (132), with
 no wrong-pool leak and no HOLDOUT question published. That is **functional
 isolation**, not confidentiality: both published payloads carry correct
 answers.
@@ -264,8 +265,8 @@ answers.
 boundary into the course before drafting rather than discovering it from the
 rule afterwards.
 
-**In CI:** Lot 22's Technical gate is run `33659872155` on head `2a6216b`
-(success). Deploy run `33660554878` on `25fe900` succeeded in all three jobs,
+**In CI:** Lot 23's Technical gate is run `33661598698` on head `6e479e5`
+(success). Deploy run `33685599410` on `df88caa` succeeded in all three jobs,
 and the production smoke-test log was read rather than assumed: ten production
 URLs at 200, landing page rendered, `practice.json` declaring pool `LEARNING`.
 
@@ -287,11 +288,11 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Start Lot 23 — Process** (`OIT-qkcr4bat6dsb`), after this evidence PR is
-merged. Re-read `components/process.rst` on branch 8.0 before writing, and
-write the cross-lot boundary into the course *before* drafting: Console
-(lot-12) owns commands and their input/output, Messenger (lot-11) owns
-deferring work, Filesystem (lot-21) owns disk operations.
+**Start Lot 24 — PropertyAccess** (`OIT-43pt66xsft9f`), after this evidence PR
+is merged. Re-read `components/property_access.rst` on branch 8.0 before
+writing, and write the cross-lot boundary into the course *before* drafting:
+Forms (lot-07) and the coming Serializer (lot-26) both lean on property
+access, so grep both banks for collisions first.
 
 Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
 third-party services excluded), **23 Process**, **24 PropertyAccess**,
