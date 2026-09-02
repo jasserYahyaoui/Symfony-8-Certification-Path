@@ -7859,26 +7859,46 @@ items:
     lot: lot-16
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le nom du fichier gouverne le chargement, deux syntaxes d'espace réservé coexistent selon un
+      suffixe, et le repli comporte une étape parente que l'intuition saute. Le candidat doit
+      diagnostiquer un cas, pas réciter une liste.
+    learning_outcomes:
+      - Nommer un catalogue selon domaine.locale.chargeur
+      - Distinguer %name% du format classique de {name} d'ICU, et ce qui déclenche ICU
+      - Ordonner la cascade de repli, locale parente comprise
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Intl component utilities to access ICU data are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        branch: "8.0"
+        symbol_or_lines: "translation-fallback"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-v1808qnchx6g"
+    flashcard_refs:
+      - "FLC-7ar3ewagp1y0"
+    question_refs:
+      - "QST-qtng554v6wp6"
+      - "QST-p0bkmxc5kxfs"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-fad080pztznw"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 16 — Miscellaneous."
   - id: OIT-zezwg9nya501
     official_topic_order: 14
     official_topic: "Miscellaneous"

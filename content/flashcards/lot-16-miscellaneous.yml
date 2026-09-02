@@ -1,0 +1,21 @@
+# Lot 16 — Miscellaneous (Internationalization and localization) flashcards
+# (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-7ar3ewagp1y0
+  official_item: OIT-3dd7821h069b
+  language: fr
+  front: Qu'est-ce qui déclenche le traitement ICU MessageFormat d'un catalogue ?
+  back: 'Le suffixe +intl-icu dans le nom du fichier : messages+intl-icu.en.yaml. Sans lui, {name} reste littéral.'
+  explanation: 'C''est aussi ce qui sépare les deux syntaxes : %name% en format classique, {name} en ICU.'
+  memorization_justification: On cherche une option de configuration, alors que le déclencheur est le nom du fichier.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'

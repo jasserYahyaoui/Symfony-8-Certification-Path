@@ -1,0 +1,161 @@
+# Lot 16 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question for the single STANDARD
+# item, as rule POOL-002 requires. No HOLDOUT question: the pool carries 27.
+#
+# The syllabus excludes the Intl component's ICU data access utilities, so no
+# question relies on them. ICU MessageFormat belongs to Translation and is in
+# scope.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-qtng554v6wp6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  subtopic: files
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does a translation file name have to encode?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - catalog
+  choices:
+  - id: CHO-pefxsvhehw9w
+    text: The domain, the locale and the loader, as domain.locale.loader
+    correct: true
+  - id: CHO-5m3pr8d35x3a
+    text: The locale only; the domain is declared in the configuration
+    correct: false
+    explanation: The domain is part of the file name, not of the configuration.
+  - id: CHO-18y6pepb3ve3
+    text: The bundle name and the locale
+    correct: false
+    explanation: The bundle is identified by where the file lives, not by its name.
+  - id: CHO-f5ee1gx4g0n2
+    text: The locale and a version number
+    correct: false
+    explanation: No version is encoded in the name.
+  explanation: 'messages.fr_FR.yaml: domain messages, locale fr_FR, loaded by the YAML loader chosen from the extension.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    branch: '8.0'
+    symbol_or_lines: translation-resource-file-names-and-locations
+    verified_at: '2026-09-02'
+- id: QST-p0bkmxc5kxfs
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  subtopic: fallback
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The locale is es_AR and a key is missing from messages.es_AR.yaml. What does Symfony try before the
+    configured fallback?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - fallback
+  choices:
+  - id: CHO-fd14677rv6j7
+    text: The parent locale, then the language alone
+    correct: true
+  - id: CHO-3hk6xg3d67tp
+    text: The language alone, and nothing else
+    correct: false
+    explanation: A parent locale is tried first, where one is defined.
+  - id: CHO-vfhct3h9bk9c
+    text: The default locale immediately
+    correct: false
+    explanation: The default locale is only reached through the fallbacks option, at the end.
+  - id: CHO-zb76szsqk8jc
+    text: Every locale that has a catalogue, in alphabetical order
+    correct: false
+    explanation: The search follows a defined chain, not the list of available catalogues.
+  explanation: es_AR, then es_419 (defined automatically for some locales only), then es, then the fallbacks option,
+    which defaults to default_locale.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    branch: '8.0'
+    symbol_or_lines: translation-fallback
+    verified_at: '2026-09-02'
+- id: QST-fad080pztznw
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  subtopic: icu
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A catalogue writes Hello {name}! and the page shows the braces literally. What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - icu
+  choices:
+  - id: CHO-qqtffs70b9gr
+    text: The +intl-icu suffix in the file name, which is what routes the catalogue through the ICU formatter
+    correct: true
+  - id: CHO-6f0mpdq4fg0b
+    text: A configuration key enabling ICU support
+    correct: false
+    explanation: There is no such key; the file name is the trigger.
+  - id: CHO-m549b2mrmp1h
+    text: The intl PHP extension, without which braces are ignored
+    correct: false
+    explanation: A missing extension would not silently print the braces; the catalogue was simply not treated as
+      ICU.
+  - id: CHO-21562k4xh93n
+    text: Percent signs around the placeholder
+    correct: false
+    explanation: That is the classic syntax, which would mean rewriting the message rather than fixing the catalogue.
+  explanation: messages+intl-icu.en.yaml is processed by MessageFormatter; without the suffix the message is treated
+    as a plain string.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    branch: '8.0'
+    symbol_or_lines: using-the-icu-message-format
+    verified_at: '2026-09-02'
