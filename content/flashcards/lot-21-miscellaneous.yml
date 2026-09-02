@@ -1,0 +1,35 @@
+# Lot 21 — Miscellaneous (Filesystem, Finder) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-e2refpyf7ra0
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  front: Qu'apporte dumpFile() qu'une écriture ordinaire n'apporte pas ?
+  back: 'L''atomicité : elle écrit un fichier temporaire puis le déplace, si bien qu''un lecteur simultané voit
+    l''ancien fichier complet ou le nouveau complet, jamais un fichier à moitié écrit.'
+  explanation: Elle crée aussi le fichier et son répertoire au besoin. appendToFile(), elle, n'est pas atomique.
+  memorization_justification: L'atomicité ne se voit pas à l'usage courant ; elle ne se remarque que sous lecture
+    concurrente.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-zw88x7tcje1m
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  front: 'Deux appels successifs à name() sur le même Finder : que cherche-t-on au final ?'
+  back: 'Les deux motifs à la fois. Le Finder est à état : un appel de méthode s''ajoute à la configuration au lieu
+    de la remplacer.'
+  explanation: Pour plusieurs recherches partageant une base commune, il faut cloner l'objet.
+  memorization_justification: On attend d'un setter qu'il écrase la valeur précédente ; ici il l'accumule.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'

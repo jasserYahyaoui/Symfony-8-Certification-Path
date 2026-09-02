@@ -1,0 +1,311 @@
+# Lot 21 — Miscellaneous question bank (Master Plan §7).
+#
+# 4 LEARNING questions (2 per official item) and 2 VALIDATION questions —
+# one per STANDARD item, as rule POOL-002 requires. No HOLDOUT question:
+# the pool carries 27 and already exercises this reasoning.
+#
+# Stems describe situations and deliberately avoid naming the methods the
+# course names, so a candidate cannot answer by lexical recognition (CRS-001).
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-q1g70cf81t0a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  subtopic: errors
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Code reads a path that turns out to be a directory. With PHP's native read function nothing is raised,
+    but the component's equivalent stops the program. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - exceptions
+  choices:
+  - id: CHO-a3b2dsdf3gba
+    text: The component throws instead of returning false, and a directory is one of the cases it rejects
+    correct: true
+  - id: CHO-0zw4fpx09e2r
+    text: The component cannot read files at all and only reports metadata
+    correct: false
+    explanation: Reading file contents is exactly what the method is for.
+  - id: CHO-c4j61csc1wgx
+    text: The directory lacked read permission, which is the real cause
+    correct: false
+    explanation: Permission is a separate failure case; passing a directory is rejected on its own.
+  - id: CHO-b2gv6sbra50f
+    text: PHP's own function was called with the wrong arguments
+    correct: false
+    explanation: The contrast described is between two working calls, not a mistake in one of them.
+  explanation: The component's read method throws when the path is unreadable and when a directory is passed, so
+    a failure cannot pass unnoticed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    branch: '8.0'
+    symbol_or_lines: readfile
+    verified_at: '2026-09-02'
+- id: QST-3xhbezx2h2e2
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  subtopic: directories
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A deployment script creates a directory that already exists. What does the component's directory-creation
+    method do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - mkdir
+  choices:
+  - id: CHO-tvpv9maegc32
+    text: 'Nothing: it ignores an existing directory rather than failing'
+    correct: true
+  - id: CHO-xhmjep5x2pj5
+    text: It throws, so the script must check existence first
+    correct: false
+    explanation: No check is needed; the existing directory is simply left alone.
+  - id: CHO-bsf1b80kjcen
+    text: It deletes and recreates the directory
+    correct: false
+    explanation: Nothing is destroyed; that would make the call dangerous to repeat.
+  - id: CHO-ad674rg6d9bv
+    text: It creates a numbered variant beside it
+    correct: false
+    explanation: No such renaming behaviour exists.
+  explanation: It also creates parent directories recursively, with mode 0777 by default on POSIX systems, subject
+    to the current umask.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    branch: '8.0'
+    symbol_or_lines: mkdir
+    verified_at: '2026-09-02'
+- id: QST-at67jvy54v5b
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  subtopic: writing
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which guarantee does the component's atomic write give a process reading the same file concurrently?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - atomic
+  choices:
+  - id: CHO-hgane5m1701a
+    text: It sees either the complete previous contents or the complete new ones, never a partial file
+    correct: true
+  - id: CHO-8fej3sc0q3gw
+    text: It is blocked until the write finishes
+    correct: false
+    explanation: No lock is placed on readers; the guarantee comes from writing elsewhere then moving.
+  - id: CHO-754ggq6hkn0n
+    text: It always sees the new contents immediately
+    correct: false
+    explanation: A reader that opened before the move still sees the old file, which is precisely the point.
+  - id: CHO-nq3pfq1bh24m
+    text: It receives an error while the write is in progress
+    correct: false
+    explanation: Readers are never interrupted.
+  explanation: A temporary file is written first and moved into place when finished, so no reader can observe a
+    half-written file. The append method makes no such guarantee.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    branch: '8.0'
+    symbol_or_lines: dumpfile
+    verified_at: '2026-09-02'
+- id: QST-9vdyrx07zz9j
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  subtopic: state
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One search object is configured with a common location, then used for two searches with different name
+    patterns. The second search returns too few results. What explains it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - stateful
+  choices:
+  - id: CHO-9jztjvp63xwm
+    text: The criteria accumulated on the shared object, so the second search demanded both patterns
+    correct: true
+  - id: CHO-vyegmcpva9vz
+    text: The first search consumed the iterator, leaving nothing for the second
+    correct: false
+    explanation: Re-iterating is possible; the narrowing comes from the criteria, not from exhaustion.
+  - id: CHO-zmnd18bt50we
+    text: The location was reset after the first search and had to be given again
+    correct: false
+    explanation: The location persisted; that is why the object was reused in the first place.
+  - id: CHO-apyb8vtjs3zz
+    text: Results are cached from the first search and replayed
+    correct: false
+    explanation: No caching occurs between searches.
+  explanation: The object is stateful and every call changes it, so a shared configuration has to be cloned before
+    each distinct search.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    branch: '8.0'
+    symbol_or_lines: usage
+    verified_at: '2026-09-02'
+- id: QST-5a5z84vv3kvc
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  subtopic: criteria
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A search is run with only a location given. What comes back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - defaults
+  choices:
+  - id: CHO-9yh5e861tyy2
+    text: Both files and directories
+    correct: true
+  - id: CHO-7vww3zq7v51p
+    text: Files only, since that is the common case
+    correct: false
+    explanation: Restricting to files is an explicit choice, not the default.
+  - id: CHO-c5s2wzb2nvna
+    text: Directories only, since they are traversed first
+    correct: false
+    explanation: Traversal order does not determine what is returned.
+  - id: CHO-81akntagkd9g
+    text: Nothing, because a name pattern is required
+    correct: false
+    explanation: The location is the only mandatory criterion.
+  explanation: Restricting the result to one kind is an explicit call; the location is the only criterion that must
+    be supplied.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    branch: '8.0'
+    symbol_or_lines: files-or-directories
+    verified_at: '2026-09-02'
+- id: QST-y8xczgk8cn9z
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  subtopic: results
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A search spans several locations and its results are converted to an array. Some entries are missing.
+    What was overlooked?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - iterator
+  choices:
+  - id: CHO-atm2cekw4f5w
+    text: A separate iterator exists per location, so keys can collide unless the conversion is told to discard
+      them
+    correct: true
+  - id: CHO-p34tck9fzxxb
+    text: Only the first location is searched unless they are passed as one array
+    correct: false
+    explanation: Every location is searched either way; the loss happens during conversion.
+  - id: CHO-npg7zg54vz2x
+    text: Duplicate files across locations are removed automatically
+    correct: false
+    explanation: No de-duplication by content or name is performed.
+  - id: CHO-h1cygwnhesa5
+    text: The result must be sorted before it can be converted
+    correct: false
+    explanation: Sorting is unrelated to the loss of entries.
+  explanation: Passing false as the second argument of the conversion discards the keys, which is what prevents
+    entries from overwriting one another.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    branch: '8.0'
+    symbol_or_lines: transforming-results-into-arrays
+    verified_at: '2026-09-02'
