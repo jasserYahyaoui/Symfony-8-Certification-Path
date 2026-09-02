@@ -1,0 +1,307 @@
+# Lot 15 — Miscellaneous question bank (Master Plan §7).
+#
+# 4 LEARNING questions (2 per official item) and 2 VALIDATION questions —
+# one per STANDARD item, as rule POOL-002 requires. No HOLDOUT question:
+# the pool already carries 27 and covers these mechanisms.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-y14y2m9jfwmr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  subtopic: composer
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does --optimize-autoloader add to a production composer install?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - composer
+  choices:
+  - id: CHO-gex5yyar7zjt
+    text: A class map, which significantly improves autoloader performance
+    correct: true
+  - id: CHO-y2y71f2534p6
+    text: The exclusion of development packages
+    correct: false
+    explanation: That is what --no-dev does; the two flags address different needs.
+  - id: CHO-9ksmmaxegars
+    text: A check that every class declared in the project exists
+    correct: false
+    explanation: No verification pass is performed.
+  - id: CHO-h7sgr8sswhjk
+    text: A warm-up of the Symfony cache
+    correct: false
+    explanation: The cache is warmed by a separate console command.
+  explanation: '--no-dev and --optimize-autoloader are independent: one controls what is installed, the other how
+    classes are found.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    branch: '8.0'
+    symbol_or_lines: c-install-update-your-vendors
+    verified_at: '2026-09-02'
+- id: QST-xe2p2fcj5ays
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  subtopic: cache
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A deployment script runs php bin/console cache:clear with no environment variables and the site still
+    serves stale behaviour. What was wrong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - cache
+  choices:
+  - id: CHO-t0czznen5fkz
+    text: The command cleared the cache of the current environment, not the production one
+    correct: true
+  - id: CHO-ra99fk0gteek
+    text: cache:clear only removes the template cache
+    correct: false
+    explanation: It clears the whole application cache for the environment it runs in.
+  - id: CHO-m7n9nx7js6se
+    text: The cache must be deleted from disk instead
+    correct: false
+    explanation: The command is the supported way; the environment was the problem.
+  - id: CHO-64jbfbk27kn6
+    text: Clearing requires the profiler to be installed
+    correct: false
+    explanation: The two are unrelated.
+  explanation: The documented invocation is APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear, because the cache
+    is per environment.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    branch: '8.0'
+    symbol_or_lines: d-clear-your-symfony-cache
+    verified_at: '2026-09-02'
+- id: QST-a3j6b774kjeb
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  subtopic: env
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does composer dump-env prod produce, and why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - dump-env
+  choices:
+  - id: CHO-7q6hv9808tqg
+    text: A .env.local.php that overrides the other configuration files, so the .env files need not be parsed on
+      every request
+    correct: true
+  - id: CHO-d6mhmqe5mzxr
+    text: A .env.prod file committed to the repository
+    correct: false
+    explanation: The generated file is machine-specific and takes precedence; it is not the committed environment
+      file.
+  - id: CHO-v1749b28b60e
+    text: A list of the environment variables the application is missing
+    correct: false
+    explanation: It dumps resolved values rather than reporting gaps.
+  - id: CHO-fmrxjcx0shxc
+    text: An encrypted vault of the production secrets
+    correct: false
+    explanation: Encryption of secrets is a separate mechanism.
+  explanation: It resolves all .env files once into an optimised PHP file; --empty generates the same structure
+    without values for setups relying only on real environment variables.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    branch: '8.0'
+    symbol_or_lines: b-configure-your-environment-variables
+    verified_at: '2026-09-02'
+- id: QST-x86878b8vrmn
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: toolbar
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An API returns JSON and no debug toolbar appears. What follows?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - toolbar
+  choices:
+  - id: CHO-yaz5jkzz5s76
+    text: 'Nothing is wrong: the toolbar is only injected into HTML responses, and the profile is reachable through
+      a response header'
+    correct: true
+  - id: CHO-m7tj5qgt65z0
+    text: The profiler failed to collect data for that request
+    correct: false
+    explanation: Collection is independent of whether the toolbar can be displayed.
+  - id: CHO-j358pkq99g8j
+    text: The profiler is disabled for non-HTML routes
+    correct: false
+    explanation: No such rule exists; only the injection is limited.
+  - id: CHO-35q9r37vaq5f
+    text: The response must be converted to HTML to be profiled
+    correct: false
+    explanation: The profile already exists and can be opened directly.
+  explanation: X-Debug-Token-Link carries the profile URL, and /_profiler lists every profile.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    branch: '8.0'
+    symbol_or_lines: profiler
+    verified_at: '2026-09-02'
+- id: QST-ecx7f7257q6m
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: collectors
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom data collector performs its measurements inside collect() and the numbers are always empty.
+    Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - collect
+  choices:
+  - id: CHO-4pnssyc5herm
+    text: collect() is called once, to pick up data a service already stored, not to gather it
+    correct: true
+  - id: CHO-w51q3cqe4fwc
+    text: collect() runs before the controller, so nothing has happened yet
+    correct: false
+    explanation: It runs on kernel.response, after the controller; the problem is what the method is for.
+  - id: CHO-194qzdzzg5hj
+    text: The collector must be tagged manually for collect() to run
+    correct: false
+    explanation: With autoconfigure the tag is added, and the method was clearly reached.
+  - id: CHO-d370xqx7722y
+    text: Measurements must be returned rather than stored in $this->data
+    correct: false
+    explanation: $this->data is the documented place to store them.
+  explanation: 'The documentation warns that collect() is not there to gather data: a service collects during the
+    request and the collector picks it up on kernel.response.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    branch: '8.0'
+    symbol_or_lines: creating-a-data-collector
+    verified_at: '2026-09-02'
+- id: QST-bmv73g3p3sgm
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: collectors
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Some data is only available after the response has been sent. Which contract covers that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - late-collect
+  choices:
+  - id: CHO-w80wjr5cajy8
+    text: LateDataCollectorInterface, whose lateCollect() runs during kernel.terminate
+    correct: true
+  - id: CHO-v6t7thnt5bqe
+    text: DataCollectorInterface, by calling collect() a second time
+    correct: false
+    explanation: collect() is called only once.
+  - id: CHO-rm04jr6tpjjw
+    text: An event subscriber on kernel.response with a negative priority
+    correct: false
+    explanation: That still runs before the response is sent, which is the case being excluded.
+  - id: CHO-v8c0yk7y5krv
+    text: A reset() implementation that reads the data before clearing it
+    correct: false
+    explanation: reset() clears state between requests; it collects nothing.
+  explanation: lateCollect() is invoked just before the profiler serialises its data, during kernel.terminate.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    branch: '8.0'
+    symbol_or_lines: creating-a-data-collector
+    verified_at: '2026-09-02'

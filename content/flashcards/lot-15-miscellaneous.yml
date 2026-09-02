@@ -1,0 +1,36 @@
+# Lot 15 — Miscellaneous (Deployment, Web Profiler) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-k4xbtfdew9m4
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  front: Que font --no-dev et --optimize-autoloader dans composer install ?
+  back: --no-dev n'installe pas les paquets de développement ; --optimize-autoloader construit une class map qui
+    accélère nettement l'autochargeur.
+  explanation: 'Deux besoins distincts : ne pas embarquer le superflu, et charger plus vite. L''un n''implique pas
+    l''autre.'
+  memorization_justification: Les deux drapeaux voyagent ensemble dans la commande, ce qui fait croire à un seul
+    effet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-q9dj4gjhz31d
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  front: Une réponse JSON n'affiche aucune barre de débogage. Comment atteindre son profil ?
+  back: Par l'en-tête X-Debug-Token-Link, qui porte l'URL du profil — ou X-Debug-Token puis /_profiler. La barre
+    n'est injectée que dans les réponses HTML.
+  explanation: Le profileur a bien collecté ; c'est seulement l'affichage qui manque.
+  memorization_justification: L'absence de barre se lit comme une absence de profil, alors que les deux sont indépendants.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
