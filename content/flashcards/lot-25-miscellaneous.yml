@@ -1,0 +1,24 @@
+# Lot 25 — Miscellaneous (Runtime) flashcards (Master Plan §6).
+#
+# One card for the official item: the point fact that re-reading the course
+# does not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-0p88y5fvnr6d
+  official_item: OIT-r3qcmsehzex1
+  language: fr
+  front: Combien de fois le script d'entrée s'exécute-t-il, et quelle contrainte cela impose-t-il ?
+  back: 'Deux fois : le runtime l''inclut à nouveau après l''avoir chargé une première fois. Le script ne doit donc
+    produire aucun effet de bord, sans quoi celui-ci se produirait deux fois.'
+  explanation: C'est la deuxième des cinq étapes que la documentation énumère pour autoload_runtime.php.
+  memorization_justification: Rien dans le fichier ne laisse deviner qu'il sera réexécuté ; on l'écrit naturellement
+    comme un script joué une seule fois.
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    branch: '8.0'
+    symbol_or_lines: usage
+    verified_at: '2026-09-02'

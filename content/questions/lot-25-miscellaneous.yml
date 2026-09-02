@@ -1,0 +1,164 @@
+# Lot 25 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question — one per STANDARD item,
+# as rule POOL-002 requires. No HOLDOUT question: the pool already exercises
+# this reasoning and adding one for shape alone would fail the value gate.
+#
+# The project directory layout is deliberately not asked here: 'public/' is the
+# correct answer of a lot-03 question, and this item is assessed on the
+# bootstrapping abstraction itself.
+
+schema_version: 1
+questions:
+- id: QST-rez80g9m6w88
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  subtopic: bootstrap
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A counter is incremented at the top of the application's entry script, before the closure is returned.
+    It ends up at two instead of one. What explains it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - bootstrap
+  - side-effects
+  choices:
+  - id: CHO-1tx5fvhmg8k2
+    text: The bootstrapping layer includes that script a second time, so anything it does happens twice
+    correct: true
+  - id: CHO-m45fb59ttq5p
+    text: Two requests were served and the counter persisted between them
+    correct: false
+    explanation: The doubling happens within a single execution.
+  - id: CHO-sdjcpnmhebc7
+    text: The closure is invoked twice, once to resolve arguments and once to build the application
+    correct: false
+    explanation: Argument resolution does not call the closure a second time.
+  - id: CHO-x7jerwsn2z5c
+    text: Debug mode runs the whole entry sequence twice to compare results
+    correct: false
+    explanation: No mode duplicates the sequence for comparison.
+  explanation: The documented sequence has the runtime include the front-controller script again, which is why the
+    docs warn it must produce no side effects.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    branch: '8.0'
+    symbol_or_lines: usage
+    verified_at: '2026-09-02'
+- id: QST-ymqf2vmf7842
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  subtopic: entry
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the application's entry script hand back once the autoload file has been required?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - entry
+  - closure
+  choices:
+  - id: CHO-rjf5shfm0g98
+    text: A closure that will later be called to build the application
+    correct: true
+  - id: CHO-2qknjkkk91xv
+    text: A fully built application object, ready to be run
+    correct: false
+    explanation: The object is built later, when the closure is called.
+  - id: CHO-n5nw986zbn1k
+    text: The response, already produced and sent
+    correct: false
+    explanation: Producing and sending the response is not the script's job.
+  - id: CHO-1n0ekmrrsam9
+    text: Nothing; it runs the application itself and returns no value
+    correct: false
+    explanation: The returned value is what the bootstrapping layer works from.
+  explanation: The entry script returns a callable; the runtime resolves its arguments, calls it to obtain the application,
+    and then runs that application.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    branch: '8.0'
+    symbol_or_lines: usage
+    verified_at: '2026-09-02'
+- id: QST-qvrh3419534q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  subtopic: arguments
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A closure declares an array parameter meant to carry the environment, but it was given a different variable
+    name. Resolution fails. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - arguments
+  - resolution
+  choices:
+  - id: CHO-21wdpw6w941p
+    text: For these arguments the variable name is significant as well as the type
+    correct: true
+  - id: CHO-jjz7t6dkejmz
+    text: Only one array parameter is allowed, and it must be the first
+    correct: false
+    explanation: Position is not what the resolution keys on.
+  - id: CHO-pjw28xs6x69m
+    text: Arrays cannot be resolved at all; an object type is required
+    correct: false
+    explanation: Array parameters are among the supported ones.
+  - id: CHO-249fst9h95kz
+    text: The parameter must be nullable for resolution to attempt it
+    correct: false
+    explanation: Nullability plays no part in the resolution.
+  explanation: For the arguments supported by both runtimes, the documentation states that both the type and the variable
+    name matter.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    branch: '8.0'
+    symbol_or_lines: resolvable-arguments
+    verified_at: '2026-09-02'
