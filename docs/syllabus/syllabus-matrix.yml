@@ -6717,26 +6717,46 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois méthodes de cycle de vie à ordonner, et une valeur de retour obligatoire dont le candidat
+      doit tirer une conséquence opérationnelle. Il faut interpréter une situation, pas réciter une
+      liste.
+    learning_outcomes:
+      - Situer le composant et son point d'entrée dans le framework
+      - Ordonner initialize(), interact() et la méthode d'exécution
+      - Choisir entre SUCCESS, FAILURE et INVALID
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php"
+        branch: "8.0"
+        symbol_or_lines: "SUCCESS, FAILURE, INVALID"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-brn6frfqpxxj"
+    flashcard_refs:
+      - "FLC-1geh3bkk61mh"
+    question_refs:
+      - "QST-s9dqp9mfqfrx"
+      - "QST-zh43s7yzg7nr"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-4101g4r1pw8x"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-zgq6w4jqamvb
     official_topic_order: 12
     official_topic: "Console"
@@ -6747,26 +6767,43 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Aucune liste à mémoriser : `list` la fournit. Le candidat doit reconnaître les familles et la
+      règle d'abréviation, ce qui relève de la reconnaissance.
+    learning_outcomes:
+      - Reconnaître les familles debug:*, cache:*, lint:*, secrets:*, make:*
+      - Énoncer la règle d'abréviation d'un nom de commande
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 1 question unique minimum, réussie sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst"
+        branch: "8.0"
+        symbol_or_lines: "console"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-rk0fkn1q5byc"
+    flashcard_refs:
+      - "FLC-p7xbhq67h80a"
+    question_refs:
+      - "QST-snpbvmx5e280"
+      - "QST-wgvc9x0rjh0r"
     exercise_refs: []
     exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    prerequisites:
+      - "OIT-481gmkgbksnr"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-kbg00jqxxwhq
     official_topic_order: 12
     official_topic: "Console"
@@ -6777,26 +6814,46 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux syntaxes coexistent en 8.0 et l'examen attend qu'on distingue la recommandée de l'héritée,
+      y compris pour ce que la seconde permet encore. C'est une discrimination, pas un rappel.
+    learning_outcomes:
+      - Écrire une commande invocable avec #[AsCommand] et __invoke()
+      - Expliquer comment le conteneur découvre une commande
+      - Dire quand étendre Command reste nécessaire
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst"
+        branch: "8.0"
+        symbol_or_lines: "creating-a-command"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-cb51hcng9dh5"
+    flashcard_refs:
+      - "FLC-czhm5c0vv1sv"
+    question_refs:
+      - "QST-gbzpgycr1r6g"
+      - "QST-tvce4echjywq"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-sp2y1cwdz94v"
+    prerequisites:
+      - "OIT-481gmkgbksnr"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-1hdmw4gm819r
     official_topic_order: 12
     official_topic: "Console"
@@ -6807,26 +6864,46 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le moment d'appel de configure() est contre-intuitif et gouverne une règle d'écriture du
+      constructeur. Le candidat doit raisonner sur un ordre d'exécution.
+    learning_outcomes:
+      - Nommer les paramètres de #[AsCommand]
+      - Déclarer alias et visibilité d'une commande
+      - Situer l'appel de configure() dans la construction
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php"
+        branch: "8.0"
+        symbol_or_lines: "AsCommand::__construct"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-sf3701ncg2va"
+    flashcard_refs:
+      - "FLC-c51027n1sspw"
+    question_refs:
+      - "QST-bw6j8k17fx9c"
+      - "QST-y48awnf4nfnx"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-8rb0j5e7v90a"
+    prerequisites:
+      - "OIT-kbg00jqxxwhq"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-nr9m883d15qq
     official_topic_order: 12
     official_topic: "Console"
@@ -6837,26 +6914,47 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le mode n'est plus écrit mais déduit de la signature : lire cette déduction demande d'appliquer
+      une règle à un cas, ce qui dépasse la reconnaissance.
+    learning_outcomes:
+      - Déclarer arguments et options par attributs
+      - Déduire le mode d'un paramètre depuis son type et sa valeur par défaut
+      - Relier les attributs aux constantes InputArgument et InputOption
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php"
+        branch: "8.0"
+        symbol_or_lines: "Option::tryFrom"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-q2dxjhx6d35k"
+    flashcard_refs:
+      - "FLC-bdrpkzcqw1ww"
+    question_refs:
+      - "QST-svybdxxreygm"
+      - "QST-agnyym2anznf"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-p0v30fknd59q"
+      - "QST-vn657svb2nsd"
+    prerequisites:
+      - "OIT-kbg00jqxxwhq"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-65sswf0qhw6c
     official_topic_order: 12
     official_topic: "Console"
@@ -6867,26 +6965,46 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux abstractions, plusieurs implémentations, et une distinction — définition contre ligne brute
+      — que le candidat doit trancher sur un cas concret.
+    learning_outcomes:
+      - Lire l'entrée par InputInterface
+      - Écrire par OutputInterface et ses balises de style
+      - Diriger un diagnostic vers STDERR
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "InputInterface"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-0ab7kpexq9w9"
+    flashcard_refs:
+      - "FLC-vrr7nk2vcdkk"
+    question_refs:
+      - "QST-tp80nqtxvarw"
+      - "QST-5wrcd9ahhth2"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-ngh8w461wr91"
+    prerequisites:
+      - "OIT-nr9m883d15qq"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-v6wxp78gk42c
     official_topic_order: 12
     official_topic: "Console"
@@ -6897,26 +7015,46 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un catalogue à situer par usage, et une conséquence non évidente : sans interaction, une
+      question rend sa valeur par défaut en silence. Le candidat doit relier l'outil au besoin.
+    learning_outcomes:
+      - Situer les neuf helpers documentés par leur usage
+      - Choisir entre ProgressBar et ProgressIndicator
+      - Énoncer ce que devient une question en mode non interactif
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc"
+        branch: "8.0"
+        symbol_or_lines: "console"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-3p9jdkw1nd3g"
+    flashcard_refs:
+      - "FLC-48na02d14yce"
+    question_refs:
+      - "QST-8z5qhxdbyjf8"
+      - "QST-h22aea8btw90"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-qcgrr0jydf3t"
+    prerequisites:
+      - "OIT-65sswf0qhw6c"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-cqs3m73y3rpy
     official_topic_order: 12
     official_topic: "Console"
@@ -6927,26 +7065,47 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Quatre événements, un ordre à établir, et deux effets de bord — code 113, exception avalée — qui
+      supposent de raisonner sur le flux plutôt que de citer des noms.
+    learning_outcomes:
+      - Nommer les quatre événements de ConsoleEvents
+      - Établir leur ordre, erreur comprise
+      - Décrire l'effet de disableCommand() et de setExitCode() sur ERROR
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
+        branch: "8.0"
+        symbol_or_lines: "COMMAND, SIGNAL, TERMINATE, ERROR"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-y0zc67f3e5zk"
+    flashcard_refs:
+      - "FLC-hk7rkbxfq90j"
+    question_refs:
+      - "QST-ycpqw0ygx9cd"
+      - "QST-tmz33c01yx7r"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-11513wwwhf63"
+      - "QST-fem1t3nencs8"
+    prerequisites:
+      - "OIT-481gmkgbksnr"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
   - id: OIT-dv5400dtksfg
     official_topic_order: 12
     official_topic: "Console"
@@ -6957,26 +7116,43 @@ items:
     lot: lot-12
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Six niveaux et une distinction binaire entre --quiet et --silent. Rien à appliquer : c'est de la
+      reconnaissance de vocabulaire.
+    learning_outcomes:
+      - Nommer les six niveaux de verbosité
+      - Distinguer --quiet de --silent
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 1 question unique minimum, réussie sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
+        branch: "8.0"
+        symbol_or_lines: "VERBOSITY_* constants"
+        verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-96c85hjezj1r"
+    flashcard_refs:
+      - "FLC-sgp3dnzw3et3"
+    question_refs:
+      - "QST-c01dkpwkp6qw"
+      - "QST-fjgxe7fjzc8y"
     exercise_refs: []
     exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    prerequisites:
+      - "OIT-65sswf0qhw6c"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-01"
+    reviewed_by: "tech-lead"
+    notes: "Lot 12 — Console."
 
   # ---- Topic 13: Automated Tests (9 items) ----
   - id: OIT-c6wd3f444qjn
