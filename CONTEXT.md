@@ -6,11 +6,18 @@
 
 ## Current lot
 
-Lots 0 through 25 are **complete, merged and deployed**.
-Next: **Lot 26 — Serializer** (1 item), the last content item.
+**Content coverage is complete.** Lots 0 through 26 are **complete, merged
+and deployed**. All **163/163 atomic official items are `EXAM_READY`
+(100%)**; none remains `NOT_STARTED`, and no content reference is claimed by
+two items.
 
-Coverage is **162/163 = 99.39%**. 1 item remains: Serializer (lot-26).
-Then Lot 27, final review and mock exams.
+Level distribution across the 163 items, stated as an **observation and never
+a target**: 124 STANDARD, 28 MINIMAL, 11 DEEP.
+
+**What remains is not content.** Lot 27 — final review and mock exams —
+**cannot begin** until the owner settles ADR-0005 (holdout distribution),
+because the mocks draw on precisely that pool. Audit items P2.1–P2.8 are due
+before the mocks. See *Blocked decisions*.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**.
 
@@ -41,6 +48,7 @@ Verified, with real identifiers:
 | 23 — Process | `df88caa` | `33661598698` | `33685599410` | `100433156037` |
 | 24 — PropertyAccess | `2a8f0e8` | `33686497465` | `33686874047` | `100437028877` |
 | 25 — Runtime | `130f7e8` | `33687839072` | `33688747560` | `100442702932` |
+| 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
@@ -245,20 +253,20 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-25-runtime`, every command run as its own
+Locally, on PHP 8.4.19, on `lot-26-serializer`, every command run as its own
 command with `set -o pipefail` and its exit code read:
 
 ```text
-php bin/cert validate           → 17 rules, 163 official items, 493 questions, no violations   (exit 0)
-php bin/cert coverage           → Coverage: 99.39% (162/163 EXAM_READY)                        (exit 0)
-vendor/bin/phpunit              → OK (84 tests, 885 assertions)                                (exit 0)
+php bin/cert validate           → 17 rules, 163 official items, 496 questions, no violations   (exit 0)
+php bin/cert coverage           → Coverage: 100% (163/163 EXAM_READY)                          (exit 0)
+vendor/bin/phpunit              → OK (84 tests, 886 assertions)                                (exit 0)
 php bin/cert build              → docs tree + coverage.json, exam.json, practice.json          (exit 0)
 npm --prefix website run build  → [SUCCESS] Generated static files                             (exit 0)
 npm --prefix website run a11y   → 6/6 surfaces PASS, TOTAL VIOLATIONS: 0                       (exit 0)
 ```
 
 Pools verified against the built payloads: the 2 LEARNING questions are in
-`practice.json` (332) and the 1 VALIDATION question in `exam.json` (134), with
+`practice.json` (334) and the 1 VALIDATION question in `exam.json` (135), with
 no wrong-pool leak and no HOLDOUT question published. That is **functional
 isolation**, not confidentiality: both published payloads carry correct
 answers.
@@ -271,8 +279,8 @@ what PropertyAccess uniquely owns — never by fencing the string. The disciplin
 boundary into the course before drafting rather than discovering it from the
 rule afterwards.
 
-**In CI:** Lot 25's Technical gate is run `33687839072` on head `a1c54ae`
-(success). Deploy run `33688747560` on `130f7e8` succeeded in all three jobs,
+**In CI:** Lot 26's Technical gate is run `33689350805` on head `4df9ced`
+(success). Deploy run `33689975817` on `59b5756` succeeded in all three jobs,
 and the production smoke-test log was read rather than assumed: ten production
 URLs at 200, landing page rendered, `practice.json` declaring pool `LEARNING`.
 
@@ -294,12 +302,16 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Start Lot 26 — Serializer** (`OIT-fr58jzaj6jtb`), the **last content item**,
-after this evidence PR is merged. Read its `exclusion_boundaries` in the matrix
-first, then re-read `components/serializer.rst` on branch 8.0 before writing.
-Grep the banks for `Serializer`, `normalizer`, `encoder`, `denormalize` and
-`groups` before drafting: Forms (lot-07), PropertyAccess (lot-24) and
-Messenger (lot-11) serialization all touch it.
+**Obtain the owner's decision on ADR-0005 — the holdout distribution.** §15
+lists it as requiring human approval and it is due before Lot 27; the mock
+exams draw on the holdout pool, so its distribution is exactly what is
+undecided. **Lot 27 must not begin without it.**
+
+In parallel, audit items **P2.1–P2.8** are due before the mocks. P2.8/FR-1 is
+not mechanical: each affected sentence must be read to be re-accented
+correctly.
+
+No content work remains.
 
 Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
 third-party services excluded), **23 Process**, **24 PropertyAccess**,
@@ -329,8 +341,11 @@ is **no longer deployed in any payload**: Exam Mode serves the `VALIDATION`
 pool. But this repository is **public**, so holdout answers stay readable in
 `content/questions/*.yml`. The exposure narrowed from *served by the
 application* to *readable in the source*; §22's "protected unseen holdout
-assessment" still cannot be claimed. Does not block content lots. **A decision
-is required before Lot 27 begins.**
+assessment" still cannot be claimed. It never blocked a content lot — but
+content is now finished, so **this is the decision the project is waiting on.**
+Lot 27's mock exams draw on the holdout pool, and its distribution is precisely
+what is undecided. §15 lists it as requiring human approval, so it is not mine
+to settle. **Lot 27 does not begin until the owner answers.**
 
 **Process:** Lots 0–02 were committed directly to `master` on the owner's
 instruction — a documented deviation from §15, not an inapplicable step. Lot 03
