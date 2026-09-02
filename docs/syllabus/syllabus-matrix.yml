@@ -7909,26 +7909,47 @@ items:
     lot: lot-17
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une machinerie à activer, une règle de priorité contre-intuitive entre attribut et contrôleur,
+      et trois limites du cache HTTP à appliquer à un cas. Ce n'est pas de la reconnaissance de
+      vocabulaire.
+    learning_outcomes:
+      - Activer et tracer le proxy inverse de Symfony
+      - Déclarer une politique par #[Cache] et connaître sa priorité
+      - Énoncer les limites : URI comme clé, méthodes sûres, invalidation hors protocole
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "ESI (Edge Side Includes) is not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
+        branch: "8.0"
+        symbol_or_lines: "symfony-reverse-proxy"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-1k0ce9dvdr99"
+    flashcard_refs:
+      - "FLC-tgvah1kzef9y"
+    question_refs:
+      - "QST-713sjezq7b99"
+      - "QST-a9rqdpxw13gm"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-478vmvbdbme2"
+    prerequisites:
+      - "OIT-tc39jp8japfc"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 17 — Miscellaneous."
   - id: OIT-78k7kbfpgfxt
     official_topic_order: 14
     official_topic: "Miscellaneous"

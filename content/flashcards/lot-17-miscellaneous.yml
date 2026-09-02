@@ -1,0 +1,20 @@
+# Lot 17 — Miscellaneous (HTTP Caching) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-tgvah1kzef9y
+  official_item: OIT-zezwg9nya501
+  language: fr
+  front: 'Un contrôleur porte #[Cache] et pose aussi des en-têtes sur la réponse. Lequel gagne ?'
+  back: Les en-têtes posés dans le contrôleur. L'attribut fixe une politique par défaut que le code peut contredire.
+  explanation: La documentation l'énonce explicitement ; l'ordre inverse serait tout aussi plausible a priori.
+  memorization_justification: Un attribut paraît plus déclaratif donc plus fort ; c'est le contraire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
