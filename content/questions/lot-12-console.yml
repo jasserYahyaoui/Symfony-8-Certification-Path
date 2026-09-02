@@ -1,0 +1,1343 @@
+# Lot 12 — Console question bank (Master Plan §7).
+#
+# 18 LEARNING questions (2 per official item), 7 VALIDATION questions — one
+# per STANDARD item, as rule POOL-002 requires — and 2 HOLDOUT questions
+# reserved for the final mocks.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-s9dqp9mfqfrx
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: lifecycle
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command finishes its work successfully. What must its execution method return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - command
+  - exit-code
+  choices:
+  - id: CHO-mxw65mdqqpz5
+    text: The integer 0, for which Command::SUCCESS is the readable name
+    correct: true
+  - id: CHO-0vt8kqy6ym95
+    text: Nothing; returning null is treated as success
+    correct: false
+    explanation: The method is typed to return an integer, so returning nothing is an error.
+  - id: CHO-n5520ztmrt2q
+    text: A boolean true
+    correct: false
+    explanation: The return value is the process exit code, which is an integer.
+  - id: CHO-p9jmnvtpr1f2
+    text: The output written to the console
+    correct: false
+    explanation: Output and exit code are separate; only the integer is read by the caller.
+  explanation: The returned integer becomes the process exit status. SUCCESS is 0, FAILURE 1, INVALID 2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    branch: '8.0'
+    symbol_or_lines: Command::SUCCESS
+    verified_at: '2026-09-01'
+- id: QST-zh43s7yzg7nr
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: lifecycle
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command asks for a missing value inside interact(). Run from cron, it uses an empty value instead
+    of asking. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - interact
+  - non-interactive
+  choices:
+  - id: CHO-wbwt1hqy4ff4
+    text: interact() is not called when the input is not interactive
+    correct: true
+  - id: CHO-jnx52zbrdzb8
+    text: cron strips the standard input before the command starts
+    correct: false
+    explanation: The behaviour comes from Symfony's own interactivity check, not from cron's plumbing.
+  - id: CHO-qkewtcznac4j
+    text: interact() runs but its return value is discarded
+    correct: false
+    explanation: interact() returns void by design; the value is set on the input object, and the method simply
+      did not run.
+  - id: CHO-kddrq48g37te
+    text: The value was set but overwritten by initialize()
+    correct: false
+    explanation: initialize() runs before interact(), so it cannot overwrite a later assignment.
+  explanation: interact() is skipped whenever the input is not interactive, so any value obtained there needs a
+    fallback.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: command-lifecycle
+    verified_at: '2026-09-01'
+- id: QST-4101g4r1pw8x
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: lifecycle
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which situation does Command::INVALID describe?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - exit-code
+  choices:
+  - id: CHO-rprntwk18r9y
+    text: The command was used incorrectly, for example with an absurd argument
+    correct: true
+  - id: CHO-xrrkddrjrn81
+    text: The command ran and its processing failed
+    correct: false
+    explanation: That is FAILURE; INVALID is about usage rather than outcome.
+  - id: CHO-x88mkqkr0rv2
+    text: The command is not registered in the application
+    correct: false
+    explanation: An unknown command is resolved by the Application before any command code runs.
+  - id: CHO-496cgpjtk68p
+    text: The command was interrupted before it completed
+    correct: false
+    explanation: Interruption is signalled separately, not through this constant.
+  explanation: INVALID (2) separates misuse from a genuine processing failure (1).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    branch: '8.0'
+    symbol_or_lines: Command::INVALID
+    verified_at: '2026-09-01'
+- id: QST-snpbvmx5e280
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  subtopic: discovery
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which command lists everything the application can run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - list
+  choices:
+  - id: CHO-vnf8vz8tzrk1
+    text: list, which is also what bin/console does with no argument
+    correct: true
+  - id: CHO-a0mgbjtmbfq1
+    text: help, which describes one command at a time
+    correct: false
+    explanation: help documents a single command; it does not enumerate them.
+  - id: CHO-yc24yz4s7pzk
+    text: debug:container, which shows services
+    correct: false
+    explanation: That inspects the service container, not the command catalogue.
+  - id: CHO-6adspt2kfv6p
+    text: about, which summarises the project
+    correct: false
+    explanation: about reports versions and paths, not the available commands.
+  explanation: list is the discovery command, and running bin/console with no argument is equivalent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: running-commands
+    verified_at: '2026-09-01'
+- id: QST-wgvc9x0rjh0r
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  subtopic: namespaces
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Typing an abbreviated command name produces an error listing several candidates. What happened?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - abbreviation
+  choices:
+  - id: CHO-ba8btbc1rfb5
+    text: The abbreviation matched more than one command, so it was ambiguous
+    correct: true
+  - id: CHO-kma4st8n41n3
+    text: Abbreviations are only allowed for the first namespace segment
+    correct: false
+    explanation: Each segment may be abbreviated; the constraint is uniqueness, not position.
+  - id: CHO-qyyappb6vjth
+    text: Abbreviations require the completion script to be installed
+    correct: false
+    explanation: Name resolution is built into the Application and is independent of shell completion.
+  - id: CHO-76q1f37qexjg
+    text: The command was hidden and therefore unresolvable
+    correct: false
+    explanation: A hidden command is still runnable by name; hiding affects only the listing.
+  explanation: A name may be shortened as long as exactly one command matches; otherwise the candidates are reported.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: running-commands
+    verified_at: '2026-09-01'
+- id: QST-gbzpgycr1r6g
+  version: 1
+  official_topic: Console
+  official_item: OIT-kbg00jqxxwhq
+  domain: symfony
+  subtopic: declaration
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the recommended Symfony 8.0 style, what does a command class look like?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - as-command
+  choices:
+  - id: CHO-er18n0dz81wx
+    text: 'A plain class carrying #[AsCommand] with an __invoke() method returning an int'
+    correct: true
+  - id: CHO-9sfe8zg5nrm0
+    text: A class extending Command with a protected execute() method
+    correct: false
+    explanation: That syntax still works, but the documentation calls it the legacy form and recommends the invokable
+      one.
+  - id: CHO-wd1n4yvn4ywv
+    text: A class implementing CommandInterface
+    correct: false
+    explanation: No such contract is required of an invokable command.
+  - id: CHO-2jb38fnpahj3
+    text: A callable registered in services.yaml under a console key
+    correct: false
+    explanation: Registration happens through the console.command tag, not a dedicated configuration key.
+  explanation: 'An invokable command extends nothing; #[AsCommand] plus __invoke() is the recommended form.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: creating-a-command
+    verified_at: '2026-09-01'
+- id: QST-tvce4echjywq
+  version: 1
+  official_topic: Console
+  official_item: OIT-kbg00jqxxwhq
+  domain: symfony
+  subtopic: registration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command class comes from a third-party library and carries no attribute. It never appears in the listing.
+    What makes it available?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - autoconfiguration
+  choices:
+  - id: CHO-08cvad7x1raa
+    text: Registering it as a service tagged console.command
+    correct: true
+  - id: CHO-pbsydxfpegwk
+    text: Placing a copy of the class in src/Command/
+    correct: false
+    explanation: Location is irrelevant; discovery works through the service tag, which autoconfiguration adds only
+      when the attribute is present.
+  - id: CHO-mv1x96wfdynq
+    text: Calling it once so the application caches its name
+    correct: false
+    explanation: A command cannot be called before it is registered.
+  - id: CHO-vtfxbtxvfat5
+    text: Declaring it in the bundle's routing configuration
+    correct: false
+    explanation: Routing concerns HTTP requests and has no bearing on the console.
+  explanation: '#[AsCommand] is an autoconfiguration marker for the console.command tag; without it the tag is added
+    by hand.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: creating-a-command
+    verified_at: '2026-09-01'
+- id: QST-sp2y1cwdz94v
+  version: 1
+  official_topic: Console
+  official_item: OIT-kbg00jqxxwhq
+  domain: symfony
+  subtopic: declaration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command needs to prompt for a missing argument before it runs. What does that require?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - lifecycle
+  - inheritance
+  choices:
+  - id: CHO-wadavqq74twc
+    text: Extending Command, because interact() is one of its methods
+    correct: true
+  - id: CHO-1rvtqwy24dn5
+    text: 'Adding an #[Interactive] parameter to __invoke()'
+    correct: false
+    explanation: There is no such requirement; the hook is a method of the base class.
+  - id: CHO-4nxpqff7hs9d
+    text: 'Nothing: an invokable command already has interact()'
+    correct: false
+    explanation: An invokable command that extends nothing has no inherited methods at all.
+  - id: CHO-czp0a32fhyjz
+    text: Declaring the argument as nullable so Symfony asks for it
+    correct: false
+    explanation: A nullable parameter makes the argument optional; it does not trigger a prompt.
+  explanation: initialize() and interact() belong to Command, so a class that needs them extends it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: creating-a-command
+    verified_at: '2026-09-01'
+- id: QST-bw6j8k17fx9c
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  subtopic: attribute
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which parameter of #[AsCommand] is mandatory?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - as-command
+  choices:
+  - id: CHO-ft06hd1va5r7
+    text: name
+    correct: true
+  - id: CHO-m84kxhw7b6wm
+    text: description
+    correct: false
+    explanation: It is optional, although supplying it in the attribute has a measurable benefit.
+  - id: CHO-cp6nsnd9desd
+    text: help
+    correct: false
+    explanation: The long help text is optional.
+  - id: CHO-3ya9hehxkk6a
+    text: Both name and description
+    correct: false
+    explanation: Only the name is required.
+  explanation: name is the only required parameter; everything else refines how the command is presented.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    branch: '8.0'
+    symbol_or_lines: AsCommand::__construct
+    verified_at: '2026-09-01'
+- id: QST-y48awnf4nfnx
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  subtopic: lifecycle
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command sets a property in its constructor after calling parent::__construct(), and configure() reads
+    that property. The value is missing. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - configure
+  - constructor
+  choices:
+  - id: CHO-kg8qg70p7b7r
+    text: configure() runs at the end of the parent constructor, before the property is set
+    correct: true
+  - id: CHO-6be606n91hdf
+    text: configure() runs before the constructor entirely
+    correct: false
+    explanation: It is invoked from within the constructor, not before it.
+  - id: CHO-pktzzdj7vwk6
+    text: Properties read in configure() must be static
+    correct: false
+    explanation: There is no such restriction; the problem is ordering, not visibility.
+  - id: CHO-48ht2x47mt1g
+    text: The parent constructor resets declared properties
+    correct: false
+    explanation: It does not touch the subclass properties; it simply calls configure() while they are still unset.
+  explanation: Because configure() is called at the end of Command's constructor, properties it depends on must
+    be assigned before parent::__construct().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    symbol_or_lines: legacy-syntax-to-define-commands
+    verified_at: '2026-09-01'
+- id: QST-8rb0j5e7v90a
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  subtopic: attribute
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does marking a command as hidden change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - hidden
+  - aliases
+  choices:
+  - id: CHO-mer7p983sgys
+    text: It disappears from the listing but can still be executed by name
+    correct: true
+  - id: CHO-jsma9jc3jqtm
+    text: It can no longer be executed
+    correct: false
+    explanation: Hiding affects presentation only; the command remains runnable.
+  - id: CHO-08fb8af4qds9
+    text: It is only available in the dev environment
+    correct: false
+    explanation: Visibility and environment are unrelated settings.
+  - id: CHO-n3v9hjn1kjhh
+    text: It loses its aliases
+    correct: false
+    explanation: Aliases are kept; hiding and aliasing are both encoded in the command name.
+  explanation: hidden removes the command from the catalogue shown to users without disabling it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    branch: '8.0'
+    symbol_or_lines: AsCommand::__construct
+    verified_at: '2026-09-01'
+- id: QST-svybdxxreygm
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: attributes
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A command declares #[Option] int $limit with no default value. It fails as soon as it is run, before
+    doing anything. Why?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - option
+  - default
+  choices:
+  - id: CHO-7kzjt8r347fb
+    text: An option must declare a default value, so the definition itself is rejected
+    correct: true
+  - id: CHO-wgppx8jrjygc
+    text: int is not an allowed type for an option
+    correct: false
+    explanation: int is allowed; the missing default is what breaks the definition.
+  - id: CHO-ye29xa3ev2kv
+    text: The option name could not be derived from the parameter
+    correct: false
+    explanation: The name is derived from the parameter automatically; nothing was ambiguous.
+  - id: CHO-hvf3wx85bzsj
+    text: Options must be declared before arguments in the signature
+    correct: false
+    explanation: No ordering constraint applies between options and arguments.
+  explanation: Options are optional by nature, so they must always carry a value; the attribute enforces it at definition
+    time.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    branch: '8.0'
+    symbol_or_lines: Option::tryFrom
+    verified_at: '2026-09-01'
+- id: QST-agnyym2anznf
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: attributes
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which signature declares a required argument?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - argument
+  - mode
+  choices:
+  - id: CHO-8wbjwntrjcnv
+    text: '#[Argument] string $name'
+    correct: true
+  - id: CHO-stq38q0yz1sj
+    text: '#[Argument] string $name = '''''
+    correct: false
+    explanation: A default value makes the argument optional.
+  - id: CHO-fbfd1dwtn0gk
+    text: '#[Argument] ?string $name = null'
+    correct: false
+    explanation: A nullable parameter is treated as optional.
+  - id: CHO-v3kw18yg0qmj
+    text: '#[Argument] array $names = []'
+    correct: false
+    explanation: An array parameter declares an argument that collects the remaining values.
+  explanation: 'The mode is inferred: no default and not nullable means required.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Argument.php
+    branch: '8.0'
+    symbol_or_lines: Argument::tryFrom
+    verified_at: '2026-09-01'
+- id: QST-p0v30fknd59q
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: attributes
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A command declares #[Option] bool $backup = true. Which invocation turns the value off?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - option
+  - negatable
+  choices:
+  - id: CHO-b3dn2kgz7c5f
+    text: --no-backup
+    correct: true
+  - id: CHO-ef23grzzqkr7
+    text: --backup=false
+    correct: false
+    explanation: A boolean option carries no value, so an equals sign is rejected.
+  - id: CHO-v13qfhnfjy7v
+    text: --backup 0
+    correct: false
+    explanation: The option takes no argument; the token would be read as something else.
+  - id: CHO-gpazk1frwmtq
+    text: Omitting the option
+    correct: false
+    explanation: Omitting it leaves the declared default, which is true.
+  explanation: A bool option whose default is not false becomes negatable, which adds the --no- form.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    branch: '8.0'
+    symbol_or_lines: Option::tryFrom
+    verified_at: '2026-09-01'
+- id: QST-tp80nqtxvarw
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: input
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does $input->hasOption('dry-run') answer?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - input
+  choices:
+  - id: CHO-63kp1v2dby69
+    text: Whether the option is declared in the command definition
+    correct: true
+  - id: CHO-f1b8nw4z62en
+    text: Whether the user typed it on the command line
+    correct: false
+    explanation: That is what hasParameterOption() inspects, on the raw tokens.
+  - id: CHO-805fzx5vq2mn
+    text: Whether the option currently holds a non-null value
+    correct: false
+    explanation: The value is read with getOption(); presence in the definition is a separate question.
+  - id: CHO-rjx7sh8sg74m
+    text: Whether the option has a shortcut
+    correct: false
+    explanation: Shortcuts are part of the definition but are not what this method reports.
+  explanation: hasOption() interrogates the definition; the raw command line is inspected with hasParameterOption().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php
+    branch: '8.0'
+    symbol_or_lines: InputInterface::hasOption
+    verified_at: '2026-09-01'
+- id: QST-5wrcd9ahhth2
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: output
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command writes its data to standard output so it can be redirected to a file. Where should its progress
+    messages go, and how?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - stderr
+  choices:
+  - id: CHO-6n2gtgw8gvcb
+    text: To the error stream, obtained from getErrorOutput() after checking the output implements ConsoleOutputInterface
+    correct: true
+  - id: CHO-h30pkanzv7ka
+    text: To the same output, tagged with <comment> so they can be filtered later
+    correct: false
+    explanation: Tags change colour, not the stream; the messages would still land in the redirected file.
+  - id: CHO-fvnd32ewzks3
+    text: To the same output, but only above the default verbosity
+    correct: false
+    explanation: A raised verbosity still writes to standard output, so the file would be polluted whenever it is
+      used.
+  - id: CHO-brmrkav72qxw
+    text: To a log file opened by the command itself
+    correct: false
+    explanation: The component already exposes the error stream, which is what redirection expects.
+  explanation: getErrorOutput() belongs to ConsoleOutputInterface and writes to STDERR, keeping diagnostics out
+    of redirected data.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
+    branch: '8.0'
+    symbol_or_lines: ConsoleOutputInterface::getErrorOutput
+    verified_at: '2026-09-01'
+- id: QST-ngh8w461wr91
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: input
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why can a command written against InputInterface be tested without a terminal?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - testing
+  - input
+  choices:
+  - id: CHO-7hpe8xgypa0e
+    text: Because the interface has several implementations, one of which reads its values from a PHP array
+    correct: true
+  - id: CHO-rv0hcf0ypn8w
+    text: Because the test framework replaces the global argv variable
+    correct: false
+    explanation: The command never reads argv; it reads the object it was given.
+  - id: CHO-q90x6y0c0pt9
+    text: Because commands fall back to their default values under test
+    correct: false
+    explanation: Defaults apply when nothing is supplied, in tests and in production alike.
+  - id: CHO-r2b2vkh7byfm
+    text: Because the console disables argument parsing in the test environment
+    correct: false
+    explanation: Parsing still happens; only the source of the tokens differs.
+  explanation: The command depends on the contract, so the same code runs against real command-line tokens or an
+    array supplied by a test.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php
+    branch: '8.0'
+    symbol_or_lines: InputInterface
+    verified_at: '2026-09-01'
+- id: QST-8z5qhxdbyjf8
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  subtopic: questions
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A deployment script runs a command with --no-interaction. The command asks a confirmation question.
+    What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - question
+  - non-interactive
+  choices:
+  - id: CHO-f35e0k3n9c60
+    text: The question's default value is used and nothing is displayed
+    correct: true
+  - id: CHO-py4srw41nbpa
+    text: The command stops and reports that it needs a terminal
+    correct: false
+    explanation: No error is raised; the absence of a prompt is silent, which is what makes it dangerous.
+  - id: CHO-70qc5phg57ys
+    text: The question is asked anyway and blocks until the process is killed
+    correct: false
+    explanation: Nothing blocks; the flag exists precisely to avoid that.
+  - id: CHO-6n26tg3ffmmn
+    text: The answer is read from the environment variables
+    correct: false
+    explanation: There is no such lookup; only the declared default applies.
+  explanation: Without interaction the default answer applies silently, which is why such a value always needs to
+    be safe.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst
+    branch: '8.0'
+    symbol_or_lines: asking-the-user-for-confirmation
+    verified_at: '2026-09-01'
+- id: QST-h22aea8btw90
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  subtopic: progress
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command waits for a remote response of unpredictable duration and wants to show that it is still working.
+    Which helper fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - progress
+  choices:
+  - id: CHO-722jgve23c2z
+    text: ProgressIndicator, which animates without a percentage
+    correct: true
+  - id: CHO-y91n3xevhcbp
+    text: ProgressBar, started with a total of zero
+    correct: false
+    explanation: A progress bar is meant for a known total; without one it cannot show progression.
+  - id: CHO-6qkqm85q9g93
+    text: Table, refreshed on each attempt
+    correct: false
+    explanation: A table displays data, not activity over time.
+  - id: CHO-fjx7m3kpwgc8
+    text: Cursor, moved back and forth
+    correct: false
+    explanation: Cursor manipulates position; it does not provide an activity display of its own.
+  explanation: ProgressBar needs a known total; ProgressIndicator covers the case where there is none.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc
+    branch: '8.0'
+    symbol_or_lines: helpers
+    verified_at: '2026-09-01'
+- id: QST-qcgrr0jydf3t
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  subtopic: style
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does SymfonyStyle provide over calling the helpers directly?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - symfony-style
+  choices:
+  - id: CHO-2nqnppnppqdt
+    text: A short API over input and output that applies the standard Symfony presentation
+    correct: true
+  - id: CHO-289vt7tv77f6
+    text: Access to helpers that are otherwise unavailable
+    correct: false
+    explanation: The same helpers can be used directly; the class is a facade over them.
+  - id: CHO-jxw8ncrpqsgd
+    text: Automatic translation of messages
+    correct: false
+    explanation: It formats output; it does not translate it.
+  - id: CHO-bn949vq0pc43
+    text: Colour output on terminals that do not support it
+    correct: false
+    explanation: Decoration support is detected independently of which API writes the message.
+  explanation: SymfonyStyle wraps the helpers behind a compact API and a consistent presentation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php
+    branch: '8.0'
+    symbol_or_lines: SymfonyStyle
+    verified_at: '2026-09-01'
+- id: QST-ycpqw0ygx9cd
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which events does ConsoleEvents declare?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - console-events
+  choices:
+  - id: CHO-69fn17r8h4fm
+    text: COMMAND, SIGNAL, ERROR and TERMINATE
+    correct: true
+  - id: CHO-y26b2nv8r6ap
+    text: COMMAND, REQUEST, RESPONSE and TERMINATE
+    correct: false
+    explanation: REQUEST and RESPONSE belong to the HTTP kernel, not to the console.
+  - id: CHO-zhaxzsaerkcd
+    text: COMMAND, EXCEPTION and TERMINATE
+    correct: false
+    explanation: The error event is named ERROR, and SIGNAL is missing from this list.
+  - id: CHO-zpjq889292ww
+    text: CONFIGURE, COMMAND, ERROR and TERMINATE
+    correct: false
+    explanation: There is no event around command configuration.
+  explanation: The class declares exactly four constants.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    branch: '8.0'
+    symbol_or_lines: ConsoleEvents
+    verified_at: '2026-09-01'
+- id: QST-tmz33c01yx7r
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener must record how long every command took, including those that threw. Which event should it
+    use, and why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - terminate
+  choices:
+  - id: CHO-6ns9b3edk2yv
+    text: TERMINATE, because it is dispatched in every case, error included
+    correct: true
+  - id: CHO-1q9qfn9ezqcx
+    text: ERROR, because it is dispatched last when something goes wrong
+    correct: false
+    explanation: The error event is followed by another one, so it is not the final point.
+  - id: CHO-03ydpje3jgva
+    text: COMMAND, because it can register a shutdown callback
+    correct: false
+    explanation: It is dispatched before execution and offers no such registration.
+  - id: CHO-8vatqj9dcetx
+    text: SIGNAL, because a failing command always raises one
+    correct: false
+    explanation: Signals come from the operating system and are unrelated to an exception being thrown.
+  explanation: TERMINATE always runs, which makes it the reliable place to release resources or measure duration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    branch: '8.0'
+    symbol_or_lines: doRunCommand
+    verified_at: '2026-09-01'
+- id: QST-11513wwwhf63
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener on the COMMAND event calls disableCommand(). What does the process do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - command-event
+  choices:
+  - id: CHO-0zzpe78hcb24
+    text: It skips the command and exits with a dedicated code that is neither 0 nor 1
+    correct: true
+  - id: CHO-83nbj9z78qe4
+    text: It skips the command and exits with 0
+    correct: false
+    explanation: Success is not reported; the dedicated code exists precisely to distinguish refusal from success.
+  - id: CHO-cv9azjzhg4gy
+    text: It runs the command anyway and discards its result
+    correct: false
+    explanation: The command is not executed at all.
+  - id: CHO-wg18wrjtfwqk
+    text: It throws an exception that the ERROR event can catch
+    correct: false
+    explanation: Nothing is thrown; the refusal is a normal, quiet path.
+  explanation: A disabled command is not executed, and the exit code reported is RETURN_CODE_DISABLED, so the caller
+    can tell refusal apart from success and from failure.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    branch: '8.0'
+    symbol_or_lines: doRunCommand
+    verified_at: '2026-09-01'
+- id: QST-c01dkpwkp6qw
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  subtopic: verbosity
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does --silent differ from --quiet?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - quiet
+  - silent
+  choices:
+  - id: CHO-0mmx8ah74ckp
+    text: --silent suppresses error messages too, while --quiet lets them through
+    correct: true
+  - id: CHO-37w3wgqt28ye
+    text: --silent also disables colours, while --quiet keeps them
+    correct: false
+    explanation: Decoration is controlled by --ansi and --no-ansi, independently of verbosity.
+  - id: CHO-56meexf2qs50
+    text: They are aliases of the same level
+    correct: false
+    explanation: They map to two distinct constants, with silent the lower of the two.
+  - id: CHO-zq1kz4td1yec
+    text: --silent suppresses output only until the first error
+    correct: false
+    explanation: It suppresses output for the whole run, errors included.
+  explanation: Silent is the lowest level and hides everything; quiet hides ordinary output but keeps errors visible.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    branch: '8.0'
+    symbol_or_lines: VERBOSITY_SILENT
+    verified_at: '2026-09-01'
+- id: QST-fjgxe7fjzc8y
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  subtopic: verbosity
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is a message printed only when the user asks for more detail?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - writeln
+  choices:
+  - id: CHO-n92bvj23dpth
+    text: By passing the minimum level as the last argument of writeln()
+    correct: true
+  - id: CHO-pedxxend560c
+    text: By writing it to the error stream
+    correct: false
+    explanation: That changes the destination stream, not the level at which it appears.
+  - id: CHO-vyh0qebwmf8w
+    text: By adding a --debug option to the command
+    correct: false
+    explanation: The component already provides the levels; a home-made option duplicates them.
+  - id: CHO-n740sv9p2gqs
+    text: By calling setVerbosity() before writing it
+    correct: false
+    explanation: That changes the level for everything that follows, rather than gating one message.
+  explanation: writeln() accepts the minimum verbosity as an option argument; isVerbose() and its siblings serve
+    the same purpose when the message is expensive to build.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    branch: '8.0'
+    symbol_or_lines: OutputInterface::writeln
+    verified_at: '2026-09-01'
+- id: QST-vn657svb2nsd
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: attributes
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command should accept --report on its own, and --report=path.txt with a value. Which parameter declaration
+    expresses that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - option
+  - union
+  choices:
+  - id: CHO-tbmc0wmvndyz
+    text: '#[Option] string|bool $report = false'
+    correct: true
+  - id: CHO-bwavsah7q7ye
+    text: '#[Option] ?string $report = null'
+    correct: false
+    explanation: A nullable string declares an option whose value is required whenever the option is used.
+  - id: CHO-bmj9c071hemp
+    text: '#[Option] string $report = '''''
+    correct: false
+    explanation: A plain string also requires a value; the bare form would be rejected.
+  - id: CHO-wx907j1bks6k
+    text: '#[Option] bool|array $report = false'
+    correct: false
+    explanation: That union is not among the accepted ones, so the definition is refused.
+  explanation: Only bool paired with string, int or float declares an option whose value may be omitted, and the
+    default must be false.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    branch: '8.0'
+    symbol_or_lines: Option::handleUnion
+    verified_at: '2026-09-01'
+- id: QST-fem1t3nencs8
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener on the ERROR event handles an expected failure and wants the process to report success. What
+    does it do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - error-event
+  choices:
+  - id: CHO-m7mvctcfmnsk
+    text: Set the exit code on the event to zero, which also stops the error from being propagated
+    correct: true
+  - id: CHO-9gttr660x2y8
+    text: Replace the error with null on the event
+    correct: false
+    explanation: The setter expects a Throwable; the outcome is decided by the exit code.
+  - id: CHO-fre1wkwam2dm
+    text: Stop the propagation of the event
+    correct: false
+    explanation: That prevents other listeners from running; it does not change what the process reports.
+  - id: CHO-vrrd9wanq5xx
+    text: Return zero from the listener
+    correct: false
+    explanation: A listener's return value is ignored by the dispatcher.
+  explanation: Setting the exit code to zero tells the Application there is nothing left to report, so the exception
+    is dropped instead of being rethrown.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    branch: '8.0'
+    symbol_or_lines: ConsoleErrorEvent::setExitCode
+    verified_at: '2026-09-01'

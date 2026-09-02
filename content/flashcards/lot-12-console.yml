@@ -1,0 +1,126 @@
+# Lot 12 — Console flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-1geh3bkk61mh
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  front: Que doit retourner la méthode d'exécution d'une commande ?
+  back: 'Un entier, qui devient le code de sortie du processus : Command::SUCCESS (0), FAILURE (1) ou INVALID (2).'
+  explanation: Un script d'intégration continue ou un cron lit ce code, jamais la sortie texte.
+  memorization_justification: On retient le nom des constantes sans retenir que la valeur de retour est obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-p7xbhq67h80a
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  front: Jusqu'où un nom de commande peut-il être abrégé ?
+  back: 'Jusqu''à ce qu''il reste non ambigu : c:c suffit pour cache:clear. Une abréviation ambiguë provoque une
+    erreur listant les candidats.'
+  explanation: L'abréviation porte sur chaque segment du nom, pas seulement sur le début.
+  memorization_justification: On croit souvent qu'il faut le nom complet, ou au contraire qu'un préfixe quelconque
+    suffit.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-czhm5c0vv1sv
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  front: Une commande Symfony 8.0 doit-elle étendre Command ?
+  back: 'Non. La forme recommandée est une classe ordinaire portant #[AsCommand] avec une méthode __invoke(): int.
+    Étendre Command reste supporté, et reste nécessaire pour initialize() et interact().'
+  explanation: 'L''attribut suffit à l''autoconfiguration : le conteneur pose le tag console.command.'
+  memorization_justification: L'héritage était obligatoire dans les versions antérieures ; le réflexe survit à la
+    version.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-c51027n1sspw
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  front: À quel moment configure() est-elle appelée ?
+  back: 'À la fin du constructeur de Command, pas au lancement de la commande. D''où la règle : affecter ses propriétés
+    avant parent::__construct() si configure() en dépend.'
+  explanation: C'est le seul endroit de la documentation Symfony où l'on est invité à ne pas appeler le constructeur
+    parent en premier.
+  memorization_justification: On la suppose exécutée au lancement, par analogie avec initialize().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-bdrpkzcqw1ww
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  front: 'Que se passe-t-il si un paramètre #[Option] n''a pas de valeur par défaut ?'
+  back: 'La commande lève une LogicException au démarrage. Une option est facultative par nature : elle doit toujours
+    avoir une valeur en l''absence de saisie.'
+  explanation: C'est une erreur de définition, pas une erreur d'exécution — elle survient avant tout traitement.
+  memorization_justification: On transpose la règle des arguments, où l'absence de défaut signifie « requis ».
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-vrr7nk2vcdkk
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  front: Comment écrire sur STDERR depuis une commande ?
+  back: Par getErrorOutput(), qui appartient à ConsoleOutputInterface et non à OutputInterface — d'où le test de
+    type préalable sur $output.
+  explanation: Cela évite de mélanger les diagnostics aux données quand la sortie est redirigée vers un fichier.
+  memorization_justification: On cherche la méthode sur OutputInterface, où elle n'est pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-48na02d14yce
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  front: Que rend une question interactive lancée avec --no-interaction ?
+  back: Sa valeur par défaut, sans rien demander et sans avertissement.
+  explanation: C'est pourquoi une valeur obtenue par question doit toujours avoir un repli utilisable.
+  memorization_justification: On s'attend à une erreur ou à un blocage ; le silence est le comportement réel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-hk7rkbxfq90j
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  front: Combien d'événements ConsoleEvents déclare-t-il, et lesquels ?
+  back: 'Quatre : COMMAND, SIGNAL, ERROR, TERMINATE.'
+  explanation: 'TERMINATE est atteint dans tous les cas, y compris après une erreur : c''est le seul point de sortie
+    fiable.'
+  memorization_justification: Par analogie avec le noyau HTTP, on en invente un cinquième.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-sgp3dnzw3et3
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  front: Quelle différence entre --quiet et --silent ?
+  back: --quiet supprime la sortie normale mais laisse passer les erreurs ; --silent supprime tout, erreurs comprises.
+    --silent est le niveau le plus bas.
+  explanation: 'VERBOSITY_SILENT vaut 8, VERBOSITY_QUIET vaut 16 : silent est bien en dessous.'
+  memorization_justification: Les deux drapeaux se ressemblent et sont couramment confondus.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    branch: '8.0'
+    verified_at: '2026-09-01'
