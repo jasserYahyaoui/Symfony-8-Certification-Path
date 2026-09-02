@@ -1,0 +1,127 @@
+# Lot 13 — Automated Tests flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-8p0tpa6x1krf
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  front: Qu'est-ce qui fait basculer un test de l'unitaire vers l'intégration ?
+  back: Le démarrage du noyau. Un test unitaire n'appelle ni bootKernel() ni le conteneur ; dès qu'il le fait, il
+    est d'intégration.
+  explanation: 'La documentation Symfony distingue trois types : unitaire, intégration, application.'
+  memorization_justification: On range les tests par répertoire ou par classe de base, alors que le critère est
+    ce que le test démarre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-2g536z94cx54
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  front: Quel fichier .env n'est pas lu dans l'environnement de test ?
+  back: '.env.local. Sont lus, dans cet ordre : .env, .env.test, .env.test.local.'
+  explanation: 'L''exclusion est délibérée : une machine de développement ne doit pas modifier le résultat des tests.'
+  memorization_justification: On suppose que .env.local s'applique partout, puisque c'est le fichier local habituel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-pdapm9phgtmc
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  front: Que retourne $client->request() ?
+  back: Un Crawler, pas une Response. La réponse se lit séparément par $client->getResponse().
+  explanation: Le crawler porte le document rendu ; c'est lui qui permet de filtrer, cliquer et soumettre.
+  memorization_justification: Le nom de la méthode suggère qu'elle rend le résultat de la requête, c'est-à-dire
+    la réponse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-0cvzxn60pazy
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  front: Que fait exactement le composant CssSelector ?
+  back: 'Il traduit un sélecteur CSS en expression XPath. Il ne parcourt aucun document : c''est DomCrawler qui
+    parcourt.'
+  explanation: filter() a donc besoin de CssSelector ; filterXpath() n'en a pas besoin.
+  memorization_justification: Les deux composants sont cités ensemble, ce qui fait croire à un rôle partagé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-57vzb0a87say
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  front: Qu'active réellement $client->enableProfiler() ?
+  back: La collecte des données, pour la requête suivante seulement. Le profileur lui-même doit déjà être activé
+    par configuration.
+  explanation: 'En test, la configuration par défaut est enabled: true et collect: false.'
+  memorization_justification: Le nom de la méthode dit « active le profileur », alors qu'elle active la collecte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-mkp9h3yfzm3x
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  front: Pourquoi static::getContainer() donne-t-il accès à des services privés ?
+  back: Parce qu'il rend un conteneur de test spécial, qui expose les services publics et les services privés non
+    supprimés.
+  explanation: 'Un service privé supprimé, faute d''être utilisé ailleurs, reste inaccessible : il faut le rendre
+    public dans config/services_test.yaml.'
+  memorization_justification: On applique au test la règle de production, où un service privé n'est pas récupérable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-31xxh9cs2ah8
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  front: Comment s'écrit l'en-tête X-Session-Token passé au client de test ?
+  back: 'HTTP_X_SESSION_TOKEN : tirets remplacés par des soulignés, majuscules, préfixe HTTP_ (RFC 3875 §4.1.18).'
+  explanation: La même transformation vaut pour tout en-tête personnalisé, dans createClient() comme dans request().
+  memorization_justification: On écrit le nom de l'en-tête tel quel, et la requête ne le voit jamais.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-80h962pnszqx
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  front: Que rend getInternalResponse() par rapport à getResponse() ?
+  back: L'objet Response de BrowserKit, c'est-à-dire celui du navigateur simulé. getResponse() rend celui de HttpFoundation,
+    produit par l'application.
+  explanation: 'Règle de lecture : « internal » désigne le navigateur, pas le framework.'
+  memorization_justification: 'L''intuition inverse est naturelle : « interne » évoque le cœur de l''application.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-1qhdkw1e4nfy
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  front: Une dépréciation Symfony fait-elle échouer le code qui l'appelle ?
+  back: 'Non. C''est une notice E_USER_DEPRECATED silencée : rien n''échoue, rien ne s''affiche, et le code déprécié
+    fonctionne jusqu''à la version majeure suivante.'
+  explanation: La notice n'existe que si un gestionnaire d'erreurs la recueille — d'où des applications qui en accumulent
+    des centaines sans aucun signe.
+  memorization_justification: On attend d'un avertissement qu'il se voie ; celui-ci est silencé par construction,
+    ce qui est l'inverse de l'intuition.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
