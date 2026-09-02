@@ -1,0 +1,1330 @@
+# Lot 13 — Automated Tests question bank (Master Plan §7).
+#
+# 18 LEARNING questions (2 per official item), 7 VALIDATION questions — one
+# per STANDARD item, as rule POOL-002 requires — and 2 HOLDOUT questions
+# reserved for the final mocks.
+#
+# The PHPUnit Bridge is outside the exam scope, so no question relies on it.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-rsbg20z3fzdk
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  subtopic: types
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which three kinds of test does the Symfony documentation distinguish?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - types
+  choices:
+  - id: CHO-0hqnhe036vzz
+    text: Unit, integration and application tests
+    correct: true
+  - id: CHO-wa1gcn1meh84
+    text: Unit, functional and acceptance tests
+    correct: false
+    explanation: Acceptance testing is not one of the three names the documentation uses.
+  - id: CHO-n60jbxh3ynme
+    text: Unit, smoke and regression tests
+    correct: false
+    explanation: Those describe when tests run, not the scope the documentation classifies by.
+  - id: CHO-4wv12z95hy4d
+    text: Unit, integration and contract tests
+    correct: false
+    explanation: Contract testing is not part of this classification.
+  explanation: The documentation names unit, integration and application tests, and treats "functional test" as
+    another name for the last one.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: types-of-tests
+    verified_at: '2026-09-02'
+- id: QST-vfkmqvxkehvn
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  subtopic: layout
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test for a class in src/Form/ needs a home and a name. What does the convention give?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - structure
+  choices:
+  - id: CHO-318tpz5ysjyz
+    text: tests/Form/, with a class name ending in Test
+    correct: true
+  - id: CHO-drw8x3wb0q7v
+    text: tests/Unit/Form/, with a class name starting with Test
+    correct: false
+    explanation: Subdirectories per test type are a suggestion, and the suffix is Test, not a prefix.
+  - id: CHO-4801f59r6j3k
+    text: src/Form/, alongside the class it covers
+    correct: false
+    explanation: Tests live under tests/, which is what the configuration loads.
+  - id: CHO-s4yb012hk7m0
+    text: Anywhere, provided the file is listed in the configuration
+    correct: false
+    explanation: The default configuration relies on the directory convention rather than a list.
+  explanation: The tests/ directory mirrors src/, and each test class ends with Test.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: unit-tests
+    verified_at: '2026-09-02'
+- id: QST-3p3j00y1dgsg
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  subtopic: types
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What distinguishes a unit test from an integration test in a Symfony application?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - scope
+  choices:
+  - id: CHO-9tb392n16t3w
+    text: A unit test needs neither the kernel nor the service container
+    correct: true
+  - id: CHO-kk98dwbmsqh2
+    text: A unit test covers a single method, an integration test a whole class
+    correct: false
+    explanation: Both may cover one method; what differs is whether the framework is started.
+  - id: CHO-z1288p2kd3gv
+    text: A unit test uses PHPUnit, an integration test uses another runner
+    correct: false
+    explanation: Both run under PHPUnit; only the base class differs.
+  - id: CHO-584c1fd93fc1
+    text: A unit test runs in the dev environment, an integration test in test
+    correct: false
+    explanation: A unit test boots no environment at all.
+  explanation: Writing a unit test in Symfony is writing an ordinary PHPUnit test; booting the kernel is what makes
+    a test an integration test.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: unit-tests
+    verified_at: '2026-09-02'
+- id: QST-b4g2ascr897e
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  subtopic: setup
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which class do application tests typically extend, and what does it add?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - webtestcase
+  choices:
+  - id: CHO-yb1t444w39fz
+    text: WebTestCase, which adds a test client on top of KernelTestCase
+    correct: true
+  - id: CHO-bj0c2vph3430
+    text: KernelTestCase, which adds a test client
+    correct: false
+    explanation: KernelTestCase boots the kernel but provides no client.
+  - id: CHO-p0ktn60475g4
+    text: TestCase, with the client injected by an attribute
+    correct: false
+    explanation: No attribute provides a client; it comes from the base class.
+  - id: CHO-w9xzd30qhx52
+    text: ApplicationTestCase, introduced for this purpose
+    correct: false
+    explanation: No such class exists in the framework.
+  explanation: WebTestCase extends KernelTestCase and adds the client; createClient() boots the kernel itself.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: application-tests
+    verified_at: '2026-09-02'
+- id: QST-9d4z5adb9sez
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  subtopic: env
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer sets a variable in .env.local and the value does not reach the test suite. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - env
+  choices:
+  - id: CHO-drvc6khm4e6k
+    text: That file is deliberately excluded in the test environment
+    correct: true
+  - id: CHO-4dm5ya8b261x
+    text: Files ending in .local are never read by the framework
+    correct: false
+    explanation: .env.test.local is read; only .env.local is skipped in tests.
+  - id: CHO-vxvvd67kb2q0
+    text: The variable must also be declared in .env to be readable
+    correct: false
+    explanation: Declaring it elsewhere would not change which files the test environment reads.
+  - id: CHO-5d8n0c7rsw58
+    text: Test files are only read when the kernel runs in debug mode
+    correct: false
+    explanation: The set of files read does not depend on debug mode.
+  explanation: The test environment reads .env, then .env.test, then .env.test.local — never .env.local, so a developer's
+    machine cannot alter test results.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: customizing-environment-variables
+    verified_at: '2026-09-02'
+- id: QST-cppkfczac4h1
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  subtopic: assertions
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test must confirm that a request was handled by a particular route. Which assertion does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - assertions
+  choices:
+  - id: CHO-ndd1hsaxkq9w
+    text: assertRouteSame()
+    correct: true
+  - id: CHO-rmven69jw235
+    text: assertSelectorExists()
+    correct: false
+    explanation: That inspects the rendered document, which two different routes could produce identically.
+  - id: CHO-dy2fx3y2q6ee
+    text: assertResponseIsSuccessful()
+    correct: false
+    explanation: That reports only that the status was in the 2xx range.
+  - id: CHO-2z5hk4t1ky0t
+    text: assertPageTitleSame()
+    correct: false
+    explanation: The title says what was rendered, not which route rendered it.
+  explanation: assertRouteSame() checks the matched route, an fact no assertion on the HTML can establish.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: request-assertions
+    verified_at: '2026-09-02'
+- id: QST-qznc9nx72jdq
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  subtopic: request
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does $client->request('GET', '/') return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - client
+  choices:
+  - id: CHO-d5hhmws2ahhf
+    text: A Crawler
+    correct: true
+  - id: CHO-f4kgwayj1h84
+    text: A Response
+    correct: false
+    explanation: The response is read separately, with getResponse().
+  - id: CHO-2q9tszsvb5aj
+    text: The response body as a string
+    correct: false
+    explanation: No string is returned; the body is reachable through the response.
+  - id: CHO-gg48f10ryp9s
+    text: The client itself, for chaining
+    correct: false
+    explanation: The method does not return the client.
+  explanation: request() returns a Crawler over the rendered document; getResponse() returns the response.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: making-requests
+    verified_at: '2026-09-02'
+- id: QST-b27q0jdvhz16
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  subtopic: redirects
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test requests a URL that answers with a redirect, then asserts on the target page's content. It fails.
+    What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - redirect
+  choices:
+  - id: CHO-1c05gmhwgqg1
+    text: The client does not follow redirects by default; the test must follow it
+    correct: true
+  - id: CHO-xm79hej8v6t9
+    text: The redirect status must be 302 for the client to follow it
+    correct: false
+    explanation: No status makes the client follow automatically; the behaviour is off by default.
+  - id: CHO-g12nf74h9wjt
+    text: The crawler must be rebuilt from the response by hand
+    correct: false
+    explanation: Following the redirect produces the crawler for the target page.
+  - id: CHO-tefzw9bj02se
+    text: Redirects only work once the profiler is enabled
+    correct: false
+    explanation: The profiler collects data and has no bearing on navigation.
+  explanation: The client stops on a redirect. followRedirect() follows the pending one; followRedirects(), called
+    before the request, makes it follow them all.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: redirecting
+    verified_at: '2026-09-02'
+- id: QST-kyyb7h7x6z2b
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  subtopic: kernel
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test logs a user in, then makes a second request, and the user is no longer authenticated. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - reboot
+  choices:
+  - id: CHO-0vpf6z95kx6h
+    text: The client reboots the kernel between requests, which rebuilds the container and clears the security token
+    correct: true
+  - id: CHO-2y67r2kap1p6
+    text: The login is only valid for the request in which it was performed, by design
+    correct: false
+    explanation: The login would survive; it is the container being rebuilt that discards it.
+  - id: CHO-w0tcjzdgjgnr
+    text: Session cookies are not kept by the test client
+    correct: false
+    explanation: The client keeps a cookie jar across requests.
+  - id: CHO-rt0vxrkw5zsj
+    text: A second request requires a new client instance
+    correct: false
+    explanation: The same client handles several requests; the kernel is what restarts.
+  explanation: Requests are isolated by rebooting the kernel. disableReboot() resets it instead, but reset() on
+    kernel.reset services still clears the token, which a compiler pass in the test environment can prevent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: testing-multiple-requests-in-one-test
+    verified_at: '2026-09-02'
+- id: QST-k2pbvcnet7mh
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  subtopic: components
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the CssSelector component's job?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - cssselector
+  choices:
+  - id: CHO-7g5n0axdzpbr
+    text: Converting CSS selectors into XPath expressions
+    correct: true
+  - id: CHO-bjftag4gb5tv
+    text: Traversing the DOM of the response
+    correct: false
+    explanation: That is DomCrawler's job; CssSelector only translates.
+  - id: CHO-jt05cmrm0b9r
+    text: Validating that a selector matches the page
+    correct: false
+    explanation: Matching happens during traversal, not translation.
+  - id: CHO-n0fe86650ndz
+    text: Rendering CSS for the test report
+    correct: false
+    explanation: The component has nothing to do with rendering.
+  explanation: CssSelector translates; DomCrawler traverses. filter() needs the translation, filterXpath() does
+    not.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
+    branch: '8.0'
+    symbol_or_lines: why-use-css-selectors
+    verified_at: '2026-09-02'
+- id: QST-7v7dsbmdfdgt
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  subtopic: forms
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: To get a Form object from a page in order to set values before submitting, what is selected?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - forms
+  choices:
+  - id: CHO-k9kyasq2eshq
+    text: A button, because a form may contain several and the button decides what is sent
+    correct: true
+  - id: CHO-fz08vkczzgkt
+    text: The form element itself, by its id
+    correct: false
+    explanation: The traversing API expects a button; selecting the form is not how the object is obtained.
+  - id: CHO-gp2e562a808c
+    text: The first input of the form
+    correct: false
+    explanation: An ordinary input does not yield the form object.
+  - id: CHO-v7kkkw50kyjt
+    text: The action URL of the form
+    correct: false
+    explanation: The URL is a property of the form, not a way to select it.
+  explanation: selectButton()->form() is the documented path, precisely because one form can carry several buttons.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: submitting-forms
+    verified_at: '2026-09-02'
+- id: QST-aany4cpa165m
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  subtopic: traversal
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A crawler holds several matching nodes and the test calls text() on it. What comes back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - traversal
+  choices:
+  - id: CHO-0y7e93xfbnay
+    text: The text of the first node only
+    correct: true
+  - id: CHO-ygjaexrv5qk3
+    text: The concatenated text of every node
+    correct: false
+    explanation: No concatenation happens; the method reads one node.
+  - id: CHO-tpzygbgesf54
+    text: An array with one entry per node
+    correct: false
+    explanation: That is what extract() and each() return.
+  - id: CHO-y2bx205t2y2x
+    text: An error, because the selection is ambiguous
+    correct: false
+    explanation: Nothing is raised; the first node is used.
+  explanation: text() and attr() read the first node; extract() and each() work across all of them.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst
+    branch: '8.0'
+    symbol_or_lines: extracting-information
+    verified_at: '2026-09-02'
+- id: QST-vnr67m55bz2h
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-t0qx5z264tyf
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test calls enableProfiler(), makes two requests, and finds no profile for the second. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - collect
+  choices:
+  - id: CHO-cm88snh5yp3z
+    text: The call enables collection for the next request only and has to be repeated
+    correct: true
+  - id: CHO-8vsvvn6hte5n
+    text: The profiler is disabled after the first profile is read
+    correct: false
+    explanation: Reading a profile does not disable anything.
+  - id: CHO-sz6hr0bt3m42
+    text: Only the first request of a test can be profiled at all
+    correct: false
+    explanation: Any request can be profiled, provided collection is enabled for it.
+  - id: CHO-e68hfj2pcx9j
+    text: The second request reused the first profile and overwrote it
+    correct: false
+    explanation: No profile was created for it, so nothing was overwritten.
+  explanation: enableProfiler() turns on data collection for the very next request; a further request needs another
+    call.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    branch: '8.0'
+    symbol_or_lines: enabling-the-profiler-in-tests
+    verified_at: '2026-09-02'
+- id: QST-dc8hsmx14h1s
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-t0qx5z264tyf
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the default profiler configuration in the test environment?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - config
+  choices:
+  - id: CHO-spybe1jrz0zx
+    text: Enabled, with data collection turned off
+    correct: true
+  - id: CHO-c7wks647phmv
+    text: Disabled entirely
+    correct: false
+    explanation: It stays enabled so that a test can switch collection on; disabling it would make enableProfiler()
+      useless.
+  - id: CHO-mcy36dt5qsrm
+    text: Enabled, collecting on every request
+    correct: false
+    explanation: Collecting everywhere would slow the suite down significantly.
+  - id: CHO-zmxytfj22m4t
+    text: Enabled only for requests that fail
+    correct: false
+    explanation: Collection is not conditioned on the outcome.
+  explanation: 'when@test sets profiler: { enabled: true, collect: false }, so collection is opt-in per test.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    branch: '8.0'
+    symbol_or_lines: enabling-the-profiler-in-tests
+    verified_at: '2026-09-02'
+- id: QST-tc71xv48p476
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  subtopic: container
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An integration test fetches a service that is private in the application, and it works. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - container
+  choices:
+  - id: CHO-r21m7q2544ea
+    text: static::getContainer() returns a special test container that also exposes private services
+    correct: true
+  - id: CHO-qqc9k3ndk43h
+    text: Private services become public in the test environment
+    correct: false
+    explanation: Their visibility is unchanged; the container used by the test is different.
+  - id: CHO-663bef2v34a4
+    text: The kernel ignores visibility when debug mode is on
+    correct: false
+    explanation: Debug mode does not alter service visibility.
+  - id: CHO-ysp1006xqs8w
+    text: Any service is public once it has been autowired
+    correct: false
+    explanation: Autowiring does not change visibility.
+  explanation: The test container exposes public services and private ones that were not removed; a removed private
+    service still needs to be declared public in config/services_test.yaml.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: retrieving-services-in-the-test
+    verified_at: '2026-09-02'
+- id: QST-qa5pm7hv1d2a
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  subtopic: kernel
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does KernelTestCase know which kernel class to boot?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - kernel-class
+  choices:
+  - id: CHO-kva33wcx8zqn
+    text: From the KERNEL_CLASS environment variable, unless getKernelClass() is overridden
+    correct: true
+  - id: CHO-4qzs19b6ccec
+    text: By scanning src/ for a class extending Kernel
+    correct: false
+    explanation: No scan takes place; the class is named explicitly.
+  - id: CHO-3w2gnhphmd9c
+    text: From a mandatory constructor argument in the test
+    correct: false
+    explanation: The base class boots the kernel statically, without such an argument.
+  - id: CHO-mvnm4njfycpp
+    text: From the KERNEL_CLASS key in the PHPUnit configuration file
+    correct: false
+    explanation: It is an environment variable, usually set in .env.test.
+  explanation: KERNEL_CLASS names the kernel; overriding getKernelClass() or createKernel() takes precedence over
+    it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: integration-tests
+    verified_at: '2026-09-02'
+- id: QST-kyaxpk3c138c
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  subtopic: mocking
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test replaces a dependency with a double and the tested service still receives the real one. What
+    went wrong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - mocking
+  choices:
+  - id: CHO-9f3egh9jswt4
+    text: The service was fetched from the container before the double was set on it
+    correct: true
+  - id: CHO-vdfyk4rrbqqz
+    text: A double cannot replace a service bound through a private alias
+    correct: false
+    explanation: The test container allows exactly that, with no extra configuration.
+  - id: CHO-hyep9710t6y0
+    text: The double must be registered in a configuration file first
+    correct: false
+    explanation: No further configuration is required.
+  - id: CHO-x17tw5yp8hab
+    text: Doubles only apply to the request that follows
+    correct: false
+    explanation: There is no per-request scoping here; the container returns what it holds when asked.
+  explanation: container->set() has to come before container->get() of the consumer, since the consumer is built
+    with whatever the container holds at that moment.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: mocking-dependencies
+    verified_at: '2026-09-02'
+- id: QST-vtbv0rcpscbs
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  subtopic: headers
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test must send the header X-Session-Token. How is it written in the server parameters?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - headers
+  choices:
+  - id: CHO-bbm22cx01xej
+    text: HTTP_X_SESSION_TOKEN
+    correct: true
+  - id: CHO-mm18a061vgrc
+    text: X-Session-Token
+    correct: false
+    explanation: The name has to be transformed before it is recognised as a header.
+  - id: CHO-4gtk1k3fd9t8
+    text: X_SESSION_TOKEN
+    correct: false
+    explanation: The uppercase form is right but the HTTP_ prefix is missing.
+  - id: CHO-rty435sc6m4p
+    text: HTTP-X-SESSION-TOKEN
+    correct: false
+    explanation: The dashes must become underscores.
+  explanation: 'Custom headers follow RFC 3875: dashes to underscores, uppercase, prefixed with HTTP_.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: sending-custom-headers
+    verified_at: '2026-09-02'
+- id: QST-0j3a50p7fbtn
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  subtopic: session
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test writes a value into the session and the following request does not see it. What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - session
+  choices:
+  - id: CHO-4ea6xtxt5cbb
+    text: A call to save() on the session before the request
+    correct: true
+  - id: CHO-xvgg6fx2fek2
+    text: A second request, because the first one initialises the session
+    correct: false
+    explanation: One request is enough once the value has been persisted.
+  - id: CHO-5pawaymma6zy
+    text: The session service fetched from the container rather than the client
+    correct: false
+    explanation: The client's getSession() is the documented way to do this.
+  - id: CHO-dj4gpsb4m7c0
+    text: The session cookie passed explicitly as a server parameter
+    correct: false
+    explanation: The client carries its own cookie jar.
+  explanation: getSession() then save() persists the value; without save() the request finds nothing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: set-up-the-session
+    verified_at: '2026-09-02'
+- id: QST-d4rhfyhajr7w
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  subtopic: debugging
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test fails on an unexpected 500 and the message says nothing about the cause. What makes the exception
+    visible?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - exceptions
+  choices:
+  - id: CHO-dqt93538kf2q
+    text: Disabling exception catching on the client, so the exception reaches the runner
+    correct: true
+  - id: CHO-8px3zmr47e6x
+    text: Reading the response body, which always contains the stack trace
+    correct: false
+    explanation: In the test environment the body carries an error page, not necessarily the trace, and the runner
+      still reports only a status.
+  - id: CHO-hagn0r70e0mz
+    text: Raising the verbosity of the assertion
+    correct: false
+    explanation: That improves the assertion message, not the visibility of the exception.
+  - id: CHO-3z5t282d1h5a
+    text: Enabling the profiler for the request
+    correct: false
+    explanation: The profiler collects data but does not surface the exception to the runner.
+  explanation: catchExceptions(false) lets the exception propagate so the test runner reports its class, message
+    and trace.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: reporting-exceptions
+    verified_at: '2026-09-02'
+- id: QST-m9kesqa3bb7j
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  subtopic: objects
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the client's getInternalResponse() return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - internal
+  choices:
+  - id: CHO-bkw9fsds03jd
+    text: The BrowserKit response, from the simulated browser layer
+    correct: true
+  - id: CHO-rhcdkjhgga00
+    text: The HttpFoundation response produced by the controller
+    correct: false
+    explanation: That is what getResponse() returns.
+  - id: CHO-kpj7cgvrm2az
+    text: The response before any listener modified it
+    correct: false
+    explanation: The distinction is between layers, not between stages of the kernel.
+  - id: CHO-69zk1fnym9hc
+    text: The raw HTTP bytes as they would travel on the wire
+    correct: false
+    explanation: No serialisation to the wire happens; the request never leaves the process.
+  explanation: '"internal" marks the browser layer; the plain methods return the HttpFoundation objects.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: accessing-internal-objects
+    verified_at: '2026-09-02'
+- id: QST-0y00gjhre739
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  subtopic: objects
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these does the test client expose after a request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - client
+  choices:
+  - id: CHO-kz9gknfj1ymb
+    text: The history, the cookie jar and the crawler of the last request
+    correct: true
+  - id: CHO-7r8gr7nzgfyp
+    text: The container definition graph
+    correct: false
+    explanation: The client exposes the container, not its compiled definition graph.
+  - id: CHO-15f6abkqzpv5
+    text: The list of listeners that ran
+    correct: false
+    explanation: That information belongs to the profiler's collectors.
+  - id: CHO-x3cxvcq8k1w0
+    text: The rendered template names
+    correct: false
+    explanation: Those are also collected by the profiler rather than exposed on the client.
+  explanation: getHistory(), getCookieJar() and getCrawler() complete the request and response accessors.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: accessing-internal-objects
+    verified_at: '2026-09-02'
+- id: QST-mmz7113w0hqb
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  subtopic: routing
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which request attribute identifies the route that handled the request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - attributes
+  choices:
+  - id: CHO-x6se8fzfdk7w
+    text: _route
+    correct: true
+  - id: CHO-9jmhp31dzce6
+    text: _controller
+    correct: false
+    explanation: That names the controller, and several routes can point at the same one.
+  - id: CHO-hd2kmy7jczsn
+    text: _path
+    correct: false
+    explanation: No such attribute is set by the router.
+  - id: CHO-ned13fc8tvma
+    text: _name
+    correct: false
+    explanation: The route name is stored under _route.
+  explanation: The _route attribute carries the matched route name, which is what assertRouteSame() compares against.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: accessing-internal-objects
+    verified_at: '2026-09-02'
+- id: QST-qspg3f4b1epq
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-vj24gwq6r1r4
+  domain: symfony
+  subtopic: conventions
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A running application calls a deprecated Symfony method. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - deprecation
+  choices:
+  - id: CHO-wt2dca8hqd3w
+    text: 'Nothing visible: a silenced E_USER_DEPRECATED notice is triggered and execution continues'
+    correct: true
+  - id: CHO-33e31y2gk80k
+    text: An exception is thrown and caught by the error handler
+    correct: false
+    explanation: No exception is involved; a notice is triggered, not thrown.
+  - id: CHO-gt690g86821g
+    text: A warning is printed to the output in the dev environment
+    correct: false
+    explanation: The notice is silenced, so nothing is printed by itself.
+  - id: CHO-cgkpke8qt4hz
+    text: The call fails and returns null
+    correct: false
+    explanation: Deprecated code keeps working exactly as before until it is removed.
+  explanation: Deprecations are silenced notices, which is why an application can accumulate many of them without
+    any sign.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
+    branch: '8.0'
+    symbol_or_lines: upgrade-minor-symfony-code
+    verified_at: '2026-09-02'
+- id: QST-2b9q5n3vadem
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-vj24gwq6r1r4
+  domain: symfony
+  subtopic: conventions
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A team wants to know how many deprecations their application triggers. What has to be in place?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - deprecation
+  choices:
+  - id: CHO-hfzxjv32j9x9
+    text: An error handler that collects the notices, so they can be logged and counted
+    correct: true
+  - id: CHO-vs6zprz33axq
+    text: 'Nothing: they are already listed on the command line at every run'
+    correct: false
+    explanation: Silenced notices produce no output on their own.
+  - id: CHO-cmv0482ffkme
+    text: A stricter setting that turns deprecations into failures
+    correct: false
+    explanation: No such setting is in scope here, and the notices still have to be collected to be counted.
+  - id: CHO-j0af7qfv9s0b
+    text: A newer minor version, since older ones do not report deprecations
+    correct: false
+    explanation: The notices are triggered in every supported version; collecting them is the missing part.
+  explanation: Because the notice is silenced, it exists only if something collects it; Symfony maps E_DEPRECATED
+    and E_USER_DEPRECATED to log levels for exactly that reason.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    branch: '8.0'
+    symbol_or_lines: php-errors
+    verified_at: '2026-09-02'
+- id: QST-1bx122jyh8j6
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  subtopic: kernel
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A team wants its integration suite to run faster on the build server. Which documented change addresses
+    that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - debug
+  - ci
+  choices:
+  - id: CHO-enhp2jew2f0a
+    text: Booting the kernel with debug set to false, which stops the cache being cleared
+    correct: true
+  - id: CHO-jqbvpk0mf75h
+    text: Booting the kernel once for the whole class instead of per test
+    correct: false
+    explanation: The base class reboots per test on purpose, to keep them independent.
+  - id: CHO-4r1mv6vnqnjs
+    text: Switching the kernel to the prod environment
+    correct: false
+    explanation: That changes behaviour rather than speed, and loses the test configuration.
+  - id: CHO-kxxdbbm8v9cd
+    text: Disabling the service container and instantiating services by hand
+    correct: false
+    explanation: That would no longer be an integration test.
+  explanation: bootKernel(['debug' => false]) is the documented speed-up; if the environment is not clean each run,
+    the cache directory has to be removed in the bootstrap file.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: set-up-your-test-environment
+    verified_at: '2026-09-02'
+- id: QST-meyt65cncy6q
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  subtopic: redirects
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How do the client's back() and forward() treat redirects that occurred while browsing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - navigation
+  choices:
+  - id: CHO-gc6s7059j2t8
+    text: They skip them, the way a real browser does
+    correct: true
+  - id: CHO-6f9p60wnt6gy
+    text: They replay each one, so the history includes every intermediate response
+    correct: false
+    explanation: Intermediate redirects are not stops a browser returns to.
+  - id: CHO-v1t5gqqf4r3c
+    text: They raise an error if the history contains a redirect
+    correct: false
+    explanation: Nothing is raised; the entries are simply passed over.
+  - id: CHO-gav0g51f7m3n
+    text: They follow them again only when the client is in follow-redirects mode
+    correct: false
+    explanation: The skipping is unconditional and independent of that mode.
+  explanation: back() and forward() move between the pages a user actually saw, skipping redirects, which mirrors
+    browser behaviour.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    branch: '8.0'
+    symbol_or_lines: browsing-the-site
+    verified_at: '2026-09-02'

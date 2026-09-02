@@ -7165,26 +7165,45 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Trois familles à distinguer, et un critère — le démarrage du noyau — que le candidat doit
+      appliquer à un cas plutôt que réciter. La mise en place du projet s'y rattache.
+    learning_outcomes:
+      - Distinguer test unitaire, d'intégration et d'application
+      - Situer les tests dans tests/ et les nommer
+      - Installer et lancer la suite
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "PHPUnit Bridge is not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
+        branch: "8.0"
+        symbol_or_lines: "unit-tests"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-tt9yn0a06ngb"
+    flashcard_refs:
+      - "FLC-8p0tpa6x1krf"
+    question_refs:
+      - "QST-rsbg20z3fzdk"
+      - "QST-vfkmqvxkehvn"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-3p3j00y1dgsg"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-favt42nvgdqh
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7195,26 +7214,46 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le rythme du test d'application, l'environnement test et un jeu d'assertions à choisir selon ce
+      qu'on veut prouver. Choisir l'assertion juste est une application, pas une reconnaissance.
+    learning_outcomes:
+      - Écrire un test d'application avec WebTestCase
+      - Configurer l'environnement de test et ses variables
+      - Choisir l'assertion Symfony adaptée
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "PHPUnit Bridge is not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
+        branch: "8.0"
+        symbol_or_lines: "application-tests"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-1en96h22twv7"
+    flashcard_refs:
+      - "FLC-2g536z94cx54"
+    question_refs:
+      - "QST-b4g2ascr897e"
+      - "QST-9d4z5adb9sez"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-cppkfczac4h1"
+    prerequisites:
+      - "OIT-c6wd3f444qjn"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-bc3brs4a4mtt
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7225,26 +7264,48 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Un objet dont plusieurs comportements sont contre-intuitifs — valeur de retour, redirections non
+      suivies, redémarrage du noyau. Le candidat doit diagnostiquer un test qui échoue pour ces
+      raisons.
+    learning_outcomes:
+      - Faire une requête et lire la réponse
+      - Distinguer followRedirect() de followRedirects()
+      - Expliquer la perte du jeton entre deux requêtes
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+        branch: "8.0"
+        symbol_or_lines: "KernelBrowser"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-k5wg55q2mg0p"
+    flashcard_refs:
+      - "FLC-pdapm9phgtmc"
+    question_refs:
+      - "QST-qznc9nx72jdq"
+      - "QST-b27q0jdvhz16"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-kyyb7h7x6z2b"
+      - "QST-meyt65cncy6q"
+    prerequisites:
+      - "OIT-favt42nvgdqh"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-se21g2xv6h4r
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7255,26 +7316,46 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux composants aux rôles distincts, une API de parcours immuable, et la sélection d'un
+      formulaire par son bouton. Rien ici ne s'obtient par simple reconnaissance.
+    learning_outcomes:
+      - Séparer le rôle de CssSelector de celui de DomCrawler
+      - Parcourir et extraire depuis un crawler
+      - Obtenir un formulaire et le soumettre
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst"
+        branch: "8.0"
+        symbol_or_lines: "traversing"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-zg5jg6hqp2mj"
+    flashcard_refs:
+      - "FLC-0cvzxn60pazy"
+    question_refs:
+      - "QST-k2pbvcnet7mh"
+      - "QST-7v7dsbmdfdgt"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-aany4cpa165m"
+    prerequisites:
+      - "OIT-bc3brs4a4mtt"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-t0qx5z264tyf
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7285,26 +7366,43 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Deux réglages et une méthode dont le nom induit en erreur. Le contenu tient en peu de lignes et
+      relève de la reconnaissance.
+    learning_outcomes:
+      - Énoncer la configuration du profileur en test
+      - Utiliser enableProfiler() et getProfile()
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 1 question unique minimum, réussie sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst"
+        branch: "8.0"
+        symbol_or_lines: "enabling-the-profiler-in-tests"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-0x4v9jaz4cnq"
+    flashcard_refs:
+      - "FLC-57vzb0a87say"
+    question_refs:
+      - "QST-vnr67m55bz2h"
+      - "QST-dc8hsmx14h1s"
     exercise_refs: []
     exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    prerequisites:
+      - "OIT-bc3brs4a4mtt"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-mtbcyaax2xsk
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7315,26 +7413,48 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le conteneur de test n'obéit pas aux règles de visibilité de production, et l'ordre entre set()
+      et get() décide du résultat. Le candidat doit raisonner sur une construction, pas citer une
+      méthode.
+    learning_outcomes:
+      - Démarrer le noyau et atteindre le conteneur de test
+      - Expliquer l'accès aux services privés et sa limite
+      - Substituer une doublure avant la consommation du service
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
+        branch: "8.0"
+        symbol_or_lines: "retrieving-services-in-the-test"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-g8v45328cg95"
+    flashcard_refs:
+      - "FLC-mkp9h3yfzm3x"
+    question_refs:
+      - "QST-tc71xv48p476"
+      - "QST-qa5pm7hv1d2a"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-kyaxpk3c138c"
+      - "QST-1bx122jyh8j6"
+    prerequisites:
+      - "OIT-c6wd3f444qjn"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-bswvewkkkj1q
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7345,26 +7465,46 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une transformation mécanique des noms d'en-têtes, deux emplacements de réglage et une méthode de
+      session dont l'oubli est silencieux. C'est de l'application.
+    learning_outcomes:
+      - Passer options du noyau et en-têtes à createClient()
+      - Transformer un nom d'en-tête selon la RFC 3875
+      - Préparer la session avant une requête
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
+        branch: "8.0"
+        symbol_or_lines: "sending-custom-headers"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-4x4ec26c9bfc"
+    flashcard_refs:
+      - "FLC-31xxh9cs2ah8"
+    question_refs:
+      - "QST-vtbv0rcpscbs"
+      - "QST-0j3a50p7fbtn"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-d4rhfyhajr7w"
+    prerequisites:
+      - "OIT-bc3brs4a4mtt"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-bzkq4e7wks9a
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7375,26 +7515,46 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Deux couches et quatre accesseurs dont les noms invitent à l'erreur inverse. Le candidat doit
+      trancher lequel rend quoi.
+    learning_outcomes:
+      - Distinguer les objets BrowserKit des objets HttpFoundation
+      - Lire code, en-têtes et contenu de la réponse
+      - Identifier la route ayant répondu
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
+        branch: "8.0"
+        symbol_or_lines: "accessing-internal-objects"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-xkp7v8142jt1"
+    flashcard_refs:
+      - "FLC-80h962pnszqx"
+    question_refs:
+      - "QST-m9kesqa3bb7j"
+      - "QST-0y00gjhre739"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-mmz7113w0hqb"
+    prerequisites:
+      - "OIT-bc3brs4a4mtt"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
   - id: OIT-vj24gwq6r1r4
     official_topic_order: 13
     official_topic: "Automated Tests"
@@ -7405,26 +7565,42 @@ items:
     lot: lot-13
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: MINIMAL
+    content_level_justification: >-
+      Une convention à reconnaître : deux marqueurs, un niveau d'erreur, trois règles de calendrier.
+      Aucun raisonnement à conduire, et le PHPUnit Bridge est hors périmètre.
+    learning_outcomes:
+      - Reconnaître les deux marqueurs d'une dépréciation
+      - Énoncer les règles d'introduction d'une dépréciation
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau MINIMAL : 1 question unique minimum, réussie sur 2 sessions distinctes.
     exclusion_boundaries: "PHPUnit Bridge is not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        branch: "8.0"
+        symbol_or_lines: "deprecating-code"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-fak8bf9014br"
+    flashcard_refs:
+      - "FLC-1qhdkw1e4nfy"
+    question_refs:
+      - "QST-qspg3f4b1epq"
+      - "QST-2b9q5n3vadem"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 13 — Automated Tests."
 
   # ---- Topic 14: Miscellaneous (19 items) ----
   - id: OIT-tvc5rjv6qvse
