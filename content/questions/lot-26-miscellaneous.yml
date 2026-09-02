@@ -1,0 +1,164 @@
+# Lot 26 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question — one per STANDARD item,
+# as rule POOL-002 requires. No HOLDOUT question: the pool already exercises
+# this reasoning and adding one for shape alone would fail the value gate.
+#
+# Stems describe situations and avoid naming the attributes and context keys
+# the course names, so a candidate cannot answer by lexical recognition
+# (CRS-001). Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-jyjz9an9yt07
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: groups
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class has four properties. Three carry a group annotation, one carries none. The output is produced
+    while asking for one of those groups, and the unannotated property is absent. Is that a defect?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - groups
+  - selection
+  choices:
+  - id: CHO-vbq0s1bjrk17
+    text: No; once a group is requested, a property belonging to no group is left out
+    correct: true
+  - id: CHO-6rm8pta228d8
+    text: Yes; an unannotated property is treated as belonging to every group
+    correct: false
+    explanation: 'The opposite holds: it belongs to none.'
+  - id: CHO-52qv5j4n671y
+    text: Yes; the property was excluded because it had no accessor method
+    correct: false
+    explanation: Absence of a group, not of an accessor, explains it.
+  - id: CHO-2dw3g9g5ypnw
+    text: No, but only because the property held a null value at that moment
+    correct: false
+    explanation: The value plays no part in this exclusion.
+  explanation: Groups exclude in one place and keep in another; a property with no group declared does not appear
+    once a group is requested.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    branch: '8.0'
+    symbol_or_lines: selecting-specific-properties
+    verified_at: '2026-09-02'
+- id: QST-xeygxgdd5586
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: process
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Between an object and the produced format, which intermediate representation does the data always pass
+    through, in both directions?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - process
+  - architecture
+  choices:
+  - id: CHO-bhd1zdsc4se4
+    text: An array
+    correct: true
+  - id: CHO-6132d7xzrbbz
+    text: A string in the target format, refined in a second pass
+    correct: false
+    explanation: The format is produced only at the last step.
+  - id: CHO-s007zctbbbaw
+    text: A stream the encoder consumes lazily
+    correct: false
+    explanation: Streaming is not what the two-step split is about.
+  - id: CHO-0c4xamsdd5pw
+    text: None; the object is written straight to the format
+    correct: false
+    explanation: The documented process has two distinct responsibilities.
+  explanation: 'Data is always converted to an array first: normalizers handle object to array, encoders handle array
+    to format.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    branch: '8.0'
+    symbol_or_lines: the-serialization-process-normalizers-and-encoders
+    verified_at: '2026-09-02'
+- id: QST-0a0tb3jj6h5v
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: circular
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two objects reference each other. What happens by default, and after how many passes over the same object?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - circular
+  - defaults
+  choices:
+  - id: CHO-v5sfa7b0mjya
+    text: An exception is raised, once the same object has been serialized one time
+    correct: true
+  - id: CHO-w3z62phvpz5t
+    text: An exception is raised immediately, before any pass
+    correct: false
+    explanation: A threshold governs it, and it is not zero.
+  - id: CHO-8agn5azbzb4v
+    text: The nested object is silently replaced by its identifier
+    correct: false
+    explanation: That is opt-in behaviour, not the default.
+  - id: CHO-erqbpj6pgxnn
+    text: Serialization continues until memory is exhausted
+    correct: false
+    explanation: The component guards against the infinite loop.
+  explanation: A CircularReferenceException is thrown, and circular_reference_limit — the number of times the same
+    object is serialized before being treated as circular — defaults to 1.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    branch: '8.0'
+    symbol_or_lines: handling-circular-references
+    verified_at: '2026-09-02'

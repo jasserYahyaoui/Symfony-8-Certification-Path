@@ -8516,23 +8516,46 @@ items:
     lot: lot-26
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur un découpage en deux responsabilités — normaliser puis encoder, avec un
+      tableau toujours au milieu — et sur la prévision de ce qui figure dans le résultat : une propriété
+      sans groupe disparaît dès qu'un groupe est demandé. Le nombre de normaliseurs et d'options du
+      composant n'est pas de la complexité, et les ponts tiers sont hors périmètre.
+    learning_outcomes:
+      - Séparer le rôle des normaliseurs de celui des encodeurs et situer le tableau intermédiaire
+      - Savoir que plusieurs normaliseurs interviennent mais un seul encodeur par opération
+      - Connaître ce que la normalisation d'objets retient par défaut et comment l'exclure
+      - Prévoir l'effet d'une demande de groupe sur une propriété qui n'en déclare aucun
+      - Connaître le traitement des références circulaires et son seuil par défaut
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst"
+        anchor: "the-serialization-process-normalizers-and-encoders"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-3z96cp2s1dka"
+    flashcard_refs:
+      - "FLC-50daktpqmkv9"
+    question_refs:
+      - "QST-jyjz9an9yt07"
+      - "QST-xeygxgdd5586"
+      - "QST-0a0tb3jj6h5v"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 26 — Miscellaneous."
