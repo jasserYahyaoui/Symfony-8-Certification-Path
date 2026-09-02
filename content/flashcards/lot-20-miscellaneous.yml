@@ -1,0 +1,34 @@
+# Lot 20 — Miscellaneous (EventDispatcher, Event) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-tz5z2qr23ew3
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  front: Deux écouteurs ont les priorités 10 et -10. Lequel s'exécute en premier ?
+  back: Celui à 10. Plus le nombre est élevé, plus l'écouteur est appelé tôt ; les valeurs négatives sont permises
+    et passent en dernier.
+  explanation: À priorité égale, c'est l'ordre d'ajout au répartiteur qui départage.
+  memorization_justification: L'analogie avec « priorité 1 » d'une file d'attente suggère l'inverse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'
+- id: FLC-6eg8g2bt06nt
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  front: Que fait exactement stopPropagation() sur un événement ?
+  back: Elle empêche les écouteurs pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
+  explanation: 'Son effet dépend donc entièrement des priorités : un écouteur appelé tôt peut couper la suite.'
+  memorization_justification: Le mot « stop » laisse croire à une annulation, alors qu'il ne s'agit que d'interrompre
+    une chaîne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'

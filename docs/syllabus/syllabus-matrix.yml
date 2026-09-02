@@ -8060,26 +8060,45 @@ items:
     lot: lot-20
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une règle de priorité contre-intuitive dont dépend l'ordre d'exécution, et deux façons de
+      s'inscrire aux avantages distincts. Le candidat doit ordonner un cas concret, pas citer une API.
+    learning_outcomes:
+      - Inscrire un écouteur et lire l'effet de sa priorité
+      - Distinguer écouteur et abonné, et leurs avantages respectifs
+      - Expliquer ce qui sert de nom quand dispatch() n'en reçoit pas
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        branch: "8.0"
+        symbol_or_lines: "connecting-listeners"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-wbgw87za3w5n"
+    flashcard_refs:
+      - "FLC-tz5z2qr23ew3"
+    question_refs:
+      - "QST-xa6bq0yg86z5"
+      - "QST-d95psbyzz9x4"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-c6j2y7wpcswr"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 20 — Miscellaneous."
   - id: OIT-tjn6kyvyc2h9
     official_topic_order: 14
     official_topic: "Miscellaneous"
@@ -8150,26 +8169,46 @@ items:
     lot: lot-20
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une classe de base volontairement pauvre, dont la seule capacité — arrêter la propagation — a un
+      effet qui dépend de l'ordre. Le candidat doit raisonner sur une chaîne d'appels.
+    learning_outcomes:
+      - Expliquer pourquoi une sous-classe d'événement est la norme
+      - Décrire l'effet exact de stopPropagation() et le lire ensuite
+      - Situer GenericEvent et son compromis
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        branch: "8.0"
+        symbol_or_lines: "event_dispatcher-event-propagation"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-fhb1cbhnyaxx"
+    flashcard_refs:
+      - "FLC-6eg8g2bt06nt"
+    question_refs:
+      - "QST-dxvqjgxd3vyq"
+      - "QST-99x1vnm3rtx4"
     exercise_refs: []
-    exam_refs: []
-    prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    exam_refs:
+      - "QST-yxwtwshs91fd"
+    prerequisites:
+      - "OIT-s601ppsyb9f7"
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 20 — Miscellaneous."
   - id: OIT-j4vpn5bh9f27
     official_topic_order: 14
     official_topic: "Miscellaneous"
