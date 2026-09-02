@@ -7960,26 +7960,46 @@ items:
     lot: lot-18
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Une API dont l'absence de set() ne se comprend qu'en saisissant le rôle du rappel, un mécanisme
+      anti-ruée réglable, et deux pools aux contraintes différentes. Le candidat doit raisonner sur un
+      cas.
+    learning_outcomes:
+      - Nommer item, pool, adaptateur et fournisseur
+      - Expliquer pourquoi get() suffit et quand le rappel s'exécute
+      - Distinguer cache.app de cache.system et invalider par étiquette
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
+        branch: "8.0"
+        symbol_or_lines: "cache-basic-usage"
+        verified_at: "2026-09-02"
+        verified_by: "tech-lead"
+    course_refs:
+      - "CRS-p6yhxmpxrzbs"
+    flashcard_refs:
+      - "FLC-5ph49r9vszd1"
+    question_refs:
+      - "QST-ch9mc2vedk60"
+      - "QST-w6g2sgj7apm1"
     exercise_refs: []
-    exam_refs: []
+    exam_refs:
+      - "QST-jr033rm9hfx5"
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 18 — Miscellaneous."
   - id: OIT-qpjnpc56hjj0
     official_topic_order: 14
     official_topic: "Miscellaneous"

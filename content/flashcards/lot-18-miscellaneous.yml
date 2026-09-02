@@ -1,0 +1,22 @@
+# Lot 18 — Miscellaneous (Cache component) flashcards (Master Plan §6).
+#
+# One card per official item: the point fact that re-reading the course does
+# not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-5ph49r9vszd1
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  front: Pourquoi les Cache Contracts n'ont-ils pas de méthode set() ?
+  back: 'Parce que get() lit et écrit : son second argument est un appelable exécuté uniquement en cas de manque,
+    qui produit la valeur et la stocke.'
+  explanation: 'L''API ne définit que get() et delete(). Conséquence : on ne peut pas lire une clé sans déclarer
+    comment la reconstruire.'
+  memorization_justification: Toute autre API de cache expose un set() ; son absence ici surprend et s'oublie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    branch: '8.0'
+    verified_at: '2026-09-02'

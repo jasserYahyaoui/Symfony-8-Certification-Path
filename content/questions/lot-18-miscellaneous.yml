@@ -1,0 +1,160 @@
+# Lot 18 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question for the single STANDARD
+# item, as rule POOL-002 requires. No HOLDOUT question: the pool carries 27.
+#
+# This item is the Cache COMPONENT. HTTP protocol headers belong to the HTTP
+# topic's Caching item and the Symfony reverse proxy to lot-17; neither is
+# retested here.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-ch9mc2vedk60
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: contracts
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: When is the callable passed as the second argument of the cache get() method executed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - get
+  choices:
+  - id: CHO-ydsmsv5r3b50
+    text: Only when the key is missing, to produce and store the value
+    correct: true
+  - id: CHO-bm6j4s2gv7jc
+    text: On every call, so the value can be refreshed
+    correct: false
+    explanation: On a hit the stored value is returned and the callable is never invoked.
+  - id: CHO-610cr7vsrext
+    text: Once at warmup, then never again
+    correct: false
+    explanation: Nothing ties it to warmup; it runs on demand.
+  - id: CHO-t7c0mn2hscgr
+    text: Only when the pool is explicitly cleared first
+    correct: false
+    explanation: Clearing is not required; a plain miss is enough.
+  explanation: get() both reads and writes, which is why the contracts define no set() method.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    branch: '8.0'
+    symbol_or_lines: cache-basic-usage
+    verified_at: '2026-09-02'
+- id: QST-w6g2sgj7apm1
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: stampede
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does passing a beta of 0 to the cache get() method do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - beta
+  choices:
+  - id: CHO-v2fgx9e1ezng
+    text: It disables early recomputation, so the value is recomputed only once it has actually expired
+    correct: true
+  - id: CHO-c98b08x83jny
+    text: It disables caching entirely for that key
+    correct: false
+    explanation: The value is still cached; only the early-recompute behaviour changes.
+  - id: CHO-1ars4hrzq1b9
+    text: It forces an immediate recomputation
+    correct: false
+    explanation: That is what INF does.
+  - id: CHO-zrakjkdhny9r
+    text: It removes the locking protection as well
+    correct: false
+    explanation: Locking is a separate mechanism and stays in place.
+  explanation: 'Beta controls probabilistic early expiration: 1.0 by default, higher recomputes sooner, 0 disables
+    it and INF forces an immediate recompute.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    branch: '8.0'
+    symbol_or_lines: cache_stampede-prevention
+    verified_at: '2026-09-02'
+- id: QST-jr033rm9hfx5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: pools
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What distinguishes the cache.system pool from cache.app?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - pools
+  choices:
+  - id: CHO-6s08s6889n59
+    text: cache.system holds entries derivable from source code and regenerated at warmup; cache.app holds general
+      application data
+    correct: true
+  - id: CHO-60g2xeqd50gp
+    text: cache.system is simply a faster backend for the same kind of data
+    correct: false
+    explanation: The distinction is what the data is, not how quickly it is stored.
+  - id: CHO-wtk49kd8b48m
+    text: cache.system is read-only and cache.app writable
+    correct: false
+    explanation: Both are written; the difference is when their contents may legitimately change.
+  - id: CHO-6mb3m1nsfpk9
+    text: cache.system is shared between servers and cache.app is per-server
+    correct: false
+    explanation: Sharing depends on the adapter chosen, not on which of the two pools it is.
+  explanation: cache.system's contents must change only when the source code does, so it can be rebuilt on deployment;
+    cache.app needs no flush on deployment.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    branch: '8.0'
+    symbol_or_lines: cache-app-system
+    verified_at: '2026-09-02'

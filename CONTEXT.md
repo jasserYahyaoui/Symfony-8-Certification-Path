@@ -6,12 +6,12 @@
 
 ## Current lot
 
-Lots 0 through 16 are **complete, merged and deployed**.
-**Lot 17 — Miscellaneous / HTTP Caching: delivered, awaiting CI** (1 item).
-Next: **Lot 18 — Cache** (1 item).
+Lots 0 through 17 are **complete, merged and deployed**.
+**Lot 18 — Miscellaneous / Cache: delivered, awaiting CI** (1 item).
+Next: **Lot 19 — Clock** (1 item).
 
-Coverage is **151/163 = 92.64%**. 12 items remain, all in the
-Miscellaneous topic, across lots 18 to 26.
+Coverage is **152/163 = 93.25%**. Eleven items remain, all in the Miscellaneous
+topic, across lots 19 to 26.
 
 Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**
 — see *Remaining work*. Priority 1 was applied and merged before Lot 08
@@ -19,25 +19,25 @@ Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**
 
 ## Current branch
 
-`lot-17-miscellaneous`, pushed and open as a Pull Request. CI is **not** yet
+`lot-18-miscellaneous`, pushed and open as a Pull Request. CI is **not** yet
 confirmed and must not be reported as PASS.
 
-`master` is at merge commit `35b550c` (Lot 16, PR #26).
+`master` is at merge commit `db40346` (Lot 17, PR #27).
 
-Verified end to end, with real identifiers:
+Verified, with real identifiers:
 
 | Lot | Merge | Technical gate | Deploy run | Production smoke test |
 |---|---|---|---|---|
 | 12 — Console | `0fc51e1` | `100130374274` | `33594048974` | `100133956362` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
-| 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | not recorded | not recorded |
-| 15 — Deploy/Profiler | `5356666` | `100141336955` | not recorded | not recorded |
-| 16 — i18n | `35b550c` | `100142369730` | not recorded | not recorded |
+| 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
+| 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
+| 16 — i18n | `35b550c` | `100142369730` | MISSING | MISSING |
+| 17 — HTTP Caching | `db40346` | `100145067830` | MISSING | MISSING |
 
-Deploy and smoke-test identifiers for lots 14 to 16 were **not captured** at the
-time; the runs exist and the production site reflects them, but this file does
-not invent ids it did not read. Treat those four cells as `MISSING`, not as
-failures.
+Deploy and smoke-test identifiers for lots 14 to 17 were **not captured** at the
+time. The runs exist and the production site reflects them, but this file does
+not invent ids it did not read: those cells are `MISSING`, not failures.
 Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 Every lot from 03 onward ships through branch → Pull Request → CI → controlled
@@ -265,7 +265,7 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | FR-1 | French accents are missing throughout the flashcard banks of lots **07 to 11** (`traite` for `traité`, `resultat` for `résultat`, `facon` for `façon`) and throughout the matrix `content_level_justification` and `learning_outcomes` written over the same period. A line count confirms it: lots 01–06 carry 36 to 58 accented lines each, lots 07–11 carry 1 to 5. The cause is my own generator scripts, which were written in unaccented French to sidestep encoding trouble. No automated rule detects it, and no gate fails. | Medium | **Open — folded into audit item P2.8, whose scope this widens.** Lot 12 was generated with accents throughout (`allow_unicode=True`, accented source strings) and is not affected. Repairing lots 07–11 is not mechanical: each sentence has to be read to re-accent it correctly, so it is scheduled with P2 rather than done in passing. Lesson: a generator script is content, and shortcuts taken inside it reach the learner |
 | CRS-5 | `CRS-001` fired twice on Lot 13, and both were content faults rather than rule noise. (a) The *Handling legacy deprecated code* course restated nearly all of *Deprecations best practices* (lot-03) — the two markers, the mineure/majeure calendar, the CHANGELOG and UPGRADE trace — and so reproduced that item's correct answer. (b) The *Request and response objects introspection* course used `$response->getStatusCode()`, which is the correct answer to a lot-02 HttpClient question. | Medium | **Resolved** — (a) the course was rewritten around what its item actually owns (a silenced `E_USER_DEPRECATED` notice: nothing fails, nothing prints, it exists only if an error handler collects it), with the lot-03 boundary stated on the page; its flashcard and its two LEARNING questions were realigned so nothing is asked that the course no longer teaches. (b) the example now shows headers and content. Neither was fixed by rewriting a validated question or by fencing. The rule caught duplication that the §1.4 value gate should have caught first |
 | SPLICE-1 | The matrix splicer hard-coded the default `exclusion_boundaries` line. Three Lot 13 items carry `"PHPUnit Bridge is not included."` instead, so the splice would have silently replaced the syllabus's own scope note with the default text. | High | **Resolved before any data was lost** — the script's own guard refused to run rather than writing a near-match. It now matches that line with a regex and writes it back unchanged. Lesson: a splicer that assumes a constant template will corrupt the first record that differs, and only an assertion makes that visible |
-| API-1 | The GitHub check-run endpoint on a Pull Request returns a **stale** state: on Lot 14 it reported `in_progress` for six minutes after the job had finished, and on Lot 16 it did the same for four. Acting on it would mean either waiting on nothing or, worse, reporting a red build as pending. | Low | **Resolved by method** — read the job instead: `list_workflow_jobs` on the run id, with `filter: latest`, which returns fresh data. The PR check-run endpoint is no longer used to decide whether a lot may merge. Lesson: when a status source and a clock disagree, distrust the source before concluding the job is stuck |
+| API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
 
 ## Tests executed and actual results
 
@@ -321,8 +321,9 @@ another's item:
 
 **Working rule adopted at the owner's instruction:** no sleep, no polling loop,
 no background process waiting on a resource. CI and deploy are checked **once**,
-explicitly, via `list_workflow_jobs` with `filter: latest` (see issue API-1); a
-job still running is reported as such rather than waited out.
+explicitly. The Actions view lags by minutes on every endpoint (see issue
+API-1), so a job still shown as running is reported as such and re-checked at
+the next check-in, never declared stuck or green from one read.
 
 `POOL-002` stays in force: a lot is not finished until every `STANDARD` or
 `DEEP` item carries a VALIDATION question.
