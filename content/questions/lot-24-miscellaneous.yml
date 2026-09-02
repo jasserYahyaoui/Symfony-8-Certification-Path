@@ -1,0 +1,165 @@
+# Lot 24 — Miscellaneous question bank (Master Plan §7).
+#
+# 2 LEARNING questions and 1 VALIDATION question — one per STANDARD item,
+# as rule POOL-002 requires. No HOLDOUT question: the pool already exercises
+# this reasoning and adding one for shape alone would fail the value gate.
+#
+# The accessor-resolution conventions are deliberately not asked here: they are
+# the correct answer of the lot-07 VALIDATION question QST-3pfgr2whbm74, and
+# this item is assessed on what it uniquely owns — path notation, the opposite
+# defaults on a missing path, and the readability queries.
+
+schema_version: 1
+questions:
+- id: QST-rx52h6xb2zvd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  subtopic: defaults
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The same read call is made twice with a path that does not exist: once against an array, once against
+    an object. One returns quietly, the other stops the program. Is this a defect?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - defaults
+  - exceptions
+  choices:
+  - id: CHO-0jjmd2tcpzz0
+    text: No; the two targets have opposite defaults, and each can be reversed through the accessor builder
+    correct: true
+  - id: CHO-520b6gghs9b0
+    text: No, but only because the object was missing a matching accessor rather than the property itself
+    correct: false
+    explanation: The difference holds for a path that is simply absent.
+  - id: CHO-6y0222b3dwye
+    text: Yes; the two should behave alike, and the array case is a documented bug
+    correct: false
+    explanation: Both behaviours are documented and intended.
+  - id: CHO-f94tstn8ef2r
+    text: Yes; the object case should return quietly and the array case should stop
+    correct: false
+    explanation: That is the reverse of the documented defaults.
+  explanation: A missing array index returns null by default while a missing object property path throws; the builder
+    can reverse either.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    branch: '8.0'
+    symbol_or_lines: accessing-a-non-existent-property-path
+    verified_at: '2026-09-02'
+- id: QST-rxnqtgnv8gnf
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  subtopic: paths
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a path expression, what do square brackets around a segment select?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - paths
+  - notation
+  choices:
+  - id: CHO-16nmrk5dkyjk
+    text: An array index
+    correct: true
+  - id: CHO-twnw7hg8t1d8
+    text: An optional segment that is skipped when absent
+    correct: false
+    explanation: They do not make a segment optional.
+  - id: CHO-td5g5bvb3cpc
+    text: A method call rather than a property read
+    correct: false
+    explanation: Method resolution is not what the notation selects.
+  - id: CHO-0kmwrhj7rbcj
+    text: A nested path evaluated before the rest
+    correct: false
+    explanation: They do not change evaluation order.
+  explanation: Brackets denote array index access and the dot denotes object property access; the two notations can
+    be mixed in one path.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    branch: '8.0'
+    symbol_or_lines: reading-from-arrays
+    verified_at: '2026-09-02'
+- id: QST-jfzfmtt469xk
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  subtopic: checking
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Code must find out whether a value can be written at a given path, without writing anything. What does
+    the component offer?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-02'
+  tags:
+  - checking
+  - api
+  choices:
+  - id: CHO-edh4cj94fyym
+    text: A dedicated query that answers whether the path could be written, and performs no write
+    correct: true
+  - id: CHO-bmm0yctbnnqv
+    text: A write attempt wrapped in a try/catch, which is the only available approach
+    correct: false
+    explanation: A dedicated query exists, so the exception is not needed.
+  - id: CHO-vsdypygcw4w6
+    text: A dry-run flag passed to the write call itself
+    correct: false
+    explanation: The write call takes no such flag.
+  - id: CHO-5ky9q5fpr3fz
+    text: A read of the path, since a readable path is always writable
+    correct: false
+    explanation: Readability and writability are asked separately and are not equivalent.
+  explanation: isWritable() reports whether the write could be performed without performing it, and isReadable() does
+    the same for reads.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    branch: '8.0'
+    symbol_or_lines: checking-property-paths
+    verified_at: '2026-09-02'

@@ -1,0 +1,25 @@
+# Lot 24 — Miscellaneous (PropertyAccess) flashcards (Master Plan §6).
+#
+# One card for the official item: the point fact that re-reading the course
+# does not anchor, and that decides an exam answer.
+
+schema_version: 1
+
+flashcards:
+- id: FLC-zggyac2jqrp5
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  front: 'Chemin absent : que rend la lecture sur un tableau, et sur un objet ?'
+  back: Sur un tableau, null. Sur un objet, une exception NoSuchPropertyException. Les deux défauts sont opposés,
+    et chacun se renverse par le constructeur d'accesseur.
+  explanation: enableExceptionOnInvalidIndex() fait lever le tableau ; disableExceptionOnInvalidPropertyPath() fait
+    rendre null à l'objet.
+  memorization_justification: On attend un comportement uniforme d'une même méthode ; ici il dépend de la nature
+    de la cible, et rien dans l'appel ne le signale.
+  verification_status: VERIFIED
+  reviewed_at: '2026-09-02'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    branch: '8.0'
+    symbol_or_lines: accessing-a-non-existent-property-path
+    verified_at: '2026-09-02'

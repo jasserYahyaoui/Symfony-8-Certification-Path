@@ -8410,26 +8410,49 @@ items:
     lot: lot-24
     chapter: null
     classification: OFFICIAL
-    content_level: null
-    content_level_justification: null
-    learning_outcomes: []
-    required_assessment_modes: []
-    minimum_evidence: null
+    content_level: STANDARD
+    content_level_justification: >-
+      Le raisonnement porte sur la notation du chemin et sur la prévision de l'échec : un index de
+      tableau absent rend null là où une propriété d'objet absente lève, et les deux défauts se
+      renversent séparément. Le nombre de méthodes de l'accesseur n'est pas de la complexité, et les
+      conventions d'accesseurs sont enseignées et évaluées avec les formulaires (lot 07).
+    learning_outcomes:
+      - Distinguer la notation par crochets de la notation par point et les combiner dans un chemin
+      - Prévoir le comportement d'un chemin absent selon que la cible est un tableau ou un objet
+      - Savoir que chacun de ces deux défauts se renverse par le constructeur d'accesseur
+      - Interroger la lisibilité ou l'inscriptibilité d'un chemin sans l'exécuter
+      - Savoir que __get() sert par défaut alors que __call() doit être activée
+    required_assessment_modes:
+      - "QUESTION"
+      - "FLASHCARD"
+    minimum_evidence: >-
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
+      dont au moins une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
-    official_sources: []
-    course_refs: []
-    flashcard_refs: []
-    question_refs: []
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst"
+        anchor: "usage"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        verified_at: "2026-09-02"
+    course_refs:
+      - "CRS-5vz7w1ny9shd"
+    flashcard_refs:
+      - "FLC-zggyac2jqrp5"
+    question_refs:
+      - "QST-rx52h6xb2zvd"
+      - "QST-rxnqtgnv8gnf"
+      - "QST-jfzfmtt469xk"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
-    status: NOT_STARTED
-    verification_status: UNVERIFIED
-    exam_ready: false
-    last_verified_at: null
-    reviewed_by: null
-    notes: null
+    status: EXAM_READY
+    verification_status: VERIFIED
+    exam_ready: true
+    last_verified_at: "2026-09-02"
+    reviewed_by: "tech-lead"
+    notes: "Lot 24 — Miscellaneous."
   - id: OIT-r3qcmsehzex1
     official_topic_order: 14
     official_topic: "Miscellaneous"
