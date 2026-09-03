@@ -1287,3 +1287,234 @@ questions:
     branch: '8.0'
     symbol_or_lines: Template Location (lines 138-147) and twig.paths (lines 1295-1340)
     verified_at: '2026-09-03'
+
+# Batch 5 — Forms (4 of the 6 slots; 2 are filled by existing holdout
+# questions).
+- id: QST-x7e3j2ynmamf
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  subtopic: nested-form-events
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`TaskType` embeds `CategoryType` as its `category` field. In which order do the submission events fire?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 85
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - form-events
+  - lifecycle
+  choices:
+  - id: CHO-3xzjgfe7cf8n
+    text: TaskType PRE_SUBMIT, then CategoryType PRE_SUBMIT, SUBMIT and POST_SUBMIT, then TaskType SUBMIT and POST_SUBMIT
+      — the child is submitted completely between the parent's PRE_SUBMIT and its SUBMIT
+    correct: true
+  - id: CHO-msa4sp5e0gc0
+    text: Every PRE_SUBMIT first, then every SUBMIT, then every POST_SUBMIT, parent before child within each group
+    correct: false
+    explanation: The phases are not walked level by level. Once the parent PRE_SUBMIT has run, the child form is submitted
+      in full before the parent continues.
+  - id: CHO-2kgvznt6dwxf
+    text: CategoryType PRE_SUBMIT, SUBMIT and POST_SUBMIT first, then TaskType PRE_SUBMIT, SUBMIT and POST_SUBMIT
+    correct: false
+    explanation: 'The submit phase starts on the parent: TaskType PRE_SUBMIT fires before the child is submitted at all.'
+  - id: CHO-0cwjnnesh2jd
+    text: 'The mirror image of pre-population: CategoryType POST_SUBMIT first and TaskType PRE_SUBMIT last'
+    correct: false
+    explanation: Pre-population runs parent-first on PRE_SET_DATA and child-first on POST_SET_DATA; submission is not its
+      reverse.
+  explanation: 'Each form in the tree has its own dispatcher, and the submit phase starts on the parent. That order is what
+    makes a dependent field work: a listener on the child''s POST_SUBMIT already has the child''s fully processed data,
+    and the parent has not yet reached its own SUBMIT, so the field it adds to the parent is still submitted with the rest.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Events in Nested Forms (lines 179-220) and The Form Lifecycle (lines 129-176)
+    verified_at: '2026-09-03'
+- id: QST-enjqvq4xcvqf
+  version: 1
+  official_topic: Forms
+  official_item: OIT-58r9dadx916v
+  domain: symfony
+  subtopic: transformer-null
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A transformer converts a domain object to a string. What should `transform()` do when it receives `null`, and
+    what does the user see when `reverseTransform()` throws a `TransformationFailedException`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - transformers
+  - validation
+  choices:
+  - id: CHO-67vr9b236cdf
+    text: Return an equivalent empty value of the type it transforms to — an empty string here, `0` for an integer, `0.0`
+      for a float — and the user sees the field's `invalid_message`, never the exception's own message
+    correct: true
+  - id: CHO-17trc9593k2g
+    text: Return `null` unchanged, and the user sees the message passed to the exception
+    correct: false
+    explanation: 'Both halves are wrong: the transformer should hand back a value of the target type, and the exception
+      message is deliberately not shown to the user.'
+  - id: CHO-syrm18mr2rn4
+    text: Throw a `TransformationFailedException`, since there is nothing to convert, and the user sees its message
+    correct: false
+    explanation: '`null` is an ordinary case — an empty or new form — not a failure, and the exception message is never
+      displayed.'
+  - id: CHO-3bham65nc5hz
+    text: Return an equivalent empty value, and the user sees the message passed to the exception as the field error
+    correct: false
+    explanation: The first half is right, but the message shown comes from the `invalid_message` option; the exception message
+      is for the developer.
+  explanation: The two directions have different obligations. `transform()` runs on data coming from the application, including
+    the `null` of a form with nothing set, and must return something the view can render — an empty value of the target
+    type. `reverseTransform()` runs on what the user submitted, and signals an unconvertible value by throwing TransformationFailedException,
+    which turns into a validation error whose wording is set by `invalid_message`.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: transform()/reverseTransform() and the null note (lines 183-245)
+    verified_at: '2026-09-03'
+- id: QST-ycpcjx22ff8b
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  subtopic: option-normalizer
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An option must be rewritten before use, partly according to another option. What does `setNormalizer()` provide,
+    and when does it run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - options-resolver
+  - forms
+  choices:
+  - id: CHO-30pq1epp99w0
+    text: A closure called with `(Options $options, $value)` — so other options are readable — executed after that option
+      has been validated; a subclass chains onto it with `addNormalizer()`, which receives the already normalized value
+      unless `true` is passed as its third argument
+    correct: true
+  - id: CHO-cd534y5be57q
+    text: A closure called with the value alone; reading another option there is impossible, so a lazy default has to do
+      the work instead
+    correct: false
+    explanation: The closure's first parameter is the `Options` instance, precisely so that a normalizer can depend on another
+      option.
+  - id: CHO-k4cp7npm8fhz
+    text: A closure executed before validation, so it can repair a value that the allowed types or values would otherwise
+      reject
+    correct: false
+    explanation: Normalization runs after the option has been validated, so a rejected value never reaches it.
+  - id: CHO-y2nsmgp1ppe5
+    text: A closure executed after validation, and calling `setNormalizer()` again in a subclass adds to the parent's chain
+      rather than replacing it
+    correct: false
+    explanation: '`setNormalizer()` replaces. Adding to an inherited chain is what `addNormalizer()` is for.'
+  explanation: 'A normalizer is the last step for an option: defaults resolve, allowed types and values are checked, and
+    only then is the value rewritten. Because the closure receives the `Options` instance it can read other options while
+    doing so, and `addNormalizer()` exists so a subclass can refine a parent''s normalization instead of discarding it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Option Normalization (lines 399-460)
+    verified_at: '2026-09-03'
+- id: QST-bf7vmh7r7nwh
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  subtopic: type-extension-scope
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form type extension returns `FormType::class` from `getExtendedTypes()`. Which fields does it modify?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - form-extensions
+  - inheritance
+  choices:
+  - id: CHO-91q4bja2nsyv
+    text: Most of the types Symfony ships, since they inherit from `FormType` — the notable exceptions being the `ButtonType`
+      family, and a custom type that does not extend `FormType`
+    correct: true
+  - id: CHO-gam0m62m1b3t
+    text: Every field without exception, `FormType` being the root of the whole hierarchy
+    correct: false
+    explanation: The ButtonType form types are the documented exception, and a custom type is only reached if it actually
+      extends FormType.
+  - id: CHO-nx9wjy24vvgc
+    text: Only the fields declared explicitly with `FormType::class`; inheritance does not carry an extension
+    correct: false
+    explanation: Inheritance is exactly how an extension reaches several types at once — extending TextType, for instance,
+      reaches EmailType, SearchType and UrlType.
+  - id: CHO-1vk2av3gnjdx
+    text: 'None: an extension has to name a concrete type such as `TextType`'
+    correct: false
+    explanation: '`FormType::class` is a valid and documented target; naming a common parent is how several types are modified
+      at once.'
+  explanation: An extension applies to the type it names and to everything inheriting from it, which is why naming a common
+    parent is the documented way to modify a family at once. `getExtendedTypes()` is the only method that must be implemented,
+    it may return several types, and the `form.type_extension` tag is applied automatically by autoconfiguration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Generic Form Type Extensions (lines 228-243) and getExtendedTypes (lines 44-62)
+    verified_at: '2026-09-03'
