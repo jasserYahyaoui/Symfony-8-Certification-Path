@@ -168,7 +168,7 @@ questions:
   subtopic: visibility
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -567,7 +567,7 @@ questions:
   subtopic: defaults
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -865,7 +865,7 @@ questions:
   subtopic: tags
   language: en
   difficulty: medium
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1165,7 +1165,7 @@ questions:
   subtopic: factories
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1364,7 +1364,7 @@ questions:
   subtopic: passes
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1514,7 +1514,7 @@ questions:
   subtopic: autowiring
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1766,7 +1766,7 @@ questions:
   subtopic: locator
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single

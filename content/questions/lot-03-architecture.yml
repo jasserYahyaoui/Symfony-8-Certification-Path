@@ -1479,18 +1479,19 @@ questions:
     supplies one, kernel.response follows as usual.
   official_sources: *id002
 - id: QST-0jd9nbbaqczb
-  version: 1
+  version: 2
   official_topic: Symfony Architecture
   official_item: OIT-vk57zg2wpep7
   domain: symfony
   language: en
   difficulty: hard
-  cognitive_level: UNDERSTAND
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which of these is excluded from Symfony's backward compatibility promise?
+  question: A minor release changes behaviour an application depended on, and the change is defended as legitimate.
+    Which circumstance makes that defensible under the promise?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1500,27 +1501,28 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-03'
   tags:
   - bc-promise
-  - internal
+  - experimental
   choices:
-  - id: CHO-qgrkd0z7nb6d
-    text: A class tagged @internal
+  - id: CHO-v21j0y5gntm3
+    text: The change was required to close a security hole
     correct: true
-  - id: CHO-ngv2cajpwe2f
-    text: A class tagged @final since Symfony 7.1
+  - id: CHO-kngvqcnd911p
+    text: The maintainers announced it in the release notes beforehand
     correct: false
-    explanation: 'That annotation signals a transition: until the version is reached, the class is not treated as
-      final.'
-  - id: CHO-5cgwkexee8nw
-    text: A public method of a non-final class
+    explanation: Announcing a break does not place it outside the promise; the promise is about what may break, not
+      about notice.
+  - id: CHO-g389sqfg81g7
+    text: The application was calling the method positionally rather than by named argument
     correct: false
-    explanation: Calling a public method is covered.
-  - id: CHO-0w1tzq3edn82
-    text: An interface you type-hint against
+    explanation: Positional calls are the covered form; it is parameter *names* that are unprotected outside
+      attribute-class constructors.
+  - id: CHO-fbjmzgn672jy
+    text: The class involved was not marked final
     correct: false
-    explanation: Type hinting against a shipped interface is explicitly covered.
-  explanation: '@internal code, experimental features and internal security and validation translations sit outside
-    the promise, as does anything under a *\Tests\ namespace.'
+    explanation: Absence of final widens what is covered, it does not excuse a break.
+  explanation: A break is tolerated when it is necessary to fix a security vulnerability. Experimental features and
+    internal security and validation translations also sit outside the promise.
   official_sources: *id006

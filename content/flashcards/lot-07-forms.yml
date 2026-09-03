@@ -1,153 +1,141 @@
-# Lot 07 flashcards (Master Plan §6).
-#
-# Nine cards covering six of the thirteen items. Seven carry none: Form
-# component, Forms creation, Form types, Built-in form types, CSRF protection,
-# Handling file upload and Form type extensions — tables and mechanisms reasoned
-# from a criterion rather than recalled.
-
 schema_version: 1
-
 flashcards:
-  - id: FLC-jsbfc1cnv01y
-    official_item: OIT-mgvdw7cfpwyz
-    language: fr
-    front: "Formulaires : que fait le second argument de submit(), et que vaut-il par defaut ?"
-    back: "C'est $clearMissing, vrai par defaut : les champs absents sont mis a null. A false — cas d'un PATCH — ils restent intacts."
-    explanation: >-
-      Avec $clearMissing a false, la validation ne s'applique qu'aux champs soumis. Pour valider un champ absent, il faut l'ajouter explicitement a la donnee soumise avec la valeur null.
-    memorization_justification: >-
-      Un booleen positionnel dont la valeur par defaut detruit silencieusement des donnees sur une requete partielle, et dont l'effet de bord sur la validation n'est pas devinable.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
-        branch: "8.0"
-        symbol_or_lines: "section Using the submit() Method, clearMissing"
-        verified_at: "2026-09-01"
-
-  - id: FLC-e83vsz7hvkpp
-    official_item: OIT-v7zyhcm44m88
-    language: fr
-    front: "Formulaires : a partir de quel evenement la structure du formulaire est-elle verrouillee ?"
-    back: "A partir de SUBMIT. On ne peut plus ajouter ni retirer de champ des cet evenement."
-    explanation: >-
-      Les ajouts de champs se font donc sur PRE_SET_DATA, d'apres la donnee initiale, ou sur PRE_SUBMIT, d'apres la donnee brute soumise.
-    memorization_justification: >-
-      Cinq evenements dont deux seulement autorisent une modification de structure ; se tromper produit un champ absent sans erreur explicite.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
-        branch: "8.0"
-        symbol_or_lines: "form event order and constraints"
-        verified_at: "2026-09-01"
-
-  - id: FLC-7904k5rak62c
-    official_item: OIT-v7zyhcm44m88
-    language: fr
-    front: "Formulaires : sur quel evenement la validation s'execute-t-elle ?"
-    back: "POST_SUBMIT, par un ecouteur."
-    explanation: >-
-      C'est pour cela qu'un objet peuple et valide est disponible une fois la soumission terminee, et que la validation ne peut pas etre observee plus tot dans le cycle.
-    memorization_justification: >-
-      On suppose spontanement que la validation precede la soumission ; l'ordre reel explique ce qui est disponible et quand.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
-        branch: "8.0"
-        symbol_or_lines: "form event order and constraints"
-        verified_at: "2026-09-01"
-
-  - id: FLC-gg8d18g1cqqv
-    official_item: OIT-v7zyhcm44m88
-    language: fr
-    front: "Formulaires : PRE_SUBMIT recoit quelle forme de donnee ?"
-    back: "La donnee brute de la requete : des chaines et des tableaux, non transformees."
-    explanation: >-
-      PRE_SET_DATA recoit au contraire la donnee du modele, qui vient de l'objet. La question qui tranche : reagit-on a la donnee initiale ou a la donnee soumise ?
-    memorization_justification: >-
-      Deux evenements aux noms voisins portant des couches de donnees opposees ; le code compile dans les deux cas.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
-        branch: "8.0"
-        symbol_or_lines: "form event order and constraints"
-        verified_at: "2026-09-01"
-
-  - id: FLC-tta4ns1abpfy
-    official_item: OIT-58r9dadx916v
-    language: fr
-    front: "DataTransformer : que fait reverseTransform() ?"
-    back: "Elle convertit la donnee soumise vers le modele. transform() fait le trajet modele vers vue, au rendu."
-    explanation: >-
-      Les noms se lisent depuis le modele. Une valeur non convertible doit lever TransformationFailedException, que le formulaire traduit en erreur de validation.
-    memorization_justification: >-
-      Le prefixe reverse invite a lire l'inverse de ce qu'on veut ; l'erreur produit un formulaire qui affiche mais ne soumet pas.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst"
-        branch: "8.0"
-        symbol_or_lines: "transform and reverseTransform"
-        verified_at: "2026-09-01"
-
-  - id: FLC-8yczcp0s4a1c
-    official_item: OIT-j2vjdxcer4ft
-    language: fr
-    front: "Themes de formulaire : dans quel ordre les blocs sont-ils cherches ?"
-    back: "Du plus specifique au plus general : _formulaire_champ_partie, puis type_partie, puis text_partie."
-    explanation: >-
-      Le bloc le plus specifique commence par un souligne et porte le nom du formulaire puis celui du champ. C'est cette chaine qui permet de personnaliser a n'importe quel niveau.
-    memorization_justification: >-
-      Chaine de repli a trois niveaux dont la syntaxe du bloc le plus specifique — souligne initial, nom du formulaire, nom du champ — ne s'invente pas.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst"
-        branch: "8.0"
-        symbol_or_lines: "block lookup chain and form_themes order"
-        verified_at: "2026-09-01"
-
-  - id: FLC-5g65x0xtgdn7
-    official_item: OIT-j2vjdxcer4ft
-    language: fr
-    front: "twig.form_themes : dans quel ordre la liste est-elle consultee ?"
-    back: "De la fin vers le debut. Le dernier theme liste est consulte en premier, le premier sert de dernier recours."
-    explanation: >-
-      L'ordre naturel de lecture d'une liste YAML suggere l'inverse, et une surcharge placee en premiere ligne n'a alors aucun effet visible.
-    memorization_justification: >-
-      Ordre inverse de l'intuition, sans erreur a la cle : le theme est simplement ignore.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst"
-        branch: "8.0"
-        symbol_or_lines: "block lookup chain and form_themes order"
-        verified_at: "2026-09-01"
-
-  - id: FLC-yvey5gkx1zhd
-    official_item: OIT-gxew257vwhm8
-    language: fr
-    front: "Formulaires : que rend form_end() en plus de la balise fermante ?"
-    back: "Tous les champs non encore rendus, dont le jeton CSRF."
-    explanation: >-
-      Passer render_rest a false supprime ce filet, et fait disparaitre le jeton : le formulaire devient alors invalide a la soumission.
-    memorization_justification: >-
-      Comportement implicite dont la suppression casse la protection CSRF sans message explicite.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
-        branch: "8.0"
-        symbol_or_lines: "section Rendering Forms, form_end"
-        verified_at: "2026-09-01"
-
-  - id: FLC-rpr50wc4n7f6
-    official_item: OIT-rj9web4whgmz
-    language: fr
-    front: "OptionsResolver : quelle difference entre setDefined() et setDefaults() ?"
-    back: "setDefined declare qu'une option est acceptee, sans valeur ; setDefaults lui donne une valeur par defaut."
-    explanation: >-
-      Une option ni definie ni pourvue d'un defaut provoque une exception : c'est precisement l'interet du composant.
-    memorization_justification: >-
-      Deux methodes aux noms proches dont l'une seule fournit une valeur ; la confusion produit une option absente du tableau resolu.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst"
-        branch: "8.0"
-        symbol_or_lines: "setDefined vs setDefaults"
-        verified_at: "2026-09-01"
+- id: FLC-jsbfc1cnv01y
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  front: 'Formulaires : que fait le second argument de submit(), et que vaut-il par défaut ?'
+  back: 'C''est $clearMissing, vrai par défaut : les champs absents sont mis à null. À false — cas d''un
+    PATCH — ils restent intacts.'
+  explanation: Avec $clearMissing à false, la validation ne s'applique qu'aux champs soumis. Pour valider
+    un champ absent, il faut l'ajouter explicitement à la donnée soumise avec la valeur null.
+  memorization_justification: Un booléen positionnel dont la valeur par défaut détruit silencieusement
+    des données sur une requête partielle, et dont l'effet de bord sur la validation n'est pas devinable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: section Using the submit() Method, clearMissing
+    verified_at: '2026-09-01'
+- id: FLC-e83vsz7hvkpp
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  front: 'Formulaires : à partir de quel événement la structure du formulaire est-elle verrouillée ?'
+  back: À partir de SUBMIT. On ne peut plus ajouter ni retirer de champ dès cet événement.
+  explanation: Les ajouts de champs se font donc sur PRE_SET_DATA, d'après la donnée initiale, ou sur
+    PRE_SUBMIT, d'après la donnée brute soumise.
+  memorization_justification: Cinq événements dont deux seulement autorisent une modification de structure
+    ; se tromper produit un champ absent sans erreur explicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: form event order and constraints
+    verified_at: '2026-09-01'
+- id: FLC-7904k5rak62c
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  front: 'Formulaires : sur quel événement la validation s''exécute-t-elle ?'
+  back: POST_SUBMIT, par un écouteur.
+  explanation: C'est pour cela qu'un objet peuple et valide est disponible une fois la soumission terminée,
+    et que la validation ne peut pas être observée plus tôt dans le cycle.
+  memorization_justification: On suppose spontanément que la validation précède la soumission ; l'ordre
+    réel explique ce qui est disponible et quand.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: form event order and constraints
+    verified_at: '2026-09-01'
+- id: FLC-gg8d18g1cqqv
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  front: 'Formulaires : PRE_SUBMIT reçoit quelle forme de donnée ?'
+  back: 'La donnée brute de la requête : des chaînes et des tableaux, non transformées.'
+  explanation: 'PRE_SET_DATA reçoit au contraire la donnée du modèle, qui vient de l''objet. La question
+    qui tranche : réagit-on à la donnée initiale ou à la donnée soumise ?'
+  memorization_justification: Deux événements aux noms voisins portant des couches de données opposées
+    ; le code compile dans les deux cas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    branch: '8.0'
+    symbol_or_lines: form event order and constraints
+    verified_at: '2026-09-01'
+- id: FLC-tta4ns1abpfy
+  official_item: OIT-58r9dadx916v
+  language: fr
+  front: 'DataTransformer : que fait reverseTransform() ?'
+  back: Elle convertit la donnée soumise vers le modèle. transform() fait le trajet modèle vers vue, au
+    rendu.
+  explanation: Les noms se lisent depuis le modèle. Une valeur non convertible doit lever TransformationFailedException,
+    que le formulaire traduit en erreur de validation.
+  memorization_justification: Le préfixe reverse invite à lire l'inverse de ce qu'on veut ; l'erreur produit
+    un formulaire qui affiche mais ne soumet pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    branch: '8.0'
+    symbol_or_lines: transform and reverseTransform
+    verified_at: '2026-09-01'
+- id: FLC-8yczcp0s4a1c
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  front: 'Thèmes de formulaire : dans quel ordre les blocs sont-ils cherchés ?'
+  back: 'Du plus spécifique au plus général : _formulaire_champ_partie, puis type_partie, puis text_partie.'
+  explanation: Le bloc le plus spécifique commence par un souligné et porte le nom du formulaire puis
+    celui du champ. C'est cette chaîne qui permet de personnaliser à n'importe quel niveau.
+  memorization_justification: Chaîne de repli à trois niveaux dont la syntaxe du bloc le plus spécifique
+    — souligné initial, nom du formulaire, nom du champ — ne s'invente pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: block lookup chain and form_themes order
+    verified_at: '2026-09-01'
+- id: FLC-5g65x0xtgdn7
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  front: 'twig.form_themes : dans quel ordre la liste est-elle consultée ?'
+  back: De la fin vers le début. Le dernier thème listé est consulté en premier, le premier sert de dernier
+    recours.
+  explanation: L'ordre naturel de lecture d'une liste YAML suggère l'inverse, et une surcharge placée
+    en première ligne n'a alors aucun effet visible.
+  memorization_justification: 'Ordre inverse de l''intuition, sans erreur à la clé : le thème est simplement
+    ignoré.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    branch: '8.0'
+    symbol_or_lines: block lookup chain and form_themes order
+    verified_at: '2026-09-01'
+- id: FLC-yvey5gkx1zhd
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  front: 'Formulaires : que rend form_end() en plus de la balise fermante ?'
+  back: Tous les champs non encore rendus, dont le jeton CSRF.
+  explanation: 'Passer render_rest à false supprime ce filet, et fait disparaître le jeton : le formulaire
+    devient alors invalide à la soumission.'
+  memorization_justification: Comportement implicite dont la suppression casse la protection CSRF sans
+    message explicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: section Rendering Forms, form_end
+    verified_at: '2026-09-01'
+- id: FLC-rpr50wc4n7f6
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  front: 'OptionsResolver : quelle différence entre setDefined() et setDefaults() ?'
+  back: setDefined déclare qu'une option est acceptée, sans valeur ; setDefaults lui donne une valeur
+    par défaut.
+  explanation: 'Une option ni définie ni pourvue d''un défaut provoque une exception : c''est précisément
+    l''intérêt du composant.'
+  memorization_justification: Deux méthodes aux noms proches dont l'une seule fournit une valeur ; la
+    confusion produit une option absente du tableau résolu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    branch: '8.0'
+    symbol_or_lines: setDefined vs setDefaults
+    verified_at: '2026-09-01'

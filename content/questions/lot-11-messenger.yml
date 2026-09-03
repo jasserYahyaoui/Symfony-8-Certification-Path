@@ -165,7 +165,7 @@ questions:
   subtopic: routing
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -463,7 +463,7 @@ questions:
   subtopic: workers
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -713,7 +713,7 @@ questions:
   subtopic: failures
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -811,7 +811,7 @@ questions:
   subtopic: middleware
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -959,7 +959,7 @@ questions:
   subtopic: events
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single

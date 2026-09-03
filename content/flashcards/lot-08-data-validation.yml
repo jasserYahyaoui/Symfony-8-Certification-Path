@@ -1,147 +1,119 @@
-# Lot 08 — Data Validation flashcards (Master Plan §6).
-#
-# One card per official item: the point fact that re-reading the course does
-# not anchor, and that decides an exam answer.
-
 schema_version: 1
-
 flashcards:
-  - id: FLC-3sceej8y8a54
-    official_item: OIT-6wd8860brzfy
-    language: fr
-    front: "Validator : que retourne validate() quand tout est valide ?"
-    back: "Une ConstraintViolationListInterface vide — jamais true, jamais null."
-    explanation: >-
-      Une liste vide reste un objet, donc une valeur vraie : le test doit porter
-      sur count(), pas sur la liste elle-meme.
-    memorization_justification: >-
-      L'habitude des validateurs qui retournent un booleen fait ecrire
-      if ($violations), qui est toujours vrai.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php"
-        branch: "8.0"
-        symbol_or_lines: "ValidatorInterface::validate"
-        verified_at: "2026-09-01"
-
-  - id: FLC-qb5nx97jkjav
-    official_item: OIT-d3yp0sq36xrx
-    language: fr
-    front: "Valider un objet valide-t-il les objets qu'il contient ?"
-    back: "Non. Il faut poser #[Assert\\Valid] sur la propriete pour cascader."
-    explanation: >-
-      Sans la contrainte de cascade, l'objet imbriqué est ignore en silence :
-      aucune erreur, aucune violation.
-    memorization_justification: >-
-      L'absence de cascade ne produit aucun signal ; le defaut se manifeste par
-      une validation qui passe alors qu'elle ne devrait pas.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst"
-        branch: "8.0"
-        verified_at: "2026-09-01"
-
-  - id: FLC-7p2ygq8ft3x4
-    official_item: OIT-9x3strrjdng7
-    language: fr
-    front: "Quelle est la difference entre NotBlank et NotNull ?"
-    back: "NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la chaine '0'."
-    explanation: >-
-      Le validateur teste false === $value ou (!$value && '0' != $value), d'ou
-      le cas particulier de la chaine '0'.
-    memorization_justification: >-
-      Les deux noms se ressemblent et le choix change le comportement sur une
-      valeur vide ou nulle.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php"
-        branch: "8.0"
-        symbol_or_lines: "NotBlankValidator::validate"
-        verified_at: "2026-09-01"
-
-  - id: FLC-swztaetynk4y
-    official_item: OIT-ttwpe00f32q9
-    language: fr
-    front: "Quelles methodes peuvent porter une contrainte de validation ?"
-    back: "Celles dont le nom commence par get, is ou has, sans argument — quelle que soit la visibilite."
-    explanation: >-
-      La portee accesseur valide la valeur retournee, ce qui permet une regle
-      calculee au moment de la validation.
-    memorization_justification: >-
-      La regle de nommage est arbitraire et ne se deduit pas ; la liberte de
-      visibilite surprend.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst"
-        anchor: "getters"
-        branch: "8.0"
-        verified_at: "2026-09-01"
-
-  - id: FLC-mvq0exxwwfxa
-    official_item: OIT-kkhb3wd341ex
-    language: fr
-    front: "Sans groupe passe a validate(), quelles contraintes s'appliquent ?"
-    back: "Celles du groupe Default uniquement — pas toutes les contraintes de la classe."
-    explanation: >-
-      Une contrainte etiquetee dans un groupe personnalise reste donc inerte
-      tant que personne ne demande ce groupe.
-    memorization_justification: >-
-      L'intuition dit « par defaut, tout est verifie » ; c'est l'inverse pour
-      les contraintes groupees.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst"
-        branch: "8.0"
-        verified_at: "2026-09-01"
-
-  - id: FLC-rstx3zwpz28w
-    official_item: OIT-rwavvsx2d7nq
-    language: fr
-    front: "Avec quel groupe declare-t-on une sequence, et pourquoi pas Default ?"
-    back: "Avec le nom de la classe. Sous sequence, Default designe la sequence : l'y inclure produit une recursion infinie."
-    explanation: >-
-      Hors sequence, Default et le nom de la classe sont identiques ; la
-      sequence est precisement ce qui les separe.
-    memorization_justification: >-
-      C'est l'unique cas ou les deux groupes divergent, et l'erreur ne se voit
-      qu'a l'execution.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst"
-        branch: "8.0"
-        verified_at: "2026-09-01"
-
-  - id: FLC-6n0qg98nptxe
-    official_item: OIT-hcdrp2y7kbct
-    language: fr
-    front: "Callback : quel est l'ordre des arguments, en instance et en statique ?"
-    back: "Instance : (context, payload). Statique : (value, context, payload) — la valeur passe devant."
-    explanation: >-
-      Une methode statique n'a pas $this, donc l'objet valide lui est passe en
-      premier argument.
-    memorization_justification: >-
-      Les deux signatures se ressemblent et l'inversion des deux premiers
-      arguments est la seule difference.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst"
-        anchor: "static-callbacks"
-        branch: "8.0"
-        verified_at: "2026-09-01"
-
-  - id: FLC-crtrxfbtxbrw
-    official_item: OIT-0wnxbapegqhv
-    language: fr
-    front: "Que produit une chaine buildViolation() qui ne finit pas par addViolation() ?"
-    back: "Rien. Le constructeur prepare la violation ; seule addViolation() l'enregistre."
-    explanation: >-
-      La validation passe alors sans erreur alors que la regle est violee, ce
-      qui en fait un defaut silencieux.
-    memorization_justification: >-
-      L'oubli du dernier maillon ne produit ni erreur ni avertissement.
-    verification_status: VERIFIED
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php"
-        branch: "8.0"
-        symbol_or_lines: "addViolation"
-        verified_at: "2026-09-01"
+- id: FLC-3sceej8y8a54
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  front: 'Validator : que retourne validate() quand tout est valide ?'
+  back: Une ConstraintViolationListInterface vide — jamais true, jamais null.
+  explanation: 'Une liste vide reste un objet, donc une valeur vraie : le test doit porter sur count(),
+    pas sur la liste elle-même.'
+  memorization_justification: L'habitude des validateurs qui retournent un booléen fait écrire if ($violations),
+    qui est toujours vrai.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    branch: '8.0'
+    symbol_or_lines: ValidatorInterface::validate
+    verified_at: '2026-09-01'
+- id: FLC-qb5nx97jkjav
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  front: Valider un objet valide-t-il les objets qu'il contient ?
+  back: 'Non. Il faut poser #[Assert\Valid] sur la propriété pour cascader.'
+  explanation: 'Sans la contrainte de cascade, l''objet imbriqué est ignoré en silence : aucune erreur,
+    aucune violation.'
+  memorization_justification: L'absence de cascade ne produit aucun signal ; le défaut se manifeste par
+    une validation qui passe alors qu'elle ne devrait pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-7p2ygq8ft3x4
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  front: Quelle est la différence entre NotBlank et NotNull ?
+  back: NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la chaîne
+    '0'.
+  explanation: Le validateur teste false === $value ou (!$value && '0' != $value), d'où le cas particulier
+    de la chaîne '0'.
+  memorization_justification: Les deux noms se ressemblent et le choix change le comportement sur une
+    valeur vide ou nulle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    branch: '8.0'
+    symbol_or_lines: NotBlankValidator::validate
+    verified_at: '2026-09-01'
+- id: FLC-swztaetynk4y
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  front: Quelles méthodes peuvent porter une contrainte de validation ?
+  back: Celles dont le nom commence par get, is ou has, sans argument — quelle que soit la visibilité.
+  explanation: La portée accesseur valide la valeur retournée, ce qui permet une règle calculée au moment
+    de la validation.
+  memorization_justification: La règle de nommage est arbitraire et ne se déduit pas ; la liberté de visibilité
+    surprend.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    anchor: getters
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-mvq0exxwwfxa
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  front: Sans groupe passé à validate(), quelles contraintes s'appliquent ?
+  back: Celles du groupe Default uniquement — pas toutes les contraintes de la classe.
+  explanation: Une contrainte étiquetée dans un groupe personnalisé reste donc inerte tant que personne
+    ne demande ce groupe.
+  memorization_justification: L'intuition dit « par défaut, tout est vérifié » ; c'est l'inverse pour
+    les contraintes groupées.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-rstx3zwpz28w
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  front: Avec quel groupe déclare-t-on une séquence, et pourquoi pas Default ?
+  back: 'Avec le nom de la classe. Sous séquence, Default désigne la séquence : l''y inclure produit une
+    récursion infinie.'
+  explanation: Hors séquence, Default et le nom de la classe sont identiques ; la séquence est précisément
+    ce qui les sépare.
+  memorization_justification: C'est l'unique cas où les deux groupes divergent, et l'erreur ne se voit
+    qu'à l'exécution.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-6n0qg98nptxe
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  front: 'Callback : quel est l''ordre des arguments, en instance et en statique ?'
+  back: 'Instance : (context, payload). Statique : (value, context, payload) — la valeur passe devant.'
+  explanation: Une méthode statique n'a pas $this, donc l'objet valide lui est passé en premier argument.
+  memorization_justification: Les deux signatures se ressemblent et l'inversion des deux premiers arguments
+    est la seule différence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    anchor: static-callbacks
+    branch: '8.0'
+    verified_at: '2026-09-01'
+- id: FLC-crtrxfbtxbrw
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  front: Que produit une chaîne buildViolation() qui ne finit pas par addViolation() ?
+  back: Rien. Le constructeur prépare la violation ; seule addViolation() l'enregistre.
+  explanation: La validation passe alors sans erreur alors que la règle est violée, ce qui en fait un
+    défaut silencieux.
+  memorization_justification: L'oubli du dernier maillon ne produit ni erreur ni avertissement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    branch: '8.0'
+    symbol_or_lines: addViolation
+    verified_at: '2026-09-01'

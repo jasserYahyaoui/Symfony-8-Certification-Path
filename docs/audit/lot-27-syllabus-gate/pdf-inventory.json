@@ -1,0 +1,974 @@
+{
+ "constraints": {
+  "symfony": "8.0 only; not 8.1, 8.2, 8.3, 8.4",
+  "php": "PHP API up to PHP 8.4",
+  "twig": "Twig syntax up to 3.22",
+  "http": "RFC 9110",
+  "questions": 75,
+  "topics": 15,
+  "minutes": 90,
+  "language": "English"
+ },
+ "topics": [
+  "PHP",
+  "Object Oriented Programming",
+  "HTTP",
+  "Symfony Architecture",
+  "Controllers",
+  "Routing",
+  "Templating with Twig",
+  "Forms",
+  "Data Validation",
+  "Dependency Injection",
+  "Security",
+  "Messenger",
+  "Console",
+  "Automated Tests",
+  "Miscellaneous"
+ ],
+ "notes": [
+  "Note: third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included",
+  "Note: PHPUnit Bridge is not included",
+  "Note: Intl component utilities to access ICU data are not included (on Internationalization and localization)",
+  "Note: ESI (Edge Side Includes) is not included (on HTTP Caching)"
+ ],
+ "local_exclusions": [
+  "third-party Messenger transports and their usage/configuration",
+  "PHPUnit Bridge",
+  "Intl component utilities to access ICU data",
+  "ESI (Edge Side Includes)"
+ ],
+ "global_exclusions": [
+  "Symfony UX",
+  "Symfony AI",
+  "Doctrine and database-related topics",
+  "Monolog",
+  "Third-party bundles and projects",
+  "AssetMapper and Webpack Encore",
+  "PHP Polyfills",
+  "Any Symfony component not explicitly mentioned in the above list (e.g. String, Uid, TypeInfo, Lock, etc.)",
+  "Any bridge to third-party services in any component (Mailer, Messenger, Translation, etc.)"
+ ],
+ "misc_components": [
+  "Cache",
+  "Clock",
+  "EventDispatcher",
+  "Filesystem",
+  "Finder",
+  "Event",
+  "Mailer",
+  "Mime",
+  "Process",
+  "PropertyAccess",
+  "Runtime",
+  "Serializer"
+ ],
+ "items": [
+  {
+   "topic_order": 1,
+   "topic": "PHP",
+   "item_order": 1,
+   "item": "PHP API up to PHP 8.4 version"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 1,
+   "item": "Attributes"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 2,
+   "item": "Interfaces"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 3,
+   "item": "Anonymous functions and closures"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 4,
+   "item": "Abstract classes"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 5,
+   "item": "Exception and error handling"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 6,
+   "item": "Traits"
+  },
+  {
+   "topic_order": 2,
+   "topic": "Object Oriented Programming",
+   "item_order": 7,
+   "item": "Enums"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 1,
+   "item": "HTTP Specification (RFC 9110)"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 2,
+   "item": "Status codes"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 3,
+   "item": "HTTP request"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 4,
+   "item": "HTTP response"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 5,
+   "item": "HTTP methods"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 6,
+   "item": "Cookies"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 7,
+   "item": "Caching"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 8,
+   "item": "Content negotiation"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 9,
+   "item": "Language detection"
+  },
+  {
+   "topic_order": 3,
+   "topic": "HTTP",
+   "item_order": 10,
+   "item": "Symfony HttpClient component"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 1,
+   "item": "HttpFoundation component"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 2,
+   "item": "Symfony Flex"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 3,
+   "item": "License"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 4,
+   "item": "Components and Bridges"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 5,
+   "item": "Code organization"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 6,
+   "item": "Request handling"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 7,
+   "item": "Exception handling"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 8,
+   "item": "Event dispatcher and kernel events"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 9,
+   "item": "Official best practices"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 10,
+   "item": "Backward compatibility promise"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 11,
+   "item": "Deprecations best practices"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 12,
+   "item": "Framework overloading"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 13,
+   "item": "Release management and roadmap schedule"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 14,
+   "item": "Framework interoperability and PSRs"
+  },
+  {
+   "topic_order": 4,
+   "topic": "Symfony Architecture",
+   "item_order": 15,
+   "item": "Naming conventions"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 1,
+   "item": "HttpKernel component and FrameworkBundle"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 2,
+   "item": "Naming conventions"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 3,
+   "item": "The base AbstractController class"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 4,
+   "item": "The request"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 5,
+   "item": "The response"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 6,
+   "item": "The cookies"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 7,
+   "item": "The session"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 8,
+   "item": "The flash messages"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 9,
+   "item": "HTTP redirects"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 10,
+   "item": "Internal redirects"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 11,
+   "item": "Generate 404 pages"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 12,
+   "item": "File upload"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 13,
+   "item": "Built-in internal controllers"
+  },
+  {
+   "topic_order": 5,
+   "topic": "Controllers",
+   "item_order": 14,
+   "item": "Argument value resolvers"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 1,
+   "item": "Routing component and FrameworkBundle"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 2,
+   "item": "Configuration (YAML and PHP attributes)"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 3,
+   "item": "Restrict URL parameters"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 4,
+   "item": "Set default values to URL parameters"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 5,
+   "item": "URLs generation"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 6,
+   "item": "Trigger redirects"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 7,
+   "item": "Special internal routing attributes"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 8,
+   "item": "Domain name matching"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 9,
+   "item": "Conditional request matching"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 10,
+   "item": "HTTP methods matching"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 11,
+   "item": "User's locale guessing"
+  },
+  {
+   "topic_order": 6,
+   "topic": "Routing",
+   "item_order": 12,
+   "item": "Router debugging"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 1,
+   "item": "TwigBundle"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 2,
+   "item": "Twig syntax up to 3.22 version"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 3,
+   "item": "Auto escaping"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 4,
+   "item": "Template inheritance"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 5,
+   "item": "Global variables"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 6,
+   "item": "Filters and functions"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 7,
+   "item": "Template includes"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 8,
+   "item": "Loops and conditions"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 9,
+   "item": "URLs generation"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 10,
+   "item": "Controller rendering"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 11,
+   "item": "Translations and pluralization"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 12,
+   "item": "String interpolation"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 13,
+   "item": "Assets management"
+  },
+  {
+   "topic_order": 7,
+   "topic": "Templating with Twig",
+   "item_order": 14,
+   "item": "Debugging variables"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 1,
+   "item": "Form component"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 2,
+   "item": "Forms creation"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 3,
+   "item": "Forms handling"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 4,
+   "item": "Form types (built-in and custom)"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 5,
+   "item": "Forms rendering with Twig"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 6,
+   "item": "Forms theming"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 7,
+   "item": "CSRF protection"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 8,
+   "item": "Handling file upload"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 9,
+   "item": "Built-in form types"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 10,
+   "item": "Data transformers"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 11,
+   "item": "Form events"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 12,
+   "item": "Form type extensions"
+  },
+  {
+   "topic_order": 8,
+   "topic": "Forms",
+   "item_order": 13,
+   "item": "Form options (OptionsResolver component)"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 1,
+   "item": "Validator component"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 2,
+   "item": "PHP object validation"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 3,
+   "item": "Built-in validation constraints"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 4,
+   "item": "Validation scopes"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 5,
+   "item": "Validation groups"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 6,
+   "item": "Group sequence"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 7,
+   "item": "Custom callback validators"
+  },
+  {
+   "topic_order": 9,
+   "topic": "Data Validation",
+   "item_order": 8,
+   "item": "Violations builder"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 1,
+   "item": "Dependency Injection component"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 2,
+   "item": "Service container"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 3,
+   "item": "Built-in services"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 4,
+   "item": "Configuration parameters"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 5,
+   "item": "Services registration (YAML and PHP attributes)"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 6,
+   "item": "Service decoration"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 7,
+   "item": "Tags"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 8,
+   "item": "Semantic configuration"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 9,
+   "item": "Factories"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 10,
+   "item": "Compiler passes"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 11,
+   "item": "Services autowiring"
+  },
+  {
+   "topic_order": 10,
+   "topic": "Dependency Injection",
+   "item_order": 12,
+   "item": "Service locators"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 1,
+   "item": "Security Core, CSRF and PasswordHasher components"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 2,
+   "item": "Authentication"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 3,
+   "item": "Authorization"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 4,
+   "item": "Configuration"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 5,
+   "item": "Providers"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 6,
+   "item": "Firewalls"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 7,
+   "item": "Users"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 8,
+   "item": "Password hashers"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 9,
+   "item": "Roles"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 10,
+   "item": "Access Control Rules"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 11,
+   "item": "Authenticators, Passports and Badges"
+  },
+  {
+   "topic_order": 11,
+   "topic": "Security",
+   "item_order": 12,
+   "item": "Voters and voting strategies"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 1,
+   "item": "Messenger component"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 2,
+   "item": "Transports"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 3,
+   "item": "Messages and handlers"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 4,
+   "item": "Workers"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 5,
+   "item": "Retries and failures"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 6,
+   "item": "Middleware"
+  },
+  {
+   "topic_order": 12,
+   "topic": "Messenger",
+   "item_order": 7,
+   "item": "Events"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 1,
+   "item": "Console component"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 2,
+   "item": "Built-in commands"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 3,
+   "item": "Custom commands"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 4,
+   "item": "Configuration"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 5,
+   "item": "Options and arguments (using PHP attributes)"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 6,
+   "item": "Input and Output objects"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 7,
+   "item": "Built-in helpers"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 8,
+   "item": "Console events"
+  },
+  {
+   "topic_order": 13,
+   "topic": "Console",
+   "item_order": 9,
+   "item": "Verbosity levels"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 1,
+   "item": "Unit tests with PHPUnit"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 2,
+   "item": "Functional tests with PHPUnit"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 3,
+   "item": "Client object"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 4,
+   "item": "Crawler object (CssSelector and DomCrawler components)"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 5,
+   "item": "Profiler object (WebProfiler bundle)"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 6,
+   "item": "Framework objects access"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 7,
+   "item": "Client configuration"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 8,
+   "item": "Request and response objects introspection"
+  },
+  {
+   "topic_order": 14,
+   "topic": "Automated Tests",
+   "item_order": 9,
+   "item": "Handling legacy deprecated code"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 1,
+   "item": "Configuration (including DotEnv and ExpressionLanguage components)"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 2,
+   "item": "Error handling"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 3,
+   "item": "Code debugging"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 4,
+   "item": "Deployment best practices"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 5,
+   "item": "Web Profiler, Web Debug Toolbar and Data collectors"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 6,
+   "item": "Internationalization and localization"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 7,
+   "item": "HTTP Caching (reverse proxies, expiration, validation)"
+  },
+  {
+   "topic_order": 15,
+   "topic": "Miscellaneous",
+   "item_order": 8,
+   "item": "Components:"
+  }
+ ]
+}

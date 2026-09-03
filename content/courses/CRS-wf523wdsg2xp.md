@@ -110,7 +110,9 @@ fichier.
 
 - `dump()` sur `var_dump()` ; `dd()` ajoute l'arrêt.
 - DebugBundle envoie les dumps vers la barre ; `server:dump` vers un serveur.
-- Dépendance de développement — un `dump()` en production est une erreur fatale.
+- Installé en **dépendance de développement** (`composer require --dev`) : en
+  production le composant est absent, et l'appel échoue parce que la fonction
+  n'y existe pas.
 - Les commandes `debug:*` et `router:match` révèlent ce que Symfony a compris.
 
 ## Sources officielles

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CertPath\Validation;
 
 use CertPath\Validation\Rule\AssessmentCoverageRule;
+use CertPath\Validation\Rule\CognitiveLevelRule;
 use CertPath\Validation\Rule\CourseIntegrityRule;
 use CertPath\Validation\Rule\DeadInternalLinkRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
@@ -43,6 +44,7 @@ final class RuleSet
             new AssessmentCoverageRule(),
             new SourceAnchorRule(),
             new QuestionIntegrityRule(),
+            new CognitiveLevelRule(),
             new CourseIntegrityRule(),
             new FlashcardIntegrityRule(),
             new HoldoutIsolationRule(),

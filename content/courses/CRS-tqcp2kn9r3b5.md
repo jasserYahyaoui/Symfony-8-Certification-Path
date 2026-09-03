@@ -49,9 +49,12 @@ Les cibles disponibles : `TARGET_CLASS`, `TARGET_FUNCTION`, `TARGET_METHOD`,
 public function list(): Response { /* ... */ }
 ```
 
-Les arguments suivent les règles d'appel habituelles, y compris les arguments
-nommés. Ils doivent être des **expressions constantes** : pas d'appel de
-fonction, pas de variable.
+Les arguments suivent les règles d'appel habituelles, et les deux syntaxes —
+positionnelle et nommée — sont acceptées. Ce qu'ils peuvent contenir est
+défini positivement : des **valeurs littérales ou des expressions
+constantes**. Sont donc admis un littéral, une constante, une constante de
+classe, un cas d'énumération, et un tableau de ces éléments — mais ni appel
+de fonction ni variable, qui ne sont pas des expressions constantes.
 
 ## Lire
 

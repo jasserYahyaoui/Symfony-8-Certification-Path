@@ -1,18 +1,12 @@
-# Lot 10 — Security flashcards (Master Plan §6).
-#
-# One card per official item: the point fact that re-reading the course does
-# not anchor, and that decides an exam answer.
-
 schema_version: 1
-
 flashcards:
 - id: FLC-pd0dmdcagt1k
   official_item: OIT-942znmbjwvad
   language: fr
-  front: Hacher un mot de passe exige-t-il le systeme de securite complet ?
+  front: Hacher un mot de passe exige-t-il le système de sécurité complet ?
   back: Non. symfony/password-hasher s'installe et s'utilise seul, comme security-csrf.
-  explanation: Les trois paquets sont independants ; security-core ignore meme HTTP.
-  memorization_justification: Le nom « Security » laisse croire a un bloc indivisible.
+  explanation: Les trois paquets sont indépendants ; security-core ignore même HTTP.
+  memorization_justification: Le nom « Security » laisse croire à un bloc indivisible.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -21,9 +15,9 @@ flashcards:
 - id: FLC-y9jp85bpbh2v
   official_item: OIT-z9c24d68et6w
   language: fr
-  front: Ou vit l'utilisateur courant pendant la requete ?
+  front: Où vit l'utilisateur courant pendant la requête ?
   back: Dans le TokenStorage, sous forme de jeton. getUser() n'est qu'un raccourci vers lui.
-  explanation: 'C''est aussi ce que stateless: true empeche de conserver d''une requete a l''autre.'
+  explanation: 'C''est aussi ce que stateless: true empêche de conserver d''une requête à l''autre.'
   memorization_justification: On confond le jeton, l'utilisateur et la session.
   verification_status: VERIFIED
   official_sources:
@@ -33,10 +27,10 @@ flashcards:
 - id: FLC-qtz62rzb36q3
   official_item: OIT-3qgn13f7zvqx
   language: fr
-  front: Un acces refuse produit-il toujours un 403 ?
-  back: Non. 403 si l'utilisateur est connu ; s'il est anonyme, le pare-feu declenche l'entree en authentification.
-  explanation: Le code de statut depend donc de l'authentification, pas de l'autorisation.
-  memorization_justification: L'intuition associe refus et 403 de facon systematique.
+  front: Un accès refusé produit-il toujours un 403 ?
+  back: Non. 403 si l'utilisateur est connu ; s'il est anonyme, le pare-feu déclenche l'entrée en authentification.
+  explanation: Le code de statut dépend donc de l'authentification, pas de l'autorisation.
+  memorization_justification: L'intuition associe refus et 403 de façon systématique.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -45,11 +39,11 @@ flashcards:
 - id: FLC-paer6jdxzr95
   official_item: OIT-xh63g15rz6n3
   language: fr
-  front: Quelles deux sections de security.yaml appliquent la premiere correspondance ?
-  back: 'firewalls et access_control — mais elles decident de deux choses differentes : comment on s''authentifie,
+  front: Quelles deux sections de security.yaml appliquent la première correspondance ?
+  back: 'firewalls et access_control — mais elles décident de deux choses différentes : comment on s''authentifie,
     et ce qu''il faut pour entrer.'
-  explanation: Dans les deux, l'entree sans motif se declare en dernier.
-  memorization_justification: Les deux regles se ressemblent et on les fusionne a tort.
+  explanation: Dans les deux, l'entrée sans motif se déclare en dernier.
+  memorization_justification: Les deux règles se ressemblent et on les fusionne à tort.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -58,10 +52,10 @@ flashcards:
 - id: FLC-zpyvxwvf1x8a
   official_item: OIT-45p7535dk4s2
   language: fr
-  front: Quelle methode du fournisseur s'execute a chaque requete ?
-  back: refreshUser(). loadUserByIdentifier() ne sert qu'a la connexion.
-  explanation: C'est pourquoi un utilisateur supprime en base est deconnecte des la requete suivante.
-  memorization_justification: On croit l'utilisateur conserve tel quel entre deux requetes.
+  front: Quelle méthode du fournisseur s'exécute à chaque requête ?
+  back: refreshUser(). loadUserByIdentifier() ne sert qu'à la connexion.
+  explanation: C'est pourquoi un utilisateur supprimé en base est déconnecté dès la requête suivante.
+  memorization_justification: On croit l'utilisateur conservé tel quel entre deux requêtes.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
@@ -70,9 +64,9 @@ flashcards:
 - id: FLC-9j0hj0sv3c6j
   official_item: OIT-rwa6m06crs1h
   language: fr
-  front: Combien de pare-feux traitent une requete donnee ?
-  back: 'Un seul : le premier dont le pattern correspond. Les suivants ne sont jamais consultes.'
-  explanation: Un pare-feu sans pattern attrape tout et doit donc etre declare en dernier.
+  front: Combien de pare-feux traitent une requête donnée ?
+  back: 'Un seul : le premier dont le pattern correspond. Les suivants ne sont jamais consultés.'
+  explanation: Un pare-feu sans pattern attrape tout et doit donc être déclaré en dernier.
   memorization_justification: On imagine des pare-feux cumulatifs, comme des middlewares.
   verification_status: VERIFIED
   official_sources:
@@ -82,10 +76,10 @@ flashcards:
 - id: FLC-ygn9w70dncp1
   official_item: OIT-gkh08ztwdme1
   language: fr
-  front: Combien de methodes UserInterface declare-t-elle en Symfony 8.0 ?
-  back: 'Deux : getRoles() et getUserIdentifier(). eraseCredentials() a ete retiree.'
-  explanation: Le mot de passe releve de PasswordAuthenticatedUserInterface, pas de UserInterface.
-  memorization_justification: Les versions anterieures en declaraient davantage ; le souvenir est faux
+  front: Combien de méthodes UserInterface déclare-t-elle en Symfony 8.0 ?
+  back: 'Deux : getRoles() et getUserIdentifier(). eraseCredentials() a été retirée.'
+  explanation: Le mot de passe relève de PasswordAuthenticatedUserInterface, pas de UserInterface.
+  memorization_justification: Les versions antérieures en déclaraient davantage ; le souvenir est faux
     pour 8.0.
   verification_status: VERIFIED
   official_sources:
@@ -96,10 +90,10 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   front: Changer algorithm en cours de route casse-t-il les mots de passe existants ?
-  back: 'Non : le hachage stocke porte son propre algorithme. migrate_from accepte l''ancien et reencode
-    a la connexion.'
-  explanation: Le reencodage n'est sauvegarde que si le fournisseur implemente PasswordUpgraderInterface.
-  memorization_justification: La crainte de tout casser fait eviter une migration pourtant transparente.
+  back: 'Non : le hachage stocké porte son propre algorithme. migrate_from accepte l''ancien et réencode
+    à la connexion.'
+  explanation: Le réencodage n'est sauvegardé que si le fournisseur implémente PasswordUpgraderInterface.
+  memorization_justification: La crainte de tout casser fait éviter une migration pourtant transparente.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
@@ -108,11 +102,11 @@ flashcards:
 - id: FLC-dxqgyh6g3w9z
   official_item: OIT-fw6db7ryrk4q
   language: fr
-  front: Quelle est la seule contrainte sur le nom d'un role ?
+  front: Quelle est la seule contrainte sur le nom d'un rôle ?
   back: Il doit commencer par ROLE_. Le reste est libre.
-  explanation: IS_AUTHENTICATED_FULLY et PUBLIC_ACCESS s'emploient comme des roles mais decrivent l'etat
+  explanation: IS_AUTHENTICATED_FULLY et PUBLIC_ACCESS s'emploient comme des rôles mais décrivent l'état
     de l'authentification.
-  memorization_justification: La regle est arbitraire et ne se deduit pas.
+  memorization_justification: La règle est arbitraire et ne se déduit pas.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -121,9 +115,9 @@ flashcards:
 - id: FLC-1vc4j2vszk96
   official_item: OIT-cwfr5t1ngj23
   language: fr
-  front: 'Plusieurs regles access_control correspondent : lesquelles s''appliquent ?'
-  back: Seulement la premiere. Les suivantes sont ignorees, meme si elles correspondent aussi.
-  explanation: 'D''ou l''ordre a respecter : du plus specifique au plus general.'
+  front: 'Plusieurs règles access_control correspondent : lesquelles s''appliquent ?'
+  back: Seulement la première. Les suivantes sont ignorées, même si elles correspondent aussi.
+  explanation: 'D''où l''ordre à respecter : du plus spécifique au plus général.'
   memorization_justification: On attend un cumul des contraintes, qui n'a pas lieu.
   verification_status: VERIFIED
   official_sources:
@@ -133,11 +127,11 @@ flashcards:
 - id: FLC-kmf16st6cbrg
   official_item: OIT-kqm5mxq4jnkj
   language: fr
-  front: 'Un votant accorde, un autre refuse : quelle est la decision ?'
-  back: 'Avec affirmative, la strategie par defaut : accorde. Avec unanimous : refuse.'
-  explanation: 'unanimous signifie « aucun refus », pas « tous accordent » : les abstentions n''empechent
+  front: 'Un votant accorde, un autre refuse : quelle est la décision ?'
+  back: 'Avec affirmative, la stratégie par défaut : accorde. Avec unanimous : refuse.'
+  explanation: 'unanimous signifie « aucun refus », pas « tous accordent » : les abstentions n''empêchent
     rien.'
-  memorization_justification: 'Le defaut affirmative surprend : un seul accord suffit malgre un refus.'
+  memorization_justification: 'Le défaut affirmative surprend : un seul accord suffit malgré un refus.'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
