@@ -28,17 +28,39 @@ cleared every blocker that stood in front of Lot 27:
 
 **Audit Priority 2 is closed.** P2.2, P2.3, P2.4, P2.6, P2.7 were fixed on
 2026-09-03; P2.1 requires no work; P2.5 passes with one obligation carried to
-Lot 27 (the §5 glossary); P2.8 is done for the flashcards, with its matrix half
+Lot 27 unit 1, now delivered; P2.8 is done for the flashcards, with its matrix half
 re-scoped as issue **FR-2**.
 
 **Lot 27 is UNBLOCKED.** Two items travel with it rather than blocking it: the
-missing §5 glossary, and **FR-2**. Neither is a §22 clause — see
+§5 glossary — **delivered 2026-09-03 as Lot 27 unit 1** — and **FR-2**, now
+reclassified `REQUIRED_BEFORE_FINAL_READINESS` rather than optional, to be done
+as one atomic job: a partial pass would destroy the uniform
+zero-accented-character signal that locates the affected strings. Neither is a
+§22 clause — see
 [`docs/policy/final-readiness.md`](docs/policy/final-readiness.md), which
 assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `7456e20` — the squashed corrections PR #44, **delivered in full**:
+`master`, at `5d8a4f8` — **Lot 27 unit 1 (the §5 glossary) delivered in full**:
+PR #46, Technical gate `100587591300` success on `1a6716c`, merged, deploy run
+`33737464109` with build `100591307991`, deploy `100591639720` and production
+smoke test `100591698010`, all success.
+
+The smoke log was read, not assumed. Eleven URLs at 200 including the new
+`/docs/syllabus/glossary`, and the **new** holdout check ran in production for
+the first time:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+checked against 27 holdout questions and 108 holdout choices
+```
+
+That is the first time holdout isolation has been proved against the deployed
+bytes rather than against the payload's own `pool` label.
+
+Before it, `7456e20` — the squashed corrections PR #44, **delivered in full**:
 Technical gate `100542490813` success on head `46b0df4`, merged, deploy run
 `33722133013` with build `100543284846`, deploy `100543519869` and production
 smoke test `100543569797`, all success. The smoke-test log was read rather than
@@ -94,6 +116,8 @@ Verified, with real identifiers:
 | 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
 | Pre-Lot-27 gate (PR #43) | `c4cfebc` | `100527192838` | `33719653086` | — |
 | Corrections G-1 to G-4 (PR #44) | `7456e20` | `100542490813` | `33722133013` | `100543569797` |
+| CONTEXT delivery evidence (PR #45) | `90f990e` | `100580157989` | `33734587613` | `100582461633` |
+| Lot 27 unit 1 — §5 glossary (PR #46) | `5d8a4f8` | `100587591300` | `33737464109` | `100591698010` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -188,7 +212,7 @@ for evidence anchoring; toolchain verified.
    | P2.2 | rewrite the backward-compatibility HOLDOUT stem, 0.88 similar to its VALIDATION counterpart | **PASS — fixed.** Measured at exactly 0.88. `QST-0jd9nbbaqczb` rewritten around the security-fix tolerance, a facet the course teaches and nothing else assessed. Similarity now **0.22**. |
    | P2.3 | the `dump()`-in-prod error kind | **PASS — fixed.** The course called it "une erreur fatale"; its cited source, `components/var_dumper.rst`, says nothing about production. The sourced half (dev dependency, `composer require --dev`) is kept and the unsourced error-kind claim is replaced by what the source supports. |
    | P2.4 | the positive constant-expression list in *Attributes* | **PASS — fixed.** `php/doc-en` states it positively: *"Arguments can only be literal values or constant expressions."* The course stated only the negative; it now gives the positive list first. |
-   | P2.5 | question-language policy plus small FR→EN terminology blocks | **PARTIAL — policy written, one gap open.** The restored §5 settles it: French is *permitted*. Measured against §5 — advanced (`hard`) questions **201/202 = 99.5%** English (threshold 50%), `VALIDATION` **135/135**, `HOLDOUT` **27/27**, and all 21 French questions are `LEARNING`, which §5 allows. No translation is required or permitted. The policy is now written: [`docs/policy/language-policy.md`](docs/policy/language-policy.md). **Open:** §5's *French-to-English certification glossary* does not exist — carried to Lot 27's English readiness audit. |
+   | P2.5 | question-language policy plus small FR→EN terminology blocks | **PARTIAL — policy written, one gap open.** The restored §5 settles it: French is *permitted*. Measured against §5 — advanced (`hard`) questions **201/202 = 99.5%** English (threshold 50%), `VALIDATION` **135/135**, `HOLDOUT` **27/27**, and all 21 French questions are `LEARNING`, which §5 allows. No translation is required or permitted. The policy is now written: [`docs/policy/language-policy.md`](docs/policy/language-policy.md). **Closed 2026-09-03** — §5's *French-to-English certification glossary* now exists: 81 entries in `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary`, delivered as Lot 27 unit 1 (PR #46). **P2.5 is fully closed.** |
    | P2.6 | de-duplicate the upgrade paragraph between *Release management* and *Deprecations* | **PASS — already resolved.** Verified: the two courses now share no prose line over 45 characters, and `UPGRADE`/`CHANGELOG` appears 4 times in *Deprecations* and 0 in *Release management*. Closed incidentally by the Lot 13 `CRS-001` rewrite. |
    | P2.7 | normalise 14 `cognitive_level` values | **PASS — fixed, and larger than recorded.** Measured **39**, not 14. In 38 of them the field simply duplicated `exam_skill`. Root cause: `cognitive_level` was an unconstrained `string` that no rule inspected. All 39 reassigned; rule **`COG-001`** added so it cannot recur. |
    | P2.8 | restore accents on the flashcards of lots 07–11 and the matrix justifications of that period (FR-1) | **PARTIAL — flashcards fixed; matrix half re-scoped and open.** *Flashcards:* the five banks of lots 07–11 are repaired — **157 prose fields** across 47 cards, 0 non-prose fields touched, accented-character counts now 51–109 against 58–130 for the always-clean banks. *Matrix:* the recorded scope was wrong. The defect is **lots 01–11**, not "that period": all eleven carry **zero** accented characters in `content_level_justification` and `learning_outcomes`, and lot 12 onward is clean (59, 55, 23, 14, …). See issue **FR-2**. |
@@ -378,9 +402,13 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Begin Lot 27 — final review and mock exams.** The pre-Lot-27 gate and both
-its delivery PRs are closed with real evidence, so nothing blocks it. Its scope
-is
+**Run the question-bank audit — Lot 27 unit 2.** Unit 1 (the §5 glossary) is
+delivered; the audit covers answer correctness, ambiguity, distractors,
+duplicates and near-duplicates, mappings, languages, estimated times and pool
+isolation across the 496 questions. Read-only first: propose corrections before
+applying any.
+
+Lot 27's full scope
 fixed by §14: independent syllabus audit; version-contamination audit; source
 and anchor audit; content-volume and duplication audit; question-bank audit;
 holdout integrity audit; English readiness audit; mock exams; technical,
@@ -396,10 +424,12 @@ Three things must travel with it and must not be quietly dropped:
    import matches the official source. The independent syllabus audit needs a
    human-supplied copy of the official syllabus to be worth anything. **Ask for
    it before running that audit, not after.**
-3. **The §5 glossary does not exist** and the English readiness audit is where
-   it is written, once the terms that need glossing are known.
+3. **The §5 glossary exists** since 2026-09-03 (Lot 27 unit 1): 81 entries,
+   rendered and smoke-tested. The English readiness audit now checks it rather
+   than writing it.
 
-**FR-2** — the matrix accents for lots 01–11 — is open, is not a §22 clause,
+**FR-2** — the matrix accents for lots 01–11 — is open,
+`REQUIRED_BEFORE_FINAL_READINESS`, is not a §22 clause,
 and is not Lot 27's business. Schedule it as its own job, and do it completely
 or not at all: see the issue row for why a partial pass is worse than none.
 
