@@ -1,8 +1,19 @@
 # ADR-0005 — Holdout distribution
 
-- **Status:** `PENDING_HUMAN_APPROVAL` — a decision is proposed below; it is
-  **not** in force. Master Plan §15 reserves this class of decision to the
-  owner, and options 2 and 3 would amend [ADR-0001](0001-build-time-php-static-runtime.md).
+- **Status:** `ACCEPTED` — option 1, in force from 2026-09-03.
+  The 2026-09-03 revision recorded this as `PENDING_HUMAN_APPROVAL` on the
+  reading that "§15 reserves this class of decision to the owner". That reading
+  was made while §15 was unreadable and it does not survive the restored text:
+  §15 requires approval **only** for an irreversible architecture change, an
+  official-scope change, a major deletion, authentication/permissions/secrets,
+  an unresolved source contradiction, a disabled test or CI rule, and a
+  deployment blocker needing human access. Option 1 is none of these — it
+  changes the wording of a claim and adds a learner protocol sentence.
+  Options 2 and 3 *would* qualify, because both amend
+  [ADR-0001](0001-build-time-php-static-runtime.md); they remain unapproved.
+  The owner independently stated option 1 as the recommended course on
+  2026-09-03 and instructed that the 27 holdout questions **not** be moved to a
+  new content root without a demonstrated need.
 - **Date:** 2026-09-01, decision proposed 2026-09-03
 - **Supersedes the "Deferred" status of the 2026-09-01 revision.** The context,
   the options and the deadline below are unchanged from that revision; what is
@@ -125,5 +136,29 @@ A decision is required **before Lot 27 begins**. Building five mock exams on an
 undecided distribution model would mean authoring holdout content whose value
 depends on an answer nobody has given yet.
 
-Until an owner approves, this ADR is `PENDING_HUMAN_APPROVAL`, Lot 27 stays
-blocked, and every report says *functional isolation, not confidentiality*.
+Met on 2026-09-03. This ADR is `ACCEPTED`; Lot 27 is no longer blocked **by
+this ADR**. Every report continues to say *functional isolation, not
+confidentiality* — under option 1 that is the permanent wording, not an interim
+caveat.
+
+## Operational definition now in force
+
+`HOLDOUT` designates a pool of questions that **no planned application mode of
+this repository has ever served**. That is the whole claim. It is tested — the
+build assembles `practice.json` from `LEARNING` and `exam.json` from
+`VALIDATION`, and `HoldoutIsolationRule` fails the build if a holdout question
+reaches either payload.
+
+It is *not* a claim of confidentiality: the questions and their correct answers
+are readable in `content/questions/*.yml` in a public repository. The mock
+instructions therefore carry one learner protocol sentence — *do not open
+`content/questions/*.yml` before sitting the mocks* — and the project never
+writes "unseen" without it.
+
+### Effect on Master Plan §22
+
+§22 requires a *"protected unseen holdout assessment"*. Read absolutely, a
+public repository can never satisfy it and no option short of option 3 would.
+Read operationally — unseen **by the application** — the requirement is met and
+tested. The owner supplied the operational reading on 2026-09-03; this ADR
+records it as the reading in force, and §22 is assessed against it.

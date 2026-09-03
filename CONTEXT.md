@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-02
+**Last updated:** 2026-09-03
 
 ---
 
@@ -14,12 +14,27 @@ two items.
 Level distribution across the 163 items, stated as an **observation and never
 a target**: 124 STANDARD, 28 MINIMAL, 11 DEEP.
 
-**What remains is not content.** Lot 27 — final review and mock exams —
-**cannot begin** until the owner settles ADR-0005 (holdout distribution),
-because the mocks draw on precisely that pool. Audit items P2.1–P2.8 are due
-before the mocks. See *Blocked decisions*.
+**What remains is not content.** The pre-Lot-27 decision gate of 2026-09-03
+cleared every blocker that stood in front of Lot 27:
 
-Audit **Priority 2 (P2.1–P2.8) remains open and is due before the mock exams**.
+- **ADR-0005 is `ACCEPTED`** (option 1). The restored §15 requires approval
+  *only* for seven enumerated categories and option 1 is none of them; the
+  owner independently named it as the recommended course. Options 2 and 3 stay
+  unapproved — both amend ADR-0001.
+- **P2.1 closed `NOT_REQUIRED`** on §4.3; **P2.5** measured `PASS` against §5
+  with the policy now written; **P2.8** executed for the flashcards.
+- **DOC-2 resolved** — §22, §15, §5 and §4.3 read verbatim and quoted into
+  `docs/policy/`.
+
+**Audit Priority 2 is closed.** P2.2, P2.3, P2.4, P2.6, P2.7 were fixed on
+2026-09-03; P2.1 requires no work; P2.5 passes with one obligation carried to
+Lot 27 (the §5 glossary); P2.8 is done for the flashcards, with its matrix half
+re-scoped as issue **FR-2**.
+
+**Lot 27 is UNBLOCKED.** Two items travel with it rather than blocking it: the
+missing §5 glossary, and **FR-2**. Neither is a §22 clause — see
+[`docs/policy/final-readiness.md`](docs/policy/final-readiness.md), which
+assesses all nine clauses against measured state.
 
 ## Current branch
 
@@ -139,31 +154,35 @@ for evidence anchoring; toolchain verified.
 
    | | Criterion as recorded | Audited result |
    |---|---|---|
-   | P2.1 | standard `Pièges d'examen` section wherever a trap exists in prose (~50 courses) | **FAIL — not executed.** Measured: 93 courses carry the standard section, **20** carry a trap under a non-standard heading or in prose, 50 carry none. The estimate of ~50 was high; the real scope is 20. Not executed because the treatment is undecided — see below. |
+   | P2.1 | standard `Pièges d'examen` section wherever a trap exists in prose (~50 courses) | **CLOSED — NOT_REQUIRED.** Re-measured against the restored §4.3: 93 verbatim, **8** under a descriptive heading, 62 with none. §4.3 says *"Use only relevant sections, **not a mandatory empty template**"*, so all three groups are compliant and the audit item's premise does not hold. Recorded in [`docs/policy/course-structure.md`](docs/policy/course-structure.md). |
    | P2.2 | rewrite the backward-compatibility HOLDOUT stem, 0.88 similar to its VALIDATION counterpart | **PASS — fixed.** Measured at exactly 0.88. `QST-0jd9nbbaqczb` rewritten around the security-fix tolerance, a facet the course teaches and nothing else assessed. Similarity now **0.22**. |
    | P2.3 | the `dump()`-in-prod error kind | **PASS — fixed.** The course called it "une erreur fatale"; its cited source, `components/var_dumper.rst`, says nothing about production. The sourced half (dev dependency, `composer require --dev`) is kept and the unsourced error-kind claim is replaced by what the source supports. |
    | P2.4 | the positive constant-expression list in *Attributes* | **PASS — fixed.** `php/doc-en` states it positively: *"Arguments can only be literal values or constant expressions."* The course stated only the negative; it now gives the positive list first. |
-   | P2.5 | question-language policy plus small FR→EN terminology blocks | **FAIL — not executed.** Measured: **21** of 496 questions are French (lots 02, 03, 05). The policy itself does not exist yet, and writing one is a decision, not a correction. |
+   | P2.5 | question-language policy plus small FR→EN terminology blocks | **PARTIAL — policy written, one gap open.** The restored §5 settles it: French is *permitted*. Measured against §5 — advanced (`hard`) questions **201/202 = 99.5%** English (threshold 50%), `VALIDATION` **135/135**, `HOLDOUT` **27/27**, and all 21 French questions are `LEARNING`, which §5 allows. No translation is required or permitted. The policy is now written: [`docs/policy/language-policy.md`](docs/policy/language-policy.md). **Open:** §5's *French-to-English certification glossary* does not exist — carried to Lot 27's English readiness audit. |
    | P2.6 | de-duplicate the upgrade paragraph between *Release management* and *Deprecations* | **PASS — already resolved.** Verified: the two courses now share no prose line over 45 characters, and `UPGRADE`/`CHANGELOG` appears 4 times in *Deprecations* and 0 in *Release management*. Closed incidentally by the Lot 13 `CRS-001` rewrite. |
    | P2.7 | normalise 14 `cognitive_level` values | **PASS — fixed, and larger than recorded.** Measured **39**, not 14. In 38 of them the field simply duplicated `exam_skill`. Root cause: `cognitive_level` was an unconstrained `string` that no rule inspected. All 39 reassigned; rule **`COG-001`** added so it cannot recur. |
-   | P2.8 | restore accents on the flashcards of lots 07–11 and the matrix justifications of that period (FR-1) | **FAIL — not executed.** Confirmed by line count: lots 01–06 carry 36–58 accented lines each, lots **07–11** carry 1–5, lots 12+ recovered (33, 35, 11, 9, …). Five banks affected. Not mechanical: each sentence must be read to be re-accented. |
+   | P2.8 | restore accents on the flashcards of lots 07–11 and the matrix justifications of that period (FR-1) | **PARTIAL — flashcards fixed; matrix half re-scoped and open.** *Flashcards:* the five banks of lots 07–11 are repaired — **157 prose fields** across 47 cards, 0 non-prose fields touched, accented-character counts now 51–109 against 58–130 for the always-clean banks. *Matrix:* the recorded scope was wrong. The defect is **lots 01–11**, not "that period": all eleven carry **zero** accented characters in `content_level_justification` and `learning_outcomes`, and lot 12 onward is clean (59, 55, 23, 14, …). See issue **FR-2**. |
 
-   **Why P2.1, P2.5 and P2.8 were not executed.** Each needs a decision that is
-   not mine to take, or a manual pass that should be scheduled rather than
-   slipped into an audit:
+   **What the restored Master Plan changed.** P2.1, P2.5 and P2.8 were held on
+   2026-09-03 for want of a decision. Two of the three needed no decision at
+   all — they needed the plan text, which was unreadable at the time:
 
-   - **P2.1** — the 20 courses carry their traps *mid-course* under headings like
-     *Le piège des arguments nommés*. Renaming those to `Pièges d'examen` would
-     put a summary heading in the middle of a course; adding a real summary
-     section instead is **growth**, and the criterion says *reorganisation only,
-     growth < 2%*. The two treatments differ in cost and in effect on rapid
-     review. The owner should pick one.
-   - **P2.5** — there is no written language policy to conform to. The courses
-     are French by design and the questions are English by practice; 21 early
-     questions were never converted. Translating a scored question changes what
-     it assesses, so the policy must be written and approved first.
-   - **P2.8** — five flashcard banks, re-accented by reading each sentence. Real
-     work, bounded, and safe to schedule; it changes no assessed fact.
+   - **P2.1 — the premise was wrong.** §4.3 introduces the section list with
+     *"Use only relevant sections, not a mandatory empty template"*. Adding a
+     `Pièges d'examen` heading to a course with no trap is the empty template
+     §4.3 forbids, and renaming the 8 descriptive headings is cosmetic churn
+     that §1.4's net-value gate rejects. Closed, no content changed.
+   - **P2.5 — §5 permits French.** The audit item assumed a policy would
+     require converting the 21 French questions. §5 says the opposite:
+     *"beginner practice may be in French"*, with thresholds that bind only
+     advanced questions and Mocks 3–4 — all of which this corpus already
+     exceeds. The policy is written; the only real §5 gap is the missing
+     glossary.
+   - **P2.8 — executed for the flashcards, re-scoped for the matrix.** The
+     flashcard half was recorded accurately and is done. The matrix half was
+     not: the defect covers lots 01–11, not lots 07–11, and it reaches rendered
+     pages (`DocsGenerator` emits both fields onto every item page). Tracked as
+     **FR-2** rather than folded into a decision gate.
 
 ## Atomic items affected
 
@@ -269,12 +288,13 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | CRS-4 | `CRS-001` fired once in Lot 10: the correct answer of `QST-qzmh0dtgpccg` named `PasswordAuthenticatedUserInterface`, which the *Users* course also names. | — | **Resolved** — the **question** was rewritten to ask which method Symfony 8.0 removed from `UserInterface`, which tests the version-sensitive fact instead of an interface name. No course touched, nothing fenced |
 | SCOPE-1 | Two Lot 11 questions were rejected by `SCOPE-001`: one used `doctrine://default` as a distractor and one asked why a **Doctrine entity** should not travel in a message. Doctrine is an excluded topic (§1.5), so neither may be the subject of a scored question. | Medium | **Resolved** — the distractor was replaced by a generic queue-backed transport, and the question was rewritten to ask why a message carries an **identifier rather than the loaded object**, which teaches the same serialisation fact without leaving the exam scope. The rule caught a scope drift I had not noticed while writing |
 | CNT-2 | The Lot 11 *Events* course first claimed **seven** Messenger events. The documented list has **ten** — my own grep pattern had missed `MessageSentToTransportsEvent`, `WorkerMessageRetriedEvent` and `WorkerRateLimitedEvent`. | Medium | **Resolved before commit** — corrected by reading the source list rather than trusting my filter, and the course now teaches the *shape* of the catalogue rather than the bare count. Fifth count error of the session; the DRAFT-1 rule held, but only because the check was actually performed |
-| FR-1 | French accents are missing throughout the flashcard banks of lots **07 to 11** (`traite` for `traité`, `resultat` for `résultat`, `facon` for `façon`) and throughout the matrix `content_level_justification` and `learning_outcomes` written over the same period. A line count confirms it: lots 01–06 carry 36 to 58 accented lines each, lots 07–11 carry 1 to 5. The cause is my own generator scripts, which were written in unaccented French to sidestep encoding trouble. No automated rule detects it, and no gate fails. | Medium | **Open — folded into audit item P2.8, whose scope this widens.** Lot 12 was generated with accents throughout (`allow_unicode=True`, accented source strings) and is not affected. Repairing lots 07–11 is not mechanical: each sentence has to be read to re-accent it correctly, so it is scheduled with P2 rather than done in passing. Lesson: a generator script is content, and shortcuts taken inside it reach the learner |
+| FR-1 | French accents are missing throughout the flashcard banks of lots **07 to 11** (`traite` for `traité`, `resultat` for `résultat`, `facon` for `façon`) and throughout the matrix `content_level_justification` and `learning_outcomes` written over the same period. A line count confirms it: lots 01–06 carry 36 to 58 accented lines each, lots 07–11 carry 1 to 5. The cause is my own generator scripts, which were written in unaccented French to sidestep encoding trouble. No automated rule detects it, and no gate fails. | Medium | **Flashcard half resolved 2026-09-03; matrix half re-scoped as FR-2.** The five banks of lots 07–11 are repaired: 157 prose fields across 47 cards, 0 non-prose fields changed, accented-character counts now 51–109 against 58–130 for the always-clean banks; 18 rules and 85 tests green afterwards. Method: a context-free accent table applied by script (no judgement, backticked code spans excluded), then 97 context-sensitive occurrences (`a`/`à`, `ou`/`où`, participles) corrected one at a time by reading them, each guarded by an assertion before and after. That pass also caught **one over-correction the table itself introduced** — `oriente` is the present-tense verb and carries no accent — which is the reason the table is deliberately restricted to forms that are accented in every French sentence. Lesson: a generator script is content, and shortcuts taken inside it reach the learner |
+| FR-2 | The matrix half of FR-1 was **mis-scoped**. `content_level_justification` and `learning_outcomes` carry **zero** accented characters for **lots 01 to 11** — not lots 07–11 — and lot 12 onward is clean (59, 55, 23, 14, 5, 10, 7, 7, 17, 27, 34, 24, 23, 23, 26). Measured scope: **126 items, 608 strings**; a probe of 46 common words finds 206 occurrences in 88 items, and the true count is higher because the probe is not exhaustive. Both fields are rendered onto every item page by `DocsGenerator` (lines 394 and 399), so this reaches the learner on 126 of 163 pages. | Medium | **Open, deliberately not executed in the decision gate.** Repairing it is the same job just done for the flashcards at roughly 13× the volume: ~386 occurrences fall to the context-free table, leaving ~280 candidate context-sensitive occurrences to read individually. It was **not** done as a partial pass, and that is the considered choice rather than the convenient one: the defect is detectable today only because the accented-character count is uniformly **zero** across lots 01–11, and a partial pass would destroy that signal while leaving errors behind, with no cheap way to find the remainder. It is done completely, as one scheduled job, or not at all. No gate detects it and none fails. |
 | CRS-5 | `CRS-001` fired twice on Lot 13, and both were content faults rather than rule noise. (a) The *Handling legacy deprecated code* course restated nearly all of *Deprecations best practices* (lot-03) — the two markers, the mineure/majeure calendar, the CHANGELOG and UPGRADE trace — and so reproduced that item's correct answer. (b) The *Request and response objects introspection* course used `$response->getStatusCode()`, which is the correct answer to a lot-02 HttpClient question. | Medium | **Resolved** — (a) the course was rewritten around what its item actually owns (a silenced `E_USER_DEPRECATED` notice: nothing fails, nothing prints, it exists only if an error handler collects it), with the lot-03 boundary stated on the page; its flashcard and its two LEARNING questions were realigned so nothing is asked that the course no longer teaches. (b) the example now shows headers and content. Neither was fixed by rewriting a validated question or by fencing. The rule caught duplication that the §1.4 value gate should have caught first |
 | SPLICE-1 | The matrix splicer hard-coded the default `exclusion_boundaries` line. Three Lot 13 items carry `"PHPUnit Bridge is not included."` instead, so the splice would have silently replaced the syllabus's own scope note with the default text. | High | **Resolved before any data was lost** — the script's own guard refused to run rather than writing a near-match. It now matches that line with a regex and writes it back unchanged. Lesson: a splicer that assumes a constant template will corrupt the first record that differs, and only an assertion makes that visible |
 | SPLICE-2 | The Lot 22 matrix splice wrote the level and outcomes but not the tails, and my fallback positional patch — whose **own guard was faulty** — then wrote **Mailer's** references into the **Serializer** item and **Mime's** into the **Runtime** item, in addition to the correct ones. Ten references ended up claimed by two items each. | High | **Resolved in Lot 25.** No gate caught it: `REF-001` checked that references *resolve*, never that they *belong*, and both wrongly credited items were `NOT_STARTED`, which no readiness rule inspects. The corruption reached `master` in Lot 22 and survived lots 23 and 24; it surfaced only because Lot 25 tried to splice Runtime and found the slot occupied. A full audit of every course, flashcard and question reference found exactly those ten duplicates and no others. `REF-001` now reports a reference claimed by two items **and** a reference whose content declares a different owning item — the sharper invariant, since content records its own item — pinned by two regression tests confirmed to fail against the previous rule. Lesson, and the second of its kind after SPLICE-1: **an assertion that is itself wrong protects nothing**, and a positional patch must be verified against the block it claims to have edited, not against its own success message. |
 | COG-1 | `cognitive_level` was declared as a bare `string` that **no rule inspected**, so 39 questions written before the taxonomy settled carried an *exam skill* value in the *level* field — `DIAGNOSE` (30), `DISTINGUISH` (8), `RECOGNIZE` (1). In 38 of the 39 the two fields held the same word. Every gate passed for the whole life of the project. | Medium | **Resolved 2026-09-03** — rule `COG-001` constrains the field to `KNOW`, `UNDERSTAND`, `APPLY`; it reported exactly 39 before the fix, matching the audit count independently. All 39 reassigned under a stated mapping (symptom scenario → `APPLY`; contrast or multi-statement → `UNDERSTAND`; single recalled fact → `KNOW`), and a regression test pins the historical shape. Third instance of the same class after SPLICE-1 and SPLICE-2: **an invariant nothing checks is not an invariant.** |
-| DOC-2 | The Master Plan (`SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md`) is **not in the repository** — a filesystem-wide search finds no copy. §15 and §22 are therefore cited throughout but cannot be read verbatim from any artefact here. §15's triggers survive as an enumeration in `CLAUDE.md`; §22 survives only as the seven-word fragment *"protected unseen holdout assessment"* quoted inside ADR-0005. | Medium | **Open.** Recorded during the pre-Lot-27 audit, which was asked to read §22 word for word and could not. Nothing was inferred from the section number. Resolving it means placing the plan, or the two sections, inside the repository. |
+| DOC-2 | The Master Plan (`SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md`) is **not in the repository** — a filesystem-wide search finds no copy. §15 and §22 are therefore cited throughout but cannot be read verbatim from any artefact here. §15's triggers survive as an enumeration in `CLAUDE.md`; §22 survives only as the seven-word fragment *"protected unseen holdout assessment"* quoted inside ADR-0005. | Medium | **Resolved 2026-09-03** — the owner supplied the Master Plan and §15, §22, §5 and §4.3 were read verbatim. The consequences were not cosmetic: §22 is now quoted in full in [`docs/policy/final-readiness.md`](docs/policy/final-readiness.md) and assessed clause by clause; §15's approval list turns out to be **exhaustive** (*"Human approval is required **only** for…"*), which is narrower than the reading ADR-0005 had been held under; §4.3 and §5 respectively closed audit items P2.1 and P2.5 without a line of content changing. Lesson: three findings were held pending a human decision that the plan text had already made — an unreadable specification manufactures blockers. The plan is still not committed to the repository; the four sections that govern day-to-day work are now quoted verbatim inside `docs/policy/`. |
 | API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. Lot 25 added a new shape: the *filtered* run listings (by `status`, or by `status` plus `actor`) reported no deploy at all for `130f7e8` while the **unfiltered** listing already showed it completed and successful, so a filter can hide a run that exists rather than merely delay its status. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
 
 ## Tests executed and actual results
@@ -328,30 +348,36 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Approve or reject the decision now proposed in
-[ADR-0005](docs/adr/0005-holdout-distribution-deferred.md).** Its status is
-`PENDING_HUMAN_APPROVAL`: option 1 — *accept and relabel*, dropping the word
-*unseen* and adding a one-line learner protocol — is proposed, with option 2
-kept as the documented upgrade path and the reason for not taking it now
-written down. §15 reserves this to the owner. **Lot 27 stays blocked until it
-is answered.**
+**Begin Lot 27 — final review and mock exams.** Nothing blocks it. Its scope is
+fixed by §14: independent syllabus audit; version-contamination audit; source
+and anchor audit; content-volume and duplication audit; question-bank audit;
+holdout integrity audit; English readiness audit; mock exams; technical,
+accessibility and production audit; final rationality and readiness assessment.
 
-Then decide the three audit items the audit deliberately did not execute:
-**P2.1** (which of two treatments for 20 courses), **P2.5** (write the question
-language policy before converting 21 French questions), **P2.8** (schedule the
-manual re-accenting of five flashcard banks). See *Remaining work* item 7.
+Three things must travel with it and must not be quietly dropped:
 
-**DOC-2** should also be settled: the Master Plan is not in the repository, so
-§15 and §22 cannot be read verbatim from any artefact here.
+1. **The §22 assessment is a conjunction, not a score.** Close Lot 27 against
+   [`docs/policy/final-readiness.md`](docs/policy/final-readiness.md) clause by
+   clause. §22's own last line forbids a good figure compensating for a blocker.
+2. **Clause 2 cannot be self-certified.** Coverage is 100% against the
+   *imported* syllabus, and blocker **B-1** means nothing here can prove the
+   import matches the official source. The independent syllabus audit needs a
+   human-supplied copy of the official syllabus to be worth anything. **Ask for
+   it before running that audit, not after.**
+3. **The §5 glossary does not exist** and the English readiness audit is where
+   it is written, once the terms that need glossing are known.
+
+**FR-2** — the matrix accents for lots 01–11 — is open, is not a §22 clause,
+and is not Lot 27's business. Schedule it as its own job, and do it completely
+or not at all: see the issue row for why a partial pass is worse than none.
+
+Mock 4 is 75 questions, 90 minutes, 100% English, drawn from the holdout pool
+(§10). The pool holds exactly **27** questions across 27 items, none with more
+than one, and ADR-0005 forbids redistributing it without a demonstrated need —
+so how 75 slots are filled from 27 questions is Lot 27's first real design
+question, and it must be answered before any mock is authored.
 
 No content work remains.
-
-Then, one lot at a time: **22 Mailer + Mime** (syllabus note: bridges to
-third-party services excluded), **23 Process**, **24 PropertyAccess**,
-**25 Runtime**, **26 Serializer** (bridges excluded), then **Lot 27** — final
-review and mock exams.
-
-**Six items remain**, all in the Miscellaneous topic.
 
 **Boundaries in force:** lot-02 owns HTTP protocol headers, lot-17 the Symfony
 reverse proxy, lot-18 the Cache component; lot-03 owns the HTTP kernel events
