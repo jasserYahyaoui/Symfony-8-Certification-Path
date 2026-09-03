@@ -305,6 +305,39 @@ final class ValidationRuleTest extends TestCase
     }
 
     /**
+     * The blind spot the pre-Lot-27 syllabus audit found: the haystack was
+     * built from the stem, the question explanation and the choice *texts*,
+     * so an excluded term sitting in a distractor's own explanation was
+     * invisible to the rule. §7.1 makes that field mandatory, and the learner
+     * reads it, so it is scored content like any other.
+     *
+     * This test fails against the pre-fix rule.
+     */
+    public function testExcludedTermInAChoiceExplanationIsDetected(): void
+    {
+        $item = ItemFactory::make();
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'question' => 'Which import is correct?',
+                'choices' => [
+                    new Choice(Id::mint(EntityType::Choice), 'The correct one', true),
+                    new Choice(
+                        Id::mint(EntityType::Choice),
+                        'A plausible distractor',
+                        false,
+                        'That namespace dates from the Doctrine annotations era.',
+                    ),
+                ],
+            ])],
+            excludedTerms: ['doctrine'],
+        );
+
+        self::assertViolates(new OutOfScopeContaminationRule(), $content, 'SCOPE-001');
+    }
+
+    /**
      * §1.5 permits an excluded term inside a labelled exclusion explanation.
      */
     public function testExcludedTopicIsAllowedWhenTaggedAsAnExclusionNote(): void
