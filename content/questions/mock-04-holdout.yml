@@ -1,0 +1,532 @@
+# Mock 4 holdout bank — batch 1 of the 48 questions required by
+# docs/mocks/mock-4-blueprint.yml (Master Plan §10, ADR-0005 Option A).
+#
+# Topic Miscellaneous: 9 questions, one per atomic official item, none of which
+# carried a holdout question before. Pool HOLDOUT throughout, so none of these
+# reaches practice.json or exam.json (rule HOLDOUT-001).
+#
+# Each facet was chosen against the LEARNING and VALIDATION questions already
+# written for the same item, so no question here restates one of those with new
+# values or new names. Every fact is anchored to a Symfony 8.0 source file read
+# at the line range cited, not to a rendered documentation page.
+#
+# Every distractor carries an explanation (§7.2).
+
+schema_version: 1
+questions:
+- id: QST-qbg1gkh7f4re
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  subtopic: expression-language
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A configuration expression is executed on every request. What does `ExpressionLanguage::compile()` return, and
+    how does its work differ from `evaluate()`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - expression-language
+  - performance
+  choices:
+  - id: CHO-6f78sk3eev3d
+    text: It returns the expression converted to PHP code as a string; both methods tokenize and parse first, but only `evaluate()`
+      then walks the parsed nodes, which is the larger overhead
+    correct: true
+  - id: CHO-7wvp0v81p2xx
+    text: It returns the value of the expression, already cached as PHP code, so `evaluate()` is only needed when the values
+      change
+    correct: false
+    explanation: '`compile()` never produces the value. It produces PHP code that the application can cache and run itself.'
+  - id: CHO-m6rn70gk2ehg
+    text: It skips tokenizing and parsing altogether, which is why it costs less than `evaluate()`
+    correct: false
+    explanation: Both methods tokenize and parse — that shared step is `parse()`. `compile()` is cheaper because it stops
+      at the string conversion of the parsed expression, not because it skips parsing.
+  - id: CHO-sz424jdh1qfb
+    text: 'The two are equivalent: `compile()` merely returns the same result as a string rather than as a typed value'
+    correct: false
+    explanation: They return different things — PHP code versus an evaluated value — and their internal work differs after
+      the shared parse step.
+  explanation: '`parse()` does the tokenizing and parsing for both methods and returns a ParsedExpression. `compile()` then
+    just returns the string conversion of that object, while `evaluate()` has to loop through its nodes and evaluate them
+    dynamically — the documentation states the overhead is even bigger for `evaluate()`.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Workflow (lines 176-190)
+    verified_at: '2026-09-03'
+- id: QST-r37zh114s9a2
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  subtopic: exceptions
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A domain exception has to produce a 429 response carrying a `Retry-After` header. Which two statements about
+    implementing `HttpExceptionInterface` are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - error-handling
+  - http-status
+  choices:
+  - id: CHO-xpyzpadwjyzy
+    text: '`getStatusCode()` is what supplies the 429; without the interface the status code defaults to 500'
+    correct: true
+  - id: CHO-m5tejcnnw69r
+    text: '`getHeaders()` belongs to the same interface, and that is where `Retry-After` is declared'
+    correct: true
+  - id: CHO-ypgv41aaxvhd
+    text: The interface only carries the status code, so the header has to be added by a `kernel.response` listener
+    correct: false
+    explanation: '`getHeaders()` is a required method of the interface, so the exception itself can carry the header and
+      no listener is needed.'
+  - id: CHO-z3vz77zedmqe
+    text: The status is read from the exception's own numeric code, so `throw new DomainException('slow down', 429)` is
+      enough
+    correct: false
+    explanation: The exception code is not used as the HTTP status. Without HttpExceptionInterface the status code defaults
+      to 500.
+  - id: CHO-cpmgg4xxvznh
+    text: Without the interface the status would default to 404, an unhandled exception being treated as a missing resource
+    correct: false
+    explanation: The documented default is 500. 404 is produced only when something explicitly says so, such as `createNotFoundException()`.
+  explanation: 'HttpExceptionInterface declares exactly two methods: `getStatusCode(): int` and `getHeaders(): array`. Implementing
+    it is what customises the status code of an exception — otherwise the error page falls back to 500 — and the same interface
+    is the documented place for the response headers the error must carry.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: tip on HttpExceptionInterface (lines 108-113)
+    verified_at: '2026-09-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: interface HttpExceptionInterface
+    verified_at: '2026-09-03'
+- id: QST-raqy4bsq9e5m
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  subtopic: dump-server
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A console command's real output is being mixed with `dump()` output. Which command collects the dumps elsewhere,
+    and what then happens to the dumped data?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - var-dumper
+  - console
+  choices:
+  - id: CHO-q8f9fk7824gc
+    text: '`server:dump` — the dumped data is no longer displayed in the output and is sent to that server instead'
+    correct: true
+  - id: CHO-pc64cfwe6dzn
+    text: '`server:dump` — but the dumps still appear inline as well; the server only keeps a copy'
+    correct: false
+    explanation: Once the server is listening, the data is not displayed in the output at all; it is sent to the server,
+      which prints it to its own console or to an HTML file.
+  - id: CHO-xex5jd9196ce
+    text: '`debug:dump` — it repeats the dumps in a separate section at the end of the output'
+    correct: false
+    explanation: There is no `debug:dump` command, and nothing is printed a second time.
+  - id: CHO-28x26agbbbkp
+    text: '`var-dumper:server` — the component ships its own server under that name'
+    correct: false
+    explanation: The command is `server:dump`. `var-dumper:server` does not exist.
+  explanation: Mixing real output with debug output is exactly the problem the dump server solves. `php bin/console server:dump`
+    listens (by default on tcp://0.0.0.0:9912) and, while it runs, `dump()` sends its data there rather than to the application
+    output; `--format=html` writes it to a file instead.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Dump Server (lines 93-113)
+    verified_at: '2026-09-03'
+- id: QST-5w3fw4azpr5v
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: profiler-config
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A development configuration sets `framework.profiler.collect: false` together with `collect_parameter: ''profile''`.
+    What is the effect?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - profiler
+  - configuration
+  choices:
+  - id: CHO-0jmvydfhy7m4
+    text: Nothing is collected by default; collection happens for a request that carries `profile` as a query parameter,
+      as a form field or as a request attribute
+    correct: true
+  - id: CHO-kmr4btk6kk42
+    text: Everything is still collected, but only the requests carrying `profile` appear in the profiler list
+    correct: false
+    explanation: '`collect: false` means the data is not gathered at all — that is where the performance saving comes from,
+      not from filtering a list.'
+  - id: CHO-nb5dhtvpff7x
+    text: The profiler is disabled outright, and `collect_parameter` only renames the profile token used in the toolbar
+      URL
+    correct: false
+    explanation: '`collect_parameter` is precisely what re-enables collection for a chosen request; it is not the name of
+      a token.'
+  - id: CHO-ybhzcv6h9bta
+    text: Collection happens for a `profile` query parameter only, so a POST request can never be profiled this way
+    correct: false
+    explanation: A submitted form field of that name works too, which the documentation notes is useful exactly for POST
+      requests.
+  explanation: The pair disables collection by default to improve performance and enables it per request. The name is free
+    — `profile` is only the example — and it is honoured as a query parameter, as a form field (so POST requests can be
+    profiled) or as a request attribute.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler Conditionally (lines 187-223)
+    verified_at: '2026-09-03'
+- id: QST-8w3xmch72pvt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  subtopic: validation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller has established that the client's cached copy is still valid. Which Response method answers correctly,
+    and what does `expire()` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - http-caching
+  - response
+  choices:
+  - id: CHO-mbt6eqm7a12f
+    text: '`setNotModified()`, which forces a proper 304 response with no content; `expire()` does the opposite job and
+      marks the response stale'
+    correct: true
+  - id: CHO-vth4xnr39pmb
+    text: '`expire()`, which sends the 304, while `setNotModified()` strips the validation headers'
+    correct: false
+    explanation: 'The two roles are reversed: `expire()` marks the response stale, and `setNotModified()` is what produces
+      the 304.'
+  - id: CHO-72ecwdp2qkms
+    text: '`setNotModified()`, which sends a 304 but keeps the body so an intermediary can compare it'
+    correct: false
+    explanation: A 304 carries no content — that is what "with no content" means in the documentation. An intermediary needs
+      no body to serve its own copy.
+  - id: CHO-fc435zajy2zn
+    text: 'Either one: both set `max-age` to 0 and leave the decision to the proxy'
+    correct: false
+    explanation: They are distinct methods with opposite intents, and neither is defined as setting `max-age` to 0.
+  explanation: '`$response->setNotModified()` forces a proper 304 with no content, which is the whole point of validation:
+    the client keeps the copy it already has. `$response->expire()` is the counterpart that marks a response stale.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: More Response Methods (lines 289-299)
+    verified_at: '2026-09-03'
+- id: QST-pn8qb95hj2xh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: cache-tags
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service type-hints `TagAwareCacheInterface` and the application declares no cache pool of its own. What gets
+    injected, and where are tags attached to an item?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - cache
+  - invalidation
+  choices:
+  - id: CHO-yxxwaqmfh4k2
+    text: '`cache.app.taggable`, a tag-aware pool based on `cache.app`; tags are attached with `$item->tag()` inside the
+      callback passed to `get()`'
+    correct: true
+  - id: CHO-p7se1t534bvv
+    text: 'Nothing: autowiring fails until a pool declaring `tags: true` exists'
+    correct: false
+    explanation: A tag-aware pool over `cache.app` is autowired for that type-hint, so cache tags can be used without defining
+      any custom pool.
+  - id: CHO-n6h6etfxnphg
+    text: '`cache.app` itself, with the tags passed as a third argument to `get()`'
+    correct: false
+    explanation: '`get()` takes no tag argument; tagging happens on the item inside the callback. And `cache.app` alone
+      is not tag-aware.'
+  - id: CHO-e4rwdwn24566
+    text: '`cache.system.taggable`, because the tag metadata belongs with the system cache'
+    correct: false
+    explanation: The autowired taggable pool is based on `cache.app`. `cache.system` holds framework-internal data and is
+      not what this type-hint resolves to.
+  explanation: Type-hinting TagAwareCacheInterface autowires `cache.app.taggable`, so no pool declaration is needed. Tags
+    are declared on the item inside the `get()` callback with `$item->tag([...])`, and `invalidateTags([...])` on the pool
+    removes every item carrying one of those tags.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Cache Tags (lines 903-950) and the autowiring note (lines 1019-1024)
+    verified_at: '2026-09-03'
+- id: QST-nfa4v3e8qg34
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  subtopic: testing-clock
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test class uses `ClockSensitiveTrait`. What may `static::mockTime()` receive, and what does the trait guarantee
+    between tests?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - clock
+  - testing
+  choices:
+  - id: CHO-3g5gsps15z93
+    text: A date string, an interval string such as `+2 days`, a `DateTimeImmutable`, or a boolean to freeze or restore
+      — and the trait restores the global clock after each test
+    correct: true
+  - id: CHO-thmed3ej5a2b
+    text: Only a `DateTimeImmutable`; moving the clock afterwards requires calling `sleep()` on the returned mock
+    correct: false
+    explanation: A string is accepted, and it may be an interval that modifies the clock. `sleep()` is one way to advance
+      time, not the only one.
+  - id: CHO-rdz0w3ze78wd
+    text: Any of those values, but the mocked clock stays installed until the test class restores it itself
+    correct: false
+    explanation: Restoring the global clock after each test is what the trait is for; a test that had to remember to do
+      it would gain nothing.
+  - id: CHO-bzze2k2e5rxy
+    text: A date string or a `DateTimeImmutable` only; a boolean would be read as a UNIX timestamp
+    correct: false
+    explanation: A boolean is documented as freezing or restoring the global clock, not as a timestamp.
+  explanation: 'ClockSensitiveTrait exists to freeze time and to restore the global clock after each test. Its `mockTime()`
+    takes a single argument of one of three kinds: a string (an absolute date such as `1996-07-01`, or an interval such
+    as `+2 days`), a `DateTimeImmutable` to set the clock at, or a boolean to freeze or restore the global clock.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Writing Time-Sensitive Tests (lines 302-318)
+    verified_at: '2026-09-03'
+- id: QST-p1gj9k31bqfg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  subtopic: propagation
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener calls `$event->stopPropagation()`. Which listeners no longer run, and how can the dispatching code
+    find out?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - event-dispatcher
+  - listeners
+  choices:
+  - id: CHO-7pzpm7qv74h4
+    text: Those that have not been called yet for that event; the caller checks `$event->isPropagationStopped()` after `dispatch()`
+    correct: true
+  - id: CHO-cgnkfpaphyha
+    text: All listeners of that event, including the ones already executed, whose effects are rolled back
+    correct: false
+    explanation: Nothing is rolled back. Only the listeners not yet notified are skipped.
+  - id: CHO-mex10ykefqrd
+    text: Only listeners registered by other bundles; the ones in the application code still run
+    correct: false
+    explanation: The dispatcher does not care where a listener was registered. What decides is whether it has been called
+      yet.
+  - id: CHO-gjxqwwqs2g0w
+    text: 'None: the call only marks the event, and the dispatcher notifies every listener regardless'
+    correct: false
+    explanation: The dispatcher does stop notifying further listeners — that is the purpose of the call.
+  explanation: '`stopPropagation()` tells the dispatcher not to notify any further listener, so listeners already called
+    are unaffected and those still pending are skipped. `isPropagationStopped()` returns a boolean and lets the code that
+    dispatched the event see that it happened.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation (lines 405-438)
+    verified_at: '2026-09-03'
+- id: QST-mvevfm9amzpg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: normalizers
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A class keeps its state in private properties and declares no getters. Which two statements are correct? (Choose
+    2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 85
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - serializer
+  - normalizers
+  choices:
+  - id: CHO-673rj76bgqwb
+    text: '`ObjectNormalizer` cannot read them: it goes through the PropertyAccess component, which needs a directly accessible
+      property or a getter, hasser, isser, canner, adder or remover'
+    correct: true
+  - id: CHO-mhnf004jdpap
+    text: '`PropertyNormalizer` can read them, using PHP reflection over public as well as private and protected properties,
+      including those declared by parent classes'
+    correct: true
+  - id: CHO-mm7tm35c9awp
+    text: '`GetSetMethodNormalizer` can read them, because it falls back to reflection when no getter exists'
+    correct: false
+    explanation: It reads a class by calling public methods prefixed with `get`, `has`, `is` or `can`. There is no reflection
+      fallback.
+  - id: CHO-kwqy7pmjc9d5
+    text: '`PropertyNormalizer` always exposes every visibility and offers no way to narrow it'
+    correct: false
+    explanation: The `PropertyNormalizer::NORMALIZE_VISIBILITY` context option restricts it to any combination of the public,
+      protected and private constants.
+  - id: CHO-3rjvyv06rjy6
+    text: Adding `#[Ignore]` to the private properties makes them visible to `ObjectNormalizer`
+    correct: false
+    explanation: '`#[Ignore]` excludes a property from serialization. It never exposes one.'
+  explanation: 'ObjectNormalizer is the powerful default, but its reach is PropertyAccess: a property it can read or write
+    directly, or an accessor method. Private state with no accessors is invisible to it. PropertyNormalizer is the documented
+    alternative for that case, reading public, private and protected properties by reflection — with NORMALIZE_VISIBILITY
+    available when that is too much.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ObjectNormalizer (lines 1432-1445) and PropertyNormalizer (lines 1511-1540)
+    verified_at: '2026-09-03'
