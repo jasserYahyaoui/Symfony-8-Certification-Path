@@ -45,7 +45,7 @@ and mock exams that are Lot 27's deliverables (§14).
 | 4 | 0 scored OUT_OF_SCOPE dependency | no scored question depending on non-official material | **PASS** — all **496** questions are `classification: OFFICIAL`; zero non-official scored questions |
 | 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **PASS** — **496 of 496** `verification_status: VERIFIED`; **0** occurrences of `symfony.com/doc/current` in `content/` or `docs/syllabus/`; CI rejects `/current/` |
 | 6 | functioning English timed simulation | a working timed exam mode, in English | **PASS** — `website/src/pages/exam.tsx`, 90-minute official duration, serving `exam.json`: **135 of 135 questions English** |
-| 7 | protected unseen holdout assessment | see [ADR-0005](../adr/0005-holdout-distribution-deferred.md) | **PASS under the operational definition in force** — 27 holdout questions, served by **no** application mode; `practice.json` (334) and `exam.json` (135) contain **0**. *Functional isolation, not confidentiality*: the questions are readable in the public source |
+| 7 | protected unseen holdout assessment | see [ADR-0005](../adr/0005-holdout-distribution-deferred.md) | **PASS on the definition the owner settled 2026-09-03 (Option A)**: *unseen* means never served by Practice Mode, Exam Mode or any other learning mode. Proved against the deployed bytes, not the payload's own label — `practice.json` (334, all LEARNING) and `exam.json` (135, all VALIDATION) carry none of the 27 holdout ids nor their 108 choice ids. **Repository confidentiality: NO** — the questions and answers are readable by anyone deliberately inspecting the public source, and the project says so permanently. Mock 4 needs 75; **48 remain to be written** |
 | 8 | manageable revision burden | a corpus a candidate can actually revise | **PASS as measured** — 163 courses, **65,151 body words** (median 381, mean 400, range 184–880), 137 flashcards, 496 questions. Roughly 4–5 hours of reading. Lot 27's *content-volume and duplication audit* confirms |
 | 9 | technical, pedagogical, accessibility and production gates | §17's gates, each green | **PASS** — validate 18 rules / 0 violations; phpunit **85 tests, 889 assertions**; `bin/cert build` exit 0; site build exit 0; a11y **6 pages, 0 violations**; production: master deployed and smoke-tested each lot through Lot 26 (run `33689975817`, smoke `100446567044`) |
 
@@ -58,6 +58,8 @@ and mock exams that are Lot 27's deliverables (§14).
    and it needs a human-supplied copy of the official syllabus to be worth
    anything. **This is the one clause the project cannot self-certify.**
 2. **Clause 7 is met operationally, never absolutely.** ADR-0005 fixes the
-   wording. No report may write "unseen" without the qualifier.
+   wording, and the owner settled the definition on 2026-09-03 (Option A). No
+   report may write "unseen" without the qualifier. Clause 7 cannot close until
+   Mock 4 holds its full 75: 27 exist, 48 are unwritten.
 3. **Clauses 2, 3 and 8 are marked "as measured".** Each has a Lot 27 audit
    whose job is to test it independently rather than re-read this table.

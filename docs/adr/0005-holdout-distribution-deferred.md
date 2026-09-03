@@ -1,6 +1,6 @@
 # ADR-0005 — Holdout distribution
 
-- **Status:** `ACCEPTED` — option 1, in force from 2026-09-03.
+- **Status:** `ACCEPTED` — option 1, in force from 2026-09-03. Extended the same day by the owner's **Option A** decision for Mock 4, recorded below.
   The 2026-09-03 revision recorded this as `PENDING_HUMAN_APPROVAL` on the
   reading that "§15 reserves this class of decision to the owner". That reading
   was made while §15 was unreadable and it does not survive the restored text:
@@ -140,6 +140,43 @@ Met on 2026-09-03. This ADR is `ACCEPTED`; Lot 27 is no longer blocked **by
 this ADR**. Every report continues to say *functional isolation, not
 confidentiality* — under option 1 that is the permanent wording, not an interim
 caveat.
+
+## Mock 4 architecture — Option A, decided by the owner 2026-09-03
+
+The 2026-09-03 Mock 4 decision report put one question to the owner: must Mock 4
+be confidential, or is *never served by the application* enough? The owner chose
+**Option A**. What follows is settled, not proposed.
+
+**"Unseen" means: a question never served by Practice Mode, Exam Mode or any
+other learning mode of this application.** Absolute confidentiality at the level
+of the public repository is **not** required.
+
+The project therefore states, permanently and without softening:
+
+| | |
+|---|---|
+| Functional isolation | **YES** — tested at build time and against the deployed bytes |
+| Application-level unseen | **YES** |
+| Repository confidentiality | **NO** |
+| Answers readable by someone deliberately inspecting the public source | **YES** |
+
+Consequences, all in force:
+
+- the **27** existing holdout questions stay `HOLDOUT`; none is moved,
+  duplicated or reclassified;
+- **48 new** holdout questions are required to reach the 75 that §10 specifies;
+- none of the 75 is ever served in Practice or Exam Mode;
+- all 75 remain governed by the existing canonical rules — no second content
+  root, no private repository, no backend, no secret store, no parallel
+  validation system;
+- a learner who deliberately opens `content/questions/*.yml` forfeits the
+  *unseen* property **for themselves**. That is a property of the reader, not a
+  failure of the system, and it is the honest limit of a static public site;
+- **no official topic weighting is known.** Any distribution the project builds
+  is labelled `TRAINING_DISTRIBUTION` and is never presented as official
+  (§7.4, §10).
+
+This architecture must never be described as offering real confidentiality.
 
 ## Operational definition now in force
 

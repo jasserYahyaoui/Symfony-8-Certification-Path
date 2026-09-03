@@ -51,6 +51,11 @@ final readonly class Project
         return $this->path('docs/syllabus/glossary.yml');
     }
 
+    public function mockBlueprintPath(string $mock = '4'): string
+    {
+        return $this->path('docs/mocks/mock-'.$mock.'-blueprint.yml');
+    }
+
     public function lotsPath(): string
     {
         return $this->path('docs/syllabus/lots.yml');
@@ -141,6 +146,22 @@ final readonly class Project
         }
 
         return array_values(array_unique($terms));
+    }
+
+    /**
+     * Master Plan §10 — a mock's slot blueprint. Read-only specification: it
+     * assigns slots to topics and names the questions already standing in them,
+     * and holds no question of its own.
+     *
+     * @return array<string, mixed>
+     */
+    public function loadMockBlueprint(string $mock = '4'): array
+    {
+        if (!is_file($this->mockBlueprintPath($mock))) {
+            return [];
+        }
+
+        return (new YamlLoader())->load($this->mockBlueprintPath($mock), SchemaRegistry::MOCK_BLUEPRINT);
     }
 
     /**
