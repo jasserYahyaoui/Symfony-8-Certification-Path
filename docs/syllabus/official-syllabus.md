@@ -44,15 +44,34 @@ with children: its twelve components are the only lines at the deeper
 83.2/446.0 indent, which is why they are imported as twelve atomic items and
 the label itself is not one.
 
-**The fifteenth topic is enumerated nowhere in the document.** The earlier
-reading recorded here — that `Components:` is counted as a topic in its own
-right — remains the most plausible explanation of the stated figure, but it is
-an inference about the exam page's own bookkeeping, not something the document
-states. The discrepancy is in the source and stays recorded rather than
-reconciled, per §2.5.
+### Three facts, kept together
 
-It affects no figure in this project: coverage is computed from atomic items
-(§3.5), never from topic counts.
+| | |
+|---|---|
+| **Published constraint** | **15 topics** — stated by the exam page, and binding |
+| **Measured presentation** | **14** first-level headings at font size 17.0 |
+| **Item mapping** | **163 / 163** official items mapped, 0 missing, 0 unexpected |
+
+The typography measures how the page is *rendered*. It does not amend what the
+page *states*. **The official constraint remains 15 topics**, and every
+downstream use — the exam blueprint, any per-topic distribution for the mocks —
+takes 15 from the published constraint, never 14 from the layout.
+
+**Interpretation, not a demonstrated fact.** `Components:` is the likeliest
+candidate for the fifteenth topic: it is the only item-level line with children
+of its own, which sets it apart from every other item even though it does not
+carry the 17.0 heading presentation. That is an inference about the exam page's
+own bookkeeping. The document states 15 and renders 14, and names no fifteenth
+heading; nothing here resolves that, and nothing needs to.
+
+The discrepancy is in the source and stays recorded rather than reconciled,
+per §2.5.
+
+It affects no coverage figure: coverage is computed from atomic items (§3.5),
+never from topic counts. **Master Plan §22 clause 2 is unaffected** — it turns
+on whether every official item is represented, and all 163 are, with faithful
+wording, no omission and no addition. A recorded discrepancy in how the source
+counts its own headings is not a syllabus gap.
 
 Evidence and method: [`docs/audit/lot-27-syllabus-gate/README.md`](../audit/lot-27-syllabus-gate/README.md),
 with the full mapping in `coverage-mapping.csv` alongside it.

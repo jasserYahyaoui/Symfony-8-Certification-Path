@@ -57,9 +57,9 @@ Applied from the accepted audit, and nothing else — five files, coverage
 | | Correction | Evidence it closed |
 |---|---|---|
 | G-1 | `SCOPE-001` now reads each choice's own `explanation`, not only its text | The extended rule reported **exactly one** violation — `QST-psqn0fe95khc`, the occurrence the audit predicted from separate evidence. Regression test added and **confirmed to fail against the pre-fix rule** |
-| G-2 | `QST-psqn0fe95khc` tagged `exclusion-note` | Its distractor explanation mentions Doctrine as a historical aside; the point is earned by knowing `Attribute\Route`, so it is a permitted §1.5 comparison. `validate` exit 0 after |
+| G-2 | The Doctrine reference **removed** from `QST-psqn0fe95khc`, the explanation rewritten around the namespace segment, and the `exclusion-note` tag dropped | Tagging would have made the tag a general exemption for keeping an out-of-scope anecdote that earned no point and taught nothing. The question now passes on its content: **zero** excluded terms anywhere in it, no tag needed. Two guards added — a genuine tagged note must actually state a boundary, and this question must carry no excluded term |
 | G-3 | `exclusions.yml` `review_only_exclusions` de-duplicated | Was 6 entries / 3 ids, and the two `EXC-UNLISTED-COMPONENTS` copies disagreed — the second omitted `HttpFoundation`, `HttpKernel`, `HttpClient`, `OptionsResolver`. Now 3 entries, 3 ids, one 32-entry list |
-| G-4 | `official-syllabus.md` cites the layout measurement instead of a plausibility claim | Both candidate readings of the missing 15th topic are internally consistent, so font size and left edge settle which lines are headings |
+| G-4 | `official-syllabus.md` records **three facts together**: the published constraint (**15 topics**, binding), the measured presentation (**14** headings at 17.0) and the mapping (**163/163**) | The typography measures how the page renders, never what it states. `Components:` as the fifteenth topic stays an **interpretation** — it is the only item-level line with children, but carries no 17.0 heading. §22 clause 2 is unaffected: it turns on item representation, and all 163 are present |
 
 **G-1 is the fourth instance of one class**, after SPLICE-1, SPLICE-2 and
 COG-1: **a rule that does not read a field cannot protect it.** `Choice::$explanation`

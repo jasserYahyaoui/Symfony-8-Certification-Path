@@ -220,7 +220,7 @@ questions:
     verification_status: VERIFIED
     reviewers: [tech-lead]
     reviewed_at: "2026-09-01"
-    tags: [routing, namespaces, exclusion-note]
+    tags: [routing, namespaces]
     choices:
       - id: CHO-p4qhk0944213
         text: "use Symfony\\Component\\Routing\\Attribute\\Route;"
@@ -229,8 +229,9 @@ questions:
         text: "use Symfony\\Component\\Routing\\Annotation\\Route;"
         correct: false
         explanation: >-
-          Ce namespace date de l'époque des annotations Doctrine et n'existe
-          plus en Symfony 8.0. L'import échoue.
+          En Symfony 8.0 l'attribut vit sous `Attribute\\`, pas sous
+          `Annotation\\` : ce sous-namespace n'existe plus, donc l'import
+          échoue. C'est le segment qui distingue les deux imports.
       - id: CHO-mcek2z6j907p
         text: "use Symfony\\Bundle\\FrameworkBundle\\Routing\\Route;"
         correct: false

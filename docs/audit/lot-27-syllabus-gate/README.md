@@ -32,6 +32,18 @@ children: its twelve components are the only lines at the deeper 83.2/446.0
 indent.
 
 This confirms the repository's existing model and the reading already recorded
-in `docs/syllabus/official-syllabus.md`. The 15th topic is not enumerated as a
-heading anywhere in the document; the discrepancy is in the source, and is
-recorded rather than reconciled (§2.5).
+in `docs/syllabus/official-syllabus.md`.
+
+Three facts are kept together and none overrides another:
+
+- **published constraint: 15 topics** — stated by the exam page, and binding
+  for the blueprint and any per-topic mock distribution;
+- **measured presentation: 14** first-level headings at font size 17.0;
+- **item mapping: 163 / 163**, 0 missing, 0 unexpected.
+
+The typography measures how the page is rendered, not what it states. That
+`Components:` is the fifteenth topic remains an **interpretation** — it is the
+only item-level line with children of its own, but it does not carry the 17.0
+heading presentation, so the document neither names nor renders a fifteenth
+heading. The discrepancy is in the source and is recorded rather than
+reconciled (§2.5).
