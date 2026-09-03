@@ -1518,3 +1518,234 @@ questions:
     branch: '8.0'
     symbol_or_lines: Generic Form Type Extensions (lines 228-243) and getExtendedTypes (lines 44-62)
     verified_at: '2026-09-03'
+
+# Batch 6 — Dependency Injection (4 of the 6 slots; 2 are filled by existing
+# holdout questions).
+- id: QST-36fpym034vvf
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  subtopic: service-locator
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service can reach a dozen collaborators but uses at most one per request, and constructing them all is wasteful.
+    What does the documentation point to?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - service-container
+  - service-locator
+  choices:
+  - id: CHO-vjkecmk7d8vh
+    text: 'A service locator: it is injected like any dependency and constructs only the collaborator actually asked for'
+    correct: true
+  - id: CHO-wsh56f8hzdrx
+    text: Making the collaborators public, so the container can be queried with `get()` only when one is needed
+    correct: false
+    explanation: Services are private by default and the documented best practice is to keep them so; a locator is what
+      it names for fetching lazily.
+  - id: CHO-r8yb79bpb6rw
+    text: Injecting the container itself and calling `get()`, which defers construction by definition
+    correct: false
+    explanation: That is the pattern the documentation warns against — the class then depends on the whole container rather
+      than on what it uses.
+  - id: CHO-11148ysxhsxf
+    text: 'Nothing: every injected dependency is constructed when its consumer is, so the cost is unavoidable'
+    correct: false
+    explanation: It is avoidable, which is exactly what a service locator is for.
+  explanation: Private by default, fetched by injection rather than by `get()` — that is the container's normal shape, and
+    making a service public to fetch it on demand works against it. The service locator keeps injection intact while deferring
+    construction to the moment a specific service is requested.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Public Versus Private Services (lines 1041-1052)
+    verified_at: '2026-09-03'
+- id: QST-fwprrj0m0v38
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  subtopic: autoconfigure-tag
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Every implementation of `CustomInterface` must carry the tag `app.custom_tag`, without any of them being listed.
+    What achieves it, and what does `#[AutoconfigureTag]` mean with no argument?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - tags
+  - autoconfiguration
+  choices:
+  - id: CHO-xzcb48fnnfw2
+    text: '`#[AutoconfigureTag(''app.custom_tag'')]` written on the interface itself — the YAML equivalent being `_instanceof`
+      — and with no argument the tag name becomes the fully qualified name of the target'
+    correct: true
+  - id: CHO-9zvh3g6thcxp
+    text: The attribute repeated on each implementing class, since an attribute on an interface is not inherited by implementations
+    correct: false
+    explanation: Placing it on the base class or interface is the documented use; repeating it defeats the purpose.
+  - id: CHO-qdej9txzr32d
+    text: '`#[AutoconfigureTag]` on the interface, but with no argument nothing is tagged, the tag name being mandatory'
+    correct: false
+    explanation: With no argument the fully qualified class name of the target is used as the tag name.
+  - id: CHO-zzzz0w85kzxt
+    text: '`_instanceof` in `services.yaml`, which tags every matching service in the application whichever file declares
+      it'
+    correct: false
+    explanation: '`_instanceof` applies only to the services created by the file that declares it.'
+  explanation: 'Two equivalent routes exist: `_instanceof` in a configuration file, scoped to the services that file creates,
+    and `#[AutoconfigureTag]` on the base class or interface, which follows the type wherever its implementations are declared.
+    `#[Autoconfigure]` is the broader attribute when more than a tag has to be applied — laziness, bindings or method calls.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: '_instanceof and #[AutoconfigureTag] (lines 55-112)'
+    verified_at: '2026-09-03'
+- id: QST-ygcnvj3vpb7d
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  subtopic: argument-binding
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A scalar value has to reach a constructor argument named `$adminEmail` in several services. Which two statements
+    are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - binding
+  - autowiring
+  choices:
+  - id: CHO-hse5v9kx4ff8
+    text: '`bind` under `_defaults` passes it to any `$adminEmail` argument of any service defined in that file, controller
+      arguments included, and a binding may be keyed by name, by type, or by both at once'
+    correct: true
+  - id: CHO-bh6mwvn63v8e
+    text: The `#[Autowire]` attribute is the alternative to configuring the scalar in YAML, injecting it directly into the
+      service that needs it
+    correct: true
+  - id: CHO-1xtekq97skrc
+    text: '`bind` accepts service references only, so a scalar has to be passed through `arguments` instead'
+    correct: false
+    explanation: A scalar is exactly what the documented `$adminEmail` binding passes; services and tagged iterators can
+      be bound too.
+  - id: CHO-ja8nh11dwtzr
+    text: '`bind` under `_defaults` reaches every service in the application, whichever file declares it'
+    correct: false
+    explanation: Its reach is the file that declares it — which is what makes `_defaults` predictable.
+  - id: CHO-mymkcjdngs1p
+    text: A binding matches by position, so `$adminEmail` has to be the first constructor argument
+    correct: false
+    explanation: Bindings match by argument name, by type, or by the two combined. Position plays no part.
+  explanation: 'A binding is a default for arguments rather than for services: `$adminEmail` by name, `Psr\Log\LoggerInterface`
+    by type, `string $adminEmail` by both. Renaming a bound argument raises a clear exception on the next page load rather
+    than silently passing nothing. `#[Autowire]` does the same job from the class itself, which suits a value only one service
+    needs.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Binding Arguments by Name or Type (lines 854-925) and the #[Autowire] tip (lines 602-607)'
+    verified_at: '2026-09-03'
+- id: QST-0fzn3p3xa9eh
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-qj4xfkhwdrx7
+  domain: symfony
+  subtopic: abstract-bundle
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A bundle extends `AbstractBundle` and implements `configure()` and `loadExtension()`. What does `loadExtension()`
+    receive, and when are the two called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - bundles
+  - configuration
+  choices:
+  - id: CHO-2vjnb9bgfqmd
+    text: A `$config` array already merged and processed against the definition declared in `configure()`; both methods
+      are called only at compile time
+    correct: true
+  - id: CHO-994nqmz9k4hh
+    text: The raw configuration arrays, one per file, still to be merged against the configuration tree — as a separate
+      extension class has to do
+    correct: false
+    explanation: Doing that merging by hand is what a separate extension class requires; AbstractBundle hands over the processed
+      result.
+  - id: CHO-81qdkrk0yt0q
+    text: A merged `$config` array, the two methods running on each request so that runtime values can be taken into account
+    correct: false
+    explanation: They are called only at compile time; the container is built once and then reused.
+  - id: CHO-zhpr7s0xf9gc
+    text: A merged `$config` array, with `configure()` running at compile time and `loadExtension()` on the first boot after
+      a cache clear
+    correct: false
+    explanation: Both belong to compile time; there is no separate first-boot pass.
+  explanation: 'AbstractBundle collapses the configuration definition and its loading into the bundle class: `configure()`
+    declares the tree — optionally importing it from one or more files — and `loadExtension()` receives the merged, processed
+    result to configure the container with. Both run at compile time, which is why an unknown configuration key fails there
+    rather than being ignored at runtime.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using the AbstractBundle Class (lines 46-112)
+    verified_at: '2026-09-03'
