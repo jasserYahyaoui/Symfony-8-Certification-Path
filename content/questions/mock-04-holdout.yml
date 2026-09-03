@@ -1979,3 +1979,178 @@ questions:
     branch: '8.0'
     symbol_or_lines: debug:router and router:match (lines 418-474)
     verified_at: '2026-09-03'
+
+# Batch 8 — HTTP (3 of the 5 slots; 2 are filled by existing holdout
+# questions). The protocol facts are anchored to the httpwg mirror of RFC 9110,
+# www.rfc-editor.org being unreachable from this environment.
+- id: QST-2wq6931wb20d
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: http
+  subtopic: vary
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: 'A resource is served in French or in English according to `Accept-Language`. Which two statements about `Vary:
+    accept-language` on the response are correct? (Choose 2)'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - content-negotiation
+  - caching
+  choices:
+  - id: CHO-d3kd0b8na0hj
+    text: 'It expands the cache key: a stored response must not satisfy a later request unless that request carries the
+      same value for the listed field, or the origin server revalidates it'
+    correct: true
+  - id: CHO-vj9f0mp3xww6
+    text: It tells the user agent that the response was negotiated, so supplying other values in the listed fields may yield
+      a different representation
+    correct: true
+  - id: CHO-fptw1aphdet9
+    text: '`Vary: *` is the safer default and is what a proxy generates when it cannot tell which fields mattered'
+    correct: false
+    explanation: A proxy must not generate `*`. It signals that aspects possibly outside the message took part, so a cache
+      cannot decide anything without asking the origin server.
+  - id: CHO-q4qdtz84w1cq
+    text: It lists the response header fields that differ from the default representation of the resource
+    correct: false
+    explanation: The field names it lists are request header fields — the ones that took part in selecting this response.
+  - id: CHO-qgads12kynaq
+    text: It replaces `Content-Language` and `Content-Type`, which become unnecessary once the response varies
+    correct: false
+    explanation: Those announce which representation was chosen; Vary says which request fields influenced the choice. They
+      answer different questions.
+  explanation: 'Vary names the selecting header fields — request fields, aside from the method and target URI, that influenced
+    the choice of content. An origin server should send it on a cacheable negotiated response, and may elide it when the
+    caching cost outweighs the variance. Its list has exactly the two documented purposes above: one addressed to caches,
+    one to user agents.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    repository: httpwg/httpwg.github.io
+    branch: master
+    symbol_or_lines: section 12.5.5 Vary
+    verified_at: '2026-09-03'
+- id: QST-k4szsya5zqye
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  subtopic: response-predicates
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Symfony `Response` carries status 204. What do `isOk()` and `isSuccessful()` return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - response
+  - http-foundation
+  choices:
+  - id: CHO-qvfpkjvr3ybk
+    text: '`isOk()` false, since it is true only for exactly 200, and `isSuccessful()` true, since it covers 200 to 299'
+    correct: true
+  - id: CHO-0d0zperf67fg
+    text: 'Both true: `isOk()` covers the whole 2xx class, of which 204 is a member'
+    correct: false
+    explanation: '`isOk()` compares the status to 200 exactly. The class-wide predicate is `isSuccessful()`.'
+  - id: CHO-mjstka7pkck0
+    text: Both false, because a 204 carries no content and so cannot be a successful response
+    correct: false
+    explanation: An empty body has no bearing on either predicate; 204 is squarely in the 2xx range.
+  - id: CHO-cwqvx0msxrbv
+    text: '`isOk()` true, 204 being a success, and `isSuccessful()` false, that one being reserved for 200'
+    correct: false
+    explanation: 'The two are the other way round: `isOk()` is the exact one and `isSuccessful()` the range.'
+  explanation: 'The Response predicates come in pairs of one exact test and one range test, and the names do not say which
+    is which: `isOk()` is `200 === $statusCode` while `isSuccessful()` is `>= 200 && < 300`. The same trap sits next door,
+    where `isRedirect()` matches a fixed list (201, 301, 302, 303, 307, 308) and `isRedirection()` matches the 3xx range
+    — which is why a 304 answers them differently.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isSuccessful line 1184, isOk line 1224, isRedirect line 1254
+    verified_at: '2026-09-03'
+- id: QST-bdbr853q6be6
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  subtopic: resource-representation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the terms of RFC 9110, what separates a resource from a representation?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - rfc9110
+  - semantics
+  choices:
+  - id: CHO-4ekevt1cq4ht
+    text: A resource is the target of a request, identified by a URI and unrestricted in nature; a representation is information
+      reflecting a past, current or desired state of it, made of metadata and a data stream the protocol can transfer
+    correct: true
+  - id: CHO-pckrwwv64f4d
+    text: A resource is the file stored on the server; a representation is that same file after a content encoding has been
+      applied
+    correct: false
+    explanation: HTTP does not limit the nature of a resource — it may be a temporal function such as "the current weather"
+      with no stored file at all.
+  - id: CHO-n6nx0z9ga8dx
+    text: 'They name the same thing at different layers: "resource" in the request and "representation" in the response'
+    correct: false
+    explanation: 'The distinction is substantive: one resource can have several representations, which is what content negotiation
+      selects between.'
+  - id: CHO-dzzkfts0230k
+    text: A representation is the URI identifying the thing; the resource is the sequence of bytes returned
+    correct: false
+    explanation: 'That reverses both: the URI identifies the resource, and the bytes returned are the representation data.'
+  explanation: 'The separation is what lets HTTP hide implementation behind a uniform interface: communication is defined
+    in terms of a transferable representation of resource state rather than of the resource itself, so a URI can identify
+    anything at all. It is also what makes several representations of one resource possible, and therefore what content
+    negotiation and Vary operate on.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    repository: httpwg/httpwg.github.io
+    branch: master
+    symbol_or_lines: sections 3.1 Resources and 3.2 Representations
+    verified_at: '2026-09-03'
