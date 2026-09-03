@@ -46,6 +46,11 @@ final readonly class Project
         return $this->path('docs/syllabus/exclusions.yml');
     }
 
+    public function glossaryPath(): string
+    {
+        return $this->path('docs/syllabus/glossary.yml');
+    }
+
     public function lotsPath(): string
     {
         return $this->path('docs/syllabus/lots.yml');
@@ -136,6 +141,41 @@ final readonly class Project
         }
 
         return array_values(array_unique($terms));
+    }
+
+    /**
+     * Master Plan §5 — the French-to-English certification glossary.
+     *
+     * @return list<array{en: string, fr: string, topic: string, see: string, note?: string}>
+     */
+    public function loadGlossary(): array
+    {
+        if (!is_file($this->glossaryPath())) {
+            return [];
+        }
+
+        $document = (new YamlLoader())->load($this->glossaryPath(), SchemaRegistry::GLOSSARY);
+
+        $entries = [];
+        foreach ((array) ($document['entries'] ?? []) as $entry) {
+            if (!\is_array($entry)) {
+                continue;
+            }
+
+            $row = [
+                'en' => (string) ($entry['en'] ?? ''),
+                'fr' => (string) ($entry['fr'] ?? ''),
+                'topic' => (string) ($entry['topic'] ?? ''),
+                'see' => (string) ($entry['see'] ?? ''),
+            ];
+            if (isset($entry['note'])) {
+                $row['note'] = (string) $entry['note'];
+            }
+
+            $entries[] = $row;
+        }
+
+        return $entries;
     }
 
     /**

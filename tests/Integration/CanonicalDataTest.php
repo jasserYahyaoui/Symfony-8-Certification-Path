@@ -28,6 +28,7 @@ final class CanonicalDataTest extends TestCase
             'docs/syllabus/source-map.yml',
             'docs/syllabus/exclusions.yml',
             'docs/syllabus/coverage-report.md',
+            'docs/syllabus/glossary.yml',
         ] as $required) {
             self::assertFileExists($project->path($required), $required.' is required by Master Plan §3.2');
         }
@@ -148,6 +149,83 @@ final class CanonicalDataTest extends TestCase
                 'QST-psqn0fe95khc must not depend on the excluded term "'.$term.'"',
             );
         }
+    }
+
+    /**
+     * Master Plan §5 requires a French-to-English glossary. It has to stay a
+     * revision aid, not drift into a Symfony dictionary, so every entry must
+     * point at an official item that really exists and must carry both sides
+     * of the pair.
+     */
+    public function testEveryGlossaryEntryResolvesToAnOfficialItem(): void
+    {
+        $project = Project::locate();
+        $entries = $project->loadGlossary();
+        $labels = [];
+        foreach ($project->loadMatrix()->officialItems() as $item) {
+            $labels[$item->officialItem] = true;
+        }
+
+        self::assertNotEmpty($entries, '§5 requires a glossary');
+
+        $seen = [];
+        foreach ($entries as $entry) {
+            self::assertNotSame('', $entry['en'], 'every entry needs an English term');
+            self::assertNotSame('', $entry['fr'], 'every entry needs a French rendering');
+            self::assertArrayHasKey(
+                $entry['see'],
+                $labels,
+                'glossary entry "'.$entry['en'].'" points at an unknown official item: '.$entry['see'],
+            );
+
+            self::assertArrayNotHasKey(
+                mb_strtolower($entry['en']),
+                $seen,
+                'duplicate glossary term: '.$entry['en'],
+            );
+            $seen[mb_strtolower($entry['en'])] = true;
+        }
+    }
+
+    /**
+     * The glossary may never smuggle an out-of-scope topic back in (§1.5): it
+     * is read by the learner exactly like a course page, and nothing tags it.
+     */
+    public function testTheGlossaryCarriesNoExcludedTerm(): void
+    {
+        $project = Project::locate();
+        $terms = $project->loadExcludedTerms();
+
+        foreach ($project->loadGlossary() as $entry) {
+            $haystack = mb_strtolower($entry['en'].' '.$entry['fr'].' '.($entry['note'] ?? ''));
+
+            foreach ($terms as $term) {
+                self::assertFalse(
+                    OutOfScopeContaminationRule::mentionsTerm($haystack, mb_strtolower(trim($term))),
+                    'glossary entry "'.$entry['en'].'" references the excluded topic "'.$term.'"',
+                );
+            }
+        }
+    }
+
+    /**
+     * FR-1 and FR-2 both began as unaccented French written by a generator.
+     * The glossary is new French prose, so it is pinned from the start.
+     */
+    public function testTheGlossaryFrenchIsAccented(): void
+    {
+        $accented = 0;
+        foreach (Project::locate()->loadGlossary() as $entry) {
+            if (preg_match('/[\x{00C0}-\x{00FF}]/u', $entry['fr'].' '.($entry['note'] ?? ''))) {
+                ++$accented;
+            }
+        }
+
+        self::assertGreaterThan(
+            20,
+            $accented,
+            'the French side of the glossary reads as unaccented text — see issues FR-1 and FR-2',
+        );
     }
 
     public function testEverySchemaHasADeclaredVersion(): void
