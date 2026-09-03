@@ -118,6 +118,10 @@ Verified, with real identifiers:
 | Corrections G-1 to G-4 (PR #44) | `7456e20` | `100542490813` | `33722133013` | `100543569797` |
 | CONTEXT delivery evidence (PR #45) | `90f990e` | `100580157989` | `33734587613` | `100582461633` |
 | Lot 27 unit 1 — §5 glossary (PR #46) | `5d8a4f8` | `100587591300` | `33737464109` | `100591698010` |
+| Lot 27 — glossary closure (PR #47) | `4e17719` | `100594855196` | `33739511079` | `100598297141` |
+| Lot 27 unit 2 — question-bank audit (PR #48) | `73542a0` | `100599262947` | `33740901382` | `100602733698` |
+| Lot 27 — Q-1 DUP-001 near-duplicates (PR #49) | `6134c46` | `100603497958` | `33742398560` | `100607460583` |
+| Lot 27 — Q-2/Q-3 FR-3 accents (PR #50) | `a56e105` | `100608172997` | `33743015881` | `100609460399` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -403,7 +407,14 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Run the question-bank audit — Lot 27 unit 2.** Unit 1 (the §5 glossary) is
+**Decide the Mock 4 architecture.** Units 1 and 2 and the three corrections
+Q-1 to Q-3 are delivered and reconciled with real ids. The blocker is
+arithmetic and unresolved by any amount of work here: §10 requires 75 holdout
+questions and the pool holds **27**, with none in *Miscellaneous* — the largest
+topic at 19 of 163 items — and all 27 `hard` and single-answer. The decision
+report evaluates four architectures and asks the owner one question.
+
+Superseded: **Run the question-bank audit — Lot 27 unit 2.** Unit 1 (the §5 glossary) is
 delivered; the audit covers answer correctness, ambiguity, distractors,
 duplicates and near-duplicates, mappings, languages, estimated times and pool
 isolation across the 496 questions. Read-only first: propose corrections before
