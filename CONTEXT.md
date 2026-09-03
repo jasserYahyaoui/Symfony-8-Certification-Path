@@ -38,7 +38,33 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at merge commit `7c89adc` (Lot 21, PR #31).
+`pre-lot-27-audit-corrections`, at `404f548` — **PR #44 open, CI queued at the
+last single read (run `33719980682`, job `100536947483`). Not merged, not
+deployed, not smoke-tested: delivery is PENDING, and no `PASS` is claimed.**
+
+`master` is at `c4cfebc` — the squashed pre-Lot-27 decision gate (PR #43,
+Technical gate `100527192838` **success** on `eda6f50` before merge). That
+merge is what made master current; it carries the restored Master Plan
+findings, the ADR-0005 acceptance, the §5 and §4.3 policies, the §22
+assessment, the P2.8 flashcard repair and the versioned syllabus-audit
+artifacts.
+
+### Pre-Lot-27 corrections G-1 to G-4 (PR #44)
+
+Applied from the accepted audit, and nothing else — five files, coverage
+100% (163/163) before and after, pools untouched.
+
+| | Correction | Evidence it closed |
+|---|---|---|
+| G-1 | `SCOPE-001` now reads each choice's own `explanation`, not only its text | The extended rule reported **exactly one** violation — `QST-psqn0fe95khc`, the occurrence the audit predicted from separate evidence. Regression test added and **confirmed to fail against the pre-fix rule** |
+| G-2 | `QST-psqn0fe95khc` tagged `exclusion-note` | Its distractor explanation mentions Doctrine as a historical aside; the point is earned by knowing `Attribute\Route`, so it is a permitted §1.5 comparison. `validate` exit 0 after |
+| G-3 | `exclusions.yml` `review_only_exclusions` de-duplicated | Was 6 entries / 3 ids, and the two `EXC-UNLISTED-COMPONENTS` copies disagreed — the second omitted `HttpFoundation`, `HttpKernel`, `HttpClient`, `OptionsResolver`. Now 3 entries, 3 ids, one 32-entry list |
+| G-4 | `official-syllabus.md` cites the layout measurement instead of a plausibility claim | Both candidate readings of the missing 15th topic are internally consistent, so font size and left edge settle which lines are headings |
+
+**G-1 is the fourth instance of one class**, after SPLICE-1, SPLICE-2 and
+COG-1: **a rule that does not read a field cannot protect it.** `Choice::$explanation`
+existed, was required by §7.1, was rendered to the learner, and no rule had
+ever looked at it.
 
 The Technical gate that counts is run `33653840108` on head `610e320`:
 **success**. Run `33653775788` on `efaf14c` shows `cancelled` — superseded by
@@ -348,7 +374,12 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Begin Lot 27 — final review and mock exams.** Nothing blocks it. Its scope is
+**Read PR #44's Technical gate once.** It was `queued` at the last read; nothing
+else may start until it is green, merged, deployed and smoke-tested. Do not
+poll and do not report `PASS` before that evidence exists.
+
+Then, and only then, **begin Lot 27 — final review and mock exams.** Nothing
+else blocks it. Its scope is
 fixed by §14: independent syllabus audit; version-contamination audit; source
 and anchor audit; content-volume and duplication audit; question-bank audit;
 holdout integrity audit; English readiness audit; mock exams; technical,
