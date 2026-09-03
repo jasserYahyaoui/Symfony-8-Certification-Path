@@ -122,6 +122,8 @@ Verified, with real identifiers:
 | Lot 27 unit 2 — question-bank audit (PR #48) | `73542a0` | `100599262947` | `33740901382` | `100602733698` |
 | Lot 27 — Q-1 DUP-001 near-duplicates (PR #49) | `6134c46` | `100603497958` | `33742398560` | `100607460583` |
 | Lot 27 — Q-2/Q-3 FR-3 accents (PR #50) | `a56e105` | `100608172997` | `33743015881` | `100609460399` |
+| Lot 27 — delivery reconciliation (PR #51) | `6b70a0a` | `100611772160` | `33744080879` | `100612842440` |
+| Mock 4 Unit A — Option A + blueprint (PR #52) | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -407,7 +409,17 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Decide the Mock 4 architecture.** Units 1 and 2 and the three corrections
+**Write the 48 new HOLDOUT questions — Mock 4 Unit B.** The owner chose
+**Option A** on 2026-09-03 and Unit A is delivered: ADR-0005 records the
+decision, and `docs/mocks/mock-4-blueprint.yml` assigns 75 slots with the 27
+existing questions placed and 48 gaps named, checked by ten tests that recompute
+every figure from the 163 atomic items.
+
+Unit B writes those 48, in topic batches, starting with **Miscellaneous (9)** —
+the largest topic at 19 of 163 items and the only one with no holdout question
+at all. Unit C implements the mock itself, and not before.
+
+Superseded: **Decide the Mock 4 architecture.** Units 1 and 2 and the three corrections
 Q-1 to Q-3 are delivered and reconciled with real ids. The blocker is
 arithmetic and unresolved by any amount of work here: §10 requires 75 holdout
 questions and the pool holds **27**, with none in *Miscellaneous* — the largest
