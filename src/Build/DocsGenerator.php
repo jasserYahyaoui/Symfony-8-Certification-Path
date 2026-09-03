@@ -74,6 +74,7 @@ final readonly class DocsGenerator
         $written[] = $this->writeDoc($docsDir.'/index.md', $this->introPage($report));
         $written[] = $this->writeDoc($docsDir.'/syllabus/coverage.md', $this->coveragePage($report));
         $written[] = $this->writeDoc($docsDir.'/syllabus/exclusions.md', $this->exclusionsPage($content));
+        $written[] = $this->writeDoc($docsDir.'/syllabus/glossary.md', $this->glossaryPage());
 
         foreach ($this->coursePages($content) as $path => $markdown) {
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
@@ -251,6 +252,61 @@ Aucun lot de contenu ne peut démarrer tant que ce point n'est pas résolu.
         } else {
             foreach ($report->blockedItemIds as $id) {
                 $markdown .= '- `'.$id."`\n";
+            }
+        }
+
+        return $markdown;
+    }
+
+    /**
+     * Master Plan §5 — the French-to-English certification glossary.
+     *
+     * The exam is in English and the courses explain in French. This page
+     * closes that gap and only that gap: it is not a Symfony dictionary, and a
+     * term identical in both languages is deliberately absent.
+     */
+    private function glossaryPage(): string
+    {
+        $entries = $this->project->loadGlossary();
+
+        $markdown = $this->frontMatter('Glossaire FR / EN', 3, 'glossaire')."
+# Glossaire français / anglais
+
+> Page générée depuis `docs/syllabus/glossary.yml`. Ne pas modifier à la main.
+
+L'examen est **en anglais** ; les cours expliquent **en français**. Ce
+glossaire ne sert qu'à franchir cet écart : reconnaître dans l'énoncé anglais
+un mécanisme révisé en français, et ne pas confondre deux termes anglais
+voisins.
+
+Ce n'est pas un dictionnaire Symfony. Un terme identique dans les deux langues
+— *Cache*, *Clock*, *Process*, *Serializer*, *Mailer*, *Mime*, *Runtime*,
+*Finder*, *Filesystem* — en est absent : le connaître ne coûte rien.
+
+";
+
+        if ([] === $entries) {
+            return $markdown."Aucune entrée n'est configurée.\n";
+        }
+
+        $byTopic = [];
+        foreach ($entries as $entry) {
+            $byTopic[$entry['topic']][] = $entry;
+        }
+
+        $markdown .= \sprintf("**%d entrées**, groupées par topic officiel.\n", \count($entries));
+
+        foreach ($byTopic as $topic => $rows) {
+            $markdown .= "\n## ".$topic."\n\n";
+            $markdown .= "| Terme officiel (EN) | Français | Distinction utile |\n|---|---|---|\n";
+
+            foreach ($rows as $row) {
+                $markdown .= \sprintf(
+                    "| **%s** | %s | %s |\n",
+                    $this->mdxText($row['en']),
+                    $this->mdxText($row['fr']),
+                    isset($row['note']) ? $this->mdxText(trim($row['note'])) : '—',
+                );
             }
         }
 

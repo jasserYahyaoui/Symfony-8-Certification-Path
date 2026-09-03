@@ -100,6 +100,9 @@ const PAGES = [
   ['landing', '/'],
   ['docs index', '/docs'],
   ['item page with flashcards', '/docs/courses/lot-02/status-codes'],
+  // §5 glossary: a generated table, so its header scope and reading order
+  // are worth auditing rather than assumed.
+  ['glossary', '/docs/syllabus/glossary'],
   ['practice', '/practice'],
   ['exam', '/exam'],
   ['progression', '/progression'],

@@ -86,6 +86,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # The holdout check below compares the deployed payloads against the
+      # canonical question banks, so this job needs the repository.
+      - uses: actions/checkout@v4
+      - name: Install PyYAML
+        run: python3 -m pip install --quiet pyyaml
+
       # Master Plan §16: "the real production URL passes smoke tests".
       # Never report DEPLOYED from intention alone.
       - name: Check every published page and payload
@@ -97,6 +103,7 @@ jobs:
           # `trailingSlash: false` means the docs index is served at /docs,
           # not /docs/ — the latter is a genuine 404.
           for path in "" "docs" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
+                      "docs/syllabus/glossary" \
                       "practice" "exam" "progression" \
                       "data/practice.json" "data/exam.json" "data/coverage.json"; do
             url="$BASE_URL/$path"
@@ -120,12 +127,14 @@ jobs:
           grep -q 'Symfony 8 Certification Path' /tmp/landing \
             || { echo "::error::landing page did not render expected content"; fail=1; }
 
-          # Practice payload must never carry the holdout pool (§7.3).
+          # Holdout isolation, proved against the deployed bytes (§7.3,
+          # ADR-0006). The declared `pool` field was the whole check until
+          # 2026-09-03, which only ever proved the payload's own label. What
+          # matters is the question ids actually shipped, so they are compared
+          # against the canonical banks in this checkout.
           curl -sL -o /tmp/practice.json "$BASE_URL/data/practice.json"
-          pool=$(python3 -c 'import json;print(json.load(open("/tmp/practice.json"))["pool"])')
-          if [ "$pool" != "LEARNING" ]; then
-            echo "::error::practice payload declares pool $pool"
-            fail=1
-          fi
+          curl -sL -o /tmp/exam.json "$BASE_URL/data/exam.json"
+
+          python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json || fail=1
 
           exit $fail

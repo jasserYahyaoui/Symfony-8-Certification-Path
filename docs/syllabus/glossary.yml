@@ -1,0 +1,463 @@
+# French-to-English certification glossary (Master Plan §5).
+#
+# §5: "maintain a French-to-English certification glossary". The exam is in
+# English; the courses explain in French. This file closes exactly that gap and
+# nothing else.
+#
+# Admission rule, applied to every entry:
+#   1. the English term appears in the official syllabus wording, or in the
+#      official Symfony 8.0 API that an official item requires;
+#   2. the French rendering is the one the courses actually use;
+#   3. the pair carries revision value — either the two languages diverge
+#      enough that a French-trained candidate could miss the English wording,
+#      or two English terms are easy to confuse under time pressure.
+#
+# An entry that only restates a course is not admitted (§1.4). This is not a
+# Symfony dictionary: a term identical in both languages (Cache, Clock,
+# Process, Serializer, Mailer, Mime, Runtime, Finder, Filesystem) is absent on
+# purpose, because knowing it costs nothing.
+#
+# `see` references an official item verbatim; CI checks that it resolves.
+
+schema_version: 1
+
+entries:
+  # ---------------- HTTP ----------------
+  - en: Request
+    fr: requête
+    topic: HTTP
+    see: HTTP request
+  - en: Response
+    fr: réponse
+    topic: HTTP
+    see: HTTP response
+  - en: Status code
+    fr: code de statut
+    topic: HTTP
+    see: Status codes
+  - en: Safe method
+    fr: méthode sûre
+    topic: HTTP
+    note: >-
+      Sûre = ne modifie pas l'état. À distinguer d'idempotent, qui autorise la
+      modification mais exige le même résultat si l'appel est répété.
+    see: HTTP methods
+  - en: Idempotent
+    fr: idempotent
+    topic: HTTP
+    note: >-
+      Répéter l'appel donne le même état final. PUT et DELETE sont idempotents
+      sans être sûrs ; POST n'est ni l'un ni l'autre.
+    see: HTTP methods
+  - en: Content negotiation
+    fr: négociation de contenu
+    topic: HTTP
+    note: >-
+      Le client propose (`Accept`), le serveur choisit. À ne pas confondre avec
+      *Language detection*, qui ne décide que de la locale.
+    see: Content negotiation
+  - en: Language detection
+    fr: détection de la langue
+    topic: HTTP
+    see: Language detection
+
+  # ---------------- Symfony Architecture ----------------
+  - en: Event listener
+    fr: écouteur d'événement
+    topic: Symfony Architecture
+    note: >-
+      Un *listener* s'abonne à un événement depuis la configuration ; un
+      *subscriber* déclare lui-même ses abonnements. L'examen utilise les deux
+      mots.
+    see: Event dispatcher and kernel events
+  - en: Event subscriber
+    fr: abonné aux événements
+    topic: Symfony Architecture
+    see: Event dispatcher and kernel events
+  - en: Backward compatibility promise
+    fr: promesse de rétrocompatibilité
+    topic: Symfony Architecture
+    see: Backward compatibility promise
+  - en: Deprecation
+    fr: dépréciation
+    topic: Symfony Architecture
+    note: >-
+      Une dépréciation *annonce* un retrait futur ; elle ne casse rien dans la
+      version qui l'introduit.
+    see: Deprecations best practices
+  - en: Release management
+    fr: gestion des versions
+    topic: Symfony Architecture
+    see: Release management and roadmap schedule
+  - en: Framework overloading
+    fr: surcharge du framework
+    topic: Symfony Architecture
+    see: Framework overloading
+  - en: Naming conventions
+    fr: conventions de nommage
+    topic: Symfony Architecture
+    see: Naming conventions
+
+  # ---------------- Controllers ----------------
+  - en: Flash message
+    fr: message flash
+    topic: Controllers
+    see: The flash messages
+  - en: Redirect
+    fr: redirection
+    topic: Controllers
+    note: >-
+      *HTTP redirect* renvoie une réponse 3xx au navigateur ; *internal
+      redirect* (forward) réexécute un contrôleur sans aller-retour client.
+      L'examen oppose les deux.
+    see: HTTP redirects
+  - en: Forward
+    fr: redirection interne
+    topic: Controllers
+    see: Internal redirects
+  - en: Argument value resolver
+    fr: résolveur d'argument
+    topic: Controllers
+    see: Argument value resolvers
+  - en: File upload
+    fr: téléversement de fichier
+    topic: Controllers
+    see: File upload
+
+  # ---------------- Routing ----------------
+  - en: Route requirement
+    fr: contrainte de paramètre
+    topic: Routing
+    note: >-
+      *Requirement* restreint la valeur acceptée ; *default* fournit une valeur
+      quand le paramètre est absent. Deux mécanismes distincts sur le même
+      paramètre.
+    see: Restrict URL parameters
+  - en: Default value
+    fr: valeur par défaut
+    topic: Routing
+    see: Set default values to URL parameters
+  - en: URL generation
+    fr: génération d'URL
+    topic: Routing
+    see: URLs generation
+  - en: Host matching
+    fr: correspondance de nom de domaine
+    topic: Routing
+    see: Domain name matching
+  - en: Locale guessing
+    fr: détection de la locale
+    topic: Routing
+    see: User's locale guessing
+
+  # ---------------- Templating with Twig ----------------
+  - en: Template
+    fr: gabarit
+    topic: Templating with Twig
+    see: TwigBundle
+  - en: Auto escaping
+    fr: échappement automatique
+    topic: Templating with Twig
+    see: Auto escaping
+  - en: Template inheritance
+    fr: héritage de gabarit
+    topic: Templating with Twig
+    note: >-
+      L'héritage (`extends`) remplace des blocs ; l'inclusion (`include`) insère
+      un gabarit entier. L'examen teste la différence.
+    see: Template inheritance
+  - en: Template include
+    fr: inclusion de gabarit
+    topic: Templating with Twig
+    see: Template includes
+  - en: Filter
+    fr: filtre
+    topic: Templating with Twig
+    note: >-
+      Un filtre transforme une valeur reçue à gauche du `|` ; une fonction est
+      appelée avec ses arguments. Même bibliothèque, deux syntaxes.
+    see: Filters and functions
+  - en: Pluralization
+    fr: pluralisation
+    topic: Templating with Twig
+    see: Translations and pluralization
+
+  # ---------------- Forms ----------------
+  - en: Form type
+    fr: type de formulaire
+    topic: Forms
+    see: Form types (built-in and custom)
+  - en: Form theming
+    fr: personnalisation du rendu
+    topic: Forms
+    see: Forms theming
+  - en: Data transformer
+    fr: transformateur de données
+    topic: Forms
+    note: >-
+      `transform()` va du modèle vers la vue ; `reverseTransform()` de la donnée
+      soumise vers le modèle. Les noms se lisent depuis le modèle.
+    see: Data transformers
+  - en: Form type extension
+    fr: extension de type
+    topic: Forms
+    see: Form type extensions
+  - en: Option resolver
+    fr: résolveur d'options
+    topic: Forms
+    note: >-
+      `setDefined()` déclare qu'une option est acceptée ; `setDefaults()` lui
+      donne en plus une valeur.
+    see: Form options (OptionsResolver component)
+
+  # ---------------- Data Validation ----------------
+  - en: Constraint
+    fr: contrainte
+    topic: Data Validation
+    see: Built-in validation constraints
+  - en: Validation scope
+    fr: portée de validation
+    topic: Data Validation
+    note: >-
+      La portée dit *où* la contrainte est posée : propriété, accesseur ou
+      classe. À ne pas confondre avec le *groupe*, qui dit *quand* elle
+      s'applique.
+    see: Validation scopes
+  - en: Validation group
+    fr: groupe de validation
+    topic: Data Validation
+    see: Validation groups
+  - en: Group sequence
+    fr: séquence de groupes
+    topic: Data Validation
+    note: >-
+      Une séquence arrête la validation au premier groupe en échec.
+    see: Group sequence
+  - en: Violation
+    fr: violation
+    topic: Data Validation
+    see: Violations builder
+
+  # ---------------- Dependency Injection ----------------
+  - en: Service container
+    fr: conteneur de services
+    topic: Dependency Injection
+    see: Service container
+  - en: Autowiring
+    fr: câblage automatique
+    topic: Dependency Injection
+    see: Services autowiring
+  - en: Service decoration
+    fr: décoration de service
+    topic: Dependency Injection
+    note: >-
+      La décoration enveloppe un service existant ; un *service locator* ne fait
+      que différer la récupération d'un ensemble borné de services.
+    see: Service decoration
+  - en: Service locator
+    fr: localisateur de services
+    topic: Dependency Injection
+    see: Service locators
+  - en: Tag
+    fr: étiquette
+    topic: Dependency Injection
+    note: >-
+      Une étiquette est inerte tant qu'une passe de compilation ou un itérateur
+      ne la collecte pas.
+    see: Tags
+  - en: Compiler pass
+    fr: passe de compilation
+    topic: Dependency Injection
+    see: Compiler passes
+  - en: Factory
+    fr: fabrique
+    topic: Dependency Injection
+    see: Factories
+  - en: Semantic configuration
+    fr: configuration sémantique
+    topic: Dependency Injection
+    see: Semantic configuration
+
+  # ---------------- Security ----------------
+  - en: Authentication
+    fr: authentification
+    topic: Security
+    note: >-
+      L'authentification établit *qui* est l'utilisateur ; l'autorisation décide
+      *ce qu'il peut faire*. Le couple 401 / 403 suit la même frontière.
+    see: Authentication
+  - en: Authorization
+    fr: autorisation
+    topic: Security
+    see: Authorization
+  - en: Firewall
+    fr: pare-feu
+    topic: Security
+    note: >-
+      Un seul pare-feu traite une requête — le premier dont le `pattern`
+      correspond. Les règles `access_control` sont une seconde liste, également
+      à première correspondance.
+    see: Firewalls
+  - en: User provider
+    fr: fournisseur d'utilisateurs
+    topic: Security
+    see: Providers
+  - en: Password hasher
+    fr: hacheur de mot de passe
+    topic: Security
+    see: Password hashers
+  - en: Access control rule
+    fr: règle de contrôle d'accès
+    topic: Security
+    see: Access Control Rules
+  - en: Authenticator
+    fr: authentificateur
+    topic: Security
+    see: Authenticators, Passports and Badges
+  - en: Passport
+    fr: passeport
+    topic: Security
+    note: >-
+      Le passeport transporte l'utilisateur et ses *badges* pendant
+      l'authentification ; il ne survit pas à la requête.
+    see: Authenticators, Passports and Badges
+  - en: Badge
+    fr: badge
+    topic: Security
+    see: Authenticators, Passports and Badges
+  - en: Voter
+    fr: votant
+    topic: Security
+    note: >-
+      `affirmative` accorde dès un seul vote favorable ; `unanimous` signifie
+      « aucun refus », pas « tous accordent ».
+    see: Voters and voting strategies
+  - en: Token
+    fr: jeton
+    topic: Security
+    see: Users
+
+  # ---------------- Messenger ----------------
+  - en: Transport
+    fr: transport
+    topic: Messenger
+    see: Transports
+  - en: Handler
+    fr: gestionnaire de message
+    topic: Messenger
+    note: >-
+      Plusieurs gestionnaires peuvent traiter le même message ; tous sont
+      appelés.
+    see: Messages and handlers
+  - en: Worker
+    fr: worker
+    topic: Messenger
+    note: >-
+      Terme conservé en anglais dans les cours : c'est le nom de la commande
+      (`messenger:consume`) et du concept dans la documentation.
+    see: Workers
+  - en: Retry
+    fr: réessai
+    topic: Messenger
+    see: Retries and failures
+  - en: Middleware
+    fr: middleware
+    topic: Messenger
+    note: >-
+      Terme conservé en anglais. La chaîne s'exécute deux fois pour un message
+      asynchrone : à l'envoi, puis à la réception.
+    see: Middleware
+
+  # ---------------- Console ----------------
+  - en: Argument
+    fr: argument
+    topic: Console
+    note: >-
+      Un argument est positionnel ; une option est nommée et préfixée par `--`.
+    see: Options and arguments (using PHP attributes)
+  - en: Option
+    fr: option
+    topic: Console
+    see: Options and arguments (using PHP attributes)
+  - en: Verbosity level
+    fr: niveau de verbosité
+    topic: Console
+    see: Verbosity levels
+  - en: Helper
+    fr: assistant
+    topic: Console
+    see: Built-in helpers
+
+  # ---------------- Automated Tests ----------------
+  - en: Unit test
+    fr: test unitaire
+    topic: Automated Tests
+    note: >-
+      Un test unitaire isole une classe ; un test fonctionnel traverse le
+      noyau via le `Client`.
+    see: Unit tests with PHPUnit
+  - en: Functional test
+    fr: test fonctionnel
+    topic: Automated Tests
+    see: Functional tests with PHPUnit
+  - en: Crawler
+    fr: explorateur du DOM
+    topic: Automated Tests
+    see: Crawler object (CssSelector and DomCrawler components)
+  - en: Introspection
+    fr: introspection
+    topic: Automated Tests
+    see: Request and response objects introspection
+
+  # ---------------- Miscellaneous ----------------
+  - en: Data collector
+    fr: collecteur de données
+    topic: Miscellaneous
+    see: Web Profiler, Web Debug Toolbar and Data collectors
+  - en: Reverse proxy
+    fr: proxy inverse
+    topic: Miscellaneous
+    note: >-
+      *Expiration* fixe une durée de validité ; *validation* redemande au
+      serveur si la copie reste valable. L'examen oppose les deux modèles.
+    see: 'HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included'
+  - en: Localization
+    fr: localisation
+    topic: Miscellaneous
+    see: 'Internationalization and localization (Note: Intl component utilities to access ICU data are not included)'
+
+  # ---------------- PHP ----------------
+  - en: Attribute
+    fr: attribut
+    topic: PHP
+    note: >-
+      En PHP 8, un *attribute* est la syntaxe `#[...]`. Le mot anglais
+      *annotation* désigne l'ancien mécanisme en commentaire, retiré : les deux
+      ne sont pas synonymes à l'examen.
+    see: Attributes
+  - en: Closure
+    fr: fermeture
+    topic: PHP
+    see: Anonymous functions and closures
+  - en: Abstract class
+    fr: classe abstraite
+    topic: PHP
+    see: Abstract classes
+  - en: Trait
+    fr: trait
+    topic: PHP
+    see: Traits
+  - en: Enum
+    fr: énumération
+    topic: PHP
+    note: >-
+      Une énumération *backed* porte une valeur scalaire ; une énumération pure
+      n'en a pas.
+    see: Enums
+  - en: Late static binding
+    fr: résolution statique tardive
+    topic: PHP
+    note: >-
+      `self` désigne la classe où le code est écrit, `static` celle qui a
+      réellement appelé. C'est l'erreur silencieuse classique.
+    see: Object Oriented Programming

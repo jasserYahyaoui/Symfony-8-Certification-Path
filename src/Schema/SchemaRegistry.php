@@ -14,6 +14,7 @@ final class SchemaRegistry
     public const string SYLLABUS_MATRIX = 'syllabus-matrix';
     public const string SOURCE_MAP = 'source-map';
     public const string EXCLUSIONS = 'exclusions';
+    public const string GLOSSARY = 'glossary';
     public const string ID_REGISTRY = 'id-registry';
     public const string QUESTION_BANK = 'question-bank';
     public const string FLASHCARD_DECK = 'flashcard-deck';
@@ -29,6 +30,7 @@ final class SchemaRegistry
         self::SYLLABUS_MATRIX => 1,
         self::SOURCE_MAP => 1,
         self::EXCLUSIONS => 1,
+        self::GLOSSARY => 1,
         self::ID_REGISTRY => 1,
         self::QUESTION_BANK => 1,
         self::FLASHCARD_DECK => 1,
