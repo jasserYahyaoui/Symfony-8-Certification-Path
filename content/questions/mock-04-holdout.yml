@@ -2383,3 +2383,231 @@ questions:
     branch: master
     symbol_or_lines: Automatic binding of $this and Static anonymous functions (lines 1300-1400)
     verified_at: '2026-09-03'
+
+# Batch 10 — Console (2 of the 4 slots) and Automated Tests (2 of the 4).
+- id: QST-6zkd4rcem616
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  subtopic: shell-verbosity
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A build server must run every command more verbosely without adding a flag to each invocation. What allows it,
+    and what happens when a command is also given `-q`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - console
+  - verbosity
+  choices:
+  - id: CHO-5cmvrb9qaxsf
+    text: The `SHELL_VERBOSITY` environment variable sets the level globally — from `-2` for silent to `3` for debug — and
+      the `-q` and `-v` options take precedence over it
+    correct: true
+  - id: CHO-k79jajwgp9c0
+    text: '`SHELL_VERBOSITY` sets it globally, and it wins over any option so that a server-wide policy cannot be bypassed'
+    correct: false
+    explanation: The options have the higher precedence; the variable is the default, not an override.
+  - id: CHO-34r7ae8mf0e8
+    text: A `console.verbosity` key in the framework configuration, which a command may override
+    correct: false
+    explanation: Verbosity is not set through the framework configuration; the documented global lever is the SHELL_VERBOSITY
+      variable.
+  - id: CHO-52d7pt4g9r3p
+    text: Nothing global exists, so the flag has to be added to each invocation or wrapped in a script
+    correct: false
+    explanation: '`SHELL_VERBOSITY` exists for exactly this case.'
+  explanation: 'Six levels answer to one variable and to the option flags: `--silent` (-2), `-q`/`--quiet` (-1), the default
+    (0), `-v` (1), `-vv` (2) and `-vvv` (3), mapping to the `OutputInterface::VERBOSITY_*` constants. A command can also
+    ask the level directly with `isVerbose()`, `isVeryVerbose()` or `isDebug()` and print more only when it is worth it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: verbosity options and the SHELL_VERBOSITY table (lines 1-46)
+    verified_at: '2026-09-03'
+- id: QST-z613p05ry9a3
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: command-lifecycle
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In which order do a command's lifecycle methods run, and what makes `interact()` the last chance to ask for
+    a missing required argument?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - console
+  - lifecycle
+  choices:
+  - id: CHO-2c2bpcttjtds
+    text: '`initialize()`, then `interact()`, then `__invoke()` or `execute()`; `interact()` is called before the input
+      is validated, so a value it obtains still counts as supplied'
+    correct: true
+  - id: CHO-s6kmvw3tjmx9
+    text: '`interact()`, then `initialize()`, then `execute()`; asking first is what lets `initialize()` prepare variables
+      from the answers'
+    correct: false
+    explanation: '`initialize()` runs first, precisely so the variables it prepares are available to the other two.'
+  - id: CHO-sbh36txqr718
+    text: '`initialize()`, then `interact()`, then `execute()`; `interact()` runs after validation, so a missing required
+      argument has already been reported'
+    correct: false
+    explanation: 'The order is right but the reason is not: validation happens after `interact()`, which is why the value
+      it collects is accepted.'
+  - id: CHO-wgwkmzt35atv
+    text: '`initialize()`, then `execute()`, then `interact()`, the last being meant for a confirmation once the work is
+      done'
+    correct: false
+    explanation: '`interact()` is for collecting missing input before the command runs, not for confirming afterwards.'
+  explanation: 'Both optional methods surround the required one: `initialize()` prepares state, `interact()` fills in what
+    the invocation left out, and `__invoke()` (or `execute()`) does the work and returns the exit status. `interact()` is
+    skipped entirely when the command runs with `--no-interaction`, which is why a command must still behave sensibly when
+    nothing was asked.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Command Lifecycle (lines 419-443)
+    verified_at: '2026-09-03'
+- id: QST-6jqq52rp2xfa
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  subtopic: crawler-traversal
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which two statements about traversing a Crawler are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - dom-crawler
+  - testing
+  choices:
+  - id: CHO-d0spxhxec956
+    text: Every traversal method returns a new Crawler instance, which is what makes `filter(...)->last()->ancestors()->first()`
+      work as a chain
+    correct: true
+  - id: CHO-2yrvwh1bvckq
+    text: '`reduce($callback)` keeps only the nodes for which the callback returns `true`'
+    correct: true
+  - id: CHO-71c7wpwr4f94
+    text: '`filterXpath()` needs the CSS Selector component, while `filter()` works on its own'
+    correct: false
+    explanation: 'It is the other way round: `filter()` takes a CSS selector, which the CSS Selector component translates;
+      `filterXpath()` takes an XPath expression directly.'
+  - id: CHO-h1n7q7y0hke9
+    text: '`ancestors()` returns the direct parent only, a grandparent requiring a second call'
+    correct: false
+    explanation: It returns every ancestor up to the `<html>` element.
+  - id: CHO-f5be8ddvfjtc
+    text: '`count($crawler)` returns the number of documents traversed rather than the number of nodes held'
+    correct: false
+    explanation: It returns the number of nodes currently stored in the Crawler.
+  explanation: A Crawler is a selection of nodes, and every traversal method hands back a new selection rather than modifying
+    the current one — so a chain narrows the selection step by step and any intermediate Crawler stays usable. `reduce()`
+    is the general filter when a CSS selector cannot express the condition, and `count($crawler)` says how many nodes are
+    left.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Traversing (lines 8-66)
+    verified_at: '2026-09-03'
+- id: QST-cp2mseha1y8j
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  subtopic: request-headers
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One request in a test must carry a different `Host` header while the rest of the test keeps the default. Where
+    does that header go?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - testing
+  - client
+  choices:
+  - id: CHO-wajr8c7mta6k
+    text: 'In the fifth argument of `$client->request()`, the server parameters: `[''HTTP_HOST'' => ''en.example.com'']`.
+      The second argument of `createClient()` would apply it to every request instead'
+    correct: true
+  - id: CHO-crtc16zrexkg
+    text: In the third argument of `$client->request()`, alongside the request parameters
+    correct: false
+    explanation: That argument carries the request parameters. Server parameters, which is where headers go, are the fifth.
+  - id: CHO-vbqs2a7sseq1
+    text: In the fourth argument of `$client->request()`, next to the uploaded files
+    correct: false
+    explanation: The fourth argument is the files. Headers travel as server parameters, in the fifth.
+  - id: CHO-d14rxkqfh2a5
+    text: Only `createClient()` can set headers, so a second client is needed for the one request
+    correct: false
+    explanation: Headers can be overridden per request; a second client is not needed.
+  explanation: 'Headers reach the test client as server parameters, at client creation for all requests or per request.
+    The naming follows section 4.1.18 of RFC 3875 either way: replace `-` with `_`, uppercase, and prefix with `HTTP_`,
+    so `X-Session-Token` is passed as `HTTP_X_SESSION_TOKEN`.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: passing headers to createClient() and per request (lines 786-809)
+    verified_at: '2026-09-03'
