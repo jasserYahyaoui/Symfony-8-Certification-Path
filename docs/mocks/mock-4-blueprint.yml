@@ -4,11 +4,15 @@
 # infers none: slots follow each topic's share of the 163 atomic official
 # items. Never present it as the official distribution (§7.4, §10).
 #
-# No question is authored from this blueprint yet. Unit B writes the 48.
+# Unit B has written the 48 questions this blueprint asks for, one per free
+# atomic item, so the mock's 75 questions all exist. The figures below stay as
+# Unit A derived them: they are the specification the 48 were written against,
+# not a running tally. `eligible_unused_items` in particular counts what was
+# free when the blueprint was drawn.
 
 schema_version: 1
 mock: Mock 4 — official-format simulation
-status: BLUEPRINT — no question authored from it yet (Unit A)
+status: FILLED — the 48 questions exist (Unit B); Mock 4 itself is not implemented yet (Unit C)
 distribution_label: TRAINING_DISTRIBUTION
 official_constraints:
   questions: 75

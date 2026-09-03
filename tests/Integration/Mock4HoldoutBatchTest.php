@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CertPath\Tests\Integration;
 
+use CertPath\Domain\AnswerMode;
 use CertPath\Domain\Classification;
 use CertPath\Domain\Pool;
 use CertPath\Domain\Question;
@@ -74,6 +75,84 @@ final class Mock4HoldoutBatchTest extends TestCase
             self::NEW_REQUIRED,
             \count($this->newQuestions()),
             'more new holdout questions exist than Mock 4 has slots for',
+        );
+    }
+
+    /**
+     * Unit B is finished, so the guard that allowed a partial bank while it was
+     * being written now asserts the finished shape: every gap filled exactly,
+     * and Mock 4's 75 questions all in existence.
+     */
+    public function testTheFortyEightAreWrittenAndEveryTopicGapIsFilledExactly(): void
+    {
+        $matrix = Project::locate()->loadMatrix();
+        $topicOf = [];
+        foreach ($matrix->officialItems() as $item) {
+            $topicOf[$item->id->value] = $item->officialTopic;
+        }
+
+        $written = [];
+        foreach ($this->newQuestions() as $question) {
+            $topic = $topicOf[$question->officialItemId];
+            $written[$topic] = ($written[$topic] ?? 0) + 1;
+        }
+
+        $blueprint = $this->blueprint();
+        foreach ($blueprint['topics'] as $row) {
+            self::assertSame(
+                $row['new_required'],
+                $written[$row['topic']] ?? 0,
+                $row['topic'].' does not have exactly the questions the blueprint asks for',
+            );
+        }
+
+        self::assertCount(self::NEW_REQUIRED, $this->newQuestions());
+        self::assertSame(
+            $blueprint['totals']['slots'],
+            $blueprint['totals']['assigned_existing'] + self::NEW_REQUIRED,
+            'the 27 existing and the 48 new questions must account for every slot',
+        );
+    }
+
+    /**
+     * The difficulty budget is spent exactly, not merely respected: the mock's
+     * shape was derived in Unit A and a bank that under-spends `hard` is as
+     * far off it as one that overspends `easy`.
+     */
+    public function testTheDifficultyBudgetIsSpentExactly(): void
+    {
+        $target = $this->blueprint()['difficulty_target'];
+        $expected = [
+            'easy' => $target['easy'],
+            'medium' => $target['medium'],
+            'hard' => $target['hard'] - 27,
+        ];
+
+        $spent = ['easy' => 0, 'medium' => 0, 'hard' => 0];
+        foreach ($this->newQuestions() as $question) {
+            ++$spent[$question->difficulty];
+        }
+
+        self::assertSame($expected, $spent);
+    }
+
+    /**
+     * §10 asks for multi-select to appear in a sitting; the existing 27 hold
+     * none, so the 48 are the only source.
+     */
+    public function testTheMultipleAnswerMinimumIsMet(): void
+    {
+        $multiple = 0;
+        foreach ($this->newQuestions() as $question) {
+            if (AnswerMode::Multiple === $question->answerMode) {
+                ++$multiple;
+            }
+        }
+
+        self::assertGreaterThanOrEqual(
+            $this->blueprint()['answer_mode_target']['multiple_minimum'],
+            $multiple,
+            'the mock would not exercise multi-select often enough',
         );
     }
 

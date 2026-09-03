@@ -476,7 +476,7 @@ questions:
   domain: symfony
   subtopic: normalizers
   language: en
-  difficulty: medium
+  difficulty: hard
   cognitive_level: UNDERSTAND
   exam_skill: DISTINGUISH
   type: mcq
@@ -2610,4 +2610,187 @@ questions:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: passing headers to createClient() and per request (lines 786-809)
+    verified_at: '2026-09-03'
+
+# Batch 11 — Data Validation (2 of the 4 slots) and Messenger (1 of the 3),
+# completing the 48 the blueprint requires.
+- id: QST-j3kwycekd7bb
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  subtopic: validator-entry-points
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An existing `User` object must be checked on its `email` property alone, against the value it currently holds.
+    Which call does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - validator
+  - api
+  choices:
+  - id: CHO-45pkrcxagpb7
+    text: '`$validator->validateProperty($user, ''email'')`, which applies that property''s constraints to the value the
+      object holds'
+    correct: true
+  - id: CHO-9y2jbm13q77z
+    text: '`$validator->validate($user->getEmail())` with no constraint argument, the validator then looking up the property''s
+      constraints'
+    correct: false
+    explanation: With no constraint argument the `Valid` constraint is assumed, and a bare string carries no metadata of
+      its own — nothing links that value back to the property.
+  - id: CHO-3msjwe3wbnhh
+    text: '`$validator->validateProperty(User::class, ''email'')`, since the constraints belong to the class rather than
+      to the instance'
+    correct: false
+    explanation: '`validateProperty()` needs the object, because it reads the value from it. Accepting a class name is what
+      `validatePropertyValue()` does — and it is given the value to test.'
+  - id: CHO-bzv79xcfadqj
+    text: '`$validator->validateProperty($user, ''email'')`, which returns `true` or `false` for that property'
+    correct: false
+    explanation: 'The call is right, the return type is not: all three entry points return a ConstraintViolationListInterface,
+      empty when validation succeeded.'
+  explanation: 'The three entry points differ in what they are given and where the value comes from: `validate()` takes
+    a value and optional constraints, `validateProperty()` takes an object and a property name and reads the value from
+    the object, and `validatePropertyValue()` takes an object *or a class name*, a property name and a candidate value —
+    which is what allows a value to be tested before any instance exists. All three return a violation list that is empty
+    on success.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validate, validateProperty, validatePropertyValue (lines 28-68)
+    verified_at: '2026-09-03'
+- id: QST-6mnxdrerpckk
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  subtopic: external-callback
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The validation logic lives in a static method of a class other than the validated one. How is `Assert\Callback`
+    pointed at it, and what does that method receive?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - validator
+  - callback
+  choices:
+  - id: CHO-xkeqgkhbbr39
+    text: '`#[Assert\Callback([Validator::class, ''validate''])]` — an array callable of the kind `call_user_func()` accepts
+      — and the method receives the value, the `ExecutionContextInterface` and the payload'
+    correct: true
+  - id: CHO-d8b7v8aatgj0
+    text: 'It cannot be: `Assert\Callback` only names a method of the validated class, so the logic has to be wrapped in
+      one'
+    correct: false
+    explanation: An external static callback is explicitly supported; the constraint takes the array callable directly.
+  - id: CHO-hjqpkt79z3j5
+    text: '`#[Assert\Callback(''Acme\Validator::validate'')]` as a string, the array form being reserved for methods of
+      the validated class itself'
+    correct: false
+    explanation: The array form is precisely what points outside the validated class; it is not reserved for the class's
+      own methods.
+  - id: CHO-fjz3y225py37
+    text: With the array callable, but the external method receives only the `ExecutionContextInterface`, reading the value
+      from it
+    correct: false
+    explanation: The value is the first parameter, followed by the context and the payload.
+  explanation: 'A callback on the validated class itself receives the context first, because the value is `$this`. Once
+    the method lives elsewhere that no longer holds, so the value is passed explicitly: `validate(mixed $value, ExecutionContextInterface
+    $context, mixed $payload)`. The return value is ignored in either case — a problem is reported by adding a violation
+    to the context.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: External Callbacks and Closures (lines 141-176)
+    verified_at: '2026-09-03'
+- id: QST-y746dwnpn8e2
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-hs1297vvhr89
+  domain: symfony
+  subtopic: envelope-stamps
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A message is dispatched on a bus where its handler runs synchronously. Which two statements are correct? (Choose
+    2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - messenger
+  - envelope
+  choices:
+  - id: CHO-8pmea5h4nrgh
+    text: '`dispatch()` returns the Envelope, and the handler''s return value is read from it with `$envelope->last(HandledStamp::class)->getResult()`'
+    correct: true
+  - id: CHO-c1e29r563ms7
+    text: Stamps can be attached by passing them as the second argument of `dispatch()`, without building an Envelope by
+      hand
+    correct: true
+  - id: CHO-eab4zkxp5bmt
+    text: '`dispatch()` returns the handler''s return value directly whenever exactly one handler is registered'
+    correct: false
+    explanation: It always returns an Envelope. The handler result is reached through the HandledStamp that HandleMessageMiddleware
+      adds.
+  - id: CHO-hvcxyfsfwtm5
+    text: An Envelope has to be constructed by hand, the bus never wrapping a plain message on its own
+    correct: false
+    explanation: The bus wraps the message itself; constructing the Envelope explicitly is an option, not an obligation.
+  - id: CHO-ftpfbsjqnypf
+    text: A handler that type-hints `Envelope` on its `__invoke()` receives it automatically
+    correct: false
+    explanation: Symfony does not inject the Envelope into a handler; doing so takes a custom middleware that stamps it
+      before HandleMessageMiddleware runs.
+  explanation: 'The Envelope is the message plus its stamps, and it is what travels through the middleware and comes back
+    from `dispatch()`. One stamp per handler is added on handling, so `last(HandledStamp::class)` gives the last handler''s
+    result and `all(HandledStamp::class)` every handler''s. None of this is available for a message routed to an asynchronous
+    transport: it has not been handled yet when `dispatch()` returns.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Getting Results from your Handlers (lines 2563-2581) and stamps on dispatch (lines 3096-3120)
     verified_at: '2026-09-03'
