@@ -530,3 +530,293 @@ questions:
     branch: '8.0'
     symbol_or_lines: ObjectNormalizer (lines 1432-1445) and PropertyNormalizer (lines 1511-1540)
     verified_at: '2026-09-03'
+
+# Batch 2 — Symfony Architecture (5 of the 7 slots; 2 are filled by existing
+# holdout questions). Same rule: one question per free atomic item, each facet
+# chosen against what the item already carries.
+- id: QST-1v316765c664
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  subtopic: kernel-events
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller returns an array rather than a `Response`. Which kernel event is dispatched, and what happens if
+    nothing acts on it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - kernel-events
+  - http-kernel
+  choices:
+  - id: CHO-zf1xepxd3fz6
+    text: '`kernel.view` (ViewEvent), dispatched only because the return value is not a `Response`; a listener is expected
+      to turn `getControllerResult()` into a response with `setResponse()`, and if none does, an exception is thrown'
+    correct: true
+  - id: CHO-mn6wg4a3d4dx
+    text: '`kernel.view` is dispatched for every controller, and its listeners simply ignore the ones that already returned
+      a `Response`'
+    correct: false
+    explanation: The kernel dispatches it only when the controller did not return a Response. A controller that returns
+      one skips the stage entirely.
+  - id: CHO-rhgwg9hx4ttj
+    text: '`kernel.response` (ResponseEvent), which converts the returned value into a `Response` before the listeners see
+      it'
+    correct: false
+    explanation: '`kernel.response` is dispatched with a Response that already exists; nothing there converts a controller
+      return value.'
+  - id: CHO-n4jn4wc4qges
+    text: '`kernel.controller_arguments` (ControllerArgumentsEvent), the returned value being treated as a new set of arguments'
+    correct: false
+    explanation: That event is dispatched before the controller runs, to resolve the arguments it will be called with.
+  explanation: Either the controller or one of the `kernel.view` listeners must always produce a Response — at that stage,
+    if no listener sets one, an exception is thrown. Setting a response on the event also stops propagation, so lower-priority
+    listeners are not executed. In a Symfony application a default listener covers the array-plus-`#[Template]` case.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: '``kernel.view`` (lines 114-135)'
+    verified_at: '2026-09-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 6) The ``kernel.view`` Event (lines 369-396)
+    verified_at: '2026-09-03'
+- id: QST-bbrjnn5e7a0q
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  subtopic: template-override
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: AcmeUserBundle ships `templates/registration/confirmed.html.twig`. Where does the application put its own version
+    of that template?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - bundles
+  - templates
+  choices:
+  - id: CHO-ytsxtsgf9x2m
+    text: '`templates/bundles/AcmeUserBundle/registration/confirmed.html.twig` — the same name and path, taken relative
+      to the bundle''s own `templates/` directory'
+    correct: true
+  - id: CHO-2pwseedqjcs1
+    text: '`templates/AcmeUserBundle/registration/confirmed.html.twig` — the `bundles/` segment is only needed for bundles
+      installed outside `vendor/`'
+    correct: false
+    explanation: The `bundles/` segment is always part of the override path; where the bundle is installed changes nothing.
+  - id: CHO-1za3s9skxfh8
+    text: '`templates/bundles/AcmeUserBundle/templates/registration/confirmed.html.twig` — the bundle tree is mirrored in
+      full'
+    correct: false
+    explanation: The path is taken relative to the bundle's `templates/` directory, so that segment is not repeated.
+  - id: CHO-m89b69fx4me1
+    text: '`templates/bundles/AcmeUser/registration/confirmed.html.twig` — the directory uses the logical name, without
+      the `Bundle` suffix'
+    correct: false
+    explanation: The directory carries the bundle name in full, `AcmeUserBundle`. The shortened form belongs to the `@AcmeUser`
+      reference used inside templates.
+  explanation: Third-party bundle templates are overridden under `templates/bundles/<bundle-name>/`, keeping the same name
+    and path relative to the bundle's `templates/` directory. Adding a template in a new location may require clearing the
+    cache, even in debug mode. Extending the original from the override is what the `@!` prefix is for.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Templates (lines 8-40)
+    verified_at: '2026-09-03'
+- id: QST-6kxc6ajvbmwc
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  subtopic: deprecation-records
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class is deprecated in Symfony 8.1. Besides the `@deprecated` PHPDoc and the `trigger_deprecation()` call,
+    where must the deprecation be recorded?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - deprecations
+  - conventions
+  choices:
+  - id: CHO-02w4nje71ze7
+    text: In the impacted component's `CHANGELOG.md`, in `UPGRADE-8.1.md` for the targeted minor version, and in `UPGRADE-9.0.md`,
+      where the consequences of the eventual removal go
+    correct: true
+  - id: CHO-5dcdxe8karb2
+    text: Only in the component's `CHANGELOG.md`; the UPGRADE files are written when the code is actually removed
+    correct: false
+    explanation: UPGRADE-8.1.md is written at deprecation time. Only the "Remove the ..." entry waits for the removal.
+  - id: CHO-9fqg9zdm1n2j
+    text: In the root `CHANGELOG.md` of symfony/symfony and in the release announcement
+    correct: false
+    explanation: The convention names the CHANGELOG.md of the impacted component, not a root file or an announcement.
+  - id: CHO-zzr242krn2n6
+    text: In `UPGRADE-8.1.md` alone, the changelog being generated from the commit messages
+    correct: false
+    explanation: The entry in the component's CHANGELOG.md is required explicitly; it is not generated from commits.
+  explanation: 'A deprecation is a documented event, not just a PHPDoc tag: the component''s CHANGELOG.md records it, UPGRADE-8.1.md
+    tells users of that minor version what to change, and UPGRADE-9.0.md carries the consequence of the removal — which
+    can only happen on the next major.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Deprecating Code (lines 128-214)
+    verified_at: '2026-09-03'
+- id: QST-j91kezha4d54
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  subtopic: release-calendar
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Under the time-based release model, when are Symfony minor and major versions published?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - releases
+  - versioning
+  choices:
+  - id: CHO-xqwvbv0xepk6
+    text: A minor version every six months, one in May and one in November; a major version every two years, in November
+      of an odd year
+    correct: true
+  - id: CHO-f6eaq9v19j4q
+    text: A minor version every six months, in March and September; a major version every year, in November
+    correct: false
+    explanation: The two minor releases land in May and November, and a major comes every two years, not every year.
+  - id: CHO-aaehwnr7n1y0
+    text: A minor version every six months, in May and November; a major version whenever enough breaking changes have accumulated,
+      on no fixed calendar
+    correct: false
+    explanation: 'Major versions are part of the same time-based model: every two years, in November of an odd year.'
+  - id: CHO-cermsf1hz40p
+    text: A minor version roughly every month, and a major version every six months
+    correct: false
+    explanation: Roughly monthly is the cadence of patch versions, which carry bug fixes only.
+  explanation: 'The model is time-based, not feature-based: patch versions roughly monthly, minor versions every six months
+    in May and November, major versions every two years in November of an odd year. Each major or minor cycle is four months
+    of development followed by two months of stabilization.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: time-based model (lines 8-19) and Development (lines 37-45)
+    verified_at: '2026-09-03'
+- id: QST-zzd26kbrns7a
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  subtopic: best-practices-structure
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A team wants to group its own application code into a `UserBundle` and a `BillingBundle`. What do the official
+    best practices say?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - best-practices
+  - code-organization
+  choices:
+  - id: CHO-b2fbs6mc0sy0
+    text: 'Not to: a bundle is meant to be software reusable as a stand-alone component, so internal code is structured
+      with PHP namespaces under `App\` instead — a bundle is warranted only to reuse a feature across several projects,
+      and it may live in a private repository'
+    correct: true
+  - id: CHO-w2xzc25y8drn
+    text: To do it, provided each bundle lives under `src/` and is registered in `config/bundles.php`
+    correct: false
+    explanation: The recommendation is against bundles that organise application logic, wherever they live and however they
+      are registered.
+  - id: CHO-w9qb7tk0b1bx
+    text: Not to, because an application can only register one bundle of its own
+    correct: false
+    explanation: An application may register any number of bundles. The recommendation is about how to organise code, not
+      a technical limit.
+  - id: CHO-v8zst111cd46
+    text: To do it for anything they intend to reuse, but a reusable bundle has to be published publicly to be installable
+    correct: false
+    explanation: The best practices note explicitly that such a bundle can live in a private repository.
+  explanation: The dividing line is reuse. Bundles exist to ship software that stands on its own; application logic is organised
+    with PHP namespaces under `App\`. A feature genuinely shared between projects is the case where a bundle is right, and
+    it does not have to be public.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Don't Create any Bundle to Organize your Application Logic (lines 163-175)
+    verified_at: '2026-09-03'
