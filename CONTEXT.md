@@ -42,16 +42,31 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`mock-4-unit-b-questions`, at `adfe008` — **Mock 4 Unit B delivered on the
-branch, Pull Request open**. The 48 new HOLDOUT questions the blueprint asks
-for are written, in eleven topic batches, each validated before the next began.
+`master`, at `e3d3f36` — **Mock 4 Unit B delivered in full**: PR #54,
+Technical gate `100773606308` success on `931f549`, merged, deploy run
+`33793143221` with build `100774316227`, deploy `100774718420` and production
+smoke test `100774784144`, all success. The 48 new HOLDOUT questions the
+blueprint asks for are written, in eleven topic batches, each validated before
+the next began.
 
-Locally, `composer gate-full` exits 0: 18 rules and no violations over 544
-questions, coverage 100% (163/163), phpunit OK (112 tests, 4704 assertions),
-the site build succeeds and the accessibility audit passes 7 of 7 pages with 0
-violations. CI, merge and deployment evidence is not in yet, so no row is
-added to the delivery table above: this paragraph is the state, not a claim of
-completion.
+The smoke log was read, not assumed. Eleven production URLs at 200, and the
+holdout check now covers the enlarged pool:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+checked against 75 holdout questions and 308 holdout choices
+```
+
+75 and 308, against 27 and 108 before this lot: the 48 new questions and their
+200 choices are in the canonical banks and in none of the deployed payloads.
+The count rising is itself part of the evidence — a smoke test still checking
+27 would mean the new bank had not reached it.
+
+Before the merge, `composer gate-full` exited 0 locally: 18 rules and no
+violations over 544 questions, coverage 100% (163/163), phpunit OK (112 tests,
+4704 assertions), the site build succeeded and the accessibility audit passed 7
+of 7 pages with 0 violations.
 
 The bank is `content/questions/mock-04-holdout.yml`. Shape of the 48: 5 easy,
 40 medium, 3 hard — the budget spent exactly — 8 multiple-answer, mean 66.46s
@@ -155,6 +170,7 @@ Verified, with real identifiers:
 | Lot 27 — Q-2/Q-3 FR-3 accents (PR #50) | `a56e105` | `100608172997` | `33743015881` | `100609460399` |
 | Lot 27 — delivery reconciliation (PR #51) | `6b70a0a` | `100611772160` | `33744080879` | `100612842440` |
 | Mock 4 Unit A — Option A + blueprint (PR #52) | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
+| Mock 4 Unit B — the 48 holdout questions (PR #54) | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -440,12 +456,10 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Close the Unit B delivery, then implement Mock 4 — Unit C.** The Pull Request
-for `mock-4-unit-b-questions` is open; read its Technical gate once, merge,
-watch the deployment and read the production smoke log rather than assuming it,
-then add the delivery row to the table above with the real ids.
+**Implement Mock 4 — Unit C.** Unit B is closed: merged, deployed and smoke
+tested, with the delivery row in the table above.
 
-Unit C then implements the mock itself, and nothing about it may weaken what
+Unit C implements the mock itself, and nothing about it may weaken what
 Unit B established: 75 questions, 90 minutes, 100% English, answers hidden
 until submission and analysis only after it, results reported by topic and by
 learning outcome, accessible, and persisted. The holdout pool stays out of
