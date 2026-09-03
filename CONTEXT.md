@@ -38,7 +38,25 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `7456e20` — the squashed corrections PR #44, **delivered in full**:
+`master`, at `5d8a4f8` — **Lot 27 unit 1 (the §5 glossary) delivered in full**:
+PR #46, Technical gate `100587591300` success on `1a6716c`, merged, deploy run
+`33737464109` with build `100591307991`, deploy `100591639720` and production
+smoke test `100591698010`, all success.
+
+The smoke log was read, not assumed. Eleven URLs at 200 including the new
+`/docs/syllabus/glossary`, and the **new** holdout check ran in production for
+the first time:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+checked against 27 holdout questions and 108 holdout choices
+```
+
+That is the first time holdout isolation has been proved against the deployed
+bytes rather than against the payload's own `pool` label.
+
+Before it, `7456e20` — the squashed corrections PR #44, **delivered in full**:
 Technical gate `100542490813` success on head `46b0df4`, merged, deploy run
 `33722133013` with build `100543284846`, deploy `100543519869` and production
 smoke test `100543569797`, all success. The smoke-test log was read rather than
@@ -94,6 +112,8 @@ Verified, with real identifiers:
 | 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
 | Pre-Lot-27 gate (PR #43) | `c4cfebc` | `100527192838` | `33719653086` | — |
 | Corrections G-1 to G-4 (PR #44) | `7456e20` | `100542490813` | `33722133013` | `100543569797` |
+| CONTEXT delivery evidence (PR #45) | `90f990e` | `100580157989` | `33734587613` | `100582461633` |
+| Lot 27 unit 1 — §5 glossary (PR #46) | `5d8a4f8` | `100587591300` | `33737464109` | `100591698010` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -378,9 +398,13 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Begin Lot 27 — final review and mock exams.** The pre-Lot-27 gate and both
-its delivery PRs are closed with real evidence, so nothing blocks it. Its scope
-is
+**Run the question-bank audit — Lot 27 unit 2.** Unit 1 (the §5 glossary) is
+delivered; the audit covers answer correctness, ambiguity, distractors,
+duplicates and near-duplicates, mappings, languages, estimated times and pool
+isolation across the 496 questions. Read-only first: propose corrections before
+applying any.
+
+Lot 27's full scope
 fixed by §14: independent syllabus audit; version-contamination audit; source
 and anchor audit; content-volume and duplication audit; question-bank audit;
 holdout integrity audit; English readiness audit; mock exams; technical,
