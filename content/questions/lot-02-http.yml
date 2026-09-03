@@ -1,1033 +1,1016 @@
-# Lot 02 — HTTP question bank (Master Plan §7).
-#
-# 18 LEARNING questions (2 per item) and 2 HOLDOUT questions reserved for the
-# final mocks. 13 are in English, matching the exam language (§5). Every
-# distractor carries an explanation (§7.2).
-
 schema_version: 1
-
 questions:
-  - id: QST-ktj89z3z3d5c
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-7801mj6w73ky
-    domain: http
-    language: en
-    difficulty: easy
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Which RFC defines HTTP caching, as distinct from HTTP semantics?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 40
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [rfc9110]
-    choices:
-      - id: CHO-1w4eatstphjk
-        text: "RFC 9111"
-        correct: true
-      - id: CHO-m7wne42v4xd7
-        text: "RFC 9110"
-        correct: false
-        explanation: >-
-          9110 defines semantics: methods, status codes, header fields and negotiation. Caching was split into its own document.
-      - id: CHO-a5m918yvfkx8
-        text: "RFC 9112"
-        correct: false
-        explanation: >-
-          9112 specifies HTTP/1.1 message framing, not caching.
-      - id: CHO-fcn7g6h1a4rz
-        text: "RFC 2616"
-        correct: false
-        explanation: >-
-          2616 is the obsolete single document that the 911x series replaced.
-    explanation: >-
-      The 911x series splits HTTP: 9110 semantics, 9111 caching, 9112 HTTP/1.1, 9113 HTTP/2, 9114 HTTP/3.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
-        branch: "master"
-        symbol_or_lines: "section 1 Introduction"
-        verified_at: "2026-09-01"
-  - id: QST-tdqxjjpwv51c
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-7801mj6w73ky
-    domain: http
-    language: fr
-    difficulty: easy
-    cognitive_level: KNOW
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Un code de statut HTTP a-t-il la meme signification en HTTP/1.1, HTTP/2 et HTTP/3 ?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 45
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [rfc9110]
-    choices:
-      - id: CHO-pv5h20c0xb2f
-        text: "Oui : la semantique est independante de la version de transport"
-        correct: true
-      - id: CHO-debh53fwrbes
-        text: "Non : chaque version redefinit ses codes"
-        correct: false
-        explanation: >-
-          Les versions 9112, 9113 et 9114 ne definissent que le transport ; la semantique reste celle de RFC 9110.
-      - id: CHO-16fear7dk5eh
-        text: "Oui, sauf pour les codes 1xx"
-        correct: false
-        explanation: >-
-          Aucune classe de statut n'est redefinie par la version de transport.
-      - id: CHO-m276n5k4kbwd
-        text: "Non : HTTP/2 supprime les codes 3xx"
-        correct: false
-        explanation: >-
-          HTTP/2 ne supprime aucun code de statut.
-    explanation: >-
-      RFC 9110 definit la semantique une fois pour toutes ; 9112, 9113 et 9114 ne decrivent que la maniere de transporter les messages.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
-        branch: "master"
-        symbol_or_lines: "section 1 Introduction"
-        verified_at: "2026-09-01"
-  - id: QST-cxq2pvqpazts
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-d3nyk9z0q2pd
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    code_language: php
-    question: >-
-      A request arrives as /search?tags[]=php&tags[]=http. What does $request->query->get('tags') do?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 65
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [request, inputbag]
-    choices:
-      - id: CHO-34se1p0kj0nt
-        text: "It throws a BadRequestException"
-        correct: true
-      - id: CHO-cgkcm8y9ktep
-        text: "It returns ['php', 'http']"
-        correct: false
-        explanation: >-
-          That is what all('tags') returns. get() is restricted to scalar values.
-      - id: CHO-j06d2envyqbt
-        text: "It returns 'php', the first value"
-        correct: false
-        explanation: >-
-          InputBag does not silently pick a value; it refuses the whole access.
-      - id: CHO-6bhyq1nynn4x
-        text: "It returns null"
-        correct: false
-        explanation: >-
-          The key exists, so this is not a missing-key case; the value's shape is the problem.
-    explanation: >-
-      $query is an InputBag, whose get() accepts only scalars and throws BadRequestException otherwise. Use all() for multi-valued input.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "InputBag::get, BadRequestException on non-scalar"
-        verified_at: "2026-09-01"
-  - id: QST-0yt0wew1kzge
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-d3nyk9z0q2pd
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: multiple
-    required_answer_count: 2
-    question: >-
-      Which statements about Symfony's Request bags are correct? (Choose 2)
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 70
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [request]
-    choices:
-      - id: CHO-ymvfw8d22ysj
-        text: "$request->request holds the POST body, not the whole request"
-        correct: true
-      - id: CHO-6j85mwmb7gpc
-        text: "$request->attributes is a ParameterBag and accepts non-scalar values"
-        correct: true
-      - id: CHO-8g1jhp6xqxjm
-        text: "$request->query is a ParameterBag"
-        correct: false
-        explanation: >-
-          It is an InputBag, which restricts values to scalars because they come from the client.
-      - id: CHO-ha2he34w2kgc
-        text: "$request->headers holds $_SERVER"
-        correct: false
-        explanation: >-
-          That is $server, a ServerBag. $headers is a HeaderBag.
-    explanation: >-
-      Client-supplied bags ($query, $request, $cookies) are InputBag and reject non-scalars. $attributes is application-supplied, so it is a ParameterBag without that restriction.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "public bag properties lines 94-130"
-        verified_at: "2026-09-01"
-  - id: QST-8twgxeyvsp73
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-jh06tkfrhthq
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: UNDERSTAND
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      A Response carries status 304. What do isRedirection() and isRedirect() return?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 75
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [response]
-    choices:
-      - id: CHO-fgs0ch1d6fby
-        text: "isRedirection() true, isRedirect() false"
-        correct: true
-      - id: CHO-wd30jcs2x50v
-        text: "Both true"
-        correct: false
-        explanation: >-
-          isRedirect() checks an explicit list — 201, 301, 302, 303, 307, 308 — which excludes 304.
-      - id: CHO-bjehqmw9yjab
-        text: "Both false"
-        correct: false
-        explanation: >-
-          304 is in the 3xx class, so isRedirection() is true by definition.
-      - id: CHO-egvs9886p2pc
-        text: "isRedirection() false, isRedirect() true"
-        correct: false
-        explanation: >-
-          This inverts both: 304 is 3xx, and it is absent from the isRedirect() list.
-    explanation: >-
-      isRedirection() is literally 300 <= code < 400. isRedirect() is an explicit list of statuses that actually carry a Location header: it includes 201 and excludes 300 and 304.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "isRedirect line 1254, isRedirection line 1194"
-        verified_at: "2026-09-01"
-  - id: QST-1x99cch6bwr6
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-jh06tkfrhthq
-    domain: http
-    language: fr
-    difficulty: easy
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Quelle classe utiliser pour renvoyer un gros fichier sans le charger entierement en memoire ?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 50
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [response]
-    choices:
-      - id: CHO-3k3eajd4kv6q
-        text: "BinaryFileResponse"
-        correct: true
-      - id: CHO-n440yppwcnkk
-        text: "JsonResponse"
-        correct: false
-        explanation: >-
-          Elle encode un tableau en JSON ; elle ne sert pas de fichier.
-      - id: CHO-z9pa4sbb54s2
-        text: "Response avec le contenu du fichier en argument"
-        correct: false
-        explanation: >-
-          Cela charge tout le fichier en memoire, ce que la question demande justement d'eviter.
-      - id: CHO-x61mqbe3afjp
-        text: "RedirectResponse vers l'URL du fichier"
-        correct: false
-        explanation: >-
-          Cela delegue au serveur web et contourne toute logique d'autorisation applicative.
-    explanation: >-
-      BinaryFileResponse sert un fichier depuis le disque, avec gestion des requetes de plage. StreamedResponse convient lorsque le corps est genere a la volee.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "class BinaryFileResponse"
-        verified_at: "2026-09-01"
-  - id: QST-xbkvhs464f4r
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-qnm508g1ktqm
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: UNDERSTAND
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: multiple
-    required_answer_count: 2
-    question: >-
-      Which HTTP methods are idempotent but NOT safe? (Choose 2)
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 70
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [methods]
-    choices:
-      - id: CHO-j6x436jej9k5
-        text: "PUT"
-        correct: true
-      - id: CHO-5m4aehqtvv48
-        text: "DELETE"
-        correct: true
-      - id: CHO-hnc53r7rgx61
-        text: "POST"
-        correct: false
-        explanation: >-
-          POST is neither safe nor idempotent: two identical POSTs create two resources.
-      - id: CHO-jjg1dygvetjy
-        text: "GET"
-        correct: false
-        explanation: >-
-          GET is safe, and every safe method is idempotent — so it fails the 'not safe' half.
-    explanation: >-
-      Safe means read-only; idempotent means replaying has the same effect as one call. PUT replaces with the same value and DELETE removes what is already gone, so both are idempotent while still modifying state.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
-        branch: "master"
-        symbol_or_lines: "section 9.2 Common Method Properties"
-        verified_at: "2026-09-01"
-  - id: QST-0va8e7fh5szw
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-qnm508g1ktqm
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      According to Symfony's Request::isMethodCacheable(), which methods are cacheable?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 60
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [methods]
-    choices:
-      - id: CHO-sd8z7r96jd7m
-        text: "GET, HEAD and QUERY"
-        correct: true
-      - id: CHO-882qyj958snp
-        text: "GET, HEAD, OPTIONS and TRACE"
-        correct: false
-        explanation: >-
-          Those are the SAFE methods. Safe and cacheable are independent properties: OPTIONS and TRACE are safe but not cacheable.
-      - id: CHO-gdjz7daepj12
-        text: "Every idempotent method"
-        correct: false
-        explanation: >-
-          PUT and DELETE are idempotent and not cacheable; the two properties do not coincide.
-      - id: CHO-j07chvz4b9x5
-        text: "GET only"
-        correct: false
-        explanation: >-
-          HEAD and QUERY are cacheable too.
-    explanation: >-
-      isMethodCacheable() returns true for GET, HEAD and QUERY. Safe, idempotent and cacheable are three independent classifications.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "isMethodCacheable line 1462"
-        verified_at: "2026-09-01"
-  - id: QST-kc7stf86x9jh
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-bz1f5nh8g9b2
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      A cookie is set with SameSite=none but is never stored by the browser. What is missing?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 60
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [cookies]
-    choices:
-      - id: CHO-r4z9x05zskf4
-        text: "The Secure attribute"
-        correct: true
-      - id: CHO-ds2qbdsjfr0r
-        text: "The HttpOnly attribute"
-        correct: false
-        explanation: >-
-          HttpOnly hides the cookie from JavaScript; it has no bearing on whether the cookie is accepted.
-      - id: CHO-73cfnrwhma0s
-        text: "An explicit Domain attribute"
-        correct: false
-        explanation: >-
-          Domain defaults to the current host; omitting it does not cause rejection.
-      - id: CHO-416w1w6gag82
-        text: "A future Expires value"
-        correct: false
-        explanation: >-
-          Without Expires the cookie is a session cookie, which is still stored for the session.
-    explanation: >-
-      SameSite=none requires Secure. Without it browsers reject the cookie outright — not a warning, no cookie at all.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "SAMESITE_NONE lines 21-23"
-        verified_at: "2026-09-01"
-  - id: QST-hmpny1fkf8mv
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-bz1f5nh8g9b2
-    domain: http
-    language: fr
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Quel attribut de cookie attenue le CSRF ?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 55
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [cookies, security]
-    choices:
-      - id: CHO-ef30420jjhbq
-        text: "SameSite"
-        correct: true
-      - id: CHO-1vgy7ygxrty6
-        text: "HttpOnly"
-        correct: false
-        explanation: >-
-          HttpOnly empeche la lecture par JavaScript, ce qui vise le XSS. Le navigateur envoie toujours le cookie automatiquement.
-      - id: CHO-r29dh9jgz9eq
-        text: "Secure"
-        correct: false
-        explanation: >-
-          Secure impose HTTPS, ce qui protege du reseau, pas d'une requete intersite legitime du navigateur.
-      - id: CHO-g22pk0snrss4
-        text: "Path"
-        correct: false
-        explanation: >-
-          Path restreint les URL concernees, mais pas l'origine de la requete.
-    explanation: >-
-      Le CSRF exploite l'envoi automatique du cookie par le navigateur depuis un autre site. Seul SameSite controle cet envoi ; HttpOnly vise le XSS.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "withSameSite"
-        verified_at: "2026-09-01"
-  - id: QST-1jpkm1x11jb8
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-tc39jp8japfc
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: KNOW
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Which Cache-Control directive prevents a response from being stored at all?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 65
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [caching]
-    choices:
-      - id: CHO-2g8cydpzhm6h
-        text: "no-store"
-        correct: true
-      - id: CHO-jpsnta2c69j4
-        text: "no-cache"
-        correct: false
-        explanation: >-
-          Despite the name, no-cache allows storage and requires revalidation before each reuse.
-      - id: CHO-fp224c7km0d1
-        text: "private"
-        correct: false
-        explanation: >-
-          private forbids shared caches from storing it, but the browser's own cache still may.
-      - id: CHO-9kmbpzzghhts
-        text: "max-age=0"
-        correct: false
-        explanation: >-
-          That makes the response immediately stale, so it must be revalidated — but it is still stored.
-    explanation: >-
-      no-cache means store but revalidate. no-store is the directive that forbids retaining the response.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
-        branch: "master"
-        symbol_or_lines: "section 5.2 Cache-Control"
-        verified_at: "2026-09-01"
-  - id: QST-2gvnfhbwzpaa
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-tc39jp8japfc
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      A CDN serves the French page to English visitors. The app negotiates on Accept-Language. What is missing from the response?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 75
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [caching, negotiation]
-    choices:
-      - id: CHO-9qgrr3eb299q
-        text: "Vary: Accept-Language"
-        correct: true
-      - id: CHO-erq2nb40dejp
-        text: "Content-Language: fr"
-        correct: false
-        explanation: >-
-          Content-Language documents the language served, but a cache does not use it to key stored entries.
-      - id: CHO-576qsd64x3n4
-        text: "Cache-Control: private"
-        correct: false
-        explanation: >-
-          That would disable shared caching entirely — it hides the bug rather than fixing the negotiation.
-      - id: CHO-5j3krn26vkm6
-        text: "A shorter max-age"
-        correct: false
-        explanation: >-
-          A shorter lifetime reduces how long the wrong language is served; it does not stop it being served.
-    explanation: >-
-      Vary declares which request headers change the representation, so the shared cache keys entries by them. Negotiating without Vary is the classic cache bug — and it has no symptom locally, where no shared cache exists.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
-        branch: "master"
-        symbol_or_lines: "section 12.5.5 Vary"
-        verified_at: "2026-09-01"
-  - id: QST-r4sq1djrd7pj
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-mrvrtxm4v2m5
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      In `Accept: */*;q=0.8, image/png;q=0`, what does q=0 mean?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 55
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [negotiation]
-    choices:
-      - id: CHO-j2241n44xdys
-        text: "PNG is explicitly not acceptable"
-        correct: true
-      - id: CHO-q9ebydea1xwf
-        text: "PNG has the lowest priority but is still acceptable"
-        correct: false
-        explanation: >-
-          q=0 is not a low weight; it is an explicit refusal.
-      - id: CHO-khsaa137s4tj
-        text: "PNG is preferred, because 0 means no penalty"
-        correct: false
-        explanation: >-
-          Quality ranges from 0 to 1, where higher is more preferred.
-      - id: CHO-wenwr62g1a62
-        text: "The q parameter is ignored on specific media types"
-        correct: false
-        explanation: >-
-          q applies to every entry, specific or wildcard.
-    explanation: >-
-      Quality factors run from 0 to 1, defaulting to 1.0 when absent. q=0 explicitly rejects that representation.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
-        branch: "master"
-        symbol_or_lines: "section 12.4.2 Quality Values"
-        verified_at: "2026-09-01"
-  - id: QST-9avmc0skt5w1
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-mrvrtxm4v2m5
-    domain: http
-    language: fr
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Que renvoie $request->getAcceptableContentTypes() ?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 55
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [negotiation]
-    choices:
-      - id: CHO-wcvm1yjbqd8d
-        text: "Les types de media acceptes, deja tries par preference decroissante"
-        correct: true
-      - id: CHO-x4h5cgs8p0z5
-        text: "Le seul type le plus prefere"
-        correct: false
-        explanation: >-
-          Elle renvoie la liste complete ; getPreferredFormat() donne un choix unique.
-      - id: CHO-hbz4vfz6w60g
-        text: "Les types que l'application sait produire"
-        correct: false
-        explanation: >-
-          La methode lit l'en-tete Accept du client ; elle ne connait pas les capacites de l'application.
-      - id: CHO-m8s39rv5xn1f
-        text: "La liste brute, dans l'ordre de l'en-tete"
-        correct: false
-        explanation: >-
-          Symfony applique le tri par facteur de qualite avant de renvoyer la liste.
-    explanation: >-
-      getAcceptableContentTypes() analyse l'en-tete Accept et renvoie les types tries par q decroissant.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "getAcceptableContentTypes line 1783"
-        verified_at: "2026-09-01"
-  - id: QST-g3sw71qz8dnq
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-fhjmv9w3wxsb
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      An app supports only 'en' and 'de'. Which call returns the best supported language for the client?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 60
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [language-detection]
-    choices:
-      - id: CHO-atxmbfzqb84a
-        text: "$request->getPreferredLanguage(['en', 'de'])"
-        correct: true
-      - id: CHO-ajf606w6b1p8
-        text: "$request->getPreferredLanguage()"
-        correct: false
-        explanation: >-
-          Without the supported list it simply returns the client's first choice, which the app may not be able to serve.
-      - id: CHO-dkm14g24rz7m
-        text: "$request->getLanguages()[0]"
-        correct: false
-        explanation: >-
-          That is the client's top preference, again ignoring what the application supports.
-      - id: CHO-4j1ephfqa2k3
-        text: "$request->getLocale()"
-        correct: false
-        explanation: >-
-          getLocale() returns the request's configured locale, not a negotiation over Accept-Language.
-    explanation: >-
-      getPreferredLanguage() negotiates only when given the list of locales the application supports. Called with no argument it does not negotiate at all.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "getPreferredLanguage line 1633"
-        verified_at: "2026-09-01"
-  - id: QST-whsz8qfwgcby
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-fhjmv9w3wxsb
-    domain: http
-    language: fr
-    difficulty: easy
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Sous quelle forme getLanguages() renvoie-t-elle une valeur d'en-tete fr-FR ?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 40
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [language-detection]
-    choices:
-      - id: CHO-q7mpa6fsnptp
-        text: "fr_FR"
-        correct: true
-      - id: CHO-htgd81bh4css
-        text: "fr-FR"
-        correct: false
-        explanation: >-
-          Symfony normalise le separateur en tiret bas pour obtenir la forme de locale attendue.
-      - id: CHO-z85da4f3gssx
-        text: "fr"
-        correct: false
-        explanation: >-
-          La sous-etiquette de region est conservee ; fr apparait separement s'il est demande.
-      - id: CHO-b38apw1zqvk1
-        text: "FR_fr"
-        correct: false
-        explanation: >-
-          La langue reste en minuscules et la region en majuscules.
-    explanation: >-
-      getLanguages() normalise la casse et remplace le tiret par un tiret bas : fr-FR devient fr_FR.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "getLanguages line 1663"
-        verified_at: "2026-09-01"
-  - id: QST-hnjpg1kv733t
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-9kh5cqz5qtrb
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    code_language: php
-    question: >-
-      Fifty HttpClient requests are issued in a loop, each followed immediately by $response->toArray(). They run sequentially. Why?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 80
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [httpclient]
-    choices:
-      - id: CHO-jcnpk1jm9dy2
-        text: "Reading a response inside the emitting loop forces each request to complete before the next is sent"
-        correct: true
-      - id: CHO-x6qg0apmangv
-        text: "HttpClient is synchronous by default"
-        correct: false
-        explanation: >-
-          request() is asynchronous and returns before the response arrives; the blocking happens on first read.
-      - id: CHO-20j0hekhy15z
-        text: "toArray() cannot be used with concurrent requests"
-        correct: false
-        explanation: >-
-          toArray() works fine on concurrent responses once they have been issued.
-      - id: CHO-e8p2cfwd5p5n
-        text: "A timeout option is required to enable concurrency"
-        correct: false
-        explanation: >-
-          Concurrency is the default behaviour; no option enables it.
-    explanation: >-
-      request() returns immediately. Awaiting happens on the first read of a response, so reading inside the emitting loop serialises everything. Issue all requests first, then read — or use stream().
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
-        repository: "symfony/symfony-docs"
-        branch: "8.0"
-        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
-        symbol_or_lines: "asynchronous by default"
-        verified_at: "2026-09-01"
-  - id: QST-r6wwzwfx7mqc
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-9kh5cqz5qtrb
-    domain: http
-    language: en
-    difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: DISTINGUISH
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      An endpoint returns 404 with a JSON error body. How is that body read with HttpClient?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 60
-    classification: OFFICIAL
-    pool: LEARNING
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [httpclient]
-    choices:
-      - id: CHO-qh4q1wvw4ewn
-        text: "$response->getContent(false)"
-        correct: true
-      - id: CHO-a95636d9vxgw
-        text: "$response->getContent()"
-        correct: false
-        explanation: >-
-          With the default $throw = true, a 4xx status raises an exception before the body is returned.
-      - id: CHO-j389fdf6w1m3
-        text: "$response->getInfo('content')"
-        correct: false
-        explanation: >-
-          getInfo() exposes transfer metadata, not the response body.
-      - id: CHO-6wdrsm0zxk3m
-        text: "It cannot be read; error bodies are discarded"
-        correct: false
-        explanation: >-
-          The body is available; only the default throwing behaviour has to be disabled.
-    explanation: >-
-      getContent(), getHeaders() and toArray() throw on non-successful statuses by default. Passing false returns the payload instead.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
-        repository: "symfony/symfony-docs"
-        branch: "8.0"
-        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
-        symbol_or_lines: "Handling Exceptions"
-        verified_at: "2026-09-01"
-  - id: QST-v2wkher0bshj
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-tc39jp8japfc
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      A response sets both max-age=60 and s-maxage=600. How long does a CDN treat it as fresh?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 80
-    classification: OFFICIAL
-    pool: HOLDOUT
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [caching]
-    choices:
-      - id: CHO-c7wn40vx64tw
-        text: "600 seconds"
-        correct: true
-      - id: CHO-j90hg99mvhj7
-        text: "60 seconds"
-        correct: false
-        explanation: >-
-          max-age applies to private caches; s-maxage overrides it for shared caches such as a CDN.
-      - id: CHO-1exwna1bpr47
-        text: "The lower of the two, 60 seconds"
-        correct: false
-        explanation: >-
-          There is no minimum rule; s-maxage takes precedence for shared caches.
-      - id: CHO-zr1vqd96zm6h
-        text: "660 seconds"
-        correct: false
-        explanation: >-
-          The directives are alternatives for different cache types, not additive.
-    explanation: >-
-      s-maxage applies to shared caches only and overrides max-age for them. A browser would still use max-age=60.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
-        branch: "master"
-        symbol_or_lines: "section 5.2.2 Response Directives"
-        verified_at: "2026-09-01"
-  - id: QST-bs53wmc0vap5
-    version: 1
-    official_topic: HTTP
-    official_item: OIT-d3nyk9z0q2pd
-    domain: http
-    language: en
-    difficulty: hard
-    cognitive_level: APPLY
-    exam_skill: DIAGNOSE
-    type: mcq
-    answer_mode: single
-    required_answer_count: 1
-    question: >-
-      Behind a load balancer, getClientIp() returns the balancer's address instead of the visitor's. Why is that the default?
-    scoring_policy: all-or-nothing
-    shuffle_choices: true
-    negative_wording: false
-    estimated_time_seconds: 85
-    classification: OFFICIAL
-    pool: HOLDOUT
-    verification_status: VERIFIED
-    reviewers: [tech-lead]
-    reviewed_at: "2026-09-01"
-    tags: [request, security]
-    choices:
-      - id: CHO-tf0n2txz0psb
-        text: "Trusted proxies have not been configured, so Symfony ignores X-Forwarded-For"
-        correct: true
-      - id: CHO-tp0g585arhec
-        text: "getClientIp() never reads forwarded headers"
-        correct: false
-        explanation: >-
-          It does read them — but only once the proxies are declared trusted.
-      - id: CHO-7zat3zjzp1qy
-        text: "The balancer must be configured to send X-Real-IP instead"
-        correct: false
-        explanation: >-
-          Symfony understands the standard forwarded headers; the missing piece is the trust declaration, not the header name.
-      - id: CHO-t67cned43f64
-        text: "getClientIps() must be used for proxied requests"
-        correct: false
-        explanation: >-
-          getClientIps() returns the whole chain but is governed by the same trust configuration.
-    explanation: >-
-      Any client can forge X-Forwarded-For, so Symfony ignores it until setTrustedProxies() or the trusted_proxies configuration declares which hops may be believed. Returning the proxy address is the safe default.
-    official_sources:
-      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
-        repository: "symfony/symfony"
-        branch: "8.0"
-        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-        symbol_or_lines: "getClientIp line 821, setTrustedProxies"
-        verified_at: "2026-09-01"
+- id: QST-ktj89z3z3d5c
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which RFC defines HTTP caching, as distinct from HTTP semantics?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - rfc9110
+  choices:
+  - id: CHO-1w4eatstphjk
+    text: RFC 9111
+    correct: true
+  - id: CHO-m7wne42v4xd7
+    text: RFC 9110
+    correct: false
+    explanation: '9110 defines semantics: methods, status codes, header fields and negotiation. Caching
+      was split into its own document.'
+  - id: CHO-a5m918yvfkx8
+    text: RFC 9112
+    correct: false
+    explanation: 9112 specifies HTTP/1.1 message framing, not caching.
+  - id: CHO-fcn7g6h1a4rz
+    text: RFC 2616
+    correct: false
+    explanation: 2616 is the obsolete single document that the 911x series replaced.
+  explanation: 'The 911x series splits HTTP: 9110 semantics, 9111 caching, 9112 HTTP/1.1, 9113 HTTP/2,
+    9114 HTTP/3.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 1 Introduction
+    verified_at: '2026-09-01'
+- id: QST-tdqxjjpwv51c
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: fr
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Un code de statut HTTP a-t-il la même signification en HTTP/1.1, HTTP/2 et HTTP/3 ?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - rfc9110
+  choices:
+  - id: CHO-pv5h20c0xb2f
+    text: 'Oui : la sémantique est indépendante de la version de transport'
+    correct: true
+  - id: CHO-debh53fwrbes
+    text: 'Non : chaque version redéfinit ses codes'
+    correct: false
+    explanation: Les versions 9112, 9113 et 9114 ne définissent que le transport ; la sémantique reste
+      celle de RFC 9110.
+  - id: CHO-16fear7dk5eh
+    text: Oui, sauf pour les codes 1xx
+    correct: false
+    explanation: Aucune classe de statut n'est redéfinie par la version de transport.
+  - id: CHO-m276n5k4kbwd
+    text: 'Non : HTTP/2 supprime les codes 3xx'
+    correct: false
+    explanation: HTTP/2 ne supprime aucun code de statut.
+  explanation: RFC 9110 définit la sémantique une fois pour toutes ; 9112, 9113 et 9114 ne décrivent que
+    la maniere de transporter les messages.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 1 Introduction
+    verified_at: '2026-09-01'
+- id: QST-cxq2pvqpazts
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  code_language: php
+  question: A request arrives as /search?tags[]=php&tags[]=http. What does $request->query->get('tags')
+    do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - request
+  - inputbag
+  choices:
+  - id: CHO-34se1p0kj0nt
+    text: It throws a BadRequestException
+    correct: true
+  - id: CHO-cgkcm8y9ktep
+    text: It returns ['php', 'http']
+    correct: false
+    explanation: That is what all('tags') returns. get() is restricted to scalar values.
+  - id: CHO-j06d2envyqbt
+    text: It returns 'php', the first value
+    correct: false
+    explanation: InputBag does not silently pick a value; it refuses the whole access.
+  - id: CHO-6bhyq1nynn4x
+    text: It returns null
+    correct: false
+    explanation: The key exists, so this is not a missing-key case; the value's shape is the problem.
+  explanation: $query is an InputBag, whose get() accepts only scalars and throws BadRequestException
+    otherwise. Use all() for multi-valued input.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: InputBag::get, BadRequestException on non-scalar
+    verified_at: '2026-09-01'
+- id: QST-0yt0wew1kzge
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which statements about Symfony's Request bags are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - request
+  choices:
+  - id: CHO-ymvfw8d22ysj
+    text: $request->request holds the POST body, not the whole request
+    correct: true
+  - id: CHO-6j85mwmb7gpc
+    text: $request->attributes is a ParameterBag and accepts non-scalar values
+    correct: true
+  - id: CHO-8g1jhp6xqxjm
+    text: $request->query is a ParameterBag
+    correct: false
+    explanation: It is an InputBag, which restricts values to scalars because they come from the client.
+  - id: CHO-ha2he34w2kgc
+    text: $request->headers holds $_SERVER
+    correct: false
+    explanation: That is $server, a ServerBag. $headers is a HeaderBag.
+  explanation: Client-supplied bags ($query, $request, $cookies) are InputBag and reject non-scalars.
+    $attributes is application-supplied, so it is a ParameterBag without that restriction.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: public bag properties lines 94-130
+    verified_at: '2026-09-01'
+- id: QST-8twgxeyvsp73
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Response carries status 304. What do isRedirection() and isRedirect() return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - response
+  choices:
+  - id: CHO-fgs0ch1d6fby
+    text: isRedirection() true, isRedirect() false
+    correct: true
+  - id: CHO-wd30jcs2x50v
+    text: Both true
+    correct: false
+    explanation: isRedirect() checks an explicit list — 201, 301, 302, 303, 307, 308 — which excludes
+      304.
+  - id: CHO-bjehqmw9yjab
+    text: Both false
+    correct: false
+    explanation: 304 is in the 3xx class, so isRedirection() is true by definition.
+  - id: CHO-egvs9886p2pc
+    text: isRedirection() false, isRedirect() true
+    correct: false
+    explanation: 'This inverts both: 304 is 3xx, and it is absent from the isRedirect() list.'
+  explanation: 'isRedirection() is literally 300 <= code < 400. isRedirect() is an explicit list of statuses
+    that actually carry a Location header: it includes 201 and excludes 300 and 304.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: isRedirect line 1254, isRedirection line 1194
+    verified_at: '2026-09-01'
+- id: QST-1x99cch6bwr6
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  language: fr
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Quelle classe utiliser pour renvoyer un gros fichier sans le charger entièrement en mémoire
+    ?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - response
+  choices:
+  - id: CHO-3k3eajd4kv6q
+    text: BinaryFileResponse
+    correct: true
+  - id: CHO-n440yppwcnkk
+    text: JsonResponse
+    correct: false
+    explanation: Elle encode un tableau en JSON ; elle ne sert pas de fichier.
+  - id: CHO-z9pa4sbb54s2
+    text: Response avec le contenu du fichier en argument
+    correct: false
+    explanation: Cela charge tout le fichier en mémoire, ce que la question demande justement d'éviter.
+  - id: CHO-x61mqbe3afjp
+    text: RedirectResponse vers l'URL du fichier
+    correct: false
+    explanation: Cela délègue au serveur web et contourne toute logique d'autorisation applicative.
+  explanation: BinaryFileResponse sert un fichier depuis le disque, avec gestion des requêtes de plage.
+    StreamedResponse convient lorsque le corps est généré à la volée.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: class BinaryFileResponse
+    verified_at: '2026-09-01'
+- id: QST-xbkvhs464f4r
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-qnm508g1ktqm
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which HTTP methods are idempotent but NOT safe? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - methods
+  choices:
+  - id: CHO-j6x436jej9k5
+    text: PUT
+    correct: true
+  - id: CHO-5m4aehqtvv48
+    text: DELETE
+    correct: true
+  - id: CHO-hnc53r7rgx61
+    text: POST
+    correct: false
+    explanation: 'POST is neither safe nor idempotent: two identical POSTs create two resources.'
+  - id: CHO-jjg1dygvetjy
+    text: GET
+    correct: false
+    explanation: GET is safe, and every safe method is idempotent — so it fails the 'not safe' half.
+  explanation: Safe means read-only; idempotent means replaying has the same effect as one call. PUT replaces
+    with the same value and DELETE removes what is already gone, so both are idempotent while still modifying
+    state.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 9.2 Common Method Properties
+    verified_at: '2026-09-01'
+- id: QST-0va8e7fh5szw
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-qnm508g1ktqm
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: According to Symfony's Request::isMethodCacheable(), which methods are cacheable?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - methods
+  choices:
+  - id: CHO-sd8z7r96jd7m
+    text: GET, HEAD and QUERY
+    correct: true
+  - id: CHO-882qyj958snp
+    text: GET, HEAD, OPTIONS and TRACE
+    correct: false
+    explanation: 'Those are the SAFE methods. Safe and cacheable are independent properties: OPTIONS and
+      TRACE are safe but not cacheable.'
+  - id: CHO-gdjz7daepj12
+    text: Every idempotent method
+    correct: false
+    explanation: PUT and DELETE are idempotent and not cacheable; the two properties do not coincide.
+  - id: CHO-j07chvz4b9x5
+    text: GET only
+    correct: false
+    explanation: HEAD and QUERY are cacheable too.
+  explanation: isMethodCacheable() returns true for GET, HEAD and QUERY. Safe, idempotent and cacheable
+    are three independent classifications.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: isMethodCacheable line 1462
+    verified_at: '2026-09-01'
+- id: QST-kc7stf86x9jh
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A cookie is set with SameSite=none but is never stored by the browser. What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-r4z9x05zskf4
+    text: The Secure attribute
+    correct: true
+  - id: CHO-ds2qbdsjfr0r
+    text: The HttpOnly attribute
+    correct: false
+    explanation: HttpOnly hides the cookie from JavaScript; it has no bearing on whether the cookie is
+      accepted.
+  - id: CHO-73cfnrwhma0s
+    text: An explicit Domain attribute
+    correct: false
+    explanation: Domain defaults to the current host; omitting it does not cause rejection.
+  - id: CHO-416w1w6gag82
+    text: A future Expires value
+    correct: false
+    explanation: Without Expires the cookie is a session cookie, which is still stored for the session.
+  explanation: SameSite=none requires Secure. Without it browsers reject the cookie outright — not a warning,
+    no cookie at all.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: SAMESITE_NONE lines 21-23
+    verified_at: '2026-09-01'
+- id: QST-hmpny1fkf8mv
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: fr
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Quel attribut de cookie atténue le CSRF ?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - cookies
+  - security
+  choices:
+  - id: CHO-ef30420jjhbq
+    text: SameSite
+    correct: true
+  - id: CHO-1vgy7ygxrty6
+    text: HttpOnly
+    correct: false
+    explanation: HttpOnly empêche la lecture par JavaScript, ce qui vise le XSS. Le navigateur envoie
+      toujours le cookie automatiquement.
+  - id: CHO-r29dh9jgz9eq
+    text: Secure
+    correct: false
+    explanation: Secure impose HTTPS, ce qui protège du réseau, pas d'une requête intersite légitime du
+      navigateur.
+  - id: CHO-g22pk0snrss4
+    text: Path
+    correct: false
+    explanation: Path restreint les URL concernées, mais pas l'origine de la requête.
+  explanation: Le CSRF exploite l'envoi automatique du cookie par le navigateur depuis un autre site.
+    Seul SameSite controle cet envoi ; HttpOnly vise le XSS.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: withSameSite
+    verified_at: '2026-09-01'
+- id: QST-1jpkm1x11jb8
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Cache-Control directive prevents a response from being stored at all?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - caching
+  choices:
+  - id: CHO-2g8cydpzhm6h
+    text: no-store
+    correct: true
+  - id: CHO-jpsnta2c69j4
+    text: no-cache
+    correct: false
+    explanation: Despite the name, no-cache allows storage and requires revalidation before each reuse.
+  - id: CHO-fp224c7km0d1
+    text: private
+    correct: false
+    explanation: private forbids shared caches from storing it, but the browser's own cache still may.
+  - id: CHO-9kmbpzzghhts
+    text: max-age=0
+    correct: false
+    explanation: That makes the response immediately stale, so it must be revalidated — but it is still
+      stored.
+  explanation: no-cache means store but revalidate. no-store is the directive that forbids retaining the
+    response.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+    branch: master
+    symbol_or_lines: section 5.2 Cache-Control
+    verified_at: '2026-09-01'
+- id: QST-2gvnfhbwzpaa
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A CDN serves the French page to English visitors. The app negotiates on Accept-Language. What
+    is missing from the response?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - caching
+  - negotiation
+  choices:
+  - id: CHO-9qgrr3eb299q
+    text: 'Vary: Accept-Language'
+    correct: true
+  - id: CHO-erq2nb40dejp
+    text: 'Content-Language: fr'
+    correct: false
+    explanation: Content-Language documents the language served, but a cache does not use it to key stored
+      entries.
+  - id: CHO-576qsd64x3n4
+    text: 'Cache-Control: private'
+    correct: false
+    explanation: That would disable shared caching entirely — it hides the bug rather than fixing the
+      negotiation.
+  - id: CHO-5j3krn26vkm6
+    text: A shorter max-age
+    correct: false
+    explanation: A shorter lifetime reduces how long the wrong language is served; it does not stop it
+      being served.
+  explanation: Vary declares which request headers change the representation, so the shared cache keys
+    entries by them. Negotiating without Vary is the classic cache bug — and it has no symptom locally,
+    where no shared cache exists.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 12.5.5 Vary
+    verified_at: '2026-09-01'
+- id: QST-r4sq1djrd7pj
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In `Accept: */*;q=0.8, image/png;q=0`, what does q=0 mean?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - negotiation
+  choices:
+  - id: CHO-j2241n44xdys
+    text: PNG is explicitly not acceptable
+    correct: true
+  - id: CHO-q9ebydea1xwf
+    text: PNG has the lowest priority but is still acceptable
+    correct: false
+    explanation: q=0 is not a low weight; it is an explicit refusal.
+  - id: CHO-khsaa137s4tj
+    text: PNG is preferred, because 0 means no penalty
+    correct: false
+    explanation: Quality ranges from 0 to 1, where higher is more preferred.
+  - id: CHO-wenwr62g1a62
+    text: The q parameter is ignored on specific media types
+    correct: false
+    explanation: q applies to every entry, specific or wildcard.
+  explanation: Quality factors run from 0 to 1, defaulting to 1.0 when absent. q=0 explicitly rejects
+    that representation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: section 12.4.2 Quality Values
+    verified_at: '2026-09-01'
+- id: QST-9avmc0skt5w1
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: http
+  language: fr
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Que renvoie $request->getAcceptableContentTypes() ?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - negotiation
+  choices:
+  - id: CHO-wcvm1yjbqd8d
+    text: Les types de média acceptés, déjà triés par préférence décroissante
+    correct: true
+  - id: CHO-x4h5cgs8p0z5
+    text: Le seul type le plus préféré
+    correct: false
+    explanation: Elle renvoie la liste complete ; getPreferredFormat() donne un choix unique.
+  - id: CHO-hbz4vfz6w60g
+    text: Les types que l'application sait produire
+    correct: false
+    explanation: La méthode lit l'en-tête Accept du client ; elle ne connaît pas les capacites de l'application.
+  - id: CHO-m8s39rv5xn1f
+    text: La liste brute, dans l'ordre de l'en-tête
+    correct: false
+    explanation: Symfony applique le tri par facteur de qualité avant de renvoyer la liste.
+  explanation: getAcceptableContentTypes() analyse l'en-tête Accept et renvoie les types triés par q décroissant.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: getAcceptableContentTypes line 1783
+    verified_at: '2026-09-01'
+- id: QST-g3sw71qz8dnq
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-fhjmv9w3wxsb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An app supports only 'en' and 'de'. Which call returns the best supported language for the
+    client?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - language-detection
+  choices:
+  - id: CHO-atxmbfzqb84a
+    text: $request->getPreferredLanguage(['en', 'de'])
+    correct: true
+  - id: CHO-ajf606w6b1p8
+    text: $request->getPreferredLanguage()
+    correct: false
+    explanation: Without the supported list it simply returns the client's first choice, which the app
+      may not be able to serve.
+  - id: CHO-dkm14g24rz7m
+    text: $request->getLanguages()[0]
+    correct: false
+    explanation: That is the client's top preference, again ignoring what the application supports.
+  - id: CHO-4j1ephfqa2k3
+    text: $request->getLocale()
+    correct: false
+    explanation: getLocale() returns the request's configured locale, not a negotiation over Accept-Language.
+  explanation: getPreferredLanguage() negotiates only when given the list of locales the application supports.
+    Called with no argument it does not negotiate at all.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: getPreferredLanguage line 1633
+    verified_at: '2026-09-01'
+- id: QST-whsz8qfwgcby
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-fhjmv9w3wxsb
+  domain: http
+  language: fr
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Sous quelle forme getLanguages() renvoie-t-elle une valeur d'en-tête fr-FR ?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - language-detection
+  choices:
+  - id: CHO-q7mpa6fsnptp
+    text: fr_FR
+    correct: true
+  - id: CHO-htgd81bh4css
+    text: fr-FR
+    correct: false
+    explanation: Symfony normalise le séparateur en tiret bas pour obtenir la forme de locale attendue.
+  - id: CHO-z85da4f3gssx
+    text: fr
+    correct: false
+    explanation: La sous-étiquette de région est conservée ; fr apparaît séparément s'il est demandé.
+  - id: CHO-b38apw1zqvk1
+    text: FR_fr
+    correct: false
+    explanation: La langue reste en minuscules et la région en majuscules.
+  explanation: 'getLanguages() normalise la casse et remplace le tiret par un tiret bas : fr-FR devient
+    fr_FR.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: getLanguages line 1663
+    verified_at: '2026-09-01'
+- id: QST-hnjpg1kv733t
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  code_language: php
+  question: Fifty HttpClient requests are issued in a loop, each followed immediately by $response->toArray().
+    They run sequentially. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - httpclient
+  choices:
+  - id: CHO-jcnpk1jm9dy2
+    text: Reading a response inside the emitting loop forces each request to complete before the next
+      is sent
+    correct: true
+  - id: CHO-x6qg0apmangv
+    text: HttpClient is synchronous by default
+    correct: false
+    explanation: request() is asynchronous and returns before the response arrives; the blocking happens
+      on first read.
+  - id: CHO-20j0hekhy15z
+    text: toArray() cannot be used with concurrent requests
+    correct: false
+    explanation: toArray() works fine on concurrent responses once they have been issued.
+  - id: CHO-e8p2cfwd5p5n
+    text: A timeout option is required to enable concurrency
+    correct: false
+    explanation: Concurrency is the default behaviour; no option enables it.
+  explanation: request() returns immediately. Awaiting happens on the first read of a response, so reading
+    inside the emitting loop serialises everything. Issue all requests first, then read — or use stream().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: asynchronous by default
+    verified_at: '2026-09-01'
+- id: QST-r6wwzwfx7mqc
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An endpoint returns 404 with a JSON error body. How is that body read with HttpClient?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - httpclient
+  choices:
+  - id: CHO-qh4q1wvw4ewn
+    text: $response->getContent(false)
+    correct: true
+  - id: CHO-a95636d9vxgw
+    text: $response->getContent()
+    correct: false
+    explanation: With the default $throw = true, a 4xx status raises an exception before the body is returned.
+  - id: CHO-j389fdf6w1m3
+    text: $response->getInfo('content')
+    correct: false
+    explanation: getInfo() exposes transfer metadata, not the response body.
+  - id: CHO-6wdrsm0zxk3m
+    text: It cannot be read; error bodies are discarded
+    correct: false
+    explanation: The body is available; only the default throwing behaviour has to be disabled.
+  explanation: getContent(), getHeaders() and toArray() throw on non-successful statuses by default. Passing
+    false returns the payload instead.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: Handling Exceptions
+    verified_at: '2026-09-01'
+- id: QST-v2wkher0bshj
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A response sets both max-age=60 and s-maxage=600. How long does a CDN treat it as fresh?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - caching
+  choices:
+  - id: CHO-c7wn40vx64tw
+    text: 600 seconds
+    correct: true
+  - id: CHO-j90hg99mvhj7
+    text: 60 seconds
+    correct: false
+    explanation: max-age applies to private caches; s-maxage overrides it for shared caches such as a
+      CDN.
+  - id: CHO-1exwna1bpr47
+    text: The lower of the two, 60 seconds
+    correct: false
+    explanation: There is no minimum rule; s-maxage takes precedence for shared caches.
+  - id: CHO-zr1vqd96zm6h
+    text: 660 seconds
+    correct: false
+    explanation: The directives are alternatives for different cache types, not additive.
+  explanation: s-maxage applies to shared caches only and overrides max-age for them. A browser would
+    still use max-age=60.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+    branch: master
+    symbol_or_lines: section 5.2.2 Response Directives
+    verified_at: '2026-09-01'
+- id: QST-bs53wmc0vap5
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Behind a load balancer, getClientIp() returns the balancer's address instead of the visitor's.
+    Why is that the default?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 85
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-01'
+  tags:
+  - request
+  - security
+  choices:
+  - id: CHO-tf0n2txz0psb
+    text: Trusted proxies have not been configured, so Symfony ignores X-Forwarded-For
+    correct: true
+  - id: CHO-tp0g585arhec
+    text: getClientIp() never reads forwarded headers
+    correct: false
+    explanation: It does read them — but only once the proxies are declared trusted.
+  - id: CHO-7zat3zjzp1qy
+    text: The balancer must be configured to send X-Real-IP instead
+    correct: false
+    explanation: Symfony understands the standard forwarded headers; the missing piece is the trust declaration,
+      not the header name.
+  - id: CHO-t67cned43f64
+    text: getClientIps() must be used for proxied requests
+    correct: false
+    explanation: getClientIps() returns the whole chain but is governed by the same trust configuration.
+  explanation: Any client can forge X-Forwarded-For, so Symfony ignores it until setTrustedProxies() or
+    the trusted_proxies configuration declares which hops may be believed. Returning the proxy address
+    is the safe default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: getClientIp line 821, setTrustedProxies
+    verified_at: '2026-09-01'
