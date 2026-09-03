@@ -42,7 +42,38 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `5d8a4f8` — **Lot 27 unit 1 (the §5 glossary) delivered in full**:
+`mock-4-unit-b-questions`, at `adfe008` — **Mock 4 Unit B delivered on the
+branch, Pull Request open**. The 48 new HOLDOUT questions the blueprint asks
+for are written, in eleven topic batches, each validated before the next began.
+
+Locally, `composer gate-full` exits 0: 18 rules and no violations over 544
+questions, coverage 100% (163/163), phpunit OK (112 tests, 4704 assertions),
+the site build succeeds and the accessibility audit passes 7 of 7 pages with 0
+violations. CI, merge and deployment evidence is not in yet, so no row is
+added to the delivery table above: this paragraph is the state, not a claim of
+completion.
+
+The bank is `content/questions/mock-04-holdout.yml`. Shape of the 48: 5 easy,
+40 medium, 3 hard — the budget spent exactly — 8 multiple-answer, mean 66.46s
+over 3190s against a 75.6s ceiling and a 3630s remaining budget. Every topic
+gap is filled exactly, one question per free atomic item, with no collision
+with the 27 the blueprint already assigns; the mock's 75 questions all exist.
+
+Isolation was checked against the built payload bytes, not the `pool` label:
+after `php bin/cert build`, none of the 48 question ids and none of their 200
+choice ids appears in `practice.json` or `exam.json`. That is the repository
+half of the guarantee; the production half is the smoke test, which runs on
+deployment.
+
+`Mock4HoldoutBatchTest` guards the bank: while Unit B was being written it
+refused a batch that overspent a difficulty bucket, exceeded a topic's gap,
+wrote two questions for one atomic item, dropped out of English or pushed the
+running mean over the ceiling — and it caught exactly that at 48, where the mix
+stood at 5/41/2 rather than 5/40/3. It now asserts the finished shape instead.
+Every assertion added was proved to fail against a deliberately broken copy of
+the bank before the copy was restored byte-identical.
+
+Before it, `master` at `237836f` — **Lot 27 unit 1 (the §5 glossary) delivered in full**:
 PR #46, Technical gate `100587591300` success on `1a6716c`, merged, deploy run
 `33737464109` with build `100591307991`, deploy `100591639720` and production
 smoke test `100591698010`, all success.
@@ -409,15 +440,23 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Write the 48 new HOLDOUT questions — Mock 4 Unit B.** The owner chose
-**Option A** on 2026-09-03 and Unit A is delivered: ADR-0005 records the
-decision, and `docs/mocks/mock-4-blueprint.yml` assigns 75 slots with the 27
-existing questions placed and 48 gaps named, checked by ten tests that recompute
-every figure from the 163 atomic items.
+**Close the Unit B delivery, then implement Mock 4 — Unit C.** The Pull Request
+for `mock-4-unit-b-questions` is open; read its Technical gate once, merge,
+watch the deployment and read the production smoke log rather than assuming it,
+then add the delivery row to the table above with the real ids.
 
-Unit B writes those 48, in topic batches, starting with **Miscellaneous (9)** —
-the largest topic at 19 of 163 items and the only one with no holdout question
-at all. Unit C implements the mock itself, and not before.
+Unit C then implements the mock itself, and nothing about it may weaken what
+Unit B established: 75 questions, 90 minutes, 100% English, answers hidden
+until submission and analysis only after it, results reported by topic and by
+learning outcome, accessible, and persisted. The holdout pool stays out of
+`practice.json` and `exam.json` — Mock 4 is served from its own payload, which
+is Unit C's first design decision and the one the smoke test will have to
+police.
+
+Superseded: **Write the 48 new HOLDOUT questions — Mock 4 Unit B.** Delivered
+on 2026-09-03 in eleven topic batches, starting with Miscellaneous (9) — the
+largest topic at 19 of 163 items and the only one with no holdout question at
+all — and ending with Data Validation and Messenger.
 
 Superseded: **Decide the Mock 4 architecture.** Units 1 and 2 and the three corrections
 Q-1 to Q-3 are delivered and reconciled with real ids. The blocker is
@@ -458,10 +497,17 @@ and is not Lot 27's business. Schedule it as its own job, and do it completely
 or not at all: see the issue row for why a partial pass is worse than none.
 
 Mock 4 is 75 questions, 90 minutes, 100% English, drawn from the holdout pool
-(§10). The pool holds exactly **27** questions across 27 items, none with more
-than one, and ADR-0005 forbids redistributing it without a demonstrated need —
-so how 75 slots are filled from 27 questions is Lot 27's first real design
-question, and it must be answered before any mock is authored.
+(§10). That design question is **answered and executed**: the owner chose
+Option A on 2026-09-03, Unit A drew the blueprint, and Unit B wrote the 48 new
+holdout questions it asked for. The pool now holds **75** questions across 75
+items, still none with more than one, and ADR-0005's prohibition on
+redistributing the original 27 was never approached — they are assigned where
+they already sat.
+
+What Option A means, and what it does not, is recorded in ADR-0005 and must
+keep being reported that way: functional isolation **yes**, application-level
+unseen **yes**, repository confidentiality **no**, answers readable by anyone
+who deliberately opens the public source **yes**.
 
 No content work remains.
 
