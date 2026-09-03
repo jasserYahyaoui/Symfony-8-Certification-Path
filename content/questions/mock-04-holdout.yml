@@ -2154,3 +2154,232 @@ questions:
     branch: master
     symbol_or_lines: sections 3.1 Resources and 3.2 Representations
     verified_at: '2026-09-03'
+
+# Batch 9 — Security (2 of the 5 slots) and PHP (2 of the 4). Both topics
+# already carry existing holdout questions for their remaining slots.
+- id: QST-866f3njwg7gv
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  subtopic: firewall-config
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A `dev` firewall matching `^/(_profiler|_wdt|assets|build)/` declares `security: false` and is listed before
+    `main`. What does that achieve?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - security
+  - firewalls
+  choices:
+  - id: CHO-hetr49pj414s
+    text: 'A request is handled by the first firewall whose pattern matches, and `security: false` means no authentication
+      is attempted for those paths — which is why the entry has to come before the pattern-less firewall that matches everything'
+    correct: true
+  - id: CHO-fzg0rr7fbxbq
+    text: '`security: false` turns off authorization only, authentication still running so the user is known on those paths'
+    correct: false
+    explanation: It switches the firewall off entirely; nothing is authenticated under it.
+  - id: CHO-kc281vt2mchr
+    text: The order does not matter, because the most specific pattern always wins
+    correct: false
+    explanation: The first matching firewall wins, not the most specific one. A firewall with no pattern must therefore
+      be declared last.
+  - id: CHO-xy2ph2zwypbg
+    text: '`security: false` denies every request under that pattern, which is how debugging tools are kept off production'
+    correct: false
+    explanation: It allows them through unauthenticated rather than denying them; environment configuration is what keeps
+      such tools out of production.
+  explanation: 'Firewalls are evaluated in declaration order and exactly one handles a request. That makes ordering load-bearing:
+    a firewall with no pattern matches everything, so anything that must be treated differently — development tools and
+    static assets, here — is declared before it, with `security: false` so no authentication is attempted at all.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'firewalls configuration, the dev firewall with security: false (lines 460-480)'
+    verified_at: '2026-09-03'
+- id: QST-5v6a9yvb8tdn
+  version: 1
+  official_topic: Security
+  official_item: OIT-fw6db7ryrk4q
+  domain: symfony
+  subtopic: authenticated-attributes
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is `IS_AUTHENTICATED_FULLY`, and how does it relate to a user logged in through a remember-me cookie?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - security
+  - roles
+  choices:
+  - id: CHO-qjgc9evrf33m
+    text: A special attribute rather than a role, usable anywhere a role is — `access_control`, `isGranted()`, Twig — and
+      a user logged in only by a remember-me cookie has `IS_AUTHENTICATED_REMEMBERED` but not `IS_AUTHENTICATED_FULLY`
+    correct: true
+  - id: CHO-sj6j502vk407
+    text: A role that the user provider has to grant alongside ROLE_USER, like any other role
+    correct: false
+    explanation: 'It is not a role and nothing grants it: it describes how the current user was authenticated.'
+  - id: CHO-cxz3xxtkwx8n
+    text: A special attribute that works in `access_control` but not in `isGranted()` or in a template
+    correct: false
+    explanation: It can be used anywhere roles are used, templates and controllers included.
+  - id: CHO-nmkv044ew6qj
+    text: A special attribute equivalent to `IS_REMEMBERED`, both matching any user who has logged in at some point
+    correct: false
+    explanation: '`IS_REMEMBERED` matches only users authenticated by a remember-me cookie — the very users who do not have
+      IS_AUTHENTICATED_FULLY.'
+  explanation: 'The family says how the current user was authenticated, not who they are: `IS_AUTHENTICATED` for anyone
+    logged in, `IS_AUTHENTICATED_REMEMBERED` and the stronger `IS_AUTHENTICATED_FULLY`, plus `IS_REMEMBERED` for remember-me
+    only and `IS_IMPERSONATOR` while impersonating. Requiring the full one is how a sensitive page forces a real login from
+    a visitor whose session was restored from a cookie.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Checking to see if a User is Logged In (lines 2540-2578)
+    verified_at: '2026-09-03'
+- id: QST-2vdpk7cg3dy9
+  version: 1
+  official_topic: PHP
+  official_item: OIT-1kjqdnryaw0h
+  domain: php
+  subtopic: attribute-declaration
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which two statements about declaring a PHP attribute class are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - php
+  - attributes
+  choices:
+  - id: CHO-153az1wj23bz
+    text: The permitted targets are a bitmask on the `#[Attribute]` declaration, such as `#[Attribute(Attribute::TARGET_METHOD
+      | Attribute::TARGET_FUNCTION)]`, and using it elsewhere throws when `ReflectionAttribute::newInstance()` is called
+    correct: true
+  - id: CHO-4sbdq83jeeg7
+    text: An attribute can be placed twice on the same declaration only if `Attribute::IS_REPEATABLE` is in that bitmask;
+      by default it may be used once per declaration
+    correct: true
+  - id: CHO-5224e0v7g183
+    text: Placing an attribute on a target it does not allow is a compile-time error, caught before anything runs
+    correct: false
+    explanation: Nothing is checked at compile time; the exception comes from newInstance(), which is also when the attribute
+      constructor runs.
+  - id: CHO-6aynr29yqjkk
+    text: '`#[Attribute]` with no argument forbids every target until at least one is specified'
+    correct: false
+    explanation: With no argument the attribute is allowed on any target, which is what `Attribute::TARGET_ALL` names.
+  - id: CHO-y4428gypsr9m
+    text: '`IS_REPEATABLE` is implied as soon as the attribute declares more than one target'
+    correct: false
+    explanation: Targets and repeatability are independent flags in the same bitmask.
+  explanation: 'Both the targets and the repeatability of an attribute are declared in one bitmask on the attribute class
+    itself. Neither is enforced while the code is compiled: the attribute is inert metadata until reflection reads it, and
+    it is `ReflectionAttribute::newInstance()` — the call that runs the constructor — that raises the error for a disallowed
+    target.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: target specification and IS_REPEATABLE (lines 320-380)
+    verified_at: '2026-09-03'
+- id: QST-t77g2sjg2cte
+  version: 1
+  official_topic: PHP
+  official_item: OIT-fhb3vz7xbt5h
+  domain: php
+  subtopic: closure-binding
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A closure is created inside a method of a class. What is `$this` inside it, and what does declaring the closure
+    `static` change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - php
+  - closures
+  choices:
+  - id: CHO-kjhta9b1a569
+    text: The current class is bound automatically, so `$this` is available; a static closure is not bound, using `$this`
+      in one raises "Using $this when not in object context", and an object cannot be bound to it later either
+    correct: true
+  - id: CHO-swh5y867h5kc
+    text: '`$this` has to be imported with `use ($this)`, and `static` merely stops that import being allowed'
+    correct: false
+    explanation: The binding is automatic in a class context; `$this` is not a variable that `use` imports.
+  - id: CHO-h8fh1dwahfsq
+    text: '`$this` is bound automatically, and `static` only prevents variables being captured by reference'
+    correct: false
+    explanation: What `static` prevents is the binding of the current class, not the capture mode of ordinary variables.
+  - id: CHO-93va9fq6260n
+    text: '`$this` is never bound automatically — `bindTo()` is always needed — and `static` is what turns the automatic
+      binding on'
+    correct: false
+    explanation: 'That reverses both halves: the binding is automatic, and `static` is what suppresses it.'
+  explanation: 'An anonymous function declared inside a class carries the object with it, which is convenient until it is
+    not — a callback stored and invoked elsewhere then keeps that object alive and can reach its private state. `static
+    function () {}` is the way to say the closure is a plain function: the class is not bound, and `bindTo()` on it warns
+    and fails rather than binding.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Automatic binding of $this and Static anonymous functions (lines 1300-1400)
+    verified_at: '2026-09-03'
