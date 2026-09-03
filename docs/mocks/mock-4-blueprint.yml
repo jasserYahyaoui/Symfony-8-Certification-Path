@@ -1,0 +1,314 @@
+# Mock 4 blueprint (Master Plan §10). Generated as Lot 27 Mock 4 Unit A.
+#
+# TRAINING_DISTRIBUTION. The exam publishes no topic weighting and this file
+# infers none: slots follow each topic's share of the 163 atomic official
+# items. Never present it as the official distribution (§7.4, §10).
+#
+# No question is authored from this blueprint yet. Unit B writes the 48.
+
+schema_version: 1
+mock: Mock 4 — official-format simulation
+status: BLUEPRINT — no question authored from it yet (Unit A)
+distribution_label: TRAINING_DISTRIBUTION
+official_constraints:
+  questions: 75
+  minutes: 90
+  language: en
+  symfony: '8.0'
+  answers_revealed: after submission only
+derivation: 'Slots are proportional to each topic''s share of the 163 atomic official items, allocated
+  by largest remainder, then lifted so no topic falls below the minimum. The exam publishes no topic weighting
+  and none is inferred: this is a TRAINING_DISTRIBUTION and must never be presented as official (§7.4,
+  §10).'
+rules:
+  minimum_per_topic: 2
+  max_questions_per_atomic_item: 1
+  miscellaneous_required: true
+  pool: HOLDOUT
+  unique_ids: true
+  language: en
+difficulty_target:
+  easy: 5
+  medium: 40
+  hard: 30
+  derivation: Mirrors the corpus shape (easy 6.0%, medium 53.2%, hard 40.7% over 496 questions), because
+    that shape is itself an outcome of writing each item to its own need rather than to a curve. The existing
+    27 are all hard, so the 48 new ones supply 5 easy, 40 medium and 3 hard.
+answer_mode_target:
+  multiple_minimum: 8
+  derivation: The corpus holds 9 multiple-answer questions in 496 (1.8%) and the existing 27 hold none,
+    so a mock drawn only from them would never exercise multi-select. 8 is the minimum that makes the
+    mechanic appear more than once in a sitting. Not an official ratio.
+timing:
+  target_mean_seconds: 72
+  budget_seconds: 5400
+  existing_27_seconds: 1770
+  remaining_budget_seconds: 3630
+  new_question_mean_ceiling_seconds: 75.6
+totals:
+  slots: 75
+  assigned_existing: 27
+  new_required: 48
+  topics: 14
+  atomic_items_available_unused: 136
+topics:
+- topic: Miscellaneous
+  atomic_items: 19
+  proportional: 8.74
+  slots: 9
+  assigned_existing: []
+  new_required: 9
+  eligible_unused_items: 19
+- topic: Symfony Architecture
+  atomic_items: 15
+  proportional: 6.9
+  slots: 7
+  assigned_existing:
+  - id: QST-0jd9nbbaqczb
+    official_item: OIT-vk57zg2wpep7
+    item_label: Backward compatibility promise
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-tb0rrqg413gx
+    official_item: OIT-7sewqvmw6468
+    item_label: Request handling
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 75
+  new_required: 5
+  eligible_unused_items: 13
+- topic: Controllers
+  atomic_items: 14
+  proportional: 6.44
+  slots: 6
+  assigned_existing:
+  - id: QST-8g75z12e1pjp
+    official_item: OIT-znm2tr61aw9p
+    item_label: Internal redirects
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-hkf8ss1gkr0r
+    official_item: OIT-gqpj4rbt0hc7
+    item_label: The base AbstractController class
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 75
+  new_required: 4
+  eligible_unused_items: 12
+- topic: Templating with Twig
+  atomic_items: 14
+  proportional: 6.44
+  slots: 6
+  assigned_existing:
+  - id: QST-070cvzmzmcsm
+    official_item: OIT-ns36thqnh2jk
+    item_label: Auto escaping
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-ptb3z27885ef
+    official_item: OIT-vhd83fn6w9wy
+    item_label: Twig syntax up to 3.22 version
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  new_required: 4
+  eligible_unused_items: 12
+- topic: Forms
+  atomic_items: 13
+  proportional: 5.98
+  slots: 6
+  assigned_existing:
+  - id: QST-fh0ab67q1ej4
+    official_item: OIT-j2vjdxcer4ft
+    item_label: Forms theming
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-hz8yhn240jyw
+    official_item: OIT-mgvdw7cfpwyz
+    item_label: Forms handling
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  new_required: 4
+  eligible_unused_items: 11
+- topic: Dependency Injection
+  atomic_items: 12
+  proportional: 5.52
+  slots: 6
+  assigned_existing:
+  - id: QST-32aywq9v8vg4
+    official_item: OIT-wm3qdqemtap9
+    item_label: Services autowiring
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  - id: QST-wxhfdd2xw2r7
+    official_item: OIT-adhs2ny9hc5f
+    item_label: Service decoration
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  new_required: 4
+  eligible_unused_items: 10
+- topic: Routing
+  atomic_items: 12
+  proportional: 5.52
+  slots: 6
+  assigned_existing:
+  - id: QST-jpgvx4x2a99s
+    official_item: OIT-81b2c0jmv2j3
+    item_label: URLs generation
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-y5290j4js1md
+    official_item: OIT-1cj08dhtp9hj
+    item_label: Restrict URL parameters
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  new_required: 4
+  eligible_unused_items: 10
+- topic: Security
+  atomic_items: 12
+  proportional: 5.52
+  slots: 5
+  assigned_existing:
+  - id: QST-5xa3m20p2k57
+    official_item: OIT-rwa6m06crs1h
+    item_label: Firewalls
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  - id: QST-eb3sm6ytxwb2
+    official_item: OIT-s3jh7wg5km19
+    item_label: Authenticators, Passports and Badges
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 80
+  - id: QST-x42gj2f3rb8q
+    official_item: OIT-kqm5mxq4jnkj
+    item_label: Voters and voting strategies
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  new_required: 2
+  eligible_unused_items: 9
+- topic: HTTP
+  atomic_items: 10
+  proportional: 4.6
+  slots: 5
+  assigned_existing:
+  - id: QST-bs53wmc0vap5
+    official_item: OIT-d3nyk9z0q2pd
+    item_label: HTTP request
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 85
+  - id: QST-v2wkher0bshj
+    official_item: OIT-tc39jp8japfc
+    item_label: Caching
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 80
+  new_required: 3
+  eligible_unused_items: 8
+- topic: Automated Tests
+  atomic_items: 9
+  proportional: 4.14
+  slots: 4
+  assigned_existing:
+  - id: QST-1bx122jyh8j6
+    official_item: OIT-mtbcyaax2xsk
+    item_label: Framework objects access
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 70
+  - id: QST-meyt65cncy6q
+    official_item: OIT-bc3brs4a4mtt
+    item_label: Client object
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 70
+  new_required: 2
+  eligible_unused_items: 7
+- topic: Console
+  atomic_items: 9
+  proportional: 4.14
+  slots: 4
+  assigned_existing:
+  - id: QST-fem1t3nencs8
+    official_item: OIT-cqs3m73y3rpy
+    item_label: Console events
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 75
+  - id: QST-vn657svb2nsd
+    official_item: OIT-nr9m883d15qq
+    item_label: Options and arguments (using PHP attributes)
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 75
+  new_required: 2
+  eligible_unused_items: 7
+- topic: PHP
+  atomic_items: 9
+  proportional: 4.14
+  slots: 4
+  assigned_existing:
+  - id: QST-7d499p3ps6s7
+    official_item: OIT-bvnvx2b6yt2y
+    item_label: Exception and error handling
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 75
+  - id: QST-95yb2ee8eb52
+    official_item: OIT-n0zfkcr189af
+    item_label: Traits
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 80
+  new_required: 2
+  eligible_unused_items: 7
+- topic: Data Validation
+  atomic_items: 8
+  proportional: 3.68
+  slots: 4
+  assigned_existing:
+  - id: QST-dxbhgyewd2ma
+    official_item: OIT-rwavvsx2d7nq
+    item_label: Group sequence
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  - id: QST-kx920hs0wf1d
+    official_item: OIT-9x3strrjdng7
+    item_label: Built-in validation constraints
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 60
+  new_required: 2
+  eligible_unused_items: 6
+- topic: Messenger
+  atomic_items: 7
+  proportional: 3.22
+  slots: 3
+  assigned_existing:
+  - id: QST-ak25s8rfe3jy
+    official_item: OIT-76x1t7z916f4
+    item_label: Retries and failures
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  - id: QST-s3zd9exve0a5
+    official_item: OIT-dctf03ftx44f
+    item_label: Workers
+    difficulty: hard
+    answer_mode: single
+    estimated_time_seconds: 55
+  new_required: 1
+  eligible_unused_items: 5
