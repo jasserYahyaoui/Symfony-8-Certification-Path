@@ -370,6 +370,82 @@ final class ValidationRuleTest extends TestCase
         self::assertViolates(new DuplicateQuestionRule(), $content, 'DUP-001');
     }
 
+    /**
+     * The P2.2 shape, which the exact-match rule could not see: a HOLDOUT
+     * question whose prompt and answer both restate a VALIDATION one, differing
+     * only in wording. It was found by a manual audit; this test is what should
+     * have found it.
+     *
+     * Fails against the pre-2026-09-03 rule, which compared normalized prompts
+     * for equality only.
+     */
+    public function testNearIdenticalPromptAndAnswerIsDetected(): void
+    {
+        $item = ItemFactory::make();
+        $correct = 'The minor release may change it because the fix closes a security hole';
+
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'question' => 'Which circumstance lets a minor release change behaviour an application relied on?',
+                    'pool' => Pool::Validation,
+                    'choices' => [
+                        new Choice(Id::mint(EntityType::Choice), $correct, true),
+                        new Choice(Id::mint(EntityType::Choice), 'Any behaviour may change in a minor release', false, 'The promise exists precisely to forbid that.'),
+                    ],
+                ]),
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'question' => 'Which circumstance lets a minor release change behaviour that an application relied upon?',
+                    'pool' => Pool::Holdout,
+                    'choices' => [
+                        new Choice(Id::mint(EntityType::Choice), 'The minor release may change it because the fix closes a security flaw', true),
+                        new Choice(Id::mint(EntityType::Choice), 'Any behaviour is free to change in a minor release', false, 'The promise exists precisely to forbid that.'),
+                    ],
+                ]),
+            ],
+        );
+
+        self::assertViolates(new DuplicateQuestionRule(), $content, 'DUP-001');
+    }
+
+    /**
+     * The other half of the same rule, and the reason it cannot key on prompt
+     * similarity alone: this corpus deliberately reuses a stem across different
+     * subjects. The real bank holds six such pairs, one of them 0.92 similar,
+     * and every one asks a different question. Firing on them would push an
+     * author to write worse, more distant prompts.
+     */
+    public function testAParallelStemOverDifferentSubjectsIsNotADuplicate(): void
+    {
+        $item = ItemFactory::make();
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            questions: [
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'question' => 'Which of these is provided by FrameworkBundle rather than by the HttpKernel component?',
+                    'choices' => [
+                        new Choice(Id::mint(EntityType::Choice), 'MicroKernelTrait', true),
+                        new Choice(Id::mint(EntityType::Choice), 'The HttpKernelInterface contract', false, 'That is the component itself.'),
+                    ],
+                ]),
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'question' => 'Which of these is provided by FrameworkBundle rather than by the Routing component?',
+                    'choices' => [
+                        new Choice(Id::mint(EntityType::Choice), 'The RouterListener that runs matching on kernel.request', true),
+                        new Choice(Id::mint(EntityType::Choice), 'The UrlMatcher contract', false, 'That is the component itself.'),
+                    ],
+                ]),
+            ],
+        );
+
+        self::assertSame([], (new DuplicateQuestionRule())->check($content));
+    }
+
     public function testBrokenPrerequisiteFails(): void
     {
         $content = self::content([ItemFactory::make(['prerequisites' => ['OIT-999999999999']])]);
