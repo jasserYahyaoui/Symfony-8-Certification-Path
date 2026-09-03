@@ -820,3 +820,243 @@ questions:
     branch: '8.0'
     symbol_or_lines: Don't Create any Bundle to Organize your Application Logic (lines 163-175)
     verified_at: '2026-09-03'
+
+# Batch 3 — Controllers (4 of the 6 slots; 2 are filled by existing holdout
+# questions).
+- id: QST-zca58wyyqqb0
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-ycc2c8tnv68h
+  domain: symfony
+  subtopic: controller-notation
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route is declared in YAML. How is its `controller` value written for an ordinary action, and for a class whose
+    action is `__invoke()`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - routing
+  - conventions
+  choices:
+  - id: CHO-b80cvnn9p9hy
+    text: '`App\Controller\BlogController::list` for the method, and `App\Controller\BlogController` alone for the invokable
+      class'
+    correct: true
+  - id: CHO-hdqgm4qppsdd
+    text: '`App\Controller\BlogController::list` for the method, and `App\Controller\BlogController::__invoke` for the invokable
+      class, which must be written out'
+    correct: false
+    explanation: The `::method_name` part is what can be skipped for an invokable class; naming `__invoke` explicitly is
+      not the documented form.
+  - id: CHO-zxp66ky32s49
+    text: '`App\Controller\BlogController:list` with a single colon in both cases, the class alone being ambiguous'
+    correct: false
+    explanation: The format is `controller_class::method_name`, with a double colon. The class alone is unambiguous precisely
+      because `__invoke()` is the only action it can have.
+  - id: CHO-m53r2v3xkmf5
+    text: '`blog.controller:list`, using the service id, since a controller is always registered as a service'
+    correct: false
+    explanation: The documented value is the class name, with the method after `::`. Being a service does not change the
+      notation.
+  explanation: The `controller` value has the format `controller_class::method_name`; when the action is implemented as
+    the `__invoke()` method of the class, the `::method_name` part is skipped. In PHP configuration the same pair reads
+    `[BlogController::class, 'list']` and `BlogController::class`. `_controller` is the special route parameter that carries
+    it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: controller value format (lines 96-131) and the `_controller` parameter (lines 1011-1013)
+    verified_at: '2026-09-03'
+- id: QST-tjd5gvaa1nfx
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  subtopic: request-payload
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An action must read a field named `page` whether the client submits a form or posts a JSON body. What does `$request->getPayload()`
+    return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - request
+  - http-foundation
+  choices:
+  - id: CHO-10fxhhx9tewy
+    text: A clone of the `request` bag when that bag holds anything, and otherwise an InputBag built by decoding the raw
+      body as JSON — so both shapes are read the same way and writing to the result leaves the request untouched
+    correct: true
+  - id: CHO-kkxv988vejzs
+    text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict
+    correct: false
+    explanation: Nothing is merged. A non-empty `request` bag is returned on its own, and the raw body is not decoded at
+      all in that case.
+  - id: CHO-ja3q10e2jz8d
+    text: The `request` bag itself, so a value written into it is visible to everything else handling the request
+    correct: false
+    explanation: The bag is cloned when it is non-empty, precisely so that reading the payload cannot alter the request.
+  - id: CHO-akt5vrqzc4q8
+    text: The decoded JSON body only, so a form-encoded POST yields an empty bag
+    correct: false
+    explanation: A form-encoded POST fills the `request` bag, and that bag is exactly what `getPayload()` hands back.
+  explanation: '`getPayload()` is the single accessor for the request body: `$request->query` stays for GET variables, and
+    the payload covers a form-encoded POST (a clone of the `request` bag) and a JSON body (decoded into an InputBag) alike.
+    An empty body yields an empty bag, while a body that is not valid JSON, or that decodes to something other than an array,
+    raises a JsonException.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Request and Response Object (lines 790-800)
+    verified_at: '2026-09-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Request::getPayload() (lines 1539-1560)
+    verified_at: '2026-09-03'
+- id: QST-cmjdp0g231f2
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  subtopic: error-preview
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A customised 404 page never appears while developing: the big exception page shows instead. How is the error
+    page previewed?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - error-pages
+  - dev-environment
+  choices:
+  - id: CHO-cmma2wh3jpkj
+    text: 'Through the default `ErrorController`: load the FrameworkBundle error routes under `when@dev` with the `/_error`
+      prefix, then open `/_error/404`, or `/_error/404.{format}` for another format'
+    correct: true
+  - id: CHO-vs7b4wxdpjky
+    text: By switching the application to the prod environment locally, which is the only way to see the page the users
+      get
+    correct: false
+    explanation: That would also lose the debugging tools. The preview routes exist so the error page can be inspected while
+      still in the development environment.
+  - id: CHO-m7p6hqna3g3r
+    text: By setting `framework.error_controller` to the custom template, which makes the exception page render it in development
+      too
+    correct: false
+    explanation: The exception page is not replaced by configuration; the documented route is what renders the error page
+      on demand.
+  - id: CHO-99rr4jsvbcbq
+    text: By throwing the exception from a functional test, the preview being unavailable outside the test environment
+    correct: false
+    explanation: The preview is a development-environment feature reached over HTTP; it does not require a test.
+  explanation: In development Symfony deliberately shows the exception page, so the customised error page has to be requested
+    explicitly. The default ErrorController serves it through routes imported from `@FrameworkBundle/Resources/config/routing/errors.php`
+    under `when@dev` with the `/_error` prefix — automatically installed with symfony/framework-bundle — giving `/_error/{statusCode}`
+    for HTML and `/_error/{statusCode}.{format}` for anything else.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Testing Error Pages during Development (lines 137-185)
+    verified_at: '2026-09-03'
+- id: QST-3e36y0qzcek6
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  subtopic: session-expiry
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A session must expire after a fixed period of inactivity, decided by the server. What does Symfony offer, and
+    why is the cookie lifetime not the answer?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - session
+  - security
+  choices:
+  - id: CHO-vcxh1vpbwap3
+    text: '`$session->getMetadataBag()->getLastUsed()` returns a server-side timestamp that the application compares on
+      access before calling `$session->invalidate()`; the cookie lifetime is unsuitable because the client can manipulate
+      it'
+    correct: true
+  - id: CHO-qbe4jpwx29r2
+    text: Setting `cookie_lifetime` to the idle period, which is exactly what it is for
+    correct: false
+    explanation: The cookie lives on the client and can be manipulated there, so it cannot enforce a server-side idle timeout.
+  - id: CHO-rm7yabs9bwsw
+    text: '`$session->getMetadataBag()->getCreated()`, since the idle period is counted from the moment the session was
+      opened'
+    correct: false
+    explanation: '`getCreated()` gives the creation time; an idle timeout is measured from the last use, which is `getLastUsed()`.'
+  - id: CHO-fmnq7nhh2me5
+    text: 'Nothing: idle expiry has to be stored in the session data by the application and checked by hand'
+    correct: false
+    explanation: The metadata bag already records creation, last use and lifetime, so no bookkeeping of that kind is needed.
+  explanation: Two documented approaches exist and both act on the server. Garbage collection with `gc_maxlifetime` destroys
+    idle sessions in the background, while an explicit check reads `getMetadataBag()->getLastUsed()` — a Unix timestamp
+    relative to the server — on access and calls `invalidate()` when the idle period has passed, which is the option that
+    lets the expiry be shown to the user. `cookie_lifetime` is set high in both cases, because it is client-side and can
+    be manipulated.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: session expiry and the metadata bag (lines 408-445)
+    verified_at: '2026-09-03'
