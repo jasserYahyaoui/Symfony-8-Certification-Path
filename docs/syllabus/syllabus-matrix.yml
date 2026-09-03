@@ -6819,7 +6819,7 @@ items:
       Deux syntaxes coexistent en 8.0 et l'examen attend qu'on distingue la recommandée de l'héritée,
       y compris pour ce que la seconde permet encore. C'est une discrimination, pas un rappel.
     learning_outcomes:
-      - Écrire une commande invocable avec #[AsCommand] et __invoke()
+      - "Écrire une commande invocable avec #[AsCommand] et __invoke()"
       - Expliquer comment le conteneur découvre une commande
       - Dire quand étendre Command reste nécessaire
     required_assessment_modes:
@@ -6869,7 +6869,7 @@ items:
       Le moment d'appel de configure() est contre-intuitif et gouverne une règle d'écriture du
       constructeur. Le candidat doit raisonner sur un ordre d'exécution.
     learning_outcomes:
-      - Nommer les paramètres de #[AsCommand]
+      - "Nommer les paramètres de #[AsCommand]"
       - Déclarer alias et visibilité d'une commande
       - Situer l'appel de configure() dans la construction
     required_assessment_modes:
@@ -7916,8 +7916,8 @@ items:
       vocabulaire.
     learning_outcomes:
       - Activer et tracer le proxy inverse de Symfony
-      - Déclarer une politique par #[Cache] et connaître sa priorité
-      - Énoncer les limites : URI comme clé, méthodes sûres, invalidation hors protocole
+      - "Déclarer une politique par #[Cache] et connaître sa priorité"
+      - "Énoncer les limites : URI comme clé, méthodes sûres, invalidation hors protocole"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8016,7 +8016,7 @@ items:
       horloge simulée qui n'avance pas — dont dépend la lecture d'un test. Le candidat doit appliquer,
       pas reconnaître un vocabulaire.
     learning_outcomes:
-      - Expliquer pourquoi le composant existe : découpler du temps système
+      - "Expliquer pourquoi le composant existe : découpler du temps système"
       - Choisir entre NativeClock, MockClock et MonotonicClock
       - Utiliser ClockAwareTrait dans un service et ClockSensitiveTrait dans un test
     required_assessment_modes:
@@ -8165,7 +8165,7 @@ items:
     learning_outcomes:
       - Construire une recherche par critères chaînés
       - Expliquer pourquoi un Finder réutilisé doit être cloné
-      - Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés
+      - "Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés"
       - Convertir les résultats en tableau après plusieurs emplacements de recherche
     required_assessment_modes:
       - "QUESTION"
