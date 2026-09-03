@@ -36,7 +36,7 @@ final class QuestionFactory
             subtopic: null,
             language: $overrides['language'] ?? Language::English,
             difficulty: 'medium',
-            cognitiveLevel: 'APPLY',
+            cognitiveLevel: $overrides['cognitiveLevel'] ?? 'APPLY',
             examSkill: 'DISTINGUISH',
             type: 'mcq',
             answerMode: $overrides['answerMode'] ?? AnswerMode::Single,

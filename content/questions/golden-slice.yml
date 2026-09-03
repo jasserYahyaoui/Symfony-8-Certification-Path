@@ -19,7 +19,7 @@ questions:
     subtopic: status-codes
     language: en
     difficulty: easy
-    cognitive_level: RECOGNIZE
+    cognitive_level: APPLY
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: single
@@ -323,7 +323,7 @@ questions:
     subtopic: authenticator
     language: en
     difficulty: hard
-    cognitive_level: DISTINGUISH
+    cognitive_level: UNDERSTAND
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: multiple
@@ -381,7 +381,7 @@ questions:
     subtopic: badges
     language: en
     difficulty: hard
-    cognitive_level: DIAGNOSE
+    cognitive_level: APPLY
     exam_skill: DIAGNOSE
     type: mcq
     answer_mode: single

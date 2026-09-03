@@ -17,6 +17,7 @@ use CertPath\Support\Id;
 use CertPath\Tests\Support\ItemFactory;
 use CertPath\Tests\Support\QuestionFactory;
 use CertPath\Validation\ContentSet;
+use CertPath\Validation\Rule\CognitiveLevelRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
 use CertPath\Validation\Rule\EnrichmentBudgetRule;
 use CertPath\Validation\Rule\ExamReadyEvidenceRule;
@@ -349,6 +350,18 @@ final class ValidationRuleTest extends TestCase
         $content = self::content([ItemFactory::make(['id' => $id, 'prerequisites' => [$id->value]])]);
 
         self::assertViolates(new ReferentialIntegrityRule(), $content, 'REF-001');
+    }
+
+    public function testExamSkillValueInCognitiveLevelFails(): void
+    {
+        // The historical defect: 39 early questions carried a *skill* word in the
+        // *level* field, 38 of them duplicating exam_skill exactly.
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([ItemFactory::make()]),
+            questions: [QuestionFactory::make(['cognitiveLevel' => 'DIAGNOSE'])],
+        );
+
+        self::assertViolates(new CognitiveLevelRule(), $content, 'COG-001');
     }
 
     public function testTwoItemsClaimingTheSameQuestionFails(): void

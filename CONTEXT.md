@@ -50,17 +50,22 @@ Verified, with real identifiers:
 | 25 — Runtime | `130f7e8` | `33687839072` | `33688747560` | `100442702932` |
 | 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
-| 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | MISSING | MISSING |
-| 15 — Deploy/Profiler | `5356666` | `100141336955` | MISSING | MISSING |
-| 16 — i18n | `35b550c` | `100142369730` | MISSING | MISSING |
-| 17 — HTTP Caching | `db40346` | `100145067830` | MISSING | MISSING |
+| 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
+| 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
+| 16 — i18n | `35b550c` | `100142369730` | `33597624000` | `100144456820` |
+| 17 — HTTP Caching | `db40346` | `100145067830` | `33598597355` | `100147381182` |
 | 18 — Cache | `301ab8b` | `100147813907` | `33599377684` | `100149755378` |
 | 19 — Clock | `8f36d0b` | run `33618683916` | `33619375464` | `100212925165` |
 | 20 — EventDispatcher, Event | `da87b7e` | `100216057848` | `33621145565` | `100218509654` |
 
 Lot 20's deploy run also carries build `100218191780` and deploy
-`100218447960`, both success. Deploy and smoke ids for lots 14 to 17 were not
-captured at the time and are recorded as `MISSING` rather than invented.
+`100218447960`, both success.
+
+The deploy and smoke ids for lots 14 to 17, long recorded as `MISSING` because
+they were not captured at the time, were **recovered from the Actions history
+during the pre-Lot-27 audit** and are now in the table above. They were read
+from the API, not reconstructed: each smoke-test job is a real id whose run
+carries the matching `head_sha`. Nothing was back-filled by inference.
 Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
 
 Every lot from 03 onward ships through branch → Pull Request → CI → controlled
@@ -128,25 +133,44 @@ for evidence anchoring; toolchain verified.
 5. Lot 0.5 Golden Slice: one MINIMAL, one STANDARD, one justified DEEP item,
    end to end, then approve or correct the architecture before scaling.
 6. ~~Lots 1–3~~ — done. ~~Lots 04–16~~ — done. ~~Lot 17~~ — delivered. Lots 18–27.
-7. **Audit Priority 2, due before the mock exams.** P2.1 restore a standard
-   `Pièges d'examen` section wherever a trap already exists in prose (~50
-   courses, reorganisation only, growth < 2%); P2.2 rewrite the
-   backward-compatibility HOLDOUT stem, 0.88 similar to its VALIDATION
-   counterpart; P2.3 the `dump()`-in-prod error kind; P2.4 the positive
-   constant-expression list in *Attributes*; P2.5 the question-language policy
-   plus small FR→EN terminology blocks; P2.6 de-duplicate the upgrade paragraph
-   between *Release management* and *Deprecations*; P2.7 normalise 14
-   `cognitive_level` values; P2.8 restore accents on the Lot 07 flashcards —
-   **scope widened, see FR-1**: the accent loss affects the flashcard banks of
-   lots 07 through 11 and the matrix justifications written over the same
-   period, not Lot 07 alone.
+7. **Audit Priority 2 — audited 2026-09-03, four of eight closed.** Every
+   criterion was re-read from this file rather than assumed, and two of the
+   recorded estimates proved wrong when measured.
+
+   | | Criterion as recorded | Audited result |
+   |---|---|---|
+   | P2.1 | standard `Pièges d'examen` section wherever a trap exists in prose (~50 courses) | **FAIL — not executed.** Measured: 93 courses carry the standard section, **20** carry a trap under a non-standard heading or in prose, 50 carry none. The estimate of ~50 was high; the real scope is 20. Not executed because the treatment is undecided — see below. |
+   | P2.2 | rewrite the backward-compatibility HOLDOUT stem, 0.88 similar to its VALIDATION counterpart | **PASS — fixed.** Measured at exactly 0.88. `QST-0jd9nbbaqczb` rewritten around the security-fix tolerance, a facet the course teaches and nothing else assessed. Similarity now **0.22**. |
+   | P2.3 | the `dump()`-in-prod error kind | **PASS — fixed.** The course called it "une erreur fatale"; its cited source, `components/var_dumper.rst`, says nothing about production. The sourced half (dev dependency, `composer require --dev`) is kept and the unsourced error-kind claim is replaced by what the source supports. |
+   | P2.4 | the positive constant-expression list in *Attributes* | **PASS — fixed.** `php/doc-en` states it positively: *"Arguments can only be literal values or constant expressions."* The course stated only the negative; it now gives the positive list first. |
+   | P2.5 | question-language policy plus small FR→EN terminology blocks | **FAIL — not executed.** Measured: **21** of 496 questions are French (lots 02, 03, 05). The policy itself does not exist yet, and writing one is a decision, not a correction. |
+   | P2.6 | de-duplicate the upgrade paragraph between *Release management* and *Deprecations* | **PASS — already resolved.** Verified: the two courses now share no prose line over 45 characters, and `UPGRADE`/`CHANGELOG` appears 4 times in *Deprecations* and 0 in *Release management*. Closed incidentally by the Lot 13 `CRS-001` rewrite. |
+   | P2.7 | normalise 14 `cognitive_level` values | **PASS — fixed, and larger than recorded.** Measured **39**, not 14. In 38 of them the field simply duplicated `exam_skill`. Root cause: `cognitive_level` was an unconstrained `string` that no rule inspected. All 39 reassigned; rule **`COG-001`** added so it cannot recur. |
+   | P2.8 | restore accents on the flashcards of lots 07–11 and the matrix justifications of that period (FR-1) | **FAIL — not executed.** Confirmed by line count: lots 01–06 carry 36–58 accented lines each, lots **07–11** carry 1–5, lots 12+ recovered (33, 35, 11, 9, …). Five banks affected. Not mechanical: each sentence must be read to be re-accented. |
+
+   **Why P2.1, P2.5 and P2.8 were not executed.** Each needs a decision that is
+   not mine to take, or a manual pass that should be scheduled rather than
+   slipped into an audit:
+
+   - **P2.1** — the 20 courses carry their traps *mid-course* under headings like
+     *Le piège des arguments nommés*. Renaming those to `Pièges d'examen` would
+     put a summary heading in the middle of a course; adding a real summary
+     section instead is **growth**, and the criterion says *reorganisation only,
+     growth < 2%*. The two treatments differ in cost and in effect on rapid
+     review. The owner should pick one.
+   - **P2.5** — there is no written language policy to conform to. The courses
+     are French by design and the questions are English by practice; 21 early
+     questions were never converted. Translating a scored question changes what
+     it assesses, so the policy must be written and approved first.
+   - **P2.8** — five flashcard banks, re-accented by reading each sentence. Real
+     work, bounded, and safe to schedule; it changes no assessed fact.
 
 ## Atomic items affected
 
 Reconciled from `docs/syllabus/syllabus-matrix.yml` and `content/**` with a
 script, not from an earlier report.
 
-**163 imported, 157 EXAM_READY.**
+**163 imported, 163 EXAM_READY.**
 
 ```text
 coverage = EXAM_READY atomic official items / total atomic official items * 100
@@ -249,6 +273,8 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | CRS-5 | `CRS-001` fired twice on Lot 13, and both were content faults rather than rule noise. (a) The *Handling legacy deprecated code* course restated nearly all of *Deprecations best practices* (lot-03) — the two markers, the mineure/majeure calendar, the CHANGELOG and UPGRADE trace — and so reproduced that item's correct answer. (b) The *Request and response objects introspection* course used `$response->getStatusCode()`, which is the correct answer to a lot-02 HttpClient question. | Medium | **Resolved** — (a) the course was rewritten around what its item actually owns (a silenced `E_USER_DEPRECATED` notice: nothing fails, nothing prints, it exists only if an error handler collects it), with the lot-03 boundary stated on the page; its flashcard and its two LEARNING questions were realigned so nothing is asked that the course no longer teaches. (b) the example now shows headers and content. Neither was fixed by rewriting a validated question or by fencing. The rule caught duplication that the §1.4 value gate should have caught first |
 | SPLICE-1 | The matrix splicer hard-coded the default `exclusion_boundaries` line. Three Lot 13 items carry `"PHPUnit Bridge is not included."` instead, so the splice would have silently replaced the syllabus's own scope note with the default text. | High | **Resolved before any data was lost** — the script's own guard refused to run rather than writing a near-match. It now matches that line with a regex and writes it back unchanged. Lesson: a splicer that assumes a constant template will corrupt the first record that differs, and only an assertion makes that visible |
 | SPLICE-2 | The Lot 22 matrix splice wrote the level and outcomes but not the tails, and my fallback positional patch — whose **own guard was faulty** — then wrote **Mailer's** references into the **Serializer** item and **Mime's** into the **Runtime** item, in addition to the correct ones. Ten references ended up claimed by two items each. | High | **Resolved in Lot 25.** No gate caught it: `REF-001` checked that references *resolve*, never that they *belong*, and both wrongly credited items were `NOT_STARTED`, which no readiness rule inspects. The corruption reached `master` in Lot 22 and survived lots 23 and 24; it surfaced only because Lot 25 tried to splice Runtime and found the slot occupied. A full audit of every course, flashcard and question reference found exactly those ten duplicates and no others. `REF-001` now reports a reference claimed by two items **and** a reference whose content declares a different owning item — the sharper invariant, since content records its own item — pinned by two regression tests confirmed to fail against the previous rule. Lesson, and the second of its kind after SPLICE-1: **an assertion that is itself wrong protects nothing**, and a positional patch must be verified against the block it claims to have edited, not against its own success message. |
+| COG-1 | `cognitive_level` was declared as a bare `string` that **no rule inspected**, so 39 questions written before the taxonomy settled carried an *exam skill* value in the *level* field — `DIAGNOSE` (30), `DISTINGUISH` (8), `RECOGNIZE` (1). In 38 of the 39 the two fields held the same word. Every gate passed for the whole life of the project. | Medium | **Resolved 2026-09-03** — rule `COG-001` constrains the field to `KNOW`, `UNDERSTAND`, `APPLY`; it reported exactly 39 before the fix, matching the audit count independently. All 39 reassigned under a stated mapping (symptom scenario → `APPLY`; contrast or multi-statement → `UNDERSTAND`; single recalled fact → `KNOW`), and a regression test pins the historical shape. Third instance of the same class after SPLICE-1 and SPLICE-2: **an invariant nothing checks is not an invariant.** |
+| DOC-2 | The Master Plan (`SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md`) is **not in the repository** — a filesystem-wide search finds no copy. §15 and §22 are therefore cited throughout but cannot be read verbatim from any artefact here. §15's triggers survive as an enumeration in `CLAUDE.md`; §22 survives only as the seven-word fragment *"protected unseen holdout assessment"* quoted inside ADR-0005. | Medium | **Open.** Recorded during the pre-Lot-27 audit, which was asked to read §22 word for word and could not. Nothing was inferred from the section number. Resolving it means placing the plan, or the two sections, inside the repository. |
 | API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. Lot 25 added a new shape: the *filtered* run listings (by `status`, or by `status` plus `actor`) reported no deploy at all for `130f7e8` while the **unfiltered** listing already showed it completed and successful, so a filter can hide a run that exists rather than merely delay its status. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
 
 ## Tests executed and actual results
@@ -302,14 +328,21 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Obtain the owner's decision on ADR-0005 — the holdout distribution.** §15
-lists it as requiring human approval and it is due before Lot 27; the mock
-exams draw on the holdout pool, so its distribution is exactly what is
-undecided. **Lot 27 must not begin without it.**
+**Approve or reject the decision now proposed in
+[ADR-0005](docs/adr/0005-holdout-distribution-deferred.md).** Its status is
+`PENDING_HUMAN_APPROVAL`: option 1 — *accept and relabel*, dropping the word
+*unseen* and adding a one-line learner protocol — is proposed, with option 2
+kept as the documented upgrade path and the reason for not taking it now
+written down. §15 reserves this to the owner. **Lot 27 stays blocked until it
+is answered.**
 
-In parallel, audit items **P2.1–P2.8** are due before the mocks. P2.8/FR-1 is
-not mechanical: each affected sentence must be read to be re-accented
-correctly.
+Then decide the three audit items the audit deliberately did not execute:
+**P2.1** (which of two treatments for 20 courses), **P2.5** (write the question
+language policy before converting 21 French questions), **P2.8** (schedule the
+manual re-accenting of five flashcard banks). See *Remaining work* item 7.
+
+**DOC-2** should also be settled: the Master Plan is not in the repository, so
+§15 and §22 cannot be read verbatim from any artefact here.
 
 No content work remains.
 

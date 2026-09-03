@@ -315,7 +315,7 @@ questions:
   subtopic: authorization
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -464,7 +464,7 @@ questions:
   subtopic: configuration
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -612,7 +612,7 @@ questions:
   subtopic: providers
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -808,7 +808,7 @@ questions:
   subtopic: firewalls
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1154,7 +1154,7 @@ questions:
   subtopic: hashers
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
@@ -1302,7 +1302,7 @@ questions:
   subtopic: access-control
   language: en
   difficulty: hard
-  cognitive_level: DIAGNOSE
+  cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single

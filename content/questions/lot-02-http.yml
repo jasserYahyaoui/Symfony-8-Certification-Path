@@ -217,7 +217,7 @@ questions:
     domain: http
     language: en
     difficulty: hard
-    cognitive_level: DISTINGUISH
+    cognitive_level: UNDERSTAND
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: single
@@ -321,7 +321,7 @@ questions:
     domain: http
     language: en
     difficulty: hard
-    cognitive_level: DISTINGUISH
+    cognitive_level: UNDERSTAND
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: multiple
@@ -473,7 +473,7 @@ questions:
     domain: http
     language: fr
     difficulty: medium
-    cognitive_level: DISTINGUISH
+    cognitive_level: KNOW
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: single
@@ -525,7 +525,7 @@ questions:
     domain: http
     language: en
     difficulty: hard
-    cognitive_level: DISTINGUISH
+    cognitive_level: KNOW
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: single
@@ -936,7 +936,7 @@ questions:
     domain: http
     language: en
     difficulty: hard
-    cognitive_level: DIAGNOSE
+    cognitive_level: APPLY
     exam_skill: DIAGNOSE
     type: mcq
     answer_mode: single
@@ -986,7 +986,7 @@ questions:
     domain: http
     language: en
     difficulty: hard
-    cognitive_level: DIAGNOSE
+    cognitive_level: APPLY
     exam_skill: DIAGNOSE
     type: mcq
     answer_mode: single
