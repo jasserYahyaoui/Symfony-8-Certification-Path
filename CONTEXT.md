@@ -38,16 +38,18 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`pre-lot-27-audit-corrections`, at `404f548` — **PR #44 open, CI queued at the
-last single read (run `33719980682`, job `100536947483`). Not merged, not
-deployed, not smoke-tested: delivery is PENDING, and no `PASS` is claimed.**
+`master`, at `7456e20` — the squashed corrections PR #44, **delivered in full**:
+Technical gate `100542490813` success on head `46b0df4`, merged, deploy run
+`33722133013` with build `100543284846`, deploy `100543519869` and production
+smoke test `100543569797`, all success. The smoke-test log was read rather than
+assumed: ten production URLs returned 200, the landing page rendered its
+expected content, and `practice.json` declared `pool: LEARNING`.
 
-`master` is at `c4cfebc` — the squashed pre-Lot-27 decision gate (PR #43,
-Technical gate `100527192838` **success** on `eda6f50` before merge). That
-merge is what made master current; it carries the restored Master Plan
-findings, the ADR-0005 acceptance, the §5 and §4.3 policies, the §22
-assessment, the P2.8 flashcard repair and the versioned syllabus-audit
-artifacts.
+`c4cfebc` before it is the squashed pre-Lot-27 decision gate (PR #43, Technical
+gate `100527192838` success on `eda6f50`, deploy `33719653086`). It carries the
+restored Master Plan findings, the ADR-0005 acceptance, the §5 and §4.3
+policies, the §22 assessment, the P2.8 flashcard repair and the versioned
+syllabus-audit artifacts.
 
 ### Pre-Lot-27 corrections G-1 to G-4 (PR #44)
 
@@ -90,6 +92,8 @@ Verified, with real identifiers:
 | 24 — PropertyAccess | `2a8f0e8` | `33686497465` | `33686874047` | `100437028877` |
 | 25 — Runtime | `130f7e8` | `33687839072` | `33688747560` | `100442702932` |
 | 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
+| Pre-Lot-27 gate (PR #43) | `c4cfebc` | `100527192838` | `33719653086` | — |
+| Corrections G-1 to G-4 (PR #44) | `7456e20` | `100542490813` | `33722133013` | `100543569797` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -374,12 +378,9 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Read PR #44's Technical gate once.** It was `queued` at the last read; nothing
-else may start until it is green, merged, deployed and smoke-tested. Do not
-poll and do not report `PASS` before that evidence exists.
-
-Then, and only then, **begin Lot 27 — final review and mock exams.** Nothing
-else blocks it. Its scope is
+**Begin Lot 27 — final review and mock exams.** The pre-Lot-27 gate and both
+its delivery PRs are closed with real evidence, so nothing blocks it. Its scope
+is
 fixed by §14: independent syllabus audit; version-contamination audit; source
 and anchor audit; content-volume and duplication audit; question-bank audit;
 holdout integrity audit; English readiness audit; mock exams; technical,
