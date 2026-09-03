@@ -1749,3 +1749,233 @@ questions:
     branch: '8.0'
     symbol_or_lines: Using the AbstractBundle Class (lines 46-112)
     verified_at: '2026-09-03'
+
+# Batch 7 — Routing (4 of the 6 slots; 2 are filled by existing holdout
+# questions).
+- id: QST-8gempxeesawj
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  subtopic: important-parameter
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route is `/blog/{page}` with `page` defaulting to 1, and generating it with `page = 1` produces `/blog`. What
+    makes it produce `/blog/1`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - routing
+  - url-generation
+  choices:
+  - id: CHO-ejnmv2mnaca0
+    text: 'Writing the path as `/blog/{!page}`: the `!` prefix always includes that parameter in the generated URL, even
+      when its value equals the default'
+    correct: true
+  - id: CHO-zwv876mkcycp
+    text: 'Adding a requirement such as `page: ''\d+''`, after which a default matching its requirement is always emitted'
+    correct: false
+    explanation: A requirement constrains matching, not generation — and a default value is even allowed not to match its
+      own requirement.
+  - id: CHO-tsqa70d2sca2
+    text: Writing the default inline as `/blog/{page?1}`, which marks it as always generated
+    correct: false
+    explanation: Inlining is just another way to declare the same default; it changes nothing about generation.
+  - id: CHO-17cvwmcvwy96
+    text: Generating the URL with `UrlGeneratorInterface::ABSOLUTE_URL`, which emits every parameter
+    correct: false
+    explanation: That switches between a relative and an absolute URL; it does not decide which optional parameters appear.
+  explanation: 'Optional parameters are omitted from a generated URL when their value is the default, which is usually wanted.
+    The `!` prefix reverses that decision for one parameter. Two neighbouring rules are easy to conflate with it: everything
+    after an optional parameter must itself be optional, and a default value is allowed not to satisfy the requirement declared
+    for the same parameter.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: optional parameters, the `!` prefix and inlined defaults (lines 800-820)
+    verified_at: '2026-09-03'
+- id: QST-9c1gepv9vdr4
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  subtopic: reserved-parameters
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which two statements about Symfony's special routing parameters are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - routing
+  - reserved-parameters
+  choices:
+  - id: CHO-vs07hvghk9dp
+    text: '`_query` holds an array of query parameters to add to the generated URL'
+    correct: true
+  - id: CHO-prdydpapxe78
+    text: All of them except `_fragment` may be used both in an individual route and in a route import
+    correct: true
+  - id: CHO-abc9zm2y9kwj
+    text: '`_format` restricts which formats the route matches, the list of allowed ones being what it declares'
+    correct: false
+    explanation: The matched value sets the request format, which drives things like the response Content-Type. Restricting
+      the accepted values is a requirement, written separately.
+  - id: CHO-15tyjty8n4cv
+    text: '`_locale` applies only to URL generation; the request locale is decided by content negotiation'
+    correct: false
+    explanation: '`_locale` is used to set the locale on the request itself.'
+  - id: CHO-88mh3kf5ppkz
+    text: '`_controller` may appear only in a route import, an individual route naming its controller through the `controller`
+      key instead'
+    correct: false
+    explanation: '`_controller` is one of the special parameters usable in both places; it is what determines the controller
+      executed on a match.'
+  explanation: The five are `_controller`, `_format`, `_fragment`, `_locale` and `_query`. `_fragment` is the one excluded
+    from route imports, because a fragment identifier belongs to a single URL rather than to a group of them. Symfony also
+    exposes each of them, minus the leading underscore, as a route option — `locale`, `format`, `query` — so they can be
+    declared more readably.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: special parameters created by Symfony (lines 1005-1033)
+    verified_at: '2026-09-03'
+- id: QST-z82jqq77k8c5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  subtopic: request-context
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A console command generates an absolute URL and gets `http://localhost/` as the host instead of the real one.
+    Why, and what settles it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - routing
+  - console
+  choices:
+  - id: CHO-r9kr6dqqme9v
+    text: A command runs outside the HTTP context, so the router has no request to take a host and scheme from; `framework.router.default_uri`
+      defines the request context it uses instead
+    correct: true
+  - id: CHO-f43q3gwp8wws
+    text: 'The route is missing `schemes`, and declaring `schemes: [''https'']` supplies the host as well'
+    correct: false
+    explanation: '`schemes` decides the scheme of a matched or generated URL. It says nothing about the host.'
+  - id: CHO-gpvqqgc5q4dr
+    text: Absolute URLs cannot be generated outside a request, so the command has to assemble the URL as a string
+    correct: false
+    explanation: 'They can: the router only needs a request context, which `default_uri` provides.'
+  - id: CHO-rqveas7ga4rz
+    text: The router falls back to the local development server, and the host has to be passed as an argument on every generation
+      call
+    correct: false
+    explanation: The generator takes no host argument; the host comes from the request context.
+  explanation: URL generation always reads a request context — host, scheme, base URL. During an HTTP request the router
+    fills it from the request; a command has none, hence the `http://localhost/` placeholder. `framework.router.default_uri`
+    gives the application a context to fall back on, and the same value is what asset URLs generated outside a request use.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Generating URLs in Commands (lines 2302-2340)
+    verified_at: '2026-09-03'
+- id: QST-yd5xptb52664
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  subtopic: router-debugging
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The route list must show the controller behind each route and only the routes answering GET. Which invocation
+    does that, and what does adding a route name change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - routing
+  - debugging
+  choices:
+  - id: CHO-avfdxwy849k2
+    text: '`debug:router --show-controllers --method=GET`; passing a route name, or part of one, prints that route''s details
+      instead of the list'
+    correct: true
+  - id: CHO-2hbcc84c3a2j
+    text: '`debug:router --controllers --http=GET`; a route name filters the list down to the routes whose name contains
+      it'
+    correct: false
+    explanation: Neither option exists under those names, and a route name switches the command to the detail view rather
+      than filtering the table.
+  - id: CHO-xhx4ftkkgmqm
+    text: '`router:match --method=GET`, which lists the matching routes with their controllers'
+    correct: false
+    explanation: '`router:match` takes a URL and reports which single route matches it; it does not list routes.'
+  - id: CHO-gewg21qz7cpk
+    text: '`debug:container --show-controllers --method=GET`, controllers being services'
+    correct: false
+    explanation: '`debug:container` inspects the service container. Routes are listed by `debug:router`.'
+  explanation: '`debug:router` lists routes in the order Symfony evaluates them, with `--show-controllers`, `--show-aliases`
+    and `--method` refining what is displayed; `--method=ANY` singles out the routes that accept any method. Passing a route
+    name — or a fragment of one — prints one route in full, options included. `router:match <url>` answers the other question:
+    which route a given URL reaches.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: debug:router and router:match (lines 418-474)
+    verified_at: '2026-09-03'
