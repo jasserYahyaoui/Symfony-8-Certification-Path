@@ -220,7 +220,7 @@ questions:
     verification_status: VERIFIED
     reviewers: [tech-lead]
     reviewed_at: "2026-09-01"
-    tags: [routing, namespaces]
+    tags: [routing, namespaces, exclusion-note]
     choices:
       - id: CHO-p4qhk0944213
         text: "use Symfony\\Component\\Routing\\Attribute\\Route;"

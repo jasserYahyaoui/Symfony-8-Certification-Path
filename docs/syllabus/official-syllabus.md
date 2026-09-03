@@ -24,13 +24,38 @@ Nothing else was altered: no item reworded, merged, split, renamed or reordered.
 ### A recorded discrepancy: 15 topics or 14?
 
 The exam page states **"15 topics"** while enumerating **14** topic headings.
-This is not resolved by guessing. The most plausible reading is that
-`Components:` — nested under *Miscellaneous* and carrying its own list of
-twelve components — is counted as a topic in its own right.
+
+The 2026-09-03 independent audit settled which lines are headings, by
+measurement rather than by plausibility. Extracted text cannot tell a heading
+from an item, and two readings of the missing topic are both internally
+consistent — either `Object Oriented Programming` or `Components:` could be the
+fifteenth, and each closes the arithmetic. Font size and left edge decide it:
+
+| | Font size | Left edge |
+|---|---|---|
+| Topic heading | **17.0** | 19.2 (left column) / 382.0 (right) |
+| Item | 16.0 | 51.2 / 414.0 |
+| Sub-item | 16.0 | **83.2 / 446.0** |
+
+Exactly **14** runs in the document measure 17.0. `Object Oriented Programming`
+measures 16.0 at x=51.2 — an **item** of *PHP*, as imported here. `Components:`
+also measures 16.0 at x=51.2 and is the only item-level line in the document
+with children: its twelve components are the only lines at the deeper
+83.2/446.0 indent, which is why they are imported as twelve atomic items and
+the label itself is not one.
+
+**The fifteenth topic is enumerated nowhere in the document.** The earlier
+reading recorded here — that `Components:` is counted as a topic in its own
+right — remains the most plausible explanation of the stated figure, but it is
+an inference about the exam page's own bookkeeping, not something the document
+states. The discrepancy is in the source and stays recorded rather than
+reconciled, per §2.5.
 
 It affects no figure in this project: coverage is computed from atomic items
-(§3.5), never from topic counts. Recorded here rather than silently reconciled,
-per §2.5.
+(§3.5), never from topic counts.
+
+Evidence and method: [`docs/audit/lot-27-syllabus-gate/README.md`](../audit/lot-27-syllabus-gate/README.md),
+with the full mapping in `coverage-mapping.csv` alongside it.
 
 ### Exam constraints
 

@@ -70,6 +70,11 @@ final class OutOfScopeContaminationRule implements Rule
             $haystack = mb_strtolower($question->question.' '.$question->explanation);
             foreach ($question->choices as $choice) {
                 $haystack .= ' '.mb_strtolower($choice->text);
+                // A distractor explanation is content the learner reads, and
+                // §7.1 makes it a required field. Leaving it out of the
+                // haystack let an excluded term sit in a scored question
+                // without any rule being able to see it.
+                $haystack .= ' '.mb_strtolower($choice->explanation ?? '');
             }
 
             foreach ($content->excludedTerms as $term) {
