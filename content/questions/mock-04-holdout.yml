@@ -1060,3 +1060,230 @@ questions:
     branch: '8.0'
     symbol_or_lines: session expiry and the metadata bag (lines 408-445)
     verified_at: '2026-09-03'
+
+# Batch 4 — Templating with Twig (4 of the 6 slots; 2 are filled by existing
+# holdout questions). Twig-language facts are anchored to twigphp/Twig v3.22.0,
+# the version the syllabus fixes, not to the Twig 3.x branch head.
+- id: QST-qzeswz2y2ag4
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  subtopic: conditions
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A template writes `{% if value %}`. For which pair of values is the block rendered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - twig
+  - conditions
+  choices:
+  - id: CHO-7aaec1y2bjr9
+    text: A whitespace-only string such as `' '`, and `NAN`
+    correct: true
+  - id: CHO-gx73vmfxngqp
+    text: The string `'0'`, and numeric zero
+    correct: false
+    explanation: 'Both are false. `''0''` is one of the documented edge cases: a non-empty string that still evaluates to
+      false.'
+  - id: CHO-ad2askm6tc1b
+    text: An empty sequence `[]`, and an empty mapping `{}`
+    correct: false
+    explanation: Both are false; only a non-empty sequence or mapping is true.
+  - id: CHO-9dkjch29grn1
+    text: '`null`, and the empty string `''''`'
+    correct: false
+    explanation: Both are false.
+  explanation: 'Twig applies the same truth rules as PHP, and the documented edge cases are where they surprise: `''0''`
+    is false although the string is not empty, while a whitespace-only string is true; `NAN` and `INF` are both true; empty
+    string, numeric zero, empty sequence, empty mapping and null are false; any object is true. Testing whether a variable
+    exists at all is a different question, written `is defined`.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: if tag, edge cases table (lines 58-80)
+    verified_at: '2026-09-03'
+- id: QST-5503bppj5dmy
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ds2p5d4eg0pq
+  domain: symfony
+  subtopic: include-function
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A partial must be rendered into a value so a filter can be applied to the result, and it must not see the current
+    context. Which construct does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - twig
+  - includes
+  choices:
+  - id: CHO-hyqsfqn0a5me
+    text: 'The `include()` function, which returns the rendered content so it can be filtered or assigned, with `with_context:
+      false` to withhold the context'
+    correct: true
+  - id: CHO-szfqappqh18b
+    text: The `include()` function, with `only` to withhold the context, which both forms accept
+    correct: false
+    explanation: '`only` belongs to the `{% include %}` tag. The function takes `with_context: false`.'
+  - id: CHO-bwjbd01d1g2a
+    text: The `{% include %}` tag with `only`; Twig 3 has no function form of include
+    correct: false
+    explanation: Twig 3 does have an `include()` function, and it is the form that returns the rendered content.
+  - id: CHO-vntt2sk2148r
+    text: 'The `source()` function with `with_context: false`, which returns the template content'
+    correct: false
+    explanation: '`source()` returns the raw, unrendered source of a template. Nothing there is rendered, and it takes no
+      context.'
+  explanation: The `include()` function returns the rendered content, which is what makes it composable — it can be filtered,
+    assigned or passed on — where the tag only writes to the output. Its arguments are `template`, `variables`, `with_context`,
+    `ignore_missing` and `sandboxed`; it also accepts a list of templates and renders the first that exists.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: include function and its arguments (lines 1-77)
+    verified_at: '2026-09-03'
+- id: QST-rmbszg75366x
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  subtopic: translatable-objects
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An enum must expose a label that will be translated later, without injecting the translator into it. What does
+    Symfony provide, and what does the template then do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - twig
+  - translation
+  choices:
+  - id: CHO-qde7q4tgnxtj
+    text: A `TranslatableMessage` — or the `t()` shortcut — which stores the message id, the parameters and the domain without
+      translating anything; the template passes it through the `trans` filter just as it would a plain string
+    correct: true
+  - id: CHO-7dpkn57e3ncx
+    text: A `TranslatableMessage`, which is translated as it is constructed, so the template prints it directly
+    correct: false
+    explanation: Nothing is translated at construction; that deferral is the entire purpose of the object.
+  - id: CHO-a7yafa892s1g
+    text: A `TranslatableMessage`, but only for the default `messages` domain — another domain still needs the translator
+      service
+    correct: false
+    explanation: The domain is the third constructor argument, so a custom domain needs no translator either.
+  - id: CHO-v2pw8bgadrkx
+    text: 'Nothing: the translator has to be injected wherever a message is produced, which is why messages belong in templates'
+    correct: false
+    explanation: That is precisely the problem translatable objects exist to solve, for enums, services and value objects
+      alike.
+  explanation: A translatable object carries everything a future translation needs — id, parameters, domain — and is translated
+    only when it reaches a translation-aware layer. `TranslatableMessage` implements `TranslatableInterface`, `t()` is the
+    shorter way to build one in both PHP and Twig, and `translation:extract` detects them. In a template it is used with
+    the `trans` filter, like any other message.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translatable Objects (lines 339-398)
+    verified_at: '2026-09-03'
+- id: QST-fc71n57xwd4w
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-b9x8az2bx4t8
+  domain: symfony
+  subtopic: template-paths
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A project adds `backend/templates` to `twig.paths` with no namespace, then renders `layout.html.twig`. Which
+    file is used?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: HOLDOUT
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-03'
+  tags:
+  - twig
+  - configuration
+  choices:
+  - id: CHO-nk1aky0900dq
+    text: '`backend/templates/layout.html.twig` if it exists: the namespace-less `twig.paths` directories are searched first
+      and `templates/` is only the fallback — which is why such a directory should be given a namespace'
+    correct: true
+  - id: CHO-950dvx746p14
+    text: '`templates/layout.html.twig`: the default directory always wins, extra paths being a fallback for names it does
+      not define'
+    correct: false
+    explanation: The search order is the other way round, which is exactly how an extra path silently shadows the intended
+      template.
+  - id: CHO-4qsdbyxnbxat
+    text: 'Neither: two templates sharing a logical name raise an exception when the container is compiled'
+    correct: false
+    explanation: Nothing is raised. One of them is simply used, and the other never runs.
+  - id: CHO-051jmmv510p4
+    text: Both, merged block by block, with the extra path overriding the blocks it defines
+    correct: false
+    explanation: No merging happens on inclusion or rendering; that is what template inheritance is for.
+  explanation: Templates live in `templates/` by default — configurable through `twig.default_path` — and `twig.paths` adds
+    more directories. A path entered without a namespace joins the ordinary search order ahead of the default directory,
+    so a file of the same name shadows the one that was meant. Giving each extra directory a namespace groups its templates
+    under a logical name and removes the collision.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Template Location (lines 138-147) and twig.paths (lines 1295-1340)
+    verified_at: '2026-09-03'
