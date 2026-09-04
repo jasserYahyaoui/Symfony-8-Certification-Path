@@ -116,6 +116,7 @@ const PAGES = [
   // TrainingMock component, whose tables mirror the audited coverage page.
   ['mock 1', '/mock-1'],
   ['mock 2', '/mock-2'],
+  ['mock 3', '/mock-3'],
   ['progression', '/progression'],
 ];
 

@@ -57,7 +57,7 @@ export default function TrainingMock({
   file: string;
   heading: string;
   /** Which mock a recorded attempt belongs to; history is useless if two mocks share a label. */
-  mode: 'mock-1' | 'mock-2';
+  mode: 'mock-1' | 'mock-2' | 'mock-3';
 }): React.JSX.Element {
   const state = usePayload<TrainingMockPayload>(file);
   const [phase, setPhase] = useState<Phase>({name: 'briefing'});
