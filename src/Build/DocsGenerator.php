@@ -109,6 +109,15 @@ final readonly class DocsGenerator
 
                 $written[] = $this->writeJson($dataDir.'/'.$mockId.'.json', $payload);
             }
+
+            // Mock 5 has no fixed selection: the payload is the candidate
+            // universe and the page draws from it against the learner's own
+            // history, so there is nothing here to check against a spread.
+            $five = $this->payloads->weaknessMockPayload($content, $mocks);
+            if ([] !== $five['questions']) {
+                PayloadBuilder::assertNoHoldoutLeak($five, $content);
+                $written[] = $this->writeJson($dataDir.'/mock-5.json', $five);
+            }
         }
 
         $report = $this->coverage->calculate($content->matrix);

@@ -117,6 +117,7 @@ const PAGES = [
   ['mock 1', '/mock-1'],
   ['mock 2', '/mock-2'],
   ['mock 3', '/mock-3'],
+  ['mock 5', '/mock-5'],
   ['progression', '/progression'],
 ];
 
