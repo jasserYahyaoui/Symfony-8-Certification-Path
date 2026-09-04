@@ -115,6 +115,7 @@ const PAGES = [
   // reachable without interaction. Its sitting and results share the
   // TrainingMock component, whose tables mirror the audited coverage page.
   ['mock 1', '/mock-1'],
+  ['mock 2', '/mock-2'],
   ['progression', '/progression'],
 ];
 

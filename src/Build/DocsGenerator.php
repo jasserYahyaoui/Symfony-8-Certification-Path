@@ -97,7 +97,7 @@ final readonly class DocsGenerator
         // generator is also run over.
         $mocks = $this->project->loadMocksBlueprint();
         if ([] !== $mocks) {
-            foreach (['mock-1'] as $mockId) {
+            foreach (['mock-1', 'mock-2'] as $mockId) {
                 $spec = PayloadBuilder::mockSpec($mocks, $mockId);
                 if ([] === PayloadBuilder::eligibleFor($content, $spec)) {
                     continue;
