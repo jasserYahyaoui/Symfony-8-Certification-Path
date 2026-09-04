@@ -42,6 +42,28 @@ Concretely:
 - The `HOLDOUT` pool is **not deployed at all**. No published payload contains a
   holdout question, and rule `POOL-001` now asserts that across every payload
   rather than only the practice one.
+
+  **Amended 2026-09-04, Lot 27 Mock 4 Unit C.** Two corrections to that bullet.
+
+  First, the holdout *is* now deployed, in exactly one payload: `mock-4.json`,
+  which exists for it. A final mock nobody can sit is not an assessment, and
+  Option A ([ADR-0005](0005-holdout-distribution-deferred.md)) defines *unseen*
+  as never served by Practice Mode, Exam Mode or any other **learning** mode —
+  Mock 4 is the final assessment, not a learning mode. `practice.json` and
+  `exam.json` still contain no holdout question, which is what
+  `PayloadBuilder::assertNoHoldoutLeak()` continues to assert, unchanged.
+  `mock-4.json` answers to a stricter assertion of its own,
+  `assertMockMatchesBlueprint()`: exactly the 75 the blueprint names, the
+  per-topic allotment, one question per atomic item, all English. A question
+  missing from the mock fails the build exactly as a question leaking into a
+  learning payload does, and the production smoke test checks both directions.
+
+  Second, `POOL-001` never asserted anything about payloads, before or after
+  this amendment. It guards the *data*: no holdout question may be referenced
+  from the matrix as learning material. The payload guarantee was always
+  `PayloadBuilder`'s, enforced at build time. The original wording credited a
+  mandatory rule with a job it does not do, which is worse than saying nothing
+  — a reader checking the guarantee would have looked in the wrong place.
 - Every `STANDARD` or `DEEP` item that is `EXAM_READY` must have at least one
   `VALIDATION` question, so that its stated minimum evidence is actually
   attainable. Rule `POOL-002` enforces this.

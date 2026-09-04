@@ -60,6 +60,163 @@ final class PayloadBuilder
     }
 
     /**
+     * Mock 4, the official-format simulation (§10, ADR-0005 Option A).
+     *
+     * This is the one payload that carries the holdout, and it exists because
+     * the holdout has no other purpose: a final mock nobody can sit is not an
+     * assessment. Option A settles what "unseen" means — never served by
+     * Practice Mode, Exam Mode or any other *learning* mode — and Mock 4 is
+     * the final assessment rather than a learning mode.
+     *
+     * What it does not settle is confidentiality, which this repository being
+     * public makes impossible and which is recorded as impossible in ADR-0005.
+     * Shipping the payload changes nothing there: the answers were already
+     * readable in `content/questions/*.yml` by anyone who looked.
+     *
+     * @param array<string, mixed> $blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public function mockPayload(ContentSet $content, array $blueprint): array
+    {
+        $questions = array_values(array_filter(
+            $content->questions,
+            static fn (Question $q): bool => Pool::Holdout === $q->pool,
+        ));
+
+        // Deterministic order in the file. The page shuffles at run time, so
+        // this only decides what a diff of the payload looks like — and a
+        // payload whose order drifts on every build hides real changes.
+        usort($questions, static fn (Question $a, Question $b): int => [$a->officialTopic, $a->id->value] <=> [$b->officialTopic, $b->id->value]);
+
+        $constraints = $blueprint['official_constraints'] ?? [];
+
+        return [
+            'generated_at' => gmdate('c'),
+            'pool' => Pool::Holdout->value,
+            'mock' => $blueprint['mock'] ?? 'Mock 4',
+            'question_count' => $constraints['questions'] ?? 75,
+            'duration_minutes' => $constraints['minutes'] ?? 90,
+            'language' => $constraints['language'] ?? 'en',
+            'symfony' => $constraints['symfony'] ?? '8.0',
+            'distribution_label' => $blueprint['distribution_label'] ?? 'TRAINING_DISTRIBUTION',
+            'items' => $this->itemIndex($content, $questions),
+            'questions' => array_map($this->exportQuestion(...), $questions),
+        ];
+    }
+
+    /**
+     * The atomic items the mock covers, with the learning outcomes §10 wants
+     * the analysis reported against. Without them the results page could only
+     * name a topic, which tells a learner where they lost points but not what
+     * to go and learn.
+     *
+     * @param list<Question> $questions
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function itemIndex(ContentSet $content, array $questions): array
+    {
+        $index = [];
+
+        foreach ($questions as $question) {
+            $item = $content->matrix->findById($question->officialItemId);
+            if (null === $item) {
+                continue;
+            }
+
+            $index[$item->id->value] = [
+                'official_item' => $item->officialItem,
+                'official_topic' => $item->officialTopic,
+                'learning_outcomes' => $item->learningOutcomes,
+            ];
+        }
+
+        ksort($index);
+
+        return $index;
+    }
+
+    /**
+     * The mock payload's own invariant, and the reason `assertNoHoldoutLeak()`
+     * is not weakened to accommodate it: this one is stricter, not looser.
+     *
+     * A leak in either direction fails the build — a holdout question missing
+     * from the mock is as wrong as one appearing in a learning payload, since
+     * the sitting would then be short of the official 75 without anything
+     * saying so.
+     *
+     * @param array<string, mixed> $payload
+     * @param array<string, mixed> $blueprint
+     */
+    public static function assertMockMatchesBlueprint(array $payload, ContentSet $content, array $blueprint): void
+    {
+        $exported = (array) ($payload['questions'] ?? []);
+        $expected = (int) ($blueprint['official_constraints']['questions'] ?? 75);
+
+        if (\count($exported) !== $expected) {
+            throw new \LogicException(\sprintf(
+                'Mock payload carries %d questions, the blueprint requires %d (§10).',
+                \count($exported),
+                $expected,
+            ));
+        }
+
+        $byId = [];
+        foreach ($content->questions as $question) {
+            $byId[$question->id->value] = $question;
+        }
+
+        $perTopic = [];
+        $items = [];
+
+        foreach ($exported as $entry) {
+            $id = (string) ($entry['id'] ?? '');
+            $question = $byId[$id] ?? null;
+
+            if (null === $question) {
+                throw new \LogicException(\sprintf('Mock payload carries unknown question "%s".', $id));
+            }
+
+            if (Pool::Holdout !== $question->pool) {
+                throw new \LogicException(\sprintf(
+                    'Mock payload carries "%s", which is in the %s pool: the mock is the holdout (§7.3).',
+                    $id,
+                    $question->pool->value,
+                ));
+            }
+
+            if ('en' !== $question->language->value) {
+                throw new \LogicException(\sprintf('Mock payload carries "%s", which is not English (§10).', $id));
+            }
+
+            if (isset($items[$question->officialItemId])) {
+                throw new \LogicException(\sprintf(
+                    'Mock payload carries two questions for atomic item "%s".',
+                    $question->officialItemId,
+                ));
+            }
+            $items[$question->officialItemId] = true;
+
+            $perTopic[$question->officialTopic] = ($perTopic[$question->officialTopic] ?? 0) + 1;
+        }
+
+        foreach ((array) ($blueprint['topics'] ?? []) as $row) {
+            $topic = (string) $row['topic'];
+            $slots = (int) $row['slots'];
+
+            if (($perTopic[$topic] ?? 0) !== $slots) {
+                throw new \LogicException(\sprintf(
+                    'Mock payload carries %d question(s) for topic "%s", the blueprint allots %d.',
+                    $perTopic[$topic] ?? 0,
+                    $topic,
+                    $slots,
+                ));
+            }
+        }
+    }
+
+    /**
      * Asserts the invariant that §17 treats as a critical blocker.
      *
      * ADR-0006 widened it: no *published* payload may carry a holdout question,

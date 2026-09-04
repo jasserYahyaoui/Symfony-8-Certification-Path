@@ -83,7 +83,13 @@ a11y` now refuses to run against a build older than its inputs.
 **The three pools have distinct jobs (§7.3, [ADR-0006](docs/adr/0006-exam-mode-serves-the-validation-pool.md)).**
 `LEARNING` is Practice Mode. `VALIDATION` is the exam-mode bank used during
 study, and it is what `exam.json` contains. `HOLDOUT` is reserved for the final
-mocks and is **never deployed** in any payload. Every `STANDARD` or `DEEP` item
+mocks and reaches **no learning payload**: `practice.json` and `exam.json`
+carry none of it, which `PayloadBuilder::assertNoHoldoutLeak()` asserts at
+build time. Since Mock 4 (Unit C) it is deployed in exactly one payload,
+`mock-4.json`, which must carry the whole holdout and nothing else —
+`assertMockMatchesBlueprint()` — so a missing question fails the build as
+loudly as a leaked one. Note that `POOL-001` guards the *data*, not the
+payloads: it forbids a holdout question being referenced as learning material. Every `STANDARD` or `DEEP` item
 that is `EXAM_READY` needs at least one `VALIDATION` question, because its
 stated evidence requires a success in exam mode — rule `POOL-002` enforces this,
 so a lot is not finished until its VALIDATION questions exist.

@@ -234,4 +234,71 @@ final class CanonicalDataTest extends TestCase
             self::assertGreaterThanOrEqual(1, $version, $name.' must declare a positive schema version');
         }
     }
+
+    /**
+     * YAML discards silently, and twice in this matrix it did.
+     *
+     * An unquoted scalar loses everything after a ` #` — the rest of the line
+     * is a comment — so `- Nommer les paramètres de #[AsCommand]` loaded as
+     * "Nommer les paramètres de". An unquoted scalar containing ` : ` is
+     * parsed as a mapping instead, and MatrixLoader coerces a non-scalar to
+     * the empty string, so the outcome vanished altogether. Six learning
+     * outcomes were affected and nothing noticed, because nothing rendered
+     * them until Mock 4 reported results against them.
+     *
+     * This asserts the raw file rather than the parsed one: by the time the
+     * parser has finished, the evidence of both losses is gone.
+     */
+    public function testNoCanonicalScalarIsSilentlyTruncatedByYaml(): void
+    {
+        $project = Project::locate();
+
+        $files = glob($project->path('docs/syllabus').'/*.yml')
+            ?: [];
+        $files = array_merge($files, glob($project->path('content/questions').'/*.yml') ?: []);
+        $files = array_merge($files, glob($project->path('docs/mocks').'/*.yml') ?: []);
+
+        self::assertNotSame([], $files, 'no canonical YAML found — the check would pass vacuously');
+
+        $truncated = [];
+
+        foreach ($files as $file) {
+            $lines = file($file, \FILE_IGNORE_NEW_LINES) ?: [];
+
+            foreach ($lines as $number => $line) {
+                // Only value lines: a list entry or a `key: value` pair whose
+                // value is an unquoted, non-comment scalar.
+                if (1 !== preg_match('/^\s*(?:-\s+|[A-Za-z_][\w.]*:\s+)(?<value>[^\s"\'#].*)$/u', $line, $m)) {
+                    continue;
+                }
+
+                if (str_contains($m['value'], ' #')) {
+                    $truncated[] = \sprintf('%s:%d cut short by an unquoted "#": %s', basename($file), $number + 1, trim($line));
+                }
+            }
+        }
+
+        self::assertSame([], $truncated, "an unquoted scalar loses everything after ' #'; quote it");
+    }
+
+    public function testEveryLearningOutcomeSurvivedParsing(): void
+    {
+        $raw = (new \Symfony\Component\Yaml\Parser())->parseFile(Project::locate()->matrixPath());
+
+        $lost = [];
+        foreach ($raw['items'] as $item) {
+            foreach ($item['learning_outcomes'] ?? [] as $outcome) {
+                if (!\is_string($outcome) || '' === trim($outcome)) {
+                    $lost[] = $item['id'];
+                }
+            }
+        }
+
+        self::assertSame(
+            [],
+            $lost,
+            'a learning outcome parsed to something other than a non-empty string — '
+            .'an unquoted " : " makes YAML read it as a mapping, and the loader then coerces it to ""',
+        );
+    }
 }

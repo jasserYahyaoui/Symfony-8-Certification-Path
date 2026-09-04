@@ -105,6 +105,12 @@ const PAGES = [
   ['glossary', '/docs/syllabus/glossary'],
   ['practice', '/practice'],
   ['exam', '/exam'],
+  // Mock 4. Only the briefing screen is reachable without interaction, so
+  // that is what this audits; the sitting reuses QuestionCard, covered through
+  // practice and exam, and the results screen is built from the same table and
+  // list primitives as the coverage page above. Neither is audited here, and
+  // saying so is better than implying the whole flow is.
+  ['mock 4', '/mock-4'],
   ['progression', '/progression'],
 ];
 

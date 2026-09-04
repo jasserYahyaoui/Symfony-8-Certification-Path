@@ -34,6 +34,15 @@ explanation, so the deployed site handed the answers to anyone who asked. That
 is no longer true: Exam Mode now serves the `VALIDATION` pool and **the holdout
 is not deployed in any payload**.
 
+**Amended again 2026-09-04, Lot 27 Mock 4 Unit C.** The holdout is now deployed
+in one payload, `mock-4.json`, which serves Mock 4 and nothing else. That is
+this ADR's Option A carried out rather than departed from: *unseen* means never
+served by a learning mode, and the final mock is not one. The learning payloads
+are unchanged and still carry none. Nothing about confidentiality changes
+either — the answers were already readable in `content/questions/*.yml`, and
+publishing the payload adds no exposure that the public repository did not
+already have.
+
 The exposure is narrowed, not removed. This repository is **public**, so holdout
 questions and their answers remain readable in `content/questions/*.yml` by
 anyone who opens it. The situation moved from *served by the application* to
