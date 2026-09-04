@@ -52,9 +52,12 @@ interface Result {
 export default function TrainingMock({
   file,
   heading,
+  mode,
 }: {
   file: string;
   heading: string;
+  /** Which mock a recorded attempt belongs to; history is useless if two mocks share a label. */
+  mode: 'mock-1' | 'mock-2';
 }): React.JSX.Element {
   const state = usePayload<TrainingMockPayload>(file);
   const [phase, setPhase] = useState<Phase>({name: 'briefing'});
@@ -111,14 +114,14 @@ export default function TrainingMock({
           correct: ok,
           chosen,
           answered_at: new Date().toISOString(),
-          mode: 'mock-1',
+          mode,
         });
       }
 
       const elapsedSeconds = Math.round((Date.now() - startedAt) / 1000);
 
       recordSession({
-        mode: 'mock-1',
+        mode,
         question_count: questions.length,
         correct,
         unanswered,
@@ -148,7 +151,7 @@ export default function TrainingMock({
         },
       });
     },
-    [items],
+    [items, mode],
   );
 
   useEffect(() => {
