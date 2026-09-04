@@ -213,6 +213,7 @@ Verified, with real identifiers:
 | Mock 4 Unit C — the mock itself (PR #56) | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
 | Lot 27 — §5 policy refresh (PR #58) | `832662f` | `100959149073` | `33853628535` | — |
 | Lot 27 — mocks scope note (PR #59) | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
+| Lot 27 — §10 + mocks blueprint (PR #60) | `a155db4` | `101038765378` | pending | pending |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -497,6 +498,14 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+**Mock 1 is implemented** (branch `mock-1-knowledge`, PR pending): 40 questions
+drawn per sitting from a 61-question eligible pool, 41 minutes, VALIDATION
+filtered to `RECOGNIZE|DISTINGUISH`, every one of the 14 topics represented.
+The payload ships the *pool*, not the sitting, so two sittings differ; the page
+draws using the blueprint's spread. Reporting is §10's full list, including
+what the result does **not** establish. `TrainingMock` is shared, so the Mock 2
+and Mock 3 units are thin.
 
 **Mocks 1, 2, 3 and 5 — UNBLOCKED 2026-09-04.** The owner supplied §10's
 normative text, now recorded verbatim in

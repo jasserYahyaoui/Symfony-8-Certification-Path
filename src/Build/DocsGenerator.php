@@ -90,6 +90,27 @@ final readonly class DocsGenerator
             $written[] = $this->writeJson($dataDir.'/mock-4.json', $mock);
         }
 
+        // Mock 1 (§10 Knowledge). The payload carries the eligible pool, not
+        // the sitting: the blueprint's count is deliberately smaller, so two
+        // sittings differ. Skipped when the content set has no eligible
+        // question, which only happens for the synthetic fixtures the
+        // generator is also run over.
+        $mocks = $this->project->loadMocksBlueprint();
+        if ([] !== $mocks) {
+            foreach (['mock-1'] as $mockId) {
+                $spec = PayloadBuilder::mockSpec($mocks, $mockId);
+                if ([] === PayloadBuilder::eligibleFor($content, $spec)) {
+                    continue;
+                }
+
+                $payload = $this->payloads->trainingMockPayload($content, $mocks, $mockId);
+                PayloadBuilder::assertTrainingMockMatchesBlueprint($payload, $content, $mocks, $mockId);
+                PayloadBuilder::assertNoHoldoutLeak($payload, $content);
+
+                $written[] = $this->writeJson($dataDir.'/'.$mockId.'.json', $payload);
+            }
+        }
+
         $report = $this->coverage->calculate($content->matrix);
 
         $written[] = $this->writeJson($dataDir.'/coverage.json', [

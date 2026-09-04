@@ -12,7 +12,7 @@ learning payloads, and all of it in the mock payload. A mock short of a
 question is a failure too, because the sitting would then be under the official
 75 with nothing saying so.
 
-Usage: holdout-smoke.py <practice.json> <exam.json> [mock-4.json]
+Usage: holdout-smoke.py <practice.json> <exam.json> [mock-4.json [training...]]
 """
 
 import glob
@@ -68,8 +68,8 @@ def check_mock(path, holdout, problems):
 
 
 def main(argv):
-    if len(argv) not in (3, 4):
-        print("::error::usage: holdout-smoke.py <practice.json> <exam.json> [mock-4.json]")
+    if len(argv) < 3:
+        print("::error::usage: holdout-smoke.py <practice.json> <exam.json> [mock-4.json [training...]]")
         return 2
 
     pools, choices = canonical_pools()
@@ -110,7 +110,35 @@ def main(argv):
         else:
             print(f"FAIL {name:<8} {len(ids):>4} questions — see the errors below")
 
-    if len(argv) == 4:
+    # Training mocks (Mocks 1, 2, 3): the holdout is Mock 4's alone, so these
+    # must carry none of it — the mirror image of the mock-4 check.
+    for path in argv[4:]:
+        with open(path, encoding="utf-8") as handle:
+            raw = handle.read()
+        payload = json.loads(raw)
+        name = path.rsplit("/", 1)[-1].removesuffix(".json")
+        ids = {q["id"] for q in payload["questions"]}
+        before = len(problems)
+
+        leaked = sorted(i for i in holdout if i in raw)
+        if leaked:
+            problems.append(f"{name} contains HOLDOUT question ids: {leaked[:5]}")
+
+        answers = sorted(c for c in holdout_choices if c in raw)
+        if answers:
+            problems.append(f"{name} contains HOLDOUT choice ids: {answers[:5]}")
+
+        if len(ids) < payload.get("question_count", 0):
+            problems.append(
+                f"{name} ships {len(ids)} questions, fewer than the {payload.get('question_count')} a sitting draws"
+            )
+
+        if len(problems) == before:
+            print(f"ok  {name:<8} {len(ids):>4} eligible, no holdout id or choice")
+        else:
+            print(f"FAIL {name:<8} {len(ids):>4} eligible — see the errors below")
+
+    if len(argv) >= 4:
         before = len(problems)
         ids = check_mock(argv[3], holdout, problems)
         if len(problems) == before:
