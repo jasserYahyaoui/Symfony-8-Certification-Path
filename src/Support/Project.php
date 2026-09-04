@@ -51,6 +51,25 @@ final readonly class Project
         return $this->path('docs/syllabus/glossary.yml');
     }
 
+    public function mocksBlueprintPath(): string
+    {
+        return $this->path('docs/mocks/mocks-1-2-3-5-blueprint.yml');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function loadMocksBlueprint(): array
+    {
+        $path = $this->mocksBlueprintPath();
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        return (new YamlLoader())->load($path, SchemaRegistry::MOCK_BLUEPRINT);
+    }
+
     public function mockBlueprintPath(string $mock = '4'): string
     {
         return $this->path('docs/mocks/mock-'.$mock.'-blueprint.yml');
