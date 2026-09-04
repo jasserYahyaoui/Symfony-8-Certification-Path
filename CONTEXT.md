@@ -214,7 +214,8 @@ Verified, with real identifiers:
 | Lot 27 — §5 policy refresh (PR #58) | `832662f` | `100959149073` | `33853628535` | — |
 | Lot 27 — mocks scope note (PR #59) | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
 | Lot 27 — §10 + mocks blueprint (PR #60) | `a155db4` | `101038765378` | `33879010973` | `101043243134` |
-| Lot 27 — Mock 1 Knowledge (PR #61) | `9fbef93` | `101044467082` | pending | pending |
+| Lot 27 — Mock 1 Knowledge (PR #61) | `9fbef93` | `101044467082` | `33880637630` | `101048533218` |
+| Lot 27 — Mock 2 Application (PR #62) | `a4202c0` | `101049042680` | pending | pending |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -500,7 +501,14 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Mock 2 is implemented** (branch `mock-2-application`, PR pending): 52
+**Mock 3 is implemented** (branch `mock-3-difficulty`, PR pending): 44
+questions per sitting from a 67-question eligible pool, 52 minutes, VALIDATION
+filtered to `difficulty: hard`, 14/14 topics. §5 requires Mock 3 to be
+*primarily* English and the language policy binds that to VALIDATION; the test
+asserts the floor §5 actually sets rather than the 100% the pool happens to
+reach, because that 100% is an outcome and not a target.
+
+**Mock 2 is delivered** (PR #62, merged `a4202c0`): 52
 questions per sitting from an 83-question eligible pool, 60 minutes,
 VALIDATION filtered to `DIAGNOSE|APPLY`, 14/14 topics. The blueprint's claim
 that the pool already serves §10's Application role is now measured rather
