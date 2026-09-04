@@ -37,25 +37,45 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-03, 496 questions)
+## Measured state (2026-09-04, 544 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 201 of 202 = **99.5%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 204 of 205 = **99.5%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 135 of 135 = **100%** | **PASS** |
-| Mock 4 100% English (`HOLDOUT`) | 27 of 27 = **100%** | **PASS** |
+| Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
-| French-to-English certification glossary | **absent** | **MISSING** |
+| French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **475 English, 21 French**.
+Whole corpus: **523 English, 21 French**.
+
+The Mock 4 row moved from 27 to 75 because Lot 27 wrote the 48 questions the
+mock still needed; every one is English, so the requirement holds at the full
+size rather than only at the size the pool happened to have. The French count
+is unchanged: none of the 48 is French, and none of the 21 was translated.
+
+### The previous measurement, kept
+
+The reading of 2026-09-03 over 496 questions was: 201 of 202 advanced English
+(99.5%), Mock 4 27 of 27, whole corpus 475 English and 21 French, and the
+glossary **absent**. It is recorded here rather than overwritten, because a
+policy that silently restates its numbers cannot be audited against the date it
+claims to measure.
 
 ## The one open obligation
 
-The **glossary does not exist**. It is a standing §5 requirement, not a lot
-deliverable, and it is the only part of §5 this corpus does not satisfy. It
-belongs with Lot 27's *English readiness audit* (§14), which is the first point
-at which the terms that actually need glossing are known.
+**Closed on 2026-09-03.** The glossary was the only part of §5 this corpus did
+not satisfy. It now exists — 81 entries in `docs/syllabus/glossary.yml`,
+rendered at `/docs/syllabus/glossary` and covered by the accessibility audit
+and the production smoke test — delivered as Lot 27's first unit, which was
+also the first point at which the terms that actually needed glossing were
+known.
+
+What remains open under §5 is not a corpus property at all: *acceptable timed
+performance in English* can only be established by a human sitting a timed
+75-question English simulation. Mock 4 exists to make that possible; sitting it
+is not something this repository can do for itself.
 
 ## What this policy forbids
 
