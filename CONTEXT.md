@@ -42,8 +42,26 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`mock-4-unit-c` — **Unit C built, Pull Request pending**. Mock 4 exists: 75
-questions, 90 minutes, 100% English, served from its own payload.
+`master`, at `4d31b53` — **Mock 4 Unit C delivered in full**: PR #56,
+Technical gate `100950643458` success on `ff465ba`, merged, deploy run
+`33850805831` with build `100952906192`, deploy `100954971728` and production
+smoke test `100955034319`, all success. Mock 4 exists and is live: 75
+questions, 90 minutes, 100% English, served from its own payload at
+`/mock-4`.
+
+The smoke log was read, not assumed. Thirteen production URLs at 200 —
+including the new `/mock-4` page and `/data/mock-4.json` — and the holdout
+check now runs in both directions:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+ok  mock-4     75 questions, the whole holdout and nothing else, all English
+checked against 75 holdout questions and 308 holdout choices
+```
+
+That third line is the one that did not exist before: it proves in production
+both that the mock carries the whole holdout and that it carries nothing else.
 
 What changed, and what deliberately did not:
 
@@ -192,6 +210,7 @@ Verified, with real identifiers:
 | Lot 27 — delivery reconciliation (PR #51) | `6b70a0a` | `100611772160` | `33744080879` | `100612842440` |
 | Mock 4 Unit A — Option A + blueprint (PR #52) | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
 | Mock 4 Unit B — the 48 holdout questions (PR #54) | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
+| Mock 4 Unit C — the mock itself (PR #56) | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -477,15 +496,18 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Close the Unit C delivery.** Open the Pull Request for `mock-4-unit-c`, read
-its Technical gate once, merge, watch the deployment and read the production
-smoke log rather than assuming it — it must now show a third line for
-`mock-4`, carrying the whole holdout and nothing else — then add the delivery
-row to the table above with the real ids.
+**Mocks 1, 2, 3 and 5.** Mock 4 is delivered, so what remains of §10 is the
+other four. They are a different problem from Mock 4 and must not inherit its
+shape by reflex: Mock 4 is the *final* mock and is the reason the holdout pool
+exists, while 1, 2, 3 and 5 are practice mocks with no holdout to draw on —
+their bank is a question that has already been settled for Mock 4 and has not
+been asked for them. Decide it before authoring, not during.
 
-After that the mocks that remain are 1, 2, 3 and 5, then the final audits and
-the human-supplied timed 75-question English simulation result. **FR-2** is
-still open and still `REQUIRED_BEFORE_FINAL_READINESS`, as one atomic job.
+Then the final audits, and the human-supplied timed 75-question English
+simulation result, which no amount of work here can substitute for.
+
+**FR-2** is still open and still `REQUIRED_BEFORE_FINAL_READINESS`, as one
+atomic job.
 
 Superseded: **Implement Mock 4 — Unit C.** Built on 2026-09-04. Nothing in it
 weakened what Unit B established: 75 questions, 90 minutes, 100% English, answers hidden
