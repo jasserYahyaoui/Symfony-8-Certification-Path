@@ -211,6 +211,8 @@ Verified, with real identifiers:
 | Mock 4 Unit A — Option A + blueprint (PR #52) | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
 | Mock 4 Unit B — the 48 holdout questions (PR #54) | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
 | Mock 4 Unit C — the mock itself (PR #56) | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
+| Lot 27 — §5 policy refresh (PR #58) | `832662f` | `100959149073` | `33853628535` | — |
+| Lot 27 — mocks scope note (PR #59) | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -496,7 +498,28 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Mocks 1, 2, 3 and 5 — BLOCKED on the owner.** Mock 4 is delivered, so what
+**Mocks 1, 2, 3 and 5 — UNBLOCKED 2026-09-04.** The owner supplied §10's
+normative text, now recorded verbatim in
+[`docs/policy/mock-blueprint-policy.md`](docs/policy/mock-blueprint-policy.md)
+with its provenance. The decisive reading is the owner's own: §10 fixes a
+question count and a duration **for Mock 4 only**; for Mocks 1, 2, 3 and 5 it
+defines a role and nothing else — no count, no duration, no topic weighting, no
+pool, no pass threshold. Those values are never derived from Mock 4 and never
+presented as official; every one this project decides is labelled
+`INTERNAL_TRAINING_FORMAT`, every spread `TRAINING_DISTRIBUTION`.
+
+`docs/mocks/mocks-1-2-3-5-blueprint.yml` carries the decisions, each derived by
+a rule rather than chosen: count = min(⅔ of the eligible pool, what fits in an
+hour), duration = ceil(count × mean estimated time × 1.15). Mock 1 40q/41min
+(RECOGNIZE|DISTINGUISH, 61 eligible), Mock 2 52q/60min (DIAGNOSE|APPLY, 83),
+Mock 3 44q/52min (hard, 67), all VALIDATION, all 14 topics represented. Mock 5
+is generated per learner with a named `INSUFFICIENT_EVIDENCE_FALLBACK`.
+
+One §10 discrepancy is recorded and deliberately unresolved: §10 says **15
+topics**, the imported syllabus yields **14**. Nothing in this project derives
+from the number 15, and the denominator remains the 163 atomic items.
+
+Superseded: **Mocks 1, 2, 3 and 5 — BLOCKED on the owner.** Mock 4 is delivered, so what
 remains of §10 is the other four, and they cannot be started:
 `SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md` is **not checked into this
 repository**, and §10 was only ever quoted into it for Mock 4. For mocks 1, 2

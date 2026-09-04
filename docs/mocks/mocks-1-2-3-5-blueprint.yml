@@ -1,0 +1,193 @@
+# Mocks 1, 2, 3 and 5 — internal blueprint (Master Plan §10).
+#
+# §10 defines the ROLE of each mock. It fixes a question count and a duration
+# for Mock 4 only. Everything numeric below is this project's decision, derived
+# from the measured bank and labelled INTERNAL_TRAINING_FORMAT; the topic
+# spreads are TRAINING_DISTRIBUTION. None of it is official, and none of it is
+# derived from Mock 4.
+#
+# No mock is implemented from this file yet.
+
+schema_version: 1
+source: SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md — §10, recorded in docs/policy/mock-blueprint-policy.md
+status: BLUEPRINT — no mock implemented from it yet
+format_label: INTERNAL_TRAINING_FORMAT
+distribution_label: TRAINING_DISTRIBUTION
+not_official: §10 fixes a question count and a duration for Mock 4 only. Every count, duration and topic
+  spread below is this project's decision, derived from the measured bank, and is never an official constraint.
+  §10 defines the role of each mock and nothing else.
+count_rule: count = min(floor(eligible * 2/3), floor(3600 / (mean_estimated_seconds * 1.15))). The first
+  cap leaves at least a third of the eligible questions unused so two consecutive sittings differ; the
+  second keeps a sitting under an hour, which is what distinguishes these from the 90-minute Mock 4. duration
+  = ceil(count * mean_estimated_seconds * 1.15 / 60), the 15% being the margin over estimated reading
+  time. No number is chosen for being round.
+cross_mock_rules:
+  holdout_use: NEVER. HOLDOUT is Mock 4's entirely (ADR-0005 Option A), so none of these mocks is unseen.
+  duplicate_prevention: One question per atomic official item per sitting, and no question twice in a
+    sitting.
+  topic_coverage: Every official topic present at least once in every sitting.
+  answers_revealed: after submission only
+  mastery: never inferred from a single correct answer
+  persistence: localStorage, as Practice, Exam and Mock 4 already do; no account and no network call.
+mocks:
+- id: mock-1
+  name: Mock 1 — Knowledge
+  purpose: 'Direct mastery checks: recognition of APIs, rules and vocabulary, and the essential distinctions
+    between them.'
+  eligible_filter:
+    pool: VALIDATION
+    exam_skill_in:
+    - RECOGNIZE
+    - DISTINGUISH
+  eligible_questions: 61
+  eligible_topics: 14
+  smallest_topic: 2
+  language: en
+  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
+  question_count: 40
+  duration_minutes: 41
+  mean_estimated_seconds: 52.4
+  cap_from_variation: 40
+  cap_from_duration: 59
+  unused_after_selection: 21
+  scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
+  label: INTERNAL_TRAINING_FORMAT
+  topic_spread:
+    Automated Tests: 1
+    Console: 3
+    Controllers: 1
+    Data Validation: 5
+    Dependency Injection: 5
+    Forms: 3
+    HTTP: 1
+    Messenger: 4
+    Miscellaneous: 5
+    PHP: 3
+    Routing: 1
+    Security: 4
+    Symfony Architecture: 3
+    Templating with Twig: 1
+- id: mock-2
+  name: Mock 2 — Application
+  purpose: 'Application: code, configuration and scenarios, answered by doing rather than recalling.'
+  eligible_filter:
+    pool: VALIDATION
+    exam_skill: DIAGNOSE
+    or_cognitive_level: APPLY
+  eligible_questions: 83
+  eligible_topics: 14
+  smallest_topic: 2
+  language: en
+  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
+  question_count: 52
+  duration_minutes: 60
+  mean_estimated_seconds: 59.6
+  cap_from_variation: 55
+  cap_from_duration: 52
+  unused_after_selection: 31
+  scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
+  label: INTERNAL_TRAINING_FORMAT
+  topic_spread:
+    Automated Tests: 4
+    Console: 2
+    Controllers: 5
+    Data Validation: 1
+    Dependency Injection: 2
+    Forms: 5
+    HTTP: 3
+    Messenger: 1
+    Miscellaneous: 8
+    PHP: 2
+    Routing: 5
+    Security: 4
+    Symfony Architecture: 5
+    Templating with Twig: 5
+  purpose_fit:
+    code_bearing: 31
+    scenario_phrased: 54
+    either: 66
+    note: '66 of the 83 eligible questions already carry code, configuration or a scenario, so LEARNING
+      reuse is not taken: §10 permits it only where a question genuinely has an application role, and
+      the marginal gain does not justify serving Practice Mode content inside a mock. Recorded as available
+      and declined, not as unavailable.'
+- id: mock-3
+  name: Mock 3 — Certification difficulty
+  purpose: 'Certification difficulty: close, plausible distractors at the hardest level the bank carries.'
+  eligible_filter:
+    pool: VALIDATION
+    difficulty: hard
+  eligible_questions: 67
+  eligible_topics: 14
+  smallest_topic: 2
+  language: en
+  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
+  question_count: 44
+  duration_minutes: 52
+  mean_estimated_seconds: 61.4
+  cap_from_variation: 44
+  cap_from_duration: 50
+  unused_after_selection: 23
+  scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
+  label: INTERNAL_TRAINING_FORMAT
+  topic_spread:
+    Automated Tests: 1
+    Console: 2
+    Controllers: 3
+    Data Validation: 3
+    Dependency Injection: 3
+    Forms: 4
+    HTTP: 3
+    Messenger: 2
+    Miscellaneous: 6
+    PHP: 3
+    Routing: 3
+    Security: 3
+    Symfony Architecture: 5
+    Templating with Twig: 3
+- id: mock-5
+  name: Mock 5 — Weakness-based
+  purpose: Generated from demonstrated weak outcomes in this learner's local data. Never the same selection
+    for two learners.
+  eligible_filter:
+    pool_in:
+    - VALIDATION
+    - LEARNING
+    excludes: HOLDOUT
+  eligible_questions: 469
+  weakness_evidence:
+  - questions answered incorrectly, most recent first
+  - official topics with the lowest success ratio
+  - atomic official items answered incorrectly at least once
+  - learning outcomes attached to those items
+  - 'exam skill answered worst: DISTINGUISH, APPLY or DIAGNOSE'
+  - performance on English questions specifically
+  - questions whose answer took markedly longer than their estimated time
+  - 'recency: a success long ago counts for less than a recent failure'
+  selection_method: 'Rank atomic items by a weakness score built from the evidence above, then take one
+    unseen-in-this-sitting question per item, strongest weakness first, until the count is reached. No
+    topic quota: the point is the learner''s weakness, not coverage.'
+  question_count: variable, 10 minimum and 40 maximum
+  question_count_rule: 'Bounded by the evidence, not by a target: at most one question per weak atomic
+    item, so a learner with few recorded failures gets a short mock. Below 10 eligible weak items the
+    fallback applies. The 40 ceiling mirrors Mock 1, the shortest fixed mock, so a weakness sitting never
+    outgrows a full one.'
+  duration_minutes: 'computed at generation: ceil(sum of estimated_time_seconds * 1.15 / 60)'
+  fallback:
+    name: INSUFFICIENT_EVIDENCE_FALLBACK
+    trigger: fewer than 10 atomic items carry a recorded failure
+    behaviour: Does not run and does not pretend to be weakness-based. It says so, and proposes completing
+      Practice Mode, Exam Mode or another mock first so that evidence exists.
+    forbidden: Never invent a weakness profile, and never pad the selection with questions the learner
+      has not failed.
+  scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT
+  label: INTERNAL_TRAINING_FORMAT
+reporting_after_every_mock:
+- score under the declared internal policy
+- total time
+- unanswered questions
+- incorrect questions
+- weak official topics
+- weak atomic official items
+- learning outcomes to revise
+- targeted next actions
+- readiness evidence demonstrated, and what it does not establish
