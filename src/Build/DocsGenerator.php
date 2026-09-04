@@ -11,6 +11,7 @@ use CertPath\Domain\Course;
 use CertPath\Domain\Flashcard;
 use CertPath\Domain\LotRegistry;
 use CertPath\Domain\OfficialItem;
+use CertPath\Domain\Pool;
 use CertPath\Support\Project;
 use CertPath\Validation\ContentSet;
 
@@ -58,6 +59,36 @@ final readonly class DocsGenerator
         PayloadBuilder::assertNoHoldoutLeak($exam, $content);
 
         $written[] = $this->writeJson($dataDir.'/exam.json', $exam);
+
+        // Mock 4 is the one payload that carries the holdout, and it is held
+        // to a stricter invariant rather than a looser one: it must match the
+        // blueprint exactly — 75 questions, the per-topic allotment, one per
+        // atomic item, all English — so a question missing from it fails the
+        // build just as a question leaking into a learning payload does
+        // (§10, ADR-0005 Option A).
+        //
+        // Skipped for a content set that holds no holdout question at all,
+        // because the generator is also run over synthetic fixtures that have
+        // no relationship to the blueprint on disk. That is not a way for the
+        // real bank to pass vacuously: an empty holdout means no mock-4.json
+        // is written, which Mock4PayloadTest fails on in CI and which the
+        // production smoke test fails on twice over — a 404 for the payload,
+        // and 75 holdout questions missing from it.
+        $blueprint = $this->project->loadMockBlueprint('4');
+        $hasHoldout = false;
+        foreach ($content->questions as $question) {
+            if (Pool::Holdout === $question->pool) {
+                $hasHoldout = true;
+                break;
+            }
+        }
+
+        if ([] !== $blueprint && $hasHoldout) {
+            $mock = $this->payloads->mockPayload($content, $blueprint);
+            PayloadBuilder::assertMockMatchesBlueprint($mock, $content, $blueprint);
+
+            $written[] = $this->writeJson($dataDir.'/mock-4.json', $mock);
+        }
 
         $report = $this->coverage->calculate($content->matrix);
 

@@ -20,11 +20,13 @@ export interface Attempt {
   correct: boolean;
   chosen: string[];
   answered_at: string;
-  mode: 'practice' | 'exam';
+  mode: 'practice' | 'exam' | 'mock';
 }
 
 export interface ExamSession {
-  mode: 'exam';
+  // 'mock' joined 'exam' when Mock 4 shipped. The shape is unchanged, so a
+  // history written before it stays readable and needs no migration.
+  mode: 'exam' | 'mock';
   question_count: number;
   correct: number;
   unanswered: number;

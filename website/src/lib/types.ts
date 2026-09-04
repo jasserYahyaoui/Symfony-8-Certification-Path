@@ -42,3 +42,25 @@ export interface Payload {
   pool: 'LEARNING' | 'VALIDATION' | 'HOLDOUT';
   questions: Question[];
 }
+
+/** An atomic official item, with what the learner is meant to be able to do. */
+export interface ItemIndexEntry {
+  official_item: string;
+  official_topic: string;
+  learning_outcomes: string[];
+}
+
+/**
+ * Mock 4 (§10). The official constraints travel with the payload rather than
+ * being retyped in the page: 75 and 90 are facts about the exam, and a page
+ * holding its own copy is a page that can drift from the blueprint.
+ */
+export interface MockPayload extends Payload {
+  mock: string;
+  question_count: number;
+  duration_minutes: number;
+  language: string;
+  symfony: string;
+  distribution_label: string;
+  items: Record<string, ItemIndexEntry>;
+}

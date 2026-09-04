@@ -2,9 +2,9 @@ import {useEffect, useState} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Payload} from './types';
 
-type State =
+type State<T extends Payload = Payload> =
   | {status: 'loading'}
-  | {status: 'ready'; payload: Payload}
+  | {status: 'ready'; payload: T}
   | {status: 'error'; message: string};
 
 /**
@@ -13,9 +13,9 @@ type State =
  * learning pool alone, so holdout questions are absent from the file this hook
  * can fetch at all (§7.3).
  */
-export default function usePayload(file: string): State {
+export default function usePayload<T extends Payload = Payload>(file: string): State<T> {
   const url = useBaseUrl(`/data/${file}`);
-  const [state, setState] = useState<State>({status: 'loading'});
+  const [state, setState] = useState<State<T>>({status: 'loading'});
 
   useEffect(() => {
     let cancelled = false;
@@ -25,7 +25,7 @@ export default function usePayload(file: string): State {
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
-        return response.json() as Promise<Payload>;
+        return response.json() as Promise<T>;
       })
       .then((payload) => {
         if (!cancelled) {
