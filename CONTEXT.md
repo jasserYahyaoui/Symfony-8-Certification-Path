@@ -496,12 +496,27 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Mocks 1, 2, 3 and 5.** Mock 4 is delivered, so what remains of §10 is the
-other four. They are a different problem from Mock 4 and must not inherit its
-shape by reflex: Mock 4 is the *final* mock and is the reason the holdout pool
-exists, while 1, 2, 3 and 5 are practice mocks with no holdout to draw on —
-their bank is a question that has already been settled for Mock 4 and has not
-been asked for them. Decide it before authoring, not during.
+**Mocks 1, 2, 3 and 5 — BLOCKED on the owner.** Mock 4 is delivered, so what
+remains of §10 is the other four, and they cannot be started:
+`SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md` is **not checked into this
+repository**, and §10 was only ever quoted into it for Mock 4. For mocks 1, 2
+and 5 the repository records no question count, no duration, no difficulty
+profile, no language and no bank; Mock 3 has one recorded property, "primarily
+in English", and nothing else.
+
+Inferring the rest from Mock 4 would be inventing a specification and then
+executing it. See
+[`docs/mocks/mocks-1-2-3-5-open-questions.md`](docs/mocks/mocks-1-2-3-5-open-questions.md),
+which records the measured bank capacity, the four sourcing options, and the
+one thing needed: **§10's text for mocks 1, 2, 3 and 5**, quoted the way §22,
+§15, §5 and §4.3 were quoted into `docs/policy/`.
+
+One consequence is settled and must be reported that way whatever §10 says:
+**no practice mock can be unseen.** `LEARNING` is served by Practice Mode and
+`VALIDATION` by Exam Mode, so a mock built from either is drawn from questions
+the learner has already been able to meet. Only Mock 4 is unseen, and only
+because the holdout was reserved for it. No §22 clause may be claimed from a
+score on a practice mock.
 
 Then the final audits, and the human-supplied timed 75-question English
 simulation result, which no amount of work here can substitute for.
