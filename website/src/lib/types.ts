@@ -64,3 +64,23 @@ export interface MockPayload extends Payload {
   distribution_label: string;
   items: Record<string, ItemIndexEntry>;
 }
+
+/**
+ * A training mock (Mocks 1, 2 and 3 — §10). The payload carries the eligible
+ * pool; `question_count` is the sitting drawn from it, and `topic_spread` says
+ * how many per official topic. Both are INTERNAL_TRAINING_FORMAT: §10 fixes a
+ * count and a duration for Mock 4 only.
+ */
+export interface TrainingMockPayload extends Payload {
+  mock: string;
+  purpose: string;
+  question_count: number;
+  duration_minutes: number;
+  language: string;
+  format_label: string;
+  distribution_label: string;
+  not_official: string;
+  scoring_policy: string;
+  topic_spread: Record<string, number>;
+  items: Record<string, ItemIndexEntry>;
+}

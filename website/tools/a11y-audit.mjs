@@ -111,6 +111,10 @@ const PAGES = [
   // list primitives as the coverage page above. Neither is audited here, and
   // saying so is better than implying the whole flow is.
   ['mock 4', '/mock-4'],
+  // Mock 1's briefing screen. Same limit as Mock 4: only the briefing is
+  // reachable without interaction. Its sitting and results share the
+  // TrainingMock component, whose tables mirror the audited coverage page.
+  ['mock 1', '/mock-1'],
   ['progression', '/progression'],
 ];
 

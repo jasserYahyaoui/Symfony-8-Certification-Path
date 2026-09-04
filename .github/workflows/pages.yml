@@ -104,9 +104,9 @@ jobs:
           # not /docs/ — the latter is a genuine 404.
           for path in "" "docs" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
                       "docs/syllabus/glossary" \
-                      "practice" "exam" "mock-4" "progression" \
+                      "practice" "exam" "mock-4" "mock-1" "progression" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
-                      "data/mock-4.json"; do
+                      "data/mock-4.json" "data/mock-1.json"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
@@ -141,6 +141,9 @@ jobs:
           # of it in the mock one.
           curl -sL -o /tmp/mock-4.json "$BASE_URL/data/mock-4.json"
 
-          python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json || fail=1
+          # Training mocks must carry no holdout question at all.
+          curl -sL -o /tmp/mock-1.json "$BASE_URL/data/mock-1.json"
+
+          python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json /tmp/mock-1.json || fail=1
 
           exit $fail

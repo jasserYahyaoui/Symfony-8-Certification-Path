@@ -138,6 +138,168 @@ final class PayloadBuilder
     }
 
     /**
+     * A training mock (Mocks 1, 2 and 3 — Master Plan §10).
+     *
+     * Unlike Mock 4 this payload carries the *eligible pool*, not the sitting:
+     * the blueprint's count is smaller than the pool on purpose, so that two
+     * consecutive sittings differ. The page draws the sitting from it using the
+     * recorded topic spread.
+     *
+     * Every figure travelling with the payload is INTERNAL_TRAINING_FORMAT.
+     * §10 fixes a count and a duration for Mock 4 only, and none of these is
+     * derived from it.
+     *
+     * @param array<string, mixed> $blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public function trainingMockPayload(ContentSet $content, array $blueprint, string $mockId): array
+    {
+        $spec = self::mockSpec($blueprint, $mockId);
+        $eligible = self::eligibleFor($content, $spec);
+
+        usort($eligible, static fn (Question $a, Question $b): int => [$a->officialTopic, $a->id->value] <=> [$b->officialTopic, $b->id->value]);
+
+        return [
+            'generated_at' => gmdate('c'),
+            'pool' => Pool::Validation->value,
+            'mock' => $spec['name'],
+            'purpose' => $spec['purpose'],
+            'question_count' => $spec['question_count'],
+            'duration_minutes' => $spec['duration_minutes'],
+            'language' => $spec['language'],
+            'format_label' => $blueprint['format_label'],
+            'distribution_label' => $blueprint['distribution_label'],
+            'not_official' => $blueprint['not_official'],
+            'scoring_policy' => $spec['scoring_policy'],
+            'topic_spread' => $spec['topic_spread'],
+            'items' => $this->itemIndex($content, $eligible),
+            'questions' => array_map($this->exportQuestion(...), $eligible),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public static function mockSpec(array $blueprint, string $mockId): array
+    {
+        foreach ((array) ($blueprint['mocks'] ?? []) as $mock) {
+            if (($mock['id'] ?? null) === $mockId) {
+                return $mock;
+            }
+        }
+
+        throw new \LogicException(\sprintf('The blueprint declares no mock "%s".', $mockId));
+    }
+
+    /**
+     * @param array<string, mixed> $spec
+     *
+     * @return list<Question>
+     */
+    public static function eligibleFor(ContentSet $content, array $spec): array
+    {
+        $filter = $spec['eligible_filter'];
+
+        return array_values(array_filter($content->questions, static function (Question $q) use ($filter): bool {
+            // §10 reserves the holdout for Mock 4, and ADR-0005 spent it there
+            // entirely. No training mock may reach it, whatever a filter says.
+            if (Pool::Holdout === $q->pool) {
+                return false;
+            }
+
+            if (($filter['pool'] ?? null) !== $q->pool->value) {
+                return false;
+            }
+
+            if (isset($filter['exam_skill_in'])) {
+                return \in_array($q->examSkill, $filter['exam_skill_in'], true);
+            }
+
+            if (isset($filter['difficulty'])) {
+                return $q->difficulty === $filter['difficulty'];
+            }
+
+            if (isset($filter['exam_skill'], $filter['or_cognitive_level'])) {
+                return $q->examSkill === $filter['exam_skill']
+                    || $q->cognitiveLevel === $filter['or_cognitive_level'];
+            }
+
+            return false;
+        }));
+    }
+
+    /**
+     * The training mock's invariant: it ships the eligible pool, that pool is
+     * big enough for the sitting the blueprint specifies, every topic in the
+     * spread can actually be filled, and no holdout question is present.
+     *
+     * @param array<string, mixed> $payload
+     * @param array<string, mixed> $blueprint
+     */
+    public static function assertTrainingMockMatchesBlueprint(array $payload, ContentSet $content, array $blueprint, string $mockId): void
+    {
+        $spec = self::mockSpec($blueprint, $mockId);
+        $exported = (array) ($payload['questions'] ?? []);
+
+        if (\count($exported) !== (int) $spec['eligible_questions']) {
+            throw new \LogicException(\sprintf(
+                '%s ships %d eligible questions, the blueprint measured %d.',
+                $mockId,
+                \count($exported),
+                $spec['eligible_questions'],
+            ));
+        }
+
+        if (\count($exported) < (int) $spec['question_count']) {
+            throw new \LogicException(\sprintf(
+                '%s cannot seat a sitting of %d from %d eligible questions.',
+                $mockId,
+                $spec['question_count'],
+                \count($exported),
+            ));
+        }
+
+        $byId = [];
+        foreach ($content->questions as $question) {
+            $byId[$question->id->value] = $question;
+        }
+
+        $perTopic = [];
+        foreach ($exported as $entry) {
+            $question = $byId[(string) ($entry['id'] ?? '')] ?? null;
+
+            if (null === $question) {
+                throw new \LogicException(\sprintf('%s ships unknown question "%s".', $mockId, $entry['id'] ?? ''));
+            }
+
+            if (Pool::Holdout === $question->pool) {
+                throw new \LogicException(\sprintf(
+                    '%s ships holdout question "%s"; the holdout is Mock 4\'s alone (§10, ADR-0005).',
+                    $mockId,
+                    $question->id->value,
+                ));
+            }
+
+            $perTopic[$question->officialTopic] = ($perTopic[$question->officialTopic] ?? 0) + 1;
+        }
+
+        foreach ((array) $spec['topic_spread'] as $topic => $wanted) {
+            if (($perTopic[$topic] ?? 0) < (int) $wanted) {
+                throw new \LogicException(\sprintf(
+                    '%s asks for %d question(s) in "%s" but ships only %d eligible.',
+                    $mockId,
+                    $wanted,
+                    $topic,
+                    $perTopic[$topic] ?? 0,
+                ));
+            }
+        }
+    }
+
+    /**
      * The mock payload's own invariant, and the reason `assertNoHoldoutLeak()`
      * is not weakened to accommodate it: this one is stricter, not looser.
      *
