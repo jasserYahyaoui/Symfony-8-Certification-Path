@@ -216,6 +216,7 @@ Verified, with real identifiers:
 | Lot 27 — §10 + mocks blueprint (PR #60) | `a155db4` | `101038765378` | `33879010973` | `101043243134` |
 | Lot 27 — Mock 1 Knowledge (PR #61) | `9fbef93` | `101044467082` | `33880637630` | `101048533218` |
 | Lot 27 — Mock 2 Application (PR #62) | `a4202c0` | `101049042680` | pending | pending |
+| Lot 27 — Mock 3 Certification difficulty (PR #63) | `e7dd639` | `101054697563` | pending | pending |
 | 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
 | 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
 | 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
@@ -501,7 +502,26 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Mock 3 is implemented** (branch `mock-3-difficulty`, PR pending): 44
+**Mock 5 is implemented** (branch `mock-5-weakness`, PR pending) and it is not
+a TrainingMock clone. Its payload is the *candidate universe* — the 469
+non-holdout questions — and the sitting is selected in the browser from this
+learner's own recorded failures, ranked by a score that weighs repetition and
+recency (a 30-day half-life) and is reduced by later successes. One question
+per weak item, never one already served, 10 minimum and 40 maximum, duration
+computed at generation.
+
+Below 10 weak items the named `INSUFFICIENT_EVIDENCE_FALLBACK` runs: it
+produces **no sitting**, states in as many words that it is not weakness-based,
+and points at Practice, Exam Mode and Mocks 1–3 to gather evidence first.
+
+**One blueprint signal is NOT_IMPLEMENTED and says so**: "answers that took
+markedly longer than their estimated time". A stored attempt carries no
+per-question elapsed time, so it cannot be computed from the history that
+exists. It was removed rather than shipped as an always-empty field, the
+blueprint carries the annotation, and a test fails if the annotation
+disappears while the signal is still uncomputed.
+
+**Mock 3 is delivered** (PR #63, merged `e7dd639`): 44
 questions per sitting from a 67-question eligible pool, 52 minutes, VALIDATION
 filtered to `difficulty: hard`, 14/14 topics. §5 requires Mock 3 to be
 *primarily* English and the language policy binds that to VALIDATION; the test
