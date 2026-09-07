@@ -1,0 +1,12 @@
+AUD-02 — version-contamination audit
+============================================================
+  ref httpwg/httpwg.github.io@master           23
+  ref php/doc-en@master                        45
+  ref php/php-src@PHP-8.4                      3
+  ref symfony/symfony-docs@8.0                 648
+  ref symfony/symfony@8.0                      149
+  ref twigphp/Twig@v3.22.0                     39
+  sources                                      907
+  version mentions in prose                    1
+
+FINDINGS: 0

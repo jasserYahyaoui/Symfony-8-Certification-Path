@@ -47,7 +47,7 @@ earlier report and never from this table's previous revision.
 | 2 | 0 critical syllabus gap | no official item without the content its level requires | **PASS as measured**, pending Lot 27's *independent syllabus audit*. Blocker **B-1** stands: the syllabus has no machine-readable upstream, so the import cannot be diffed against a source — that audit is precisely the check |
 | 3 | 0 known incorrect scored answer | no scored question with a wrong key | **PASS as known** — 18 rules, 0 violations over **544** questions; P2.2/P2.3/P2.4 corrected. Systematic re-check is Lot 27's *question-bank audit*, which has not run |
 | 4 | 0 scored OUT_OF_SCOPE dependency | no scored question depending on non-official material | **PASS** — all **544** questions are `classification: OFFICIAL`; zero non-official scored questions |
-| 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **PASS** — **544 of 544** `verification_status: VERIFIED`; **0** occurrences of `symfony.com/doc/current` across every file in `content/` and `docs/syllabus/`; CI rejects `/current/`. Lot 27's *source and anchor audit* has not run |
+| 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **NOT PASS — AUD-03 `FAIL`.** Version anchoring is clean (AUD-02 `PASS`, 0 findings over 907 citations) and every one of the 160 distinct source URLs returns 200, but **105 citations carry no section anchor**, which §2.4 requires; see `SRC-5`. Was recorded as PASS until AUD-03 ran. **544 of 544** `verification_status: VERIFIED`; **0** occurrences of `symfony.com/doc/current` across every file in `content/` and `docs/syllabus/`; CI rejects `/current/` |
 | 6 | functioning English timed simulation | a working timed exam mode, in English | **PASS for the artefact** — `website/src/pages/exam.tsx`, 90-minute official duration, serving `exam.json`: **135 of 135 questions English**; and `/mock-4`, 75 questions, 90 minutes, **75 of 75 English**. The software exists and is deployed. **It has not been sat.** The owner's human validation gate below is separate from this clause and blocks final readiness on its own |
 | 7 | protected unseen holdout assessment | see [ADR-0005](../adr/0005-holdout-distribution-deferred.md) | **PASS on the definition the owner settled 2026-09-03 (Option A)**: *unseen* means never served by Practice Mode, Exam Mode or any other learning mode. The holdout is complete — **75 questions across 75 distinct atomic items, 308 choices**, all English — and Mock 4 is built. Proved against the deployed bytes, not any payload's own label: `practice.json` (334, all LEARNING), `exam.json` (135, all VALIDATION) and the three training-mock payloads (61, 83 and 67 eligible) carry none of the 75 holdout ids nor their 308 choice ids, while `mock-4.json` carries the whole holdout and nothing else. `PayloadBuilder::assertNoHoldoutLeak()` and `assertMockMatchesBlueprint()` assert both directions at build time and the production smoke test re-proves them on the deployed site. **Repository confidentiality: NO** — the questions and answers are readable by anyone deliberately inspecting the public source, and the project says so permanently. Lot 27's *holdout integrity audit* has not run |
 | 8 | manageable revision burden | a corpus a candidate can actually revise | **PASS as measured** — 163 courses, **65,151 body words** (median 381, mean 400, range 184–880), 137 flashcards, **544** questions. Roughly 4–5 hours of reading. Lot 27's *content-volume and duplication audit* has not run |
@@ -92,17 +92,25 @@ sitting is the other half and it belongs to the candidate.
 Recorded here so no clause above is read as more settled than it is. Each is a
 Lot 27 §14 deliverable, and none has been executed:
 
-| Audit | Bears on | State |
-|---|---|---|
-| Independent syllabus audit | clause 2 | **BLOCKED on B-1** — needs a human-supplied copy of the official syllabus |
-| Version-contamination audit | clause 5 | NOT RUN |
-| Source and anchor audit | clause 5 | NOT RUN |
-| Content-volume and duplication audit | clause 8 | NOT RUN |
-| Question-bank audit | clause 3 | NOT RUN |
-| Holdout integrity audit | clause 7 | NOT RUN |
-| English readiness audit | clause 6 | NOT RUN |
-| Technical, accessibility and production audit | clause 9 | NOT RUN |
-| Final rationality and readiness assessment | all | NOT RUN |
+| # | Audit | Bears on | State |
+|---|---|---|---|
+| AUD-01 | Independent syllabus audit | clause 2 | **`BLOCKED` on B-1** — needs a human-supplied copy of the official syllabus. The import may never be audited against itself, and `syllabus-matrix.yml` is not independent evidence of its own correctness |
+| AUD-02 | [Version-contamination audit](../audit/lot-27-aud02-version-contamination/README.md) | clause 5 | **`PASS`** — 2026-09-07, 0 findings over 907 citations; one real gap found and fixed (`php/php-src` undeclared in the source map) |
+| AUD-03 | [Source and anchor audit](../audit/lot-27-aud03-source-anchor/README.md) | clause 5 | **`FAIL`** — 2026-09-07. Two dead citations (404) found and repaired; **105 citations carry no anchor**, tracked as `SRC-5`, and the rule that should have caught them never inspects this content, tracked as `SRC-6` |
+| AUD-04 | Content-volume and duplication audit | clause 8 | `NOT RUN` |
+| AUD-05 | Question-bank audit | clause 3 | `NOT RUN` |
+| AUD-06 | Holdout integrity audit | clause 7 | `NOT RUN` |
+| AUD-07 | English readiness audit | clause 6 | `NOT RUN` |
+| AUD-08 | Technical, accessibility and production audit | clause 9 | `NOT RUN` |
+| AUD-09 | Final rationality and readiness assessment | all | `NOT RUN` — depends on every row above, on the Mock 4 human gate, and on FR-2; it cannot be started while any is unsatisfied |
+
+Every audit moves `NOT RUN` → `RUNNING` → `PASS` / `FAIL` / `BLOCKED`, and no
+row may reach `PASS` without persisted evidence under `docs/audit/`. A run that
+finds defects is recorded as `FAIL`, never softened.
+
+**Clause 5 is therefore not `PASS`.** AUD-02 clears the version half of it;
+AUD-03 fails the anchor half. The clause-5 row above records what its two
+audits actually found.
 
 `NOT RUN` is not `PASS`, and it is not `FAIL`. It is the absence of evidence,
 written down so that the passes above cannot be mistaken for a finished

@@ -1,0 +1,27 @@
+AUD-03 — source and anchor audit
+============================================================
+  course citations                             223
+  courses                                      163
+  distinct urls                                160
+  flashcard citations                          137
+  flashcards                                   137
+  question citations                           547
+  questions                                    544
+  urls returning 200                           160
+
+FINDINGS: 105 across 1 checks
+
+  [ANCHOR-4 citation without an anchor] 105
+      question QST-psqn0fe95khc (golden-slice.yml): https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-7etwbjrngfd0 (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-9be1jmm121k3 (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-ytndnvdgvahh (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-rj0n6b7rxh74 (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-trxpf8mvw13a (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-z4f4sxjhrhk1 (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-9r75z716zt0h (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-e35gsy2e4vr3 (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-jhbpm176qdkc (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-hdx34ew6s8ah (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml — no symbol_or_lines, so the claim cannot be located in the source
+      question QST-fhrga35d77wa (lot-01-php.yml): https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml — no symbol_or_lines, so the claim cannot be located in the source
+      … and 93 more of this check

@@ -58,9 +58,9 @@ questions:
   explanation: Property hooks attach get and set behaviour to a declared property. They are new in PHP 8.4, alongside
     asymmetric visibility.
   official_sources:
-  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/language/oop5/property-hooks.xml
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/property-hooks.xml
     branch: master
-    symbol_or_lines: property hooks syntax
+    symbol_or_lines: 'Property Hooks: syntax, and "Property hooks were introduced in PHP 8.4"'
     verified_at: '2026-09-01'
 - id: QST-5565an30ezds
   version: 1
@@ -156,9 +156,9 @@ questions:
   explanation: Attributes are inert metadata until something calls newInstance() on a ReflectionAttribute. That
     is why bad arguments produce no error until a reader asks for the object.
   official_sources:
-  - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes/reflection.xml
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
     branch: master
-    symbol_or_lines: ReflectionAttribute::newInstance
+    symbol_or_lines: 'ReflectionAttribute::newInstance — "Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs at that point"'
     verified_at: '2026-09-01'
 - id: QST-4yrcba7f660p
   version: 1
