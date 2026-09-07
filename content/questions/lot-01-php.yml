@@ -656,9 +656,14 @@ questions:
     never sees an Error; catch (Throwable) sees both.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
+    symbol_or_lines: '"Throwable is the base interface for any object that can be thrown via a throw statement, including Error and Exception"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
+    branch: master
+    symbol_or_lines: '"As the Error hierarchy does not inherit from Exception, code that uses catch (Exception $e) blocks to handle uncaught exceptions ... will find that these Errors are not caught by these blocks"'
+    verified_at: '2026-09-07'
 - id: QST-fhrga35d77wa
   version: 1
   official_topic: PHP
@@ -855,6 +860,7 @@ questions:
     from() throws \ValueError.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    symbol_or_lines: '"tryFrom(int|string): ?self ... If one is not found, it will return null. This is mainly useful in cases where the input scalar is untrusted"; from() "will throw a ValueError"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -902,6 +908,7 @@ questions:
     no instance state, no inheritance and no instantiation.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    symbol_or_lines: 'Differences from objects — "Enum cases are forbidden from having state ... Constructors and Destructors are forbidden. Inheritance is not supported. Enums may not extend or be extended. Static or object properties are not allowed"; and "Enums ... may contain methods, and may implement interfaces"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'

@@ -83,9 +83,14 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+        symbol_or_lines: '"Throwable is the base interface for any object that can be thrown via a throw statement, including Error and Exception"'
         repository: "php/doc-en"
         branch: "master"
         verified_at: "2026-09-01"
+      - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
+        branch: master
+        symbol_or_lines: '"As the Error hierarchy does not inherit from Exception, code that uses catch (Exception $e) blocks to handle uncaught exceptions ... will find that these Errors are not caught by these blocks"'
+        verified_at: '2026-09-07'
 
   - id: FLC-h8jcxsh0da3t
     official_item: OIT-hqz5c2qse24w
@@ -102,6 +107,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        symbol_or_lines: '"from(int|string): self ... If one is not found, it will throw a ValueError"; "tryFrom(int|string): ?self ... If one is not found, it will return null"'
         repository: "php/doc-en"
         branch: "master"
         verified_at: "2026-09-01"
