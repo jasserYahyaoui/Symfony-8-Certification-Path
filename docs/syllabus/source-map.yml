@@ -51,6 +51,21 @@ technical_authority:
     verified_at: "2026-08-31"
     notes: "www.php.net is egress-blocked; the doc-en repository is its upstream."
 
+  - id: SRC-PHP-SRC
+    role: "PHP 8.4 release engineering notes (UPGRADING), for version-boundary claims."
+    repository: "php/php-src"
+    branch: "PHP-8.4"
+    raw_base: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/"
+    reachable: true
+    verified_at: "2026-09-07"
+    notes: >-
+      Declared by AUD-02, which found three records (a course, a flashcard and
+      a question) already citing php/php-src/PHP-8.4/UPGRADING while no entry
+      here authorised it. The citations were correct and the map was
+      incomplete, so the map is what changed. Recorded as a branch rather than
+      a tag for the same reason as SRC-PHP: the upgrade notes are maintained on
+      the release branch and have no per-release artefact.
+
   - id: SRC-RFC9110
     role: "RFC 9110 — HTTP semantics."
     url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
