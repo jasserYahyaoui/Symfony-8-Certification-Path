@@ -1,0 +1,7 @@
+pdf sha256 : 4ee8b9620c683f89c1e4d860d7a017fb1570698b8f9c56d0c716e8884a0b3bd1
+pdf bytes  : 468963
+pdf pages  : 5
+
+matrix atomic items      : 163
+found verbatim in the PDF: 163
+NOT found                : 0
