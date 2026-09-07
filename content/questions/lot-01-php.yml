@@ -349,6 +349,7 @@ questions:
     state, method bodies, or non-public members.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    symbol_or_lines: '"All methods declared in an interface must be public; this is the nature of an interface"; and the Constants section, "It''s possible for interfaces to have constants"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -400,9 +401,14 @@ questions:
     Une interface, elle, peut en étendre plusieurs.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    symbol_or_lines: '"Classes may implement more than one interface if desired by separating each interface with a comma"; and "Interfaces can be extended like classes using the extends operator"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/basic.xml
+    branch: master
+    symbol_or_lines: '"It is not possible to extend multiple classes; a class can only inherit from one base class"'
+    verified_at: '2026-09-07'
 - id: QST-wd0d31jfm7vq
   version: 1
   official_topic: PHP
@@ -548,6 +554,7 @@ questions:
     are invisible to it. PHP rejects the combination outright.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    symbol_or_lines: '"Methods defined as abstract simply declare the method''s signature and whether it is public or protected" — private is not among the permitted visibilities'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -599,6 +606,7 @@ questions:
     l'état et du comportement partagé au sein d'une hiérarchie.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    symbol_or_lines: '"PHP has abstract classes, methods, and properties. Classes defined as abstract cannot be instantiated, and any class that contains at least one abstract method or property must also be abstract"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'

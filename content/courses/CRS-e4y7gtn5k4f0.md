@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+    symbol_or_lines: '"All methods declared in an interface must be public"; Constants — "It''s possible for interfaces to have constants. Interface constants work exactly like class constants"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
