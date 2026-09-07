@@ -138,6 +138,51 @@ final class PayloadBuilder
     }
 
     /**
+     * Mock 5 — weakness-based (Master Plan §10).
+     *
+     * There is no fixed selection: §10 requires it to be generated from
+     * demonstrated weak outcomes, so the payload is the *candidate universe*
+     * and the page selects from it against the learner's own local history.
+     * Two learners never sit the same paper, and a learner with no recorded
+     * failures does not sit one at all — the fallback says so rather than
+     * inventing a weakness profile.
+     *
+     * @param array<string, mixed> $blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public function weaknessMockPayload(ContentSet $content, array $blueprint): array
+    {
+        $spec = self::mockSpec($blueprint, 'mock-5');
+
+        $questions = array_values(array_filter(
+            $content->questions,
+            static fn (Question $q): bool => Pool::Holdout !== $q->pool,
+        ));
+
+        usort($questions, static fn (Question $a, Question $b): int => [$a->officialTopic, $a->id->value] <=> [$b->officialTopic, $b->id->value]);
+
+        return [
+            'generated_at' => gmdate('c'),
+            'pool' => 'VALIDATION+LEARNING',
+            'mock' => $spec['name'],
+            'purpose' => $spec['purpose'],
+            'minimum_questions' => 10,
+            'maximum_questions' => 40,
+            'time_margin' => 1.15,
+            'language' => 'mixed',
+            'format_label' => $blueprint['format_label'],
+            'distribution_label' => $blueprint['distribution_label'],
+            'not_official' => $blueprint['not_official'],
+            'scoring_policy' => $spec['scoring_policy'],
+            'weakness_evidence' => $spec['weakness_evidence'],
+            'fallback' => $spec['fallback'],
+            'items' => $this->itemIndex($content, $questions),
+            'questions' => array_map($this->exportQuestion(...), $questions),
+        ];
+    }
+
+    /**
      * A training mock (Mocks 1, 2 and 3 — Master Plan §10).
      *
      * Unlike Mock 4 this payload carries the *eligible pool*, not the sitting:

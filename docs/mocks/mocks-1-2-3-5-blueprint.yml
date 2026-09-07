@@ -161,7 +161,10 @@ mocks:
   - learning outcomes attached to those items
   - 'exam skill answered worst: DISTINGUISH, APPLY or DIAGNOSE'
   - performance on English questions specifically
-  - questions whose answer took markedly longer than their estimated time
+  - 'questions whose answer took markedly longer than their estimated time — NOT_IMPLEMENTED:
+    a stored attempt carries no per-question elapsed time, so this cannot be computed from the
+    history that exists. Recorded rather than shipped as an always-empty signal; implementing it
+    means recording elapsed time per answer first, which only helps attempts made after that change.'
   - 'recency: a success long ago counts for less than a recent failure'
   selection_method: 'Rank atomic items by a weakness score built from the evidence above, then take one
     unseen-in-this-sitting question per item, strongest weakness first, until the count is reached. No
