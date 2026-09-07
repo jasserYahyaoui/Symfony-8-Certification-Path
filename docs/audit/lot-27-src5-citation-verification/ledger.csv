@@ -1,0 +1,11 @@
+record_id,kind,file,classification,source_after,note
+CRS-2s6e4qgkcqza,course,CRS-2s6e4qgkcqza.md,ANCHOR_ADDED,security.rst,"Roles section states the ROLE_ prefix rule the course teaches"
+CRS-rdzx4ka72saj,course,CRS-rdzx4ka72saj.md,ANCHOR_ADDED,security.rst,"Authenticating Users / Authentication (Identifying/Logging in the User)"
+CRS-x5frtpg07mmd,course,CRS-x5frtpg07mmd.md,ANCHOR_ADDED,security.rst,"The Firewall — only one firewall is active on each request"
+FLC-dxqgyh6g3w9z,flashcard,lot-10-security.yml,ANCHOR_ADDED,security.rst,"Roles — ROLE_ prefix"
+FLC-9j0hj0sv3c6j,flashcard,lot-10-security.yml,ANCHOR_ADDED,security.rst,"The Firewall — only one firewall is active on each request"
+FLC-qtz62rzb36q3,flashcard,lot-10-security.yml,ANCHOR_ADDED,security.rst,"Add Code to Deny Access — the two-branch outcome, login vs 403"
+FLC-pd0dmdcagt1k,flashcard,lot-10-security.yml,SOURCE_REPLACED,security/passwords.rst,"security.rst never mentions symfony/password-hasher; passwords.rst carries its standalone install line"
+FLC-y9jp85bpbh2v,flashcard,lot-10-security.yml,SOURCE_REPLACED,TokenStorageInterface.php,"security.rst never mentions token storage; TokenStorageInterface::getToken() returns the current security token"
+FLC-paer6jdxzr95,flashcard,lot-10-security.yml,SOURCE_COMPLETED,security.rst + security/access_control.rst,"claim spans two sections; security.rst proves the firewall half only, access_control.rst proves the other"
+CRS-awb7sd999c5j,course,CRS-awb7sd999c5j.md,SOURCE_COMPLETED,security.rst + security/csrf.rst + security/passwords.rst,"course teaches a three-package split; security.rst names only symfony/security-bundle"

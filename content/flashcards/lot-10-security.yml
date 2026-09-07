@@ -9,7 +9,8 @@ flashcards:
   memorization_justification: Le nom « Security » laisse croire à un bloc indivisible.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    symbol_or_lines: 'Password Hashing and Verification — "Symfony''s PasswordHasher component provides all utilities to safely hash and verify passwords. Make sure it is installed by running: composer require symfony/password-hasher"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-y9jp85bpbh2v
@@ -21,7 +22,8 @@ flashcards:
   memorization_justification: On confond le jeton, l'utilisateur et la session.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authentication/Token/Storage/TokenStorageInterface.php
+    symbol_or_lines: 'TokenStorageInterface::getToken() — "Returns the current security token"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-qtz62rzb36q3
@@ -34,6 +36,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'Add Code to Deny Access — "1) If the user isn''t logged in yet, they will be asked to log in ... 2) If the user is logged in, but does not have the ROLE_ADMIN role, they''ll be shown the 403 access denied page"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-paer6jdxzr95
@@ -47,8 +50,13 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'The Firewall — "Only one firewall is active on each request: Symfony uses the pattern key"'
     branch: '8.0'
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    symbol_or_lines: '"it stops - only the first matching access_control" (also: "Remember, the first rule that matches is used")'
+    branch: '8.0'
+    verified_at: '2026-09-07'
 - id: FLC-zpyvxwvf1x8a
   official_item: OIT-45p7535dk4s2
   language: fr
@@ -71,6 +79,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'The Firewall — "Only one firewall is active on each request"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-ygn9w70dncp1
@@ -110,6 +119,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'Roles — "ROLE_ prefix - otherwise, things won''t work as expected"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-1vc4j2vszk96
