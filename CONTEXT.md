@@ -68,7 +68,12 @@ was `NOT_RECORDED` in the first draft of this record — PR #58's smoke job was
 never read at the time — and it was filled in by reading it (`100962468166`,
 success on `832662f`) rather than left as an unbacked `PASS`.
 
-The last deploy, run `34158358977` on `592039f`, was read job by job: build
+This record itself shipped the same way — PR #65, gate `101857789693` success
+on `e052345`, merged as `ff09d45`, deploy run `34159913803` with build
+`101859353131`, deploy `101859571881` and production smoke `101859608690`, all
+three `success`, the smoke log read and showing the same seven holdout lines.
+
+The last content-bearing deploy, run `34158358977` on `592039f`, was read job by job: build
 `101854796493`, deploy `101855033413` and production smoke `101855070190`, all
 three `success`. Twenty-one production URLs at 200 — including `/mock-1`,
 `/mock-2`, `/mock-3`, `/mock-4`, `/mock-5` and each of their payloads — and the
