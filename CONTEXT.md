@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-04
+**Last updated:** 2026-09-07
 
 ---
 
@@ -42,7 +42,85 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `4d31b53` — **Mock 4 Unit C delivered in full**: PR #56,
+`master`, at `592039f` — **§10's five mock exams all exist and are deployed.**
+Mock 4 (the holdout mock) and Mocks 1, 2, 3 and 5 (the internal training
+mocks) were delivered as **ten separate pull requests**, never as one, and each
+was merged only after its Technical gate came back success and each deploy was
+verified by reading its production smoke log rather than assuming it.
+
+| Unit | PR | Merge commit | Technical gate | Deploy run | Production smoke |
+|---|---|---|---|---|---|
+| Mock 4 Unit A — ADR, blueprint, tests | #52 | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
+| Mock 4 Unit B — the 48 holdout questions | #54 | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
+| Mock 4 Unit C — the mock itself | #56 | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
+| §5 policy refresh | #58 | `832662f` | `100959149073` | `33853628535` | `100962468166` |
+| Mocks scope note | #59 | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
+| §10 recorded verbatim + the 1/2/3/5 blueprint | #60 | `a155db4` | `101038765378` | `33879010973` | `101043243134` |
+| Mock 1 — Knowledge | #61 | `9fbef93` | `101044467082` | `33880637630` | `101048533218` |
+| Mock 2 — Application | #62 | `a4202c0` | `101049042680` | `33882396094` | `101054359735` |
+| Mock 3 — Certification difficulty | #63 | `e7dd639` | `101054697563` | `33883826695` | `101059149312` |
+| Mock 5 — weakness-based | #64 | `592039f` | `101060317179` | `34158358977` | `101855070190` |
+
+Every id in that table was read back from the API rather than recalled: each
+smoke job was fetched by id and its `run_id`, `head_sha` and `conclusion`
+checked against the deploy run and the merge commit on the same row. One cell
+was `NOT_RECORDED` in the first draft of this record — PR #58's smoke job was
+never read at the time — and it was filled in by reading it (`100962468166`,
+success on `832662f`) rather than left as an unbacked `PASS`.
+
+The last deploy, run `34158358977` on `592039f`, was read job by job: build
+`101854796493`, deploy `101855033413` and production smoke `101855070190`, all
+three `success`. Twenty-one production URLs at 200 — including `/mock-1`,
+`/mock-2`, `/mock-3`, `/mock-4`, `/mock-5` and each of their payloads — and the
+holdout check ran in both directions on the deployed bytes:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+ok  mock-1     61 eligible, no holdout id or choice
+ok  mock-2     83 eligible, no holdout id or choice
+ok  mock-3     67 eligible, no holdout id or choice
+ok  mock-5    469 eligible, no holdout id or choice
+ok  mock-4     75 questions, the whole holdout and nothing else, all English
+checked against 75 holdout questions and 308 holdout choices
+```
+
+Read those seven lines together: the holdout is deployed in **exactly one**
+payload, and a question missing from `mock-4.json` fails the build as loudly as
+one leaking into any of the other six.
+
+**What the mocks are, and what they are not.** §10 fixes a question count and a
+duration for **Mock 4 only**. For Mocks 1, 2, 3 and 5 it defines a role and
+nothing else — no count, no duration, no topic weighting, no pool, no pass
+threshold. Every such value in this repository was decided here, is derived by
+a stated rule from measured data, is labelled `INTERNAL_TRAINING_FORMAT` (every
+spread `TRAINING_DISTRIBUTION`), and must **never** be reported as official or
+as derived from Mock 4.
+
+| Mock | Role (§10) | Bank | Sitting | Duration | Eligible pool |
+|---|---|---|---|---|---|
+| 1 | Knowledge | VALIDATION, `RECOGNIZE\|DISTINGUISH` | 40 | 41 min | 61 |
+| 2 | Application | VALIDATION, `DIAGNOSE\|APPLY` | 52 | 60 min | 83 |
+| 3 | Certification difficulty | VALIDATION, `difficulty: hard` | 44 | 52 min | 67 |
+| 4 | Full simulation | HOLDOUT (all 75) | 75 | 90 min | 75 |
+| 5 | Weakness-based | the 469 non-holdout questions | 10–40, per learner | computed | 469 |
+
+Mocks 1, 2 and 3 reach **no** holdout question, by construction rather than by
+filter: `PayloadBuilder::eligibleFor()` refuses `Pool::Holdout` before any
+blueprint criterion is read, and a test proves the refusal. Mock 5 is generated
+per learner from recorded failures and is **not** a static selection; below ten
+weak items the named `INSUFFICIENT_EVIDENCE_FALLBACK` produces no sitting at
+all and says in as many words that it is not weakness-based.
+
+**Nothing here is unseen except Mock 4.** Mocks 1, 2 and 3 draw on
+`VALIDATION`, which Exam Mode serves during study, and Mock 5 draws on both
+learning pools. A score on any of them is a training signal, never §22's
+*protected unseen holdout assessment*. Mock 4 alone carries that property, and
+only in the Option A sense recorded in ADR-0005: functional isolation **yes**,
+application-level unseen **yes**, repository confidentiality **no**, answers
+readable by anyone who deliberately opens the public source **yes**.
+
+Before it, `master` at `4d31b53` — **Mock 4 Unit C delivered in full**: PR #56,
 Technical gate `100950643458` success on `ff465ba`, merged, deploy run
 `33850805831` with build `100952906192`, deploy `100954971728` and production
 smoke test `100955034319`, all success. Mock 4 exists and is live: 75
@@ -502,7 +580,30 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Mock 5 is implemented** (branch `mock-5-weakness`, PR pending) and it is not
+**§10 is discharged. Do not start anything below without the owner's
+instruction.**
+
+All five mocks exist, are merged and are deployed — see *Current branch* for
+the per-unit evidence. What remains of Lot 27 is **not** mock work:
+
+1. The **final audits** of §14: independent syllabus, version contamination,
+   sources and anchors, content volume and duplication, holdout integrity,
+   English readiness, technical/accessibility/production, and the final
+   rationality and readiness assessment. The independent syllabus audit needs
+   a **human-supplied copy of the official syllabus** to be worth anything
+   (blocker B-1), so ask for it before running that audit rather than after.
+2. The **human-supplied timed 75-question English simulation result**. No work
+   in this repository substitutes for it, and no §22 clause may be claimed
+   from a practice-mock score.
+3. **FR-2**, which is a distinct atomic job and must not be folded into an
+   audit or into any mock work. Still `REQUIRED_BEFORE_FINAL_READINESS`, still
+   done completely or not at all.
+
+Mocks 1, 2, 3 and 5 must never be recreated or renumbered to make a report
+tidier, and Mock 4's 75 questions must not be modified without a demonstrated
+anomaly.
+
+**Mock 5 is delivered** (PR #64, merged `592039f`) and it is not
 a TrainingMock clone. Its payload is the *candidate universe* — the 469
 non-holdout questions — and the sitting is selected in the browser from this
 learner's own recorded failures, ranked by a score that weighs repetition and
@@ -683,7 +784,17 @@ assessment" still cannot be claimed. It never blocked a content lot — but
 content is now finished, so **this is the decision the project is waiting on.**
 Lot 27's mock exams draw on the holdout pool, and its distribution is precisely
 what is undecided. §15 lists it as requiring human approval, so it is not mine
-to settle. **Lot 27 does not begin until the owner answers.**
+to settle.
+
+**Superseded 2026-09-03/09-04.** The owner answered: ADR-0005 option 1 is
+`ACCEPTED`, and §10's text was supplied and recorded verbatim in
+[`docs/policy/mock-blueprint-policy.md`](docs/policy/mock-blueprint-policy.md).
+Lot 27 began, and its mock exams are delivered. The sentence this replaces —
+*"Lot 27 does not begin until the owner answers"* — was true when written and
+is no longer. The exposure statement above it still holds unchanged: the
+repository is still public and holdout answers are still readable in
+`content/questions/*.yml`, so §22's *protected unseen holdout assessment* is
+still not claimable in the confidentiality sense.
 
 **Process:** Lots 0–02 were committed directly to `master` on the owner's
 instruction — a documented deviation from §15, not an inapplicable step. Lot 03
