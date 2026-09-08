@@ -1,0 +1,13 @@
+AUD-04 — content-volume and duplication audit
+============================================================
+  body words total                             65151
+  course pairs compared                        13203
+  courses                                      163
+  estimated reading minutes at 200 wpm         326
+  flashcards                                   137
+  longest                                      880
+  mean body words                              400
+  median body words                            381
+  shortest                                     184
+
+FINDINGS: 0
