@@ -132,6 +132,29 @@ criterion with the criterion named. CI regenerates
 `docs/progress/certification-readiness.md` and fails on any diff, so the
 published dashboard cannot drift from the data.
 
+## Proving the published figure is the computed one
+
+CI regenerates `docs/progress/certification-readiness.md` and fails on any
+diff, so the repository dashboard cannot drift from the canonical data. That
+leaves one link unproved: what the *deployed site* serves.
+
+A `200` on `data/readiness.json` says the file was published. It says nothing
+about the number inside it — and a stale artifact serving a better-looking
+older figure would have passed every check that existed before ADR-0007 moved
+the number from 5.5% to 0%.
+
+The production smoke test therefore fetches the deployed payload and compares
+it against the repository dashboard, field by field
+(`.github/scripts/readiness-smoke.py`). The two are produced independently —
+one by `ReadinessMarkdownRenderer`, one by `PayloadBuilder` — so the comparison
+is between two artifacts, never a value with itself. The chain is:
+
+```text
+canonical data → certification-readiness.md   (CI fails on any diff)
+               → readiness.json               (same calculator, different renderer)
+               → the deployed payload         (production smoke test)
+```
+
 The dashboard carries no "generated at" timestamp on purpose: a clock in a
 file CI diffs would fail the build the next day for no reason. The date shown is
 the last refinement **recorded**, which is canonical and moves only when the

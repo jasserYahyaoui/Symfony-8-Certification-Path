@@ -151,6 +151,16 @@ jobs:
             fi
           done
 
+          # The published Certification Readiness figure, proved against the
+          # deployed bytes rather than against the build that produced them.
+          # A 200 on data/readiness.json says the file exists; it says nothing
+          # about the number inside it, and ADR-0007 moved that number from
+          # 5.5% to 0%. A stale artifact serving the old figure would have
+          # passed every check that ran before this one.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/readiness.json "$BASE_URL/data/readiness.json"
+          python3 .github/scripts/readiness-smoke.py /tmp/readiness.json docs/progress/certification-readiness.md \
+            || fail=1
+
           # The Lot 01 refinement, proved against the deployed bytes. The
           # Interfaces item was assessed by two easy recall questions and its
           # course omitted two PHP 8.4 rules; both were repaired. Neither the
