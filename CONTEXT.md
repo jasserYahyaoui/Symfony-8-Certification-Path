@@ -42,8 +42,25 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`refine/framework-archetypes` — **refinement framework version 2 (ADR-0007)**.
-The unit extends the measure before the content: `question_archetype`,
+`master`, at `047a82d` — **refinement framework version 2 (ADR-0007) is
+merged, deployed and verified in production.**
+
+| | |
+|---|---|
+| Git commits | `2e849cb` (the framework), `fede753` (the production readiness assertion) |
+| Pull requests | **#84** merged `7e92a36`; **#85** merged `047a82d` |
+| GitHub Actions — CI | run 204 `success` (PR #84), run 205 `success` (master), run 207 `success` (master) |
+| GitHub Actions — Pages | run 102 `success` (`7e92a36`), run 103 `success` (`047a82d`) |
+| Deployment | `success`, job `102242915653` |
+| Deployed URL | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path |
+| Production smoke test | job **`102242978061`**, `success` |
+| Content verified against commit | `047a82d` — 22 URLs at 200, FR-2 accents on 4 pages, Lot 01 Interfaces rules, pool isolation across 7 payloads, and **`ok readiness deployed 0.0% (0/163), 0 of 27 lots refined — matches the repository dashboard`** |
+
+The last row is new and is the point of PR #85: before it, a `200` on
+`data/readiness.json` was the whole verification, which would have passed on a
+stale artifact still serving 5.5%.
+
+**The framework itself (PR #84).** The unit extends the measure before the content: `question_archetype`,
 identified learning outcomes with an `assesses_outcomes` link, and a revision
 budget, wired into the readiness formula as `R10`–`R14` and gated by three new
 mandatory rules (`ARC-001`, `PED-003`, `REV-001`).
@@ -677,6 +694,9 @@ composer gate-full                                → all of the above, then sit
 npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
 python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
 python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 5 cases fired, restored         (exit 0)
+python3 .github/scripts/readiness-smoke.py        → matches the dashboard; and against a
+                                                    payload edited to the pre-ADR-0007
+                                                    figures, 3 errors                         (exit 1)
 AUD-01..AUD-08, lot01_second_audit, fr2_second    → FINDINGS: 0 each                           (exit 0)
 ```
 
@@ -737,7 +757,7 @@ default-behaviour clause and a code comment respectively. Finder course
 ## Next action
 
 **Étape B — re-refine Lot 01 under refinement framework version 2.** The
-framework is in place and gated; Lot 01's nine items are the first to be
+framework is merged, deployed and verified in production (PRs #84 and #85); Lot 01's nine items are the first to be
 brought up to it. Concretely, per item: mint an `OUT` id for each learning
 outcome, write the `assesses_outcomes` link from the questions that assess it,
 declare a `question_archetype` on every lot-01 question, and close the two gaps
