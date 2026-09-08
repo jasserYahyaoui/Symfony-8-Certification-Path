@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| State | `NOT RUN` → `BLOCKED` → `RUNNING` → **`FAIL`** |
+| State | `NOT RUN` → `BLOCKED` → `RUNNING` → `FAIL` (2026-09-07) → **`PASS` pending the owner's remaining gate conditions** (2026-09-08) |
 | Run at | 2026-09-07 |
 | Commit audited | `1db32f5` |
 | Script | [`tools/audit/aud01_syllabus_transcription.py`](../../../tools/audit/aud01_syllabus_transcription.py) |
@@ -132,14 +132,55 @@ judgement for the question-bank and content audits, not for this one.
 
 ## Verdict
 
-**`FAIL`** — two verifiable divergences, `SYL-1` and `SYL-2`. Transcription and
-coverage are clean in both directions and every constraint reconciles; the
-exclusion record does not.
+The 2026-09-07 run was **`FAIL`** — two verifiable divergences, `SYL-1` and
+`SYL-2`. Transcription and coverage were clean in both directions and every
+constraint reconciled; the exclusion record did not. The corrections were
+deliberately not applied in the audit unit, so that a syllabus-scope change was
+never mixed into the audit that found it.
 
-Per the owner's instruction of 2026-09-07, the corrections are **not** applied
-here: they belong to a separate reviewable unit, so that a syllabus-scope
-change is never mixed into the audit that found it.
+Both are now resolved in this unit:
 
-**B-1 is no longer `BLOCKED`.** The copy exists, is registered by hash, and the
-audit ran to a verdict. B-1 now carries AUD-01's result: `FAIL`, pending
-`SYL-1` and `SYL-2`.
+| | Resolution |
+|---|---|
+| `SYL-1` | `EXC-MESSENGER-THIRD-PARTY-TRANSPORTS` added to `exclusions.yml`, carrying the syllabus wording verbatim. `exclusions.yml` now holds **13** entries against the PDF's 13. `SCOPE-001` extended to detect it |
+| `SYL-2` | all seven Messenger items now state the boundary the syllabus states, instead of denying one exists. 163 atomic items unchanged; no `official_item` or `official_wording` touched |
+
+### Why the exclusion is contextual, not a term in the flat list
+
+Adding `doctrine`, `redis` and `sqs` to `match_terms` is the obvious fix and is
+wrong. `SCOPE-001` matches those terms against every scored question, so it
+would reject:
+
+- **Redis outside Messenger** — an in-scope `Cache` adapter, which the corpus
+  legitimately teaches;
+- **Doctrine named as the syllabus's own exclusion example**;
+- **generic Messenger transport concepts**, which are an examinable item.
+
+The syllabus excludes third-party transports *"and their usage/configuration"* —
+not the words. So the entry declares the context it belongs to
+(`official_topic: Messenger` plus the transport terms) and `SCOPE-001` fires
+only when a scored question is on that topic **and** names such a transport.
+Symfony Messenger itself, the transport concept, routing, `sync://` and
+`in-memory://` all remain examinable, and the eight transport terms are
+examples — the official note ends in *"etc."* and this list must never be read
+as exhaustive.
+
+Thirteen regression tests pin both directions: six positives (Doctrine, Redis,
+Amazon SQS, another identifiable transport, usage stated in an explanation, and
+a transport named only in a distractor) and seven negatives (each false
+positive above, a term inside a longer word, a mention in another topic, and
+the rule staying inert with no contextual exclusion configured). Against the
+previous `SCOPE-001` all six positives fail and all seven negatives pass, which
+is what a negative control should do.
+
+## B-1
+
+**No longer `BLOCKED`.** The copy exists, is registered by hash, and the audit
+ran to a verdict; its two divergences are repaired.
+
+**B-1 is not recorded `PASS` here.** The owner's completion gate for B-1 was
+truncated in transmission — it ends mid-list after *"all official constraints
+are represented correctly"* — so the full set of conditions is unknown. Three
+are met and evidenced above; how many remain is not knowable from this side.
+Marking `PASS` against a partially known gate is exactly the kind of claim this
+project does not make, so B-1 stays open pending the rest of the conditions.
