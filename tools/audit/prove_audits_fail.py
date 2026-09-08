@@ -16,6 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 AUD02 = ROOT / 'tools/audit/aud02_version_contamination.py'
 AUD03 = ROOT / 'tools/audit/aud03_source_anchor.py'
 AUD04 = ROOT / 'tools/audit/aud04_content_volume.py'
+AUD06 = ROOT / 'tools/audit/aud06_holdout_integrity.py'
 
 # Some defects cannot be injected by swapping an existing substring: a
 # duplicated prose line, a course grown past the outlier threshold, one
@@ -87,6 +88,30 @@ CASES = [
     (AUD04, (), 'content/flashcards/lot-10-security.yml',
      APPEND, None,  # filled in below from this deck's own first card
      'VOL-4'),
+
+    # AUD-06. A holdout question removed, so the bank no longer matches the
+    # Mock 4 blueprint's count.
+    (AUD06, (), 'docs/mocks/mock-4-blueprint.yml',
+     '  questions: 75', '  questions: 74',
+     'HOLD-1'),
+    # Two holdout questions on one atomic item.
+    (AUD06, (), 'content/questions/mock-04-holdout.yml',
+     None, None,  # filled in below: retarget one question's official_item
+     'HOLD-2'),
+    # A holdout question that is not English.
+    (AUD06, (), 'content/questions/mock-04-holdout.yml',
+     '  language: en\n', '  language: fr\n',
+     'HOLD-3'),
+    # A holdout answer reproduced in a DIFFERENT item's course — the leak the
+    # CRS-001 exemption must not hide.
+    (AUD06, (), 'content/courses/CRS-0a0d5bp6769e.md',
+     APPEND, None,  # filled in below with a real holdout answer
+     'HOLD-5'),
+    # A build-time guard deleted.
+    (AUD06, (), 'src/Build/PayloadBuilder.php',
+     'public static function assertNoHoldoutLeak',
+     'public static function assertNoHoldoutLeakRENAMED',
+     'HOLD-6'),
 ]
 
 # VOL-2's payload is a real prose line lifted from another course, so the
@@ -144,9 +169,25 @@ _DUP_CARD = (
     "    verified_at: '2026-09-08'\n"
 )
 
+# HOLD-2 needs two holdout questions to share an item, so one question's
+# official_item is retargeted onto another's. HOLD-5 needs a real holdout
+# answer, long enough to clear the audit's 25-character floor, planted in a
+# course belonging to a different item.
+_HOLD = _yaml.safe_load((ROOT / 'content/questions/mock-04-holdout.yml').read_text(encoding='utf-8'))
+_HQ = _HOLD['questions']
+_HOLD2_OLD = f"official_item: {_HQ[1]['official_item']}"
+_HOLD2_NEW = f"official_item: {_HQ[0]['official_item']}"
+_HOLD5_ANSWER = next(
+    c['text'] for q in _HQ for c in q['choices']
+    if c.get('correct') and len(' '.join(str(c['text']).split())) >= 25
+)
+
 CASES = [
-    (s, a, f, o,
-     ('\n\n' + _LONG_LINE + '\n') if e == 'VOL-2'
+    (s, a, f,
+     (_HOLD2_OLD if e == 'HOLD-2' else o),
+     _HOLD2_NEW if e == 'HOLD-2'
+     else ('\n\nUne prose de contexte : ' + _HOLD5_ANSWER + '\n') if e == 'HOLD-5'
+     else ('\n\n' + _LONG_LINE + '\n') if e == 'VOL-2'
      else _TWIN_BODY if e == 'VOL-3'
      else _DUP_CARD if e == 'VOL-4'
      else n, e)

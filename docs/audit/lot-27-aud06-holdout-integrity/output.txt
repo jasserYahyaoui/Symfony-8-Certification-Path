@@ -1,0 +1,21 @@
+AUD-06 — holdout integrity audit
+============================================================
+  blueprint official_constraints.questions     75
+  build-time guards present                    3
+  haystacks searched                           932
+  holdout answers below the 25-char floor      8
+  holdout choices                              308
+  holdout correct answers checked              75
+  holdout distinct items                       75
+  holdout questions                            75
+  learning + validation                        469
+  matrix question references                   450
+  own-item fenced occurrences (exempt, CRS-001) 1
+  questions total                              544
+
+  Scope statement, per ADR-0005 Option A: this audit tests functional
+  isolation and application-level unseen-ness. It does NOT test
+  confidentiality — the repository is public and holdout answers are
+  readable in content/questions/*.yml.
+
+FINDINGS: 0
