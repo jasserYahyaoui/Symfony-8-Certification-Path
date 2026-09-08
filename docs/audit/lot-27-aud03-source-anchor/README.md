@@ -4,15 +4,42 @@
 
 | | |
 |---|---|
-| State | `NOT RUN` → `RUNNING` → **`FAIL`** |
-| Run at | 2026-09-07 |
-| Commit audited | `2ece943` + this change |
+| State | `NOT RUN` → `RUNNING` → `FAIL` (2026-09-07) → **`PASS`** (2026-09-08) |
+| Commit audited | SRC-5 + SRC-6 complete |
 | Script | [`tools/audit/aud03_source_anchor.py`](../../../tools/audit/aud03_source_anchor.py) |
-| Raw output | [`output.txt`](output.txt) — exit 1 |
-| Checks proved to fire | [`fail-proof.txt`](fail-proof.txt) |
+| Raw output | [`output.txt`](output.txt) — exit 0 |
+| Checks proved to fire | [`fail-proof.txt`](fail-proof.txt) — 9 of 9 |
+| Ledger | [`../lot-27-src5-citation-verification/ledger.csv`](../lot-27-src5-citation-verification/ledger.csv) |
 
-**`FAIL` is the honest result and it is recorded as `FAIL`.** 105 citations
-carry no anchor. Nothing was relaxed to make this read `PASS`.
+## Result — `PASS`
+
+| Criterion | Result |
+|---|---|
+| Citations inspected | **918** (550 question, 225 course, 143 flashcard) |
+| Distinct URLs | **167**, every one fetched live, **all 167 at HTTP 200** |
+| Missing anchors | **0** |
+| Invalid URLs | **0** |
+| Unsupported claims | **0** — 15 were found and repaired; see the ledger |
+| Unresolved conflicts | **0** — one was raised, decided by the owner, and resolved against PHP 8.4 primaries |
+| Invisible or truncated findings | **0** — output is grouped per check |
+| `SRC-001` coverage | the whole learner-facing corpus, at **`Error`** severity |
+| Regression and fail-proof tests | 18 SRC-6 tests; 9 of 9 audit checks proved to fire |
+
+`PASS` is claimed on the conjunction, not on the anchor count. Zero missing
+anchors was necessary and never sufficient: the 15 records whose source did not
+prove its claim all had, or would have had, an anchor.
+
+## History — this audit failed first, and that was the point
+
+The 2026-09-07 run reported **105 unanchored citations** and stood at `FAIL`.
+Verifying them one at a time found something larger than an annotation gap:
+**15 of 105 cited a source that did not prove the claim assigned to it** — 6
+replaced outright, 9 completed with the source that carried the missing part.
+That was invisible precisely because no anchor was required. With nothing to
+point at, nobody had to check there was anything to point to.
+
+Two dead citations (HTTP 404) were also found, in the first run's `ANCHOR-8`
+check — the first time this project had ever fetched a source URL.
 
 ## Question asked
 
@@ -38,80 +65,15 @@ not evidence for a precise technical claim."*
 | `ANCHOR-7` | `verified_at` is not in the future | **PASS** — 0 |
 | `ANCHOR-8` | every distinct source URL resolves, checked live | **PASS after repair** — see below |
 
-## Corpus measured
+## Findings, and where they went
 
-| | |
-|---|---|
-| questions / citations | 544 / 547 |
-| courses / citations | 163 / 223 |
-| flashcards / citations | 137 / 137 |
-| distinct URLs | 160, **all 160 returning HTTP 200** |
+| id | Finding | State |
+|---|---|---|
+| `SRC-4` | two citations returned HTTP 404 | **Resolved** in the audit unit |
+| `SRC-5` | 105 citations with no anchor | **Resolved** — 105 of 105 verified; 90 `ANCHOR_ADDED`, 6 `SOURCE_REPLACED`, 9 `SOURCE_COMPLETED` |
+| `SRC-6` | `SRC-001` never inspected learner-facing citations | **Resolved** — see below |
+| conflict | `QST-fhrga35d77wa`: answer key vs a narrower manual page | **Resolved** by owner decision, against PHP 8.4 engine source and a controlled reproduction |
 
-## Finding SRC-4 — two dead citations, repaired in this unit
-
-`ANCHOR-8` fetched all 161 distinct URLs live and two returned **404**. A
-citation that 404s is worse than a vague one: the claim cannot be checked at
-all.
-
-| Question | Cited (404) | Corrected to | Why that source |
-|---|---|---|---|
-| `QST-psqn0fe95khc`-adjacent property-hooks question | `php/doc-en/master/reference/language/oop5/property-hooks.xml` | `php/doc-en/master/language/oop5/property-hooks.xml` | a stray `reference/` prefix; the real file is titled *Property Hooks* and states *"Property hooks were introduced in PHP 8.4"*, which is what the question tests |
-| the `ReflectionAttribute::newInstance` question | `php/doc-en/master/language/attributes/reflection.xml` | `php/doc-en/master/language/attributes.xml` | that path has never existed. The claim — that argument validation is deferred — is stated verbatim at `language/attributes.xml`: *"Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs at that point."* The method reference page `reference/reflection/reflectionattribute/newinstance.xml` exists but says nothing about deferred validation, so it would have been the worse anchor |
-
-Both corrected URLs were re-fetched and return 200. The anchors were rewritten
-to quote the sentence that carries the claim rather than name a symbol.
-
-## Finding SRC-5 — 105 citations with no anchor at all
-
-`ANCHOR-4`. **This is not repaired in this unit** and is tracked as issue
-**SRC-5**; see *Why not repaired here*.
-
-| | |
-|---|---|
-| Unanchored citations | **105** of 907 (11.6%) |
-| Distinct records affected | **103** |
-| Distinct URLs affected | **57** |
-| By kind | flashcards 68, courses 21, questions 16 |
-
-By file:
-
-| File | Unanchored |
-|---|---|
-| `lot-01-php.yml` | 19 |
-| `lot-09-dependency-injection.yml` | 12 |
-| `lot-10-security.yml` | 11 |
-| `lot-12-console.yml` | 9 |
-| `lot-13-automated-tests.yml` | 9 |
-| `lot-11-messenger.yml` | 7 |
-| `lot-08-data-validation.yml` | 3 |
-| `lot-14-miscellaneous.yml` | 3 |
-| `CRS-3424z948caan.md` | 2 |
-| `CRS-tqcp2kn9r3b5.md` | 2 |
-| `lot-15-miscellaneous.yml` | 2 |
-| `lot-20-miscellaneous.yml` | 2 |
-| `lot-21-miscellaneous.yml` | 2 |
-| `CRS-0jtjh77tabt1.md` | 1 |
-| `CRS-2s6e4qgkcqza.md` | 1 |
-| `CRS-3p9jdkw1nd3g.md` | 1 |
-| `CRS-3sggmeyd01x6.md` | 1 |
-| `CRS-722pscs6e2m0.md` | 1 |
-| `CRS-96w05v20b8w1.md` | 1 |
-| `CRS-awb7sd999c5j.md` | 1 |
-| `CRS-ax2v94pgbk0g.md` | 1 |
-| `CRS-bthv5xmh5wea.md` | 1 |
-| `CRS-e4y7gtn5k4f0.md` | 1 |
-| `CRS-exs5dvtqa1as.md` | 1 |
-| `CRS-p1694d5f7r8c.md` | 1 |
-| `CRS-rdzx4ka72saj.md` | 1 |
-| `CRS-rk0fkn1q5byc.md` | 1 |
-| `CRS-vskyr5zdwr2t.md` | 1 |
-| `CRS-x5frtpg07mmd.md` | 1 |
-| `CRS-yc9fry0vz4gh.md` | 1 |
-| `golden-slice.yml` | 1 |
-| `lot-16-miscellaneous.yml` | 1 |
-| `lot-17-miscellaneous.yml` | 1 |
-| `lot-18-miscellaneous.yml` | 1 |
-| `lot-19-miscellaneous.yml` | 1 |
 ## Finding SRC-6 — the systemic cause: `SRC-001` never looks here
 
 The anchor requirement is not unenforced by oversight in one lot. It is
@@ -129,7 +91,7 @@ passed throughout. This is the fourth instance of one pattern already recorded
 here as `SPLICE-1`, `SPLICE-2` and `COG-1`: **an invariant nothing checks is
 not an invariant.**
 
-## Why not repaired here
+## Superseded — why SRC-5 was not repaired in the audit unit
 
 Repairing 105 citations means, for each, reading the record's claim, fetching
 the cited source, locating the passage that supports it, and quoting that
@@ -143,4 +105,5 @@ exists to detect — a citation that looks precise and is not. The repair is
 `SRC-5`, its own unit, followed by strengthening `SRC-001` so the class cannot
 recur.
 
-**The audit's verdict stands at `FAIL` until `SRC-5` is done.**
+That was the position on 2026-09-07. `SRC-5` is now done, and each of the
+105 carries a verdict in the ledger.

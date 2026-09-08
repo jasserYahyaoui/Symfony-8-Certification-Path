@@ -17,5 +17,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    symbol_or_lines: '"suffixed with +intl-icu", with the table pairing messages.en.yaml against messages+intl-icu.en.yaml'
     branch: '8.0'
     verified_at: '2026-09-02'

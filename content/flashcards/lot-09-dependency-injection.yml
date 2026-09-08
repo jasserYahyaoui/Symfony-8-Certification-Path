@@ -11,6 +11,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: 'Public Versus Private Services — "you should fetch services using dependency injection instead of using $container->get()"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-cv9s7bswxrh8
@@ -24,6 +25,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    symbol_or_lines: 'Marking Services as Public / Private — "If a service is public, it means that you can access it directly from the container at runtime ... But typically, services are accessed using dependency injection. And in this case, those services do not need to be public ... In fact, all services are private by default"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-7xkwp2t1hefj
@@ -37,6 +39,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: '"What other services are available? Find out by running: php bin/console debug:autowiring" — output headed "Autowirable Types ... can be used as type-hints when autowiring"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-kbnpt2sv2dss
@@ -49,8 +52,17 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    symbol_or_lines: 'Resolving Environment Variable At Compile Time — "Environment variables are resolved at runtime, but you can also resolve them at compile time"'
     branch: '8.0'
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: '8.0'
+    symbol_or_lines: '"You can only set a parameter before the container is compiled, not at runtime" — the compile-time half of the contrast'
+    verified_at: '2026-09-07'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    branch: '8.0'
+    symbol_or_lines: 'ParameterBag::escapeValue() — str_replace(''%'', ''%%'', $value); and resolveString() skipping "%%" — the literal-percent escape'
+    verified_at: '2026-09-07'
 - id: FLC-6a9ngbsfteyg
   official_item: OIT-stze9x4aydp3
   language: fr
@@ -62,6 +74,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: '"The _defaults section applies only to services defined in the same services block. Each when@<env> block has its own scope and does not inherit _defaults from the main services section. Redefine _defaults in every when@<env> block where you need it"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-xj1bfncctk1r
@@ -76,6 +89,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    symbol_or_lines: 'Decoration Priority — "you can control their order with the decoration_priority option. Its value is an integer that defaults to 0 and higher priorities mean that decorators will be applied earlier", with the worked example at priorities 5 then 1'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-tv2t8a6yt50g
@@ -89,6 +103,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    symbol_or_lines: '"Services tagged with the twig.extension tag are collected during the initialization of TwigBundle and added to Twig as extensions" — a tag acts only where something collects it'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-dmvk9r2pqhsg
@@ -102,6 +117,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    symbol_or_lines: '"The processConfiguration() method uses the configuration tree you have defined in the Configuration class to validate, normalize and merge all the configuration arrays together"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-j8n3qsftrmm5
@@ -115,6 +131,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    symbol_or_lines: 'Passing Arguments to the Factory Method — "If you need to pass arguments to the factory method you can use the arguments option"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-3f3jxjqynjmj
@@ -127,7 +144,8 @@ flashcards:
   memorization_justification: Les cinq étapes se confondent et l'erreur ne se voit qu'à la compilation.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    symbol_or_lines: 'PassConfig::addPass(CompilerPassInterface $pass, string $type = self::TYPE_BEFORE_OPTIMIZATION, int $priority = 0) — the default type is in the signature; the constants TYPE_BEFORE_OPTIMIZATION, TYPE_OPTIMIZE, TYPE_BEFORE_REMOVING, TYPE_REMOVE, TYPE_AFTER_REMOVING give the order'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-yze03t40rkqr
@@ -142,6 +160,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    symbol_or_lines: 'Working with Interfaces / the interface alias — "if only one service is discovered that implements an interface, configuring the alias is not mandatory and Symfony will automatically create one"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-zn7hhaddbzd2
@@ -154,5 +173,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    symbol_or_lines: '"public static function getSubscribedServices(): array"; and the inheritance example "return array_merge(parent::getSubscribedServices(), [ ... ])"'
     branch: '8.0'
     verified_at: '2026-09-01'

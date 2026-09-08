@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst"
+    symbol_or_lines: '"How to Apply only a Subset of all Your Validation Constraints (Validation Groups)"; and "Constraints in the Default group of a class are the constraints that have either no explicit group configured or that are configured to a group equal to the class name or the string Default"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---

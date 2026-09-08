@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+    symbol_or_lines: '"A Backed Enum may contain only Backed Cases. A Pure Enum may contain only Pure Cases"; from()/tryFrom() contrast; and Differences from objects'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"

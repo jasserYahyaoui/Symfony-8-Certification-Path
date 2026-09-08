@@ -249,6 +249,7 @@ questions:
       Annotation\\ a été supprimé.
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        symbol_or_lines: 'namespace Symfony\\Component\\Routing\\Attribute; class Route, declared #[\\Attribute(\\Attribute::IS_REPEATABLE | \\Attribute::TARGET_CLASS | \\Attribute::TARGET_METHOD)]'
         repository: "symfony/symfony"
         branch: "8.0"
         commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"

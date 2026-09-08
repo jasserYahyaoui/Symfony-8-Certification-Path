@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
+    symbol_or_lines: '"Throwable is the base interface for any object that can be thrown via a throw statement, including Error and Exception"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"

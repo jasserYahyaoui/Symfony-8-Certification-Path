@@ -12,3 +12,4 @@
 # generated tree is never committed and never edited by hand.
 /website/docs/
 /website/static/data/
+tools/audit/__pycache__/

@@ -17,6 +17,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    symbol_or_lines: '"An optional priority, defined as a positive or negative integer (defaults to 0). The higher the number, the earlier the listener is called. If two listeners have the same priority, they are executed in the order that they were added to the dispatcher"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-6eg8g2bt06nt
@@ -30,5 +31,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    symbol_or_lines: 'Event::stopPropagation() — "the listener needs to be able to tell the dispatcher to stop all propagation of the event to future listeners (i.e. to not notify any more listeners)"'
     branch: '8.0'
     verified_at: '2026-09-02'

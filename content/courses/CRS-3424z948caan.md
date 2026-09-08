@@ -8,10 +8,12 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+    symbol_or_lines: 'Property Visibility; and Asymmetric Property Visibility — "a different scope for reading (get) and writing (set) ... provided it is not more permissive than the default visibility"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml"
+    symbol_or_lines: 'Limitations of self:: — "Static references to the current class like self:: or __CLASS__ are resolved using the class in which the function belongs, as in where it was defined"; and the introduction, static:: "can be used to reference the called class in the context of static inheritance"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"

@@ -18,6 +18,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: 'Integration Tests — "Integration tests might want to use the Symfony Kernel to fetch a service from the dependency injection container"; KernelTestCase "to help you create and boot the kernel in your tests using bootKernel()"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-2g536z94cx54
@@ -30,6 +31,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: '"#. .env ... #. .env.test ... #. .env.test.local"; and the warning "The .env.local file is not used in the test environment, to make each test set-up as consistent as possible"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-pdapm9phgtmc
@@ -43,6 +45,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: '"The request() method also returns a crawler"; "returns a Crawler instance"; and the response is read separately via $client->getResponse()'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-0cvzxn60pazy
@@ -56,6 +59,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
+    symbol_or_lines: '"The CssSelector component converts CSS selectors to XPath expressions"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-57vzb0a87say
@@ -69,6 +73,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    symbol_or_lines: '"Note that calling enableProfiler() does not enable the profiler itself" — it enables collection for the next request only'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-mkp9h3yfzm3x
@@ -83,6 +88,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: 'Retrieving Services in the Test — "The container from static::getContainer() is actually a special test container. It gives you access to both the public services and the non-removed private services"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-31xxh9cs2ah8
@@ -95,6 +101,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: '"The name of your custom headers must follow the syntax defined in the section 4.1.18 of RFC 3875: replace - by _, transform it into uppercase and prefix the result with HTTP_. For example, if your header name is X-Session-Token, pass HTTP_X_SESSION_TOKEN"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-80h962pnszqx
@@ -108,6 +115,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    symbol_or_lines: '"// the BrowserKit response instance / $response = $client->getInternalResponse();" contrasted with "$response = $client->getResponse();"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-1qhdkw1e4nfy
@@ -123,5 +131,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
+    symbol_or_lines: 'Upgrading a Minor Version — deprecations are triggered as E_USER_DEPRECATED notices and the deprecated code keeps working until the next major version'
     branch: '8.0'
     verified_at: '2026-09-02'

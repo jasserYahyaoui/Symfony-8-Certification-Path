@@ -1,0 +1,18 @@
+# Controlled PHP 8.4 reproduction — QST-fhrga35d77wa
+
+Command : php -d zend.assertions=1 -d assert.exception=1 docs/audit/lot-27-src5-citation-verification/php84-throwable/repro.php
+PHP     : 8.4.19  (zend 4.4.19)
+Binary  : /usr/bin/php
+Date    : 2026-09-08
+
+--- output ---
+PHP                            : 8.4.19
+zend_assertions                : 1
+ApplicationThrowable extends   : Error
+instanceof Throwable           : true
+thrown and caught as Throwable : yes
+caught by catch (Exception)    : false
+direct implements Throwable    : rejected
+rejection                      : PHP Fatal error:  Class DirectThrowable cannot implement interface Throwable, extend Exception or Error instead in /tmp/thrk6ogqvd6n7l24oeqgtK.php on line 1
+ALL ASSERTIONS PASSED
+--- exit status: 0 ---

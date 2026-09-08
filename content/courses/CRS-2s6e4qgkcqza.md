@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+    symbol_or_lines: 'Roles — "ROLE_ prefix - otherwise, things won''t work as expected. Other than that, a role is just a string"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---
