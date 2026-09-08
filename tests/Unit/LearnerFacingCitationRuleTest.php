@@ -29,7 +29,18 @@ use PHPUnit\Framework\TestCase;
  * a Warning, which does not fail a build. AUD-03 found 105 unanchored
  * citations that way, and in 15 of them a source that did not prove its claim.
  *
- * Every test here asserts an Error, because a Warning is what let this stand.
+ * Every test that asserts a defect asserts an Error, because a Warning is what
+ * let this stand.
+ *
+ * Proved rather than assumed: with the pre-SRC-6 rule restored, 14 of these 18
+ * fail. The four that still pass are the negative controls —
+ * testTwoFullyAnchoredSourcesForOneClaimPass,
+ * testABranchReferenceWithAnAnchorPasses, testAnImmutableCommitPinPasses and
+ * testEitherAnchorFieldSatisfiesTheRequirement. Each asserts that valid input
+ * produces no error, so it must pass under both rules: the old one because it
+ * never looked at these citations, the new one because the citations are
+ * genuinely valid. A negative control that failed against the old rule would
+ * mean it was asserting the wrong thing.
  */
 final class LearnerFacingCitationRuleTest extends TestCase
 {
