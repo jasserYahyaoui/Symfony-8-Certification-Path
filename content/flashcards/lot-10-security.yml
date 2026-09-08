@@ -67,6 +67,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    symbol_or_lines: 'refreshUser() docblock — "When a user is logged in, at the beginning of each request, the User object is loaded from the session and then this method is called ... If your firewall is stateless: true (for a pure API), this method is not called"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-9j0hj0sv3c6j
@@ -93,6 +94,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+    symbol_or_lines: 'interface UserInterface — the whole interface declares exactly two methods: getRoles(): array and getUserIdentifier(): string'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-y8dwv3bw5s2b
@@ -106,6 +108,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    symbol_or_lines: '"if a better hash algorithm is supported on your system, the user''s password should be rehashed using the newer algorithm and stored. That''s possible with the migrate_from option"; and the tip listing the migrate_from algorithms the auto/native/bcrypt/argon hashers enable'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-dxqgyh6g3w9z
@@ -132,6 +135,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    symbol_or_lines: '"For each incoming request, Symfony checks each access_control entry ... it stops - only the first matching access_control is used"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-kmf16st6cbrg
@@ -145,5 +149,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    symbol_or_lines: 'Changing the Access Decision Strategy — "affirmative (default) This grants access as soon as there is one voter granting access"; "unanimous This only grants access if there is no voter denying access"'
     branch: '8.0'
     verified_at: '2026-09-01'

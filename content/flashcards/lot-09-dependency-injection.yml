@@ -92,6 +92,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    symbol_or_lines: '"Services tagged with the twig.extension tag are collected during the initialization of TwigBundle and added to Twig as extensions" — a tag acts only where something collects it'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-dmvk9r2pqhsg
@@ -118,6 +119,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    symbol_or_lines: 'Passing Arguments to the Factory Method — "If you need to pass arguments to the factory method you can use the arguments option"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-3f3jxjqynjmj
@@ -130,7 +132,8 @@ flashcards:
   memorization_justification: Les cinq étapes se confondent et l'erreur ne se voit qu'à la compilation.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    symbol_or_lines: 'PassConfig::addPass(CompilerPassInterface $pass, string $type = self::TYPE_BEFORE_OPTIMIZATION, int $priority = 0) — the default type is in the signature; the constants TYPE_BEFORE_OPTIMIZATION, TYPE_OPTIMIZE, TYPE_BEFORE_REMOVING, TYPE_REMOVE, TYPE_AFTER_REMOVING give the order'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-yze03t40rkqr
