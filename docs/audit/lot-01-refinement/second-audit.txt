@@ -1,0 +1,11 @@
+Lot 01 refinement — second independent audit
+============================================================
+  items with exam-mode evidence                9
+  level STANDARD                               9
+  lot-01 items                                 9
+  questions attached                           36
+  traps verified by an answer key              6
+
+  Level distribution is an observation, never a target.
+
+FINDINGS: 0

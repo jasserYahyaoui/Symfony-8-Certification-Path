@@ -40,7 +40,12 @@ for fm, _ in collect.courses():
 for c in collect.flashcards():
     records.append(('flashcard', c.get('id'), c['_file'], collect.sources_of(c)))
 
-TODAY = dt.date(2026, 9, 7)
+# The reference point must be the real current date. It was pinned to
+# 2026-09-07 when this audit was written, which made ANCHOR-7 report every
+# citation verified after that day as "in the future" - six false positives
+# on the first content unit that followed, and a growing number after that.
+# A check whose reference point is frozen stops measuring what it claims to.
+TODAY = dt.date.today()
 urls = set()
 
 for kind, rid, fname, srcs in records:

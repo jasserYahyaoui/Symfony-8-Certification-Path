@@ -76,6 +76,7 @@ items:
     question_refs:
       - "QST-g3y2dqj5820q"
       - "QST-7etwbjrngfd0"
+      - "QST-b807cvrtscf6"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
@@ -129,6 +130,7 @@ items:
     question_refs:
       - "QST-9be1jmm121k3"
       - "QST-ytndnvdgvahh"
+      - "QST-jhjytdhnzhew"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
@@ -202,16 +204,19 @@ items:
     lot: lot-01
     chapter: null
     classification: OFFICIAL
-    content_level: MINIMAL
+    content_level: STANDARD
     content_level_justification: >-
-      Item factuel et de reconnaissance : les règles tiennent en un exemple et une liste de ce qui est interdit. La comparaison avec les classes abstraites appartient à l'item Abstract classes, qui en est le propriétaire ; la dupliquer ici doublerait le coût de révision sans gain.
+      Concept important exigeant distinction et application : deux règles de PHP 8.4 déplacent l'item hors de la simple reconnaissance. Une constante d'interface est surchargeable depuis 8.1, sauf si elle est déclarée final, et l'ancienne règle contraire reste la réponse instinctive ; et depuis 8.4 une interface déclare des propriétés en précisant get, set ou les deux, ce qui demande de décider quel membre de classe satisfait la déclaration — une propriété readonly n'y suffit pas. La comparaison avec les classes abstraites appartient toujours à l'item Abstract classes, qui en est le propriétaire.
     learning_outcomes:
       - "Identifier ce qu'une interface peut déclarer et ce qu'elle ne peut pas"
       - "Énoncer les règles d'implémentation et d'extension multiples"
+      - "Décider si une constante d'interface peut être surchargée par la classe qui l'implémente"
+      - "Choisir le membre de classe qui satisfait une propriété d'interface déclarée get et set"
     required_assessment_modes:
       - "QUESTION"
+      - "EXAM"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -227,6 +232,8 @@ items:
     question_refs:
       - "QST-z4f4sxjhrhk1"
       - "QST-9r75z716zt0h"
+      - "QST-tc50z9v9egjv"
+      - "QST-4bawjd57a598"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
@@ -318,6 +325,7 @@ items:
     question_refs:
       - "QST-e35gsy2e4vr3"
       - "QST-jhbpm176qdkc"
+      - "QST-2hamhd680ksn"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
@@ -373,6 +381,7 @@ items:
     question_refs:
       - "QST-hdx34ew6s8ah"
       - "QST-fhrga35d77wa"
+      - "QST-e36h79gzw9gn"
     exercise_refs: []
     exam_refs:
       - "QST-7d499p3ps6s7"

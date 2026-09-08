@@ -20,6 +20,7 @@ AUD06 = ROOT / 'tools/audit/aud06_holdout_integrity.py'
 AUD05 = ROOT / 'tools/audit/aud05_question_bank.py'
 AUD07 = ROOT / 'tools/audit/aud07_english_readiness.py'
 AUD08 = ROOT / 'tools/audit/aud08_technical_production.py'
+AUDL1 = ROOT / 'tools/audit/lot01_second_audit.py'
 
 # Some defects cannot be injected by swapping an existing substring: a
 # duplicated prose line, a course grown past the outlier threshold, one
@@ -193,6 +194,26 @@ CASES = [
     # Remove a gate from CI that composer still runs locally.
     (AUD08, (), '.github/workflows/ci.yml',
      'php bin/cert coverage\n', 'php bin/cert build\n', 'TECH-9'),
+
+    # --- Lot 01 refinement second audit -----------------------------------
+    # Take the exam-mode evidence away from the item the refinement fixed.
+    (AUDL1, (), 'content/questions/lot-01-php.yml',
+     "  pool: VALIDATION\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
+     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - php84\n",
+     "  pool: LEARNING\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
+     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - php84\n",
+     'L1-1'),
+    # Break the question that verifies a trap the courses teach.
+    (AUDL1, (), 'content/questions/lot-01-php.yml',
+     '    text: Three times\n', '    text: Exactly one time\n', 'L1-3'),
+    # Give one atomic item two VALIDATION questions, which the training mocks
+    # cannot draw from without repeating an item.
+    (AUDL1, (), 'content/questions/lot-01-php.yml',
+     "  pool: LEARNING\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
+     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - constants\n",
+     "  pool: VALIDATION\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
+     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - constants\n",
+     'L1-4'),
 ]
 
 # VOL-2's payload is a real prose line lifted from another course, so the

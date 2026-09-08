@@ -1027,5 +1027,316 @@ questions:
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
-
-
+- id: QST-tc50z9v9egjv
+  version: 1
+  official_topic: PHP
+  official_item: OIT-vt0p9cacpkpd
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An interface declares `const int TTL = 60;`. An implementing class declares `const int TTL
+    = 120;`. What happens on PHP 8.4?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - interfaces
+  - constants
+  choices:
+  - id: CHO-cacq185aangq
+    text: The class constant overrides the interface constant
+    correct: true
+  - id: CHO-3t09w04696cb
+    text: A fatal error, because interface constants can never be overridden
+    correct: false
+    explanation: That was the rule before PHP 8.1. Symfony 8.0 requires PHP 8.4, so the old rule no longer
+      applies.
+  - id: CHO-gdzdf76swpvy
+    text: The interface constant silently wins and the class value is ignored
+    correct: false
+    explanation: Nothing is silent here; the class value is the one that applies.
+  - id: CHO-a9dkw0k76mc0
+    text: A fatal error, unless the class constant is declared final
+    correct: false
+    explanation: final works the other way round - it is placed on the interface constant to forbid the
+      override.
+  explanation: Interface constants have been overridable since PHP 8.1. Declaring the interface constant
+    final is what forbids it. Reading the pre-8.1 rule into PHP 8.4 code is the trap.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    symbol_or_lines: '"Prior to PHP 8.1.0, they cannot be overridden by a class/interface that inherits
+      them"'
+    repository: php/doc-en
+    branch: master
+    verified_at: '2026-09-08'
+- id: QST-4bawjd57a598
+  version: 1
+  official_topic: PHP
+  official_item: OIT-vt0p9cacpkpd
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An interface declares `public string $name { get; set; }`. Which class member fails to
+    satisfy it on PHP 8.4?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: VALIDATION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - interfaces
+  - php84
+  choices:
+  - id: CHO-2evrz1kt1qf6
+    text: 'public readonly string $name;'
+    correct: true
+  - id: CHO-daqya9q688nh
+    text: 'public string $name;'
+    correct: false
+    explanation: A plain public property satisfies both the read and the write requirement.
+  - id: CHO-s4tzzn3mv22f
+    text: 'public string $name { get => $this->raw; set => $this->raw = $value; }'
+    correct: false
+    explanation: A virtual property implementing both hooks satisfies the declaration.
+  - id: CHO-9jjg0nsbqdek
+    text: 'public private(set) string $name;'
+    correct: false
+    explanation: Asymmetric visibility narrows who may write, which is a separate question from whether
+      the property is writeable at all.
+  explanation: Since PHP 8.4 an interface may declare a property and must say whether it is readable,
+    writeable or both. A readonly property cannot satisfy a settable interface property, because it may
+    be written only once from the declaring scope.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    symbol_or_lines: '"As of PHP 8.4.0, interfaces may also declare properties ... an interface property
+      that is settable may not be readonly"'
+    repository: php/doc-en
+    branch: master
+    verified_at: '2026-09-08'
+- id: QST-b807cvrtscf6
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A class exposes `public int $n { get { return expensive(); } }`. The code reads `$o->n`
+    three times. How many times does expensive() run?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - php84
+  - property-hooks
+  choices:
+  - id: CHO-83mrv9pfqw5h
+    text: Three times
+    correct: true
+  - id: CHO-xj7wx3myzdb9
+    text: Once, because the hook result is cached on the property
+    correct: false
+    explanation: A get hook is not a cached computed property; nothing memoises it.
+  - id: CHO-6vvgpfc6a768
+    text: Once per request, because hooks are evaluated lazily
+    correct: false
+    explanation: Lazy objects are a separate PHP 8.4 feature and do not memoise hooks.
+  - id: CHO-s94rszprm3rx
+    text: Never, until the property is written first
+    correct: false
+    explanation: A virtual property with only a get hook is readable without any prior write.
+  explanation: A get hook runs on every read. Treating it as a cached computed property is the
+    common mistake, and it changes the cost of the code rather than its result.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
+    repository: php/php-src
+    branch: PHP-8.4
+    symbol_or_lines: New Features > Core
+    verified_at: '2026-09-08'
+- id: QST-jhjytdhnzhew
+  version: 1
+  official_topic: PHP
+  official_item: OIT-ywrx9x3hg9z8
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A parent declares `private function h()` and a public `call()` returning `$this->h()`. A
+    child redeclares `private function h()` returning a different value. What does `(new Child)->call()`
+    return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - oop
+  - visibility
+  choices:
+  - id: CHO-22x7snxkwkts
+    text: The parent's value, because a private method is not overridden
+    correct: true
+  - id: CHO-svwve79xh5xj
+    text: The child's value, because the child's declaration is more specific
+    correct: false
+    explanation: Private methods are resolved in the declaring class, not by the object's runtime class.
+  - id: CHO-d1zcxewz76s0
+    text: A fatal error, because the child may not redeclare a private method
+    correct: false
+    explanation: Redeclaring it is legal; the two methods simply coexist independently.
+  - id: CHO-nb98n4spzm7k
+    text: The child's value, because visibility does not affect dispatch
+    correct: false
+    explanation: Visibility is exactly what affects dispatch here.
+  explanation: A private method is not part of the child's inherited interface, so the parent keeps
+    calling its own. Making it protected is what enables the override.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml
+    symbol_or_lines: Members declared private may only be accessed by the class that defines the member
+    repository: php/doc-en
+    branch: master
+    verified_at: '2026-09-08'
+- id: QST-2hamhd680ksn
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which class declaration is rejected by PHP?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - abstract
+  - modifiers
+  choices:
+  - id: CHO-x5rydwd7epsw
+    text: 'abstract final class Job {}'
+    correct: true
+  - id: CHO-99a84prj0c1n
+    text: 'abstract class Job {}'
+    correct: false
+    explanation: An abstract class with no abstract method is legal.
+  - id: CHO-6kn0ayfh9g1s
+    text: 'final class Job {}'
+    correct: false
+    explanation: final alone is legal and simply forbids extension.
+  - id: CHO-vaxn1szqay9n
+    text: 'abstract class Job { abstract protected function run(): void; }'
+    correct: false
+    explanation: An abstract protected method is legal; only abstract private is not.
+  explanation: 'abstract requires the class to be extended and final forbids it, so PHP rejects the pair
+    outright: Cannot use the final modifier on an abstract class.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    symbol_or_lines: Class Abstraction
+    repository: php/doc-en
+    branch: master
+    verified_at: '2026-09-08'
+- id: QST-e36h79gzw9gn
+  version: 1
+  official_topic: PHP
+  official_item: OIT-bvnvx2b6yt2y
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A try block is followed by `catch (\Throwable $t)` and then `catch (\TypeError $e)`. A TypeError
+    is thrown. Which block runs?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-08'
+  tags:
+  - exceptions
+  - catch-order
+  choices:
+  - id: CHO-dswb0bybfx64
+    text: The Throwable block, because the first matching catch wins
+    correct: true
+  - id: CHO-y7wjz0z7qnbn
+    text: The TypeError block, because PHP picks the most specific type
+    correct: false
+    explanation: PHP does not search for the closest type; it takes the first branch that matches.
+  - id: CHO-rcyx0bg74zh8
+    text: A fatal error, because the TypeError branch is unreachable
+    correct: false
+    explanation: PHP does not reject the unreachable branch, which is what makes the mistake silent.
+  - id: CHO-0z4aghxkbnh9
+    text: Both, in declaration order
+    correct: false
+    explanation: Exactly one catch block handles a thrown value.
+  explanation: 'catch blocks are tested in order and the first matching type wins, so a broad type
+    placed first shadows every narrower one after it. PHP raises no error for the shadowed branch:
+    the bug is silent, and only the ordering reveals it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml
+    symbol_or_lines: '"The first catch block the thrown object matches will be used"'
+    repository: php/doc-en
+    branch: master
+    verified_at: '2026-09-08'
