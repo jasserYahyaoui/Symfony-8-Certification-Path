@@ -103,6 +103,13 @@ const PAGES = [
   // §5 glossary: a generated table, so its header scope and reading order
   // are worth auditing rather than assumed.
   ['glossary', '/docs/syllabus/glossary'],
+  // AUD-08 found these two served in production, smoke-tested, and never
+  // audited — while the comments below already excused the mock results
+  // screens by appealing to "the audited coverage page". The justification
+  // now rests on an audit that happens. Both are generated tables, the same
+  // shape the glossary above is audited for.
+  ['coverage', '/docs/syllabus/coverage'],
+  ['exclusions', '/docs/syllabus/exclusions'],
   ['practice', '/practice'],
   ['exam', '/exam'],
   // Mock 4. Only the briefing screen is reachable without interaction, so
