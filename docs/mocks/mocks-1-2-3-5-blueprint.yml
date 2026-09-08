@@ -6,11 +6,13 @@
 # spreads are TRAINING_DISTRIBUTION. None of it is official, and none of it is
 # derived from Mock 4.
 #
-# No mock is implemented from this file yet.
+# Mocks 1, 2, 3 and 5 are implemented from this file and deployed. Every
+# derived figure below is recomputed from the bank whenever the bank changes,
+# and MocksBlueprintTest re-derives each one rather than trusting it.
 
 schema_version: 1
 source: SYMFONY-8-CERTIFICATION-MASTER-PLAN-V2.md — §10, recorded in docs/policy/mock-blueprint-policy.md
-status: BLUEPRINT — no mock implemented from it yet
+status: IMPLEMENTED — mocks 1, 2, 3 and 5 are built from this file and deployed
 format_label: INTERNAL_TRAINING_FORMAT
 distribution_label: TRAINING_DISTRIBUTION
 not_official: §10 fixes a question count and a duration for Mock 4 only. Every count, duration and topic
@@ -43,7 +45,7 @@ mocks:
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
+  language_note: 'An outcome, not a target: the VALIDATION pool is 136 of 136 English.'
   question_count: 40
   duration_minutes: 41
   mean_estimated_seconds: 52.4
@@ -74,17 +76,17 @@ mocks:
     pool: VALIDATION
     exam_skill: DIAGNOSE
     or_cognitive_level: APPLY
-  eligible_questions: 83
+  eligible_questions: 84
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
+  language_note: 'An outcome, not a target: the VALIDATION pool is 136 of 136 English.'
   question_count: 52
   duration_minutes: 60
-  mean_estimated_seconds: 59.6
-  cap_from_variation: 55
+  mean_estimated_seconds: 59.8
+  cap_from_variation: 56
   cap_from_duration: 52
-  unused_after_selection: 31
+  unused_after_selection: 32
   scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
   label: INTERNAL_TRAINING_FORMAT
   topic_spread:
@@ -116,15 +118,15 @@ mocks:
   eligible_filter:
     pool: VALIDATION
     difficulty: hard
-  eligible_questions: 67
+  eligible_questions: 68
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 135 of 135 English.'
-  question_count: 44
-  duration_minutes: 52
-  mean_estimated_seconds: 61.4
-  cap_from_variation: 44
+  language_note: 'An outcome, not a target: the VALIDATION pool is 136 of 136 English.'
+  question_count: 45
+  duration_minutes: 54
+  mean_estimated_seconds: 61.5
+  cap_from_variation: 45
   cap_from_duration: 50
   unused_after_selection: 23
   scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
@@ -139,7 +141,7 @@ mocks:
     HTTP: 3
     Messenger: 2
     Miscellaneous: 6
-    PHP: 3
+    PHP: 4
     Routing: 3
     Security: 3
     Symfony Architecture: 5
@@ -153,7 +155,7 @@ mocks:
     - VALIDATION
     - LEARNING
     excludes: HOLDOUT
-  eligible_questions: 469
+  eligible_questions: 475
   weakness_evidence:
   - questions answered incorrectly, most recent first
   - official topics with the lowest success ratio

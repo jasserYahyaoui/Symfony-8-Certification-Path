@@ -37,25 +37,29 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-04, 544 questions)
+## Measured state (2026-09-08, 550 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 204 of 205 = **99.5%** | **PASS** |
-| Mock 3 primarily English (`VALIDATION`) | 135 of 135 = **100%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 208 of 209 = **99.5%** | **PASS** |
+| Mock 3 primarily English (`VALIDATION`) | 136 of 136 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **523 English, 21 French**.
+Whole corpus: **529 English, 21 French**.
 
-The Mock 4 row moved from 27 to 75 because Lot 27 wrote the 48 questions the
-mock still needed; every one is English, so the requirement holds at the full
-size rather than only at the size the pool happened to have. The French count
-is unchanged: none of the 48 is French, and none of the 21 was translated.
+The corpus grew by six between 2026-09-04 and this reading: the Lot 01
+refinement added six questions, all English, so the French count is unchanged
+at 21 and every ratio moved in the same direction or not at all.
 
-### The previous measurement, kept
+### The previous measurements, kept
+
+The reading of 2026-09-04 over 544 questions was: 204 of 205 advanced English
+(99.5%), `VALIDATION` 135 of 135, Mock 4 75 of 75, whole corpus 523 English and
+21 French. The Mock 4 row had moved from 27 to 75 because Lot 27 wrote the 48
+questions the mock still needed; every one was English.
 
 The reading of 2026-09-03 over 496 questions was: 201 of 202 advanced English
 (99.5%), Mock 4 27 of 27, whole corpus 475 English and 21 French, and the
