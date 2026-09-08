@@ -1,0 +1,27 @@
+TECH-8 — manual fail-proof
+==========================
+
+The automated harness restores file BYTES and verifies the restoration by
+SHA-256. TECH-8 reads the git INDEX, which the harness does not restore, so
+this check is proved by a recorded manual injection instead. Transcript:
+
+$ git ls-files website/docs website/static/data | wc -l   # before
+0
+
+$ git add -f website/static/data/coverage.json            # inject
+$ git ls-files website/static/data | wc -l
+1
+
+$ python3 tools/audit/aud08_technical_production.py
+  generated files tracked in git               1
+  FINDINGS: 1 across 1 checks
+  [TECH-8 a generated file is tracked in git, against ADR-0003] 1
+      website/static/data/coverage.json
+
+$ git rm --cached -f -q website/static/data/coverage.json  # restore
+$ git ls-files website/docs website/static/data | wc -l   # after
+0
+$ file still on disk: yes   (generated and gitignored, as ADR-0003 requires)
+
+TECH-8 fires on the injected defect. The index was restored to 0 tracked
+generated files and the working tree returned to the three intended changes.

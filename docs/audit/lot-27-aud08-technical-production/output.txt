@@ -1,0 +1,19 @@
+AUD-08 — technical, accessibility and production audit
+============================================================
+  accessibility pages                          14
+  application routes                           9
+  gates in composer gate-full                  5
+  generated files tracked in git               0
+  generated payloads                           8
+  generated syllabus pages                     3
+  phpunit skipped or incomplete                0
+  rule classes on disk                         18
+  rules executed by bin/cert validate          18
+  rules registered in RuleSet::mandatory()     18
+  smoke URLs                                   21
+
+  Scope statement: this audit tests the COVERAGE of §17's gates,
+  never their verdicts. A green gate that visits half the site is
+  still green, and only this file asks whether it visited all of it.
+
+FINDINGS: 0

@@ -19,6 +19,7 @@ AUD04 = ROOT / 'tools/audit/aud04_content_volume.py'
 AUD06 = ROOT / 'tools/audit/aud06_holdout_integrity.py'
 AUD05 = ROOT / 'tools/audit/aud05_question_bank.py'
 AUD07 = ROOT / 'tools/audit/aud07_english_readiness.py'
+AUD08 = ROOT / 'tools/audit/aud08_technical_production.py'
 
 # Some defects cannot be injected by swapping an existing substring: a
 # duplicated prose line, a course grown past the outlier threshold, one
@@ -159,6 +160,39 @@ CASES = [
     # One French question in a bank §5 binds — a defect even while the ratio
     # above still passes, which is the whole point of separating ENG-4.
     (AUD07, (), 'content/questions/validation-pool.yml', APPEND, None, 'ENG-4'),
+
+    # --- AUD-08 -----------------------------------------------------------
+    # Each case removes coverage rather than breaking a gate: that is the
+    # failure this audit exists to catch, and the one a green gate hides.
+    # Drop an application route from the production smoke test.
+    (AUD08, (), '.github/workflows/pages.yml',
+     '"mock-5" "progression"', '"mock-5"', 'TECH-1'),
+    # Drop a generated syllabus page from the smoke test.
+    (AUD08, (), '.github/workflows/pages.yml',
+     '"docs/syllabus/glossary"', '"docs/syllabus/coverage"', 'TECH-2'),
+    # Drop a generated payload from the smoke test.
+    (AUD08, (), '.github/workflows/pages.yml',
+     '"data/coverage.json"', '"data/practice.json"', 'TECH-3'),
+    # Drop a published page from the accessibility audit.
+    (AUD08, (), 'website/tools/a11y-audit.mjs',
+     "  ['progression', '/progression'],\n", '', 'TECH-4'),
+    # Make the audit justify itself by appealing to a page it does not visit.
+    (AUD08, (), 'website/tools/a11y-audit.mjs',
+     APPEND, '\n// mirrors the audited zzz page\n', 'TECH-5'),
+    # Skip a test, so its assertions never run while phpunit still says OK.
+    (AUD08, (), 'tests/Unit/IdTest.php',
+     '    public function testMintedIdRoundTrips(): void\n    {\n',
+     '    public function testMintedIdRoundTrips(): void\n    {\n'
+     "        self::markTestSkipped('fail-proof injection');\n",
+     'TECH-6'),
+    # Unregister a rule that still exists on disk, so it never runs.
+    # Injected and restored byte-identically; this is the fail-proof
+    # exercising the check, never a governance change to RuleSet::mandatory().
+    (AUD08, (), 'src/Validation/RuleSet.php',
+     '            new DeadInternalLinkRule(),\n', '', 'TECH-7'),
+    # Remove a gate from CI that composer still runs locally.
+    (AUD08, (), '.github/workflows/ci.yml',
+     'php bin/cert coverage\n', 'php bin/cert build\n', 'TECH-9'),
 ]
 
 # VOL-2's payload is a real prose line lifted from another course, so the
