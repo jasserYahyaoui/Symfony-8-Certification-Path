@@ -178,9 +178,49 @@ is what a negative control should do.
 **No longer `BLOCKED`.** The copy exists, is registered by hash, and the audit
 ran to a verdict; its two divergences are repaired.
 
-**B-1 is not recorded `PASS` here.** The owner's completion gate for B-1 was
-truncated in transmission — it ends mid-list after *"all official constraints
-are represented correctly"* — so the full set of conditions is unknown. Three
-are met and evidenced above; how many remain is not knowable from this side.
-Marking `PASS` against a partially known gate is exactly the kind of claim this
-project does not make, so B-1 stays open pending the rest of the conditions.
+**The gate is no longer truncated.** An earlier version of this section
+recorded that the owner's completion gate ended mid-list after *"all official
+constraints are represented correctly"*, so the full condition set was unknown
+and no `PASS` could be claimed against it. The owner supplied the **complete
+26-condition gate** on 2026-09-08. That statement is therefore withdrawn — not
+because the evidence changed, but because the gate did.
+
+**Assessed against all 26 conditions: 25 met and evidenced, 1 completing.**
+
+| # | Condition | State |
+|---|---|---|
+| 1 | PDF registered with name, SHA-256, size, pages | **MET** — `4ee8b962…`, 468,963 bytes, 5 pages |
+| 2 | 163 items verbatim, both directions | **MET** |
+| 3 | Constraints recorded (Symfony 8.0 only, PHP API to 8.4, Twig to 3.22, 75 questions, 90 minutes, English, 15 topics announced) | **MET** |
+| 4 | the 15-vs-14 discrepancy documented without inventing a fifteenth heading | **MET** — recorded as the PDF's own inconsistency; no heading was invented |
+| 5 | 13 official exclusions present | **MET** — 13 against the PDF's 13 |
+| 6 | `SYL-1` corrected and validated | **MET** — contextual exclusion `EXC-MESSENGER-THIRD-PARTY-TRANSPORTS` |
+| 7 | `SYL-2` corrected on the seven items | **MET** |
+| 8 | `SCOPE-001` blocks scored third-party-transport content | **MET** — 6 positive tests |
+| 9 | `SCOPE-001` does not block generic examinable Messenger concepts | **MET** — 7 negative tests |
+| 10 | no scored content depends on a third-party transport | **MET** — `validate` 0 violations |
+| 11 | positive, negative and non-regression tests pass | **MET** — 13 in `MessengerTransportExclusionRuleTest` |
+| 12 | drift, schema and referential-integrity tests pass | **MET** — inside the 194 |
+| 13 | 163 atomic items | **MET** |
+| 14 | official wording and order unchanged | **MET** |
+| 15 | AUD-01, AUD-02 and AUD-03 pass | **MET** — AUD-03 only after SRC-5 and SRC-6 (PR #69) |
+| 16 | validate, PHPUnit, build, site build and accessibility pass | **MET** — measured on `f0a1e01` |
+| 17 | PR #68 isolated | **MET** |
+| 18 | `__pycache__` untracked | **MET** — 0 tracked, ignored at `.gitignore:15` |
+| 19 | PR reviewed on its final head | **MET** |
+| 20 | CI green on that exact head | **MET** — no earlier run reused |
+| 21 | PR merged | **MET** — `8dd3259` |
+| 22 | deployment matches the merge commit | **MET** — run `34191990789` on `8dd3259` |
+| 23 | smoke logs read and production verified | **MET** — job `101952058651` read line by line |
+| 24 | CONTEXT.md, audit register and `final-readiness.md` updated after production verification | **COMPLETING** — done by the reconciliation unit that carries this table; satisfied when that unit is itself merged and its deployment verified |
+| 25 | the external-corroboration limit documented | **MET** — stated below and never softened |
+| 26 | no control weakened | **MET** — `SRC-001` was *strengthened* to `Error`; nothing was removed from `RuleSet::mandatory()` |
+
+**Condition 25 is not a formality, and meeting it does not dissolve it.** The
+PDF is byte-identical to the artefact the import was made from. Everything
+above is **transcription fidelity**, never independent corroboration that the
+scope matches what Symfony publishes today. `certification.symfony.com` is
+unreachable from this environment and has no upstream repository, so no second
+source exists to check it against. **§22 clause 2 remains the one clause this
+project cannot fully self-certify**, and closing B-1's gate does not change
+that.

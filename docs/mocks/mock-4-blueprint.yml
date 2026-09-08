@@ -12,7 +12,7 @@
 
 schema_version: 1
 mock: Mock 4 — official-format simulation
-status: FILLED — the 48 questions exist (Unit B); Mock 4 itself is not implemented yet (Unit C)
+status: "DELIVERED — the 75 holdout questions exist (Units A and B) and Mock 4 itself was implemented, merged and deployed in Unit C (PR #56, merge 4d31b53). It is served in production from its own payload at /mock-4 and /data/mock-4.json. The human timed sitting is a separate gate and remains PENDING_HUMAN_VALIDATION."
 distribution_label: TRAINING_DISTRIBUTION
 official_constraints:
   questions: 75
