@@ -102,7 +102,7 @@ Lot 27 §14 deliverable, and none has been executed:
 | AUD-06 | [Holdout integrity audit](../audit/lot-27-aud06-holdout-integrity/README.md) | clause 7 | **`PASS`** — 2026-09-08. 75 holdout questions across 75 distinct items, all English, matching the blueprint's `official_constraints.questions`; 0 referenced as learning material over 450 matrix references; 0 holdout answers found across 932 haystacks, with `CRS-001`'s own-item fenced exemption applied and its single occurrence counted. Two of its checks were found **vacuous** by the fail-proof — `HOLD-1` compared against a hardcoded literal, `HOLD-6` used a substring that a rename left intact — and both are fixed. **Confidentiality is not claimed**: the repository is public and holdout answers are readable in `content/questions/*.yml` |
 | AUD-07 | [English readiness audit](../audit/lot-27-aud07-english-readiness/README.md) | clause 6 | **`PASS` for the corpus** — 2026-09-08. §5's three measurable requirements all met and recomputed independently: advanced questions 204/205 = 99.5% English, `VALIDATION` 135/135, `HOLDOUT` 75/75, 0 non-English questions in a bound bank, all 523 English questions readable inside their own time budget, glossary 81 entries. **§5's fourth requirement — acceptable timed performance in English — is the human sitting and no script closes it** |
 | AUD-08 | [Technical, accessibility and production audit](../audit/lot-27-aud08-technical-production/README.md) | clause 9 | **`FAIL` on first run, `PASS` after the gap was closed** — 2026-09-08. It audits the **coverage of §17's gates**, never their verdicts: 9/9 application routes, 3/3 generated syllabus pages and 8/8 payloads smoke-tested; 18 rule classes on disk all registered; 0 tests skipped; 0 generated files tracked; 5/5 `gate-full` gates also run by CI. The first run **failed**: `/docs/syllabus/coverage` and `/docs/syllabus/exclusions` were served to learners and **never accessibility-audited**, while the audit's own comments already excused other screens by citing *"the audited coverage page"*. Closed by **adding both pages to the audit** — 14 surfaces, 0 violations, passing on their first audited run. `TECH-7` was found **vacuous before it ever ran** (it compared the rule array against a count of itself) and rewritten to compare rule classes on disk against those registered |
-| AUD-09 | Final rationality and readiness assessment | all | `NOT RUN` — depends on every row above, on the Mock 4 human gate, and on FR-2; it cannot be started while any is unsatisfied |
+| AUD-09 | Final rationality and readiness assessment | all | `NOT RUN` — **FR-2 is now `DONE`**, but AUD-09 still depends on every row above, on the per-lot refinements (Lots 01–26, not started), and on the Mock 4 human gate; it cannot be started while any is unsatisfied |
 
 Every audit moves `NOT RUN` → `RUNNING` → `PASS` / `FAIL` / `BLOCKED`, and no
 row may reach `PASS` without persisted evidence under `docs/audit/`. A run that
@@ -140,10 +140,20 @@ assessment.
    deliberately opens the public source **yes**.
 3. **Clauses 2, 3 and 8 are marked "as measured".** Each has a Lot 27 audit
    whose job is to test it independently rather than re-read this table.
-4. **FR-2 is `REQUIRED_BEFORE_FINAL_READINESS` and is not a §22 clause.** The
-   missing French accents in `content_level_justification` and
-   `learning_outcomes` for lots 01–11 reach 126 of 163 rendered item pages. No
-   gate detects it and none fails. It is one atomic job, done completely or not
-   at all: a partial pass destroys the uniformly-zero accented-character signal
-   that locates the remaining strings. It is not part of any audit above and
-   must not be folded into one.
+4. **FR-2 is `DONE`, verified in production on 2026-09-08.** It was
+   `REQUIRED_BEFORE_FINAL_READINESS` and is not a §22 clause. 126 of 126 items,
+   **619 of 734 strings, 1,537 word occurrences, 456 distinct corrections**,
+   delivered whole in PR #78 (merge `b5df678`), smoke `102126174046`.
+   [Specification](fr-2-specification.md) ·
+   [report](../audit/lot-27-fr-2/README.md).
+   Its **recorded scope was short by a field**: `minimum_evidence` carried the
+   identical signature and was in nobody's scope, so the real scope was 734
+   strings over three fields, not 608 over two — FR-3's lesson that a recorded
+   scope is a claim, not a measurement, applied to FR-2 itself.
+   The "uniformly zero accented characters" property was the **detection tool**,
+   never the definition of done: 115 of the 734 strings needed no change.
+   Every audit re-earned its `PASS` on the changed corpus rather than carrying
+   an earlier result forward, and the production smoke test now **greps the
+   published pages for the pre-FR-2 spellings on every deploy**, so a
+   regression fails the build instead of going unnoticed as the original defect
+   did.
