@@ -42,8 +42,8 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `f0a1e01` — **Lot 27's §14 audits AUD-01 through AUD-07 are run,
-merged and deployed.** Lot 27 itself is **`NOT_DONE`**: AUD-08 has not run,
+`master`, at `2b19c8b` — **Lot 27's §14 audits AUD-01 through AUD-08 are all
+run, merged and deployed.** Phase 3 is complete. Lot 27 itself is **`NOT_DONE`**:
 AUD-09 cannot start, FR-2 is `NOT_STARTED`, and the Mock 4 human sitting is
 `PENDING_HUMAN_VALIDATION`.
 
@@ -63,6 +63,8 @@ in the session of 2026-09-08, never recalled.
 | AUD-06 holdout integrity | #71 | `cdac2ce` | `34196481835` | `34196481883` |
 | AUD-05 question bank | #72 | `157c1a1` | `34197413724` | `34197413748` |
 | AUD-07 English readiness | #73 | `f0a1e01` | `34199064037` | `34199063926` |
+| Documentation reconciliation | #74 | `852b650` | `34228155099` | `34228155042` |
+| AUD-08 technical and production | #75 | `2b19c8b` | `34230522373` | `34230522277` |
 
 #69 merged before #68 — the SRC work landed first and #68 was rebased onto it.
 
@@ -70,8 +72,8 @@ in the session of 2026-09-08, never recalled.
 of its three jobs (build, deploy, production smoke): a failing smoke test would
 have made the run fail. Three of those smoke **logs were read line by line**
 rather than inferred from the conclusion — `101952058651` on `8dd3259`,
-`101968581945` on `157c1a1`, and `101973796981` on `f0a1e01`, the current
-production head. Each showed 21 URLs at 200 and the holdout check green in both
+`101968581945` on `157c1a1`, `101973796981` on `f0a1e01`, `102067762513` on
+`852b650`, and `102075697597` on `2b19c8b`, the current production head. Each showed 21 URLs at 200 and the holdout check green in both
 directions:
 
 ```text
@@ -96,11 +98,30 @@ it. No check was weakened and no test was skipped; the rules did their job and
 the delivery step ignored them. Recorded in
 [`docs/audit/lot-27-aud07-english-readiness/README.md`](docs/audit/lot-27-aud07-english-readiness/README.md).
 
-Gate values measured on `f0a1e01`, each command run on its own with its exit
+**AUD-08 found the accessibility gate had never looked at two published pages.**
+`/docs/syllabus/coverage` and `/docs/syllabus/exclusions` are generated,
+published and smoke-tested, and neither was in the audit's `PAGES` list — it
+reported "12 surfaces, 0 violations" every run, and 12 was never the number of
+pages. The audit's own comments meanwhile excused other screens by citing *"the
+audited coverage page"*, which was not audited. Closed by **adding both pages**,
+never by excusing them; both passed on their first audited run (14 surfaces, 0
+violations), so the defect was a gate that had never looked rather than a broken
+page. `TECH-7` was also found **vacuous before it ever ran** — it compared the
+rule array against a count of itself — and now compares rule classes on disk
+against those registered. That is the **fourth** vacuous check after `VOL-3`,
+`HOLD-1` and `HOLD-6`, and the first caught by reading the check rather than by
+the fail-proof.
+
+The fail-proof now stands at **41 of 41** checks proved to fire across AUD-02
+through AUD-08, every file restored byte-identically and verified by SHA-256.
+`TECH-8` is the one recorded exception — it reads the git index, which the
+harness restores no part of — and is proved by a manual injection transcript.
+
+Gate values measured on `2b19c8b`, each command run on its own with its exit
 status read (PROC-1): `validate` 18 rules / 0 violations over 544 questions;
 `coverage` 100% (163/163 EXAM_READY) with no diff; `phpunit` **194 tests, 8,685
 assertions**; `composer gate-full` exit 0, site build succeeded, accessibility
-**12 surfaces / 0 violations**.
+**14 surfaces / 0 violations**.
 
 Before it, `master` at `592039f` — **§10's five mock exams all exist and are deployed.**
 Mock 4 (the holdout mock) and Mocks 1, 2, 3 and 5 (the internal training
