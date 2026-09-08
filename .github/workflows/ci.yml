@@ -62,6 +62,11 @@ jobs:
           php bin/cert coverage
           git diff --exit-code docs/syllabus/coverage-report.md
 
+      - name: Readiness dashboard is not stale
+        run: |
+          php bin/cert readiness
+          git diff --exit-code docs/progress/certification-readiness.md
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:

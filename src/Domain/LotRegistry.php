@@ -72,6 +72,18 @@ final readonly class LotRegistry
         return $this->lots[$lotId]['order'] ?? \PHP_INT_MAX;
     }
 
+    /**
+     * How many lots the canonical registry declares.
+     *
+     * Lot 27 carries no atomic official item, so a count taken from the matrix
+     * reports 26 and silently drops the final-review lot. Progress figures use
+     * this instead.
+     */
+    public function count(): int
+    {
+        return \count($this->lots);
+    }
+
     public function has(string $lotId): bool
     {
         return isset($this->lots[$lotId]);

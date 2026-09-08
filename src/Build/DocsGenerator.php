@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace CertPath\Build;
 
 use CertPath\Coverage\CoverageCalculator;
+use CertPath\Readiness\ReadinessCalculator;
+use CertPath\Readiness\ReadinessMarkdownRenderer;
 use CertPath\Coverage\CoverageReport;
 use CertPath\Domain\ContentLevel;
 use CertPath\Domain\Course;
@@ -28,6 +30,7 @@ final readonly class DocsGenerator
         private Project $project,
         private PayloadBuilder $payloads = new PayloadBuilder(),
         private CoverageCalculator $coverage = new CoverageCalculator(),
+        private ReadinessMarkdownRenderer $readinessRenderer = new ReadinessMarkdownRenderer(),
     ) {
     }
 
@@ -132,7 +135,23 @@ final readonly class DocsGenerator
             'by_topic' => $report->byTopic,
         ]);
 
-        $written[] = $this->writeDoc($docsDir.'/index.md', $this->introPage($report));
+        // Progress is published, not only committed. Coverage alone on the site
+        // would tell a reader the syllabus is covered and let them infer it is
+        // mastered, which is the one inference this project must not invite.
+        $lots = $this->project->loadLotRegistry();
+        $readiness = (new ReadinessCalculator($this->project->refinedLots(), $lots->count()))
+            ->calculate($content);
+
+        $written[] = $this->writeJson($dataDir.'/readiness.json', [
+            'generated_at' => gmdate('c'),
+        ] + $readiness->toArray());
+
+        $written[] = $this->writeDoc(
+            $docsDir.'/readiness.md',
+            $this->readinessRenderer->render($readiness, $report, $lots, $this->refinementLog(), true),
+        );
+
+        $written[] = $this->writeDoc($docsDir.'/index.md', $this->introPage($report, $readiness));
         $written[] = $this->writeDoc($docsDir.'/syllabus/coverage.md', $this->coveragePage($report));
         $written[] = $this->writeDoc($docsDir.'/syllabus/exclusions.md', $this->exclusionsPage($content));
         $written[] = $this->writeDoc($docsDir.'/syllabus/glossary.md', $this->glossaryPage());
@@ -159,7 +178,26 @@ final readonly class DocsGenerator
     private const string CATEGORY_COURSES = '{"label":"Parcours de r\u00e9vision","position":2}';
     private const string CATEGORY_SYLLABUS = '{"label":"Syllabus officiel","position":3}';
 
-    private function introPage(CoverageReport $report): string
+    private function readinessLine(?\CertPath\Readiness\ReadinessReport $readiness): string
+    {
+        if (null === $readiness) {
+            return '_Readiness non calculée._';
+        }
+
+        $lots = $readiness->lotsRefined();
+
+        return \sprintf(
+            '**Certification Readiness : %s %%** — %d des %d items sont raffinés, '
+            .'issus de %d %s.',
+            rtrim(rtrim(number_format($readiness->percentage(), 1, '.', ''), '0'), '.'),
+            $readiness->readyItems(),
+            $readiness->totalItems(),
+            $lots,
+            1 === $lots ? 'lot raffiné' : 'lots raffinés',
+        );
+    }
+
+    private function introPage(CoverageReport $report, ?\CertPath\Readiness\ReadinessReport $readiness = null): string
     {
         $state = $report->isDenominatorEstablished()
             ? \sprintf(
@@ -193,6 +231,16 @@ items officiels atomiques EXAM_READY / total des items officiels atomiques * 100
 
 Jamais à partir du nombre de lots, de pages, de chapitres, de fiches, de
 questions ou de fichiers. Voir [la couverture détaillée](./syllabus/coverage.md).
+
+## Couverture n'est pas maîtrise
+
+{$this->readinessLine($readiness)}
+
+La couverture dit que le syllabus est **couvert**. La readiness dit quelle part
+en a été **raffinée** au point qu'une question jamais vue devienne répondable.
+Les deux ne sont pas le même nombre, et les présenter comme tels serait la
+chose la plus trompeuse que ce site puisse faire. Voir
+[la readiness détaillée](./readiness.md).
 
 ## Comment utiliser ce site
 
@@ -666,6 +714,21 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         $prefix = $this->project->path('website').'/';
 
         return str_starts_with($path, $prefix) ? substr($path, \strlen($prefix)) : $path;
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    private function refinementLog(): array
+    {
+        $path = $this->project->path('docs/progress/refinement-log.yml');
+        if (!is_file($path)) {
+            return [];
+        }
+
+        $parsed = \Symfony\Component\Yaml\Yaml::parseFile($path);
+
+        return \is_array($parsed['lots'] ?? null) ? $parsed['lots'] : [];
     }
 
     private function reset(string $dir): void

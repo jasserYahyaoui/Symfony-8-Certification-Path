@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 use CertPath\Build\DocsGenerator;
 use CertPath\Coverage\CoverageCalculator;
+use CertPath\Readiness\ReadinessCalculator;
+use CertPath\Readiness\ReadinessMarkdownRenderer;
 use CertPath\Coverage\CoverageMarkdownRenderer;
 use CertPath\Schema\SchemaException;
 use CertPath\Support\EntityType;
@@ -98,6 +100,47 @@ function commandCoverage(Project $project): int
         $report->examReadyItems,
         $report->totalOfficialItems,
     );
+
+    return 0;
+}
+
+function commandReadiness(Project $project): int
+{
+    try {
+        $content = $project->loadContentSet();
+    } catch (SchemaException $e) {
+        fwrite(\STDERR, '[ERROR] schema: '.$e->getMessage()."\n");
+
+        return 1;
+    }
+
+    $lots = $project->loadLotRegistry();
+    $readiness = (new ReadinessCalculator($project->refinedLots(), $lots->count()))->calculate($content);
+    $coverage = (new CoverageCalculator())->calculate($content->matrix);
+
+    $log = [];
+    $logPath = $project->path('docs/progress/refinement-log.yml');
+    if (is_file($logPath)) {
+        $parsed = Symfony\Component\Yaml\Yaml::parseFile($logPath);
+        $log = $parsed['lots'] ?? [];
+    }
+
+    $markdown = (new ReadinessMarkdownRenderer())->render($readiness, $coverage, $lots, $log);
+    file_put_contents($project->path('docs/progress/certification-readiness.md'), $markdown);
+
+    echo \sprintf(
+        "Official Coverage:       %s%%\nCertification Readiness: %s%% (%d/%d items)\nLots refined:            %d/%d\n",
+        rtrim(rtrim(number_format($coverage->percentage(), 1, '.', ''), '0'), '.'),
+        rtrim(rtrim(number_format($readiness->percentage(), 1, '.', ''), '0'), '.'),
+        $readiness->readyItems(),
+        $readiness->totalItems(),
+        $readiness->lotsRefined(),
+        $readiness->declaredLots,
+    );
+
+    foreach ($readiness->itemsFallingShort() as $short) {
+        echo \sprintf("  short: %s (%s) — %s\n", $short->officialItem, $short->contentLevel, implode(', ', $short->unmetCriteria()));
+    }
 
     return 0;
 }
@@ -223,6 +266,7 @@ function commandHelp(): int
 exit(match ($command) {
     'validate' => commandValidate($project),
     'coverage' => commandCoverage($project),
+    'readiness' => commandReadiness($project),
     'build' => commandBuild($project),
     'id:mint' => commandMintId(...\array_slice($argv, 2)),
     'lock:wording' => commandLockWording($project),
