@@ -49,6 +49,15 @@ CASES = [
     (AUD03, (), 'content/courses/CRS-0a0d5bp6769e.md',
      'service_subscribers_locators.rst', 'service_subscribers_locators_NOPE.rst',
      'ANCHOR-8'),
+    # A URL pinned to a commit must record that commit as a field too,
+    # otherwise the pin is only as reproducible as the reader's attention.
+    (AUD02, (), 'content/questions/lot-01-php.yml',
+     '    commit_sha: 0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5\n', '',
+     'CONTAM-8'),
+    # A pinned commit still has to belong to the authorised branch.
+    (AUD02, (), 'content/questions/lot-01-php.yml',
+     '    branch: PHP-8.4\n    commit_sha:', '    branch: PHP-8.3\n    commit_sha:',
+     'CONTAM-9'),
 ]
 
 failures = []

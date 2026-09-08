@@ -706,13 +706,23 @@ questions:
     text: By extending any class and adding a getMessage() method
     correct: false
     explanation: Matching the shape is not enough; only the real hierarchy can be thrown.
-  explanation: PHP classes cannot implement Throwable directly. A custom throwable must extend Exception
-    or Error, optionally also implementing an application marker interface.
+  explanation: 'A user-defined class cannot implement Throwable directly. It becomes throwable by extending
+    Exception or Error: the engine walks to the root of the inheritance chain and accepts the class only
+    if that root is Exception or Error. Extending Exception is the normal application-level approach;
+    Error is the separate engine-error hierarchy, not the usual base for domain or application exceptions.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
+    symbol_or_lines: '"PHP classes cannot implement the Throwable interface directly" — this page proves that half only; it continues "and must instead extend Exception", which is incomplete for the Error branch (see the php-src citation)'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/php/php-src/0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5/Zend/zend_exceptions.c
+    repository: php/php-src
+    branch: PHP-8.4
+    commit_sha: 0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5
+    file: Zend/zend_exceptions.c
+    symbol_or_lines: 'zend_implement_throwable() — walks to the root of the inheritance chain and returns SUCCESS if it equals "Exception" or "Error", otherwise E_ERROR "%s %s cannot implement interface %s, extend Exception or Error instead"'
+    verified_at: '2026-09-07'
 - id: QST-jg9dftsvh67e
   version: 1
   official_topic: PHP
