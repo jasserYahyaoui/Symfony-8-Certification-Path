@@ -42,7 +42,28 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `5f871c0` — **AUD-01 through AUD-08 all `PASS`; blocker `B-1`
+`refine/framework-archetypes` — **refinement framework version 2 (ADR-0007)**.
+The unit extends the measure before the content: `question_archetype`,
+identified learning outcomes with an `assesses_outcomes` link, and a revision
+budget, wired into the readiness formula as `R10`–`R14` and gated by three new
+mandatory rules (`ARC-001`, `PED-003`, `REV-001`).
+
+**Certification Readiness falls from 5.5% (9/163) to 0% (0/163).** The corpus
+did not change; the definition of "refined" did. Lot 01 keeps its refinement
+record and is shown on the dashboard as *audited under framework v1*; it is
+re-refined under version 2, never re-labelled. Official Coverage stays 100%.
+
+Measured on `9b99c99` while auditing, and recorded in
+`docs/audit/framework-extension/README.md`:
+
+- **73 of 163 items (44.8%)** carry fewer questions than declared learning
+  outcomes, so one-to-one outcome coverage is arithmetically impossible for
+  them — with every gate green.
+- `question_archetype` appeared **0 times in 550 questions**; the bank's only
+  structural field, `type`, holds `mcq` for all 550.
+- Corpus revision cost: **65 477 body words** ≈ 4.4 h at 250 wpm.
+
+**Previously**, `master` at `5f871c0` — **AUD-01 through AUD-08 all `PASS`; blocker `B-1`
 closed (26 of 26); FR-2 `DONE`; and the per-lot expert refinement series has
 begun — Lot 01 is `DONE`.** Lot 27 itself is **`NOT_DONE`**: Lots 02–26 are not
 refined, AUD-09 cannot start, and the Mock 4 human sitting is
@@ -642,7 +663,31 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 ## Tests executed and actual results
 
-Locally, on PHP 8.4.19, on `lot-26-serializer`, every command run as its own
+Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
+its own command with its exit code read (PROC-1):
+
+```text
+php bin/cert validate                             → 21 rules, 163 items, 550 questions,
+                                                    2 violations, 0 blocking                  (exit 0)
+php bin/cert coverage                             → Coverage: 100% (163/163 EXAM_READY)       (exit 0)
+php bin/cert readiness                            → Readiness: 0% (0/163), lots refined 0/27   (exit 0)
+php bin/cert build                                → docs tree + payloads + readiness.json      (exit 0)
+vendor/bin/phpunit                                → OK (231 tests, 8784 assertions)            (exit 0)
+composer gate-full                                → all of the above, then site + a11y         (exit 0)
+npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
+python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
+python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 5 cases fired, restored         (exit 0)
+AUD-01..AUD-08, lot01_second_audit, fr2_second    → FINDINGS: 0 each                           (exit 0)
+```
+
+The two non-blocking violations are the framework's own findings, not defects
+left unaddressed: `PED-003` warns that 73 of 163 items carry fewer questions
+than declared outcomes, and `REV-001` warns that one MINIMAL item (lot-13,
+`Handling legacy deprecated code`, 450 body words) exceeds its budget of 400.
+Both are recorded here because a warning nobody writes down becomes a warning
+nobody reads.
+
+**Earlier**, on `lot-26-serializer`, every command run as its own
 command with `set -o pipefail` and its exit code read:
 
 ```text
@@ -690,6 +735,22 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+**Étape B — re-refine Lot 01 under refinement framework version 2.** The
+framework is in place and gated; Lot 01's nine items are the first to be
+brought up to it. Concretely, per item: mint an `OUT` id for each learning
+outcome, write the `assesses_outcomes` link from the questions that assess it,
+declare a `question_archetype` on every lot-01 question, and close the two gaps
+the metric already named — *Attributes* has no `hard` question, *Abstract
+classes* has neither a `DIAGNOSE` nor a `hard` one. Then record
+`framework_version: 2` in the refinement log, which is what makes `ARC-001`,
+`PED-003` and `REV-001` bite on the lot.
+
+**Lot 02 must not start in this session** (owner's standing instruction).
+AUD-09 stays `NOT_RUN`; Mock 4 stays `PENDING_HUMAN_VALIDATION`; Lot 27 stays
+`NOT_DONE`.
+
+---
 
 **§10 is discharged. Do not start anything below without the owner's
 instruction.**

@@ -16,7 +16,7 @@ use CertPath\Support\Id;
 final readonly class OfficialItem
 {
     /**
-     * @param list<string>    $learningOutcomes
+     * @param list<LearningOutcome> $learningOutcomes
      * @param list<string>    $requiredAssessmentModes
      * @param list<SourceRef> $officialSources
      * @param list<string>    $courseRefs
@@ -78,6 +78,37 @@ final readonly class OfficialItem
     public function countsTowardDenominator(): bool
     {
         return $this->classification->countsTowardCoverage();
+    }
+
+    /**
+     * The outcome texts, for the consumers that legitimately want prose: the
+     * generated item page and the mock payloads' item index, whose published
+     * JSON shape is `learning_outcomes: string[]` and must not change.
+     *
+     * @return list<string>
+     */
+    public function learningOutcomeTexts(): array
+    {
+        return array_map(static fn (LearningOutcome $o): string => $o->text, $this->learningOutcomes);
+    }
+
+    /**
+     * The minted ids of the outcomes that carry one. During the staged rollout
+     * of ADR-0007 an unrefined item's outcomes have none, so this is empty
+     * rather than an error.
+     *
+     * @return list<string>
+     */
+    public function learningOutcomeIds(): array
+    {
+        $ids = [];
+        foreach ($this->learningOutcomes as $outcome) {
+            if (null !== $outcome->id) {
+                $ids[] = $outcome->id->value;
+            }
+        }
+
+        return $ids;
     }
 
     public function hasAssessment(): bool

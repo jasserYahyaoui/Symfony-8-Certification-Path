@@ -15,9 +15,12 @@ use CertPath\Validation\Rule\FlashcardIntegrityRule;
 use CertPath\Validation\Rule\HoldoutIsolationRule;
 use CertPath\Validation\Rule\LearningOutcomeRule;
 use CertPath\Validation\Rule\OfficialWordingLockRule;
+use CertPath\Validation\Rule\OutcomeAssessmentRule;
 use CertPath\Validation\Rule\OutOfScopeContaminationRule;
+use CertPath\Validation\Rule\QuestionArchetypeRule;
 use CertPath\Validation\Rule\QuestionIntegrityRule;
 use CertPath\Validation\Rule\ReferentialIntegrityRule;
+use CertPath\Validation\Rule\RevisionBudgetRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
 use CertPath\Validation\Rule\UniqueItemIdsRule;
 use CertPath\Validation\Rule\ValidationPoolCoverageRule;
@@ -56,6 +59,9 @@ final class RuleSet
             new EnrichmentBudgetRule(),
             new ExamReadyEvidenceRule(),
             new DeadInternalLinkRule(),
+            new QuestionArchetypeRule(),
+            new OutcomeAssessmentRule(),
+            new RevisionBudgetRule(),
         ];
     }
 }

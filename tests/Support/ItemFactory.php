@@ -7,6 +7,7 @@ namespace CertPath\Tests\Support;
 use CertPath\Domain\Classification;
 use CertPath\Domain\ContentLevel;
 use CertPath\Domain\ItemStatus;
+use CertPath\Domain\LearningOutcome;
 use CertPath\Domain\OfficialItem;
 use CertPath\Domain\SourceRef;
 use CertPath\Domain\VerificationStatus;
@@ -77,7 +78,7 @@ final class ItemFactory
             classification: $values['classification'],
             contentLevel: $values['contentLevel'],
             contentLevelJustification: $values['contentLevelJustification'],
-            learningOutcomes: $values['learningOutcomes'],
+            learningOutcomes: self::outcomes($values['learningOutcomes']),
             requiredAssessmentModes: $values['requiredAssessmentModes'],
             minimumEvidence: $values['minimumEvidence'],
             exclusionBoundaries: $values['exclusionBoundaries'],
@@ -140,5 +141,24 @@ final class ItemFactory
             'lot' => $lot,
             'classification' => Classification::Enrichment,
         ]);
+    }
+
+    /**
+     * Accepts the shape tests already use — plain strings — and the identified
+     * shape ADR-0007 introduces, so an existing test does not have to care
+     * which one it needs.
+     *
+     * @param list<string|LearningOutcome> $values
+     *
+     * @return list<LearningOutcome>
+     */
+    private static function outcomes(array $values): array
+    {
+        return array_map(
+            static fn (string|LearningOutcome $v): LearningOutcome => $v instanceof LearningOutcome
+                ? $v
+                : new LearningOutcome($v),
+            $values,
+        );
     }
 }

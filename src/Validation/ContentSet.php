@@ -24,6 +24,10 @@ final readonly class ContentSet
      *        term legitimate elsewhere is not rejected wherever it appears.
      * @param array<string, string> $wordingFingerprints itemId => sha256 of official wording
      * @param list<string>         $contentFiles       repository-relative paths
+     * @param list<string>         $frameworkRefinedLots lot ids recorded as refined under the CURRENT framework in
+     *        docs/progress/refinement-log.yml. The rules added by ADR-0007 bite
+     *        exactly where refinement is claimed, so that a lot cannot be called
+     *        refined while missing the structures refinement is defined by.
      */
     public function __construct(
         public SyllabusMatrix $matrix,
@@ -35,6 +39,7 @@ final readonly class ContentSet
         public array $wordingFingerprints = [],
         public array $contentFiles = [],
         public string $projectDir = '.',
+        public array $frameworkRefinedLots = [],
     ) {
     }
 }

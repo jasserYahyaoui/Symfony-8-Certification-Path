@@ -10,6 +10,7 @@ use CertPath\Domain\Pool;
 use CertPath\Domain\Question;
 use CertPath\Domain\SourceRef;
 use CertPath\Validation\ContentSet;
+use CertPath\Validation\Rule\RevisionBudgetRule;
 
 /**
  * Certification Readiness — the share of atomic official items refined to the
@@ -59,13 +60,18 @@ final class ReadinessCalculator
             $questionsByItem[$question->officialItemId][] = $question;
         }
 
+        $courseWords = [];
+        foreach ($content->courses as $course) {
+            $courseWords[$course->officialItemId] = ($courseWords[$course->officialItemId] ?? 0) + $course->wordCount();
+        }
+
         $assessments = [];
         $byLot = [];
 
         foreach ($content->matrix->officialItems() as $item) {
             $questions = $questionsByItem[$item->id->value] ?? [];
             $audited = \in_array($item->lot, $this->auditedLots, true);
-            $criteria = $this->criteriaFor($item, $questions, $content);
+            $criteria = $this->criteriaFor($item, $questions, $content, $courseWords);
 
             $assessment = new ItemAssessment(
                 itemId: $item->id->value,
@@ -91,11 +97,12 @@ final class ReadinessCalculator
     }
 
     /**
-     * @param list<Question> $questions
+     * @param list<Question>     $questions
+     * @param array<string, int> $courseWords body words per official item id
      *
      * @return array<string, bool>
      */
-    private function criteriaFor(OfficialItem $item, array $questions, ContentSet $content): array
+    private function criteriaFor(OfficialItem $item, array $questions, ContentSet $content, array $courseWords): array
     {
         $level = $item->contentLevel;
         $modes = $item->requiredAssessmentModes;
@@ -127,6 +134,26 @@ final class ReadinessCalculator
             );
         }
 
+        // Framework version 2 (ADR-0007). These three ask whether the item's
+        // assessment can be TRACED to what the item promises to teach, and
+        // whether revising it stays affordable. They apply at every level: a
+        // MINIMAL item still declares outcomes, and an outcome nothing
+        // assesses is an unkept promise whatever the level.
+        $criteria['R10_outcomes_identified'] = $this->outcomesIdentified($item);
+        $criteria['R11_outcomes_assessed'] = $this->outcomesAssessed($item, $questions);
+        $criteria['R12_archetypes_declared'] = [] !== $questions && !$this->any(
+            $questions,
+            static fn (Question $q): bool => null === $q->questionArchetype,
+        );
+        $criteria['R14_revision_budget'] = $this->withinRevisionBudget($item, $courseWords);
+
+        // A STANDARD or DEEP item asked for more than one kind of thinking, so
+        // one question mould repeated cannot be evidence for it. A MINIMAL item
+        // is not asked for variety it has no use for.
+        if (ContentLevel::Standard === $level || ContentLevel::Deep === $level) {
+            $criteria['R13_archetype_variety'] = $this->distinctArchetypes($questions) >= 2;
+        }
+
         // A DEEP item is one whose errors and consequences are the point.
         if (ContentLevel::Deep === $level) {
             $criteria['R8_diagnoses'] = $this->any(
@@ -140,6 +167,86 @@ final class ReadinessCalculator
         }
 
         return $criteria;
+    }
+
+
+    /**
+     * An outcome without a minted id cannot be pointed at, so nothing can
+     * record that it was assessed (ADR-0002: never an index, which silently
+     * remaps when the list is reordered).
+     */
+    private function outcomesIdentified(OfficialItem $item): bool
+    {
+        if ([] === $item->learningOutcomes) {
+            return false;
+        }
+
+        foreach ($item->learningOutcomes as $outcome) {
+            if (!$outcome->isIdentified()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Every declared outcome is named by at least one of the item's questions.
+     *
+     * This is the criterion PED-002 could not express: "has an assessment" is
+     * satisfied by one question against five outcomes, which is how 73 of the
+     * 163 items came to carry fewer questions than outcomes with every gate
+     * green.
+     *
+     * @param list<Question> $questions
+     */
+    private function outcomesAssessed(OfficialItem $item, array $questions): bool
+    {
+        $ids = $item->learningOutcomeIds();
+
+        if ([] === $ids || \count($ids) !== \count($item->learningOutcomes)) {
+            return false;
+        }
+
+        foreach ($ids as $id) {
+            if (!$this->any($questions, static fn (Question $q): bool => $q->assessesOutcome($id))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param list<Question> $questions
+     */
+    private function distinctArchetypes(array $questions): int
+    {
+        $seen = [];
+
+        foreach ($questions as $question) {
+            if (null !== $question->questionArchetype) {
+                $seen[$question->questionArchetype->value] = true;
+            }
+        }
+
+        return \count($seen);
+    }
+
+    /**
+     * @param array<string, int> $courseWords
+     */
+    private function withinRevisionBudget(OfficialItem $item, array $courseWords): bool
+    {
+        $level = $item->contentLevel;
+
+        if (null === $level) {
+            return false;
+        }
+
+        $budget = RevisionBudgetRule::budgets()[$level->value] ?? null;
+
+        return null === $budget || ($courseWords[$item->id->value] ?? 0) <= $budget;
     }
 
     /**

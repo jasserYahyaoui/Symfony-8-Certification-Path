@@ -115,7 +115,11 @@ function commandReadiness(Project $project): int
     }
 
     $lots = $project->loadLotRegistry();
-    $readiness = (new ReadinessCalculator($project->refinedLots(), $lots->count()))->calculate($content);
+    // The lots that count as refined are the ones refined under the CURRENT
+    // definition of refinement (ADR-0007). A lot audited under an earlier
+    // framework keeps its log entry, and the dashboard shows it as such, but it
+    // is not credited with structures it does not carry.
+    $readiness = (new ReadinessCalculator($project->lotsRefinedUnderCurrentFramework(), $lots->count()))->calculate($content);
     $coverage = (new CoverageCalculator())->calculate($content->matrix);
 
     $log = [];

@@ -139,7 +139,10 @@ final readonly class DocsGenerator
         // would tell a reader the syllabus is covered and let them infer it is
         // mastered, which is the one inference this project must not invite.
         $lots = $this->project->loadLotRegistry();
-        $readiness = (new ReadinessCalculator($this->project->refinedLots(), $lots->count()))
+        // The same source as `bin/cert readiness`: lots refined under the
+        // CURRENT framework (ADR-0007). Reading the two from different lists
+        // would publish two different numbers for one figure.
+        $readiness = (new ReadinessCalculator($this->project->lotsRefinedUnderCurrentFramework(), $lots->count()))
             ->calculate($content);
 
         $written[] = $this->writeJson($dataDir.'/readiness.json', [
@@ -557,7 +560,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 ";
 
         foreach ($item->learningOutcomes as $outcome) {
-            $markdown .= '- '.$this->mdxText($outcome)."\n";
+            $markdown .= '- '.$this->mdxText($outcome->text)."\n";
         }
 
         if (null !== $item->contentLevelJustification) {

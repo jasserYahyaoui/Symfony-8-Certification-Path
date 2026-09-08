@@ -85,7 +85,7 @@ final readonly class MatrixLoader
                 ? ContentLevel::from($level)
                 : null,
             contentLevelJustification: $this->optionalString($raw, 'content_level_justification'),
-            learningOutcomes: $this->stringList($raw, 'learning_outcomes', $ctx, allowEmpty: true),
+            learningOutcomes: $this->learningOutcomes($raw, $ctx),
             requiredAssessmentModes: $this->stringList($raw, 'required_assessment_modes', $ctx, allowEmpty: true),
             minimumEvidence: $this->optionalString($raw, 'minimum_evidence'),
             exclusionBoundaries: $this->string($raw, 'exclusion_boundaries', $ctx),
@@ -104,6 +104,59 @@ final readonly class MatrixLoader
             reviewedBy: $this->optionalString($raw, 'reviewed_by'),
             notes: $this->optionalString($raw, 'notes'),
         );
+    }
+
+    /**
+     * A learning outcome is either a bare string or a `{id, outcome}` mapping.
+     *
+     * Both shapes are accepted during the staged rollout of ADR-0007: an item
+     * belonging to a lot that has not been refined yet legitimately carries
+     * outcomes without a minted id. The tolerance is a parser tolerance only —
+     * rule PED-003 requires the identified shape for every item in a lot
+     * recorded as refined, so a refined lot cannot keep the old form.
+     *
+     * A mapping missing `outcome`, or carrying a malformed id, is a schema
+     * error rather than a silently dropped outcome: an outcome that vanishes
+     * during parsing would shrink the assessment denominator invisibly.
+     *
+     * @param array<string, mixed> $raw
+     *
+     * @return list<LearningOutcome>
+     */
+    private function learningOutcomes(array $raw, string $ctx): array
+    {
+        $outcomes = [];
+
+        foreach ($this->listOf($raw, 'learning_outcomes', $ctx, allowEmpty: true) as $index => $entry) {
+            $where = \sprintf('%s learning outcome #%d', $ctx, $index);
+
+            if (\is_scalar($entry)) {
+                $outcomes[] = new LearningOutcome((string) $entry);
+
+                continue;
+            }
+
+            if (!\is_array($entry)) {
+                throw new SchemaException(\sprintf('%s: expected a string or a mapping.', $where));
+            }
+
+            $text = $entry['outcome'] ?? null;
+            if (!\is_scalar($text) || '' === trim((string) $text)) {
+                throw new SchemaException(\sprintf('%s: mapping form requires a non-empty `outcome`.', $where));
+            }
+
+            $id = $entry['id'] ?? null;
+            if (null !== $id && (!\is_string($id) || !Id::isValid($id))) {
+                throw new SchemaException(\sprintf('%s: `id` is not a persistent identifier.', $where));
+            }
+
+            $outcomes[] = new LearningOutcome(
+                text: (string) $text,
+                id: null !== $id ? Id::parse((string) $id) : null,
+            );
+        }
+
+        return $outcomes;
     }
 
     /**

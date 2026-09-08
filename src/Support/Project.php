@@ -10,6 +10,7 @@ use CertPath\Domain\LotRegistry;
 use CertPath\Domain\MatrixLoader;
 use CertPath\Domain\QuestionLoader;
 use CertPath\Domain\SyllabusMatrix;
+use CertPath\Readiness\RefinementFramework;
 use CertPath\Schema\SchemaRegistry;
 use CertPath\Schema\YamlLoader;
 use CertPath\Validation\ContentSet;
@@ -99,6 +100,43 @@ final readonly class Project
         return $lots;
     }
 
+    /**
+     * The lots refined under the CURRENT definition of refinement.
+     *
+     * Lot 01 was audited under framework version 1, before archetypes, the
+     * outcome-to-question link and the revision budget existed (ADR-0007). It
+     * keeps its audit record — that work was done — but it is not credited
+     * with structures it does not carry, and the rules those structures gate
+     * do not fail the build over it. See RefinementFramework.
+     *
+     * @return list<string> lot ids
+     */
+    public function lotsRefinedUnderCurrentFramework(): array
+    {
+        $path = $this->rootDir.'/docs/progress/refinement-log.yml';
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        $log = (new YamlLoader())->load($path, SchemaRegistry::REFINEMENT_LOG);
+
+        $lots = [];
+        foreach ($log['lots'] ?? [] as $entry) {
+            if (!\is_array($entry) || !isset($entry['lot'])) {
+                continue;
+            }
+
+            $version = $entry['framework_version'] ?? RefinementFramework::DEFAULT_FOR_UNVERSIONED_ENTRY;
+
+            if (\is_int($version) && $version >= RefinementFramework::CURRENT) {
+                $lots[] = (string) $entry['lot'];
+            }
+        }
+
+        return $lots;
+    }
+
     public function mockBlueprintPath(string $mock = '4'): string
     {
         return $this->path('docs/mocks/mock-'.$mock.'-blueprint.yml');
@@ -173,6 +211,7 @@ final readonly class Project
             wordingFingerprints: $this->loadWordingFingerprints(),
             contentFiles: $this->markdownFiles(),
             projectDir: $this->rootDir,
+            frameworkRefinedLots: $this->lotsRefinedUnderCurrentFramework(),
         );
     }
 
