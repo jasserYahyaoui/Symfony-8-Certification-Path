@@ -44,7 +44,7 @@ earlier report and never from this table's previous revision.
 | # | §22 clause | What it requires here | State |
 |---|---|---|---|
 | 1 | 100% atomic official syllabus coverage | EXAM_READY atomic official items ÷ total, per §3.5 | **PASS** — `bin/cert coverage` exit 0: **100% (163/163)**, no report diff |
-| 2 | 0 critical syllabus gap | no official item without the content its level requires | **PASS as measured**, pending Lot 27's *independent syllabus audit*. Blocker **B-1** stands: the syllabus has no machine-readable upstream, so the import cannot be diffed against a source — that audit is precisely the check |
+| 2 | 0 critical syllabus gap | no official item without the content its level requires | **PASS as measured, with a standing limit.** AUD-01 ran and its two divergences are repaired: the Messenger third-party-transport exclusion is recorded and enforced (`SYL-1`), and the seven Messenger items state the boundary the syllabus states instead of denying one exists (`SYL-2`). Import fidelity is clean in both directions, 163/163. The limit stands regardless: the PDF is the same artefact the import was made from, so nothing here corroborates the scope against a second witness, and `certification.symfony.com` is still unreachable |
 | 3 | 0 known incorrect scored answer | no scored question with a wrong key | **PASS as known** — 18 rules, 0 violations over **544** questions; P2.2/P2.3/P2.4 corrected. Systematic re-check is Lot 27's *question-bank audit*, which has not run |
 | 4 | 0 scored OUT_OF_SCOPE dependency | no scored question depending on non-official material | **PASS** — all **544** questions are `classification: OFFICIAL`; zero non-official scored questions |
 | 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **PASS — AUD-02 and AUD-03 both `PASS`.** Version anchoring is clean (AUD-02 `PASS`, 0 findings over 918 citations) and every one of the 167 distinct source URLs returns 200, and every one of those 918 citations now carries a precise anchor to a passage that proves its claim — 15 of them needed a different or an additional source, found by verifying each one rather than by counting anchors. `SRC-001` enforces this over the whole learner-facing corpus at `Error` severity. **544 of 544** `verification_status: VERIFIED`; **0** occurrences of `symfony.com/doc/current` across every file in `content/` and `docs/syllabus/`; CI rejects `/current/` |
@@ -94,7 +94,7 @@ Lot 27 §14 deliverable, and none has been executed:
 
 | # | Audit | Bears on | State |
 |---|---|---|---|
-| AUD-01 | Independent syllabus audit | clause 2 | **`BLOCKED` on B-1** — needs a human-supplied copy of the official syllabus. The import may never be audited against itself, and `syllabus-matrix.yml` is not independent evidence of its own correctness |
+| AUD-01 | [Independent syllabus audit](../audit/lot-27-aud01-independent-syllabus/README.md) | clause 2 | **`PASS` on every condition this side can test, `SYL-1` and `SYL-2` resolved** — 2026-09-08, after failing on 2026-09-07. Ran against the owner-supplied PDF (sha256 `4ee8b962…`, 468,963 bytes, 5 pages). Transcription 163/163 verbatim, the reverse direction clean, every constraint reconciled, and the exclusion record now holds 13 entries against the PDF's 13. **B-1 is not marked `PASS`**: the owner's completion gate was truncated in transmission, so the full condition set is unknown and a partially known gate is not one this project claims to have met. **Caveat that does not go away:** the PDF is byte-identical to the one the import was made from, so this is transcription fidelity, not independent corroboration of scope |
 | AUD-02 | [Version-contamination audit](../audit/lot-27-aud02-version-contamination/README.md) | clause 5 | **`PASS`** — 2026-09-07, 0 findings over 907 citations; one real gap found and fixed (`php/php-src` undeclared in the source map) |
 | AUD-03 | [Source and anchor audit](../audit/lot-27-aud03-source-anchor/README.md) | clause 5 | **`PASS`** — 2026-09-08, after failing on 2026-09-07. 918 citations inspected, 167 distinct URLs all at HTTP 200, 0 missing anchors, 0 unsupported claims, 0 unresolved conflicts, no truncated findings. `SRC-4` (two 404s), `SRC-5` (105 unanchored, of which **15 cited a source that did not prove the claim**) and `SRC-6` (`SRC-001` blind to learner-facing citations) are all resolved |
 | AUD-04 | Content-volume and duplication audit | clause 8 | `NOT RUN` |
@@ -118,12 +118,16 @@ assessment.
 
 ## Divergences to carry into Lot 27
 
-1. **Clause 2 rests on B-1.** Coverage is 100% against the *imported* syllabus.
-   Nothing in this repository can prove the import matches the official source,
-   because `certification.symfony.com` is unreachable and has no upstream
-   repository. Lot 27's independent syllabus audit is the only remaining check,
-   and it needs a human-supplied copy of the official syllabus to be worth
-   anything. **This is the one clause the project cannot self-certify.**
+1. **Clause 2 rests on B-1, and B-1 has changed shape.** The owner supplied the
+   syllabus copy on 2026-09-07 and AUD-01 ran against it: 163/163 items appear
+   verbatim, nothing in the PDF is missing from the matrix, every constraint
+   reconciles, and **two exclusion divergences** were found (`SYL-1`, `SYL-2`).
+   B-1 is therefore no longer `BLOCKED` — it carries AUD-01's `FAIL` until those
+   are fixed. What has **not** changed is the ceiling: the PDF is byte-identical
+   to the artefact the import was made from, so this audit proves transcription
+   fidelity, never that the scope matches what Symfony publishes today.
+   `certification.symfony.com` is still unreachable and still has no upstream.
+   **This remains the one clause the project cannot fully self-certify.**
 2. **Clause 7 is met operationally, never absolutely.** ADR-0005 fixes the
    wording, and the owner settled the definition on 2026-09-03 (Option A). No
    report may write "unseen" without the qualifier. The arithmetic half of this

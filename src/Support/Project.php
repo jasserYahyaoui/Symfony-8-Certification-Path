@@ -140,6 +140,7 @@ final readonly class Project
             courses: (new CourseLoader())->loadDirectory($this->coursesDir()),
             flashcards: (new FlashcardLoader())->loadDirectory($this->flashcardsDir()),
             excludedTerms: $this->loadExcludedTerms(),
+            contextualExclusions: $this->loadContextualExclusions(),
             wordingFingerprints: $this->loadWordingFingerprints(),
             contentFiles: $this->markdownFiles(),
             projectDir: $this->rootDir,
@@ -165,6 +166,43 @@ final readonly class Project
         }
 
         return array_values(array_unique($terms));
+    }
+
+    /**
+     * §1.5 exclusions that apply only inside a stated context.
+     *
+     * The Messenger third-party-transport exclusion is the first of these and
+     * shows why the shape is needed: `redis` is an in-scope Cache adapter and
+     * `doctrine` is excluded on its own terms elsewhere, so putting either in
+     * the flat `match_terms` list would reject legitimate content wherever the
+     * word appears. A contextual exclusion states the context it belongs to.
+     *
+     * @return list<array{id: string, official_topic: string, transport_terms: list<string>}>
+     */
+    public function loadContextualExclusions(): array
+    {
+        $document = (new YamlLoader())->load($this->exclusionsPath(), SchemaRegistry::EXCLUSIONS);
+
+        $out = [];
+        foreach ((array) ($document['excluded_topics'] ?? []) as $entry) {
+            if (!\is_array($entry) || !isset($entry['contextual']) || !\is_array($entry['contextual'])) {
+                continue;
+            }
+
+            $context = $entry['contextual'];
+            $terms = [];
+            foreach ((array) ($context['transport_terms'] ?? []) as $term) {
+                $terms[] = (string) $term;
+            }
+
+            $out[] = [
+                'id' => (string) ($entry['id'] ?? ''),
+                'official_topic' => (string) ($context['official_topic'] ?? ''),
+                'transport_terms' => $terms,
+            ];
+        }
+
+        return $out;
     }
 
     /**

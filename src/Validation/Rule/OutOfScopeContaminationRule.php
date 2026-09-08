@@ -96,6 +96,40 @@ final class OutOfScopeContaminationRule implements Rule
                     );
                 }
             }
+
+            // SYL-1. Some exclusions are true only inside a context. The
+            // syllabus excludes third-party Messenger *transports* and their
+            // usage or configuration — not Redis, which is an in-scope Cache
+            // adapter, and not the transport concept, which is an examinable
+            // Messenger item. A flat term would reject both. This fires only
+            // when a scored question is on the stated topic AND names a
+            // third-party transport.
+            foreach ($content->contextualExclusions as $exclusion) {
+                if ($question->officialTopic !== $exclusion['official_topic']) {
+                    continue;
+                }
+
+                foreach ($exclusion['transport_terms'] as $term) {
+                    $needle = mb_strtolower(trim($term));
+                    if ('' === $needle || !self::mentionsTerm($haystack, $needle)) {
+                        continue;
+                    }
+
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf(
+                            'Scored %s question turns on the third-party transport "%s", '
+                            .'excluded by %s, and is not tagged `%s` (§1.5).',
+                            $exclusion['official_topic'],
+                            $term,
+                            $exclusion['id'],
+                            self::EXCLUSION_NOTE_TAG,
+                        ),
+                        $subject,
+                    );
+                }
+            }
         }
 
         return $violations;

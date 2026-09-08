@@ -60,6 +60,47 @@ excluded_topics:
     reason: "Master Plan §1.5 and §14 Lot 16 — ICU data access utilities excluded."
     match_terms: ["icu data", "intl data"]
 
+  # SYL-1. Found missing by AUD-01 on 2026-09-07: the syllabus states this
+  # exclusion under Messenger and exclusions.yml recorded no entry for it, so
+  # SCOPE-001 could not see a scored question turning on a Redis or Amazon SQS
+  # transport.
+  #
+  # Deliberately NOT `match_terms`. A flat term list is the wrong instrument
+  # here and would reject legitimate content: `redis` is an in-scope Cache
+  # adapter, `doctrine` is already excluded on its own terms and is named by
+  # the syllabus as an example, and the transport *concept* stays examinable.
+  # The exclusion is contextual — it bites only where scored content turns on
+  # a third-party transport of Messenger.
+  - id: EXC-MESSENGER-THIRD-PARTY-TRANSPORTS
+    label: Third-party Messenger transports and their usage or configuration
+    reason: >-
+      Official syllabus, Messenger topic, verbatim: "Note: third-party
+      transports (Doctrine, Redis, Amazon SQS, etc.) and their
+      usage/configuration is not included."
+    official_wording: >-
+      third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their
+      usage/configuration is not included
+    contextual:
+      # Both conditions must hold before the rule fires.
+      official_topic: Messenger
+      transport_terms:
+        # The three the syllabus names, then other identifiable third-party
+        # transports. "etc." in the official note makes these examples, never
+        # an exhaustive list, and this list must not be read as one.
+        - doctrine
+        - redis
+        - amazon sqs
+        - sqs
+        - amqp
+        - rabbitmq
+        - beanstalkd
+        - kafka
+    remains_in_scope: >-
+      Symfony Messenger itself; the transport concept; routing to a transport;
+      the framework's own sync:// and in-memory:// transports; workers,
+      retries, middleware and events. Only third-party transports and their
+      usage or configuration are excluded.
+
   - id: EXC-THIRD-PARTY-BRIDGES
     label: Bridges to third-party services
     reason: "Master Plan §1.5; also §14 Lots 11, 22 and 26."

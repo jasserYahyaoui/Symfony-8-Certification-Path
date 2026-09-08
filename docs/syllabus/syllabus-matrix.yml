@@ -6371,7 +6371,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6421,7 +6421,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6472,7 +6472,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6523,7 +6523,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6578,7 +6578,7 @@ items:
     minimum_evidence: >-
       Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
       distinctes dont une en mode examen, et restitution des quatre strategies sans support.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6630,7 +6630,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
@@ -6680,7 +6680,7 @@ items:
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
       reussies sur 2 sessions distinctes, dont une en mode examen.
-    exclusion_boundaries: "None stated by the syllabus for this item."
+    exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
