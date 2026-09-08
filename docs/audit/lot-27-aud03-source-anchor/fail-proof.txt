@@ -4,5 +4,8 @@
   proved  ANCHOR-4   fires on an injected defect
   proved  ANCHOR-7   fires on an injected defect
   proved  ANCHOR-8   fires on an injected defect
+  proved  CONTAM-8   fires on an injected defect
+  proved  CONTAM-9   fires on an injected defect
+  proved  CONTAM-10  fires on an injected defect
 
-PROOF OK — 6 checks each proved to fire, every file restored byte-identically
+PROOF OK — 9 checks each proved to fire, every file restored byte-identically

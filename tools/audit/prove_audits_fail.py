@@ -58,6 +58,10 @@ CASES = [
     (AUD02, (), 'content/questions/lot-01-php.yml',
      '    branch: PHP-8.4\n    commit_sha:', '    branch: PHP-8.3\n    commit_sha:',
      'CONTAM-9'),
+    # An unquoted branch is a float, and reads identically in the file.
+    (AUD02, (), 'content/flashcards/lot-12-console.yml',
+     "    branch: '8.0'", '    branch: 8.0',
+     'CONTAM-10'),
 ]
 
 failures = []

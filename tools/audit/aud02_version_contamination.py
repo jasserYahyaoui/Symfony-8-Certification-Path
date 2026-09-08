@@ -81,6 +81,14 @@ for kind, rid, fname, srcs in records:
                  f'{s.get("commit_sha") or "absent"} — the pin must be recorded as a field too')
 
         declared = s.get('branch')
+        # A bare `branch: 8.0` in YAML is a float, not the string "8.0". The
+        # ref comparison below then fails on a value that reads correctly in
+        # the file, which is the least useful kind of defect.
+        if declared is not None and not isinstance(declared, str):
+            note('CONTAM-10 branch is not a string',
+                 f'{kind} {rid} ({fname}): branch: {declared!r} parsed as '
+                 f'{type(declared).__name__} — quote it')
+            declared = str(declared)
         if declared is not None and declared != ref and not pinned:
             note('CONTAM-3 declared branch disagrees with URL',
                  f'{kind} {rid} ({fname}): branch: {declared} but URL carries {ref}')

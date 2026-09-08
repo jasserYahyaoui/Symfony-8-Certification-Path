@@ -18,6 +18,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    symbol_or_lines: 'dumpFile — "It does this in an atomic manner: it writes a temporary file first and then moves it to the new file location when it''s finished. This means that the user will always see either the complete old file or complete new file (but never a partially-written file)"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-zw88x7tcje1m
@@ -31,5 +32,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    symbol_or_lines: 'the warning — "The Finder object is stateful. Any method call will change all its instances. If you need to perform several searches, create multiple instances of Finder or clone it after setting the common configuration"'
     branch: '8.0'
     verified_at: '2026-09-02'

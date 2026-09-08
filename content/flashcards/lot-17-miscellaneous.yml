@@ -16,5 +16,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    symbol_or_lines: '"When both are used, the cache headers defined in the controller take precedence over those configured with the #[Cache] attribute"'
     branch: '8.0'
     verified_at: '2026-09-02'

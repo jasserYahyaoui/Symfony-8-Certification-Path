@@ -19,6 +19,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    symbol_or_lines: '"composer install --no-dev --optimize-autoloader"; and "The --optimize-autoloader flag improves Composer''s autoloader performance significantly by building a class map. The --no-dev flag ensures that development packages are not installed"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-q9dj4gjhz31d
@@ -32,5 +33,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    symbol_or_lines: '"in the X-Debug-Token-Link HTTP response header. Browse the /_profiler ..."; and "this token is available in the X-Debug-Token HTTP header of the response"'
     branch: '8.0'
     verified_at: '2026-09-02'

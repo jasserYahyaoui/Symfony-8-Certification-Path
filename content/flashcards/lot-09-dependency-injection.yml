@@ -56,11 +56,11 @@ flashcards:
     branch: '8.0'
     verified_at: '2026-09-01'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
-    branch: 8.0
+    branch: '8.0'
     symbol_or_lines: '"You can only set a parameter before the container is compiled, not at runtime" — the compile-time half of the contrast'
     verified_at: '2026-09-07'
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
-    branch: 8.0
+    branch: '8.0'
     symbol_or_lines: 'ParameterBag::escapeValue() — str_replace(''%'', ''%%'', $value); and resolveString() skipping "%%" — the literal-percent escape'
     verified_at: '2026-09-07'
 - id: FLC-6a9ngbsfteyg
