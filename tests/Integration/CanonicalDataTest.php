@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CertPath\Tests\Integration;
 
+use CertPath\Readiness\ReadinessCalculator;
+use CertPath\Readiness\RefinementFramework;
 use CertPath\Schema\SchemaRegistry;
 use CertPath\Support\Project;
 use CertPath\Validation\Rule\OutOfScopeContaminationRule;
@@ -11,6 +13,7 @@ use CertPath\Validation\RuleSet;
 use CertPath\Validation\Severity;
 use CertPath\Validation\Validator;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Guards the repository's own canonical data, so a malformed YAML file fails
@@ -288,7 +291,12 @@ final class CanonicalDataTest extends TestCase
         $lost = [];
         foreach ($raw['items'] as $item) {
             foreach ($item['learning_outcomes'] ?? [] as $outcome) {
-                if (!\is_string($outcome) || '' === trim($outcome)) {
+                // ADR-0007 allows the identified shape `{id, outcome}` beside
+                // the bare string. The check itself is unchanged: whatever the
+                // shape, the TEXT must survive as a non-empty string.
+                $text = \is_array($outcome) ? ($outcome['outcome'] ?? null) : $outcome;
+
+                if (!\is_string($text) || '' === trim($text)) {
                     $lost[] = $item['id'];
                 }
             }
@@ -300,5 +308,68 @@ final class CanonicalDataTest extends TestCase
             'a learning outcome parsed to something other than a non-empty string — '
             .'an unquoted " : " makes YAML read it as a mapping, and the loader then coerces it to ""',
         );
+    }
+
+    /**
+     * The dashboard and the published payload are one figure, so they must be
+     * computed from one list of refined lots.
+     *
+     * They were not: `bin/cert readiness` moved to the framework-versioned list
+     * of ADR-0007 while `DocsGenerator` still read every logged lot, and the
+     * site published `lots_refined: 1` beside a repository dashboard reading
+     * `0 of 27`. Nothing failed — two different numbers for one figure is not a
+     * schema error.
+     */
+    public function testTheDashboardAndTheSitePublishTheSameReadinessFigure(): void
+    {
+        $project = Project::locate();
+        $content = $project->loadContentSet();
+        $lots = $project->loadLotRegistry();
+
+        $fromCommand = (new ReadinessCalculator($project->lotsRefinedUnderCurrentFramework(), $lots->count()))
+            ->calculate($content);
+
+        $published = json_decode(
+            (string) file_get_contents($project->path('website/static/data/readiness.json')),
+            true,
+        );
+
+        if (!\is_array($published)) {
+            self::markTestSkipped('run `php bin/cert build` first; website/static/data is generated (ADR-0003)');
+        }
+
+        self::assertSame($fromCommand->percentage(), (float) $published['percentage']);
+        self::assertSame($fromCommand->readyItems(), $published['ready_items']);
+        self::assertSame($fromCommand->lotsRefined(), $published['lots_refined']);
+    }
+
+    /**
+     * A lot audited under an older framework keeps its record and is NOT
+     * counted as refined (ADR-0007). If these two ever agree by accident the
+     * distinction has been lost, and a lot could be credited with structures it
+     * does not carry.
+     */
+    public function testALotAuditedUnderAnOlderFrameworkIsRecordedButNotCounted(): void
+    {
+        $project = Project::locate();
+
+        $logged = $project->refinedLots();
+        $counted = $project->lotsRefinedUnderCurrentFramework();
+
+        foreach ($counted as $lot) {
+            self::assertContains($lot, $logged, 'a lot cannot count as refined without a log entry');
+        }
+
+        $log = Yaml::parseFile($project->path('docs/progress/refinement-log.yml'));
+        foreach ($log['lots'] ?? [] as $entry) {
+            $version = (int) ($entry['framework_version'] ?? RefinementFramework::DEFAULT_FOR_UNVERSIONED_ENTRY);
+            $lot = (string) $entry['lot'];
+
+            self::assertSame(
+                $version >= RefinementFramework::CURRENT,
+                \in_array($lot, $counted, true),
+                $lot.' counts as refined if and only if it was audited under the current framework',
+            );
+        }
     }
 }

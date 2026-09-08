@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **5.5%** — 9 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **0%** — 0 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -18,21 +18,21 @@ two figures agree will be the day the work is finished — not before.
 
 | Status | Items | Meaning |
 |---|---|---|
-| `NOT_REFINED` | 0 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 154 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 2 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 7 | refined, and assessable in exam mode at the top of what its level requires |
+| `NOT_REFINED` | 163 | fails a criterion its content level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 0 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 0 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**1 of 27 lots refined.**
+**0 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
-| 01 — PHP 8.4 Foundations | **REFINED** | 9 | 9 | 100% |
+| 01 — PHP 8.4 Foundations | audited under framework v1 | 9 | 0 | 0% |
 | 02 — HTTP Fundamentals | TODO | 10 | 0 | 0% |
 | 03 — Symfony Architecture | TODO | 15 | 0 | 0% |
 | 04 — Controllers | TODO | 14 | 0 | 0% |
@@ -59,6 +59,13 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 25 — Runtime | TODO | 1 | 0 | 0% |
 | 26 — Serializer | TODO | 1 | 0 | 0% |
 
+A lot audited under an earlier definition of refinement keeps its
+record and is shown with the version it was audited against. It is
+not counted as refined here, because it does not carry what the
+current definition requires; the audit is real, the bar moved. The
+current definition is framework version 2 — see
+`docs/adr/0007-refinement-framework-v2.md`.
+
 Lot 27 carries no atomic official item — it consolidates the final
 review, the mocks and the holdout — so it has no row above while
 still counting in the denominator.
@@ -69,4 +76,4 @@ still counting in the denominator.
 |---|---|
 | Last completed | 01 — PHP 8.4 Foundations |
 | Recorded on | 2026-09-08 |
-| Next | 02 — HTTP Fundamentals |
+| Next | 01 — PHP 8.4 Foundations |

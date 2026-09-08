@@ -128,7 +128,7 @@ final class PayloadBuilder
             $index[$item->id->value] = [
                 'official_item' => $item->officialItem,
                 'official_topic' => $item->officialTopic,
-                'learning_outcomes' => $item->learningOutcomes,
+                'learning_outcomes' => $item->learningOutcomeTexts(),
             ];
         }
 

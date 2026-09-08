@@ -59,6 +59,8 @@ final class QuestionFactory
             tags: $overrides['tags'] ?? [],
             verificationStatus: $overrides['verificationStatus'] ?? VerificationStatus::Verified,
             reviewers: ['tech-lead'],
+            questionArchetype: $overrides['questionArchetype'] ?? null,
+            assessesOutcomes: $overrides['assessesOutcomes'] ?? [],
             reviewedAt: '2026-08-31',
         );
     }

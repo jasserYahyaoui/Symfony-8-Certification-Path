@@ -18,7 +18,8 @@ use CertPath\Domain\LotRegistry;
 final readonly class ReadinessMarkdownRenderer
 {
     /**
-     * @param array<string, array{lot: string, date?: string}> $log entries from refinement-log.yml
+     * @param array<string, array{lot: string, date?: string, framework_version?: int}> $log
+     *        entries from refinement-log.yml
      */
     public function render(
         ReadinessReport $readiness,
@@ -27,6 +28,15 @@ final readonly class ReadinessMarkdownRenderer
         array $log = [],
         bool $forSite = false,
     ): string {
+        $loggedFramework = [];
+        foreach ($log as $entry) {
+            if (\is_array($entry) && isset($entry['lot'])) {
+                $loggedFramework[(string) $entry['lot']] = (int) (
+                    $entry['framework_version'] ?? RefinementFramework::DEFAULT_FOR_UNVERSIONED_ENTRY
+                );
+            }
+        }
+
         $rows = [];
         $ordered = $readiness->byLot;
         uksort($ordered, static fn (string $a, string $b): int => $lots->order($a) <=> $lots->order($b));
@@ -35,7 +45,7 @@ final readonly class ReadinessMarkdownRenderer
             $rows[] = \sprintf(
                 '| %s | %s | %d | %d | %.0f%% |',
                 $lots->label($lotId),
-                $row['audited'] ? '**REFINED**' : 'TODO',
+                $this->refinementCell($lotId, $row['audited'], $loggedFramework),
                 $row['total'],
                 $row['ready'],
                 0 === $row['total'] ? 0.0 : $row['ready'] / $row['total'] * 100,
@@ -53,6 +63,7 @@ final readonly class ReadinessMarkdownRenderer
         }
 
         $next = $this->nextLot($ordered, $lots);
+        $currentFramework = RefinementFramework::CURRENT;
 
         return <<<MD
             # Symfony 8 Certification Path — readiness
@@ -91,6 +102,13 @@ final readonly class ReadinessMarkdownRenderer
             |---|---|---|---|---|
             {$this->join($rows)}
 
+            A lot audited under an earlier definition of refinement keeps its
+            record and is shown with the version it was audited against. It is
+            not counted as refined here, because it does not carry what the
+            current definition requires; the audit is real, the bar moved. The
+            current definition is framework version {$currentFramework} — see
+            `docs/adr/0007-refinement-framework-v2.md`.
+
             Lot 27 carries no atomic official item — it consolidates the final
             review, the mocks and the holdout — so it has no row above while
             still counting in the denominator.
@@ -104,6 +122,20 @@ final readonly class ReadinessMarkdownRenderer
             | Next | {$this->lotLabel($next, $lots)} |
 
             MD;
+    }
+
+    /**
+     * @param array<string, int> $loggedFramework lot id => framework version audited against
+     */
+    private function refinementCell(string $lotId, bool $audited, array $loggedFramework): string
+    {
+        if ($audited) {
+            return '**REFINED**';
+        }
+
+        $version = $loggedFramework[$lotId] ?? null;
+
+        return null === $version ? 'TODO' : \sprintf('audited under framework v%d', $version);
     }
 
     /**

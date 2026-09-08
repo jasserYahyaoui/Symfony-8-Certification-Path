@@ -57,6 +57,17 @@ is not penalised for lacking a diagnosis question it has no need of, and a
 | `R7_exam_mode` — a `VALIDATION` question, so it can be sat in exam mode | | ✔ | ✔ |
 | `R8_diagnoses` — a `DIAGNOSE` question | | | ✔ |
 | `R9_hard_question` — a `hard` question | | | ✔ |
+| `R10_outcomes_identified` — every learning outcome carries a minted `OUT` id | ✔ | ✔ | ✔ |
+| `R11_outcomes_assessed` — every outcome is named by at least one question | ✔ | ✔ | ✔ |
+| `R12_archetypes_declared` — every question declares a structural archetype | ✔ | ✔ | ✔ |
+| `R13_archetype_variety` — the questions use at least two distinct archetypes | | ✔ | ✔ |
+| `R14_revision_budget` — the course stays inside the budget for its level | ✔ | ✔ | ✔ |
+
+`R10` to `R14` were added by refinement framework version 2
+([ADR-0007](../adr/0007-refinement-framework-v2.md)); the section below records
+what raising the bar cost. `R13` is concept-aware for the same reason as `R5`
+to `R7`: a `MINIMAL` item asked for recognition and nothing more is not
+penalised for assessing it twice the same way.
 
 `R3` deserves a note: the required modes are the item's **own** declaration in
 the matrix, not a shape imposed from outside. An item that declares
@@ -65,7 +76,7 @@ card for a fact already retained through application as pure revision cost.
 
 ## The automated criteria alone are not the measure, and here is the proof
 
-At the time this was written, **all 163 items already met every automated
+When this metric first shipped, **all 163 items already met every automated
 criterion.** A metric built on them alone would have read **100%** — which is
 exactly the coverage-is-readiness confusion it exists to prevent.
 
@@ -83,6 +94,25 @@ does what no script here can:
 written for it and flagged nine candidates in Lot 01; **four were false
 positives**, disproved by reading the questions. A heuristic that wrong cannot be
 allowed to move a percentage, so it is a human audit or it is nothing.
+
+## Raising the bar lowers the number, and that is the point
+
+Framework version 2 added `R10` to `R14`. The corpus did not change; what
+"refined" means did. The published figure moved accordingly:
+
+| | before ADR-0007 | after |
+|---|---|---|
+| Official Coverage | 100% | 100% |
+| Certification Readiness | 5.5% (9/163) | **0% (0/163)** |
+| Lots refined | 1/27 | 0/27 |
+
+Lot 01 keeps its refinement record — the audit happened, and it found four exam
+traps no question verified — but it is shown as *audited under framework v1*
+and is not credited with structures it does not carry. `framework_version` in
+the refinement log is what makes that distinction expressible instead of
+forcing a choice between deleting real evidence and inflating a number.
+
+A metric that only ever rises measures effort, not readiness.
 
 ## Why a lot can be removed
 

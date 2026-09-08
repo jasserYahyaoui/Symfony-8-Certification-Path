@@ -122,7 +122,65 @@ final readonly class QuestionLoader
             verificationStatus: VerificationStatus::from($this->req($raw, 'verification_status', $ctx)),
             reviewers: array_map(strval(...), (array) ($raw['reviewers'] ?? [])),
             reviewedAt: isset($raw['reviewed_at']) ? (string) $raw['reviewed_at'] : null,
+            questionArchetype: $this->archetype($raw, $ctx),
+            assessesOutcomes: $this->outcomeRefs($raw, $ctx),
         );
+    }
+
+    /**
+     * An unknown archetype is rejected here rather than passed through as a
+     * string, so a typo cannot travel to the rules disguised as a legitimate
+     * value and be silently counted as "an archetype".
+     *
+     * @param array<string, mixed> $raw
+     */
+    private function archetype(array $raw, string $ctx): ?QuestionArchetype
+    {
+        $value = $raw['question_archetype'] ?? null;
+
+        if (null === $value || '' === trim((string) $value)) {
+            return null;
+        }
+
+        if (!\is_string($value)) {
+            throw new SchemaException(\sprintf('%s: `question_archetype` must be a string.', $ctx));
+        }
+
+        $archetype = QuestionArchetype::tryFrom($value);
+        if (null === $archetype) {
+            throw new SchemaException(\sprintf(
+                '%s: unknown question archetype "%s"; expected one of %s.',
+                $ctx,
+                $value,
+                implode(', ', QuestionArchetype::values()),
+            ));
+        }
+
+        return $archetype;
+    }
+
+    /**
+     * @param array<string, mixed> $raw
+     *
+     * @return list<string>
+     */
+    private function outcomeRefs(array $raw, string $ctx): array
+    {
+        $refs = [];
+
+        foreach ((array) ($raw['assesses_outcomes'] ?? []) as $ref) {
+            if (!\is_string($ref) || !Id::isValid($ref)) {
+                throw new SchemaException(\sprintf(
+                    '%s: `assesses_outcomes` entry "%s" is not a persistent identifier.',
+                    $ctx,
+                    \is_scalar($ref) ? (string) $ref : \gettype($ref),
+                ));
+            }
+
+            $refs[] = $ref;
+        }
+
+        return $refs;
     }
 
     /**

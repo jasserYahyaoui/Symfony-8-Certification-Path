@@ -94,7 +94,11 @@ final class Mock4PayloadTest extends TestCase
             self::assertNotNull($item);
             self::assertSame($item->officialItem, $entry['official_item']);
             self::assertSame($item->officialTopic, $entry['official_topic']);
-            self::assertSame($item->learningOutcomes, $entry['learning_outcomes']);
+            // The published payload keeps the shape its consumers read —
+            // `learning_outcomes: string[]` — even though an outcome is now an
+            // identified entity in the matrix (ADR-0007). The React app and the
+            // deployed JSON are unchanged by that.
+            self::assertSame($item->learningOutcomeTexts(), $entry['learning_outcomes']);
             self::assertNotSame([], $entry['learning_outcomes'], $id.' has no learning outcome to report against');
         }
     }

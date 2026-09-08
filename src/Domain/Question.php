@@ -17,6 +17,8 @@ final readonly class Question
      * @param list<SourceRef> $officialSources
      * @param list<string>    $tags
      * @param list<string>    $reviewers
+     * @param list<string>    $assessesOutcomes minted OUT ids of the learning
+     *                                          outcomes this question assesses
      */
     public function __construct(
         public Id $id,
@@ -47,6 +49,16 @@ final readonly class Question
         public VerificationStatus $verificationStatus,
         public array $reviewers,
         public ?string $reviewedAt,
+        /**
+         * The structural form of the question (ADR-0007).
+         *
+         * Nullable during the staged rollout: the 550 questions written before
+         * the axis existed carry none, and assigning one to each of them by
+         * guesswork would fabricate data (§19). Rule ARC-001 requires the field
+         * on every question of a lot recorded as refined.
+         */
+        public ?QuestionArchetype $questionArchetype = null,
+        public array $assessesOutcomes = [],
     ) {
     }
 
@@ -94,6 +106,11 @@ final readonly class Question
         }
 
         return true;
+    }
+
+    public function assessesOutcome(string $outcomeId): bool
+    {
+        return \in_array($outcomeId, $this->assessesOutcomes, true);
     }
 
     public function mayAppearInPracticeMode(): bool

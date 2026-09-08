@@ -16,12 +16,22 @@
 #   - the pull request is merged;
 #   - the deployment succeeded and its production smoke log was read.
 #
+# `framework_version` records WHICH definition of refinement the lot was
+# audited against (src/Readiness/RefinementFramework.php). Version 2 added
+# identified learning outcomes, the outcome-to-question link, question
+# archetypes and the revision budget (ADR-0007). A lot logged at an older
+# version keeps its audit record — the work was really done — but is not
+# credited with structures it does not carry, and the rules gating those
+# structures do not fail the build over it. Raising the bar is done by
+# re-refining a lot, never by re-labelling it.
+#
 # Removing a lot from this file lowers Certification Readiness. That is the
 # intended behaviour: the metric measures evidence, not history.
 schema_version: 1
 lots:
   - lot: lot-01
     status: REFINED
+    framework_version: 1
     report: docs/audit/lot-01-refinement/README.md
     pull_request: 81
     merged_commit: 5f871c0
@@ -32,3 +42,7 @@ lots:
       Found Interfaces documented but never made applicable, and four exam traps
       the courses teach that no question verified. Six questions added; all nine
       items now carry exam-mode evidence.
+      Audited under framework version 1: the lot carries no question archetype,
+      no outcome-to-question link and no revision-budget check, because none of
+      the three existed when it was refined. Re-refinement under version 2 is
+      the next unit of work.

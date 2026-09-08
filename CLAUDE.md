@@ -94,6 +94,32 @@ that is `EXAM_READY` needs at least one `VALIDATION` question, because its
 stated evidence requires a success in exam mode — rule `POOL-002` enforces this,
 so a lot is not finished until its VALIDATION questions exist.
 
+**Refinement is versioned, and the bar is allowed to rise (ADR-0007).**
+`docs/progress/refinement-log.yml` records the `framework_version` each lot was
+audited against. Version 2 requires identified learning outcomes (`OUT` ids),
+the `assesses_outcomes` link from a question to what it assesses,
+`question_archetype`, and the revision budget. A lot audited under an older
+version keeps its record — the audit really happened — but is **never**
+re-labelled as refined; it is re-refined. Raising `RefinementFramework::CURRENT`
+lowers Certification Readiness, and that is the intended behaviour: a metric
+that only ever rises measures effort, not readiness.
+
+The three rules those structures gate (`ARC-001`, `PED-003`, `REV-001`) raise
+errors only inside lots refined under the current framework, and warn elsewhere.
+That staging exists so that 550 questions written before the axis existed do not
+force either a fabricated archetype on each or the rule's removal — it is not a
+licence to leave a refined lot short. The exit condition is written into
+ADR-0007: when all 27 lots reach version 2, the tolerance is removed and the
+schema bumped.
+
+**A rule that has only ever been silent is not passing (§16).** All three new
+rules report nothing on the current corpus — the shape all five vacuous checks
+found in this project had. `python3 tools/audit/prove_framework_rules_fail.py`
+injects one defect per rule into real canonical data, asserts the rule fires
+with `[ERROR]`, and restores every file byte-identically under SHA-256. Run it
+whenever a rule is added or changed, and never report a rule as working on the
+strength of a clean run alone.
+
 **A fence is not a hiding place (§4.3, rule `CRS-001`).** A course may show the
 code its **own** item teaches inside a fenced block, even when a question on
 that item tests it. A correct answer belonging to **another** item is a leak

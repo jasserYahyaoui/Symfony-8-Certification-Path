@@ -44,8 +44,21 @@ final readonly class Course
         return str_contains(mb_strtolower($this->body), mb_strtolower($needle));
     }
 
+    /**
+     * Body words — the unit CLAUDE.md requires for course size, and the input
+     * to the revision budget REV-001.
+     *
+     * Counted as whitespace-separated tokens, not with `str_word_count()`:
+     * that function's default character class excludes accented letters, so it
+     * splits "défaut" into two words and over-counts a French corpus. On this
+     * project's first course it reported 387 where the body holds 354 tokens —
+     * a 9% inflation applied unevenly, since the error scales with how many
+     * accents a page happens to contain.
+     */
     public function wordCount(): int
     {
-        return str_word_count(strip_tags($this->body));
+        $tokens = preg_split('/\s+/u', trim($this->body), -1, \PREG_SPLIT_NO_EMPTY);
+
+        return false === $tokens ? 0 : \count($tokens);
     }
 }
