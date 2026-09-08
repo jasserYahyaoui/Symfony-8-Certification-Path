@@ -8,8 +8,17 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+    symbol_or_lines: "Security — `composer require symfony/security-bundle`, the bundle that wires the components into the framework"
     branch: "8.0"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst"
+    branch: "8.0"
+    symbol_or_lines: "`composer require symfony/security-csrf` — the CSRF token generation and validation package"
+    verified_at: "2026-09-07"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst"
+    branch: "8.0"
+    symbol_or_lines: "Password Hashing and Verification — `composer require symfony/password-hasher`, installed on its own"
+    verified_at: "2026-09-07"
 ---
 
 ## Objectif

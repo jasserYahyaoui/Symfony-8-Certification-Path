@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
+    symbol_or_lines: 'The Firewall — "Only one firewall is active on each request: Symfony uses the pattern key"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---

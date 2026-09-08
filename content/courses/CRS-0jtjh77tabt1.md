@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+    symbol_or_lines: '"Classes defined as abstract cannot be instantiated, and any class that contains at least one abstract method or property must also be abstract"; abstract methods "declare the method''s signature and whether it is public or protected"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"

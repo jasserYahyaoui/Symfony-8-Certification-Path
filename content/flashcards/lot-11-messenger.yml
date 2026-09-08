@@ -11,6 +11,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Routing Messages to a Transport — "its handler(s) will not be called immediately"; and Getting Results from your Handlers — $envelope->last(HandledStamp::class)->getResult()'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-g0g67y6cwvv1
@@ -24,6 +25,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Routing Messages to a Transport — "Any messages not matched under routing will still be handled immediately, i.e. synchronously"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-c1z191gbhw72
@@ -37,6 +39,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Creating a Message & Handler — "a class that has the AsMessageHandler attribute and has an __invoke() method that''s type-hinted with the" message class'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-sh7aqjgp5mzt
@@ -50,6 +53,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Restart Workers on Deploy — "restart all worker processes so they pick up the new code ... messenger:stop-workers ... tells each worker to finish its current message and exit cleanly. The process manager then restarts them"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-7hfxx70j2rhg
@@ -62,6 +66,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Retries & Failures — "a message will be retried 3 times before being discarded", i.e. the initial attempt plus three retries'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-c1cqrva0by96
@@ -76,6 +81,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    symbol_or_lines: 'Concepts / Middleware — "Middleware are called both when a message is originally dispatched and again later when a message is received from a transport"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-69qezsfk9bcg
@@ -87,6 +93,7 @@ flashcards:
   memorization_justification: Le nom laisse croire à un événement lié au traitement d'un message.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Event/WorkerRunningEvent.php
+    symbol_or_lines: 'WorkerRunningEvent — "Dispatched after the worker processed a message or didn''t receive a message at all"; isWorkerIdle() "Returns true when no message has been received by the worker"'
     branch: '8.0'
     verified_at: '2026-09-01'

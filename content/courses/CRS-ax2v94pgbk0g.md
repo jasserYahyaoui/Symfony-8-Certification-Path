@@ -12,6 +12,7 @@ official_sources:
     branch: "8.0"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst"
+    symbol_or_lines: '"This constraint is used to enable validation on objects that are embedded as properties on an object being validated. This allows you to validate an object and all sub-objects associated with it"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---

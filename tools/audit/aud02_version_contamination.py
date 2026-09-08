@@ -28,6 +28,7 @@ def bump(k, n=1):
 # --- the authorities this project is allowed to anchor to, from source-map.yml
 smap = collect.source_map()
 allowed_branch = {}
+SHA40 = re.compile(r'[0-9a-f]{40}')
 RAW = re.compile(r'raw\.githubusercontent\.com/([^/]+/[^/]+)/([^/]+)/')
 
 for group in ('technical_authority', 'scope_authority'):
@@ -61,17 +62,39 @@ for kind, rid, fname, srcs in records:
             continue
         repo, ref = m.group(1), m.group(2)
         bump(f'ref {repo}@{ref}')
+        # A full commit SHA is a *stronger* anchor than a branch name, not a
+        # weaker one: V-3 exists precisely because a branch moves. A citation
+        # pinned to a commit is accepted for any declared repository, and the
+        # branch it belongs to is then carried in the `branch` field.
+        pinned = SHA40.fullmatch(ref) is not None
+
         expected = allowed_branch.get(repo)
         if expected is None:
             note('CONTAM-1 unknown repository',
                  f'{kind} {rid} ({fname}): {repo} is not in source-map.yml')
-        elif ref != expected:
+        elif not pinned and ref != expected:
             note('CONTAM-2 wrong ref',
                  f'{kind} {rid} ({fname}): {repo}@{ref}, source-map says {expected}')
+        elif pinned and s.get('commit_sha') != ref:
+            note('CONTAM-8 pinned URL without a matching commit_sha',
+                 f'{kind} {rid} ({fname}): URL is pinned to {ref[:12]}… but commit_sha is '
+                 f'{s.get("commit_sha") or "absent"} — the pin must be recorded as a field too')
+
         declared = s.get('branch')
-        if declared is not None and declared != ref:
+        # A bare `branch: 8.0` in YAML is a float, not the string "8.0". The
+        # ref comparison below then fails on a value that reads correctly in
+        # the file, which is the least useful kind of defect.
+        if declared is not None and not isinstance(declared, str):
+            note('CONTAM-10 branch is not a string',
+                 f'{kind} {rid} ({fname}): branch: {declared!r} parsed as '
+                 f'{type(declared).__name__} — quote it')
+            declared = str(declared)
+        if declared is not None and declared != ref and not pinned:
             note('CONTAM-3 declared branch disagrees with URL',
                  f'{kind} {rid} ({fname}): branch: {declared} but URL carries {ref}')
+        if pinned and declared is not None and declared != expected:
+            note('CONTAM-9 pinned commit declares a branch the source map does not authorise',
+                 f'{kind} {rid} ({fname}): branch: {declared}, source-map says {expected}')
 
 # --- /current/ and other moving references, over every canonical file
 MOVING = [

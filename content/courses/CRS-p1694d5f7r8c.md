@@ -12,6 +12,7 @@ official_sources:
     symbol_or_lines: "public and private services, aliases"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+    symbol_or_lines: 'Public Versus Private Services — "Every service defined is private by default. When a service is private, you cannot access it directly from the container using $container->get()"; and "You can only set a parameter before the container is compiled, not at runtime"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---

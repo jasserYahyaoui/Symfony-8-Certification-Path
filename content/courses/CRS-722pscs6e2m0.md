@@ -13,6 +13,7 @@ official_sources:
     symbol_or_lines: "New Features > Core"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+    symbol_or_lines: 'Visibility — "Class members declared public can be accessed everywhere. Members declared protected can be accessed ... Members declared as private may only be accessed by the class that defines the member"'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"

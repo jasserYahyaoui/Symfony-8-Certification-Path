@@ -18,8 +18,13 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    symbol_or_lines: '"Set the value as a real environment variable in your shell or your web server" — one of the three ways to define a value, alongside a .env file'
     branch: '8.0'
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    branch: '8.0'
+    symbol_or_lines: 'Dotenv::populate(array $values, bool $overrideExistingVars = false) — "@param bool $overrideExistingVars Whether existing environment variables set by the system should be overridden"; the default is false, so a real environment variable wins'
+    verified_at: '2026-09-07'
 - id: FLC-63tca08n26r1
   official_item: OIT-kv7mbksn7m8v
   language: fr
@@ -32,6 +37,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    symbol_or_lines: '"You can customize the status code of an exception by implementing HttpExceptionInterface and its required getStatusCode() method. Otherwise, the status_code will default to 500"'
     branch: '8.0'
     verified_at: '2026-09-02'
 - id: FLC-1f4raf4m8wng
@@ -45,5 +51,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    symbol_or_lines: '"composer require --dev symfony/var-dumper" — installed as a development dependency'
     branch: '8.0'
     verified_at: '2026-09-02'

@@ -18,5 +18,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    symbol_or_lines: '"The Cache Contracts define only two methods: get() and delete(). There''s no set() method because the get() method both gets and sets"; the second argument "is a PHP callable which is executed when the key is not found in the cache"'
     branch: '8.0'
     verified_at: '2026-09-02'

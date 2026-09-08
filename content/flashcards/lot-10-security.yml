@@ -9,7 +9,8 @@ flashcards:
   memorization_justification: Le nom « Security » laisse croire à un bloc indivisible.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    symbol_or_lines: 'Password Hashing and Verification — "Symfony''s PasswordHasher component provides all utilities to safely hash and verify passwords. Make sure it is installed by running: composer require symfony/password-hasher"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-y9jp85bpbh2v
@@ -21,7 +22,8 @@ flashcards:
   memorization_justification: On confond le jeton, l'utilisateur et la session.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authentication/Token/Storage/TokenStorageInterface.php
+    symbol_or_lines: 'TokenStorageInterface::getToken() — "Returns the current security token"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-qtz62rzb36q3
@@ -34,6 +36,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'Add Code to Deny Access — "1) If the user isn''t logged in yet, they will be asked to log in ... 2) If the user is logged in, but does not have the ROLE_ADMIN role, they''ll be shown the 403 access denied page"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-paer6jdxzr95
@@ -47,8 +50,13 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'The Firewall — "Only one firewall is active on each request: Symfony uses the pattern key"'
     branch: '8.0'
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    symbol_or_lines: '"it stops - only the first matching access_control" (also: "Remember, the first rule that matches is used")'
+    branch: '8.0'
+    verified_at: '2026-09-07'
 - id: FLC-zpyvxwvf1x8a
   official_item: OIT-45p7535dk4s2
   language: fr
@@ -59,6 +67,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    symbol_or_lines: 'refreshUser() docblock — "When a user is logged in, at the beginning of each request, the User object is loaded from the session and then this method is called ... If your firewall is stateless: true (for a pure API), this method is not called"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-9j0hj0sv3c6j
@@ -71,6 +80,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'The Firewall — "Only one firewall is active on each request"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-ygn9w70dncp1
@@ -84,6 +94,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+    symbol_or_lines: 'interface UserInterface — the whole interface declares exactly two methods: getRoles(): array and getUserIdentifier(): string'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-y8dwv3bw5s2b
@@ -97,6 +108,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    symbol_or_lines: '"if a better hash algorithm is supported on your system, the user''s password should be rehashed using the newer algorithm and stored. That''s possible with the migrate_from option"; and the tip listing the migrate_from algorithms the auto/native/bcrypt/argon hashers enable'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-dxqgyh6g3w9z
@@ -110,6 +122,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    symbol_or_lines: 'Roles — "ROLE_ prefix - otherwise, things won''t work as expected"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-1vc4j2vszk96
@@ -122,6 +135,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    symbol_or_lines: '"For each incoming request, Symfony checks each access_control entry ... it stops - only the first matching access_control is used"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-kmf16st6cbrg
@@ -135,5 +149,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    symbol_or_lines: 'Changing the Access Decision Strategy — "affirmative (default) This grants access as soon as there is one voter granting access"; "unanimous This only grants access if there is no voter denying access"'
     branch: '8.0'
     verified_at: '2026-09-01'
