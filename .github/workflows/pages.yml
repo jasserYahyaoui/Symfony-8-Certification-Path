@@ -137,6 +137,7 @@ jobs:
           # belongs here: it is the only gate that reads what a learner reads.
           for path in "docs/courses/lot-01/abstract-classes" \
                       "docs/courses/lot-01/php-api-up-to-php-8-4-version" \
+                      "docs/courses/lot-01/interfaces" \
                       "docs/courses/lot-06/twigbundle"; do
             curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/fr2page "$BASE_URL/$path"
             # Known pre-FR-2 spellings. Each is a real French word missing its
@@ -149,6 +150,23 @@ jobs:
               echo "ok  fr-2   $path carries its accents"
             fi
           done
+
+          # The Lot 01 refinement, proved against the deployed bytes. The
+          # Interfaces item was assessed by two easy recall questions and its
+          # course omitted two PHP 8.4 rules; both were repaired. Neither the
+          # rule set nor any test reads a published page, so without this the
+          # only evidence the refinement reached the learner would be that the
+          # build succeeded.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/l1page "$BASE_URL/docs/courses/lot-01/interfaces"
+          missing=""
+          grep -q 'surchargeables depuis 8.1' /tmp/l1page || missing="$missing constant-override"
+          grep -q 'ne peut pas satisfaire une propriété' /tmp/l1page || missing="$missing readonly-vs-set"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 01 refinement missing from the published Interfaces page:$missing"
+            fail=1
+          else
+            echo "ok  lot-01  the Interfaces page carries the 8.1 and 8.4 rules"
+          fi
 
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
