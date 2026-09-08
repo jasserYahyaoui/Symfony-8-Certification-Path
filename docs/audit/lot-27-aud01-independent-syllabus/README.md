@@ -4,7 +4,8 @@
 
 | | |
 |---|---|
-| State | `NOT RUN` → `BLOCKED` → `RUNNING` → `FAIL` (2026-09-07) → **`PASS` pending the owner's remaining gate conditions** (2026-09-08) |
+| State | `NOT RUN` → `BLOCKED` → `RUNNING` → `FAIL` (2026-09-07) → **`PASS`** (2026-09-08) |
+| Blocker B-1 | **`PASS` — closed 2026-09-08**, all 26 of the owner's completion conditions met and evidenced |
 | Run at | 2026-09-07 |
 | Commit audited | `1db32f5` |
 | Script | [`tools/audit/aud01_syllabus_transcription.py`](../../../tools/audit/aud01_syllabus_transcription.py) |
@@ -185,7 +186,7 @@ and no `PASS` could be claimed against it. The owner supplied the **complete
 26-condition gate** on 2026-09-08. That statement is therefore withdrawn — not
 because the evidence changed, but because the gate did.
 
-**Assessed against all 26 conditions: 25 met and evidenced, 1 completing.**
+**Assessed against all 26 conditions: 26 met and evidenced. B-1 is `PASS`.**
 
 | # | Condition | State |
 |---|---|---|
@@ -212,9 +213,17 @@ because the evidence changed, but because the gate did.
 | 21 | PR merged | **MET** — `8dd3259` |
 | 22 | deployment matches the merge commit | **MET** — run `34191990789` on `8dd3259` |
 | 23 | smoke logs read and production verified | **MET** — job `101952058651` read line by line |
-| 24 | CONTEXT.md, audit register and `final-readiness.md` updated after production verification | **COMPLETING** — done by the reconciliation unit that carries this table; satisfied when that unit is itself merged and its deployment verified |
+| 24 | CONTEXT.md, audit register and `final-readiness.md` updated after production verification | **MET** — PR #74 (merge `852b650`) updated all three, deploy run `34228155042`, production smoke `102067762513` read line by line; PR #76 (merge `ee6fd36`) carried the §23 follow-up, deploy `34231443151`, smoke `102078807138` read |
 | 25 | the external-corroboration limit documented | **MET** — stated below and never softened |
 | 26 | no control weakened | **MET** — `SRC-001` was *strengthened* to `Error`; nothing was removed from `RuleSet::mandatory()` |
+
+## B-1 is closed
+
+With condition 24 met, every one of the 26 conditions the owner set is
+satisfied and evidenced above. **B-1 is `PASS`.** It moved
+`BLOCKED` → `FAIL` (2026-09-07) → `PASS` (2026-09-08), and the `FAIL` is left
+standing in that sequence rather than erased: `SYL-1` and `SYL-2` were real
+divergences and PR #68 repaired them.
 
 **Condition 25 is not a formality, and meeting it does not dissolve it.** The
 PDF is byte-identical to the artefact the import was made from. Everything
