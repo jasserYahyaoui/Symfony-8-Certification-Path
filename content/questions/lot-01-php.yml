@@ -150,6 +150,7 @@ questions:
     actually called. This is why factories use `new static()`.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+    symbol_or_lines: 'Limitations of self:: — "Static references to the current class like self:: or __CLASS__ are resolved using the class in which the function belongs, as in where it was defined"; and the introduction, static:: "can be used to reference the called class in the context of static inheritance"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -715,7 +716,7 @@ questions:
     Error is the separate engine-error hierarchy, not the usual base for domain or application exceptions.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
-    symbol_or_lines: '"PHP classes cannot implement the Throwable interface directly" — this page proves that half only; it continues "and must instead extend Exception", which is incomplete for the Error branch (see the php-src citation)'
+    symbol_or_lines: 'Note under "Introduction": "PHP classes cannot implement the Throwable interface directly"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'

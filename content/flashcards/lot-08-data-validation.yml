@@ -27,6 +27,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    symbol_or_lines: '"This constraint is used to enable validation on objects that are embedded as properties on an object being validated" — i.e. cascading requires #[Assert\\Valid] on the property'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-7p2ygq8ft3x4
@@ -72,6 +73,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    symbol_or_lines: '"Constraints in the Default group of a class are the constraints that have either no explicit group configured or that are configured to a group equal to the class name or the string Default"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-rstx3zwpz28w

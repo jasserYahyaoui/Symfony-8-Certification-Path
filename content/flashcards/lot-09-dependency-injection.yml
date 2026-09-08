@@ -11,6 +11,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: 'Public Versus Private Services — "you should fetch services using dependency injection instead of using $container->get()"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-cv9s7bswxrh8
@@ -37,6 +38,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: '"What other services are available? Find out by running: php bin/console debug:autowiring" — output headed "Autowirable Types ... can be used as type-hints when autowiring"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-kbnpt2sv2dss
@@ -62,6 +64,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    symbol_or_lines: '"The _defaults section applies only to services defined in the same services block. Each when@<env> block has its own scope and does not inherit _defaults from the main services section. Redefine _defaults in every when@<env> block where you need it"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-xj1bfncctk1r
