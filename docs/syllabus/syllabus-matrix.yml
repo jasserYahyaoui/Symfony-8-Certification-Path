@@ -44,16 +44,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalite a sa version, or Symfony 8.0 impose PHP 8.4 et une reponse valable en 8.1 peut etre fausse. Un tableau de versions et les quatre ajouts 8.4 suffisent ; le detail de chaque API PHP n'est ni examinable ni revisable.
+      Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalité à sa version, or Symfony 8.0 impose PHP 8.4 et une réponse valable en 8.1 peut être fausse. Un tableau de versions et les quatre ajouts 8.4 suffisent ; le détail de chaque API PHP n'est ni examinable ni révisable.
     learning_outcomes:
-      - "Attribuer une fonctionnalite du langage a sa version d'introduction"
-      - "Enumerer les quatre ajouts de langage de PHP 8.4"
-      - "Distinguer readonly de la visibilite asymetrique private(set)"
+      - "Attribuer une fonctionnalité du langage à sa version d'introduction"
+      - "Énumérer les quatre ajouts de langage de PHP 8.4"
+      - "Distinguer readonly de la visibilité asymétrique private(set)"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "PHP Polyfills are not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -97,16 +97,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : la resolution self/static est une erreur silencieuse classique, et la portee de private est liee a la classe declarante et non a l'instance. Le contenu se limite volontairement a ce que les items Attributes, Interfaces, Abstract classes, Traits et Enums ne couvrent pas, pour eviter la duplication.
+      Concept important exigeant distinction et application : la résolution self/static est une erreur silencieuse classique, et la portée de private est liée à la classe déclarante et non à l'instance. Le contenu se limite volontairement à ce que les items Attributes, Interfaces, Abstract classes, Traits et Enums ne couvrent pas, pour éviter la duplication.
     learning_outcomes:
-      - "Distinguer self et static dans une methode statique"
-      - "Enoncer la portee reelle de private (classe declarante, pas instance)"
+      - "Distinguer self et static dans une méthode statique"
+      - "Énoncer la portée réelle de private (classe déclarante, pas instance)"
       - "Appliquer readonly et la promotion de constructeur correctement"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -150,16 +150,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant application : les attributs portent l'essentiel de la configuration Symfony 8, et l'etape de lecture par reflexion (getAttributes puis newInstance) est systematiquement negligee. Sans elle un attribut est inerte, ce qui produit une panne silencieuse plutot qu'une erreur.
+      Concept important exigeant application : les attributs portent l'essentiel de la configuration Symfony 8, et l'étape de lecture par réflexion (getAttributes puis newInstance) est systématiquement négligée. Sans elle un attribut est inerte, ce qui produit une panne silencieuse plutôt qu'une erreur.
     learning_outcomes:
-      - "Declarer un attribut avec ses cibles et IS_REPEATABLE"
+      - "Déclarer un attribut avec ses cibles et IS_REPEATABLE"
       - "Identifier ce qui est admis comme argument d'attribut"
-      - "Lire un attribut par reflexion et distinguer getAttributes de newInstance"
+      - "Lire un attribut par réflexion et distinguer getAttributes de newInstance"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -204,14 +204,14 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Item factuel et de reconnaissance : les regles tiennent en un exemple et une liste de ce qui est interdit. La comparaison avec les classes abstraites appartient a l'item Abstract classes, qui en est le proprietaire ; la dupliquer ici doublerait le cout de revision sans gain.
+      Item factuel et de reconnaissance : les règles tiennent en un exemple et une liste de ce qui est interdit. La comparaison avec les classes abstraites appartient à l'item Abstract classes, qui en est le propriétaire ; la dupliquer ici doublerait le coût de révision sans gain.
     learning_outcomes:
-      - "Identifier ce qu'une interface peut declarer et ce qu'elle ne peut pas"
-      - "Enoncer les regles d'implementation et d'extension multiples"
+      - "Identifier ce qu'une interface peut déclarer et ce qu'elle ne peut pas"
+      - "Énoncer les règles d'implémentation et d'extension multiples"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -248,16 +248,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : deux syntaxes apparemment interchangeables aux regles de capture differentes, dont l'ecart ne se manifeste qu'a l'execution. La liaison de $this et le mot-cle static sur une closure sont une seconde source d'erreur reelle.
+      Concept important exigeant distinction et application : deux syntaxes apparemment interchangeables aux règles de capture différentes, dont l'écart ne se manifeste qu'à l'exécution. La liaison de $this et le mot-clé static sur une closure sont une seconde source d'erreur réelle.
     learning_outcomes:
       - "Distinguer la capture par use de la capture automatique de fn"
-      - "Determiner la valeur capturee au moment de la definition"
+      - "Déterminer la valeur capturée au moment de la définition"
       - "Expliquer la liaison de $this et l'effet de static sur une closure"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -295,14 +295,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : cet item est proprietaire de la comparaison interface / classe abstraite, qui est un choix de conception reellement teste. Les regles propres (abstract private interdit, un seul parent) sont courtes mais piegeuses.
+      Concept important exigeant distinction et application : cet item est propriétaire de la comparaison interface / classe abstraite, qui est un choix de conception réellement testé. Les règles propres (abstract private interdit, un seul parent) sont courtes mais piégeuses.
     learning_outcomes:
-      - "Ecrire une classe abstraite valide et identifier les declarations interdites"
+      - "Écrire une classe abstraite valide et identifier les déclarations interdites"
       - "Choisir entre interface et classe abstraite selon le besoin"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -339,18 +339,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs du moteur. C'est une erreur de conception frequente qui ne se revele qu'en production.
+      Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs du moteur. C'est une erreur de conception fréquente qui ne se révèle qu'en production.
     learning_outcomes:
-      - "Situer Error, Exception et Throwable dans la hierarchie"
-      - "Choisir le type a rattraper selon la defaillance visee"
-      - "Definir un type throwable applicatif correctement"
-      - "Predire le comportement de finally et l'ordre des catch"
+      - "Situer Error, Exception et Throwable dans la hiérarchie"
+      - "Choisir le type à rattraper selon la défaillance visée"
+      - "Définir un type throwable applicatif correctement"
+      - "Prédire le comportement de finally et l'ordre des catch"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -395,17 +395,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : l'ordre de precedence classe > trait > parent est contre-intuitif et silencieux, et la resolution de conflit par insteadof et as est une syntaxe a part que rien d'autre dans le langage ne rappelle.
+      Concept important exigeant distinction et application : l'ordre de précédence classe > trait > parent est contre-intuitif et silencieux, et la résolution de conflit par insteadof et as est une syntaxe à part que rien d'autre dans le langage ne rappelle.
     learning_outcomes:
-      - "Enoncer l'ordre de precedence entre classe courante, trait et parent"
-      - "Resoudre un conflit de traits avec insteadof et as"
+      - "Énoncer l'ordre de précédence entre classe courante, trait et parent"
+      - "Résoudre un conflit de traits avec insteadof et as"
       - "Identifier ce qu'un trait peut contenir et pourquoi il n'est pas un type"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -444,16 +444,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : la distinction pure / adossee commande la disponibilite de value, from et tryFrom, et le choix from / tryFrom est un choix de robustesse fait a l'ecriture. Les interdits (pas d'etat, pas d'heritage, pas de new) sont regulierement mal repondus.
+      Concept important exigeant distinction et application : la distinction pure / adossée commande la disponibilité de value, from et tryFrom, et le choix from / tryFrom est un choix de robustesse fait à l'écriture. Les interdits (pas d'état, pas d'héritage, pas de new) sont régulièrement mal répondus.
     learning_outcomes:
-      - "Distinguer enum pure et enum adossee"
-      - "Choisir entre from() et tryFrom() selon la fiabilite de l'entree"
-      - "Identifier ce qu'une enum peut et ne peut pas declarer"
+      - "Distinguer enum pure et enum adossée"
+      - "Choisir entre from() et tryFrom() selon la fiabilité de l'entrée"
+      - "Identifier ce qu'une enum peut et ne peut pas déclarer"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -493,15 +493,15 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Item factuel et de reconnaissance : il s'agit de situer RFC 9110 dans la famille 911x et de fixer le vocabulaire ressource / representation. Un tableau et quatre definitions suffisent ; les mecanismes eux-memes appartiennent aux items dedies.
+      Item factuel et de reconnaissance : il s'agit de situer RFC 9110 dans la famille 911x et de fixer le vocabulaire ressource / représentation. Un tableau et quatre définitions suffisent ; les mécanismes eux-mêmes appartiennent aux items dédiés.
     learning_outcomes:
       - "Situer RFC 9110 parmi 9111, 9112, 9113 et 9114"
-      - "Enoncer que la semantique est independante de la version de transport"
-      - "Distinguer ressource et representation"
+      - "Énoncer que la sémantique est indépendante de la version de transport"
+      - "Distinguer ressource et représentation"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -537,16 +537,16 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Item factuel et de reconnaissance : la classe se lit sur le premier chiffre. Une explication concise et une table de codes suffisent ; le detailler davantage augmenterait le cout de revision sans ameliorer la reponse a une question officielle.
+      Item factuel et de reconnaissance : la classe se lit sur le premier chiffre. Une explication concise et une table de codes suffisent ; le détailler davantage augmenterait le coût de révision sans améliorer la réponse à une question officielle.
     learning_outcomes:
-      - "Identifier la classe d'un code de statut a partir de son premier chiffre"
-      - "Distinguer 401 et 403 dans un scenario d'acces"
-      - "Distinguer les redirections preservant la methode (307/308) des autres"
+      - "Identifier la classe d'un code de statut à partir de son premier chiffre"
+      - "Distinguer 401 et 403 dans un scénario d'accès"
+      - "Distinguer les redirections préservant la méthode (307/308) des autres"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, dont une a reponses multiples, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, dont une à réponses multiples, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -591,18 +591,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : sept sacs dont les types different, et une contrainte defensive d'InputBag qui leve la ou l'on attend null. La fiabilite de getClientIp() derriere un proxy est une seconde source d'erreur reelle, avec consequence de securite.
+      Concept important exigeant distinction et application : sept sacs dont les types diffèrent, et une contrainte défensive d'InputBag qui lève là où l'on attend null. La fiabilité de getClientIp() derrière un proxy est une seconde source d'erreur réelle, avec conséquence de sécurité.
     learning_outcomes:
-      - "Choisir le sac approprie parmi les sept exposes par Request"
+      - "Choisir le sac approprié parmi les sept exposes par Request"
       - "Expliquer pourquoi InputBag refuse les valeurs non scalaires"
-      - "Utiliser all() plutot que get() pour une entree multiple"
+      - "Utiliser all() plutôt que get() pour une entrée multiple"
       - "Expliquer pourquoi getClientIp() exige des trusted proxies"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -649,16 +649,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction : isRedirect() et isRedirection() portent des noms quasi identiques et couvrent des ensembles qui se croisent sans s'inclure, 201 inclus et 304 exclu. Le choix de la sous-classe de Response est par ailleurs une decision d'application courante.
+      Concept important exigeant distinction : isRedirect() et isRedirection() portent des noms quasi identiques et couvrent des ensembles qui se croisent sans s'inclure, 201 inclus et 304 exclu. Le choix de la sous-classe de Response est par ailleurs une décision d'application courante.
     learning_outcomes:
-      - "Choisir la sous-classe de Response adaptee au cas"
-      - "Distinguer isRedirect() de isRedirection() sur des statuts precis"
+      - "Choisir la sous-classe de Response adaptée au cas"
+      - "Distinguer isRedirect() de isRedirection() sur des statuts précis"
       - "Distinguer isOk() de isSuccessful()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -697,16 +697,16 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction : trois proprietes independantes — sure, idempotente, cacheable — dont les intersections sont contre-intuitives. L'idee fausse que DELETE n'est pas idempotent parce que la seconde suppression echoue est tenace et directement examinable.
+      Concept important exigeant distinction : trois propriétés indépendantes — sûre, idempotente, cacheable — dont les intersections sont contre-intuitives. L'idée fausse que DELETE n'est pas idempotent parce que la seconde suppression échoue est tenace et directement examinable.
     learning_outcomes:
-      - "Classer une methode selon sure, idempotente et cacheable"
-      - "Expliquer pourquoi PUT et DELETE sont idempotents sans etre surs"
-      - "Distinguer l'effet sur l'etat du code de statut renvoye"
+      - "Classer une méthode selon sûre, idempotente et cacheable"
+      - "Expliquer pourquoi PUT et DELETE sont idempotents sans être sûrs"
+      - "Distinguer l'effet sur l'état du code de statut renvoyé"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -750,17 +750,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : chaque attribut de securite traite une menace differente, et les confondre produit une protection illusoire. La dependance SameSite=none vers Secure echoue silencieusement cote serveur.
+      Concept important exigeant distinction et application : chaque attribut de sécurité traite une menace différente, et les confondre produit une protection illusoire. La dépendance SameSite=none vers Secure échoue silencieusement côté serveur.
     learning_outcomes:
-      - "Poser et supprimer un cookie via la reponse"
-      - "Associer chaque attribut de securite a la menace qu'il attenue"
-      - "Enoncer la contrainte imposee par SameSite=none"
-      - "Expliquer pourquoi la suppression exige les memes path et domain"
+      - "Poser et supprimer un cookie via la réponse"
+      - "Associer chaque attribut de sécurité à la menace qu'il atténue"
+      - "Énoncer la contrainte imposée par SameSite=none"
+      - "Expliquer pourquoi la suppression exige les mêmes path et domain"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -799,18 +799,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : deux modeles (expiration, validation), une directive dont le nom contredit la semantique (no-cache), et un oubli de Vary qui casse un cache partage sans aucun symptome local. Le perimetre est limite aux en-tetes du protocole ; le reverse proxy Symfony appartient a l'item HTTP Caching de Miscellaneous.
+      Concept important exigeant distinction et application : deux modèles (expiration, validation), une directive dont le nom contredit la sémantique (no-cache), et un oubli de Vary qui casse un cache partage sans aucun symptôme local. Le périmètre est limité aux en-têtes du protocole ; le reverse proxy Symfony appartient à l'item HTTP Caching de Miscellaneous.
     learning_outcomes:
       - "Distinguer expiration et validation"
       - "Distinguer max-age de s-maxage et leurs caches respectifs"
       - "Distinguer no-cache de no-store"
-      - "Justifier la presence de Vary des qu'une reponse est negociee"
+      - "Justifier la présence de Vary dès qu'une réponse est négociée"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "ESI (Edge Side Includes) is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -860,15 +860,15 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : la ponderation par q, la valeur par defaut 1.0 et le sens de q=0 se combinent avec la specificite pour departager. L'omission de Vary lie directement cet item au cache et constitue le defaut le plus courant.
+      Concept important exigeant distinction et application : la pondération par q, la valeur par défaut 1.0 et le sens de q=0 se combinent avec la spécificité pour départager. L'omission de Vary lie directement cet item au cache et constitue le défaut le plus courant.
     learning_outcomes:
-      - "Interpreter les facteurs de qualite, y compris q=0"
-      - "Determiner la representation choisie face a un en-tete Accept donne"
+      - "Interpréter les facteurs de qualité, y compris q=0"
+      - "Déterminer la représentation choisie face à un en-tête Accept donne"
       - "Annoncer le choix par Content-Type, Content-Language et Vary"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -911,15 +911,15 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Item factuel et de reconnaissance : deux methodes et une regle de normalisation. Le perimetre est volontairement etroit — la resolution du locale par la route appartient a User's locale guessing, et la traduction a l'item i18n — ce qui evite de tripler le meme contenu.
+      Item factuel et de reconnaissance : deux méthodes et une règle de normalisation. Le périmètre est volontairement étroit — la résolution du locale par la route appartient à User's locale guessing, et la traduction à l'item i18n — ce qui évite de tripler le même contenu.
     learning_outcomes:
-      - "Lire les preferences linguistiques du client"
-      - "Distinguer getLanguages() de getPreferredLanguage() avec liste supportee"
-      - "Connaitre la normalisation fr-FR vers fr_FR"
+      - "Lire les préférences linguistiques du client"
+      - "Distinguer getLanguages() de getPreferredLanguage() avec liste supportée"
+      - "Connaître la normalisation fr-FR vers fr_FR"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -957,17 +957,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : le client est asynchrone par defaut, si bien que le moment reel de l'attente n'est pas celui qu'on croit. L'erreur ne produit aucun symptome fonctionnel, seulement une perte de parallelisme invisible, ce qui la rend durable.
+      Concept important exigeant distinction et application : le client est asynchrone par défaut, si bien que le moment réel de l'attente n'est pas celui qu'on croit. L'erreur ne produit aucun symptôme fonctionnel, seulement une perte de parallélisme invisible, ce qui la rend durable.
     learning_outcomes:
-      - "Emettre une requete sortante via HttpClientInterface"
-      - "Identifier le moment ou la reponse est reellement attendue"
-      - "Obtenir du parallelisme en emettant avant de lire"
-      - "Inspecter une reponse d'erreur sans exception"
+      - "Émettre une requête sortante via HttpClientInterface"
+      - "Identifier le moment où la réponse est réellement attendue"
+      - "Obtenir du parallélisme en émettant avant de lire"
+      - "Inspecter une réponse d'erreur sans exception"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1015,19 +1015,19 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Vu comme item d'architecture, le composant se reduit a trois faits : il remplace les
-      superglobales par des objets fabricables, il est autonome et c'est le framework qui en depend,
-      et il fournit RequestStack. Le modele des sacs et la contrainte de InputBag::get() sont deja
-      traites par l'item HTTP request du lot 02, et l'usage de Request et Response dans un controleur
+      Vu comme item d'architecture, le composant se réduit à trois faits : il remplace les
+      superglobales par des objets fabricables, il est autonome et c'est le framework qui en dépend,
+      et il fournit RequestStack. Le modèle des sacs et la contrainte de InputBag::get() sont déjà
+      traités par l'item HTTP request du lot 02, et l'usage de Request et Response dans un contrôleur
       appartient au lot 04 ; les reprendre ici serait de la duplication.
     learning_outcomes:
-      - "Enoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
-      - "Justifier que le composant est autonome et que la dependance va du framework vers lui"
-      - "Citer le role de RequestStack et de ses trois accesseurs"
+      - "Énoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
+      - "Justifier que le composant est autonome et que la dépendance va du framework vers lui"
+      - "Citer le rôle de RequestStack et de ses trois accesseurs"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1070,18 +1070,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Flex se resume a quatre faits — plugin Composer, alias, recette, symfony.lock — mais chacun est
-      exigible et les deux depots de recettes ont des comportements distincts. Le format MINIMAL ne
-      porterait pas cette derniere distinction.
+      Flex se résume à quatre faits — plugin Composer, alias, recette, symfony.lock — mais chacun est
+      exigible et les deux dépôts de recettes ont des comportements distincts. Le format MINIMAL ne
+      porterait pas cette dernière distinction.
     learning_outcomes:
-      - "Enoncer que Flex est un plugin Composer"
+      - "Énoncer que Flex est un plugin Composer"
       - "Distinguer un alias d'une recette"
-      - "Justifier que symfony.lock est committe"
+      - "Justifier que symfony.lock est committé"
       - "Distinguer symfony/recipes de symfony/recipes-contrib"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1125,15 +1125,15 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Item purement factuel : une licence, un titulaire, une obligation. Il n'y a rien a mettre en
-      oeuvre ni aucune confusion connue a lever ; deux phrases epuisent le sujet.
+      Item purement factuel : une licence, un titulaire, une obligation. Il n'y a rien à mettre en
+      œuvre ni aucune confusion connue à lever ; deux phrases épuisent le sujet.
     learning_outcomes:
       - "Nommer la licence de Symfony"
-      - "Enoncer la seule obligation qu'elle impose"
+      - "Énoncer la seule obligation qu'elle impose"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1176,17 +1176,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La distinction composant / bridge / bundle est un critere a appliquer, pas un fait a retenir :
-      la question posee est toujours « lequel est-ce ? ». Un tableau a trois criteres est necessaire,
+      La distinction composant / bridge / bundle est un critère à appliquer, pas un fait à retenir :
+      la question posée est toujours « lequel est-ce ? ». Un tableau à trois critères est nécessaire,
       un traitement approfondi ne l'est pas.
     learning_outcomes:
-      - "Definir un composant, un bridge et un bundle"
-      - "Classer un paquet Symfony dans l'une des trois categories"
-      - "Enoncer que seul le bundle configure le framework"
+      - "Définir un composant, un bridge et un bundle"
+      - "Classer un paquet Symfony dans l'une des trois catégories"
+      - "Énoncer que seul le bundle configure le framework"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1230,18 +1230,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      L'arborescence seule serait MINIMAL, mais les mecanismes de deplacement ne le sont pas : la cle
-      extra de composer.json et les methodes getCacheDir() et getLogDir() ne suivent pas la meme
-      logique, et c'est cette asymetrie qui est interrogee.
+      L'arborescence seule serait MINIMAL, mais les mécanismes de déplacement ne le sont pas : la clé
+      extra de composer.json et les méthodes getCacheDir() et getLogDir() ne suivent pas la même
+      logique, et c'est cette asymétrie qui est interrogée.
     learning_outcomes:
-      - "Nommer le role de chaque repertoire par defaut"
-      - "Identifier public/ comme seul repertoire expose"
-      - "Choisir le bon mecanisme pour deplacer un repertoire donne"
-      - "Expliquer le role de config/packages/<env>/"
+      - "Nommer le rôle de chaque répertoire par défaut"
+      - "Identifier public/ comme seul répertoire expose"
+      - "Choisir le bon mécanisme pour déplacer un répertoire donne"
+      - "Expliquer le rôle de config/packages/<env>/"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1285,22 +1285,22 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Le trajet d'une requete est une procedure ordonnee dont chaque etape a un acteur, un pouvoir et
-      une condition ; l'ordre lui-meme est note. Trois pieges cumules — kernel.view conditionnel,
-      terminate apres l'envoi, finish_request apres response — ne se corrigent pas par un tableau.
-      C'est le mecanisme central sur lequel s'appuient les lots 04 et 10.
+      Le trajet d'une requête est une procédure ordonnée dont chaque étape a un acteur, un pouvoir et
+      une condition ; l'ordre lui-même est note. Trois pièges cumulés — kernel.view conditionnel,
+      terminate après l'envoi, finish_request après response — ne se corrigent pas par un tableau.
+      C'est le mécanisme central sur lequel s'appuient les lots 04 et 10.
     learning_outcomes:
-      - "Enoncer la signature de HttpKernelInterface::handle et le role de ses trois arguments"
-      - "Ordonner les evenements du noyau pour une requete nominale"
-      - "Nommer l'acteur de chaque etape : Runtime, Kernel, ControllerResolver"
-      - "Expliquer pourquoi kernel.view peut ne pas etre dispatche"
-      - "Situer kernel.terminate par rapport a l'envoi de la reponse"
+      - "Énoncer la signature de HttpKernelInterface::handle et le rôle de ses trois arguments"
+      - "Ordonner les événements du noyau pour une requête nominale"
+      - "Nommer l'acteur de chaque étape : Runtime, Kernel, ControllerResolver"
+      - "Expliquer pourquoi kernel.view peut ne pas être dispatché"
+      - "Situer kernel.terminate par rapport à l'envoi de la réponse"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
-      examen, et restitution de la sequence complete sans support.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1352,19 +1352,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une seule regle en cascade a trois branches, plus une interface et une methode d'echappement.
+      Une seule règle en cascade a trois branches, plus une interface et une méthode d'échappement.
       C'est court mais contre-intuitif — un 204 devient 500 — donc au-dessus de MINIMAL, et sans
-      procedure a derouler, donc en dessous de DEEP.
+      procédure à dérouler, donc en dessous de DEEP.
     learning_outcomes:
-      - "Enoncer les trois regles de determination du code de statut, dans l'ordre"
+      - "Énoncer les trois règles de détermination du code de statut, dans l'ordre"
       - "Identifier HttpExceptionInterface comme porteuse du statut"
-      - "Justifier l'appel a allowCustomResponseCode()"
-      - "Enoncer les deux leviers de ExceptionEvent"
+      - "Justifier l'appel à allowCustomResponseCode()"
+      - "Énoncer les deux leviers de ExceptionEvent"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1403,22 +1403,22 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Deux corps de connaissance se superposent : la mecanique du dispatcher — ecouteur, abonne,
-      priorite signee, propagation — et le catalogue des huit evenements du noyau, chacun avec un
-      pouvoir propre. Le tableau des pouvoirs est ce qui separe une bonne d'une mauvaise reponse, et
+      Deux corps de connaissance se superposent : la mécanique du dispatcher — écouteur, abonné,
+      priorité signée, propagation — et le catalogue des huit événements du noyau, chacun avec un
+      pouvoir propre. Le tableau des pouvoirs est ce qui sépare une bonne d'une mauvaise réponse, et
       il ne tient pas dans un format STANDARD.
     learning_outcomes:
-      - "Distinguer un ecouteur d'un abonne et leur mode d'enregistrement"
-      - "Enoncer la semantique de la priorite et sa valeur par defaut"
-      - "Delimiter l'effet de stopPropagation()"
-      - "Associer chaque evenement du noyau a sa classe et a son pouvoir"
+      - "Distinguer un écouteur d'un abonné et leur mode d'enregistrement"
+      - "Énoncer la sémantique de la priorité et sa valeur par défaut"
+      - "Délimiter l'effet de stopPropagation()"
+      - "Associer chaque événement du noyau à sa classe et à son pouvoir"
       - "Nommer les constantes de KernelEvents"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
-      examen, et restitution de la sequence complete sans support.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1469,18 +1469,18 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Une trentaine de recommandations ne tiennent pas dans un format MINIMAL, mais rien ici ne
-      demande d'etre approfondi : c'est de la reconnaissance. Le cours retient la regle des trois
+      demande d'être approfondi : c'est de la reconnaissance. Le cours retient la règle des trois
       niveaux de configuration et les recommandations contre-intuitives, et laisse le reste au
       document officiel.
     learning_outcomes:
-      - "Choisir entre variable d'environnement, secret, parametre et constante"
-      - "Enoncer la convention de prefixe app. pour les parametres"
-      - "Reconnaitre les recommandations contre-intuitives"
-      - "Enoncer qu'aucun bundle applicatif n'est recommande"
+      - "Choisir entre variable d'environnement, secret, paramètre et constante"
+      - "Énoncer la convention de préfixe app. pour les paramètres"
+      - "Reconnaître les recommandations contre-intuitives"
+      - "Énoncer qu'aucun bundle applicatif n'est recommandé"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1518,20 +1518,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La promesse est un tableau de cas d'usage, pas un mecanisme : on l'applique, on ne la deroule
-      pas. Deux exceptions etroites — arguments nommes, ajout de membre dans une classe etendue —
+      La promesse est un tableau de cas d'usage, pas un mécanisme : on l'applique, on ne la déroule
+      pas. Deux exceptions étroites — arguments nommés, ajout de membre dans une classe étendue —
       imposent plus qu'un format MINIMAL.
     learning_outcomes:
-      - "Distinguer utiliser, etendre et implementer au regard de la promesse"
+      - "Distinguer utiliser, étendre et implémenter au regard de la promesse"
       - "Identifier les deux cas non garantis lors de l'extension d'une classe"
-      - "Enoncer la portee de la garantie sur les arguments nommes"
+      - "Énoncer la portée de la garantie sur les arguments nommés"
       - "Citer les exclusions : @internal, experimental, traductions internes"
       - "Distinguer final de @final"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1572,19 +1572,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La fenetre mineure / majeure et les deux signaux — @deprecated et trigger_deprecation() —
-      forment un ensemble de regles exigibles, avec un paquet a nommer. Rien n'y demande une
+      La fenêtre mineure / majeure et les deux signaux — @deprecated et trigger_deprecation() —
+      forment un ensemble de règles exigibles, avec un paquet à nommer. Rien n'y demande une
       explication approfondie.
     learning_outcomes:
-      - "Enoncer dans quelle version une depreciation peut etre introduite puis supprimee"
+      - "Énoncer dans quelle version une dépréciation peut être introduite puis supprimée"
       - "Distinguer @deprecated de trigger_deprecation()"
       - "Nommer le paquet fournissant trigger_deprecation()"
-      - "Citer les trois fichiers a mettre a jour"
+      - "Citer les trois fichiers à mettre à jour"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1623,18 +1623,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un mecanisme different par sous-systeme, et deux pieges reels : la boucle infinie du gabarit
-      surcharge et l'impossibilite de remplacer une contrainte de validation. C'est un tableau plus
-      deux avertissements, pas un mecanisme a derouler.
+      Un mécanisme différent par sous-système, et deux pièges réels : la boucle infinie du gabarit
+      surcharge et l'impossibilité de remplacer une contrainte de validation. C'est un tableau plus
+      deux avertissements, pas un mécanisme à dérouler.
     learning_outcomes:
-      - "Associer chaque partie surchargeable a son mecanisme"
+      - "Associer chaque partie surchargeable à son mécanisme"
       - "Localiser un gabarit de surcharge"
-      - "Justifier l'emploi du prefixe @!"
-      - "Enoncer que les contraintes de validation s'ajoutent sans se remplacer"
+      - "Justifier l'emploi du préfixe @!"
+      - "Énoncer que les contraintes de validation s'ajoutent sans se remplacer"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1672,20 +1672,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Item chiffre : rythme, phases, durees de maintenance. Le nombre de valeurs a retenir et
-      l'asymetrie 3 ans / 4 ans de la LTS depassent le format MINIMAL, mais il n'y a aucun mecanisme a
+      Item chiffre : rythme, phases, durées de maintenance. Le nombre de valeurs à retenir et
+      l'asymétrie 3 ans / 4 ans de la LTS dépassent le format MINIMAL, mais il n'y a aucun mécanisme à
       expliquer.
     learning_outcomes:
-      - "Enoncer la frequence des versions correctives, mineures et majeures"
+      - "Énoncer la fréquence des versions correctives, mineures et majeures"
       - "Situer les mois de publication"
-      - "Enoncer les durees de maintenance standard et LTS"
+      - "Énoncer les durées de maintenance standard et LTS"
       - "Identifier X.4 comme version LTS"
-      - "Expliquer le developpement en parallele d'une majeure et de la derniere mineure"
+      - "Expliquer le développement en parallèle d'une majeure et de la dernière mineure"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1725,18 +1725,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une liste de PSR ne serait que de la reconnaissance, mais la ligne de partage entre implementee,
-      suivie et pontee est la seule chose reellement interrogee, et elle demande un critere. STANDARD
-      suffit ; le detail du pont PSR-7 n'appelle pas de traitement approfondi.
+      Une liste de PSR ne serait que de la reconnaissance, mais la ligne de partage entre implémentée,
+      suivie et pontée est la seule chose réellement interrogée, et elle demande un critère. STANDARD
+      suffit ; le détail du pont PSR-7 n'appelle pas de traitement approfondi.
     learning_outcomes:
-      - "Citer les PSR implementees par Symfony"
-      - "Distinguer une PSR implementee d'une PSR suivie"
-      - "Enoncer que PSR-7 et PSR-17 passent par un pont"
-      - "Associer le conteneur a PSR-11 et le dispatcher a PSR-14"
+      - "Citer les PSR implémentées par Symfony"
+      - "Distinguer une PSR implémentée d'une PSR suivie"
+      - "Énoncer que PSR-7 et PSR-17 passent par un pont"
+      - "Associer le conteneur à PSR-11 et le dispatcher à PSR-14"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1780,18 +1780,18 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Un tableau de casses et une liste de prefixes et suffixes. Rien a mettre en oeuvre, rien a
-      demontrer : la reconnaissance est le seul mode d'evaluation utile. La convention propre aux
-      controleurs est un item distinct du lot 04.
+      Un tableau de casses et une liste de préfixes et suffixes. Rien à mettre en œuvre, rien à
+      démontrer : la reconnaissance est le seul mode d'évaluation utile. La convention propre aux
+      contrôleurs est un item distinct du lot 04.
     learning_outcomes:
-      - "Associer chaque categorie d'element a sa casse"
-      - "Enoncer les prefixes et suffixes conventionnels"
-      - "Distinguer les prefixes d'attribut As... et Map..."
+      - "Associer chaque catégorie d'élément à sa casse"
+      - "Énoncer les préfixes et suffixes conventionnels"
+      - "Distinguer les préfixes d'attribut As... et Map..."
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1831,18 +1831,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le partage des roles entre le composant et le bundle est un critere a appliquer, avec une liste
-      d'apports a connaitre. Le deroule de la requete appartient au lot 03 ; ce qui reste ici est une
-      repartition, pas un mecanisme, donc au-dessus de MINIMAL et en dessous de DEEP.
+      Le partage des rôles entre le composant et le bundle est un critère à appliquer, avec une liste
+      d'apports à connaître. Le déroulé de la requête appartient au lot 03 ; ce qui reste ici est une
+      répartition, pas un mécanisme, donc au-dessus de MINIMAL et en dessous de DEEP.
     learning_outcomes:
       - "Distinguer ce que fournit le composant HttpKernel de ce qu'ajoute FrameworkBundle"
-      - "Citer les interfaces implementees par la classe Kernel"
-      - "Situer AbstractController et MicroKernelTrait du cote du bundle"
-      - "Enoncer que le composant fonctionne sans le bundle"
+      - "Citer les interfaces implémentées par la classe Kernel"
+      - "Situer AbstractController et MicroKernelTrait du côté du bundle"
+      - "Énoncer que le composant fonctionne sans le bundle"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1886,17 +1886,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Un tableau de conventions dont la seule information reellement utile est qu'aucune n'est
-      obligatoire, plus le format de _controller et la generation du nom de route. Les conventions
-      generales du framework sont un item distinct du lot 03.
+      Un tableau de conventions dont la seule information réellement utile est qu'aucune n'est
+      obligatoire, plus le format de _controller et la génération du nom de route. Les conventions
+      générales du framework sont un item distinct du lot 03.
     learning_outcomes:
-      - "Enoncer que le suffixe Controller est une convention et non une contrainte"
-      - "Ecrire la notation _controller pour une methode et pour une classe invocable"
-      - "Enoncer ce qui se passe lorsque l'option name d'une route est omise"
+      - "Énoncer que le suffixe Controller est une convention et non une contrainte"
+      - "Écrire la notation _controller pour une méthode et pour une classe invocable"
+      - "Énoncer ce qui se passe lorsque l'option name d'une route est omise"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -1939,19 +1939,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La classe elle-meme demande plus qu'un tableau : la portee protected de ses methodes et le
-      mecanisme ServiceSubscriberInterface avec ses services optionnels ont des consequences
-      observables. La production de la reponse est traitee par l'item The response ; sans elle, DEEP
+      La classe elle-même demande plus qu'un tableau : la portée protected de ses méthodes et le
+      mécanisme ServiceSubscriberInterface avec ses services optionnels ont des conséquences
+      observables. La production de la réponse est traitée par l'item The response ; sans elle, DEEP
       serait de la surproduction.
     learning_outcomes:
-      - "Enoncer que la classe de base est optionnelle et vient de FrameworkBundle"
-      - "Expliquer la consequence de methodes declarees protected"
-      - "Decrire le mecanisme de ServiceSubscriberInterface et le prefixe ?"
+      - "Énoncer que la classe de base est optionnelle et vient de FrameworkBundle"
+      - "Expliquer la conséquence de méthodes déclarées protected"
+      - "Décrire le mécanisme de ServiceSubscriberInterface et le préfixe ?"
       - "Situer setContainer() et son attribut Required"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -1996,19 +1996,19 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Vu depuis le controleur, l'item se reduit a trois faits : le type-hint suffit, les parametres de
-      route passent par attributes et sont apparies par nom, getPayload() lit le corps. Le modele des
-      sacs appartient a l'item HTTP request du lot 02 et le composant a l'item HttpFoundation du lot
+      Vu depuis le contrôleur, l'item se réduit à trois faits : le type-hint suffit, les paramètres de
+      route passent par attributes et sont appariés par nom, getPayload() lit le corps. Le modèle des
+      sacs appartient à l'item HTTP request du lot 02 et le composant à l'item HttpFoundation du lot
       03.
     learning_outcomes:
-      - "Obtenir la requete dans un controleur et dans un service"
-      - "Expliquer l'appariement par nom des parametres de route"
-      - "Citer _route et _controller comme attributs de requete"
+      - "Obtenir la requête dans un contrôleur et dans un service"
+      - "Expliquer l'appariement par nom des paramètres de route"
+      - "Citer _route et _controller comme attributs de requête"
       - "Distinguer getPayload() du sac request"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2045,20 +2045,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le choix du raccourci de production de reponse comporte plusieurs distinctions a consequence :
-      render contre renderView, le 422 automatique d'un formulaire invalide, la disposition par defaut
+      Le choix du raccourci de production de réponse comporte plusieurs distinctions à conséquence :
+      render contre renderView, le 422 automatique d'un formulaire invalide, la disposition par défaut
       de file(). Le catalogue des sous-classes de Response appartient au lot 02.
     learning_outcomes:
-      - "Enoncer l'obligation de retourner une Response et ce qui arrive sinon"
+      - "Énoncer l'obligation de retourner une Response et ce qui arrive sinon"
       - "Distinguer render() de renderView() par leur type de retour"
-      - "Enoncer le statut retourne par render() avec un formulaire invalide"
+      - "Énoncer le statut retourne par render() avec un formulaire invalide"
       - "Choisir entre json(), file() et stream() selon le cas"
-      - "Enoncer la disposition par defaut de file()"
+      - "Énoncer la disposition par défaut de file()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2103,16 +2103,16 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Il ne reste qu'une asymetrie a fixer — lire sur la requete, ecrire sur la reponse — et un piege,
-      l'usage de setcookie(). Les attributs de securite et la contrainte de suppression sont deja
-      traites par l'item Cookies du lot 02 ; les reprendre serait de la duplication.
+      Il ne reste qu'une asymétrie à fixer — lire sur la requête, écrire sur la réponse — et un piège,
+      l'usage de setcookie(). Les attributs de sécurité et la contrainte de suppression sont déjà
+      traités par l'item Cookies du lot 02 ; les reprendre serait de la duplication.
     learning_outcomes:
-      - "Lire un cookie depuis la requete et l'ecrire sur la reponse"
-      - "Justifier pourquoi setcookie() de PHP est a eviter"
+      - "Lire un cookie depuis la requête et l'écrire sur la réponse"
+      - "Justifier pourquoi setcookie() de PHP est à éviter"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2149,19 +2149,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois voies d'acces, un demarrage paresseux dont la consequence sur la cachabilite n'est pas
-      devinable, et deux methodes de securite que l'on confond. Cela depasse le format MINIMAL sans
-      constituer une procedure ordonnee.
+      Trois voies d'accès, un démarrage paresseux dont la conséquence sur la cachabilité n'est pas
+      devinable, et deux méthodes de sécurité que l'on confond. Cela dépasse le format MINIMAL sans
+      constituer une procédure ordonnée.
     learning_outcomes:
-      - "Obtenir la session dans un controleur et dans un service"
-      - "Enoncer les trois actions qui demarrent la session"
-      - "Expliquer l'effet du demarrage sur le cookie et la cachabilite"
+      - "Obtenir la session dans un contrôleur et dans un service"
+      - "Énoncer les trois actions qui démarrent la session"
+      - "Expliquer l'effet du démarrage sur le cookie et la cachabilité"
       - "Distinguer migrate() de invalidate()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2207,17 +2207,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Un mecanisme court : un message de session consomme a la lecture, un raccourci, et l'opposition
+      Un mécanisme court : un message de session consomme à la lecture, un raccourci, et l'opposition
       get / peek. Rien n'appelle un traitement plus long.
     learning_outcomes:
-      - "Enoncer ce qu'est un message flash et quand il disparait"
+      - "Énoncer ce qu'est un message flash et quand il disparaît"
       - "Citer l'equivalence de addFlash()"
       - "Distinguer get() et all() de peek() et peekAll()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2255,18 +2255,18 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Deux methodes, un statut par defaut, une position d'argument et un avertissement de securite. Le
-      format MINIMAL les porte sans perte ; l'opposition avec le forward est traitee par l'item
+      Deux méthodes, un statut par défaut, une position d'argument et un avertissement de sécurité. Le
+      format MINIMAL les porte sans perte ; l'opposition avec le forward est traitée par l'item
       Internal redirects.
     learning_outcomes:
       - "Choisir entre redirect() et redirectToRoute()"
-      - "Enoncer le statut par defaut et la position de l'argument qui le change"
-      - "Enoncer le risque de redirection non validee de redirect()"
+      - "Énoncer le statut par défaut et la position de l'argument qui le change"
+      - "Énoncer le risque de redirection non validée de redirect()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2304,19 +2304,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La valeur de l'item est entierement dans le contraste avec la redirection HTTP, qui demande un
-      tableau a cinq lignes, plus deux comportements non devinables : l'appariement des arguments par
-      nom et le vidage de app.current_route. Le nom meme de l'item induit en erreur.
+      La valeur de l'item est entièrement dans le contraste avec la redirection HTTP, qui demande un
+      tableau à cinq lignes, plus deux comportements non devinables : l'appariement des arguments par
+      nom et le vidage de app.current_route. Le nom même de l'item induit en erreur.
     learning_outcomes:
-      - "Decrire ce que forward() execute et ce qu'il retourne"
-      - "Opposer forward() et redirectToRoute() sur l'URL et le nombre de requetes"
-      - "Enoncer que les arguments sont apparies par nom"
-      - "Enoncer l'effet du forward sur app.current_route"
+      - "Décrire ce que forward() exécute et ce qu'il retourne"
+      - "Opposer forward() et redirectToRoute() sur l'URL et le nombre de requêtes"
+      - "Énoncer que les arguments sont appariés par nom"
+      - "Énoncer l'effet du forward sur app.current_route"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2362,20 +2362,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un piege silencieux — la methode ne leve pas l'exception —, une regle de resolution de gabarit
-      en deux temps, une route de previsualisation et une limite de securite propre aux pages 404.
-      Cela fait quatre faits a consequence, au-dessus du format MINIMAL.
+      Un piège silencieux — la méthode ne lève pas l'exception —, une règle de résolution de gabarit
+      en deux temps, une route de prévisualisation et une limite de sécurité propre aux pages 404.
+      Cela fait quatre faits à conséquence, au-dessus du format MINIMAL.
     learning_outcomes:
-      - "Produire un 404 depuis un controleur, en levant l'exception"
-      - "Localiser et nommer le gabarit d'erreur, avec sa regle de repli"
+      - "Produire un 404 depuis un contrôleur, en levant l'exception"
+      - "Localiser et nommer le gabarit d'erreur, avec sa règle de repli"
       - "Citer les variables fournies au gabarit d'erreur"
-      - "Utiliser la route _error en developpement"
-      - "Enoncer l'indisponibilite des informations de securite sur une page 404"
+      - "Utiliser la route _error en développement"
+      - "Énoncer l'indisponibilité des informations de sécurité sur une page 404"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2420,20 +2420,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux voies de recuperation, une obligation de deplacement, et surtout une liste de methodes dont
-      les valeurs viennent du client et ne sont pas fiables. La consequence est une regle de securite,
+      Deux voies de récupération, une obligation de déplacement, et surtout une liste de méthodes dont
+      les valeurs viennent du client et ne sont pas fiables. La conséquence est une règle de sécurité,
       pas un simple rappel d'API.
     learning_outcomes:
-      - "Recuperer un fichier televerse par le sac files ou par MapUploadedFile"
-      - "Enoncer le comportement de MapUploadedFile en l'absence de fichier"
-      - "Justifier l'appel a move()"
-      - "Identifier les methodes getClient... comme non fiables"
+      - "Récupérer un fichier téléversé par le sac files ou par MapUploadedFile"
+      - "Énoncer le comportement de MapUploadedFile en l'absence de fichier"
+      - "Justifier l'appel à move()"
+      - "Identifier les méthodes getClient... comme non fiables"
       - "Justifier l'emploi de guessExtension()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2478,19 +2478,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois controleurs, chacun avec ses options de route, dont une — keepRequestMethod et sa
+      Trois contrôleurs, chacun avec ses options de route, dont une — keepRequestMethod et sa
       substitution 302/301 en 307/308 — a un effet observable qui ne se devine pas. Un format MINIMAL
       ne porterait pas les tableaux d'options.
     learning_outcomes:
-      - "Referencer un controleur du framework depuis une route"
+      - "Référencer un contrôleur du framework depuis une route"
       - "Configurer TemplateController et citer son option obligatoire"
       - "Distinguer les options route et path de RedirectController"
-      - "Enoncer l'effet de keepRequestMethod sur le code de statut"
+      - "Énoncer l'effet de keepRequestMethod sur le code de statut"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2535,23 +2535,23 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      C'est le mecanisme qui explique la moitie du lot : un contrat au retour contre-intuitif, une
-      chaine ordonnee par priorite ou le premier servi arrete tout, un catalogue de dix resolveurs, et
-      la notion de resolveur cible dont les attributs Map... ne sont que la forme confortable. Chacune
-      de ces couches change la reponse a une question, et l'ordre lui-meme est note.
+      C'est le mécanisme qui explique la moitié du lot : un contrat au retour contre-intuitif, une
+      chaîne ordonnée par priorité où le premier servi arrête tout, un catalogue de dix résolveurs, et
+      la notion de résolveur cible dont les attributs Map... ne sont que la forme confortable. Chacune
+      de ces couches change la réponse à une question, et l'ordre lui-même est note.
     learning_outcomes:
-      - "Enoncer le contrat de ValueResolverInterface::resolve et son type de retour"
-      - "Expliquer la selection par priorite et l'arret au premier resolveur servi"
+      - "Énoncer le contrat de ValueResolverInterface::resolve et son type de retour"
+      - "Expliquer la sélection par priorité et l'arrêt au premier résolveur servi"
       - "Justifier l'ordre entre SessionValueResolver et DefaultValueResolver"
-      - "Associer chaque resolveur integre a ce qu'il remplit"
-      - "Distinguer un resolveur cible d'un resolveur ordinaire"
-      - "Enoncer le statut retourne pour une valeur d'enumeration invalide"
+      - "Associer chaque résolveur intégré à ce qu'il remplit"
+      - "Distinguer un résolveur cible d'un résolveur ordinaire"
+      - "Énoncer le statut retourne pour une valeur d'énumération invalide"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
-      examen, et restitution de la sequence complete sans support.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2598,19 +2598,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le partage des roles entre composant et bundle demande une liste de classes et une liste
-      d'apports, plus la distinction matcher / generateur qui explique pourquoi une option peut
-      compter dans un seul sens. Ce n'est pas un mecanisme a derouler, mais cela depasse le format
+      Le partage des rôles entre composant et bundle demande une liste de classes et une liste
+      d'apports, plus la distinction matcher / générateur qui explique pourquoi une option peut
+      compter dans un seul sens. Ce n'est pas un mécanisme à dérouler, mais cela dépasse le format
       MINIMAL.
     learning_outcomes:
-      - "Enoncer ce que le composant produit a partir d'une requete"
-      - "Nommer les classes centrales du composant et leur role"
+      - "Énoncer ce que le composant produit à partir d'une requête"
+      - "Nommer les classes centrales du composant et leur rôle"
       - "Distinguer UrlMatcher de UrlGenerator"
       - "Citer ce que FrameworkBundle ajoute au composant"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2654,17 +2654,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant une distinction et une application : les deux formats sont equivalents en capacite mais divergent sur la maitrise de l'ordre d'evaluation, source d'erreur reelle. Une comparaison et un exemple cible sont necessaires ; un traitement DEEP ne serait pas justifie car le flux interne du routeur n'est pas examinable ici.
+      Concept important exigeant une distinction et une application : les deux formats sont équivalents en capacité mais divergent sur la maîtrise de l'ordre d'évaluation, source d'erreur réelle. Une comparaison et un exemple cible sont nécessaires ; un traitement DEEP ne serait pas justifie car le flux interne du routeur n'est pas examinable ici.
     learning_outcomes:
-      - "Declarer une route equivalente en YAML et en attribut PHP"
-      - "Enoncer la regle d'ordre d'evaluation (premiere correspondance gagnante)"
+      - "Déclarer une route équivalente en YAML et en attribut PHP"
+      - "Énoncer la règle d'ordre d'évaluation (première correspondance gagnante)"
       - "Diagnostiquer une collision de routes et choisir la correction minimale"
       - "Identifier le namespace correct de l'attribut Route en Symfony 8.0"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application (dont un diagnostic), reussies sur 2 sessions distinctes.
+      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application (dont un diagnostic), réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -2710,19 +2710,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois ecritures equivalentes, une enumeration de constantes, et une exception non devinable : la
-      valeur par defaut n'a pas a satisfaire la contrainte. Le probleme resolu — deux routes
-      indiscernables — demande d'etre pose pour que la regle ait un sens.
+      Trois écritures équivalentes, une énumération de constantes, et une exception non devinable : la
+      valeur par défaut n'a pas à satisfaire la contrainte. Le problème résolu — deux routes
+      indiscernables — demande d'être pose pour que la règle ait un sens.
     learning_outcomes:
-      - "Declarer une contrainte de parametre dans les trois ecritures"
-      - "Expliquer le probleme d'ambiguite que requirements resout"
-      - "Citer l'enumeration Requirement et son usage en YAML"
-      - "Enoncer que la valeur par defaut echappe a la contrainte"
+      - "Déclarer une contrainte de paramètre dans les trois écritures"
+      - "Expliquer le problème d'ambiguïté que requirements résout"
+      - "Citer l'énumération Requirement et son usage en YAML"
+      - "Énoncer que la valeur par défaut échappe à la contrainte"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2762,19 +2762,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois endroits ou ecrire la valeur par defaut selon le format, une regle structurelle contre-
-      intuitive sur l'ordre des parametres facultatifs, et le prefixe ! qui agit sur la generation et
-      non sur l'appariement. Chacun de ces trois points change une reponse.
+      Trois endroits où écrire la valeur par défaut selon le format, une règle structurelle contre-
+      intuitive sur l'ordre des paramètres facultatifs, et le préfixe ! qui agit sur la génération et
+      non sur l'appariement. Chacun de ces trois points change une réponse.
     learning_outcomes:
-      - "Rendre un parametre facultatif dans chaque format de configuration"
-      - "Enoncer la regle sur ce qui suit un parametre facultatif"
-      - "Expliquer l'effet du prefixe ! sur l'URL generee"
-      - "Enoncer que la valeur par defaut peut violer la contrainte"
+      - "Rendre un paramètre facultatif dans chaque format de configuration"
+      - "Énoncer la règle sur ce qui suit un paramètre facultatif"
+      - "Expliquer l'effet du préfixe ! sur l'URL générée"
+      - "Énoncer que la valeur par défaut peut violer la contrainte"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2814,18 +2814,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Quatre types de reference a connaitre, un comportement non evident sur les parametres hors
-      route, une exception sur les objets, et une recommandation explicite sur la verification
-      d'existence. La liste des faits exigibles depasse le format MINIMAL.
+      Quatre types de référence à connaître, un comportement non évident sur les paramètres hors
+      route, une exception sur les objets, et une recommandation explicite sur la vérification
+      d'existence. La liste des faits exigibles dépasse le format MINIMAL.
     learning_outcomes:
-      - "Generer une URL depuis un controleur, un service et un gabarit"
-      - "Associer chaque constante de type de reference a sa forme d'URL"
-      - "Enoncer le sort d'un parametre absent de la definition de route"
-      - "Enoncer la methode recommandee pour tester l'existence d'une route"
+      - "Générer une URL depuis un contrôleur, un service et un gabarit"
+      - "Associer chaque constante de type de référence à sa forme d'URL"
+      - "Énoncer le sort d'un paramètre absent de la définition de route"
+      - "Énoncer la méthode recommandée pour tester l'existence d'une route"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2870,19 +2870,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux mecanismes distincts avec des valeurs precises a retenir — un 301 restreint a GET et HEAD,
-      et une option schemes qui agit dans les deux sens. Les redirections emises par un controleur
-      appartiennent au lot 04 ; ce qui reste ici est declenche par le routage lui-meme.
+      Deux mécanismes distincts avec des valeurs précises à retenir — un 301 restreint à GET et HEAD,
+      et une option schemes qui agit dans les deux sens. Les redirections émises par un contrôleur
+      appartiennent au lot 04 ; ce qui reste ici est déclenché par le routage lui-même.
     learning_outcomes:
-      - "Enoncer le code et les methodes de la redirection de barre finale"
+      - "Énoncer le code et les méthodes de la redirection de barre finale"
       - "Lire le tableau de redirection dans les deux sens"
-      - "Expliquer l'effet de schemes a l'appariement et a la generation"
-      - "Justifier qu'une route puisse deleguer a RedirectController"
+      - "Expliquer l'effet de schemes à l'appariement et à la génération"
+      - "Justifier qu'une route puisse déléguer à RedirectController"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2927,18 +2927,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Cinq parametres reserves, leurs formes courtes dans l'attribut, et une exception a memoriser sur
-      l'usage en import. C'est un tableau de reference dont chaque ligne a un effet different, donc
+      Cinq paramètres réservés, leurs formes courtes dans l'attribut, et une exception à mémoriser sur
+      l'usage en import. C'est un tableau de référence dont chaque ligne a un effet différent, donc
       au-dessus du format MINIMAL.
     learning_outcomes:
-      - "Nommer les cinq parametres reserves et leur effet"
-      - "Expliquer ce que _format change sur la reponse"
-      - "Associer les options locale, format et query a leur parametre reserve"
-      - "Enoncer que _fragment ne s'utilise pas dans un import"
+      - "Nommer les cinq paramètres réservés et leur effet"
+      - "Expliquer ce que _format change sur la réponse"
+      - "Associer les options locale, format et query à leur paramètre réservé"
+      - "Énoncer que _fragment ne s'utilise pas dans un import"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -2976,16 +2976,16 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une option, un comportement par defaut, et la reutilisation des mecanismes deja connus de
-      defaults et requirements. Il n'y a rien de propre a l'hote a expliquer une fois ce point etabli.
+      Une option, un comportement par défaut, et la réutilisation des mécanismes déjà connus de
+      defaults et requirements. Il n'y a rien de propre à l'hôte à expliquer une fois ce point établi.
     learning_outcomes:
-      - "Contraindre une route a un nom d'hote"
-      - "Enoncer le comportement en l'absence d'option host"
-      - "Parametrer l'hote avec defaults et requirements"
+      - "Contraindre une route à un nom d'hôte"
+      - "Énoncer le comportement en l'absence d'option host"
+      - "Paramétrer l'hôte avec defaults et requirements"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3022,19 +3022,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois variables, deux fonctions, un attribut de service a nommer, et surtout une asymetrie
-      invisible : les conditions ne comptent qu'a l'appariement. Cette derniere est ce qui separe une
-      bonne d'une mauvaise reponse et demande d'etre opposee a requirements.
+      Trois variables, deux fonctions, un attribut de service à nommer, et surtout une asymétrie
+      invisible : les conditions ne comptent qu'à l'appariement. Cette dernière est ce qui sépare une
+      bonne d'une mauvaise réponse et demande d'être opposée à requirements.
     learning_outcomes:
-      - "Ecrire une condition d'appariement de route"
+      - "Écrire une condition d'appariement de route"
       - "Nommer les variables et les fonctions disponibles dans une condition"
       - "Exposer un service aux conditions par AsRoutingConditionService"
-      - "Enoncer que les conditions sont ignorees a la generation d'URL"
+      - "Énoncer que les conditions sont ignorées à la génération d'URL"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3073,17 +3073,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une option, un comportement par defaut permissif, et le contournement _method avec l'option de
-      configuration qui l'active. Quatre faits courts, sans mecanisme a derouler.
+      Une option, un comportement par défaut permissif, et le contournement _method avec l'option de
+      configuration qui l'active. Quatre faits courts, sans mécanisme à dérouler.
     learning_outcomes:
-      - "Enoncer les methodes acceptees en l'absence d'option methods"
-      - "Restreindre une route a certaines methodes"
-      - "Decrire le contournement _method et l'option qui l'active"
+      - "Énoncer les méthodes acceptées en l'absence d'option methods"
+      - "Restreindre une route à certaines méthodes"
+      - "Décrire le contournement _method et l'option qui l'active"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3121,20 +3121,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux mecanismes de routage distincts — le parametre _locale et les chemins localises —, un repli
-      de configuration, et un piege de sequencement dont le symptome est silencieux. La negociation
+      Deux mécanismes de routage distincts — le paramètre _locale et les chemins localisés —, un repli
+      de configuration, et un piège de séquencement dont le symptôme est silencieux. La négociation
       Accept-Language appartient au lot 02 et la traduction au lot 16 ; ce qui reste ici justifie
       encore le format STANDARD.
     learning_outcomes:
-      - "Fixer la locale par le parametre _locale"
-      - "Declarer un chemin par locale et son repli"
+      - "Fixer la locale par le paramètre _locale"
+      - "Déclarer un chemin par locale et son repli"
       - "Citer framework.default_locale comme repli global"
-      - "Expliquer pourquoi setLocale() dans un controleur arrive trop tard"
+      - "Expliquer pourquoi setLocale() dans un contrôleur arrive trop tard"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3180,15 +3180,15 @@ items:
     content_level: MINIMAL
     content_level_justification: >-
       Deux commandes et leurs options principales. La seule information non triviale — debug:router
-      liste dans l'ordre d'evaluation — tient en une phrase.
+      liste dans l'ordre d'évaluation — tient en une phrase.
     learning_outcomes:
-      - "Lister les routes dans leur ordre d'evaluation"
+      - "Lister les routes dans leur ordre d'évaluation"
       - "Citer les options utiles de debug:router"
       - "Utiliser router:match pour diagnostiquer une URL"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3228,18 +3228,18 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Le partage entre moteur, bridge et bundle, plus cinq options de configuration dont
-      strict_variables change un comportement observable, et deux commandes. C'est une repartition a
-      appliquer, pas un mecanisme a derouler.
+      strict_variables change un comportement observable, et deux commandes. C'est une répartition à
+      appliquer, pas un mécanisme à dérouler.
     learning_outcomes:
       - "Distinguer twig/twig, le bridge Twig et TwigBundle"
-      - "Localiser les gabarits par defaut et changer ce repertoire"
-      - "Referencer un gabarit de bundle par son espace de noms"
-      - "Enoncer l'effet de strict_variables"
+      - "Localiser les gabarits par défaut et changer ce répertoire"
+      - "Référencer un gabarit de bundle par son espace de noms"
+      - "Énoncer l'effet de strict_variables"
       - "Citer debug:twig et lint:twig"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3278,24 +3278,24 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      C'est le socle des treize autres items, et il porte une procedure ordonnee dont l'ordre est note
-      : les sept etapes de resolution de foo.bar, avec le tableau essaye avant la propriete et
-      strict_variables au bout. S'y ajoutent trois delimiteurs a ne pas confondre et un jeu
-      d'operateurs dont trois pieges reviennent. La version compte : le syllabus dit up to 3.22
+      C'est le socle des treize autres items, et il porte une procédure ordonnée dont l'ordre est note
+      : les sept étapes de résolution de foo.bar, avec le tableau essayé avant la propriété et
+      strict_variables au bout. S'y ajoutent trois délimiteurs à ne pas confondre et un jeu
+      d'opérateurs dont trois pièges reviennent. La version compte : le syllabus dit up to 3.22
       version.
     learning_outcomes:
-      - "Associer chaque delimiteur a son role"
-      - "Enoncer les sept etapes de resolution de foo.bar dans l'ordre"
-      - "Expliquer l'effet de strict_variables sur la derniere etape"
-      - "Choisir l'operateur correct pour concatener, comparer et tester"
+      - "Associer chaque délimiteur à son rôle"
+      - "Énoncer les sept étapes de résolution de foo.bar dans l'ordre"
+      - "Expliquer l'effet de strict_variables sur la dernière étape"
+      - "Choisir l'opérateur correct pour concaténer, comparer et tester"
       - "Distinguer ?: de ??"
-      - "Controler les espaces avec {{- et -}}"
+      - "Contrôler les espaces avec {{- et -}}"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
-      examen, et restitution de la sequence complete sans support.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3343,19 +3343,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Cinq strategies dont le choix depend du contexte du document, et une frontiere html / html_attr
-      qui decide de la presence d'une faille. Le moment d'application — a l'affichage — n'est pas
-      devinable. Plus qu'un fait, moins qu'une procedure.
+      Cinq stratégies dont le choix dépend du contexte du document, et une frontière html / html_attr
+      qui décide de la présence d'une faille. Le moment d'application — à l'affichage — n'est pas
+      devinable. Plus qu'un fait, moins qu'une procédure.
     learning_outcomes:
-      - "Enoncer la strategie active par defaut et le moment de son application"
-      - "Associer chaque strategie au contexte qu'elle protege"
+      - "Énoncer la stratégie active par défaut et le moment de son application"
+      - "Associer chaque stratégie au contexte qu'elle protège"
       - "Distinguer html de html_attr sur un attribut sans guillemets"
-      - "Employer raw et la balise autoescape a bon escient"
+      - "Employer raw et la balise autoescape à bon escient"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3402,19 +3402,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux regles structurelles — heritage simple, extends en premiere balise — et un comportement
-      silencieux : le contenu hors bloc d'un enfant disparait sans erreur. La reutilisation
-      horizontale par use complete le tableau sans le doubler.
+      Deux règles structurelles — héritage simple, extends en première balise — et un comportement
+      silencieux : le contenu hors bloc d'un enfant disparaît sans erreur. La réutilisation
+      horizontale par use complète le tableau sans le doubler.
     learning_outcomes:
-      - "Construire une hierarchie extends / block"
-      - "Enoncer ce qu'il advient du contenu ecrit hors d'un bloc"
-      - "Employer parent() pour completer un bloc"
-      - "Distinguer l'heritage de la reutilisation horizontale"
+      - "Construire une hiérarchie extends / block"
+      - "Énoncer ce qu'il advient du contenu écrit hors d'un bloc"
+      - "Employer parent() pour compléter un bloc"
+      - "Distinguer l'héritage de la réutilisation horizontale"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3460,18 +3460,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Onze proprietes de la variable app a connaitre, un raccourci documente vers les attributs de
-      requete, une cle de configuration, et le piege de consommation de app.flashes. Un format MINIMAL
+      Onze propriétés de la variable app à connaître, un raccourci documenté vers les attributs de
+      requête, une clé de configuration, et le piège de consommation de app.flashes. Un format MINIMAL
       ne porterait pas le tableau.
     learning_outcomes:
-      - "Citer les proprietes de la variable app et leur contenu"
-      - "Reconnaitre l'equivalence de app.current_route"
-      - "Declarer une globale par twig.globals"
-      - "Enoncer que app.flashes consomme les messages"
+      - "Citer les propriétés de la variable app et leur contenu"
+      - "Reconnaître l'equivalence de app.current_route"
+      - "Déclarer une globale par twig.globals"
+      - "Énoncer que app.flashes consomme les messages"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3510,19 +3510,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La distinction filtre / fonction est un critere a appliquer, l'ordre d'enchainement a une
-      consequence, et la provenance des extensions Symfony — le bridge, pas le moteur — relie l'item
-      au lot 03. Trois choses a articuler, pas une a retenir.
+      La distinction filtre / fonction est un critère à appliquer, l'ordre d'enchaînement a une
+      conséquence, et la provenance des extensions Symfony — le bridge, pas le moteur — relie l'item
+      au lot 03. Trois choses à articuler, pas une à retenir.
     learning_outcomes:
       - "Distinguer un filtre d'une fonction"
-      - "Enchainer des filtres et expliquer l'effet de l'ordre"
+      - "Enchaîner des filtres et expliquer l'effet de l'ordre"
       - "Employer la balise apply sur un bloc"
       - "Situer l'origine des extensions Symfony"
       - "Utiliser debug:twig comme inventaire"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3567,17 +3567,17 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux ecritures equivalentes, un comportement de contexte par defaut qu'il faut savoir couper, un
-      mot-cle de tolerance, et l'arbitrage avec embed. Chacun de ces points change une reponse.
+      Deux écritures équivalentes, un comportement de contexte par défaut qu'il faut savoir couper, un
+      mot-clé de tolérance, et l'arbitrage avec embed. Chacun de ces points change une réponse.
     learning_outcomes:
       - "Inclure un gabarit par la fonction et par la balise"
       - "Restreindre le contexte transmis avec only ou with_context"
-      - "Tolerer un gabarit absent avec ignore missing"
+      - "Tolérer un gabarit absent avec ignore missing"
       - "Choisir entre include et embed"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3622,20 +3622,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Huit variables de loop, dont quatre soumises a une condition de type qui ne se manifeste qu'a
-      l'execution, un indice a 1 contraire a l'habitude PHP, l'absence de break et la clause else. Le
-      volume de faits a consequence depasse le format MINIMAL.
+      Huit variables de loop, dont quatre soumises à une condition de type qui ne se manifeste qu'à
+      l'exécution, un indice à 1 contraire à l'habitude PHP, l'absence de break et la clause else. Le
+      volume de faits à conséquence dépasse le format MINIMAL.
     learning_outcomes:
-      - "Parcourir une sequence et employer la clause else"
-      - "Citer les variables de loop et leur valeur de depart"
-      - "Enoncer les quatre variables exigeant un tableau ou Countable"
-      - "Restreindre une sequence sans break ni continue"
-      - "Ecrire une condition et ses tests is / is not"
+      - "Parcourir une séquence et employer la clause else"
+      - "Citer les variables de loop et leur valeur de départ"
+      - "Énoncer les quatre variables exigeant un tableau ou Countable"
+      - "Restreindre une séquence sans break ni continue"
+      - "Écrire une condition et ses tests is / is not"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3682,17 +3682,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Deux fonctions, une difference, un troisieme argument rarement utile. Le generateur, ses quatre
-      types de reference et le sort des parametres surnumeraires appartiennent a l'item URLs
-      generation du lot 05 ; les reprendre ici serait de la duplication.
+      Deux fonctions, une différence, un troisième argument rarement utile. Le générateur, ses quatre
+      types de référence et le sort des paramètres surnuméraires appartiennent à l'item URLs
+      génération du lot 05 ; les reprendre ici serait de la duplication.
     learning_outcomes:
       - "Distinguer path() de url()"
-      - "Generer une URL avec des parametres de route"
-      - "Enoncer qu'une URL ne s'ecrit jamais a la main"
+      - "Générer une URL avec des paramètres de route"
+      - "Énoncer qu'une URL ne s'écrit jamais à la main"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3729,18 +3729,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux formes d'appel dont l'une seule fonctionne sans route, un cout d'execution reel — une sous-
-      requete par appel — et une option de configuration a nommer. Le forward d'un controleur vers un
+      Deux formes d'appel dont l'une seule fonctionne sans route, un coût d'exécution réel — une sous-
+      requête par appel — et une option de configuration à nommer. Le forward d'un contrôleur vers un
       autre appartient au lot 04.
     learning_outcomes:
-      - "Executer un controleur route depuis un gabarit"
-      - "Executer un controleur sans route avec controller()"
-      - "Enoncer le cout d'un fragment en sous-requete"
-      - "Nommer l'option qui definit l'URL interne des fragments"
+      - "Exécuter un contrôleur route depuis un gabarit"
+      - "Exécuter un contrôleur sans route avec controller()"
+      - "Énoncer le coût d'un fragment en sous-requête"
+      - "Nommer l'option qui définit l'URL interne des fragments"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3779,20 +3779,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois arguments positionnels dont l'ordre se retient mal, deux ecritures — filtre et balise —,
-      et un changement de doctrine sur le pluriel : ICU recommande, syntaxe a barres toleree.
+      Trois arguments positionnels dont l'ordre se retient mal, deux écritures — filtre et balise —,
+      et un changement de doctrine sur le pluriel : ICU recommande, syntaxe à barres tolérée.
       L'organisation des catalogues appartient au lot 16.
     learning_outcomes:
-      - "Employer le filtre trans avec parametres, domaine et locale"
+      - "Employer le filtre trans avec paramètres, domaine et locale"
       - "Employer la balise trans et trans_default_domain"
       - "Distinguer les emplacements %nom% des emplacements ICU {nom}"
-      - "Enoncer l'exigence du suffixe +intl-icu"
+      - "Énoncer l'exigence du suffixe +intl-icu"
       - "Citer t() et l'objet traduisible"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -3838,17 +3838,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une syntaxe, une contrainte sur le type de guillemets, un echappement. Trois faits courts, sans
-      mecanisme a derouler ; l'alternative ~ est deja posee par l'item de syntaxe.
+      Une syntaxe, une contrainte sur le type de guillemets, un échappement. Trois faits courts, sans
+      mécanisme à dérouler ; l'alternative ~ est déjà posée par l'item de syntaxe.
     learning_outcomes:
-      - "Interpoler une expression dans une chaine"
-      - "Enoncer la contrainte sur le type de guillemets"
-      - "Echapper une interpolation"
+      - "Interpoler une expression dans une chaîne"
+      - "Énoncer la contrainte sur le type de guillemets"
+      - "Échapper une interpolation"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3886,17 +3886,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une fonction, deux arguments, et la raison de ne pas ecrire un chemin en dur. Les outils de
-      construction d'assets — AssetMapper, Webpack Encore — sont exclus du perimetre par la section
-      1.5, ce qui reduit l'item a sa surface Twig.
+      Une fonction, deux arguments, et la raison de ne pas écrire un chemin en dur. Les outils de
+      construction d'assets — AssetMapper, Webpack Encore — sont exclus du périmètre par la section
+      1.5, ce qui réduit l'item à sa surface Twig.
     learning_outcomes:
-      - "Referencer une ressource publique avec asset()"
-      - "Justifier l'emploi de asset() plutot qu'un chemin en dur"
-      - "Enoncer le role du second argument"
+      - "Référencer une ressource publique avec asset()"
+      - "Justifier l'emploi de asset() plutôt qu'un chemin en dur"
+      - "Énoncer le rôle du second argument"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3933,17 +3933,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Deux ecritures pour deux destinations, une restriction d'environnement, deux commandes. Court,
-      mais l'opposition balise / fonction est reelle et se rate.
+      Deux écritures pour deux destinations, une restriction d'environnement, deux commandes. Court,
+      mais l'opposition balise / fonction est réelle et se rate.
     learning_outcomes:
       - "Distinguer la balise dump de la fonction dump"
-      - "Enoncer la restriction aux environnements dev et test"
+      - "Énoncer la restriction aux environnements dev et test"
       - "Citer debug:twig et lint:twig"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -3983,18 +3983,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Les trois couches de donnees et les deux sens de traversee forment le modele mental dont depend
-      tout le lot. C'est un modele a comprendre, avec un exemple qui les separe nettement, mais aucune
-      procedure a derouler : les transformateurs eux-memes sont un item distinct.
+      Les trois couches de données et les deux sens de traversée forment le modèle mental dont dépend
+      tout le lot. C'est un modèle à comprendre, avec un exemple qui les sépare nettement, mais aucune
+      procédure à dérouler : les transformateurs eux-mêmes sont un item distinct.
     learning_outcomes:
-      - "Enoncer le probleme que le composant resout"
-      - "Nommer les trois couches de donnees et leur contenu"
-      - "Decrire le sens de traversee au rendu et a la soumission"
-      - "Situer createForm() et getData() sur la couche modele"
+      - "Énoncer le problème que le composant résout"
+      - "Nommer les trois couches de données et leur contenu"
+      - "Décrire le sens de traversée au rendu et à la soumission"
+      - "Situer createForm() et getData() sur la couche modèle"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4033,19 +4033,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux endroits ou construire, trois arguments d'add(), une option de classe, une correspondance
-      nom-propriete, et le cas du champ non mappe dont l'oubli fait echouer le formulaire. Plusieurs
-      faits a consequence, sans mecanisme ordonne.
+      Deux endroits où construire, trois arguments d'add(), une option de classe, une correspondance
+      nom-propriété, et le cas du champ non mappé dont l'oubli fait échouer le formulaire. Plusieurs
+      faits à conséquence, sans mécanisme ordonné.
     learning_outcomes:
-      - "Construire un formulaire dans un controleur et en classe de type"
+      - "Construire un formulaire dans un contrôleur et en classe de type"
       - "Employer add() avec son nom, son type et ses options"
-      - "Declarer data_class"
-      - "Expliquer la correspondance entre le nom du champ et la propriete"
-      - "Declarer et lire un champ non mappe"
+      - "Déclarer data_class"
+      - "Expliquer la correspondance entre le nom du champ et la propriété"
+      - "Déclarer et lire un champ non mappé"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4084,20 +4084,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une sequence courte mais ordonnee — handleRequest, isSubmitted, isValid — plus l'alternative
+      Une séquence courte mais ordonnée — handleRequest, isSubmitted, isValid — plus l'alternative
       submit() dont le second argument a un effet de bord non devinable sur la validation. Cela
-      depasse le format MINIMAL sans constituer un mecanisme a plusieurs etages.
+      dépasse le format MINIMAL sans constituer un mécanisme à plusieurs étages.
     learning_outcomes:
       - "Traiter une soumission dans une action unique"
-      - "Enoncer l'ordre de isSubmitted() et isValid()"
-      - "Enoncer que l'objet d'origine est mis a jour"
+      - "Énoncer l'ordre de isSubmitted() et isValid()"
+      - "Énoncer que l'objet d'origine est mis à jour"
       - "Employer submit() et son argument clearMissing"
-      - "Enoncer l'effet de clearMissing sur la validation"
+      - "Énoncer l'effet de clearMissing sur la validation"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4138,18 +4138,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Quatre methodes dont aucune n'est obligatoire, un heritage de types qui explique la brievete du
-      code, et la distinction entre specialiser et composer. C'est un critere a appliquer, pas une
-      liste a retenir.
+      Quatre méthodes dont aucune n'est obligatoire, un héritage de types qui explique la brièveté du
+      code, et la distinction entre spécialiser et composer. C'est un critère à appliquer, pas une
+      liste à retenir.
     learning_outcomes:
-      - "Enoncer qu'un formulaire est lui-meme un type"
-      - "Associer chaque methode d'AbstractType a son role"
+      - "Énoncer qu'un formulaire est lui-même un type"
+      - "Associer chaque méthode d'AbstractType à son rôle"
       - "Employer getParent() et citer le parent implicite"
-      - "Distinguer heriter d'un type et l'ajouter comme champ"
+      - "Distinguer hériter d'un type et l'ajouter comme champ"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4188,19 +4188,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Neuf fonctions de rendu a trois niveaux de granularite, et un comportement implicite a
-      consequence de securite : form_end rend les champs restants, donc le jeton CSRF. Le tableau et
+      Neuf fonctions de rendu à trois niveaux de granularité, et un comportement implicite à
+      conséquence de sécurité : form_end rend les champs restants, donc le jeton CSRF. Le tableau et
       l'avertissement ne tiennent pas dans un format MINIMAL.
     learning_outcomes:
-      - "Associer chaque fonction de rendu a ce qu'elle produit"
-      - "Choisir le niveau de granularite adapte"
-      - "Enoncer que form_end rend les champs restants, dont le jeton CSRF"
-      - "Configurer l'action, la methode et les attributs du formulaire"
+      - "Associer chaque fonction de rendu à ce qu'elle produit"
+      - "Choisir le niveau de granularité adapté"
+      - "Énoncer que form_end rend les champs restants, dont le jeton CSRF"
+      - "Configurer l'action, la méthode et les attributs du formulaire"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4240,20 +4240,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une chaine de recherche a trois niveaux dont la syntaxe du bloc le plus specifique ne s'invente
-      pas, cinq parties de champ, et un ordre de consultation de twig.form_themes inverse de l'ordre
-      de lecture. Trois choses non devinables, aucune procedure a derouler.
+      Une chaîne de recherche à trois niveaux dont la syntaxe du bloc le plus spécifique ne s'invente
+      pas, cinq parties de champ, et un ordre de consultation de twig.form_thèmes inverse de l'ordre
+      de lecture. Trois choses non devinables, aucune procédure à dérouler.
     learning_outcomes:
-      - "Decrire la chaine de recherche des blocs, du plus specifique au plus general"
-      - "Ecrire le nom du bloc ciblant un champ precis d'un formulaire precis"
+      - "Décrire la chaîne de recherche des blocs, du plus spécifique au plus général"
+      - "Écrire le nom du bloc ciblant un champ précis d'un formulaire précis"
       - "Nommer les cinq parties d'un champ"
-      - "Appliquer un theme globalement, par gabarit, ou sur place avec _self"
-      - "Enoncer l'ordre de consultation de twig.form_themes"
+      - "Appliquer un thème globalement, par gabarit, ou sur place avec _self"
+      - "Énoncer l'ordre de consultation de twig.form_thèmes"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4295,19 +4295,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une protection automatique dont le mecanisme doit etre compris pour ne pas la casser, trois
-      options de formulaire, et la distinction entre jetons avec et sans etat qui a une consequence
-      sur la session et la cachabilite. La verification manuelle appartient au lot 04.
+      Une protection automatique dont le mécanisme doit être compris pour ne pas la casser, trois
+      options de formulaire, et la distinction entre jetons avec et sans état qui a une conséquence
+      sur la session et la cachabilité. La vérification manuelle appartient au lot 04.
     learning_outcomes:
-      - "Expliquer ce que le formulaire pose et verifie automatiquement"
-      - "Enoncer l'effet d'un jeton absent sur isValid()"
+      - "Expliquer ce que le formulaire pose et vérifie automatiquement"
+      - "Énoncer l'effet d'un jeton absent sur isValid()"
       - "Citer les trois options csrf du formulaire"
-      - "Justifier un csrf_token_id different par formulaire"
-      - "Distinguer jetons avec et sans etat"
+      - "Justifier un csrf_token_id différent par formulaire"
+      - "Distinguer jetons avec et sans état"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4346,17 +4346,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une fois exclu ce que possede l'item File upload du lot 04 — UploadedFile, move(), les
-      metadonnees client non fiables — il ne reste que le branchement sur le formulaire : FileType,
+      Une fois exclu ce que possède l'item File upload du lot 04 — UploadedFile, move(), les
+      métadonnées client non fiables — il ne reste que le branchement sur le formulaire : FileType,
       mapped false, et la lecture par $form->get(). Trois faits.
     learning_outcomes:
-      - "Declarer un champ FileType non mappe"
+      - "Déclarer un champ FileType non mappé"
       - "Justifier le choix de mapped false"
-      - "Lire la valeur d'un champ non mappe"
+      - "Lire la valeur d'un champ non mappé"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4393,18 +4393,18 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Un catalogue a reconnaitre, organise en familles, plus la combinaison multiple/expanded de
-      ChoiceType. La reconnaissance est le seul mode d'evaluation utile ; EntityType et les champs
-      Symfony UX sont hors perimetre.
+      Un catalogue à reconnaître, organisé en familles, plus la combinaison multiple/expanded de
+      ChoiceType. La reconnaissance est le seul mode d'évaluation utile ; EntityType et les champs
+      Symfony UX sont hors périmètre.
     learning_outcomes:
-      - "Reconnaitre les familles de types natifs"
+      - "Reconnaître les familles de types natifs"
       - "Situer ChoiceType comme parent de la famille des choix"
       - "Associer multiple et expanded au rendu obtenu"
-      - "Identifier les types hors perimetre d'examen"
+      - "Identifier les types hors périmètre d'examen"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4441,19 +4441,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux methodes dont le sens de lecture se rate, deux niveaux d'attachement a distinguer, une
-      exception dediee dont l'usage conditionne le comportement du formulaire, et le cas de null.
-      Quatre points a consequence.
+      Deux méthodes dont le sens de lecture se rate, deux niveaux d'attachement à distinguer, une
+      exception dédiée dont l'usage conditionne le comportement du formulaire, et le cas de null.
+      Quatre points à conséquence.
     learning_outcomes:
       - "Distinguer transform() de reverseTransform() par leur sens"
       - "Choisir entre addModelTransformer et addViewTransformer"
-      - "Signaler un echec par TransformationFailedException"
+      - "Signaler un échec par TransformationFailedException"
       - "Traiter le cas de null dans transform()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4493,23 +4493,23 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Cinq evenements en deux phases, dans un ordre fixe, dont deux seulement autorisent une
-      modification de structure ; un verrouillage a partir de SUBMIT ; la validation portee par un
-      ecouteur sur POST_SUBMIT ; et un motif contre-intuitif pour les champs dependants, qui
-      s'ajoutent au parent. Chaque etage change la reponse, et l'ordre lui-meme est note.
+      Cinq événements en deux phases, dans un ordre fixe, dont deux seulement autorisent une
+      modification de structure ; un verrouillage à partir de SUBMIT ; la validation portée par un
+      écouteur sur POST_SUBMIT ; et un motif contre-intuitif pour les champs dépendants, qui
+      s'ajoutent au parent. Chaque étage change la réponse, et l'ordre lui-même est note.
     learning_outcomes:
-      - "Ordonner les cinq evenements en deux phases"
-      - "Associer chaque evenement a la couche de donnee qu'il porte"
-      - "Enoncer a partir de quel evenement la structure est verrouillee"
+      - "Ordonner les cinq événements en deux phases"
+      - "Associer chaque événement à la couche de donnée qu'il porte"
+      - "Énoncer à partir de quel événement la structure est verrouillée"
       - "Situer la validation sur POST_SUBMIT"
-      - "Ajouter un champ dependant au bon formulaire"
-      - "Choisir entre PRE_SET_DATA et PRE_SUBMIT selon l'origine de la donnee"
+      - "Ajouter un champ dépendant au bon formulaire"
+      - "Choisir entre PRE_SET_DATA et PRE_SUBMIT selon l'origine de la donnée"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau DEEP : 2 questions uniques minimum reussies sur 2 sessions distinctes, dont une en mode
-      examen, et restitution de la sequence complete sans support.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4551,17 +4551,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une classe de base, une methode obligatoire, un tag pose par autoconfiguration, et une
-      distinction avec le type personnalise. Court et sans piege ordonne.
+      Une classe de base, une méthode obligatoire, un tag pose par autoconfiguration, et une
+      distinction avec le type personnalisé. Court et sans piège ordonné.
     learning_outcomes:
-      - "Distinguer une extension d'un type personnalise"
-      - "Implementer getExtendedTypes() et citer sa signature"
-      - "Enoncer l'effet d'etendre FormType"
+      - "Distinguer une extension d'un type personnalisé"
+      - "Implémenter getExtendedTypes() et citer sa signature"
+      - "Énoncer l'effet d'étendre FormType"
       - "Citer le tag form.type_extension"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4598,20 +4598,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Sept methodes dont trois se confondent — setDefaults, setDefined, setRequired — plus les defauts
-      paresseux qui permettent a une option d'en dependre d'une autre. Le composant sert au-dela des
-      formulaires, ce qui justifie de le traiter pour lui-meme.
+      Sept méthodes dont trois se confondent — setDefaults, setDefined, setRequired — plus les défauts
+      paresseux qui permettent à une option d'en dépendre d'une autre. Le composant sert au-delà des
+      formulaires, ce qui justifie de le traiter pour lui-même.
     learning_outcomes:
       - "Distinguer setDefaults, setDefined et setRequired"
       - "Contraindre le type et la valeur d'une option"
       - "Employer un normaliseur"
-      - "Ecrire un defaut paresseux dependant d'une autre option"
-      - "Enoncer ce qui arrive a une option inconnue"
+      - "Écrire un défaut paresseux dépendant d'une autre option"
+      - "Énoncer ce qui arrive à une option inconnue"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum, reussies sur 2 sessions distinctes, dont une en
+      Niveau STANDARD : 2 questions uniques minimum, réussies sur 2 sessions distinctes, dont une en
       mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4653,19 +4653,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois methodes d'entree aux roles distincts, et un type de retour qui n'est ni un booleen ni
-      une exception. Le candidat doit choisir la methode et interpreter la liste de violations, ce
+      Trois méthodes d'entrée aux rôles distincts, et un type de retour qui n'est ni un booléen ni
+      une exception. Le candidat doit choisir la méthode et interpréter la liste de violations, ce
       qui est une application, pas une reconnaissance.
     learning_outcomes:
-      - Nommer les trois methodes d'entree du validateur
-      - Enoncer ce que retourne validate() et comment le tester
+      - Nommer les trois méthodes d'entrée du validateur
+      - Énoncer ce que retourne validate() et comment le tester
       - Choisir validatePropertyValue() pour une valeur candidate
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4703,19 +4703,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Quatre formats de declaration equivalents, une cascade qui n'est pas automatique, et une fusion
-      d'heritage que l'on ne peut pas desactiver. Deux comportements silencieux dont la
-      meconnaissance fait passer une validation qui devrait echouer.
+      Quatre formats de déclaration équivalents, une cascade qui n'est pas automatique, et une fusion
+      d'héritage que l'on ne peut pas désactiver. Deux comportements silencieux dont la
+      méconnaissance fait passer une validation qui devrait échouer.
     learning_outcomes:
-      - Declarer des contraintes en attribut et en PHP
-      - Exiger la cascade par Assert\Valid sur la propriete
-      - Enoncer que les contraintes du parent sont fusionnees, jamais remplacees
+      - Déclarer des contraintes en attribut et en PHP
+      - Exiger la cascade par Assert\Valid sur la propriété
+      - Énoncer que les contraintes du parent sont fusionnées, jamais remplacées
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4758,20 +4758,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le catalogue se consulte, mais quatre paires voisines decident d'une reponse :
+      Le catalogue se consulte, mais quatre paires voisines décident d'une réponse :
       NotBlank/NotNull, EqualTo/IdenticalTo, Length/Count, All/Collection. Choisir la bonne
       contrainte est une application, pas une simple reconnaissance de liste.
     learning_outcomes:
       - Situer une contrainte dans sa famille
-      - Distinguer NotBlank de NotNull sur une valeur zero
+      - Distinguer NotBlank de NotNull sur une valeur zéro
       - Choisir entre All et Collection
-      - Reconnaitre le role de Sequentially et d'AtLeastOneOf
+      - Reconnaître le rôle de Sequentially et d'AtLeastOneOf
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4815,19 +4815,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois portees dont deux se confondent, une regle de nommage arbitraire pour l'accesseur, et une
-      portee classe qui seule permet une regle croisee. Le candidat doit choisir la portee d'apres la
-      regle a exprimer.
+      Trois portées dont deux se confondent, une règle de nommage arbitraire pour l'accesseur, et une
+      portée classe qui seule permet une règle croisée. Le candidat doit choisir la portée d'après la
+      règle à exprimer.
     learning_outcomes:
-      - Nommer les trois portees d'une contrainte
-      - Enoncer la regle de nommage d'un accesseur validable
-      - Choisir la portee classe pour une regle croisee
+      - Nommer les trois portées d'une contrainte
+      - Énoncer la règle de nommage d'un accesseur validable
+      - Choisir la portée classe pour une règle croisée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4870,19 +4870,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux groupes existent sans avoir ete declares, le comportement par defaut n'applique qu'un seul
-      d'entre eux, et Default se separe du groupe portant le nom de la classe des qu'un objet est
-      cascade. Trois faits qui changent la reponse.
+      Deux groupes existent sans avoir été déclarés, le comportement par défaut n'applique qu'un seul
+      d'entre eux, et Default se sépare du groupe portant le nom de la classe dès qu'un objet est
+      cascade. Trois faits qui changent la réponse.
     learning_outcomes:
-      - Enumerer les groupes qu'une classe possede sans declaration
-      - Enoncer quel groupe s'applique sans argument
+      - Énumérer les groupes qu'une classe possède sans déclaration
+      - Énoncer quel groupe s'applique sans argument
       - Distinguer Default du groupe portant le nom de la classe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -4920,21 +4920,21 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Un ordre d'execution avec arret au premier echec, plus trois effets de bord structurels :
-      Default change de sens et provoque une recursion infinie s'il est inclus, valider un groupe de
-      la sequence la contourne, et la forme du tableau rendu par le provider — plate ou imbriquee —
-      change les groupes reellement valides. Chaque etage modifie la reponse.
+      Un ordre d'exécution avec arrêt au premier échec, plus trois effets de bord structurels :
+      Default change de sens et provoque une récursion infinie s'il est inclus, valider un groupe de
+      la séquence la contourne, et la forme du tableau rendu par le provider — plate ou imbriquée —
+      change les groupes réellement valides. Chaque étage modifie la réponse.
     learning_outcomes:
-      - Decrire l'ordre d'execution et sa condition d'arret
-      - Declarer une sequence avec le nom de la classe et dire pourquoi pas Default
-      - Enoncer l'effet d'une validation explicite d'un groupe de la sequence
-      - Distinguer un tableau plat d'un tableau imbrique dans le provider
+      - Décrire l'ordre d'exécution et sa condition d'arrêt
+      - Déclarer une séquence avec le nom de la classe et dire pourquoi pas Default
+      - Énoncer l'effet d'une validation explicite d'un groupe de la séquence
+      - Distinguer un tableau plat d'un tableau imbriqué dans le provider
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
       distinctes dont une en mode examen, et restitution de l'ordre des groupes sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
@@ -4975,19 +4975,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux signatures dont les deux premiers arguments s'inversent selon que la methode est
-      d'instance ou statique, et un contrat de retour contre-intuitif : la valeur retournee est
-      ignoree. Les deux decident d'une reponse.
+      Deux signatures dont les deux premiers arguments s'inversent selon que la méthode est
+      d'instance ou statique, et un contrat de retour contre-intuitif : la valeur retournée est
+      ignorée. Les deux décident d'une réponse.
     learning_outcomes:
-      - Ecrire la signature d'un callback d'instance et d'un callback statique
-      - Enoncer que le retour est ignore et qu'une violation doit etre ajoutee
-      - Reconnaitre un appelable statique externe
+      - Écrire la signature d'un callback d'instance et d'un callback statique
+      - Énoncer que le retour est ignore et qu'une violation doit être ajoutée
+      - Reconnaître un appelable statique externe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5025,20 +5025,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux methodes du contexte aux roles differents, et une chaine de constructeur dont l'oubli du
+      Deux méthodes du contexte aux rôles différents, et une chaîne de constructeur dont l'oubli du
       dernier maillon ne produit aucune erreur. Le candidat doit aussi savoir attribuer une violation
-      a un champ, ce qui est une application.
+      à un champ, ce qui est une application.
     learning_outcomes:
       - Distinguer addViolation() de buildViolation() sur le contexte
-      - Enoncer qu'une chaine sans addViolation() n'enregistre rien
-      - Attribuer une violation a une propriete par atPath()
+      - Énoncer qu'une chaîne sans addViolation() n'enregistre rien
+      - Attribuer une violation à une propriété par atPath()
       - Remplir un emplacement de message par setParameter()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5083,19 +5083,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois formes d'injection a distinguer, et surtout une frontiere conceptuelle — injection contre
-      recuperation de services — que le candidat doit appliquer a un extrait de code, pas seulement
-      reconnaitre.
+      Trois formes d'injection à distinguer, et surtout une frontière conceptuelle — injection contre
+      récupération de services — que le candidat doit appliquer à un extrait de code, pas seulement
+      reconnaître.
     learning_outcomes:
-      - Distinguer injection et recuperation de services
-      - Choisir constructeur ou mutateur selon l'obligation de la dependance
+      - Distinguer injection et récupération de services
+      - Choisir constructeur ou mutateur selon l'obligation de la dépendance
       - Situer le composant comme autonome et nommer compile()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5133,20 +5133,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une definition n'est pas un objet, prive est le defaut et n'interdit que la recuperation,
+      Une définition n'est pas un objet, privé est le défaut et n'interdit que la récupération,
       l'alias rend une interface autowirable, et la compilation explique qu'une modification de
-      configuration reste sans effet. Quatre faits qui decident d'un diagnostic.
+      configuration reste sans effet. Quatre faits qui décident d'un diagnostic.
     learning_outcomes:
-      - Enoncer ce que contient le conteneur et quand l'objet est construit
-      - Distinguer prive et public sur l'injection, la recuperation et la suppression
-      - Expliquer le role d'un alias
-      - Expliquer pourquoi la configuration n'est pas relue a l'execution
+      - Énoncer ce que contient le conteneur et quand l'objet est construit
+      - Distinguer privé et public sur l'injection, la récupération et la suppression
+      - Expliquer le rôle d'un alias
+      - Expliquer pourquoi la configuration n'est pas relue à l'exécution
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5189,17 +5189,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Reconnaissance : d'ou viennent les services non declares, et quelle commande repond a la
-      question qu'on se pose en ecrivant un constructeur. Aucune liste a memoriser, aucune
-      distinction fine a operer.
+      Reconnaissance : d'où viennent les services non déclarés, et quelle commande répond à la
+      question qu'on se pose en écrivant un constructeur. Aucune liste à mémoriser, aucune
+      distinction fine à opérer.
     learning_outcomes:
-      - Situer l'origine des services integres
-      - Choisir debug:autowiring plutot que debug:container
+      - Situer l'origine des services intégrés
+      - Choisir debug:autowiring plutôt que debug:container
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5236,20 +5236,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux syntaxes voisines resolues a des moments differents, un echappement litteral, et des
-      processeurs qui se composent de droite a gauche. Le candidat doit choisir la bonne forme pour
-      une contrainte donnee.
+      Deux syntaxes voisines résolues à des moments différents, un échappement littéral, et des
+      processeurs qui se composent de droite à gauche. Le candidat doit choisir la bonne forme pour
+      une contrainte donnée.
     learning_outcomes:
-      - Distinguer la resolution d'un parametre de celle d'une variable d'environnement
-      - Ecrire un pourcent litteral
+      - Distinguer la résolution d'un paramètre de celle d'une variable d'environnement
+      - Écrire un pourcent littéral
       - Composer des processeurs dans le bon ordre
-      - 'Reconnaitre bind et #[Autowire] comme facteurs communs'
+      - 'Reconnaître bind et #[Autowire] comme facteurs communs'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5292,20 +5292,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois mecanismes superposes — decouverte, autowire, autoconfigure — que l'on confond, et une
-      portee de _defaults qui ne traverse pas les blocs d'environnement. Le diagnostic exige de les
-      separer.
+      Trois mécanismes superposés — découverte, autowire, autoconfigure — que l'on confond, et une
+      portée de _defaults qui ne traverse pas les blocs d'environnement. Le diagnostic exige de les
+      séparer.
     learning_outcomes:
-      - Separer decouverte, autowire et autoconfigure
-      - Declarer un service explicite avec arguments nommes
-      - Enoncer la portee de _defaults
-      - Reconnaitre les attributs de declaration
+      - Séparer découverte, autowire et autoconfigure
+      - Déclarer un service explicite avec arguments nommés
+      - Énoncer la portée de _defaults
+      - Reconnaître les attributs de déclaration
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5343,19 +5343,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un mecanisme transparent pour les consommateurs, un service original conserve sous un autre
-      identifiant, et un ordre de pile contre-intuitif : la priorite la plus haute est la plus
-      interne. Ce dernier point se rate systematiquement.
+      Un mécanisme transparent pour les consommateurs, un service original conserve sous un autre
+      identifiant, et un ordre de pile contre-intuitif : la priorité la plus haute est la plus
+      interne. Ce dernier point se rate systématiquement.
     learning_outcomes:
-      - Decorer un service et atteindre l'original par .inner
-      - Enoncer que l'identifiant est conserve
-      - Ordonner une pile de decorateurs par decoration_priority
+      - Décorer un service et atteindre l'original par .inner
+      - Énoncer que l'identifiant est conserve
+      - Ordonner une pile de décorateurs par décoration_priority
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5394,20 +5394,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un tag est inerte sans lecteur, l'iterateur est paresseux, et deux attributs conventionnels —
+      Un tag est inerte sans lecteur, l'itérateur est paresseux, et deux attributs conventionnels —
       priority et index — changent respectivement l'ordre et la forme de la collection. Le candidat
-      doit appliquer, pas seulement reconnaitre.
+      doit appliquer, pas seulement reconnaître.
     learning_outcomes:
-      - Enoncer qu'un tag sans lecteur ne produit rien
-      - Injecter une collection taguee paresseuse
+      - Énoncer qu'un tag sans lecteur ne produit rien
+      - Injecter une collection taguée paresseuse
       - Ordonner par priority et indexer par index
-      - 'Reconnaitre #[AutoconfigureTag] sur une interface'
+      - 'Reconnaître #[AutoconfigureTag] sur une interface'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5445,19 +5445,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux moities aux roles distincts — declarer l'arbre, le consommer — un moment d'execution
-      limite a la compilation, et un mecanisme de prepend dont l'ordre decide qui a le dernier mot.
+      Deux moitiés aux rôles distincts — déclarer l'arbre, le consommer — un moment d'exécution
+      limité à la compilation, et un mécanisme de prepend dont l'ordre décide qui a le dernier mot.
     learning_outcomes:
-      - Separer ConfigurationInterface de l'extension
-      - Enoncer qu'une cle inconnue est une erreur
-      - Situer configure() et loadExtension() a la compilation
+      - Séparer ConfigurationInterface de l'extension
+      - Énoncer qu'une clé inconnue est une erreur
+      - Situer configure() et loadExtension() à la compilation
       - Expliquer l'effet de prependExtensionConfig()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5500,19 +5500,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Quatre ecritures de l'option factory a distinguer, dont le null qui designe la classe
-      elle-meme, et une regle contre-intuitive : arguments alimente la fabrique et non le
-      constructeur, qui n'est pas appele.
+      Quatre écritures de l'option factory à distinguer, dont le null qui désigne la classe
+      elle-même, et une règle contre-intuitive : arguments alimente la fabrique et non le
+      constructeur, qui n'est pas appelé.
     learning_outcomes:
-      - Choisir l'ecriture de factory selon la nature de l'appelable
-      - Enoncer que arguments alimente la fabrique
-      - Interpreter [null, 'create']
+      - Choisir l'écriture de factory selon la nature de l'appelable
+      - Énoncer que arguments alimente la fabrique
+      - Interpréter [null, 'create']
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5550,23 +5550,23 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Un point d'extension du compilateur avec cinq etapes ordonnees, une priorite decroissante a
-      l'interieur de chaque etape, et une consequence structurelle : l'etape choisie decide de ce qui
-      existe encore, TYPE_REMOVE ayant deja supprime les services prives non references. Raisonnement
-      multi-etapes, ou chaque etage change la reponse.
+      Un point d'extension du compilateur avec cinq étapes ordonnées, une priorité décroissante à
+      l'intérieur de chaque étape, et une conséquence structurelle : l'étape choisie décide de ce qui
+      existe encore, TYPE_REMOVE ayant déjà supprimé les services privés non références. Raisonnement
+      multi-étapes, où chaque étage change la réponse.
     learning_outcomes:
-      - Ecrire une passe manipulant des definitions
+      - Écrire une passe manipulant des définitions
       - Enregistrer une passe depuis un bundle ou le Kernel
-      - Ordonner les cinq etapes de PassConfig et nommer le defaut
-      - Choisir l'etape en fonction de ce qui doit encore exister
-      - Distinguer ce qui releve de la configuration de ce qui releve d'une passe
+      - Ordonner les cinq étapes de PassConfig et nommer le défaut
+      - Choisir l'étape en fonction de ce qui doit encore exister
+      - Distinguer ce qui relève de la configuration de ce qui relève d'une passe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution du mecanisme sans support.
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution du mécanisme sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5610,23 +5610,23 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Une resolution par le type dont le nom d'argument est normalement absent, sauf dans deux
-      mecanismes de departage ; un alias automatique qui disparait des qu'une interface a deux
-      implementations, avec un message d'erreur qui designe la mauvaise cause ; et trois facons de
-      trancher aux portees differentes. L'enchainement complet est necessaire pour diagnostiquer.
+      Une résolution par le type dont le nom d'argument est normalement absent, sauf dans deux
+      mécanismes de départage ; un alias automatique qui disparaît dès qu'une interface a deux
+      implémentations, avec un message d'erreur qui désigne la mauvaise cause ; et trois façons de
+      trancher aux portées différentes. L'enchaînement complet est nécessaire pour diagnostiquer.
     learning_outcomes:
-      - Enoncer que la resolution se fait par le type
+      - Énoncer que la résolution se fait par le type
       - Expliquer pourquoi une interface exige un alias
-      - 'Departager par alias par defaut, alias nomme ou #[Target]'
-      - 'Enoncer ce que #[Target] attend comme valeur'
-      - Reconnaitre qu'un scalaire ne s'autowire pas
+      - 'Départager par alias par défaut, alias nommé ou #[Target]'
+      - 'Énoncer ce que #[Target] attend comme valeur'
+      - Reconnaître qu'un scalaire ne s'autowire pas
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution du mecanisme sans support.
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution du mécanisme sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5666,20 +5666,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une frontiere a tenir avec la recuperation de services, une methode statique dont l'oubli du
-      parent:: en heritage echoue silencieusement, et un comportement paresseux qui est la raison
-      d'etre du mecanisme.
+      Une frontière à tenir avec la récupération de services, une méthode statique dont l'oubli du
+      parent:: en héritage échoue silencieusement, et un comportement paresseux qui est la raison
+      d'être du mécanisme.
     learning_outcomes:
-      - Justifier un locator plutot qu'une injection directe
+      - Justifier un locator plutôt qu'une injection directe
       - Distinguer un locator de l'injection du conteneur
-      - Declarer getSubscribedServices() et fusionner en heritage
-      - 'Reconnaitre #[AutowireLocator]'
+      - Déclarer getSubscribedServices() et fusionner en héritage
+      - 'Reconnaître #[AutowireLocator]'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5719,19 +5719,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois paquets independants que le nom commun fait confondre, et une consequence directe :
-      hacher un mot de passe ou proteger un formulaire n'exige pas le systeme complet. Le candidat
-      doit attribuer une responsabilite, pas reciter une liste.
+      Trois paquets indépendants que le nom commun fait confondre, et une conséquence directe :
+      hacher un mot de passe ou protéger un formulaire n'exige pas le système complet. Le candidat
+      doit attribuer une responsabilité, pas réciter une liste.
     learning_outcomes:
-      - Attribuer une responsabilite au bon composant
-      - Enoncer que password-hasher et security-csrf s'utilisent seuls
+      - Attribuer une responsabilité au bon composant
+      - Énoncer que password-hasher et security-csrf s'utilisent seuls
       - Situer security-core comme ignorant HTTP
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5769,20 +5769,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un enchainement pare-feu, authenticator, jeton, TokenStorage, plus une frontiere avec
-      l'autorisation que getUser() et isGranted() materialisent, et l'effet de stateless.
+      Un enchaînement pare-feu, authenticator, jeton, TokenStorage, plus une frontière avec
+      l'autorisation que getUser() et isGranted() matérialisent, et l'effet de stateless.
       Application, pas reconnaissance.
     learning_outcomes:
-      - Decrire le trajet d'une authentification
+      - Décrire le trajet d'une authentification
       - Situer l'utilisateur courant dans le TokenStorage
       - Distinguer authentification et autorisation
-      - Enoncer l'effet de stateless
+      - Énoncer l'effet de stateless
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5820,18 +5820,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le passage obligatoire par les votants, y compris pour un role, trois familles d'attributs a
-      distinguer, et un code de statut qui depend de l'authentification et non de l'autorisation.
+      Le passage obligatoire par les votants, y compris pour un rôle, trois familles d'attributs à
+      distinguer, et un code de statut qui dépend de l'authentification et non de l'autorisation.
     learning_outcomes:
-      - Enoncer que tout attribut passe par un votant
-      - Distinguer role, etat d'authentification et verbe metier
+      - Énoncer que tout attribut passe par un votant
+      - Distinguer rôle, état d'authentification et verbe métier
       - Expliquer pourquoi le statut n'est pas toujours 403
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5874,19 +5874,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Quatre sections aux roles distincts et deux regles de premiere correspondance qui se
-      ressemblent au point d'etre fusionnees a tort. Lire une configuration exige de les separer.
+      Quatre sections aux rôles distincts et deux règles de première correspondance qui se
+      ressemblent au point d'être fusionnées à tort. Lire une configuration exige de les séparer.
     learning_outcomes:
-      - Attribuer une question a la bonne section
-      - Distinguer la regle d'ordre des pare-feux de celle d'access_control
-      - 'Reconnaitre l''effet de security: false'
-      - Utiliser debug:config pour la configuration resolue
+      - Attribuer une question à la bonne section
+      - Distinguer la règle d'ordre des pare-feux de celle d'access_control
+      - 'Reconnaître l''effet de security: false'
+      - Utiliser debug:config pour la configuration résolue
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5924,20 +5924,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux methodes appelees a deux moments differents, dont l'une a chaque requete avec des
-      consequences observables — utilisateur supprime, roles modifies — et une contrainte de
+      Deux méthodes appelées à deux moments différents, dont l'une à chaque requête avec des
+      conséquences observables — utilisateur supprimé, rôles modifiés — et une contrainte de
       configuration quand plusieurs fournisseurs coexistent.
     learning_outcomes:
       - Distinguer loadUserByIdentifier() de refreshUser()
-      - Enoncer l'effet du rechargement a chaque requete
+      - Énoncer l'effet du rechargement à chaque requête
       - Nommer les quatre types fournis
-      - Enoncer la contrainte a plusieurs fournisseurs
+      - Énoncer la contrainte à plusieurs fournisseurs
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -5980,11 +5980,11 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une regle d'ordre dont l'oubli desactive silencieusement la securite, un contexte de session
-      par pare-feu qui surprend, et deux options — lazy, security: false — dont le sens exact decide
-      d'une reponse.
+      Une règle d'ordre dont l'oubli désactive silencieusement la sécurité, un contexte de session
+      par pare-feu qui surprend, et deux options — lazy, security: false — dont le sens exact décide
+      d'une réponse.
     learning_outcomes:
-      - Enoncer qu'un seul pare-feu traite la requete
+      - Énoncer qu'un seul pare-feu traite la requête
       - Placer correctement un pare-feu sans pattern
       - Expliquer le contexte de session par pare-feu
       - 'Distinguer lazy de stateless et de security: false'
@@ -5993,7 +5993,7 @@ items:
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6032,20 +6032,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un contrat reduit a deux methodes en 8.0, dont la memoire des versions anterieures fausse la
-      restitution, un mot de passe deliberement place dans une autre interface, et une frontiere avec
+      Un contrat réduit à deux méthodes en 8.0, dont la mémoire des versions antérieures fausse la
+      restitution, un mot de passe délibérément place dans une autre interface, et une frontière avec
       le user checker.
     learning_outcomes:
-      - Enumerer les methodes de UserInterface en 8.0
+      - Énumérer les méthodes de UserInterface en 8.0
       - Situer getPassword() dans PasswordAuthenticatedUserInterface
-      - Distinguer getUserIdentifier() d'une cle primaire
-      - Attribuer l'etat du compte a un user checker
+      - Distinguer getUserIdentifier() d'une clé primaire
+      - Attribuer l'état du compte à un user checker
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6084,18 +6084,18 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Une signature contre-intuitive, un hachage auto-descriptif qui rend un changement d'algorithme
-      inoffensif, et une migration transparente dont l'echec est silencieux si le fournisseur ne
-      l'implemente pas.
+      inoffensif, et une migration transparente dont l'échec est silencieux si le fournisseur ne
+      l'implémente pas.
     learning_outcomes:
       - Appeler hashPassword() avec les bons arguments
-      - Enoncer pourquoi changer d'algorithme ne casse rien
-      - Configurer migrate_from et nommer sa dependance
+      - Énoncer pourquoi changer d'algorithme ne casse rien
+      - Configurer migrate_from et nommer sa dépendance
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6133,17 +6133,17 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Reconnaissance : une contrainte de nommage unique, une hierarchie statique, et trois attributs
-      qui ressemblent a des roles sans en etre. Aucune application, aucun raisonnement multi-etapes.
+      Reconnaissance : une contrainte de nommage unique, une hiérarchie statique, et trois attributs
+      qui ressemblent à des rôles sans en être. Aucune application, aucun raisonnement multi-étapes.
     learning_outcomes:
-      - Enoncer la contrainte de nommage d'un role
-      - Reconnaitre role_hierarchy comme statique
-      - Distinguer IS_AUTHENTICATED_* d'un role
+      - Énoncer la contrainte de nommage d'un rôle
+      - Reconnaître rôle_hierarchy comme statique
+      - Distinguer IS_AUTHENTICATED_* d'un rôle
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau MINIMAL : 2 questions uniques minimum, reussies sur 2 sessions distinctes.
+      Niveau MINIMAL : 2 questions uniques minimum, réussies sur 2 sessions distinctes.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6180,20 +6180,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une regle de premiere correspondance dont l'inversion rend une regle stricte inatteignable sans
-      aucune erreur, un path qui est une expression reguliere, et une limite de fond : aucune
+      Une règle de première correspondance dont l'inversion rend une règle stricte inatteignable sans
+      aucune erreur, un path qui est une expression régulière, et une limite de fond : aucune
       connaissance de l'objet.
     learning_outcomes:
-      - Ordonner les regles du plus specifique au plus general
-      - Enoncer que seule la premiere regle s'applique
-      - Reconnaitre path comme une expression reguliere
-      - Enoncer la limite face a une regle portant sur un objet
+      - Ordonner les règles du plus spécifique au plus général
+      - Énoncer que seule la première règle s'applique
+      - Reconnaître path comme une expression régulière
+      - Énoncer la limite face à une règle portant sur un objet
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6231,19 +6231,19 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Concept structurel et frequemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les roles sont regulierement intervertis, un contrat d'interface a cinq methodes, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructeur, et des badges dont l'effet depend de la configuration du firewall. La capacite DIAGNOSE est requise : reconnaitre la definition ne suffit pas a corriger un flux d'authentification defaillant.
+      Concept structurel et fréquemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les rôles sont régulièrement intervertis, un contrat d'interface à cinq méthodes, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructeur, et des badges dont l'effet dépend de la configuration du firewall. La capacité DIAGNOSE est requise : reconnaître la définition ne suffit pas à corriger un flux d'authentification défaillant.
     learning_outcomes:
-      - "Nommer les cinq methodes d'AuthenticatorInterface et leur role"
-      - "Expliquer les trois etats de retour de supports()"
-      - "Choisir entre Passport et SelfValidatingPassport selon la presence de credentials"
-      - "Identifier le badge obligatoire et l'effet reel des badges optionnels"
-      - "Diagnostiquer un flux d'authentification ou un badge n'a pas l'effet attendu"
+      - "Nommer les cinq méthodes d'AuthenticatorInterface et leur rôle"
+      - "Expliquer les trois états de retour de supports()"
+      - "Choisir entre Passport et SelfValidatingPassport selon la présence de credentials"
+      - "Identifier le badge obligatoire et l'effet réel des badges optionnels"
+      - "Diagnostiquer un flux d'authentification où un badge n'a pas l'effet attendu"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic et une a reponses multiples, plus une question holdout reservee aux mocks, reussies sur 2 sessions distinctes en anglais.
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic et une à réponses multiples, plus une question holdout réservée aux mocks, réussies sur 2 sessions distinctes en anglais.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6297,22 +6297,22 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Deux methodes dont l'une signifie abstention et non refus, trois valeurs de vote, quatre
-      strategies d'agregation qui donnent des reponses opposees sur les memes votes, et deux options
-      de cas limite dont les defauts different. Chaque etage change la reponse.
+      Deux méthodes dont l'une signifie abstention et non refus, trois valeurs de vote, quatre
+      stratégies d'agrégation qui donnent des réponses opposées sur les mêmes votes, et deux options
+      de cas limite dont les défauts diffèrent. Chaque étage change la réponse.
     learning_outcomes:
-      - Ecrire supports() et voteOnAttribute()
-      - Enoncer que supports() a false vaut abstention
-      - Enumerer les trois valeurs de vote
-      - Distinguer les quatre strategies sur des votes identiques
-      - Enoncer les defauts de allow_if_equal_granted_denied et allow_if_all_abstain
+      - Écrire supports() et voteOnAttribute()
+      - Énoncer que supports() à false vaut abstention
+      - Énumérer les trois valeurs de vote
+      - Distinguer les quatre stratégies sur des votes identiques
+      - Énoncer les défauts de allow_if_equal_granted_denied et allow_if_all_abstain
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution des quatre stratégies sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6359,18 +6359,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Six concepts a nommer correctement, et une semantique contre-intuitive : dispatch() remet le
-      message sans le traiter. Le candidat doit interpreter un extrait, pas reciter un glossaire.
+      Six concepts à nommer correctement, et une sémantique contre-intuitive : dispatch() remet le
+      message sans le traiter. Le candidat doit interpréter un extrait, pas réciter un glossaire.
     learning_outcomes:
       - Nommer les six concepts du composant
-      - Enoncer ce que dispatch() fait et ne fait pas
-      - Situer les stamps sur l'enveloppe retournee
+      - Énoncer ce que dispatch() fait et ne fait pas
+      - Situer les stamps sur l'enveloppe retournée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6408,19 +6408,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une regle silencieuse — un message non route est traite immediatement — et deux transports
-      particuliers dont la confusion change la reponse. Application, pas reconnaissance.
+      Une règle silencieuse — un message non route est traite immédiatement — et deux transports
+      particuliers dont la confusion change la réponse. Application, pas reconnaissance.
     learning_outcomes:
       - Router un message vers un transport
-      - Enoncer ce qui arrive a un message non route
+      - Énoncer ce qui arrive à un message non route
       - Distinguer sync:// de in-memory://
-      - Reconnaitre qu'un message peut viser plusieurs transports
+      - Reconnaître qu'un message peut viser plusieurs transports
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6458,20 +6458,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Aucune interface a implementer, un appariement par le type de l'argument, plusieurs handlers
-      legitimes, et une contrainte de serialisation qui interdit de transporter une entite. Quatre
-      faits qui decident d'une reponse.
+      Aucune interface à implémenter, un appariement par le type de l'argument, plusieurs handlers
+      légitimes, et une contrainte de sérialisation qui interdit de transporter une entité. Quatre
+      faits qui décident d'une réponse.
     learning_outcomes:
-      - Ecrire un message et son handler sans interface
-      - Enoncer ce qui apparie handler et message
-      - Enoncer l'effet de plusieurs handlers
-      - Justifier de transporter un identifiant plutot qu'une entite
+      - Écrire un message et son handler sans interface
+      - Énoncer ce qui apparie handler et message
+      - Énoncer l'effet de plusieurs handlers
+      - Justifier de transporter un identifiant plutôt qu'une entité
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6509,20 +6509,20 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un processus long dont le modele d'exploitation est contre-intuitif : s'arreter regulierement
-      est la methode prevue, pas un palliatif. Plus un piege de deploiement et un partage d'etat
+      Un processus long dont le modèle d'exploitation est contre-intuitif : s'arrêter régulièrement
+      est la méthode prévue, pas un palliatif. Plus un piège de déploiement et un partage d'état
       entre messages.
     learning_outcomes:
-      - Consommer une file et exprimer une priorite par l'ordre
+      - Consommer une file et exprimer une priorité par l'ordre
       - Justifier les options de limite
-      - Enoncer pourquoi un worker execute l'ancien code apres un deploiement
-      - Enoncer que les services sont partages entre messages
+      - Énoncer pourquoi un worker exécute l'ancien code après un déploiement
+      - Énoncer que les services sont partagés entre messages
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6561,23 +6561,23 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Trois mecanismes superposes dont l'ordre decide : la strategie de reessai avec son delai
+      Trois mécanismes superposés dont l'ordre décide : la stratégie de réessai avec son délai
       exponentiel, deux exceptions qui la court-circuitent dans les deux sens, et un transport
-      d'echec dont l'absence fait perdre le message. Le comptage des tentatives et l'enchainement
-      complet exigent un raisonnement multi-etapes.
+      d'échec dont l'absence fait perdre le message. Le comptage des tentatives et l'enchaînement
+      complet exigent un raisonnement multi-étapes.
     learning_outcomes:
-      - Configurer une strategie de reessai et compter les tentatives
+      - Configurer une stratégie de réessai et compter les tentatives
       - Distinguer Unrecoverable et Recoverable
-      - Enoncer ce qui arrive sans failure_transport
-      - Decrire l'enchainement complet d'un echec
+      - Énoncer ce qui arrive sans failure_transport
+      - Décrire l'enchaînement complet d'un échec
       - Utiliser messenger:failed:*
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, reussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
+      Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
+      distinctes dont une en mode examen, et restitution des quatre stratégies sans support.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6617,19 +6617,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une chaine dont l'interruption est silencieuse, et un double passage en asynchrone que l'on ne
-      soupconne pas. Les deux se diagnostiquent, ils ne se reconnaissent pas.
+      Une chaîne dont l'interruption est silencieuse, et un double passage en asynchrone que l'on ne
+      soupçonne pas. Les deux se diagnostiquent, ils ne se reconnaissent pas.
     learning_outcomes:
-      - Ecrire un middleware et continuer la chaine
-      - Enoncer l'effet d'un $stack->next() omis
-      - Enoncer que la chaine s'execute deux fois en asynchrone
-      - Situer HandleMessageMiddleware en bout de chaine
+      - Écrire un middleware et continuer la chaîne
+      - Énoncer l'effet d'un $stack->next() omis
+      - Énoncer que la chaîne s'exécute deux fois en asynchrone
+      - Situer HandleMessageMiddleware en bout de chaîne
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -6667,19 +6667,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un catalogue dont la forme se retient mieux que le compte, un evenement emis meme a vide, et
-      une frontiere a tenir avec le middleware : observer ou modifier.
+      Un catalogue dont la forme se retient mieux que le compte, un événement émis même à vide, et
+      une frontière à tenir avec le middleware : observer ou modifier.
     learning_outcomes:
-      - Situer les evenements dans le cycle de vie
-      - Enoncer que WorkerRunningEvent est emis a vide
-      - Utiliser willRetry() pour distinguer un echec transitoire
-      - Choisir entre evenement et middleware
+      - Situer les événements dans le cycle de vie
+      - Énoncer que WorkerRunningEvent est émis à vide
+      - Utiliser willRetry() pour distinguer un échec transitoire
+      - Choisir entre événement et middleware
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
       Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application,
-      reussies sur 2 sessions distinctes, dont une en mode examen.
+      réussies sur 2 sessions distinctes, dont une en mode examen.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
