@@ -97,6 +97,7 @@ questions:
     unlike readonly.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml
+    symbol_or_lines: 'Asymmetric Property Visibility — "As of PHP 8.4, object properties may also have their visibility set asymmetrically, with a different scope for reading (get) and writing (set) ... provided it is not more permissive than the default visibility"; example "public private(set) string $title"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -252,6 +253,7 @@ questions:
     the attribute class until newInstance() is called, so its validation never runs.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    symbol_or_lines: 'Reading Attributes with the Reflection API — "Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs at that point"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -299,6 +301,7 @@ questions:
     enum cases and constant arithmetic. Function calls and variables are rejected at compile time.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    symbol_or_lines: 'Attribute syntax — "Arguments can only be literal values or constant expressions. Both positional and named argument syntax are supported"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'

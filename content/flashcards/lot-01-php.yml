@@ -147,6 +147,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        symbol_or_lines: '"This method returns an array of ReflectionAttribute instances ... Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance"'
         repository: "php/doc-en"
         branch: "master"
         verified_at: "2026-09-01"
