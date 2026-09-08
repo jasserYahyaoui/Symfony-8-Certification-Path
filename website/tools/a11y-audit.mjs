@@ -110,6 +110,10 @@ const PAGES = [
   // shape the glossary above is audited for.
   ['coverage', '/docs/syllabus/coverage'],
   ['exclusions', '/docs/syllabus/exclusions'],
+  // Certification Readiness: a generated table published at the docs root.
+  // AUD-08's TECH-4 did not see it at first, because it only scanned
+  // docs/syllabus/ - that blind spot is fixed in the audit too.
+  ['readiness', '/docs/readiness'],
   ['practice', '/practice'],
   ['exam', '/exam'],
   // Mock 4. Only the briefing screen is reachable without interaction, so

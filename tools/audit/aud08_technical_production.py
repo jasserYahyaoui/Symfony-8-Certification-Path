@@ -76,12 +76,21 @@ for r in sorted(routes):
              f'/{r} has no entry in the pages.yml URL list')
 
 # --- TECH-2 every generated syllabus page is smoke-tested ------------------
+# Every generated page OUTSIDE the course tree, not just docs/syllabus/. The
+# first version scanned that one folder, so a page generated at the docs root
+# was published, unaudited and unsmoked without this check noticing - which is
+# the exact shape of defect TECH-4 exists to catch.
 syl = set()
-d = ROOT / 'website/docs/syllabus'
+d = ROOT / 'website/docs'
 if d.is_dir():
     for f in sorted(os.listdir(d)):
-        if f.endswith('.md'):
-            syl.add(f'docs/syllabus/{f[:-3]}')
+        if f.endswith('.md') and f != 'index.md':
+            syl.add(f'docs/{f[:-3]}')
+    sub = d / 'syllabus'
+    if sub.is_dir():
+        for f in sorted(os.listdir(sub)):
+            if f.endswith('.md'):
+                syl.add(f'docs/syllabus/{f[:-3]}')
 bump('generated syllabus pages', len(syl))
 if not syl:
     note('TECH-2 no generated syllabus page was found',
@@ -183,6 +192,7 @@ GATE_CMD = {
     '@coverage': 'bin/cert coverage',
     '@test': 'phpunit',
     '@build': 'bin/cert build',
+    '@readiness': 'bin/cert readiness',
     'npm --prefix website run gate': 'run a11y',
 }
 bump('gates in composer gate-full', len(gate_full))

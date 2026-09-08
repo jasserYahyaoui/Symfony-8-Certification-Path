@@ -33,14 +33,17 @@
         "gate": [
             "@validate-content",
             "@coverage",
+            "@readiness",
             "@test"
         ],
         "gate-full": [
             "@validate-content",
             "@coverage",
+            "@readiness",
             "@test",
             "@build",
             "npm --prefix website run gate"
-        ]
+        ],
+        "readiness": "php bin/cert readiness"
     }
 }

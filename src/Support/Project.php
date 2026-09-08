@@ -70,6 +70,35 @@ final readonly class Project
         return (new YamlLoader())->load($path, SchemaRegistry::MOCK_BLUEPRINT);
     }
 
+    /**
+     * Which lots have passed an expert refinement audit.
+     *
+     * Read from docs/progress/refinement-log.yml and never inferred from the
+     * filesystem: a report directory proves somebody started writing, not that
+     * a lot was refined, merged and verified in production.
+     *
+     * @return list<string> lot ids
+     */
+    public function refinedLots(): array
+    {
+        $path = $this->rootDir.'/docs/progress/refinement-log.yml';
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        $log = (new YamlLoader())->load($path, SchemaRegistry::REFINEMENT_LOG);
+
+        $lots = [];
+        foreach ($log['lots'] ?? [] as $entry) {
+            if (\is_array($entry) && isset($entry['lot'])) {
+                $lots[] = (string) $entry['lot'];
+            }
+        }
+
+        return $lots;
+    }
+
     public function mockBlueprintPath(string $mock = '4'): string
     {
         return $this->path('docs/mocks/mock-'.$mock.'-blueprint.yml');

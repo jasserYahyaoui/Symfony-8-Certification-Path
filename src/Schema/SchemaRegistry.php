@@ -23,6 +23,7 @@ final class SchemaRegistry
 
     /** Browser-side storage schema (§13), versioned alongside the build-time ones. */
     public const string LEARNER_STATE = 'learner-state';
+    public const string REFINEMENT_LOG = 'refinement-log';
 
     /**
      * @var array<string, int>
@@ -38,6 +39,7 @@ final class SchemaRegistry
         self::FLASHCARD_DECK => 1,
         self::EXAM_BLUEPRINT => 1,
         self::LEARNER_STATE => 1,
+        self::REFINEMENT_LOG => 1,
     ];
 
     public static function currentVersion(string $schemaName): int
