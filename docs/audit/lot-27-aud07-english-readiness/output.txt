@@ -1,0 +1,21 @@
+AUD-07 — English readiness audit
+============================================================
+  English questions timed                      523
+  French questions                             21
+  French questions in LEARNING                 21
+  HOLDOUT / en                                 75
+  HOLDOUT questions                            75
+  LEARNING / en                                313
+  LEARNING / fr                                21
+  VALIDATION / en                              135
+  VALIDATION in English                        135
+  VALIDATION questions                         135
+  glossary entries                             81
+  hard questions                               205
+  hard questions in English                    204
+
+  Scope statement: §5's fourth clause — "final EXAM_READY status
+  requires acceptable timed performance in English" — is the human
+  sitting. No script closes it, and this audit does not claim to.
+
+FINDINGS: 0

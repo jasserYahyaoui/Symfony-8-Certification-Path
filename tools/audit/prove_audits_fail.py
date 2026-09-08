@@ -18,6 +18,7 @@ AUD03 = ROOT / 'tools/audit/aud03_source_anchor.py'
 AUD04 = ROOT / 'tools/audit/aud04_content_volume.py'
 AUD06 = ROOT / 'tools/audit/aud06_holdout_integrity.py'
 AUD05 = ROOT / 'tools/audit/aud05_question_bank.py'
+AUD07 = ROOT / 'tools/audit/aud07_english_readiness.py'
 
 # Some defects cannot be injected by swapping an existing substring: a
 # duplicated prose line, a course grown past the outlier threshold, one
@@ -142,6 +143,22 @@ CASES = [
     (AUD05, (), 'content/questions/lot-01-php.yml', APPEND, None, 'QB-8'),
     # An atomic item that carries no question at all.
     (AUD05, (), 'docs/syllabus/syllabus-matrix.yml', APPEND, None, 'QB-9'),
+
+    # AUD-07. Enough advanced questions in French to break §5's 50% threshold.
+    (AUD07, (), 'content/questions/validation-pool.yml', APPEND, None, 'ENG-1'),
+    # A non-English question inside a bank §5 binds.
+    (AUD07, (), 'content/questions/mock-04-holdout.yml',
+     '  language: en\n', '  language: fr\n',
+     'ENG-3'),
+    # A stem and choices that cannot be read inside their own budget.
+    (AUD07, (), 'content/questions/lot-01-php.yml', APPEND, None, 'ENG-5'),
+    # The §5 glossary emptied.
+    (AUD07, (), 'docs/syllabus/glossary.yml', None, None, 'ENG-6'),
+    # Mock 3's bank pushed below "primarily English".
+    (AUD07, (), 'content/questions/validation-pool.yml', APPEND, None, 'ENG-2'),
+    # One French question in a bank §5 binds — a defect even while the ratio
+    # above still passes, which is the whole point of separating ENG-4.
+    (AUD07, (), 'content/questions/validation-pool.yml', APPEND, None, 'ENG-4'),
 ]
 
 # VOL-2's payload is a real prose line lifted from another course, so the
@@ -258,6 +275,50 @@ _QB4 = _q('QST-failproof0004', _ITEM0, [('CHO-failproof0041', 'key', True),
 _QB8 = _q('QST-failproof0008', _ITEM0, [(_EXISTING_CHOICE_ID, 'reused id', True),
                                         ('CHO-failproof0082', 'b', False),
                                         ('CHO-failproof0083', 'c', False)])
+# ENG-1 needs §5's advanced-question ratio pushed under 50%: 210 French `hard`
+# questions against the corpus's 205 real ones, which is the smallest block
+# that can move a 99.5% ratio below the line.
+_ENG1 = ''.join(
+    _q(f'QST-failproofE{i:04d}', _ITEM0,
+       [(f'CHO-fpE{i:04d}a', 'a', True), (f'CHO-fpE{i:04d}b', 'b', False),
+        (f'CHO-fpE{i:04d}c', 'c', False)])
+    .replace('  language: en', '  language: fr')
+    .replace('  difficulty: medium', '  difficulty: hard')
+    for i in range(210)
+)
+
+# ENG-2: 140 French VALIDATION questions against the corpus's 135 English
+# ones, which takes the pool below "primarily English".
+_ENG2 = ''.join(
+    _q(f'QST-failproofV{i:04d}', _ITEM0,
+       [(f'CHO-fpV{i:04d}a', 'a', True), (f'CHO-fpV{i:04d}b', 'b', False),
+        (f'CHO-fpV{i:04d}c', 'c', False)])
+    .replace('  language: en', '  language: fr')
+    .replace('  pool: LEARNING', '  pool: VALIDATION')
+    for i in range(140)
+)
+
+# ENG-4: a single French VALIDATION question. The ratio stays far above 50%,
+# so ENG-2 does not fire and ENG-4 is isolated — §5 permits French for
+# beginner practice, never in a bank its thresholds bind.
+_ENG4 = (_q('QST-failproofF0001', _ITEM0,
+            [('CHO-fpF0001a', 'a', True), ('CHO-fpF0001b', 'b', False),
+             ('CHO-fpF0001c', 'c', False)])
+         .replace('  language: en', '  language: fr')
+         .replace('  pool: LEARNING', '  pool: VALIDATION'))
+
+# ENG-5: a stem far too long to read inside a 20-second budget.
+_ENG5 = _q('QST-failproofE9999', _ITEM0,
+           [('CHO-fpE9999a', 'a', True), ('CHO-fpE9999b', 'b', False),
+            ('CHO-fpE9999c', 'c', False)],
+           estimated_time_seconds=20).replace(
+    'question: Fail-proof fixture QST-failproofE9999?',
+    'question: ' + ('word ' * 400))
+
+# ENG-6: the glossary emptied, by renaming the key its entries live under.
+_ENG6_OLD = 'entries:'
+_ENG6_NEW = 'entries: []\nunused_entries:'
+
 _QB9 = (
     '\n  - id: OIT-failproof9999\n'
     '    official_topic_order: 99\n'
@@ -302,6 +363,7 @@ CASES = [
      (_HOLD2_OLD if e == 'HOLD-2'
       else _QB2_OLD if e == 'QB-2'
       else _QB5_OLD if e == 'QB-5'
+      else _ENG6_OLD if e == 'ENG-6'
       else o),
      _HOLD2_NEW if e == 'HOLD-2'
      else _QB2_NEW if e == 'QB-2'
@@ -310,6 +372,11 @@ CASES = [
      else _QB4 if e == 'QB-4'
      else _QB8 if e == 'QB-8'
      else _QB9 if e == 'QB-9'
+     else _ENG1 if e == 'ENG-1'
+     else _ENG2 if e == 'ENG-2'
+     else _ENG4 if e == 'ENG-4'
+     else _ENG5 if e == 'ENG-5'
+     else _ENG6_NEW if e == 'ENG-6'
      else ('\n\nUne prose de contexte : ' + _HOLD5_ANSWER + '\n') if e == 'HOLD-5'
      else ('\n\n' + _LONG_LINE + '\n') if e == 'VOL-2'
      else _TWIN_BODY if e == 'VOL-3'
