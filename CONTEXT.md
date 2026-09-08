@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-07
+**Last updated:** 2026-09-08
 
 ---
 
@@ -42,7 +42,67 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `592039f` — **§10's five mock exams all exist and are deployed.**
+`master`, at `f0a1e01` — **Lot 27's §14 audits AUD-01 through AUD-07 are run,
+merged and deployed.** Lot 27 itself is **`NOT_DONE`**: AUD-08 has not run,
+AUD-09 cannot start, FR-2 is `NOT_STARTED`, and the Mock 4 human sitting is
+`PENDING_HUMAN_VALIDATION`.
+
+Every unit below shipped through its own branch and pull request (§15), and
+each was merged only after its Technical gate came back `success` **on the
+exact head that was merged**. Every id in this table was read back from the API
+in the session of 2026-09-08, never recalled.
+
+| Unit | PR | Merge commit | CI run | Deploy run |
+|---|---|---|---|---|
+| Mocks delivery record | #65 | `ff09d45` | `101857789693` | `34159913803` |
+| §22 reconciliation | #66 | `2ece943` | `34160640062` | `34160640036` |
+| AUD-02 `PASS`, AUD-03 `FAIL` | #67 | `1db32f5` | `34167887812` | `34167887829` |
+| SRC-5 + SRC-6, AUD-03 `PASS` | #69 | `2c6018b` | `34190928401` | `34190928368` |
+| AUD-01 + SYL-1/SYL-2 | #68 | `8dd3259` | `34191990740` | `34191990789` |
+| AUD-04 content volume | #70 | `1573b88` | `34195019611` | `34195019548` |
+| AUD-06 holdout integrity | #71 | `cdac2ce` | `34196481835` | `34196481883` |
+| AUD-05 question bank | #72 | `157c1a1` | `34197413724` | `34197413748` |
+| AUD-07 English readiness | #73 | `f0a1e01` | `34199064037` | `34199063926` |
+
+#69 merged before #68 — the SRC work landed first and #68 was rebased onto it.
+
+**Every deploy run in that table completed `success`**, which is the aggregate
+of its three jobs (build, deploy, production smoke): a failing smoke test would
+have made the run fail. Three of those smoke **logs were read line by line**
+rather than inferred from the conclusion — `101952058651` on `8dd3259`,
+`101968581945` on `157c1a1`, and `101973796981` on `f0a1e01`, the current
+production head. Each showed 21 URLs at 200 and the holdout check green in both
+directions:
+
+```text
+ok  practice  334 questions, all LEARNING, no holdout id or choice
+ok  exam      135 questions, all VALIDATION, no holdout id or choice
+ok  mock-1     61 eligible, no holdout id or choice
+ok  mock-2     83 eligible, no holdout id or choice
+ok  mock-3     67 eligible, no holdout id or choice
+ok  mock-5    469 eligible, no holdout id or choice
+ok  mock-4     75 questions, the whole holdout and nothing else, all English
+checked against 75 holdout questions and 308 holdout choices
+```
+
+**A documented process deviation, recorded rather than amended away.** AUD-07's
+first delivery pushed `335fedf` while `php bin/cert validate` and
+`vendor/bin/phpunit` were **both failing**, and reported neither: the command
+chained the gates and the push with `;` instead of reading `$?` between them.
+That is `PROC-1` repeated on the push rather than on a pipeline. The defect the
+gates were reporting was real — the register linked the AUD-07 report before its
+directory existed, so `LNK-001` fired on a dead internal link — and PR #73 fixed
+it. No check was weakened and no test was skipped; the rules did their job and
+the delivery step ignored them. Recorded in
+[`docs/audit/lot-27-aud07-english-readiness/README.md`](docs/audit/lot-27-aud07-english-readiness/README.md).
+
+Gate values measured on `f0a1e01`, each command run on its own with its exit
+status read (PROC-1): `validate` 18 rules / 0 violations over 544 questions;
+`coverage` 100% (163/163 EXAM_READY) with no diff; `phpunit` **194 tests, 8,685
+assertions**; `composer gate-full` exit 0, site build succeeded, accessibility
+**12 surfaces / 0 violations**.
+
+Before it, `master` at `592039f` — **§10's five mock exams all exist and are deployed.**
 Mock 4 (the holdout mock) and Mocks 1, 2, 3 and 5 (the internal training
 mocks) were delivered as **ten separate pull requests**, never as one, and each
 was merged only after its Technical gate came back success and each deploy was
@@ -539,8 +599,8 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | API-1 | The GitHub Actions view **lags by several minutes**, and no endpoint avoids it. Lot 25 added a new shape: the *filtered* run listings (by `status`, or by `status` plus `actor`) reported no deploy at all for `130f7e8` while the **unfiltered** listing already showed it completed and successful, so a filter can hide a run that exists rather than merely delay its status. On Lot 14 the PR check-run endpoint reported `in_progress` for six minutes after the job had finished; on Lot 16, four; on Lot 17 the job completed at 06:15:35 and `list_workflow_jobs` with `filter: latest` still showed step 17 running at 06:19 and again at 06:21. | Low | **Open, mitigated by discipline — not by a parameter.** An earlier version of this row claimed `filter: latest` resolved it; that claim was wrong and is withdrawn. The rule is: one lagging read proves nothing, so never conclude from a single check that a job is stuck, and never report a lot `PASS` or `BLOCKED` on one read — re-check at the next check-in. The real risk is not waiting for nothing; it is announcing a state the build does not have |
 
 | SRC-4 | **Two source citations returned 404.** `php/doc-en/master/reference/language/oop5/property-hooks.xml` carried a stray `reference/` prefix, and `php/doc-en/master/language/attributes/reflection.xml` has never existed. Both were on VALIDATION questions. A citation that 404s is worse than a vague one: the claim cannot be checked at all, and nothing in the project fetched a source URL until AUD-03 did. | Medium | **Resolved 2026-09-07** by AUD-03, in the same unit that found them. Both repaired against the real sources and re-fetched at 200. The `attributes` one is instructive: the *plausible* replacement was the method reference page `reference/reflection/reflectionattribute/newinstance.xml`, which exists — and says nothing about deferred argument validation, which is what the question tests. The correct source is `language/attributes.xml`, which states it verbatim. The anchors were rewritten to quote the sentence carrying the claim rather than name a symbol. |
-| SRC-5 | **105 of 907 citations carry no anchor** — neither `symbol_or_lines` nor `anchor` — across 103 records and 57 distinct URLs (flashcards 68, courses 21, questions 16). §2.4 requires the exact section for a documentation citation and says in as many words that a homepage is not evidence for a precise technical claim. A bare `security.rst` is a 1,000-line document, not an anchor. | Medium | **Open.** Found by AUD-03 on 2026-09-07 and **deliberately not repaired in that unit**: each repair means reading the record's claim, fetching the source and quoting the passage that supports it, and SRC-4 showed that the plausible source can be the wrong one. Writing 105 anchors faster than they can be verified produces exactly the artefact the audit exists to detect. Its own unit, then `SRC-6`. AUD-03 stands at **`FAIL`** until it is done. |
-| SRC-6 | **`SRC-001` never inspects the citations a learner follows.** `SourceRef::hasAnchor()` is correct and rule `SRC-001` calls it — but `SRC-001` iterates `matrix->officialItems()` and checks *the matrix items'* sources. The 907 citations on courses, questions and flashcards are never passed to it, and where it does run the anchor failure is `Severity::Warning`, which does not fail a build. The invariant has been unchecked for the life of the project and every gate passed throughout. | Medium | **Open**, to be closed after `SRC-5` by extending `SRC-001` to the content citations at `Error` severity — strengthening a rule, never weakening one. Fourth instance of one pattern after `SPLICE-1`, `SPLICE-2` and `COG-1`: **an invariant nothing checks is not an invariant.** Recorded here rather than fixed first, because turning the rule on before the 105 are repaired would only produce a red build with no new information. |
+| SRC-5 | **105 of 907 citations carry no anchor** — neither `symbol_or_lines` nor `anchor` — across 103 records and 57 distinct URLs (flashcards 68, courses 21, questions 16). §2.4 requires the exact section for a documentation citation and says in as many words that a homepage is not evidence for a precise technical claim. A bare `security.rst` is a 1,000-line document, not an anchor. | Medium | **Resolved 2026-09-08 (PR #69, merge `2c6018b`).** All **105 of 105** repaired in their own unit, each by reading the record's claim, fetching the source and quoting the passage that supports it — never by writing anchors faster than they could be verified. Seven classifications were used and the ledger is citation-keyed, reconciled from `content/**` by `tools/audit/src5_reconcile.py` rather than from an earlier report. One was re-classified after review (`FLC-paer6jdxzr95`, SOURCE_REPLACED → SOURCE_COMPLETED) and one anchor carrying evaluative prose was reduced to a pure locator (`QST-fhrga35d77wa`). **AUD-03 now `PASS`** — 918 citations, 167 distinct URLs, all 200. |
+| SRC-6 | **`SRC-001` never inspects the citations a learner follows.** `SourceRef::hasAnchor()` is correct and rule `SRC-001` calls it — but `SRC-001` iterates `matrix->officialItems()` and checks *the matrix items'* sources. The 907 citations on courses, questions and flashcards are never passed to it, and where it does run the anchor failure is `Severity::Warning`, which does not fail a build. The invariant has been unchecked for the life of the project and every gate passed throughout. | Medium | **Resolved 2026-09-08 (PR #69, merge `2c6018b`).** `SRC-001` was extended to the learner-facing citations via `learnerFacingCitations()` and `checkCitation()`, and every anchor failure is now `Severity::Error` — **zero `Warning` remains in the rule**. The rule was strengthened, never weakened, and it was turned on only after the 105 were repaired so that the red build it would otherwise have produced carried real information. 18 tests cover it (`LearnerFacingCitationRuleTest`). Fourth instance of one pattern after `SPLICE-1`, `SPLICE-2` and `COG-1`: **an invariant nothing checks is not an invariant.** |
 
 ## Tests executed and actual results
 
