@@ -1,0 +1,77 @@
+FR-2 second independent audit
+==============================================================
+  accented ratio lots 01-11 (%)                84
+  accented ratio lots 12+ (%)                  84
+  accented strings, lots 01-11                 619
+  accented strings, lots 12+                   162
+  strings, lots 01-11                          734
+  strings, lots 12+                            193
+  word types with no lots-12+ witness          951
+
+  Scope: this audit judges only what the corpus can witness. Words with
+  no lots-12+ occurrence are listed below for reading, NOT passed.
+
+  UNJUDGEABLE BY EVIDENCE — 951 types, read individually:
+       21  contrainte
+       18  l'item
+       17  exigeant
+       17  Concept
+       16  important
+       13  faits
+       12  sens
+       11  restitution
+       11  option
+       11  interface
+       11  gabarit
+       11  fait
+       11  champ
+       11  bundle
+       11  appartient
+       10  validation
+       10  twig
+       10  support
+       10  cinq
+        9  parent
+        9  Employer
+        8  contexte
+        8  balise
+        7  types
+        7  statique
+        7  serait
+        7  produit
+        7  passe
+        6  valeurs
+        6  qu'il
+        6  partage
+        6  false
+        6  condition
+        6  bloc
+        6  argument
+        5  syntaxe
+        5  retenir
+        5  rendu
+        5  premier
+        5  path
+        5  paresseux
+        5  pare-feu
+        5  l'option
+        5  l'on
+        5  l'appariement
+        5  forward
+        5  form
+        5  factuel
+        5  exige
+        5  donc
+        5  correspondance
+        5  contrat
+        5  classes
+        5  bonne
+        5  autre
+        5  automatique
+        5  arrive
+        5  PSR-
+        5  Attribuer
+        4  suppression
+      … and 891 more
+
+FINDINGS: 0

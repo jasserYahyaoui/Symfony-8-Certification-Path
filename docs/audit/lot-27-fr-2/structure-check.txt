@@ -1,0 +1,5 @@
+strings changed : 619
+items touched   : 126
+
+STRUCTURE OK — diacritics-only, in-scope fields of lots 01-11 only,
+word counts and string counts unchanged, every other field identical
