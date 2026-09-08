@@ -584,7 +584,7 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 
 | ID | Issue | Severity | Status |
 |---|---|---|---|
-| ~~B-1~~ | Syllabus import. | — | **Closed** — complete PDF supplied 2026-09-01; 163/163 items imported and verified verbatim against the source |
+| ~~B-1~~ | Syllabus import. | — | **`PASS`, closed 2026-09-08** — complete PDF supplied 2026-09-01 (sha256 `4ee8b962…`, 468,963 bytes, 5 pages); 163/163 items verified verbatim in both directions; AUD-01 ran to a verdict and its two divergences (`SYL-1`, `SYL-2`) were repaired in PR #68. All **26** of the owner's completion conditions are met and evidenced in the audit report. **The ceiling is unchanged and closing B-1 does not lift it**: the PDF is byte-identical to the artefact the import was made from, so this is transcription fidelity and never independent corroboration |
 | B-2 | PHP-vs-static-Pages contradiction. | — | **Resolved** by ADR-0001 |
 | B-6 | GitHub Pages was not enabled on the repository. | — | **Resolved** — enabled by the owner; deploy and production smoke test both green |
 | B-4 | Master Plan §18 skill pipeline (`/research`, `/to-spec`, `/to-tickets`, `/implement`, `/tdd`) is not installed here. | Minor | Accepted — native workflow used |
@@ -685,7 +685,9 @@ the per-unit evidence. What remains of Lot 27 is **not** mock work:
    English readiness, technical/accessibility/production, and the final
    rationality and readiness assessment. The independent syllabus audit needs
    a **human-supplied copy of the official syllabus** to be worth anything
-   (blocker B-1), so ask for it before running that audit rather than after.
+   (blocker B-1). **Superseded 2026-09-08**: the copy was supplied, AUD-01 ran,
+   and B-1 is `PASS`. The instruction to ask for the copy first is spent; the
+   audits themselves are all delivered.
 2. The **human-supplied timed 75-question English simulation result**. No work
    in this repository substitutes for it, and no §22 clause may be claimed
    from a practice-mock score.
@@ -824,11 +826,14 @@ Three things must travel with it and must not be quietly dropped:
 1. **The §22 assessment is a conjunction, not a score.** Close Lot 27 against
    [`docs/policy/final-readiness.md`](docs/policy/final-readiness.md) clause by
    clause. §22's own last line forbids a good figure compensating for a blocker.
-2. **Clause 2 cannot be self-certified.** Coverage is 100% against the
-   *imported* syllabus, and blocker **B-1** means nothing here can prove the
-   import matches the official source. The independent syllabus audit needs a
-   human-supplied copy of the official syllabus to be worth anything. **Ask for
-   it before running that audit, not after.**
+2. **Clause 2 still cannot be self-certified, and B-1 closing does not change
+   that.** Coverage is 100% against the *imported* syllabus. B-1 is now `PASS`
+   — the copy was supplied, AUD-01 ran, and all 26 completion conditions are
+   met — but the copy is byte-identical to the artefact the import was made
+   from, so **nothing here corroborates the scope against a second witness**.
+   `certification.symfony.com` is unreachable and has no upstream. The
+   operational instruction that stood here (*ask for the copy before running
+   the audit*) is **spent**; the limit it guarded is **not**.
 3. **The §5 glossary exists** since 2026-09-03 (Lot 27 unit 1): 81 entries,
    rendered and smoke-tested. The English readiness audit now checks it rather
    than writing it.
