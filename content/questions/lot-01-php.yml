@@ -202,6 +202,7 @@ questions:
     ultérieure, y compris l'ajout dans un tableau, lève une Error.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+    symbol_or_lines: 'Readonly properties — "A readonly property can only be initialized once, and only from the scope where it has been declared. Any other assignment or modification of the property will result in an Error exception"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -972,6 +973,7 @@ questions:
     class must implement it; otherwise the class itself must be abstract.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    symbol_or_lines: 'Abstract Trait Members — "Traits support the use of abstract methods in order to impose requirements upon the exhibiting class. Public, protected, and private methods are supported"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
@@ -1021,6 +1023,7 @@ questions:
     is why returning from finally is discouraged.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml
+    symbol_or_lines: '"If a return statement is encountered inside either the try or the catch blocks, the finally block will still be executed ... Additionally, if the finally block also contains a return statement, the value from the finally block is returned"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'

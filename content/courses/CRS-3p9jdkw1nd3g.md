@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc"
+    symbol_or_lines: 'the helper map itself — the enumerated list of built-in helpers (formatterhelper, processhelper, progressbar, progressindicator, questionhelper, table, cursor, debug_formatter)'
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-01"

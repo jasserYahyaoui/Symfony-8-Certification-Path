@@ -25,6 +25,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    symbol_or_lines: 'Marking Services as Public / Private — "If a service is public, it means that you can access it directly from the container at runtime ... But typically, services are accessed using dependency injection. And in this case, those services do not need to be public ... In fact, all services are private by default"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-7xkwp2t1hefj
@@ -51,8 +52,17 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    symbol_or_lines: 'Resolving Environment Variable At Compile Time — "Environment variables are resolved at runtime, but you can also resolve them at compile time"'
     branch: '8.0'
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    branch: 8.0
+    symbol_or_lines: '"You can only set a parameter before the container is compiled, not at runtime" — the compile-time half of the contrast'
+    verified_at: '2026-09-07'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    branch: 8.0
+    symbol_or_lines: 'ParameterBag::escapeValue() — str_replace(''%'', ''%%'', $value); and resolveString() skipping "%%" — the literal-percent escape'
+    verified_at: '2026-09-07'
 - id: FLC-6a9ngbsfteyg
   official_item: OIT-stze9x4aydp3
   language: fr
@@ -79,6 +89,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    symbol_or_lines: 'Decoration Priority — "you can control their order with the decoration_priority option. Its value is an integer that defaults to 0 and higher priorities mean that decorators will be applied earlier", with the worked example at priorities 5 then 1'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-tv2t8a6yt50g
@@ -106,6 +117,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    symbol_or_lines: '"The processConfiguration() method uses the configuration tree you have defined in the Configuration class to validate, normalize and merge all the configuration arrays together"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-j8n3qsftrmm5
@@ -148,6 +160,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    symbol_or_lines: 'Working with Interfaces / the interface alias — "if only one service is discovered that implements an interface, configuring the alias is not mandatory and Symfony will automatically create one"'
     branch: '8.0'
     verified_at: '2026-09-01'
 - id: FLC-zn7hhaddbzd2
@@ -160,5 +173,6 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    symbol_or_lines: '"public static function getSubscribedServices(): array"; and the inheritance example "return array_merge(parent::getSubscribedServices(), [ ... ])"'
     branch: '8.0'
     verified_at: '2026-09-01'

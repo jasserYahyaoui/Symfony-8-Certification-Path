@@ -12,6 +12,7 @@ official_sources:
     symbol_or_lines: "AbstractBundle::configure, loadExtension, ConfigurationInterface"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/extension.rst"
+    symbol_or_lines: '"How to Load Service Configuration inside a Bundle" — the two ways: loading services in the main bundle class, or "Create an extension class to load the service configuration files"'
     branch: "8.0"
     verified_at: "2026-09-01"
 ---
