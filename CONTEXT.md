@@ -42,11 +42,21 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `ed01c00` — **AUD-01 through AUD-08 are all run, merged and
-deployed; blocker `B-1` is closed (26 of 26 conditions); and FR-2 is `DONE`,
-verified in production.** Lot 27 itself is **`NOT_DONE`**: the per-lot expert
-refinements (Lots 01–26) have not started, AUD-09 cannot start, and the Mock 4
-human sitting is `PENDING_HUMAN_VALIDATION`.
+`master`, at `5f871c0` — **AUD-01 through AUD-08 all `PASS`; blocker `B-1`
+closed (26 of 26); FR-2 `DONE`; and the per-lot expert refinement series has
+begun — Lot 01 is `DONE`.** Lot 27 itself is **`NOT_DONE`**: Lots 02–26 are not
+refined, AUD-09 cannot start, and the Mock 4 human sitting is
+`PENDING_HUMAN_VALIDATION`.
+
+**The refinement series does not re-open anything.** It asks what no existing
+gate asks — whether a lot prepares a candidate for a question they have never
+seen — and every prior status is re-earned on the changed corpus rather than
+carried forward. Lot 01 found one item, `Interfaces`, that was *documented* but
+never made *applicable*: two easy recall questions, no `VALIDATION` question, and
+a course missing two PHP 8.4 rules verified in `php/doc-en`. It also found four
+exam traps the courses teach and no question tested, each confirmed by running
+PHP 8.4.19. Six questions were added; all nine items now carry exam-mode
+evidence, where eight did.
 
 Every unit below shipped through its own branch and pull request (§15), and
 each was merged only after its Technical gate came back `success` **on the
@@ -70,6 +80,8 @@ in the session of 2026-09-08, never recalled.
 | B-1 closed, 26/26 | #77 | `d83edd6` | `34240700619` | `34240700605` |
 | **FR-2** — matrix accents | #78 | `b5df678` | `34245320949` | `34245320945` |
 | smoke proves FR-2 in production | #79 | `ed01c00` | — | `34246242270` |
+| FR-2 tracking after production | #80 | `89bea2b` | `34247329041` | `34247329041` |
+| **Lot 01 refinement** | #81 | `5f871c0` | `34263233718` | `34263524115` |
 
 #69 merged before #68 — the SRC work landed first and #68 was rebased onto it.
 
