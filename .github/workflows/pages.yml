@@ -128,24 +128,50 @@ jobs:
           grep -q 'Symfony 8 Certification Path' /tmp/landing \
             || { echo "::error::landing page did not render expected content"; fail=1; }
 
+          # FR-2, proved against the deployed bytes rather than against the
+          # build that produced them. The item pages render
+          # content_level_justification and learning_outcomes, which were
+          # French written WITHOUT its accents for lots 01-11 until FR-2
+          # repaired all 126 items on 2026-09-08. No rule detects that defect
+          # and none failed while it was live, which is exactly why the check
+          # belongs here: it is the only gate that reads what a learner reads.
+          for path in "docs/courses/lot-01/abstract-classes" \
+                      "docs/courses/lot-01/php-api-up-to-php-8-4-version" \
+                      "docs/courses/lot-06/twigbundle"; do
+            curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/fr2page "$BASE_URL/$path"
+            # Known pre-FR-2 spellings. Each is a real French word missing its
+            # accent, so a hit means the defect is live again on that page.
+            if grep -qE '(propri[e]taire|r[e]ellement|piegeuses|Enoncer|fonctionnalite|mecanisme|methode|reussies)' /tmp/fr2page; then
+              echo "::error::FR-2 regression: unaccented French published at $BASE_URL/$path"
+              grep -oE '(proprietaire|reellement|piegeuses|Enoncer|fonctionnalite|mecanisme|methode|reussies)' /tmp/fr2page | sort -u | head
+              fail=1
+            else
+              echo "ok  fr-2   $path carries its accents"
+            fi
+          done
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
           # matters is the question ids actually shipped, so they are compared
           # against the canonical banks in this checkout.
-          curl -sL -o /tmp/practice.json "$BASE_URL/data/practice.json"
-          curl -sL -o /tmp/exam.json "$BASE_URL/data/exam.json"
+          # --retry matches the page loop above. Without it a single transient
+          # TLS error killed the job under `set -e` before holdout-smoke.py ran
+          # -- curl exit 35, on 2026-09-08, moments after all 21 URLs had
+          # returned 200. A network blip must not read as a holdout failure.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/practice.json "$BASE_URL/data/practice.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/exam.json "$BASE_URL/data/exam.json"
 
           # Mock 4 is the one payload that carries the holdout, so the check
           # runs in both directions: none of it in the learning payloads, all
           # of it in the mock one.
-          curl -sL -o /tmp/mock-4.json "$BASE_URL/data/mock-4.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-4.json "$BASE_URL/data/mock-4.json"
 
           # Training mocks must carry no holdout question at all.
-          curl -sL -o /tmp/mock-1.json "$BASE_URL/data/mock-1.json"
-          curl -sL -o /tmp/mock-2.json "$BASE_URL/data/mock-2.json"
-          curl -sL -o /tmp/mock-3.json "$BASE_URL/data/mock-3.json"
-          curl -sL -o /tmp/mock-5.json "$BASE_URL/data/mock-5.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-1.json "$BASE_URL/data/mock-1.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-2.json "$BASE_URL/data/mock-2.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-3.json "$BASE_URL/data/mock-3.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-5.json "$BASE_URL/data/mock-5.json"
 
           python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json /tmp/mock-1.json /tmp/mock-2.json /tmp/mock-3.json /tmp/mock-5.json || fail=1
 
