@@ -1,0 +1,21 @@
+AUD-05 — question-bank audit
+============================================================
+  answer_mode multiple                         17
+  answer_mode single                           527
+  choices                                      2184
+  distinct choice ids                          2184
+  distinct question ids                        544
+  items carrying questions                     163
+  pool HOLDOUT                                 75
+  pool LEARNING                                334
+  pool VALIDATION                              135
+  questions                                    544
+  questions per item, max                      5
+  questions per item, min                      2
+
+  Scope statement: no script can decide whether an answer key is
+  correct. This audit finds the shapes in which a wrong answer hides.
+  Key correctness rests on the AUD-1 professor audit and, ultimately,
+  on the human sitting — clause 3 is never closed by this file alone.
+
+FINDINGS: 0

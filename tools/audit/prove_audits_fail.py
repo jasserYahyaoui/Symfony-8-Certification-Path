@@ -17,6 +17,7 @@ AUD02 = ROOT / 'tools/audit/aud02_version_contamination.py'
 AUD03 = ROOT / 'tools/audit/aud03_source_anchor.py'
 AUD04 = ROOT / 'tools/audit/aud04_content_volume.py'
 AUD06 = ROOT / 'tools/audit/aud06_holdout_integrity.py'
+AUD05 = ROOT / 'tools/audit/aud05_question_bank.py'
 
 # Some defects cannot be injected by swapping an existing substring: a
 # duplicated prose line, a course grown past the outlier threshold, one
@@ -112,6 +113,35 @@ CASES = [
      'public static function assertNoHoldoutLeak',
      'public static function assertNoHoldoutLeakRENAMED',
      'HOLD-6'),
+
+    # AUD-05. A declared answer count that no longer matches the keys.
+    (AUD05, (), 'content/questions/lot-01-php.yml',
+     '  required_answer_count: 1\n', '  required_answer_count: 2\n',
+     'QB-1'),
+    # answer_mode single carrying two keys.
+    (AUD05, (), 'content/questions/lot-01-php.yml',
+     None, None,  # filled in below: flip a distractor to correct
+     'QB-2'),
+    # A catch-all distractor.
+    (AUD05, (), 'content/questions/lot-01-php.yml',
+     None, None,  # filled in below: rename a distractor to "All of the above"
+     'QB-5'),
+    # An implausible estimated time.
+    (AUD05, (), 'content/questions/lot-01-php.yml',
+     '  estimated_time_seconds: 45\n', '  estimated_time_seconds: 4500\n',
+     'QB-6'),
+    # An official_item that resolves to nothing.
+    (AUD05, (), 'content/questions/lot-01-php.yml',
+     '  official_item: OIT-46ry8d7dypmb\n', '  official_item: OIT-doesnotexist\n',
+     'QB-7'),
+    # A question with only two choices.
+    (AUD05, (), 'content/questions/lot-01-php.yml', APPEND, None, 'QB-3'),
+    # A question whose two distractors carry the same text.
+    (AUD05, (), 'content/questions/lot-01-php.yml', APPEND, None, 'QB-4'),
+    # A question reusing a choice id that already exists in the bank.
+    (AUD05, (), 'content/questions/lot-01-php.yml', APPEND, None, 'QB-8'),
+    # An atomic item that carries no question at all.
+    (AUD05, (), 'docs/syllabus/syllabus-matrix.yml', APPEND, None, 'QB-9'),
 ]
 
 # VOL-2's payload is a real prose line lifted from another course, so the
@@ -177,6 +207,91 @@ _HOLD = _yaml.safe_load((ROOT / 'content/questions/mock-04-holdout.yml').read_te
 _HQ = _HOLD['questions']
 _HOLD2_OLD = f"official_item: {_HQ[1]['official_item']}"
 _HOLD2_NEW = f"official_item: {_HQ[0]['official_item']}"
+# QB-2 needs a single-answer question to gain a second key, and QB-5 a
+# distractor renamed to a catch-all. Both are expressed against the first
+# question of the PHP bank, read from the file rather than assumed.
+def _q(qid, item, choices, **over):
+    """A minimally valid question, as AUD-05 reads them."""
+    body = [
+        f'- id: {qid}', '  version: 1', '  official_topic: PHP',
+        f'  official_item: {item}', '  domain: php', '  language: en',
+        '  difficulty: medium', '  cognitive_level: KNOW', '  exam_skill: RECOGNIZE',
+        '  type: mcq',
+        f"  answer_mode: {over.get('answer_mode', 'single')}",
+        f"  required_answer_count: {over.get('required_answer_count', 1)}",
+        f'  question: Fail-proof fixture {qid}?',
+        '  scoring_policy: all-or-nothing', '  shuffle_choices: true',
+        '  negative_wording: false',
+        f"  estimated_time_seconds: {over.get('estimated_time_seconds', 45)}",
+        '  classification: OFFICIAL', '  pool: LEARNING',
+        '  verification_status: VERIFIED', '  reviewers:', '  - tech-lead',
+        "  reviewed_at: '2026-09-08'", '  tags:', '  - fail-proof', '  choices:',
+    ]
+    for cid, text, correct in choices:
+        body += [f'  - id: {cid}', f'    text: {text}', f'    correct: {str(correct).lower()}']
+        if not correct:
+            body.append('    explanation: fixture distractor')
+    body += [
+        '  explanation: fail-proof fixture', '  official_sources:',
+        '  - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml',
+        '    branch: master', "    symbol_or_lines: 'fixture'", "    verified_at: '2026-09-08'",
+    ]
+    return '\n' + '\n'.join(body) + '\n'
+
+
+
+_PHP = _yaml.safe_load((ROOT / 'content/questions/lot-01-php.yml').read_text(encoding='utf-8'))
+_Q0 = _PHP['questions'][0]
+_DISTRACTOR = next(c for c in _Q0['choices'] if not c.get('correct'))
+_QB2_OLD = f"    text: {_DISTRACTOR['text']}\n    correct: false"
+_QB2_NEW = f"    text: {_DISTRACTOR['text']}\n    correct: true"
+_QB5_OLD = f"text: {_DISTRACTOR['text']}"
+_QB5_NEW = "text: All of the above"
+_ITEM0 = _Q0['official_item']
+_EXISTING_CHOICE_ID = _Q0['choices'][0]['id']
+
+_QB3 = _q('QST-failproof0003', _ITEM0, [('CHO-failproof0031', 'only', True),
+                                        ('CHO-failproof0032', 'two', False)])
+_QB4 = _q('QST-failproof0004', _ITEM0, [('CHO-failproof0041', 'key', True),
+                                        ('CHO-failproof0042', 'same text', False),
+                                        ('CHO-failproof0043', 'same text', False)])
+_QB8 = _q('QST-failproof0008', _ITEM0, [(_EXISTING_CHOICE_ID, 'reused id', True),
+                                        ('CHO-failproof0082', 'b', False),
+                                        ('CHO-failproof0083', 'c', False)])
+_QB9 = (
+    '\n  - id: OIT-failproof9999\n'
+    '    official_topic_order: 99\n'
+    '    official_topic: "PHP"\n'
+    '    official_item_order: 99\n'
+    '    official_item: "Fail-proof fixture item"\n'
+    '    official_wording: "Fail-proof fixture item"\n'
+    '    learning_domain: "php"\n'
+    '    lot: "lot-01"\n'
+    '    chapter: "fixture"\n'
+    '    classification: "OFFICIAL"\n'
+    '    content_level: "MINIMAL"\n'
+    '    content_level_justification: "fixture"\n'
+    '    learning_outcomes: []\n'
+    '    required_assessment_modes: []\n'
+    '    minimum_evidence: "fixture"\n'
+    '    exclusion_boundaries: "None stated by the syllabus for this item."\n'
+    '    version_constraints: "Symfony 8.0"\n'
+    '    official_sources: []\n'
+    '    course_refs: []\n'
+    '    flashcard_refs: []\n'
+    '    question_refs: []\n'
+    '    exercise_refs: []\n'
+    '    exam_refs: []\n'
+    '    prerequisites: []\n'
+    '    status: "NOT_STARTED"\n'
+    '    verification_status: "UNVERIFIED"\n'
+    '    exam_ready: false\n'
+    '    last_verified_at: "2026-09-08"\n'
+    '    reviewed_by: "fixture"\n'
+    '    notes: "fail-proof fixture"\n'
+)
+
+
 _HOLD5_ANSWER = next(
     c['text'] for q in _HQ for c in q['choices']
     if c.get('correct') and len(' '.join(str(c['text']).split())) >= 25
@@ -184,8 +299,17 @@ _HOLD5_ANSWER = next(
 
 CASES = [
     (s, a, f,
-     (_HOLD2_OLD if e == 'HOLD-2' else o),
+     (_HOLD2_OLD if e == 'HOLD-2'
+      else _QB2_OLD if e == 'QB-2'
+      else _QB5_OLD if e == 'QB-5'
+      else o),
      _HOLD2_NEW if e == 'HOLD-2'
+     else _QB2_NEW if e == 'QB-2'
+     else _QB5_NEW if e == 'QB-5'
+     else _QB3 if e == 'QB-3'
+     else _QB4 if e == 'QB-4'
+     else _QB8 if e == 'QB-8'
+     else _QB9 if e == 'QB-9'
      else ('\n\nUne prose de contexte : ' + _HOLD5_ANSWER + '\n') if e == 'HOLD-5'
      else ('\n\n' + _LONG_LINE + '\n') if e == 'VOL-2'
      else _TWIN_BODY if e == 'VOL-3'
