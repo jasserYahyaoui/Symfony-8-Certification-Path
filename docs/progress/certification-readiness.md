@@ -75,5 +75,5 @@ still counting in the denominator.
 | | |
 |---|---|
 | Last completed | 01 — PHP 8.4 Foundations |
-| Recorded on | 2026-09-08 |
+| Recorded on | 2026-09-09 |
 | Next | 02 — HTTP Fundamentals |

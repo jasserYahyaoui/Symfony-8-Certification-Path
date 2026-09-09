@@ -42,426 +42,61 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `047a82d` — **refinement framework version 2 (ADR-0007) is
-merged, deployed and verified in production.**
+`master`, at `706ada7` — **refinement framework version 2 is in place, and
+Lot 01 has been re-refined under it.** Both are merged, deployed and verified
+against the deployed bytes.
 
 | | |
 |---|---|
-| Git commits | `2e849cb` (the framework), `fede753` (the production readiness assertion) |
-| Pull requests | **#84** merged `7e92a36`; **#85** merged `047a82d` |
-| GitHub Actions — CI | run 204 `success` (PR #84), run 205 `success` (master), run 207 `success` (master) |
-| GitHub Actions — Pages | run 102 `success` (`7e92a36`), run 103 `success` (`047a82d`) |
-| Deployment | `success`, job `102242915653` |
+| Git commits | `2e849cb` framework · `fede753` production readiness check · `ee8de66` Lot 01 v2 |
+| Pull requests | #84 → `7e92a36` · #85 → `047a82d` · #86 → `eab44e3` · **#87 → `706ada7`** |
+| Actions — CI | runs 204, 205, 207, 209, 211 — all `success` |
+| Actions — Pages | runs 102, 103, 104, **105** — all `success` |
 | Deployed URL | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path |
-| Production smoke test | job **`102242978061`**, `success` |
-| Content verified against commit | `047a82d` — 22 URLs at 200, FR-2 accents on 4 pages, Lot 01 Interfaces rules, pool isolation across 7 payloads, and **`ok readiness deployed 0.0% (0/163), 0 of 27 lots refined — matches the repository dashboard`** |
+| Production smoke test | job **`102409498934`**, `success` |
+| Content verified against commit | `706ada7` — 22 URLs at 200, FR-2 accents on 4 pages, Lot 01 Interfaces rules, pool isolation across 7 payloads, and `ok readiness deployed 5.5% (9/163), 1 of 27 lots refined — matches the repository dashboard` |
 
-The last row is new and is the point of PR #85: before it, a `200` on
-`data/readiness.json` was the whole verification, which would have passed on a
-stale artifact still serving 5.5%.
+**Framework version 2 (PR #84, ADR-0007).** Three structures the model lacked:
+identified learning outcomes with an `assesses_outcomes` link, question
+archetypes, and a revision budget — wired into readiness as `R10`–`R14` and
+gated by `ARC-001`, `PED-003`, `REV-001`. Measured while auditing, on `9b99c99`:
+**73 of 163 items (44.8%)** carried fewer questions than declared outcomes;
+`question_archetype` appeared **0 times in 550 questions**; corpus revision cost
+**65 477 body words** ≈ 4.4 h at 250 wpm.
 
-**The framework itself (PR #84).** The unit extends the measure before the content: `question_archetype`,
-identified learning outcomes with an `assesses_outcomes` link, and a revision
-budget, wired into the readiness formula as `R10`–`R14` and gated by three new
-mandatory rules (`ARC-001`, `PED-003`, `REV-001`).
+Raising the bar took Certification Readiness from 5.5% to **0%**, which is the
+intended behaviour: a metric that only ever rises measures effort, not
+readiness. Lot 01 kept its version 1 record and was shown as *audited under
+framework v1* until it was re-refined.
 
-**Certification Readiness falls from 5.5% (9/163) to 0% (0/163).** The corpus
-did not change; the definition of "refined" did. Lot 01 keeps its refinement
-record and is shown on the dashboard as *audited under framework v1*; it is
-re-refined under version 2, never re-labelled. Official Coverage stays 100%.
+**PR #85** closed a hole #84 exposed: a `200` on `data/readiness.json` proved
+the file existed, not the number in it. The smoke test now compares the deployed
+payload with the repository dashboard, field by field.
 
-Measured on `9b99c99` while auditing, and recorded in
-`docs/audit/framework-extension/README.md`:
+**Lot 01 re-refined (PR #87).** Doing the work found two defects in the
+framework and one in the content that no gate could have caught:
 
-- **73 of 163 items (44.8%)** carry fewer questions than declared learning
-  outcomes, so one-to-one outcome coverage is arithmetically impossible for
-  them — with every gate green.
-- `question_archetype` appeared **0 times in 550 questions**; the bank's only
-  structural field, `type`, holds `mcq` for all 550.
-- Corpus revision cost: **65 477 body words** ≈ 4.4 h at 250 wpm.
+- **Three outcomes were assessed only by a HOLDOUT question** — attribute
+  targets and `IS_REPEATABLE`, `$this` binding in a closure, and what a trait
+  may contain. `R11` and `PED-003` counted those as assessed; they are not,
+  because the holdout is sat once and unseen. Both now require a non-`HOLDOUT`
+  question. *The rule changed because the content exposed it.*
+- **The vocabulary was missing half a quadrant.** Sixteen of the lot's 41
+  questions describe a behaviour rather than shipping a listing.
+  `BEHAVIOR_DIAGNOSIS` and `BEHAVIOR_PREDICTION` complete the 2×2.
+- **The item promised four PHP 8.4 language additions where there are five.**
+  Verified against `php/php-src` at `PHP-8.4`, *2. New Features > Core*. The
+  outcome text and the course's summary table were wrong; its prose was right.
 
-**Previously**, `master` at `5f871c0` — **AUD-01 through AUD-08 all `PASS`; blocker `B-1`
-closed (26 of 26); FR-2 `DONE`; and the per-lot expert refinement series has
-begun — Lot 01 is `DONE`.** Lot 27 itself is **`NOT_DONE`**: Lots 02–26 are not
-refined, AUD-09 cannot start, and the Mock 4 human sitting is
-`PENDING_HUMAN_VALIDATION`.
+Five questions added, all `LEARNING`, all English, **each behaviour executed on
+PHP 8.4.19 before it was written**. Result: 28 of 28 outcomes identified and
+assessed outside the holdout, an archetype on all 41 questions, every item using
+at least two, and Readiness back to **5.5% (9/163)** — earned under the higher
+bar, not restored by relabelling.
 
-**The refinement series does not re-open anything.** It asks what no existing
-gate asks — whether a lot prepares a candidate for a question they have never
-seen — and every prior status is re-earned on the changed corpus rather than
-carried forward. Lot 01 found one item, `Interfaces`, that was *documented* but
-never made *applicable*: two easy recall questions, no `VALIDATION` question, and
-a course missing two PHP 8.4 rules verified in `php/doc-en`. It also found four
-exam traps the courses teach and no question tested, each confirmed by running
-PHP 8.4.19. Six questions were added; all nine items now carry exam-mode
-evidence, where eight did.
-
-Every unit below shipped through its own branch and pull request (§15), and
-each was merged only after its Technical gate came back `success` **on the
-exact head that was merged**. Every id in this table was read back from the API
-in the session of 2026-09-08, never recalled.
-
-| Unit | PR | Merge commit | CI run | Deploy run |
-|---|---|---|---|---|
-| Mocks delivery record | #65 | `ff09d45` | `101857789693` | `34159913803` |
-| §22 reconciliation | #66 | `2ece943` | `34160640062` | `34160640036` |
-| AUD-02 `PASS`, AUD-03 `FAIL` | #67 | `1db32f5` | `34167887812` | `34167887829` |
-| SRC-5 + SRC-6, AUD-03 `PASS` | #69 | `2c6018b` | `34190928401` | `34190928368` |
-| AUD-01 + SYL-1/SYL-2 | #68 | `8dd3259` | `34191990740` | `34191990789` |
-| AUD-04 content volume | #70 | `1573b88` | `34195019611` | `34195019548` |
-| AUD-06 holdout integrity | #71 | `cdac2ce` | `34196481835` | `34196481883` |
-| AUD-05 question bank | #72 | `157c1a1` | `34197413724` | `34197413748` |
-| AUD-07 English readiness | #73 | `f0a1e01` | `34199064037` | `34199063926` |
-| Documentation reconciliation | #74 | `852b650` | `34228155099` | `34228155042` |
-| AUD-08 technical and production | #75 | `2b19c8b` | `34230522373` | `34230522277` |
-| §23 continuity | #76 | `ee6fd36` | `34231443217` | `34231443151` |
-| B-1 closed, 26/26 | #77 | `d83edd6` | `34240700619` | `34240700605` |
-| **FR-2** — matrix accents | #78 | `b5df678` | `34245320949` | `34245320945` |
-| smoke proves FR-2 in production | #79 | `ed01c00` | — | `34246242270` |
-| FR-2 tracking after production | #80 | `89bea2b` | `34247329041` | `34247329041` |
-| **Lot 01 refinement** | #81 | `5f871c0` | `34263233718` | `34263524115` |
-
-#69 merged before #68 — the SRC work landed first and #68 was rebased onto it.
-
-**Every deploy run in that table completed `success`**, which is the aggregate
-of its three jobs (build, deploy, production smoke): a failing smoke test would
-have made the run fail. Three of those smoke **logs were read line by line**
-rather than inferred from the conclusion — `101952058651` on `8dd3259`,
-`101968581945` on `157c1a1`, `101973796981` on `f0a1e01`, `102067762513` on
-`852b650`, and `102075697597` on `2b19c8b`, the current production head. Each showed 21 URLs at 200 and the holdout check green in both
-directions:
-
-```text
-ok  practice  334 questions, all LEARNING, no holdout id or choice
-ok  exam      135 questions, all VALIDATION, no holdout id or choice
-ok  mock-1     61 eligible, no holdout id or choice
-ok  mock-2     83 eligible, no holdout id or choice
-ok  mock-3     67 eligible, no holdout id or choice
-ok  mock-5    469 eligible, no holdout id or choice
-ok  mock-4     75 questions, the whole holdout and nothing else, all English
-checked against 75 holdout questions and 308 holdout choices
-```
-
-**A documented process deviation, recorded rather than amended away.** AUD-07's
-first delivery pushed `335fedf` while `php bin/cert validate` and
-`vendor/bin/phpunit` were **both failing**, and reported neither: the command
-chained the gates and the push with `;` instead of reading `$?` between them.
-That is `PROC-1` repeated on the push rather than on a pipeline. The defect the
-gates were reporting was real — the register linked the AUD-07 report before its
-directory existed, so `LNK-001` fired on a dead internal link — and PR #73 fixed
-it. No check was weakened and no test was skipped; the rules did their job and
-the delivery step ignored them. Recorded in
-[`docs/audit/lot-27-aud07-english-readiness/README.md`](docs/audit/lot-27-aud07-english-readiness/README.md).
-
-**AUD-08 found the accessibility gate had never looked at two published pages.**
-`/docs/syllabus/coverage` and `/docs/syllabus/exclusions` are generated,
-published and smoke-tested, and neither was in the audit's `PAGES` list — it
-reported "12 surfaces, 0 violations" every run, and 12 was never the number of
-pages. The audit's own comments meanwhile excused other screens by citing *"the
-audited coverage page"*, which was not audited. Closed by **adding both pages**,
-never by excusing them; both passed on their first audited run (14 surfaces, 0
-violations), so the defect was a gate that had never looked rather than a broken
-page. `TECH-7` was also found **vacuous before it ever ran** — it compared the
-rule array against a count of itself — and now compares rule classes on disk
-against those registered. That is the **fourth** vacuous check after `VOL-3`,
-`HOLD-1` and `HOLD-6`, and the first caught by reading the check rather than by
-the fail-proof.
-
-The fail-proof now stands at **41 of 41** checks proved to fire across AUD-02
-through AUD-08, every file restored byte-identically and verified by SHA-256.
-`TECH-8` is the one recorded exception — it reads the git index, which the
-harness restores no part of — and is proved by a manual injection transcript.
-
-Gate values measured on `2b19c8b`, each command run on its own with its exit
-status read (PROC-1): `validate` 18 rules / 0 violations over 544 questions;
-`coverage` 100% (163/163 EXAM_READY) with no diff; `phpunit` **194 tests, 8,685
-assertions**; `composer gate-full` exit 0, site build succeeded, accessibility
-**14 surfaces / 0 violations**.
-
-Before it, `master` at `592039f` — **§10's five mock exams all exist and are deployed.**
-Mock 4 (the holdout mock) and Mocks 1, 2, 3 and 5 (the internal training
-mocks) were delivered as **ten separate pull requests**, never as one, and each
-was merged only after its Technical gate came back success and each deploy was
-verified by reading its production smoke log rather than assuming it.
-
-| Unit | PR | Merge commit | Technical gate | Deploy run | Production smoke |
-|---|---|---|---|---|---|
-| Mock 4 Unit A — ADR, blueprint, tests | #52 | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
-| Mock 4 Unit B — the 48 holdout questions | #54 | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
-| Mock 4 Unit C — the mock itself | #56 | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
-| §5 policy refresh | #58 | `832662f` | `100959149073` | `33853628535` | `100962468166` |
-| Mocks scope note | #59 | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
-| §10 recorded verbatim + the 1/2/3/5 blueprint | #60 | `a155db4` | `101038765378` | `33879010973` | `101043243134` |
-| Mock 1 — Knowledge | #61 | `9fbef93` | `101044467082` | `33880637630` | `101048533218` |
-| Mock 2 — Application | #62 | `a4202c0` | `101049042680` | `33882396094` | `101054359735` |
-| Mock 3 — Certification difficulty | #63 | `e7dd639` | `101054697563` | `33883826695` | `101059149312` |
-| Mock 5 — weakness-based | #64 | `592039f` | `101060317179` | `34158358977` | `101855070190` |
-
-Every id in that table was read back from the API rather than recalled: each
-smoke job was fetched by id and its `run_id`, `head_sha` and `conclusion`
-checked against the deploy run and the merge commit on the same row. One cell
-was `NOT_RECORDED` in the first draft of this record — PR #58's smoke job was
-never read at the time — and it was filled in by reading it (`100962468166`,
-success on `832662f`) rather than left as an unbacked `PASS`.
-
-This record itself shipped the same way — PR #65, gate `101857789693` success
-on `e052345`, merged as `ff09d45`, deploy run `34159913803` with build
-`101859353131`, deploy `101859571881` and production smoke `101859608690`, all
-three `success`, the smoke log read and showing the same seven holdout lines.
-The §22 reconciliation after it shipped the same way again — PR #66, gate
-`101860236787` success on `bbf8ab0`, merged as `2ece943`, deploy run
-`34160640036` with build `101861613525`, deploy `101861784324` and production
-smoke `101861817016`, all three `success`, the smoke log read.
-
-The last content-bearing deploy, run `34158358977` on `592039f`, was read job by job: build
-`101854796493`, deploy `101855033413` and production smoke `101855070190`, all
-three `success`. Twenty-one production URLs at 200 — including `/mock-1`,
-`/mock-2`, `/mock-3`, `/mock-4`, `/mock-5` and each of their payloads — and the
-holdout check ran in both directions on the deployed bytes:
-
-```text
-ok  practice  334 questions, all LEARNING, no holdout id or choice
-ok  exam      135 questions, all VALIDATION, no holdout id or choice
-ok  mock-1     61 eligible, no holdout id or choice
-ok  mock-2     83 eligible, no holdout id or choice
-ok  mock-3     67 eligible, no holdout id or choice
-ok  mock-5    469 eligible, no holdout id or choice
-ok  mock-4     75 questions, the whole holdout and nothing else, all English
-checked against 75 holdout questions and 308 holdout choices
-```
-
-Read those seven lines together: the holdout is deployed in **exactly one**
-payload, and a question missing from `mock-4.json` fails the build as loudly as
-one leaking into any of the other six.
-
-**What the mocks are, and what they are not.** §10 fixes a question count and a
-duration for **Mock 4 only**. For Mocks 1, 2, 3 and 5 it defines a role and
-nothing else — no count, no duration, no topic weighting, no pool, no pass
-threshold. Every such value in this repository was decided here, is derived by
-a stated rule from measured data, is labelled `INTERNAL_TRAINING_FORMAT` (every
-spread `TRAINING_DISTRIBUTION`), and must **never** be reported as official or
-as derived from Mock 4.
-
-| Mock | Role (§10) | Bank | Sitting | Duration | Eligible pool |
-|---|---|---|---|---|---|
-| 1 | Knowledge | VALIDATION, `RECOGNIZE\|DISTINGUISH` | 40 | 41 min | 61 |
-| 2 | Application | VALIDATION, `DIAGNOSE\|APPLY` | 52 | 60 min | 83 |
-| 3 | Certification difficulty | VALIDATION, `difficulty: hard` | 44 | 52 min | 67 |
-| 4 | Full simulation | HOLDOUT (all 75) | 75 | 90 min | 75 |
-| 5 | Weakness-based | the 469 non-holdout questions | 10–40, per learner | computed | 469 |
-
-Mocks 1, 2 and 3 reach **no** holdout question, by construction rather than by
-filter: `PayloadBuilder::eligibleFor()` refuses `Pool::Holdout` before any
-blueprint criterion is read, and a test proves the refusal. Mock 5 is generated
-per learner from recorded failures and is **not** a static selection; below ten
-weak items the named `INSUFFICIENT_EVIDENCE_FALLBACK` produces no sitting at
-all and says in as many words that it is not weakness-based.
-
-**Nothing here is unseen except Mock 4.** Mocks 1, 2 and 3 draw on
-`VALIDATION`, which Exam Mode serves during study, and Mock 5 draws on both
-learning pools. A score on any of them is a training signal, never §22's
-*protected unseen holdout assessment*. Mock 4 alone carries that property, and
-only in the Option A sense recorded in ADR-0005: functional isolation **yes**,
-application-level unseen **yes**, repository confidentiality **no**, answers
-readable by anyone who deliberately opens the public source **yes**.
-
-Before it, `master` at `4d31b53` — **Mock 4 Unit C delivered in full**: PR #56,
-Technical gate `100950643458` success on `ff465ba`, merged, deploy run
-`33850805831` with build `100952906192`, deploy `100954971728` and production
-smoke test `100955034319`, all success. Mock 4 exists and is live: 75
-questions, 90 minutes, 100% English, served from its own payload at
-`/mock-4`.
-
-The smoke log was read, not assumed. Thirteen production URLs at 200 —
-including the new `/mock-4` page and `/data/mock-4.json` — and the holdout
-check now runs in both directions:
-
-```text
-ok  practice  334 questions, all LEARNING, no holdout id or choice
-ok  exam      135 questions, all VALIDATION, no holdout id or choice
-ok  mock-4     75 questions, the whole holdout and nothing else, all English
-checked against 75 holdout questions and 308 holdout choices
-```
-
-That third line is the one that did not exist before: it proves in production
-both that the mock carries the whole holdout and that it carries nothing else.
-
-What changed, and what deliberately did not:
-
-- `mock-4.json` is generated by `bin/cert build` and is **the one payload that
-  carries the holdout**. `practice.json` and `exam.json` still carry none, and
-  `PayloadBuilder::assertNoHoldoutLeak()` is unchanged.
-- The mock answers to a **stricter** assertion of its own,
-  `assertMockMatchesBlueprint()`: exactly the 75 the blueprint names, the
-  per-topic allotment, one question per atomic item, all English. A question
-  missing from the mock fails the build exactly as a leak into a learning
-  payload does.
-- The production smoke test now polices both directions and is proved to fail
-  in each — a mock short by one question, and a practice payload contaminated
-  with one holdout question.
-- `POOL-001` is untouched: it guards the data, never the payloads. ADR-0006
-  claimed otherwise and has been corrected; ADR-0005, ADR-0006 and CLAUDE.md
-  all carry the amendment recording that the holdout is now deployed in one
-  payload, with the original statements left standing above them.
-
-Before it, `master` at `e3d3f36` — **Mock 4 Unit B delivered in full**: PR #54,
-Technical gate `100773606308` success on `931f549`, merged, deploy run
-`33793143221` with build `100774316227`, deploy `100774718420` and production
-smoke test `100774784144`, all success. The 48 new HOLDOUT questions the
-blueprint asks for are written, in eleven topic batches, each validated before
-the next began.
-
-The smoke log was read, not assumed. Eleven production URLs at 200, and the
-holdout check now covers the enlarged pool:
-
-```text
-ok  practice  334 questions, all LEARNING, no holdout id or choice
-ok  exam      135 questions, all VALIDATION, no holdout id or choice
-checked against 75 holdout questions and 308 holdout choices
-```
-
-75 and 308, against 27 and 108 before this lot: the 48 new questions and their
-200 choices are in the canonical banks and in none of the deployed payloads.
-The count rising is itself part of the evidence — a smoke test still checking
-27 would mean the new bank had not reached it.
-
-Before the merge, `composer gate-full` exited 0 locally: 18 rules and no
-violations over 544 questions, coverage 100% (163/163), phpunit OK (112 tests,
-4704 assertions), the site build succeeded and the accessibility audit passed 7
-of 7 pages with 0 violations.
-
-The bank is `content/questions/mock-04-holdout.yml`. Shape of the 48: 5 easy,
-40 medium, 3 hard — the budget spent exactly — 8 multiple-answer, mean 66.46s
-over 3190s against a 75.6s ceiling and a 3630s remaining budget. Every topic
-gap is filled exactly, one question per free atomic item, with no collision
-with the 27 the blueprint already assigns; the mock's 75 questions all exist.
-
-Isolation was checked against the built payload bytes, not the `pool` label:
-after `php bin/cert build`, none of the 48 question ids and none of their 200
-choice ids appears in `practice.json` or `exam.json`. That is the repository
-half of the guarantee; the production half is the smoke test, which runs on
-deployment.
-
-`Mock4HoldoutBatchTest` guards the bank: while Unit B was being written it
-refused a batch that overspent a difficulty bucket, exceeded a topic's gap,
-wrote two questions for one atomic item, dropped out of English or pushed the
-running mean over the ceiling — and it caught exactly that at 48, where the mix
-stood at 5/41/2 rather than 5/40/3. It now asserts the finished shape instead.
-Every assertion added was proved to fail against a deliberately broken copy of
-the bank before the copy was restored byte-identical.
-
-Before it, `master` at `237836f` — **Lot 27 unit 1 (the §5 glossary) delivered in full**:
-PR #46, Technical gate `100587591300` success on `1a6716c`, merged, deploy run
-`33737464109` with build `100591307991`, deploy `100591639720` and production
-smoke test `100591698010`, all success.
-
-The smoke log was read, not assumed. Eleven URLs at 200 including the new
-`/docs/syllabus/glossary`, and the **new** holdout check ran in production for
-the first time:
-
-```text
-ok  practice  334 questions, all LEARNING, no holdout id or choice
-ok  exam      135 questions, all VALIDATION, no holdout id or choice
-checked against 27 holdout questions and 108 holdout choices
-```
-
-That is the first time holdout isolation has been proved against the deployed
-bytes rather than against the payload's own `pool` label.
-
-Before it, `7456e20` — the squashed corrections PR #44, **delivered in full**:
-Technical gate `100542490813` success on head `46b0df4`, merged, deploy run
-`33722133013` with build `100543284846`, deploy `100543519869` and production
-smoke test `100543569797`, all success. The smoke-test log was read rather than
-assumed: ten production URLs returned 200, the landing page rendered its
-expected content, and `practice.json` declared `pool: LEARNING`.
-
-`c4cfebc` before it is the squashed pre-Lot-27 decision gate (PR #43, Technical
-gate `100527192838` success on `eda6f50`, deploy `33719653086`). It carries the
-restored Master Plan findings, the ADR-0005 acceptance, the §5 and §4.3
-policies, the §22 assessment, the P2.8 flashcard repair and the versioned
-syllabus-audit artifacts.
-
-### Pre-Lot-27 corrections G-1 to G-4 (PR #44)
-
-Applied from the accepted audit, and nothing else — five files, coverage
-100% (163/163) before and after, pools untouched.
-
-| | Correction | Evidence it closed |
-|---|---|---|
-| G-1 | `SCOPE-001` now reads each choice's own `explanation`, not only its text | The extended rule reported **exactly one** violation — `QST-psqn0fe95khc`, the occurrence the audit predicted from separate evidence. Regression test added and **confirmed to fail against the pre-fix rule** |
-| G-2 | The Doctrine reference **removed** from `QST-psqn0fe95khc`, the explanation rewritten around the namespace segment, and the `exclusion-note` tag dropped | Tagging would have made the tag a general exemption for keeping an out-of-scope anecdote that earned no point and taught nothing. The question now passes on its content: **zero** excluded terms anywhere in it, no tag needed. Two guards added — a genuine tagged note must actually state a boundary, and this question must carry no excluded term |
-| G-3 | `exclusions.yml` `review_only_exclusions` de-duplicated | Was 6 entries / 3 ids, and the two `EXC-UNLISTED-COMPONENTS` copies disagreed — the second omitted `HttpFoundation`, `HttpKernel`, `HttpClient`, `OptionsResolver`. Now 3 entries, 3 ids, one 32-entry list |
-| G-4 | `official-syllabus.md` records **three facts together**: the published constraint (**15 topics**, binding), the measured presentation (**14** headings at 17.0) and the mapping (**163/163**) | The typography measures how the page renders, never what it states. `Components:` as the fifteenth topic stays an **interpretation** — it is the only item-level line with children, but carries no 17.0 heading. §22 clause 2 is unaffected: it turns on item representation, and all 163 are present |
-
-**G-1 is the fourth instance of one class**, after SPLICE-1, SPLICE-2 and
-COG-1: **a rule that does not read a field cannot protect it.** `Choice::$explanation`
-existed, was required by §7.1, was rendered to the learner, and no rule had
-ever looked at it.
-
-The Technical gate that counts is run `33653840108` on head `610e320`:
-**success**. Run `33653775788` on `efaf14c` shows `cancelled` — superseded by
-the next push, concurrency cancellation, not a failure. Run `33622202938` on
-`8bf0758` succeeded but predates the audit trim and does not stand for the
-merged tree.
-
-Deploy run `33656601994` on `7c89adc`: success. A CONTEXT.md commit then moved
-master to `8029875` and deploy run `33656689995` succeeded on it — that is the
-live deploy, and its jobs are the recorded evidence: build `100337182656`,
-deploy `100337538061`, production smoke test `100337628436`, all success.
-
-`master` is at merge commit `da87b7e` (Lot 20, PR #30).
-
-Verified, with real identifiers:
-
-| Lot | Merge | Technical gate | Deploy run | Production smoke test |
-|---|---|---|---|---|
-| 12 — Console | `0fc51e1` | `100130374274` | `33594048974` | `100133956362` |
-| 21 — Filesystem, Finder | `7c89adc` | `33653840108` | `33656689995` | `100337628436` |
-| 22 — Mailer, Mime | `25fe900` | `33659872155` | `33660554878` | `100350157086` |
-| 23 — Process | `df88caa` | `33661598698` | `33685599410` | `100433156037` |
-| 24 — PropertyAccess | `2a8f0e8` | `33686497465` | `33686874047` | `100437028877` |
-| 25 — Runtime | `130f7e8` | `33687839072` | `33688747560` | `100442702932` |
-| 26 — Serializer | `59b5756` | `33689350805` | `33689975817` | `100446567044` |
-| Pre-Lot-27 gate (PR #43) | `c4cfebc` | `100527192838` | `33719653086` | — |
-| Corrections G-1 to G-4 (PR #44) | `7456e20` | `100542490813` | `33722133013` | `100543569797` |
-| CONTEXT delivery evidence (PR #45) | `90f990e` | `100580157989` | `33734587613` | `100582461633` |
-| Lot 27 unit 1 — §5 glossary (PR #46) | `5d8a4f8` | `100587591300` | `33737464109` | `100591698010` |
-| Lot 27 — glossary closure (PR #47) | `4e17719` | `100594855196` | `33739511079` | `100598297141` |
-| Lot 27 unit 2 — question-bank audit (PR #48) | `73542a0` | `100599262947` | `33740901382` | `100602733698` |
-| Lot 27 — Q-1 DUP-001 near-duplicates (PR #49) | `6134c46` | `100603497958` | `33742398560` | `100607460583` |
-| Lot 27 — Q-2/Q-3 FR-3 accents (PR #50) | `a56e105` | `100608172997` | `33743015881` | `100609460399` |
-| Lot 27 — delivery reconciliation (PR #51) | `6b70a0a` | `100611772160` | `33744080879` | `100612842440` |
-| Mock 4 Unit A — Option A + blueprint (PR #52) | `eb077a8` | `100648399043` | `33756472943` | `100653268160` |
-| Mock 4 Unit B — the 48 holdout questions (PR #54) | `e3d3f36` | `100773606308` | `33793143221` | `100774784144` |
-| Mock 4 Unit C — the mock itself (PR #56) | `4d31b53` | `100950643458` | `33850805831` | `100955034319` |
-| Lot 27 — §5 policy refresh (PR #58) | `832662f` | `100959149073` | `33853628535` | — |
-| Lot 27 — mocks scope note (PR #59) | `d810dec` | `100962366390` | `33876740332` | `101035797781` |
-| Lot 27 — §10 + mocks blueprint (PR #60) | `a155db4` | `101038765378` | `33879010973` | `101043243134` |
-| Lot 27 — Mock 1 Knowledge (PR #61) | `9fbef93` | `101044467082` | `33880637630` | `101048533218` |
-| Lot 27 — Mock 2 Application (PR #62) | `a4202c0` | `101049042680` | pending | pending |
-| Lot 27 — Mock 3 Certification difficulty (PR #63) | `e7dd639` | `101054697563` | pending | pending |
-| 13 — Automated Tests | `4b89c97` | `100136839343` | `33595866117` | `100139317182` |
-| 14 — Config/Errors/Debug | `f3f6212` | `100140245517` | `33596413331` | `100140900164` |
-| 15 — Deploy/Profiler | `5356666` | `100141336955` | `33596821306` | `100142110861` |
-| 16 — i18n | `35b550c` | `100142369730` | `33597624000` | `100144456820` |
-| 17 — HTTP Caching | `db40346` | `100145067830` | `33598597355` | `100147381182` |
-| 18 — Cache | `301ab8b` | `100147813907` | `33599377684` | `100149755378` |
-| 19 — Clock | `8f36d0b` | run `33618683916` | `33619375464` | `100212925165` |
-| 20 — EventDispatcher, Event | `da87b7e` | `100216057848` | `33621145565` | `100218509654` |
-
-Lot 20's deploy run also carries build `100218191780` and deploy
-`100218447960`, both success.
-
-The deploy and smoke ids for lots 14 to 17, long recorded as `MISSING` because
-they were not captured at the time, were **recovered from the Actions history
-during the pre-Lot-27 audit** and are now in the table above. They were read
-from the API, not reconstructed: each smoke-test job is a real id whose run
-carries the matching `head_sha`. Nothing was back-filled by inference.
-Production: https://jasseryahyaoui.github.io/Symfony-8-Certification-Path/
-
-Every lot from 03 onward ships through branch → Pull Request → CI → controlled
-merge. The direct-to-`master` commits of Lots 0.5–02 remain a
-**DOCUMENTED_DEVIATION** recorded in their reports.
+A first draft of that report's archetype table was written from assignment notes
+rather than measured, and four of its ten rows were wrong; it was reconciled by
+script and the report records the correction.
 
 ## Completed work
 
@@ -684,16 +319,16 @@ Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
 its own command with its exit code read (PROC-1):
 
 ```text
-php bin/cert validate                             → 21 rules, 163 items, 550 questions,
+php bin/cert validate                             → 21 rules, 163 items, 555 questions,
                                                     2 violations, 0 blocking                  (exit 0)
 php bin/cert coverage                             → Coverage: 100% (163/163 EXAM_READY)       (exit 0)
-php bin/cert readiness                            → Readiness: 0% (0/163), lots refined 0/27   (exit 0)
+php bin/cert readiness                            → Readiness: 5.5% (9/163), lots refined 1/27 (exit 0)
 php bin/cert build                                → docs tree + payloads + readiness.json      (exit 0)
-vendor/bin/phpunit                                → OK (231 tests, 8784 assertions)            (exit 0)
+vendor/bin/phpunit                                → OK (236 tests, 8804 assertions)            (exit 0)
 composer gate-full                                → all of the above, then site + a11y         (exit 0)
 npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
 python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
-python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 5 cases fired, restored         (exit 0)
+python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 7 cases fired, restored         (exit 0)
 python3 .github/scripts/readiness-smoke.py        → matches the dashboard; and against a
                                                     payload edited to the pre-ADR-0007
                                                     figures, 3 errors                         (exit 1)
@@ -756,15 +391,23 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Étape B — re-refine Lot 01 under refinement framework version 2.** The
-framework is merged, deployed and verified in production (PRs #84 and #85); Lot 01's nine items are the first to be
-brought up to it. Concretely, per item: mint an `OUT` id for each learning
-outcome, write the `assesses_outcomes` link from the questions that assess it,
-declare a `question_archetype` on every lot-01 question, and close the two gaps
-the metric already named — *Attributes* has no `hard` question, *Abstract
-classes* has neither a `DIAGNOSE` nor a `hard` one. Then record
-`framework_version: 2` in the refinement log, which is what makes `ARC-001`,
-`PED-003` and `REV-001` bite on the lot.
+**Lot 02 under refinement framework version 2** — the next lot in the series.
+It does **not** start in this session.
+
+The Lot 01 pass gives the recipe, and two of its findings are worth carrying
+into every remaining lot because they are corpus-wide, not lot-01-specific:
+
+- **Look for outcomes assessed only by a HOLDOUT question.** `PED-003` catches
+  these now, but only inside a lot claiming framework version 2 — so they stay
+  invisible in lots 02–26 until each is refined.
+- **Read each outcome against the course that serves it.** No rule compares the
+  two, and Lot 01's *"quatre ajouts de langage"* against a course teaching five
+  is the kind of defect only reading finds.
+
+`PED-003` also still warns that **73 of 163 items carry fewer questions than
+declared outcomes**. That figure is the backlog the series works through: it
+should fall lot by lot, and it is the honest measure of how much of the
+refinement series remains.
 
 **Lot 02 must not start in this session** (owner's standing instruction).
 AUD-09 stays `NOT_RUN`; Mock 4 stays `PENDING_HUMAN_VALIDATION`; Lot 27 stays
