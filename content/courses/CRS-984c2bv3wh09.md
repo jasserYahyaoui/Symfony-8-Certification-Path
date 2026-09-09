@@ -56,7 +56,7 @@ Response::HTTP_UNPROCESSABLE_ENTITY;  // 422
 Response::HTTP_INTERNAL_SERVER_ERROR; // 500
 ```
 
-## Distinctions et pièges
+## Pièges d'examen
 
 **401 vs 403.** `401 Unauthorized` signifie « je ne sais pas qui vous êtes » —
 authentification manquante ou invalide. `403 Forbidden` signifie « je sais qui

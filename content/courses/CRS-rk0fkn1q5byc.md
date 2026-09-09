@@ -49,6 +49,19 @@ Un nom peut être abrégé tant qu'il reste **non ambigu** : `c:c` suffit pour
 `cache:clear`. Une abréviation ambiguë provoque une erreur qui liste les
 candidats.
 
+## Pièges d'examen
+
+**Une commande s'exécute dans l'environnement de `APP_ENV`, `dev` par défaut.**
+Un `debug:router` lancé sans rien décrit donc le conteneur de `dev` :
+`APP_ENV=prod php bin/console cache:clear` vise l'autre.
+
+**`debug:*` lit le conteneur compilé, pas les fichiers de configuration.** C'est
+précisément son intérêt : il montre ce que Symfony a retenu, pas ce qu'on croit
+avoir écrit.
+
+**`bin/console` sans argument exécute `list`** ; il n'affiche pas une aide et ne
+signale aucune erreur.
+
 ## Points clés
 
 - `list` et `help` sont les deux commandes de découverte.

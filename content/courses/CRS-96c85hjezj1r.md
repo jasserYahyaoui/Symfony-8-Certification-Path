@@ -54,6 +54,18 @@ niveaux.
 L'intérêt est qu'une seule commande sert au quotidien et au diagnostic : on ne
 crée pas d'option `--debug` maison.
 
+## Pièges d'examen
+
+**`--silent` masque les erreurs, il ne les perd pas.** Elles restent écrites par
+le logger Symfony ; seule la console se tait.
+
+**`SHELL_VERBOSITY` fixe le niveau globalement, mais `-q` et `-v` l'emportent
+sur lui.** La variable vaut `-2` pour `--silent`, `-1` pour `--quiet`, `0`, `1`,
+`2`, `3` pour les suivants.
+
+**Le troisième argument de `writeln()` est un seuil, pas un filtre exact.** Un
+message marqué `VERBOSITY_VERBOSE` s'affiche à `-v`, `-vv` **et** `-vvv`.
+
 ## Points clés
 
 - Six niveaux ; `--silent` supprime même les erreurs, `-q` la sortie normale.

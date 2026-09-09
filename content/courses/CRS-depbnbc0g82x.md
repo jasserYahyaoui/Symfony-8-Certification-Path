@@ -49,6 +49,20 @@ change.
 La distinction ressource / représentation est celle qui rend intelligibles la
 négociation de contenu et l'en-tête `Vary`.
 
+## Pièges d'examen
+
+**Sûre et idempotente ne sont pas la même propriété.** §9.2.1 déclare sûres
+`GET`, `HEAD`, `OPTIONS` et `TRACE` ; §9.2.2 rend idempotentes `PUT`, `DELETE`
+**et toutes les méthodes sûres**. `POST` n'est ni l'une ni l'autre. Toute
+méthode sûre est donc idempotente, l'inverse est faux.
+
+**`DELETE` reste idempotente même si le second appel renvoie `404`.**
+L'idempotence porte sur l'**effet sur le serveur** de requêtes répétées, pas sur
+l'égalité des réponses.
+
+**RFC 9110 ne décrit aucune syntaxe de trame.** Une question sur le codage
+`chunked` ou sur la ligne de requête relève de RFC 9112, pas de 9110.
+
 ## Points clés
 
 - RFC 9110 = sémantique HTTP, indépendante de la version de transport.
