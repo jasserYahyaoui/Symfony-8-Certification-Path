@@ -47,6 +47,20 @@ l'authentification**, pas l'utilisateur. `IS_AUTHENTICATED_FULLY` exige une
 connexion de cette session ; `IS_AUTHENTICATED_REMEMBERED` accepte aussi un
 retour par cookie « se souvenir de moi ».
 
+## Pièges d'examen
+
+**`in_array('ROLE_ADMIN', $user->getRoles())` ignore la hiérarchie.**
+`getRoles()` retourne les rôles **écrits sur l'utilisateur** ; la hiérarchie est
+appliquée par le système d'autorisation. La documentation marque cette ligne
+`BAD` et lui oppose `isGranted('ROLE_ADMIN')`.
+
+**La hiérarchie ne se calcule pas.** `role_hierarchy` est de la configuration,
+statique : une hiérarchie stockée en base demande un voter.
+
+**`IS_AUTHENTICATED_FULLY` n'est pas un rôle** et n'a rien à faire dans
+`getRoles()`. Il décrit l'état de l'authentification et s'emploie uniquement
+comme attribut passé à `isGranted()`.
+
 ## Points clés
 
 - Un rôle doit commencer par `ROLE_` ; c'est la seule contrainte.

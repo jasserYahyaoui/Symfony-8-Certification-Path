@@ -52,6 +52,20 @@ constructeur.
 Le point commun se retient mieux que la liste : **on injecte une interface**,
 pas une implémentation. C'est l'alias déclaré par le bundle qui fait le lien.
 
+## Pièges d'examen
+
+**`debug:container` et `debug:autowiring` ne répondent pas à la même
+question.** Le premier liste **tous** les identifiants du conteneur, le second
+les types utilisables comme type-hint. Apparaître dans `debug:container` ne rend
+pas un service injectable par son type.
+
+**On type-hinte l'interface, pas l'implémentation.** C'est un alias déclaré par
+le bundle qui relie `LoggerInterface` au service `logger` ; viser la classe
+concrète contourne cet alias et échoue.
+
+**Un service intégré vient d'un bundle, pas du framework en bloc.** Retirer le
+bundle retire ses services : sans TwigBundle, pas d'`Environment` à injecter.
+
 ## Points clés
 
 - Les services intégrés viennent des bundles installés, FrameworkBundle en tête.
