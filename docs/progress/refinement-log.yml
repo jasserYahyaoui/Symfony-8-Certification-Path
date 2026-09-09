@@ -16,6 +16,11 @@
 #   - the pull request is merged;
 #   - the deployment succeeded and its production smoke log was read.
 #
+# A lot may be refined more than once, when the framework it is measured against
+# rises. Each pass is recorded in `passes` with its own evidence; the top-level
+# `framework_version` is the highest reached and `date` the most recent pass,
+# because those are what the readiness dashboard reads.
+#
 # `framework_version` records WHICH definition of refinement the lot was
 # audited against (src/Readiness/RefinementFramework.php). Version 2 added
 # identified learning outcomes, the outcome-to-question link, question
@@ -32,24 +37,38 @@ lots:
   - lot: lot-01
     status: REFINED
     framework_version: 2
-    report: docs/audit/lot-01-refinement/README.md
-    pull_request: 81
-    merged_commit: 5f871c0
-    production_verified_commit: 730d384
-    production_smoke_job: 102190283744
-    date: '2026-09-08'
-    report_v2: docs/audit/lot-01-refinement-v2/README.md
-    note: >-
-      Version 1 pass (PR 81, merged 5f871c0, production-verified 730d384): found
-      Interfaces documented but never made applicable, and four exam traps the
-      courses teach that no question verified. Six questions added; all nine
-      items now carry exam-mode evidence.
-      Version 2 pass: 28 learning outcomes given minted OUT ids and linked to the
-      questions that assess them, an archetype declared on all 41 questions, and
-      five questions added — three because an outcome was named only by a HOLDOUT
-      question and so could never be practised, one to give Abstract classes the
-      DIAGNOSE and hard evidence it lacked, and one because the item promised
-      four PHP 8.4 language additions where php-src and the course give five.
-      The merge, deployment and production smoke evidence for the version 2 pass
-      is recorded by the follow-up evidence commit, as it was for version 1
-      (PR 81 then PR 82).
+    date: '2026-09-09'
+    passes:
+      - framework_version: 1
+        report: docs/audit/lot-01-refinement/README.md
+        pull_request: 81
+        merged_commit: 5f871c0
+        production_verified_commit: 730d384
+        production_smoke_job: 102190283744
+        date: '2026-09-08'
+        note: >-
+          Found Interfaces documented but never made applicable, and four exam
+          traps the courses teach that no question verified. Six questions added;
+          all nine items now carry exam-mode evidence.
+      - framework_version: 2
+        report: docs/audit/lot-01-refinement-v2/README.md
+        pull_request: 87
+        merged_commit: 706ada7
+        production_verified_commit: 706ada7
+        production_smoke_job: 102409498934
+        date: '2026-09-09'
+        note: >-
+          28 learning outcomes given minted OUT ids and linked to the questions
+          that assess them; an archetype declared on all 41 questions; five
+          questions added, each behaviour executed on PHP 8.4.19 first. Three
+          because an outcome was named only by a HOLDOUT question and so could
+          never be practised — which the framework counted as assessed until this
+          pass proved it wrong. One to give Abstract classes the DIAGNOSE and
+          hard evidence it lacked. One because the item promised four PHP 8.4
+          language additions where php-src and the course give five. Also added
+          BEHAVIOR_DIAGNOSIS and BEHAVIOR_PREDICTION: sixteen of the lot's
+          questions describe a behaviour rather than shipping a listing, and the
+          nine-value vocabulary could not name that shape.
+        production_smoke_line: >-
+          ok  readiness  deployed 5.5% (9/163), 1 of 27 lots refined — matches
+          the repository dashboard
