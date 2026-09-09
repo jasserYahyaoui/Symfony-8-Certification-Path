@@ -48,7 +48,7 @@ against the deployed bytes.
 
 | | |
 |---|---|
-| Git commits | `2e849cb` framework · `fede753` production readiness check · `74ac4bd`-series Lot 01 v2 |
+| Git commits | `2e849cb` framework · `fede753` production readiness check · `ee8de66` Lot 01 v2 |
 | Pull requests | #84 → `7e92a36` · #85 → `047a82d` · #86 → `eab44e3` · **#87 → `706ada7`** |
 | Actions — CI | runs 204, 205, 207, 209, 211 — all `success` |
 | Actions — Pages | runs 102, 103, 104, **105** — all `success` |
@@ -319,16 +319,16 @@ Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
 its own command with its exit code read (PROC-1):
 
 ```text
-php bin/cert validate                             → 21 rules, 163 items, 550 questions,
+php bin/cert validate                             → 21 rules, 163 items, 555 questions,
                                                     2 violations, 0 blocking                  (exit 0)
 php bin/cert coverage                             → Coverage: 100% (163/163 EXAM_READY)       (exit 0)
-php bin/cert readiness                            → Readiness: 0% (0/163), lots refined 0/27   (exit 0)
+php bin/cert readiness                            → Readiness: 5.5% (9/163), lots refined 1/27 (exit 0)
 php bin/cert build                                → docs tree + payloads + readiness.json      (exit 0)
-vendor/bin/phpunit                                → OK (231 tests, 8784 assertions)            (exit 0)
+vendor/bin/phpunit                                → OK (236 tests, 8804 assertions)            (exit 0)
 composer gate-full                                → all of the above, then site + a11y         (exit 0)
 npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
 python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
-python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 5 cases fired, restored         (exit 0)
+python3 tools/audit/prove_framework_rules_fail.py → PROOF OK — 7 cases fired, restored         (exit 0)
 python3 .github/scripts/readiness-smoke.py        → matches the dashboard; and against a
                                                     payload edited to the pre-ADR-0007
                                                     figures, 3 errors                         (exit 1)
@@ -391,15 +391,23 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Étape B — re-refine Lot 01 under refinement framework version 2.** The
-framework is merged, deployed and verified in production (PRs #84 and #85); Lot 01's nine items are the first to be
-brought up to it. Concretely, per item: mint an `OUT` id for each learning
-outcome, write the `assesses_outcomes` link from the questions that assess it,
-declare a `question_archetype` on every lot-01 question, and close the two gaps
-the metric already named — *Attributes* has no `hard` question, *Abstract
-classes* has neither a `DIAGNOSE` nor a `hard` one. Then record
-`framework_version: 2` in the refinement log, which is what makes `ARC-001`,
-`PED-003` and `REV-001` bite on the lot.
+**Lot 02 under refinement framework version 2** — the next lot in the series.
+It does **not** start in this session.
+
+The Lot 01 pass gives the recipe, and two of its findings are worth carrying
+into every remaining lot because they are corpus-wide, not lot-01-specific:
+
+- **Look for outcomes assessed only by a HOLDOUT question.** `PED-003` catches
+  these now, but only inside a lot claiming framework version 2 — so they stay
+  invisible in lots 02–26 until each is refined.
+- **Read each outcome against the course that serves it.** No rule compares the
+  two, and Lot 01's *"quatre ajouts de langage"* against a course teaching five
+  is the kind of defect only reading finds.
+
+`PED-003` also still warns that **73 of 163 items carry fewer questions than
+declared outcomes**. That figure is the backlog the series works through: it
+should fall lot by lot, and it is the honest measure of how much of the
+refinement series remains.
 
 **Lot 02 must not start in this session** (owner's standing instruction).
 AUD-09 stays `NOT_RUN`; Mock 4 stays `PENDING_HUMAN_VALIDATION`; Lot 27 stays
