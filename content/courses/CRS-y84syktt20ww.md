@@ -44,6 +44,16 @@ logiciel est fourni « en l'état », sans garantie.
 Ce n'est donc pas une licence *copyleft* : rien n'oblige à publier sous MIT le
 code qui utilise Symfony.
 
+## Pièges d'examen
+
+**MIT n'est pas copyleft.** Une application qui utilise Symfony n'a aucune
+obligation d'être publiée sous MIT, ni d'être publiée du tout. Usage
+propriétaire et commercial compris.
+
+**L'unique obligation porte sur l'avis, pas sur le code.** Il faut reproduire
+l'avis de copyright et le texte de la licence dans toute copie substantielle du
+logiciel — rien de plus.
+
 ## Points clés
 
 - Symfony est sous licence **MIT**, titulaire du copyright Fabien Potencier.

@@ -71,6 +71,20 @@ fonctionnalité, un **bridge** la relie à une bibliothèque tierce, un **bundle
 la branche dans le framework et la rend configurable. C'est pourquoi un même
 outil apparaît parfois trois fois sous trois noms voisins.
 
+## Pièges d'examen
+
+**Un bridge ne configure rien.** C'est la ligne qui sépare bridge et bundle :
+le bridge relie un composant à une bibliothèque tierce, le bundle branche le
+tout dans le framework et apporte la configuration. Un bridge posé seul dans un
+projet Symfony n'enregistre aucun service.
+
+**Un composant ne dépend pas du framework.** L'installer dans un projet PHP
+quelconque est le test : si c'est impossible, ce n'est pas un composant.
+
+**`replace` n'est pas `require`.** Le `composer.json` du mono-dépôt déclare que
+`symfony/symfony` *remplace* chaque paquet individuel ; il ne les installe pas
+en plus.
+
 ## Points clés
 
 - Composant = bibliothèque autonome, dépôt propre, utilisable hors framework.

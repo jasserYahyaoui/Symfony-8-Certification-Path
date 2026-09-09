@@ -58,6 +58,16 @@ chaque appel, un service non : il reçoit `RequestStack` et demande
 `getCurrentRequest()`. La pile distingue aussi la requête principale
 (`getMainRequest()`) de la requête parente (`getParentRequest()`).
 
+## Pièges d'examen
+
+**On n'injecte jamais `Request` dans un service.** Un service est construit une
+fois, la requête change à chaque appel : c'est `RequestStack` que l'on injecte,
+et `getCurrentRequest()` que l'on appelle.
+
+**La dépendance va dans un seul sens.** HttpFoundation ne dépend d'aucun
+composant Symfony ; c'est le framework qui dépend de lui, puisque le contrat du
+noyau est écrit dans son vocabulaire.
+
 ## Points clés
 
 - HttpFoundation remplace les superglobales PHP par des objets fabricables.

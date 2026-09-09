@@ -70,6 +70,20 @@ fournit pas d'implémentation PSR-7 : il faut lui en installer une, par exemple
 C'est la distinction à tenir : pour les autres PSR, Symfony **est** l'implémentation ;
 pour PSR-7, il faut convertir.
 
+## Pièges d'examen
+
+**PSR-7 n'est pas implémentée.** C'est la seule de la liste qui demande un
+pont — `symfony/psr-http-message-bridge` — **plus** une implémentation tierce,
+que le pont ne fournit pas. Pour toutes les autres, Symfony *est*
+l'implémentation.
+
+**Implémentée et suivie ne sont pas la même chose.** PSR-4 et PSR-12 se
+respectent, elles ne s'implémentent pas : elles ne figurent pas dans la clé
+`provide`.
+
+**Le conteneur *est* un `Psr\Container\ContainerInterface`.** Il n'y a pas
+d'adaptateur à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
+
 ## Points clés
 
 - Implémentées : PSR-3, 6, 11, 13, 14, 16, 18, 20.

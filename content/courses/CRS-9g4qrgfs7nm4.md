@@ -54,6 +54,20 @@ Les attributs PHP suivent deux préfixes selon leur rôle :
 Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean`,
 `integer`, `double` ou `real`.
 
+## Pièges d'examen
+
+**Un cas d'énumération s'écrit `UpperCamelCase`, pas en majuscules.**
+`InputArgumentMode::IsArray`, alors que la constante de classe équivalente
+s'écrit `IS_ARRAY`. Les deux cohabitent dans le même code.
+
+**`Abstract` est un préfixe ; `Interface`, `Trait` et `Exception` sont des
+suffixes.** Il n'y a en revanche **aucun** suffixe pour une classe ordinaire ou
+une énumération : ni `...Class`, ni `...Enum`.
+
+**`As...` et `Map...` ne sont pas interchangeables.** `As...` configure un
+service (`#[AsCommand]`), `Map...` concerne un argument de contrôleur
+(`#[MapEntity]`).
+
 ## Points clés
 
 - `camelCase` pour le code, `snake_case` pour la configuration et les gabarits.

@@ -76,6 +76,20 @@ La version **minimale** de PHP est fixée pour chaque version majeure de Symfony
 La version **maximale** supportée est la dernière publiée : toutes les versions
 de PHP sorties pendant la vie d'une version de Symfony sont supportées.
 
+## Pièges d'examen
+
+**Une LTS n'a pas une seule durée, elle en a deux.** Trois ans de correction de
+bugs, **quatre** ans de correction de failles : la sécurité continue un an après
+l'arrêt des bugs. Une version standard, elle, s'arrête à 8 mois pour les deux.
+
+**Le calendrier est fixe, le contenu ne l'est pas.** Mineures en mai et
+novembre, majeures en novembre des années impaires — mais **aucune feuille de
+route** n'annonce ce qu'elles contiendront.
+
+**8.0 et 7.4 ont les mêmes fonctionnalités.** Elles ne diffèrent que par les
+dépréciations, présentes dans l'une, supprimées dans l'autre. Monter en version
+majeure n'apporte donc rien de neuf par lui-même.
+
 ## Points clés
 
 - Mineure tous les 6 mois (mai / novembre), majeure tous les 2 ans (novembre des
