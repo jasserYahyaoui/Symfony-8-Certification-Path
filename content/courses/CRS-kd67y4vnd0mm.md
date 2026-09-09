@@ -68,6 +68,20 @@ l'implémente pas : elle donne donc 500.
 relancée au lieu d'être transformée en réponse. C'est ce qui permet à un test
 fonctionnel d'observer l'exception réelle plutôt qu'une page d'erreur.
 
+## Pièges d'examen
+
+**Le statut de la réponse fournie par un écouteur n'est pas toujours conservé.**
+Il ne l'est que si elle est 4xx, 5xx ou une redirection. Une réponse `200` ou
+`204` construite dans `kernel.exception` ressort en `500`, sauf appel préalable
+à `allowCustomResponseCode()`.
+
+**Une exception ordinaire donne 500.** Seules celles qui implémentent
+`HttpExceptionInterface` portent un statut ; une `\RuntimeException` n'en porte
+aucun.
+
+**`setResponse()` met fin au traitement de l'erreur** — l'`ErrorListener`
+intégré ne prend plus la main, et la page d'erreur n'est pas produite.
+
 ## Points clés
 
 - `kernel.exception` : `setResponse()` termine le traitement, `setThrowable()`

@@ -65,6 +65,22 @@ se retient mal :
 Autrement dit : ce que Composer doit connaître se déclare dans `composer.json` ;
 ce que seul le noyau doit connaître se surcharge en PHP dans le `Kernel`.
 
+## Pièges d'examen
+
+**Déplacer un répertoire ne se fait pas au même endroit pour tous.** `bin/`,
+`config/`, `src/`, `public/`, `templates/`, `translations/` et `vendor/` se
+déplacent par la clé `extra` du `composer.json`. `var/cache/` et `var/log/` ne
+s'y trouvent pas : ils se surchargent en PHP, par `getCacheDir()` et
+`getLogDir()` sur le `Kernel`.
+
+**`config/packages/test/` ne s'ajoute pas à la configuration commune, il la
+surcharge.** Un sous-répertoire d'environnement n'est lu que dans cet
+environnement.
+
+**`public/` est le seul répertoire servi.** Un fichier utile au navigateur mais
+posé ailleurs est inaccessible, quelle que soit la configuration Symfony — c'est
+le serveur web qui tranche, pas le framework.
+
 ## Points clés
 
 - `public/` est le seul répertoire exposé ; `var/` le seul répertoire écrit.

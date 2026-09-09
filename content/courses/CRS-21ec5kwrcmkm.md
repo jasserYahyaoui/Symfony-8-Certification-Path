@@ -79,6 +79,21 @@ intention **sans l'imposer techniquement** : le code fonctionne, mais l'étendre
 sort de la promesse. `@final since Symfony x.y` signale une transition — la
 classe n'est pas encore considérée finale.
 
+## Pièges d'examen
+
+**« Étendre est couvert » est vrai avec deux exceptions.** Ajouter une
+**propriété** ou une **méthode** à une classe Symfony que l'on étend n'est pas
+garanti : Symfony peut introduire le même nom dans une version mineure, et la
+collision est pour vous.
+
+**Les arguments nommés ne sont pas couverts.** `$service->method(timeout: 5)`
+peut casser en montant d'une mineure ; seuls les constructeurs de classes
+d'attribut garantissent le nom des paramètres.
+
+**`@final` n'interdit rien techniquement.** Le code qui étend une classe `@final`
+fonctionne — il sort simplement de la promesse. Seul le mot-clé `final` empêche
+l'extension.
+
 ## Points clés
 
 - Utiliser et implémenter : couverts. Étendre : couvert **sauf** ajout de

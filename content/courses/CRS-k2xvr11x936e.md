@@ -66,6 +66,19 @@ avec un ou deux mots descriptifs : `app.contents_dir` plutôt que `app.dir`.
 - **Format XLIFF** pour les traductions, et des **clés** plutôt que le texte
   source comme identifiant de traduction.
 
+## Pièges d'examen
+
+**Une valeur qui ne change presque jamais ne devient pas un paramètre.** La
+recommandation officielle est d'en faire une **constante de classe** : elle est
+lisible partout, y compris depuis un gabarit, là où un paramètre exige le
+conteneur.
+
+**L'URL se code en dur dans un test fonctionnel.** Ce n'est pas un raccourci
+toléré, c'est la recommandation : le test doit échouer si l'URL publique change.
+
+**Pas de bundle pour le code de l'application.** Un projet est une application ;
+les bundles sont pour le code partagé entre projets.
+
 ## Points clés
 
 - Environnement → infrastructure ; secret → sensible ; paramètre →

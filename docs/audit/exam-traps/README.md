@@ -75,7 +75,50 @@ to be safe"*; §9.2.2 — *"PUT, DELETE, and safe request methods are
 idempotent"*. So every safe method is idempotent and the converse is false, and
 `POST` is neither. The course taught the status-code classes and never this.
 
+## Lot 03 — thirteen items (Symfony Architecture)
+
+All thirteen sections restate a distinction the course's own verified source
+already establishes, reframed as **the wrong belief a candidate arrives with**.
+That framing is the added value: the course says what the rule is, the trap says
+what people answer instead.
+
+| Item | The wrong belief named |
+|---|---|
+| Code organization | that every directory moves the same way — `var/cache` and `var/log` move in the `Kernel`, not in `composer.json` |
+| Components and Bridges | that a bridge configures the framework; it configures nothing |
+| Backward compatibility promise | that "extending is covered" has no exceptions — adding a property or a method is not covered |
+| Release management | that an LTS has one duration; it has two, 3 years of bugs and 4 of security |
+| Naming conventions | that enum cases are `SCREAMING_SNAKE_CASE`; they are `UpperCamelCase` |
+| HttpFoundation component | that a service can be given the `Request`; it is given `RequestStack` |
+| Framework interoperability and PSRs | that PSR-7 is implemented; it needs a bridge *and* a third-party implementation |
+| Framework overloading | that a constraint can be replaced; validation configuration only merges |
+| Official best practices | that a rarely-changing value should be a parameter; the recommendation is a class constant |
+| Exception handling | that the response's status is kept; a `200` from `kernel.exception` comes out `500` |
+| Deprecations best practices | that `trigger_deprecation()` ships with the framework |
+| Symfony Flex | that `symfony.lock` is `composer.lock` |
+| License | that MIT obliges something of the code that uses it |
+
+### `CRS-001` fired, and the content was fixed rather than the fence
+
+Two of the thirteen sections reproduced the correct answer of a question on
+**their own item**, in prose:
+
+- `Framework overloading` — the full overridden template name, which is the
+  answer key of `QST-afrgkknny4fv`;
+- `Deprecations best practices` — the contracts package name, the answer key of
+  `QST-qyf1tg8cm0w6`.
+
+`CourseIntegrityRule` scopes its fenced-code exemption to the course's own item:
+for a same-item question it searches the **prose only**, so a string already
+shown in a fenced example is admissible where the same string in a sentence is
+not. Both courses already carried these strings inside fenced blocks; the new
+sections repeated them in prose.
+
+The fix was to rewrite the two sentences so they make the point without the
+literal string — the fenced examples above them still teach it. Moving the
+prose into a fence would have made the report clean while the learner read
+exactly the same page, which CLAUDE.md names as gaming the check.
+
 ## Remaining
 
-63 items, in lots 03 (13), 04 (13), 05 (12), 06 (13) and 07 (12), delivered lot
-by lot.
+50 items, in lots 04 (13), 05 (12), 06 (13) and 07 (12), delivered lot by lot.

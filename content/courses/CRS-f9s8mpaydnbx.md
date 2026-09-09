@@ -72,6 +72,22 @@ C'est l'exception à retenir : Symfony charge la configuration de validation de
 **ajouter** une contrainte à une propriété, jamais en **remplacer** une. Le seul
 contournement est que le bundle tiers ait prévu des groupes de validation.
 
+## Pièges d'examen
+
+**Étendre le gabarit que l'on surcharge crée une boucle infinie.** Le nom du
+gabarit résout vers la surcharge, donc vers lui-même. Le préfixe `@!` — montré
+plus haut — désigne l'original et rompt le cycle ; sans lui, la page ne rend
+jamais.
+
+**Une contrainte de validation ne se remplace pas.** Symfony fusionne la
+configuration de validation de tous les bundles : on ajoute une contrainte,
+jamais on n'en retire une. Le seul contournement est un groupe de validation
+prévu par le bundle.
+
+**Décoration et passe de compilation ne sont pas au même niveau.** La décoration
+enveloppe un service existant ; supprimer ou modifier une définition demande une
+passe de compilation.
+
 ## Points clés
 
 - Gabarits : `templates/bundles/<NomDuBundle>/`, même chemin relatif.

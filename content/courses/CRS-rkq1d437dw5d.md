@@ -82,6 +82,20 @@ Cette mécanique a une conséquence pratique directe : monter d'abord jusqu'à l
 dépréciations signalées, puis passer à la majeure suivante — qui ne diffère que
 par la suppression de ce qui était déprécié.
 
+## Pièges d'examen
+
+**`trigger_deprecation()` n'appartient pas au framework.** Elle vient d'un
+paquet de contrats dédié, installé à part — précisément pour qu'une bibliothèque
+puisse l'appeler sans dépendre de Symfony. Chercher la fonction dans un
+composant, c'est ne pas la trouver.
+
+**Rien ne naît déprécié.** Une nouvelle classe ne peut pas être introduite
+dépréciée, ni contenir des méthodes dépréciées ; une nouvelle méthode non plus.
+
+**Déprécier et supprimer ne se font pas dans la même version.** Dépréciation en
+mineure, suppression en majeure suivante — et la trace écrite va aux trois
+endroits (`CHANGELOG.md`, les deux `UPGRADE-*.md`) dans la même pull request.
+
 ## Points clés
 
 - Dépréciation en mineure, suppression en majeure suivante.

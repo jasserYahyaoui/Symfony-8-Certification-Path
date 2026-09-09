@@ -71,6 +71,20 @@ regroupées pour un usage (débogage, tests). Flex le **dépaquette** — il ins
 les dépendances réelles dans `composer.json` et retire le pack, pour que le
 fichier reste lisible.
 
+## Pièges d'examen
+
+**Flex est un plugin Composer, pas un bundle ni une commande.** Il n'y a rien à
+appeler : il modifie `composer require`, `update` et `remove`. C'est aussi
+pourquoi `composer require twig` fonctionne alors qu'aucun paquet ne s'appelle
+`twig`.
+
+**`symfony.lock` n'est pas `composer.lock`.** Il recense les **recettes**
+appliquées, et il se committe.
+
+**Les deux dépôts de recettes ne se comportent pas pareil.**
+`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib`
+demande une autorisation, parce qu'il n'est pas curé.
+
 ## Points clés
 
 - Flex est un plugin Composer qui détourne `require`, `update` et `remove`.
