@@ -63,6 +63,19 @@ La plupart du temps ces couches restent invisibles. Elles apparaissent dans deux
 situations : quand un champ ne s'affiche pas ou ne se soumet pas comme prévu, et
 quand on écrit un transformateur — l'item *Data transformers* de ce lot.
 
+## Pièges d'examen
+
+**Trois couches de données, pas deux.** Modèle, normalisée, vue : la couche
+intermédiaire est identique au modèle pour la plupart des types, ce qui la rend
+facile à oublier — jusqu'à ce qu'un transformateur doive s'attacher au bon
+niveau.
+
+**La vue est faite de chaînes.** Un navigateur n'envoie que du texte ; tout ce
+qui ressemble à un entier ou à une date de ce côté est une chaîne.
+
+**Le composant est autonome.** Il s'utilise hors du framework ; ce n'est pas une
+fonctionnalité de FrameworkBundle.
+
 ## Points clés
 
 - Composant autonome ; il traduit entre objets et champs HTML.

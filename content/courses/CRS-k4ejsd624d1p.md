@@ -59,6 +59,18 @@ Les mêmes points d'accroche que dans un type : `buildForm()` pour ajouter un
 Une extension est un service tagué `form.type_extension`. L'autoconfiguration
 pose le tag toute seule pour une classe placée dans `src/`.
 
+## Pièges d'examen
+
+**Un type crée un champ ; une extension modifie ceux qui existent.** C'est la
+distinction que l'examen pose. Pour ajouter une option à un type fourni par
+Symfony, écrire un nouveau type ne sert à rien.
+
+**La méthode qui désigne les types étendus est statique** et retourne un
+itérable — plusieurs types si l'extension en vise plusieurs.
+
+**Étendre le type racine touche tous les champs de l'application**, puisque tous
+en héritent. C'est puissant et rarement ce qu'on voulait.
+
 ## Points clés
 
 - Une extension modifie des types existants ; un type en crée un nouveau.

@@ -53,6 +53,19 @@ Deux commandes complètent le tableau, hors gabarit :
   réellement disponibles ;
 - `php bin/console lint:twig templates/` — vérifie la syntaxe sans rendre.
 
+## Pièges d'examen
+
+**La fonction et la balise n'écrivent pas au même endroit.** L'une affiche dans
+la page à l'endroit de l'appel, l'autre dans la barre de débogage. Choisir la
+mauvaise casse la mise en page ou fait croire que rien ne s'affiche.
+
+**Rien n'est disponible en production.** La fonction n'existe pas hors des
+environnements de développement et de test : un appel oublié n'y affiche pas un
+avertissement, il produit une erreur PHP.
+
+**Sans argument, c'est tout le contexte du gabarit qui sort** — utile, et
+volumineux.
+
 ## Points clés
 
 - `{{ dump(x) }}` affiche dans la page ; `{% dump x %}` envoie à la barre de

@@ -77,6 +77,19 @@ La balise `{% autoescape %}` change la stratégie sur un bloc, et
 {% endautoescape %}
 ```
 
+## Pièges d'examen
+
+**L'échappement a lieu à l'affichage, pas à l'affectation.** Ranger une valeur
+dans une variable ne la transforme pas ; c'est le moment où elle est affichée
+qui compte.
+
+**La stratégie HTML ne suffit pas dans un attribut sans guillemets.** Dès que la
+valeur n'est pas encadrée, c'est la stratégie dédiée aux attributs qu'il faut :
+le mauvais choix laisse une faille ouverte sans rien signaler.
+
+**La stratégie d'URL vise un sous-composant, pas une URI entière.** L'appliquer
+à une adresse complète la détruit.
+
 ## Points clés
 
 - Échappement actif par défaut, stratégie `html`, appliqué à l'affichage.

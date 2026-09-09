@@ -75,6 +75,19 @@ et fait alors disparaître le jeton, avec les conséquences que cela suppose.
 `novalidate` désactive la validation HTML5 du navigateur, ce qui est utile pour
 observer la validation côté serveur.
 
+## Pièges d'examen
+
+**La fermeture du formulaire rend aussi ce qui n'a pas été rendu.** C'est
+volontaire et c'est ce qui protège le champ caché du jeton quand on rend les
+champs un par un.
+
+**Rendre une ligne complète n'est pas rendre un widget.** La première produit
+libellé, aide et erreurs autour du champ ; la seconde le champ seul. Les mélanger
+donne des libellés en double ou absents.
+
+**Les fonctions de rendu prennent le champ, pas son nom.** On leur passe la
+propriété du formulaire, pas une chaîne.
+
 ## Points clés
 
 - `form()` rend tout ; `form_row()` rend un champ complet ; `form_widget()` le

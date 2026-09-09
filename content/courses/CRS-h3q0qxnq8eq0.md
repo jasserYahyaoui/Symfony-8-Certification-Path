@@ -51,6 +51,20 @@ Symfony ne lit ce champ que si l'option `framework.http_method_override` vaut
 Par sécurité, `framework.allowed_http_method_override` restreint les méthodes
 qu'un client a le droit de simuler.
 
+## Pièges d'examen
+
+**Sans restriction de méthode, une route accepte tous les verbes.** L'absence de
+l'option n'est pas un `GET` implicite.
+
+**Le champ caché ne suffit pas.** Simuler un verbe depuis un formulaire HTML
+exige que l'option correspondante soit activée dans la configuration du
+framework ; désactivée — ce qui est le cas par défaut — le champ est ignoré et
+la requête reste un `POST`.
+
+**Deux routes peuvent partager exactement le même chemin** et ne différer que
+par la méthode : c'est le motif REST, et il rend la lecture de la liste des
+routes indispensable.
+
 ## Points clés
 
 - Sans `methods`, une route accepte **tous** les verbes.

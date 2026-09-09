@@ -94,6 +94,20 @@ Les tests s'écrivent avec `is` : `is defined`, `is empty`, `is null`,
 Attention à la différence entre `is empty` — vrai pour `''`, `0`, `[]`, `null` —
 et `is not defined`, qui porte sur l'existence de la variable, pas sur sa valeur.
 
+## Pièges d'examen
+
+**La moitié des propriétés de boucle n'existent pas sur un itérateur.** Taille,
+index inversés et test de dernière itération exigent un tableau PHP ou un objet
+dénombrable : Twig ne peut pas connaître la longueur sans consommer la séquence.
+L'index et le test de première itération, eux, fonctionnent toujours.
+
+**L'index commence à 1.** La version démarrant à zéro porte un autre nom, et
+confondre les deux décale tout d'un rang.
+
+**La clause d'alternative d'une boucle se déclenche sur une séquence vide**, pas
+sur une condition — il n'y a pas d'équivalent en PHP, ce qui la rend facile à
+mal lire.
+
 ## Points clés
 
 - `{% for %}` accepte une clause `else` pour la séquence vide.

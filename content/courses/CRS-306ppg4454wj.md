@@ -89,6 +89,20 @@ Une extension déclare ses filtres et fonctions en étendant `AbstractExtension`
 ou, plus court, en marquant une méthode d'un service avec les attributs
 `#[AsTwigFilter]` et `#[AsTwigFunction]`.
 
+## Pièges d'examen
+
+**Filtre ou fonction se décide à la source, pas au nom.** On part d'une valeur
+existante : c'est un filtre. On part de rien : c'est une fonction. Le même mot
+peut exister sous les deux formes.
+
+**L'ordre des filtres enchaînés change le résultat.** Mettre la mise en
+minuscules avant ou après une suppression d'espaces ne donne pas la même chose
+dès que les espaces comptent.
+
+**Ce que Symfony ajoute vient du pont, pas du moteur.** Les fonctions de route,
+d'asset, de traduction et de formulaire n'existent pas dans un Twig installé
+seul.
+
 ## Points clés
 
 - Filtre = transforme une valeur, par `|` ; fonction = produit une valeur.

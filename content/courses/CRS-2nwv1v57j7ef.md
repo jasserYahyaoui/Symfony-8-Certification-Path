@@ -65,6 +65,20 @@ explique qu'une option puisse compter pour l'un et pas pour l'autre.
 - les contrôleurs `RedirectController` et `TemplateController`, référencables
   depuis une route.
 
+## Pièges d'examen
+
+**Apparier et générer sont deux classes distinctes.** C'est ce qui explique
+qu'une option de route puisse compter dans un sens et pas dans l'autre : le
+générateur ne voit pas la requête, il ne peut donc pas évaluer ce qui en dépend.
+
+**Le composant ne dépend d'aucun autre composant Symfony.** PHP et un paquet de
+contrats : c'est tout. Il s'installe seul dans un projet qui n'utilise pas le
+framework.
+
+**Une route produit des variables, pas un contrôleur.** Le contrôleur n'est
+qu'une des variables produites — c'est la définition du composant, et elle
+explique les paramètres réservés.
+
 ## Points clés
 
 - Le composant fait correspondre une requête à des **variables**, pas à un

@@ -83,6 +83,20 @@ conditions », un fichier téléversé — doit être déclaré `'mapped' => fal
 Sans cela, le formulaire cherche une propriété inexistante et échoue. La valeur
 d'un champ non mappé se lit par `$form->get('agreeTerms')->getData()`.
 
+## Pièges d'examen
+
+**Le nom du champ n'est pas décoratif.** C'est lui qui relie le champ à la
+propriété : le renommer casse la liaison, même si le libellé affiché ne change
+pas.
+
+**La liaison ne passe pas forcément par la propriété.** L'accès essaie la
+propriété publique, puis les accesseurs usuels — un champ peut donc fonctionner
+sans propriété du même nom, et échouer alors qu'une propriété existe mais est
+privée sans accesseur.
+
+**Un champ sans propriété correspondante doit être déclaré non mappé**, sinon le
+formulaire tente d'écrire dans quelque chose qui n'existe pas.
+
 ## Points clés
 
 - Un formulaire réutilisé se déclare en classe de type, pas dans le contrôleur.

@@ -55,6 +55,19 @@ combinaison qui décide du rendu :
 `RepeatedType` rend **deux champs** dont les valeurs doivent coïncider : c'est le
 motif du mot de passe confirmé.
 
+## Pièges d'examen
+
+**Toute la famille des choix hérite d'un même type socle.** Pays, langue,
+locale, devise et fuseau ne sont pas des types indépendants : ce sont le même
+mécanisme avec une liste pré-remplie, et les options du socle valent pour eux.
+
+**Deux entrées du catalogue officiel sont hors périmètre** : le type lié à une
+base de données et les champs Symfony UX. Les reconnaître est utile, les réviser
+ne l'est pas.
+
+**Les boutons sont des types comme les autres**, ajoutés au formulaire de la
+même façon que les champs.
+
 ## Points clés
 
 - Quatre familles : texte, choix, date et heure, autres ; plus groupement et

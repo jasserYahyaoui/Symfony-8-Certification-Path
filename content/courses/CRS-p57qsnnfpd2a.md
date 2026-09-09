@@ -73,6 +73,20 @@ chargement du routage et de la sécurité, l'utilisateur y apparaît déconnect�
 Cela fonctionne en test et échoue en production — c'est exactement le genre de
 différence que l'examen aime.
 
+## Pièges d'examen
+
+**La méthode d'aide construit l'exception, elle ne la lève pas.** Sans `throw`,
+le contrôleur poursuit et la page s'affiche normalement — une erreur silencieuse,
+que rien ne signale.
+
+**Il n'y a pas besoin d'un gabarit par statut.** Le rendu cherche d'abord le
+gabarit portant le code, puis retombe sur le gabarit générique, qui couvre tout
+le reste.
+
+**La sécurité n'est pas disponible sur une page 404.** À cause de l'ordre de
+chargement du routage et de la sécurité, l'utilisateur y apparaît déconnecté :
+une page d'erreur ne peut pas afficher son nom.
+
 ## Points clés
 
 - `throw $this->createNotFoundException()` — la méthode ne lève pas.

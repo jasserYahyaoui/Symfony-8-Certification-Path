@@ -74,6 +74,20 @@ de la soumission sont mis à `null`. Le passer à `false` — le cas d'une requ�
 s'applique **qu'aux champs soumis**. Pour forcer la validation d'un champ absent,
 il faut l'ajouter explicitement à la donnée soumise, avec la valeur `null`.
 
+## Pièges d'examen
+
+**La soumission se teste avant la validité, jamais l'inverse.** Un formulaire
+non soumis n'a rien à valider : les deux tests forment une garde, pas deux
+questions indépendantes.
+
+**Après une soumission valide, l'objet est déjà à jour.** Il n'y a rien à
+recopier : la variable passée à la création et la donnée du formulaire désignent
+le même objet.
+
+**La soumission manuelle vide les champs absents par défaut.** C'est le piège
+d'une mise à jour partielle : sans changer ce comportement, les champs non
+envoyés sont mis à `null`.
+
 ## Points clés
 
 - Une seule action rend et traite ; `handleRequest()` ne fait rien hors

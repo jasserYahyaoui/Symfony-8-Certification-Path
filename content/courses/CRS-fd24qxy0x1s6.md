@@ -69,6 +69,18 @@ sous-requête n'a pas été produite par le routeur, donc elle ne porte pas ces
 informations. On peut les fournir soi-même en ajoutant les clés `_route` et
 `_route_params` au tableau passé à `forward()`.
 
+## Pièges d'examen
+
+**Un *forward* n'est pas une redirection.** Il n'y a qu'une requête HTTP,
+l'URL affichée ne bouge pas, et c'est la réponse du contrôleur cible qui part au
+navigateur. Aucun 3xx n'est émis.
+
+**Après un forward, la route courante est vide dans le gabarit.** La sous-requête
+n'a pas été produite par le routeur : `app.current_route` et les paramètres de
+route ne sont renseignés que si on les passe soi-même.
+
+**Les arguments du contrôleur cible s'apparient par nom**, comme pour une route.
+
 ## Points clés
 
 - `forward()` exécute une sous-requête et retourne la réponse de la cible.

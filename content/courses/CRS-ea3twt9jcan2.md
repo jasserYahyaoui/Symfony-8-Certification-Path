@@ -57,6 +57,20 @@ la méthode à connaître : elle retourne les données envoyées, qu'elles arriv
 en formulaire ou en JSON, là où `$request->request` ne couvre que le premier
 cas.
 
+## Pièges d'examen
+
+**Les paramètres de route s'apparient par leur nom, jamais par leur position.**
+Réordonner les arguments du contrôleur ne casse rien ; en renommer un casse
+tout.
+
+**La requête ne s'injecte pas dans un service.** Typer un argument suffit dans
+un contrôleur, mais un service est construit une fois pour toutes : il reçoit
+`RequestStack`.
+
+**Le corps d'une requête JSON n'est pas dans le même sac que celui d'un
+formulaire.** La méthode qui lit la charge utile couvre les deux ; le sac des
+paramètres de formulaire ne couvre que le second.
+
 ## Points clés
 
 - Typer un argument `Request` suffit ; dans un service, injecter `RequestStack`.
