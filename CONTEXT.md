@@ -42,61 +42,40 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `706ada7` — **refinement framework version 2 is in place, and
-Lot 01 has been re-refined under it.** Both are merged, deployed and verified
-against the deployed bytes.
+`master`, at `6cb85a0` — **la campagne de pièges d'examen est terminée
+(163/163) et un audit projet complet a été exécuté sans aucun résultat de mock.**
 
 | | |
 |---|---|
-| Git commits | `2e849cb` framework · `fede753` production readiness check · `ee8de66` Lot 01 v2 |
-| Pull requests | #84 → `7e92a36` · #85 → `047a82d` · #86 → `eab44e3` · **#87 → `706ada7`** |
-| Actions — CI | runs 204, 205, 207, 209, 211 — all `success` |
-| Actions — Pages | runs 102, 103, 104, **105** — all `success` |
-| Deployed URL | https://jasseryahyaoui.github.io/Symfony-8-Certification-Path |
-| Production smoke test | job **`102409498934`**, `success` |
-| Content verified against commit | `706ada7` — 22 URLs at 200, FR-2 accents on 4 pages, Lot 01 Interfaces rules, pool isolation across 7 payloads, and `ok readiness deployed 5.5% (9/163), 1 of 27 lots refined — matches the repository dashboard` |
+| Pull requests | #89, #90, #91 (pièges — **trois**, pas quatre) · #92 (audit) |
+| CI | run 222 `success`, dont « Content audits » 53 s et « Checks are not vacuous » 15 s |
+| Pages | run 110 `success` |
+| Certification Readiness | **5,5 % (9/163)** — inchangée, comme elle doit l'être |
 
-**Framework version 2 (PR #84, ADR-0007).** Three structures the model lacked:
-identified learning outcomes with an `assesses_outcomes` link, question
-archetypes, and a revision budget — wired into readiness as `R10`–`R14` and
-gated by `ARC-001`, `PED-003`, `REV-001`. Measured while auditing, on `9b99c99`:
-**73 of 163 items (44.8%)** carried fewer questions than declared outcomes;
-`question_archetype` appeared **0 times in 550 questions**; corpus revision cost
-**65 477 body words** ≈ 4.4 h at 250 wpm.
+**Campagne pièges d'examen (#89, #90, #91).** 69 sections écrites, corpus
+65 479 → 71 523 mots de corps (+6 044), aucun dépassement de budget. `CRS-001` a
+bloqué deux sections du lot 03 qui reproduisaient en prose une clé de réponse de
+leur propre item ; le contenu a été réécrit, pas déplacé dans un bloc de code.
 
-Raising the bar took Certification Readiness from 5.5% to **0%**, which is the
-intended behaviour: a metric that only ever rises measures effort, not
-readiness. Lot 01 kept its version 1 record and was shown as *audited under
-framework v1* until it was re-refined.
+**Audit projet (#92).** Quatre constats prouvés, trois faux positifs de mes
+propres sondes enregistrés comme tels :
 
-**PR #85** closed a hole #84 exposed: a `200` on `data/readiness.json` proved
-the file existed, not the number in it. The smoke test now compares the deployed
-payload with the repository dashboard, field by field.
-
-**Lot 01 re-refined (PR #87).** Doing the work found two defects in the
-framework and one in the content that no gate could have caught:
-
-- **Three outcomes were assessed only by a HOLDOUT question** — attribute
-  targets and `IS_REPEATABLE`, `$this` binding in a closure, and what a trait
-  may contain. `R11` and `PED-003` counted those as assessed; they are not,
-  because the holdout is sat once and unseen. Both now require a non-`HOLDOUT`
-  question. *The rule changed because the content exposed it.*
-- **The vocabulary was missing half a quadrant.** Sixteen of the lot's 41
-  questions describe a behaviour rather than shipping a listing.
-  `BEHAVIOR_DIAGNOSIS` and `BEHAVIOR_PREDICTION` complete the 2×2.
-- **The item promised four PHP 8.4 language additions where there are five.**
-  Verified against `php/php-src` at `PHP-8.4`, *2. New Features > Core*. The
-  outcome text and the course's summary table were wrong; its prose was right.
-
-Five questions added, all `LEARNING`, all English, **each behaviour executed on
-PHP 8.4.19 before it was written**. Result: 28 of 28 outcomes identified and
-assessed outside the holdout, an archetype on all 41 questions, every item using
-at least two, and Readiness back to **5.5% (9/163)** — earned under the higher
-bar, not restored by relabelling.
-
-A first draft of that report's archetype table was written from assignment notes
-rather than measured, and four of its ten rows were wrong; it was reconciled by
-script and the report records the correction.
+- **F-1** `docs/policy/course-structure.md` affirmait un état mesuré faux
+  (« 62 cours sans section ») alors que les 163 en avaient une. Aucune gate ne
+  compare la prose d'une politique au corpus. Re-mesuré et daté.
+- **F-2** aucun des 14 scripts d'audit ne tournait en CI, y compris la preuve
+  anti-vacuité, dans un projet qui a déjà trouvé **cinq** contrôles vacués.
+  Douze audits + les preuves tournent désormais à chaque push (~75 s).
+- **F-3** la bonne réponse est le choix le plus long dans **271 des 537**
+  questions à réponse unique = **50,5 %** contre **25 %** au hasard. Le lot 01,
+  seul lot raffiné, est à 20,6 %, sous son propre hasard ; les lots 15, 17, 18 et
+  19 sont à 100 %. Traité par la mesure (`aud10`), pas par une réécriture des 271.
+- **F-4** — trouvé **par** le câblage CI — `aud01_syllabus_transcription.py` lit
+  le PDF du syllabus par un chemin absolu contenant l'identifiant de session ;
+  aucun PDF n'est suivi par git. Le script ne peut donc tourner nulle part
+  ailleurs. Son résultat enregistré (163/163 verbatim, clôture de B-1) reste
+  valide ; c'est le script qui n'est pas reproductible, et cela était invisible
+  tant que rien n'essayait de l'exécuter ailleurs.
 
 ## Completed work
 
@@ -391,27 +370,21 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Lot 02 under refinement framework version 2** — the next lot in the series.
-It does **not** start in this session.
+**Le lot 02 sous le cadre de raffinement version 2**, qui n'a pas démarré.
 
-The Lot 01 pass gives the recipe, and two of its findings are worth carrying
-into every remaining lot because they are corpus-wide, not lot-01-specific:
+Deux constats de l'audit se traitent lot par lot, pendant le raffinement, et
+pas en masse :
 
-- **Look for outcomes assessed only by a HOLDOUT question.** `PED-003` catches
-  these now, but only inside a lot claiming framework version 2 — so they stay
-  invisible in lots 02–26 until each is refined.
-- **Read each outcome against the course that serves it.** No rule compares the
-  two, and Lot 01's *"quatre ajouts de langage"* against a course teaching five
-  is the kind of defect only reading finds.
+- **le biais de longueur** (`aud10`) — le lot 01 est passé sous le hasard par le
+  raffinement seul ; réécrire les 266 questions des lots non raffinés à l'aveugle
+  serait une édition de masse de contenu vérifié pour déplacer un nombre ;
+- **le déficit objectifs/questions** (`PED-003`) — 73 items sur 163 portent moins
+  de questions que d'objectifs déclarés. C'est le backlog que la série traverse.
 
-`PED-003` also still warns that **73 of 163 items carry fewer questions than
-declared outcomes**. That figure is the backlog the series works through: it
-should fall lot by lot, and it is the honest measure of how much of the
-refinement series remains.
-
-**Lot 02 must not start in this session** (owner's standing instruction).
-AUD-09 stays `NOT_RUN`; Mock 4 stays `PENDING_HUMAN_VALIDATION`; Lot 27 stays
-`NOT_DONE`.
+Reste réalisable sans mock, par ordre de valeur : le raffinement des lots 02 à
+26 ; la suppression des 56 branches locales déjà fusionnées (cosmétique) ; et une
+décision sur `prove_audits_fail.py`, aujourd'hui hors CI parce qu'il dure ~5 min
+et mute des fichiers canoniques.
 
 ---
 
