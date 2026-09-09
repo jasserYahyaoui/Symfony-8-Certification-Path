@@ -95,9 +95,17 @@ final class QuestionArchetypeRule implements Rule
             );
         }
 
-        if (QuestionArchetype::CodeDiagnosis === $archetype && 'DIAGNOSE' !== $question->examSkill) {
+        if ($archetype->forbidsCode() && null !== $question->codeLanguage) {
             $problems[] = \sprintf(
-                'Archetype CODE_DIAGNOSIS asks why code misbehaves, but exam_skill is "%s".',
+                'Archetype %s describes a behaviour rather than showing it, but the question ships code.',
+                $archetype->value,
+            );
+        }
+
+        if ($archetype->requiresDiagnosis() && 'DIAGNOSE' !== $question->examSkill) {
+            $problems[] = \sprintf(
+                'Archetype %s asks why something misbehaves, but exam_skill is "%s".',
+                $archetype->value,
                 $question->examSkill,
             );
         }

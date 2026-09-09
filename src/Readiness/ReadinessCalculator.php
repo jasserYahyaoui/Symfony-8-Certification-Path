@@ -208,8 +208,16 @@ final class ReadinessCalculator
             return false;
         }
 
+        // HOLDOUT is excluded on purpose: it reaches one payload, sat once and
+        // unseen, so an outcome named only there is not assessable during study
+        // and cannot produce the item's stated evidence (ADR-0006, POOL-002).
         foreach ($ids as $id) {
-            if (!$this->any($questions, static fn (Question $q): bool => $q->assessesOutcome($id))) {
+            $assessed = $this->any(
+                $questions,
+                static fn (Question $q): bool => Pool::Holdout !== $q->pool && $q->assessesOutcome($id),
+            );
+
+            if (!$assessed) {
                 return false;
             }
         }

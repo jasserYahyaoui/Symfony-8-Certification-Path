@@ -2269,6 +2269,9 @@ questions:
     symbol_or_lines: Checking to see if a User is Logged In (lines 2540-2578)
     verified_at: '2026-09-03'
 - id: QST-2vdpk7cg3dy9
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+    - OUT-0rkkxvd0e76f
   version: 1
   official_topic: PHP
   official_item: OIT-1kjqdnryaw0h
@@ -2328,6 +2331,9 @@ questions:
     symbol_or_lines: target specification and IS_REPEATABLE (lines 320-380)
     verified_at: '2026-09-03'
 - id: QST-t77g2sjg2cte
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-pj3m73g0x58y
   version: 1
   official_topic: PHP
   official_item: OIT-fhb3vz7xbt5h

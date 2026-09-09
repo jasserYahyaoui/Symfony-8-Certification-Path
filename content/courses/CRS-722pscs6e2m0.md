@@ -74,7 +74,7 @@ parenthèses englobantes.
 | 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première classe `foo(...)`, propriétés `final const` |
 | 8.2 | `readonly` sur la classe entière, types DNF, propriétés dynamiques dépréciées |
 | 8.3 | Constantes de classe typées, `#[\Override]`, `json_validate()` |
-| 8.4 | Property hooks, visibilité asymétrique, objets paresseux, `#[\Deprecated]` |
+| 8.4 | Property hooks, visibilité asymétrique, objets paresseux, `#[\Deprecated]`, `new` déréférençable |
 
 ## Pièges d'examen
 

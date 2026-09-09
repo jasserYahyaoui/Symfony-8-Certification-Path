@@ -19,18 +19,18 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-# Bumping the log entry to the current framework version puts lot-01 inside the
-# gated set. It is the honest way to exercise the ERROR paths: the rules are
-# staged to bite where refinement is claimed, so a proof that avoided claiming
-# refinement would only be proving the staging.
-CLAIM_LOT01_IS_V2 = (
-    'docs/progress/refinement-log.yml',
-    '    framework_version: 1\n',
-    '    framework_version: 2\n',
-)
+# Lot 01 now ships at framework version 2, so it is already inside the gated
+# set and the ERROR paths can be exercised against it directly. The cases that
+# used to bump the log entry no longer need to.
 
 LOT07_QUESTION = 'content/questions/lot-07-forms.yml'
 LOT01_COURSE = 'content/courses/CRS-0jtjh77tabt1.md'   # OIT-webdvbgbrfth, STANDARD, 314 body words
+
+# The Traits outcome "what a trait may contain, and why it is not a type" is
+# named by one LEARNING question and by one HOLDOUT question. Removing the
+# LEARNING link leaves only the holdout one, which must not discharge it.
+# QST-4rr5p2mvc7g5 is the LEARNING half; QST-95yb2ee8eb52 the HOLDOUT one.
+LOT01_QUESTION = 'content/questions/lot-01-php.yml'
 
 CASES = [
     (
@@ -44,12 +44,20 @@ CASES = [
     ),
     (
         'ARC-001 requires the field once a lot claims refinement',
-        [CLAIM_LOT01_IS_V2],
+        [(
+            LOT01_QUESTION,
+            '  question_archetype: VERSION_ATTRIBUTION\n  assesses_outcomes:\n    - OUT-svjaxs75amyd\n',
+            '  assesses_outcomes:\n    - OUT-svjaxs75amyd\n',
+        )],
         '[ERROR] ARC-001',
     ),
     (
         'PED-003 requires identified outcomes once a lot claims refinement',
-        [CLAIM_LOT01_IS_V2],
+        [(
+            'docs/syllabus/syllabus-matrix.yml',
+            '      - id: OUT-svjaxs75amyd\n        outcome: ',
+            '      - ',
+        )],
         '[ERROR] PED-003',
     ),
     (
@@ -62,11 +70,28 @@ CASES = [
         '[ERROR] PED-003',
     ),
     (
+        'ARC-001 rejects a BEHAVIOR_* archetype on a question that ships a listing',
+        [(
+            LOT07_QUESTION,
+            '- id: QST-a4xhs81g86kj\n',
+            '- id: QST-a4xhs81g86kj\n  question_archetype: BEHAVIOR_PREDICTION\n  code_language: php\n',
+        )],
+        '[ERROR] ARC-001',
+    ),
+    (
+        'PED-003 refuses a HOLDOUT question as the assessment of an outcome',
+        [(
+            LOT01_QUESTION,
+            '- id: QST-4rr5p2mvc7g5\n  question_archetype: BEHAVIOR_DIAGNOSIS\n'
+            '  assesses_outcomes:\n    - OUT-x8c9nce1wqh5\n',
+            '- id: QST-4rr5p2mvc7g5\n  question_archetype: BEHAVIOR_DIAGNOSIS\n'
+            '  assesses_outcomes: []\n',
+        )],
+        '[ERROR] PED-003',
+    ),
+    (
         'REV-001 rejects a course grown past the budget for its level',
-        [
-            CLAIM_LOT01_IS_V2,
-            (LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n'),
-        ],
+        [(LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n')],
         '[ERROR] REV-001',
     ),
 ]

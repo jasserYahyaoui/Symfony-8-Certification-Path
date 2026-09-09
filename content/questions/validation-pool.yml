@@ -15,6 +15,9 @@ schema_version: 1
 
 questions:
 - id: QST-kscwk0ja0heb
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+    - OUT-ayahqn48ev7g
   version: 1
   official_topic: PHP
   official_item: OIT-46ry8d7dypmb
@@ -63,6 +66,9 @@ questions:
     symbol_or_lines: 'Property Hooks: syntax, and "Property hooks were introduced in PHP 8.4"'
     verified_at: '2026-09-01'
 - id: QST-5565an30ezds
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-zqwbp11av4pr
   version: 1
   official_topic: PHP
   official_item: OIT-ywrx9x3hg9z8
@@ -113,6 +119,9 @@ questions:
     symbol_or_lines: new static
     verified_at: '2026-09-01'
 - id: QST-6znevyf4d7c2
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-s8tzdy31hq6k
   version: 1
   official_topic: PHP
   official_item: OIT-1kjqdnryaw0h
@@ -161,6 +170,9 @@ questions:
     symbol_or_lines: 'ReflectionAttribute::newInstance — "Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs at that point"'
     verified_at: '2026-09-01'
 - id: QST-4yrcba7f660p
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-kspe7vnxkqe2
   version: 1
   official_topic: PHP
   official_item: OIT-fhb3vz7xbt5h
@@ -210,6 +222,9 @@ questions:
     symbol_or_lines: anonymous functions, use by reference
     verified_at: '2026-09-01'
 - id: QST-m6z1h0jxyp41
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-fs6z2g5dv4qq
   version: 1
   official_topic: PHP
   official_item: OIT-webdvbgbrfth
@@ -258,6 +273,9 @@ questions:
     symbol_or_lines: abstract classes
     verified_at: '2026-09-01'
 - id: QST-c8pj1ywz2erw
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-c799q9ew2xxg
   version: 1
   official_topic: PHP
   official_item: OIT-bvnvx2b6yt2y
@@ -306,6 +324,9 @@ questions:
     symbol_or_lines: Throwable hierarchy
     verified_at: '2026-09-01'
 - id: QST-zxsw2qb185qq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-w9w3hpwesby1
   version: 1
   official_topic: PHP
   official_item: OIT-n0zfkcr189af
@@ -354,6 +375,9 @@ questions:
     symbol_or_lines: conflict resolution
     verified_at: '2026-09-01'
 - id: QST-gv3s2ye1csv7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+    - OUT-xccz85tdts39
   version: 1
   official_topic: PHP
   official_item: OIT-hqz5c2qse24w

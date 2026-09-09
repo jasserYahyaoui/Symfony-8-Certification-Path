@@ -46,9 +46,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalité à sa version, or Symfony 8.0 impose PHP 8.4 et une réponse valable en 8.1 peut être fausse. Un tableau de versions et les quatre ajouts 8.4 suffisent ; le détail de chaque API PHP n'est ni examinable ni révisable.
     learning_outcomes:
-      - "Attribuer une fonctionnalité du langage à sa version d'introduction"
-      - "Énumérer les quatre ajouts de langage de PHP 8.4"
-      - "Distinguer readonly de la visibilité asymétrique private(set)"
+      - id: OUT-svjaxs75amyd
+        outcome: "Attribuer une fonctionnalité du langage à sa version d'introduction"
+      - id: OUT-ayahqn48ev7g
+        outcome: "Énumérer les cinq ajouts de langage de PHP 8.4"
+      - id: OUT-fr1x4bcak73j
+        outcome: "Distinguer readonly de la visibilité asymétrique private(set)"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -100,9 +103,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : la résolution self/static est une erreur silencieuse classique, et la portée de private est liée à la classe déclarante et non à l'instance. Le contenu se limite volontairement à ce que les items Attributes, Interfaces, Abstract classes, Traits et Enums ne couvrent pas, pour éviter la duplication.
     learning_outcomes:
-      - "Distinguer self et static dans une méthode statique"
-      - "Énoncer la portée réelle de private (classe déclarante, pas instance)"
-      - "Appliquer readonly et la promotion de constructeur correctement"
+      - id: OUT-zqwbp11av4pr
+        outcome: "Distinguer self et static dans une méthode statique"
+      - id: OUT-qcb24vqg8pkt
+        outcome: "Énoncer la portée réelle de private (classe déclarante, pas instance)"
+      - id: OUT-2tvh0svv8jhg
+        outcome: "Appliquer readonly et la promotion de constructeur correctement"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -154,9 +160,12 @@ items:
     content_level_justification: >-
       Concept important exigeant application : les attributs portent l'essentiel de la configuration Symfony 8, et l'étape de lecture par réflexion (getAttributes puis newInstance) est systématiquement négligée. Sans elle un attribut est inerte, ce qui produit une panne silencieuse plutôt qu'une erreur.
     learning_outcomes:
-      - "Déclarer un attribut avec ses cibles et IS_REPEATABLE"
-      - "Identifier ce qui est admis comme argument d'attribut"
-      - "Lire un attribut par réflexion et distinguer getAttributes de newInstance"
+      - id: OUT-0rkkxvd0e76f
+        outcome: "Déclarer un attribut avec ses cibles et IS_REPEATABLE"
+      - id: OUT-xnmzqxrwf753
+        outcome: "Identifier ce qui est admis comme argument d'attribut"
+      - id: OUT-s8tzdy31hq6k
+        outcome: "Lire un attribut par réflexion et distinguer getAttributes de newInstance"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -208,10 +217,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : deux règles de PHP 8.4 déplacent l'item hors de la simple reconnaissance. Une constante d'interface est surchargeable depuis 8.1, sauf si elle est déclarée final, et l'ancienne règle contraire reste la réponse instinctive ; et depuis 8.4 une interface déclare des propriétés en précisant get, set ou les deux, ce qui demande de décider quel membre de classe satisfait la déclaration — une propriété readonly n'y suffit pas. La comparaison avec les classes abstraites appartient toujours à l'item Abstract classes, qui en est le propriétaire.
     learning_outcomes:
-      - "Identifier ce qu'une interface peut déclarer et ce qu'elle ne peut pas"
-      - "Énoncer les règles d'implémentation et d'extension multiples"
-      - "Décider si une constante d'interface peut être surchargée par la classe qui l'implémente"
-      - "Choisir le membre de classe qui satisfait une propriété d'interface déclarée get et set"
+      - id: OUT-6tzwvmfwj408
+        outcome: "Identifier ce qu'une interface peut déclarer et ce qu'elle ne peut pas"
+      - id: OUT-5vqwe44nsee5
+        outcome: "Énoncer les règles d'implémentation et d'extension multiples"
+      - id: OUT-7vt306wrfkb7
+        outcome: "Décider si une constante d'interface peut être surchargée par la classe qui l'implémente"
+      - id: OUT-ynfsf3qdn2mj
+        outcome: "Choisir le membre de classe qui satisfait une propriété d'interface déclarée get et set"
     required_assessment_modes:
       - "QUESTION"
       - "EXAM"
@@ -257,9 +270,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : deux syntaxes apparemment interchangeables aux règles de capture différentes, dont l'écart ne se manifeste qu'à l'exécution. La liaison de $this et le mot-clé static sur une closure sont une seconde source d'erreur réelle.
     learning_outcomes:
-      - "Distinguer la capture par use de la capture automatique de fn"
-      - "Déterminer la valeur capturée au moment de la définition"
-      - "Expliquer la liaison de $this et l'effet de static sur une closure"
+      - id: OUT-kspe7vnxkqe2
+        outcome: "Distinguer la capture par use de la capture automatique de fn"
+      - id: OUT-2y15r5yjgcdv
+        outcome: "Déterminer la valeur capturée au moment de la définition"
+      - id: OUT-pj3m73g0x58y
+        outcome: "Expliquer la liaison de $this et l'effet de static sur une closure"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -304,8 +320,10 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : cet item est propriétaire de la comparaison interface / classe abstraite, qui est un choix de conception réellement testé. Les règles propres (abstract private interdit, un seul parent) sont courtes mais piégeuses.
     learning_outcomes:
-      - "Écrire une classe abstraite valide et identifier les déclarations interdites"
-      - "Choisir entre interface et classe abstraite selon le besoin"
+      - id: OUT-fs6z2g5dv4qq
+        outcome: "Écrire une classe abstraite valide et identifier les déclarations interdites"
+      - id: OUT-zt4gxw6enqcj
+        outcome: "Choisir entre interface et classe abstraite selon le besoin"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -349,10 +367,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs du moteur. C'est une erreur de conception fréquente qui ne se révèle qu'en production.
     learning_outcomes:
-      - "Situer Error, Exception et Throwable dans la hiérarchie"
-      - "Choisir le type à rattraper selon la défaillance visée"
-      - "Définir un type throwable applicatif correctement"
-      - "Prédire le comportement de finally et l'ordre des catch"
+      - id: OUT-xwdtmfm9hzsc
+        outcome: "Situer Error, Exception et Throwable dans la hiérarchie"
+      - id: OUT-c799q9ew2xxg
+        outcome: "Choisir le type à rattraper selon la défaillance visée"
+      - id: OUT-km64zadyg6pf
+        outcome: "Définir un type throwable applicatif correctement"
+      - id: OUT-xrckdfqa6x5n
+        outcome: "Prédire le comportement de finally et l'ordre des catch"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -406,9 +428,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : l'ordre de précédence classe > trait > parent est contre-intuitif et silencieux, et la résolution de conflit par insteadof et as est une syntaxe à part que rien d'autre dans le langage ne rappelle.
     learning_outcomes:
-      - "Énoncer l'ordre de précédence entre classe courante, trait et parent"
-      - "Résoudre un conflit de traits avec insteadof et as"
-      - "Identifier ce qu'un trait peut contenir et pourquoi il n'est pas un type"
+      - id: OUT-xk68jha9m4nk
+        outcome: "Énoncer l'ordre de précédence entre classe courante, trait et parent"
+      - id: OUT-w9w3hpwesby1
+        outcome: "Résoudre un conflit de traits avec insteadof et as"
+      - id: OUT-x8c9nce1wqh5
+        outcome: "Identifier ce qu'un trait peut contenir et pourquoi il n'est pas un type"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -455,9 +480,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : la distinction pure / adossée commande la disponibilité de value, from et tryFrom, et le choix from / tryFrom est un choix de robustesse fait à l'écriture. Les interdits (pas d'état, pas d'héritage, pas de new) sont régulièrement mal répondus.
     learning_outcomes:
-      - "Distinguer enum pure et enum adossée"
-      - "Choisir entre from() et tryFrom() selon la fiabilité de l'entrée"
-      - "Identifier ce qu'une enum peut et ne peut pas déclarer"
+      - id: OUT-xccz85tdts39
+        outcome: "Distinguer enum pure et enum adossée"
+      - id: OUT-6az3084jk5xb
+        outcome: "Choisir entre from() et tryFrom() selon la fiabilité de l'entrée"
+      - id: OUT-c6mz3z761kqd
+        outcome: "Identifier ce qu'une enum peut et ne peut pas déclarer"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

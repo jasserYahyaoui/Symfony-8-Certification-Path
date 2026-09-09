@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CertPath\Validation\Rule;
 
 use CertPath\Domain\ItemStatus;
+use CertPath\Domain\Pool;
 use CertPath\Domain\Question;
 use CertPath\Validation\ContentSet;
 use CertPath\Validation\Rule;
@@ -93,9 +94,17 @@ final class OutcomeAssessmentRule implements Rule
 
                 $declaredIds[$id] = true;
 
+                // A HOLDOUT question does not discharge an outcome. It reaches
+                // exactly one payload, mock-4, sat once and unseen (ADR-0005,
+                // ADR-0006), so an outcome assessed only there is one the
+                // learner can never practise — and the item's own
+                // minimum_evidence, which asks for a success in exam mode,
+                // could not be produced for it. Found while linking Lot 01:
+                // "Déclarer un attribut avec ses cibles et IS_REPEATABLE" was
+                // named by a holdout question and by nothing else.
                 $assessed = false;
                 foreach ($questions as $question) {
-                    if ($question->assessesOutcome($id)) {
+                    if (Pool::Holdout !== $question->pool && $question->assessesOutcome($id)) {
                         $assessed = true;
 
                         break;
@@ -103,10 +112,21 @@ final class OutcomeAssessmentRule implements Rule
                 }
 
                 if (!$assessed) {
+                    $onlyHoldout = $this->any(
+                        $questions,
+                        static fn (Question $q): bool => Pool::Holdout === $q->pool && $q->assessesOutcome($id),
+                    );
+
                     $violations[] = new Violation(
                         $this->id(),
                         $severity,
-                        \sprintf('Learning outcome %s is assessed by no question.', $id),
+                        $onlyHoldout
+                            ? \sprintf(
+                                'Learning outcome %s is named only by a HOLDOUT question, which the learner '
+                                .'meets once and unseen; it is not assessable during study.',
+                                $id,
+                            )
+                            : \sprintf('Learning outcome %s is assessed by no question.', $id),
                         $item->id->value,
                     );
                 }
@@ -136,6 +156,21 @@ final class OutcomeAssessmentRule implements Rule
         $violations = array_merge($violations, $this->necessaryConditionSummary($content, $byItem));
 
         return $violations;
+    }
+
+    /**
+     * @param list<Question>           $questions
+     * @param callable(Question): bool $predicate
+     */
+    private function any(array $questions, callable $predicate): bool
+    {
+        foreach ($questions as $question) {
+            if ($predicate($question)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
