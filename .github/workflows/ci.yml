@@ -75,14 +75,17 @@ jobs:
       # push: a 7.x reference leaking into an 8.0 corpus is an exam-correctness
       # defect no rule catches.
       #
-      # Measured runtimes on 2026-09-09, total ~75 s. prove_audits_fail.py is
-      # deliberately NOT here: it takes about five minutes and mutates canonical
-      # files, which belongs in a release check rather than on every push.
+      # Measured runtimes on 2026-09-09, total ~75 s. Two are deliberately NOT
+      # here. prove_audits_fail.py takes about five minutes and mutates
+      # canonical files, which belongs in a release check. AUD-01 reads the
+      # owner-supplied syllabus PDF from an absolute path outside the
+      # repository; wiring it here is what proved it cannot run in a clean
+      # checkout at all — see docs/audit/post-traps/README.md, F-4.
       - name: Content audits
         run: |
           set -o pipefail
           fail=0
-          for a in aud01_syllabus_transcription aud02_version_contamination \
+          for a in aud02_version_contamination \
                    aud04_content_volume aud05_question_bank aud06_holdout_integrity \
                    aud07_english_readiness aud08_technical_production \
                    aud09_course_sections aud10_answer_length_bias \

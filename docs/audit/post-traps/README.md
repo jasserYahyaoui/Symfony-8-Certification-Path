@@ -90,6 +90,39 @@ Rewriting the 266 questions in unrefined lots is **not** done here. It is
 per-lot refinement work, and doing it blind would be a mass edit of verified
 content to move a number.
 
+### F-4 — AUD-01 cannot run outside this session (found BY wiring the CI)
+
+Wiring the audits made CI fail on the first run, on `aud01_syllabus_transcription`:
+
+```
+ModuleNotFoundError: No module named 'pypdf'
+```
+
+That error is the symptom. The cause is line 12 of the script:
+
+```python
+PDF = '/root/.claude/uploads/<session-uuid>/…-Symfony_Certification.PDF'
+```
+
+An **absolute path into a session upload directory**, whose name carries the id
+of the session the file was uploaded to. `git ls-files` shows **no PDF tracked**,
+and correctly so — it is the owner's copy of the official syllabus. So AUD-01
+runs where that upload lives and nowhere else: not in CI, not in a fresh clone,
+not in a later session with a different id.
+
+**Its recorded result stands**: on 2026-09-08 it matched 163 of 163 atomic items
+verbatim and closed blocker B-1. That evidence is persisted, and nothing here
+re-opens it. What is not reproducible is the *script*, and that distinction was
+invisible until something tried to run it somewhere else.
+
+Acted on: AUD-01 is out of the CI set, and the script now says in its own
+docstring that it is one-shot and session-bound, so a future
+`ModuleNotFoundError` reads as that absence rather than as a corpus regression.
+
+**This is the finding that justifies F-2 on its own.** A script nobody re-runs
+decays silently; the only reason this was discoverable is that something finally
+tried to run it in a clean environment.
+
 ## False positives from my own probes, recorded
 
 | Probe | Why it misfired |
