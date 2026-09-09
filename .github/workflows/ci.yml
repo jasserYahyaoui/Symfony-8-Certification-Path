@@ -67,6 +67,43 @@ jobs:
           php bin/cert readiness
           git diff --exit-code docs/progress/certification-readiness.md
 
+      # The fourteen audit scripts existed since Lot 27 and none of them ran on
+      # a push: they were one-shot investigations, re-run by hand or not at all.
+      # The concrete uncovered risk is this project's own history — five checks
+      # were found to be vacuous, and the proof that guards against a sixth was
+      # itself never re-run. AUD-02 is the other one that matters on every
+      # push: a 7.x reference leaking into an 8.0 corpus is an exam-correctness
+      # defect no rule catches.
+      #
+      # Measured runtimes on 2026-09-09, total ~75 s. prove_audits_fail.py is
+      # deliberately NOT here: it takes about five minutes and mutates canonical
+      # files, which belongs in a release check rather than on every push.
+      - name: Content audits
+        run: |
+          set -o pipefail
+          fail=0
+          for a in aud01_syllabus_transcription aud02_version_contamination \
+                   aud04_content_volume aud05_question_bank aud06_holdout_integrity \
+                   aud07_english_readiness aud08_technical_production \
+                   aud09_course_sections aud10_answer_length_bias \
+                   lot01_second_audit fr2_second_audit; do
+            echo "::group::$a"
+            python3 "tools/audit/$a.py" || fail=1
+            echo "::endgroup::"
+          done
+          echo "::group::aud03_source_anchor --offline"
+          python3 tools/audit/aud03_source_anchor.py --offline || fail=1
+          echo "::endgroup::"
+          exit $fail
+
+      # A rule that has only ever been silent has not been shown to be capable
+      # of speaking. These two inject a defect and assert the check fires.
+      - name: Checks are not vacuous
+        run: |
+          set -o pipefail
+          python3 tools/audit/prove_framework_rules_fail.py
+          python3 tools/audit/aud10_answer_length_bias.py --prove
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
