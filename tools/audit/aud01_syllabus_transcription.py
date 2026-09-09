@@ -1,5 +1,17 @@
 """AUD-01 — independent syllabus audit against the owner-supplied PDF.
 
+ONE-SHOT AND SESSION-BOUND. `PDF` below is an absolute path into a session
+upload directory, outside the repository, whose name carries the id of the
+session it was uploaded to. The PDF is not tracked by git and must not be: it is
+the owner's copy of the official syllabus. So this script runs where that upload
+lives and nowhere else — not in CI, not in a fresh clone, not in a later session.
+
+Its result is the persisted evidence, not the script: on 2026-09-08 it matched
+163 of 163 atomic items verbatim in the PDF text and closed blocker B-1. A
+future ModuleNotFoundError or missing-file error here is that absence, not a
+regression in the corpus. Wiring it into CI on 2026-09-09 is what surfaced this;
+it was removed from the CI set for the same reason.
+
 Verifies transcription fidelity: every atomic official item in the matrix must
 appear in the PDF text, character-for-character after two mechanical
 normalisations that the import itself documents (f-ligatures, column wraps).

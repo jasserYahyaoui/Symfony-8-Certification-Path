@@ -42,35 +42,57 @@ names it — `Le piège de l'instant`, `Deux pièges` — that is the Exam traps
 section with a more useful title. §4.3 constrains which sections exist, not how
 they are worded.
 
-## Measured state (2026-09-03, 163 courses)
+## Measured state (2026-09-09, 163 courses)
 
 | | Courses |
 |---|---|
-| `## Pièges d'examen` verbatim | 93 |
-| A trap section under a descriptive heading | 8 |
-| No trap section | 62 |
+| `## Pièges d'examen` verbatim | **163** |
+| A trap section under a descriptive heading | 0 |
+| No trap section | **0** |
 
-## P2.1 — resolution
+The previous reading, on 2026-09-03, was 93 verbatim, 8 under a descriptive
+heading and 62 with none. It is kept below because the resolution written
+against it is still the correct reading of §4.3 — what changed is the content,
+not the rule.
 
-P2.1 read: *"standard `Pièges d'examen` section wherever a trap exists in
-prose (~50 courses)"*. It was recorded as `FAIL — not executed`, pending a
-decision between two treatments.
+## P2.1 — resolution, and what superseded it
 
-**No treatment is required.** The audit item assumed §4.3 mandated the standard
-section; the restored text says the opposite in the same sentence that
-introduces the template. Against §4.3:
+P2.1 read: *"standard `Pièges d'examen` section wherever a trap exists in prose
+(~50 courses)"*. It was closed **NOT_REQUIRED** on 2026-09-03, on the plan text
+rather than on a judgement call: §4.3 says "use only relevant sections, not a
+mandatory empty template", so a course with nothing to put in a trap section
+correctly has none, and adding one would create the empty template §4.3 forbids.
 
-- the **62** courses without a trap section are compliant — §4.3 forbids the
-  empty template that adding one would create;
-- the **8** courses with a descriptively-titled trap section are compliant —
-  the section exists and its content is the trap;
-- the **93** verbatim courses are compliant.
+**That reasoning stands. It was not overturned — it was made moot.**
 
-P2.1 is closed as **NOT_REQUIRED**, on the plan text rather than on a judgement
-call. Renaming the 8 headings would be a cosmetic change to compliant courses,
-and §1.4's net-value gate rejects it: it does not improve any learner's
-probability of answering an official-scope question correctly.
+On 2026-09-09 the owner asked for the 69 missing sections to be written. They
+were written as *content*, not as headings: each names a specific confusion,
+against a rule the course's own version-anchored source already establishes.
+The measured sizes are 27 to 140 body words, median 64 — no section is an empty
+template, and `REV-001` bounded the whole campaign inside the revision budget.
 
-What §4.3 *does* mandate is the last line — **course pages must not reveal
+So the two states are both compliant with §4.3, for different reasons:
+
+- **before** — 62 courses had no trap section because nothing was there to say,
+  and §4.3 forbids inventing a heading to fill;
+- **after** — 163 courses have one because something was found to say in each,
+  and §4.3 permits any section that carries content.
+
+What would violate §4.3 is the third state neither of these is: a heading
+present with nothing under it. `tools/audit/aud09_course_sections.py` measures
+that directly, so the distinction is checkable rather than asserted.
+
+What §4.3 *does* mandate is its last line — **course pages must not reveal
 interactive exam answers** — and that is enforced by rule `CRS-001`, not by a
-heading convention.
+heading convention. It fired twice during the 2026-09-09 campaign, on two
+sections that repeated in prose an answer key their own item's question uses;
+both were rewritten to drop the literal string rather than moved into a fence.
+
+### Why this section exists at all
+
+A governance document that records a measured state must be re-measured when
+the content changes, or it becomes a false statement that reads as authority.
+Between 2026-09-03 and 2026-09-09 this file claimed 62 courses deliberately had
+no trap section while all 163 had one. Nothing failed, because no gate compares
+a policy's prose with the corpus — which is exactly why the figure has to carry
+its date and be refreshed by hand when a campaign moves it.

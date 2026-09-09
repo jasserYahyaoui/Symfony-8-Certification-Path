@@ -120,6 +120,19 @@ with `[ERROR]`, and restores every file byte-identically under SHA-256. Run it
 whenever a rule is added or changed, and never report a rule as working on the
 strength of a clean run alone.
 
+**The audits run in CI, and two of them prove themselves (2026-09-09).** Twelve
+scripts under `tools/audit/` run on every push (~75 s), together with
+`prove_framework_rules_fail.py` and `aud10 --prove`. Before that, none of them
+ran on a push — including the proof that guards against a rule becoming vacuous,
+in a project that has already found five vacuous checks. `prove_audits_fail.py`
+stays out: it takes ~5 minutes and mutates canonical files.
+
+`aud09_course_sections.py` reads what is **under** each heading, because a
+heading count is a proxy and this project has already been misled by one.
+`aud10_answer_length_bias.py` measures whether the correct answer is the longest
+choice — 50.5% across the corpus against a 25% chance baseline — and fails only
+inside a refined lot, the same staging as `ARC-001`, `PED-003` and `REV-001`.
+
 **A fence is not a hiding place (§4.3, rule `CRS-001`).** A course may show the
 code its **own** item teaches inside a fenced block, even when a question on
 that item tests it. A correct answer belonging to **another** item is a leak
