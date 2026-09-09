@@ -46,7 +46,7 @@ final class QuestionFactory
             scoringPolicy: 'all-or-nothing',
             shuffleChoices: true,
             negativeWording: false,
-            codeLanguage: null,
+            codeLanguage: $overrides['codeLanguage'] ?? null,
             estimatedTimeSeconds: 72,
             explanation: $overrides['explanation'] ?? 'Because the router matches in declaration order.',
             officialSources: $overrides['officialSources'] ?? [new SourceRef(

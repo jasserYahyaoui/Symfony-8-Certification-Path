@@ -24,12 +24,32 @@ project has no evidence of how the Symfony certification composes its paper,
 and §19 forbids inventing one. Every archetype below is a form that can be
 verified by reading the question in this repository — nothing more is claimed.
 
-## The nine archetypes
+## The eleven archetypes
+
+Four of them form a 2×2 that the bank turned out to need. The axes are whether
+the question **ships a listing** and whether it asks **what results** or **why**:
+
+| | asks what results | asks why |
+|---|---|---|
+| **ships a listing** | `CODE_OUTPUT` | `CODE_DIAGNOSIS` |
+| **describes the behaviour** | `BEHAVIOR_PREDICTION` | `BEHAVIOR_DIAGNOSIS` |
+
+"Ships a listing" means the question declares a `code_language` and renders code
+as a block. Naming a construct inline in the prose — `` `abstract protected
+function run(): void;` `` — is not a listing; the candidate is reading a
+sentence, not tracing a program.
+
+The bottom row was added while assigning archetypes to Lot 01, which is what the
+vocabulary was for. Questions like *"a constructor throws on invalid input, yet
+placing the attribute produces no error at all — why?"* diagnose a mechanism
+from its symptom with nothing to trace. Forcing them into `CODE_DIAGNOSIS` would
+have meant declaring a `code_language` that is not there, and a consistency
+check fed one small lie stops meaning anything.
+
+The remaining seven:
 
 | Value | The stem shows… | …and asks |
 |---|---|---|
-| `CODE_OUTPUT` | code | what it produces, returns or prints |
-| `CODE_DIAGNOSIS` | code that misbehaves | why |
 | `CONFIG_BEHAVIOR` | configuration or attributes | the behaviour that results |
 | `API_SIGNATURE` | a class, interface, method or option | whether it exists, or its shape |
 | `VERSION_ATTRIBUTION` | a feature and versions | when it appeared, changed or went |
@@ -49,11 +69,16 @@ in this project vacuous.
 
 | Declared | Rejected when |
 |---|---|
-| `CODE_OUTPUT`, `CODE_DIAGNOSIS` | `code_language` is not declared — there is no code in front of the candidate |
-| `CODE_DIAGNOSIS` | `exam_skill` is not `DIAGNOSE` |
+| `CODE_OUTPUT`, `CODE_DIAGNOSIS` | `code_language` is not declared — there is no listing in front of the candidate |
+| `BEHAVIOR_PREDICTION`, `BEHAVIOR_DIAGNOSIS` | `code_language` **is** declared — the question ships the listing it claims to withhold |
+| `CODE_DIAGNOSIS`, `BEHAVIOR_DIAGNOSIS` | `exam_skill` is not `DIAGNOSE` |
 | `CONCEPT_DISTINCTION` | `exam_skill` is `RECOGNIZE` — recognising one thing is not separating two |
 | `DEFINITION_RECALL` | `cognitive_level` is `APPLY` — one of the two fields is lying (§4.1) |
 | `VERSION_ATTRIBUTION` | the stem names no version at all |
+
+`BEHAVIOR_PREDICTION` deliberately carries **no** skill requirement: it asks
+what results, not why, so a `RECOGNIZE` question of that shape is legitimate.
+The pair is not a synonym for "diagnosis without code".
 
 The consistency half applies to **every** question that declares an archetype,
 refined lot or not. Only the *requirement* to declare one is staged.

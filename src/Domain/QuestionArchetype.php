@@ -31,6 +31,31 @@ enum QuestionArchetype: string
     /** The stem shows code that misbehaves and asks why. */
     case CodeDiagnosis = 'CODE_DIAGNOSIS';
 
+    /**
+     * The stem DESCRIBES a behaviour without showing the code, and asks why it
+     * happens or when the mechanism fires.
+     *
+     * Added while assigning archetypes to Lot 01, which is what the vocabulary
+     * was for. Several questions — "a constructor throws on invalid input, yet
+     * placing the attribute produces no error at all; why?" — diagnose a
+     * mechanism from its symptom with no listing in front of the candidate.
+     * Forcing them into CODE_DIAGNOSIS would have meant declaring a
+     * `code_language` that is not there, which is the sort of small lie that
+     * makes a consistency check stop meaning anything.
+     */
+    case BehaviorDiagnosis = 'BEHAVIOR_DIAGNOSIS';
+
+    /**
+     * The stem DESCRIBES a behaviour without showing the code, and asks what
+     * results.
+     *
+     * The fourth quadrant of a 2×2 the bank turned out to need: code shown or
+     * described, result asked or reason asked. "A try block returns 1, and its
+     * finally block returns 2. What does the function return?" ships no
+     * listing and asks for no reason.
+     */
+    case BehaviorPrediction = 'BEHAVIOR_PREDICTION';
+
     /** The stem shows configuration or attributes and asks the resulting behaviour. */
     case ConfigBehavior = 'CONFIG_BEHAVIOR';
 
@@ -60,6 +85,31 @@ enum QuestionArchetype: string
     {
         return match ($this) {
             self::CodeOutput, self::CodeDiagnosis => true,
+            default => false,
+        };
+    }
+
+    /**
+     * Archetypes whose whole point is explaining a failure or a firing, so
+     * `exam_skill` must be DIAGNOSE. Recognising a fact is a different question.
+     */
+    public function requiresDiagnosis(): bool
+    {
+        return match ($this) {
+            self::CodeDiagnosis, self::BehaviorDiagnosis => true,
+            default => false,
+        };
+    }
+
+    /**
+     * The BEHAVIOR_* archetypes describe the behaviour instead of showing it.
+     * A question that ships a listing is a CODE_* one, and mislabelling it here
+     * would hide the listing from anyone querying the bank by shape.
+     */
+    public function forbidsCode(): bool
+    {
+        return match ($this) {
+            self::BehaviorDiagnosis, self::BehaviorPrediction => true,
             default => false,
         };
     }

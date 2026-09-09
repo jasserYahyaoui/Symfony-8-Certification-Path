@@ -58,10 +58,17 @@ is not penalised for lacking a diagnosis question it has no need of, and a
 | `R8_diagnoses` — a `DIAGNOSE` question | | | ✔ |
 | `R9_hard_question` — a `hard` question | | | ✔ |
 | `R10_outcomes_identified` — every learning outcome carries a minted `OUT` id | ✔ | ✔ | ✔ |
-| `R11_outcomes_assessed` — every outcome is named by at least one question | ✔ | ✔ | ✔ |
+| `R11_outcomes_assessed` — every outcome is named by at least one non-`HOLDOUT` question | ✔ | ✔ | ✔ |
 | `R12_archetypes_declared` — every question declares a structural archetype | ✔ | ✔ | ✔ |
 | `R13_archetype_variety` — the questions use at least two distinct archetypes | | ✔ | ✔ |
 | `R14_revision_budget` — the course stays inside the budget for its level | ✔ | ✔ | ✔ |
+
+`R11` excludes `HOLDOUT` on purpose. That pool reaches exactly one payload,
+`mock-4.json`, sat once and unseen (ADR-0005, ADR-0006), so an outcome named
+only there is one the learner can never practise — and the item's own
+`minimum_evidence`, which asks for a success in exam mode, could not be produced
+for it. Three Lot 01 outcomes were in exactly that position when the link was
+first written.
 
 `R10` to `R14` were added by refinement framework version 2
 ([ADR-0007](../adr/0007-refinement-framework-v2.md)); the section below records

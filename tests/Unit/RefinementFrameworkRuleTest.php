@@ -8,6 +8,7 @@ use CertPath\Domain\ContentLevel;
 use CertPath\Domain\Course;
 use CertPath\Domain\Language;
 use CertPath\Domain\LearningOutcome;
+use CertPath\Domain\Pool;
 use CertPath\Domain\QuestionArchetype;
 use CertPath\Domain\SyllabusMatrix;
 use CertPath\Domain\VerificationStatus;
@@ -259,7 +260,139 @@ final class RefinementFrameworkRuleTest extends TestCase
         self::assertStringContainsString('fewer questions than declared learning outcomes', $violations[0]->message);
     }
 
+    /**
+     * BEHAVIOR_DIAGNOSIS describes the behaviour instead of shipping a listing.
+     * Labelling a question that carries code with it would hide that code from
+     * anyone querying the bank by shape — which is the only reason the axis
+     * exists.
+     */
+    public function testABehaviorArchetypeOnAQuestionThatShipsCodeIsRejected(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-07']);
+        $content = $this->content(
+            [$item],
+            [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'questionArchetype' => QuestionArchetype::BehaviorPrediction,
+                'codeLanguage' => 'php',
+            ])],
+            refined: [],
+        );
+
+        $violations = (new QuestionArchetypeRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertStringContainsString('ships code', $violations[0]->message);
+    }
+
+    public function testABehaviorDiagnosisThatDoesNotDiagnoseIsRejected(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-07']);
+        $content = $this->content(
+            [$item],
+            [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'questionArchetype' => QuestionArchetype::BehaviorDiagnosis,
+                'examSkill' => 'RECOGNIZE',
+            ])],
+            refined: [],
+        );
+
+        $messages = array_map(static fn ($v): string => $v->message, (new QuestionArchetypeRule())->check($content));
+
+        self::assertNotSame([], $messages);
+        self::assertStringContainsString('exam_skill', implode(' ', $messages));
+    }
+
+    /**
+     * BEHAVIOR_PREDICTION asks what results, not why, so it carries no skill
+     * requirement. If this ever fails, the two behaviour archetypes have been
+     * collapsed into one and the 2×2 they form has lost half its cells.
+     */
+    public function testBehaviorPredictionIsNotRequiredToDiagnose(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-07']);
+        $content = $this->content(
+            [$item],
+            [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'questionArchetype' => QuestionArchetype::BehaviorPrediction,
+                'examSkill' => 'RECOGNIZE',
+            ])],
+            refined: [],
+        );
+
+        self::assertSame([], (new QuestionArchetypeRule())->check($content));
+    }
+
+    /**
+     * A HOLDOUT question does not discharge an outcome: it reaches one payload,
+     * sat once and unseen, so the learner can never practise that outcome and
+     * the item's own minimum_evidence could not be produced for it.
+     *
+     * Found by linking Lot 01, where three outcomes — attribute targets and
+     * IS_REPEATABLE, $this binding in a closure, and what a trait may contain —
+     * were named by a holdout question and by nothing else.
+     */
+    public function testAnOutcomeNamedOnlyByAHoldoutQuestionIsNotAssessed(): void
+    {
+        $outcome = Id::mint(EntityType::LearningOutcome);
+        $item = ItemFactory::make([
+            'lot' => 'lot-01',
+            'learningOutcomes' => [new LearningOutcome('Only in the holdout', $outcome)],
+        ]);
+
+        $content = $this->content(
+            [$item],
+            [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'pool' => Pool::Holdout,
+                'assessesOutcomes' => [$outcome->value],
+            ])],
+            refined: ['lot-01'],
+        );
+
+        $blocking = array_values(array_filter(
+            (new OutcomeAssessmentRule())->check($content),
+            static fn ($v): bool => Severity::Error === $v->severity,
+        ));
+
+        self::assertCount(1, $blocking);
+        self::assertStringContainsString('HOLDOUT', $blocking[0]->message);
+        self::assertStringContainsString('not assessable during study', $blocking[0]->message);
+    }
+
+    /** The same outcome, also named by a learning question, is assessed. */
+    public function testAHoldoutQuestionBesideALearningOneIsHarmless(): void
+    {
+        $outcome = Id::mint(EntityType::LearningOutcome);
+        $item = ItemFactory::make([
+            'lot' => 'lot-01',
+            'learningOutcomes' => [new LearningOutcome('Practised and held out', $outcome)],
+        ]);
+
+        $content = $this->content(
+            [$item],
+            [
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'pool' => Pool::Holdout,
+                    'assessesOutcomes' => [$outcome->value],
+                ]),
+                QuestionFactory::make([
+                    'officialItemId' => $item->id->value,
+                    'pool' => Pool::Learning,
+                    'assessesOutcomes' => [$outcome->value],
+                ]),
+            ],
+            refined: ['lot-01'],
+        );
+
+        self::assertSame([], (new OutcomeAssessmentRule())->check($content));
+    }
+
     // ---- REV-001 -----------------------------------------------------------
+
 
     public function testACourseOverTheBudgetForItsLevelFailsARefinedLot(): void
     {
