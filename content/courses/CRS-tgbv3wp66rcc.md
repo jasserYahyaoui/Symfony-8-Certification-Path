@@ -69,6 +69,19 @@ Une route peut enfin déléguer à `RedirectController`, fourni par
 FrameworkBundle, ce qui évite d'écrire un contrôleur pour un simple
 déplacement d'URL. Ses options sont traitées dans le lot Controllers.
 
+## Pièges d'examen
+
+**La redirection de barre finale ne concerne que `GET` et `HEAD`.** C'est
+délibéré : rediriger un `POST` lui ferait perdre son corps. Elle sort en 301 et
+va toujours vers la forme déclarée par la route, dans les deux sens.
+
+**Le schéma agit à l'appariement *et* à la génération.** Une requête dans le
+mauvais schéma est redirigée ; et l'URL générée devient absolue dès que le
+schéma courant diffère, alors qu'elle serait restée un chemin relatif.
+
+**C'est le routage qui redirige ici, pas le contrôleur.** Aucune ligne de code
+applicatif n'intervient.
+
 ## Points clés
 
 - Barre finale : redirection **301**, seulement en `GET` et `HEAD`, vers la

@@ -67,6 +67,20 @@ pas. Une condition filtre l'entrée, elle ne documente pas la sortie.
 
 C'est la différence de fond avec `requirements`, qui compte dans les deux sens.
 
+## Pièges d'examen
+
+**Une condition ne s'applique pas à la génération d'URL.** C'est la limite qui
+surprend : le générateur ne connaît ni la requête ni le client, donc il ne peut
+pas évaluer l'expression. Une route protégée par une condition reste
+parfaitement générable, y compris vers un contexte où elle ne correspondrait
+pas.
+
+**Une condition filtre l'entrée ; elle ne documente pas la sortie.** C'est toute
+la différence avec une contrainte de paramètre, qui vaut dans les deux sens.
+
+**L'expression est évaluée à l'appariement**, à chaque requête — ce n'est pas de
+la configuration compilée une fois pour toutes.
+
 ## Points clés
 
 - `condition` = expression ExpressionLanguage évaluée à l'appariement.

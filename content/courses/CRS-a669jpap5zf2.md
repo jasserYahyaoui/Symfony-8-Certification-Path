@@ -68,6 +68,20 @@ statut, des en-têtes et un contexte de sérialisation.
 passer `ResponseHeaderBag::DISPOSITION_INLINE`. Le deuxième argument renomme le
 fichier vu par l'utilisateur sans toucher au fichier sur disque.
 
+## Pièges d'examen
+
+**Deux méthodes de rendu, deux types de retour.** L'une retourne une `Response`
+prête à être retournée par le contrôleur, l'autre une simple chaîne. Retourner
+la chaîne depuis un contrôleur déclenche `kernel.view`, et sans écouteur pour
+la convertir, la requête échoue.
+
+**Un formulaire invalide passé au gabarit change le statut tout seul.** Le rendu
+sort en 422 sans qu'on l'ait demandé — inutile de construire une réponse pour
+cela, et surprenant si on l'ignore.
+
+**Servir un fichier télécharge par défaut.** L'affichage dans la page demande de
+changer explicitement la disposition.
+
 ## Points clés
 
 - Retourner une `Response`, sinon `kernel.view` doit s'en charger.

@@ -71,6 +71,19 @@ Ne pas appeler `getRouteCollection()` pour vérifier qu'une route existe : cela
 régénère le cache de routage et ralentit l'application. Il faut tenter la
 génération et rattraper `RouteNotFoundException`.
 
+## Pièges d'examen
+
+**Un paramètre absent de la route n'est pas ignoré : il part en chaîne de
+requête.** Une faute de frappe dans un nom de paramètre ne produit donc aucune
+erreur — juste une URL avec un paramètre en trop.
+
+**La conversion en chaîne n'a lieu que pour un emplacement de la route.** Un
+objet passé comme paramètre supplémentaire n'est pas converti ; il faut le
+convertir soi-même.
+
+**Le type de référence par défaut est le chemin absolu, pas l'URL absolue.**
+Générer un lien pour un courriel demande de le dire explicitement.
+
 ## Points clés
 
 - `generateUrl()`, `generate()`, `path()`, `url()` — jamais d'URL écrite à la

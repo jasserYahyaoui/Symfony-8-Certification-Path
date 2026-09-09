@@ -50,6 +50,19 @@ paramètre comme un chemin, avec valeurs par défaut et contraintes.
 chemin : il n'y a pas de mécanisme séparé pour l'hôte. Le paramètre apparié est
 disponible comme n'importe quel autre.
 
+## Pièges d'examen
+
+**Sans contrainte d'hôte, une route accepte n'importe quel hôte.** L'absence de
+l'option n'est pas une restriction implicite au domaine principal.
+
+**L'hôte n'a pas son propre mécanisme de paramètres.** Valeurs par défaut et
+contraintes sont exactement celles d'un paramètre de chemin ; il n'y a pas de
+clé distincte à apprendre.
+
+**Deux routes peuvent partager le même chemin** et ne se distinguer que par
+l'hôte — ce qui est tout l'intérêt, et ce qui rend l'ordre de déclaration
+trompeur si on l'oublie.
+
 ## Points clés
 
 - `host` contraint le nom d'hôte ; sans elle, tout hôte correspond.

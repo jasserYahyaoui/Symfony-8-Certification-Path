@@ -64,6 +64,19 @@ Une valeur par défaut **n'est pas tenue** de satisfaire la contrainte. La
 documentation le dit explicitement. La contrainte filtre l'URL entrante ; la
 valeur par défaut, elle, n'est pas dans l'URL.
 
+## Pièges d'examen
+
+**Sans contrainte, deux routes de même forme sont départagées par l'ordre de
+déclaration**, pas par ce qui « ressemble » le plus. Contraindre le paramètre
+rend l'ordre indifférent — c'est le vrai service rendu.
+
+**Une contrainte est une expression régulière PHP**, avec ce que cela implique :
+les propriétés Unicode fonctionnent, et une expression fragile passe sans que
+rien ne prévienne.
+
+**La contrainte ne vaut qu'à l'appariement.** Elle ne valide pas ce que l'on
+passe au générateur d'URL.
+
 ## Points clés
 
 - `requirements` = expression régulière PHP ; toute la route échoue si elle n'est

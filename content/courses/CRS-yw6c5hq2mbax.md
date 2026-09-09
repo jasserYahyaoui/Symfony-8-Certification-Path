@@ -56,6 +56,19 @@ Les contrôleurs appelés par `controller()` ne passent pas par une route
 ordinaire mais par une URL interne réservée aux fragments, configurée par
 `framework.fragments.path`, dont la valeur usuelle est `/_fragment`.
 
+## Pièges d'examen
+
+**Rendre un contrôleur depuis un gabarit déclenche une sous-requête.** Le noyau
+retraverse son cycle pour chaque fragment : ce n'est pas un appel de fonction, et
+en semer partout se paie.
+
+**Un contrôleur sans route ne s'appelle pas comme un contrôleur routé.** Les
+fonctions de génération d'URL exigent une route ; l'enveloppe dédiée permet de
+s'en passer.
+
+**Les fragments passent par une URL interne réservée**, configurable — ce n'est
+pas une route ordinaire de l'application.
+
 ## Points clés
 
 - `render(path(...))` ou `render(url(...))` exécute un contrôleur routé.

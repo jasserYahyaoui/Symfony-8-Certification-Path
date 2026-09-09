@@ -78,6 +78,20 @@ sélectionne d'après `%count%`, mais ce n'est plus la voie recommandée.
 passer d'un contrôleur à un gabarit et traduire à l'affichage par `|trans`. La
 traduction se fait alors au dernier moment, quand la locale est connue.
 
+## Pièges d'examen
+
+**L'ordre des arguments du filtre est paramètres, domaine, locale.** Passer le
+domaine en premier est l'erreur classique ; omis, il vaut le domaine par défaut,
+et la locale omise vaut celle de la requête.
+
+**Les deux syntaxes d'emplacement ne se mélangent pas.** Le format
+traditionnel entoure le nom de pourcents ; le format ICU l'entoure d'accolades,
+et le catalogue doit alors porter le suffixe qui l'active. Écrire des accolades
+dans un catalogue ordinaire ne pluralise rien.
+
+**Un pourcent littéral se double**, sans quoi il est lu comme le début d'un
+emplacement.
+
 ## Points clés
 
 - `|trans(paramètres, domaine, locale)` — dans cet ordre.

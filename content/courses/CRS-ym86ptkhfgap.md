@@ -56,6 +56,19 @@ Sans second argument, c'est le paquet par défaut.
 paquet. Le versionnement sert à casser le cache du navigateur quand une
 ressource change ; il est configuré, pas calculé dans le gabarit.
 
+## Pièges d'examen
+
+**Le chemin est relatif au répertoire public, sans barre initiale.** Une barre
+en tête casse le préfixe de base — et le site cesse de fonctionner dès qu'il
+n'est pas servi à la racine du domaine.
+
+**La fonction n'est pas cosmétique.** Elle applique le préfixe de base *et* la
+stratégie de version ; un chemin écrit en dur perd les deux, et le cache du
+navigateur ne se casse plus quand la ressource change.
+
+**Les outils de construction d'assets sont hors périmètre** de l'examen : ce qui
+est interrogeable ici est la fonction et la configuration du composant.
+
 ## Points clés
 
 - Écrire `{{ asset('…') }}`, jamais un chemin en dur.

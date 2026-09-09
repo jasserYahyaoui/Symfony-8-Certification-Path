@@ -48,6 +48,17 @@ C'est la commande à utiliser quand une URL n'exécute pas le contrôleur attend
 elle répond directement à la question, là où `debug:router` demande de la
 déduire d'une liste.
 
+## Pièges d'examen
+
+**La liste des routes est donnée dans l'ordre d'évaluation, pas alphabétique.**
+C'est ce qui en fait un outil de diagnostic : la première correspondance gagne,
+donc l'ordre affiché *est* la réponse à « pourquoi est-ce l'autre route qui
+répond ? ».
+
+**Deux commandes, deux questions différentes.** L'une inventorie les routes,
+l'autre prend une URL et dit laquelle répondrait. Devant une URL qui n'exécute
+pas le contrôleur attendu, c'est la seconde qui répond directement.
+
 ## Points clés
 
 - `debug:router` liste les routes **dans l'ordre d'évaluation**.

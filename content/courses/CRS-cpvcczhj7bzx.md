@@ -56,6 +56,16 @@ if ($file) {
 Le test est nécessaire : avec `required: false`, `getData()` retourne `null`
 quand rien n'a été envoyé.
 
+## Pièges d'examen
+
+**Un champ de fichier n'est presque jamais mappé.** L'entité stocke un nom de
+fichier, pas un fichier : laisser le champ mappé fait écrire un objet dans une
+propriété qui attend une chaîne.
+
+**Un champ non mappé n'arrive pas dans l'objet.** Il se lit sur le formulaire,
+et il vaut `null` quand rien n'a été envoyé — le test est obligatoire dès que le
+champ est facultatif.
+
 ## Points clés
 
 - `FileType` pour le widget ; `mapped: false` parce que l'entité stocke un nom,

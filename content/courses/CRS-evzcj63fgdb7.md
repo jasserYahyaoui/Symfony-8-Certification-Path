@@ -75,6 +75,18 @@ traducteur : il a déjà été configuré. La locale se fixe par l'URL, par un
 Un écouteur maison doit s'exécuter **avant** `LocaleListener`, donc porter une
 priorité plus élevée — que `debug:event kernel.request` permet de lire.
 
+## Pièges d'examen
+
+**Fixer la locale depuis un contrôleur arrive trop tard.** Le traducteur est
+déjà configuré : la locale se fixe par l'URL, par un écouteur, ou sur le service
+de traduction lui-même.
+
+**Un écouteur maison doit passer avant celui du framework**, donc porter une
+priorité plus élevée — priorité plus grande veut dire plus tôt.
+
+**Une route localisée impose sa locale pour toute la requête**, pas seulement
+pour le rendu du gabarit.
+
 ## Points clés
 
 - `_locale` dans le chemin pose la locale automatiquement.

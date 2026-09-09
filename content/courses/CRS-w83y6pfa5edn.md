@@ -79,6 +79,20 @@ La documentation le décrit comme un « micro squelette de mise en page ». Le
 critère de choix : si le fragment est identique à chaque appel, `include` ; s'il
 faut en changer une partie, `embed`.
 
+## Pièges d'examen
+
+**Par défaut, le gabarit inclus voit tout le contexte de l'appelant.** C'est
+pratique et c'est un piège : le fragment marche par accident tant que
+l'appelant possède la variable, puis casse ailleurs. Le mot qui restreint le
+contexte est ce qui rend un fragment réutilisable.
+
+**Restreindre le contexte s'écrit différemment selon la forme employée** —
+un mot-clé dans la balise, un argument nommé dans la fonction — pour la même
+idée.
+
+**Un gabarit absent fait échouer l'inclusion**, sauf mention explicite qui
+autorise son absence.
+
 ## Points clés
 
 - `include()` en fonction, `{% include %}` en balise ; même mécanisme.

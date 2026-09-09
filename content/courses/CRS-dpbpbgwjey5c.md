@@ -50,6 +50,19 @@ et une route inconnue lève `RouteNotFoundException`.
 Une URL ne s'écrit jamais à la main dans un gabarit : changer le chemin d'une
 route mettrait alors les liens en défaut sans qu'aucun test ne le signale.
 
+## Pièges d'examen
+
+**Les deux fonctions ne diffèrent que par la forme du résultat** — chemin absolu
+ou URL absolue — et prennent exactement les mêmes arguments. Il n'y a pas de
+différence de comportement au-delà.
+
+**La fonction de chemin peut retourner une URL absolue.** Si la route exige un
+schéma différent de celui de la requête courante, il faut bien changer de
+schéma : la sortie devient absolue sans qu'on l'ait demandé.
+
+**Un paramètre absent de la route part en chaîne de requête**, ici comme
+ailleurs — une faute de frappe ne produit aucune erreur.
+
 ## Points clés
 
 - `path()` = chemin absolu, `url()` = URL absolue ; mêmes arguments.

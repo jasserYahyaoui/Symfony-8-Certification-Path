@@ -77,6 +77,19 @@ permanente.
 Il produit les pages d'erreur, et expose en développement la route de
 prévisualisation `/_error/{statusCode}`.
 
+## Pièges d'examen
+
+**Conserver la méthode HTTP change le code de statut.** Une redirection qui
+préserve la méthode ne peut pas sortir en 301 ou 302, puisque ces deux-là
+autorisent le navigateur à retomber sur `GET` : elle devient 307 si elle est
+temporaire, 308 si elle est permanente.
+
+**Un contrôleur de route n'est pas forcément dans `App\`.** Le framework en
+fournit plusieurs, référençables directement depuis la configuration de route.
+
+**Les deux modes du contrôleur de redirection sont exclusifs** : viser une route
+ou viser un chemin, jamais les deux.
+
 ## Points clés
 
 - Un contrôleur de route peut venir du framework, pas seulement de `App\`.

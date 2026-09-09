@@ -85,6 +85,20 @@ recours.
 {% endblock %}
 ```
 
+## Pièges d'examen
+
+**La liste des thèmes est parcourue de la fin vers le début.** Le dernier thème
+déclaré est celui qui gagne — l'ordre paraît inversé et c'est la cause classique
+d'un thème « qui ne s'applique pas ».
+
+**Le bloc le plus spécifique porte le nom du formulaire et celui du champ**, et
+commence par un souligné. Personnaliser un type entier et personnaliser un champ
+d'un formulaire ne s'écrivent donc pas de la même façon.
+
+**Un champ se décompose en parties, chacune avec son bloc.** Redéfinir le
+conteneur complet quand on ne voulait changer que le widget efface aussi le
+libellé, l'aide et les erreurs.
+
 ## Points clés
 
 - Un thème est un gabarit de blocs ; le défaut est `form_div_layout.html.twig`.

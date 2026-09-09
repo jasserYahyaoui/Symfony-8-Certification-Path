@@ -79,6 +79,20 @@ $safe = $slugger->slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAM
 $name = $safe.'-'.uniqid().'.'.$file->guessExtension();
 ```
 
+## Pièges d'examen
+
+**Rien de ce que le client annonce sur le fichier n'est fiable.** Le nom
+d'origine, l'extension d'origine, le chemin d'origine et la taille annoncée
+viennent du navigateur. L'extension se déduit du type MIME réel, le nom se
+génère.
+
+**Sans déplacement, il ne reste rien.** Le fichier temporaire créé par PHP
+disparaît à la fin de la requête.
+
+**`#[MapUploadedFile]` échoue quand rien n'est envoyé.** Le champ facultatif se
+déclare en typant l'argument comme nullable ; sans cela, une absence lève une
+exception HTTP.
+
 ## Points clés
 
 - `$request->files` ou `#[MapUploadedFile]`, qui résout par nom d'argument.

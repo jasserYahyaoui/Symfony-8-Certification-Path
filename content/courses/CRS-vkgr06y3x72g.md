@@ -63,6 +63,20 @@ C'est une décision de génération d'URL, pas d'appariement.
 La valeur par défaut n'a pas à satisfaire la contrainte du paramètre. Elle n'est
 pas issue de l'URL, donc elle n'est pas filtrée.
 
+## Pièges d'examen
+
+**Tout ce qui suit un paramètre facultatif doit l'être aussi.** La conséquence
+surprend : un chemin qui place le paramètre avant un segment fixe rend ce
+paramètre **toujours obligatoire**, valeur par défaut ou non.
+
+**Une valeur par défaut disparaît de l'URL générée.** Le paramètre valant sa
+valeur par défaut n'apparaît pas ; l'inclure de force est une décision de
+génération, qui s'écrit dans le chemin.
+
+**La valeur par défaut n'a pas à satisfaire la contrainte du paramètre.** La
+contrainte porte sur ce qui vient de l'URL, pas sur ce que la route fournit
+elle-même.
+
 ## Points clés
 
 - Un paramètre sans valeur par défaut est obligatoire.

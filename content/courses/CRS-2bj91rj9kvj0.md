@@ -62,6 +62,20 @@ frappe dans un nom de variable passe inaperçue ou lève une
   disponibles, et les chemins de gabarits enregistrés ;
 - `php bin/console lint:twig` — vérifie la syntaxe sans rendre.
 
+## Pièges d'examen
+
+**Trois paquets, un seul à installer.** Le moteur, le pont et le bundle sont
+distincts : c'est le bundle qui tire les deux autres, et c'est lui seul qui rend
+Twig configurable. Chercher la configuration dans le moteur, c'est ne pas la
+trouver.
+
+**Le nom d'espace d'un bundle perd son suffixe.** Le gabarit d'un bundle ne se
+référence pas sous son nom de classe complet.
+
+**Le répertoire par défaut se change, mais on peut aussi en ajouter.** Ce sont
+deux options différentes : l'une remplace, l'autre complète avec un espace de
+noms.
+
 ## Points clés
 
 - Moteur, bridge et bundle sont trois paquets distincts ; le bundle configure.

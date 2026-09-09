@@ -67,6 +67,20 @@ Pour un `<form>` écrit à la main, le jeton se produit dans le gabarit :
 L'argument est l'identifiant de jeton — une chaîne arbitraire, à faire
 correspondre à la vérification côté contrôleur.
 
+## Pièges d'examen
+
+**Le jeton part avec la balise de fermeture du formulaire.** C'est elle qui rend
+les champs non encore rendus, et le jeton en est un. Rendre les champs un par un
+puis désactiver ce comportement fait disparaître le jeton — et le formulaire
+cesse d'être valide sans qu'on comprenne pourquoi.
+
+**Un formulaire sans jeton valide n'est pas invalide « en plus » : il est
+invalide.** Aucun code applicatif ne teste quoi que ce soit ; c'est le composant
+qui refuse.
+
+**Un identifiant de jeton différent par formulaire est meilleur.** Avec un seul
+identifiant partagé, un jeton obtenu sur un formulaire vaut pour les autres.
+
 ## Points clés
 
 - Protection automatique : champ caché posé et vérifié par le formulaire.

@@ -139,6 +139,20 @@ Une `priority` plus élevée est évaluée en premier. La valeur par défaut est
   route dans le fichier.
 - Importer `Annotation\Route` au lieu de `Attribute\Route`.
 
+## Pièges d'examen
+
+**La première route qui correspond gagne, et les suivantes ne sont jamais
+essayées.** Une route générale placée avant une route spécifique masque
+définitivement la seconde.
+
+**En attributs, vous ne contrôlez pas l'ordre de découverte.** C'est la raison
+d'être de l'option de priorité : en YAML il suffit de déplacer une ligne, en
+attributs il faut l'écrire.
+
+**L'ancien espace de noms d'annotation n'existe plus.** Un import hérité de
+l'époque Doctrine échoue en Symfony 8.0 — l'attribut vit désormais dans
+`Attribute`.
+
 ## Points clés
 
 - Les deux formats sont équivalents en capacité ; ils diffèrent par la

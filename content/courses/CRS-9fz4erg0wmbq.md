@@ -60,6 +60,15 @@ qualifié : une méthode qui ne déclare qu'une seule route reçoit un alias
 `App\Controller\MainController::homepage`, et une classe invocable qui n'ajoute
 qu'une route reçoit un alias sur son FQCN seul.
 
+## Pièges d'examen
+
+**Le suffixe `Controller` est une convention, pas une contrainte.** La classe
+peut techniquement porter n'importe quel nom : rien dans le framework ne
+l'impose, pas plus qu'étendre une classe de base.
+
+**Un nom de route doit être unique dans l'application** — omis, il est généré,
+jamais laissé vide.
+
 ## Points clés
 
 - Le suffixe `Controller` est une convention, pas une contrainte.

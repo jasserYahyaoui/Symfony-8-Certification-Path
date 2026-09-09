@@ -77,6 +77,19 @@ La documentation la présente comme une fonctionnalité avancée, rarement
 nécessaire dans un gabarit ordinaire — mais c'est exactement pour cela qu'elle
 est interrogeable.
 
+## Pièges d'examen
+
+**Un enfant n'affiche que ses blocs.** Tout ce qu'il écrit hors d'un bloc est
+ignoré silencieusement — la cause la plus fréquente du « ma ligne n'apparaît
+pas ».
+
+**Un seul parent, et la balise d'héritage doit venir en premier.** L'empilement
+des niveaux est libre, l'héritage multiple ne l'est pas.
+
+**Importer les blocs d'un autre gabarit n'est pas en hériter.** C'est la
+réutilisation horizontale : on peut en importer plusieurs tout en n'héritant que
+d'un seul.
+
 ## Points clés
 
 - `extends` + `block` ; un bloc non redéfini garde le contenu du parent.

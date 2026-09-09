@@ -76,6 +76,21 @@ automatiquement à l'instanciation du service.
 Pour tout le reste, la voie normale reste le **type-hint** d'un argument
 d'action : Symfony injecte le service correspondant.
 
+## Pièges d'examen
+
+**Étendre `AbstractController` est facultatif.** Un contrôleur est n'importe quel
+appelable PHP ; la classe de base fait gagner des raccourcis, pas des droits.
+
+**Ses raccourcis sont `protected`.** Ils ne s'appellent que depuis la
+sous-classe : un test qui traiterait le contrôleur comme un service ordinaire ne
+peut pas les invoquer de l'extérieur.
+
+**Ce n'est pas le conteneur.** La classe est un *abonné* à des services et
+déclare la liste exacte de ce qu'elle utilise ; elle ne donne accès à rien
+d'autre.
+
+**Elle vient de FrameworkBundle**, pas du composant HttpKernel.
+
 ## Points clés
 
 - Optionnelle ; un contrôleur est un appelable, rien de plus.

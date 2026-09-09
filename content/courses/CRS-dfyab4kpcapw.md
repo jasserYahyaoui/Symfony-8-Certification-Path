@@ -57,6 +57,18 @@ L'opérateur `~` concatène, et reste souvent plus lisible sur deux fragments :
 
 Rappel utile : `+` additionne, il ne concatène pas.
 
+## Pièges d'examen
+
+**L'interpolation ne fonctionne qu'entre guillemets doubles.** En guillemets
+simples, la même écriture est du texte littéral affiché tel quel — et rien ne
+signale l'erreur.
+
+**Le choix des guillemets ne coûte rien en performance.** Il ne décide que de
+l'interpolation ; l'argument de vitesse est faux.
+
+**L'opérateur d'addition ne concatène pas.** Concaténer demande l'opérateur
+dédié ; l'addition tente une somme numérique.
+
 ## Points clés
 
 - `#{expression}`, toute expression admise.

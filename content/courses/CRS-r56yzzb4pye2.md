@@ -63,6 +63,17 @@ passage de variables, qui reste la voie normale pour les données d'une page.
 Les afficher deux fois dans une page en fait disparaître la moitié ; la lecture
 non consommatrice est `app.session.flashbag.peekAll()`.
 
+## Pièges d'examen
+
+**La session vue depuis un gabarit peut être `null`** — et la lire la démarre,
+avec l'effet que cela a sur la cachabilité de la page.
+
+**L'utilisateur courant vaut `null` quand personne n'est authentifié.** Y accéder
+sans test produit une erreur sur une page publique.
+
+**La forme courte de la route courante existe.** Traverser les attributs de la
+requête pour l'obtenir fonctionne, mais c'est le chemin long de la même chose.
+
 ## Points clés
 
 - `app` est fournie partout par TwigBundle ; onze propriétés à connaître.

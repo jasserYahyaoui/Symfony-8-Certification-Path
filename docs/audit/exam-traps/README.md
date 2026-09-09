@@ -119,6 +119,53 @@ literal string — the fenced examples above them still teach it. Moving the
 prose into a fence would have made the report clean while the learner read
 exactly the same page, which CLAUDE.md names as gaming the check.
 
-## Remaining
+## Lots 04 to 07 — the remaining fifty
 
-50 items, in lots 04 (13), 05 (12), 06 (13) and 07 (12), delivered lot by lot.
+| Lot | Items | Subject |
+|---|---|---|
+| 04 | 13 | Controllers |
+| 05 | 12 | Routing |
+| 06 | 13 | Templating with Twig |
+| 07 | 12 | Forms |
+
+Same method as lot 03: each section names **the wrong belief a candidate arrives
+with**, against a rule the course's own verified source already establishes.
+Fifty sections, `CRS-001` silent on all of them at the first run — the two
+leaks it caught in lot 03 taught the habit of not repeating a method or option
+name in prose when a question on that item might use it as its answer key.
+
+A sample of what is now named, one per lot:
+
+- **Controllers** — the helper *builds* the not-found exception, it does not
+  throw it. Without `throw`, the controller carries on and the page renders
+  normally: an error nothing reports.
+- **Routing** — a `condition` is **not** evaluated when generating a URL. The
+  generator sees neither the request nor the client, so a route guarded by one
+  stays perfectly generable, including into a context where it would not match.
+- **Twig** — half the loop properties do not exist on an iterator. Length,
+  reverse indexes and the last-iteration test need a PHP array or a countable
+  object; Twig cannot know the length without consuming the sequence.
+- **Forms** — the form theme list is walked **from the end backwards**. The last
+  theme declared wins, which is the classic cause of a theme "that does not
+  apply".
+
+## Result
+
+**163 of 163 courses carry a `Pièges d'examen` section.** Every course now says
+what its mechanism is *and* what an exam does with it.
+
+No course exceeds its revision budget. The one `REV-001` warning left is the
+pre-existing lot-13 item at 450 body words against a `MINIMAL` budget of 400,
+untouched by this campaign and unrelated to it.
+
+### What this campaign is not
+
+It is not a refinement pass. No lot's `framework_version` changed, no learning
+outcome gained an id, no question was added, and **Certification Readiness is
+unchanged at 5.5%**. Adding a trap section to a course does not make its item
+refined, and the metric correctly declines to say otherwise.
+
+It is also not a substitute for sitting a mock. The traps were chosen from what
+the material teaches, not from what this candidate gets wrong — because there is
+no attempt data yet. The first sitting will very likely show that some of the
+sixty-nine were unnecessary and that others were missed.

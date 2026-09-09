@@ -71,6 +71,18 @@ public function configureOptions(OptionsResolver $resolver): void
 Les options ainsi déclarées deviennent celles que `->add()` accepte pour ce type,
 et arrivent dans `$options` de `buildForm()`.
 
+## Pièges d'examen
+
+**Déclarer qu'une option existe n'est pas lui donner une valeur par défaut.**
+Ce sont deux méthodes différentes : la première rend l'option acceptée sans
+valeur, la seconde lui en donne une. Une option ni l'une ni l'autre est refusée.
+
+**Une option requise n'a pas de valeur par défaut** — sinon elle ne serait pas
+requise. Les deux ne se combinent pas.
+
+**Le normalisateur s'exécute après la validation du type et de la valeur**, pas
+avant : il transforme une valeur déjà acceptée.
+
 ## Points clés
 
 - `setDefaults` donne une valeur, `setDefined` autorise sans en donner,

@@ -58,6 +58,20 @@ l'utilisateur y ouvre une redirection non validée : un attaquant fabrique un
 lien vers votre domaine qui renvoie vers le sien. Toute URL redirigée doit être
 validée, ou provenir d'une route.
 
+## Pièges d'examen
+
+**Le statut par défaut est 302, pas 301.** Le permanent se demande
+explicitement, par le troisième argument — et un 301 mis en cache par le
+navigateur est difficile à reprendre.
+
+**Rediriger vers une URL ne valide pas cette URL.** Une destination construite
+depuis une entrée utilisateur ouvre une redirection non validée : l'attaquant
+publie un lien vers votre domaine qui aboutit chez lui.
+
+**Une redirection est une vraie réponse HTTP.** Le navigateur repart, l'URL
+affichée change, et le code du contrôleur d'arrivée s'exécute dans une seconde
+requête — ce n'est pas un appel interne.
+
 ## Points clés
 
 - `redirectToRoute()` pour une route, `redirect()` pour une URL.

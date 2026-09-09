@@ -63,6 +63,20 @@ La frontière la plus utile à retenir passe entre deux classes voisines :
 au **bundle**. Le `Kernel` d'une application Symfony étend la première et
 utilise le second.
 
+## Pièges d'examen
+
+**Le composant fonctionne sans le bundle.** HttpKernel est autonome : le contrat
+`handle()`, la classe `Kernel`, les événements et les résolveurs sont dans le
+composant. On peut écrire un framework avec cela seul.
+
+**FrameworkBundle ne réécrit rien ; il câble.** Écouteurs enregistrés,
+résolveurs tagués comme services, arbre de configuration `framework:`, commandes
+`bin/console`, routes internes. Chercher l'arbre de configuration dans le
+composant, c'est ne pas le trouver.
+
+**`AbstractController` vient du bundle**, pas du composant — c'est le même
+partage.
+
 ## Points clés
 
 - Le composant définit le contrat et le noyau ; le bundle le câble.

@@ -73,6 +73,19 @@ Deux méthodes portent la sécurité et se confondent :
 - `invalidate()` : régénère l'identifiant **et supprime** les données. C'est la
   déconnexion.
 
+## Pièges d'examen
+
+**Tester une valeur démarre la session, comme la lire.** Il n'existe pas de
+consultation neutre : la vérification suffit à émettre le cookie et à rendre la
+page non cachable par un proxy partagé.
+
+**Activer la session dans la configuration ne la démarre pas.** Le démarrage est
+paresseux ; une page qui n'y touche jamais n'émet aucun cookie de session.
+
+**`migrate()` et `invalidate()` ne font pas la même chose.** La première
+régénère l'identifiant en gardant les données — c'est l'après-connexion ; la
+seconde détruit tout — c'est la déconnexion.
+
 ## Points clés
 
 - `$request->getSession()`, argument typé `SessionInterface`, ou `RequestStack`

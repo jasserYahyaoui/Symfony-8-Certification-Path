@@ -53,6 +53,20 @@ Symfony, échappe aux écouteurs de `kernel.response`, et n'apparaît pas dans l
 tests fonctionnels qui inspectent la réponse. C'est la raison de passer par
 `ResponseHeaderBag`.
 
+## Pièges d'examen
+
+**On lit un cookie sur la requête et on l'écrit sur la réponse.** Poser un
+cookie sur l'objet requête ne l'envoie nulle part : la requête est ce que le
+client a déjà envoyé.
+
+**La fonction native de PHP fonctionne, et c'est le problème.** Elle écrit
+l'en-tête hors du modèle de Symfony : le cookie échappe aux écouteurs de
+`kernel.response` et n'apparaît pas dans un test fonctionnel qui inspecte la
+réponse.
+
+**Écrire un cookie oblige donc à tenir la réponse.** Un contrôleur qui délègue
+entièrement le rendu n'a pas d'endroit où l'attacher.
+
 ## Points clés
 
 - Lire sur la requête, écrire et supprimer sur la réponse.

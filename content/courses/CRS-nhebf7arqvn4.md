@@ -61,6 +61,19 @@ Ces paramètres s'emploient aussi bien dans une route individuelle que dans un
 **import** de routes — à une exception près : `_fragment`, qui ne s'utilise que
 dans une route.
 
+## Pièges d'examen
+
+**Les paramètres réservés commencent tous par un souligné ; les options courtes
+de l'attribut, non.** Ce sont deux écritures de la même chose : l'option nommée
+pose la valeur par défaut du paramètre réservé.
+
+**Un seul des cinq ne s'emploie pas dans un import de routes** : celui qui pose
+l'identifiant de fragment. Les quatre autres valent aussi bien pour une route
+isolée que pour un groupe importé.
+
+**Le format de requête décide du `Content-Type` de la réponse.** C'est ce qui
+permet à deux extensions d'URL de partager une seule route.
+
 ## Points clés
 
 - Cinq paramètres réservés : `_controller`, `_format`, `_locale`, `_fragment`,

@@ -77,6 +77,18 @@ Un type est un service ordinaire. L'autoconfiguration le détecte : il n'y a rie
 à déclarer tant qu'il vit dans `src/`. Il peut donc recevoir des dépendances par
 son constructeur.
 
+## Pièges d'examen
+
+**Un formulaire est un type ; la distinction champ / formulaire n'existe pas.**
+C'est ce qui permet d'imbriquer un formulaire en l'ajoutant comme un champ, et
+ce qui rend la question « est-ce un type ou un formulaire ? » sans objet.
+
+**Aucune des méthodes d'un type n'est obligatoire.** Un type qui ne fait
+qu'imposer des options n'en implémente que deux.
+
+**Sans parent déclaré, le parent est la racine de tous les types**, pas
+« aucun ». Hériter est la règle, pas l'exception.
+
 ## Points clés
 
 - Un formulaire est un type ; un champ aussi.

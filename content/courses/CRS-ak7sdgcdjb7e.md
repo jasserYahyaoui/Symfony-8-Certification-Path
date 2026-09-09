@@ -52,6 +52,19 @@ Dans un gabarit Twig, `app.flashes` consomme ; `app.session.flashbag.peekAll()`
 ne consomme pas. Afficher les flashs deux fois dans une même page avec
 `app.flashes` en fait donc disparaître la moitié.
 
+## Pièges d'examen
+
+**Lire un flash le consomme.** Afficher les messages deux fois dans la même page
+par le chemin ordinaire en fait disparaître la moitié : la seconde lecture ne
+trouve plus rien. La consultation sans consommation existe, c'est une autre
+méthode.
+
+**Poser un flash démarre la session.** Le message flash *est* de la session ; il
+n'y a pas de flash sans cookie de session.
+
+**Le type du message est libre.** `notice`, `warning`, `error` sont des usages,
+pas une énumération imposée par le framework.
+
 ## Points clés
 
 - Message de session, consommé à la première lecture.

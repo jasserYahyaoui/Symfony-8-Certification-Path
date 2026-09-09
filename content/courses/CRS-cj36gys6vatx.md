@@ -69,6 +69,22 @@ est toujours présent.
 `CallbackTransformer` prend les deux fonctions en arguments de constructeur et
 évite d'écrire une classe pour une conversion d'une ligne.
 
+## Pièges d'examen
+
+**Le sens des deux méthodes se lit depuis le modèle, pas depuis l'intuition.**
+L'une va du modèle vers la vue et s'exécute au rendu ; l'autre fait le chemin de
+retour et s'exécute à la soumission. Ce n'est pas « l'inverse de ce que je
+veux ».
+
+**Modèle et vue ne s'attachent pas au même endroit.** Convertir une saisie en
+objet métier est une affaire de modèle ; changer un format d'affichage est une
+affaire de vue. Se tromper de niveau donne un transformateur qui ne se déclenche
+jamais.
+
+**Un échec de conversion se signale par l'exception dédiée**, que le formulaire
+traduit en erreur de validation sur le champ. Lever autre chose remonte comme
+une erreur serveur.
+
 ## Points clés
 
 - `transform()` va du modèle vers la vue, `reverseTransform()` fait le retour.
