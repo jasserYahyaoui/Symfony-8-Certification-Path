@@ -1031,12 +1031,10 @@ questions:
     correct: true
   - id: CHO-22a0svpw45sv
     text: No — the container fails to compile, a default having to satisfy its own requirement
-
     correct: false
     explanation: Nothing validates the default against the requirement.
   - id: CHO-6k0d7phg7m1x
     text: No — the route is silently discarded from the collection at compile time
-
     correct: false
     explanation: The route is kept and works.
   - id: CHO-1tk36m9hafkj

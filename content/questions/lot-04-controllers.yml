@@ -1420,7 +1420,6 @@ questions:
     correct: true
   - id: CHO-rct627vzyjng
     text: The container fails to compile at build time, the missing service being detected then
-
     correct: false
     explanation: The subscribed services are declared optional, so the container compiles.
   - id: CHO-8ftwfqw9pwyy

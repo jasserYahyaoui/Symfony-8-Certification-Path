@@ -37,22 +37,30 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-09, 555 questions)
+## Measured state (2026-09-10, 575 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 213 of 214 = **99.5%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 219 of 220 = **99.5%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 136 of 136 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **534 English, 21 French**.
+Whole corpus: **554 English, 21 French**.
 
-The corpus grew by five between 2026-09-08 and this reading: re-refining Lot 01
-under framework version 2 added five questions, all English, so the French count
-is unchanged at 21 and every ratio moved in the same direction or not at all.
+The corpus grew by twenty between 2026-09-09 and this reading: refining Lot 03
+under framework version 2 added twenty questions, all English, so the French
+count is unchanged at 21 and every ratio moved in the same direction or not at
+all.
+
+### The reading of 2026-09-09, kept
+
+555 questions: 213 of 214 advanced English (99.5%), `VALIDATION` 136 of 136,
+Mock 4 75 of 75, whole corpus 534 English and 21 French. That reading followed
+the re-refinement of Lot 01 under framework version 2, which added five
+questions.
 
 ### The reading of 2026-09-08, kept
 

@@ -45,7 +45,6 @@ questions:
   choices:
   - id: CHO-6f78sk3eev3d
     text: It returns the expression converted to PHP code as a string; both methods tokenize and parse first, but only `evaluate()` then walks the parsed nodes
-
     correct: true
   - id: CHO-7wvp0v81p2xx
     text: It returns the value of the expression, already cached as PHP code, so `evaluate()` is only needed when the values
@@ -54,7 +53,6 @@ questions:
     explanation: '`compile()` never produces the value. It produces PHP code that the application can cache and run itself.'
   - id: CHO-m6rn70gk2ehg
     text: It skips tokenizing and parsing altogether, reading the PHP code straight out of the expression string, which is why it costs less than `evaluate()`
-
     correct: false
     explanation: Both methods tokenize and parse — that shared step is `parse()`. `compile()` is cheaper because it stops
       at the string conversion of the parsed expression, not because it skips parsing.
@@ -221,8 +219,6 @@ questions:
   choices:
   - id: CHO-0jmvydfhy7m4
     text: Nothing is collected by default; a request carrying `profile` as a query parameter, a form field or a request attribute is collected
-
-
     correct: true
   - id: CHO-kmr4btk6kk42
     text: Everything is still collected, but only the requests carrying `profile` appear in the profiler list
@@ -390,11 +386,9 @@ questions:
   choices:
   - id: CHO-3g5gsps15z93
     text: A date string, an interval string, a `DateTimeImmutable`, or a boolean to freeze or restore — and the trait restores the global clock after each test
-
     correct: true
   - id: CHO-thmed3ej5a2b
     text: Only a `DateTimeImmutable`; moving the clock afterwards requires calling `sleep()` on the returned mock, which the trait leaves installed
-
     correct: false
     explanation: A string is accepted, and it may be an interval that modifies the clock. `sleep()` is one way to advance
       time, not the only one.
@@ -447,7 +441,6 @@ questions:
   choices:
   - id: CHO-7pzpm7qv74h4
     text: Those that have not been called yet; the caller checks `$event->isPropagationStopped()` after `dispatch()`
-
     correct: true
   - id: CHO-cgnkfpaphyha
     text: All listeners of that event, including the ones already executed, whose effects are rolled back
@@ -535,6 +528,9 @@ questions:
 # holdout questions). Same rule: one question per free atomic item, each facet
 # chosen against what the item already carries.
 - id: QST-1v316765c664
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-2x9c1gjdj7t5
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-rd9b27fkb72r
@@ -564,10 +560,10 @@ questions:
   - http-kernel
   choices:
   - id: CHO-zf1xepxd3fz6
-    text: '`kernel.view` (ViewEvent); a listener is expected to turn `getControllerResult()` into a response with `setResponse()`, and if none does, an exception is thrown'
+    text: '`kernel.view` (ViewEvent), dispatched because the return value is not a `Response`; a listener must supply one with `setResponse()`, and if none does, an exception is thrown'
     correct: true
   - id: CHO-mn6wg4a3d4dx
-    text: '`kernel.view` is dispatched for every controller and its listeners ignore the ones that already returned a `Response`, so nothing is thrown when none acts'
+    text: '`kernel.view` is dispatched for every controller, its listeners simply ignoring the ones that already returned a `Response`, so nothing is ever thrown on that path'
     correct: false
     explanation: The kernel dispatches it only when the controller did not return a Response. A controller that returns
       one skips the stage entirely.
@@ -596,6 +592,9 @@ questions:
     symbol_or_lines: 6) The ``kernel.view`` Event (lines 369-396)
     verified_at: '2026-09-03'
 - id: QST-bbrjnn5e7a0q
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-2r6g1ds91vvw
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-efzq92vdtayj
@@ -654,6 +653,9 @@ questions:
     symbol_or_lines: Templates (lines 8-40)
     verified_at: '2026-09-03'
 - id: QST-6kxc6ajvbmwc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-0j2bgvnbyj7p
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-ehf5zdnmdb1j
@@ -683,12 +685,10 @@ questions:
   - conventions
   choices:
   - id: CHO-02w4nje71ze7
-    text: In the impacted component's `CHANGELOG.md`, in `UPGRADE-8.1.md` for the targeted minor version, and in `UPGRADE-9.0.md`
-
+    text: In the impacted component's `CHANGELOG.md`, in `UPGRADE-8.1.md` for the targeted minor, and in `UPGRADE-9.0.md` for the removal
     correct: true
   - id: CHO-5dcdxe8karb2
-    text: Only in the component's `CHANGELOG.md`; the UPGRADE files are written later, when the code is actually removed in the major version
-
+    text: Only in the component's `CHANGELOG.md`; the UPGRADE files are written when the code is actually removed, not when it is deprecated
     correct: false
     explanation: UPGRADE-8.1.md is written at deprecation time. Only the "Remove the ..." entry waits for the removal.
   - id: CHO-9fqg9zdm1n2j
@@ -709,6 +709,9 @@ questions:
     symbol_or_lines: Deprecating Code (lines 128-214)
     verified_at: '2026-09-03'
 - id: QST-j91kezha4d54
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-r00p8959jcpp
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-pk5s7cnhk776
@@ -763,6 +766,9 @@ questions:
     symbol_or_lines: time-based model (lines 8-19) and Development (lines 37-45)
     verified_at: '2026-09-03'
 - id: QST-zzd26kbrns7a
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-2t4534jgce75
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-hzbednd04fd4
@@ -792,7 +798,7 @@ questions:
   - code-organization
   choices:
   - id: CHO-b2fbs6mc0sy0
-    text: 'Not to: internal application code is structured with PHP namespaces under `App\`, and a bundle is warranted only to reuse a feature across several projects'
+    text: 'Not to: a bundle is meant to be software reusable as a stand-alone component, so internal code is structured with PHP namespaces under `App\` instead'
     correct: true
   - id: CHO-w2xzc25y8drn
     text: To do it, provided each bundle lives under `src/` and is registered in `config/bundles.php`, which is what makes the code reusable
@@ -805,7 +811,7 @@ questions:
     explanation: An application may register any number of bundles. The recommendation is about how to organise code, not
       a technical limit.
   - id: CHO-v8zst111cd46
-    text: To do it for anything they intend to reuse, but a reusable bundle has to be published publicly to be installable
+    text: To do it for anything they intend to reuse, but a reusable bundle has to be published in a public repository before Composer can install it
     correct: false
     explanation: The best practices note explicitly that such a bundle can live in a private repository.
   explanation: The dividing line is reuse. Bundles exist to ship software that stands on its own; application logic is organised
@@ -910,7 +916,6 @@ questions:
   choices:
   - id: CHO-10fxhhx9tewy
     text: A clone of the `request` bag when that bag holds anything, otherwise an InputBag decoded from the raw JSON body — writing to the result leaves the request untouched
-
     correct: true
   - id: CHO-kkxv988vejzs
     text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict, and writes to it propagate to the request
@@ -1032,7 +1037,6 @@ questions:
     correct: true
   - id: CHO-qbe4jpwx29r2
     text: Setting `cookie_lifetime` to the idle period, which is exactly what it is for, the browser being trusted to report when it lapses
-
     correct: false
     explanation: The cookie lives on the client and can be manipulated there, so it cannot enforce a server-side idle timeout.
   - id: CHO-rm7yabs9bwsw
@@ -1147,7 +1151,6 @@ questions:
     correct: true
   - id: CHO-szfqappqh18b
     text: The `include()` function, with `only` to withhold the context, a keyword the tag and the function both accept
-
     correct: false
     explanation: '`only` belongs to the `{% include %}` tag. The function takes `with_context: false`.'
   - id: CHO-bwjbd01d1g2a
@@ -1199,11 +1202,9 @@ questions:
   choices:
   - id: CHO-qde7q4tgnxtj
     text: A `TranslatableMessage`, which stores the message id, the parameters and the domain without translating anything; the template passes it through the `trans` filter
-
     correct: true
   - id: CHO-7dpkn57e3ncx
     text: A `TranslatableMessage`, which is translated as it is constructed using the request locale, so the template prints it directly without any filter
-
     correct: false
     explanation: Nothing is translated at construction; that deferral is the entire purpose of the object.
   - id: CHO-a7yafa892s1g
@@ -1315,7 +1316,6 @@ questions:
   choices:
   - id: CHO-3xzjgfe7cf8n
     text: TaskType PRE_SUBMIT, then CategoryType PRE_SUBMIT, SUBMIT and POST_SUBMIT, then TaskType SUBMIT and POST_SUBMIT
-
     correct: true
   - id: CHO-msa4sp5e0gc0
     text: Every PRE_SUBMIT first, then every SUBMIT, then every POST_SUBMIT, parent before child within each group
@@ -1371,8 +1371,6 @@ questions:
   choices:
   - id: CHO-67vr9b236cdf
     text: Return an equivalent empty value, and the user sees the field's `invalid_message`, never the exception's own message
-
-
     correct: true
   - id: CHO-17trc9593k2g
     text: Return `null` unchanged, and the user sees the message passed to the exception
@@ -1430,7 +1428,6 @@ questions:
   choices:
   - id: CHO-30pq1epp99w0
     text: A closure called with `(Options $options, $value)`, so other options are readable, executed after that option has been validated
-
     correct: true
   - id: CHO-cd534y5be57q
     text: A closure called with the value alone; reading another option there is impossible, so a lazy default has to do
@@ -1487,7 +1484,6 @@ questions:
   choices:
   - id: CHO-91q4bja2nsyv
     text: Most shipped types, which inherit from `FormType` — except the `ButtonType` family and a custom type that does not extend it
-
     correct: true
   - id: CHO-gam0m62m1b3t
     text: Every field without exception, `FormType` being the root of the whole hierarchy
@@ -1496,7 +1492,6 @@ questions:
       extends FormType.
   - id: CHO-nx9wjy24vvgc
     text: Only the fields whose type is declared explicitly as `FormType::class`; inheritance does not carry an extension down
-
     correct: false
     explanation: Inheritance is exactly how an extension reaches several types at once — extending TextType, for instance,
       reaches EmailType, SearchType and UrlType.
@@ -1891,7 +1886,6 @@ questions:
   choices:
   - id: CHO-r9kr6dqqme9v
     text: A command runs outside the HTTP context, so the router has no request to take the host from; `framework.router.default_uri` supplies the request context instead
-
     correct: true
   - id: CHO-f43q3gwp8wws
     text: 'The route is missing `schemes`, and declaring `schemes: [''https'']` supplies the host as well'
@@ -1903,7 +1897,6 @@ questions:
     explanation: 'They can: the router only needs a request context, which `default_uri` provides.'
   - id: CHO-rqveas7ga4rz
     text: The router falls back to the local development server's host, and the real host has to be passed as an argument on every generation call
-
     correct: false
     explanation: The generator takes no host argument; the host comes from the request context.
   explanation: URL generation always reads a request context — host, scheme, base URL. During an HTTP request the router
@@ -2119,7 +2112,6 @@ questions:
   choices:
   - id: CHO-4ekevt1cq4ht
     text: A resource is the target of a request, identified by a URI; a representation is information reflecting a past, current or desired state of it
-
     correct: true
   - id: CHO-pckrwwv64f4d
     text: A resource is the file stored on the server; a representation is that same file after a content encoding has been
@@ -2234,7 +2226,6 @@ questions:
   choices:
   - id: CHO-qjgc9evrf33m
     text: A special attribute rather than a role, usable anywhere a role is; a remember-me login carries `IS_AUTHENTICATED_REMEMBERED` but not `IS_AUTHENTICATED_FULLY`
-
     correct: true
   - id: CHO-sj6j502vk407
     text: A role the user provider has to grant alongside `ROLE_USER`, so a remember-me login carries it as soon as the provider lists it
@@ -2292,7 +2283,6 @@ questions:
   choices:
   - id: CHO-153az1wj23bz
     text: The permitted targets are a bitmask on the `#[Attribute]` declaration, and using it elsewhere throws when `ReflectionAttribute::newInstance()` is called
-
     correct: true
   - id: CHO-4sbdq83jeeg7
     text: An attribute can be placed twice on the same declaration only if `Attribute::IS_REPEATABLE` is in that bitmask;
@@ -2300,7 +2290,6 @@ questions:
     correct: true
   - id: CHO-5224e0v7g183
     text: Placing an attribute on a target it does not allow is a compile-time error caught before anything runs, so reflection never sees an invalid placement
-
     correct: false
     explanation: Nothing is checked at compile time; the exception comes from newInstance(), which is also when the attribute
       constructor runs.
@@ -2356,8 +2345,6 @@ questions:
   choices:
   - id: CHO-kjhta9b1a569
     text: The current class is bound automatically, so `$this` is available; a static closure is not bound, and using `$this` in one raises an Error
-
-
     correct: true
   - id: CHO-swh5y867h5kc
     text: '`$this` has to be imported with `use ($this)`, and `static` merely stops that import being allowed'
@@ -2415,7 +2402,6 @@ questions:
   choices:
   - id: CHO-5cmvrb9qaxsf
     text: The `SHELL_VERBOSITY` environment variable sets the level globally, and the `-q` and `-v` options take precedence over it
-
     correct: true
   - id: CHO-k79jajwgp9c0
     text: '`SHELL_VERBOSITY` sets it globally, and it wins over any option so that a server-wide policy cannot be bypassed'
@@ -2528,7 +2514,6 @@ questions:
   choices:
   - id: CHO-d0spxhxec956
     text: Every traversal method returns a new Crawler instance, which is what makes `filter(...)->last()->ancestors()` chain
-
     correct: true
   - id: CHO-2yrvwh1bvckq
     text: '`reduce($callback)` keeps only the nodes for which the callback returns `true`'
@@ -2587,7 +2572,6 @@ questions:
   choices:
   - id: CHO-wajr8c7mta6k
     text: In the fifth argument of `$client->request()`, the server parameters; `createClient()` would apply it to every request instead
-
     correct: true
   - id: CHO-crtc16zrexkg
     text: In the third argument of `$client->request()`, alongside the request parameters, `createClient()` having no way to set one
