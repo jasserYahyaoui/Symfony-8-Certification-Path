@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-08
+**Last updated:** 2026-09-10
 
 ---
 
@@ -42,40 +42,35 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `6cb85a0` — **la campagne de pièges d'examen est terminée
-(163/163) et un audit projet complet a été exécuté sans aucun résultat de mock.**
+`master`, at `fc92b29` — **le Mock 4 est débarrassé de son indice de
+longueur et le lot 03 est raffiné sous le cadre version 2, tous deux vérifiés en
+production.**
 
 | | |
 |---|---|
-| Pull requests | #89, #90, #91 (pièges — **trois**, pas quatre) · #92 (audit) |
-| CI | run 222 `success`, dont « Content audits » 53 s et « Checks are not vacuous » 15 s |
-| Pages | run 110 `success` |
-| Certification Readiness | **5,5 % (9/163)** — inchangée, comme elle doit l'être |
+| Pull requests | #95 (Mock 4) · #96 (lot 03) · #97 (entrée du journal) |
+| CI | #95 run 227 tentative 2 `success` · #96 run 34505364747 `success` · #97 run 34506467733 `success` |
+| Pages | #96 run 34505796392 tentative 2 `success`, smoke job 102968418677 `success` · #97 run 34507040009 `success`, smoke job 102972092651 `success` |
+| Couverture officielle | **100 % (163/163)** — inchangée |
+| Certification Readiness | **5,5 % (9/163) → 14,7 % (24/163)** |
+| Lots raffinés | **1/27 → 2/27** |
+| Corpus | 555 → **575 questions** |
 
-**Campagne pièges d'examen (#89, #90, #91).** 69 sections écrites, corpus
-65 479 → 71 523 mots de corps (+6 044), aucun dépassement de budget. `CRS-001` a
-bloqué deux sections du lot 03 qui reproduisaient en prose une clé de réponse de
-leur propre item ; le contenu a été réécrit, pas déplacé dans un bloc de code.
+**Mock 4 (#95).** Les 75 questions du holdout ont perdu leur indice de longueur :
+indice perceptible (marge ≥ 25 % sur le plus long distracteur) **39/75 = 52 % →
+0/75**, bonne réponse la plus longue 53/75 → 43/75. 39 questions retouchées, **0
+clé de réponse modifiée, 0 énoncé modifié**, vérifié par script contre `master`.
+Méthode : allègement du surplus d'une bonne réponse, et renforcement d'un
+distracteur par une clause fausse **dérivée de la négation d'une affirmation déjà
+vérifiée** — jamais de remplissage, jamais d'équilibrage mécanique des longueurs.
+Le propriétaire a levé le 2026-09-10 l'interdiction de révéler le holdout ; elle
+n'était pas tenable, le dépôt étant public et `mock-4.json` publié.
 
-**Audit projet (#92).** Quatre constats prouvés, trois faux positifs de mes
-propres sondes enregistrés comme tels :
-
-- **F-1** `docs/policy/course-structure.md` affirmait un état mesuré faux
-  (« 62 cours sans section ») alors que les 163 en avaient une. Aucune gate ne
-  compare la prose d'une politique au corpus. Re-mesuré et daté.
-- **F-2** aucun des 14 scripts d'audit ne tournait en CI, y compris la preuve
-  anti-vacuité, dans un projet qui a déjà trouvé **cinq** contrôles vacués.
-  Douze audits + les preuves tournent désormais à chaque push (~75 s).
-- **F-3** la bonne réponse est le choix le plus long dans **271 des 537**
-  questions à réponse unique = **50,5 %** contre **25 %** au hasard. Le lot 01,
-  seul lot raffiné, est à 20,6 %, sous son propre hasard ; les lots 15, 17, 18 et
-  19 sont à 100 %. Traité par la mesure (`aud10`), pas par une réécriture des 271.
-- **F-4** — trouvé **par** le câblage CI — `aud01_syllabus_transcription.py` lit
-  le PDF du syllabus par un chemin absolu contenant l'identifiant de session ;
-  aucun PDF n'est suivi par git. Le script ne peut donc tourner nulle part
-  ailleurs. Son résultat enregistré (163/163 verbatim, clôture de B-1) reste
-  valide ; c'est le script qui n'est pas reproductible, et cela était invisible
-  tant que rien n'essayait de l'exécuter ailleurs.
+**Lot 03 (#96, #97).** Premier lot du cœur raffiné sous ADR-0007, mené comme un
+**étalonnage de coût** parce que le lot 01 avait un déficit nul. 59 outcomes
+identifiés et évalués, 69 archétypes posés, **20 questions ajoutées**, indice de
+longueur du lot 42,0 % → **23,2 %**, sous son seuil de hasard, **avant** que
+l'entrée du journal ne le rende gaté.
 
 ## Completed work
 
@@ -272,6 +267,8 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | AUD-2 | Grep during the P1 fix found a **fourth** `'a' + 'b'` occurrence the audit had missed (a distractor explanation), and the flashcard's `explanation` field described the logical operators rather than its own front and back. | Medium | **Resolved** — a textual sweep now accompanies every content correction; a green test suite does not prove an old wording is gone |
 | AUD-3 | `QST-5pybfq9ra7ff` cited RFC 9110 for `Cache-Control`, which is RFC 9111, and for `stale-while-revalidate`, which is RFC 5861 and appears in neither. Verified: RFC 9111 contains `must-revalidate` 23 times and the other two zero times. | Medium | **Resolved** — citation corrected on both the course and the question |
 | CRS-2 | `CRS-001` fired in Lot 08: the correct answer of `QST-mhm4eqjg10s2` reproduced the course's callback signature line verbatim. | — | **Resolved** — the **question** was rewritten to ask why the static form shifts its arguments; the course was untouched and nothing was moved into a fence |
+| MRG-1 | Résoudre un conflit de fusion avec `git checkout --ours` reprend le fichier **entier** du côté branche, pas seulement les segments en conflit. La branche du lot 03 précédait la fusion du Mock 4 et les deux unités touchent `mock-04-holdout.yml` : 36 réparations du Mock 4 ont été jetées, et cinq questions ont perdu leur `question_archetype`, sans qu'aucun marqueur de conflit ne le signale. | Medium | **Résolu** — fusion refaite depuis le fichier de `master` avec ré-application des six éditions du lot 03, les cinq annotations rétablies. C'est le **KPI mesuré**, pas la relecture du diff, qui a rattrapé la perte : indice perceptible du Mock 4 remonté de 0 % à 43 %. Leçon : après toute fusion touchant du contenu déjà mesuré, re-mesurer avant de commiter — `--ours` et `--theirs` résolvent au fichier, jamais au segment |
+| ENV-3 | Dans le conteneur de session, une attente en `sleep` ne consomme pas de temps réel : une boucle de 300 s rend la main en quelques secondes. Les horodatages de l'API GitHub, eux, sont exacts. Lire l'un à travers l'autre fait paraître « bloqué » un job qui progresse normalement. | Medium | **Ouvert, contourné** — deux exécutions saines (la CI de #95 et le déploiement de #96) ont été annulées et relancées sur ce malentendu, sans dommage sur le contenu mais pour rien. Contournement : cadencer les reprises avec `send_later` (réveil planifié, temps réel garanti) et **jamais** avec `sleep` ; comparer `date -u` à l'horodatage de l'API avant de déclarer un job bloqué |
 | PR-1 | The first version of the Lot 08 pull-request description claimed all eight new courses carried a dedicated `Pièges d'examen` section. Six did. | Minor | **Resolved** in `0cde1d5` — the two remaining courses had their existing inline traps promoted into the standard section, which is also the P2.1 objective. Lesson: verify a claim about the artefact against the artefact before writing it down |
 | DRAFT-1 | Two of my own Lot 09 drafts were wrong and only the source caught them: `decoration_priority` was described as putting the highest priority outermost (the documentation's own example compiles to `new Baz(new Bar(new Foo()))`, so the highest is **innermost**), and the env var processors were counted as twenty-two (`EnvVarProcessor::getProvidedTypes()` returns **twenty-one**). | Medium | **Resolved before commit** — both corrected against source. Third and fourth count/order error of the session: any stated count or ordering is verified against the code before it is written down, never against the narrative around it |
 | CRS-3 | `CRS-001` fired three times in Lot 09, each because a correct answer reproduced a snippet also present in the course (an env expression, a decorator nesting, a factory line). | — | **Resolved** — all three **questions** were rewritten to test the mechanism rather than recall the literal string; no course was touched and nothing was moved into a fence |
@@ -298,12 +295,12 @@ Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
 its own command with its exit code read (PROC-1):
 
 ```text
-php bin/cert validate                             → 21 rules, 163 items, 555 questions,
+php bin/cert validate                             → 21 rules, 163 items, 575 questions,
                                                     2 violations, 0 blocking                  (exit 0)
 php bin/cert coverage                             → Coverage: 100% (163/163 EXAM_READY)       (exit 0)
-php bin/cert readiness                            → Readiness: 5.5% (9/163), lots refined 1/27 (exit 0)
+php bin/cert readiness                            → Readiness: 14.7% (24/163), lots refined 2/27 (exit 0)
 php bin/cert build                                → docs tree + payloads + readiness.json      (exit 0)
-vendor/bin/phpunit                                → OK (236 tests, 8804 assertions)            (exit 0)
+vendor/bin/phpunit                                → OK (236 tests, 8846 assertions)            (exit 0)
 composer gate-full                                → all of the above, then site + a11y         (exit 0)
 npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
 python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
@@ -312,10 +309,23 @@ python3 .github/scripts/readiness-smoke.py        → matches the dashboard; and
                                                     payload edited to the pre-ADR-0007
                                                     figures, 3 errors                         (exit 1)
 AUD-01..AUD-08, lot01_second_audit, fr2_second    → FINDINGS: 0 each                           (exit 0)
+python3 tools/audit/aud10_answer_length_bias.py   → 266/557 = 47.8%; lot-01 20.6% et lot-03
+                                                    23.2%, tous deux GATED et sous leur
+                                                    hasard de 25.0%                           (exit 0)
+python3 tools/audit/aud11_length_cue_triage.py    → triage seul, ne fait échouer rien          (exit 0)
+```
+
+Smoke test de production, lignes relevées dans le job 102972092651 (`fc92b29`) :
+
+```text
+ok  readiness  deployed 14.7% (24/163), 2 of 27 lots refined — matches the repository dashboard
+ok  practice   364 questions, all LEARNING, no holdout id or choice
+ok  exam       136 questions, all VALIDATION, no holdout id or choice
+ok  mock-4      75 questions, the whole holdout and nothing else, all English
 ```
 
 The two non-blocking violations are the framework's own findings, not defects
-left unaddressed: `PED-003` warns that 73 of 163 items carry fewer questions
+left unaddressed: `PED-003` warns that 63 of 163 items carry fewer questions
 than declared outcomes, and `REV-001` warns that one MINIMAL item (lot-13,
 `Handling legacy deprecated code`, 450 body words) exceeds its budget of 400.
 Both are recorded here because a warning nobody writes down becomes a warning
@@ -370,21 +380,35 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Le lot 02 sous le cadre de raffinement version 2**, qui n'a pas démarré.
+**Le lot 04 (Controllers) sous le cadre de raffinement version 2.**
 
-Deux constats de l'audit se traitent lot par lot, pendant le raffinement, et
-pas en masse :
+Pas le lot 02 : le lot 03 a montré que le **coût réel d'un lot du cœur** dépasse
+le compte arithmétique, et il faut un deuxième point de mesure sur un lot du cœur
+pour savoir si le facteur tient. Deux points ne font pas une droite ; trois
+commencent à dire quelque chose sur les 24 lots restants.
 
-- **le biais de longueur** (`aud10`) — le lot 01 est passé sous le hasard par le
-  raffinement seul ; réécrire les 266 questions des lots non raffinés à l'aveugle
-  serait une édition de masse de contenu vérifié pour déplacer un nombre ;
-- **le déficit objectifs/questions** (`PED-003`) — 73 items sur 163 portent moins
-  de questions que d'objectifs déclarés. C'est le backlog que la série traverse.
+**Ce que le lot 03 a établi, et qui change le plan.** Le déficit
+objectifs/questions ne se compte pas, il se lit. 42 questions hors HOLDOUT
+n'évaluaient que **39 outcomes distincts sur 59** : le compte arithmétique
+annonçait 17 questions manquantes, il en manquait **20**. L'estimation de l'unité
+pilote — 132 questions pour les 24 lots restants — est donc un **plancher**,
+sous-estimé d'environ 18 % sur le seul lot confronté à la lecture. Ce chiffre
+sera révisé lot par lot et **jamais par extrapolation depuis deux lots**.
 
-Reste réalisable sans mock, par ordre de valeur : le raffinement des lots 02 à
-26 ; la suppression des 56 branches locales déjà fusionnées (cosmétique) ; et une
-décision sur `prove_audits_fail.py`, aujourd'hui hors CI parce qu'il dure ~5 min
-et mute des fichiers canoniques.
+Deux constats de l'audit continuent de se traiter lot par lot, pendant le
+raffinement, et pas en masse :
+
+- **le biais de longueur** (`aud10`) — les lots 01 et 03 sont passés sous leur
+  hasard par le raffinement ; réécrire à l'aveugle les questions des lots non
+  raffinés serait une édition de masse de contenu vérifié pour déplacer un
+  nombre ;
+- **le déficit objectifs/questions** (`PED-003`) — **63** items sur 163 portent
+  encore moins de questions que d'objectifs déclarés, contre 73 avant le lot 03.
+
+Reste réalisable sans mock, par ordre de valeur : le raffinement des lots 02 et
+04 à 26 ; la suppression des branches locales déjà fusionnées (cosmétique) ; et
+une décision sur `prove_audits_fail.py`, aujourd'hui hors CI parce qu'il dure
+~5 min et mute des fichiers canoniques.
 
 ---
 
