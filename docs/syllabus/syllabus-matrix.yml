@@ -1058,9 +1058,12 @@ items:
       traités par l'item HTTP request du lot 02, et l'usage de Request et Response dans un contrôleur
       appartient au lot 04 ; les reprendre ici serait de la duplication.
     learning_outcomes:
-      - "Énoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
-      - "Justifier que le composant est autonome et que la dépendance va du framework vers lui"
-      - "Citer le rôle de RequestStack et de ses trois accesseurs"
+      - id: OUT-m2fxjk4j2mc1
+        outcome: "Énoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
+      - id: OUT-qr20ybf8za07
+        outcome: "Justifier que le composant est autonome et que la dépendance va du framework vers lui"
+      - id: OUT-jgk2rwhep0vm
+        outcome: "Citer le rôle de RequestStack et de ses trois accesseurs"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1111,10 +1114,14 @@ items:
       exigible et les deux dépôts de recettes ont des comportements distincts. Le format MINIMAL ne
       porterait pas cette dernière distinction.
     learning_outcomes:
-      - "Énoncer que Flex est un plugin Composer"
-      - "Distinguer un alias d'une recette"
-      - "Justifier que symfony.lock est committé"
-      - "Distinguer symfony/recipes de symfony/recipes-contrib"
+      - id: OUT-p7r2daxac21t
+        outcome: "Énoncer que Flex est un plugin Composer"
+      - id: OUT-n6w2cz5vwgsw
+        outcome: "Distinguer un alias d'une recette"
+      - id: OUT-ach5wc85h25x
+        outcome: "Justifier que symfony.lock est committé"
+      - id: OUT-svxn0t2pskq8
+        outcome: "Distinguer symfony/recipes de symfony/recipes-contrib"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1165,8 +1172,10 @@ items:
       Item purement factuel : une licence, un titulaire, une obligation. Il n'y a rien à mettre en
       œuvre ni aucune confusion connue à lever ; deux phrases épuisent le sujet.
     learning_outcomes:
-      - "Nommer la licence de Symfony"
-      - "Énoncer la seule obligation qu'elle impose"
+      - id: OUT-h592sg3sr8rd
+        outcome: "Nommer la licence de Symfony"
+      - id: OUT-580atmp6tp25
+        outcome: "Énoncer la seule obligation qu'elle impose"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1217,9 +1226,12 @@ items:
       la question posée est toujours « lequel est-ce ? ». Un tableau à trois critères est nécessaire,
       un traitement approfondi ne l'est pas.
     learning_outcomes:
-      - "Définir un composant, un bridge et un bundle"
-      - "Classer un paquet Symfony dans l'une des trois catégories"
-      - "Énoncer que seul le bundle configure le framework"
+      - id: OUT-21jyzfg4a961
+        outcome: "Définir un composant, un bridge et un bundle"
+      - id: OUT-tvjm3k5gjnb4
+        outcome: "Classer un paquet Symfony dans l'une des trois catégories"
+      - id: OUT-vzswg6fmf7fr
+        outcome: "Énoncer que seul le bundle configure le framework"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1271,10 +1283,14 @@ items:
       extra de composer.json et les méthodes getCacheDir() et getLogDir() ne suivent pas la même
       logique, et c'est cette asymétrie qui est interrogée.
     learning_outcomes:
-      - "Nommer le rôle de chaque répertoire par défaut"
-      - "Identifier public/ comme seul répertoire expose"
-      - "Choisir le bon mécanisme pour déplacer un répertoire donne"
-      - "Expliquer le rôle de config/packages/<env>/"
+      - id: OUT-gp7n5whkxyk0
+        outcome: "Nommer le rôle de chaque répertoire par défaut"
+      - id: OUT-yj8f9a5ncap4
+        outcome: "Identifier public/ comme seul répertoire expose"
+      - id: OUT-yrbk1d6tvd4c
+        outcome: "Choisir le bon mécanisme pour déplacer un répertoire donne"
+      - id: OUT-8rwmvym0a0qy
+        outcome: "Expliquer le rôle de config/packages/<env>/"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1327,11 +1343,16 @@ items:
       terminate après l'envoi, finish_request après response — ne se corrigent pas par un tableau.
       C'est le mécanisme central sur lequel s'appuient les lots 04 et 10.
     learning_outcomes:
-      - "Énoncer la signature de HttpKernelInterface::handle et le rôle de ses trois arguments"
-      - "Ordonner les événements du noyau pour une requête nominale"
-      - "Nommer l'acteur de chaque étape : Runtime, Kernel, ControllerResolver"
-      - "Expliquer pourquoi kernel.view peut ne pas être dispatché"
-      - "Situer kernel.terminate par rapport à l'envoi de la réponse"
+      - id: OUT-ab41ar3ad6kf
+        outcome: "Énoncer la signature de HttpKernelInterface::handle et le rôle de ses trois arguments"
+      - id: OUT-3p88arwajsx7
+        outcome: "Ordonner les événements du noyau pour une requête nominale"
+      - id: OUT-6adtz0h101zr
+        outcome: "Nommer l'acteur de chaque étape : Runtime, Kernel, ControllerResolver"
+      - id: OUT-dy7bs7233e18
+        outcome: "Expliquer pourquoi kernel.view peut ne pas être dispatché"
+      - id: OUT-wzt3s8mkhkj9
+        outcome: "Situer kernel.terminate par rapport à l'envoi de la réponse"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1358,6 +1379,12 @@ items:
         commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
         symbol_or_lines: "section Usage"
         verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "HttpKernelInterface::handle() declaration and docblock"
+        verified_at: "2026-09-10"
         verified_by: "tech-lead"
     course_refs:
       - "CRS-mpwjc4g3vmj7"
@@ -1393,10 +1420,14 @@ items:
       C'est court mais contre-intuitif — un 204 devient 500 — donc au-dessus de MINIMAL, et sans
       procédure à dérouler, donc en dessous de DEEP.
     learning_outcomes:
-      - "Énoncer les trois règles de détermination du code de statut, dans l'ordre"
-      - "Identifier HttpExceptionInterface comme porteuse du statut"
-      - "Justifier l'appel à allowCustomResponseCode()"
-      - "Énoncer les deux leviers de ExceptionEvent"
+      - id: OUT-9f4yqqyqwecq
+        outcome: "Énoncer les trois règles de détermination du code de statut, dans l'ordre"
+      - id: OUT-wbfptxs3qm46
+        outcome: "Identifier HttpExceptionInterface comme porteuse du statut"
+      - id: OUT-dbm0023ax4bv
+        outcome: "Justifier l'appel à allowCustomResponseCode()"
+      - id: OUT-9gyxnzp7ngzp
+        outcome: "Énoncer les deux leviers de ExceptionEvent"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1445,11 +1476,16 @@ items:
       pouvoir propre. Le tableau des pouvoirs est ce qui sépare une bonne d'une mauvaise réponse, et
       il ne tient pas dans un format STANDARD.
     learning_outcomes:
-      - "Distinguer un écouteur d'un abonné et leur mode d'enregistrement"
-      - "Énoncer la sémantique de la priorité et sa valeur par défaut"
-      - "Délimiter l'effet de stopPropagation()"
-      - "Associer chaque événement du noyau à sa classe et à son pouvoir"
-      - "Nommer les constantes de KernelEvents"
+      - id: OUT-dbz79ewzqdg9
+        outcome: "Distinguer un écouteur d'un abonné et leur mode d'enregistrement"
+      - id: OUT-ces5mycxj5zx
+        outcome: "Énoncer la sémantique de la priorité et sa valeur par défaut"
+      - id: OUT-xfcs32dwmgx2
+        outcome: "Délimiter l'effet de stopPropagation()"
+      - id: OUT-2x9c1gjdj7t5
+        outcome: "Associer chaque événement du noyau à sa classe et à son pouvoir"
+      - id: OUT-p34x8sjgctbp
+        outcome: "Nommer les constantes de KernelEvents"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1476,6 +1512,12 @@ items:
         commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
         symbol_or_lines: "AsEventListener::__construct"
         verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "kernel event listener examples"
+        verified_at: "2026-09-10"
         verified_by: "tech-lead"
     course_refs:
       - "CRS-2hpcy2rscq7m"
@@ -1510,10 +1552,14 @@ items:
       niveaux de configuration et les recommandations contre-intuitives, et laisse le reste au
       document officiel.
     learning_outcomes:
-      - "Choisir entre variable d'environnement, secret, paramètre et constante"
-      - "Énoncer la convention de préfixe app. pour les paramètres"
-      - "Reconnaître les recommandations contre-intuitives"
-      - "Énoncer qu'aucun bundle applicatif n'est recommandé"
+      - id: OUT-bxcjgv614zqk
+        outcome: "Choisir entre variable d'environnement, secret, paramètre et constante"
+      - id: OUT-2snt9b8p7pfa
+        outcome: "Énoncer la convention de préfixe app. pour les paramètres"
+      - id: OUT-0b0m78g19vrs
+        outcome: "Reconnaître les recommandations contre-intuitives"
+      - id: OUT-2t4534jgce75
+        outcome: "Énoncer qu'aucun bundle applicatif n'est recommandé"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1559,11 +1605,16 @@ items:
       pas. Deux exceptions étroites — arguments nommés, ajout de membre dans une classe étendue —
       imposent plus qu'un format MINIMAL.
     learning_outcomes:
-      - "Distinguer utiliser, étendre et implémenter au regard de la promesse"
-      - "Identifier les deux cas non garantis lors de l'extension d'une classe"
-      - "Énoncer la portée de la garantie sur les arguments nommés"
-      - "Citer les exclusions : @internal, experimental, traductions internes"
-      - "Distinguer final de @final"
+      - id: OUT-bmtapjwv4je4
+        outcome: "Distinguer utiliser, étendre et implémenter au regard de la promesse"
+      - id: OUT-z81y6z00tr3t
+        outcome: "Identifier les cas non garantis lors de l'extension d'une classe"
+      - id: OUT-92tk3wgmcgkc
+        outcome: "Énoncer la portée de la garantie sur les arguments nommés"
+      - id: OUT-4x6dvn65hj5v
+        outcome: "Citer les exclusions : @internal, experimental, traductions internes"
+      - id: OUT-xh1k5wmbaqwa
+        outcome: "Distinguer final de @final"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1613,10 +1664,14 @@ items:
       forment un ensemble de règles exigibles, avec un paquet à nommer. Rien n'y demande une
       explication approfondie.
     learning_outcomes:
-      - "Énoncer dans quelle version une dépréciation peut être introduite puis supprimée"
-      - "Distinguer @deprecated de trigger_deprecation()"
-      - "Nommer le paquet fournissant trigger_deprecation()"
-      - "Citer les trois fichiers à mettre à jour"
+      - id: OUT-yqb3s91g64f7
+        outcome: "Énoncer dans quelle version une dépréciation peut être introduite puis supprimée"
+      - id: OUT-8dx7erg8d1eb
+        outcome: "Distinguer @deprecated de trigger_deprecation()"
+      - id: OUT-crtr1pmq22t7
+        outcome: "Nommer le paquet fournissant trigger_deprecation()"
+      - id: OUT-0j2bgvnbyj7p
+        outcome: "Citer les trois fichiers à mettre à jour"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1664,10 +1719,14 @@ items:
       surcharge et l'impossibilité de remplacer une contrainte de validation. C'est un tableau plus
       deux avertissements, pas un mécanisme à dérouler.
     learning_outcomes:
-      - "Associer chaque partie surchargeable à son mécanisme"
-      - "Localiser un gabarit de surcharge"
-      - "Justifier l'emploi du préfixe @!"
-      - "Énoncer que les contraintes de validation s'ajoutent sans se remplacer"
+      - id: OUT-w0kft9548h99
+        outcome: "Associer chaque partie surchargeable à son mécanisme"
+      - id: OUT-2r6g1ds91vvw
+        outcome: "Localiser un gabarit de surcharge"
+      - id: OUT-s8kw5gsv7y2e
+        outcome: "Justifier l'emploi du préfixe @!"
+      - id: OUT-97dtctsck41f
+        outcome: "Énoncer que les contraintes de validation s'ajoutent sans se remplacer"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1713,11 +1772,16 @@ items:
       l'asymétrie 3 ans / 4 ans de la LTS dépassent le format MINIMAL, mais il n'y a aucun mécanisme à
       expliquer.
     learning_outcomes:
-      - "Énoncer la fréquence des versions correctives, mineures et majeures"
-      - "Situer les mois de publication"
-      - "Énoncer les durées de maintenance standard et LTS"
-      - "Identifier X.4 comme version LTS"
-      - "Expliquer le développement en parallèle d'une majeure et de la dernière mineure"
+      - id: OUT-fe71pjx6g6a2
+        outcome: "Énoncer la fréquence des versions correctives, mineures et majeures"
+      - id: OUT-r00p8959jcpp
+        outcome: "Situer les mois de publication"
+      - id: OUT-bcjh1p7m06v1
+        outcome: "Énoncer les durées de maintenance standard et LTS"
+      - id: OUT-gz76fhvfsxy3
+        outcome: "Identifier X.4 comme version LTS"
+      - id: OUT-1q68f4h4bdny
+        outcome: "Expliquer le développement en parallèle d'une majeure et de la dernière mineure"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1766,10 +1830,14 @@ items:
       suivie et pontée est la seule chose réellement interrogée, et elle demande un critère. STANDARD
       suffit ; le détail du pont PSR-7 n'appelle pas de traitement approfondi.
     learning_outcomes:
-      - "Citer les PSR implémentées par Symfony"
-      - "Distinguer une PSR implémentée d'une PSR suivie"
-      - "Énoncer que PSR-7 et PSR-17 passent par un pont"
-      - "Associer le conteneur à PSR-11 et le dispatcher à PSR-14"
+      - id: OUT-t5v0mavn0je1
+        outcome: "Citer les PSR implémentées par Symfony"
+      - id: OUT-3we3dc646hxk
+        outcome: "Distinguer une PSR implémentée d'une PSR suivie"
+      - id: OUT-sqrkr5sjqqz1
+        outcome: "Énoncer que PSR-7 et PSR-17 passent par un pont"
+      - id: OUT-tga0d0zxwpvv
+        outcome: "Associer le conteneur à PSR-11 et le dispatcher à PSR-14"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1789,6 +1857,12 @@ items:
         commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
         symbol_or_lines: "installation and usage sections"
         verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "coding standards based on PSR-12 and PSR-4, lines 7-9"
+        verified_at: "2026-09-10"
         verified_by: "tech-lead"
     course_refs:
       - "CRS-f74jcpnrrkhz"
@@ -1821,9 +1895,12 @@ items:
       démontrer : la reconnaissance est le seul mode d'évaluation utile. La convention propre aux
       contrôleurs est un item distinct du lot 04.
     learning_outcomes:
-      - "Associer chaque catégorie d'élément à sa casse"
-      - "Énoncer les préfixes et suffixes conventionnels"
-      - "Distinguer les préfixes d'attribut As... et Map..."
+      - id: OUT-qy3807tsb7qw
+        outcome: "Associer chaque catégorie d'élément à sa casse"
+      - id: OUT-2njr3rsw6g05
+        outcome: "Énoncer les préfixes et suffixes conventionnels"
+      - id: OUT-3r39kw6erehf
+        outcome: "Distinguer les préfixes d'attribut As... et Map..."
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

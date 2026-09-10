@@ -39,8 +39,8 @@ propriété publique.
 interface Symfony, Symfony s'engage à ne pas casser votre code.
 
 **Étendre une classe** est couvert pour l'essentiel — accéder à une propriété
-protégée, appeler ou surcharger une méthode publique ou protégée — avec deux
-exceptions notables :
+protégée, appeler ou surcharger une méthode publique ou protégée. Le tableau
+officiel répond **non** à quatre lignes, et elles ne se valent pas :
 
 | Dans une classe que vous étendez… | Garanti ? |
 |---|---|
@@ -49,9 +49,12 @@ exceptions notables :
 | appeler une méthode privée par réflexion | **non** |
 | accéder à une propriété privée par réflexion | **non** |
 
-La raison est simple : si vous ajoutez `getFoo()` et que Symfony ajoute
-`getFoo()` avec une autre signature dans une version mineure, la collision est
-inévitable. Le risque vous appartient.
+Les **deux premières** vous concernent en écrivant du code ordinaire : si vous
+ajoutez `getFoo()` et que Symfony ajoute `getFoo()` avec une autre signature dans
+une version mineure, la collision est inévitable. Le risque vous appartient.
+
+Les **deux dernières** ne sont pas propres à l'héritage : atteindre un membre
+privé par réflexion sort de l'API publique quelle que soit la classe.
 
 ## Les trois exclusions
 
@@ -81,10 +84,11 @@ classe n'est pas encore considérée finale.
 
 ## Pièges d'examen
 
-**« Étendre est couvert » est vrai avec deux exceptions.** Ajouter une
-**propriété** ou une **méthode** à une classe Symfony que l'on étend n'est pas
-garanti : Symfony peut introduire le même nom dans une version mineure, et la
-collision est pour vous.
+**« Étendre est couvert » est vrai à quatre lignes près.** Deux vous concernent
+en code ordinaire : ajouter une **propriété** ou une **méthode** à une classe
+Symfony que l'on étend n'est pas garanti, Symfony pouvant introduire le même nom
+dans une version mineure. Les deux autres visent l'accès au **privé par
+réflexion**, jamais garanti, héritage ou pas.
 
 **Les arguments nommés ne sont pas couverts.** `$service->method(timeout: 5)`
 peut casser en montant d'une mineure ; seuls les constructeurs de classes

@@ -535,6 +535,9 @@ questions:
 # holdout questions). Same rule: one question per free atomic item, each facet
 # chosen against what the item already carries.
 - id: QST-1v316765c664
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-2x9c1gjdj7t5
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-rd9b27fkb72r
@@ -564,12 +567,10 @@ questions:
   - http-kernel
   choices:
   - id: CHO-zf1xepxd3fz6
-    text: '`kernel.view` (ViewEvent), dispatched only because the return value is not a `Response`; a listener is expected
-      to turn `getControllerResult()` into a response with `setResponse()`, and if none does, an exception is thrown'
+    text: '`kernel.view` (ViewEvent), dispatched because the return value is not a `Response`; a listener must supply one with `setResponse()`, and if none does, an exception is thrown'
     correct: true
   - id: CHO-mn6wg4a3d4dx
-    text: '`kernel.view` is dispatched for every controller, and its listeners simply ignore the ones that already returned
-      a `Response`'
+    text: '`kernel.view` is dispatched for every controller, its listeners simply ignoring the ones that already returned a `Response`, so nothing is ever thrown on that path'
     correct: false
     explanation: The kernel dispatches it only when the controller did not return a Response. A controller that returns
       one skips the stage entirely.
@@ -598,6 +599,9 @@ questions:
     symbol_or_lines: 6) The ``kernel.view`` Event (lines 369-396)
     verified_at: '2026-09-03'
 - id: QST-bbrjnn5e7a0q
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-2r6g1ds91vvw
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-efzq92vdtayj
@@ -656,6 +660,9 @@ questions:
     symbol_or_lines: Templates (lines 8-40)
     verified_at: '2026-09-03'
 - id: QST-6kxc6ajvbmwc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-0j2bgvnbyj7p
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-ehf5zdnmdb1j
@@ -685,11 +692,10 @@ questions:
   - conventions
   choices:
   - id: CHO-02w4nje71ze7
-    text: In the impacted component's `CHANGELOG.md`, in `UPGRADE-8.1.md` for the targeted minor version, and in `UPGRADE-9.0.md`,
-      where the consequences of the eventual removal go
+    text: In the impacted component's `CHANGELOG.md`, in `UPGRADE-8.1.md` for the targeted minor, and in `UPGRADE-9.0.md` for the removal
     correct: true
   - id: CHO-5dcdxe8karb2
-    text: Only in the component's `CHANGELOG.md`; the UPGRADE files are written when the code is actually removed
+    text: Only in the component's `CHANGELOG.md`; the UPGRADE files are written when the code is actually removed, not when it is deprecated
     correct: false
     explanation: UPGRADE-8.1.md is written at deprecation time. Only the "Remove the ..." entry waits for the removal.
   - id: CHO-9fqg9zdm1n2j
@@ -710,6 +716,9 @@ questions:
     symbol_or_lines: Deprecating Code (lines 128-214)
     verified_at: '2026-09-03'
 - id: QST-j91kezha4d54
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-r00p8959jcpp
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-pk5s7cnhk776
@@ -764,6 +773,9 @@ questions:
     symbol_or_lines: time-based model (lines 8-19) and Development (lines 37-45)
     verified_at: '2026-09-03'
 - id: QST-zzd26kbrns7a
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-2t4534jgce75
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-hzbednd04fd4
@@ -793,9 +805,7 @@ questions:
   - code-organization
   choices:
   - id: CHO-b2fbs6mc0sy0
-    text: 'Not to: a bundle is meant to be software reusable as a stand-alone component, so internal code is structured
-      with PHP namespaces under `App\` instead — a bundle is warranted only to reuse a feature across several projects,
-      and it may live in a private repository'
+    text: 'Not to: a bundle is meant to be software reusable as a stand-alone component, so internal code is structured with PHP namespaces under `App\` instead'
     correct: true
   - id: CHO-w2xzc25y8drn
     text: To do it, provided each bundle lives under `src/` and is registered in `config/bundles.php`
@@ -808,7 +818,7 @@ questions:
     explanation: An application may register any number of bundles. The recommendation is about how to organise code, not
       a technical limit.
   - id: CHO-v8zst111cd46
-    text: To do it for anything they intend to reuse, but a reusable bundle has to be published publicly to be installable
+    text: To do it for anything they intend to reuse, but a reusable bundle has to be published in a public repository before Composer can install it
     correct: false
     explanation: The best practices note explicitly that such a bundle can live in a private repository.
   explanation: The dividing line is reuse. Bundles exist to ship software that stands on its own; application logic is organised

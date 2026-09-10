@@ -763,6 +763,9 @@ questions:
     symbol_or_lines: asynchronous requests
     verified_at: '2026-09-01'
 - id: QST-bbqz6qq7vqjg
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-svxn0t2pskq8
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-132nwnh9c6bc
@@ -792,7 +795,7 @@ questions:
     text: The recipe lives in the contrib repository and the prompt was declined
     correct: true
   - id: CHO-57y6b9m3kgy2
-    text: Recipes only apply to packages listed in symfony.lock
+    text: Recipes only apply to packages already listed in symfony.lock before the install
     correct: false
     explanation: symfony.lock records what was applied; it is a result, not a precondition.
   - id: CHO-9cbagrs15fca
@@ -811,6 +814,9 @@ questions:
     symbol_or_lines: main and contrib recipe repositories
     verified_at: '2026-09-01'
 - id: QST-q9vmvxwtk6n4
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-tvjm3k5gjnb4
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-d416348gfhde
@@ -860,6 +866,9 @@ questions:
     symbol_or_lines: description
     verified_at: '2026-09-01'
 - id: QST-g2947y0fdcyw
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+    - OUT-8rwmvym0a0qy
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-p3p7te94qc1n
@@ -889,7 +898,7 @@ questions:
     text: Only in the test environment, on top of the common configuration
     correct: true
   - id: CHO-7ack2rw3y789
-    text: In every environment, overriding config/packages/
+    text: In every environment, overriding what config/packages/ sets for all of them
     correct: false
     explanation: An environment subdirectory is scoped to that environment.
   - id: CHO-abw679hc0r6y
@@ -908,6 +917,9 @@ questions:
     symbol_or_lines: configuration environments
     verified_at: '2026-09-01'
 - id: QST-81e3prrcnqx7
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-dy7bs7233e18
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-7sewqvmw6468
@@ -942,7 +954,7 @@ questions:
     correct: false
     explanation: The response still has to be filtered and sent, so the later events run.
   - id: CHO-tfcgwwjn31dh
-    text: kernel.controller and everything after it
+    text: kernel.controller and everything after it, the supplied response being replaced later
     correct: false
     explanation: Setting a response short-circuits controller resolution entirely.
   - id: CHO-88p9e1ssx5w3
@@ -957,6 +969,9 @@ questions:
     symbol_or_lines: kernel.request, kernel.response
     verified_at: '2026-09-01'
 - id: QST-w6dwd7mt2gh4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-9f4yqqyqwecq
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-xc4zfr70jjas
@@ -1006,6 +1021,9 @@ questions:
     symbol_or_lines: lines 255-262
     verified_at: '2026-09-01'
 - id: QST-s76mhj526gjc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-ces5mycxj5zx
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-rd9b27fkb72r
@@ -1054,6 +1072,9 @@ questions:
     symbol_or_lines: addListener priority
     verified_at: '2026-09-01'
 - id: QST-wbwnzkcsd67w
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-bxcjgv614zqk
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-hzbednd04fd4
@@ -1102,6 +1123,9 @@ questions:
     symbol_or_lines: Use Environment Variables for Infrastructure Configuration
     verified_at: '2026-09-01'
 - id: QST-j61dvcf3m7va
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-4x6dvn65hj5v
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-vk57zg2wpep7
@@ -1150,6 +1174,9 @@ questions:
     symbol_or_lines: warning on @internal and Tests namespaces
     verified_at: '2026-09-01'
 - id: QST-y5v8b5zq051t
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-yqb3s91g64f7
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-ehf5zdnmdb1j
@@ -1198,6 +1225,9 @@ questions:
     symbol_or_lines: Deprecating Code
     verified_at: '2026-09-01'
 - id: QST-wt21gvjc33t8
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-w0kft9548h99
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-efzq92vdtayj
@@ -1246,6 +1276,9 @@ questions:
     symbol_or_lines: Services & Configuration
     verified_at: '2026-09-01'
 - id: QST-cge7acyf998v
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+    - OUT-fe71pjx6g6a2
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-pk5s7cnhk776
@@ -1293,6 +1326,9 @@ questions:
     symbol_or_lines: Maintenance
     verified_at: '2026-09-01'
 - id: QST-0cvjqaqn7pay
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+    - OUT-t5v0mavn0je1
   version: 1
   official_topic: Symfony Architecture
   official_item: OIT-kcj9a5846b1s
