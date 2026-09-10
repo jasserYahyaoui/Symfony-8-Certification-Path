@@ -72,3 +72,34 @@ lots:
         production_smoke_line: >-
           ok  readiness  deployed 5.5% (9/163), 1 of 27 lots refined — matches
           the repository dashboard
+  - lot: lot-03
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-10'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-03-refinement-v2/README.md
+        pull_request: 96
+        merged_commit: 6a18012
+        production_verified_commit: 6a18012
+        production_smoke_job: 102968418677
+        date: '2026-09-10'
+        note: >-
+          First core lot refined under framework version 2, run as a cost
+          calibration because lot-01 had no deficit. 59 learning outcomes given
+          minted OUT ids and linked to the questions that assess them; an
+          archetype declared on all 69 questions. Twenty questions added — not
+          the seventeen the arithmetic predicted: mapping each existing question
+          onto the outcome it really assesses showed 42 non-HOLDOUT questions
+          covering only 39 distinct outcomes of 59, Event dispatcher carrying
+          two of its three on the same one. The pilot's 132-question corpus
+          shortfall is therefore a floor, understated by about 18% on the one
+          lot where it was checked by reading. Also corrected a course that
+          announced "two exceptions" and tabulated four rows answering no, and
+          added three primary sources the items' outcomes required but did not
+          cite. The lot's answer-length cue was brought from 42.0% (29/69) to
+          23.2% (16/69), under the chance baseline, before this entry was
+          written rather than after — a lot logged as refined that would fail
+          aud10 on the next push is labelled, not refined.
+        production_smoke_line: >-
+          ok  practice  364 questions, all LEARNING, no holdout id or choice
