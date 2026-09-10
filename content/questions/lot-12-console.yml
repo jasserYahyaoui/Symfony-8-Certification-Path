@@ -1323,15 +1323,15 @@ questions:
     text: Set the exit code on the event to zero, which also stops the error from being propagated
     correct: true
   - id: CHO-9gttr660x2y8
-    text: Replace the error with null on the event
+    text: Replace the error with null on the event, which resets the exit code to zero as a side effect
     correct: false
     explanation: The setter expects a Throwable; the outcome is decided by the exit code.
   - id: CHO-fre1wkwam2dm
-    text: Stop the propagation of the event
+    text: Stop the propagation of the event, which leaves the exit code at zero because no other listener runs
     correct: false
     explanation: That prevents other listeners from running; it does not change what the process reports.
   - id: CHO-vrrd9wanq5xx
-    text: Return zero from the listener
+    text: Return zero from the listener, which the dispatcher then uses as the command's exit code
     correct: false
     explanation: A listener's return value is ignored by the dispatcher.
   explanation: Setting the exit code to zero tells the Application there is nothing left to report, so the exception
