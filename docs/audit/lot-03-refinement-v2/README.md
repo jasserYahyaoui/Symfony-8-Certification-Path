@@ -1,6 +1,7 @@
 # Lot 03 — Symfony Architecture, raffiné sous le cadre version 2
 
 **Date** : 2026-09-10 · **Branche** : `refine/lot-03-framework-v2` · **Base** : `a2e3352`
+(branchée sur `189097a`, puis `master` fusionné une fois le Mock 4 livré)
 
 Premier lot du cœur raffiné sous [ADR-0007](../../adr/0007-refinement-framework-v2.md).
 Il a été choisi comme **étalonnage** : le lot 01 avait un déficit nul et ne
@@ -189,3 +190,29 @@ Chaque commande lancée seule, son code de sortie relevé (PROC-1).
   framework n'a été **exécuté**. Tout est lu dans les dépôts ancrés sur `8.0`.
 - L'item *Event dispatcher* garde deux questions sur le même outcome. C'est
   documenté, pas corrigé : les retirer supprimerait du contenu correct.
+
+## 9. Un incident de fusion, corrigé et enregistré
+
+La branche a été ouverte avant la fusion de la réparation du Mock 4, et les deux
+unités touchent les mêmes questions HOLDOUT. La première résolution du conflit a
+été faite avec `git checkout --ours` sur `mock-04-holdout.yml` : cela reprend le
+fichier **entier** du côté branche et jette donc les 36 réparations du Mock 4 que
+le conflit ne signalait pas.
+
+Le KPI l'a montré immédiatement — indice perceptible du Mock 4 remonté de **0 %
+à 43 %**. La fusion a été refaite en partant du fichier de `master` et en y
+ré-appliquant les six éditions du lot 03 une par une. Les deux mesures sont
+revenues à leur valeur attendue :
+
+| | attendu | après la fusion |
+|---|---:|---:|
+| Mock 4, indice perceptible (≥ 25 %) | 0 % | **0 %** |
+| Mock 4, bonne réponse la plus longue | 43/75 | **43/75** |
+| lot-03, bonne réponse la plus longue | 16/69 | **16/69** |
+
+Cinq questions HOLDOUT du lot 03 avaient aussi perdu leur `question_archetype`
+dans l'opération ; le compte 69/69 l'a révélé et elles ont été ré-annotées.
+
+`--ours` et `--theirs` résolvent un conflit à l'échelle du **fichier**, pas du
+segment. C'est enregistré ici parce que la vérification par KPI, et non la
+relecture du diff, est ce qui a rattrapé la perte.

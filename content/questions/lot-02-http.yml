@@ -996,7 +996,7 @@ questions:
     correct: false
     explanation: It does read them — but only once the proxies are declared trusted.
   - id: CHO-7zat3zjzp1qy
-    text: The balancer must be configured to send X-Real-IP instead
+    text: The balancer must be configured to send X-Real-IP, the forwarded header Symfony reads
     correct: false
     explanation: Symfony understands the standard forwarded headers; the missing piece is the trust declaration,
       not the header name.

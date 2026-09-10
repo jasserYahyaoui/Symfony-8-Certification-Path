@@ -44,8 +44,7 @@ questions:
   - performance
   choices:
   - id: CHO-6f78sk3eev3d
-    text: It returns the expression converted to PHP code as a string; both methods tokenize and parse first, but only `evaluate()`
-      then walks the parsed nodes, which is the larger overhead
+    text: It returns the expression converted to PHP code as a string; both methods tokenize and parse first, but only `evaluate()` then walks the parsed nodes
     correct: true
   - id: CHO-7wvp0v81p2xx
     text: It returns the value of the expression, already cached as PHP code, so `evaluate()` is only needed when the values
@@ -53,7 +52,7 @@ questions:
     correct: false
     explanation: '`compile()` never produces the value. It produces PHP code that the application can cache and run itself.'
   - id: CHO-m6rn70gk2ehg
-    text: It skips tokenizing and parsing altogether, which is why it costs less than `evaluate()`
+    text: It skips tokenizing and parsing altogether, reading the PHP code straight out of the expression string, which is why it costs less than `evaluate()`
     correct: false
     explanation: Both methods tokenize and parse — that shared step is `parse()`. `compile()` is cheaper because it stops
       at the string conversion of the parsed expression, not because it skips parsing.
@@ -219,8 +218,7 @@ questions:
   - configuration
   choices:
   - id: CHO-0jmvydfhy7m4
-    text: Nothing is collected by default; collection happens for a request that carries `profile` as a query parameter,
-      as a form field or as a request attribute
+    text: Nothing is collected by default; a request carrying `profile` as a query parameter, a form field or a request attribute is collected
     correct: true
   - id: CHO-kmr4btk6kk42
     text: Everything is still collected, but only the requests carrying `profile` appear in the profiler list
@@ -277,8 +275,7 @@ questions:
   - response
   choices:
   - id: CHO-mbt6eqm7a12f
-    text: '`setNotModified()`, which forces a proper 304 response with no content; `expire()` does the opposite job and
-      marks the response stale'
+    text: '`setNotModified()`, which sets a 304 status with no content; `expire()` does the opposite and marks the response stale'
     correct: true
   - id: CHO-vth4xnr39pmb
     text: '`expire()`, which sends the 304, while `setNotModified()` strips the validation headers'
@@ -286,7 +283,7 @@ questions:
     explanation: 'The two roles are reversed: `expire()` marks the response stale, and `setNotModified()` is what produces
       the 304.'
   - id: CHO-72ecwdp2qkms
-    text: '`setNotModified()`, which sends a 304 but keeps the body so an intermediary can compare it'
+    text: '`setNotModified()`, which sends a 304 but keeps the body so that an intermediary can compare it with its own copy'
     correct: false
     explanation: A 304 carries no content — that is what "with no content" means in the documentation. An intermediary needs
       no body to serve its own copy.
@@ -332,8 +329,7 @@ questions:
   - invalidation
   choices:
   - id: CHO-yxxwaqmfh4k2
-    text: '`cache.app.taggable`, a tag-aware pool based on `cache.app`; tags are attached with `$item->tag()` inside the
-      callback passed to `get()`'
+    text: '`cache.app.taggable`; tags are attached with `$item->tag()` inside the callback passed to `get()`'
     correct: true
   - id: CHO-p7se1t534bvv
     text: 'Nothing: autowiring fails until a pool declaring `tags: true` exists'
@@ -389,11 +385,10 @@ questions:
   - testing
   choices:
   - id: CHO-3g5gsps15z93
-    text: A date string, an interval string such as `+2 days`, a `DateTimeImmutable`, or a boolean to freeze or restore
-      — and the trait restores the global clock after each test
+    text: A date string, an interval string, a `DateTimeImmutable`, or a boolean to freeze or restore — and the trait restores the global clock after each test
     correct: true
   - id: CHO-thmed3ej5a2b
-    text: Only a `DateTimeImmutable`; moving the clock afterwards requires calling `sleep()` on the returned mock
+    text: Only a `DateTimeImmutable`; moving the clock afterwards requires calling `sleep()` on the returned mock, which the trait leaves installed
     correct: false
     explanation: A string is accepted, and it may be an interval that modifies the clock. `sleep()` is one way to advance
       time, not the only one.
@@ -445,7 +440,7 @@ questions:
   - listeners
   choices:
   - id: CHO-7pzpm7qv74h4
-    text: Those that have not been called yet for that event; the caller checks `$event->isPropagationStopped()` after `dispatch()`
+    text: Those that have not been called yet; the caller checks `$event->isPropagationStopped()` after `dispatch()`
     correct: true
   - id: CHO-cgnkfpaphyha
     text: All listeners of that event, including the ones already executed, whose effects are rolled back
@@ -499,15 +494,13 @@ questions:
   - normalizers
   choices:
   - id: CHO-673rj76bgqwb
-    text: '`ObjectNormalizer` cannot read them: it goes through the PropertyAccess component, which needs a directly accessible
-      property or a getter, hasser, isser, canner, adder or remover'
+    text: '`ObjectNormalizer` cannot read them: it goes through PropertyAccess, which needs a directly accessible property or an accessor method'
     correct: true
   - id: CHO-mhnf004jdpap
-    text: '`PropertyNormalizer` can read them, using PHP reflection over public as well as private and protected properties,
-      including those declared by parent classes'
+    text: '`PropertyNormalizer` can read them, using PHP reflection over public as well as private and protected properties'
     correct: true
   - id: CHO-mm7tm35c9awp
-    text: '`GetSetMethodNormalizer` can read them, because it falls back to reflection when no getter exists'
+    text: '`GetSetMethodNormalizer` can read them, because it falls back to reflection whenever no getter exists for a property it encounters'
     correct: false
     explanation: It reads a class by calling public methods prefixed with `get`, `has`, `is` or `can`. There is no reflection
       fallback.
@@ -808,12 +801,12 @@ questions:
     text: 'Not to: a bundle is meant to be software reusable as a stand-alone component, so internal code is structured with PHP namespaces under `App\` instead'
     correct: true
   - id: CHO-w2xzc25y8drn
-    text: To do it, provided each bundle lives under `src/` and is registered in `config/bundles.php`
+    text: To do it, provided each bundle lives under `src/` and is registered in `config/bundles.php`, which is what makes the code reusable
     correct: false
     explanation: The recommendation is against bundles that organise application logic, wherever they live and however they
       are registered.
   - id: CHO-w9qb7tk0b1bx
-    text: Not to, because an application can only register one bundle of its own
+    text: Not to, because an application may register only one bundle of its own, so the code has to stay in a single one
     correct: false
     explanation: An application may register any number of bundles. The recommendation is about how to organise code, not
       a technical limit.
@@ -922,11 +915,10 @@ questions:
   - http-foundation
   choices:
   - id: CHO-10fxhhx9tewy
-    text: A clone of the `request` bag when that bag holds anything, and otherwise an InputBag built by decoding the raw
-      body as JSON — so both shapes are read the same way and writing to the result leaves the request untouched
+    text: A clone of the `request` bag when that bag holds anything, otherwise an InputBag decoded from the raw JSON body — writing to the result leaves the request untouched
     correct: true
   - id: CHO-kkxv988vejzs
-    text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict
+    text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict, and writes to it propagate to the request
     correct: false
     explanation: Nothing is merged. A non-empty `request` bag is returned on its own, and the raw body is not decoded at
       all in that case.
@@ -935,7 +927,7 @@ questions:
     correct: false
     explanation: The bag is cloned when it is non-empty, precisely so that reading the payload cannot alter the request.
   - id: CHO-akt5vrqzc4q8
-    text: The decoded JSON body only, so a form-encoded POST yields an empty bag
+    text: The decoded JSON body only, so a form-encoded POST yields an empty bag and has to be read from the `request` bag instead
     correct: false
     explanation: A form-encoded POST fills the `request` bag, and that bag is exactly what `getPayload()` hands back.
   explanation: '`getPayload()` is the single accessor for the request body: `$request->query` stays for GET variables, and
@@ -983,8 +975,7 @@ questions:
   - dev-environment
   choices:
   - id: CHO-cmma2wh3jpkj
-    text: 'Through the default `ErrorController`: load the FrameworkBundle error routes under `when@dev` with the `/_error`
-      prefix, then open `/_error/404`, or `/_error/404.{format}` for another format'
+    text: 'Through the default `ErrorController`: load the FrameworkBundle error routes under `when@dev` with the `/_error` prefix, then open `/_error/404`'
     correct: true
   - id: CHO-vs7b4wxdpjky
     text: By switching the application to the prod environment locally, which is the only way to see the page the users
@@ -1042,12 +1033,10 @@ questions:
   - security
   choices:
   - id: CHO-vcxh1vpbwap3
-    text: '`$session->getMetadataBag()->getLastUsed()` returns a server-side timestamp that the application compares on
-      access before calling `$session->invalidate()`; the cookie lifetime is unsuitable because the client can manipulate
-      it'
+    text: '`$session->getMetadataBag()->getLastUsed()`, a server-side timestamp checked before invalidating the session; a cookie lifetime is client-side and manipulable'
     correct: true
   - id: CHO-qbe4jpwx29r2
-    text: Setting `cookie_lifetime` to the idle period, which is exactly what it is for
+    text: Setting `cookie_lifetime` to the idle period, which is exactly what it is for, the browser being trusted to report when it lapses
     correct: false
     explanation: The cookie lives on the client and can be manipulated there, so it cannot enforce a server-side idle timeout.
   - id: CHO-rm7yabs9bwsw
@@ -1158,11 +1147,10 @@ questions:
   - includes
   choices:
   - id: CHO-hyqsfqn0a5me
-    text: 'The `include()` function, which returns the rendered content so it can be filtered or assigned, with `with_context:
-      false` to withhold the context'
+    text: 'The `include()` function, which returns the rendered content, with `with_context: false` to withhold the context'
     correct: true
   - id: CHO-szfqappqh18b
-    text: The `include()` function, with `only` to withhold the context, which both forms accept
+    text: The `include()` function, with `only` to withhold the context, a keyword the tag and the function both accept
     correct: false
     explanation: '`only` belongs to the `{% include %}` tag. The function takes `with_context: false`.'
   - id: CHO-bwjbd01d1g2a
@@ -1213,11 +1201,10 @@ questions:
   - translation
   choices:
   - id: CHO-qde7q4tgnxtj
-    text: A `TranslatableMessage` — or the `t()` shortcut — which stores the message id, the parameters and the domain without
-      translating anything; the template passes it through the `trans` filter just as it would a plain string
+    text: A `TranslatableMessage`, which stores the message id, the parameters and the domain without translating anything; the template passes it through the `trans` filter
     correct: true
   - id: CHO-7dpkn57e3ncx
-    text: A `TranslatableMessage`, which is translated as it is constructed, so the template prints it directly
+    text: A `TranslatableMessage`, which is translated as it is constructed using the request locale, so the template prints it directly without any filter
     correct: false
     explanation: Nothing is translated at construction; that deferral is the entire purpose of the object.
   - id: CHO-a7yafa892s1g
@@ -1270,8 +1257,7 @@ questions:
   - configuration
   choices:
   - id: CHO-nk1aky0900dq
-    text: '`backend/templates/layout.html.twig` if it exists: the namespace-less `twig.paths` directories are searched first
-      and `templates/` is only the fallback — which is why such a directory should be given a namespace'
+    text: '`backend/templates/layout.html.twig` if it exists: the namespace-less `twig.paths` directories are searched first and `templates/` is only the fallback'
     correct: true
   - id: CHO-950dvx746p14
     text: '`templates/layout.html.twig`: the default directory always wins, extra paths being a fallback for names it does
@@ -1280,7 +1266,7 @@ questions:
     explanation: The search order is the other way round, which is exactly how an extra path silently shadows the intended
       template.
   - id: CHO-4qsdbyxnbxat
-    text: 'Neither: two templates sharing a logical name raise an exception when the container is compiled'
+    text: 'Neither: two templates sharing a logical name raise an exception when the container is compiled, so a name may exist in only one path'
     correct: false
     explanation: Nothing is raised. One of them is simply used, and the other never runs.
   - id: CHO-051jmmv510p4
@@ -1330,7 +1316,6 @@ questions:
   choices:
   - id: CHO-3xzjgfe7cf8n
     text: TaskType PRE_SUBMIT, then CategoryType PRE_SUBMIT, SUBMIT and POST_SUBMIT, then TaskType SUBMIT and POST_SUBMIT
-      — the child is submitted completely between the parent's PRE_SUBMIT and its SUBMIT
     correct: true
   - id: CHO-msa4sp5e0gc0
     text: Every PRE_SUBMIT first, then every SUBMIT, then every POST_SUBMIT, parent before child within each group
@@ -1385,8 +1370,7 @@ questions:
   - validation
   choices:
   - id: CHO-67vr9b236cdf
-    text: Return an equivalent empty value of the type it transforms to — an empty string here, `0` for an integer, `0.0`
-      for a float — and the user sees the field's `invalid_message`, never the exception's own message
+    text: Return an equivalent empty value, and the user sees the field's `invalid_message`, never the exception's own message
     correct: true
   - id: CHO-17trc9593k2g
     text: Return `null` unchanged, and the user sees the message passed to the exception
@@ -1443,9 +1427,7 @@ questions:
   - forms
   choices:
   - id: CHO-30pq1epp99w0
-    text: A closure called with `(Options $options, $value)` — so other options are readable — executed after that option
-      has been validated; a subclass chains onto it with `addNormalizer()`, which receives the already normalized value
-      unless `true` is passed as its third argument
+    text: A closure called with `(Options $options, $value)`, so other options are readable, executed after that option has been validated
     correct: true
   - id: CHO-cd534y5be57q
     text: A closure called with the value alone; reading another option there is impossible, so a lazy default has to do
@@ -1501,8 +1483,7 @@ questions:
   - inheritance
   choices:
   - id: CHO-91q4bja2nsyv
-    text: Most of the types Symfony ships, since they inherit from `FormType` — the notable exceptions being the `ButtonType`
-      family, and a custom type that does not extend `FormType`
+    text: Most shipped types, which inherit from `FormType` — except the `ButtonType` family and a custom type that does not extend it
     correct: true
   - id: CHO-gam0m62m1b3t
     text: Every field without exception, `FormType` being the root of the whole hierarchy
@@ -1510,7 +1491,7 @@ questions:
     explanation: The ButtonType form types are the documented exception, and a custom type is only reached if it actually
       extends FormType.
   - id: CHO-nx9wjy24vvgc
-    text: Only the fields declared explicitly with `FormType::class`; inheritance does not carry an extension
+    text: Only the fields whose type is declared explicitly as `FormType::class`; inheritance does not carry an extension down
     correct: false
     explanation: Inheritance is exactly how an extension reaches several types at once — extending TextType, for instance,
       reaches EmailType, SearchType and UrlType.
@@ -1616,8 +1597,7 @@ questions:
   - autoconfiguration
   choices:
   - id: CHO-xzcb48fnnfw2
-    text: '`#[AutoconfigureTag(''app.custom_tag'')]` written on the interface itself — the YAML equivalent being `_instanceof`
-      — and with no argument the tag name becomes the fully qualified name of the target'
+    text: '`#[AutoconfigureTag(''app.custom_tag'')]` on the interface, and with no argument the tag name defaults to the fully qualified class name'
     correct: true
   - id: CHO-9zvh3g6thcxp
     text: The attribute repeated on each implementing class, since an attribute on an interface is not inherited by implementations
@@ -1671,8 +1651,7 @@ questions:
   - autowiring
   choices:
   - id: CHO-hse5v9kx4ff8
-    text: '`bind` under `_defaults` passes it to any `$adminEmail` argument of any service defined in that file, controller
-      arguments included, and a binding may be keyed by name, by type, or by both at once'
+    text: '`bind` under `_defaults` passes it to any `$adminEmail` argument of any service defined in that file, controller arguments included'
     correct: true
   - id: CHO-bh6mwvn63v8e
     text: The `#[Autowire]` attribute is the alternative to configuring the scalar in YAML, injecting it directly into the
@@ -1684,7 +1663,7 @@ questions:
     explanation: A scalar is exactly what the documented `$adminEmail` binding passes; services and tagged iterators can
       be bound too.
   - id: CHO-ja8nh11dwtzr
-    text: '`bind` under `_defaults` reaches every service in the application, whichever file declares it'
+    text: '`bind` under `_defaults` reaches every service in the application whichever file declares it, so one declaration covers the whole container'
     correct: false
     explanation: Its reach is the file that declares it — which is what makes `_defaults` predictable.
   - id: CHO-mymkcjdngs1p
@@ -1792,8 +1771,7 @@ questions:
   - url-generation
   choices:
   - id: CHO-ejnmv2mnaca0
-    text: 'Writing the path as `/blog/{!page}`: the `!` prefix always includes that parameter in the generated URL, even
-      when its value equals the default'
+    text: 'Writing the path as `/blog/{!page}`: the `!` prefix keeps that parameter in the generated URL even when its value equals the default'
     correct: true
   - id: CHO-zwv876mkcycp
     text: 'Adding a requirement such as `page: ''\d+''`, after which a default matching its requirement is always emitted'
@@ -1907,8 +1885,7 @@ questions:
   - console
   choices:
   - id: CHO-r9kr6dqqme9v
-    text: A command runs outside the HTTP context, so the router has no request to take a host and scheme from; `framework.router.default_uri`
-      defines the request context it uses instead
+    text: A command runs outside the HTTP context, so the router has no request to take the host from; `framework.router.default_uri` supplies the request context instead
     correct: true
   - id: CHO-f43q3gwp8wws
     text: 'The route is missing `schemes`, and declaring `schemes: [''https'']` supplies the host as well'
@@ -1919,8 +1896,7 @@ questions:
     correct: false
     explanation: 'They can: the router only needs a request context, which `default_uri` provides.'
   - id: CHO-rqveas7ga4rz
-    text: The router falls back to the local development server, and the host has to be passed as an argument on every generation
-      call
+    text: The router falls back to the local development server's host, and the real host has to be passed as an argument on every generation call
     correct: false
     explanation: The generator takes no host argument; the host comes from the request context.
   explanation: URL generation always reads a request context — host, scheme, base URL. During an HTTP request the router
@@ -2023,15 +1999,14 @@ questions:
   - caching
   choices:
   - id: CHO-d3kd0b8na0hj
-    text: 'It expands the cache key: a stored response must not satisfy a later request unless that request carries the
-      same value for the listed field, or the origin server revalidates it'
+    text: 'It expands the cache key: a stored response must not satisfy a later request unless that request carries the same value for the listed field'
     correct: true
   - id: CHO-vj9f0mp3xww6
     text: It tells the user agent that the response was negotiated, so supplying other values in the listed fields may yield
       a different representation
     correct: true
   - id: CHO-fptw1aphdet9
-    text: '`Vary: *` is the safer default and is what a proxy generates when it cannot tell which fields mattered'
+    text: '`Vary: *` is the safer default and is what a proxy generates when it cannot tell which fields mattered, the response then being cached per client'
     correct: false
     explanation: A proxy must not generate `*`. It signals that aspects possibly outside the message took part, so a cache
       cannot decide anything without asking the origin server.
@@ -2136,8 +2111,7 @@ questions:
   - semantics
   choices:
   - id: CHO-4ekevt1cq4ht
-    text: A resource is the target of a request, identified by a URI and unrestricted in nature; a representation is information
-      reflecting a past, current or desired state of it, made of metadata and a data stream the protocol can transfer
+    text: A resource is the target of a request, identified by a URI; a representation is information reflecting a past, current or desired state of it
     correct: true
   - id: CHO-pckrwwv64f4d
     text: A resource is the file stored on the server; a representation is that same file after a content encoding has been
@@ -2146,7 +2120,7 @@ questions:
     explanation: HTTP does not limit the nature of a resource — it may be a temporal function such as "the current weather"
       with no stored file at all.
   - id: CHO-n6nx0z9ga8dx
-    text: 'They name the same thing at different layers: "resource" in the request and "representation" in the response'
+    text: 'They name the same thing at different layers: "resource" in the request and "representation" in the response, so a resource has exactly one representation'
     correct: false
     explanation: 'The distinction is substantive: one resource can have several representations, which is what content negotiation
       selects between.'
@@ -2197,15 +2171,14 @@ questions:
   - firewalls
   choices:
   - id: CHO-hetr49pj414s
-    text: 'A request is handled by the first firewall whose pattern matches, and `security: false` means no authentication
-      is attempted for those paths — which is why the entry has to come before the pattern-less firewall that matches everything'
+    text: 'The first firewall whose pattern matches handles the request, and `security: false` means no authentication is attempted there — hence its place before the pattern-less firewall'
     correct: true
   - id: CHO-fzg0rr7fbxbq
-    text: '`security: false` turns off authorization only, authentication still running so the user is known on those paths'
+    text: '`security: false` turns off authorization only, authentication still running so the user is known on those paths, and the firewall order then has no effect'
     correct: false
     explanation: It switches the firewall off entirely; nothing is authenticated under it.
   - id: CHO-kc281vt2mchr
-    text: The order does not matter, because the most specific pattern always wins
+    text: The order does not matter, because the most specific pattern always wins, so a pattern-less firewall can be listed first safely
     correct: false
     explanation: The first matching firewall wins, not the most specific one. A firewall with no pattern must therefore
       be declared last.
@@ -2252,15 +2225,14 @@ questions:
   - roles
   choices:
   - id: CHO-qjgc9evrf33m
-    text: A special attribute rather than a role, usable anywhere a role is — `access_control`, `isGranted()`, Twig — and
-      a user logged in only by a remember-me cookie has `IS_AUTHENTICATED_REMEMBERED` but not `IS_AUTHENTICATED_FULLY`
+    text: A special attribute rather than a role, usable anywhere a role is; a remember-me login carries `IS_AUTHENTICATED_REMEMBERED` but not `IS_AUTHENTICATED_FULLY`
     correct: true
   - id: CHO-sj6j502vk407
-    text: A role that the user provider has to grant alongside ROLE_USER, like any other role
+    text: A role the user provider has to grant alongside `ROLE_USER`, so a remember-me login carries it as soon as the provider lists it
     correct: false
     explanation: 'It is not a role and nothing grants it: it describes how the current user was authenticated.'
   - id: CHO-cxz3xxtkwx8n
-    text: A special attribute that works in `access_control` but not in `isGranted()` or in a template
+    text: A special attribute usable in `access_control` but not in `isGranted()` or a template, and a remember-me login satisfies it there
     correct: false
     explanation: It can be used anywhere roles are used, templates and controllers included.
   - id: CHO-nmkv044ew6qj
@@ -2310,15 +2282,14 @@ questions:
   - attributes
   choices:
   - id: CHO-153az1wj23bz
-    text: The permitted targets are a bitmask on the `#[Attribute]` declaration, such as `#[Attribute(Attribute::TARGET_METHOD
-      | Attribute::TARGET_FUNCTION)]`, and using it elsewhere throws when `ReflectionAttribute::newInstance()` is called
+    text: The permitted targets are a bitmask on the `#[Attribute]` declaration, and using it elsewhere throws when `ReflectionAttribute::newInstance()` is called
     correct: true
   - id: CHO-4sbdq83jeeg7
     text: An attribute can be placed twice on the same declaration only if `Attribute::IS_REPEATABLE` is in that bitmask;
       by default it may be used once per declaration
     correct: true
   - id: CHO-5224e0v7g183
-    text: Placing an attribute on a target it does not allow is a compile-time error, caught before anything runs
+    text: Placing an attribute on a target it does not allow is a compile-time error caught before anything runs, so reflection never sees an invalid placement
     correct: false
     explanation: Nothing is checked at compile time; the exception comes from newInstance(), which is also when the attribute
       constructor runs.
@@ -2373,15 +2344,14 @@ questions:
   - closures
   choices:
   - id: CHO-kjhta9b1a569
-    text: The current class is bound automatically, so `$this` is available; a static closure is not bound, using `$this`
-      in one raises "Using $this when not in object context", and an object cannot be bound to it later either
+    text: The current class is bound automatically, so `$this` is available; a static closure is not bound, and using `$this` in one raises an Error
     correct: true
   - id: CHO-swh5y867h5kc
     text: '`$this` has to be imported with `use ($this)`, and `static` merely stops that import being allowed'
     correct: false
     explanation: The binding is automatic in a class context; `$this` is not a variable that `use` imports.
   - id: CHO-h8fh1dwahfsq
-    text: '`$this` is bound automatically, and `static` only prevents variables being captured by reference'
+    text: '`$this` is bound automatically, and `static` only prevents variables being captured by reference, leaving the object binding untouched'
     correct: false
     explanation: What `static` prevents is the binding of the current class, not the capture mode of ordinary variables.
   - id: CHO-93va9fq6260n
@@ -2431,8 +2401,7 @@ questions:
   - verbosity
   choices:
   - id: CHO-5cmvrb9qaxsf
-    text: The `SHELL_VERBOSITY` environment variable sets the level globally — from `-2` for silent to `3` for debug — and
-      the `-q` and `-v` options take precedence over it
+    text: The `SHELL_VERBOSITY` environment variable sets the level globally, and the `-q` and `-v` options take precedence over it
     correct: true
   - id: CHO-k79jajwgp9c0
     text: '`SHELL_VERBOSITY` sets it globally, and it wins over any option so that a server-wide policy cannot be bypassed'
@@ -2544,8 +2513,7 @@ questions:
   - testing
   choices:
   - id: CHO-d0spxhxec956
-    text: Every traversal method returns a new Crawler instance, which is what makes `filter(...)->last()->ancestors()->first()`
-      work as a chain
+    text: Every traversal method returns a new Crawler instance, which is what makes `filter(...)->last()->ancestors()` chain
     correct: true
   - id: CHO-2yrvwh1bvckq
     text: '`reduce($callback)` keeps only the nodes for which the callback returns `true`'
@@ -2603,15 +2571,14 @@ questions:
   - client
   choices:
   - id: CHO-wajr8c7mta6k
-    text: 'In the fifth argument of `$client->request()`, the server parameters: `[''HTTP_HOST'' => ''en.example.com'']`.
-      The second argument of `createClient()` would apply it to every request instead'
+    text: In the fifth argument of `$client->request()`, the server parameters; `createClient()` would apply it to every request instead
     correct: true
   - id: CHO-crtc16zrexkg
-    text: In the third argument of `$client->request()`, alongside the request parameters
+    text: In the third argument of `$client->request()`, alongside the request parameters, `createClient()` having no way to set one
     correct: false
     explanation: That argument carries the request parameters. Server parameters, which is where headers go, are the fifth.
   - id: CHO-vbqs2a7sseq1
-    text: In the fourth argument of `$client->request()`, next to the uploaded files
+    text: In the fourth argument of `$client->request()`, next to the uploaded files, which is also where `createClient()` would take it
     correct: false
     explanation: The fourth argument is the files. Headers travel as server parameters, in the fifth.
   - id: CHO-d14rxkqfh2a5
@@ -2721,8 +2688,7 @@ questions:
   - callback
   choices:
   - id: CHO-xkeqgkhbbr39
-    text: '`#[Assert\Callback([Validator::class, ''validate''])]` — an array callable of the kind `call_user_func()` accepts
-      — and the method receives the value, the `ExecutionContextInterface` and the payload'
+    text: '`#[Assert\Callback([Validator::class, ''validate''])]`, an array callable; the method receives the value, the `ExecutionContextInterface` and the payload'
     correct: true
   - id: CHO-d8b7v8aatgj0
     text: 'It cannot be: `Assert\Callback` only names a method of the validated class, so the logic has to be wrapped in
@@ -2780,14 +2746,14 @@ questions:
   - envelope
   choices:
   - id: CHO-8pmea5h4nrgh
-    text: '`dispatch()` returns the Envelope, and the handler''s return value is read from it with `$envelope->last(HandledStamp::class)->getResult()`'
+    text: '`dispatch()` returns the Envelope; the handler''s return value is read with `$envelope->last(HandledStamp::class)->getResult()`'
     correct: true
   - id: CHO-c1e29r563ms7
     text: Stamps can be attached by passing them as the second argument of `dispatch()`, without building an Envelope by
       hand
     correct: true
   - id: CHO-eab4zkxp5bmt
-    text: '`dispatch()` returns the handler''s return value directly whenever exactly one handler is registered'
+    text: '`dispatch()` returns the handler''s return value directly whenever exactly one handler is registered for the message'
     correct: false
     explanation: It always returns an Envelope. The handler result is reached through the HandledStamp that HandleMessageMiddleware
       adds.
