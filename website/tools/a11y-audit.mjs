@@ -123,6 +123,17 @@ const PAGES = [
   ['calendrier de révision', '/docs/revision/calendar'],
   ['contrôles de maîtrise', '/docs/revision/checkpoints'],
   ['PRÊT-CANDIDAT', '/docs/revision/readiness'],
+  // L'agenda : une grille CSS de créneaux horaires, dont chaque événement est
+  // un bouton. C'est la surface la plus interactive du site après les modes
+  // d'entraînement, et la seule qui empile du texte blanc sur sept fonds
+  // colorés — donc celle où un contraste insuffisant passerait le plus
+  // facilement inaperçu à l'œil.
+  ['agenda — vue mois', '/calendar'],
+  // Les vues semaine et jour sont derrière un clic ; sans ces deux URL, la
+  // grille horaire — celle qui empile 410 boutons positionnés en lignes de
+  // grille — ne serait jamais auditée, et c'est la plus susceptible de casser.
+  ['agenda — vue semaine', '/calendar?view=week&date=2026-11-23'],
+  ['agenda — vue jour', '/calendar?view=day&date=2026-11-24'],
   ['practice', '/practice'],
   ['exam', '/exam'],
   // Mock 4. Only the briefing screen is reachable without interaction, so

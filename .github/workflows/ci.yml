@@ -137,6 +137,25 @@ jobs:
               || { echo "missing website/docs/revision/$page.md"; exit 1; }
           done
 
+          # The agenda page is a shell that fetches this payload. Without the
+          # file it renders an error banner, and every gate above would still
+          # be green -- the generator step is the only thing that produces it.
+          test -s website/static/data/revision-calendar.json \
+            || { echo "missing website/static/data/revision-calendar.json"; exit 1; }
+
+          python3 - <<'PY'
+          import json, sys
+
+          plan = json.load(open('website/static/data/revision-calendar.json'))
+          events = sum(len(d['events']) for d in plan['days'].values())
+
+          if len(plan['days']) < 60 or events < 300:
+              print(f'agenda payload too small: {len(plan["days"])} days, {events} events')
+              sys.exit(1)
+
+          print(f'agenda payload: {len(plan["days"])} days, {events} events')
+          PY
+
       - name: Type-check the site
         run: npm --prefix website run typecheck
 

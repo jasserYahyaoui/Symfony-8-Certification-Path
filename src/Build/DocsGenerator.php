@@ -163,6 +163,16 @@ final readonly class DocsGenerator
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
         }
 
+        // The agenda grid reads the plan as events, not as prose. The payload
+        // is a projection of docs/revision/plan.json, which stays the single
+        // source of truth: no time is computed here that the generator did not
+        // already write, so the page and the Markdown calendar cannot drift.
+        $plan = $this->revisionPlan();
+
+        if ([] !== $plan) {
+            $written[] = $this->writeJson($dataDir.'/revision-calendar.json', $plan);
+        }
+
         foreach ($this->coursePages($content) as $path => $markdown) {
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
         }
@@ -198,6 +208,75 @@ final readonly class DocsGenerator
      *
      * @return array<string, string> relative path under website/docs => markdown
      */
+    /**
+     * The agenda payload, projected from the canonical plan.
+     *
+     * Only the fields the grid renders are carried over: the 163 item records
+     * and the per-day `new`/`rev` arrays stay out, because the events already
+     * name what they cover and shipping the rest would triple the payload a
+     * learner downloads to look at a week.
+     *
+     * @return array<string, mixed>
+     */
+    private function revisionPlan(): array
+    {
+        $path = $this->project->path('docs/revision/plan.json');
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        $plan = json_decode((string) file_get_contents($path), true);
+
+        if (!\is_array($plan) || !isset($plan['days'])) {
+            return [];
+        }
+
+        $days = [];
+
+        foreach ($plan['days'] as $date => $day) {
+            $events = $day['events'] ?? [];
+
+            if ([] === $events && null === ($day['milestone'] ?? null)) {
+                continue;
+            }
+
+            $days[$date] = [
+                'events' => $events,
+                'milestone' => $day['milestone'] ?? null,
+                'used' => $day['used'] ?? 0,
+                'budget' => $day['budget'] ?? 0,
+            ];
+        }
+
+        return [
+            'generated_from' => 'docs/revision/plan.json',
+            'start' => $plan['start'] ?? null,
+            'exam' => $plan['exam'] ?? null,
+            'all_items_in' => $plan['all_items_in'] ?? null,
+            'last_day' => $plan['last_day'] ?? null,
+            'day_start' => $plan['day_start'] ?? new \stdClass(),
+            'mock_dates' => $plan['mock_dates'] ?? [],
+            'lot_name' => $plan['lot_name'] ?? new \stdClass(),
+            'lost_reviews_by_offset' => $plan['lost_reviews_by_offset'] ?? new \stdClass(),
+            'lost_reviews_minutes' => $plan['lost_reviews_minutes'] ?? 0,
+            'days' => $days,
+        ];
+    }
+
+    private const AGENDA_BANNER = <<<'MD'
+        :::tip Vous cherchez une grille d'agenda ?
+
+        Le même plan est affiché en vue **mois**, **semaine** et **jour** sur
+        [l'agenda de révision](/calendar) : créneaux horaires, couleur par type de
+        session, détail au clic. Cette page-ci reste la version rédigée —
+        imprimable, citable, et lisible sans JavaScript.
+
+        :::
+
+
+        MD;
+
     private function revisionPages(): array
     {
         $source = [
@@ -235,6 +314,10 @@ final readonly class DocsGenerator
                 str_replace('"', '\\"', $title),
                 $position,
             );
+
+            if ('calendar' === $slug) {
+                $body = self::AGENDA_BANNER.$body;
+            }
 
             $pages['revision/'.$slug.'.md'] = $front.$this->mdxSafe($body);
         }

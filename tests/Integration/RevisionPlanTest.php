@@ -104,6 +104,99 @@ final class RevisionPlanTest extends TestCase
         self::assertSame(max($dates), $dates['Mock 4'], 'Mock 4 must be sat last');
     }
 
+    /**
+     * The generator used to schedule J+45 and J+60 revisions past the exam:
+     * for a 15/12/2026 sitting it planned 25 days running to 09/01/2027. A
+     * revision the candidate can never do is not a revision, and listing it
+     * inflates the advertised workload by hours that cannot be worked. The
+     * loss is recorded in `lost_reviews` instead, so dropping it stays a
+     * measured cost rather than a silent one.
+     */
+    public function testNoWorkIsScheduledAfterTheExam(): void
+    {
+        $plan = $this->plan();
+
+        self::assertNotNull($plan['exam'] ?? null, 'the plan carries no exam date');
+        $exam = new \DateTimeImmutable($plan['exam']);
+
+        foreach ($plan['days'] as $date => $day) {
+            $when = new \DateTimeImmutable($date);
+
+            self::assertLessThanOrEqual(
+                $exam,
+                $when,
+                $date.' is planned after the exam of '.$plan['exam'],
+            );
+
+            if ($when == $exam) {
+                self::assertSame([], $day['rev'], 'the exam day carries revisions');
+                self::assertSame([], $day['new'], 'the exam day introduces new items');
+            }
+        }
+
+        // The count must stay visible: a plan that silently dropped the
+        // revisions instead of recording them would pass everything above.
+        self::assertArrayHasKey('lost_reviews_by_offset', $plan);
+        self::assertSame(
+            count($plan['lost_reviews']),
+            array_sum($plan['lost_reviews_by_offset']),
+            'the per-offset breakdown does not add up to the recorded losses',
+        );
+    }
+
+    /**
+     * The agenda grid draws these events; nothing else validates them, and a
+     * slot whose end precedes its start renders as a zero-height block the eye
+     * reads as an empty day rather than as a bug.
+     */
+    public function testEveryEventOccupiesACoherentSlot(): void
+    {
+        $kinds = ['NEW', 'REVIEW', 'LAB', 'ASSESS', 'MOCK', 'CONSOLIDATION', 'EXAM'];
+        $seen = 0;
+
+        foreach ($this->plan()['days'] as $date => $day) {
+            $previousEnd = -1;
+
+            foreach ($day['events'] as $event) {
+                ++$seen;
+
+                self::assertContains($event['kind'], $kinds, $date.' carries an unknown event kind');
+                self::assertGreaterThan(0, $event['minutes'], $date.' carries an event of no duration');
+                self::assertNotSame('', trim((string) $event['title']), $date.' carries an untitled event');
+
+                $start = $this->minutes($event['start']);
+                $end = $this->minutes($event['end']);
+
+                self::assertSame(
+                    $event['minutes'],
+                    $end - $start,
+                    $date.' has an event from '.$event['start'].' to '.$event['end']
+                        .' declared as '.$event['minutes'].' minutes',
+                );
+
+                // Sessions never overlap: the grid would draw them on top of
+                // each other, and a candidate cannot sit two at once.
+                self::assertGreaterThanOrEqual(
+                    $previousEnd,
+                    $start,
+                    $date.' starts an event at '.$event['start'].' before the previous one ends',
+                );
+
+                $previousEnd = $end;
+            }
+
+            $planned = array_sum(array_column($day['events'], 'minutes'));
+
+            self::assertLessThanOrEqual(
+                $day['budget'],
+                $planned,
+                $date.' schedules '.$planned.' minutes of events against a budget of '.$day['budget'],
+            );
+        }
+
+        self::assertGreaterThan(300, $seen, 'the plan carries almost no events');
+    }
+
     public function testNoDayExceedsItsOwnBudget(): void
     {
         foreach ($this->plan()['days'] as $date => $day) {
@@ -166,6 +259,13 @@ final class RevisionPlanTest extends TestCase
     }
 
     /** @return array{days: array<string, array{new: list<array{0: string, 1: int, 2: bool}>, used: int, budget: int}>, items: list<array<string, mixed>>, mock_dates: list<array{0: string, 1: string}>, all_items_in: string} */
+    private function minutes(string $hhmm): int
+    {
+        [$h, $m] = array_map('intval', explode(':', $hhmm));
+
+        return $h * 60 + $m;
+    }
+
     private function plan(): array
     {
         $path = $this->root().'/docs/revision/plan.json';

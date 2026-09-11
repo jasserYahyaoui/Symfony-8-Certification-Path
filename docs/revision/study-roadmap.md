@@ -78,12 +78,21 @@ pour un rythme nettement plus dur.
 | Poste | Plan complet | Chemin minimal |
 |---|---:|---:|
 | Première passe (cours 12,2 + questions 13,6 + flashcards 2,9) | 28,7 h | 28,7 h |
-| Révisions espacées | 57,3 h | 37,0 h |
+| Révisions espacées **engendrées par le modèle** | 57,3 h | 37,0 h |
+| *dont tombant après le 15 décembre — non planifiables* | *−3,1 h* | — |
+| Révisions espacées **réellement planifiées** | **54,2 h** | 37,0 h |
 | Assessments de lot (26 × 30 min) | 13,0 h | 13,0 h |
 | Mocks (5 × 90 min + correction) | 12,5 h | 12,5 h |
-| **Total** | **111,5 h** | **91,2 h** |
+| **Total planifié** | **108,4 h** | **91,2 h** |
 
-La première passe ne pèse que **29 h sur 111**. Le reste, c'est la rétention.
+Les 3,1 h retranchées sont les **59 révisions** que la date d'examen rend
+impossibles. Elles sont soustraites plutôt que comptées : un total qui les
+inclut annonce un travail que le calendrier ne contient pas, et ce n'est pas
+une approximation favorable — c'est un chiffre faux. Le calendrier s'arrête
+donc au 15 décembre, et le détail des pertes est en tête de
+[`study-calendar.md`](study-calendar.md).
+
+La première passe ne pèse que **29 h sur 108**. Le reste, c'est la rétention.
 C'est le résultat le plus utile de ce chiffrage : **votre calendrier n'est pas
 contraint par la lecture des cours, il est contraint par les révisions.** Sauter
 des révisions pour « avancer » est exactement le mauvais arbitrage.
