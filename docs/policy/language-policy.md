@@ -37,24 +37,30 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-11, 605 questions)
+## Measured state (2026-09-11, 615 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 230 of 231 = **99.6%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 235 of 236 = **99.6%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 136 of 136 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **584 English, 21 French**.
+Whole corpus: **594 English, 21 French**.
 
-The corpus grew by eleven since the Lot 04 reading of the same day: refining
-Lot 02 under framework version 2 added eleven questions, all English, so the
-French count is unchanged at 21 and every ratio moved in the same direction or
-not at all. Four of the eleven are `hard`, which is why the advanced
-denominator moves from 227 to 231.
+The corpus grew by ten since the Lot 02 reading: refining Lot 09 under
+framework version 2 added ten questions, all English, so the French count is
+unchanged at 21 and every ratio moved in the same direction or not at all.
+Five of the ten are `hard`, which is why the advanced denominator moves from
+231 to 236.
+
+### The reading of 2026-09-11 after Lot 02, kept
+
+605 questions: 230 of 231 advanced English (99.6%), `VALIDATION` 136 of 136,
+Mock 4 75 of 75, whole corpus 584 English and 21 French. That reading followed
+the refinement of Lot 02, which added eleven questions, all English.
 
 ### The reading of 2026-09-11 after Lot 04, kept
 

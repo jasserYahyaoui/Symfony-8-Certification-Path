@@ -1597,6 +1597,9 @@ questions:
         symbol_or_lines: Generic Form Type Extensions (lines 228-243) and getExtendedTypes (lines 44-62)
         verified_at: '2026-09-03'
   - id: QST-36fpym034vvf
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-rx9sxdh2gjgm
     version: 1
     official_topic: Dependency Injection
     official_item: OIT-79f4n087b66c
@@ -1655,6 +1658,9 @@ questions:
         symbol_or_lines: Public Versus Private Services (lines 1041-1052)
         verified_at: '2026-09-03'
   - id: QST-fwprrj0m0v38
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-ejv3jffbt4xd
     version: 1
     official_topic: Dependency Injection
     official_item: OIT-83sac57rw0xn
@@ -1715,6 +1721,9 @@ questions:
         symbol_or_lines: '_instanceof and #[AutoconfigureTag] (lines 55-112)'
         verified_at: '2026-09-03'
   - id: QST-ygcnvj3vpb7d
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-ddcr84rvx9ap
     version: 1
     official_topic: Dependency Injection
     official_item: OIT-ar4h3zfskjsp
@@ -1779,6 +1788,9 @@ questions:
           602-607)'
         verified_at: '2026-09-03'
   - id: QST-0fzn3p3xa9eh
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-k2cfezp9wvf5
     version: 1
     official_topic: Dependency Injection
     official_item: OIT-qj4xfkhwdrx7

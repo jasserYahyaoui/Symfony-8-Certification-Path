@@ -298,28 +298,28 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 22 octobre 2026
 
 - NOUVEAU · **Dependency Injection : Dependency Injection component** (STANDARD) — 9 min · 411 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 11 min · 484 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 12 min · 484 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 8 min · 339 mots · 2 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 9 min · 384 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 11 min · 384 mots · 4 questions, 1 flashcards
 - Révision **J+1** (20 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
 - Révision **J+3** (16 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+7** (14 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+14** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
-*Budget du jour : 98 / 120 min*
+*Budget du jour : 101 / 120 min*
 
 ### Vendredi 23 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 10 min · 395 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 13 min · 395 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Service decoration** (STANDARD) — 11 min · 450 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 10 min · 368 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 10 min · 404 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 11 min · 368 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
 - Révision **J+1** (22 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Révision **J+3** (15 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
 - Révision **J+7** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
 - Révision **J+14** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 109 / 120 min*
+*Budget du jour : 114 / 120 min*
 
 ### Samedi 24 octobre 2026
 
@@ -361,14 +361,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 26 octobre 2026
 
 - NOUVEAU · **Dependency Injection : Factories** (STANDARD) — 10 min · 343 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 12 min · 548 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 14 min · 548 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 13 min · 597 mots · 4 questions, 1 flashcards
-- NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 10 min · 354 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 11 min · 354 mots · 4 questions, 1 flashcards
 - Révision **J+3** (16 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
 - Révision **J+7** (16 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+14** (12 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule
 
-*Budget du jour : 89 / 120 min*
+*Budget du jour : 92 / 120 min*
 
 ### Mardi 27 octobre 2026
 
