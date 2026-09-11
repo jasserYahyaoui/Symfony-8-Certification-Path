@@ -13,3 +13,7 @@
 /website/docs/
 /website/static/data/
 tools/audit/__pycache__/
+
+# Intermédiaire machine du générateur de roadmap (docs/revision/study-calendar.md
+# est le livrable ; plan.json se régénère).
+docs/revision/plan.json
