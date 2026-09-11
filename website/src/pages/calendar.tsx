@@ -56,7 +56,10 @@ function Summary({payload}: {payload: CalendarPayload}): React.JSX.Element {
       Du <strong>{payload.start}</strong> au <strong>{payload.exam}</strong>, jour de l'examen :{' '}
       <strong>{sessions} sessions</strong> réparties sur{' '}
       <strong>{Object.keys(payload.days).length} journées</strong>, soit{' '}
-      <strong>{formatDuration(total)}</strong> de travail planifié. Tous les items sont étudiés au{' '}
+      <strong>{formatDuration(total)}</strong> de vos disponibilités effectivement occupées —
+      samedis de source tour et dimanches de consolidation compris. Le travail sur le contenu seul
+      en représente 108,3 h ; <Link to="/docs/revision/roadmap">la roadmap</Link> détaille les deux
+      totaux et pourquoi il faut les deux. Tous les items sont étudiés au{' '}
       <strong>{payload.all_items_in}</strong> ; les mocks viennent après, jamais avant.
     </p>
   );

@@ -149,6 +149,62 @@ final class RevisionPlanTest extends TestCase
      * slot whose end precedes its start renders as a zero-height block the eye
      * reads as an empty day rather than as a bug.
      */
+    /**
+     * Three losses of the same shape, all found by reconciling the plan
+     * against itself rather than by reading it: an assignment that overwrote
+     * whatever the day already held.
+     *
+     * Eight of twenty-six lot assessments survived — one Sunday was due to
+     * carry twelve. Two mock debriefs of five vanished, because the next
+     * mock was placed on top of the previous one's correction. Nothing
+     * reported any of it; the plan simply contained less than it promised.
+     */
+    public function testNothingScheduledIsSilentlyOverwritten(): void
+    {
+        $plan = $this->plan();
+
+        $assessed = [];
+        $mocks = [];
+        $corrections = [];
+
+        foreach ($plan['days'] as $date => $day) {
+            foreach ($day['assess'] as $lot) {
+                self::assertArrayNotHasKey($lot, $assessed, $lot.' is assessed twice');
+                $assessed[$lot] = $date;
+            }
+
+            if (null === $day['mock']) {
+                continue;
+            }
+
+            $name = $day['mock'][0];
+
+            if (str_starts_with($name, 'Correction ')) {
+                $corrections[substr($name, 11)] = $date;
+            } elseif (!str_starts_with($name, 'EXAMEN')) {
+                $mocks[$name] = $date;
+            }
+        }
+
+        self::assertNotEmpty($plan['lot_done'], 'no lot is recorded as finished');
+        self::assertSame(
+            array_keys($plan['lot_done']),
+            array_keys($assessed),
+            'every finished lot must get exactly one assessment',
+        );
+
+        self::assertNotEmpty($mocks, 'the plan schedules no mock');
+
+        foreach ($mocks as $name => $sat) {
+            self::assertArrayHasKey($name, $corrections, $name.' has no debrief');
+            self::assertGreaterThan(
+                $sat,
+                $corrections[$name],
+                $name.' is debriefed on '.$corrections[$name].', before it is sat',
+            );
+        }
+    }
+
     public function testEveryEventOccupiesACoherentSlot(): void
     {
         $kinds = ['NEW', 'REVIEW', 'LAB', 'ASSESS', 'MOCK', 'CONSOLIDATION', 'EXAM'];
@@ -191,6 +247,15 @@ final class RevisionPlanTest extends TestCase
                 $day['budget'],
                 $planned,
                 $date.' schedules '.$planned.' minutes of events against a budget of '.$day['budget'],
+            );
+
+            // `used` carried two opposite distortions before this: it ignored
+            // mocks entirely, and it counted a whole weekend budget whatever
+            // the day actually held. One field, one meaning.
+            self::assertSame(
+                $day['used'],
+                $planned,
+                $date.' declares '.$day['used'].' minutes used but draws '.$planned,
             );
         }
 

@@ -884,7 +884,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+45** (4 min) — Controllers : Argument value resolvers
 - Révision **J+60** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 48 / 120 min*
+*Budget du jour : 108 / 120 min*
 
 
 ## Décembre 2026
@@ -927,7 +927,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Mock 3** — 68 questions
 - Révision **J+30** (12 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
 
-*Budget du jour : 12 / 180 min*
+*Budget du jour : 102 / 180 min*
 
 ### Dimanche 6 décembre 2026
 
@@ -945,7 +945,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+45** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
 - Révision **J+60** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
-*Budget du jour : 35 / 120 min*
+*Budget du jour : 95 / 120 min*
 
 ### Mardi 8 décembre 2026
 
@@ -984,7 +984,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+45** (4 min) — Data Validation : Group sequence
 - Révision **J+60** (5 min) — Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 19 / 180 min*
+*Budget du jour : 109 / 180 min*
 
 ### Dimanche 13 décembre 2026
 
