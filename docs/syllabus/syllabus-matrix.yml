@@ -532,9 +532,12 @@ items:
     content_level_justification: >-
       Item factuel et de reconnaissance : il s'agit de situer RFC 9110 dans la famille 911x et de fixer le vocabulaire ressource / représentation. Un tableau et quatre définitions suffisent ; les mécanismes eux-mêmes appartiennent aux items dédiés.
     learning_outcomes:
-      - "Situer RFC 9110 parmi 9111, 9112, 9113 et 9114"
-      - "Énoncer que la sémantique est indépendante de la version de transport"
-      - "Distinguer ressource et représentation"
+      - id: OUT-6w2h5pvzsg06
+        outcome: "Situer RFC 9110 parmi 9111, 9112, 9113 et 9114"
+      - id: OUT-tv622sx0szjv
+        outcome: "Énoncer que la sémantique est indépendante de la version de transport"
+      - id: OUT-y8177jvv3m21
+        outcome: "Distinguer ressource et représentation"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -576,9 +579,12 @@ items:
     content_level_justification: >-
       Item factuel et de reconnaissance : la classe se lit sur le premier chiffre. Une explication concise et une table de codes suffisent ; le détailler davantage augmenterait le coût de révision sans améliorer la réponse à une question officielle.
     learning_outcomes:
-      - "Identifier la classe d'un code de statut à partir de son premier chiffre"
-      - "Distinguer 401 et 403 dans un scénario d'accès"
-      - "Distinguer les redirections préservant la méthode (307/308) des autres"
+      - id: OUT-7hfm105c194h
+        outcome: "Identifier la classe d'un code de statut à partir de son premier chiffre"
+      - id: OUT-8yd42b69nxnx
+        outcome: "Distinguer 401 et 403 dans un scénario d'accès"
+      - id: OUT-6sg999w56sxb
+        outcome: "Distinguer les redirections préservant la méthode (307/308) des autres"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -630,10 +636,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : sept sacs dont les types diffèrent, et une contrainte défensive d'InputBag qui lève là où l'on attend null. La fiabilité de getClientIp() derrière un proxy est une seconde source d'erreur réelle, avec conséquence de sécurité.
     learning_outcomes:
-      - "Choisir le sac approprié parmi les sept exposes par Request"
-      - "Expliquer pourquoi InputBag refuse les valeurs non scalaires"
-      - "Utiliser all() plutôt que get() pour une entrée multiple"
-      - "Expliquer pourquoi getClientIp() exige des trusted proxies"
+      - id: OUT-hm4eajgn6rks
+        outcome: "Choisir le sac approprié parmi les sept exposes par Request"
+      - id: OUT-8beznche62fc
+        outcome: "Expliquer pourquoi InputBag refuse les valeurs non scalaires"
+      - id: OUT-w17b65zev3y5
+        outcome: "Utiliser all() plutôt que get() pour une entrée multiple"
+      - id: OUT-g11rrz2thqp0
+        outcome: "Expliquer pourquoi getClientIp() exige des trusted proxies"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -688,9 +698,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction : isRedirect() et isRedirection() portent des noms quasi identiques et couvrent des ensembles qui se croisent sans s'inclure, 201 inclus et 304 exclu. Le choix de la sous-classe de Response est par ailleurs une décision d'application courante.
     learning_outcomes:
-      - "Choisir la sous-classe de Response adaptée au cas"
-      - "Distinguer isRedirect() de isRedirection() sur des statuts précis"
-      - "Distinguer isOk() de isSuccessful()"
+      - id: OUT-yq2nzprwr82v
+        outcome: "Choisir la sous-classe de Response adaptée au cas"
+      - id: OUT-2ekazygpee7h
+        outcome: "Distinguer isRedirect() de isRedirection() sur des statuts précis"
+      - id: OUT-p5kb8nhzd8hm
+        outcome: "Distinguer isOk() de isSuccessful()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -736,9 +749,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction : trois propriétés indépendantes — sûre, idempotente, cacheable — dont les intersections sont contre-intuitives. L'idée fausse que DELETE n'est pas idempotent parce que la seconde suppression échoue est tenace et directement examinable.
     learning_outcomes:
-      - "Classer une méthode selon sûre, idempotente et cacheable"
-      - "Expliquer pourquoi PUT et DELETE sont idempotents sans être sûrs"
-      - "Distinguer l'effet sur l'état du code de statut renvoyé"
+      - id: OUT-pvvwmsfr9v99
+        outcome: "Classer une méthode selon sûre, idempotente et cacheable"
+      - id: OUT-yfskr4jf463t
+        outcome: "Expliquer pourquoi PUT et DELETE sont idempotents sans être sûrs"
+      - id: OUT-vx89t3yy7xck
+        outcome: "Distinguer l'effet sur l'état du code de statut renvoyé"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -789,10 +805,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : chaque attribut de sécurité traite une menace différente, et les confondre produit une protection illusoire. La dépendance SameSite=none vers Secure échoue silencieusement côté serveur.
     learning_outcomes:
-      - "Poser et supprimer un cookie via la réponse"
-      - "Associer chaque attribut de sécurité à la menace qu'il atténue"
-      - "Énoncer la contrainte imposée par SameSite=none"
-      - "Expliquer pourquoi la suppression exige les mêmes path et domain"
+      - id: OUT-sh5sn773tmkx
+        outcome: "Poser et supprimer un cookie via la réponse"
+      - id: OUT-v9x1yyn34t4x
+        outcome: "Associer chaque attribut de sécurité à la menace qu'il atténue"
+      - id: OUT-z584m37h6jj1
+        outcome: "Énoncer la contrainte imposée par SameSite=none"
+      - id: OUT-d3rkaszp9nga
+        outcome: "Expliquer pourquoi la suppression exige les mêmes path et domain"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -838,10 +858,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : deux modèles (expiration, validation), une directive dont le nom contredit la sémantique (no-cache), et un oubli de Vary qui casse un cache partage sans aucun symptôme local. Le périmètre est limité aux en-têtes du protocole ; le reverse proxy Symfony appartient à l'item HTTP Caching de Miscellaneous.
     learning_outcomes:
-      - "Distinguer expiration et validation"
-      - "Distinguer max-age de s-maxage et leurs caches respectifs"
-      - "Distinguer no-cache de no-store"
-      - "Justifier la présence de Vary dès qu'une réponse est négociée"
+      - id: OUT-8qect8jsygkg
+        outcome: "Distinguer expiration et validation"
+      - id: OUT-m7sm7y26r3vk
+        outcome: "Distinguer max-age de s-maxage et leurs caches respectifs"
+      - id: OUT-c5rwk67m9qxc
+        outcome: "Distinguer no-cache de no-store"
+      - id: OUT-mepzxqmzgxss
+        outcome: "Justifier la présence de Vary dès qu'une réponse est négociée"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -899,9 +923,12 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : la pondération par q, la valeur par défaut 1.0 et le sens de q=0 se combinent avec la spécificité pour départager. L'omission de Vary lie directement cet item au cache et constitue le défaut le plus courant.
     learning_outcomes:
-      - "Interpréter les facteurs de qualité, y compris q=0"
-      - "Déterminer la représentation choisie face à un en-tête Accept donne"
-      - "Annoncer le choix par Content-Type, Content-Language et Vary"
+      - id: OUT-em6af2cxwyj0
+        outcome: "Interpréter les facteurs de qualité, y compris q=0"
+      - id: OUT-2brhvb6bgms5
+        outcome: "Déterminer la représentation choisie face à un en-tête Accept donne"
+      - id: OUT-gqzyfd5s32ta
+        outcome: "Annoncer le choix par Content-Type, Content-Language et Vary"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -950,9 +977,12 @@ items:
     content_level_justification: >-
       Item factuel et de reconnaissance : deux méthodes et une règle de normalisation. Le périmètre est volontairement étroit — la résolution du locale par la route appartient à User's locale guessing, et la traduction à l'item i18n — ce qui évite de tripler le même contenu.
     learning_outcomes:
-      - "Lire les préférences linguistiques du client"
-      - "Distinguer getLanguages() de getPreferredLanguage() avec liste supportée"
-      - "Connaître la normalisation fr-FR vers fr_FR"
+      - id: OUT-ja7etzg7tjay
+        outcome: "Lire les préférences linguistiques du client"
+      - id: OUT-asmwtw5t98t8
+        outcome: "Distinguer getLanguages() de getPreferredLanguage() avec liste supportée"
+      - id: OUT-q78pqrprnpe6
+        outcome: "Connaître la normalisation fr-FR vers fr_FR"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -996,10 +1026,14 @@ items:
     content_level_justification: >-
       Concept important exigeant distinction et application : le client est asynchrone par défaut, si bien que le moment réel de l'attente n'est pas celui qu'on croit. L'erreur ne produit aucun symptôme fonctionnel, seulement une perte de parallélisme invisible, ce qui la rend durable.
     learning_outcomes:
-      - "Émettre une requête sortante via HttpClientInterface"
-      - "Identifier le moment où la réponse est réellement attendue"
-      - "Obtenir du parallélisme en émettant avant de lire"
-      - "Inspecter une réponse d'erreur sans exception"
+      - id: OUT-9vyq57j7gj6b
+        outcome: "Émettre une requête sortante via HttpClientInterface"
+      - id: OUT-81pzmq0sf6k9
+        outcome: "Identifier le moment où la réponse est réellement attendue"
+      - id: OUT-t602yfbqy21b
+        outcome: "Obtenir du parallélisme en émettant avant de lire"
+      - id: OUT-9bcphcvp1dp0
+        outcome: "Inspecter une réponse d'erreur sans exception"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
