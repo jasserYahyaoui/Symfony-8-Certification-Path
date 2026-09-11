@@ -827,6 +827,9 @@ questions:
 # Batch 3 — Controllers (4 of the 6 slots; 2 are filled by existing holdout
 # questions).
 - id: QST-zca58wyyqqb0
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+    - OUT-fzeda7ytt9hf
   version: 1
   official_topic: Controllers
   official_item: OIT-ycc2c8tnv68h
@@ -886,6 +889,9 @@ questions:
     symbol_or_lines: controller value format (lines 96-131) and the `_controller` parameter (lines 1011-1013)
     verified_at: '2026-09-03'
 - id: QST-tjd5gvaa1nfx
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+    - OUT-axr8r9fatztr
   version: 1
   official_topic: Controllers
   official_item: OIT-6cr9b8ea8g32
@@ -915,10 +921,10 @@ questions:
   - http-foundation
   choices:
   - id: CHO-10fxhhx9tewy
-    text: A clone of the `request` bag when that bag holds anything, otherwise an InputBag decoded from the raw JSON body — writing to the result leaves the request untouched
+    text: A clone of the `request` bag when it holds anything, otherwise an InputBag decoded from the raw JSON body — writes to the result do not reach the request
     correct: true
   - id: CHO-kkxv988vejzs
-    text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict, and writes to it propagate to the request
+    text: The form fields and the decoded JSON body merged into one bag, the JSON winning on a conflict, and writes to it propagate to the request bag
     correct: false
     explanation: Nothing is merged. A non-empty `request` bag is returned on its own, and the raw body is not decoded at
       all in that case.
@@ -946,6 +952,9 @@ questions:
     symbol_or_lines: Request::getPayload() (lines 1539-1560)
     verified_at: '2026-09-03'
 - id: QST-cmjdp0g231f2
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-ym6q5502fmyf
   version: 1
   official_topic: Controllers
   official_item: OIT-emymfwgesh99
@@ -975,7 +984,7 @@ questions:
   - dev-environment
   choices:
   - id: CHO-cmma2wh3jpkj
-    text: 'Through the default `ErrorController`: load the FrameworkBundle error routes under `when@dev` with the `/_error` prefix, then open `/_error/404`'
+    text: 'Through the default `ErrorController`: load the FrameworkBundle error routes under `when@dev` with the `/_error` prefix'
     correct: true
   - id: CHO-vs7b4wxdpjky
     text: By switching the application to the prod environment locally, which is the only way to see the page the users
@@ -1004,6 +1013,9 @@ questions:
     symbol_or_lines: Testing Error Pages during Development (lines 137-185)
     verified_at: '2026-09-03'
 - id: QST-3e36y0qzcek6
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-srphtyf5qzqs
   version: 1
   official_topic: Controllers
   official_item: OIT-e41m74xaqhy7
@@ -1033,10 +1045,10 @@ questions:
   - security
   choices:
   - id: CHO-vcxh1vpbwap3
-    text: '`$session->getMetadataBag()->getLastUsed()`, a server-side timestamp checked before invalidating the session; a cookie lifetime is client-side and manipulable'
+    text: '`$session->getMetadataBag()->getLastUsed()`, a server-side timestamp checked before invalidating the session; a cookie lifetime is client-side'
     correct: true
   - id: CHO-qbe4jpwx29r2
-    text: Setting `cookie_lifetime` to the idle period, which is exactly what it is for, the browser being trusted to report when it lapses
+    text: Setting `cookie_lifetime` to the idle period, which is exactly what that setting is for, the browser being trusted to report when the period lapses
     correct: false
     explanation: The cookie lives on the client and can be manipulated there, so it cannot enforce a server-side idle timeout.
   - id: CHO-rm7yabs9bwsw
