@@ -135,3 +135,25 @@ lots:
           was written rather than after.
         production_smoke_line: >-
           ok  practice  383 questions, all LEARNING, no holdout id or choice
+  - lot: lot-02
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-02-refinement-v2/README.md
+        pull_request: 106
+        merged_commit: bda7dcd
+        production_verified_commit: bda7dcd
+        production_smoke_job: 103324868866
+        date: '2026-09-11'
+        note: >-
+          Cinq outcomes n'etaient evalues que par le holdout, donc par une
+          question que le candidat ne voit qu'au Mock 4 et jamais pendant
+          l'etude ; trois autres n'avaient aucune question. Onze questions
+          ajoutees, chacune sur une facette distincte de la question holdout
+          correspondante pour ne pas en detruire la valeur. Deux faits absents
+          des cours releves en source : setSharedMaxAge() appelle lui-meme
+          setPublic(), et isNotModified() retourne false avant toute
+          comparaison si la methode n'est pas cacheable. Indice de longueur
+          38,5 % -> 20,5 %.
