@@ -103,3 +103,35 @@ lots:
           aud10 on the next push is labelled, not refined.
         production_smoke_line: >-
           ok  practice  364 questions, all LEARNING, no holdout id or choice
+  - lot: lot-04
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-04-refinement-v2/README.md
+        pull_request: 99
+        merged_commit: 9dfac3f
+        production_verified_commit: 9dfac3f
+        production_smoke_job: 103189822542
+        date: '2026-09-11'
+        note: >-
+          Second core lot under framework version 2, run to test whether lot-03's
+          gap between the arithmetic floor and the real deficit reproduces. It
+          does not: lot-03 needed 20 questions against a floor of 17 (+17.6%),
+          lot-04 needed 19 against 18 (+5.6%). Only one item here carries two
+          questions on the same outcome, against three in lot-03. The floor holds
+          on both lots; the multiplier does not, so the pilot's 132-question
+          shortfall must be confirmed lot by lot and never scaled by a factor.
+          56 outcomes given minted OUT ids and linked to what assesses them; an
+          archetype declared on all 63 questions; 19 questions added, each fact
+          read from an anchored 8.0 source. Also added the namespace declaration
+          proving AbstractController belongs to the bundle, which the item's own
+          outcome promised without citing. No course contradiction found — but
+          the report records that the 14 courses were not read in full, only the
+          source passages each question engages, so "nothing found" is not
+          "nothing to find". The lot's answer-length cue was brought from 52.4%
+          (33/63) to 23.8% (15/63), under the chance baseline, before this entry
+          was written rather than after.
+        production_smoke_line: >-
+          ok  practice  383 questions, all LEARNING, no holdout id or choice
