@@ -196,4 +196,25 @@ lots:
           l'acces par !php/const en YAML. Indice de longueur 54,0 % -> 24,0 %
           en trois passes mesurees ; douze cas laisses tels quels, leur bonne
           reponse etant une valeur d'API.
+  - lot: lot-10
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-10-refinement-v2/README.md
+        pull_request: 112
+        merged_commit: 913367d
+        production_verified_commit: 913367d
+        production_smoke_job: 103446651706
+        date: '2026-09-11'
+        note: >-
+          Onze outcomes sans evaluation exploitable. Deux des onze questions
+          ecrites ont ete refusees par les regles du projet : CRS-001 (la bonne
+          reponse reproduisait un nom d'interface que le cours cite) et
+          SCOPE-001 (une question nommait Doctrine, topic exclu). Les deux
+          QUESTIONS ont ete reecrites, aucun cours touche, aucune regle
+          assouplie. Un fait absent du cours releve en source : ACCESS_GRANTED
+          vaut 1, ACCESS_ABSTAIN 0 et ACCESS_DENIED -1, donc un refus est truthy
+          et une abstention ne l'est pas. Indice de longueur 47,1 % -> 21,6 %.
 
