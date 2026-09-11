@@ -1850,6 +1850,9 @@ questions:
         symbol_or_lines: Using the AbstractBundle Class (lines 46-112)
         verified_at: '2026-09-03'
   - id: QST-8gempxeesawj
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-qva279gdyyra
     version: 1
     official_topic: Routing
     official_item: OIT-ff0kghjbzvpm
@@ -1909,6 +1912,9 @@ questions:
         symbol_or_lines: optional parameters, the `!` prefix and inlined defaults (lines 800-820)
         verified_at: '2026-09-03'
   - id: QST-9c1gepv9vdr4
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-8f5nc3sevst2
     version: 1
     official_topic: Routing
     official_item: OIT-4pgc74ctc3vc
@@ -1969,6 +1975,9 @@ questions:
         symbol_or_lines: special parameters created by Symfony (lines 1005-1033)
         verified_at: '2026-09-03'
   - id: QST-z82jqq77k8c5
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-qpav59c60vb3
     version: 1
     official_topic: Routing
     official_item: OIT-ceaw3ewfsw85
@@ -1999,7 +2008,7 @@ questions:
     choices:
       - id: CHO-r9kr6dqqme9v
         text: A command runs outside the HTTP context, so the router has no request to take the host from;
-          `framework.router.default_uri` supplies the request context instead
+          `framework.router.default_uri` supplies it
         correct: true
       - id: CHO-f43q3gwp8wws
         text: 'The route is missing `schemes`, and declaring `schemes: [''https'']` supplies the host
@@ -2028,6 +2037,9 @@ questions:
         symbol_or_lines: Generating URLs in Commands (lines 2302-2340)
         verified_at: '2026-09-03'
   - id: QST-yd5xptb52664
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+      - OUT-qnzwvqtmb7v5
     version: 1
     official_topic: Routing
     official_item: OIT-8sr74a2wnb3r

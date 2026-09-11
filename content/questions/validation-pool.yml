@@ -1864,6 +1864,10 @@ questions:
         symbol_or_lines: Managing Value Resolvers
         verified_at: '2026-09-01'
   - id: QST-pj29e0t9evjt
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+      - OUT-25y9qjcp8wgy
+      - OUT-qpav59c60vb3
     version: 1
     official_topic: Routing
     official_item: OIT-ceaw3ewfsw85
@@ -1912,6 +1916,9 @@ questions:
         symbol_or_lines: generate()
         verified_at: '2026-09-01'
   - id: QST-j4bn00687cya
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-jjd0fkj8bsy5
     version: 1
     official_topic: Routing
     official_item: OIT-egy2wn3z7gb7
@@ -1960,6 +1967,9 @@ questions:
         symbol_or_lines: route evaluation order
         verified_at: '2026-09-01'
   - id: QST-bz8ywsah25vt
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-6m9a09sd49jg
     version: 1
     official_topic: Routing
     official_item: OIT-1cj08dhtp9hj
@@ -2009,6 +2019,9 @@ questions:
         symbol_or_lines: Parameters Validation
         verified_at: '2026-09-01'
   - id: QST-mwp8zhtceb6d
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-w99f0fjydtp0
     version: 1
     official_topic: Routing
     official_item: OIT-ff0kghjbzvpm
@@ -2057,6 +2070,9 @@ questions:
         symbol_or_lines: Optional Parameters
         verified_at: '2026-09-01'
   - id: QST-mgckk1edgaen
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+      - OUT-t5wbk2v6vn3y
     version: 1
     official_topic: Routing
     official_item: OIT-81b2c0jmv2j3
@@ -2105,6 +2121,9 @@ questions:
         symbol_or_lines: Generating URLs in Templates
         verified_at: '2026-09-01'
   - id: QST-r2h1zt5ykzee
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-5kd3xgw0a686
     version: 1
     official_topic: Routing
     official_item: OIT-d51jbkfs21pt
@@ -2131,7 +2150,7 @@ questions:
       - redirect
     choices:
       - id: CHO-9g0rm6avfzgj
-        text: 'No redirect: the trailing-slash redirect applies only to GET and HEAD'
+        text: 'No redirect: that applies only to GET and HEAD'
         correct: true
       - id: CHO-gqrfb680fm0c
         text: A 301 redirect to /foo, preserving the body
@@ -2153,6 +2172,9 @@ questions:
         symbol_or_lines: Redirecting URLs with Trailing Slashes
         verified_at: '2026-09-01'
   - id: QST-fvhwatsy529v
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-zg0vs74c3yef
     version: 1
     official_topic: Routing
     official_item: OIT-4pgc74ctc3vc
@@ -2180,7 +2202,7 @@ questions:
       - special-parameters
     choices:
       - id: CHO-ghm6xqra6451
-        text: It sets the request format, which drives the response Content-Type
+        text: It sets the request format, driving the Content-Type
         correct: true
       - id: CHO-2g5drgnmkj1s
         text: It selects the template extension to render
@@ -2202,6 +2224,9 @@ questions:
         symbol_or_lines: Special Parameters
         verified_at: '2026-09-01'
   - id: QST-8vdjp0hj9nra
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-er1yxf3bmwn9
     version: 1
     official_topic: Routing
     official_item: OIT-e2zrm9qkpx7j
@@ -2250,6 +2275,9 @@ questions:
         symbol_or_lines: Matching Expressions
         verified_at: '2026-09-01'
   - id: QST-hxqdbk2mxzwm
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-7vtxk6rxbjq2
     version: 1
     official_topic: Routing
     official_item: OIT-xxcpx1qssp93
@@ -2277,7 +2305,7 @@ questions:
       - locale
     choices:
       - id: CHO-1dgy5jvj8vbc
-        text: Any locale that matches neither of the others
+        text: Any other locale
         correct: true
       - id: CHO-a7hc2wgbyrbq
         text: The path used when JavaScript is disabled
