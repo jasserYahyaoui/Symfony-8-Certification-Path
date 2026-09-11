@@ -108,6 +108,48 @@ que le calendrier ne contenait pas.
 Sept semaines dépassent les 12,5 h déclarées (pic **14,7 h**) et sont nommées
 une par une dans `exam-readiness.md`.
 
+### Trois pertes silencieuses du plan, et les trois fonctions de l'agenda (#105)
+
+**Le même défaut trois fois : une affectation qui écrasait.** 18 assessments de
+lot sur 26 disparaissaient (un dimanche en recevait douze) ; 2 débriefs de mock
+sur 5 disparaissaient (le mock suivant écrasait la correction du précédent) ; et
+`used` ignorait les mocks tout en valant le budget entier le week-end. Aucun ne
+levait quoi que ce soit — le plan contenait simplement moins que ce qu'il
+promettait. **Trouvés en réconciliant le plan contre lui-même, pas en le
+relisant.** 26/26 et 5/5 désormais, et `used` vaut exactement la somme des
+créneaux du jour.
+
+Conséquence sur le chiffrage : la table de charge annonçait 13,0 h
+d'assessments et 12,5 h de mocks quand le plan n'en contenait que 4,0 h et
+10,5 h. Elle porte maintenant **deux totaux, et il faut les deux** : 108,3 h de
+travail sur le contenu, **143,4 h réellement occupées au calendrier** — l'écart
+étant les samedis de source tour et les dimanches de consolidation. Ne retenir
+que le premier sous-estimait de 35 h ce que le plan demande.
+
+**L'agenda ouvre les cours, coche les sessions et replanifie.** Les URL de cours
+sont construites dans `DocsGenerator` à partir du même item et du même slug qui
+ont écrit la page. Le cochage vit dans `certpath.learner-state` (migration
+1 → 2), donc l'export et l'effacement de *Ma progression* le couvrent déjà ; la
+clé d'une session est `date|début|titre`, jamais son rang, parce que la
+replanification déplace les créneaux entre les jours.
+
+**La replanification impose un ordonnanceur dans le navigateur, donc deux
+implémentations d'un même algorithme.** Ce n'est tenable que sous condition, et
+la condition est outillée : aucune constante n'est recopiée dans le TypeScript
+(tout vient de `params` publié par le générateur Python), et
+`website/tools/verify-reschedule.mjs` exige du port un résultat **identique** au
+plan de Python — 76 jours, 440 créneaux — à chaque push. **Ne pas ajouter de
+constante en dur côté navigateur, et ne pas désarmer ce contrôle : c'est la
+seule chose qui rend le doublon défendable.**
+
+`website/tools/verify-agenda-ui.mjs` pilote un vrai navigateur en CI, parce que
+compiler et passer l'audit ne disent pas qu'une coche survit à un rechargement.
+
+Limite écrite dans le script plutôt que tue : un golden master n'exerce que les
+chemins que le plan canonique emprunte ; la branche qui coupe un item sur deux
+jours n'est jamais prise (163 items entiers, 0 partiel), donc déplacer ce seuil
+passe le contrôle.
+
 ### Déploiement vérifié en production
 
 Lignes **relevées** dans le smoke test de `57ee9ee`, non reconstituées :
