@@ -42,45 +42,129 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `7062476` — **le lot 04 est raffiné sous le cadre version 2 et
-vérifié en production ; l'étalonnage du coût des lots a rendu son verdict.**
+`master`, at `57ee9ee` — **PED-010 est clos, la roadmap est recalibrée sur un
+examen au 15/12/2026, et le plan de révision est publié sur GitHub Pages, à la
+fois en prose et en grille d'agenda.**
 
 | | |
 |---|---|
-| Pull requests | #99 (lot 04) · #100 (entrée du journal) · #101 (roadmap de révision candidat) |
-| CI | #99 run 34575813303 `success` · #100 run 34576979376 `success` |
-| Pages | #99 run 34576314839 `success`, smoke job 103189822542 · #100 run 34577807704 `success`, smoke job 103194562428 |
+| Pull requests | **#103** (PED-010 + roadmap publiée) · **#104** (troncature à l'examen + agenda) |
+| CI | #103 run 34585816537 `success` · #104 run 34588586401 `success` |
+| Pages | #103 run 34586249799 `success`, smoke job 103221476176 · **#104 run 34598680933 `success`, deploy 12:24:49Z, smoke job 103260727030 `success`** |
 | Couverture officielle | **100 % (163/163)** — inchangée |
-| Certification Readiness | **14,7 % (24/163) → 23,3 % (38/163)** |
-| Lots raffinés | **2/27 → 3/27** |
-| Corpus | 575 → **594 questions** |
+| Couverture flashcards | 126/163 (77,3 %) → **163/163 (100 %)** |
+| Règles obligatoires | 21 → **22** (`FLC-002`) |
+| Tests | 236 → **244** (13 404 assertions) |
+| Surfaces auditées a11y | 15 → **22**, 0 violation |
 
-Ligne relevée dans le smoke test de `7062476`, non reconstituée :
+### PED-010 — couverture flashcards (#103)
+
+137 → **174 cartes**, 126 → **163 items couverts**, **0 exemption retenue**.
+
+Le constat qui a décidé de la méthode : les 37 absences n'étaient pas 37
+lacunes. **29 étaient justifiées par écrit** dans l'en-tête du fichier de leur
+lot, **8 ne l'étaient nulle part** — `Global variables` (lot 06) et les sept
+items du lot 07, dont le fichier n'avait aucun en-tête. **Rien ne distinguait
+les deux cas pour un outil.** Un commentaire n'est pas une donnée.
+
+Les 29 exemptions tombent parce qu'elles tenaient toutes au même raisonnement —
+« table consultée plutôt que mémorisée ». Juste en apprentissage, **faux à un
+examen à livre fermé** : une table qu'on ne peut pas consulter se réduit au
+critère qui la résume, et ce critère est une cible de rappel. Les 37 cartes
+testent donc le critère, jamais la table.
+
+`FLC-002` (`src/Validation/Rule/FlashcardCoverageRule.php`) lit
+`docs/policy/flashcard-exemptions.yml` et échoue dans trois directions : item
+sans carte ni entrée ; **exemption périmée** (l'item a reçu une carte depuis) ;
+entrée nommant un item inexistant. La deuxième compte autant que la première :
+c'est ainsi qu'un registre se met à mentir. **§6 n'est pas assoupli** —
+exempter reste légitime, cela doit seulement être écrit là où un script peut le
+lire. Non-vacuité prouvée par
+`tools/audit/prove_flashcard_coverage_fails.py` (3 défauts injectés dans les
+vrais fichiers, 3 tirs, restauration byte-identique SHA-256).
+
+### Roadmap recalibrée et publiée (#103, #104)
+
+Examen **15/12/2026**, départ **01/10/2026**, **4 nouveaux items/jour**,
+budgets **120 min semaine / 180 min week-end**.
+
+| Jalon | Date |
+|---|---|
+| Tous les items étudiés | **2026-11-27** |
+| Mock 1 · 2 | 2026-11-28 · 2026-11-29 |
+| Mock 3 · 5 | 2026-12-05 · 2026-12-06 |
+| **Mock 4 (holdout)** | **2026-12-12** — seul, et dernier |
+| Examen | **2026-12-15** |
+
+**Un défaut trouvé en vérifiant, pas en relisant.** Le générateur planifiait
+**101 jours courant jusqu'au 2027-01-09** : vingt-cinq jours de révisions
+J+45/J+60 **postérieures à l'examen**. Corrigé — 76 jours, dernier jour = jour
+de l'examen, qui porte l'épreuve et aucune révision. Les **59 révisions**
+perdues (35 J+30, 5 J+45, 19 J+60 = 3,1 h) sont **comptées dans
+`lost_reviews`**, pas effacées : c'est le coût de la date choisie. La charge
+annoncée passe de 111,5 h à **108,4 h** — l'ancien total additionnait des heures
+que le calendrier ne contenait pas.
+
+Sept semaines dépassent les 12,5 h déclarées (pic **14,7 h**) et sont nommées
+une par une dans `exam-readiness.md`.
+
+### Déploiement vérifié en production
+
+Lignes **relevées** dans le smoke test de `57ee9ee`, non reconstituées :
 
 ```text
-ok  readiness  deployed 23.3% (38/163), 3 of 27 lots refined — matches the repository dashboard
-ok  practice   383 questions, all LEARNING, no holdout id or choice
+ok  200  …/Symfony-8-Certification-Path/calendar
+ok  200  …/Symfony-8-Certification-Path/data/revision-calendar.json
+ok  200  …/Symfony-8-Certification-Path/docs/revision/{roadmap,calendar,checkpoints,readiness}
+ok  revision  the calendar publishes 78 dated entries and stops at the exam
+ok  agenda   75 days, 410 sessions, stops at 2026-12-15
+ok  practice  383 questions, all LEARNING, no holdout id or choice
+ok  mock-4     75 questions, the whole holdout and nothing else, all English
+checked against 75 holdout questions and 308 holdout choices
 ```
 
-**Lot 04 (#99, #100).** 56 outcomes identifiés et évalués, 63 archétypes posés,
-19 questions ajoutées, indice de longueur du lot 52,4 % → **23,8 %**, sous son
-seuil de hasard, **avant** que l'entrée du journal ne le rende gaté. Un item
-promettait de situer `AbstractController` du côté du bundle sans citer la
-déclaration de namespace qui le prouve ; la source a été ajoutée.
+Les quatre routes de révision **n'étaient pas interrogées** par le smoke test
+avant cette session : elles étaient déployées et jamais vérifiées. Un 200 sur
+une route ne disait rien de ce qu'elle contenait — c'est la panne que le lecteur
+signale par « je ne vois pas le calendrier ».
 
-**Aucune contradiction de cours trouvée dans le lot 04 — mais la recherche
-était plus étroite qu'au lot 03, et le rapport le dit.** Les 14 cours n'ont pas
-été relus intégralement : seuls les passages de source que les questions engagent
-l'ont été. « Rien trouvé » n'est pas « rien à trouver ».
+**ENV-2 tient toujours** : `jasseryahyaoui.github.io` est bloqué par le proxy
+d'egress depuis cet environnement (403 au CONNECT, vérifié le 2026-09-11 par
+`curl` et par `WebFetch`). Le smoke test de CI est donc **la seule preuve de
+production disponible ici**, et aucune vérification manuelle de rendu (mobile,
+rafraîchissement de route directe) n'a pu être exécutée.
 
-**Roadmap de révision candidat (#101).** Quatre documents sous `docs/revision/`
-et leur générateur sous `tools/revision/`. Plan jour par jour du 1er octobre 2026
-au 24 janvier 2027, 110,9 h, calculé depuis les fichiers canoniques. Trois
-constats du corpus y sont enregistrés parce qu'ils contraignent le plan :
-`exercise_refs` est **vide sur les 163 items** (aucun exercice n'existe) ; **37
-items n'ont aucune flashcard** ; et sans plafond, le générateur plaçait **sept
-notions PHP le premier jour**, ce qui a imposé un plafond à trois nouveautés
-quotidiennes au prix de deux semaines de calendrier.
+### L'agenda (#104)
+
+`/calendar` : **410 sessions** en vues **mois**, **semaine** et **jour**,
+colorées par type, détail au clic. `?view=` et `?date=` rendent une semaine
+partageable — et auditable.
+
+**Les heures d'horloge sont une convention d'affichage, pas une donnée du
+plan.** Le plan connaît des durées ; rien ne dit à quelle heure le candidat
+ouvre un cours. 18:00 en semaine, 09:00 le week-end, dérivés des disponibilités
+déclarées, **écrit sur la page**. L'heure de convocation à l'examen n'est pas
+connue de ce dépôt : le 15 décembre porte un jalon, pas un créneau.
+
+**La page est en lecture seule.** Le drag & drop demandé n'est pas livré, et pas
+par oubli : aucune persistance de progression n'existe, donc un bloc déplacé
+n'aurait rien où s'enregistrer.
+
+Trois défauts d'accessibilité trouvés **par l'audit, pas par relecture** : la
+vue semaine donnait 17 px à une session de 12 min et le titre débordait en blanc
+sur gris pâle (corrigé : grille à 10 min/ligne, titre masqué sous 20 min) ;
+`role="grid"` sans `role="row"` (50 violations ARIA critiques) ; « + N
+autre(s) » à 4,02:1. **Seule la vue semaine révélait le premier** — d'où trois
+surfaces auditées et non une.
+
+Deux autres au passage : le samedi débordait son propre budget (le lab prenait
+le budget entier alors que les révisions dues étaient déjà placées) ; les ancres
+`#lot-NN` du calendrier vers les contrôles de maîtrise étaient **mortes depuis
+l'origine**.
+
+`LNK-001` a refusé un lien `/calendar` dans le Markdown canonique et elle a
+raison : ce n'est pas un document. La bannière est ajoutée par `DocsGenerator`.
+**La règle n'a pas été assouplie.**
 
 ## Completed work
 
@@ -300,6 +384,42 @@ dropped to 329 body words from Lot 03's 397. Lot 05 fell further, to 286.
 | SRC-6 | **`SRC-001` never inspects the citations a learner follows.** `SourceRef::hasAnchor()` is correct and rule `SRC-001` calls it — but `SRC-001` iterates `matrix->officialItems()` and checks *the matrix items'* sources. The 907 citations on courses, questions and flashcards are never passed to it, and where it does run the anchor failure is `Severity::Warning`, which does not fail a build. The invariant has been unchecked for the life of the project and every gate passed throughout. | Medium | **Resolved 2026-09-08 (PR #69, merge `2c6018b`).** `SRC-001` was extended to the learner-facing citations via `learnerFacingCitations()` and `checkCitation()`, and every anchor failure is now `Severity::Error` — **zero `Warning` remains in the rule**. The rule was strengthened, never weakened, and it was turned on only after the 105 were repaired so that the red build it would otherwise have produced carried real information. 18 tests cover it (`LearnerFacingCitationRuleTest`). Fourth instance of one pattern after `SPLICE-1`, `SPLICE-2` and `COG-1`: **an invariant nothing checks is not an invariant.** |
 
 ## Tests executed and actual results
+
+Locally, on PHP 8.4.19, on `fix/roadmap-truncate-at-exam` at `5582e2e`, every
+command run as its own command with its exit code read (PROC-1):
+
+```text
+php bin/cert validate                                → 22 rules, 163 items, 594 questions,
+                                                       2 violations, 0 blocking               (exit 0)
+vendor/bin/phpunit                                   → OK (244 tests, 13 404 assertions)      (exit 0)
+composer gate-full                                   → validate + coverage + tests + build
+                                                       + site + a11y                          (exit 0)
+npm --prefix website run typecheck                   → tsc --noEmit, aucune erreur            (exit 0)
+npm --prefix website run a11y                        → 22/22 surfaces PASS, TOTAL: 0          (exit 0)
+npm --prefix website run build                       → 0 lien cassé, 0 ancre cassée           (exit 0)
+aud01..aud11 (11 scripts)                            → exit 0 chacun                          (exit 0)
+prove_framework_rules_fail.py                        → PROOF OK                               (exit 0)
+prove_flashcard_coverage_fails.py                    → 3 tirs, restauration SHA-256 OK        (exit 0)
+```
+
+Non-vacuité vérifiée sur les contrôles ajoutés, par injection dans les **vrais**
+fichiers :
+
+```text
+testNoWorkIsScheduledAfterTheExam  jour injecté au 2026-12-20 → FAILURES! 1
+                                  plan.json restauré, SHA-256 identique avant/après
+contrôle du payload déployé       payload tronqué   → ::error:: only 5 days; only 18 events
+                                  jour post-examen  → ::error:: 2026-12-20 is planned after the exam
+                                  événement à 0 min → ::error:: carries an event with no usable slot
+                                  payload intact    → ok agenda 75 days, 410 sessions
+```
+
+Isolation HOLDOUT vérifiée contre les **75 questions** du holdout (le contrôle
+échoue s'il n'en charge aucune) : 0 identifiant, énoncé ou choix dans
+`website/static/data/revision-calendar.json`, `docs/revision/plan.json` et les
+quatre documents de révision.
+
+### Sessions antérieures
 
 Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
 its own command with its exit code read (PROC-1):
