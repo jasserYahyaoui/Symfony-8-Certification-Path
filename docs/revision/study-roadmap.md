@@ -4,8 +4,9 @@
 le samedi · 2 h à 3 h le dimanche · aucune indisponibilité · apprentissage en
 français, termes techniques en anglais.
 
-**Départ** : 1er octobre 2026. **Objectif** : passer la certification du premier
-coup — un `PASS`, pas un score maximal.
+**Départ** : 1er octobre 2026. **Examen visé** : **15 décembre 2026**.
+**Objectif** : passer la certification du premier coup — un `PASS`, pas un score
+maximal.
 
 ---
 
@@ -35,13 +36,31 @@ réelle sur vous-même.
 | Vitesse de lecture | 110 mots/min | **hypothèse** — 1re lecture attentive, français avec blocs de code |
 | Temps par question | `estimated_time_seconds` × 1,6 | **mesuré × hypothèse** — le champ est réel, le facteur 1,6 couvre la lecture de l'explication |
 | Temps par flashcard | 45 s | **hypothèse**, 1re passe |
-| Nouveautés par jour de semaine | 3 maximum | **décision**, justifiée ci-dessous |
+| Nouveautés par jour de semaine | **4 maximum** | **décision**, justifiée ci-dessous |
+| Budget semaine / week-end | **120 min / 180 min** | **décision** — le haut de votre fourchette déclarée |
 
-**Pourquoi trois nouveautés par jour et pas plus.** Sans plafond, le générateur
-tenait les 163 items en tenant le budget horaire — mais en plaçant **sept notions
-PHP le premier jour**, soit douze minutes par notion. Pour un profil 4/10, ce
-n'est pas de l'apprentissage. Le plafond coûte **deux semaines de calendrier** et
-porte chaque notion à une trentaine de minutes. Le coût est assumé et chiffré.
+**Pourquoi quatre nouveautés par jour, ni trois ni six.** Sans plafond, le
+générateur tenait les 163 items en tenant le budget horaire — mais en plaçant
+**sept notions PHP le premier jour**, soit douze minutes par notion. Pour un
+profil 4/10, ce n'est pas de l'apprentissage.
+
+Le chiffre exact est décidé par l'examen du 15 décembre, pas par le confort.
+Le plan complet programme 901 révisions espacées ; la date en rend une partie
+impossible, et le rythme décide laquelle :
+
+| Rythme | Fin des lots | Révisions perdues | Détail |
+|---|---|---:|---|
+| 3/jour, 1 h 30 | 18 déc. | **190 / 901** | dont 13 J+1 et 13 J+3 |
+| 3/jour, 2 h | 16 déc. | 166 / 901 | dont 7 J+1 et 7 J+3 |
+| **4/jour, 2 h** | **27 nov.** | **59 / 901** | **35 J+30, 24 J+45/J+60** |
+| 5/jour, 2 h | 20 nov. | 41 / 901 | 19 J+30, 22 J+45/J+60 |
+| 6/jour, 2 h | 18 nov. | 32 / 901 | 12 J+30, 20 J+45/J+60 |
+
+**Quatre est le rythme le plus doux qui ne perd aucun J+1, J+3, J+7 ni J+14.**
+Les deux premières lignes sacrifient des J+1 et J+3 — les échéances qui séparent
+une notion vue d'une notion apprise. Perdre un J+30 coûte de la consolidation ;
+perdre un J+1 coûte la notion. Cinq et six ne rachètent que 18 à 27 J+30 de plus,
+pour un rythme nettement plus dur.
 
 ### Volumes mesurés
 
@@ -50,21 +69,21 @@ porte chaque notion à une trentaine de minutes. Le coût est assumé et chiffr�
 | Items officiels | **163** |
 | Mots de corps de cours | **71 578** |
 | Questions hors HOLDOUT | **519** |
-| Flashcards | **137** |
-| Items sans aucune flashcard | **37 sur 163** |
+| Flashcards | **174** |
+| Items sans aucune flashcard | **0 sur 163** — 37 avant PED-010 |
 | Items avec un exercice | **0 sur 163** |
 
 ### Charge de travail
 
 | Poste | Plan complet | Chemin minimal |
 |---|---:|---:|
-| Première passe (cours + questions + flashcards) | 28,1 h | 28,1 h |
+| Première passe (cours 12,2 + questions 13,6 + flashcards 2,9) | 28,7 h | 28,7 h |
 | Révisions espacées | 57,3 h | 37,0 h |
 | Assessments de lot (26 × 30 min) | 13,0 h | 13,0 h |
 | Mocks (5 × 90 min + correction) | 12,5 h | 12,5 h |
-| **Total** | **110,9 h** | **90,6 h** |
+| **Total** | **111,5 h** | **91,2 h** |
 
-La première passe ne pèse que **28 h sur 111**. Le reste, c'est la rétention.
+La première passe ne pèse que **29 h sur 111**. Le reste, c'est la rétention.
 C'est le résultat le plus utile de ce chiffrage : **votre calendrier n'est pas
 contraint par la lecture des cours, il est contraint par les révisions.** Sauter
 des révisions pour « avancer » est exactement le mauvais arbitrage.
@@ -80,10 +99,10 @@ des URL ancrées sur la branche `8.0` de `symfony/symfony` et `symfony/symfony-d
 C'est un **source tour auto-dirigé**, pas un exercice corrigé. La différence est
 importante : personne ne vous dira que vous vous êtes trompé.
 
-**37 items n'ont aucune flashcard.** Pour ceux-là, la révision espacée s'appuie
-seulement sur les questions et la section *Pièges d'examen* du cours. C'est plus
-faible. Ces items sont signalés dans
-[`mastery-checkpoints.md`](mastery-checkpoints.md#items-sans-flashcard).
+**Les 37 items sans flashcard ont été comblés.** PED-010 a porté la couverture
+de 126/163 à **163/163** : chaque item dispose désormais d'au moins une carte
+exploitable, et la règle `FLC-002` empêche la lacune de revenir. Le plan ci-dessous
+intègre les 174 cartes.
 
 ---
 
@@ -155,13 +174,19 @@ sont soit prérequis de plusieurs lots, soit à forte densité conceptuelle :
 
 | Jour | Contenu | Budget planifié |
 |---|---|---:|
-| Lundi à vendredi | Cours, questions, flashcards + révisions dues | 90 min |
-| Samedi | Source tour sur les items de la semaine, lecture du code Symfony `8.0` | 150 min |
-| Dimanche | Consolidation, révisions dues, rattrapage, assessment de lot | 150 min |
+| Lundi à vendredi | Cours, questions, flashcards + révisions dues | **120 min** |
+| Samedi | Source tour sur les items de la semaine, lecture du code Symfony `8.0` | **180 min** |
+| Dimanche | Consolidation, révisions dues, rattrapage, assessment de lot | **180 min** |
 
-Le budget planifié est de **10,9 h par semaine en médiane**, contre 12,5 h
-déclarées disponibles. La marge est volontaire : elle absorbe un item qui
-résiste sans faire glisser tout le calendrier.
+Le budget planifié est de **12,4 h par semaine en médiane**, avec un pic à
+**14,7 h**. Sept semaines dépassent les 12,5 h de votre fourchette médiane, de
++1,2 h à +2,2 h — soit environ **25 minutes de plus par jour** sur ces
+semaines-là. Elles sont nommées une par une dans
+[`exam-readiness.md`](exam-readiness.md#les-sept-semaines-qui-dépassent-votre-disponibilité-déclarée),
+pour que vous puissiez les bloquer à l'avance plutôt que les découvrir.
+
+La marge est mince : c'est le prix de l'examen au 15 décembre. Les trois
+dernières semaines retombent à 4–6 h, l'étude étant terminée.
 
 **Les nouveautés ne sont introduites qu'en semaine.** Le samedi et le dimanche
 n'ajoutent jamais de notion nouvelle — ils la font tenir.
@@ -187,25 +212,25 @@ PRÊT-CANDIDAT retenu est donc un critère **interne**, défini et justifié dan
 
 ---
 
-## Le chemin le plus court vers PRÊT-CANDIDAT, à 100 % de couverture
+## Le chemin le plus court, et pourquoi il ne s'applique plus
 
-La contrainte est explicite : **conserver 100 % de couverture du syllabus.** Les
-163 items sont donc tous étudiés — aucun n'est sacrifié. Le raccourci ne peut
-donc porter que sur la **profondeur de révision**, pas sur l'étendue.
+Avant que la date du 15 décembre ne soit fixée, ce document proposait un
+« chemin minimal » : garder les 163 items mais ne conserver que J+1, J+3 et J+7,
+pour économiser 20 h et deux semaines.
 
-| Variante | Révisions | Charge | Fin des lots | Mock 4 |
-|---|---|---:|---|---|
-| **Plan complet** (celui du calendrier) | J+1, 3, 7, 14, 30 · +45, 60 transverses | 110,9 h | 18 déc. 2026 | 23 janv. 2027 |
-| **Chemin minimal** | J+1, 3, 7 seulement | 90,6 h | ≈ 11 déc. 2026 | ≈ 9 janv. 2027 |
+**Cette option est caduque, et il vaut mieux le dire que la laisser traîner.**
+La date impose déjà un sacrifice de révisions — 59 sur 901 — et il est choisi :
+il porte sur les J+30 et sur le renfort J+45/J+60, jamais sur les échéances
+courtes. Ajouter le chemin minimal par-dessus reviendrait à supprimer aussi les
+J+14 et les J+30 restants, soit à cumuler deux réductions dont la seconde ne
+rachète plus rien : le calendrier n'est plus le facteur limitant, la date l'est.
 
-Le chemin minimal économise **20,3 h et environ deux semaines**. Il supprime les
-échéances J+14 et J+30, c'est-à-dire précisément celles qui transforment une
-notion apprise en notion retenue un mois plus tard.
+Ce qui reste vrai : **100 % de couverture du syllabus est conservé dans tous les
+cas**. Les 163 items sont étudiés. Aucun raccourci envisagé ici n'a jamais porté
+sur l'étendue.
 
-**Recommandation : ne le prenez pas par défaut.** Il existe pour un cas précis —
-si vous deviez avancer la date d'examen pour une raison extérieure. Le prendre
-pour gagner deux semaines sur un examen non planifié serait échanger de la
-rétention contre du calendrier, alors que le calendrier ne vous contraint pas.
+Si la date devait reculer, le chemin complet — J+1, 3, 7, 14, 30 plus J+45 et
+J+60 sur les transverses — redevient atteignable et redevient le bon choix.
 
 ---
 
@@ -225,7 +250,7 @@ rétention contre du calendrier, alors que le calendrier ne vous contraint pas.
 
 | Fichier | Contenu |
 |---|---|
-| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre 2026 au 24 janvier 2027 |
+| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre 2026 au 9 janvier 2027 |
 | [`mastery-checkpoints.md`](mastery-checkpoints.md) | Le contrôle de fin de lot, l'analyse des faiblesses, le plan de correction |
 | [`exam-readiness.md`](exam-readiness.md) | Les dates prévisionnelles, la charge, et le critère PRÊT-CANDIDAT |
 
@@ -234,12 +259,18 @@ rétention contre du calendrier, alors que le calendrier ne vous contraint pas.
 Le calendrier est **généré**, pas écrit à la main :
 
 ```bash
-python3 tools/revision/build_roadmap.py            # écrit docs/revision/plan.json
-python3 tools/revision/render_calendar.py          # écrit docs/revision/study-calendar.md
+python3 tools/revision/build_roadmap.py \
+    --start 2026-10-01 --exam 2026-12-15 \
+    --max-new 4 --weekday 120 --weekend 180
+python3 tools/revision/render_calendar.py
 ```
 
-Options utiles : `--start AAAA-MM-JJ` pour décaler le départ, `--max-new N` pour
-changer le plafond de nouveautés quotidiennes.
+Options : `--start` et `--exam` pour les dates, `--max-new` pour le plafond de
+nouveautés quotidiennes, `--weekday` et `--weekend` pour les budgets en minutes.
+
+Le générateur **refuse** de produire un plan où les cinq mocks ne tiennent pas
+après la fin des lots : il s'arrête en nommant le nombre de week-ends manquants,
+plutôt que d'avancer un mock avant que tout soit étudié.
 
 `plan.json` est un intermédiaire machine : il est régénéré à la demande et n'est
 pas suivi par git.
@@ -247,12 +278,9 @@ pas suivi par git.
 ### Empreinte du corpus
 
 Cette roadmap a été calculée le **11 septembre 2026** sur un corpus de **163
-items, 594 questions, 71 578 mots de cours, 137 flashcards**, dont l'empreinte
-est :
-
-```text
-CORPUS_SHA256  e9e8a72bb5cd7f30   (content/** + docs/syllabus/syllabus-matrix.yml)
-```
+items, 594 questions, 71 578 mots de cours, 174 flashcards** (après PED-010).
+Son empreinte est recalculée à chaque régénération par la commande ci-dessous ;
+si elle ne correspond plus, le calendrier est périmé.
 
 Si cette empreinte ne correspond plus, **le calendrier est périmé** : le corpus a
 bougé et les durées avec lui. Régénérez-le. La commande qui la recalcule :

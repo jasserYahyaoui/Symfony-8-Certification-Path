@@ -1,0 +1,40 @@
+# Items officiels dispensés de flashcard — registre canonique de la règle FLC-002.
+#
+# POURQUOI CE FICHIER EXISTE
+#
+# Avant PED-010, 37 des 163 items n'avaient aucune flashcard. Vingt-neuf de ces
+# absences étaient des décisions éditoriales justifiées dans l'en-tête du
+# fichier de leur lot ; huit ne l'étaient pas du tout (lot-06 « Global
+# variables » et les sept items du lot-07). Rien ne distinguait les deux cas
+# pour un outil : un commentaire n'est pas une donnée.
+#
+# Ce registre rend la distinction MESURABLE. `FLC-002` échoue sur un item sans
+# flashcard qui n'y figure pas, et échoue aussi sur une entrée devenue obsolète
+# parce que l'item a depuis reçu une carte. Une lacune ne peut donc plus se
+# confondre avec une décision, dans un sens comme dans l'autre.
+#
+# LA RÈGLE DE VALEUR (§6) N'EST PAS ASSOUPLIE
+#
+# §6 interdit une carte pour un fait déjà retenu par l'application. Une
+# exemption reste légitime. Mais elle doit être écrite ici, datée, et dire par
+# quel autre mode l'item est évalué — pas seulement pourquoi la carte serait
+# inutile.
+#
+# ÉTAT AU 2026-09-11 : aucune exemption.
+#
+# PED-010 a comblé les 37 absences. Le raisonnement qui a fait tomber les
+# vingt-neuf exemptions d'origine : elles jugeaient en situation
+# d'APPRENTISSAGE (« table consultée plutôt que mémorisée », « mécanisme
+# raisonné à partir d'un critère »). L'examen est à livre fermé. Sous cette
+# contrainte, une table qu'on ne peut pas consulter se réduit au critère qui la
+# résume — et ce critère est précisément une cible de rappel. Les cartes créées
+# testent donc le critère, jamais la table.
+#
+# La couverture applicable vaut donc aujourd'hui la couverture brute :
+# 163/163. Ce fichier reste en place parce qu'une exemption future doit avoir
+# un endroit où être écrite, et un contrôle qui la lise.
+
+schema_version: 1
+
+# Chaque entrée : official_item, reason, assessed_by, decided_at, decided_by.
+exemptions: []

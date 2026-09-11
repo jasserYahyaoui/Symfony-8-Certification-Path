@@ -1,13 +1,11 @@
 # Lot 03 flashcards (Master Plan §6).
 #
-# Ten cards for fifteen items. Deliberately absent: License (one fact, held
-# by the course), Code organization and Official best practices (tables that are
-# read, not recalled), Components and Bridges, Framework overloading and
-# Framework interoperability (distinctions that are reasoned from a criterion,
-# and a card would only restate the table), Symfony Flex (mechanism, not recall)
-# and HttpFoundation (the InputBag reflex already has a card in Lot 02).
-# A card exists only where the fact is arbitrary, or where the intuition is
-# actively wrong.
+# Dix-huit cartes pour quinze items. PED-010 a comblé les huit absences.
+# Le principe d'origine est conservé — une carte n'existe que si le fait est
+# arbitraire ou si l'intuition est activement fausse — mais appliqué aux
+# conditions d'examen : à livre fermé, une table « lue et non mémorisée » se
+# réduit au critère qui la résume, et c'est lui que la carte teste. La carte
+# HttpFoundation porte sur le sens de la dépendance, pas sur InputBag.
 
 schema_version: 1
 
@@ -204,3 +202,132 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "sections Deprecating Code and Removing Deprecated Code"
         verified_at: "2026-09-01"
+  - id: FLC-p419ytejyj1a
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    front: 'Symfony : dans quel sens va la dépendance entre HttpFoundation et le framework ?'
+    back: Du framework vers HttpFoundation. Le composant ne dépend d'aucun composant Symfony.
+    explanation: Le contrat du noyau est écrit dans le vocabulaire de HttpFoundation (`Request`, `Response`),
+      donc c'est le framework qui en dépend. Le composant s'installe seul dans un projet PHP quelconque.
+    memorization_justification: 'Direction arbitraire : les deux sens paraissent plausibles et la réponse
+      décide plusieurs questions d''architecture.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst
+      branch: '8.0'
+      symbol_or_lines: introduction and installation
+      verified_at: '2026-09-11'
+  - id: FLC-7gcgff6wmgq8
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    front: 'Symfony Flex : quelle différence de comportement entre `symfony/recipes` et `symfony/recipes-contrib`
+      ?'
+    back: '`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande une autorisation.'
+    explanation: Le dépôt principal est curé, le dépôt contrib ne l'est pas — d'où l'invite. Une recette
+      jamais appliquée s'explique souvent par une invite contrib déclinée.
+    memorization_justification: 'Distinction arbitraire entre deux dépôts de même forme : rien dans
+      leur nom n''annonce la différence d''invite.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+      branch: '8.0'
+      symbol_or_lines: section Symfony Flex
+      verified_at: '2026-09-11'
+  - id: FLC-pyh6wnkg7dc5
+    official_item: OIT-347k8phdewem
+    language: fr
+    front: 'Licence MIT de Symfony : quelle est l''unique obligation qu''elle impose ?'
+    back: Reproduire l'avis de copyright et le texte de la licence dans toute copie substantielle du
+      logiciel.
+    explanation: 'MIT n''est pas copyleft : une application propriétaire et commerciale bâtie sur Symfony
+      n''a aucune obligation de publier son code, ni d''adopter MIT.'
+    memorization_justification: 'Fait ponctuel à énoncer exactement : la confusion avec une licence
+      copyleft est l''erreur courante.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE
+      branch: '8.0'
+      symbol_or_lines: lines 1-21, MIT text and copyright holder
+      verified_at: '2026-09-11'
+  - id: FLC-396ywyjsv9pb
+    official_item: OIT-d416348gfhde
+    language: fr
+    front: 'Symfony : quel est le critère qui sépare un bridge d''un bundle ?'
+    back: Le bundle apporte la configuration et enregistre des services ; un bridge ne configure rien.
+    explanation: 'Le bridge relie un composant à une bibliothèque tierce. Posé seul dans un projet Symfony,
+      il n''enregistre aucun service : c''est le bundle qui branche l''ensemble dans le framework.'
+    memorization_justification: 'Critère discriminant : c''est lui, et non la liste des paquets, qui
+      permet de classer un paquet inconnu le jour de l''examen.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+      branch: '8.0'
+      symbol_or_lines: replace and provide keys
+      verified_at: '2026-09-11'
+  - id: FLC-82hpxh6bv6y3
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    front: 'Symfony : où se déplacent `var/cache/` et `var/log/`, contrairement à `src/` ou `public/`
+      ?'
+    back: En PHP, par `getCacheDir()` et `getLogDir()` sur le `Kernel` — pas par la clé `extra` du `composer.json`.
+    explanation: '`bin/`, `config/`, `src/`, `public/`, `templates/`, `translations/` et `vendor/` se
+      déplacent par `extra`. Les deux répertoires générés font exception et se surchargent par code.'
+    memorization_justification: 'Exception arbitraire : la règle générale est le `composer.json`, et
+      rien n''annonce que ces deux-là s''en écartent.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+      branch: '8.0'
+      symbol_or_lines: Use the Default Directory Structure
+      verified_at: '2026-09-11'
+  - id: FLC-g0kpwp6w0xg6
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    front: 'Best practices Symfony : sous quelle forme définir une valeur qui ne change presque jamais
+      ?'
+    back: Une constante de classe — pas un paramètre du conteneur.
+    explanation: 'La recommandation est contre-intuitive : une constante est lisible partout, y compris
+      depuis un gabarit, là où un paramètre exige le conteneur. Les paramètres restent pour ce qui varie
+      par environnement.'
+    memorization_justification: 'Recommandation contre-intuitive : le réflexe est d''en faire un paramètre,
+      et l''examen interroge précisément l''écart.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+      branch: '8.0'
+      symbol_or_lines: sections Configuration, Business Logic and Tests
+      verified_at: '2026-09-11'
+  - id: FLC-y51trsyr41em
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    front: 'Twig : que se passe-t-il si un gabarit de surcharge étend le gabarit qu''il surcharge par
+      son nom ordinaire ?'
+    back: 'Une boucle infinie : le nom résout vers la surcharge, donc vers lui-même. Le préfixe `@!`
+      désigne l''original et rompt le cycle.'
+    explanation: Sans `@!`, la page ne rend jamais. C'est le seul emploi de ce préfixe et il n'a pas
+      d'équivalent.
+    memorization_justification: 'Syntaxe arbitraire à un seul usage : `@!` ne se devine pas et sa seule
+      alternative est un défaut silencieux.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+      branch: '8.0'
+      symbol_or_lines: sections Templates, Services and Validation Metadata
+      verified_at: '2026-09-11'
+  - id: FLC-f6phwa9qmmek
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    front: 'Symfony : quelle PSR de la liste n''est pas implémentée nativement, et que faut-il alors
+      ?'
+    back: 'PSR-7 : elle demande le pont `symfony/psr-http-message-bridge` **plus** une implémentation
+      tierce, que le pont ne fournit pas.'
+    explanation: Pour toutes les autres PSR de la liste, Symfony *est* l'implémentation — le conteneur
+      est un `Psr\Container\ContainerInterface`, sans adaptateur à écrire.
+    memorization_justification: 'Exception unique dans une liste homogène : c''est exactement la forme
+      de question que l''examen pose.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+      branch: '8.0'
+      symbol_or_lines: provide key
+      verified_at: '2026-09-11'

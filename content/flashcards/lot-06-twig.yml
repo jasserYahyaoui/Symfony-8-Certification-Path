@@ -1,9 +1,12 @@
 # Lot 06 flashcards (Master Plan §6).
 #
-# Nine cards covering eight of the fourteen items. Six carry none: TwigBundle,
-# Filters and functions, Template includes and Controller rendering (mechanisms
-# reasoned from a criterion, not recalled), URLs generation (one distinction the
-# course states in a line) and Assets management (one function signature).
+# Seize cartes pour quatorze items. PED-010 a comblé les sept absences — les
+# six listées ici plus Global variables, que l'en-tête d'origine omettait sans
+# justification. Chaque carte tient au critère : ce qui rend Twig configurable,
+# `app.user` nul sur page publique, ce qui sépare filtre et fonction, le
+# contexte hérité par défaut dans une inclusion, `path()` qui peut devenir
+# absolue, la sous-requête d'un rendu de contrôleur, la barre initiale
+# d'`asset()`.
 
 schema_version: 1
 
@@ -171,3 +174,109 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "section Debugging Variables"
         verified_at: "2026-09-01"
+  - id: FLC-aj7ff8fdwg48
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    front: 'Twig dans Symfony : lequel des trois paquets rend Twig configurable ?'
+    back: TwigBundle — c'est lui qui tire le moteur et le pont, et lui seul qui apporte la configuration.
+    explanation: Le moteur (`twig/twig`), le pont et le bundle sont distincts. Chercher la configuration
+      dans le moteur, c'est ne pas la trouver.
+    memorization_justification: Partage arbitraire entre trois paquets dont un seul s'installe.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      branch: '8.0'
+      symbol_or_lines: template locations, namespaces and configuration
+      verified_at: '2026-09-11'
+  - id: FLC-6952dw009qzf
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    front: 'Twig : que vaut `app.user` sur une page publique sans authentification ?'
+    back: '`null` — y accéder sans test produit une erreur.'
+    explanation: '`app.session` peut de même valoir `null`, et la lire démarre la session, avec l''effet
+      que cela a sur la cachabilité de la page.'
+    memorization_justification: Valeur nulle non signalée par la syntaxe, et qui casse une page publique
+      en production seulement.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      branch: '8.0'
+      symbol_or_lines: the app global variable and twig.globals
+      verified_at: '2026-09-11'
+  - id: FLC-qhsttsmdnhx6
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    front: 'Twig : qu''est-ce qui décide qu''un élément est un filtre plutôt qu''une fonction ?'
+    back: 'La source de la valeur : on part d''une valeur existante, c''est un filtre ; on part de rien,
+      c''est une fonction.'
+    explanation: 'Le même mot peut exister sous les deux formes. Les ajouts de Symfony — route, asset,
+      traduction, formulaire — viennent du pont, pas du moteur : ils n''existent pas dans un Twig installé
+      seul.'
+    memorization_justification: 'Critère de classement plutôt qu''une liste à apprendre : c''est lui
+      qui tranche pour un nom jamais vu.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      branch: '8.0'
+      symbol_or_lines: filters and functions
+      verified_at: '2026-09-11'
+  - id: FLC-hhtpt2r6ppfc
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    front: 'Twig : par défaut, un gabarit inclus voit-il le contexte de l''appelant ?'
+    back: Oui, tout le contexte. Le mot `only` est ce qui le restreint.
+    explanation: 'C''est un piège : le fragment marche par accident tant que l''appelant possède la
+      variable, puis casse ailleurs. Un gabarit absent fait par ailleurs échouer l''inclusion, sauf
+      mention explicite l''autorisant.'
+    memorization_justification: Défaut permissif qui produit une panne différée, loin du code fautif.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+      branch: v3.22.0
+      symbol_or_lines: include tag and options
+      verified_at: '2026-09-11'
+  - id: FLC-gmr3e6ms0rw6
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    front: 'Twig : la fonction `path()` peut-elle retourner une URL absolue ?'
+    back: Oui — si la route exige un schéma différent de celui de la requête courante, la sortie devient
+      absolue.
+    explanation: En dehors de ce cas, `path()` et `url()` ne diffèrent que par la forme du résultat
+      et prennent exactement les mêmes arguments.
+    memorization_justification: Exception au comportement que le nom de la fonction annonce.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      branch: '8.0'
+      symbol_or_lines: path and url functions
+      verified_at: '2026-09-11'
+  - id: FLC-ynhbpp2dtxs4
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    front: 'Twig : rendre un contrôleur depuis un gabarit, est-ce un appel de fonction ?'
+    back: 'Non — cela déclenche une sous-requête : le noyau retraverse son cycle pour chaque fragment.'
+    explanation: En semer partout se paie. Les fragments passent par une URL interne réservée, configurable,
+      qui n'est pas une route ordinaire de l'application.
+    memorization_justification: Coût invisible à la lecture du gabarit, et qui décide les questions
+      de performance.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      branch: '8.0'
+      symbol_or_lines: embedding controllers and fragments path
+      verified_at: '2026-09-11'
+  - id: FLC-1rh42q3b0njr
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    front: 'Twig : le chemin donné à `asset()` doit-il commencer par une barre ?'
+    back: Non — il est relatif au répertoire public. Une barre en tête casse le préfixe de base.
+    explanation: 'Le site cesse alors de fonctionner dès qu''il n''est pas servi à la racine du domaine.
+      La fonction applique le préfixe *et* la stratégie de version : un chemin écrit en dur perd les
+      deux.'
+    memorization_justification: Détail de syntaxe dont l'effet ne se voit qu'en déploiement sous-répertoire.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      branch: '8.0'
+      symbol_or_lines: asset and asset_version
+      verified_at: '2026-09-11'

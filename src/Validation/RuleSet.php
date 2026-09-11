@@ -11,6 +11,7 @@ use CertPath\Validation\Rule\DeadInternalLinkRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
 use CertPath\Validation\Rule\EnrichmentBudgetRule;
 use CertPath\Validation\Rule\ExamReadyEvidenceRule;
+use CertPath\Validation\Rule\FlashcardCoverageRule;
 use CertPath\Validation\Rule\FlashcardIntegrityRule;
 use CertPath\Validation\Rule\HoldoutIsolationRule;
 use CertPath\Validation\Rule\LearningOutcomeRule;
@@ -50,6 +51,7 @@ final class RuleSet
             new CognitiveLevelRule(),
             new CourseIntegrityRule(),
             new FlashcardIntegrityRule(),
+            new FlashcardCoverageRule(),
             new HoldoutIsolationRule(),
             new ValidationPoolCoverageRule(),
             new OutOfScopeContaminationRule(),

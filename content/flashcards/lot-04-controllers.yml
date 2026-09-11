@@ -1,12 +1,10 @@
 # Lot 04 flashcards (Master Plan §6).
 #
-# Ten cards covering nine of the fourteen items. Five items carry none:
-# HttpKernel component and FrameworkBundle and The base AbstractController
-# class (division-of-labour tables, reasoned from a criterion rather than
-# recalled), Naming conventions (the useful fact is that nothing is imposed,
-# which a card would only flatten), The request (two facts the course already
-# carries), and The cookies (the request/response asymmetry follows from the
-# protocol, and Lot 02 already holds the cookie-attribute card).
+# Quinze cartes pour quatorze items. PED-010 a comblé les cinq absences, en
+# testant le critère plutôt que la table : où vit l'arbre `framework:`, pourquoi
+# les raccourcis sont `protected`, que le suffixe `Controller` n'est pas imposé,
+# que l'appariement est par nom. La carte Cookies porte sur l'asymétrie
+# requête/réponse, pas sur les attributs de cookie, déjà couverts au lot 02.
 
 schema_version: 1
 
@@ -196,3 +194,83 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "render() and renderView() signatures"
         verified_at: "2026-09-01"
+  - id: FLC-4k8kx6a0rkg2
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    front: 'Symfony : où se trouve l''arbre de configuration `framework:` — dans le composant HttpKernel
+      ou dans FrameworkBundle ?'
+    back: Dans FrameworkBundle. Le composant est autonome et ne porte aucune configuration.
+    explanation: 'Le composant porte le contrat `handle()`, la classe `Kernel`, les événements et les
+      résolveurs. Le bundle câble : écouteurs, services tagués, arbre `framework:`, commandes et routes
+      internes.'
+    memorization_justification: 'Partage arbitraire entre deux paquets : chercher la configuration dans
+      le composant est l''erreur naturelle.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+      branch: '8.0'
+      symbol_or_lines: abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface
+      verified_at: '2026-09-11'
+  - id: FLC-xhgvea5evak2
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    front: 'Symfony : le suffixe `Controller` sur une classe de contrôleur est-il imposé par le framework
+      ?'
+    back: Non, c'est une convention. Rien dans le framework ne l'impose.
+    explanation: Un contrôleur est n'importe quel appelable PHP désigné par une route. Ni le suffixe,
+      ni l'héritage d'une classe de base ne sont des contraintes techniques.
+    memorization_justification: 'Convention prise pour une contrainte : l''erreur est de répondre «
+      obligatoire » parce que tout le code d''exemple la suit.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+      branch: '8.0'
+      symbol_or_lines: section A Basic Controller
+      verified_at: '2026-09-11'
+  - id: FLC-w5kmrvzr7a3z
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    front: 'Symfony : pourquoi `$this->render()` ne peut-il pas être appelé sur un contrôleur depuis
+      l''extérieur de la classe ?'
+    back: Parce que les raccourcis d'`AbstractController` sont `protected`.
+    explanation: Ils ne s'appellent que depuis la sous-classe. Un test qui traiterait le contrôleur
+      comme un service ordinaire ne peut pas les invoquer de l'extérieur.
+    memorization_justification: Détail de visibilité invisible à la lecture d'un contrôleur, et qui
+      décide une question de test fonctionnel.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+      branch: '8.0'
+      symbol_or_lines: class declaration, setContainer, getSubscribedServices
+      verified_at: '2026-09-11'
+  - id: FLC-jygxb3n5n15y
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    front: 'Symfony : les paramètres de route s''apparient-ils aux arguments du contrôleur par nom ou
+      par position ?'
+    back: Par nom, jamais par position.
+    explanation: Réordonner les arguments du contrôleur ne casse rien ; en renommer un casse la liaison.
+      C'est la même règle que pour les arguments passés à `forward()`.
+    memorization_justification: Règle inverse de l'intuition PHP ordinaire, où l'ordre des arguments
+      décide de tout.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+      branch: '8.0'
+      symbol_or_lines: The Request Object as a Controller Argument
+      verified_at: '2026-09-11'
+  - id: FLC-b5k068qvbh5t
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    front: 'Symfony : que produit la pose d''un cookie sur l''objet `Request` ?'
+    back: Rien n'est envoyé. Un cookie se lit sur la requête et s'écrit sur la réponse.
+    explanation: La requête est ce que le client a déjà envoyé ; la modifier n'a aucun effet sortant.
+      Écrire un cookie oblige donc à tenir la réponse, ce qu'un contrôleur qui délègue entièrement le
+      rendu n'a pas.
+    memorization_justification: Asymétrie lecture/écriture qu'aucun nom de méthode ne signale.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+      branch: '8.0'
+      symbol_or_lines: setCookie, removeCookie, clearCookie
+      verified_at: '2026-09-11'

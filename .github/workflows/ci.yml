@@ -57,6 +57,15 @@ jobs:
       - name: Unit and integration tests
         run: vendor/bin/phpunit
 
+      - name: Revision plan is deterministic and up to date
+        run: |
+          set -o pipefail
+          python3 tools/revision/build_roadmap.py \
+            --start 2026-10-01 --exam 2026-12-15 \
+            --max-new 4 --weekday 120 --weekend 180
+          python3 tools/revision/render_calendar.py
+          git diff --exit-code docs/revision/plan.json docs/revision/study-calendar.md
+
       - name: Coverage report is up to date
         run: |
           php bin/cert coverage
@@ -105,6 +114,7 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/audit/prove_framework_rules_fail.py
+          python3 tools/audit/prove_flashcard_coverage_fails.py
           python3 tools/audit/aud10_answer_length_bias.py --prove
 
       - name: Set up Node
@@ -119,6 +129,13 @@ jobs:
 
       - name: Generate the documentation tree from canonical data
         run: php bin/cert build
+
+      - name: The revision pages reach the published site
+        run: |
+          for page in roadmap calendar checkpoints readiness; do
+            test -s "website/docs/revision/$page.md" \
+              || { echo "missing website/docs/revision/$page.md"; exit 1; }
+          done
 
       - name: Type-check the site
         run: npm --prefix website run typecheck

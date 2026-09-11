@@ -114,6 +114,15 @@ const PAGES = [
   // AUD-08's TECH-4 did not see it at first, because it only scanned
   // docs/syllabus/ - that blind spot is fixed in the audit too.
   ['readiness', '/docs/readiness'],
+  // Plan de révision candidat. Quatre pages générées depuis docs/revision/ :
+  // prose dense, tableaux, et pour le calendrier ~1 100 lignes de listes
+  // imbriquées — la surface la plus longue du site. Auditées parce qu'elles
+  // sont atteignables depuis la navigation principale, pas parce qu'on suppose
+  // qu'elles ressemblent aux autres pages générées.
+  ['roadmap de révision', '/docs/revision/roadmap'],
+  ['calendrier de révision', '/docs/revision/calendar'],
+  ['contrôles de maîtrise', '/docs/revision/checkpoints'],
+  ['PRÊT-CANDIDAT', '/docs/revision/readiness'],
   ['practice', '/practice'],
   ['exam', '/exam'],
   // Mock 4. Only the briefing screen is reachable without interaction, so

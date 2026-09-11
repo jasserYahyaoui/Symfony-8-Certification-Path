@@ -241,11 +241,16 @@ main dd a:not(.button):not(.card),
 :root {
   --certpath-code-comment: #5c6370;   /* 5.9:1 on #f6f8fa */
   --certpath-code-constant: #0b6a68;  /* 5.3:1 on #f6f8fa */
+  --certpath-code-string: #c0135a;    /* 5.2:1 on #f6f8fa ; le thème sert
+                                         #e3116c, soit 4.32:1 — sous le seuil
+                                         de 4.5:1, mais de si peu que rien
+                                         d'autre sur le site ne l'avait révélé */
 }
 
 [data-theme='dark'] {
   --certpath-code-comment: #9aa5b1;   /* 7.0:1 on the dark code ground */
   --certpath-code-constant: #7fd4d2;
+  --certpath-code-string: #f191b4;
 }
 
 .token.comment,
@@ -257,6 +262,23 @@ main dd a:not(.button):not(.card),
 
 .token.constant,
 .token.symbol,
-.token.builtin {
+.token.builtin,
+/* Ajoutés lorsque les pages du plan de révision ont introduit les premières
+   fences `bash` du site : Prism classe `--start` ou `--exam` en
+   `parameter.variable`, servi dans le même #36acaa que les constantes
+   ci-dessus. Même défaut du thème, donc même correction — plutôt que de
+   retirer les fences des pages, ce qui aurait masqué le problème pour tout
+   le reste du site. */
+.token.parameter,
+.token.variable,
+/* `.token.number` aussi : les dates AAAA-MM-JJ des commandes de régénération
+   sont tokenisées en nombres, servies dans le même #36acaa. */
+.token.number {
   color: var(--certpath-code-constant) !important;
+}
+
+.token.string,
+.token.char,
+.token.attr-value {
+  color: var(--certpath-code-string) !important;
 }

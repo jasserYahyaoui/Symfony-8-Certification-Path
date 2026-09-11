@@ -30,6 +30,35 @@ export default function Home(): React.JSX.Element {
       </header>
 
       <main className="container margin-vert--xl">
+        <div className="row margin-bottom--xl">
+          <div className="col col--12">
+            <h2>Par où commencer</h2>
+            <p>
+              Le parcours compte 163 items officiels. Le plan de révision les
+              ordonne par dépendance — PHP, HTTP et l'architecture avant les
+              contrôleurs, l'injection de dépendances avant la sécurité — et
+              place les révisions espacées, les contrôles de fin de lot et les
+              mocks sur un calendrier daté.
+            </p>
+            <p>
+              <Link to="/docs/revision/roadmap">Roadmap de révision →</Link>
+              {' · '}
+              <Link to="/docs/revision/calendar">Calendrier jour par jour →</Link>
+              {' · '}
+              <Link to="/docs/revision/checkpoints">Contrôles de maîtrise →</Link>
+              {' · '}
+              <Link to="/docs/revision/readiness">PRÊT-CANDIDAT →</Link>
+            </p>
+            <p>
+              <small>
+                Les durées du calendrier sont des estimations calculées depuis le
+                corpus, pas des mesures sur vous : elles sont faites pour être
+                recalibrées après une première semaine.
+              </small>
+            </p>
+          </div>
+        </div>
+
         <div className="row">
           <div className="col col--4">
             <h2>Comprendre</h2>
