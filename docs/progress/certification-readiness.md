@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **29.4%** — 48 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **36.8%** — 60 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,16 +19,16 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 103 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 12 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 19 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 29 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 22 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 38 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**4 of 27 lots refined.**
+**5 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
@@ -40,7 +40,7 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 06 — Templating with Twig | TODO | 14 | 0 | 0% |
 | 07 — Forms | TODO | 13 | 0 | 0% |
 | 08 — Data Validation | TODO | 8 | 0 | 0% |
-| 09 — Dependency Injection | TODO | 12 | 0 | 0% |
+| 09 — Dependency Injection | **REFINED** | 12 | 12 | 100% |
 | 10 — Security | TODO | 12 | 0 | 0% |
 | 11 — Messenger | TODO | 7 | 0 | 0% |
 | 12 — Console | TODO | 9 | 0 | 0% |
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 02 — HTTP Fundamentals |
+| Last completed | 09 — Dependency Injection |
 | Recorded on | 2026-09-11 |
 | Next | 05 — Routing |
