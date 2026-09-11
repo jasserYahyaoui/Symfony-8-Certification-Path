@@ -1,6 +1,10 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useLocation} from '@docusaurus/router';
+import Link from '@docusaurus/Link';
 import styles from './RevisionCalendar.module.css';
+import {readRevision, writeRevision, type RevisionSettings} from '@site/src/lib/storage';
+import {reschedule, type Rescheduled} from '@site/src/lib/reschedule';
+import RevisionSettingsForm from './RevisionSettingsForm';
 import {
   type CalendarPayload,
   type EventKind,
@@ -58,9 +62,69 @@ interface Selected {
   event: PlanEvent;
 }
 
+const CANONICAL = (payload: CalendarPayload): RevisionSettings => ({
+  start: payload.start ?? '',
+  exam: payload.exam ?? '',
+  maxNew: payload.params.max_new,
+  weekday: payload.params.budget['0'],
+  weekend: payload.params.budget['5'],
+  weekdayStart: payload.params.day_start['0'],
+  weekendStart: payload.params.day_start['5'],
+});
+
+/** A slot is identified by when it happens and what it is, not by an index:
+ * replanning moves slots between days, and an index-based key would carry a
+ * tick from one session to a different one. */
+export function eventKey(date: string, event: PlanEvent): string {
+  return `${date}|${event.start}|${event.title}`;
+}
+
 export default function RevisionCalendar({payload}: {payload: CalendarPayload}): React.JSX.Element {
-  const dates = useMemo(() => Object.keys(payload.days).sort(), [payload.days]);
+  const [settings, setSettings] = useState<RevisionSettings | null>(null);
+  const [done, setDone] = useState<Record<string, string>>({});
+  const [storageBroken, setStorageBroken] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // Read after mount, never during render: the pages are prerendered, and
+  // localStorage does not exist while they are.
+  useEffect(() => {
+    const state = readRevision();
+    setSettings(state.settings);
+    setDone(state.done);
+    setLoaded(true);
+  }, []);
+
+  const replanned: Rescheduled | null = useMemo(() => {
+    if (!settings) {
+      return null;
+    }
+    return reschedule(payload.items, payload.order, payload.params, payload.lot_name, settings);
+  }, [payload, settings]);
+
+  const active = replanned && !replanned.error ? replanned.days : payload.days;
+
+  const dates = useMemo(() => Object.keys(active).sort(), [active]);
   const first = dates.length > 0 ? parseDay(dates[0]) : new Date();
+
+  function persist(next: {settings?: RevisionSettings | null; done?: Record<string, string>}): void {
+    const merged = {
+      settings: next.settings !== undefined ? next.settings : settings,
+      done: next.done !== undefined ? next.done : done,
+    };
+    setStorageBroken(!writeRevision(merged));
+  }
+
+  function toggle(date: string, event: PlanEvent): void {
+    const key = eventKey(date, event);
+    const next = {...done};
+    if (next[key]) {
+      delete next[key];
+    } else {
+      next[key] = new Date().toISOString();
+    }
+    setDone(next);
+    persist({done: next});
+  }
 
   const query = new URLSearchParams(useLocation().search);
   const wantedView = query.get('view');
@@ -74,10 +138,10 @@ export default function RevisionCalendar({payload}: {payload: CalendarPayload}):
   );
   const [selected, setSelected] = useState<Selected | null>(null);
 
-  const examIso = payload.exam;
+  const examIso = settings ? settings.exam : payload.exam;
 
   function dayFor(iso: string): PlanDay | undefined {
-    return payload.days[iso];
+    return active[iso];
   }
 
   function move(step: number): void {
@@ -97,8 +161,70 @@ export default function RevisionCalendar({payload}: {payload: CalendarPayload}):
         ? `semaine du ${dayLabel(startOfWeek(cursor))}`
         : dayLabel(cursor);
 
+  const canonical = CANONICAL(payload);
+  const totalEvents = Object.values(active).reduce((n, d) => n + d.events.length, 0);
+  const doneCount = Object.keys(active).reduce(
+    (n, date) => n + active[date].events.filter((e) => done[eventKey(date, e)]).length,
+    0,
+  );
+
   return (
     <div>
+      {loaded && (
+        <RevisionSettingsForm
+          value={settings ?? canonical}
+          canonical={canonical}
+          error={replanned?.error ?? null}
+          onApply={(next) => {
+            setSettings(next);
+            persist({settings: next});
+          }}
+          onReset={() => {
+            setSettings(null);
+            persist({settings: null});
+          }}
+        />
+      )}
+
+      {storageBroken && (
+        <div className="alert alert--warning" role="alert">
+          Le stockage local de ce navigateur est indisponible : les cases cochées et vos réglages ne
+          seront pas conservés d'une visite à l'autre.
+        </div>
+      )}
+
+      {replanned && !replanned.error && (
+        <p className={styles.replanNote}>
+          <strong>Plan replanifié</strong> — tous les items étudiés au{' '}
+          <strong>{replanned.allItemsIn}</strong>, examen le <strong>{settings?.exam}</strong>.
+          {replanned.lostMinutes > 0 && (
+            <>
+              {' '}
+              {Object.values(replanned.lostReviews).reduce((a, b) => a + b, 0)} révisions tombent
+              après l'examen et ne sont pas planifiées.
+            </>
+          )}
+        </p>
+      )}
+
+      <p className={styles.progress}>
+        <strong>
+          {doneCount} / {totalEvents}
+        </strong>{' '}
+        sessions cochées.{' '}
+        {doneCount > 0 && (
+          <button
+            type="button"
+            className="button button--sm button--outline button--secondary"
+            onClick={() => {
+              setDone({});
+              persist({done: {}});
+            }}>
+            Tout décocher
+          </button>
+        )}
+      </p>
+
       <div className={styles.toolbar}>
         <button type="button" className="button button--secondary button--sm" onClick={() => move(-1)}>
           ◀ Précédent
@@ -144,6 +270,7 @@ export default function RevisionCalendar({payload}: {payload: CalendarPayload}):
           cursor={cursor}
           dayFor={dayFor}
           examIso={examIso}
+          done={done}
           onPick={(date, event) => setSelected({date, event})}
           onOpenDay={(date) => {
             setCursor(parseDay(date));
@@ -157,6 +284,7 @@ export default function RevisionCalendar({payload}: {payload: CalendarPayload}):
           cursor={cursor}
           dayFor={dayFor}
           examIso={examIso}
+          done={done}
           onPick={(date, event) => setSelected({date, event})}
         />
       )}
@@ -166,11 +294,23 @@ export default function RevisionCalendar({payload}: {payload: CalendarPayload}):
           cursor={cursor}
           dayFor={dayFor}
           examIso={examIso}
+          items={payload.items}
+          done={done}
+          onToggle={toggle}
           onPick={(date, event) => setSelected({date, event})}
         />
       )}
 
-      {selected && <Details selected={selected} lotName={payload.lot_name} onClose={() => setSelected(null)} />}
+      {selected && (
+        <Details
+          selected={selected}
+          lotName={payload.lot_name}
+          items={payload.items}
+          done={Boolean(done[eventKey(selected.date, selected.event)])}
+          onToggle={() => toggle(selected.date, selected.event)}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   );
 }
@@ -181,12 +321,14 @@ function MonthView({
   cursor,
   dayFor,
   examIso,
+  done,
   onPick,
   onOpenDay,
 }: {
   cursor: Date;
   dayFor: (iso: string) => PlanDay | undefined;
   examIso: string | null;
+  done: Record<string, string>;
   onPick: (date: string, event: PlanEvent) => void;
   onOpenDay: (date: string) => void;
 }): React.JSX.Element {
@@ -240,7 +382,7 @@ function MonthView({
               <button
                 key={i}
                 type="button"
-                className={styles.chip}
+                className={`${styles.chip} ${done[`${iso}|${event.start}|${event.title}`] ? styles.chipDone : ''}`}
                 style={{background: COLOR[event.kind]}}
                 onClick={() => onPick(iso, event)}>
                 {event.start} {event.title}
@@ -266,11 +408,13 @@ function WeekView({
   cursor,
   dayFor,
   examIso,
+  done,
   onPick,
 }: {
   cursor: Date;
   dayFor: (iso: string) => PlanDay | undefined;
   examIso: string | null;
+  done: Record<string, string>;
   onPick: (date: string, event: PlanEvent) => void;
 }): React.JSX.Element {
   const monday = startOfWeek(cursor);
@@ -333,7 +477,7 @@ function WeekView({
               <button
                 key={`${iso}-${i}`}
                 type="button"
-                className={styles.event}
+                className={`${styles.event} ${done[`${iso}|${event.start}|${event.title}`] ? styles.eventDone : ''}`}
                 style={{
                   gridColumn: c + 2,
                   gridRow: `${Math.round(top) + 2} / span ${span}`,
@@ -370,11 +514,17 @@ function DayView({
   cursor,
   dayFor,
   examIso,
+  items,
+  done,
+  onToggle,
   onPick,
 }: {
   cursor: Date;
   dayFor: (iso: string) => PlanDay | undefined;
   examIso: string | null;
+  items: CalendarPayload['items'];
+  done: Record<string, string>;
+  onToggle: (date: string, event: PlanEvent) => void;
   onPick: (date: string, event: PlanEvent) => void;
 }): React.JSX.Element {
   const iso = isoOf(cursor);
@@ -399,27 +549,81 @@ function DayView({
         {formatDuration(day.budget)}.
       </p>
       <ul className={styles.dayList}>
-        {day.events.map((event, i) => (
-          <li key={i} className={styles.dayRow}>
-            <span className={styles.dayTime}>
-              {event.start}–{event.end}
-            </span>
-            <div className={styles.dayCard} style={{borderLeftColor: COLOR[event.kind]}}>
-              <span className={styles.tag} style={{background: COLOR[event.kind]}}>
-                {KIND_LABEL[event.kind]}
+        {day.events.map((event, i) => {
+          const key = `${iso}|${event.start}|${event.title}`;
+          const ticked = Boolean(done[key]);
+
+          return (
+            <li key={i} className={styles.dayRow}>
+              <span className={styles.dayTime}>
+                {event.start}–{event.end}
               </span>
-              <span className={styles.dayCardTitle}>{event.title}</span>
-              <p className={styles.dayCardMeta}>
-                {event.objective} — {formatDuration(event.minutes)}
-              </p>
-              <button type="button" className="button button--sm button--outline button--secondary" onClick={() => onPick(iso, event)}>
-                Détail
-              </button>
-            </div>
-          </li>
-        ))}
+              <div
+                className={`${styles.dayCard} ${ticked ? styles.dayCardDone : ''}`}
+                style={{borderLeftColor: COLOR[event.kind]}}>
+                <label className={styles.tick}>
+                  <input type="checkbox" checked={ticked} onChange={() => onToggle(iso, event)} />
+                  <span className={styles.tag} style={{background: COLOR[event.kind]}}>
+                    {KIND_LABEL[event.kind]}
+                  </span>
+                  <span className={styles.dayCardTitle}>{event.title}</span>
+                </label>
+                <p className={styles.dayCardMeta}>
+                  {event.objective} — {formatDuration(event.minutes)}
+                </p>
+                <CourseLinks ids={event.items} items={items} />
+                <button
+                  type="button"
+                  className="button button--sm button--outline button--secondary"
+                  onClick={() => onPick(iso, event)}>
+                  Détail
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </>
+  );
+}
+
+/**
+ * The courses a slot covers, as links.
+ *
+ * The href comes from `DocsGenerator`, which builds it from the same item and
+ * the same slug helper that wrote the page — so a link here cannot point at a
+ * route the build did not produce. An item without one is rendered as plain
+ * text rather than as a link that 404s.
+ */
+function CourseLinks({
+  ids,
+  items,
+  heading = false,
+}: {
+  ids: string[];
+  items: CalendarPayload['items'];
+  heading?: boolean;
+}): React.JSX.Element | null {
+  const known = ids.map((id) => items[id]).filter(Boolean);
+
+  if (known.length === 0) {
+    return null;
+  }
+
+  return (
+    <p className={styles.links}>
+      {heading && <strong>Cours à ouvrir : </strong>}
+      {known.map((item, i) => (
+        <React.Fragment key={i}>
+          {i > 0 ? ' · ' : ''}
+          {item.href ? (
+            <Link to={item.href}>{item.name}</Link>
+          ) : (
+            <span>{item.name}</span>
+          )}
+        </React.Fragment>
+      ))}
+    </p>
   );
 }
 
@@ -428,10 +632,16 @@ function DayView({
 function Details({
   selected,
   lotName,
+  items,
+  done,
+  onToggle,
   onClose,
 }: {
   selected: Selected;
   lotName: Record<string, string>;
+  items: CalendarPayload['items'];
+  done: boolean;
+  onToggle: () => void;
   onClose: () => void;
 }): React.JSX.Element {
   const {date, event} = selected;
@@ -469,6 +679,15 @@ function Details({
 
       <p>
         <strong>Objectif de la session :</strong> {event.objective}
+      </p>
+
+      <CourseLinks ids={event.items} items={items} heading />
+
+      <p>
+        <label className={styles.tick}>
+          <input type="checkbox" checked={done} onChange={onToggle} />
+          <strong>Session faite et terminée</strong>
+        </label>
       </p>
 
       <button type="button" className="button button--sm button--secondary" onClick={onClose}>

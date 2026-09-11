@@ -106,7 +106,7 @@ assert len(items) == 163, len(items)
 days = collections.OrderedDict()
 reviews = collections.defaultdict(list)      # date -> [(item, offset, minutes)]
 def day(d):
-    return days.setdefault(d, {'new':[], 'rev':[], 'lab':None, 'assess':None,
+    return days.setdefault(d, {'new':[], 'rev':[], 'lab':None, 'assess':[],
                                'mock':None, 'used':0, 'budget':BUDGET[d.weekday()]})
 
 queue = list(items)
@@ -157,11 +157,6 @@ while queue or any(k >= d for k in reviews):
     d += datetime.timedelta(days=1)
 
 last_study = max(days)
-# 5. assessments de lot : le dimanche suivant la fin du lot
-for lot, dd in lot_done_date.items():
-    s = dd
-    while s.weekday() != 6: s += datetime.timedelta(days=1)
-    day(s)['assess'] = lot
 
 # 6. mocks : dès que TOUS les lots sont introduits (exigence 4), un par week-end.
 #    Le tail de révisions J+30/J+45/J+60 continue en parallèle : il occupe la
@@ -197,6 +192,12 @@ else:
     slots = None
 md = all_items_in + datetime.timedelta(days=1)
 while md.weekday() != 5: md += datetime.timedelta(days=1)
+# Les mocks d'abord, les corrections ensuite — en DEUX passes.
+#
+# En une seule passe, la correction du Mock 1 était posée au 29 novembre, puis
+# le Mock 2 la remplaçait en s'y installant au tour suivant. Idem pour le
+# Mock 3, effacé par le Mock 5. Deux débriefs sur cinq disparaissaient du plan
+# sans trace, et le débrief est la partie du mock où l'on apprend.
 mock_dates = []
 for n,(name, note) in enumerate(MOCKS):
     if slots:
@@ -205,10 +206,61 @@ for n,(name, note) in enumerate(MOCKS):
         md = max(md, last_study)
         while md.weekday() != 5: md += datetime.timedelta(days=1)
     day(md)['mock'] = (name, note)
-    day(md + datetime.timedelta(days=1))['mock'] = ('Correction ' + name,
-        'analyse par item, plan de correction, re-révision ciblée')
     mock_dates.append((name, md))
     if not slots: md += datetime.timedelta(days=7)
+
+for name, md in mock_dates:
+    cd_ = md + datetime.timedelta(days=1)
+    guard = 0
+    while day(cd_)['mock'] is not None:
+        cd_ += datetime.timedelta(days=1)
+        guard += 1
+        assert guard < 60, 'aucun jour libre pour la correction du '+name
+
+    day(cd_)['mock'] = ('Correction ' + name,
+        'analyse par item, plan de correction, re-révision ciblée')
+# 7. assessments de lot, APRÈS les mocks.
+#
+#    L'ordre compte : placés avant, ils voyaient les 29 et 30 novembre libres,
+#    et les mocks atterrissaient ensuite par-dessus — 259 minutes planifiées
+#    sur un budget de 180. La capacité doit être mesurée sur la journée telle
+#    qu'elle sera, pas telle qu'elle est à mi-construction.
+#    `day(s)['assess'] = lot` écrasait silencieusement : vingt-six lots se
+#    terminent, huit assessments survivaient. Sept dimanches en recevaient
+#    plusieurs, et celui du 29 novembre en recevait DOUZE — les lots 14 à 26
+#    sont courts et se terminent la même semaine. Dix-huit contrôles de fin de
+#    lot disparaissaient du plan sans que rien ne le signale, alors que la
+#    roadmap en promet vingt-six.
+#
+#    Ils sont donc reportés plutôt qu'écrasés : chacun cherche le premier jour,
+#    à partir de son dimanche d'échéance, dont la capacité restante accepte
+#    trente minutes. Un contrôle passé en retard reste un contrôle ; un contrôle
+#    écrasé n'existe pas.
+ASSESS_MIN = 30
+
+def _capacity(d):
+    v = day(d)
+    taken = sum(m for _, m, _ in v['new']) \
+        + sum(m for _, _, m in v['rev']) \
+        + ASSESS_MIN * len(v['assess'])
+    if v['mock']:
+        taken += 60 if v['mock'][0].startswith('Correction') else 90
+    return v['budget'] - taken
+
+for lot, dd in sorted(lot_done_date.items(), key=lambda kv: (kv[1], kv[0])):
+    s = dd
+    while s.weekday() != 6:
+        s += datetime.timedelta(days=1)
+
+    guard = 0
+    while _capacity(s) < ASSESS_MIN:
+        s += datetime.timedelta(days=1)
+        guard += 1
+        assert guard < 400, 'aucun jour ne peut accueillir l assessment de '+lot
+
+    day(s)['assess'].append(lot)
+
+
 last_day = max(days)
 
 # 7. Troncature à la date d'examen.
@@ -264,11 +316,11 @@ for k in sorted(days):
         if name.startswith('EXAMEN'):
             # L'heure de convocation n'est pas connue de ce dépôt et ne sera
             # pas inventée : la journée porte un jalon, pas un créneau.
-            blocks.append(('EXAM', name, None, note, 0))
+            blocks.append(('EXAM', name, None, note, 0, []))
         elif name.startswith('Correction'):
-            blocks.append(('MOCK', name, None, note, 60))
+            blocks.append(('MOCK', name, None, note, 60, []))
         else:
-            blocks.append(('MOCK', name, None, note, 90))
+            blocks.append(('MOCK', name, None, note, 90, []))
 
     by_off = collections.defaultdict(list)
     for (it, off, mins) in v['rev']:
@@ -282,7 +334,8 @@ for k in sorted(days):
             f'Révision espacée J+{off}',
             lots[0] if len(lots) == 1 else None,
             ' · '.join(f"{i['topic']} : {i['name']}" for i, _ in group),
-            mins))
+            mins,
+            [i['id'] for i, _ in group]))
 
     for (it, mins, full) in v['new']:
         det = []
@@ -294,7 +347,8 @@ for k in sorted(days):
             ('Nouveau' if full else 'Nouveau (suite)') + f" — {it['name']}",
             it['lot'],
             f"{it['topic']} · {it['level']} · {it['words']} mots · " + ', '.join(det),
-            mins))
+            mins,
+            [it['id']]))
 
     if v['lab']:
         # Le lab occupe ce qui RESTE du budget, pas le budget entier : les
@@ -306,31 +360,33 @@ for k in sorted(days):
             None,
             f"{len(v['lab'])} items de la semaine : "
             + ' · '.join(i['name'] for i in v['lab']),
-            max(0, v['budget'] - sum(b[4] for b in blocks))))
+            max(0, v['budget'] - sum(b[4] for b in blocks)),
+            [i['id'] for i in v['lab']]))
 
-    if v['assess']:
-        lot = v['assess']
+    for lot in v['assess']:
         blocks.append((
             'ASSESS',
             f'Assessment {lot} — {LOT_NAME[lot]}',
             lot,
             'contrôle de maîtrise, analyse des écarts, plan de correction',
-            30))
+            ASSESS_MIN,
+            []))
 
-    if k.weekday() == 6 and not v['mock'] and not v['assess']:
+    if k.weekday() == 6:
         blocks.append((
             'CONSOLIDATION',
             'Consolidation et rattrapage',
             None,
             'reprendre les questions ratées de la semaine, rattraper ce qui a débordé',
-            max(0, v['budget'] - sum(b[4] for b in blocks))))
+            max(0, v['budget'] - sum(b[4] for b in blocks)),
+            []))
 
     blocks.sort(key=lambda b: KIND_ORDER[b[0]])
 
     cursor = int(DAY_START[k.weekday()][:2]) * 60
     since_pause = 0
     evs = []
-    for (kind, title, lot, objective, mins) in blocks:
+    for (kind, title, lot, objective, mins, ids) in blocks:
         if mins <= 0:
             continue
         if since_pause >= PAUSE_AFTER and kind != 'EXAM':
@@ -338,10 +394,11 @@ for k in sorted(days):
             since_pause = 0
         evs.append({'start': _hhmm(cursor), 'end': _hhmm(cursor + mins),
                     'minutes': mins, 'kind': kind, 'title': title,
-                    'lot': lot, 'objective': objective})
+                    'lot': lot, 'objective': objective, 'items': ids})
         cursor += mins
         since_pause = 0 if kind in ('EXAM', 'MOCK') else since_pause + mins
     v['events'] = evs
+    v['used'] = sum(e['minutes'] for e in evs)
     v['milestone'] = None
     if v['mock'] and v['mock'][0].startswith('EXAMEN'):
         v['milestone'] = list(v['mock'])
@@ -372,7 +429,23 @@ json.dump({'items':items,
            'lost_reviews_by_offset':{str(o):n for o,n in sorted(lost_by_off.items())},
            'lost_reviews_minutes':lost_min,
            'day_start':DAY_START,
-           'lot_order':ORDER},
+           'lot_order':ORDER,
+           # Les paramètres qui ont produit ce plan, publiés avec lui.
+           # L'agenda replanifie dans le navigateur quand le candidat change de
+           # date ou d'horaires ; il doit le faire avec CES valeurs, jamais avec
+           # une copie recopiée à la main dans le TypeScript — une constante
+           # dupliquée est une divergence qui attend son heure.
+           'params':{'max_new':MAX_NEW,
+                     'budget':{str(k):v for k,v in BUDGET.items()},
+                     'day_start':DAY_START,
+                     'review':REVIEW,
+                     'offsets':OFFSETS,
+                     'offsets_plus':OFFSETS_PLUS,
+                     'assess_min':ASSESS_MIN,
+                     'pause_after':PAUSE_AFTER,
+                     'pause_min':PAUSE_MIN,
+                     'mocks':[[n, note] for n, note in MOCKS]},
+           'order':[i['id'] for i in items]},
           open(_args.out,'w',encoding='utf-8'), ensure_ascii=False)
 
 tot_first = sum(i['total'] for i in items)

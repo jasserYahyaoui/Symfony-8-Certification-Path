@@ -167,7 +167,7 @@ final readonly class DocsGenerator
         // is a projection of docs/revision/plan.json, which stays the single
         // source of truth: no time is computed here that the generator did not
         // already write, so the page and the Markdown calendar cannot drift.
-        $plan = $this->revisionPlan();
+        $plan = $this->revisionPlan($content);
 
         if ([] !== $plan) {
             $written[] = $this->writeJson($dataDir.'/revision-calendar.json', $plan);
@@ -218,7 +218,7 @@ final readonly class DocsGenerator
      *
      * @return array<string, mixed>
      */
-    private function revisionPlan(): array
+    private function revisionPlan(ContentSet $content): array
     {
         $path = $this->project->path('docs/revision/plan.json');
 
@@ -230,6 +230,33 @@ final readonly class DocsGenerator
 
         if (!\is_array($plan) || !isset($plan['days'])) {
             return [];
+        }
+
+        // The course URL is derived here, from the same item and the same slug
+        // helper that wrote the page, so a link in the agenda cannot point at a
+        // route the build did not produce.
+        $href = [];
+
+        foreach ($content->matrix->items as $item) {
+            $href[$item->id->value] = '/docs/courses/'.$this->slug($item->lot)
+                .'/'.$this->slug($item->officialItem);
+        }
+
+        $items = [];
+
+        foreach ($plan['items'] ?? [] as $item) {
+            $items[$item['id']] = [
+                'name' => $item['name'],
+                'topic' => $item['topic'],
+                'lot' => $item['lot'],
+                'level' => $item['level'],
+                'total' => $item['total'],
+                'words' => $item['words'],
+                'nq' => $item['nq'],
+                'nfc' => $item['nfc'],
+                'transverse' => $item['transverse'],
+                'href' => $href[$item['id']] ?? null,
+            ];
         }
 
         $days = [];
@@ -260,6 +287,9 @@ final readonly class DocsGenerator
             'lot_name' => $plan['lot_name'] ?? new \stdClass(),
             'lost_reviews_by_offset' => $plan['lost_reviews_by_offset'] ?? new \stdClass(),
             'lost_reviews_minutes' => $plan['lost_reviews_minutes'] ?? 0,
+            'params' => $plan['params'] ?? new \stdClass(),
+            'items' => $items,
+            'order' => $plan['order'] ?? [],
             'days' => $days,
         ];
     }

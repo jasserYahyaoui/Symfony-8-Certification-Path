@@ -11,7 +11,7 @@
 import type {Question} from './types';
 
 const STORAGE_KEY = 'certpath.learner-state';
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
 
 export interface Attempt {
   question_id: string;
@@ -35,19 +35,51 @@ export interface ExamSession {
   finished_at: string;
 }
 
+/**
+ * Agenda state: what the candidate has ticked off, and the schedule they
+ * replanned to. Both live in the same record as the rest of the learner
+ * state, so the export and the reset on /progression already cover them —
+ * a second storage key would be a second thing to forget to erase.
+ */
+export interface RevisionState {
+  /** Event key (`date|start|title`) → ISO timestamp it was marked done. */
+  done: Record<string, string>;
+  /** null = the published plan, untouched. */
+  settings: RevisionSettings | null;
+}
+
+export interface RevisionSettings {
+  start: string;
+  exam: string;
+  maxNew: number;
+  weekday: number;
+  weekend: number;
+  weekdayStart: string;
+  weekendStart: string;
+}
+
 export interface LearnerState {
   schema_version: number;
   attempts: Attempt[];
   sessions: ExamSession[];
+  revision: RevisionState;
 }
 
 type Migration = (state: LearnerState) => LearnerState;
 
-/** Add `2: (state) => ...` here when the shape changes. */
-const MIGRATIONS: Record<number, Migration> = {};
+/** Add `3: (state) => ...` here when the shape changes. */
+const MIGRATIONS: Record<number, Migration> = {
+  // The agenda arrived after the question banks. A learner returning with a
+  // v1 record keeps every attempt and session; only the new slice is added.
+  2: (state) => ({...state, revision: emptyRevision()}),
+};
+
+function emptyRevision(): RevisionState {
+  return {done: {}, settings: null};
+}
 
 function empty(): LearnerState {
-  return {schema_version: STORAGE_VERSION, attempts: [], sessions: []};
+  return {schema_version: STORAGE_VERSION, attempts: [], sessions: [], revision: emptyRevision()};
 }
 
 function migrate(raw: unknown): LearnerState {
@@ -68,11 +100,27 @@ function migrate(raw: unknown): LearnerState {
     state.schema_version = version;
   }
 
+  const revision = state.revision ?? emptyRevision();
+
   return {
     schema_version: STORAGE_VERSION,
     attempts: Array.isArray(state.attempts) ? state.attempts : [],
     sessions: Array.isArray(state.sessions) ? state.sessions : [],
+    revision: {
+      done: revision.done && typeof revision.done === 'object' ? revision.done : {},
+      settings: revision.settings ?? null,
+    },
   };
+}
+
+export function readRevision(): RevisionState {
+  return readState().revision;
+}
+
+export function writeRevision(revision: RevisionState): boolean {
+  const state = readState();
+  state.revision = revision;
+  return writeState(state);
 }
 
 export function readState(): LearnerState {
