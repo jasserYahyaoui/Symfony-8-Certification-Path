@@ -163,6 +163,53 @@ await check('un plan infaisable est refusé, pas affiché de travers', async () 
   return 'une date trop proche est refusée avec un motif';
 });
 
+// ------------------------------------------------------------- mobile
+await check('aucune vue ne fait défiler la page horizontalement sur téléphone', async () => {
+  const phone = await browser.newContext({viewport: {width: 390, height: 844}});
+  const small = await phone.newPage();
+  const offenders = [];
+
+  for (const [name, path] of [
+    ['mois', '/calendar'],
+    ['semaine', '/calendar?view=week&date=2026-11-23'],
+    ['jour', '/calendar?view=day&date=2026-11-23'],
+  ]) {
+    await small.goto(url(path), {waitUntil: 'networkidle'});
+    const panned = await small.evaluate(() => {
+      window.scrollTo(800, 0);
+      const x = window.scrollX;
+      window.scrollTo(0, 0);
+      return x;
+    });
+    if (panned !== 0) {
+      offenders.push(`${name} (${panned}px)`);
+    }
+  }
+
+  // The week grid is wider than a phone by design and scrolls inside its own
+  // container; what must never happen is the PAGE panning with it. Probed on
+  // the week view: the loop above ends on the day view, which has no grid.
+  await small.goto(url('/calendar?view=week&date=2026-11-23'), {waitUntil: 'networkidle'});
+  const scrolls = await small.evaluate(() => {
+    const wrap = document.querySelector('[class*="weekWrap"]');
+    if (!wrap) {
+      return -1;
+    }
+    wrap.scrollLeft = 200;
+    return wrap.scrollLeft;
+  });
+
+  await phone.close();
+
+  if (offenders.length > 0) {
+    throw new Error(`la page défile latéralement : ${offenders.join(', ')}`);
+  }
+  if (scrolls <= 0) {
+    throw new Error('la grille de la semaine ne défile plus dans son conteneur');
+  }
+  return '390px : aucune vue ne panne, la grille défile dans son conteneur';
+});
+
 await browser.close();
 server.close();
 
