@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **44.2%** — 72 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **51.5%** — 84 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,16 +19,16 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 79 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 12 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 26 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 46 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 30 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 54 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**6 of 27 lots refined.**
+**7 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
@@ -41,7 +41,7 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 07 — Forms | TODO | 13 | 0 | 0% |
 | 08 — Data Validation | TODO | 8 | 0 | 0% |
 | 09 — Dependency Injection | **REFINED** | 12 | 12 | 100% |
-| 10 — Security | TODO | 12 | 0 | 0% |
+| 10 — Security | **REFINED** | 12 | 12 | 100% |
 | 11 — Messenger | TODO | 7 | 0 | 0% |
 | 12 — Console | TODO | 9 | 0 | 0% |
 | 13 — Automated Tests | TODO | 9 | 0 | 0% |
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 05 — Routing |
+| Last completed | 10 — Security |
 | Recorded on | 2026-09-11 |
 | Next | 06 — Templating with Twig |
