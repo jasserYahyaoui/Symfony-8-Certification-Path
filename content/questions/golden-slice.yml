@@ -240,6 +240,9 @@ questions:
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
         verified_at: '2026-09-01'
   - id: QST-5darxtca2dmf
+    question_archetype: CODE_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-a4y23xrqfy6h
     version: 1
     official_topic: Security
     official_item: OIT-s3jh7wg5km19
@@ -297,6 +300,9 @@ questions:
         symbol_or_lines: Passport::__construct, line 40
         verified_at: '2026-09-01'
   - id: QST-3v9qvehmpvj3
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-pg8zhgwny9pq
     version: 1
     official_topic: Security
     official_item: OIT-s3jh7wg5km19
@@ -350,6 +356,9 @@ questions:
         symbol_or_lines: AuthenticatorInterface::supports, line 36
         verified_at: '2026-09-01'
   - id: QST-eb3sm6ytxwb2
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-jrwcwkmfp4x1
     version: 1
     official_topic: Security
     official_item: OIT-s3jh7wg5km19
