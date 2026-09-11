@@ -2288,6 +2288,9 @@ questions:
         symbol_or_lines: sections 3.1 Resources and 3.2 Representations
         verified_at: '2026-09-03'
   - id: QST-866f3njwg7gv
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-d69mg4gn25dt
     version: 1
     official_topic: Security
     official_item: OIT-xh63g15rz6n3
@@ -2348,6 +2351,9 @@ questions:
         symbol_or_lines: 'firewalls configuration, the dev firewall with security: false (lines 460-480)'
         verified_at: '2026-09-03'
   - id: QST-5v6a9yvb8tdn
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-mh5phj2ea2p7
     version: 1
     official_topic: Security
     official_item: OIT-fw6db7ryrk4q

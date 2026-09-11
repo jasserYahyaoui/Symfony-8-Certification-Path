@@ -6023,9 +6023,12 @@ items:
       hacher un mot de passe ou protéger un formulaire n'exige pas le système complet. Le candidat
       doit attribuer une responsabilité, pas réciter une liste.
     learning_outcomes:
-      - Attribuer une responsabilité au bon composant
-      - Énoncer que password-hasher et security-csrf s'utilisent seuls
-      - Situer security-core comme ignorant HTTP
+      - id: OUT-tw22dh0mnngy
+        outcome: Attribuer une responsabilité au bon composant
+      - id: OUT-3xr6hfb46rq2
+        outcome: Énoncer que password-hasher et security-csrf s'utilisent seuls
+      - id: OUT-sk1ndg394haz
+        outcome: Situer security-core comme ignorant HTTP
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6073,10 +6076,14 @@ items:
       l'autorisation que getUser() et isGranted() matérialisent, et l'effet de stateless.
       Application, pas reconnaissance.
     learning_outcomes:
-      - Décrire le trajet d'une authentification
-      - Situer l'utilisateur courant dans le TokenStorage
-      - Distinguer authentification et autorisation
-      - Énoncer l'effet de stateless
+      - id: OUT-ff1nnw75gh0x
+        outcome: Décrire le trajet d'une authentification
+      - id: OUT-dfkz9qj59wbm
+        outcome: Situer l'utilisateur courant dans le TokenStorage
+      - id: OUT-a4tnzhe2yvpa
+        outcome: Distinguer authentification et autorisation
+      - id: OUT-23cr959cs1z0
+        outcome: Énoncer l'effet de stateless
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6123,9 +6130,12 @@ items:
       Le passage obligatoire par les votants, y compris pour un rôle, trois familles d'attributs à
       distinguer, et un code de statut qui dépend de l'authentification et non de l'autorisation.
     learning_outcomes:
-      - Énoncer que tout attribut passe par un votant
-      - Distinguer rôle, état d'authentification et verbe métier
-      - Expliquer pourquoi le statut n'est pas toujours 403
+      - id: OUT-vsg2j46ctc7h
+        outcome: Énoncer que tout attribut passe par un votant
+      - id: OUT-67x1qs1y7bjk
+        outcome: Distinguer rôle, état d'authentification et verbe métier
+      - id: OUT-rf2bzpb84d4y
+        outcome: Expliquer pourquoi le statut n'est pas toujours 403
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6177,10 +6187,14 @@ items:
       Quatre sections aux rôles distincts et deux règles de première correspondance qui se
       ressemblent au point d'être fusionnées à tort. Lire une configuration exige de les séparer.
     learning_outcomes:
-      - Attribuer une question à la bonne section
-      - Distinguer la règle d'ordre des pare-feux de celle d'access_control
-      - 'Reconnaître l''effet de security: false'
-      - Utiliser debug:config pour la configuration résolue
+      - id: OUT-mrdkwy4adq6q
+        outcome: Attribuer une question à la bonne section
+      - id: OUT-wnw02nsyvmyg
+        outcome: Distinguer la règle d'ordre des pare-feux de celle d'access_control
+      - id: OUT-d69mg4gn25dt
+        outcome: 'Reconnaître l''effet de security: false'
+      - id: OUT-7x0agpczf39n
+        outcome: Utiliser debug:config pour la configuration résolue
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6228,10 +6242,14 @@ items:
       conséquences observables — utilisateur supprimé, rôles modifiés — et une contrainte de
       configuration quand plusieurs fournisseurs coexistent.
     learning_outcomes:
-      - Distinguer loadUserByIdentifier() de refreshUser()
-      - Énoncer l'effet du rechargement à chaque requête
-      - Nommer les quatre types fournis
-      - Énoncer la contrainte à plusieurs fournisseurs
+      - id: OUT-58qtgyk785j9
+        outcome: Distinguer loadUserByIdentifier() de refreshUser()
+      - id: OUT-km3tbkkw36s3
+        outcome: Énoncer l'effet du rechargement à chaque requête
+      - id: OUT-18068akbjm47
+        outcome: Nommer les quatre types fournis
+      - id: OUT-sy6g8zgjqqpj
+        outcome: Énoncer la contrainte à plusieurs fournisseurs
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6284,10 +6302,14 @@ items:
       par pare-feu qui surprend, et deux options — lazy, security: false — dont le sens exact décide
       d'une réponse.
     learning_outcomes:
-      - Énoncer qu'un seul pare-feu traite la requête
-      - Placer correctement un pare-feu sans pattern
-      - Expliquer le contexte de session par pare-feu
-      - 'Distinguer lazy de stateless et de security: false'
+      - id: OUT-xnh28hz1zchd
+        outcome: Énoncer qu'un seul pare-feu traite la requête
+      - id: OUT-j6xr27ajqs3e
+        outcome: Placer correctement un pare-feu sans pattern
+      - id: OUT-6dsw1jm1j7df
+        outcome: Expliquer le contexte de session par pare-feu
+      - id: OUT-psq7sd74p14g
+        outcome: 'Distinguer lazy de stateless et de security: false'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6336,10 +6358,14 @@ items:
       restitution, un mot de passe délibérément place dans une autre interface, et une frontière avec
       le user checker.
     learning_outcomes:
-      - Énumérer les méthodes de UserInterface en 8.0
-      - Situer getPassword() dans PasswordAuthenticatedUserInterface
-      - Distinguer getUserIdentifier() d'une clé primaire
-      - Attribuer l'état du compte à un user checker
+      - id: OUT-q8e80pz7kv3c
+        outcome: Énumérer les méthodes de UserInterface en 8.0
+      - id: OUT-9523w2t3cts8
+        outcome: Situer getPassword() dans PasswordAuthenticatedUserInterface
+      - id: OUT-tfqgyk6sjrcg
+        outcome: Distinguer getUserIdentifier() d'une clé primaire
+      - id: OUT-5hk32whbfhrd
+        outcome: Attribuer l'état du compte à un user checker
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6387,9 +6413,12 @@ items:
       inoffensif, et une migration transparente dont l'échec est silencieux si le fournisseur ne
       l'implémente pas.
     learning_outcomes:
-      - Appeler hashPassword() avec les bons arguments
-      - Énoncer pourquoi changer d'algorithme ne casse rien
-      - Configurer migrate_from et nommer sa dépendance
+      - id: OUT-tct5sch3yndb
+        outcome: Appeler hashPassword() avec les bons arguments
+      - id: OUT-0vbk74q4f9dg
+        outcome: Énoncer pourquoi changer d'algorithme ne casse rien
+      - id: OUT-3h4gmgbt579q
+        outcome: Configurer migrate_from et nommer sa dépendance
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6436,9 +6465,12 @@ items:
       Reconnaissance : une contrainte de nommage unique, une hiérarchie statique, et trois attributs
       qui ressemblent à des rôles sans en être. Aucune application, aucun raisonnement multi-étapes.
     learning_outcomes:
-      - Énoncer la contrainte de nommage d'un rôle
-      - Reconnaître rôle_hierarchy comme statique
-      - Distinguer IS_AUTHENTICATED_* d'un rôle
+      - id: OUT-nb8grypjavr8
+        outcome: Énoncer la contrainte de nommage d'un rôle
+      - id: OUT-se3aqxhdbf9t
+        outcome: Reconnaître rôle_hierarchy comme statique
+      - id: OUT-mh5phj2ea2p7
+        outcome: Distinguer IS_AUTHENTICATED_* d'un rôle
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6484,10 +6516,14 @@ items:
       aucune erreur, un path qui est une expression régulière, et une limite de fond : aucune
       connaissance de l'objet.
     learning_outcomes:
-      - Ordonner les règles du plus spécifique au plus général
-      - Énoncer que seule la première règle s'applique
-      - Reconnaître path comme une expression régulière
-      - Énoncer la limite face à une règle portant sur un objet
+      - id: OUT-4qv0jc2jpj0p
+        outcome: Ordonner les règles du plus spécifique au plus général
+      - id: OUT-r720vgm95xv3
+        outcome: Énoncer que seule la première règle s'applique
+      - id: OUT-skkmfs49mpzn
+        outcome: Reconnaître path comme une expression régulière
+      - id: OUT-d444cz9yek59
+        outcome: Énoncer la limite face à une règle portant sur un objet
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6533,11 +6569,16 @@ items:
     content_level_justification: >-
       Concept structurel et fréquemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les rôles sont régulièrement intervertis, un contrat d'interface à cinq méthodes, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructeur, et des badges dont l'effet dépend de la configuration du firewall. La capacité DIAGNOSE est requise : reconnaître la définition ne suffit pas à corriger un flux d'authentification défaillant.
     learning_outcomes:
-      - "Nommer les cinq méthodes d'AuthenticatorInterface et leur rôle"
-      - "Expliquer les trois états de retour de supports()"
-      - "Choisir entre Passport et SelfValidatingPassport selon la présence de credentials"
-      - "Identifier le badge obligatoire et l'effet réel des badges optionnels"
-      - "Diagnostiquer un flux d'authentification où un badge n'a pas l'effet attendu"
+      - id: OUT-hqgj8aj8agf2
+        outcome: "Nommer les cinq méthodes d'AuthenticatorInterface et leur rôle"
+      - id: OUT-pg8zhgwny9pq
+        outcome: "Expliquer les trois états de retour de supports()"
+      - id: OUT-a4y23xrqfy6h
+        outcome: "Choisir entre Passport et SelfValidatingPassport selon la présence de credentials"
+      - id: OUT-g6cf8ka3a9ym
+        outcome: "Identifier le badge obligatoire et l'effet réel des badges optionnels"
+      - id: OUT-jrwcwkmfp4x1
+        outcome: "Diagnostiquer un flux d'authentification où un badge n'a pas l'effet attendu"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6601,11 +6642,16 @@ items:
       stratégies d'agrégation qui donnent des réponses opposées sur les mêmes votes, et deux options
       de cas limite dont les défauts diffèrent. Chaque étage change la réponse.
     learning_outcomes:
-      - Écrire supports() et voteOnAttribute()
-      - Énoncer que supports() à false vaut abstention
-      - Énumérer les trois valeurs de vote
-      - Distinguer les quatre stratégies sur des votes identiques
-      - Énoncer les défauts de allow_if_equal_granted_denied et allow_if_all_abstain
+      - id: OUT-nxz3gazat4wf
+        outcome: Écrire supports() et voteOnAttribute()
+      - id: OUT-f6ap8771qrtd
+        outcome: Énoncer que supports() à false vaut abstention
+      - id: OUT-3hwcwd6n6vsq
+        outcome: Énumérer les trois valeurs de vote
+      - id: OUT-bb75dy1j7zcq
+        outcome: Distinguer les quatre stratégies sur des votes identiques
+      - id: OUT-88k6kjx82v30
+        outcome: Énoncer les défauts de allow_if_equal_granted_denied et allow_if_all_abstain
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

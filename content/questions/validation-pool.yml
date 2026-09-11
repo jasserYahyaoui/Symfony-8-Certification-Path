@@ -2327,6 +2327,9 @@ questions:
         symbol_or_lines: Localized Routes (i18n)
         verified_at: '2026-09-01'
   - id: QST-r7w7wktajt2p
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-g6cf8ka3a9ym
     version: 1
     official_topic: Security
     official_item: OIT-s3jh7wg5km19
