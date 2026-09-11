@@ -1120,6 +1120,7 @@ questions:
         symbol_or_lines: session expiry and the metadata bag (lines 408-445)
         verified_at: '2026-09-03'
   - id: QST-qzeswz2y2ag4
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Templating with Twig
     official_item: OIT-84j0qwkbcgq6
@@ -1175,6 +1176,7 @@ questions:
         symbol_or_lines: if tag, edge cases table (lines 58-80)
         verified_at: '2026-09-03'
   - id: QST-5503bppj5dmy
+    question_archetype: SCENARIO_CHOICE
     version: 1
     official_topic: Templating with Twig
     official_item: OIT-ds2p5d4eg0pq
@@ -1233,6 +1235,7 @@ questions:
         symbol_or_lines: include function and its arguments (lines 1-77)
         verified_at: '2026-09-03'
   - id: QST-rmbszg75366x
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Templating with Twig
     official_item: OIT-sd08j04k60m0
@@ -1295,6 +1298,7 @@ questions:
         symbol_or_lines: Translatable Objects (lines 339-398)
         verified_at: '2026-09-03'
   - id: QST-fc71n57xwd4w
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Templating with Twig
     official_item: OIT-b9x8az2bx4t8

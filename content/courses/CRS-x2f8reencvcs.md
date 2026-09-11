@@ -19,6 +19,12 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+    anchor: "getAttribute"
+    repository: "twigphp/Twig"
+    branch: "v3.22.0"
+    commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+    verified_at: "2026-09-11"
 ---
 
 ## Objectif
@@ -51,19 +57,32 @@ manipule*.
 C'est le mécanisme central, et il est ordonné. Pour `{{ foo.bar }}`, Twig essaie
 dans cet ordre :
 
-1. `$foo['bar']` — tableau et clé ;
+1. `$foo['bar']` — tableau, `ArrayObject` ou `ArrayAccess`, et clé existante ;
 2. `$foo->bar` — objet et propriété publique ;
-3. `$foo->bar()` — objet et méthode publique ;
-4. `$foo->getBar()` — *getter* ;
-5. `$foo->isBar()` — *isser* ;
-6. `$foo->hasBar()` — *hasser* ;
-7. sinon `null` — **ou** une `Twig\Error\RuntimeError` si l'option
+3. `Foo::bar` — objet et **constante de classe** ;
+4. `$foo->bar()` — objet et méthode publique ;
+5. `$foo->getBar()` — *getter* ;
+6. `$foo->isBar()` — *isser* ;
+7. `$foo->hasBar()` — *hasser* ;
+8. sinon `null` — **ou** une `Twig\Error\RuntimeError` si l'option
    `strict_variables` est active.
 
-Deux conséquences pratiques. D'abord, le gabarit ne sait pas s'il manipule un
+Trois conséquences pratiques. D'abord, le gabarit ne sait pas s'il manipule un
 tableau ou un objet, ce qui permet de commencer avec des tableaux puis de passer
 à des objets sans toucher aux gabarits. Ensuite, un tableau est essayé **avant**
 un objet : un objet qui implémente `ArrayAccess` verra `$foo['bar']` gagner.
+Enfin, la constante de classe passe **avant** toute méthode : une classe qui
+déclare à la fois `const STATUS` et `getStatus()` verra `{{ order.status }}`
+lire la constante, jamais le *getter*.
+
+> **Deux sources divergent sur l'étape 3.** La documentation Symfony 8.0
+> énumère sept étapes et ne mentionne pas la constante de classe. La
+> documentation Twig v3.22.0 l'énumère, et le moteur l'implémente :
+> `CoreExtension::getAttribute()` teste `\defined($object::class.'::'.$item)`
+> entre la propriété et les méthodes. L'item du syllabus porte sur *Twig syntax
+> up to 3.22 version*, donc le moteur fait foi ; la liste Symfony est une
+> restitution abrégée, pas une contradiction. Retenir les huit étapes, et savoir
+> que l'énoncé d'examen peut n'en citer que sept.
 
 Pour forcer l'appel d'une méthode, il existe la syntaxe explicite
 `{{ foo.bar() }}`, et `attribute(foo, 'bar')` lorsque le nom est dynamique.
@@ -102,6 +121,7 @@ HTML.
 
 - `{{ }}` affiche, `{% %}` exécute — un `{% %}` n'affiche jamais rien.
 - L'ordre de résolution commence par le **tableau**, pas par la propriété.
+- Une **constante de classe** est lue avant le *getter* du même nom.
 - `and` / `or` / `not`, jamais `&&` / `||` / `!`.
 - `~` concatène ; `+` additionne.
 - Sans `strict_variables`, une variable inconnue vaut `null` silencieusement.
@@ -109,8 +129,8 @@ HTML.
 ## Points clés
 
 - Trois délimiteurs, un rôle chacun.
-- Sept étapes de résolution pour `foo.bar`, tableau d'abord, `null` ou erreur au
-  bout selon `strict_variables`.
+- Huit étapes de résolution pour `foo.bar`, tableau d'abord, constante de classe
+  avant les méthodes, `null` ou erreur au bout selon `strict_variables`.
 - Opérateurs logiques en mots ; `~` pour concaténer ; `//` pour la division
   entière.
 - `{{- -}}` contrôle les espaces.
@@ -119,3 +139,4 @@ HTML.
 
 - [Twig 3.22, *Twig for Template Designers*](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst)
 - [Symfony Templates, « Template Variables »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Twig 3.22, `CoreExtension::getAttribute()`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php)
