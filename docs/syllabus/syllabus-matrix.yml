@@ -5297,9 +5297,12 @@ items:
       récupération de services — que le candidat doit appliquer à un extrait de code, pas seulement
       reconnaître.
     learning_outcomes:
-      - Distinguer injection et récupération de services
-      - Choisir constructeur ou mutateur selon l'obligation de la dépendance
-      - Situer le composant comme autonome et nommer compile()
+      - id: OUT-svr2vz7ebkv7
+        outcome: Distinguer injection et récupération de services
+      - id: OUT-6ah70qtk60fe
+        outcome: Choisir constructeur ou mutateur selon l'obligation de la dépendance
+      - id: OUT-dvs57dgffn57
+        outcome: Situer le composant comme autonome et nommer compile()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5347,10 +5350,14 @@ items:
       l'alias rend une interface autowirable, et la compilation explique qu'une modification de
       configuration reste sans effet. Quatre faits qui décident d'un diagnostic.
     learning_outcomes:
-      - Énoncer ce que contient le conteneur et quand l'objet est construit
-      - Distinguer privé et public sur l'injection, la récupération et la suppression
-      - Expliquer le rôle d'un alias
-      - Expliquer pourquoi la configuration n'est pas relue à l'exécution
+      - id: OUT-4mx2cr2ydxtf
+        outcome: Énoncer ce que contient le conteneur et quand l'objet est construit
+      - id: OUT-rx9sxdh2gjgm
+        outcome: Distinguer privé et public sur l'injection, la récupération et la suppression
+      - id: OUT-21rjj7sevj21
+        outcome: Expliquer le rôle d'un alias
+      - id: OUT-8hr9dpyd6r1k
+        outcome: Expliquer pourquoi la configuration n'est pas relue à l'exécution
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5403,8 +5410,10 @@ items:
       question qu'on se pose en écrivant un constructeur. Aucune liste à mémoriser, aucune
       distinction fine à opérer.
     learning_outcomes:
-      - Situer l'origine des services intégrés
-      - Choisir debug:autowiring plutôt que debug:container
+      - id: OUT-q8fq5v0gn6nh
+        outcome: Situer l'origine des services intégrés
+      - id: OUT-gg02aw655bat
+        outcome: Choisir debug:autowiring plutôt que debug:container
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5450,10 +5459,14 @@ items:
       processeurs qui se composent de droite à gauche. Le candidat doit choisir la bonne forme pour
       une contrainte donnée.
     learning_outcomes:
-      - Distinguer la résolution d'un paramètre de celle d'une variable d'environnement
-      - Écrire un pourcent littéral
-      - Composer des processeurs dans le bon ordre
-      - 'Reconnaître bind et #[Autowire] comme facteurs communs'
+      - id: OUT-b81c2y9edqrn
+        outcome: Distinguer la résolution d'un paramètre de celle d'une variable d'environnement
+      - id: OUT-q6ks7q0n73de
+        outcome: Écrire un pourcent littéral
+      - id: OUT-eatwchm2rs41
+        outcome: Composer des processeurs dans le bon ordre
+      - id: OUT-ddcr84rvx9ap
+        outcome: 'Reconnaître bind et #[Autowire] comme facteurs communs'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5506,10 +5519,14 @@ items:
       portée de _defaults qui ne traverse pas les blocs d'environnement. Le diagnostic exige de les
       séparer.
     learning_outcomes:
-      - Séparer découverte, autowire et autoconfigure
-      - Déclarer un service explicite avec arguments nommés
-      - Énoncer la portée de _defaults
-      - Reconnaître les attributs de déclaration
+      - id: OUT-bqf7brva4nwe
+        outcome: Séparer découverte, autowire et autoconfigure
+      - id: OUT-j5rpdd6qsy3y
+        outcome: Déclarer un service explicite avec arguments nommés
+      - id: OUT-rf33669d3w01
+        outcome: Énoncer la portée de _defaults
+      - id: OUT-112hac96j8hg
+        outcome: Reconnaître les attributs de déclaration
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5557,9 +5574,12 @@ items:
       identifiant, et un ordre de pile contre-intuitif : la priorité la plus haute est la plus
       interne. Ce dernier point se rate systématiquement.
     learning_outcomes:
-      - Décorer un service et atteindre l'original par .inner
-      - Énoncer que l'identifiant est conserve
-      - Ordonner une pile de décorateurs par décoration_priority
+      - id: OUT-tv6pkb930kss
+        outcome: Décorer un service et atteindre l'original par .inner
+      - id: OUT-gxkp3y83mp10
+        outcome: Énoncer que l'identifiant est conserve
+      - id: OUT-7mpy7kfscvv1
+        outcome: Ordonner une pile de décorateurs par décoration_priority
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5608,10 +5628,14 @@ items:
       priority et index — changent respectivement l'ordre et la forme de la collection. Le candidat
       doit appliquer, pas seulement reconnaître.
     learning_outcomes:
-      - Énoncer qu'un tag sans lecteur ne produit rien
-      - Injecter une collection taguée paresseuse
-      - Ordonner par priority et indexer par index
-      - 'Reconnaître #[AutoconfigureTag] sur une interface'
+      - id: OUT-deqvr7c2bvsf
+        outcome: Énoncer qu'un tag sans lecteur ne produit rien
+      - id: OUT-enhmt34n32vh
+        outcome: Injecter une collection taguée paresseuse
+      - id: OUT-e2wn6rtf32vb
+        outcome: Ordonner par priority et indexer par index
+      - id: OUT-ejv3jffbt4xd
+        outcome: 'Reconnaître #[AutoconfigureTag] sur une interface'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5658,10 +5682,14 @@ items:
       Deux moitiés aux rôles distincts — déclarer l'arbre, le consommer — un moment d'exécution
       limité à la compilation, et un mécanisme de prepend dont l'ordre décide qui a le dernier mot.
     learning_outcomes:
-      - Séparer ConfigurationInterface de l'extension
-      - Énoncer qu'une clé inconnue est une erreur
-      - Situer configure() et loadExtension() à la compilation
-      - Expliquer l'effet de prependExtensionConfig()
+      - id: OUT-06ednnh0npmz
+        outcome: Séparer ConfigurationInterface de l'extension
+      - id: OUT-qrtvpp33jqb2
+        outcome: Énoncer qu'une clé inconnue est une erreur
+      - id: OUT-k2cfezp9wvf5
+        outcome: Situer configure() et loadExtension() à la compilation
+      - id: OUT-vmzkkhjtf67j
+        outcome: Expliquer l'effet de prependExtensionConfig()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5714,9 +5742,12 @@ items:
       elle-même, et une règle contre-intuitive : arguments alimente la fabrique et non le
       constructeur, qui n'est pas appelé.
     learning_outcomes:
-      - Choisir l'écriture de factory selon la nature de l'appelable
-      - Énoncer que arguments alimente la fabrique
-      - Interpréter [null, 'create']
+      - id: OUT-rrswf59s7t5a
+        outcome: Choisir l'écriture de factory selon la nature de l'appelable
+      - id: OUT-mfkawre47dv3
+        outcome: Énoncer que arguments alimente la fabrique
+      - id: OUT-5tp6e11ygzgz
+        outcome: Interpréter [null, 'create']
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5765,11 +5796,16 @@ items:
       existe encore, TYPE_REMOVE ayant déjà supprimé les services privés non références. Raisonnement
       multi-étapes, où chaque étage change la réponse.
     learning_outcomes:
-      - Écrire une passe manipulant des définitions
-      - Enregistrer une passe depuis un bundle ou le Kernel
-      - Ordonner les cinq étapes de PassConfig et nommer le défaut
-      - Choisir l'étape en fonction de ce qui doit encore exister
-      - Distinguer ce qui relève de la configuration de ce qui relève d'une passe
+      - id: OUT-cqnfv3m8fn8q
+        outcome: Écrire une passe manipulant des définitions
+      - id: OUT-gx5971krje0a
+        outcome: Enregistrer une passe depuis un bundle ou le Kernel
+      - id: OUT-avkzmraeybbg
+        outcome: Ordonner les cinq étapes de PassConfig et nommer le défaut
+      - id: OUT-5d052fcbnf0g
+        outcome: Choisir l'étape en fonction de ce qui doit encore exister
+      - id: OUT-mpb2peyp9993
+        outcome: Distinguer ce qui relève de la configuration de ce qui relève d'une passe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5825,11 +5861,16 @@ items:
       implémentations, avec un message d'erreur qui désigne la mauvaise cause ; et trois façons de
       trancher aux portées différentes. L'enchaînement complet est nécessaire pour diagnostiquer.
     learning_outcomes:
-      - Énoncer que la résolution se fait par le type
-      - Expliquer pourquoi une interface exige un alias
-      - 'Départager par alias par défaut, alias nommé ou #[Target]'
-      - 'Énoncer ce que #[Target] attend comme valeur'
-      - Reconnaître qu'un scalaire ne s'autowire pas
+      - id: OUT-7k7n0avtawev
+        outcome: Énoncer que la résolution se fait par le type
+      - id: OUT-h9f0rmgswrcz
+        outcome: Expliquer pourquoi une interface exige un alias
+      - id: OUT-5sh0v9zbqw10
+        outcome: 'Départager par alias par défaut, alias nommé ou #[Target]'
+      - id: OUT-06wrfq0kv0v0
+        outcome: 'Énoncer ce que #[Target] attend comme valeur'
+      - id: OUT-6j9rnmzbnkzn
+        outcome: Reconnaître qu'un scalaire ne s'autowire pas
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5880,10 +5921,14 @@ items:
       parent:: en héritage échoue silencieusement, et un comportement paresseux qui est la raison
       d'être du mécanisme.
     learning_outcomes:
-      - Justifier un locator plutôt qu'une injection directe
-      - Distinguer un locator de l'injection du conteneur
-      - Déclarer getSubscribedServices() et fusionner en héritage
-      - 'Reconnaître #[AutowireLocator]'
+      - id: OUT-3c8n410rjew2
+        outcome: Justifier un locator plutôt qu'une injection directe
+      - id: OUT-treyye0w8xe4
+        outcome: Distinguer un locator de l'injection du conteneur
+      - id: OUT-g6613nkxjesh
+        outcome: Déclarer getSubscribedServices() et fusionner en héritage
+      - id: OUT-7s1prxwgdhe5
+        outcome: 'Reconnaître #[AutowireLocator]'
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
