@@ -316,11 +316,11 @@ for k in sorted(days):
         if name.startswith('EXAMEN'):
             # L'heure de convocation n'est pas connue de ce dépôt et ne sera
             # pas inventée : la journée porte un jalon, pas un créneau.
-            blocks.append(('EXAM', name, None, note, 0))
+            blocks.append(('EXAM', name, None, note, 0, []))
         elif name.startswith('Correction'):
-            blocks.append(('MOCK', name, None, note, 60))
+            blocks.append(('MOCK', name, None, note, 60, []))
         else:
-            blocks.append(('MOCK', name, None, note, 90))
+            blocks.append(('MOCK', name, None, note, 90, []))
 
     by_off = collections.defaultdict(list)
     for (it, off, mins) in v['rev']:
@@ -334,7 +334,8 @@ for k in sorted(days):
             f'Révision espacée J+{off}',
             lots[0] if len(lots) == 1 else None,
             ' · '.join(f"{i['topic']} : {i['name']}" for i, _ in group),
-            mins))
+            mins,
+            [i['id'] for i, _ in group]))
 
     for (it, mins, full) in v['new']:
         det = []
@@ -346,7 +347,8 @@ for k in sorted(days):
             ('Nouveau' if full else 'Nouveau (suite)') + f" — {it['name']}",
             it['lot'],
             f"{it['topic']} · {it['level']} · {it['words']} mots · " + ', '.join(det),
-            mins))
+            mins,
+            [it['id']]))
 
     if v['lab']:
         # Le lab occupe ce qui RESTE du budget, pas le budget entier : les
@@ -358,7 +360,8 @@ for k in sorted(days):
             None,
             f"{len(v['lab'])} items de la semaine : "
             + ' · '.join(i['name'] for i in v['lab']),
-            max(0, v['budget'] - sum(b[4] for b in blocks))))
+            max(0, v['budget'] - sum(b[4] for b in blocks)),
+            [i['id'] for i in v['lab']]))
 
     for lot in v['assess']:
         blocks.append((
@@ -366,7 +369,8 @@ for k in sorted(days):
             f'Assessment {lot} — {LOT_NAME[lot]}',
             lot,
             'contrôle de maîtrise, analyse des écarts, plan de correction',
-            ASSESS_MIN))
+            ASSESS_MIN,
+            []))
 
     if k.weekday() == 6:
         blocks.append((
@@ -374,14 +378,15 @@ for k in sorted(days):
             'Consolidation et rattrapage',
             None,
             'reprendre les questions ratées de la semaine, rattraper ce qui a débordé',
-            max(0, v['budget'] - sum(b[4] for b in blocks))))
+            max(0, v['budget'] - sum(b[4] for b in blocks)),
+            []))
 
     blocks.sort(key=lambda b: KIND_ORDER[b[0]])
 
     cursor = int(DAY_START[k.weekday()][:2]) * 60
     since_pause = 0
     evs = []
-    for (kind, title, lot, objective, mins) in blocks:
+    for (kind, title, lot, objective, mins, ids) in blocks:
         if mins <= 0:
             continue
         if since_pause >= PAUSE_AFTER and kind != 'EXAM':
@@ -389,7 +394,7 @@ for k in sorted(days):
             since_pause = 0
         evs.append({'start': _hhmm(cursor), 'end': _hhmm(cursor + mins),
                     'minutes': mins, 'kind': kind, 'title': title,
-                    'lot': lot, 'objective': objective})
+                    'lot': lot, 'objective': objective, 'items': ids})
         cursor += mins
         since_pause = 0 if kind in ('EXAM', 'MOCK') else since_pause + mins
     v['events'] = evs
@@ -424,7 +429,23 @@ json.dump({'items':items,
            'lost_reviews_by_offset':{str(o):n for o,n in sorted(lost_by_off.items())},
            'lost_reviews_minutes':lost_min,
            'day_start':DAY_START,
-           'lot_order':ORDER},
+           'lot_order':ORDER,
+           # Les paramètres qui ont produit ce plan, publiés avec lui.
+           # L'agenda replanifie dans le navigateur quand le candidat change de
+           # date ou d'horaires ; il doit le faire avec CES valeurs, jamais avec
+           # une copie recopiée à la main dans le TypeScript — une constante
+           # dupliquée est une divergence qui attend son heure.
+           'params':{'max_new':MAX_NEW,
+                     'budget':{str(k):v for k,v in BUDGET.items()},
+                     'day_start':DAY_START,
+                     'review':REVIEW,
+                     'offsets':OFFSETS,
+                     'offsets_plus':OFFSETS_PLUS,
+                     'assess_min':ASSESS_MIN,
+                     'pause_after':PAUSE_AFTER,
+                     'pause_min':PAUSE_MIN,
+                     'mocks':[[n, note] for n, note in MOCKS]},
+           'order':[i['id'] for i in items]},
           open(_args.out,'w',encoding='utf-8'), ensure_ascii=False)
 
 tot_first = sum(i['total'] for i in items)

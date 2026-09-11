@@ -25,6 +25,8 @@ export interface PlanEvent {
   title: string;
   lot: string | null;
   objective: string;
+  /** Official item ids this slot covers, so the agenda can link the courses. */
+  items: string[];
 }
 
 export interface PlanDay {
@@ -36,6 +38,9 @@ export interface PlanDay {
 
 export interface CalendarPayload {
   generated_from: string;
+  params: import('./reschedule').PlanParams;
+  items: Record<string, import('./reschedule').PlanItem>;
+  order: string[];
   start: string | null;
   exam: string | null;
   all_items_in: string | null;

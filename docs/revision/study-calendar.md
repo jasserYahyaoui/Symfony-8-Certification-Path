@@ -155,6 +155,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 11 octobre 2026
 
+- **Assessment lot-01 — PHP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-02 — HTTP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
@@ -251,6 +252,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 18 octobre 2026
 
+- **Assessment lot-03 — Symfony Architecture** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-04 — Controllers** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (14 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
@@ -453,6 +455,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 1 novembre 2026
 
+- **Assessment lot-09 — Dependency Injection** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-08 — Data Validation** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (16 min) — Forms : Form component · Forms : Forms creation · Forms : Forms handling · Forms : Form types (built-in and custom)
 - Révision **J+30** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
@@ -557,6 +560,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 8 novembre 2026
 
+- **Assessment lot-07 — Forms** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-10 — Security** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (16 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
 - Révision **J+30** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
@@ -661,6 +665,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 15 novembre 2026
 
+- **Assessment lot-11 — Messenger** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-06 — Templating with Twig** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (14 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
 - Révision **J+30** (13 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
@@ -769,6 +774,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 22 novembre 2026
 
+- **Assessment lot-12 — Console** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-13 — Automated Tests** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+30** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
@@ -869,7 +876,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Dimanche 29 novembre 2026
 
 - **Mock 2** — 84 questions
-- **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-15 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-16 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (8 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+30** (11 min) — Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection · Forms : Handling file upload
 
@@ -877,7 +885,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 30 novembre 2026
 
-- **Correction Mock 2** — analyse par item, plan de correction, re-révision ciblée
+- **Correction Mock 1** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+3** (4 min) — Miscellaneous : Serializer
 - Révision **J+7** (16 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+14** (12 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
@@ -891,47 +899,58 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 1 décembre 2026
 
+- **Correction Mock 2** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+7** (16 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem
 - Révision **J+14** (11 min) — Console : Built-in helpers · Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+60** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 39 / 120 min*
+*Budget du jour : 99 / 120 min*
 
 ### Mercredi 2 décembre 2026
 
+- **Assessment lot-17 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-18 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (16 min) — Miscellaneous : Finder · Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+14** (11 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
 - Révision **J+30** (11 min) — Forms : Built-in form types · Forms : Data transformers · Forms : Form events · Forms : Form type extensions
 
-*Budget du jour : 38 / 120 min*
+*Budget du jour : 98 / 120 min*
 
 ### Jeudi 3 décembre 2026
 
+- **Assessment lot-19 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-20 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (8 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+14** (11 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+30** (12 min) — Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
 
-*Budget du jour : 31 / 120 min*
+*Budget du jour : 91 / 120 min*
 
 ### Vendredi 4 décembre 2026
 
+- **Assessment lot-21 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-22 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (4 min) — Miscellaneous : Serializer
 - Révision **J+14** (12 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+30** (12 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
 - Révision **J+60** (3 min) — PHP : Enums
 
-*Budget du jour : 31 / 120 min*
+*Budget du jour : 91 / 120 min*
 
 ### Samedi 5 décembre 2026
 
 - **Mock 3** — 68 questions
+- **Assessment lot-23 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-24 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+30** (12 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
 
-*Budget du jour : 102 / 180 min*
+*Budget du jour : 162 / 180 min*
 
 ### Dimanche 6 décembre 2026
 
 - **Mock 5** — tirage dans les 519 questions éligibles
+- **Assessment lot-25 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+30** (13 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports · Messenger : Messages and handlers
 - Révision **J+45** (11 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Révision **J+60** (2 min) — Symfony Architecture : HttpFoundation component
@@ -940,7 +959,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 7 décembre 2026
 
-- **Correction Mock 5** — analyse par item, plan de correction, re-révision ciblée
+- **Correction Mock 3** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+14** (12 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+45** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
 - Révision **J+60** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
@@ -949,10 +968,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 8 décembre 2026
 
+- **Correction Mock 5** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+14** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem
 - Révision **J+60** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 26 / 120 min*
+*Budget du jour : 86 / 120 min*
 
 ### Mercredi 9 décembre 2026
 

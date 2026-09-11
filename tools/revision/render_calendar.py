@@ -54,8 +54,7 @@ for k in sorted(P['days']):
     if v['mock']:
         name, note = v['mock']
         w(f"- **{name}** — {note}")
-    if v['assess']:
-        lot = v['assess']
+    for lot in v['assess']:
         w(f"- **Assessment {lot} — {P['lot_name'][lot]}** : voir "
           f"[`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)")
     for (iid, mins, full) in v['new']:

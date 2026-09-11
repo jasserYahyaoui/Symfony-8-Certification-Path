@@ -328,3 +328,99 @@
     padding-top: 0;
   }
 }
+
+/* ------------------------------------------------------------- réglages */
+
+.settings {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.settings h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.6rem 1rem;
+}
+
+.settingsGrid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  font-weight: 700;
+  gap: 0.2rem;
+}
+
+.settingsGrid input {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.settingsActions {
+  margin: 0.8rem 0 0.4rem;
+}
+
+.replanNote {
+  border-left: 6px solid var(--certpath-ev-assess);
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+}
+
+.progress {
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------- cochage */
+
+.tick {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.tick input {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.dayCardDone .dayCardTitle,
+.dayCardDone .dayCardMeta {
+  text-decoration: line-through;
+}
+
+.dayCardDone {
+  opacity: 0.72;
+}
+
+.links {
+  font-size: 0.82rem;
+  margin: 0.25rem 0 0.4rem;
+}
+
+/* Une session cochée reste lisible : c'est une coche, pas un effacement. */
+.chipDone,
+.eventDone {
+  opacity: 0.62;
+}
+
+.chipDone::before,
+.eventDone::before {
+  content: '\2713\00a0';
+  font-weight: 700;
+}
