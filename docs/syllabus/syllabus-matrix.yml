@@ -1949,10 +1949,14 @@ items:
       d'apports à connaître. Le déroulé de la requête appartient au lot 03 ; ce qui reste ici est une
       répartition, pas un mécanisme, donc au-dessus de MINIMAL et en dessous de DEEP.
     learning_outcomes:
-      - "Distinguer ce que fournit le composant HttpKernel de ce qu'ajoute FrameworkBundle"
-      - "Citer les interfaces implémentées par la classe Kernel"
-      - "Situer AbstractController et MicroKernelTrait du côté du bundle"
-      - "Énoncer que le composant fonctionne sans le bundle"
+      - id: OUT-dvn4fe5a95kf
+        outcome: "Distinguer ce que fournit le composant HttpKernel de ce qu'ajoute FrameworkBundle"
+      - id: OUT-9n7kqntbxaap
+        outcome: "Citer les interfaces implémentées par la classe Kernel"
+      - id: OUT-wtvmvsdmdz41
+        outcome: "Situer AbstractController et MicroKernelTrait du côté du bundle"
+      - id: OUT-8a4ygtt2rwe5
+        outcome: "Énoncer que le composant fonctionne sans le bundle"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1972,6 +1976,12 @@ items:
         commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
         symbol_or_lines: "MicroKernelTrait usage"
         verified_at: "2026-09-01"
+        verified_by: "tech-lead"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AbstractController namespace — the class lives in the bundle, not the component"
+        verified_at: "2026-09-11"
         verified_by: "tech-lead"
     course_refs:
       - "CRS-tygmreqkkds3"
@@ -2004,9 +2014,12 @@ items:
       obligatoire, plus le format de _controller et la génération du nom de route. Les conventions
       générales du framework sont un item distinct du lot 03.
     learning_outcomes:
-      - "Énoncer que le suffixe Controller est une convention et non une contrainte"
-      - "Écrire la notation _controller pour une méthode et pour une classe invocable"
-      - "Énoncer ce qui se passe lorsque l'option name d'une route est omise"
+      - id: OUT-kym7hw6vad3k
+        outcome: "Énoncer que le suffixe Controller est une convention et non une contrainte"
+      - id: OUT-fzeda7ytt9hf
+        outcome: "Écrire la notation _controller pour une méthode et pour une classe invocable"
+      - id: OUT-j9vdv1qav4by
+        outcome: "Énoncer ce qui se passe lorsque l'option name d'une route est omise"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2058,10 +2071,14 @@ items:
       observables. La production de la réponse est traitée par l'item The response ; sans elle, DEEP
       serait de la surproduction.
     learning_outcomes:
-      - "Énoncer que la classe de base est optionnelle et vient de FrameworkBundle"
-      - "Expliquer la conséquence de méthodes déclarées protected"
-      - "Décrire le mécanisme de ServiceSubscriberInterface et le préfixe ?"
-      - "Situer setContainer() et son attribut Required"
+      - id: OUT-5xtttnzd990y
+        outcome: "Énoncer que la classe de base est optionnelle et vient de FrameworkBundle"
+      - id: OUT-37kbkcyddm1r
+        outcome: "Expliquer la conséquence de méthodes déclarées protected"
+      - id: OUT-j0pg9ejmv4hg
+        outcome: "Décrire le mécanisme de ServiceSubscriberInterface et le préfixe ?"
+      - id: OUT-mzj3xrwsw6dr
+        outcome: "Situer setContainer() et son attribut Required"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2115,10 +2132,14 @@ items:
       sacs appartient à l'item HTTP request du lot 02 et le composant à l'item HttpFoundation du lot
       03.
     learning_outcomes:
-      - "Obtenir la requête dans un contrôleur et dans un service"
-      - "Expliquer l'appariement par nom des paramètres de route"
-      - "Citer _route et _controller comme attributs de requête"
-      - "Distinguer getPayload() du sac request"
+      - id: OUT-gvjp79xbcjsb
+        outcome: "Obtenir la requête dans un contrôleur et dans un service"
+      - id: OUT-8y8ytxt6m5v1
+        outcome: "Expliquer l'appariement par nom des paramètres de route"
+      - id: OUT-y2d9m024g5gk
+        outcome: "Citer _route et _controller comme attributs de requête"
+      - id: OUT-axr8r9fatztr
+        outcome: "Distinguer getPayload() du sac request"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2163,11 +2184,16 @@ items:
       render contre renderView, le 422 automatique d'un formulaire invalide, la disposition par défaut
       de file(). Le catalogue des sous-classes de Response appartient au lot 02.
     learning_outcomes:
-      - "Énoncer l'obligation de retourner une Response et ce qui arrive sinon"
-      - "Distinguer render() de renderView() par leur type de retour"
-      - "Énoncer le statut retourne par render() avec un formulaire invalide"
-      - "Choisir entre json(), file() et stream() selon le cas"
-      - "Énoncer la disposition par défaut de file()"
+      - id: OUT-4wrmsr0a1xvb
+        outcome: "Énoncer l'obligation de retourner une Response et ce qui arrive sinon"
+      - id: OUT-5ram2kxkc3de
+        outcome: "Distinguer render() de renderView() par leur type de retour"
+      - id: OUT-k5603xv7233j
+        outcome: "Énoncer le statut retourne par render() avec un formulaire invalide"
+      - id: OUT-fy6864mta4ff
+        outcome: "Choisir entre json(), file() et stream() selon le cas"
+      - id: OUT-d9trsb0jwxp7
+        outcome: "Énoncer la disposition par défaut de file()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2221,8 +2247,10 @@ items:
       l'usage de setcookie(). Les attributs de sécurité et la contrainte de suppression sont déjà
       traités par l'item Cookies du lot 02 ; les reprendre serait de la duplication.
     learning_outcomes:
-      - "Lire un cookie depuis la requête et l'écrire sur la réponse"
-      - "Justifier pourquoi setcookie() de PHP est à éviter"
+      - id: OUT-kejhjexj129b
+        outcome: "Lire un cookie depuis la requête et l'écrire sur la réponse"
+      - id: OUT-yfn908g4pdys
+        outcome: "Justifier pourquoi setcookie() de PHP est à éviter"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2267,10 +2295,14 @@ items:
       devinable, et deux méthodes de sécurité que l'on confond. Cela dépasse le format MINIMAL sans
       constituer une procédure ordonnée.
     learning_outcomes:
-      - "Obtenir la session dans un contrôleur et dans un service"
-      - "Énoncer les trois actions qui démarrent la session"
-      - "Expliquer l'effet du démarrage sur le cookie et la cachabilité"
-      - "Distinguer migrate() de invalidate()"
+      - id: OUT-wc78qqp1pj1p
+        outcome: "Obtenir la session dans un contrôleur et dans un service"
+      - id: OUT-vvctkweagzvz
+        outcome: "Énoncer les trois actions qui démarrent la session"
+      - id: OUT-srphtyf5qzqs
+        outcome: "Expliquer l'effet du démarrage sur le cookie et la cachabilité"
+      - id: OUT-7t4egm4bdr19
+        outcome: "Distinguer migrate() de invalidate()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2324,9 +2356,12 @@ items:
       Un mécanisme court : un message de session consomme à la lecture, un raccourci, et l'opposition
       get / peek. Rien n'appelle un traitement plus long.
     learning_outcomes:
-      - "Énoncer ce qu'est un message flash et quand il disparaît"
-      - "Citer l'equivalence de addFlash()"
-      - "Distinguer get() et all() de peek() et peekAll()"
+      - id: OUT-sc6f90ffqzcw
+        outcome: "Énoncer ce qu'est un message flash et quand il disparaît"
+      - id: OUT-qpxzbnrf0g4x
+        outcome: "Citer l'equivalence de addFlash()"
+      - id: OUT-6g7emmk5p02f
+        outcome: "Distinguer get() et all() de peek() et peekAll()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2373,9 +2408,12 @@ items:
       format MINIMAL les porte sans perte ; l'opposition avec le forward est traitée par l'item
       Internal redirects.
     learning_outcomes:
-      - "Choisir entre redirect() et redirectToRoute()"
-      - "Énoncer le statut par défaut et la position de l'argument qui le change"
-      - "Énoncer le risque de redirection non validée de redirect()"
+      - id: OUT-gzgd3nv5dqsb
+        outcome: "Choisir entre redirect() et redirectToRoute()"
+      - id: OUT-v6qwe7g2fz54
+        outcome: "Énoncer le statut par défaut et la position de l'argument qui le change"
+      - id: OUT-2n6hy6wr111b
+        outcome: "Énoncer le risque de redirection non validée de redirect()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2422,10 +2460,14 @@ items:
       tableau à cinq lignes, plus deux comportements non devinables : l'appariement des arguments par
       nom et le vidage de app.current_route. Le nom même de l'item induit en erreur.
     learning_outcomes:
-      - "Décrire ce que forward() exécute et ce qu'il retourne"
-      - "Opposer forward() et redirectToRoute() sur l'URL et le nombre de requêtes"
-      - "Énoncer que les arguments sont appariés par nom"
-      - "Énoncer l'effet du forward sur app.current_route"
+      - id: OUT-rwcxavb94b2x
+        outcome: "Décrire ce que forward() exécute et ce qu'il retourne"
+      - id: OUT-kbajzz4zg5nn
+        outcome: "Opposer forward() et redirectToRoute() sur l'URL et le nombre de requêtes"
+      - id: OUT-7any6zqhanpk
+        outcome: "Énoncer que les arguments sont appariés par nom"
+      - id: OUT-dpjz6mhjj9g1
+        outcome: "Énoncer l'effet du forward sur app.current_route"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2480,11 +2522,16 @@ items:
       en deux temps, une route de prévisualisation et une limite de sécurité propre aux pages 404.
       Cela fait quatre faits à conséquence, au-dessus du format MINIMAL.
     learning_outcomes:
-      - "Produire un 404 depuis un contrôleur, en levant l'exception"
-      - "Localiser et nommer le gabarit d'erreur, avec sa règle de repli"
-      - "Citer les variables fournies au gabarit d'erreur"
-      - "Utiliser la route _error en développement"
-      - "Énoncer l'indisponibilité des informations de sécurité sur une page 404"
+      - id: OUT-qa34bn6sqmqj
+        outcome: "Produire un 404 depuis un contrôleur, en levant l'exception"
+      - id: OUT-kybyc8rb3vw0
+        outcome: "Localiser et nommer le gabarit d'erreur, avec sa règle de repli"
+      - id: OUT-jwxbjkcsf51k
+        outcome: "Citer les variables fournies au gabarit d'erreur"
+      - id: OUT-ym6q5502fmyf
+        outcome: "Utiliser la route _error en développement"
+      - id: OUT-mfs1nh45d7sr
+        outcome: "Énoncer l'indisponibilité des informations de sécurité sur une page 404"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2538,11 +2585,16 @@ items:
       les valeurs viennent du client et ne sont pas fiables. La conséquence est une règle de sécurité,
       pas un simple rappel d'API.
     learning_outcomes:
-      - "Récupérer un fichier téléversé par le sac files ou par MapUploadedFile"
-      - "Énoncer le comportement de MapUploadedFile en l'absence de fichier"
-      - "Justifier l'appel à move()"
-      - "Identifier les méthodes getClient... comme non fiables"
-      - "Justifier l'emploi de guessExtension()"
+      - id: OUT-np64n1673fc3
+        outcome: "Récupérer un fichier téléversé par le sac files ou par MapUploadedFile"
+      - id: OUT-q06cyzmh9hjt
+        outcome: "Énoncer le comportement de MapUploadedFile en l'absence de fichier"
+      - id: OUT-map3gyk0v2py
+        outcome: "Justifier l'appel à move()"
+      - id: OUT-aw5esqj5yqqm
+        outcome: "Identifier les méthodes getClient... comme non fiables"
+      - id: OUT-38dvrzpkavx9
+        outcome: "Justifier l'emploi de guessExtension()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2596,10 +2648,14 @@ items:
       substitution 302/301 en 307/308 — a un effet observable qui ne se devine pas. Un format MINIMAL
       ne porterait pas les tableaux d'options.
     learning_outcomes:
-      - "Référencer un contrôleur du framework depuis une route"
-      - "Configurer TemplateController et citer son option obligatoire"
-      - "Distinguer les options route et path de RedirectController"
-      - "Énoncer l'effet de keepRequestMethod sur le code de statut"
+      - id: OUT-bpvmhcnp7akr
+        outcome: "Référencer un contrôleur du framework depuis une route"
+      - id: OUT-b7ntcrpknmjw
+        outcome: "Configurer TemplateController et citer son option obligatoire"
+      - id: OUT-mh1c4db9g0en
+        outcome: "Distinguer les options route et path de RedirectController"
+      - id: OUT-xs0zdk3dz20y
+        outcome: "Énoncer l'effet de keepRequestMethod sur le code de statut"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2654,12 +2710,18 @@ items:
       la notion de résolveur cible dont les attributs Map... ne sont que la forme confortable. Chacune
       de ces couches change la réponse à une question, et l'ordre lui-même est note.
     learning_outcomes:
-      - "Énoncer le contrat de ValueResolverInterface::resolve et son type de retour"
-      - "Expliquer la sélection par priorité et l'arrêt au premier résolveur servi"
-      - "Justifier l'ordre entre SessionValueResolver et DefaultValueResolver"
-      - "Associer chaque résolveur intégré à ce qu'il remplit"
-      - "Distinguer un résolveur cible d'un résolveur ordinaire"
-      - "Énoncer le statut retourne pour une valeur d'énumération invalide"
+      - id: OUT-np4jrjh0phfs
+        outcome: "Énoncer le contrat de ValueResolverInterface::resolve et son type de retour"
+      - id: OUT-5kafbd3d9nt8
+        outcome: "Expliquer la sélection par priorité et l'arrêt au premier résolveur servi"
+      - id: OUT-mtg83g8mv3bb
+        outcome: "Justifier l'ordre entre SessionValueResolver et DefaultValueResolver"
+      - id: OUT-cbtvxgfkskae
+        outcome: "Associer chaque résolveur intégré à ce qu'il remplit"
+      - id: OUT-ynyxk5m0hyzd
+        outcome: "Distinguer un résolveur cible d'un résolveur ordinaire"
+      - id: OUT-chxt3emfrcjg
+        outcome: "Énoncer le statut retourne pour une valeur d'énumération invalide"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

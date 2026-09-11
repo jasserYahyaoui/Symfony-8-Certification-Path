@@ -1377,6 +1377,9 @@ questions:
     symbol_or_lines: provide key
     verified_at: '2026-09-01'
 - id: QST-35tar5pn92ca
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+    - OUT-8a4ygtt2rwe5
   version: 1
   official_topic: Controllers
   official_item: OIT-qr7gnht5s847
@@ -1406,7 +1409,7 @@ questions:
     text: It can drive a framework of your own, without FrameworkBundle
     correct: true
   - id: CHO-ecyt2y4m8mz0
-    text: It requires FrameworkBundle to dispatch its events
+    text: It requires FrameworkBundle to be enabled before it can dispatch its events
     correct: false
     explanation: The component owns the dispatching; the bundle only registers listeners.
   - id: CHO-q6x6jzsxdka4
@@ -1425,6 +1428,9 @@ questions:
     symbol_or_lines: abstract class Kernel
     verified_at: '2026-09-01'
 - id: QST-0p9e7tp6k2k1
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-j0pg9ejmv4hg
   version: 1
   official_topic: Controllers
   official_item: OIT-gqpj4rbt0hc7
@@ -1462,7 +1468,7 @@ questions:
     correct: false
     explanation: The prefix has nothing to do with visibility.
   - id: CHO-xkh82b1acpm1
-    text: To allow them to be overridden by a subclass
+    text: To allow each of them to be overridden by a subclass of the controller
     correct: false
     explanation: Overriding a subscribed service is not what the prefix expresses.
   explanation: 'The ''?'' means the container entry may be missing. That is why an application without Twig still
@@ -1473,6 +1479,9 @@ questions:
     symbol_or_lines: getSubscribedServices
     verified_at: '2026-09-01'
 - id: QST-k4029jtwsdn3
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-d9trsb0jwxp7
   version: 1
   official_topic: Controllers
   official_item: OIT-2emwghgkkrdy
@@ -1511,7 +1520,7 @@ questions:
     correct: false
     explanation: render() renders a template; it does not serve a file.
   - id: CHO-8cjqdsjjky43
-    text: A StreamedResponse with the file path as content
+    text: A StreamedResponse built with the file path as its content callback and no headers
     correct: false
     explanation: That would send the path as text, not the file.
   explanation: file() returns a BinaryFileResponse whose disposition defaults to attachment. DISPOSITION_INLINE
@@ -1522,6 +1531,9 @@ questions:
     symbol_or_lines: file()
     verified_at: '2026-09-01'
 - id: QST-03ch87xctc42
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-srphtyf5qzqs
   version: 1
   official_topic: Controllers
   official_item: OIT-e41m74xaqhy7
@@ -1570,6 +1582,9 @@ questions:
     symbol_or_lines: sessions are only started if you read from or write to them
     verified_at: '2026-09-01'
 - id: QST-m8bcgkbxqkdc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-7any6zqhanpk
   version: 1
   official_topic: Controllers
   official_item: OIT-znm2tr61aw9p
@@ -1619,6 +1634,9 @@ questions:
     symbol_or_lines: the order of the arguments does not matter
     verified_at: '2026-09-01'
 - id: QST-sh4w393jtsyz
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-mfs1nh45d7sr
   version: 1
   official_topic: Controllers
   official_item: OIT-emymfwgesh99
@@ -1668,6 +1686,9 @@ questions:
     symbol_or_lines: Security & 404 Pages
     verified_at: '2026-09-01'
 - id: QST-hbgc4v2p0mhp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-map3gyk0v2py
   version: 1
   official_topic: Controllers
   official_item: OIT-tb3bnd6b0f01
@@ -1716,6 +1737,9 @@ questions:
     symbol_or_lines: moving the uploaded file
     verified_at: '2026-09-01'
 - id: QST-zbn2g0es3f4g
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+    - OUT-mh1c4db9g0en
   version: 1
   official_topic: Controllers
   official_item: OIT-e93sa9rd4kd9
@@ -1765,6 +1789,9 @@ questions:
     symbol_or_lines: RedirectController options
     verified_at: '2026-09-01'
 - id: QST-qc5p8whh9gs7
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+    - OUT-5kafbd3d9nt8
   version: 1
   official_topic: Controllers
   official_item: OIT-8hs6e05vq91g
