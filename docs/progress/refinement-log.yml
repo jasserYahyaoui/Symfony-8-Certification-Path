@@ -176,4 +176,24 @@ lots:
           de tag en plus d'une liste d'identifiants. Indice de longueur le pire
           rencontre, 61,5 % -> 23,1 % ; douze cas laisses tels quels pour ne pas
           basculer dans le biais inverse.
+  - lot: lot-05
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-05-refinement-v2/README.md
+        pull_request: 110
+        merged_commit: aaf04d7
+        production_verified_commit: aaf04d7
+        production_smoke_job: 103384845349
+        date: '2026-09-11'
+        note: >-
+          Douze outcomes sans evaluation exploitable : neuf sans aucune
+          question, trois couverts seulement par le holdout. Un fait que le
+          cours disait approximativement, corrige en source : Requirement est
+          declaree enum mais ne porte que des constantes, aucun case — d'ou
+          l'acces par !php/const en YAML. Indice de longueur 54,0 % -> 24,0 %
+          en trois passes mesurees ; douze cas laisses tels quels, leur bonne
+          reponse etant une valeur d'API.
 
