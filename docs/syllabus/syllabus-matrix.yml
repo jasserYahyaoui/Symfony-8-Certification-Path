@@ -3486,11 +3486,16 @@ items:
       strict_variables change un comportement observable, et deux commandes. C'est une répartition à
       appliquer, pas un mécanisme à dérouler.
     learning_outcomes:
-      - "Distinguer twig/twig, le bridge Twig et TwigBundle"
-      - "Localiser les gabarits par défaut et changer ce répertoire"
-      - "Référencer un gabarit de bundle par son espace de noms"
-      - "Énoncer l'effet de strict_variables"
-      - "Citer debug:twig et lint:twig"
+      - id: OUT-xw5hbxewf5xf
+        outcome: Distinguer twig/twig, le bridge Twig et TwigBundle
+      - id: OUT-fe5bp6xb3w5m
+        outcome: Localiser les gabarits par défaut et changer ce répertoire
+      - id: OUT-4hq67myssdj1
+        outcome: Référencer un gabarit de bundle par son espace de noms
+      - id: OUT-eqrycamdmt25
+        outcome: Énoncer l'effet de strict_variables
+      - id: OUT-kd4ywvpax765
+        outcome: Citer debug:twig et lint:twig
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3534,17 +3539,23 @@ items:
     content_level: DEEP
     content_level_justification: >-
       C'est le socle des treize autres items, et il porte une procédure ordonnée dont l'ordre est note
-      : les sept étapes de résolution de foo.bar, avec le tableau essayé avant la propriété et
-      strict_variables au bout. S'y ajoutent trois délimiteurs à ne pas confondre et un jeu
-      d'opérateurs dont trois pièges reviennent. La version compte : le syllabus dit up to 3.22
-      version.
+      : les étapes de résolution de foo.bar, avec le tableau essayé avant la propriété, la constante
+      de classe avant les méthodes et strict_variables au bout. S'y ajoutent trois délimiteurs à ne
+      pas confondre et un jeu d'opérateurs dont trois pièges reviennent. La version compte : le
+      syllabus dit up to 3.22 version.
     learning_outcomes:
-      - "Associer chaque délimiteur à son rôle"
-      - "Énoncer les sept étapes de résolution de foo.bar dans l'ordre"
-      - "Expliquer l'effet de strict_variables sur la dernière étape"
-      - "Choisir l'opérateur correct pour concaténer, comparer et tester"
-      - "Distinguer ?: de ??"
-      - "Contrôler les espaces avec {{- et -}}"
+      - id: OUT-491pkbwc6e8x
+        outcome: Associer chaque délimiteur à son rôle
+      - id: OUT-4wpk7x3epxym
+        outcome: Énoncer les étapes de résolution de foo.bar dans l'ordre
+      - id: OUT-ap22qz4fkjra
+        outcome: Expliquer l'effet de strict_variables sur la dernière étape
+      - id: OUT-93svekvx55t0
+        outcome: Choisir l'opérateur correct pour concaténer, comparer et tester
+      - id: OUT-xpcwsqhycgnr
+        outcome: 'Distinguer ?: de ??'
+      - id: OUT-je4qjh1s6yw0
+        outcome: Contrôler les espaces avec {{- et -}}
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3602,10 +3613,14 @@ items:
       qui décide de la présence d'une faille. Le moment d'application — à l'affichage — n'est pas
       devinable. Plus qu'un fait, moins qu'une procédure.
     learning_outcomes:
-      - "Énoncer la stratégie active par défaut et le moment de son application"
-      - "Associer chaque stratégie au contexte qu'elle protège"
-      - "Distinguer html de html_attr sur un attribut sans guillemets"
-      - "Employer raw et la balise autoescape à bon escient"
+      - id: OUT-43tnheqyaw2v
+        outcome: Énoncer la stratégie active par défaut et le moment de son application
+      - id: OUT-mhbzxr5470xc
+        outcome: Associer chaque stratégie au contexte qu'elle protège
+      - id: OUT-ss6r3pwx0fjy
+        outcome: Distinguer html de html_attr sur un attribut sans guillemets
+      - id: OUT-947gftrjzm6w
+        outcome: Employer raw et la balise autoescape à bon escient
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3661,10 +3676,14 @@ items:
       silencieux : le contenu hors bloc d'un enfant disparaît sans erreur. La réutilisation
       horizontale par use complète le tableau sans le doubler.
     learning_outcomes:
-      - "Construire une hiérarchie extends / block"
-      - "Énoncer ce qu'il advient du contenu écrit hors d'un bloc"
-      - "Employer parent() pour compléter un bloc"
-      - "Distinguer l'héritage de la réutilisation horizontale"
+      - id: OUT-2m2fsf0992k6
+        outcome: Construire une hiérarchie extends / block
+      - id: OUT-0b65p7477ebz
+        outcome: Énoncer ce qu'il advient du contenu écrit hors d'un bloc
+      - id: OUT-5gpp6vwt10fk
+        outcome: Employer parent() pour compléter un bloc
+      - id: OUT-qbyeeh719t3d
+        outcome: Distinguer l'héritage de la réutilisation horizontale
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3719,10 +3738,14 @@ items:
       requête, une clé de configuration, et le piège de consommation de app.flashes. Un format MINIMAL
       ne porterait pas le tableau.
     learning_outcomes:
-      - "Citer les propriétés de la variable app et leur contenu"
-      - "Reconnaître l'equivalence de app.current_route"
-      - "Déclarer une globale par twig.globals"
-      - "Énoncer que app.flashes consomme les messages"
+      - id: OUT-r9kjw1fha5yx
+        outcome: Citer les propriétés de la variable app et leur contenu
+      - id: OUT-5z9qxkyjy0yc
+        outcome: Reconnaître l'equivalence de app.current_route
+      - id: OUT-thnmr95cr5f4
+        outcome: Déclarer une globale par twig.globals
+      - id: OUT-zn59vbr2pzhs
+        outcome: Énoncer que app.flashes consomme les messages
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3769,11 +3792,16 @@ items:
       conséquence, et la provenance des extensions Symfony — le bridge, pas le moteur — relie l'item
       au lot 03. Trois choses à articuler, pas une à retenir.
     learning_outcomes:
-      - "Distinguer un filtre d'une fonction"
-      - "Enchaîner des filtres et expliquer l'effet de l'ordre"
-      - "Employer la balise apply sur un bloc"
-      - "Situer l'origine des extensions Symfony"
-      - "Utiliser debug:twig comme inventaire"
+      - id: OUT-cqhgw19wwy6g
+        outcome: Distinguer un filtre d'une fonction
+      - id: OUT-thp60dyg5ccw
+        outcome: Enchaîner des filtres et expliquer l'effet de l'ordre
+      - id: OUT-v2xep4yvvh3g
+        outcome: Employer la balise apply sur un bloc
+      - id: OUT-2x8ake8z462h
+        outcome: Situer l'origine des extensions Symfony
+      - id: OUT-mhmwe1napmfn
+        outcome: Utiliser debug:twig comme inventaire
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3825,10 +3853,14 @@ items:
       Deux écritures équivalentes, un comportement de contexte par défaut qu'il faut savoir couper, un
       mot-clé de tolérance, et l'arbitrage avec embed. Chacun de ces points change une réponse.
     learning_outcomes:
-      - "Inclure un gabarit par la fonction et par la balise"
-      - "Restreindre le contexte transmis avec only ou with_context"
-      - "Tolérer un gabarit absent avec ignore missing"
-      - "Choisir entre include et embed"
+      - id: OUT-2dk5sjxn9j7s
+        outcome: Inclure un gabarit par la fonction et par la balise
+      - id: OUT-ng5q8rr0804g
+        outcome: Restreindre le contexte transmis avec only ou with_context
+      - id: OUT-k04wxdqz7vn1
+        outcome: Tolérer un gabarit absent avec ignore missing
+      - id: OUT-kb1neg7efnfp
+        outcome: Choisir entre include et embed
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3881,11 +3913,16 @@ items:
       l'exécution, un indice à 1 contraire à l'habitude PHP, l'absence de break et la clause else. Le
       volume de faits à conséquence dépasse le format MINIMAL.
     learning_outcomes:
-      - "Parcourir une séquence et employer la clause else"
-      - "Citer les variables de loop et leur valeur de départ"
-      - "Énoncer les quatre variables exigeant un tableau ou Countable"
-      - "Restreindre une séquence sans break ni continue"
-      - "Écrire une condition et ses tests is / is not"
+      - id: OUT-n2sny821kd8p
+        outcome: Parcourir une séquence et employer la clause else
+      - id: OUT-16dbq9y7rz76
+        outcome: Citer les variables de loop et leur valeur de départ
+      - id: OUT-rjj1wzpn63ph
+        outcome: Énoncer les quatre variables exigeant un tableau ou Countable
+      - id: OUT-d2d8w5y3z51h
+        outcome: Restreindre une séquence sans break ni continue
+      - id: OUT-j1qtw6ccaxqg
+        outcome: Écrire une condition et ses tests is / is not
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3941,9 +3978,12 @@ items:
       types de référence et le sort des paramètres surnuméraires appartiennent à l'item URLs
       génération du lot 05 ; les reprendre ici serait de la duplication.
     learning_outcomes:
-      - "Distinguer path() de url()"
-      - "Générer une URL avec des paramètres de route"
-      - "Énoncer qu'une URL ne s'écrit jamais à la main"
+      - id: OUT-eqkt5vg15zqf
+        outcome: Distinguer path() de url()
+      - id: OUT-5g7zrabez2b4
+        outcome: Générer une URL avec des paramètres de route
+      - id: OUT-b6ffjb05rkmr
+        outcome: Énoncer qu'une URL ne s'écrit jamais à la main
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3988,10 +4028,14 @@ items:
       requête par appel — et une option de configuration à nommer. Le forward d'un contrôleur vers un
       autre appartient au lot 04.
     learning_outcomes:
-      - "Exécuter un contrôleur route depuis un gabarit"
-      - "Exécuter un contrôleur sans route avec controller()"
-      - "Énoncer le coût d'un fragment en sous-requête"
-      - "Nommer l'option qui définit l'URL interne des fragments"
+      - id: OUT-hxf3hmdmh40t
+        outcome: Exécuter un contrôleur route depuis un gabarit
+      - id: OUT-yzay5m44wwmq
+        outcome: Exécuter un contrôleur sans route avec controller()
+      - id: OUT-wnm1nq0vg8m5
+        outcome: Énoncer le coût d'un fragment en sous-requête
+      - id: OUT-686mezsja6g7
+        outcome: Nommer l'option qui définit l'URL interne des fragments
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4038,11 +4082,16 @@ items:
       et un changement de doctrine sur le pluriel : ICU recommande, syntaxe à barres tolérée.
       L'organisation des catalogues appartient au lot 16.
     learning_outcomes:
-      - "Employer le filtre trans avec paramètres, domaine et locale"
-      - "Employer la balise trans et trans_default_domain"
-      - "Distinguer les emplacements %nom% des emplacements ICU {nom}"
-      - "Énoncer l'exigence du suffixe +intl-icu"
-      - "Citer t() et l'objet traduisible"
+      - id: OUT-p436jre6f29p
+        outcome: Employer le filtre trans avec paramètres, domaine et locale
+      - id: OUT-eh8yg0599jp9
+        outcome: Employer la balise trans et trans_default_domain
+      - id: OUT-ke17qw8mxwms
+        outcome: Distinguer les emplacements %nom% des emplacements ICU {nom}
+      - id: OUT-km38p3n24htq
+        outcome: Énoncer l'exigence du suffixe +intl-icu
+      - id: OUT-txry0vy6q09r
+        outcome: Citer t() et l'objet traduisible
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4096,9 +4145,12 @@ items:
       Une syntaxe, une contrainte sur le type de guillemets, un échappement. Trois faits courts, sans
       mécanisme à dérouler ; l'alternative ~ est déjà posée par l'item de syntaxe.
     learning_outcomes:
-      - "Interpoler une expression dans une chaîne"
-      - "Énoncer la contrainte sur le type de guillemets"
-      - "Échapper une interpolation"
+      - id: OUT-rve93x3e2gjq
+        outcome: Interpoler une expression dans une chaîne
+      - id: OUT-w25h6r5rdb9c
+        outcome: Énoncer la contrainte sur le type de guillemets
+      - id: OUT-tf752s70s9sw
+        outcome: Échapper une interpolation
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4145,9 +4197,12 @@ items:
       construction d'assets — AssetMapper, Webpack Encore — sont exclus du périmètre par la section
       1.5, ce qui réduit l'item à sa surface Twig.
     learning_outcomes:
-      - "Référencer une ressource publique avec asset()"
-      - "Justifier l'emploi de asset() plutôt qu'un chemin en dur"
-      - "Énoncer le rôle du second argument"
+      - id: OUT-pw46yjz3zfeh
+        outcome: Référencer une ressource publique avec asset()
+      - id: OUT-1c5dnwnne01z
+        outcome: Justifier l'emploi de asset() plutôt qu'un chemin en dur
+      - id: OUT-k668ynwpjgby
+        outcome: Énoncer le rôle du second argument
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4191,9 +4246,12 @@ items:
       Deux écritures pour deux destinations, une restriction d'environnement, deux commandes. Court,
       mais l'opposition balise / fonction est réelle et se rate.
     learning_outcomes:
-      - "Distinguer la balise dump de la fonction dump"
-      - "Énoncer la restriction aux environnements dev et test"
-      - "Citer debug:twig et lint:twig"
+      - id: OUT-e93qx0gj8t90
+        outcome: Distinguer la balise dump de la fonction dump
+      - id: OUT-sbmhyzyq1vde
+        outcome: Énoncer la restriction aux environnements dev et test
+      - id: OUT-5qgcf97r7ze3
+        outcome: Citer debug:twig et lint:twig
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
