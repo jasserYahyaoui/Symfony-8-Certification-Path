@@ -157,3 +157,23 @@ lots:
           setPublic(), et isNotModified() retourne false avant toute
           comparaison si la methode n'est pas cacheable. Indice de longueur
           38,5 % -> 20,5 %.
+  - lot: lot-09
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-09-refinement-v2/README.md
+        pull_request: 108
+        merged_commit: 1d874dc
+        production_verified_commit: 1d874dc
+        production_smoke_job: 103369442684
+        date: '2026-09-11'
+        note: >-
+          Lot transverse. Dix outcomes sans evaluation exploitable : sept sans
+          aucune question, trois couverts seulement par le holdout. Un fait
+          absent du cours releve en source : #[AutowireLocator] accepte un nom
+          de tag en plus d'une liste d'identifiants. Indice de longueur le pire
+          rencontre, 61,5 % -> 23,1 % ; douze cas laisses tels quels pour ne pas
+          basculer dans le biais inverse.
+
