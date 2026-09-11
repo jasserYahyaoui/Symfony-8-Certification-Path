@@ -73,32 +73,32 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 5 octobre 2026
 
 - NOUVEAU · **PHP : Enums** (STANDARD) — 11 min · 383 mots · 3 questions, 1 flashcards
-- NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 8 min · 387 mots · 2 questions, 1 flashcards
-- NOUVEAU · **HTTP : Status codes** (MINIMAL) — 9 min · 376 mots · 2 questions, 2 flashcards
-- NOUVEAU · **HTTP : HTTP request** (STANDARD) — 11 min · 416 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 9 min · 387 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : Status codes** (MINIMAL) — 10 min · 376 mots · 3 questions, 2 flashcards
+- NOUVEAU · **HTTP : HTTP request** (STANDARD) — 12 min · 416 mots · 4 questions, 1 flashcards
 - Révision **J+3** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 55 / 120 min*
+*Budget du jour : 58 / 120 min*
 
 ### Mardi 6 octobre 2026
 
-- NOUVEAU · **HTTP : HTTP response** (STANDARD) — 10 min · 390 mots · 3 questions, 1 flashcards
-- NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 12 min · 448 mots · 3 questions, 1 flashcards
-- NOUVEAU · **HTTP : Cookies** (STANDARD) — 10 min · 343 mots · 3 questions, 1 flashcards
-- NOUVEAU · **HTTP : Caching** (STANDARD) — 12 min · 498 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : HTTP response** (STANDARD) — 12 min · 390 mots · 4 questions, 1 flashcards
+- NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 13 min · 448 mots · 4 questions, 1 flashcards
+- NOUVEAU · **HTTP : Cookies** (STANDARD) — 13 min · 343 mots · 5 questions, 1 flashcards
+- NOUVEAU · **HTTP : Caching** (STANDARD) — 14 min · 498 mots · 5 questions, 1 flashcards
 - Révision **J+1** (20 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 64 / 120 min*
+*Budget du jour : 72 / 120 min*
 
 ### Mercredi 7 octobre 2026
 
-- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 10 min · 359 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 11 min · 359 mots · 4 questions, 1 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 7 min · 242 mots · 2 questions, 1 flashcards
-- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 12 min · 450 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 13 min · 450 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 9 min · 370 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 62 / 120 min*
+*Budget du jour : 64 / 120 min*
 
 ### Jeudi 8 octobre 2026
 
