@@ -11,6 +11,9 @@ schema_version: 1
 
 questions:
 - id: QST-a4xhs81g86kj
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-xysy1a4vx444
   version: 1
   official_topic: Forms
   official_item: OIT-tsxxgp3ppj1n
@@ -59,6 +62,9 @@ questions:
     symbol_or_lines: Symfony Forms documentation
     verified_at: '2026-09-01'
 - id: QST-174t76nj5hh1
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-xysy1a4vx444
   version: 1
   official_topic: Forms
   official_item: OIT-tsxxgp3ppj1n
@@ -104,6 +110,9 @@ questions:
     layers become visible exactly when a field misbehaves.'
   official_sources: *id001
 - id: QST-b4y5mz01a7na
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-pe7s3cdg6fgb
   version: 1
   official_topic: Forms
   official_item: OIT-fhpttc4c5x0k
@@ -149,6 +158,9 @@ questions:
     is read with $form->get('name')->getData().
   official_sources: *id001
 - id: QST-6ygjf6k55wpk
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-04d4xdarmk8w
   version: 1
   official_topic: Forms
   official_item: OIT-fhpttc4c5x0k
@@ -192,6 +204,9 @@ questions:
   explanation: It is set in configureOptions() and decides whether getData() returns an object or an array.
   official_sources: *id001
 - id: QST-zkgdt4kc1h0g
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-68682qbtydht
   version: 1
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
@@ -236,6 +251,9 @@ questions:
     is rendered.
   official_sources: *id001
 - id: QST-fy9ptsw9q7d7
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-mj8bjkemt33a
   version: 1
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
@@ -266,7 +284,7 @@ questions:
     text: Fields missing from the submission keep their current value
     correct: true
   - id: CHO-pkr1edfba0hm
-    text: Missing fields are set to null
+    text: Missing fields are set to null, exactly as on a full submission
     correct: false
     explanation: That is the default behaviour, with the argument left at true.
   - id: CHO-cmw7k8dyvkrm
@@ -281,6 +299,9 @@ questions:
     A field that must still be validated has to be added to the submitted data explicitly, with a null value.'
   official_sources: *id001
 - id: QST-hhxx71xmb9jk
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-dstzcbzx0kt7
   version: 1
   official_topic: Forms
   official_item: OIT-5xvjqa4203xe
@@ -307,10 +328,10 @@ questions:
   - types
   choices:
   - id: CHO-dactwdcpscmj
-    text: It names the type whose fields, options and rendering are inherited
+    text: It names the type whose options and rendering are inherited
     correct: true
   - id: CHO-cwnkpq2zazvk
-    text: It names the parent form the type is embedded in
+    text: It names the parent form in which this type is embedded as a field
     correct: false
     explanation: Embedding is done by adding the type as a field, not by getParent().
   - id: CHO-1vxrj20ec0fr
@@ -329,6 +350,9 @@ questions:
     symbol_or_lines: getParent()
     verified_at: '2026-09-01'
 - id: QST-yyzehfrg9w4n
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-0ztsd5vjbe72
   version: 1
   official_topic: Forms
   official_item: OIT-5xvjqa4203xe
@@ -377,6 +401,9 @@ questions:
     symbol_or_lines: AbstractType methods
     verified_at: '2026-09-01'
 - id: QST-nnj43wzztp2y
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-nmcf66pedj3a
   version: 1
   official_topic: Forms
   official_item: OIT-gxew257vwhm8
@@ -408,7 +435,7 @@ questions:
     text: The CSRF token is no longer rendered, so submissions become invalid
     correct: true
   - id: CHO-qatgnk61e9m2
-    text: Nothing — every field was rendered explicitly
+    text: Nothing — every field was rendered explicitly, so none is left over
     correct: false
     explanation: The token is a hidden field that was never rendered explicitly.
   - id: CHO-8trmfrsx9spy
@@ -423,6 +450,9 @@ questions:
     that is rarely what is wanted.
   official_sources: *id001
 - id: QST-4915capts8mb
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-5ccs7c2daq4f
   version: 1
   official_topic: Forms
   official_item: OIT-gxew257vwhm8
@@ -466,6 +496,9 @@ questions:
   explanation: The parts are form_label, form_widget, form_help and form_errors; form_row is their container.
   official_sources: *id001
 - id: QST-6tbd9rk49r20
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-zphxh7z24zht
   version: 1
   official_topic: Forms
   official_item: OIT-j2vjdxcer4ft
@@ -514,6 +547,9 @@ questions:
     symbol_or_lines: block lookup chain
     verified_at: '2026-09-01'
 - id: QST-psfqmcny5kpw
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-yz2mbwg9ee93
   version: 1
   official_topic: Forms
   official_item: OIT-j2vjdxcer4ft
@@ -563,6 +599,9 @@ questions:
     symbol_or_lines: form_themes ordering
     verified_at: '2026-09-01'
 - id: QST-z6w320n9hz0m
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-nhv282ce36br
   version: 1
   official_topic: Forms
   official_item: OIT-dmkbj2x94rks
@@ -611,6 +650,9 @@ questions:
     symbol_or_lines: CSRF protection in Symfony forms
     verified_at: '2026-09-01'
 - id: QST-8xa0cc55zffm
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-9may3eay9wcj
   version: 1
   official_topic: Forms
   official_item: OIT-dmkbj2x94rks
@@ -660,6 +702,10 @@ questions:
     symbol_or_lines: form CSRF options
     verified_at: '2026-09-01'
 - id: QST-h3r0j23kcfbe
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-9qanndr176yx
+  - OUT-2swcsdfcjqwc
   version: 1
   official_topic: Forms
   official_item: OIT-j6tqs8s8f54f
@@ -708,6 +754,9 @@ questions:
     symbol_or_lines: unmapped FileType field
     verified_at: '2026-09-01'
 - id: QST-5vpn3hptj28b
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-zd387nyydnm7
   version: 1
   official_topic: Forms
   official_item: OIT-j6tqs8s8f54f
@@ -756,6 +805,9 @@ questions:
     symbol_or_lines: the trick to make it work
     verified_at: '2026-09-01'
 - id: QST-kr1xezgf2gp6
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-zq43jp3a97gg
   version: 1
   official_topic: Forms
   official_item: OIT-p810t98zedem
@@ -803,6 +855,9 @@ questions:
     symbol_or_lines: ChoiceType options
     verified_at: '2026-09-01'
 - id: QST-1hb2524n0hsk
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-0a3jcmk5066b
   version: 1
   official_topic: Forms
   official_item: OIT-p810t98zedem
@@ -850,6 +905,9 @@ questions:
     symbol_or_lines: supported field types
     verified_at: '2026-09-01'
 - id: QST-bj8py053ynmp
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-3bw24kwks403
   version: 1
   official_topic: Forms
   official_item: OIT-58r9dadx916v
@@ -898,6 +956,9 @@ questions:
     symbol_or_lines: transform and reverseTransform
     verified_at: '2026-09-01'
 - id: QST-xa0hazmsb5mc
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-hayngfr60z78
   version: 1
   official_topic: Forms
   official_item: OIT-58r9dadx916v
@@ -925,10 +986,10 @@ questions:
   - transformers
   choices:
   - id: CHO-d103kge3pt4k
-    text: It records a validation error on the field, so isValid() returns false
+    text: It records a validation error, so isValid() returns false
     correct: true
   - id: CHO-sb0nynw15d25
-    text: It re-throws it, producing a 500 response
+    text: It re-throws it, so the controller never runs and a 500 is produced
     correct: false
     explanation: That is what any other exception type would cause.
   - id: CHO-zjw4p36ex4kf
@@ -947,6 +1008,9 @@ questions:
     symbol_or_lines: TransformationFailedException
     verified_at: '2026-09-01'
 - id: QST-ra9z9d42ddqa
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-jz8pzthzk661
   version: 1
   official_topic: Forms
   official_item: OIT-v7zyhcm44m88
@@ -995,6 +1059,9 @@ questions:
     symbol_or_lines: the field structure is locked
     verified_at: '2026-09-01'
 - id: QST-tv47j0hjexr0
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-eyj84n4wy8wg
   version: 1
   official_topic: Forms
   official_item: OIT-v7zyhcm44m88
@@ -1044,6 +1111,10 @@ questions:
     symbol_or_lines: validation runs through a listener on POST_SUBMIT
     verified_at: '2026-09-01'
 - id: QST-5x6x0fgxqk43
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-xj0demzqg8ct
+  - OUT-0sq5c8vams1s
   version: 1
   official_topic: Forms
   official_item: OIT-v7zyhcm44m88
@@ -1093,6 +1164,9 @@ questions:
     symbol_or_lines: tip on PRE_SET_DATA versus PRE_SUBMIT
     verified_at: '2026-09-01'
 - id: QST-mc97gbqdk57v
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-htzhn298zev4
   version: 1
   official_topic: Forms
   official_item: OIT-gcs0jathkv9b
@@ -1141,6 +1215,9 @@ questions:
     symbol_or_lines: getExtendedTypes
     verified_at: '2026-09-01'
 - id: QST-vp34fa6btm3y
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-9f0hg26eqmze
   version: 1
   official_topic: Forms
   official_item: OIT-gcs0jathkv9b
@@ -1167,10 +1244,10 @@ questions:
   - type-extensions
   choices:
   - id: CHO-2bhas71mkgca
-    text: An extension modifies existing types instead of creating a new one
+    text: An extension modifies existing types, it defines none
     correct: true
   - id: CHO-1t9e72mnxpy2
-    text: An extension cannot declare new options
+    text: An extension cannot declare new options on the types it extends
     correct: false
     explanation: Declaring an option on an existing type is one of its main uses.
   - id: CHO-t9t8dxt5x7x8
@@ -1189,6 +1266,9 @@ questions:
     symbol_or_lines: form type extensions
     verified_at: '2026-09-01'
 - id: QST-7ef7528zsm5p
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-whjhhhcq1kg3
   version: 1
   official_topic: Forms
   official_item: OIT-rj9web4whgmz
@@ -1215,14 +1295,14 @@ questions:
   - options-resolver
   choices:
   - id: CHO-gtaz243grf1d
-    text: It declares an option as accepted without giving it a value
+    text: It accepts an option without giving it a value
     correct: true
   - id: CHO-b5tb9qgt9hga
     text: It makes the option mandatory
     correct: false
     explanation: That is setRequired().
   - id: CHO-9qtm113tgwp7
-    text: It restricts the option's type
+    text: It restricts the option to values of one declared type
     correct: false
     explanation: That is setAllowedTypes().
   - id: CHO-cq023hwhjdmg
@@ -1237,6 +1317,9 @@ questions:
     symbol_or_lines: setDefined
     verified_at: '2026-09-01'
 - id: QST-0gsam1vp228d
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-rz5njbv8fvrm
   version: 1
   official_topic: Forms
   official_item: OIT-rj9web4whgmz
@@ -1285,6 +1368,9 @@ questions:
     symbol_or_lines: lazy options
     verified_at: '2026-09-01'
 - id: QST-511yz29wg73f
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-v7z96yxzjbvx
   version: 1
   official_topic: Forms
   official_item: OIT-tsxxgp3ppj1n
@@ -1329,6 +1415,9 @@ questions:
     same transformers.
   official_sources: *id001
 - id: QST-3pfgr2whbm74
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-75g8bz40n09y
   version: 1
   official_topic: Forms
   official_item: OIT-fhpttc4c5x0k
@@ -1358,7 +1447,7 @@ questions:
     text: A public $dueDate property, or getDueDate(), isDueDate() or hasDueDate()
     correct: true
   - id: CHO-wvghzss4z729
-    text: Only a public $dueDate property
+    text: Only a public $dueDate property, with no method fallback
     correct: false
     explanation: PropertyAccess falls back to the accessor methods.
   - id: CHO-jy5kdv7jgvzp
@@ -1373,6 +1462,9 @@ questions:
     submission.
   official_sources: *id001
 - id: QST-rjcze5zym546
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-zr9efpstp5ny
   version: 1
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
@@ -1418,6 +1510,9 @@ questions:
     the controller can persist it directly.'
   official_sources: *id001
 - id: QST-34jsz8p52p6r
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-dstzcbzx0kt7
   version: 1
   official_topic: Forms
   official_item: OIT-5xvjqa4203xe
@@ -1466,6 +1561,9 @@ questions:
     symbol_or_lines: implicit parent
     verified_at: '2026-09-01'
 - id: QST-m9pvk08gts1f
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-gm5mj2qf5q98
   version: 1
   official_topic: Forms
   official_item: OIT-gxew257vwhm8
@@ -1510,6 +1608,9 @@ questions:
     own validation.
   official_sources: *id001
 - id: QST-f67fd9fny984
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-n3gb1pbjv5sn
   version: 1
   official_topic: Forms
   official_item: OIT-j2vjdxcer4ft
@@ -1558,6 +1659,9 @@ questions:
     symbol_or_lines: _self keyword
     verified_at: '2026-09-01'
 - id: QST-tewn0nb82g44
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-wc1yk5bm6nw6
   version: 1
   official_topic: Forms
   official_item: OIT-dmkbj2x94rks
@@ -1606,6 +1710,9 @@ questions:
     symbol_or_lines: stateless CSRF tokens
     verified_at: '2026-09-01'
 - id: QST-6rpjqqwv1qg9
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-9zzk0ptk5fj0
   version: 1
   official_topic: Forms
   official_item: OIT-58r9dadx916v
@@ -1654,6 +1761,9 @@ questions:
     symbol_or_lines: addModelTransformer and addViewTransformer
     verified_at: '2026-09-01'
 - id: QST-cneae0nf93c6
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-htmpmeg36syj
   version: 1
   official_topic: Forms
   official_item: OIT-v7zyhcm44m88
@@ -1703,6 +1813,9 @@ questions:
     symbol_or_lines: events in nested forms
     verified_at: '2026-09-01'
 - id: QST-0gvqdjk0prdr
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-m9sv8pew063t
   version: 1
   official_topic: Forms
   official_item: OIT-rj9web4whgmz
@@ -1751,6 +1864,7 @@ questions:
     symbol_or_lines: setAllowedValues
     verified_at: '2026-09-01'
 - id: QST-hz8yhn240jyw
+  question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
@@ -1795,6 +1909,7 @@ questions:
     is rendered.'
   official_sources: *id001
 - id: QST-fh0ab67q1ej4
+  question_archetype: SCENARIO_CHOICE
   version: 1
   official_topic: Forms
   official_item: OIT-j2vjdxcer4ft
@@ -1842,3 +1957,1134 @@ questions:
     branch: '8.0'
     symbol_or_lines: form field parts
     verified_at: '2026-09-01'
+- id: QST-ct51dexfx1vd
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-teejhc73n9se
+  version: 1
+  official_topic: Forms
+  official_item: OIT-tsxxgp3ppj1n
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What problem is the Form component built to solve?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - form-component
+  choices:
+  - id: CHO-tmg19a22187q
+    text: Mapping objects to HTML forms, both ways
+    correct: true
+  - id: CHO-qmdsn8dhbz0b
+    text: Validating an object against its constraints
+    correct: false
+    explanation: Validation is a separate component the form calls into; a form works without one.
+  - id: CHO-a4757bb48ksf
+    text: Persisting a submitted object
+    correct: false
+    explanation: The form hands back a populated object and stops there.
+  - id: CHO-hw9xd21sws2r
+    text: Rendering a template from a controller
+    correct: false
+    explanation: Templating renders the markup; the form supplies what is rendered.
+  explanation: Rendering reads the object outwards into fields; submission converts raw request values
+    back onto it. Everything else — types, transformers, events — serves that one bidirectional mapping.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Understanding How Forms Work, bidirectional mapping layer
+    verified_at: '2026-09-11'
+- id: QST-a50hsn4hz0ac
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-hqxn9f5pmxnp
+  version: 1
+  official_topic: Forms
+  official_item: OIT-tsxxgp3ppj1n
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which data layer do the object passed to createForm() and the value returned by getData()
+    belong to?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - form-component
+  - layers
+  choices:
+  - id: CHO-pecbq3jrh576
+    text: The model layer, in both cases
+    correct: true
+  - id: CHO-xemkekstk2fv
+    text: The view layer, in both cases
+    correct: false
+    explanation: The view layer holds the strings the browser sends and receives.
+  - id: CHO-j39s66e72j6a
+    text: Model on the way in, view on the way out
+    correct: false
+    explanation: Both ends of that pair sit on the same layer; the transformers sit between.
+  - id: CHO-77wfchghyc8x
+    text: The normalized layer, in both cases
+    correct: false
+    explanation: The normalized layer is an intermediate rarely handled directly.
+  explanation: 'The model layer is the application format: a DateTime, an object, a value object. It
+    is what the controller hands in and what it gets back.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Model Data
+    verified_at: '2026-09-11'
+- id: QST-t8erjc9b609g
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-nafaf5j5xy59
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The same form is needed in three controller actions. Which way of building it makes that
+    possible?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - creation
+  choices:
+  - id: CHO-a962rqvzm3fn
+    text: A dedicated class extending AbstractType
+    correct: true
+  - id: CHO-x8q70b2ahk9e
+    text: The builder helper of the base controller, called in each action
+    correct: false
+    explanation: It works, but the definition is then written out three times.
+  - id: CHO-a0exb97wpby5
+    text: A service returning a built form instance
+    correct: false
+    explanation: A built form is bound to one object and one request; it is not reusable as such.
+  - id: CHO-zjwez405pwnd
+    text: A Twig macro rendering the same fields
+    correct: false
+    explanation: A macro reuses the markup, not the definition, the options or the mapping.
+  explanation: A form class is a form type. Building inline in a controller is fine for one-off forms;
+    a class is what makes the definition reusable and testable.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Form Classes, forms defined in classes can be reused
+    verified_at: '2026-09-11'
+- id: QST-ypbv08h18qzf
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-5dydayznyx68
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What are the three arguments of the builder method that adds a field?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - creation
+  - builder
+  choices:
+  - id: CHO-r9h7qzdjpg63
+    text: Name, type and options
+    correct: true
+  - id: CHO-hzn3xtcjx35c
+    text: Name, label and constraints
+    correct: false
+    explanation: The label and the constraints are options, not positional arguments.
+  - id: CHO-gbf7tkwtp55p
+    text: Property, type and default value
+    correct: false
+    explanation: The first argument is the field name; the mapping to a property follows from it.
+  - id: CHO-sd73mhaqpp9t
+    text: Type, name and options
+    correct: false
+    explanation: 'The order is the other way round: the name comes first.'
+  explanation: add($name, $type, $options). The type is given as a fully qualified class name, and may
+    be omitted so it is guessed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Forms in Controllers, add() calls
+    verified_at: '2026-09-11'
+- id: QST-zmw8se19hm38
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-y3ytkg8qf2rc
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One action both renders a form and processes its submission. On the initial GET, what does
+    the request-handling call do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - handling
+  choices:
+  - id: CHO-av7g04twxvcj
+    text: It leaves the form unsubmitted
+    correct: true
+  - id: CHO-msn2crqb1y2d
+    text: It throws, because there is nothing to handle
+    correct: false
+    explanation: The call is designed to be made unconditionally.
+  - id: CHO-hasex2ebn1gt
+    text: It marks the form submitted with empty values
+    correct: false
+    explanation: That would make the guard on submission useless.
+  - id: CHO-s8wx1bayaww4
+    text: It populates the object with the defaults of every field
+    correct: false
+    explanation: The object keeps the values it was created with.
+  explanation: 'That is why the guard reads "submitted and valid": the same action runs on both verbs,
+    and only the submission branch takes the redirect.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handling Form Submissions, handleRequest()
+    verified_at: '2026-09-11'
+- id: QST-1h2rez4vq4r2
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-hkxn2p2xjmg7
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A PATCH endpoint submits partial data with the clearing flag turned off. What happens to
+    validation?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - handling
+  - patch
+  choices:
+  - id: CHO-2c1sk30y96ae
+    text: Only the submitted fields are validated
+    correct: true
+  - id: CHO-5ck5j9gm90c2
+    text: Every field is validated, missing ones as null
+    correct: false
+    explanation: That is the behaviour with the flag left on.
+  - id: CHO-bmjy90zpstnc
+    text: Validation is skipped for the whole form
+    correct: false
+    explanation: The form still validates what it received.
+  - id: CHO-1aa7wt0tzf3v
+    text: Missing required fields raise a transformation failure
+    correct: false
+    explanation: A missing field is simply absent, not an unconvertible value.
+  explanation: 'The documentation is explicit, and gives the workaround: merge the keys you want validated
+    into the submitted array with a null value, so they count as submitted.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: submit() with $clearMissing false, validation warning
+    verified_at: '2026-09-11'
+- id: QST-c3kjx34a31md
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kevx5cz60q4s
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A whole form is written as a class. What is that class, in the component's own terms?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - types
+  choices:
+  - id: CHO-0zh9nvqkacq3
+    text: A form type
+    correct: true
+  - id: CHO-qj6srneayeb7
+    text: A form factory
+    correct: false
+    explanation: The factory builds forms from types; the class is one of the types it builds from.
+  - id: CHO-3y2nvk7rn9fs
+    text: A data mapper
+    correct: false
+    explanation: The mapper moves values between the form and the object.
+  - id: CHO-7c003h3n24bn
+    text: A form view
+    correct: false
+    explanation: The view is what a type produces for rendering.
+  explanation: There is no separate notion of "a form class". It implements the same interface as a
+    single field type, which is why a form can be added as a field of another form.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form classes are form types that implement FormTypeInterface
+    verified_at: '2026-09-11'
+- id: QST-04kqsfdb0gr0
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-tq1etfz8r98x
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A type can name another type as its parent, or be added as a field of another form. What
+    separates the two?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - types
+  - inheritance
+  choices:
+  - id: CHO-e3cbajkef7g1
+    text: Inheriting reuses behaviour; adding nests data
+    correct: true
+  - id: CHO-y21rjzek8ab4
+    text: Inheriting works only between built-in types
+    correct: false
+    explanation: A custom type may name a custom parent.
+  - id: CHO-e1z4etqqyrgh
+    text: Adding copies the parent methods into the child
+    correct: false
+    explanation: Nothing is copied; the nested type keeps its own definition.
+  - id: CHO-7bg27sd5qm6s
+    text: They are the same thing written two ways
+    correct: false
+    explanation: One produces a single field; the other produces a subtree with its own data.
+  explanation: Naming a parent makes your type behave like it. Adding it produces a child field holding
+    its own value under its own key.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: getParent(), the parent is called before your type
+    verified_at: '2026-09-11'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Form Type Hierarchy
+    verified_at: '2026-09-11'
+- id: QST-rvne7kjg6j5v
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-zembn60q8907
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gxew257vwhm8
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A field needs its input wrapped in custom markup, while its label and errors stay where
+    the theme puts them. Which rendering call gives that control?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - rendering
+  - granularity
+  choices:
+  - id: CHO-s1tvar6zcpy3
+    text: The one that renders the input alone
+    correct: true
+  - id: CHO-shjb9yyp1jqw
+    text: The one that renders the whole field
+    correct: false
+    explanation: It emits the label, input, help and errors together, which is what has to be split.
+  - id: CHO-38p24dx56abt
+    text: The one that renders the whole form
+    correct: false
+    explanation: That is the coarsest call of all.
+  - id: CHO-nk5rkd602e6z
+    text: The one that closes the form
+    correct: false
+    explanation: It renders what is left over, not one chosen field.
+  explanation: The granularity runs from the whole form, to a field row, to its individual parts. Pick
+    the coarsest call that still gives the control you need.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Field Parts
+    verified_at: '2026-09-11'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-11'
+- id: QST-9wnradgcgyvz
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-tdmyt1j1t4xx
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In which order does the theme lookup try block names for one field?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - theming
+  - lookup
+  choices:
+  - id: CHO-zbf3nwgr0z26
+    text: The field of that form, then its type, then the parent type
+    correct: true
+  - id: CHO-77cbp2tbm65q
+    text: The parent type, then the type, then the field
+    correct: false
+    explanation: 'That is the reverse: the lookup goes from specific to general, not general to specific.'
+  - id: CHO-w1fcv2wg0rff
+    text: The type, then the field of that form, then the parent type
+    correct: false
+    explanation: The name targeting one field of one form is the most specific and is tried first.
+  - id: CHO-5988szkdmyp8
+    text: Only the block for the exact type, with no fallback
+    correct: false
+    explanation: The fallback up the type chain is what lets one theme define a single block.
+  explanation: The chain ends at the block the default theme defines for the root of that family, which
+    is why overriding one block is enough.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: lookup chain, most specific falling back to parent types
+    verified_at: '2026-09-11'
+- id: QST-w6bjkbw00rmt
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-ak7tm95dph6x
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which four parts does the complete rendering of one field contain?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - theming
+  - parts
+  choices:
+  - id: CHO-t04v35wf9vhs
+    text: Label, widget, help and errors
+    correct: true
+  - id: CHO-s2tw9c8y6a98
+    text: Label, widget, placeholder and errors
+    correct: false
+    explanation: The placeholder is an attribute of the widget, not a part of its own.
+  - id: CHO-6tb33c73h424
+    text: Label, widget, help and constraints
+    correct: false
+    explanation: Constraints are validation metadata; what renders is the resulting errors.
+  - id: CHO-3p9b86awbbv8
+    text: Legend, input, hint and messages
+    correct: false
+    explanation: Those are HTML and prose names, not the component's part names.
+  explanation: The complete field is the row; it is made of the label, the widget, the help text and
+    the errors, and each can be themed on its own.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Field Parts table
+    verified_at: '2026-09-11'
+- id: QST-5ynp5c9e17qw
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-p1tsfr91bmqy
+  version: 1
+  official_topic: Forms
+  official_item: OIT-dmkbj2x94rks
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: With protection enabled and nothing else configured, what does a form do about CSRF?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - csrf
+  choices:
+  - id: CHO-de12b4mwdq6y
+    text: It adds a hidden token field and checks it on submission
+    correct: true
+  - id: CHO-46ctqsmdcezv
+    text: It checks a header the browser sends automatically
+    correct: false
+    explanation: No such header is part of the mechanism.
+  - id: CHO-a5dpmseg092h
+    text: It refuses any request that carries no referrer
+    correct: false
+    explanation: The referrer plays no part in it.
+  - id: CHO-9rbhx75ycm0a
+    text: It requires the token to be added to the template by hand
+    correct: false
+    explanation: The token field is rendered with the rest of the form.
+  explanation: Both halves are automatic, which is why removing the call that renders the leftover fields
+    silently drops the token and every submission then fails validation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: csrf_protection, the hidden token field
+    verified_at: '2026-09-11'
+- id: QST-7e29spfp304x
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-vtp031jk3dbg
+  version: 1
+  official_topic: Forms
+  official_item: OIT-dmkbj2x94rks
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why give each form its own token id rather than share one across the application?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - csrf
+  - token-id
+  choices:
+  - id: CHO-yme6w9w95bg2
+    text: A stolen token cannot be replayed elsewhere
+    correct: true
+  - id: CHO-rena5e4rysep
+    text: It lets the tokens be cached per form
+    correct: false
+    explanation: Caching a token would defeat the protection.
+  - id: CHO-exxr5w9hcgnb
+    text: It is required, or the tokens collide and the forms break
+    correct: false
+    explanation: Sharing an id is legal; the forms keep working.
+  - id: CHO-2j0gm2z539v3
+    text: It shortens the generated token
+    correct: false
+    explanation: The id is an input to generation, not a length control.
+  explanation: The id is an arbitrary string mixed into the token. Distinct ids confine a leaked token
+    to the one form it was issued for — a benefit tied to stateful tokens, the default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: csrf_token_id, using a different string for each form
+    verified_at: '2026-09-11'
+- id: QST-882rztd8f5fc
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-41xcqcjzrmm1
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A country picker offers a fixed list and renders as a select. Which type is it built on
+    top of?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - built-in-types
+  - hierarchy
+  choices:
+  - id: CHO-ca45bc5760jy
+    text: The choice type
+    correct: true
+  - id: CHO-kv2qjq55nw6c
+    text: The text type
+    correct: false
+    explanation: The text family renders a free input, with no list of acceptable values.
+  - id: CHO-wtha4qaxzr03
+    text: The root form type, directly
+    correct: false
+    explanation: The root is the ancestor of everything; the country picker inherits a choice list first.
+  - id: CHO-d4gek37r14zj
+    text: The date type
+    correct: false
+    explanation: It is unrelated to a list of options.
+  explanation: The choice type is the parent of the whole family that presents a list, which is why
+    they all accept the same options for how that list is rendered.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Form Type Hierarchy, ChoiceType and its children
+    verified_at: '2026-09-11'
+- id: QST-s02tz29zxp2g
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-pesfrvtg5qj0
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Exclusion note. Which built-in form type is outside this exam's scope, because the topic
+    it belongs to is on the official excluded list?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: true
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - built-in-types
+  - exclusion-note
+  choices:
+  - id: CHO-8rqb8zj8jak4
+    text: The one whose choices come from Doctrine
+    correct: true
+  - id: CHO-5yeb27ywk7z8
+    text: The one rendering a country list
+    correct: false
+    explanation: It is a plain choice type with a built-in list; it is in scope.
+  - id: CHO-vx5jdcgtdtg1
+    text: The one rendering two inputs that must match
+    correct: false
+    explanation: It is in scope, and is the usual way to confirm a password.
+  - id: CHO-8rf9555pkr01
+    text: The one rendering a file input
+    correct: false
+    explanation: File upload is an item of this very topic.
+  explanation: 'This question exists to mark a boundary, not to teach the excluded topic: the official
+    syllabus lists Doctrine and database topics among the topics not included in the exam, so the form
+    type backed by them is out of scope and is not studied here.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the built-in form type reference
+    verified_at: '2026-09-11'
+- id: QST-rcbeqstzndek
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-gecgdnzrpa06
+  version: 1
+  official_topic: Forms
+  official_item: OIT-58r9dadx916v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A transformer converts an object to a string for display. What should it return when it
+    is handed null?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - transformers
+  - 'null'
+  choices:
+  - id: CHO-hfqeykygsjpv
+    text: An empty string
+    correct: true
+  - id: CHO-at6ndpwyrp3v
+    text: null, unchanged
+    correct: false
+    explanation: The field then receives a value of the wrong type for the format it renders.
+  - id: CHO-6htx3jeybxjh
+    text: A transformation failure
+    correct: false
+    explanation: That exception signals an unconvertible submitted value, not an absent one.
+  - id: CHO-yc42g6js45v6
+    text: The string "null"
+    correct: false
+    explanation: That would render as literal text in the field.
+  explanation: 'The documented rule is to return the equivalent empty value of the target type: an empty
+    string for a string, 0 for an integer, 0.0 for a float.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: When null is passed to the transform() method
+    verified_at: '2026-09-11'
+- id: QST-bn1rbrz3c7pr
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-v8srdqc4xxjy
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The five form events split into two phases. Which listing is in order?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - form-events
+  - lifecycle
+  choices:
+  - id: CHO-7grbtgryamqe
+    text: Pre-set-data, post-set-data, then pre-submit, submit, post-submit
+    correct: true
+  - id: CHO-dw54mdkpsme8
+    text: Pre-submit, submit, post-submit, then pre-set-data, post-set-data
+    correct: false
+    explanation: Pre-population happens before the user ever sees the form.
+  - id: CHO-vczjnfyfq87v
+    text: Pre-set-data, pre-submit, post-set-data, submit, post-submit
+    correct: false
+    explanation: The two phases do not interleave; each runs to completion.
+  - id: CHO-y513b1vcrvd7
+    text: Pre-set-data, submit, post-set-data, pre-submit, post-submit
+    correct: false
+    explanation: Submission events all belong to the second phase.
+  explanation: Phase one populates the form from the model; phase two consumes the request. The split
+    is what makes the data carried by each event predictable.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the form lifecycle, phase 1 and phase 2
+    verified_at: '2026-09-11'
+- id: QST-ffbr017rjbwd
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-9d91memjprhk
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An extension names the root form type as the type it extends. Which fields does it then
+    affect?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - form-extensions
+  - scope
+  choices:
+  - id: CHO-a1gz86vnr465
+    text: Nearly every field in the application
+    correct: true
+  - id: CHO-syfwxsmc92e5
+    text: Only fields declared with no explicit type
+    correct: false
+    explanation: The type declared on a field does not exempt it; the root is its ancestor either way.
+  - id: CHO-39ypzn2amr9r
+    text: Only the root form itself, not its children
+    correct: false
+    explanation: Every child is a form too, and inherits from the same root.
+  - id: CHO-pbgdzfbykftz
+    text: None, because the root type cannot be extended
+    correct: false
+    explanation: The documentation gives it as the deliberate way to reach everything.
+  explanation: The root type is the ancestor of the whole hierarchy, so extending it is the documented
+    way to add an option or a view variable everywhere at once.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: return [FormType::class] to modify (nearly) every field in the system
+    verified_at: '2026-09-11'
+- id: QST-gbb1dez9gmt4
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-j3nk4sk7h02m
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which service tag makes a form type extension take effect?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - form-extensions
+  - tag
+  choices:
+  - id: CHO-rfsp98bba21r
+    text: form.type_extension
+    correct: true
+  - id: CHO-xbazvq7wmsxa
+    text: form.extension
+    correct: false
+    explanation: No such tag; that name belongs to the component-level extensions.
+  - id: CHO-zmj5zvgc2rq9
+    text: form.type
+    correct: false
+    explanation: That tag registers a form type, not an extension of one.
+  - id: CHO-hcd2hvwgktj4
+    text: kernel.event_subscriber
+    correct: false
+    explanation: An extension is not an event subscriber.
+  explanation: With the default service configuration, autoconfiguration applies the tag for you. An
+    optional priority attribute orders several extensions, and using it means declaring the service
+    explicitly.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: tagged with the form.type_extension tag
+    verified_at: '2026-09-11'
+- id: QST-g1dczt41g8d2
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-jc8c1h1nznhd
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A normalizer rewrites an option value. Relative to the allowed-type and allowed-value checks,
+    when does it run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - options-resolver
+  - normalizer
+  choices:
+  - id: CHO-pa1x3kwzz0sy
+    text: After them
+    correct: true
+  - id: CHO-6ktn6kpyrsn2
+    text: Before them, so it can fix an invalid value
+    correct: false
+    explanation: An invalid value is rejected before the normalizer is ever reached.
+  - id: CHO-0wv1nvjkrf3v
+    text: Instead of them, when one is declared
+    correct: false
+    explanation: Declaring a normalizer does not suspend the checks.
+  - id: CHO-p11q5vkyaaxc
+    text: At the same time, in declaration order
+    correct: false
+    explanation: The two steps are ordered, not interleaved.
+  explanation: Normalizers run after validation, so one receives a value already known to be acceptable,
+    and may depend on other resolved options.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Normalizers are executed after validating an option
+    verified_at: '2026-09-11'
+- id: QST-mfsa4gjwmnxf
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-c7879v7m2pqb
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A caller passes an option name the resolver never declared. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - options-resolver
+  - errors
+  choices:
+  - id: CHO-cb7pe9qh5hgx
+    text: An exception naming the defined options
+    correct: true
+  - id: CHO-7kwd01ywmvht
+    text: The option is ignored
+    correct: false
+    explanation: Silently ignoring a typo is what the component exists to prevent.
+  - id: CHO-fcdm8a8zp2qa
+    text: The option is accepted and reaches the built form
+    correct: false
+    explanation: Only declared options survive resolution.
+  - id: CHO-gegfbzh83ffx
+    text: A deprecation notice is emitted
+    correct: false
+    explanation: Deprecation is a separate, deliberate mechanism for retiring an option.
+  explanation: The message lists the options that do exist, which turns a silent typo into a readable
+    error — the reason a form type declares its options at all.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: UndefinedOptionsException, The option "usernme" does not exist
+    verified_at: '2026-09-11'
