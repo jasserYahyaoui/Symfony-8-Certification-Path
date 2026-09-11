@@ -104,6 +104,46 @@ final class RevisionPlanTest extends TestCase
         self::assertSame(max($dates), $dates['Mock 4'], 'Mock 4 must be sat last');
     }
 
+    /**
+     * The generator used to schedule J+45 and J+60 revisions past the exam:
+     * for a 15/12/2026 sitting it planned 25 days running to 09/01/2027. A
+     * revision the candidate can never do is not a revision, and listing it
+     * inflates the advertised workload by hours that cannot be worked. The
+     * loss is recorded in `lost_reviews` instead, so dropping it stays a
+     * measured cost rather than a silent one.
+     */
+    public function testNoWorkIsScheduledAfterTheExam(): void
+    {
+        $plan = $this->plan();
+
+        self::assertNotNull($plan['exam'] ?? null, 'the plan carries no exam date');
+        $exam = new \DateTimeImmutable($plan['exam']);
+
+        foreach ($plan['days'] as $date => $day) {
+            $when = new \DateTimeImmutable($date);
+
+            self::assertLessThanOrEqual(
+                $exam,
+                $when,
+                $date.' is planned after the exam of '.$plan['exam'],
+            );
+
+            if ($when == $exam) {
+                self::assertSame([], $day['rev'], 'the exam day carries revisions');
+                self::assertSame([], $day['new'], 'the exam day introduces new items');
+            }
+        }
+
+        // The count must stay visible: a plan that silently dropped the
+        // revisions instead of recording them would pass everything above.
+        self::assertArrayHasKey('lost_reviews_by_offset', $plan);
+        self::assertSame(
+            count($plan['lost_reviews']),
+            array_sum($plan['lost_reviews_by_offset']),
+            'the per-offset breakdown does not add up to the recorded losses',
+        );
+    }
+
     public function testNoDayExceedsItsOwnBudget(): void
     {
         foreach ($this->plan()['days'] as $date => $day) {

@@ -195,6 +195,44 @@ for n,(name, note) in enumerate(MOCKS):
     if not slots: md += datetime.timedelta(days=7)
 last_day = max(days)
 
+# 7. Troncature à la date d'examen.
+#
+#    Le calendrier courait jusqu'au 2027-01-09 pour un examen le 2026-12-15 :
+#    vingt-cinq jours de révisions J+45/J+60 planifiées APRÈS l'épreuve. Une
+#    révision qui tombe après l'examen n'est pas une révision, et la laisser au
+#    plan gonfle la charge affichée d'un travail qui ne peut servir à rien.
+#
+#    Elles ne sont pas supprimées en silence : chacune est comptée et reversée
+#    dans `lost_reviews`, parce que la perte est le coût réel de la date choisie
+#    et que le candidat doit pouvoir le lire. Le jour de l'examen lui-même ne
+#    porte aucune révision — il porte l'épreuve.
+lost_reviews = []
+if EXAM:
+    for k in sorted(days):
+        if k < EXAM:
+            continue
+        for (it, off, mins) in days[k]['rev']:
+            lost_reviews.append((it, off, mins, k))
+        if k == EXAM:
+            days[k]['rev'] = []
+            days[k]['used'] = 0
+    for k in [k for k in days if k > EXAM]:
+        del days[k]
+    D = day(EXAM)
+    D['mock'] = ('EXAMEN Symfony 8.0',
+                 "jour de l'épreuve — aucune révision n'est planifiée")
+    D['used'] = 0
+    last_day = max(days)
+    studied = [k for k,v in days.items()
+               if v['new'] or v['rev'] or v['lab'] or v['assess']]
+    last_study = max(studied) if studied else last_day
+
+lost_by_off = collections.Counter()
+lost_min = 0
+for (it, off, mins, k) in lost_reviews:
+    lost_by_off[off] += 1
+    lost_min += mins
+
 json.dump({'items':items,
            'days':{k.isoformat():{
                'new':[(i['id'],m,full) for i,m,full in v['new']],
@@ -207,7 +245,11 @@ json.dump({'items':items,
            'mock_dates':[(n,d.isoformat()) for n,d in mock_dates],
            'all_items_in':all_items_in.isoformat(),
            'start':START.isoformat(), 'last_study':last_study.isoformat(),
-           'last_day':last_day.isoformat()},
+           'last_day':last_day.isoformat(),
+           'exam':EXAM.isoformat() if EXAM else None,
+           'lost_reviews':[(i['id'],o,m,k.isoformat()) for i,o,m,k in lost_reviews],
+           'lost_reviews_by_offset':{str(o):n for o,n in sorted(lost_by_off.items())},
+           'lost_reviews_minutes':lost_min},
           open(_args.out,'w',encoding='utf-8'), ensure_ascii=False)
 
 tot_first = sum(i['total'] for i in items)
@@ -221,4 +263,15 @@ print(f"tous les items introduits : {all_items_in}")
 print(f"fin du tail de révisions  : {last_study}")
 for n,dd in mock_dates: print(f"  {n:8} {dd}")
 print(f"dernier jour planifié     : {last_day}")
-print(f"charge totale (hors mocks) {(tot_first+tot_rev)/60:.1f} h")
+if EXAM:
+    print(f"examen                    : {EXAM}")
+    print(f"révisions perdues (après l examen) : {len(lost_reviews)} = {lost_min} min "
+          f"= {lost_min/60:.1f} h")
+    for o,n in sorted(lost_by_off.items()):
+        print(f"  J+{o:<3} {n}")
+# `tot_rev` compte toutes les révisions engendrées par le modèle, y compris
+# celles que la date d'examen fait tomber. La charge réellement planifiée est
+# la différence : afficher `tot_first + tot_rev` surestimerait le travail à
+# faire d'exactement les heures qu'on ne peut pas faire.
+print(f"charge totale engendrée par le modèle (hors mocks) {(tot_first+tot_rev)/60:.1f} h")
+print(f"charge réellement planifiée     (hors mocks) {(tot_first+tot_rev-lost_min)/60:.1f} h")

@@ -9,6 +9,22 @@ sont dans [`study-roadmap.md`](study-roadmap.md#le-modèle-deffort).
 item résiste, la place est prise sur le dimanche de rattrapage, jamais sur les
 révisions dues.
 
+**Le calendrier s'arrête le 15 décembre 2026, jour de l'examen.** Il ne s'arrête pas
+parce que le travail est fini : le modèle engendre des révisions qui tombent
+après l'épreuve, et celles-là ne peuvent pas être faites. Elles sont comptées
+plutôt qu'effacées — c'est le coût de la date choisie, pas un détail de mise en
+page.
+
+| Révisions perdues après le 15 décembre 2026 | 59 (187 min) |
+|---|---|
+| dont J+30 | 35 |
+| dont J+45 | 5 |
+| dont J+60 | 19 |
+
+Les **J+30** pèsent le plus lourd : ce sont des révisions d'items vus en
+novembre, pas des rappels lointains. Si vous gagnez du temps, c'est là qu'il
+faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
+
 
 ## Octobre 2026
 
@@ -979,121 +995,7 @@ révisions dues.
 
 ### Mardi 15 décembre 2026
 
-- Révision **J+60** (4 min) — Controllers : Argument value resolvers
+- **EXAMEN Symfony 8.0** — jour de l'épreuve — aucune révision n'est planifiée
 
-*Budget du jour : 4 / 120 min*
-
-### Mercredi 16 décembre 2026
-
-- Révision **J+30** (12 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
-
-*Budget du jour : 12 / 120 min*
-
-### Jeudi 17 décembre 2026
-
-- Révision **J+30** (11 min) — Console : Built-in helpers · Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
-- Révision **J+45** (4 min) — Forms : Form events
-
-*Budget du jour : 15 / 120 min*
-
-### Vendredi 18 décembre 2026
-
-- Révision **J+30** (11 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
-
-*Budget du jour : 11 / 120 min*
-
-### Samedi 19 décembre 2026
-
-- Révision **J+30** (11 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
-
-*Budget du jour : 11 / 180 min*
-
-### Dimanche 20 décembre 2026
-
-- Révision **J+30** (12 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
-- Révision **J+45** (4 min) — Security : Authenticators, Passports and Badges
-- Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
-
-*Budget du jour : 180 / 180 min*
-
-### Lundi 21 décembre 2026
-
-- Révision **J+45** (4 min) — Security : Voters and voting strategies
-- Révision **J+60** (11 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
-
-*Budget du jour : 15 / 120 min*
-
-### Mardi 22 décembre 2026
-
-- Révision **J+60** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
-
-*Budget du jour : 12 / 120 min*
-
-### Mercredi 23 décembre 2026
-
-- Révision **J+30** (12 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
-
-*Budget du jour : 12 / 120 min*
-
-### Jeudi 24 décembre 2026
-
-- Révision **J+30** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem
-- Révision **J+45** (4 min) — Messenger : Retries and failures
-
-*Budget du jour : 16 / 120 min*
-
-### Vendredi 25 décembre 2026
-
-- Révision **J+30** (12 min) — Miscellaneous : Finder · Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
-- Révision **J+45** (4 min) — Templating with Twig : Twig syntax up to 3.22 version
-- Révision **J+60** (14 min) — Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring · Dependency Injection : Service locators
-
-*Budget du jour : 30 / 120 min*
-
-### Samedi 26 décembre 2026
-
-- Révision **J+30** (6 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
-
-*Budget du jour : 6 / 180 min*
-
-### Dimanche 27 décembre 2026
-
-- Révision **J+30** (3 min) — Miscellaneous : Serializer
-- Révision **J+60** (4 min) — Data Validation : Group sequence
-- Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
-
-*Budget du jour : 180 / 180 min*
-
-
-## Janvier 2027
-
-### Vendredi 1 janvier 2027
-
-- Révision **J+60** (4 min) — Forms : Form events
-
-*Budget du jour : 4 / 120 min*
-
-### Lundi 4 janvier 2027
-
-- Révision **J+60** (4 min) — Security : Authenticators, Passports and Badges
-
-*Budget du jour : 4 / 120 min*
-
-### Mardi 5 janvier 2027
-
-- Révision **J+60** (4 min) — Security : Voters and voting strategies
-
-*Budget du jour : 4 / 120 min*
-
-### Vendredi 8 janvier 2027
-
-- Révision **J+60** (4 min) — Messenger : Retries and failures
-
-*Budget du jour : 4 / 120 min*
-
-### Samedi 9 janvier 2027
-
-- Révision **J+60** (4 min) — Templating with Twig : Twig syntax up to 3.22 version
-
-*Budget du jour : 4 / 180 min*
+*Budget du jour : 0 / 120 min*
 

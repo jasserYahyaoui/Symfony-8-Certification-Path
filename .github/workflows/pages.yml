@@ -104,6 +104,8 @@ jobs:
           # not /docs/ — the latter is a genuine 404.
           for path in "" "docs" "docs/syllabus/coverage" "docs/syllabus/exclusions" \
                       "docs/syllabus/glossary" "docs/readiness" \
+                      "docs/revision/roadmap" "docs/revision/calendar" \
+                      "docs/revision/checkpoints" "docs/revision/readiness" \
                       "practice" "exam" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
                       "data/readiness.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json"; do
@@ -127,6 +129,36 @@ jobs:
           curl -sL -o /tmp/landing "$BASE_URL/"
           grep -q 'Symfony 8 Certification Path' /tmp/landing \
             || { echo "::error::landing page did not render expected content"; fail=1; }
+
+          # The revision calendar, proved against the deployed bytes. A 200 on
+          # docs/revision/calendar says a page is served; it says nothing about
+          # whether the 76 days are inside it. The page is generated from
+          # plan.json by DocsGenerator, so an empty or stale generator step
+          # would publish a heading and nothing else -- and that is precisely
+          # the failure a learner reports as "I cannot see the calendar".
+          #
+          # The exam marker is checked too: the generator used to schedule
+          # revisions through 09/01/2027, past a 15/12/2026 sitting. If the
+          # deployed page ends on the exam day, the truncation reached
+          # production; if it names January 2027, it did not.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/calendar "$BASE_URL/docs/revision/calendar"
+          cal_missing=""
+          grep -q '1 octobre 2026' /tmp/calendar || cal_missing="$cal_missing first-day"
+          grep -q 'EXAMEN Symfony 8.0' /tmp/calendar || cal_missing="$cal_missing exam-day"
+          grep -q 'Mock 4' /tmp/calendar || cal_missing="$cal_missing mock-4-slot"
+          # At least 60 day headings must render. The plan has 76 days; a
+          # number this far below it means the loop that writes them broke.
+          n_days=$(grep -c 'décembre 2026\|novembre 2026\|octobre 2026' /tmp/calendar || true)
+          [ "$n_days" -ge 60 ] || cal_missing="$cal_missing only-$n_days-dates"
+          if grep -q 'Janvier 2027' /tmp/calendar; then
+            cal_missing="$cal_missing not-truncated-at-exam"
+          fi
+          if [ -n "$cal_missing" ]; then
+            echo "::error::the published revision calendar is incomplete:$cal_missing"
+            fail=1
+          else
+            echo "ok  revision  the calendar publishes $n_days dated entries and stops at the exam"
+          fi
 
           # FR-2, proved against the deployed bytes rather than against the
           # build that produced them. The item pages render
