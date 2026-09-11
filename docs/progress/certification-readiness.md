@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **23.3%** — 38 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **29.4%** — 48 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,21 +19,21 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 115 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 10 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 14 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 24 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 19 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 29 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**3 of 27 lots refined.**
+**4 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
 | 01 — PHP 8.4 Foundations | **REFINED** | 9 | 9 | 100% |
-| 02 — HTTP Fundamentals | TODO | 10 | 0 | 0% |
+| 02 — HTTP Fundamentals | **REFINED** | 10 | 10 | 100% |
 | 03 — Symfony Architecture | **REFINED** | 15 | 15 | 100% |
 | 04 — Controllers | **REFINED** | 14 | 14 | 100% |
 | 05 — Routing | TODO | 12 | 0 | 0% |
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 04 — Controllers |
+| Last completed | 02 — HTTP Fundamentals |
 | Recorded on | 2026-09-11 |
-| Next | 02 — HTTP Fundamentals |
+| Next | 05 — Routing |
