@@ -1,3 +1,11 @@
+# Lot 07 — Forms flashcards (Master Plan §6).
+#
+# Seize cartes pour treize items. Les sept items sans carte avant PED-010
+# n'étaient couverts par AUCUNE justification écrite, contrairement aux lots 01
+# à 06 : c'était une lacune, pas une décision. PED-010 les comble.
+# La carte CSRF ne porte pas sur `form_end()`, déjà couvert par la carte
+# « Forms rendering with Twig » : elle porte sur la nature du refus.
+
 schema_version: 1
 flashcards:
 - id: FLC-jsbfc1cnv01y
@@ -139,3 +147,112 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: setDefined vs setDefaults
     verified_at: '2026-09-01'
+- id: FLC-jd951drcz26t
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  front: 'Symfony Forms : combien de couches de données un formulaire manipule-t-il, et lesquelles
+    ?'
+  back: 'Trois : modèle, normalisée, vue.'
+  explanation: La couche normalisée est identique au modèle pour la plupart des types, ce qui la rend
+    facile à oublier — jusqu'à ce qu'un transformateur doive s'attacher au bon niveau. La couche vue
+    est faite de chaînes.
+  memorization_justification: Comptage exact d'une structure qu'on croit binaire, et qui décide où
+    brancher un transformateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle
+    verified_at: '2026-09-11'
+- id: FLC-18xdehm33xa9
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  front: 'Symfony Forms : un champ peut-il fonctionner sans propriété publique du même nom ?'
+  back: Oui — l'accès essaie la propriété publique, puis les accesseurs usuels.
+  explanation: 'Symétriquement, un champ peut échouer alors qu''une propriété existe mais est privée
+    sans accesseur. Un champ sans propriété correspondante doit être déclaré `mapped: false`.'
+  memorization_justification: 'Chaîne de résolution invisible : on suppose un accès direct à la propriété.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Building Forms and Mapping Fields to Object Properties
+    verified_at: '2026-09-11'
+- id: FLC-cafrwa53g55w
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  front: 'Symfony Forms : quel est le parent d''un type de formulaire qui n''en déclare aucun ?'
+  back: '`FormType`, la racine de tous les types — pas « aucun parent ».'
+  explanation: Hériter est la règle, pas l'exception. C'est aussi pourquoi un formulaire est un type
+    comme un autre et s'imbrique en l'ajoutant comme un champ.
+  memorization_justification: Défaut implicite non écrit dans le code du type, et qui explique le
+    comportement des extensions.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    branch: '8.0'
+    symbol_or_lines: creating a custom form field type
+    verified_at: '2026-09-11'
+- id: FLC-4476zezkxadx
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  front: 'Symfony : un formulaire soumis sans jeton CSRF valide est-il invalide, ou valide avec une
+    erreur en plus ?'
+  back: 'Invalide. Aucun code applicatif ne teste quoi que ce soit : c''est le composant qui refuse.'
+  explanation: 'Un identifiant de jeton distinct par formulaire est par ailleurs préférable : avec
+    un identifiant partagé, un jeton obtenu sur un formulaire vaut pour les autres.'
+  memorization_justification: 'Nature du refus souvent mal située : on croit à une contrainte de validation
+    applicative.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    branch: '8.0'
+    symbol_or_lines: CSRF protection in Symfony forms
+    verified_at: '2026-09-11'
+- id: FLC-k5cmghfvqk7h
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  front: 'Symfony Forms : un champ de fichier doit-il être mappé à la propriété de l''entité ?'
+  back: 'Non, presque jamais : l''entité stocke un nom de fichier, pas un fichier.'
+  explanation: Laisser le champ mappé fait écrire un objet dans une propriété qui attend une chaîne.
+    Un champ non mappé se lit sur le formulaire et vaut `null` quand rien n'a été envoyé.
+  memorization_justification: Exception à la règle générale du mapping, et source d'une erreur de
+    type difficile à lire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    branch: '8.0'
+    symbol_or_lines: adding the file field to the form
+    verified_at: '2026-09-11'
+- id: FLC-e6rmxrw6vdbt
+  official_item: OIT-p810t98zedem
+  language: fr
+  front: 'Symfony Forms : `CountryType`, `LanguageType`, `LocaleType`, `CurrencyType` et `TimezoneType`
+    sont-ils des types indépendants ?'
+  back: Non — ce sont le même type socle, `ChoiceType`, avec une liste pré-remplie.
+  explanation: Les options du socle valent donc pour eux tous. Les boutons sont eux aussi des types
+    comme les autres, ajoutés au formulaire de la même façon que les champs.
+  memorization_justification: Factorisation invisible depuis le catalogue, où les cinq apparaissent
+    comme des entrées séparées.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    branch: '8.0'
+    symbol_or_lines: supported field types
+    verified_at: '2026-09-11'
+- id: FLC-be3pranpsvn1
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  front: 'Symfony : pour ajouter une option à un type de formulaire fourni par Symfony, écrit-on un
+    nouveau type ou une extension ?'
+  back: 'Une extension de type : un type crée un champ, une extension modifie ceux qui existent.'
+  explanation: La méthode qui désigne les types étendus est statique et retourne un itérable. Étendre
+    le type racine touche tous les champs de l'application, puisque tous en héritent.
+  memorization_justification: Distinction que l'examen pose directement, et où écrire un nouveau type
+    est l'erreur naturelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    branch: '8.0'
+    symbol_or_lines: creating a form type extension
+    verified_at: '2026-09-11'

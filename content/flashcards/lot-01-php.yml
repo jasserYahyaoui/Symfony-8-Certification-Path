@@ -1,9 +1,10 @@
 # Lot 01 flashcards (Master Plan §6).
 #
-# Seven cards for nine items. Deliberately absent: Interfaces (MINIMAL, and its
-# rules are derivable from the one code sample) and Abstract classes (its value
-# is the comparison table, which is reference material rather than recall — and
-# a card would duplicate the `self`/`static` card's job of testing resolution).
+# Nine cards for nine items. PED-010 a comblé Interfaces et Abstract classes.
+# L'exemption d'origine raisonnait en situation d'apprentissage ; à livre fermé,
+# « la règle d'avant 8.1 » et « abstract private est fatal » sont des faits de
+# rappel. La carte Abstract classes ne teste PAS la résolution self/static, déjà
+# couverte : elle teste la combinaison interdite.
 
 schema_version: 1
 
@@ -152,3 +153,36 @@ flashcards:
         repository: "php/doc-en"
         branch: "master"
         verified_at: "2026-09-01"
+  - id: FLC-rs1m1pw77eb7
+    official_item: OIT-vt0p9cacpkpd
+    language: fr
+    front: 'PHP 8.4 : une classe peut-elle redéfinir une constante déclarée dans une interface ?'
+    back: Oui, depuis PHP 8.1 — sauf si la constante est déclarée `final`.
+    explanation: 'La règle « une constante d''interface ne se surcharge jamais » a été vraie pendant
+      des années et reste la réponse instinctive. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
+    memorization_justification: 'Attribution version-par-règle : la syntaxe ne dit pas à partir de quelle
+      version la redéfinition est permise, et l''ancienne règle reste la réponse réflexe.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+      repository: php/doc-en
+      branch: master
+      symbol_or_lines: section Object Interfaces
+      verified_at: '2026-09-11'
+  - id: FLC-6t7dhwjwhecc
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    front: 'PHP : que produit `abstract private function` dans une classe abstraite ?'
+    back: Une erreur fatale.
+    explanation: 'Une méthode abstraite privée serait invisible depuis la classe fille, donc impossible
+      à implémenter : le langage refuse la combinaison à la compilation. `abstract protected` et `abstract
+      public` sont valides.'
+    memorization_justification: 'Fait arbitraire du langage : rien dans la lecture de `abstract private`
+      ne signale que c''est fatal plutôt que simplement inutile.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+      repository: php/doc-en
+      branch: master
+      symbol_or_lines: section Class Abstraction
+      verified_at: '2026-09-11'

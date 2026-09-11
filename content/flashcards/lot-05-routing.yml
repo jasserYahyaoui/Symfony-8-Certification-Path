@@ -1,10 +1,11 @@
 # Lot 05 flashcards (Master Plan §6).
 #
-# Seven cards covering six of the eleven new items. Five carry none: Routing
-# component and FrameworkBundle (a division-of-labour table), URLs generation
-# and Special internal routing attributes (reference tables consulted rather
-# than recalled), Domain name matching (one option, one behaviour) and Router
-# debugging (two commands whose names say what they do).
+# Douze cartes pour les onze items. PED-010 a comblé les cinq absences.
+# « Table consultée plutôt que mémorisée » vaut pour le travail quotidien ; à
+# l'examen rien ne se consulte. Chaque carte tient à un fait discriminant :
+# l'autonomie du composant, le paramètre surnuméraire qui part en query string,
+# le seul paramètre réservé absent des imports, l'hôte permissif par défaut,
+# et l'ordre d'évaluation de `debug:router`.
 
 schema_version: 1
 
@@ -140,3 +141,82 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "note on setLocale() being too late in a controller"
         verified_at: "2026-09-01"
+  - id: FLC-6dw96ps91ywe
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    front: 'Symfony : le composant Routing dépend-il d''autres composants Symfony ?'
+    back: Non — PHP et un paquet de contrats, c'est tout. Il s'installe seul hors du framework.
+    explanation: 'Apparier et générer sont par ailleurs deux classes distinctes du composant : c''est
+      pourquoi une option de route peut compter dans un sens et pas dans l''autre, le générateur ne
+      voyant aucune requête.'
+    memorization_justification: Fait d'architecture arbitraire qui décide les questions « ce composant
+      fonctionne-t-il seul ? ».
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json
+      branch: '8.0'
+      symbol_or_lines: description and require keys
+      verified_at: '2026-09-11'
+  - id: FLC-rrt3hj10ddp2
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    front: 'Symfony : que devient un paramètre passé à la génération d''URL et absent de la route ?'
+    back: Il part en chaîne de requête — aucune erreur n'est levée.
+    explanation: 'Une faute de frappe dans un nom de paramètre ne produit donc aucun message : juste
+      une URL avec un paramètre en trop. Le type de référence par défaut est par ailleurs le chemin
+      absolu, pas l''URL absolue.'
+    memorization_justification: 'Absence d''erreur contre-intuitive : le réflexe est d''attendre une
+      exception.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+      branch: '8.0'
+      symbol_or_lines: ABSOLUTE_URL, ABSOLUTE_PATH, RELATIVE_PATH, NETWORK_PATH
+      verified_at: '2026-09-11'
+  - id: FLC-z20216cjkhsp
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    front: 'Symfony : lequel des paramètres de routage réservés ne s''emploie pas dans un import de
+      routes ?'
+    back: Celui qui pose l'identifiant de fragment (`_fragment`). Les quatre autres valent pour une
+      route isolée comme pour un groupe importé.
+    explanation: Les paramètres réservés commencent tous par un souligné ; les options courtes de l'attribut,
+      non — ce sont deux écritures de la même chose.
+    memorization_justification: Exception unique dans une liste homogène de cinq, exactement la forme
+      interrogée.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+      branch: '8.0'
+      symbol_or_lines: section Special Parameters
+      verified_at: '2026-09-11'
+  - id: FLC-x5tjtg0h3pm1
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    front: 'Symfony : sans contrainte d''hôte, quels hôtes une route accepte-t-elle ?'
+    back: N'importe lequel. L'absence de l'option n'est pas une restriction implicite au domaine principal.
+    explanation: 'L''hôte n''a par ailleurs pas son propre mécanisme de paramètres : valeurs par défaut
+      et contraintes sont exactement celles d''un paramètre de chemin.'
+    memorization_justification: 'Défaut permissif contre-intuitif : on suppose une restriction là où
+      il n''y en a aucune.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+      branch: '8.0'
+      symbol_or_lines: section Sub-Domain Routing
+      verified_at: '2026-09-11'
+  - id: FLC-jjgd2xj2w7y4
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    front: 'Symfony : dans quel ordre `debug:router` liste-t-il les routes ?'
+    back: Dans l'ordre d'évaluation, pas alphabétique.
+    explanation: 'C''est ce qui en fait un outil de diagnostic : la première correspondance gagne, donc
+      l''ordre affiché est la réponse à « pourquoi est-ce l''autre route qui répond ? ».'
+    memorization_justification: Détail d'affichage qui change la valeur diagnostique de la commande,
+      et qu'on suppose alphabétique.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+      branch: '8.0'
+      symbol_or_lines: section Debugging Routes
+      verified_at: '2026-09-11'

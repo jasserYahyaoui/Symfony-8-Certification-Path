@@ -1,10 +1,9 @@
 # Lot 02 flashcards (Master Plan §6).
 #
-# Six cards for nine items. Deliberately absent: RFC 9110 (structural framing,
-# not recall), Language detection (MINIMAL, derivable from one example) and
-# Content negotiation (the q rules are applied, not recalled — the questions
-# exercise them, and a card for "q defaults to 1.0" is exactly the reflex
-# over-production §6 forbids).
+# Neuf cards for nine items. PED-010 a comblé les trois absences. La carte
+# Content negotiation ne porte pas sur « q vaut 1.0 par défaut » — la réflexe
+# que §6 interdit — mais sur `q=0`, qui est un refus explicite et non une
+# préférence basse.
 
 schema_version: 1
 
@@ -136,3 +135,52 @@ flashcards:
         commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
         symbol_or_lines: "asynchronous by default"
         verified_at: "2026-09-01"
+  - id: FLC-jn7eqg7cdsqb
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    front: 'RFC 9110 : `DELETE` reste-t-elle idempotente si le second appel renvoie 404 ?'
+    back: Oui. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité
+      des réponses.
+    explanation: 'C''est le piège classique : on compare les réponses alors que la définition porte
+      sur l''état du serveur. Après le premier `DELETE` la ressource est absente ; le second ne change
+      rien de plus.'
+    memorization_justification: 'Définition contre-intuitive : la réponse instinctive compare les codes
+      de statut, et se trompe.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+      branch: master
+      symbol_or_lines: sections 1 Introduction, 3 Terminology
+      verified_at: '2026-09-11'
+  - id: FLC-6ehsc6k7qkjf
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    front: 'HTTP : que signifie `q=0` dans un en-tête `Accept` ?'
+    back: Un refus explicite de ce type de média.
+    explanation: '`Accept: */*;q=0.8, image/png;q=0` se lit « tout sauf du PNG ». `q=0` n''est pas «
+      préférence la plus basse » mais une exclusion. Une valeur `q` absente vaut `1.0`.'
+    memorization_justification: 'Valeur limite arbitraire : rien dans la syntaxe ne distingue « très
+      peu préféré » de « refusé ».'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+      branch: master
+      symbol_or_lines: section 12 Content Negotiation, section 12.4.2 Quality Values
+      verified_at: '2026-09-11'
+  - id: FLC-knw9ywe94k4z
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    front: 'Symfony : que renvoie `getPreferredLanguage()` appelée sans argument ?'
+    back: La première langue demandée par le client, que l'application sache la servir ou non — aucune
+      négociation n'a lieu.
+    explanation: 'Sans la liste des locales supportées, la méthode ne compare rien : elle lit `Accept-Language`
+      et rend le premier choix. C''est le passage de cette liste qui rend l''appel utile.'
+    memorization_justification: 'Piège de signature : le nom de la méthode promet une négociation que
+      l''appel sans argument n''effectue pas.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: getLanguages line 1663, getPreferredLanguage line 1633
+      verified_at: '2026-09-11'

@@ -105,6 +105,7 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/audit/prove_framework_rules_fail.py
+          python3 tools/audit/prove_flashcard_coverage_fails.py
           python3 tools/audit/aud10_answer_length_bias.py --prove
 
       - name: Set up Node
