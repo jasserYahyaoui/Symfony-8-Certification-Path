@@ -262,38 +262,38 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 19 octobre 2026
 
 - NOUVEAU · **Routing : Routing component and FrameworkBundle** (STANDARD) — 10 min · 460 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 12 min · 551 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 10 min · 392 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 11 min · 417 mots · 3 questions, 2 flashcards
+- NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 13 min · 551 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 11 min · 392 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 13 min · 417 mots · 5 questions, 2 flashcards
 - Révision **J+3** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
 - Révision **J+7** (16 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule
 - Révision **J+14** (10 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 86 / 120 min*
+*Budget du jour : 90 / 120 min*
 
 ### Mardi 20 octobre 2026
 
-- NOUVEAU · **Routing : URLs generation** (STANDARD) — 10 min · 422 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 10 min · 432 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 10 min · 391 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Routing : URLs generation** (STANDARD) — 11 min · 422 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 11 min · 432 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 12 min · 391 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 7 min · 268 mots · 2 questions, 1 flashcards
 - Révision **J+1** (24 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+7** (14 min) — Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions
 - Révision **J+14** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 87 / 120 min*
+*Budget du jour : 91 / 120 min*
 
 ### Mercredi 21 octobre 2026
 
-- NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 10 min · 392 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 12 min · 392 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 7 min · 307 mots · 2 questions, 1 flashcards
-- NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 10 min · 390 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Routing : Router debugging** (MINIMAL) — 7 min · 279 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 11 min · 390 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Router debugging** (MINIMAL) — 8 min · 279 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
 - Révision **J+7** (14 min) — Controllers : The base AbstractController class · Controllers : The request · Controllers : The response · Controllers : The cookies
 - Révision **J+14** (10 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 80 / 120 min*
+*Budget du jour : 84 / 120 min*
 
 ### Jeudi 22 octobre 2026
 

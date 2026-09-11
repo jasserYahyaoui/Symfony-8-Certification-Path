@@ -114,6 +114,9 @@ questions:
         branch: master
         verified_at: '2026-09-01'
   - id: QST-cfhm8d3qscwq
+    question_archetype: CODE_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-tkq7ea4zgfd1
     version: 1
     official_topic: Routing
     official_item: OIT-egy2wn3z7gb7
@@ -176,6 +179,9 @@ questions:
         commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
         verified_at: '2026-09-01'
   - id: QST-psqn0fe95khc
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+      - OUT-zmrs1nv9vh0d
     version: 1
     official_topic: Routing
     official_item: OIT-egy2wn3z7gb7

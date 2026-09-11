@@ -2813,10 +2813,14 @@ items:
       compter dans un seul sens. Ce n'est pas un mécanisme à dérouler, mais cela dépasse le format
       MINIMAL.
     learning_outcomes:
-      - "Énoncer ce que le composant produit à partir d'une requête"
-      - "Nommer les classes centrales du composant et leur rôle"
-      - "Distinguer UrlMatcher de UrlGenerator"
-      - "Citer ce que FrameworkBundle ajoute au composant"
+      - id: OUT-jsv2v128z17j
+        outcome: "Énoncer ce que le composant produit à partir d'une requête"
+      - id: OUT-25y9qjcp8wgy
+        outcome: "Nommer les classes centrales du composant et leur rôle"
+      - id: OUT-qpav59c60vb3
+        outcome: "Distinguer UrlMatcher de UrlGenerator"
+      - id: OUT-bn50g0may31c
+        outcome: "Citer ce que FrameworkBundle ajoute au composant"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2866,10 +2870,14 @@ items:
     content_level_justification: >-
       Concept important exigeant une distinction et une application : les deux formats sont équivalents en capacité mais divergent sur la maîtrise de l'ordre d'évaluation, source d'erreur réelle. Une comparaison et un exemple cible sont nécessaires ; un traitement DEEP ne serait pas justifie car le flux interne du routeur n'est pas examinable ici.
     learning_outcomes:
-      - "Déclarer une route équivalente en YAML et en attribut PHP"
-      - "Énoncer la règle d'ordre d'évaluation (première correspondance gagnante)"
-      - "Diagnostiquer une collision de routes et choisir la correction minimale"
-      - "Identifier le namespace correct de l'attribut Route en Symfony 8.0"
+      - id: OUT-f2tn472mwm2p
+        outcome: "Déclarer une route équivalente en YAML et en attribut PHP"
+      - id: OUT-jjd0fkj8bsy5
+        outcome: "Énoncer la règle d'ordre d'évaluation (première correspondance gagnante)"
+      - id: OUT-tkq7ea4zgfd1
+        outcome: "Diagnostiquer une collision de routes et choisir la correction minimale"
+      - id: OUT-zmrs1nv9vh0d
+        outcome: "Identifier le namespace correct de l'attribut Route en Symfony 8.0"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2924,10 +2932,14 @@ items:
       valeur par défaut n'a pas à satisfaire la contrainte. Le problème résolu — deux routes
       indiscernables — demande d'être pose pour que la règle ait un sens.
     learning_outcomes:
-      - "Déclarer une contrainte de paramètre dans les trois écritures"
-      - "Expliquer le problème d'ambiguïté que requirements résout"
-      - "Citer l'énumération Requirement et son usage en YAML"
-      - "Énoncer que la valeur par défaut échappe à la contrainte"
+      - id: OUT-gxaj5vfr68nt
+        outcome: "Déclarer une contrainte de paramètre dans les trois écritures"
+      - id: OUT-t3ajatgs8hh2
+        outcome: "Expliquer le problème d'ambiguïté que requirements résout"
+      - id: OUT-7hyaem7hsh5h
+        outcome: "Citer l'énumération Requirement et son usage en YAML"
+      - id: OUT-6m9a09sd49jg
+        outcome: "Énoncer que la valeur par défaut échappe à la contrainte"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -2976,10 +2988,14 @@ items:
       intuitive sur l'ordre des paramètres facultatifs, et le préfixe ! qui agit sur la génération et
       non sur l'appariement. Chacun de ces trois points change une réponse.
     learning_outcomes:
-      - "Rendre un paramètre facultatif dans chaque format de configuration"
-      - "Énoncer la règle sur ce qui suit un paramètre facultatif"
-      - "Expliquer l'effet du préfixe ! sur l'URL générée"
-      - "Énoncer que la valeur par défaut peut violer la contrainte"
+      - id: OUT-w99f0fjydtp0
+        outcome: "Rendre un paramètre facultatif dans chaque format de configuration"
+      - id: OUT-fhjj5c6d002g
+        outcome: "Énoncer la règle sur ce qui suit un paramètre facultatif"
+      - id: OUT-qva279gdyyra
+        outcome: "Expliquer l'effet du préfixe ! sur l'URL générée"
+      - id: OUT-33d0j3zrrwmz
+        outcome: "Énoncer que la valeur par défaut peut violer la contrainte"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3028,10 +3044,14 @@ items:
       route, une exception sur les objets, et une recommandation explicite sur la vérification
       d'existence. La liste des faits exigibles dépasse le format MINIMAL.
     learning_outcomes:
-      - "Générer une URL depuis un contrôleur, un service et un gabarit"
-      - "Associer chaque constante de type de référence à sa forme d'URL"
-      - "Énoncer le sort d'un paramètre absent de la définition de route"
-      - "Énoncer la méthode recommandée pour tester l'existence d'une route"
+      - id: OUT-t5wbk2v6vn3y
+        outcome: "Générer une URL depuis un contrôleur, un service et un gabarit"
+      - id: OUT-5t7q7sa1385e
+        outcome: "Associer chaque constante de type de référence à sa forme d'URL"
+      - id: OUT-dqnskk31jve5
+        outcome: "Énoncer le sort d'un paramètre absent de la définition de route"
+      - id: OUT-hz0pwe66gz3a
+        outcome: "Énoncer la méthode recommandée pour tester l'existence d'une route"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3084,10 +3104,14 @@ items:
       et une option schemes qui agit dans les deux sens. Les redirections émises par un contrôleur
       appartiennent au lot 04 ; ce qui reste ici est déclenché par le routage lui-même.
     learning_outcomes:
-      - "Énoncer le code et les méthodes de la redirection de barre finale"
-      - "Lire le tableau de redirection dans les deux sens"
-      - "Expliquer l'effet de schemes à l'appariement et à la génération"
-      - "Justifier qu'une route puisse déléguer à RedirectController"
+      - id: OUT-35a9hesk4cpd
+        outcome: "Énoncer le code et les méthodes de la redirection de barre finale"
+      - id: OUT-5kd3xgw0a686
+        outcome: "Lire le tableau de redirection dans les deux sens"
+      - id: OUT-615hjenzhh66
+        outcome: "Expliquer l'effet de schemes à l'appariement et à la génération"
+      - id: OUT-khhjkt6203k6
+        outcome: "Justifier qu'une route puisse déléguer à RedirectController"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3141,10 +3165,14 @@ items:
       l'usage en import. C'est un tableau de référence dont chaque ligne a un effet différent, donc
       au-dessus du format MINIMAL.
     learning_outcomes:
-      - "Nommer les cinq paramètres réservés et leur effet"
-      - "Expliquer ce que _format change sur la réponse"
-      - "Associer les options locale, format et query à leur paramètre réservé"
-      - "Énoncer que _fragment ne s'utilise pas dans un import"
+      - id: OUT-zsdbtcwh25g5
+        outcome: "Nommer les cinq paramètres réservés et leur effet"
+      - id: OUT-zg0vs74c3yef
+        outcome: "Expliquer ce que _format change sur la réponse"
+      - id: OUT-4k0zcm86nfkk
+        outcome: "Associer les options locale, format et query à leur paramètre réservé"
+      - id: OUT-8f5nc3sevst2
+        outcome: "Énoncer que _fragment ne s'utilise pas dans un import"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3189,9 +3217,12 @@ items:
       Une option, un comportement par défaut, et la réutilisation des mécanismes déjà connus de
       defaults et requirements. Il n'y a rien de propre à l'hôte à expliquer une fois ce point établi.
     learning_outcomes:
-      - "Contraindre une route à un nom d'hôte"
-      - "Énoncer le comportement en l'absence d'option host"
-      - "Paramétrer l'hôte avec defaults et requirements"
+      - id: OUT-wtvymxrjxf80
+        outcome: "Contraindre une route à un nom d'hôte"
+      - id: OUT-kz98mvtwphqc
+        outcome: "Énoncer le comportement en l'absence d'option host"
+      - id: OUT-ac8d2dvvjma9
+        outcome: "Paramétrer l'hôte avec defaults et requirements"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3236,10 +3267,14 @@ items:
       invisible : les conditions ne comptent qu'à l'appariement. Cette dernière est ce qui sépare une
       bonne d'une mauvaise réponse et demande d'être opposée à requirements.
     learning_outcomes:
-      - "Écrire une condition d'appariement de route"
-      - "Nommer les variables et les fonctions disponibles dans une condition"
-      - "Exposer un service aux conditions par AsRoutingConditionService"
-      - "Énoncer que les conditions sont ignorées à la génération d'URL"
+      - id: OUT-s9bajh1gydjw
+        outcome: "Écrire une condition d'appariement de route"
+      - id: OUT-er1yxf3bmwn9
+        outcome: "Nommer les variables et les fonctions disponibles dans une condition"
+      - id: OUT-tgxzpmwjg951
+        outcome: "Exposer un service aux conditions par AsRoutingConditionService"
+      - id: OUT-413aqdhzwkfw
+        outcome: "Énoncer que les conditions sont ignorées à la génération d'URL"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3286,9 +3321,12 @@ items:
       Une option, un comportement par défaut permissif, et le contournement _method avec l'option de
       configuration qui l'active. Quatre faits courts, sans mécanisme à dérouler.
     learning_outcomes:
-      - "Énoncer les méthodes acceptées en l'absence d'option methods"
-      - "Restreindre une route à certaines méthodes"
-      - "Décrire le contournement _method et l'option qui l'active"
+      - id: OUT-y5cganxr802r
+        outcome: "Énoncer les méthodes acceptées en l'absence d'option methods"
+      - id: OUT-28bd4czsshkq
+        outcome: "Restreindre une route à certaines méthodes"
+      - id: OUT-1cfa6y0xkxt0
+        outcome: "Décrire le contournement _method et l'option qui l'active"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3336,10 +3374,14 @@ items:
       Accept-Language appartient au lot 02 et la traduction au lot 16 ; ce qui reste ici justifie
       encore le format STANDARD.
     learning_outcomes:
-      - "Fixer la locale par le paramètre _locale"
-      - "Déclarer un chemin par locale et son repli"
-      - "Citer framework.default_locale comme repli global"
-      - "Expliquer pourquoi setLocale() dans un contrôleur arrive trop tard"
+      - id: OUT-q1mwf424caew
+        outcome: "Fixer la locale par le paramètre _locale"
+      - id: OUT-7vtxk6rxbjq2
+        outcome: "Déclarer un chemin par locale et son repli"
+      - id: OUT-r3cc9h4e6h3x
+        outcome: "Citer framework.default_locale comme repli global"
+      - id: OUT-qtd7wg0gtvex
+        outcome: "Expliquer pourquoi setLocale() dans un contrôleur arrive trop tard"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3392,9 +3434,12 @@ items:
       Deux commandes et leurs options principales. La seule information non triviale — debug:router
       liste dans l'ordre d'évaluation — tient en une phrase.
     learning_outcomes:
-      - "Lister les routes dans leur ordre d'évaluation"
-      - "Citer les options utiles de debug:router"
-      - "Utiliser router:match pour diagnostiquer une URL"
+      - id: OUT-ef2j62bxp9fd
+        outcome: "Lister les routes dans leur ordre d'évaluation"
+      - id: OUT-qnzwvqtmb7v5
+        outcome: "Citer les options utiles de debug:router"
+      - id: OUT-w0yjsy54z7s9
+        outcome: "Utiliser router:match pour diagnostiquer une URL"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
