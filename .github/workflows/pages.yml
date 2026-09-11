@@ -106,7 +106,9 @@ jobs:
                       "docs/syllabus/glossary" "docs/readiness" \
                       "docs/revision/roadmap" "docs/revision/calendar" \
                       "docs/revision/checkpoints" "docs/revision/readiness" \
+                      "calendar" \
                       "practice" "exam" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
+                      "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
                       "data/readiness.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json"; do
             url="$BASE_URL/$path"
@@ -159,6 +161,44 @@ jobs:
           else
             echo "ok  revision  the calendar publishes $n_days dated entries and stops at the exam"
           fi
+
+          # The agenda payload, proved against the deployed bytes. The page is
+          # a React shell that fetches this file: a 200 on /calendar proves the
+          # shell shipped and nothing about whether it has a plan to draw. An
+          # empty or truncated payload renders an agenda with no sessions in
+          # it, which looks like a working page.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/agenda.json "$BASE_URL/data/revision-calendar.json"
+          python3 - <<'PY' || fail=1
+          import json, sys
+
+          plan = json.load(open('/tmp/agenda.json'))
+          days = plan.get('days', {})
+          events = sum(len(d.get('events', [])) for d in days.values())
+          exam = plan.get('exam')
+          problems = []
+
+          if exam is None:
+              problems.append('no exam date')
+          if len(days) < 60:
+              problems.append(f'only {len(days)} days')
+          if events < 300:
+              problems.append(f'only {events} events')
+          for date in days:
+              if exam and date > exam:
+                  problems.append(f'{date} is planned after the exam {exam}')
+                  break
+          for date, day in days.items():
+              for event in day.get('events', []):
+                  if not event.get('start') or not event.get('end') or event.get('minutes', 0) <= 0:
+                      problems.append(f'{date} carries an event with no usable slot')
+                      break
+
+          if problems:
+              print('::error::deployed agenda payload is unusable: ' + '; '.join(problems[:5]))
+              sys.exit(1)
+
+          print(f'ok  agenda   {len(days)} days, {events} sessions, stops at {exam}')
+          PY
 
           # FR-2, proved against the deployed bytes rather than against the
           # build that produced them. The item pages render

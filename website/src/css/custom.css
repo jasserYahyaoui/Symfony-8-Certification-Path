@@ -282,3 +282,31 @@ main dd a:not(.button):not(.card),
 .token.attr-value {
   color: var(--certpath-code-string) !important;
 }
+
+/* --------------------------------------------------------------------------
+ * Couleurs d'événements de l'agenda de révision.
+ *
+ * Chaque teinte porte du texte blanc : les rapports de contraste notés sont
+ * mesurés contre #ffffff et tiennent WCAG 2.1 AA pour du texte normal. Elles
+ * sont identiques en thème clair et sombre — le contraste qui compte est celui
+ * du texte sur son propre bloc, pas du bloc sur la page — ce qui évite qu'une
+ * variante sombre « adoucie » passe sous le seuil sans que rien ne le signale.
+ */
+:root {
+  --certpath-ev-new: #1f4e9c;           /* 7.4:1 */
+  --certpath-ev-review: #8a4b00;        /* 6.6:1 */
+  --certpath-ev-lab: #14622f;           /* 6.9:1 */
+  --certpath-ev-assess: #5b2d8e;        /* 8.6:1 */
+  --certpath-ev-mock: #97180f;          /* 8.5:1 */
+  --certpath-ev-consolidation: #0b5f66; /* 6.5:1 */
+  --certpath-exam: #7a1230;             /* 10.2:1 */
+
+  /* Mesuré contre le fond des cases de week-end (#dadde1), pas contre le fond
+   * de page : c'est là que le lien du thème tombait à 4,02:1. */
+  --certpath-more: #0b4a8f;
+}
+
+:root[data-theme='dark'],
+html[data-theme='dark'] {
+  --certpath-more: #9ec5f0;
+}

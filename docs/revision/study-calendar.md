@@ -155,7 +155,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 11 octobre 2026
 
-- **Assessment lot-02 — HTTP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-02)
+- **Assessment lot-02 — HTTP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
@@ -251,7 +251,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 18 octobre 2026
 
-- **Assessment lot-04 — Controllers** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-04)
+- **Assessment lot-04 — Controllers** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (14 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
@@ -350,7 +350,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 25 octobre 2026
 
-- **Assessment lot-05 — Routing** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-05)
+- **Assessment lot-05 — Routing** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
@@ -453,7 +453,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 1 novembre 2026
 
-- **Assessment lot-08 — Data Validation** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-08)
+- **Assessment lot-08 — Data Validation** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (16 min) — Forms : Form component · Forms : Forms creation · Forms : Forms handling · Forms : Form types (built-in and custom)
 - Révision **J+30** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
@@ -557,7 +557,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 8 novembre 2026
 
-- **Assessment lot-10 — Security** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-10)
+- **Assessment lot-10 — Security** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (16 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
 - Révision **J+30** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
@@ -661,7 +661,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 15 novembre 2026
 
-- **Assessment lot-06 — Templating with Twig** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-06)
+- **Assessment lot-06 — Templating with Twig** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (14 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
 - Révision **J+30** (13 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
 - Révision **J+45** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
@@ -769,7 +769,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 22 novembre 2026
 
-- **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-14)
+- **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+30** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
 - Révision **J+45** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
@@ -869,7 +869,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Dimanche 29 novembre 2026
 
 - **Mock 2** — 84 questions
-- **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#lot-26)
+- **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (8 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+30** (11 min) — Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection · Forms : Handling file upload
 

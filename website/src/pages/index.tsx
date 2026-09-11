@@ -41,6 +41,11 @@ export default function Home(): React.JSX.Element {
               mocks sur un calendrier daté.
             </p>
             <p>
+              <Link className="button button--primary" to="/calendar">
+                Ouvrir l'agenda de révision →
+              </Link>
+            </p>
+            <p>
               <Link to="/docs/revision/roadmap">Roadmap de révision →</Link>
               {' · '}
               <Link to="/docs/revision/calendar">Calendrier jour par jour →</Link>

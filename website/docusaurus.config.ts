@@ -69,6 +69,7 @@ const config: Config = {
       },
       items: [
         {type: 'docSidebar', sidebarId: 'main', position: 'left', label: 'Documentation'},
+        {to: '/calendar', label: 'Agenda', position: 'left'},
         {to: '/docs/revision/roadmap', label: 'Plan de révision', position: 'left'},
         {to: '/practice', label: 'Practice Mode', position: 'left'},
         {to: '/exam', label: 'Exam Mode', position: 'left'},
@@ -87,6 +88,7 @@ const config: Config = {
           items: [
             {label: 'Introduction', to: '/docs'},
             {label: 'Plan de révision', to: '/docs/revision/roadmap'},
+            {label: 'Agenda (vue calendrier)', to: '/calendar'},
             {label: 'Calendrier jour par jour', to: '/docs/revision/calendar'},
             {label: 'Couverture officielle', to: '/docs/syllabus/coverage'},
             {label: 'Exclusions', to: '/docs/syllabus/exclusions'},

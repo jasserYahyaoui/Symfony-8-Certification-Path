@@ -57,7 +57,7 @@ for k in sorted(P['days']):
     if v['assess']:
         lot = v['assess']
         w(f"- **Assessment {lot} — {P['lot_name'][lot]}** : voir "
-          f"[`mastery-checkpoints.md`](mastery-checkpoints.md#{lot})")
+          f"[`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)")
     for (iid, mins, full) in v['new']:
         i = IT[iid]
         tag = "NOUVEAU" if full else "NOUVEAU (suite)"

@@ -28,6 +28,22 @@ REVIEW = {  # minutes, par niveau, par échéance
 }
 OFFSETS      = [1, 3, 7, 14, 30]
 OFFSETS_PLUS = [1, 3, 7, 14, 30, 45, 60]   # items transverses / DEEP
+
+# ---------------------------------------------------------------- horaires
+# CONVENTION D'AFFICHAGE, PAS UNE MESURE.
+#
+# Le plan connaît des DURÉES, jamais des heures d'horloge : rien dans les
+# fichiers canoniques ne dit à quelle heure le candidat ouvre un cours. Une
+# grille d'agenda a pourtant besoin d'un début et d'une fin, et les inventer
+# en silence ferait passer une commodité d'affichage pour une donnée du plan.
+#
+# L'heure de départ est donc dérivée des disponibilités DÉCLARÉES par le
+# candidat (1 h à 2 h en semaine, 2 h à 3 h le week-end), posée ici, et
+# affichée comme telle sur la page. Les durées, elles, restent mesurées.
+DAY_START = {0:'18:00', 1:'18:00', 2:'18:00', 3:'18:00', 4:'18:00',
+             5:'09:00', 6:'09:00'}
+PAUSE_AFTER = 50   # min de travail continu au-delà desquelles on insère 10 min
+PAUSE_MIN   = 10
 _ap = argparse.ArgumentParser(description=__doc__)
 _ap.add_argument('--start', default='2026-10-01', help='premier jour du plan')
 _ap.add_argument('--out', default='docs/revision/plan.json')
@@ -227,6 +243,109 @@ if EXAM:
                if v['new'] or v['rev'] or v['lab'] or v['assess']]
     last_study = max(studied) if studied else last_day
 
+# ---------------------------------------------------------------- événements
+# Chaque jour devient une suite de rendez-vous à heure de début et de fin, pour
+# que la grille d'agenda affiche des créneaux plutôt qu'un paragraphe. Le
+# découpage suit l'ordre de travail de la journée : mock d'abord s'il y en a un
+# (il est chronométré), puis les révisions dues, puis les nouveautés, puis le
+# lab et la consolidation.
+KIND_ORDER = {'EXAM':0, 'MOCK':1, 'REVIEW':2, 'NEW':3, 'LAB':4, 'ASSESS':5,
+              'CONSOLIDATION':6}
+
+def _hhmm(minutes):
+    return f'{minutes // 60:02d}:{minutes % 60:02d}'
+
+for k in sorted(days):
+    v = days[k]
+    blocks = []   # (kind, title, lot, objective, minutes)
+
+    if v['mock']:
+        name, note = v['mock']
+        if name.startswith('EXAMEN'):
+            # L'heure de convocation n'est pas connue de ce dépôt et ne sera
+            # pas inventée : la journée porte un jalon, pas un créneau.
+            blocks.append(('EXAM', name, None, note, 0))
+        elif name.startswith('Correction'):
+            blocks.append(('MOCK', name, None, note, 60))
+        else:
+            blocks.append(('MOCK', name, None, note, 90))
+
+    by_off = collections.defaultdict(list)
+    for (it, off, mins) in v['rev']:
+        by_off[off].append((it, mins))
+    for off in sorted(by_off):
+        group = by_off[off]
+        mins = sum(m for _, m in group)
+        lots = sorted({i['lot'] for i, _ in group})
+        blocks.append((
+            'REVIEW',
+            f'Révision espacée J+{off}',
+            lots[0] if len(lots) == 1 else None,
+            ' · '.join(f"{i['topic']} : {i['name']}" for i, _ in group),
+            mins))
+
+    for (it, mins, full) in v['new']:
+        det = []
+        if it['nq']:
+            det.append(f"{it['nq']} questions")
+        det.append(f"{it['nfc']} flashcards" if it['nfc'] else 'aucune flashcard')
+        blocks.append((
+            'NEW',
+            ('Nouveau' if full else 'Nouveau (suite)') + f" — {it['name']}",
+            it['lot'],
+            f"{it['topic']} · {it['level']} · {it['words']} mots · " + ', '.join(det),
+            mins))
+
+    if v['lab']:
+        # Le lab occupe ce qui RESTE du budget, pas le budget entier : les
+        # révisions dues du samedi sont déjà placées, et leur ajouter un bloc
+        # plein ferait déborder la journée de son propre budget.
+        blocks.append((
+            'LAB',
+            'Source tour et mise en pratique',
+            None,
+            f"{len(v['lab'])} items de la semaine : "
+            + ' · '.join(i['name'] for i in v['lab']),
+            max(0, v['budget'] - sum(b[4] for b in blocks))))
+
+    if v['assess']:
+        lot = v['assess']
+        blocks.append((
+            'ASSESS',
+            f'Assessment {lot} — {LOT_NAME[lot]}',
+            lot,
+            'contrôle de maîtrise, analyse des écarts, plan de correction',
+            30))
+
+    if k.weekday() == 6 and not v['mock'] and not v['assess']:
+        blocks.append((
+            'CONSOLIDATION',
+            'Consolidation et rattrapage',
+            None,
+            'reprendre les questions ratées de la semaine, rattraper ce qui a débordé',
+            max(0, v['budget'] - sum(b[4] for b in blocks))))
+
+    blocks.sort(key=lambda b: KIND_ORDER[b[0]])
+
+    cursor = int(DAY_START[k.weekday()][:2]) * 60
+    since_pause = 0
+    evs = []
+    for (kind, title, lot, objective, mins) in blocks:
+        if mins <= 0:
+            continue
+        if since_pause >= PAUSE_AFTER and kind != 'EXAM':
+            cursor += PAUSE_MIN
+            since_pause = 0
+        evs.append({'start': _hhmm(cursor), 'end': _hhmm(cursor + mins),
+                    'minutes': mins, 'kind': kind, 'title': title,
+                    'lot': lot, 'objective': objective})
+        cursor += mins
+        since_pause = 0 if kind in ('EXAM', 'MOCK') else since_pause + mins
+    v['events'] = evs
+    v['milestone'] = None
+    if v['mock'] and v['mock'][0].startswith('EXAMEN'):
+        v['milestone'] = list(v['mock'])
+
 lost_by_off = collections.Counter()
 lost_min = 0
 for (it, off, mins, k) in lost_reviews:
@@ -239,6 +358,8 @@ json.dump({'items':items,
                'rev':[(i['id'],o,m) for i,o,m in v['rev']],
                'lab':[i['id'] for i in (v['lab'] or [])],
                'assess':v['assess'], 'mock':v['mock'],
+               'events':v.get('events', []),
+               'milestone':v.get('milestone'),
                'used':v['used'], 'budget':v['budget']} for k,v in days.items()},
            'lot_done':{k:v.isoformat() for k,v in lot_done_date.items()},
            'lot_name':LOT_NAME,
@@ -249,7 +370,9 @@ json.dump({'items':items,
            'exam':EXAM.isoformat() if EXAM else None,
            'lost_reviews':[(i['id'],o,m,k.isoformat()) for i,o,m,k in lost_reviews],
            'lost_reviews_by_offset':{str(o):n for o,n in sorted(lost_by_off.items())},
-           'lost_reviews_minutes':lost_min},
+           'lost_reviews_minutes':lost_min,
+           'day_start':DAY_START,
+           'lot_order':ORDER},
           open(_args.out,'w',encoding='utf-8'), ensure_ascii=False)
 
 tot_first = sum(i['total'] for i in items)

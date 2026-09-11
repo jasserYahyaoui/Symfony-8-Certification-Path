@@ -144,6 +144,59 @@ final class RevisionPlanTest extends TestCase
         );
     }
 
+    /**
+     * The agenda grid draws these events; nothing else validates them, and a
+     * slot whose end precedes its start renders as a zero-height block the eye
+     * reads as an empty day rather than as a bug.
+     */
+    public function testEveryEventOccupiesACoherentSlot(): void
+    {
+        $kinds = ['NEW', 'REVIEW', 'LAB', 'ASSESS', 'MOCK', 'CONSOLIDATION', 'EXAM'];
+        $seen = 0;
+
+        foreach ($this->plan()['days'] as $date => $day) {
+            $previousEnd = -1;
+
+            foreach ($day['events'] as $event) {
+                ++$seen;
+
+                self::assertContains($event['kind'], $kinds, $date.' carries an unknown event kind');
+                self::assertGreaterThan(0, $event['minutes'], $date.' carries an event of no duration');
+                self::assertNotSame('', trim((string) $event['title']), $date.' carries an untitled event');
+
+                $start = $this->minutes($event['start']);
+                $end = $this->minutes($event['end']);
+
+                self::assertSame(
+                    $event['minutes'],
+                    $end - $start,
+                    $date.' has an event from '.$event['start'].' to '.$event['end']
+                        .' declared as '.$event['minutes'].' minutes',
+                );
+
+                // Sessions never overlap: the grid would draw them on top of
+                // each other, and a candidate cannot sit two at once.
+                self::assertGreaterThanOrEqual(
+                    $previousEnd,
+                    $start,
+                    $date.' starts an event at '.$event['start'].' before the previous one ends',
+                );
+
+                $previousEnd = $end;
+            }
+
+            $planned = array_sum(array_column($day['events'], 'minutes'));
+
+            self::assertLessThanOrEqual(
+                $day['budget'],
+                $planned,
+                $date.' schedules '.$planned.' minutes of events against a budget of '.$day['budget'],
+            );
+        }
+
+        self::assertGreaterThan(300, $seen, 'the plan carries almost no events');
+    }
+
     public function testNoDayExceedsItsOwnBudget(): void
     {
         foreach ($this->plan()['days'] as $date => $day) {
@@ -206,6 +259,13 @@ final class RevisionPlanTest extends TestCase
     }
 
     /** @return array{days: array<string, array{new: list<array{0: string, 1: int, 2: bool}>, used: int, budget: int}>, items: list<array<string, mixed>>, mock_dates: list<array{0: string, 1: string}>, all_items_in: string} */
+    private function minutes(string $hhmm): int
+    {
+        [$h, $m] = array_map('intval', explode(':', $hhmm));
+
+        return $h * 60 + $m;
+    }
+
     private function plan(): array
     {
         $path = $this->root().'/docs/revision/plan.json';
