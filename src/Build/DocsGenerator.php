@@ -159,6 +159,10 @@ final readonly class DocsGenerator
         $written[] = $this->writeDoc($docsDir.'/syllabus/exclusions.md', $this->exclusionsPage($content));
         $written[] = $this->writeDoc($docsDir.'/syllabus/glossary.md', $this->glossaryPage());
 
+        foreach ($this->revisionPages() as $path => $markdown) {
+            $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
+        }
+
         foreach ($this->coursePages($content) as $path => $markdown) {
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
         }
@@ -180,6 +184,103 @@ final readonly class DocsGenerator
      */
     private const string CATEGORY_COURSES = '{"label":"Parcours de r\u00e9vision","position":2}';
     private const string CATEGORY_SYLLABUS = '{"label":"Syllabus officiel","position":3}';
+    private const string CATEGORY_REVISION = '{"label":"Plan de r\u00e9vision","position":1}';
+
+    /**
+     * The candidate roadmap, published rather than left in the repository.
+     *
+     * The four documents under docs/revision/ are the canonical source; this
+     * copies them into the site so the candidate reads them where they already
+     * read the courses, instead of browsing raw Markdown on GitHub. They are
+     * NOT rewritten here — only given front matter and inter-document links
+     * that resolve under Docusaurus. Editing website/docs/revision/ by hand is
+     * as wrong as editing any other generated page (ADR-0003).
+     *
+     * @return array<string, string> relative path under website/docs => markdown
+     */
+    private function revisionPages(): array
+    {
+        $source = [
+            'roadmap' => ['study-roadmap.md', 'Roadmap de révision', 1],
+            'calendar' => ['study-calendar.md', 'Calendrier jour par jour', 2],
+            'checkpoints' => ['mastery-checkpoints.md', 'Contrôles de maîtrise', 3],
+            'readiness' => ['exam-readiness.md', 'PRÊT-CANDIDAT', 4],
+        ];
+
+        $links = [
+            'study-roadmap.md' => './roadmap',
+            'study-calendar.md' => './calendar',
+            'mastery-checkpoints.md' => './checkpoints',
+            'exam-readiness.md' => './readiness',
+        ];
+
+        $pages = ['revision/_category_.json' => self::CATEGORY_REVISION];
+
+        foreach ($source as $slug => [$file, $title, $position]) {
+            $path = $this->project->path('docs/revision/'.$file);
+
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $body = (string) file_get_contents($path);
+
+            foreach ($links as $from => $to) {
+                $body = str_replace('('.$from.')', '('.$to.')', $body);
+                $body = str_replace('('.$from.'#', '('.$to.'#', $body);
+            }
+
+            $front = \sprintf(
+                "---\ntitle: \"%s\"\nsidebar_position: %d\n---\n\n",
+                str_replace('"', '\\"', $title),
+                $position,
+            );
+
+            $pages['revision/'.$slug.'.md'] = $front.$this->mdxSafe($body);
+        }
+
+        return $pages;
+    }
+
+    /**
+     * A bare `<` or `{` in prose breaks the MDX build (SITE-2). The roadmap is
+     * hand-written French, so it goes through the same guard as any other
+     * generated page — but only outside fenced code blocks, where those
+     * characters are legitimate.
+     */
+    private function mdxSafe(string $markdown): string
+    {
+        $out = [];
+        $inFence = false;
+
+        foreach (explode("\n", $markdown) as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+                $out[] = $line;
+
+                continue;
+            }
+
+            if ($inFence) {
+                $out[] = $line;
+
+                continue;
+            }
+
+            $parts = preg_split('/(`[^`]*`)/', $line, -1, \PREG_SPLIT_DELIM_CAPTURE);
+            $rebuilt = '';
+
+            foreach ($parts as $part) {
+                $rebuilt .= str_starts_with($part, '`')
+                    ? $part
+                    : str_replace(['<', '{', '}'], ['&lt;', '&#123;', '&#125;'], $part);
+            }
+
+            $out[] = $rebuilt;
+        }
+
+        return implode("\n", $out);
+    }
 
     private function readinessLine(?\CertPath\Readiness\ReadinessReport $readiness): string
     {

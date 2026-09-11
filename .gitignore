@@ -14,6 +14,6 @@
 /website/static/data/
 tools/audit/__pycache__/
 
-# Intermédiaire machine du générateur de roadmap (docs/revision/study-calendar.md
-# est le livrable ; plan.json se régénère).
-docs/revision/plan.json
+# docs/revision/plan.json EST suivi : les tests d'intégration du plan de
+# révision le lisent, et un test qui se contente de « skip » en CI ne prouve
+# rien. La CI vérifie par ailleurs qu'il est à jour en le régénérant.

@@ -31,10 +31,16 @@ OFFSETS_PLUS = [1, 3, 7, 14, 30, 45, 60]   # items transverses / DEEP
 _ap = argparse.ArgumentParser(description=__doc__)
 _ap.add_argument('--start', default='2026-10-01', help='premier jour du plan')
 _ap.add_argument('--out', default='docs/revision/plan.json')
-_ap.add_argument('--max-new', type=int, default=None)
+_ap.add_argument('--max-new', type=int, default=None, help='nouveautés max par jour de semaine')
+_ap.add_argument('--weekday', type=int, default=None, help='budget minutes lundi-vendredi')
+_ap.add_argument('--weekend', type=int, default=None, help='budget minutes samedi-dimanche')
+_ap.add_argument('--exam', default=None, help="date d'examen AAAA-MM-JJ : les mocks sont calés avant")
 _args = _ap.parse_args()
 START        = datetime.date.fromisoformat(_args.start)
 if _args.max_new: MAX_NEW = _args.max_new
+if _args.weekday: BUDGET.update({i: _args.weekday for i in range(5)})
+if _args.weekend: BUDGET.update({5: _args.weekend, 6: _args.weekend})
+EXAM = datetime.date.fromisoformat(_args.exam) if _args.exam else None
 
 # ordre pédagogique : prérequis, puis structurants, puis le reste
 ORDER = ['lot-01','lot-02','lot-03','lot-04','lot-05','lot-09','lot-08','lot-07',
@@ -150,19 +156,43 @@ MOCKS = [('Mock 1','61 questions — premier étalonnage, sans enjeu'),
          ('Mock 3','68 questions'),
          ('Mock 5','tirage dans les 519 questions éligibles'),
          ('Mock 4','75 questions / 90 min — holdout, format fixé par §10, une seule fois')]
+if EXAM:
+    # Exigence : aucun mock avant que TOUS les lots soient étudiés. Avec une date
+    # d'examen imposée, le nombre de week-ends restants peut être inférieur au
+    # nombre de mocks — on en place alors deux par week-end plutôt que d'entamer
+    # la période d'étude. Mock 4 reste seul et dernier.
+    m4 = EXAM - datetime.timedelta(days=1)
+    while m4.weekday() != 5: m4 -= datetime.timedelta(days=1)
+    free = []
+    d0 = all_items_in + datetime.timedelta(days=1)
+    while d0 < m4:
+        if d0.weekday() >= 5: free.append(d0)
+        d0 += datetime.timedelta(days=1)
+    need = len(MOCKS) - 1
+    if len(free) < need:
+        raise SystemExit(
+            f'Pas de place : {need} mocks à caser entre {all_items_in} et {m4}, '
+            f'{len(free)} jours de week-end disponibles. Avancer la fin des lots '
+            f'(--max-new plus haut) ou reculer la date d examen.')
+    slots = free[-need:] + [m4]
+else:
+    md = all_items_in + datetime.timedelta(days=1)
+    while md.weekday() != 5: md += datetime.timedelta(days=1)
+    slots = None
 md = all_items_in + datetime.timedelta(days=1)
 while md.weekday() != 5: md += datetime.timedelta(days=1)
 mock_dates = []
 for n,(name, note) in enumerate(MOCKS):
-    if name == 'Mock 4':
-        # dernier, et après la fin du tail de révisions
+    if slots:
+        md = slots[n]
+    elif name == 'Mock 4':
         md = max(md, last_study)
         while md.weekday() != 5: md += datetime.timedelta(days=1)
     day(md)['mock'] = (name, note)
     day(md + datetime.timedelta(days=1))['mock'] = ('Correction ' + name,
         'analyse par item, plan de correction, re-révision ciblée')
     mock_dates.append((name, md))
-    md += datetime.timedelta(days=7)
+    if not slots: md += datetime.timedelta(days=7)
 last_day = max(days)
 
 json.dump({'items':items,
