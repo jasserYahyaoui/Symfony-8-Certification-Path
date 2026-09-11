@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-10
+**Last updated:** 2026-09-11
 
 ---
 
@@ -42,35 +42,45 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `fc92b29` — **le Mock 4 est débarrassé de son indice de
-longueur et le lot 03 est raffiné sous le cadre version 2, tous deux vérifiés en
-production.**
+`master`, at `7062476` — **le lot 04 est raffiné sous le cadre version 2 et
+vérifié en production ; l'étalonnage du coût des lots a rendu son verdict.**
 
 | | |
 |---|---|
-| Pull requests | #95 (Mock 4) · #96 (lot 03) · #97 (entrée du journal) |
-| CI | #95 run 227 tentative 2 `success` · #96 run 34505364747 `success` · #97 run 34506467733 `success` |
-| Pages | #96 run 34505796392 tentative 2 `success`, smoke job 102968418677 `success` · #97 run 34507040009 `success`, smoke job 102972092651 `success` |
+| Pull requests | #99 (lot 04) · #100 (entrée du journal) · #101 (roadmap de révision candidat) |
+| CI | #99 run 34575813303 `success` · #100 run 34576979376 `success` |
+| Pages | #99 run 34576314839 `success`, smoke job 103189822542 · #100 run 34577807704 `success`, smoke job 103194562428 |
 | Couverture officielle | **100 % (163/163)** — inchangée |
-| Certification Readiness | **5,5 % (9/163) → 14,7 % (24/163)** |
-| Lots raffinés | **1/27 → 2/27** |
-| Corpus | 555 → **575 questions** |
+| Certification Readiness | **14,7 % (24/163) → 23,3 % (38/163)** |
+| Lots raffinés | **2/27 → 3/27** |
+| Corpus | 575 → **594 questions** |
 
-**Mock 4 (#95).** Les 75 questions du holdout ont perdu leur indice de longueur :
-indice perceptible (marge ≥ 25 % sur le plus long distracteur) **39/75 = 52 % →
-0/75**, bonne réponse la plus longue 53/75 → 43/75. 39 questions retouchées, **0
-clé de réponse modifiée, 0 énoncé modifié**, vérifié par script contre `master`.
-Méthode : allègement du surplus d'une bonne réponse, et renforcement d'un
-distracteur par une clause fausse **dérivée de la négation d'une affirmation déjà
-vérifiée** — jamais de remplissage, jamais d'équilibrage mécanique des longueurs.
-Le propriétaire a levé le 2026-09-10 l'interdiction de révéler le holdout ; elle
-n'était pas tenable, le dépôt étant public et `mock-4.json` publié.
+Ligne relevée dans le smoke test de `7062476`, non reconstituée :
 
-**Lot 03 (#96, #97).** Premier lot du cœur raffiné sous ADR-0007, mené comme un
-**étalonnage de coût** parce que le lot 01 avait un déficit nul. 59 outcomes
-identifiés et évalués, 69 archétypes posés, **20 questions ajoutées**, indice de
-longueur du lot 42,0 % → **23,2 %**, sous son seuil de hasard, **avant** que
-l'entrée du journal ne le rende gaté.
+```text
+ok  readiness  deployed 23.3% (38/163), 3 of 27 lots refined — matches the repository dashboard
+ok  practice   383 questions, all LEARNING, no holdout id or choice
+```
+
+**Lot 04 (#99, #100).** 56 outcomes identifiés et évalués, 63 archétypes posés,
+19 questions ajoutées, indice de longueur du lot 52,4 % → **23,8 %**, sous son
+seuil de hasard, **avant** que l'entrée du journal ne le rende gaté. Un item
+promettait de situer `AbstractController` du côté du bundle sans citer la
+déclaration de namespace qui le prouve ; la source a été ajoutée.
+
+**Aucune contradiction de cours trouvée dans le lot 04 — mais la recherche
+était plus étroite qu'au lot 03, et le rapport le dit.** Les 14 cours n'ont pas
+été relus intégralement : seuls les passages de source que les questions engagent
+l'ont été. « Rien trouvé » n'est pas « rien à trouver ».
+
+**Roadmap de révision candidat (#101).** Quatre documents sous `docs/revision/`
+et leur générateur sous `tools/revision/`. Plan jour par jour du 1er octobre 2026
+au 24 janvier 2027, 110,9 h, calculé depuis les fichiers canoniques. Trois
+constats du corpus y sont enregistrés parce qu'ils contraignent le plan :
+`exercise_refs` est **vide sur les 163 items** (aucun exercice n'existe) ; **37
+items n'ont aucune flashcard** ; et sans plafond, le générateur plaçait **sept
+notions PHP le premier jour**, ce qui a imposé un plafond à trois nouveautés
+quotidiennes au prix de deux semaines de calendrier.
 
 ## Completed work
 
@@ -295,12 +305,12 @@ Locally, on PHP 8.4.19, on `refine/framework-archetypes`, every command run as
 its own command with its exit code read (PROC-1):
 
 ```text
-php bin/cert validate                             → 21 rules, 163 items, 575 questions,
+php bin/cert validate                             → 21 rules, 163 items, 594 questions,
                                                     2 violations, 0 blocking                  (exit 0)
 php bin/cert coverage                             → Coverage: 100% (163/163 EXAM_READY)       (exit 0)
-php bin/cert readiness                            → Readiness: 14.7% (24/163), lots refined 2/27 (exit 0)
+php bin/cert readiness                            → Readiness: 23.3% (38/163), lots refined 3/27 (exit 0)
 php bin/cert build                                → docs tree + payloads + readiness.json      (exit 0)
-vendor/bin/phpunit                                → OK (236 tests, 8846 assertions)            (exit 0)
+vendor/bin/phpunit                                → OK (236 tests, 8886 assertions)            (exit 0)
 composer gate-full                                → all of the above, then site + a11y         (exit 0)
 npm --prefix website run a11y                     → 15/15 surfaces PASS, TOTAL VIOLATIONS: 0   (exit 0)
 python3 tools/audit/prove_audits_fail.py          → PROOF OK — 44 checks fired, restored       (exit 0)
@@ -309,23 +319,23 @@ python3 .github/scripts/readiness-smoke.py        → matches the dashboard; and
                                                     payload edited to the pre-ADR-0007
                                                     figures, 3 errors                         (exit 1)
 AUD-01..AUD-08, lot01_second_audit, fr2_second    → FINDINGS: 0 each                           (exit 0)
-python3 tools/audit/aud10_answer_length_bias.py   → 266/557 = 47.8%; lot-01 20.6% et lot-03
-                                                    23.2%, tous deux GATED et sous leur
-                                                    hasard de 25.0%                           (exit 0)
+python3 tools/audit/aud10_answer_length_bias.py   → 263/576 = 45.7%; les trois lots gatés
+                                                    sous leur hasard de 25.0% : lot-01 20.6%,
+                                                    lot-03 23.2%, lot-04 23.8%                (exit 0)
 python3 tools/audit/aud11_length_cue_triage.py    → triage seul, ne fait échouer rien          (exit 0)
 ```
 
-Smoke test de production, lignes relevées dans le job 102972092651 (`fc92b29`) :
+Smoke test de production, lignes relevées dans le job 103194562428 (`7062476`) :
 
 ```text
-ok  readiness  deployed 14.7% (24/163), 2 of 27 lots refined — matches the repository dashboard
-ok  practice   364 questions, all LEARNING, no holdout id or choice
+ok  readiness  deployed 23.3% (38/163), 3 of 27 lots refined — matches the repository dashboard
+ok  practice   383 questions, all LEARNING, no holdout id or choice
 ok  exam       136 questions, all VALIDATION, no holdout id or choice
 ok  mock-4      75 questions, the whole holdout and nothing else, all English
 ```
 
 The two non-blocking violations are the framework's own findings, not defects
-left unaddressed: `PED-003` warns that 63 of 163 items carry fewer questions
+left unaddressed: `PED-003` warns that 54 of 163 items carry fewer questions
 than declared outcomes, and `REV-001` warns that one MINIMAL item (lot-13,
 `Handling legacy deprecated code`, 450 body words) exceeds its budget of 400.
 Both are recorded here because a warning nobody writes down becomes a warning
@@ -380,35 +390,51 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Le lot 04 (Controllers) sous le cadre de raffinement version 2.**
+**Le lot 02 (HTTP) sous le cadre de raffinement version 2.**
 
-Pas le lot 02 : le lot 03 a montré que le **coût réel d'un lot du cœur** dépasse
-le compte arithmétique, et il faut un deuxième point de mesure sur un lot du cœur
-pour savoir si le facteur tient. Deux points ne font pas une droite ; trois
-commencent à dire quelque chose sur les 24 lots restants.
+### Le facteur d'extrapolation est réfuté — ne pas le réintroduire
 
-**Ce que le lot 03 a établi, et qui change le plan.** Le déficit
-objectifs/questions ne se compte pas, il se lit. 42 questions hors HOLDOUT
-n'évaluaient que **39 outcomes distincts sur 59** : le compte arithmétique
-annonçait 17 questions manquantes, il en manquait **20**. L'estimation de l'unité
-pilote — 132 questions pour les 24 lots restants — est donc un **plancher**,
-sous-estimé d'environ 18 % sur le seul lot confronté à la lecture. Ce chiffre
-sera révisé lot par lot et **jamais par extrapolation depuis deux lots**.
+Le lot 04 avait une raison d'être précise : tester si l'écart du lot 03 entre le
+plancher arithmétique et le déficit réel se reproduit. **Il ne se reproduit pas.**
 
-Deux constats de l'audit continuent de se traiter lot par lot, pendant le
-raffinement, et pas en masse :
+| | Plancher arithmétique | Déficit réel (par lecture) | Écart |
+| --- | ---: | ---: | ---: |
+| Lot 03 | 17 | 20 | +17,6 % |
+| Lot 04 | 18 | 19 | **+5,6 %** |
 
-- **le biais de longueur** (`aud10`) — les lots 01 et 03 sont passés sous leur
-  hasard par le raffinement ; réécrire à l'aveugle les questions des lots non
-  raffinés serait une édition de masse de contenu vérifié pour déplacer un
+Trois items du lot 03 portaient deux questions sur le même outcome ; un seul le
+fait dans le lot 04. **Ce qui tient sur les deux lots : le compte arithmétique
+est un plancher. Ce qui ne tient pas : un multiplicateur.**
+
+L'estimation de 132 questions pour les lots restants **ne doit pas être
+multipliée par un facteur**. Elle se confirme lot par lot, par lecture. Sur les
+deux seuls lots du cœur vérifiés ainsi, le dépassement va de **+1 à +3 questions
+par lot**. La PR #96 avait présenté les +18 % comme un ordre de grandeur
+transposable ; la PR #99 corrige cette formulation, et cette note existe pour
+qu'une session future ne la réintroduise pas.
+
+### Les deux constats de l'audit continuent de se traiter lot par lot
+
+- **le biais de longueur** (`aud10`) — les lots 01, 03 et 04 sont passés sous
+  leur hasard par le raffinement ; réécrire à l'aveugle les questions des lots
+  non raffinés serait une édition de masse de contenu vérifié pour déplacer un
   nombre ;
-- **le déficit objectifs/questions** (`PED-003`) — **63** items sur 163 portent
-  encore moins de questions que d'objectifs déclarés, contre 73 avant le lot 03.
+- **le déficit objectifs/questions** (`PED-003`) — **54** items sur 163 portent
+  encore moins de questions que d'objectifs déclarés, contre 63 avant le lot 04
+  et 73 avant le lot 03.
 
-Reste réalisable sans mock, par ordre de valeur : le raffinement des lots 02 et
-04 à 26 ; la suppression des branches locales déjà fusionnées (cosmétique) ; et
-une décision sur `prove_audits_fail.py`, aujourd'hui hors CI parce qu'il dure
-~5 min et mute des fichiers canoniques.
+### Reste réalisable sans mock, par ordre de valeur
+
+Le raffinement des lots 02, 05 à 26 ; la suppression des branches locales déjà
+fusionnées (cosmétique) ; et une décision sur `prove_audits_fail.py`, aujourd'hui
+hors CI parce qu'il dure ~5 min et mute des fichiers canoniques.
+
+### La roadmap candidat est livrée et ne dépend pas du raffinement
+
+`docs/revision/` planifie l'apprentissage du candidat sur le corpus **tel qu'il
+est** : les 163 items sont `EXAM_READY`, donc étudiables, que leur lot ait passé
+l'audit de raffinement ou non. Le raffinement améliore la qualité des questions,
+il ne conditionne pas le démarrage des révisions au 1er octobre 2026.
 
 ---
 
