@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **68.1%** — 111 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **73.6%** — 120 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,16 +19,16 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 34 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 18 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 41 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 70 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 9 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 47 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 73 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**9 of 27 lots refined.**
+**10 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
@@ -43,7 +43,7 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 09 — Dependency Injection | **REFINED** | 12 | 12 | 100% |
 | 10 — Security | **REFINED** | 12 | 12 | 100% |
 | 11 — Messenger | TODO | 7 | 0 | 0% |
-| 12 — Console | TODO | 9 | 0 | 0% |
+| 12 — Console | **REFINED** | 9 | 9 | 100% |
 | 13 — Automated Tests | TODO | 9 | 0 | 0% |
 | 14 — Configuration and Error Handling | TODO | 3 | 0 | 0% |
 | 15 — Profiler and Deployment | TODO | 2 | 0 | 0% |
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 07 — Forms |
+| Last completed | 12 — Console |
 | Recorded on | 2026-09-12 |
 | Next | 08 — Data Validation |
