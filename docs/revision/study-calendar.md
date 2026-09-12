@@ -672,32 +672,32 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 16 novembre 2026
 
-- NOUVEAU · **Console : Console component** (STANDARD) — 10 min · 454 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 7 min · 302 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Console : Console component** (STANDARD) — 11 min · 454 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 8 min · 302 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Console : Custom commands** (STANDARD) — 10 min · 443 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Console : Configuration** (STANDARD) — 11 min · 519 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Console : Configuration** (STANDARD) — 12 min · 519 mots · 4 questions, 1 flashcards
 - Révision **J+3** (13 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables
 - Révision **J+7** (17 min) — Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+14** (11 min) — Forms : Built-in form types · Forms : Data transformers · Forms : Form events · Forms : Form type extensions
 - Révision **J+45** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 91 / 120 min*
+*Budget du jour : 94 / 120 min*
 
 ### Mardi 17 novembre 2026
 
-- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 13 min · 711 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 11 min · 543 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 10 min · 550 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Console : Console events** (STANDARD) — 12 min · 578 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 14 min · 711 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 12 min · 543 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 12 min · 550 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Console : Console events** (STANDARD) — 15 min · 578 mots · 5 questions, 1 flashcards
 - Révision **J+1** (22 min) — Console : Console component · Console : Built-in commands · Console : Custom commands · Console : Configuration
 - Révision **J+7** (17 min) — Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping
 - Révision **J+14** (12 min) — Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
 
-*Budget du jour : 97 / 120 min*
+*Budget du jour : 104 / 120 min*
 
 ### Mercredi 18 novembre 2026
 
-- NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 7 min · 295 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 8 min · 295 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 9 min · 421 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 10 min · 410 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Client object** (STANDARD) — 11 min · 524 mots · 3 questions, 1 flashcards
@@ -706,7 +706,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
 - Révision **J+30** (12 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 
-*Budget du jour : 101 / 120 min*
+*Budget du jour : 102 / 120 min*
 
 ### Jeudi 19 novembre 2026
 
