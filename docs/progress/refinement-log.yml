@@ -298,3 +298,29 @@ lots:
           sur l'exception elle-meme, par reflexion. Indice de longueur
           75,9 % -> 23,7 %, le lot le plus biaise du projet ; quatorze editions,
           neuf cas laisses dont six a moins de six caracteres d'ecart.
+  - lot: lot-13
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-13-refinement-v2/README.md
+        pull_request: 119
+        merged_commit: 55f07da
+        production_verified_commit: 55f07da
+        production_smoke_job: 103474279751
+        date: '2026-09-12'
+        note: >-
+          Le lot le mieux tenu du projet : deux outcomes sur vingt-cinq sans
+          question, contre dix-neuf au lot 06 et vingt et un au lot 07. Une dette
+          ancienne eteinte : le cours « Handling legacy deprecated code »
+          comptait 450 mots pour un budget MINIMAL de 400 et serait devenu
+          bloquant des ce lot raffine ; aucune des deux lectures offertes par
+          REV-001 ne s'appliquait, l'excedent etant une section « Perimetre » qui
+          decrivait ce que la page NE traite PAS. Condensee : 450 -> 396 mots,
+          sans qu'une affirmation disparaisse, niveau MINIMAL inchange.
+          SCOPE-001 a refuse une question ecrite ici dont un distracteur nommait
+          symfony/phpunit-bridge, alors meme que le cours du lot dit ce pont hors
+          perimetre ; question reecrite, pas taguee. Indice de longueur
+          56,7 % -> 23,3 %, quatorze editions sous un seuil ecrit de dix
+          caracteres d'ecart.
