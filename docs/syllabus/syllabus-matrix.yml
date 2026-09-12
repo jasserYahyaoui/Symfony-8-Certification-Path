@@ -4300,10 +4300,14 @@ items:
       tout le lot. C'est un modèle à comprendre, avec un exemple qui les sépare nettement, mais aucune
       procédure à dérouler : les transformateurs eux-mêmes sont un item distinct.
     learning_outcomes:
-      - "Énoncer le problème que le composant résout"
-      - "Nommer les trois couches de données et leur contenu"
-      - "Décrire le sens de traversée au rendu et à la soumission"
-      - "Situer createForm() et getData() sur la couche modèle"
+      - id: OUT-teejhc73n9se
+        outcome: Énoncer le problème que le composant résout
+      - id: OUT-xysy1a4vx444
+        outcome: Nommer les trois couches de données et leur contenu
+      - id: OUT-v7z96yxzjbvx
+        outcome: Décrire le sens de traversée au rendu et à la soumission
+      - id: OUT-hqxn9f5pmxnp
+        outcome: Situer createForm() et getData() sur la couche modèle
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4350,11 +4354,16 @@ items:
       nom-propriété, et le cas du champ non mappé dont l'oubli fait échouer le formulaire. Plusieurs
       faits à conséquence, sans mécanisme ordonné.
     learning_outcomes:
-      - "Construire un formulaire dans un contrôleur et en classe de type"
-      - "Employer add() avec son nom, son type et ses options"
-      - "Déclarer data_class"
-      - "Expliquer la correspondance entre le nom du champ et la propriété"
-      - "Déclarer et lire un champ non mappé"
+      - id: OUT-nafaf5j5xy59
+        outcome: Construire un formulaire dans un contrôleur et en classe de type
+      - id: OUT-5dydayznyx68
+        outcome: Employer add() avec son nom, son type et ses options
+      - id: OUT-04d4xdarmk8w
+        outcome: Déclarer data_class
+      - id: OUT-75g8bz40n09y
+        outcome: Expliquer la correspondance entre le nom du champ et la propriété
+      - id: OUT-pe7s3cdg6fgb
+        outcome: Déclarer et lire un champ non mappé
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4401,11 +4410,16 @@ items:
       submit() dont le second argument a un effet de bord non devinable sur la validation. Cela
       dépasse le format MINIMAL sans constituer un mécanisme à plusieurs étages.
     learning_outcomes:
-      - "Traiter une soumission dans une action unique"
-      - "Énoncer l'ordre de isSubmitted() et isValid()"
-      - "Énoncer que l'objet d'origine est mis à jour"
-      - "Employer submit() et son argument clearMissing"
-      - "Énoncer l'effet de clearMissing sur la validation"
+      - id: OUT-y3ytkg8qf2rc
+        outcome: Traiter une soumission dans une action unique
+      - id: OUT-68682qbtydht
+        outcome: Énoncer l'ordre de isSubmitted() et isValid()
+      - id: OUT-zr9efpstp5ny
+        outcome: Énoncer que l'objet d'origine est mis à jour
+      - id: OUT-mj8bjkemt33a
+        outcome: Employer submit() et son argument clearMissing
+      - id: OUT-hkxn2p2xjmg7
+        outcome: Énoncer l'effet de clearMissing sur la validation
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4455,10 +4469,14 @@ items:
       code, et la distinction entre spécialiser et composer. C'est un critère à appliquer, pas une
       liste à retenir.
     learning_outcomes:
-      - "Énoncer qu'un formulaire est lui-même un type"
-      - "Associer chaque méthode d'AbstractType à son rôle"
-      - "Employer getParent() et citer le parent implicite"
-      - "Distinguer hériter d'un type et l'ajouter comme champ"
+      - id: OUT-kevx5cz60q4s
+        outcome: Énoncer qu'un formulaire est lui-même un type
+      - id: OUT-0ztsd5vjbe72
+        outcome: Associer chaque méthode d'AbstractType à son rôle
+      - id: OUT-dstzcbzx0kt7
+        outcome: Employer getParent() et citer le parent implicite
+      - id: OUT-tq1etfz8r98x
+        outcome: Distinguer hériter d'un type et l'ajouter comme champ
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4505,10 +4523,14 @@ items:
       conséquence de sécurité : form_end rend les champs restants, donc le jeton CSRF. Le tableau et
       l'avertissement ne tiennent pas dans un format MINIMAL.
     learning_outcomes:
-      - "Associer chaque fonction de rendu à ce qu'elle produit"
-      - "Choisir le niveau de granularité adapté"
-      - "Énoncer que form_end rend les champs restants, dont le jeton CSRF"
-      - "Configurer l'action, la méthode et les attributs du formulaire"
+      - id: OUT-5ccs7c2daq4f
+        outcome: Associer chaque fonction de rendu à ce qu'elle produit
+      - id: OUT-zembn60q8907
+        outcome: Choisir le niveau de granularité adapté
+      - id: OUT-nmcf66pedj3a
+        outcome: Énoncer que form_end rend les champs restants, dont le jeton CSRF
+      - id: OUT-gm5mj2qf5q98
+        outcome: Configurer l'action, la méthode et les attributs du formulaire
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4557,11 +4579,16 @@ items:
       pas, cinq parties de champ, et un ordre de consultation de twig.form_thèmes inverse de l'ordre
       de lecture. Trois choses non devinables, aucune procédure à dérouler.
     learning_outcomes:
-      - "Décrire la chaîne de recherche des blocs, du plus spécifique au plus général"
-      - "Écrire le nom du bloc ciblant un champ précis d'un formulaire précis"
-      - "Nommer les cinq parties d'un champ"
-      - "Appliquer un thème globalement, par gabarit, ou sur place avec _self"
-      - "Énoncer l'ordre de consultation de twig.form_thèmes"
+      - id: OUT-tdmyt1j1t4xx
+        outcome: Décrire la chaîne de recherche des blocs, du plus spécifique au plus général
+      - id: OUT-zphxh7z24zht
+        outcome: Écrire le nom du bloc ciblant un champ précis d'un formulaire précis
+      - id: OUT-ak7tm95dph6x
+        outcome: Nommer les cinq parties d'un champ
+      - id: OUT-n3gb1pbjv5sn
+        outcome: Appliquer un thème globalement, par gabarit, ou sur place avec _self
+      - id: OUT-yz2mbwg9ee93
+        outcome: Énoncer l'ordre de consultation de twig.form_thèmes
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4612,11 +4639,16 @@ items:
       options de formulaire, et la distinction entre jetons avec et sans état qui a une conséquence
       sur la session et la cachabilité. La vérification manuelle appartient au lot 04.
     learning_outcomes:
-      - "Expliquer ce que le formulaire pose et vérifie automatiquement"
-      - "Énoncer l'effet d'un jeton absent sur isValid()"
-      - "Citer les trois options csrf du formulaire"
-      - "Justifier un csrf_token_id différent par formulaire"
-      - "Distinguer jetons avec et sans état"
+      - id: OUT-p1tsfr91bmqy
+        outcome: Expliquer ce que le formulaire pose et vérifie automatiquement
+      - id: OUT-nhv282ce36br
+        outcome: Énoncer l'effet d'un jeton absent sur isValid()
+      - id: OUT-9may3eay9wcj
+        outcome: Citer les trois options csrf du formulaire
+      - id: OUT-vtp031jk3dbg
+        outcome: Justifier un csrf_token_id différent par formulaire
+      - id: OUT-wc1yk5bm6nw6
+        outcome: Distinguer jetons avec et sans état
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4663,9 +4695,12 @@ items:
       métadonnées client non fiables — il ne reste que le branchement sur le formulaire : FileType,
       mapped false, et la lecture par $form->get(). Trois faits.
     learning_outcomes:
-      - "Déclarer un champ FileType non mappé"
-      - "Justifier le choix de mapped false"
-      - "Lire la valeur d'un champ non mappé"
+      - id: OUT-9qanndr176yx
+        outcome: Déclarer un champ FileType non mappé
+      - id: OUT-zd387nyydnm7
+        outcome: Justifier le choix de mapped false
+      - id: OUT-2swcsdfcjqwc
+        outcome: Lire la valeur d'un champ non mappé
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4710,10 +4745,14 @@ items:
       ChoiceType. La reconnaissance est le seul mode d'évaluation utile ; EntityType et les champs
       Symfony UX sont hors périmètre.
     learning_outcomes:
-      - "Reconnaître les familles de types natifs"
-      - "Situer ChoiceType comme parent de la famille des choix"
-      - "Associer multiple et expanded au rendu obtenu"
-      - "Identifier les types hors périmètre d'examen"
+      - id: OUT-0a3jcmk5066b
+        outcome: Reconnaître les familles de types natifs
+      - id: OUT-41xcqcjzrmm1
+        outcome: Situer ChoiceType comme parent de la famille des choix
+      - id: OUT-zq43jp3a97gg
+        outcome: Associer multiple et expanded au rendu obtenu
+      - id: OUT-pesfrvtg5qj0
+        outcome: Identifier les types hors périmètre d'examen
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4758,10 +4797,14 @@ items:
       exception dédiée dont l'usage conditionne le comportement du formulaire, et le cas de null.
       Quatre points à conséquence.
     learning_outcomes:
-      - "Distinguer transform() de reverseTransform() par leur sens"
-      - "Choisir entre addModelTransformer et addViewTransformer"
-      - "Signaler un échec par TransformationFailedException"
-      - "Traiter le cas de null dans transform()"
+      - id: OUT-3bw24kwks403
+        outcome: Distinguer transform() de reverseTransform() par leur sens
+      - id: OUT-9zzk0ptk5fj0
+        outcome: Choisir entre addModelTransformer et addViewTransformer
+      - id: OUT-hayngfr60z78
+        outcome: Signaler un échec par TransformationFailedException
+      - id: OUT-gecgdnzrpa06
+        outcome: Traiter le cas de null dans transform()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4811,12 +4854,18 @@ items:
       écouteur sur POST_SUBMIT ; et un motif contre-intuitif pour les champs dépendants, qui
       s'ajoutent au parent. Chaque étage change la réponse, et l'ordre lui-même est note.
     learning_outcomes:
-      - "Ordonner les cinq événements en deux phases"
-      - "Associer chaque événement à la couche de donnée qu'il porte"
-      - "Énoncer à partir de quel événement la structure est verrouillée"
-      - "Situer la validation sur POST_SUBMIT"
-      - "Ajouter un champ dépendant au bon formulaire"
-      - "Choisir entre PRE_SET_DATA et PRE_SUBMIT selon l'origine de la donnée"
+      - id: OUT-v8srdqc4xxjy
+        outcome: Ordonner les cinq événements en deux phases
+      - id: OUT-xj0demzqg8ct
+        outcome: Associer chaque événement à la couche de donnée qu'il porte
+      - id: OUT-jz8pzthzk661
+        outcome: Énoncer à partir de quel événement la structure est verrouillée
+      - id: OUT-eyj84n4wy8wg
+        outcome: Situer la validation sur POST_SUBMIT
+      - id: OUT-htmpmeg36syj
+        outcome: Ajouter un champ dépendant au bon formulaire
+      - id: OUT-0sq5c8vams1s
+        outcome: Choisir entre PRE_SET_DATA et PRE_SUBMIT selon l'origine de la donnée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4867,10 +4916,14 @@ items:
       Une classe de base, une méthode obligatoire, un tag pose par autoconfiguration, et une
       distinction avec le type personnalisé. Court et sans piège ordonné.
     learning_outcomes:
-      - "Distinguer une extension d'un type personnalisé"
-      - "Implémenter getExtendedTypes() et citer sa signature"
-      - "Énoncer l'effet d'étendre FormType"
-      - "Citer le tag form.type_extension"
+      - id: OUT-9f0hg26eqmze
+        outcome: Distinguer une extension d'un type personnalisé
+      - id: OUT-htzhn298zev4
+        outcome: Implémenter getExtendedTypes() et citer sa signature
+      - id: OUT-9d91memjprhk
+        outcome: Énoncer l'effet d'étendre FormType
+      - id: OUT-j3nk4sk7h02m
+        outcome: Citer le tag form.type_extension
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4915,11 +4968,16 @@ items:
       paresseux qui permettent à une option d'en dépendre d'une autre. Le composant sert au-delà des
       formulaires, ce qui justifie de le traiter pour lui-même.
     learning_outcomes:
-      - "Distinguer setDefaults, setDefined et setRequired"
-      - "Contraindre le type et la valeur d'une option"
-      - "Employer un normaliseur"
-      - "Écrire un défaut paresseux dépendant d'une autre option"
-      - "Énoncer ce qui arrive à une option inconnue"
+      - id: OUT-whjhhhcq1kg3
+        outcome: Distinguer setDefaults, setDefined et setRequired
+      - id: OUT-m9sv8pew063t
+        outcome: Contraindre le type et la valeur d'une option
+      - id: OUT-jc8c1h1nznhd
+        outcome: Employer un normaliseur
+      - id: OUT-rz5njbv8fvrm
+        outcome: Écrire un défaut paresseux dépendant d'une autre option
+      - id: OUT-c7879v7m2pqb
+        outcome: Énoncer ce qui arrive à une option inconnue
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

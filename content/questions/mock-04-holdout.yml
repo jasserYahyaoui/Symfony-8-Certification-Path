@@ -1359,6 +1359,7 @@ questions:
         symbol_or_lines: Template Location (lines 138-147) and twig.paths (lines 1295-1340)
         verified_at: '2026-09-03'
   - id: QST-x7e3j2ynmamf
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Forms
     official_item: OIT-v7zyhcm44m88
@@ -1420,6 +1421,7 @@ questions:
         symbol_or_lines: Events in Nested Forms (lines 179-220) and The Form Lifecycle (lines 129-176)
         verified_at: '2026-09-03'
   - id: QST-enjqvq4xcvqf
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Forms
     official_item: OIT-58r9dadx916v
@@ -1481,6 +1483,7 @@ questions:
         symbol_or_lines: transform()/reverseTransform() and the null note (lines 183-245)
         verified_at: '2026-09-03'
   - id: QST-ycpcjx22ff8b
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Forms
     official_item: OIT-rj9web4whgmz
@@ -1542,6 +1545,7 @@ questions:
         symbol_or_lines: Option Normalization (lines 399-460)
         verified_at: '2026-09-03'
   - id: QST-bf7vmh7r7nwh
+    question_archetype: DEFINITION_RECALL
     version: 1
     official_topic: Forms
     official_item: OIT-gcs0jathkv9b
