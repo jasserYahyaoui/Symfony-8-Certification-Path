@@ -37,18 +37,18 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-12, 693 questions)
+## Measured state (2026-09-12, 701 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 263 of 264 = **99.6%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 265 of 266 = **99.6%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 136 of 136 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **672 English, 21 French**.
+Whole corpus: **680 English, 21 French**.
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to
 back. Lot 12 added ten questions and **removed one**; Lot 13 added two. All are
@@ -62,7 +62,13 @@ Four of the eleven net additions are `hard`, which moved the advanced denominato
 from 259 to 263.
 
 Lot 08 then added four more questions, one of them `hard`, taking the corpus to 693
-and the advanced denominator to 264.
+and the advanced denominator to 264. Lot 11 added eight more, two of them `hard`,
+taking it to 701 and the denominator to 266.
+
+Every addition since the Lot 07 reading has been English, so the French count has
+not moved from 21 across six refined lots. That is not a target being held: §5
+permits French beginner practice, and none of these lots needed a beginner
+question it did not already have.
 
 ### The reading of 2026-09-11 after Lot 07, kept
 
