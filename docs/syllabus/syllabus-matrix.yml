@@ -7185,9 +7185,12 @@ items:
       doit tirer une conséquence opérationnelle. Il faut interpréter une situation, pas réciter une
       liste.
     learning_outcomes:
-      - Situer le composant et son point d'entrée dans le framework
-      - Ordonner initialize(), interact() et la méthode d'exécution
-      - Choisir entre SUCCESS, FAILURE et INVALID
+      - id: OUT-b3610kc2cj3b
+        outcome: Situer le composant et son point d'entrée dans le framework
+      - id: OUT-jc4865ayfy98
+        outcome: Ordonner initialize(), interact() et la méthode d'exécution
+      - id: OUT-a1qc1gqac172
+        outcome: Choisir entre SUCCESS, FAILURE et INVALID
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7234,8 +7237,10 @@ items:
       Aucune liste à mémoriser : `list` la fournit. Le candidat doit reconnaître les familles et la
       règle d'abréviation, ce qui relève de la reconnaissance.
     learning_outcomes:
-      - Reconnaître les familles debug:*, cache:*, lint:*, secrets:*, make:*
-      - Énoncer la règle d'abréviation d'un nom de commande
+      - id: OUT-hf28acc5am6h
+        outcome: Reconnaître les familles debug:*, cache:*, lint:*, secrets:*, make:*
+      - id: OUT-dxyaxf4dpkqc
+        outcome: Énoncer la règle d'abréviation d'un nom de commande
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7281,9 +7286,12 @@ items:
       Deux syntaxes coexistent en 8.0 et l'examen attend qu'on distingue la recommandée de l'héritée,
       y compris pour ce que la seconde permet encore. C'est une discrimination, pas un rappel.
     learning_outcomes:
-      - "Écrire une commande invocable avec #[AsCommand] et __invoke()"
-      - Expliquer comment le conteneur découvre une commande
-      - Dire quand étendre Command reste nécessaire
+      - id: OUT-86vxgq9k86kd
+        outcome: 'Écrire une commande invocable avec #[AsCommand] et __invoke()'
+      - id: OUT-g23jwhyz5189
+        outcome: Expliquer comment le conteneur découvre une commande
+      - id: OUT-npjsrz7new8m
+        outcome: Dire quand étendre Command reste nécessaire
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7331,9 +7339,12 @@ items:
       Le moment d'appel de configure() est contre-intuitif et gouverne une règle d'écriture du
       constructeur. Le candidat doit raisonner sur un ordre d'exécution.
     learning_outcomes:
-      - "Nommer les paramètres de #[AsCommand]"
-      - Déclarer alias et visibilité d'une commande
-      - Situer l'appel de configure() dans la construction
+      - id: OUT-axs8gacjytk9
+        outcome: 'Nommer les paramètres de #[AsCommand]'
+      - id: OUT-e1vg5bhm9yn9
+        outcome: Déclarer alias et visibilité d'une commande
+      - id: OUT-szgbkmx55kyh
+        outcome: Situer l'appel de configure() dans la construction
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7381,9 +7392,12 @@ items:
       Le mode n'est plus écrit mais déduit de la signature : lire cette déduction demande d'appliquer
       une règle à un cas, ce qui dépasse la reconnaissance.
     learning_outcomes:
-      - Déclarer arguments et options par attributs
-      - Déduire le mode d'un paramètre depuis son type et sa valeur par défaut
-      - Relier les attributs aux constantes InputArgument et InputOption
+      - id: OUT-ghsttz17xxqe
+        outcome: Déclarer arguments et options par attributs
+      - id: OUT-dvv3qwaprsck
+        outcome: Déduire le mode d'un paramètre depuis son type et sa valeur par défaut
+      - id: OUT-2tyae0a8545m
+        outcome: Relier les attributs aux constantes InputArgument et InputOption
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7432,9 +7446,12 @@ items:
       Deux abstractions, plusieurs implémentations, et une distinction — définition contre ligne brute
       — que le candidat doit trancher sur un cas concret.
     learning_outcomes:
-      - Lire l'entrée par InputInterface
-      - Écrire par OutputInterface et ses balises de style
-      - Diriger un diagnostic vers STDERR
+      - id: OUT-eea5s77r44aw
+        outcome: Lire l'entrée par InputInterface
+      - id: OUT-b3v4c3hz8gha
+        outcome: Écrire par OutputInterface et ses balises de style
+      - id: OUT-8pz0624za51p
+        outcome: Diriger un diagnostic vers STDERR
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7482,9 +7499,12 @@ items:
       Un catalogue à situer par usage, et une conséquence non évidente : sans interaction, une
       question rend sa valeur par défaut en silence. Le candidat doit relier l'outil au besoin.
     learning_outcomes:
-      - Situer les neuf helpers documentés par leur usage
-      - Choisir entre ProgressBar et ProgressIndicator
-      - Énoncer ce que devient une question en mode non interactif
+      - id: OUT-0jqghb0j4pxh
+        outcome: Situer les neuf helpers documentés par leur usage
+      - id: OUT-ynfwxjqpxy07
+        outcome: Choisir entre ProgressBar et ProgressIndicator
+      - id: OUT-yvpt5rvdwtkb
+        outcome: Énoncer ce que devient une question en mode non interactif
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7532,9 +7552,12 @@ items:
       Quatre événements, un ordre à établir, et deux effets de bord — code 113, exception avalée — qui
       supposent de raisonner sur le flux plutôt que de citer des noms.
     learning_outcomes:
-      - Nommer les quatre événements de ConsoleEvents
-      - Établir leur ordre, erreur comprise
-      - Décrire l'effet de disableCommand() et de setExitCode() sur ERROR
+      - id: OUT-2e5yd7119yha
+        outcome: Nommer les quatre événements de ConsoleEvents
+      - id: OUT-8v3ady0sf894
+        outcome: Établir leur ordre, erreur comprise
+      - id: OUT-rzgybvr9fa5g
+        outcome: Décrire l'effet de disableCommand() et de setExitCode() sur ERROR
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7583,8 +7606,10 @@ items:
       Six niveaux et une distinction binaire entre --quiet et --silent. Rien à appliquer : c'est de la
       reconnaissance de vocabulaire.
     learning_outcomes:
-      - Nommer les six niveaux de verbosité
-      - Distinguer --quiet de --silent
+      - id: OUT-8fna7evcc7x4
+        outcome: Nommer les six niveaux de verbosité
+      - id: OUT-wv0q7kcb8q1t
+        outcome: Distinguer --quiet de --silent
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

@@ -9,6 +9,9 @@
 schema_version: 1
 questions:
 - id: QST-s9dqp9mfqfrx
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-a1qc1gqac172
   version: 1
   official_topic: Console
   official_item: OIT-481gmkgbksnr
@@ -37,7 +40,7 @@ questions:
   - exit-code
   choices:
   - id: CHO-mxw65mdqqpz5
-    text: The integer 0, for which Command::SUCCESS is the readable name
+    text: The integer 0, named Command::SUCCESS
     correct: true
   - id: CHO-0vt8kqy6ym95
     text: Nothing; returning null is treated as success
@@ -58,6 +61,9 @@ questions:
     symbol_or_lines: Command::SUCCESS
     verified_at: '2026-09-01'
 - id: QST-zh43s7yzg7nr
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-jc4865ayfy98
   version: 1
   official_topic: Console
   official_item: OIT-481gmkgbksnr
@@ -110,6 +116,9 @@ questions:
     symbol_or_lines: command-lifecycle
     verified_at: '2026-09-01'
 - id: QST-4101g4r1pw8x
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-a1qc1gqac172
   version: 1
   official_topic: Console
   official_item: OIT-481gmkgbksnr
@@ -137,7 +146,7 @@ questions:
   - exit-code
   choices:
   - id: CHO-rprntwk18r9y
-    text: The command was used incorrectly, for example with an absurd argument
+    text: The command was used incorrectly
     correct: true
   - id: CHO-xrrkddrjrn81
     text: The command ran and its processing failed
@@ -158,6 +167,9 @@ questions:
     symbol_or_lines: Command::INVALID
     verified_at: '2026-09-01'
 - id: QST-snpbvmx5e280
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-hf28acc5am6h
   version: 1
   official_topic: Console
   official_item: OIT-zgq6w4jqamvb
@@ -185,7 +197,7 @@ questions:
   - list
   choices:
   - id: CHO-vnf8vz8tzrk1
-    text: list, which is also what bin/console does with no argument
+    text: list, the default command
     correct: true
   - id: CHO-a0mgbjtmbfq1
     text: help, which describes one command at a time
@@ -206,6 +218,9 @@ questions:
     symbol_or_lines: running-commands
     verified_at: '2026-09-01'
 - id: QST-wgvc9x0rjh0r
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-dxyaxf4dpkqc
   version: 1
   official_topic: Console
   official_item: OIT-zgq6w4jqamvb
@@ -254,6 +269,9 @@ questions:
     symbol_or_lines: running-commands
     verified_at: '2026-09-01'
 - id: QST-gbzpgycr1r6g
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-86vxgq9k86kd
   version: 1
   official_topic: Console
   official_item: OIT-kbg00jqxxwhq
@@ -281,7 +299,7 @@ questions:
   - as-command
   choices:
   - id: CHO-er18n0dz81wx
-    text: 'A plain class carrying #[AsCommand] with an __invoke() method returning an int'
+    text: 'A plain class with #[AsCommand] and __invoke()'
     correct: true
   - id: CHO-9sfe8zg5nrm0
     text: A class extending Command with a protected execute() method
@@ -303,6 +321,9 @@ questions:
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
 - id: QST-tvce4echjywq
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-g23jwhyz5189
   version: 1
   official_topic: Console
   official_item: OIT-kbg00jqxxwhq
@@ -354,6 +375,9 @@ questions:
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
 - id: QST-sp2y1cwdz94v
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-npjsrz7new8m
   version: 1
   official_topic: Console
   official_item: OIT-kbg00jqxxwhq
@@ -403,6 +427,9 @@ questions:
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
 - id: QST-bw6j8k17fx9c
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-axs8gacjytk9
   version: 1
   official_topic: Console
   official_item: OIT-1hdmw4gm819r
@@ -451,6 +478,9 @@ questions:
     symbol_or_lines: AsCommand::__construct
     verified_at: '2026-09-01'
 - id: QST-y48awnf4nfnx
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-szgbkmx55kyh
   version: 1
   official_topic: Console
   official_item: OIT-1hdmw4gm819r
@@ -480,7 +510,7 @@ questions:
   - constructor
   choices:
   - id: CHO-kg8qg70p7b7r
-    text: configure() runs at the end of the parent constructor, before the property is set
+    text: configure() runs before the property is set
     correct: true
   - id: CHO-6be606n91hdf
     text: configure() runs before the constructor entirely
@@ -502,6 +532,9 @@ questions:
     symbol_or_lines: legacy-syntax-to-define-commands
     verified_at: '2026-09-01'
 - id: QST-8rb0j5e7v90a
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-e1vg5bhm9yn9
   version: 1
   official_topic: Console
   official_item: OIT-1hdmw4gm819r
@@ -530,7 +563,7 @@ questions:
   - aliases
   choices:
   - id: CHO-mer7p983sgys
-    text: It disappears from the listing but can still be executed by name
+    text: It leaves the listing but stays executable
     correct: true
   - id: CHO-jsma9jc3jqtm
     text: It can no longer be executed
@@ -551,6 +584,9 @@ questions:
     symbol_or_lines: AsCommand::__construct
     verified_at: '2026-09-01'
 - id: QST-svybdxxreygm
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-dvv3qwaprsck
   version: 1
   official_topic: Console
   official_item: OIT-nr9m883d15qq
@@ -580,7 +616,7 @@ questions:
   - default
   choices:
   - id: CHO-7kzjt8r347fb
-    text: An option must declare a default value, so the definition itself is rejected
+    text: An option must declare a default value
     correct: true
   - id: CHO-wgppx8jrjygc
     text: int is not an allowed type for an option
@@ -602,6 +638,9 @@ questions:
     symbol_or_lines: Option::tryFrom
     verified_at: '2026-09-01'
 - id: QST-agnyym2anznf
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-ghsttz17xxqe
   version: 1
   official_topic: Console
   official_item: OIT-nr9m883d15qq
@@ -651,6 +690,9 @@ questions:
     symbol_or_lines: Argument::tryFrom
     verified_at: '2026-09-01'
 - id: QST-p0v30fknd59q
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-dvv3qwaprsck
   version: 1
   official_topic: Console
   official_item: OIT-nr9m883d15qq
@@ -700,6 +742,9 @@ questions:
     symbol_or_lines: Option::tryFrom
     verified_at: '2026-09-01'
 - id: QST-tp80nqtxvarw
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-eea5s77r44aw
   version: 1
   official_topic: Console
   official_item: OIT-65sswf0qhw6c
@@ -748,6 +793,9 @@ questions:
     symbol_or_lines: InputInterface::hasOption
     verified_at: '2026-09-01'
 - id: QST-5wrcd9ahhth2
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-8pz0624za51p
   version: 1
   official_topic: Console
   official_item: OIT-65sswf0qhw6c
@@ -776,7 +824,7 @@ questions:
   - stderr
   choices:
   - id: CHO-6n2gtgw8gvcb
-    text: To the error stream, obtained from getErrorOutput() after checking the output implements ConsoleOutputInterface
+    text: To the error stream, from getErrorOutput()
     correct: true
   - id: CHO-h30pkanzv7ka
     text: To the same output, tagged with <comment> so they can be filtered later
@@ -799,6 +847,9 @@ questions:
     symbol_or_lines: ConsoleOutputInterface::getErrorOutput
     verified_at: '2026-09-01'
 - id: QST-ngh8w461wr91
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-eea5s77r44aw
   version: 1
   official_topic: Console
   official_item: OIT-65sswf0qhw6c
@@ -827,7 +878,7 @@ questions:
   - input
   choices:
   - id: CHO-7hpe8xgypa0e
-    text: Because the interface has several implementations, one of which reads its values from a PHP array
+    text: Because InputInterface has an array-backed implementation
     correct: true
   - id: CHO-rv0hcf0ypn8w
     text: Because the test framework replaces the global argv variable
@@ -849,6 +900,9 @@ questions:
     symbol_or_lines: InputInterface
     verified_at: '2026-09-01'
 - id: QST-8z5qhxdbyjf8
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-yvpt5rvdwtkb
   version: 1
   official_topic: Console
   official_item: OIT-v6wxp78gk42c
@@ -900,6 +954,9 @@ questions:
     symbol_or_lines: asking-the-user-for-confirmation
     verified_at: '2026-09-01'
 - id: QST-h22aea8btw90
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ynfwxjqpxy07
   version: 1
   official_topic: Console
   official_item: OIT-v6wxp78gk42c
@@ -928,7 +985,7 @@ questions:
   - progress
   choices:
   - id: CHO-722jgve23c2z
-    text: ProgressIndicator, which animates without a percentage
+    text: ProgressIndicator, with no percentage
     correct: true
   - id: CHO-y91n3xevhcbp
     text: ProgressBar, started with a total of zero
@@ -949,6 +1006,9 @@ questions:
     symbol_or_lines: helpers
     verified_at: '2026-09-01'
 - id: QST-qcgrr0jydf3t
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-0jqghb0j4pxh
   version: 1
   official_topic: Console
   official_item: OIT-v6wxp78gk42c
@@ -976,7 +1036,7 @@ questions:
   - symfony-style
   choices:
   - id: CHO-2nqnppnppqdt
-    text: A short API over input and output that applies the standard Symfony presentation
+    text: A short API over input and output
     correct: true
   - id: CHO-289vt7tv77f6
     text: Access to helpers that are otherwise unavailable
@@ -997,6 +1057,9 @@ questions:
     symbol_or_lines: SymfonyStyle
     verified_at: '2026-09-01'
 - id: QST-ycpqw0ygx9cd
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-2e5yd7119yha
   version: 1
   official_topic: Console
   official_item: OIT-cqs3m73y3rpy
@@ -1045,6 +1108,9 @@ questions:
     symbol_or_lines: ConsoleEvents
     verified_at: '2026-09-01'
 - id: QST-tmz33c01yx7r
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-8v3ady0sf894
   version: 1
   official_topic: Console
   official_item: OIT-cqs3m73y3rpy
@@ -1094,6 +1160,9 @@ questions:
     symbol_or_lines: doRunCommand
     verified_at: '2026-09-01'
 - id: QST-11513wwwhf63
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-rzgybvr9fa5g
   version: 1
   official_topic: Console
   official_item: OIT-cqs3m73y3rpy
@@ -1121,7 +1190,7 @@ questions:
   - command-event
   choices:
   - id: CHO-0zzpe78hcb24
-    text: It skips the command and exits with a dedicated code that is neither 0 nor 1
+    text: It skips the command and exits with a dedicated code
     correct: true
   - id: CHO-83nbj9z78qe4
     text: It skips the command and exits with 0
@@ -1143,6 +1212,9 @@ questions:
     symbol_or_lines: doRunCommand
     verified_at: '2026-09-01'
 - id: QST-c01dkpwkp6qw
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-wv0q7kcb8q1t
   version: 1
   official_topic: Console
   official_item: OIT-dv5400dtksfg
@@ -1171,7 +1243,7 @@ questions:
   - silent
   choices:
   - id: CHO-0mmx8ah74ckp
-    text: --silent suppresses error messages too, while --quiet lets them through
+    text: --silent suppresses error messages too
     correct: true
   - id: CHO-37w3wgqt28ye
     text: --silent also disables colours, while --quiet keeps them
@@ -1192,6 +1264,9 @@ questions:
     symbol_or_lines: VERBOSITY_SILENT
     verified_at: '2026-09-01'
 - id: QST-fjgxe7fjzc8y
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-8fna7evcc7x4
   version: 1
   official_topic: Console
   official_item: OIT-dv5400dtksfg
@@ -1219,7 +1294,7 @@ questions:
   - writeln
   choices:
   - id: CHO-n92bvj23dpth
-    text: By passing the minimum level as the last argument of writeln()
+    text: By passing the minimum level to writeln()
     correct: true
   - id: CHO-pedxxend560c
     text: By writing it to the error stream
@@ -1241,6 +1316,7 @@ questions:
     symbol_or_lines: OutputInterface::writeln
     verified_at: '2026-09-01'
 - id: QST-vn657svb2nsd
+  question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1
   official_topic: Console
   official_item: OIT-nr9m883d15qq
@@ -1292,6 +1368,7 @@ questions:
     symbol_or_lines: Option::handleUnion
     verified_at: '2026-09-01'
 - id: QST-fem1t3nencs8
+  question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1
   official_topic: Console
   official_item: OIT-cqs3m73y3rpy
@@ -1341,3 +1418,496 @@ questions:
     branch: '8.0'
     symbol_or_lines: ConsoleErrorEvent::setExitCode
     verified_at: '2026-09-01'
+- id: QST-kk4evk9seycg
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-b3610kc2cj3b
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Through which script does a Symfony application expose its commands?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - console
+  - entry-point
+  choices:
+  - id: CHO-y8dmhxfdq2yb
+    text: bin/console
+    correct: true
+  - id: CHO-vass9zf0tptp
+    text: public/index.php
+    correct: false
+    explanation: That is the HTTP front controller; it answers requests, not command lines.
+  - id: CHO-tgtxkbmeg04c
+    text: bin/phpunit
+    correct: false
+    explanation: It runs the test suite, and is not where application commands live.
+  - id: CHO-rt0hsz4nv817
+    text: vendor/bin/console
+    correct: false
+    explanation: Vendor binaries belong to packages; the application script sits in bin/.
+  explanation: bin/console builds the console Application and hands it the arguments. Run with no argument
+    it runs list, which is why bare bin/console prints the command listing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the bin/console script; list is the default command
+    verified_at: '2026-09-12'
+- id: QST-nd25jj6mfmtj
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-hf28acc5am6h
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Built-in commands are grouped by a namespace before the colon. What does that prefix tell
+    you?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - built-in
+  - namespaces
+  choices:
+  - id: CHO-3v3fcyt04ygq
+    text: The area it acts on, such as cache or lint
+    correct: true
+  - id: CHO-mbr05h7n0x7f
+    text: The bundle that registered it
+    correct: false
+    explanation: Several bundles contribute to the same namespace, and the prefix does not name one.
+  - id: CHO-1pe5kapqx2s0
+    text: Whether it is safe to run in production
+    correct: false
+    explanation: Nothing in the name carries that; the documentation does.
+  - id: CHO-z52e0sdqrv2h
+    text: The order in which the listing sorts them
+    correct: false
+    explanation: Sorting follows the name, but the prefix is a grouping, not a rank.
+  explanation: cache:* acts on caches, lint:* validates files without running them, debug:* reports
+    what the container knows. Reading the prefix is the fastest way to guess where a command belongs
+    in the listing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the list command output, grouped by namespace
+    verified_at: '2026-09-12'
+- id: QST-mra5j6bq70sr
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-e1vg5bhm9yn9
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command declares an alias. What can then be typed to run it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - configuration
+  - aliases
+  choices:
+  - id: CHO-e62yp72pd7q2
+    text: Either its name or the alias
+    correct: true
+  - id: CHO-20xa3rs0jdqv
+    text: Only the alias, which replaces the name
+    correct: false
+    explanation: An alias is added alongside the name; it does not take its place.
+  - id: CHO-x0fsd75vtppc
+    text: Only the name, the alias being shown in the listing
+    correct: false
+    explanation: The alias is usable, not decorative.
+  - id: CHO-9198bg2zr4tz
+    text: Either, but the alias only when the command is hidden
+    correct: false
+    explanation: Visibility and aliasing are independent settings.
+  explanation: 'Aliases and visibility are two separate parameters of the same attribute: an alias adds
+    a way to call the command, hiding removes it from the listing without removing any of those ways.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: '#[AsCommand] aliases and hidden'
+    verified_at: '2026-09-12'
+- id: QST-wt0f9p2tmmnm
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-2tyae0a8545m
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An option is declared as an array parameter with an empty array as its default. Which InputOption
+    constant does that correspond to?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - options
+  - constants
+  choices:
+  - id: CHO-5x6wvdmnca0y
+    text: VALUE_IS_ARRAY
+    correct: true
+  - id: CHO-52bhyf1za8cd
+    text: VALUE_REQUIRED
+    correct: false
+    explanation: That is what a string, int or float parameter maps to.
+  - id: CHO-567zr94j958e
+    text: VALUE_NONE
+    correct: false
+    explanation: 'That is the plain flag: a bool parameter defaulting to false.'
+  - id: CHO-6ve49a96g32v
+    text: VALUE_OPTIONAL
+    correct: false
+    explanation: That mode is reached by a different declaration, not by an array parameter.
+  explanation: The attribute does not name the mode; the mode is inferred from the parameter type and
+    default. An array parameter means the option may be repeated, which is exactly what VALUE_IS_ARRAY
+    denotes.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the option mode is inferred from the parameter type and default value
+    verified_at: '2026-09-12'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputOption.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: VALUE_NONE 1, VALUE_REQUIRED 2, VALUE_OPTIONAL 4, VALUE_IS_ARRAY 8, VALUE_NEGATABLE
+      16
+    verified_at: '2026-09-12'
+- id: QST-m7ywj8fyrd5z
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-b3v4c3hz8gha
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which four style tags does the console output formatter define out of the box?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - output
+  - styles
+  choices:
+  - id: CHO-wzk6s5fqvv43
+    text: info, comment, question, error
+    correct: true
+  - id: CHO-54cn7e3c2t1j
+    text: info, warning, notice, error
+    correct: false
+    explanation: Two of those are logger levels; the formatter does not define them.
+  - id: CHO-atzsv10h3kz0
+    text: success, info, warning, danger
+    correct: false
+    explanation: Those are presentation names from CSS frameworks, not console styles.
+  - id: CHO-7fnvmhs1mqt8
+    text: bold, underline, colour, reset
+    correct: false
+    explanation: Those are formatting primitives a style is built from, not the named styles.
+  explanation: 'They are set on the formatter itself: error is white on red, info green, comment yellow
+    and question black on cyan. Writing <info>…</info> asks for one of those four by name.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: the four setStyle() calls in the constructor
+    verified_at: '2026-09-12'
+- id: QST-32gxwn2q6pkf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-0jqghb0j4pxh
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these is NOT one of the documented console helpers?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - helpers
+  choices:
+  - id: CHO-pxge4zkebmsf
+    text: Router
+    correct: true
+  - id: CHO-vr2qxasb11ym
+    text: Table
+    correct: false
+    explanation: It renders tabular data and is one of them.
+  - id: CHO-bgvbsp5pfhv7
+    text: Cursor
+    correct: false
+    explanation: It moves the terminal cursor and is one of them.
+  - id: CHO-smf06hkcvxaa
+    text: ProcessHelper
+    correct: false
+    explanation: It runs external processes with debug output and is one of them.
+  explanation: The documented set covers formatting, running a process, two progress displays, asking
+    questions, tables, trees, debug formatting and the cursor. Routing belongs to HTTP, not to the console.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/index.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the list of documented helpers
+    verified_at: '2026-09-12'
+- id: QST-z4mtkneppy34
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-8v3ady0sf894
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command throws. Which console events fire, and in which order?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - console-events
+  - order
+  choices:
+  - id: CHO-6jtp11p0jkhf
+    text: COMMAND, then ERROR, then TERMINATE
+    correct: true
+  - id: CHO-55d13t983169
+    text: COMMAND, then TERMINATE, then ERROR
+    correct: false
+    explanation: Termination is last; it reports the outcome the error event may have changed.
+  - id: CHO-5dbhge5jt7t1
+    text: ERROR, then TERMINATE, without COMMAND
+    correct: false
+    explanation: The command event has already fired before the command could throw.
+  - id: CHO-pvdms9mz119d
+    text: COMMAND, then ERROR, the process ending there
+    correct: false
+    explanation: Termination is dispatched in every case, which is what makes it usable for timing.
+  explanation: COMMAND fires before execution, ERROR only when something is thrown, and TERMINATE always.
+    A listener that must see every run, successful or not, belongs on TERMINATE.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: COMMAND, SIGNAL, TERMINATE and ERROR constants
+    verified_at: '2026-09-12'
+- id: QST-pb7yzzbda7w0
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-rzgybvr9fa5g
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener on the error event calls setExitCode(3). Besides the process exit status, what
+    else does that call change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - console-events
+  - exit-code
+  choices:
+  - id: CHO-vvk4kw7xnnme
+    text: The thrown error's own code becomes 3
+    correct: true
+  - id: CHO-h44pfw21mebd
+    text: Nothing else; the exit status is stored beside the error
+    correct: false
+    explanation: The event writes the value onto the error, which is why the two can never disagree.
+  - id: CHO-frycj5v0be93
+    text: The error is replaced by a new one carrying that code
+    correct: false
+    explanation: The same object is kept; only its code is overwritten.
+  - id: CHO-cs5avz770dec
+    text: The termination event stops being dispatched
+    correct: false
+    explanation: Termination is dispatched whatever the error listener does.
+  explanation: The event assigns the code onto the error object by reflection, so a handler further
+    down that reads the exception code sees 3 as well. Without the call, the exit status falls back
+    to the error's own non-zero code, or to 1.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: setExitCode() writes the code onto the error; getExitCode() falls back
+    verified_at: '2026-09-12'
+- id: QST-66qde236gsjb
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-8fna7evcc7x4
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How many verbosity levels does the console define, and which option selects the lowest?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - verbosity
+  - levels
+  choices:
+  - id: CHO-jwvfzt94fkrq
+    text: Six, and --silent
+    correct: true
+  - id: CHO-f5d2t8b92mzw
+    text: Five, and --quiet
+    correct: false
+    explanation: Quiet is one step above the lowest, and there are six levels in all.
+  - id: CHO-w516t36erf3j
+    text: Four, and -vvv
+    correct: false
+    explanation: That triple flag selects the highest level, not the lowest.
+  - id: CHO-23ecmkxzvrs9
+    text: Six, and -v
+    correct: false
+    explanation: A single -v raises verbosity above normal rather than lowering it.
+  explanation: Silent, quiet, normal, verbose, very verbose and debug — selected by --silent, --quiet,
+    nothing, -v, -vv and -vvv. Silent is the only one that suppresses errors as well, though they still
+    reach the logger.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the table of console options and verbosity constants
+    verified_at: '2026-09-12'
