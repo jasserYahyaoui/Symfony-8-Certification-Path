@@ -310,6 +310,7 @@ questions:
         symbol_or_lines: More Response Methods (lines 289-299)
         verified_at: '2026-09-03'
   - id: QST-pn8qb95hj2xh
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-78k7kbfpgfxt
@@ -367,6 +368,7 @@ questions:
         symbol_or_lines: Using Cache Tags (lines 903-950) and the autowiring note (lines 1019-1024)
         verified_at: '2026-09-03'
   - id: QST-nfa4v3e8qg34
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-qpjnpc56hjj0
@@ -426,6 +428,7 @@ questions:
         symbol_or_lines: Writing Time-Sensitive Tests (lines 302-318)
         verified_at: '2026-09-03'
   - id: QST-p1gj9k31bqfg
+    question_archetype: DEFINITION_RECALL
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-s601ppsyb9f7
