@@ -2550,6 +2550,7 @@ questions:
         symbol_or_lines: Automatic binding of $this and Static anonymous functions (lines 1300-1400)
         verified_at: '2026-09-03'
   - id: QST-6zkd4rcem616
+    question_archetype: DEFINITION_RECALL
     version: 1
     official_topic: Console
     official_item: OIT-dv5400dtksfg
@@ -2607,6 +2608,7 @@ questions:
         symbol_or_lines: verbosity options and the SHELL_VERBOSITY table (lines 1-46)
         verified_at: '2026-09-03'
   - id: QST-z613p05ry9a3
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Console
     official_item: OIT-481gmkgbksnr
