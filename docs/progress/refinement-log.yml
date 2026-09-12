@@ -218,3 +218,29 @@ lots:
           vaut 1, ACCESS_ABSTAIN 0 et ACCESS_DENIED -1, donc un refus est truthy
           et une abstention ne l'est pas. Indice de longueur 47,1 % -> 21,6 %.
 
+  - lot: lot-06
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-11'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-06-refinement-v2/README.md
+        pull_request: 114
+        merged_commit: ff6714f
+        production_verified_commit: ff6714f
+        production_smoke_job: 103454287465
+        date: '2026-09-11'
+        note: >-
+          Dix-neuf des cinquante-huit outcomes n'etaient evalues par aucune
+          question, pas meme par le holdout ; dix-neuf questions ajoutees. Deux
+          sources officielles divergent sur la resolution de foo.bar : la page
+          Symfony 8.0 enumere sept etapes, le moteur Twig v3.22.0 en fait une
+          de plus — CoreExtension::getAttribute() teste une constante de classe
+          entre la propriete et les methodes (SHA 5079583). Le cours enonce
+          desormais les huit etapes ET nomme la divergence avec ses deux
+          citations ; aucune question ne repose sur l'etape contestee
+          (DO_NOT_ADD motive, une bonne reponse contredisant la documentation
+          Symfony echouerait le test d'admission du §1.2). Indice de longueur
+          28,9 % -> 20,3 % sans une seule edition. Les six questions HOLDOUT du
+          lot portent un archetype mais aucun assesses_outcomes : un lien devine
+          serait une affirmation fausse.
