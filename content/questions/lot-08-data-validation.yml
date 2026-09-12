@@ -9,6 +9,9 @@
 schema_version: 1
 questions:
 - id: QST-ga6bhvbf0ecp
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0enczxzp4pwq
   version: 1
   official_topic: Data Validation
   official_item: OIT-6wd8860brzfy
@@ -38,7 +41,7 @@ questions:
   - violations
   choices:
   - id: CHO-t70jx1p5jkm0
-    text: An empty violation list is still an object, so it is truthy
+    text: An empty violation list is still truthy
     correct: true
   - id: CHO-cbaqk5nsdxx5
     text: validate() returns true when the object is valid
@@ -61,6 +64,9 @@ questions:
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
 - id: QST-m5f3k7za0tpt
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-kgffdypsnscc
   version: 1
   official_topic: Data Validation
   official_item: OIT-6wd8860brzfy
@@ -112,6 +118,9 @@ questions:
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
 - id: QST-jwhsasxb0537
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-0enczxzp4pwq
   version: 1
   official_topic: Data Validation
   official_item: OIT-6wd8860brzfy
@@ -143,11 +152,11 @@ questions:
     text: An empty ConstraintViolationListInterface
     correct: true
   - id: CHO-df4ey83csd6q
-    text: 'true'
+    text: true, as a boolean success flag
     correct: false
     explanation: The validator never returns a boolean.
   - id: CHO-hfatb2h2awpg
-    text: 'null'
+    text: null, with the violations thrown instead
     correct: false
     explanation: A list is always returned, empty or not.
   - id: CHO-9hxrn29fbmq3
@@ -163,6 +172,9 @@ questions:
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
 - id: QST-g22z7fmy0cg3
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-mqjbbf32kjca
   version: 1
   official_topic: Data Validation
   official_item: OIT-d3yp0sq36xrx
@@ -214,6 +226,9 @@ questions:
     symbol_or_lines: Valid constraint
     verified_at: '2026-09-01'
 - id: QST-6snh12yz2gz2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-wmvdnjq75f68
   version: 1
   official_topic: Data Validation
   official_item: OIT-d3yp0sq36xrx
@@ -243,7 +258,7 @@ questions:
   - merge
   choices:
   - id: CHO-6sgxn9sbky3y
-    text: Both — the parent constraints are merged with the child's
+    text: Both, merged
     correct: true
   - id: CHO-vyyn7a43c2xw
     text: Only the child's, which overrides the parent's
@@ -265,6 +280,9 @@ questions:
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
 - id: QST-5jrexz5sjxkf
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-c85m458ahp7g
   version: 1
   official_topic: Data Validation
   official_item: OIT-d3yp0sq36xrx
@@ -316,6 +334,9 @@ questions:
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
 - id: QST-9zsx244xw271
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-wkzdab0t8y8n
   version: 1
   official_topic: Data Validation
   official_item: OIT-9x3strrjdng7
@@ -367,6 +388,9 @@ questions:
     symbol_or_lines: NotBlankValidator::validate
     verified_at: '2026-09-01'
 - id: QST-fh0eh8ct9m8r
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ca39zvmah4sj
   version: 1
   official_topic: Data Validation
   official_item: OIT-9x3strrjdng7
@@ -418,6 +442,9 @@ questions:
     symbol_or_lines: built-in constraints
     verified_at: '2026-09-01'
 - id: QST-q91f8w8t909e
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-8hwwtw34wdgt
   version: 1
   official_topic: Data Validation
   official_item: OIT-9x3strrjdng7
@@ -469,6 +496,9 @@ questions:
     symbol_or_lines: built-in constraints
     verified_at: '2026-09-01'
 - id: QST-5ryp5r5qg631
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-wdhsjrrpmggk
   version: 1
   official_topic: Data Validation
   official_item: OIT-ttwpe00f32q9
@@ -498,7 +528,7 @@ questions:
   - getter
   choices:
   - id: CHO-vd8e9cx7z5n4
-    text: A getter constraint requires a name starting with get, is or has
+    text: The name must start with get, is or has
     correct: true
   - id: CHO-9572jjb73c76
     text: Constraints cannot be placed on private methods
@@ -520,6 +550,9 @@ questions:
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
 - id: QST-6sxdmsbatps8
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-v2t6031e9x7s
   version: 1
   official_topic: Data Validation
   official_item: OIT-ttwpe00f32q9
@@ -549,7 +582,7 @@ questions:
   - class
   choices:
   - id: CHO-9dbzepz18q1t
-    text: The class scope, which sees every property at once
+    text: The class scope
     correct: true
   - id: CHO-3pcbfy01xbgt
     text: A property constraint on the end date
@@ -571,6 +604,9 @@ questions:
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
 - id: QST-pa6gzs0cmgg0
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-tgzkeywcr2c5
   version: 1
   official_topic: Data Validation
   official_item: OIT-ttwpe00f32q9
@@ -620,6 +656,9 @@ questions:
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
 - id: QST-1c6zphv3dzgc
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-s73ykpqy5sch
   version: 1
   official_topic: Data Validation
   official_item: OIT-kkhb3wd341ex
@@ -649,7 +688,7 @@ questions:
   - default
   choices:
   - id: CHO-2y41w0ypta8j
-    text: The code calls validate($user) with no group, so only Default runs
+    text: validate($user) is called with no group
     correct: true
   - id: CHO-vtvxg2zfp72x
     text: A group name must match an existing class for it to be usable
@@ -671,6 +710,9 @@ questions:
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
 - id: QST-znrf5tj46jjt
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-yme605pqpcbw
   version: 1
   official_topic: Data Validation
   official_item: OIT-kkhb3wd341ex
@@ -721,6 +763,9 @@ questions:
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
 - id: QST-vzpzmqn8tz5q
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-vnsvr71xs30c
   version: 1
   official_topic: Data Validation
   official_item: OIT-kkhb3wd341ex
@@ -750,8 +795,7 @@ questions:
   - cascade
   choices:
   - id: CHO-fa3hck26q72v
-    text: 'On cascaded objects: Default also applies to referenced classes, the class-name group does
-      not'
+    text: On cascaded objects only
     correct: true
   - id: CHO-r1e4p07s29h4
     text: They never differ under any circumstance
@@ -773,6 +817,9 @@ questions:
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
 - id: QST-467dyvf9ht74
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-b5t21ax5y3aq
   version: 1
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
@@ -802,7 +849,7 @@ questions:
   - default
   choices:
   - id: CHO-vtv9msf0sjj3
-    text: Infinite recursion, because Default now refers to the sequence itself
+    text: Infinite recursion
     correct: true
   - id: CHO-ahwhz6699vkq
     text: The Strict group is silently ignored
@@ -824,6 +871,9 @@ questions:
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
 - id: QST-h9d44gg643q8
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-w45gx8dhzkr1
   version: 1
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
@@ -853,7 +903,7 @@ questions:
   - groups
   choices:
   - id: CHO-tvzfgxcfeh0p
-    text: Strict alone, immediately — the sequence is not applied
+    text: Strict alone, immediately
     correct: true
   - id: CHO-m2pcfc4mp9js
     text: User first, then Strict, following the sequence
@@ -875,6 +925,9 @@ questions:
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
 - id: QST-0hcwz5ma0vpr
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kbx7xfhhm46j
   version: 1
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
@@ -927,6 +980,9 @@ questions:
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
 - id: QST-z99j5z8mk6cf
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-xyz5371z2twb
   version: 1
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
@@ -954,7 +1010,7 @@ questions:
   - sequence
   choices:
   - id: CHO-fjf63sddpxr7
-    text: A violation raised anywhere in the current group
+    text: A violation in the current group
     correct: true
   - id: CHO-4bc07675fw3j
     text: An exception thrown by a constraint validator
@@ -977,6 +1033,9 @@ questions:
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
 - id: QST-mhm4eqjg10s2
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-fh85dvq5wq94
   version: 1
   official_topic: Data Validation
   official_item: OIT-hcdrp2y7kbct
@@ -1031,6 +1090,9 @@ questions:
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
 - id: QST-569d837g7cjg
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-3mgrr61v77zn
   version: 1
   official_topic: Data Validation
   official_item: OIT-hcdrp2y7kbct
@@ -1058,7 +1120,7 @@ questions:
   - callback
   choices:
   - id: CHO-dhxm4bg7tdms
-    text: The return value is ignored; the callback must add a violation
+    text: The return value is ignored
     correct: true
   - id: CHO-kmw6zvbg1t4h
     text: The callback must return a ConstraintViolation object
@@ -1080,6 +1142,9 @@ questions:
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
 - id: QST-7zka4jhfcgv7
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-3mgrr61v77zn
   version: 1
   official_topic: Data Validation
   official_item: OIT-hcdrp2y7kbct
@@ -1128,6 +1193,9 @@ questions:
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
 - id: QST-egqjqhe0s1vv
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-y8sak1s2672z
   version: 1
   official_topic: Data Validation
   official_item: OIT-0wnxbapegqhv
@@ -1157,7 +1225,7 @@ questions:
   - violations
   choices:
   - id: CHO-6asfehxeqs85
-    text: The final ->addViolation() call on the builder
+    text: The final ->addViolation() call
     correct: true
   - id: CHO-j778qtb2f27r
     text: A call to $context->addViolation() as well
@@ -1179,6 +1247,9 @@ questions:
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
 - id: QST-r3bv4np3ttcs
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-nb6w1gbs0ndt
   version: 1
   official_topic: Data Validation
   official_item: OIT-0wnxbapegqhv
@@ -1230,6 +1301,9 @@ questions:
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
 - id: QST-vp3ys4f6xypm
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-eq4vjk7mmyxm
   version: 1
   official_topic: Data Validation
   official_item: OIT-0wnxbapegqhv
@@ -1281,6 +1355,7 @@ questions:
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
 - id: QST-kx920hs0wf1d
+  question_archetype: SCENARIO_CHOICE
   version: 1
   official_topic: Data Validation
   official_item: OIT-9x3strrjdng7
@@ -1332,6 +1407,7 @@ questions:
     symbol_or_lines: NotBlankValidator::validate
     verified_at: '2026-09-01'
 - id: QST-dxbhgyewd2ma
+  question_archetype: CONCEPT_DISTINCTION
   version: 1
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
@@ -1382,3 +1458,222 @@ questions:
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
+- id: QST-aahvpedaf1ne
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-wsh6jsvs5s6f
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which three methods does the validator interface expose as entry points?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - validator
+  - api
+  choices:
+  - id: CHO-kc3nf5kmqvaq
+    text: validate, validateProperty and validatePropertyValue
+    correct: true
+  - id: CHO-f6jnb1k04p6p
+    text: validate, validateObject and validateClass
+    correct: false
+    explanation: Neither of the last two exists on the interface.
+  - id: CHO-2efnvs1qhk5a
+    text: validate, check and assert
+    correct: false
+    explanation: Those names belong to test frameworks, not to the validator.
+  - id: CHO-hsvjya378r93
+    text: validate and validateProperty only
+    correct: false
+    explanation: A third one accepts a candidate value against a class, without any instance.
+  explanation: 'All three return a violation list. They differ in what they take: a whole value, a property
+    of an existing object, or a property of a class together with a candidate value that has not been
+    assigned to anything.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: validate(), validateProperty(), validatePropertyValue()
+    verified_at: '2026-09-12'
+- id: QST-56renepg88tq
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-zxecwdwyhgng
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Built-in constraints are grouped into families in the reference. What does a family tell
+    you about a constraint?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - constraints
+  - families
+  choices:
+  - id: CHO-2xp9x69vtvaw
+    text: The kind of value it judges
+    correct: true
+  - id: CHO-2wbm6rzppxzb
+    text: The component that has to be installed for it
+    correct: false
+    explanation: They all ship with the same component.
+  - id: CHO-ahjt8q7v3cj2
+    text: Whether it can be used on a class rather than a property
+    correct: false
+    explanation: That is the constraint target, and it varies inside a family.
+  - id: CHO-kc9zr2m4bm6b
+    text: The order in which the validator will run it
+    correct: false
+    explanation: Order comes from the declaration and from group sequences, not from the family.
+  explanation: Basic, string, comparison, number, date, choice, file, financial, and so on. Reading
+    the family is how you find the right constraint for a value you have never validated before, instead
+    of reaching for the one you happen to remember.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the constraint reference, grouped by family
+    verified_at: '2026-09-12'
+- id: QST-8zqhmc0hwvhj
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-4637w32xw9y8
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A callback constraint is declared with a bare method name, as a plain string.
+    Where does the validator look that method up?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - callback
+  - external
+  choices:
+  - id: CHO-zegxr6e88rgj
+    text: On the validated object's own class
+    correct: true
+  - id: CHO-cxc9en7h16ac
+    text: On any class of the application, by scanning
+    correct: false
+    explanation: Nothing scans for a matching name; resolution is not a search.
+  - id: CHO-y5q1rtke60cp
+    text: On the constraint class itself
+    correct: false
+    explanation: The constraint holds the configuration, it does not host the check.
+  - id: CHO-e8118e8qkbbq
+    text: On a service registered under that name
+    correct: false
+    explanation: A callback is not resolved through the container.
+  explanation: A bare name only ever names a method of the validated class, which is why a
+    static method living somewhere else cannot be reached that way and has to be declared in
+    the callable form PHP itself accepts.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: External Callbacks and Closures
+    verified_at: '2026-09-12'
+- id: QST-m2hsqcvcwrej
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-x2rv3kwasf88
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The execution context offers both addViolation() and buildViolation(). What separates them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - violations
+  - context
+  choices:
+  - id: CHO-6pja0yaart6h
+    text: One reports at once, the other returns a builder
+    correct: true
+  - id: CHO-pvnxy8n6xmv0
+    text: One reports on a property, the other on the class
+    correct: false
+    explanation: Either can be aimed at a property; that is what the path setting is for.
+  - id: CHO-cxqfv56ae7ky
+    text: One is for custom constraints, the other for built-in ones
+    correct: false
+    explanation: Both are available to any validator holding the context.
+  - id: CHO-qdeng54vnx6w
+    text: One translates the message, the other does not
+    correct: false
+    explanation: Translation applies to both, and can be disabled on the builder.
+  explanation: addViolation() takes the message and records it immediately. buildViolation() returns
+    a builder so a path, a parameter or a code can be set first — and that builder records nothing until
+    its own adding call is made.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: buildViolation() returns a builder; addViolation() adds the violation to the context
+    verified_at: '2026-09-12'

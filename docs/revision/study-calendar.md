@@ -372,27 +372,27 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 27 octobre 2026
 
-- NOUVEAU · **Data Validation : Validator component** (STANDARD) — 9 min · 332 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Validator component** (STANDARD) — 11 min · 332 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Data Validation : PHP object validation** (STANDARD) — 10 min · 420 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 10 min · 398 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 11 min · 398 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 9 min · 400 mots · 3 questions, 1 flashcards
 - Révision **J+1** (28 min) — Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring · Dependency Injection : Service locators
 - Révision **J+7** (15 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
 - Révision **J+14** (10 min) — Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions
 
-*Budget du jour : 91 / 120 min*
+*Budget du jour : 94 / 120 min*
 
 ### Mercredi 28 octobre 2026
 
 - NOUVEAU · **Data Validation : Validation groups** (STANDARD) — 10 min · 399 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Data Validation : Group sequence** (DEEP) — 13 min · 545 mots · 4 questions, 1 flashcards
-- NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 9 min · 404 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 11 min · 465 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 12 min · 465 mots · 4 questions, 1 flashcards
 - Révision **J+1** (24 min) — Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints · Data Validation : Validation scopes
 - Révision **J+7** (14 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
 - Révision **J+14** (10 min) — Controllers : The base AbstractController class · Controllers : The request · Controllers : The response · Controllers : The cookies
 
-*Budget du jour : 91 / 120 min*
+*Budget du jour : 94 / 120 min*
 
 ### Jeudi 29 octobre 2026
 

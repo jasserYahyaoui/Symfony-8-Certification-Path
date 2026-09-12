@@ -18,8 +18,8 @@ two figures agree will be the day the work is finished — not before.
 
 | Status | Items | Meaning |
 |---|---|---|
-| `NOT_REFINED` | 34 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 18 | meets every automated criterion; its lot has had no refinement audit |
+| `NOT_REFINED` | 26 | fails a criterion its content level requires |
+| `PARTIALLY_REFINED` | 26 | meets every automated criterion; its lot has had no refinement audit |
 | `REFINED` | 41 | meets every criterion, in a lot whose refinement audit is recorded |
 | `MASTERED_READY` | 70 | refined, and assessable in exam mode at the top of what its level requires |
 
