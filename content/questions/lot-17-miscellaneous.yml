@@ -41,7 +41,7 @@ questions:
   - reverse-proxy
   choices:
   - id: CHO-77s628jp48qe
-    text: By setting framework.http_cache to true, typically under when@prod
+    text: By setting framework.http_cache to true
     correct: true
   - id: CHO-0vt96wbt3r85
     text: By registering an HttpCache class in public/index.php by hand
@@ -93,7 +93,7 @@ questions:
   - methods
   choices:
   - id: CHO-3gbgvt9r6bgt
-    text: Because a cached response means later requests may never reach the server
+    text: A cached response may never reach the server
     correct: true
   - id: CHO-dcs5cqrw8f5w
     text: Because GET requests cannot carry a body
@@ -146,7 +146,7 @@ questions:
   - attribute
   choices:
   - id: CHO-tf2sqzmbzyg6
-    text: 60, because headers set in the controller take precedence over the attribute
+    text: 60, the controller taking precedence
     correct: true
   - id: CHO-z6szn12hxkwb
     text: 3600, because the attribute is evaluated after the controller returns

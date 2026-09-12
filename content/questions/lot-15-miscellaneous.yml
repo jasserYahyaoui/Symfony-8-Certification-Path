@@ -39,7 +39,7 @@ questions:
   - composer
   choices:
   - id: CHO-gex5yyar7zjt
-    text: A class map, which significantly improves autoloader performance
+    text: A class map, for autoloader performance
     correct: true
   - id: CHO-y2y71f2534p6
     text: The exclusion of development packages
@@ -92,7 +92,7 @@ questions:
   - cache
   choices:
   - id: CHO-t0czznen5fkz
-    text: The command cleared the cache of the current environment, not the production one
+    text: It cleared the current environment's cache
     correct: true
   - id: CHO-ra99fk0gteek
     text: cache:clear only removes the template cache
@@ -144,8 +144,7 @@ questions:
   - dump-env
   choices:
   - id: CHO-7q6hv9808tqg
-    text: A .env.local.php that overrides the other configuration files, so the .env files need not be parsed on
-      every request
+    text: A .env.local.php that overrides the other files
     correct: true
   - id: CHO-d6mhmqe5mzxr
     text: A .env.prod file committed to the repository
@@ -198,8 +197,7 @@ questions:
   - toolbar
   choices:
   - id: CHO-yaz5jkzz5s76
-    text: 'Nothing is wrong: the toolbar is only injected into HTML responses, and the profile is reachable through
-      a response header'
+    text: 'Nothing is wrong: the toolbar is HTML-only'
     correct: true
   - id: CHO-m7tj5qgt65z0
     text: The profiler failed to collect data for that request
@@ -251,7 +249,7 @@ questions:
   - collect
   choices:
   - id: CHO-4pnssyc5herm
-    text: collect() is called once, to pick up data a service already stored, not to gather it
+    text: collect() picks up data already stored
     correct: true
   - id: CHO-w51q3cqe4fwc
     text: collect() runs before the controller, so nothing has happened yet
@@ -303,7 +301,7 @@ questions:
   - late-collect
   choices:
   - id: CHO-w80wjr5cajy8
-    text: LateDataCollectorInterface, whose lateCollect() runs during kernel.terminate
+    text: LateDataCollectorInterface, run at kernel.terminate
     correct: true
   - id: CHO-v6t7thnt5bqe
     text: DataCollectorInterface, by calling collect() a second time

@@ -42,7 +42,7 @@ questions:
   - catalog
   choices:
   - id: CHO-pefxsvhehw9w
-    text: The domain, the locale and the loader, as domain.locale.loader
+    text: The domain, the locale and the loader
     correct: true
   - id: CHO-5m3pr8d35x3a
     text: The locale only; the domain is declared in the configuration
@@ -146,7 +146,7 @@ questions:
   - icu
   choices:
   - id: CHO-qqtffs70b9gr
-    text: The +intl-icu suffix in the file name, which is what routes the catalogue through the ICU formatter
+    text: The +intl-icu suffix in the file name
     correct: true
   - id: CHO-6f0mpdq4fg0b
     text: A configuration key enabling ICU support

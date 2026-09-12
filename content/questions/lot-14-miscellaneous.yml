@@ -41,7 +41,7 @@ questions:
   - dotenv
   choices:
   - id: CHO-tjy7zvqjw83m
-    text: The real environment variable, because .env never overwrites an existing one
+    text: The real environment variable
     correct: true
   - id: CHO-8x0fxe35q2pj
     text: .env, because it is parsed later in the boot sequence
@@ -143,7 +143,7 @@ questions:
   - parameters
   choices:
   - id: CHO-e11k51x0h4yh
-    text: The parameter is resolved when the container is compiled; the environment variable is read at runtime
+    text: The parameter at compile time, the variable at runtime
     correct: true
   - id: CHO-dwz08nyh25za
     text: The parameter can hold an array, the environment variable cannot
@@ -196,7 +196,7 @@ questions:
   - exception
   choices:
   - id: CHO-ksyjv1htjx66
-    text: 500, because the exception does not implement HttpExceptionInterface
+    text: 500, for any plain exception
     correct: true
   - id: CHO-rzqsnaj97qpe
     text: 404, because the message says the resource is missing
@@ -248,7 +248,7 @@ questions:
   - templates
   choices:
   - id: CHO-xtt4mgw9aag8
-    text: It looks for one named after the status code, then falls back to a generic one
+    text: By status code, then a generic fallback
     correct: true
   - id: CHO-82vrpkfvy5h0
     text: It always uses a single generic template
@@ -300,8 +300,7 @@ questions:
   - dev
   choices:
   - id: CHO-vfxef92a6v3d
-    text: The dev environment shows the detailed exception page instead; the framework's /_error routes preview
-      the real one
+    text: Dev shows the exception page; /_error previews it
     correct: true
   - id: CHO-ga7cys5c6nhe
     text: The template must be cleared from the cache before it appears
@@ -353,7 +352,7 @@ questions:
   - dump
   choices:
   - id: CHO-9qcygg5xc6ba
-    text: dd() stops execution after dumping; dump() returns the value it was given
+    text: dd() stops execution, dump() returns its value
     correct: true
   - id: CHO-tfr873891j66
     text: dd() dumps to the console, dump() to the browser
@@ -404,7 +403,7 @@ questions:
   - router
   choices:
   - id: CHO-6pwndq8fcaew
-    text: router:match with the URL, which reports the routes tried and why each failed
+    text: router:match with the URL
     correct: true
   - id: CHO-k344tmqxebaa
     text: debug:container, which lists the services
