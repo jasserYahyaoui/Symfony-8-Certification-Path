@@ -9,6 +9,9 @@
 schema_version: 1
 questions:
 - id: QST-4s59dzkg2rff
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-w4ahdf9xdh5w
   version: 1
   official_topic: Messenger
   official_item: OIT-hs1297vvhr89
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-2vt07hzxfmvq
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-rr0nvj9b8x0z
   version: 1
   official_topic: Messenger
   official_item: OIT-hs1297vvhr89
@@ -109,6 +115,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-ep0z3tq9s4wk
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-c3q6angezzhs
   version: 1
   official_topic: Messenger
   official_item: OIT-hs1297vvhr89
@@ -158,6 +167,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-tvzx2c0cqeh8
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-sz3q1tm5smja
   version: 1
   official_topic: Messenger
   official_item: OIT-ckr67pq9npyb
@@ -186,7 +198,7 @@ questions:
   - routing
   choices:
   - id: CHO-6sktbz7xf72v
-    text: It is handled synchronously in the request, with no warning
+    text: It is handled synchronously, with no warning
     correct: true
   - id: CHO-rwv2vyg6r277
     text: The container fails to compile
@@ -208,6 +220,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-7ay2hp5jexwb
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-961gweegp990
   version: 1
   official_topic: Messenger
   official_item: OIT-ckr67pq9npyb
@@ -260,6 +275,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-t248g7r5b5y8
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-961gweegp990
   version: 1
   official_topic: Messenger
   official_item: OIT-ckr67pq9npyb
@@ -309,6 +327,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-mzsqzvya53dc
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-yr8h53ttvp6e
   version: 1
   official_topic: Messenger
   official_item: OIT-9a8aa389vk48
@@ -358,6 +379,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-sra8bgw85a7j
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-r1kvyze41rx5
   version: 1
   official_topic: Messenger
   official_item: OIT-9a8aa389vk48
@@ -407,6 +431,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-b070jhpm2vjt
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-2evbydc34ggd
   version: 1
   official_topic: Messenger
   official_item: OIT-9a8aa389vk48
@@ -434,7 +461,7 @@ questions:
   - messages
   choices:
   - id: CHO-xwf5517gcssh
-    text: It is serialized at dispatch, so the worker would read a stale copy
+    text: It is serialized at dispatch
     correct: true
   - id: CHO-j8t7t5m0fjbn
     text: Objects cannot be serialized by any transport
@@ -456,6 +483,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-c0qzhz7ded47
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-d5r5yrf58x1s
   version: 1
   official_topic: Messenger
   official_item: OIT-dctf03ftx44f
@@ -484,7 +514,7 @@ questions:
   - deploy
   choices:
   - id: CHO-gthszgs7m8p0
-    text: Restarting the workers, e.g. with messenger:stop-workers
+    text: Restarting the workers
     correct: true
   - id: CHO-efgq12mytn6w
     text: Clearing the container cache
@@ -506,6 +536,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-66bdw5shb7py
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-k3t8watc85cw
   version: 1
   official_topic: Messenger
   official_item: OIT-dctf03ftx44f
@@ -533,8 +566,7 @@ questions:
   - workers
   choices:
   - id: CHO-h9cazs2vbrs6
-    text: A long-lived PHP process accumulates memory and stale state; stopping and restarting is the
-      designed way to run it
+    text: A long-lived process accumulates memory and stale state
     correct: true
   - id: CHO-vrz3pm21r34e
     text: They speed up message processing
@@ -556,6 +588,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-bzvvb66w5ftd
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-n57edsf6gz2k
   version: 1
   official_topic: Messenger
   official_item: OIT-dctf03ftx44f
@@ -605,6 +640,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-0v3j82n0d4m7
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-7rq6sxm6qqr3
   version: 1
   official_topic: Messenger
   official_item: OIT-76x1t7z916f4
@@ -654,6 +692,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-9c3nh6jtp3px
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-y57ephy9n9ey
   version: 1
   official_topic: Messenger
   official_item: OIT-76x1t7z916f4
@@ -682,7 +723,7 @@ questions:
   - retries
   choices:
   - id: CHO-frgnvk5h9egm
-    text: Throw the exception that marks the failure as unrecoverable, so no retry is attempted
+    text: Throw the exception marking it unrecoverable
     correct: true
   - id: CHO-v2pp3vhh0as5
     text: Throw the exception that forces a retry, so the message is not lost
@@ -706,6 +747,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-8vfdesj0zh4w
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-d866n6yn58qx
   version: 1
   official_topic: Messenger
   official_item: OIT-76x1t7z916f4
@@ -755,6 +799,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-cf72hjvcjyj2
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-7rq6sxm6qqr3
   version: 1
   official_topic: Messenger
   official_item: OIT-76x1t7z916f4
@@ -804,6 +851,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-863psghen6px
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-f1z737x6w2pv
   version: 1
   official_topic: Messenger
   official_item: OIT-amnpjdprky6z
@@ -854,6 +904,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-rpw04mwksvg4
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-gcjncj08dwdf
   version: 1
   official_topic: Messenger
   official_item: OIT-amnpjdprky6z
@@ -881,7 +934,7 @@ questions:
   - middleware
   choices:
   - id: CHO-nmy9gf7mkyj4
-    text: 'The chain runs twice: once when dispatched, once when received by the worker'
+    text: 'The chain runs twice, on dispatch and on receipt'
     correct: true
   - id: CHO-9yknng04cqfz
     text: The middleware is registered on two buses
@@ -903,6 +956,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-ap1bw4et0s4j
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-se3m27j02981
   version: 1
   official_topic: Messenger
   official_item: OIT-amnpjdprky6z
@@ -930,7 +986,7 @@ questions:
   - middleware
   choices:
   - id: CHO-r10fj2xty6nb
-    text: The Envelope, so both the message and its stamps are readable
+    text: The Envelope
     correct: true
   - id: CHO-4fnx0dc4ve39
     text: The message object alone
@@ -952,6 +1008,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-kwdxjwjwg4j4
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-syfrg3ycvcq9
   version: 1
   official_topic: Messenger
   official_item: OIT-16at9vwzww43
@@ -1001,6 +1060,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-1wqesyz1sknh
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-52jpm5kq981q
   version: 1
   official_topic: Messenger
   official_item: OIT-16at9vwzww43
@@ -1050,6 +1112,9 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-6waqrfvtwdc7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-y0bea85rjt47
   version: 1
   official_topic: Messenger
   official_item: OIT-16at9vwzww43
@@ -1100,6 +1165,7 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-s3zd9exve0a5
+  question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1
   official_topic: Messenger
   official_item: OIT-dctf03ftx44f
@@ -1150,6 +1216,7 @@ questions:
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
 - id: QST-ak25s8rfe3jy
+  question_archetype: DEFINITION_RECALL
   version: 1
   official_topic: Messenger
   official_item: OIT-76x1t7z916f4
@@ -1198,3 +1265,439 @@ questions:
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
+- id: QST-bp6mp496mm7m
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-d34tvv7rydk9
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which two ways does the documentation give for routing a message class to a transport?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - transports
+  - routing
+  choices:
+  - id: CHO-qn9cn5ysdaba
+    text: An attribute on the class, or a routing key
+    correct: true
+  - id: CHO-33qdxpwb3vwg
+    text: A method on the message returning the transport name
+    correct: false
+    explanation: Nothing on the message is called to decide where it goes.
+  - id: CHO-zwhhs0xwedzc
+    text: An argument passed to dispatch() at the call site
+    correct: false
+    explanation: The caller dispatches; where it travels is configuration, not a parameter.
+  - id: CHO-twtqm37wbjds
+    text: A naming convention on the message class
+    correct: false
+    explanation: No name is matched against a transport.
+  explanation: 'Both forms say the same thing in different places: the attribute keeps the routing next
+    to the message, the configuration key keeps it with the transports. A message with neither is not
+    routed at all.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport, the message attribute and the routing key
+    verified_at: '2026-09-12'
+- id: QST-v4wkcq3cmm37
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-25tacm3ebgk7
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A message must reach both the async transport and an audit transport. Is that possible,
+    and how?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - transports
+  - fanout
+  choices:
+  - id: CHO-156kzmaes141
+    text: Yes, by naming both in its routing
+    correct: true
+  - id: CHO-6qqkwwfanq6b
+    text: No, a message has exactly one transport
+    correct: false
+    explanation: The documentation gives the two-sender case explicitly.
+  - id: CHO-k61g49h7w4yy
+    text: Yes, but only by dispatching it twice
+    correct: false
+    explanation: One dispatch is enough; the routing decides how many senders receive it.
+  - id: CHO-mmb402vyct09
+    text: Yes, by chaining the transports in the DSN
+    correct: false
+    explanation: A DSN describes one transport; it does not chain to another.
+  explanation: The routing takes a list. The same message is then sent to each transport named, and
+    a worker on each consumes its own copy. Routing by parent class or by interface works the same way.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: send messages to multiple transports
+    verified_at: '2026-09-12'
+- id: QST-45tm3rfbkjyw
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-65c68dmyhjc9
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the recommended form of a message handler look like?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - handlers
+  - attribute
+  choices:
+  - id: CHO-1c1wcykbc0ft
+    text: An attributed class with an __invoke() method
+    correct: true
+  - id: CHO-61j5qb0hd131
+    text: A class implementing MessageHandlerInterface
+    correct: false
+    explanation: No interface is required; the attribute and the type-hint are enough.
+  - id: CHO-9e0951ge974r
+    text: A method registered in the messenger configuration
+    correct: false
+    explanation: That is possible, but it is the manual fallback, not the recommended form.
+  - id: CHO-8yjzfzz8aq4q
+    text: A closure passed to the bus at dispatch time
+    correct: false
+    explanation: Handlers are services, resolved from the message type.
+  explanation: Neither the message nor the handler implements anything. The attribute marks the class
+    for autoconfiguration, and the type-hint on the invoked method says which message it takes. The
+    attribute can also sit on individual methods, so one class may handle several message types.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: a message handler is a PHP callable, the AsMessageHandler attribute and __invoke()
+    verified_at: '2026-09-12'
+- id: QST-qh4r169hgx7y
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-q8eq8avwpyh2
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-dctf03ftx44f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service accumulates entries in a property. Under a worker, data from one message starts
+    appearing while handling the next. Why, and what fixes it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - workers
+  - state
+  choices:
+  - id: CHO-5hdvyx0ed38m
+    text: The same instance serves every message; reset it
+    correct: true
+  - id: CHO-rfn8f710fcss
+    text: Two workers share one container; run a single worker
+    correct: false
+    explanation: Each worker has its own container, and the leak shows with one worker too.
+  - id: CHO-kxqxrwbkav4j
+    text: The transport redelivers the message; acknowledge it sooner
+    correct: false
+    explanation: The content is leaking between distinct messages, not being redelivered.
+  - id: CHO-m88k90zfefhp
+    text: The service is not autowired; declare it explicitly
+    correct: false
+    explanation: Wiring decides how it is built, not how long it lives.
+  explanation: A worker is one long-lived process, so Symfony injects the same service instance for
+    every message and its internal state survives. The container is reset between messages, which calls
+    the reset method of services that declare one — a service that keeps state has to declare it. Running
+    with the no-reset option disables even that.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stateless Worker, the same instance of a service in all messages, service reset
+    verified_at: '2026-09-12'
+- id: QST-rdbfzznze605
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-jd6ca4q02538
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A handler keeps throwing an ordinary exception. In which order do the stages of that failure
+    occur?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - failures
+  - lifecycle
+  choices:
+  - id: CHO-sszpyhr359gb
+    text: Retried with growing delay, then moved to the failure transport
+    correct: true
+  - id: CHO-7eh02aqb0zv9
+    text: Moved to the failure transport, then retried from there
+    correct: false
+    explanation: The failure transport is where a message lands once retrying is over.
+  - id: CHO-3gc286vmshz6
+    text: Retried forever, the failure transport only receiving a copy
+    correct: false
+    explanation: Retries are bounded by the configured maximum.
+  - id: CHO-3grq7ac0pjc1
+    text: Discarded at once, the failure transport receiving the exception
+    correct: false
+    explanation: Discarding happens only when no failure transport is configured, and only after retries.
+  explanation: Each failure is re-sent with an increasing delay until the attempts are exhausted, and
+    only then is the message handed to the failure transport — or dropped if none is configured. Knowing
+    the order is what tells you where to look for a message that is gone.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries and Failures, the retry strategy and the failure transport
+    verified_at: '2026-09-12'
+- id: QST-b27yd0msa8yq
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4f772gc14626
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Messages have landed in the failure transport. Which command family inspects and replays
+    them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - failures
+  - console
+  choices:
+  - id: CHO-jwgqdnk96171
+    text: messenger:failed:*
+    correct: true
+  - id: CHO-fnwdgqpccm6q
+    text: messenger:consume with the failure transport as argument
+    correct: false
+    explanation: Consuming would re-run them blindly, with no way to inspect first.
+  - id: CHO-epy70ghy35tc
+    text: messenger:stop-workers
+    correct: false
+    explanation: It stops workers; it does nothing to stored failures.
+  - id: CHO-j1nh76c5d7r8
+    text: debug:messenger
+    correct: false
+    explanation: It lists buses, messages and handlers, not the failures.
+  explanation: Showing lists what is waiting, with filters by class and a statistics view; retrying
+    replays one, several or all of them; removing deletes one. Inspecting before replaying is the point
+    of a failure transport.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: messenger:failed:show, messenger:failed:retry, messenger:failed:remove
+    verified_at: '2026-09-12'
+- id: QST-sx23khxjhrrg
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kc77500x8et6
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-amnpjdprky6z
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which middleware actually calls the handler, and where does it sit?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - middleware
+  - chain
+  choices:
+  - id: CHO-dymshccssgrf
+    text: The handling middleware, at the end of the chain
+    correct: true
+  - id: CHO-43vtjznhdwsk
+    text: The handling middleware, at the start of the chain
+    correct: false
+    explanation: Anything registered after it would then never see the message before it is handled.
+  - id: CHO-rsbtvw526j64
+    text: The bus itself, outside the chain
+    correct: false
+    explanation: The bus runs the chain; the call to the handler is one link in it.
+  - id: CHO-yzs151dp7qay
+    text: The transport, once the message is received
+    correct: false
+    explanation: The transport delivers; handling is still done through the chain.
+  explanation: Handlers are called by that middleware, which is why a custom middleware added before
+    it can still stop the message, and why one registered after it only ever runs on the way back out.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handlers are called by the HandleMessageMiddleware middleware
+    verified_at: '2026-09-12'
+- id: QST-pxhjqmq3j5yk
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-32c5zqv7br2d
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-16at9vwzww43
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Messenger dispatches events around a worker rather than around a dispatch. What does that
+    let a listener observe that a middleware cannot?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - events
+  - lifecycle
+  choices:
+  - id: CHO-jkxs11s0z58m
+    text: What the worker does between messages
+    correct: true
+  - id: CHO-ypqnwmn5xbcd
+    text: The stamps carried on the envelope
+    correct: false
+    explanation: A middleware reads those, and reads them earlier.
+  - id: CHO-v9sgwtws4a0c
+    text: The message before it reaches a transport
+    correct: false
+    explanation: That is squarely the middleware chain, on the dispatching side.
+  - id: CHO-pzjgxsr05zee
+    text: Whether the handler returned a value
+    correct: false
+    explanation: A middleware sees the handling result as the chain unwinds.
+  explanation: 'The worker events cover a life that has no dispatch at all: starting, looping while
+    the queue is empty, stopping. A middleware only ever runs because a message is going through, so
+    it cannot see any of that.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Messenger events, the worker life cycle
+    verified_at: '2026-09-12'

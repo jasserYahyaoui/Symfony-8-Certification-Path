@@ -2910,6 +2910,7 @@ questions:
         symbol_or_lines: External Callbacks and Closures (lines 141-176)
         verified_at: '2026-09-03'
   - id: QST-y746dwnpn8e2
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Messenger
     official_item: OIT-hs1297vvhr89
