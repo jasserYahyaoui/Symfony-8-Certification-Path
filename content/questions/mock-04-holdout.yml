@@ -2668,6 +2668,7 @@ questions:
         symbol_or_lines: Command Lifecycle (lines 419-443)
         verified_at: '2026-09-03'
   - id: QST-6jqq52rp2xfa
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Automated Tests
     official_item: OIT-se21g2xv6h4r
@@ -2727,6 +2728,7 @@ questions:
         symbol_or_lines: Traversing (lines 8-66)
         verified_at: '2026-09-03'
   - id: QST-cp2mseha1y8j
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Automated Tests
     official_item: OIT-bswvewkkkj1q
