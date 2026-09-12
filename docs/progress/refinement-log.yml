@@ -244,3 +244,32 @@ lots:
           28,9 % -> 20,3 % sans une seule edition. Les six questions HOLDOUT du
           lot portent un archetype mais aucun assesses_outcomes : un lien devine
           serait une affirmation fausse.
+  - lot: lot-07
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-07-refinement-v2/README.md
+        pull_request: 116
+        merged_commit: c868d2a
+        production_verified_commit: c868d2a
+        production_smoke_job: 103464730878
+        date: '2026-09-12'
+        note: >-
+          Vingt et un outcomes sur cinquante-huit sans evaluation, le plus gros
+          deficit rencontre. Deux prises par les controles du projet, toutes
+          deux sur le travail de cette unite : ARC-001 a refuse une annotation
+          ou DEFINITION_RECALL contredisait cognitive_level APPLY, et CI a
+          rejete prove_framework_rules_fail.py, dont trois cas etaient devenus
+          muets — l'annotation du lot 07 transformait leurs injections en cles
+          YAML dupliquees, le parseur gardant la vraie valeur. Les ancres
+          remplacent desormais les champs au lieu de les dupliquer et portent
+          les vraies valeurs, de sorte qu'une reannotation fasse echouer le
+          prouveur bruyamment. Aucune regle touchee, aucun cas retire. Trois
+          questions ecrites recouvraient une question du holdout du meme item,
+          trouvees par comparaison des bonnes reponses et reecrites sur une
+          autre facette. Premiere utilisation du tag exclusion-note, prevu par
+          le §1.5 et jamais employe : precedent a relire. Indice de longueur
+          44,2 % -> 20,3 %, onze choix preexistants edites, aucune cle de
+          reponse deplacee.
