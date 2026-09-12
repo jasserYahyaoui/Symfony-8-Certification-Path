@@ -12,6 +12,9 @@
 schema_version: 1
 questions:
 - id: QST-qtng554v6wp6
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-3dd7821h069b
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: translation-resource-file-names-and-locations
     verified_at: '2026-09-02'
 - id: QST-p0bkmxc5kxfs
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-z28gpra0mn3s
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-3dd7821h069b
@@ -110,6 +116,9 @@ questions:
     symbol_or_lines: translation-fallback
     verified_at: '2026-09-02'
 - id: QST-fad080pztznw
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-3dd7821h069b

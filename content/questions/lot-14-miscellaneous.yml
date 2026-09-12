@@ -10,6 +10,9 @@
 schema_version: 1
 questions:
 - id: QST-8h7ynmfznjpe
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tvc5rjv6qvse
@@ -59,6 +62,9 @@ questions:
     symbol_or_lines: configuration-multiple-env-files
     verified_at: '2026-09-02'
 - id: QST-bftzbt0t3q8y
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tvc5rjv6qvse
@@ -107,6 +113,9 @@ questions:
     symbol_or_lines: configuration-multiple-env-files
     verified_at: '2026-09-02'
 - id: QST-hs62x7n8hq15
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tvc5rjv6qvse
@@ -157,6 +166,9 @@ questions:
     symbol_or_lines: configuration-parameters
     verified_at: '2026-09-02'
 - id: QST-3bbtms3dk9ca
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-nrbst3qj145g
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-kv7mbksn7m8v
@@ -206,6 +218,9 @@ questions:
     symbol_or_lines: how-to-customize-error-pages
     verified_at: '2026-09-02'
 - id: QST-cs8r5jz7rb07
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-4d26jh0mp0z1
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-kv7mbksn7m8v
@@ -254,6 +269,9 @@ questions:
     symbol_or_lines: controller-error-pages-by-status-code
     verified_at: '2026-09-02'
 - id: QST-s7m8f73zn04x
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-pw8f8xsdrrcf
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-kv7mbksn7m8v
@@ -305,6 +323,9 @@ questions:
     symbol_or_lines: testing-error-pages
     verified_at: '2026-09-02'
 - id: QST-btrt51f6nnnv
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-ck41dmqysxwe
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-xgrbftkj67ds
@@ -353,6 +374,9 @@ questions:
     symbol_or_lines: components-var-dumper-dump
     verified_at: '2026-09-02'
 - id: QST-1er6x1ts9xk4
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-cfyrgc2t8f2q
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-xgrbftkj67ds
@@ -402,6 +426,9 @@ questions:
     symbol_or_lines: running-commands
     verified_at: '2026-09-02'
 - id: QST-qay1zj2m10me
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-7zqhdcxxen5v
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-xgrbftkj67ds
@@ -450,3 +477,58 @@ questions:
     branch: '8.0'
     symbol_or_lines: debugbundle-and-twig-integration
     verified_at: '2026-09-02'
+- id: QST-2qp5mxyfj5n7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-xrdyp9pn9ffe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The ExpressionLanguage component offers two ways to work with an expression. What separates
+    them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - expression-language
+  - modes
+  choices:
+  - id: CHO-kfh7v0khb9y5
+    text: One evaluates directly, the other compiles to PHP
+    correct: true
+  - id: CHO-pkj6jzz2xm1t
+    text: One returns a boolean, the other any value
+    correct: false
+    explanation: Both return whatever the expression yields; a boolean is merely the common case.
+  - id: CHO-1rb2ygd32s62
+    text: One runs in the container, the other at request time
+    correct: false
+    explanation: Where it runs is the caller's business, not a mode of the component.
+  - id: CHO-42yfvezb9hbn
+    text: One accepts variables, the other only literals
+    correct: false
+    explanation: Both accept variables passed alongside the expression.
+  explanation: Evaluating runs the expression as it stands. Compiling turns it into PHP that can be
+    cached and run later — which is the whole reason the second mode exists, since an expression re-evaluated
+    on every request would be parsed every time.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'the component provides 2 ways: evaluation and compile'
+    verified_at: '2026-09-12'
