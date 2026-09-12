@@ -50,6 +50,32 @@ C'est un précédent, pas une routine. Il mérite une relecture humaine : l'autr
 issue possible était de reformuler l'outcome, ce qui aurait fait disparaître la
 frontière au lieu de l'enseigner.
 
+## 3 bis. Trois de mes questions recouvraient le holdout
+
+En vérifiant les questions écrites contre le holdout du même item — par
+comparaison des **bonnes réponses**, sans jamais afficher le contenu du holdout —
+trois d'entre elles posaient en réalité la question d'une question réservée :
+
+| Question écrite | Ce qu'elle refaisait |
+|---|---|
+| `QST-zmw8se19hm38` | ce que fait le traitement de requête sur un GET |
+| `QST-rcbeqstzndek` | ce que `transform()` doit rendre pour `null` |
+| `QST-ffbr017rjbwd` | l'étendue atteinte en étendant le type racine |
+
+Aucune règle ne l'a vu : `DUP-001` compare des formulations, et deux questions
+peuvent viser le même fait sans se ressembler. C'est pourtant une atteinte réelle
+au holdout — une question réservée qu'on a déjà pratiquée n'est plus une mesure.
+
+**Les trois ont été réécrites** sur une autre facette du même outcome : le
+redirect après soumission plutôt que le GET initial ; la valeur rendue pour un
+transformateur de flottant plutôt que la règle générique ; le mécanisme qui rend
+une option légale partout plutôt que l'énumération des types atteints. Après
+réécriture, la question du transformateur ne partage **plus aucun mot** avec la
+bonne réponse réservée, et celle des extensions un seul.
+
+La vérification est désormais scriptée et devrait être rejouée à chaque lot :
+elle ne coûte rien et elle a trouvé trois cas sur vingt et un.
+
 ## 4. Ce qui a été ajouté
 
 **Vingt et une questions**, toutes `LEARNING`, en anglais. Quelques-unes valent
@@ -145,5 +171,9 @@ ne libère jamais un outcome, et un lien deviné serait une affirmation fausse.
   mesure.
 - La question d'exclusion du §3 introduit un précédent qui appelle une décision
   humaine.
+- Le recouvrement avec le holdout (§3 bis) n'a été mesuré que **par mots de la
+  bonne réponse**. Deux questions peuvent viser le même fait sans partager un
+  mot ; seule une relecture humaine des vingt et une questions contre le holdout
+  le garantirait, et elle n'a pas eu lieu.
 - Symfony n'est pas installé ici : aucun fait n'a été exécuté, tous sont lus dans
   `symfony-docs` branche 8.0.

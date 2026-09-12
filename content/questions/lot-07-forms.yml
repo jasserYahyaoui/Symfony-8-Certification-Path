@@ -1,10 +1,12 @@
 # Lot 07 — Forms question bank (Master Plan §7).
 #
-# 27 LEARNING questions (2 per official item, 3 for the DEEP one), 10
-# VALIDATION questions — one per STANDARD or DEEP item, as rule POOL-002
-# requires — and 2 HOLDOUT questions reserved for the final mocks.
+# 48 LEARNING questions, 10 VALIDATION questions — one per STANDARD or DEEP
+# item, as rule POOL-002 requires — and 2 HOLDOUT questions here; four more
+# HOLDOUT questions of this lot live in mock-04-holdout.yml.
 #
-# EntityType and Symfony UX fields are out of scope (§1.5) and are not tested.
+# Symfony UX fields and the database-backed choice type are out of scope
+# (§1.5). One question names that boundary deliberately and carries the
+# `exclusion-note` tag SCOPE-001 requires for it; nothing else tests them.
 # Every distractor carries an explanation (§7.2).
 
 schema_version: 1
@@ -2170,7 +2172,7 @@ questions:
     symbol_or_lines: Creating Forms in Controllers, add() calls
     verified_at: '2026-09-11'
 - id: QST-zmw8se19hm38
-  question_archetype: BEHAVIOR_DIAGNOSIS
+  question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-y3ytkg8qf2rc
   version: 1
@@ -2184,8 +2186,9 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: One action both renders a form and processes its submission. On the initial GET, what does
-    the request-handling call do?
+  question: A single action renders the form and processes its submission. After a successful
+    submission it returns a redirect rather than rendering the template. What does that redirect
+    prevent?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -2198,24 +2201,26 @@ questions:
   reviewed_at: '2026-09-11'
   tags:
   - handling
+  - redirect
   choices:
   - id: CHO-av7g04twxvcj
-    text: It leaves the form unsubmitted
+    text: Re-posting the form when the user refreshes
     correct: true
   - id: CHO-msn2crqb1y2d
-    text: It throws, because there is nothing to handle
+    text: A second validation pass over the same data
     correct: false
-    explanation: The call is designed to be made unconditionally.
+    explanation: Validation has already run; rendering again would not repeat it.
   - id: CHO-hasex2ebn1gt
-    text: It marks the form submitted with empty values
+    text: The form being rebuilt with its submitted values
     correct: false
-    explanation: That would make the guard on submission useless.
+    explanation: Rebuilding is cheap and harmless; it is the repeated POST that is not.
   - id: CHO-s8wx1bayaww4
-    text: It populates the object with the defaults of every field
+    text: The object being persisted twice in one request
     correct: false
-    explanation: The object keeps the values it was created with.
-  explanation: 'That is why the guard reads "submitted and valid": the same action runs on both verbs,
-    and only the submission branch takes the redirect.'
+    explanation: One request performs the action once, whatever response follows it.
+  explanation: The browser holds the POST it just sent. Rendering the success page in the same
+    response makes a refresh replay that POST; a redirect leaves the browser on a GET. It is why
+    the documented action returns a redirect on success and renders only on the other branch.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
     repository: symfony/symfony-docs
@@ -2781,8 +2786,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A transformer converts an object to a string for display. What should it return when it
-    is handed null?
+  question: A transformer converts a float to the string a field displays. Its transform() is handed null. Which value does the documented rule ask it to return?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -2795,25 +2799,26 @@ questions:
   reviewed_at: '2026-09-11'
   tags:
   - transformers
-  - 'null'
+  - null
   choices:
   - id: CHO-hfqeykygsjpv
-    text: An empty string
+    text: '0.0'
     correct: true
   - id: CHO-at6ndpwyrp3v
     text: null, unchanged
     correct: false
-    explanation: The field then receives a value of the wrong type for the format it renders.
+    explanation: The field then holds a value of a type it cannot render.
   - id: CHO-6htx3jeybxjh
+    text: 'NaN'
+    correct: false
+    explanation: Nothing in the component produces that token; it would render literally.
+  - id: CHO-yc42g6js45v6
     text: A transformation failure
     correct: false
-    explanation: That exception signals an unconvertible submitted value, not an absent one.
-  - id: CHO-yc42g6js45v6
-    text: The string "null"
-    correct: false
-    explanation: That would render as literal text in the field.
-  explanation: 'The documented rule is to return the equivalent empty value of the target type: an empty
-    string for a string, 0 for an integer, 0.0 for a float.'
+    explanation: That exception reports an unconvertible submitted value, not an absent one.
+  explanation: 'The rule is per target type: an empty string for a string, 0 for an integer,
+    0.0 for a float. A transformer that forwards null instead leaves the view layer holding
+    something it was not built to display.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
     repository: symfony/symfony-docs
@@ -2874,7 +2879,7 @@ questions:
     symbol_or_lines: the form lifecycle, phase 1 and phase 2
     verified_at: '2026-09-11'
 - id: QST-ffbr017rjbwd
-  question_archetype: BEHAVIOR_DIAGNOSIS
+  question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-9d91memjprhk
   version: 1
@@ -2888,8 +2893,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: An extension names the root form type as the type it extends. Which fields does it then
-    affect?
+  question: A team wants one extra option, say a tooltip, to be legal on every field of every form in the application, without editing any form class. Which mechanism gives them that?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -2905,22 +2909,21 @@ questions:
   - scope
   choices:
   - id: CHO-a1gz86vnr465
-    text: Nearly every field in the application
+    text: A type extension registered against the root type
     correct: true
   - id: CHO-syfwxsmc92e5
-    text: Only fields declared with no explicit type
+    text: A type extension registered against each concrete type
     correct: false
-    explanation: The type declared on a field does not exempt it; the root is its ancestor either way.
+    explanation: That means enumerating and maintaining a list of every type in use.
   - id: CHO-39ypzn2amr9r
-    text: Only the root form itself, not its children
+    text: A custom type that every form class must name as its parent
     correct: false
-    explanation: Every child is a form too, and inherits from the same root.
+    explanation: It works only for the classes that opt in, which is the editing they want to avoid.
   - id: CHO-pbgdzfbykftz
-    text: None, because the root type cannot be extended
+    text: A global Twig variable read by the form theme
     correct: false
-    explanation: The documentation gives it as the deliberate way to reach everything.
-  explanation: The root type is the ancestor of the whole hierarchy, so extending it is the documented
-    way to add an option or a view variable everywhere at once.
+    explanation: A theme can read a variable, but the option would not be declared on the types.
+  explanation: The root type is the ancestor of the whole hierarchy, so an extension pointed at it reaches nearly every field at once — the documented way to add an option or a view variable everywhere. Its configureOptions() then runs for each of those fields.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
     repository: symfony/symfony-docs
