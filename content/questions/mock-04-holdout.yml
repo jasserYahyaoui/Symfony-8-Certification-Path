@@ -1,6 +1,7 @@
 schema_version: 1
 questions:
   - id: QST-qbg1gkh7f4re
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-tvc5rjv6qvse
@@ -62,6 +63,7 @@ questions:
         symbol_or_lines: The Workflow (lines 176-190)
         verified_at: '2026-09-03'
   - id: QST-r37zh114s9a2
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-kv7mbksn7m8v
@@ -131,6 +133,7 @@ questions:
         symbol_or_lines: interface HttpExceptionInterface
         verified_at: '2026-09-03'
   - id: QST-raqy4bsq9e5m
+    question_archetype: DEFINITION_RECALL
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-xgrbftkj67ds
@@ -187,6 +190,7 @@ questions:
         symbol_or_lines: The Dump Server (lines 93-113)
         verified_at: '2026-09-03'
   - id: QST-5w3fw4azpr5v
+    question_archetype: BEHAVIOR_DIAGNOSIS
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-d1qsxrtv25kk
@@ -247,6 +251,7 @@ questions:
         symbol_or_lines: Enabling the Profiler Conditionally (lines 187-223)
         verified_at: '2026-09-03'
   - id: QST-8w3xmch72pvt
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-zezwg9nya501

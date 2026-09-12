@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-713sjezq7b99
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-edevbpg23scq
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-zezwg9nya501
@@ -38,7 +41,7 @@ questions:
   - reverse-proxy
   choices:
   - id: CHO-77s628jp48qe
-    text: By setting framework.http_cache to true, typically under when@prod
+    text: By setting framework.http_cache to true
     correct: true
   - id: CHO-0vt96wbt3r85
     text: By registering an HttpCache class in public/index.php by hand
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: symfony-reverse-proxy
     verified_at: '2026-09-02'
 - id: QST-a9rqdpxw13gm
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-zezwg9nya501
@@ -87,7 +93,7 @@ questions:
   - methods
   choices:
   - id: CHO-3gbgvt9r6bgt
-    text: Because a cached response means later requests may never reach the server
+    text: A cached response may never reach the server
     correct: true
   - id: CHO-dcs5cqrw8f5w
     text: Because GET requests cannot carry a body
@@ -109,6 +115,9 @@ questions:
     symbol_or_lines: safe-methods-only-caching-get-or-head-requests
     verified_at: '2026-09-02'
 - id: QST-478vmvbdbme2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-zezwg9nya501
@@ -137,7 +146,7 @@ questions:
   - attribute
   choices:
   - id: CHO-tf2sqzmbzyg6
-    text: 60, because headers set in the controller take precedence over the attribute
+    text: 60, the controller taking precedence
     correct: true
   - id: CHO-z6szn12hxkwb
     text: 3600, because the attribute is evaluated after the controller returns

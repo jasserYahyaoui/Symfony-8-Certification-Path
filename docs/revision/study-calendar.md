@@ -727,7 +727,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 9 min · 424 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 9 min · 396 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 12 min · 598 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 13 min · 598 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 11 min · 534 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
 - Révision **J+3** (16 min) — Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers · Console : Console events
@@ -735,7 +735,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (11 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+30** (10 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
 
-*Budget du jour : 113 / 120 min*
+*Budget du jour : 114 / 120 min*
 
 ### Samedi 21 novembre 2026
 
@@ -782,15 +782,15 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 23 novembre 2026
 
 - NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 11 min · 589 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Deployment best practices** (STANDARD) — 11 min · 493 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 12 min · 593 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Deployment best practices** (STANDARD) — 12 min · 493 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 14 min · 593 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 13 min · 749 mots · 3 questions, 1 flashcards
 - Révision **J+3** (15 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
 - Révision **J+7** (15 min) — Console : Console component · Console : Built-in commands · Console : Custom commands · Console : Configuration
 - Révision **J+14** (13 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures
 - Révision **J+45** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 104 / 120 min*
+*Budget du jour : 107 / 120 min*
 
 ### Mardi 24 novembre 2026
 

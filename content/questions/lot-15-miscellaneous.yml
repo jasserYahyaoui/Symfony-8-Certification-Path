@@ -9,6 +9,9 @@
 schema_version: 1
 questions:
 - id: QST-y14y2m9jfwmr
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-evgzmx45nr93
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-6xqn9ybksrbr
@@ -36,7 +39,7 @@ questions:
   - composer
   choices:
   - id: CHO-gex5yyar7zjt
-    text: A class map, which significantly improves autoloader performance
+    text: A class map, for autoloader performance
     correct: true
   - id: CHO-y2y71f2534p6
     text: The exclusion of development packages
@@ -58,6 +61,9 @@ questions:
     symbol_or_lines: c-install-update-your-vendors
     verified_at: '2026-09-02'
 - id: QST-xe2p2fcj5ays
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0m3mf05m416t
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-6xqn9ybksrbr
@@ -86,7 +92,7 @@ questions:
   - cache
   choices:
   - id: CHO-t0czznen5fkz
-    text: The command cleared the cache of the current environment, not the production one
+    text: It cleared the current environment's cache
     correct: true
   - id: CHO-ra99fk0gteek
     text: cache:clear only removes the template cache
@@ -108,6 +114,9 @@ questions:
     symbol_or_lines: d-clear-your-symfony-cache
     verified_at: '2026-09-02'
 - id: QST-a3j6b774kjeb
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0m3mf05m416t
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-6xqn9ybksrbr
@@ -135,8 +144,7 @@ questions:
   - dump-env
   choices:
   - id: CHO-7q6hv9808tqg
-    text: A .env.local.php that overrides the other configuration files, so the .env files need not be parsed on
-      every request
+    text: A .env.local.php that overrides the other files
     correct: true
   - id: CHO-d6mhmqe5mzxr
     text: A .env.prod file committed to the repository
@@ -159,6 +167,9 @@ questions:
     symbol_or_lines: b-configure-your-environment-variables
     verified_at: '2026-09-02'
 - id: QST-x86878b8vrmn
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-d1qsxrtv25kk
@@ -186,8 +197,7 @@ questions:
   - toolbar
   choices:
   - id: CHO-yaz5jkzz5s76
-    text: 'Nothing is wrong: the toolbar is only injected into HTML responses, and the profile is reachable through
-      a response header'
+    text: 'Nothing is wrong: the toolbar is HTML-only'
     correct: true
   - id: CHO-m7tj5qgt65z0
     text: The profiler failed to collect data for that request
@@ -208,6 +218,9 @@ questions:
     symbol_or_lines: profiler
     verified_at: '2026-09-02'
 - id: QST-ecx7f7257q6m
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-q8696dzgbpts
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-d1qsxrtv25kk
@@ -236,7 +249,7 @@ questions:
   - collect
   choices:
   - id: CHO-4pnssyc5herm
-    text: collect() is called once, to pick up data a service already stored, not to gather it
+    text: collect() picks up data already stored
     correct: true
   - id: CHO-w51q3cqe4fwc
     text: collect() runs before the controller, so nothing has happened yet
@@ -258,6 +271,9 @@ questions:
     symbol_or_lines: creating-a-data-collector
     verified_at: '2026-09-02'
 - id: QST-bmv73g3p3sgm
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q8696dzgbpts
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-d1qsxrtv25kk
@@ -285,7 +301,7 @@ questions:
   - late-collect
   choices:
   - id: CHO-w80wjr5cajy8
-    text: LateDataCollectorInterface, whose lateCollect() runs during kernel.terminate
+    text: LateDataCollectorInterface, run at kernel.terminate
     correct: true
   - id: CHO-v6t7thnt5bqe
     text: DataCollectorInterface, by calling collect() a second time
@@ -305,3 +321,112 @@ questions:
     branch: '8.0'
     symbol_or_lines: creating-a-data-collector
     verified_at: '2026-09-02'
+- id: QST-t22gymwk3fge
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which four steps does the documentation list as the typical Symfony deployment?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - deployment
+  - steps
+  choices:
+  - id: CHO-4v2xa04vg4b6
+    text: Upload, install dependencies, migrate, clear the cache
+    correct: true
+  - id: CHO-hw4w73hx4tyj
+    text: Clear the cache, upload, migrate, install dependencies
+    correct: false
+    explanation: Clearing a cache before the new code is there would clear the old one.
+  - id: CHO-t5pd3g3j07cj
+    text: Upload, clear the cache, install dependencies, migrate
+    correct: false
+    explanation: Dependencies have to be present before the cache is built against them.
+  - id: CHO-fjst9qw014ed
+    text: Install dependencies, upload, clear the cache, migrate
+    correct: false
+    explanation: Migrations belong before the cache step, not after it.
+  explanation: 'The order is what makes it safe: the code arrives, its dependencies follow, the data
+    structures catch up, and only then is the cache rebuilt against all three. Tagging a release, linting
+    and running tests are listed separately, as optional additions.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the typical steps taken while deploying a Symfony application
+    verified_at: '2026-09-12'
+- id: QST-81zjtxgm9m2d
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An endpoint answers with JSON, so no toolbar is injected. How is that request's profile
+    reached?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - profiler
+  - api
+  choices:
+  - id: CHO-1t9jbyqwdmwm
+    text: Through the link in a response header, or the profiler index
+    correct: true
+  - id: CHO-23zp158e105w
+    text: 'It cannot be: no toolbar means no profile was stored'
+    correct: false
+    explanation: The profile is collected whatever the content type; only the injection is skipped.
+  - id: CHO-gaq33gcbaer7
+    text: By requesting the same URL again with an HTML accept header
+    correct: false
+    explanation: That would profile a second, different request.
+  - id: CHO-hw7wkwmjjcja
+    text: By enabling a separate setting for non-HTML responses
+    correct: false
+    explanation: No such switch exists; collection was never conditional on the content type.
+  explanation: The response carries a debug token and a link header pointing at that profile, and the
+    profiler index lists every stored profile. The same token can be used from code to load the profile
+    — which is how a test asserts on what a request did.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the toolbar is only injected into HTML responses; X-Debug-Token-Link and /_profiler
+    verified_at: '2026-09-12'
