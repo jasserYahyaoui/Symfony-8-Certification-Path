@@ -37,25 +37,29 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-12, 687 questions)
+## Measured state (2026-09-12, 689 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 261 of 262 = **99.6%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 262 of 263 = **99.6%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 136 of 136 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **666 English, 21 French**.
+Whole corpus: **668 English, 21 French**.
 
-The corpus grew by nine since the Lot 07 reading: refining Lot 12 under framework
-version 2 added ten questions and **removed one**, all English, so the French count
-is unchanged at 21. The removal is the point worth recording: a question written in
-that unit re-asked a holdout question and was dropped rather than kept, because the
-outcome it claimed was already assessed. Three of the nine net additions are `hard`,
-which is why the advanced denominator moves from 259 to 262.
+The corpus grew by eleven since the Lot 07 reading, across two units refined back to
+back. Lot 12 added ten questions and **removed one**; Lot 13 added two. All are
+English, so the French count is unchanged at 21.
+
+The removal is the point worth recording: a question written in the Lot 12 unit
+re-asked a holdout question and was dropped rather than rewritten, because the
+outcome it claimed was already assessed — §1.4, not a style preference.
+
+Four of the eleven net additions are `hard`, which moves the advanced denominator
+from 259 to 263.
 
 ### The reading of 2026-09-11 after Lot 07, kept
 
