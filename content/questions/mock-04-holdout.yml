@@ -2788,6 +2788,7 @@ questions:
         symbol_or_lines: passing headers to createClient() and per request (lines 786-809)
         verified_at: '2026-09-03'
   - id: QST-j3kwycekd7bb
+    question_archetype: API_SIGNATURE
     version: 1
     official_topic: Data Validation
     official_item: OIT-6wd8860brzfy
@@ -2850,6 +2851,7 @@ questions:
         symbol_or_lines: validate, validateProperty, validatePropertyValue (lines 28-68)
         verified_at: '2026-09-03'
   - id: QST-6mnxdrerpckk
+    question_archetype: DEFINITION_RECALL
     version: 1
     official_topic: Data Validation
     official_item: OIT-hcdrp2y7kbct

@@ -5028,9 +5028,12 @@ items:
       une exception. Le candidat doit choisir la méthode et interpréter la liste de violations, ce
       qui est une application, pas une reconnaissance.
     learning_outcomes:
-      - Nommer les trois méthodes d'entrée du validateur
-      - Énoncer ce que retourne validate() et comment le tester
-      - Choisir validatePropertyValue() pour une valeur candidate
+      - id: OUT-wsh6jsvs5s6f
+        outcome: Nommer les trois méthodes d'entrée du validateur
+      - id: OUT-0enczxzp4pwq
+        outcome: Énoncer ce que retourne validate() et comment le tester
+      - id: OUT-kgffdypsnscc
+        outcome: Choisir validatePropertyValue() pour une valeur candidate
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5078,9 +5081,12 @@ items:
       d'héritage que l'on ne peut pas désactiver. Deux comportements silencieux dont la
       méconnaissance fait passer une validation qui devrait échouer.
     learning_outcomes:
-      - Déclarer des contraintes en attribut et en PHP
-      - Exiger la cascade par Assert\Valid sur la propriété
-      - Énoncer que les contraintes du parent sont fusionnées, jamais remplacées
+      - id: OUT-c85m458ahp7g
+        outcome: Déclarer des contraintes en attribut et en PHP
+      - id: OUT-mqjbbf32kjca
+        outcome: Exiger la cascade par Assert\Valid sur la propriété
+      - id: OUT-wmvdnjq75f68
+        outcome: Énoncer que les contraintes du parent sont fusionnées, jamais remplacées
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5133,10 +5139,14 @@ items:
       NotBlank/NotNull, EqualTo/IdenticalTo, Length/Count, All/Collection. Choisir la bonne
       contrainte est une application, pas une simple reconnaissance de liste.
     learning_outcomes:
-      - Situer une contrainte dans sa famille
-      - Distinguer NotBlank de NotNull sur une valeur zéro
-      - Choisir entre All et Collection
-      - Reconnaître le rôle de Sequentially et d'AtLeastOneOf
+      - id: OUT-zxecwdwyhgng
+        outcome: Situer une contrainte dans sa famille
+      - id: OUT-wkzdab0t8y8n
+        outcome: Distinguer NotBlank de NotNull sur une valeur zéro
+      - id: OUT-ca39zvmah4sj
+        outcome: Choisir entre All et Collection
+      - id: OUT-8hwwtw34wdgt
+        outcome: Reconnaître le rôle de Sequentially et d'AtLeastOneOf
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5190,9 +5200,12 @@ items:
       portée classe qui seule permet une règle croisée. Le candidat doit choisir la portée d'après la
       règle à exprimer.
     learning_outcomes:
-      - Nommer les trois portées d'une contrainte
-      - Énoncer la règle de nommage d'un accesseur validable
-      - Choisir la portée classe pour une règle croisée
+      - id: OUT-tgzkeywcr2c5
+        outcome: Nommer les trois portées d'une contrainte
+      - id: OUT-wdhsjrrpmggk
+        outcome: Énoncer la règle de nommage d'un accesseur validable
+      - id: OUT-v2t6031e9x7s
+        outcome: Choisir la portée classe pour une règle croisée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5245,9 +5258,12 @@ items:
       d'entre eux, et Default se sépare du groupe portant le nom de la classe dès qu'un objet est
       cascade. Trois faits qui changent la réponse.
     learning_outcomes:
-      - Énumérer les groupes qu'une classe possède sans déclaration
-      - Énoncer quel groupe s'applique sans argument
-      - Distinguer Default du groupe portant le nom de la classe
+      - id: OUT-yme605pqpcbw
+        outcome: Énumérer les groupes qu'une classe possède sans déclaration
+      - id: OUT-s73ykpqy5sch
+        outcome: Énoncer quel groupe s'applique sans argument
+      - id: OUT-vnsvr71xs30c
+        outcome: Distinguer Default du groupe portant le nom de la classe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5296,10 +5312,14 @@ items:
       la séquence la contourne, et la forme du tableau rendu par le provider — plate ou imbriquée —
       change les groupes réellement valides. Chaque étage modifie la réponse.
     learning_outcomes:
-      - Décrire l'ordre d'exécution et sa condition d'arrêt
-      - Déclarer une séquence avec le nom de la classe et dire pourquoi pas Default
-      - Énoncer l'effet d'une validation explicite d'un groupe de la séquence
-      - Distinguer un tableau plat d'un tableau imbriqué dans le provider
+      - id: OUT-xyz5371z2twb
+        outcome: Décrire l'ordre d'exécution et sa condition d'arrêt
+      - id: OUT-b5t21ax5y3aq
+        outcome: Déclarer une séquence avec le nom de la classe et dire pourquoi pas Default
+      - id: OUT-w45gx8dhzkr1
+        outcome: Énoncer l'effet d'une validation explicite d'un groupe de la séquence
+      - id: OUT-kbx7xfhhm46j
+        outcome: Distinguer un tableau plat d'un tableau imbriqué dans le provider
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5350,9 +5370,12 @@ items:
       d'instance ou statique, et un contrat de retour contre-intuitif : la valeur retournée est
       ignorée. Les deux décident d'une réponse.
     learning_outcomes:
-      - Écrire la signature d'un callback d'instance et d'un callback statique
-      - Énoncer que le retour est ignore et qu'une violation doit être ajoutée
-      - Reconnaître un appelable statique externe
+      - id: OUT-fh85dvq5wq94
+        outcome: Écrire la signature d'un callback d'instance et d'un callback statique
+      - id: OUT-3mgrr61v77zn
+        outcome: Énoncer que le retour est ignore et qu'une violation doit être ajoutée
+      - id: OUT-4637w32xw9y8
+        outcome: Reconnaître un appelable statique externe
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5400,10 +5423,14 @@ items:
       dernier maillon ne produit aucune erreur. Le candidat doit aussi savoir attribuer une violation
       à un champ, ce qui est une application.
     learning_outcomes:
-      - Distinguer addViolation() de buildViolation() sur le contexte
-      - Énoncer qu'une chaîne sans addViolation() n'enregistre rien
-      - Attribuer une violation à une propriété par atPath()
-      - Remplir un emplacement de message par setParameter()
+      - id: OUT-x2rv3kwasf88
+        outcome: Distinguer addViolation() de buildViolation() sur le contexte
+      - id: OUT-y8sak1s2672z
+        outcome: Énoncer qu'une chaîne sans addViolation() n'enregistre rien
+      - id: OUT-eq4vjk7mmyxm
+        outcome: Attribuer une violation à une propriété par atPath()
+      - id: OUT-nb6w1gbs0ndt
+        outcome: Remplir un emplacement de message par setParameter()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
