@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **60.1%** — 98 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **68.1%** — 111 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,16 +19,16 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 52 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 13 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 36 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 62 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 41 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 70 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**8 of 27 lots refined.**
+**9 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
@@ -38,7 +38,7 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 04 — Controllers | **REFINED** | 14 | 14 | 100% |
 | 05 — Routing | **REFINED** | 12 | 12 | 100% |
 | 06 — Templating with Twig | **REFINED** | 14 | 14 | 100% |
-| 07 — Forms | TODO | 13 | 0 | 0% |
+| 07 — Forms | **REFINED** | 13 | 13 | 100% |
 | 08 — Data Validation | TODO | 8 | 0 | 0% |
 | 09 — Dependency Injection | **REFINED** | 12 | 12 | 100% |
 | 10 — Security | **REFINED** | 12 | 12 | 100% |
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 06 — Templating with Twig |
-| Recorded on | 2026-09-11 |
-| Next | 07 — Forms |
+| Last completed | 07 — Forms |
+| Recorded on | 2026-09-12 |
+| Next | 08 — Data Validation |
