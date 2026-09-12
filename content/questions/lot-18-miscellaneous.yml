@@ -12,6 +12,9 @@
 schema_version: 1
 questions:
 - id: QST-ch9mc2vedk60
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
@@ -39,7 +42,7 @@ questions:
   - get
   choices:
   - id: CHO-ydsmsv5r3b50
-    text: Only when the key is missing, to produce and store the value
+    text: Only when the key is missing
     correct: true
   - id: CHO-bm6j4s2gv7jc
     text: On every call, so the value can be refreshed
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: cache-basic-usage
     verified_at: '2026-09-02'
 - id: QST-w6g2sgj7apm1
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
@@ -87,7 +93,7 @@ questions:
   - beta
   choices:
   - id: CHO-v2fgx9e1ezng
-    text: It disables early recomputation, so the value is recomputed only once it has actually expired
+    text: It disables early recomputation
     correct: true
   - id: CHO-c98b08x83jny
     text: It disables caching entirely for that key
@@ -109,6 +115,9 @@ questions:
     symbol_or_lines: cache_stampede-prevention
     verified_at: '2026-09-02'
 - id: QST-jr033rm9hfx5
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-jvfb807ka1q6
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
@@ -136,8 +145,7 @@ questions:
   - pools
   choices:
   - id: CHO-6s08s6889n59
-    text: cache.system holds entries derivable from source code and regenerated at warmup; cache.app holds general
-      application data
+    text: cache.system holds code-derived entries
     correct: true
   - id: CHO-60g2xeqd50gp
     text: cache.system is simply a faster backend for the same kind of data
@@ -158,3 +166,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: cache-app-system
     verified_at: '2026-09-02'
+- id: QST-7kszpvjs383j
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-rmv013ank5zr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the cache component, what is the difference between an adapter and a pool?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - cache
+  - concepts
+  choices:
+  - id: CHO-mn566aq7qqmm
+    text: The adapter implements storage, the pool holds items
+    correct: true
+  - id: CHO-00mx3y8xz6aq
+    text: The adapter is the interface, the pool its implementation
+    correct: false
+    explanation: Both are concrete; neither is the other's interface.
+  - id: CHO-w4ar0ct0b7sy
+    text: The adapter is per request, the pool persists between them
+    correct: false
+    explanation: Lifetime is not what separates them.
+  - id: CHO-1rsq0xqx7ab9
+    text: They are two names for the same object
+    correct: false
+    explanation: A pool is created from an adapter, so they cannot be the same thing.
+  explanation: 'Four names, four jobs: an item is one key and value, a pool is a repository of items
+    through which every operation goes, an adapter implements the actual storage, and a provider is
+    the connection some adapters need. Keys from different pools never collide, even on one backend.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Pools, Adapters and Items; Provider
+    verified_at: '2026-09-12'

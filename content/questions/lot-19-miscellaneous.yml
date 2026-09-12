@@ -10,6 +10,9 @@
 schema_version: 1
 questions:
 - id: QST-f2th6k9hk377
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qpjnpc56hjj0
@@ -38,7 +41,7 @@ questions:
   - mock-clock
   choices:
   - id: CHO-yy4taqqh7m0f
-    text: 'The clock never advanced: it stays at 15:20 until the test moves it explicitly'
+    text: The clock never advanced
     correct: true
   - id: CHO-v8f061eavt3z
     text: The assertions ran too quickly for the clock to change
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: mockclock
     verified_at: '2026-09-02'
 - id: QST-39ytp7h11m85
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qpjnpc56hjj0
@@ -87,7 +93,7 @@ questions:
   - monotonic
   choices:
   - id: CHO-eayr46y6a2tw
-    text: MonotonicClock, which increases steadily and ignores system clock adjustments
+    text: MonotonicClock
     correct: true
   - id: CHO-xzh066kqf1f5
     text: NativeClock, since it reports the real system time
@@ -108,6 +114,9 @@ questions:
     symbol_or_lines: monotonic-clock
     verified_at: '2026-09-02'
 - id: QST-j5mgcztv2w1x
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qpjnpc56hjj0
@@ -135,7 +144,7 @@ questions:
   - clock-aware
   choices:
   - id: CHO-b23wqzbdyr8n
-    text: Autoconfiguration calls the trait's setter, and the service calls $this->now()
+    text: Autoconfiguration calls the setter; read via $this->now()
     correct: true
   - id: CHO-9qfzvjqk7hwj
     text: The trait instantiates a system clock on first use, read through $this->clock
@@ -150,10 +159,65 @@ questions:
     text: A static accessor is used, so no injection happens at all
     correct: false
     explanation: A global accessor exists in the component, but it is not what this trait relies on.
-  explanation: Because the container supplies the clock, a test can substitute a mocked one without changing the
-    service.
+  explanation: The trait declares a setter that autoconfiguration calls, so the clock arrives from the
+    container rather than being built by the service, and the time is read through the trait's now()
+    helper. That is what lets a test substitute a mocked clock without changing the service.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
     branch: '8.0'
     symbol_or_lines: clock_use-inside-a-service
     verified_at: '2026-09-02'
+- id: QST-j8hmpd45jp1s
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-80sdaactjvcg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What problem does the Clock component exist to solve?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - clock
+  - rationale
+  choices:
+  - id: CHO-rnpnc9101kzd
+    text: Code reading the system clock cannot be tested
+    correct: true
+  - id: CHO-q5yrhsca9gzq
+    text: The system clock is not precise enough for most code
+    correct: false
+    explanation: Precision is one implementation's concern, not the reason the component exists.
+  - id: CHO-nst31dcf0wmh
+    text: Time zones are handled inconsistently across servers
+    correct: false
+    explanation: Time zones are a separate concern the component does not claim to fix.
+  - id: CHO-a7bsv2cbdyqn
+    text: Date objects are mutable and therefore unsafe to share
+    correct: false
+    explanation: Immutable date objects predate the component and are unrelated to it.
+  explanation: Logic that calls for the current time directly can only be tested by waiting, or not
+    at all. Injecting a clock lets a test freeze or move time, which is why one implementation exists
+    solely for tests.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the Clock component decouples applications from the system clock
+    verified_at: '2026-09-12'

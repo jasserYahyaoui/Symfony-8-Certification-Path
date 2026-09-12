@@ -13,6 +13,9 @@
 schema_version: 1
 questions:
 - id: QST-xa6bq0yg86z5
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-c43j65gh5pth
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-s601ppsyb9f7
@@ -62,6 +65,9 @@ questions:
     symbol_or_lines: connecting-listeners
     verified_at: '2026-09-02'
 - id: QST-d95psbyzz9x4
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-m0svgqcarref
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-s601ppsyb9f7
@@ -89,7 +95,7 @@ questions:
   - subscriber
   choices:
   - id: CHO-8d84vzpsq48x
-    text: Several methods on the same event, each with its own priority
+    text: Several methods on one event, each prioritised
     correct: true
   - id: CHO-734mmzzcvrjy
     text: A listener that runs before the dispatcher itself is built
@@ -111,6 +117,9 @@ questions:
     symbol_or_lines: using-event-subscribers
     verified_at: '2026-09-02'
 - id: QST-c6j2y7wpcswr
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-gawacg0bt5r5
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-s601ppsyb9f7
@@ -160,6 +169,9 @@ questions:
     symbol_or_lines: creating-and-dispatching-an-event
     verified_at: '2026-09-02'
 - id: QST-dxvqjgxd3vyq
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-ck4dc8hb0b3j
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-8xcczyjyyanz
@@ -187,7 +199,7 @@ questions:
   - propagation
   choices:
   - id: CHO-xsvyjj99aw6n
-    text: 'Nothing: their work stands, only the remaining listeners are skipped'
+    text: 'Nothing: their work stands'
     correct: true
   - id: CHO-b5wc3wgf9q5e
     text: They are rolled back, since the event is cancelled
@@ -209,6 +221,9 @@ questions:
     symbol_or_lines: stopping-event-flow-propagation
     verified_at: '2026-09-02'
 - id: QST-99x1vnm3rtx4
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-90fn81pm7q7x
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-8xcczyjyyanz
@@ -236,7 +251,7 @@ questions:
   - event-class
   choices:
   - id: CHO-nkkncxhkhbqp
-    text: The base class is deliberately minimal and carries no application data
+    text: The base class carries no application data
     correct: true
   - id: CHO-ye749t03jwte
     text: The base class is abstract and cannot be instantiated
@@ -258,6 +273,9 @@ questions:
     symbol_or_lines: event-names-and-event-objects
     verified_at: '2026-09-02'
 - id: QST-yxwtwshs91fd
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-2e82py415svq
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-8xcczyjyyanz
@@ -285,7 +303,7 @@ questions:
   - generic-event
   choices:
   - id: CHO-17dfvch8w4ms
-    text: A subject plus optional keyed arguments, with array access to those arguments
+    text: A subject plus optional keyed arguments
     correct: true
   - id: CHO-hcc6br375n1t
     text: Automatic naming of the event from its subject

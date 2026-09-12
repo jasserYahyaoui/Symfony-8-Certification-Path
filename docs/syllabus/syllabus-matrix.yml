@@ -8554,9 +8554,12 @@ items:
       anti-ruée réglable, et deux pools aux contraintes différentes. Le candidat doit raisonner sur un
       cas.
     learning_outcomes:
-      - Nommer item, pool, adaptateur et fournisseur
-      - Expliquer pourquoi get() suffit et quand le rappel s'exécute
-      - Distinguer cache.app de cache.system et invalider par étiquette
+      - id: OUT-rmv013ank5zr
+        outcome: Nommer item, pool, adaptateur et fournisseur
+      - id: OUT-ggw5eh2abp9f
+        outcome: Expliquer pourquoi get() suffit et quand le rappel s'exécute
+      - id: OUT-jvfb807ka1q6
+        outcome: Distinguer cache.app de cache.system et invalider par étiquette
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8604,9 +8607,12 @@ items:
       horloge simulée qui n'avance pas — dont dépend la lecture d'un test. Le candidat doit appliquer,
       pas reconnaître un vocabulaire.
     learning_outcomes:
-      - "Expliquer pourquoi le composant existe : découpler du temps système"
-      - Choisir entre NativeClock, MockClock et MonotonicClock
-      - Utiliser ClockAwareTrait dans un service et ClockSensitiveTrait dans un test
+      - id: OUT-80sdaactjvcg
+        outcome: 'Expliquer pourquoi le composant existe : découpler du temps système'
+      - id: OUT-yw73vkeyaqnd
+        outcome: Choisir entre NativeClock, MockClock et MonotonicClock
+      - id: OUT-bs7xcm74q6v9
+        outcome: Utiliser ClockAwareTrait dans un service et ClockSensitiveTrait dans un test
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8653,9 +8659,12 @@ items:
       Une règle de priorité contre-intuitive dont dépend l'ordre d'exécution, et deux façons de
       s'inscrire aux avantages distincts. Le candidat doit ordonner un cas concret, pas citer une API.
     learning_outcomes:
-      - Inscrire un écouteur et lire l'effet de sa priorité
-      - Distinguer écouteur et abonné, et leurs avantages respectifs
-      - Expliquer ce qui sert de nom quand dispatch() n'en reçoit pas
+      - id: OUT-c43j65gh5pth
+        outcome: Inscrire un écouteur et lire l'effet de sa priorité
+      - id: OUT-m0svgqcarref
+        outcome: Distinguer écouteur et abonné, et leurs avantages respectifs
+      - id: OUT-gawacg0bt5r5
+        outcome: Expliquer ce qui sert de nom quand dispatch() n'en reçoit pas
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8702,9 +8711,12 @@ items:
       Des opérations dont les garanties diffèrent — écriture atomique, exception au lieu d'un retour
       silencieux — que le candidat doit distinguer sur un cas, non énumérer.
     learning_outcomes:
-      - Choisir l'opération adaptée parmi celles du composant
-      - Expliquer ce que garantit l'écriture atomique
-      - Reconnaître qu'un échec lève une exception portant le chemin fautif
+      - id: OUT-0mnzvybywnv8
+        outcome: Choisir l'opération adaptée parmi celles du composant
+      - id: OUT-p4ef3jhd70w3
+        outcome: Expliquer ce que garantit l'écriture atomique
+      - id: OUT-9zm5ea8e1m2y
+        outcome: Reconnaître qu'un échec lève une exception portant le chemin fautif
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8751,10 +8763,14 @@ items:
       Une API fluide dont l'objet est à état : deux critères successifs s'additionnent au lieu de se
       remplacer. Diagnostiquer une recherche trop étroite demande d'avoir compris ce point.
     learning_outcomes:
-      - Construire une recherche par critères chaînés
-      - Expliquer pourquoi un Finder réutilisé doit être cloné
-      - "Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés"
-      - Convertir les résultats en tableau après plusieurs emplacements de recherche
+      - id: OUT-9rc3vz43p7t0
+        outcome: Construire une recherche par critères chaînés
+      - id: OUT-0gd4a3m5v66c
+        outcome: Expliquer pourquoi un Finder réutilisé doit être cloné
+      - id: OUT-xntxjbxkapfz
+        outcome: 'Connaître les défauts : fichiers et répertoires, parcours récursif, VCS ignorés'
+      - id: OUT-e7krb61ejhf9
+        outcome: Convertir les résultats en tableau après plusieurs emplacements de recherche
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8801,9 +8817,12 @@ items:
       Une classe de base volontairement pauvre, dont la seule capacité — arrêter la propagation — a un
       effet qui dépend de l'ordre. Le candidat doit raisonner sur une chaîne d'appels.
     learning_outcomes:
-      - Expliquer pourquoi une sous-classe d'événement est la norme
-      - Décrire l'effet exact de stopPropagation() et le lire ensuite
-      - Situer GenericEvent et son compromis
+      - id: OUT-90fn81pm7q7x
+        outcome: Expliquer pourquoi une sous-classe d'événement est la norme
+      - id: OUT-ck4dc8hb0b3j
+        outcome: Décrire l'effet exact de stopPropagation() et le lire ensuite
+      - id: OUT-2e82py415svq
+        outcome: Situer GenericEvent et son compromis
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

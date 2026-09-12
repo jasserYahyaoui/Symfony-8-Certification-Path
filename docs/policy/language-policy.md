@@ -37,7 +37,7 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-12, 704 questions)
+## Measured state (2026-09-12, 707 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
@@ -48,7 +48,7 @@ Quoted from the Master Plan:
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **683 English, 21 French**.
+Whole corpus: **686 English, 21 French**.
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to
 back. Lot 12 added ten questions and **removed one**; Lot 13 added two. All are
@@ -71,7 +71,8 @@ permits French beginner practice, and none of these lots needed a beginner
 question it did not already have.
 
 Lots 14 to 17 added three more, none of them `hard`, taking the corpus to 704
-while the advanced denominator stays at 266.
+while the advanced denominator stays at 266. Lots 18 to 21 added three more
+again, also none `hard`, taking it to 707 with the denominator unmoved.
 
 ### The reading of 2026-09-11 after Lot 07, kept
 

@@ -795,27 +795,27 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 24 novembre 2026
 
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 14 min · 785 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 14 min · 880 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 13 min · 686 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 15 min · 880 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 14 min · 686 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 12 min · 579 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+7** (16 min) — Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers · Console : Console events
 - Révision **J+14** (13 min) — Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
 
-*Budget du jour : 106 / 120 min*
+*Budget du jour : 108 / 120 min*
 
 ### Mercredi 25 novembre 2026
 
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 11 min · 469 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 11 min · 516 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 11 min · 542 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 12 min · 542 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 11 min · 512 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache · Miscellaneous : Clock · Miscellaneous : EventDispatcher
 - Révision **J+7** (15 min) — Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object
 - Révision **J+14** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
 - Révision **J+30** (14 min) — Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring · Dependency Injection : Service locators
 
-*Budget du jour : 109 / 120 min*
+*Budget du jour : 110 / 120 min*
 
 ### Jeudi 26 novembre 2026
 

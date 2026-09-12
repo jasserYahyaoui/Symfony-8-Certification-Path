@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-q1g70cf81t0a
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-9zm5ea8e1m2y
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tjn6kyvyc2h9
@@ -39,7 +42,7 @@ questions:
   - exceptions
   choices:
   - id: CHO-a3b2dsdf3gba
-    text: The component throws instead of returning false, and a directory is one of the cases it rejects
+    text: The component throws instead of returning false
     correct: true
   - id: CHO-0zw4fpx09e2r
     text: The component cannot read files at all and only reports metadata
@@ -61,6 +64,9 @@ questions:
     symbol_or_lines: readfile
     verified_at: '2026-09-02'
 - id: QST-3xhbezx2h2e2
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tjn6kyvyc2h9
@@ -89,7 +95,7 @@ questions:
   - mkdir
   choices:
   - id: CHO-tvpv9maegc32
-    text: 'Nothing: it ignores an existing directory rather than failing'
+    text: 'Nothing: an existing directory is ignored'
     correct: true
   - id: CHO-xhmjep5x2pj5
     text: It throws, so the script must check existence first
@@ -111,6 +117,9 @@ questions:
     symbol_or_lines: mkdir
     verified_at: '2026-09-02'
 - id: QST-at67jvy54v5b
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-p4ef3jhd70w3
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-tjn6kyvyc2h9
@@ -138,7 +147,7 @@ questions:
   - atomic
   choices:
   - id: CHO-hgane5m1701a
-    text: It sees either the complete previous contents or the complete new ones, never a partial file
+    text: It sees one complete version or the other
     correct: true
   - id: CHO-8fej3sc0q3gw
     text: It is blocked until the write finishes
@@ -160,6 +169,9 @@ questions:
     symbol_or_lines: dumpfile
     verified_at: '2026-09-02'
 - id: QST-9vdyrx07zz9j
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0gd4a3m5v66c
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-a1anzcv85my3
@@ -188,7 +200,7 @@ questions:
   - stateful
   choices:
   - id: CHO-9jztjvp63xwm
-    text: The criteria accumulated on the shared object, so the second search demanded both patterns
+    text: The criteria accumulated on the shared object
     correct: true
   - id: CHO-vyegmcpva9vz
     text: The first search consumed the iterator, leaving nothing for the second
@@ -210,6 +222,9 @@ questions:
     symbol_or_lines: usage
     verified_at: '2026-09-02'
 - id: QST-5a5z84vv3kvc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-xntxjbxkapfz
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-a1anzcv85my3
@@ -259,6 +274,9 @@ questions:
     symbol_or_lines: files-or-directories
     verified_at: '2026-09-02'
 - id: QST-y8xczgk8cn9z
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-e7krb61ejhf9
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-a1anzcv85my3
@@ -287,8 +305,7 @@ questions:
   - iterator
   choices:
   - id: CHO-atm2cekw4f5w
-    text: A separate iterator exists per location, so keys can collide unless the conversion is told to discard
-      them
+    text: A separate iterator exists per location
     correct: true
   - id: CHO-p34tck9fzxxb
     text: Only the first location is searched unless they are passed as one array
@@ -309,3 +326,58 @@ questions:
     branch: '8.0'
     symbol_or_lines: transforming-results-into-arrays
     verified_at: '2026-09-02'
+- id: QST-tbsm9m352jya
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-9rc3vz43p7t0
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A search must return files, under one directory, whose name matches a pattern. How is that
+    expressed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - finder
+  - chaining
+  choices:
+  - id: CHO-k5a1gbnmpaz0
+    text: By chaining one call per criterion
+    correct: true
+  - id: CHO-mdpzjnxksc3z
+    text: By passing an options array to the constructor
+    correct: false
+    explanation: The object is constructed empty and configured afterwards.
+  - id: CHO-vzetnykfz926
+    text: By one call taking the type, path and pattern
+    correct: false
+    explanation: There is no such combined call; each criterion has its own.
+  - id: CHO-2k6pwnt7t2km
+    text: By a search string parsed by the component
+    correct: false
+    explanation: Nothing parses a query language here.
+  explanation: Each call narrows the search and returns the object, so the criteria accumulate. That
+    is also why the object is iterable directly, and why reusing one configured object for a second
+    search needs a clone.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'chained criteria: files(), in(), name()'
+    verified_at: '2026-09-12'
