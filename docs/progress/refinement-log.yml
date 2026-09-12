@@ -324,3 +324,52 @@ lots:
           perimetre ; question reecrite, pas taguee. Indice de longueur
           56,7 % -> 23,3 %, quatorze editions sous un seuil ecrit de dix
           caracteres d'ecart.
+  - lot: lot-08
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-08-refinement-v2/README.md
+        pull_request: 121
+        merged_commit: 411d8b8
+        production_verified_commit: 411d8b8
+        production_smoke_job: 103477955997
+        date: '2026-09-12'
+        note: >-
+          Quatre outcomes sur vingt-sept sans aucune question. ARC-001 a attrape
+          mon annotation pour la troisieme fois d'affilee, et toujours de la meme
+          facon : CONCEPT_DISTINCTION sur une question dont l'exam_skill est
+          RECOGNIZE (lots 07, 12, 08). D'ou tools/audit/check_annotation_map.py,
+          ajoute dans cette unite, qui rejoue les contraintes d'ARC-001 sur une
+          table d'annotation avant qu'elle soit appliquee ; il ne duplique pas la
+          regle dans le build et verifie les contraintes, pas la justesse d'un
+          archetype. Une question ecrite recouvrait une question du holdout
+          (0,31 sur les bonnes reponses) ; elle ne pouvait pas etre supprimee,
+          son outcome n'etant couvert par rien d'autre, donc reecrite sur une
+          autre facette — recouvrement 0,07. Indice de longueur 62,1 % -> 24,2 %
+          avec deux leviers distincts plutot qu'un deplacement de seuil.
+  - lot: lot-11
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-11-refinement-v2/README.md
+        pull_request: 123
+        merged_commit: f6b12c4
+        production_verified_commit: f6b12c4
+        production_smoke_job: 103479159358
+        date: '2026-09-12'
+        note: >-
+          Huit outcomes sur vingt-huit sans aucune question, le deficit portant
+          sur les fondations plutot que sur les cas limites. Le pre-controle
+          ajoute au lot 08 a servi des ce lot : il a refuse BEHAVIOR_DIAGNOSIS
+          sur une question dont l'exam_skill est DISTINGUISH avant application,
+          premiere fois de la session que cette classe d'erreur ne va pas
+          jusqu'a CI. Une seconde erreur d'annotation, d'une autre nature, a ete
+          attrapee par la verification de perimetre : une question reclamait un
+          outcome appartenant a un autre item — PED-003 l'aurait refusee, le
+          pre-controle ne l'aurait pas vue. Indice de longueur 48,0 % -> 21,9 %,
+          avec une exception assumee : une bonne reponse qui EST une paire de
+          noms d'API garde son ecart.
