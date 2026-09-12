@@ -6851,9 +6851,12 @@ items:
       Six concepts à nommer correctement, et une sémantique contre-intuitive : dispatch() remet le
       message sans le traiter. Le candidat doit interpréter un extrait, pas réciter un glossaire.
     learning_outcomes:
-      - Nommer les six concepts du composant
-      - Énoncer ce que dispatch() fait et ne fait pas
-      - Situer les stamps sur l'enveloppe retournée
+      - id: OUT-c3q6angezzhs
+        outcome: Nommer les six concepts du composant
+      - id: OUT-w4ahdf9xdh5w
+        outcome: Énoncer ce que dispatch() fait et ne fait pas
+      - id: OUT-rr0nvj9b8x0z
+        outcome: Situer les stamps sur l'enveloppe retournée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6900,10 +6903,14 @@ items:
       Une règle silencieuse — un message non route est traite immédiatement — et deux transports
       particuliers dont la confusion change la réponse. Application, pas reconnaissance.
     learning_outcomes:
-      - Router un message vers un transport
-      - Énoncer ce qui arrive à un message non route
-      - Distinguer sync:// de in-memory://
-      - Reconnaître qu'un message peut viser plusieurs transports
+      - id: OUT-d34tvv7rydk9
+        outcome: Router un message vers un transport
+      - id: OUT-sz3q1tm5smja
+        outcome: Énoncer ce qui arrive à un message non route
+      - id: OUT-961gweegp990
+        outcome: Distinguer sync:// de in-memory://
+      - id: OUT-25tacm3ebgk7
+        outcome: Reconnaître qu'un message peut viser plusieurs transports
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6951,10 +6958,14 @@ items:
       légitimes, et une contrainte de sérialisation qui interdit de transporter une entité. Quatre
       faits qui décident d'une réponse.
     learning_outcomes:
-      - Écrire un message et son handler sans interface
-      - Énoncer ce qui apparie handler et message
-      - Énoncer l'effet de plusieurs handlers
-      - Justifier de transporter un identifiant plutôt qu'une entité
+      - id: OUT-65c68dmyhjc9
+        outcome: Écrire un message et son handler sans interface
+      - id: OUT-yr8h53ttvp6e
+        outcome: Énoncer ce qui apparie handler et message
+      - id: OUT-r1kvyze41rx5
+        outcome: Énoncer l'effet de plusieurs handlers
+      - id: OUT-2evbydc34ggd
+        outcome: Justifier de transporter un identifiant plutôt qu'une entité
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7002,10 +7013,14 @@ items:
       est la méthode prévue, pas un palliatif. Plus un piège de déploiement et un partage d'état
       entre messages.
     learning_outcomes:
-      - Consommer une file et exprimer une priorité par l'ordre
-      - Justifier les options de limite
-      - Énoncer pourquoi un worker exécute l'ancien code après un déploiement
-      - Énoncer que les services sont partagés entre messages
+      - id: OUT-n57edsf6gz2k
+        outcome: Consommer une file et exprimer une priorité par l'ordre
+      - id: OUT-k3t8watc85cw
+        outcome: Justifier les options de limite
+      - id: OUT-d5r5yrf58x1s
+        outcome: Énoncer pourquoi un worker exécute l'ancien code après un déploiement
+      - id: OUT-q8eq8avwpyh2
+        outcome: Énoncer que les services sont partagés entre messages
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7055,11 +7070,16 @@ items:
       d'échec dont l'absence fait perdre le message. Le comptage des tentatives et l'enchaînement
       complet exigent un raisonnement multi-étapes.
     learning_outcomes:
-      - Configurer une stratégie de réessai et compter les tentatives
-      - Distinguer Unrecoverable et Recoverable
-      - Énoncer ce qui arrive sans failure_transport
-      - Décrire l'enchaînement complet d'un échec
-      - Utiliser messenger:failed:*
+      - id: OUT-7rq6sxm6qqr3
+        outcome: Configurer une stratégie de réessai et compter les tentatives
+      - id: OUT-y57ephy9n9ey
+        outcome: Distinguer Unrecoverable et Recoverable
+      - id: OUT-d866n6yn58qx
+        outcome: Énoncer ce qui arrive sans failure_transport
+      - id: OUT-jd6ca4q02538
+        outcome: Décrire l'enchaînement complet d'un échec
+      - id: OUT-4f772gc14626
+        outcome: Utiliser messenger:failed:*
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7109,10 +7129,14 @@ items:
       Une chaîne dont l'interruption est silencieuse, et un double passage en asynchrone que l'on ne
       soupçonne pas. Les deux se diagnostiquent, ils ne se reconnaissent pas.
     learning_outcomes:
-      - Écrire un middleware et continuer la chaîne
-      - Énoncer l'effet d'un $stack->next() omis
-      - Énoncer que la chaîne s'exécute deux fois en asynchrone
-      - Situer HandleMessageMiddleware en bout de chaîne
+      - id: OUT-se3m27j02981
+        outcome: Écrire un middleware et continuer la chaîne
+      - id: OUT-f1z737x6w2pv
+        outcome: Énoncer l'effet d'un $stack->next() omis
+      - id: OUT-gcjncj08dwdf
+        outcome: Énoncer que la chaîne s'exécute deux fois en asynchrone
+      - id: OUT-kc77500x8et6
+        outcome: Situer HandleMessageMiddleware en bout de chaîne
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7159,10 +7183,14 @@ items:
       Un catalogue dont la forme se retient mieux que le compte, un événement émis même à vide, et
       une frontière à tenir avec le middleware : observer ou modifier.
     learning_outcomes:
-      - Situer les événements dans le cycle de vie
-      - Énoncer que WorkerRunningEvent est émis à vide
-      - Utiliser willRetry() pour distinguer un échec transitoire
-      - Choisir entre événement et middleware
+      - id: OUT-32c5zqv7br2d
+        outcome: Situer les événements dans le cycle de vie
+      - id: OUT-syfrg3ycvcq9
+        outcome: Énoncer que WorkerRunningEvent est émis à vide
+      - id: OUT-52jpm5kq981q
+        outcome: Utiliser willRetry() pour distinguer un échec transitoire
+      - id: OUT-y0bea85rjt47
+        outcome: Choisir entre événement et middleware
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
