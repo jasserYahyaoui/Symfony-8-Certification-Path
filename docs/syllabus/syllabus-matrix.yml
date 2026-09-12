@@ -7657,9 +7657,12 @@ items:
       Trois familles à distinguer, et un critère — le démarrage du noyau — que le candidat doit
       appliquer à un cas plutôt que réciter. La mise en place du projet s'y rattache.
     learning_outcomes:
-      - Distinguer test unitaire, d'intégration et d'application
-      - Situer les tests dans tests/ et les nommer
-      - Installer et lancer la suite
+      - id: OUT-tn4gp01mcsfz
+        outcome: Distinguer test unitaire, d'intégration et d'application
+      - id: OUT-mytdwrbfbyr0
+        outcome: Situer les tests dans tests/ et les nommer
+      - id: OUT-s84n2y8t4g36
+        outcome: Installer et lancer la suite
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7706,9 +7709,12 @@ items:
       Le rythme du test d'application, l'environnement test et un jeu d'assertions à choisir selon ce
       qu'on veut prouver. Choisir l'assertion juste est une application, pas une reconnaissance.
     learning_outcomes:
-      - Écrire un test d'application avec WebTestCase
-      - Configurer l'environnement de test et ses variables
-      - Choisir l'assertion Symfony adaptée
+      - id: OUT-aev6xdsqazd4
+        outcome: Écrire un test d'application avec WebTestCase
+      - id: OUT-5q3ywht70qq9
+        outcome: Configurer l'environnement de test et ses variables
+      - id: OUT-9v5ravsc1d59
+        outcome: Choisir l'assertion Symfony adaptée
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7757,9 +7763,12 @@ items:
       suivies, redémarrage du noyau. Le candidat doit diagnostiquer un test qui échoue pour ces
       raisons.
     learning_outcomes:
-      - Faire une requête et lire la réponse
-      - Distinguer followRedirect() de followRedirects()
-      - Expliquer la perte du jeton entre deux requêtes
+      - id: OUT-b0gj22s9raax
+        outcome: Faire une requête et lire la réponse
+      - id: OUT-pkd6t54g5k0j
+        outcome: Distinguer followRedirect() de followRedirects()
+      - id: OUT-cd7mwe96kqaf
+        outcome: Expliquer la perte du jeton entre deux requêtes
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7808,9 +7817,12 @@ items:
       Deux composants aux rôles distincts, une API de parcours immuable, et la sélection d'un
       formulaire par son bouton. Rien ici ne s'obtient par simple reconnaissance.
     learning_outcomes:
-      - Séparer le rôle de CssSelector de celui de DomCrawler
-      - Parcourir et extraire depuis un crawler
-      - Obtenir un formulaire et le soumettre
+      - id: OUT-01wet8kg01yc
+        outcome: Séparer le rôle de CssSelector de celui de DomCrawler
+      - id: OUT-0cm314bnvwqx
+        outcome: Parcourir et extraire depuis un crawler
+      - id: OUT-3vvzqtq2z234
+        outcome: Obtenir un formulaire et le soumettre
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7858,8 +7870,10 @@ items:
       Deux réglages et une méthode dont le nom induit en erreur. Le contenu tient en peu de lignes et
       relève de la reconnaissance.
     learning_outcomes:
-      - Énoncer la configuration du profileur en test
-      - Utiliser enableProfiler() et getProfile()
+      - id: OUT-r3rw0s0swgpy
+        outcome: Énoncer la configuration du profileur en test
+      - id: OUT-bbrw7hnswytn
+        outcome: Utiliser enableProfiler() et getProfile()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7906,9 +7920,12 @@ items:
       et get() décide du résultat. Le candidat doit raisonner sur une construction, pas citer une
       méthode.
     learning_outcomes:
-      - Démarrer le noyau et atteindre le conteneur de test
-      - Expliquer l'accès aux services privés et sa limite
-      - Substituer une doublure avant la consommation du service
+      - id: OUT-yt8hbz210rcd
+        outcome: Démarrer le noyau et atteindre le conteneur de test
+      - id: OUT-jkdgtbjxta7j
+        outcome: Expliquer l'accès aux services privés et sa limite
+      - id: OUT-r3m449dn77cm
+        outcome: Substituer une doublure avant la consommation du service
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7957,9 +7974,12 @@ items:
       Une transformation mécanique des noms d'en-têtes, deux emplacements de réglage et une méthode de
       session dont l'oubli est silencieux. C'est de l'application.
     learning_outcomes:
-      - Passer options du noyau et en-têtes à createClient()
-      - Transformer un nom d'en-tête selon la RFC 3875
-      - Préparer la session avant une requête
+      - id: OUT-pgb3b6xmtm4e
+        outcome: Passer options du noyau et en-têtes à createClient()
+      - id: OUT-2t00vt83c8pb
+        outcome: Transformer un nom d'en-tête selon la RFC 3875
+      - id: OUT-kn9vqpak4jb0
+        outcome: Préparer la session avant une requête
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8007,9 +8027,12 @@ items:
       Deux couches et quatre accesseurs dont les noms invitent à l'erreur inverse. Le candidat doit
       trancher lequel rend quoi.
     learning_outcomes:
-      - Distinguer les objets BrowserKit des objets HttpFoundation
-      - Lire code, en-têtes et contenu de la réponse
-      - Identifier la route ayant répondu
+      - id: OUT-az102q4grt31
+        outcome: Distinguer les objets BrowserKit des objets HttpFoundation
+      - id: OUT-2qpbjpt6nv81
+        outcome: Lire code, en-têtes et contenu de la réponse
+      - id: OUT-mvr73tryph6w
+        outcome: Identifier la route ayant répondu
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8057,8 +8080,10 @@ items:
       Une convention à reconnaître : deux marqueurs, un niveau d'erreur, trois règles de calendrier.
       Aucun raisonnement à conduire, et le PHPUnit Bridge est hors périmètre.
     learning_outcomes:
-      - Reconnaître les deux marqueurs d'une dépréciation
-      - Énoncer les règles d'introduction d'une dépréciation
+      - id: OUT-e2qhdj18dvjh
+        outcome: Reconnaître les deux marqueurs d'une dépréciation
+      - id: OUT-hnxp6h0scgsq
+        outcome: Énoncer les règles d'introduction d'une dépréciation
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

@@ -698,7 +698,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mercredi 18 novembre 2026
 
 - NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 8 min · 295 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 9 min · 421 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 10 min · 421 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 10 min · 410 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Client object** (STANDARD) — 11 min · 524 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers · Console : Console events
@@ -706,7 +706,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
 - Révision **J+30** (12 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 
-*Budget du jour : 102 / 120 min*
+*Budget du jour : 103 / 120 min*
 
 ### Jeudi 19 novembre 2026
 
@@ -726,7 +726,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 20 novembre 2026
 
 - NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 9 min · 424 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 9 min · 450 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 9 min · 396 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 12 min · 598 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 11 min · 534 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration

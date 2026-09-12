@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-rsbg20z3fzdk
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-tn4gp01mcsfz
   version: 1
   official_topic: Automated Tests
   official_item: OIT-c6wd3f444qjn
@@ -60,6 +63,9 @@ questions:
     symbol_or_lines: types-of-tests
     verified_at: '2026-09-02'
 - id: QST-vfkmqvxkehvn
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-mytdwrbfbyr0
   version: 1
   official_topic: Automated Tests
   official_item: OIT-c6wd3f444qjn
@@ -108,6 +114,9 @@ questions:
     symbol_or_lines: unit-tests
     verified_at: '2026-09-02'
 - id: QST-3p3j00y1dgsg
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-tn4gp01mcsfz
   version: 1
   official_topic: Automated Tests
   official_item: OIT-c6wd3f444qjn
@@ -157,6 +166,9 @@ questions:
     symbol_or_lines: unit-tests
     verified_at: '2026-09-02'
 - id: QST-b4g2ascr897e
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-aev6xdsqazd4
   version: 1
   official_topic: Automated Tests
   official_item: OIT-favt42nvgdqh
@@ -184,7 +196,7 @@ questions:
   - webtestcase
   choices:
   - id: CHO-yb1t444w39fz
-    text: WebTestCase, which adds a test client on top of KernelTestCase
+    text: WebTestCase, which adds a test client
     correct: true
   - id: CHO-bj0c2vph3430
     text: KernelTestCase, which adds a test client
@@ -205,6 +217,9 @@ questions:
     symbol_or_lines: application-tests
     verified_at: '2026-09-02'
 - id: QST-9d4z5adb9sez
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-5q3ywht70qq9
   version: 1
   official_topic: Automated Tests
   official_item: OIT-favt42nvgdqh
@@ -254,6 +269,9 @@ questions:
     symbol_or_lines: customizing-environment-variables
     verified_at: '2026-09-02'
 - id: QST-cppkfczac4h1
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-9v5ravsc1d59
   version: 1
   official_topic: Automated Tests
   official_item: OIT-favt42nvgdqh
@@ -302,6 +320,9 @@ questions:
     symbol_or_lines: request-assertions
     verified_at: '2026-09-02'
 - id: QST-qznc9nx72jdq
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-b0gj22s9raax
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bc3brs4a4mtt
@@ -350,6 +371,9 @@ questions:
     symbol_or_lines: making-requests
     verified_at: '2026-09-02'
 - id: QST-b27q0jdvhz16
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-pkd6t54g5k0j
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bc3brs4a4mtt
@@ -378,7 +402,7 @@ questions:
   - redirect
   choices:
   - id: CHO-1c05gmhwgqg1
-    text: The client does not follow redirects by default; the test must follow it
+    text: The client does not follow redirects by default
     correct: true
   - id: CHO-xm79hej8v6t9
     text: The redirect status must be 302 for the client to follow it
@@ -400,6 +424,9 @@ questions:
     symbol_or_lines: redirecting
     verified_at: '2026-09-02'
 - id: QST-kyyb7h7x6z2b
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-cd7mwe96kqaf
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bc3brs4a4mtt
@@ -427,7 +454,7 @@ questions:
   - reboot
   choices:
   - id: CHO-0vpf6z95kx6h
-    text: The client reboots the kernel between requests, which rebuilds the container and clears the security token
+    text: The client reboots the kernel between requests
     correct: true
   - id: CHO-2y67r2kap1p6
     text: The login is only valid for the request in which it was performed, by design
@@ -449,6 +476,9 @@ questions:
     symbol_or_lines: testing-multiple-requests-in-one-test
     verified_at: '2026-09-02'
 - id: QST-k2pbvcnet7mh
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-01wet8kg01yc
   version: 1
   official_topic: Automated Tests
   official_item: OIT-se21g2xv6h4r
@@ -498,6 +528,9 @@ questions:
     symbol_or_lines: why-use-css-selectors
     verified_at: '2026-09-02'
 - id: QST-7v7dsbmdfdgt
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-3vvzqtq2z234
   version: 1
   official_topic: Automated Tests
   official_item: OIT-se21g2xv6h4r
@@ -525,7 +558,7 @@ questions:
   - forms
   choices:
   - id: CHO-k9kyasq2eshq
-    text: A button, because a form may contain several and the button decides what is sent
+    text: A button, since it decides what is sent
     correct: true
   - id: CHO-fz08vkczzgkt
     text: The form element itself, by its id
@@ -546,6 +579,9 @@ questions:
     symbol_or_lines: submitting-forms
     verified_at: '2026-09-02'
 - id: QST-aany4cpa165m
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0cm314bnvwqx
   version: 1
   official_topic: Automated Tests
   official_item: OIT-se21g2xv6h4r
@@ -594,6 +630,9 @@ questions:
     symbol_or_lines: extracting-information
     verified_at: '2026-09-02'
 - id: QST-vnr67m55bz2h
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-bbrw7hnswytn
   version: 1
   official_topic: Automated Tests
   official_item: OIT-t0qx5z264tyf
@@ -621,7 +660,7 @@ questions:
   - collect
   choices:
   - id: CHO-cm88snh5yp3z
-    text: The call enables collection for the next request only and has to be repeated
+    text: It enables collection for the next request only
     correct: true
   - id: CHO-8vsvvn6hte5n
     text: The profiler is disabled after the first profile is read
@@ -643,6 +682,9 @@ questions:
     symbol_or_lines: enabling-the-profiler-in-tests
     verified_at: '2026-09-02'
 - id: QST-dc8hsmx14h1s
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-r3rw0s0swgpy
   version: 1
   official_topic: Automated Tests
   official_item: OIT-t0qx5z264tyf
@@ -692,6 +734,9 @@ questions:
     symbol_or_lines: enabling-the-profiler-in-tests
     verified_at: '2026-09-02'
 - id: QST-tc71xv48p476
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-jkdgtbjxta7j
   version: 1
   official_topic: Automated Tests
   official_item: OIT-mtbcyaax2xsk
@@ -719,7 +764,7 @@ questions:
   - container
   choices:
   - id: CHO-r21m7q2544ea
-    text: static::getContainer() returns a special test container that also exposes private services
+    text: getContainer() returns a test container
     correct: true
   - id: CHO-qqc9k3ndk43h
     text: Private services become public in the test environment
@@ -741,6 +786,9 @@ questions:
     symbol_or_lines: retrieving-services-in-the-test
     verified_at: '2026-09-02'
 - id: QST-qa5pm7hv1d2a
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-yt8hbz210rcd
   version: 1
   official_topic: Automated Tests
   official_item: OIT-mtbcyaax2xsk
@@ -768,7 +816,7 @@ questions:
   - kernel-class
   choices:
   - id: CHO-kva33wcx8zqn
-    text: From the KERNEL_CLASS environment variable, unless getKernelClass() is overridden
+    text: From the KERNEL_CLASS environment variable
     correct: true
   - id: CHO-4qzs19b6ccec
     text: By scanning src/ for a class extending Kernel
@@ -790,6 +838,9 @@ questions:
     symbol_or_lines: integration-tests
     verified_at: '2026-09-02'
 - id: QST-kyaxpk3c138c
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-r3m449dn77cm
   version: 1
   official_topic: Automated Tests
   official_item: OIT-mtbcyaax2xsk
@@ -818,7 +869,7 @@ questions:
   - mocking
   choices:
   - id: CHO-9f3egh9jswt4
-    text: The service was fetched from the container before the double was set on it
+    text: The service was fetched before the double was set
     correct: true
   - id: CHO-vdfyk4rrbqqz
     text: A double cannot replace a service bound through a private alias
@@ -840,6 +891,9 @@ questions:
     symbol_or_lines: mocking-dependencies
     verified_at: '2026-09-02'
 - id: QST-vtbv0rcpscbs
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-2t00vt83c8pb
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bswvewkkkj1q
@@ -888,6 +942,9 @@ questions:
     symbol_or_lines: sending-custom-headers
     verified_at: '2026-09-02'
 - id: QST-0j3a50p7fbtn
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-kn9vqpak4jb0
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bswvewkkkj1q
@@ -936,6 +993,9 @@ questions:
     symbol_or_lines: set-up-the-session
     verified_at: '2026-09-02'
 - id: QST-d4rhfyhajr7w
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-pgb3b6xmtm4e
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bswvewkkkj1q
@@ -964,7 +1024,7 @@ questions:
   - exceptions
   choices:
   - id: CHO-dqt93538kf2q
-    text: Disabling exception catching on the client, so the exception reaches the runner
+    text: Disabling exception catching on the client
     correct: true
   - id: CHO-8px3zmr47e6x
     text: Reading the response body, which always contains the stack trace
@@ -987,6 +1047,9 @@ questions:
     symbol_or_lines: reporting-exceptions
     verified_at: '2026-09-02'
 - id: QST-m9kesqa3bb7j
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-az102q4grt31
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bzkq4e7wks9a
@@ -1035,6 +1098,9 @@ questions:
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
 - id: QST-0y00gjhre739
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-2qpbjpt6nv81
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bzkq4e7wks9a
@@ -1062,7 +1128,7 @@ questions:
   - client
   choices:
   - id: CHO-kz9gknfj1ymb
-    text: The history, the cookie jar and the crawler of the last request
+    text: The history, cookies and the crawler
     correct: true
   - id: CHO-7r8gr7nzgfyp
     text: The container definition graph
@@ -1083,6 +1149,9 @@ questions:
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
 - id: QST-mmz7113w0hqb
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-mvr73tryph6w
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bzkq4e7wks9a
@@ -1131,6 +1200,9 @@ questions:
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
 - id: QST-qspg3f4b1epq
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-e2qhdj18dvjh
   version: 1
   official_topic: Automated Tests
   official_item: OIT-vj24gwq6r1r4
@@ -1158,7 +1230,7 @@ questions:
   - deprecation
   choices:
   - id: CHO-wt2dca8hqd3w
-    text: 'Nothing visible: a silenced E_USER_DEPRECATED notice is triggered and execution continues'
+    text: 'Nothing visible: a silenced E_USER_DEPRECATED notice'
     correct: true
   - id: CHO-33e31y2gk80k
     text: An exception is thrown and caught by the error handler
@@ -1180,6 +1252,9 @@ questions:
     symbol_or_lines: upgrade-minor-symfony-code
     verified_at: '2026-09-02'
 - id: QST-2b9q5n3vadem
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-e2qhdj18dvjh
   version: 1
   official_topic: Automated Tests
   official_item: OIT-vj24gwq6r1r4
@@ -1207,7 +1282,7 @@ questions:
   - deprecation
   choices:
   - id: CHO-hfzxjv32j9x9
-    text: An error handler that collects the notices, so they can be logged and counted
+    text: An error handler that collects the notices
     correct: true
   - id: CHO-vs6zprz33axq
     text: 'Nothing: they are already listed on the command line at every run'
@@ -1229,6 +1304,7 @@ questions:
     symbol_or_lines: php-errors
     verified_at: '2026-09-02'
 - id: QST-1bx122jyh8j6
+  question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1
   official_topic: Automated Tests
   official_item: OIT-mtbcyaax2xsk
@@ -1280,6 +1356,7 @@ questions:
     symbol_or_lines: set-up-your-test-environment
     verified_at: '2026-09-02'
 - id: QST-meyt65cncy6q
+  question_archetype: CONCEPT_DISTINCTION
   version: 1
   official_topic: Automated Tests
   official_item: OIT-bc3brs4a4mtt
@@ -1328,3 +1405,113 @@ questions:
     branch: '8.0'
     symbol_or_lines: browsing-the-site
     verified_at: '2026-09-02'
+- id: QST-3ayfnb7ae5bq
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-s84n2y8t4g36
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A new application has no test tooling yet. Which package brings in what is needed to write
+    and run tests?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - phpunit
+  - setup
+  choices:
+  - id: CHO-rk8drh1hgggf
+    text: symfony/test-pack
+    correct: true
+  - id: CHO-g62h3t9cwa5e
+    text: phpunit/phpunit
+    correct: false
+    explanation: Installing the runner alone leaves out the browser, crawler and selector packages
+      the Symfony assertions rely on.
+  - id: CHO-f8rsp6d1dbwf
+    text: symfony/framework-bundle
+    correct: false
+    explanation: It is already there, and it is not what installs a test runner.
+  - id: CHO-z2b68266epkj
+    text: symfony/debug-pack
+    correct: false
+    explanation: It groups development debugging tools, not the test toolchain.
+  explanation: It is installed as a dev dependency and pulls in PHPUnit among others. The suite then
+    runs through the wrapper script in bin/, and PHPUnit reads its configuration from the dist file
+    at the project root.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Installation: composer require --dev symfony/test-pack, then php bin/phpunit'
+    verified_at: '2026-09-12'
+- id: QST-7q4ebzsrj45x
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-hnxp6h0scgsq
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-vj24gwq6r1r4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In which release may a deprecation be introduced?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-11'
+  tags:
+  - deprecations
+  - rules
+  choices:
+  - id: CHO-j00248011c0h
+    text: Only the next minor version
+    correct: true
+  - id: CHO-czkh1dg0r6d9
+    text: Any release, including a patch
+    correct: false
+    explanation: A patch fixes; introducing a deprecation there would change what users are told.
+  - id: CHO-yfztvk16aka4
+    text: Only a major version
+    correct: false
+    explanation: A major removes what was deprecated; announcing it there would leave no migration window.
+  - id: CHO-3449r638f0se
+    text: Any release, provided the CHANGELOG records it
+    correct: false
+    explanation: Recording it is required as well, but it does not widen which release may carry it.
+  explanation: 'The convention is explicit, with one exception for critical cases on supported versions.
+    Two consequences follow: a new class or method can never be introduced already deprecated, and the
+    deprecation must name the version it started in.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Deprecating Code: deprecations must only be introduced on the next minor version'
+    verified_at: '2026-09-12'
