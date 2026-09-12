@@ -32,12 +32,31 @@ LOT01_COURSE = 'content/courses/CRS-0jtjh77tabt1.md'   # OIT-webdvbgbrfth, STAND
 # QST-4rr5p2mvc7g5 is the LEARNING half; QST-95yb2ee8eb52 the HOLDOUT one.
 LOT01_QUESTION = 'content/questions/lot-01-php.yml'
 
+# These anchors carry the fields QST-a4xhs81g86kj really has, because the
+# injection must REPLACE them. Inserting a second `question_archetype:` or
+# `assesses_outcomes:` after the id produces a duplicate YAML key, and the
+# parser keeps the LAST one — so the defect is overwritten by the real value
+# and the rule stays silent on a question that is in fact well formed. That is
+# exactly what happened when lot 07 was annotated under framework version 2:
+# three cases went quiet and were reported as VACUOUS rules, which was the
+# prover telling the truth about itself rather than about ARC-001 or PED-003.
+#
+# Keeping the real values in the anchor also makes the next such change fail
+# loudly: the anchor then matches zero times and the run stops with
+# "anchor matched 0 times", instead of injecting a no-op.
+LOT07_ANCHOR = '- id: QST-a4xhs81g86kj\n  question_archetype: DEFINITION_RECALL\n'
+LOT07_OUTCOME_LINK = (
+    '- id: QST-a4xhs81g86kj\n  question_archetype: DEFINITION_RECALL\n'
+    '  assesses_outcomes:\n  - OUT-xysy1a4vx444\n'
+)
+# The bare outcome id would match twice: two questions of that item name it.
+
 CASES = [
     (
         'ARC-001 rejects an archetype that contradicts the question written',
         [(
             LOT07_QUESTION,
-            '- id: QST-a4xhs81g86kj\n',
+            LOT07_ANCHOR,
             '- id: QST-a4xhs81g86kj\n  question_archetype: VERSION_ATTRIBUTION\n',
         )],
         '[ERROR] ARC-001',
@@ -64,8 +83,9 @@ CASES = [
         'PED-003 rejects a question claiming an outcome its item does not declare',
         [(
             LOT07_QUESTION,
-            '- id: QST-a4xhs81g86kj\n',
-            '- id: QST-a4xhs81g86kj\n  assesses_outcomes:\n    - OUT-abcdefghjkmn\n',
+            LOT07_OUTCOME_LINK,
+            '- id: QST-a4xhs81g86kj\n  question_archetype: DEFINITION_RECALL\n'
+            '  assesses_outcomes:\n  - OUT-abcdefghjkmn\n',
         )],
         '[ERROR] PED-003',
     ),
@@ -73,8 +93,9 @@ CASES = [
         'ARC-001 rejects a BEHAVIOR_* archetype on a question that ships a listing',
         [(
             LOT07_QUESTION,
-            '- id: QST-a4xhs81g86kj\n',
-            '- id: QST-a4xhs81g86kj\n  question_archetype: BEHAVIOR_PREDICTION\n  code_language: php\n',
+            LOT07_ANCHOR,
+            '- id: QST-a4xhs81g86kj\n  question_archetype: BEHAVIOR_PREDICTION\n'
+            '  code_language: php\n',
         )],
         '[ERROR] ARC-001',
     ),

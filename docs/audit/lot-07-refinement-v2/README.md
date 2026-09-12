@@ -146,6 +146,33 @@ Les **six questions HOLDOUT** du lot portent un `question_archetype` mais aucun
 `assesses_outcomes`, pour la raison donnée au lot 06 : une question du holdout
 ne libère jamais un outcome, et un lien deviné serait une affirmation fausse.
 
+## 7 bis. Le prouveur de règles a cessé de prouver
+
+CI a rejeté la première version de cette unité, et pour la bonne raison :
+`prove_framework_rules_fail.py` a rapporté **trois de ses sept cas silencieux**,
+c'est-à-dire trois règles déclarées *vacuous*.
+
+Les règles n'avaient rien perdu. C'est le prouveur qui avait cessé d'injecter.
+Ses trois cas ciblaient `QST-a4xhs81g86kj`, une question du lot 07, en insérant
+un `question_archetype` ou un `assesses_outcomes` **juste après son id**. Tant
+que le lot n'était pas annoté, la question n'avait aucun de ces champs et
+l'injection prenait. Depuis cette unité, elle les porte : l'insertion produisait
+une **clé YAML dupliquée**, le parseur gardait la dernière — la vraie — et la
+règle se taisait sur une question parfaitement conforme.
+
+Le prouveur disait donc la vérité sur lui-même, pas sur `ARC-001` ni `PED-003`.
+
+**Aucune règle n'a été touchée, aucun cas retiré.** Les trois ancres remplacent
+désormais les champs existants au lieu de les dupliquer, et elles **contiennent
+les vraies valeurs** : si la question est réannotée un jour, l'ancre ne
+correspondra plus et le prouveur s'arrêtera sur « anchor matched 0 times »
+au lieu d'injecter un no-op. Le mode d'échec silencieux devient bruyant.
+
+Les sept cas passent à nouveau, restauration SHA-256 vérifiée.
+
+C'est le troisième incident de la session où un contrôle change de sens sous
+l'effet d'une modification de contenu, et le seul que CI ait attrapé avant moi.
+
 ## 8. Portes
 
 | Porte | Résultat |
@@ -154,6 +181,8 @@ ne libère jamais un outcome, et un lien deviné serait une affirmation fausse.
 | idem, lot 07 marqué raffiné (sonde) | PASS après correction de l'archétype du §2 |
 | `vendor/bin/phpunit` | PASS — 245 tests, 13 876 assertions |
 | `composer gate-full` | PASS — exit 0 |
+| `prove_framework_rules_fail.py` | PASS — 7 cas, après la correction du §7 bis |
+| `prove_flashcard_coverage_fails.py` · `aud10 --prove` | PASS — exit 0 chacun |
 | `npm --prefix website run a11y` | PASS — 22 surfaces, 0 violation |
 | `aud10` sur le lot 07 | **20,3 %**, sous le seuil de hasard |
 | Couverture officielle | 100 % (163/163) — inchangée |
