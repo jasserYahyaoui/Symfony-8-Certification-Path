@@ -273,3 +273,28 @@ lots:
           le §1.5 et jamais employe : precedent a relire. Indice de longueur
           44,2 % -> 20,3 %, onze choix preexistants edites, aucune cle de
           reponse deplacee.
+  - lot: lot-12
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lot-12-refinement-v2/README.md
+        pull_request: 118
+        merged_commit: 4e64860
+        production_verified_commit: 4e64860
+        production_smoke_job: 103472678951
+        date: '2026-09-12'
+        note: >-
+          Trois outcomes sur vingt-cinq sans aucune question ; six autres
+          couverts seulement indirectement et renforces — un jugement, pas une
+          obligation de regle, consigne comme tel. ARC-001 a refuse une seconde
+          annotation apres le lot 07 : CONCEPT_DISTINCTION sur une question dont
+          exam_skill est RECOGNIZE. Le controle de recouvrement avec le holdout,
+          instaure au lot 07, a montre qu'une des dix questions ecrites reposait
+          la question d'une question reservee ; elle a ete SUPPRIMEE et non
+          reecrite, son outcome etant deja evalue (§1.4), d'ou un solde de +9.
+          Fait verifie en source et absent du cours : setExitCode() ecrit le code
+          sur l'exception elle-meme, par reflexion. Indice de longueur
+          75,9 % -> 23,7 %, le lot le plus biaise du projet ; quatorze editions,
+          neuf cas laisses dont six a moins de six caracteres d'ecart.
