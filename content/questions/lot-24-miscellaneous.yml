@@ -12,6 +12,10 @@
 schema_version: 1
 questions:
 - id: QST-rx52h6xb2zvd
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-f3nt0swctvqd
+  - OUT-bhjp8tarh8e7
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-43pt66xsft9f
@@ -63,6 +67,9 @@ questions:
     symbol_or_lines: accessing-a-non-existent-property-path
     verified_at: '2026-09-02'
 - id: QST-rxnqtgnv8gnf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-1mrdfqr9nk4q
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-43pt66xsft9f
@@ -113,6 +120,9 @@ questions:
     symbol_or_lines: reading-from-arrays
     verified_at: '2026-09-02'
 - id: QST-jfzfmtt469xk
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-6h3qaavna2z8
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-43pt66xsft9f
@@ -142,7 +152,7 @@ questions:
   - api
   choices:
   - id: CHO-edh4cj94fyym
-    text: A dedicated query that answers whether the path could be written, and performs no write
+    text: A dedicated query that answers whether the path could be written
     correct: true
   - id: CHO-bmm0yctbnnqv
     text: A write attempt wrapped in a try/catch, which is the only available approach
@@ -163,3 +173,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: checking-property-paths
     verified_at: '2026-09-02'
+- id: QST-jtsy60arwa1r
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-xd2zq134swyh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Of the two PHP magic methods a property accessor could use, which works without any configuration?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - property-access
+  - magic
+  choices:
+  - id: CHO-31pwzp5feahq
+    text: The property one, not the method one
+    correct: true
+  - id: CHO-b26t131xbamt
+    text: Both, since magic access is on by default
+    correct: false
+    explanation: One of the two is deliberately off until switched on.
+  - id: CHO-m7aa1ghzk4xk
+    text: Neither, until both are switched on
+    correct: false
+    explanation: One of them is used out of the box.
+  - id: CHO-w5epspfe977v
+    text: The method one, not the property one
+    correct: false
+    explanation: It is the other way round.
+  explanation: Reading through the magic property getter is the default behaviour. Reading through the
+    magic method handler has to be enabled on the builder — the accessor will not guess that a call
+    should be routed there.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Magic __call() Method: you need to enable this feature'
+    verified_at: '2026-09-12'

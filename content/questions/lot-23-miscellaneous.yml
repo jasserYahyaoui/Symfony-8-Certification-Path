@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-qz4v99xfbh3t
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-hsn9hab7spvy
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qkcr4bat6dsb
@@ -40,7 +43,7 @@ questions:
   - async
   choices:
   - id: CHO-2avn0t7aef3x
-    text: On a process started without blocking, the limit is not watched for you; the caller has to check it periodically
+    text: Nothing watches the limit; the caller has to check it periodically
     correct: true
   - id: CHO-2nms5z067wxw
     text: The limit only applies to the error output, not to the total runtime
@@ -62,6 +65,9 @@ questions:
     symbol_or_lines: process-timeout
     verified_at: '2026-09-02'
 - id: QST-cayjxkrtsp55
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-vr32ta087n2a
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qkcr4bat6dsb
@@ -113,6 +119,9 @@ questions:
     symbol_or_lines: using-features-from-the-os-shell
     verified_at: '2026-09-02'
 - id: QST-x7skxav0fpzg
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-z054mp760r1h
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-qkcr4bat6dsb
@@ -163,3 +172,112 @@ questions:
     branch: '8.0'
     symbol_or_lines: disabling-output
     verified_at: '2026-09-02'
+- id: QST-1kkdfwcv8b04
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A process can be launched blocking or non-blocking. What does the blocking form give that
+    the other does not?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - process
+  - execution
+  choices:
+  - id: CHO-gxr8rc1d3n0p
+    text: The command has finished when it returns
+    correct: true
+  - id: CHO-bjgq7svx993s
+    text: It raises an exception when the command fails
+    correct: false
+    explanation: Neither form throws on a non-zero exit by itself; the result has to be checked.
+  - id: CHO-t160g0t3y649
+    text: It captures the output, which the other discards
+    correct: false
+    explanation: Both collect output unless collection is disabled.
+  - id: CHO-2gd7k5t0d20q
+    text: It applies the timeout, which the other ignores
+    correct: false
+    explanation: A timeout can be set on either; what differs is who watches it.
+  explanation: The blocking call returns only once the command has exited, so the exit status and the
+    whole output are immediately readable. The non-blocking one returns at once, which is why anything
+    time-based then needs an explicit check from the caller.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: run() executes after the command finishes; asynchronous processes
+    verified_at: '2026-09-12'
+- id: QST-5naehn50xrx3
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-ew0th9575tfe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two different timeouts can be set on a process. What does the second one measure?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - process
+  - timeouts
+  choices:
+  - id: CHO-p5m26tyfjjr2
+    text: The time since the last output
+    correct: true
+  - id: CHO-e9z3aw1646tj
+    text: The time spent waiting to start
+    correct: false
+    explanation: Neither timeout covers the launch itself.
+  - id: CHO-rt0kstkr8k54
+    text: The time allowed for the output buffer to drain
+    correct: false
+    explanation: Buffer draining is not what either timeout watches.
+  - id: CHO-9t0as0rpxmc0
+    text: The time between two signals sent to the process
+    correct: false
+    explanation: Signals are unrelated to both timeouts.
+  explanation: One bounds the total runtime, the other the silence. A process is timed out when either
+    is exceeded, which is how a long but chatty job is distinguished from a hung one. Disabling output
+    collection makes the idle one unavailable — it has nothing to watch.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the idle timeout only considers the time since the last output
+    verified_at: '2026-09-12'

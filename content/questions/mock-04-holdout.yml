@@ -486,6 +486,7 @@ questions:
         symbol_or_lines: Stopping Event Flow/Propagation (lines 405-438)
         verified_at: '2026-09-03'
   - id: QST-mvevfm9amzpg
+    question_archetype: CONCEPT_DISTINCTION
     version: 1
     official_topic: Miscellaneous
     official_item: OIT-fr58jzaj6jtb

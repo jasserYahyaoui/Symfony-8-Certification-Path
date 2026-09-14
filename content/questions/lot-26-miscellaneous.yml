@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-jyjz9an9yt07
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-r6x291jsb0qt
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
@@ -40,7 +43,7 @@ questions:
   - selection
   choices:
   - id: CHO-vbq0s1bjrk17
-    text: No; once a group is requested, a property belonging to no group is left out
+    text: No; once a group is requested, a property in no group is left out
     correct: true
   - id: CHO-6rm8pta228d8
     text: Yes; an unannotated property is treated as belonging to every group
@@ -62,6 +65,9 @@ questions:
     symbol_or_lines: selecting-specific-properties
     verified_at: '2026-09-02'
 - id: QST-xeygxgdd5586
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-g6j22cqpx1ga
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
@@ -113,6 +119,9 @@ questions:
     symbol_or_lines: the-serialization-process-normalizers-and-encoders
     verified_at: '2026-09-02'
 - id: QST-0a0tb3jj6h5v
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-4bynfsdjvrc5
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
@@ -141,7 +150,7 @@ questions:
   - defaults
   choices:
   - id: CHO-v5sfa7b0mjya
-    text: An exception is raised, once the same object has been serialized one time
+    text: An exception, after one pass over the same object
     correct: true
   - id: CHO-w3z62phvpz5t
     text: An exception is raised immediately, before any pass
@@ -162,3 +171,112 @@ questions:
     branch: '8.0'
     symbol_or_lines: handling-circular-references
     verified_at: '2026-09-02'
+- id: QST-k1ma4azm85yw
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-a95xx41fw6hn
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: For one serialization, how many normalizers and how many encoders take part?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - serializer
+  - pipeline
+  choices:
+  - id: CHO-5k7cx3dmx76g
+    text: A sorted list of normalizers, one encoder
+    correct: true
+  - id: CHO-tf1z40p7m3sw
+    text: One normalizer and one encoder
+    correct: false
+    explanation: Normalizers are consulted as an ordered list until one handles the value.
+  - id: CHO-1s09bh159c55
+    text: One normalizer and a list of encoders
+    correct: false
+    explanation: 'It is the reverse: the format picks exactly one encoder.'
+  - id: CHO-mdvgsw86nzbs
+    text: A list of each, both applied in turn
+    correct: false
+    explanation: Applying several encoders in turn would produce the format twice.
+  explanation: The normalizers are sorted and the first that supports the value handles it, which is
+    why registration order matters. The encoder is chosen by the format argument, so exactly one runs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: a sorted list of normalizers and one encoder for the specific format
+    verified_at: '2026-09-12'
+- id: QST-j0bscrddekrm
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-f4j1y7n6y64g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A property that should stay private keeps appearing in the output. What does the object
+    normalizer take by default, and how is one member excluded?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - serializer
+  - object-normalizer
+  choices:
+  - id: CHO-n57tkqvezkwv
+    text: Properties and get/has/is/can methods; ignore it
+    correct: true
+  - id: CHO-q18p9t4q6yzx
+    text: Only public properties; make the property private
+    correct: false
+    explanation: Visibility alone does not decide what is taken.
+  - id: CHO-cxpang3bha6h
+    text: Only properties with a getter; remove the getter
+    correct: false
+    explanation: Properties are taken as well, so removing a getter is not enough.
+  - id: CHO-tss481g27vp5
+    text: Everything, with no way to exclude a member
+    correct: false
+    explanation: An attribute exists precisely for that.
+  explanation: The default reach is wide on purpose, which is why an object with a computed accessor
+    exposes more than expected. The ignore attribute removes one member; groups are the tool when whole
+    sets have to differ per context.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the ObjectNormalizer normalizes all properties and get/has/is/can methods; the
+      Ignore attribute
+    verified_at: '2026-09-12'

@@ -215,8 +215,8 @@ questions:
     through which every operation goes, an adapter implements the actual storage, and a provider is
     the connection some adapters need. Keys from different pools never collide, even on one backend.'
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/cache.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Cache Pools, Adapters and Items; Provider
-    verified_at: '2026-09-12'
+    verified_at: '2026-09-14'
