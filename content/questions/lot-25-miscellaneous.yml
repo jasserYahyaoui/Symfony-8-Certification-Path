@@ -11,6 +11,10 @@
 schema_version: 1
 questions:
 - id: QST-rez80g9m6w88
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  - OUT-nt4s3vj5727z
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-r3qcmsehzex1
@@ -62,6 +66,9 @@ questions:
     symbol_or_lines: usage
     verified_at: '2026-09-02'
 - id: QST-ymqf2vmf7842
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-87xc26yncsb7
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-r3qcmsehzex1
@@ -112,6 +119,9 @@ questions:
     symbol_or_lines: usage
     verified_at: '2026-09-02'
 - id: QST-qvrh3419534q
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-awqwz26y52yr
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-r3qcmsehzex1
@@ -141,7 +151,7 @@ questions:
   - resolution
   choices:
   - id: CHO-21wdpw6w941p
-    text: For these arguments the variable name is significant as well as the type
+    text: For these arguments the name matters as well as the type
     correct: true
   - id: CHO-jjz7t6dkejmz
     text: Only one array parameter is allowed, and it must be the first
@@ -162,3 +172,56 @@ questions:
     branch: '8.0'
     symbol_or_lines: resolvable-arguments
     verified_at: '2026-09-02'
+- id: QST-vq3xt0e6a4qr
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-3n7fcpgc1j29
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which two ways does the documentation give for choosing a different runtime class?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - runtime
+  - selection
+  choices:
+  - id: CHO-7g812q28ntkr
+    text: An environment variable, or a key in composer.json
+    correct: true
+  - id: CHO-vk9xwa9xysqe
+    text: A constructor argument in the entry script
+    correct: false
+    explanation: The entry script returns a closure; it does not choose the runtime.
+  - id: CHO-nwnranm6nyqb
+    text: A framework configuration key under the kernel
+    correct: false
+    explanation: The choice happens before the kernel exists.
+  - id: CHO-5yxamn55316g
+    text: A command-line flag passed to the front controller
+    correct: false
+    explanation: No such flag takes part in the selection.
+  explanation: Both act before the application is built, which is the only moment the choice can be
+    made. A separate environment variable carries the runtime's own options, as an array or a JSON string.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: use the APP_RUNTIME environment variable or extra.runtime.class
+    verified_at: '2026-09-12'

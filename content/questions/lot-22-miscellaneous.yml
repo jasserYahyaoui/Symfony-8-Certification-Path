@@ -11,6 +11,9 @@
 schema_version: 1
 questions:
 - id: QST-08dprb9gp7c9
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-zpm8v90288p0
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-j4vpn5bh9f27
@@ -40,8 +43,7 @@ questions:
   - debugging
   choices:
   - id: CHO-jfm4r69xm3r6
-    text: The interface they type-hinted may defer delivery, so it has nothing to return; the transport-level interface
-      returns a result object and always delivers synchronously
+    text: The interface they type-hinted may defer delivery, so it returns nothing
     correct: true
   - id: CHO-qj62e9pv66c5
     text: The message was rejected by the server, so no result could be produced
@@ -63,6 +65,9 @@ questions:
     symbol_or_lines: mailer-debugging-emails
     verified_at: '2026-09-02'
 - id: QST-x1q4fk8g682j
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-ybad6g99v4cm
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-j4vpn5bh9f27
@@ -114,6 +119,9 @@ questions:
     symbol_or_lines: creating-sending-messages
     verified_at: '2026-09-02'
 - id: QST-42tvpnq0tkt2
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-f466f6crw21c
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-j4vpn5bh9f27
@@ -165,6 +173,9 @@ questions:
     symbol_or_lines: multiple-email-transports
     verified_at: '2026-09-02'
 - id: QST-7fsdtzgc219c
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-8mvg51813h97
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-9xdjjsqcbn13
@@ -216,6 +227,9 @@ questions:
     symbol_or_lines: creating-raw-email-messages
     verified_at: '2026-09-02'
 - id: QST-mpsdvd7w472c
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-0rk3gn6523qv
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-9xdjjsqcbn13
@@ -245,8 +259,7 @@ questions:
   - guessing
   choices:
   - id: CHO-ec2qa0yns5wv
-    text: No; detection inspects the file's contents rather than its name, so a mislabelled file is reported for what
-      it really is
+    text: No; detection reads the file's contents rather than trusting its name
     correct: true
   - id: CHO-r6hwa9xczscf
     text: Yes; the extension is authoritative and should have been used
@@ -268,6 +281,9 @@ questions:
     symbol_or_lines: components-mime-type-guess
     verified_at: '2026-09-02'
 - id: QST-4qhtngjnh5k3
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-1c0gmbpg2341
   version: 1
   official_topic: Miscellaneous
   official_item: OIT-9xdjjsqcbn13
@@ -318,3 +334,166 @@ questions:
     branch: '8.0'
     symbol_or_lines: usage
     verified_at: '2026-09-02'
+- id: QST-x48my0ncdjrc
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2q2fdnv4mhv9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Among the built-in mail transports, which does the documentation explicitly advise against,
+    and why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - mailer
+  - transports
+  choices:
+  - id: CHO-brpvea409yry
+    text: The one that defers to php.ini
+    correct: true
+  - id: CHO-ssjfzee6cna4
+    text: The SMTP one, because credentials travel in the DSN
+    correct: false
+    explanation: SMTP is the ordinary choice and nothing warns against it.
+  - id: CHO-xbp79nk9pdz5
+    text: The local binary one, because it is slower than SMTP
+    correct: false
+    explanation: That transport is in fact the recommended fallback when the discouraged one is tempting.
+  - id: CHO-eyw9n7czmdcv
+    text: None of them; the warning concerns third-party providers
+    correct: false
+    explanation: The warning is about a built-in transport, not about providers.
+  explanation: Its configuration lives outside the application, so error reporting can be absent and
+    blind-copy headers may not be stripped. The documentation says to prefer the transport that names
+    the binary directly, whose behaviour the application controls.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the DSN protocol table and the warning against native://default
+    verified_at: '2026-09-12'
+- id: QST-k8ghfqjcs3kk
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-7fptsggm3eqe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A send call returns without error. What has actually been established?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - mailer
+  - delivery
+  choices:
+  - id: CHO-nmcmqr6m516p
+    text: A transport accepted the message
+    correct: true
+  - id: CHO-ervds56eyff4
+    text: The recipient has received the message
+    correct: false
+    explanation: Acceptance is a handover; what happens afterwards is outside the call.
+  - id: CHO-mb2jk3bvdtvp
+    text: The message passed the recipient's spam filtering
+    correct: false
+    explanation: Filtering happens far downstream and is never reported back to the call.
+  - id: CHO-3wnf81ex7dsb
+    text: The message was queued for a later retry
+    correct: false
+    explanation: Queueing is a separate concern and does not follow from a successful return.
+  explanation: Acceptance by a transport and delivery to a mailbox are different events, and only the
+    first is observable here. A bounce arrives later, out of band, which is why the debug information
+    on the returned object matters when something goes wrong.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: TransportInterface::send() and the SentMessage object
+    verified_at: '2026-09-12'
+- id: QST-my73tx1dk4vf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-svzhszy009bw
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The MIME component offers a high-level and a low-level API. When is the low-level one justified?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-09-12'
+  tags:
+  - mime
+  - api
+  choices:
+  - id: CHO-5gs47w40720f
+    text: When every part must be controlled by hand
+    correct: true
+  - id: CHO-k1967eg2bahy
+    text: When the message has attachments
+    correct: false
+    explanation: Attachments are ordinary high-level features.
+  - id: CHO-3gh8n9678ejg
+    text: When the message must be sent without a transport
+    correct: false
+    explanation: Building and sending are separate; neither API sends.
+  - id: CHO-48tfy2x4nns6
+    text: When the body is HTML rather than plain text
+    correct: false
+    explanation: Both bodies are high-level features, and the component arranges the parts.
+  explanation: The high-level class covers the common features with chainable calls and builds the part
+    structure for you. The low-level one gives absolute control, at the price of assembling that structure
+    yourself — which means knowing which container each part belongs in.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'two ways of creating MIME messages: a high-level and a low-level API'
+    verified_at: '2026-09-12'
