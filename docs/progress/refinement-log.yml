@@ -373,3 +373,228 @@ lots:
           pre-controle ne l'aurait pas vue. Indice de longueur 48,0 % -> 21,9 %,
           avec une exception assumee : une bonne reponse qui EST une paire de
           noms d'API garde son ecart.
+  - lot: lot-14
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-14-17-refinement-v2/README.md
+        pull_request: 125
+        merged_commit: 7e1e9d6
+        production_verified_commit: 7e1e9d6
+        production_smoke_job: 103520799922
+        date: '2026-09-12'
+        note: >-
+          Premiere unite groupee. Treize lots d'un a trois items chacun
+          demandaient vingt-six pull requests, qui n'auraient rien mesure de
+          plus ; le changement de cadence est signale et non silencieux, chaque
+          lot gardant son entree de journal, ses preuves de production et sa
+          ligne de tableau de bord. Cette unite a produit le premier cas ou
+          aud10 ne peut pas conclure : sous trois questions les valeurs
+          possibles sont 0/33/67/100 %, et passer exige que la bonne reponse ne
+          soit JAMAIS la plus longue, ce qui est soi-meme un indice inverse.
+          Question de gouvernance posee, regle non touchee.
+  - lot: lot-15
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-14-17-refinement-v2/README.md
+        pull_request: 125
+        merged_commit: 7e1e9d6
+        production_verified_commit: 7e1e9d6
+        production_smoke_job: 103520799922
+        date: '2026-09-12'
+        note: >-
+          Audite dans l'unite des lots 14 a 17 ; voir le rapport pour le detail
+          par lot. Production lue : practice 493 questions, exam 136, mock-4 75
+          — le holdout entier et rien d'autre.
+  - lot: lot-16
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-14-17-refinement-v2/README.md
+        pull_request: 125
+        merged_commit: 7e1e9d6
+        production_verified_commit: 7e1e9d6
+        production_smoke_job: 103520799922
+        date: '2026-09-12'
+        note: >-
+          Trois questions en tout : c'est ce lot qui a rendu visible la limite
+          de dénominateur d'aud10, signalee dans le rapport et non corrigee par
+          un deplacement de seuil.
+  - lot: lot-17
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-14-17-refinement-v2/README.md
+        pull_request: 125
+        merged_commit: 7e1e9d6
+        production_verified_commit: 7e1e9d6
+        production_smoke_job: 103520799922
+        date: '2026-09-12'
+        note: >-
+          Audite dans l'unite des lots 14 a 17 ; voir le rapport pour le detail
+          par lot.
+  - lot: lot-18
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-18-21-refinement-v2/README.md
+        pull_request: 126
+        merged_commit: 53d73cd
+        production_verified_commit: 53d73cd
+        production_smoke_job: 103522220910
+        date: '2026-09-12'
+        note: >-
+          Trois outcomes sur dix-neuf sans aucune question, tous des definitions
+          de base : ces lots portaient les cas limites et peu les fondations.
+          La question ajoutee ici citait une source qui ne resolvait pas —
+          components/cache.rst renvoie 404, le chemin correct a la branche 8.0
+          est cache.rst a la racine. Le contenu etait exact, l'URL fausse ; CI
+          ne pouvait pas la voir, le workflow executant aud03 en mode --offline.
+          Corrigee dans l'unite des lots 22 a 26.
+  - lot: lot-19
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-18-21-refinement-v2/README.md
+        pull_request: 126
+        merged_commit: 53d73cd
+        production_verified_commit: 53d73cd
+        production_smoke_job: 103522220910
+        date: '2026-09-12'
+        note: >-
+          Cas le plus net du probleme de denominateur : cinq questions dont une
+          du holdout, que l'unite n'ouvre pas. Le seuil de 25 % autorise une
+          seule question biaisee et la question du holdout l'occupe entierement,
+          ce qui a impose d'editer une bonne reponse dont l'ecart avec le plus
+          long distracteur etait de UN caractere. L'edition n'etait pas
+          pedagogique et le rapport l'ecrit comme telle.
+  - lot: lot-20
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-18-21-refinement-v2/README.md
+        pull_request: 126
+        merged_commit: 53d73cd
+        production_verified_commit: 53d73cd
+        production_smoke_job: 103522220910
+        date: '2026-09-12'
+        note: >-
+          Audite dans l'unite des lots 18 a 21 ; voir le rapport pour le detail
+          par lot. Production lue : practice 496 questions, exam 136, mock-4 75.
+  - lot: lot-21
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-12'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-18-21-refinement-v2/README.md
+        pull_request: 126
+        merged_commit: 53d73cd
+        production_verified_commit: 53d73cd
+        production_smoke_job: 103522220910
+        date: '2026-09-12'
+        note: >-
+          Audite dans l'unite des lots 18 a 21 ; voir le rapport pour le detail
+          par lot.
+  - lot: lot-22
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-14'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-22-26-refinement-v2/README.md
+        pull_request: 127
+        merged_commit: 5d3bbcb
+        production_verified_commit: 5d3bbcb
+        production_smoke_job: 104156839217
+        date: '2026-09-14'
+        note: >-
+          Derniere unite du chantier : avec elle, les vingt-six lots de contenu
+          ont ete audites sous le cadre version 2. Neuf outcomes sur vingt-neuf
+          sans aucune question, et le creux est homogene : ces six items
+          portaient les cas d'usage et laissaient de cote les choix que l'examen
+          fait porter sur eux — quel transport, quel mode de lancement, quel
+          delai, quel normaliseur. L'edition de longueur la plus nette corrigeait
+          une bonne reponse de 167 caracteres face a un distracteur de 77 ;
+          celle-la n'a pas ete faite pour la mesure.
+  - lot: lot-23
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-14'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-22-26-refinement-v2/README.md
+        pull_request: 127
+        merged_commit: 5d3bbcb
+        production_verified_commit: 5d3bbcb
+        production_smoke_job: 104156839217
+        date: '2026-09-14'
+        note: >-
+          Audite dans l'unite des lots 22 a 26 ; voir le rapport pour le detail
+          par lot. Production lue : practice 505 questions, exam 136, mock-4 75
+          — le holdout entier et rien d'autre.
+  - lot: lot-24
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-14'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-22-26-refinement-v2/README.md
+        pull_request: 127
+        merged_commit: 5d3bbcb
+        production_verified_commit: 5d3bbcb
+        production_smoke_job: 104156839217
+        date: '2026-09-14'
+        note: >-
+          Quatre questions : avec ce denominateur les valeurs possibles d'aud10
+          sont 0/25/50/75/100 %, donc une seule question biaisee est toleree et
+          la deuxieme fait echouer le lot. Le pas de la mesure est plus grand
+          que l'effet mesure. Troisieme unite consecutive a poser la question de
+          gouvernance ; la regle n'a pas ete touchee.
+  - lot: lot-25
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-14'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-22-26-refinement-v2/README.md
+        pull_request: 127
+        merged_commit: 5d3bbcb
+        production_verified_commit: 5d3bbcb
+        production_smoke_job: 104156839217
+        date: '2026-09-14'
+        note: >-
+          Meme situation que le lot 24 sur le denominateur d'aud10 : quatre
+          questions, un seul biais tolere.
+  - lot: lot-26
+    status: REFINED
+    framework_version: 2
+    date: '2026-09-14'
+    passes:
+      - framework_version: 2
+        report: docs/audit/lots-22-26-refinement-v2/README.md
+        pull_request: 127
+        merged_commit: 5d3bbcb
+        production_verified_commit: 5d3bbcb
+        production_smoke_job: 104156839217
+        date: '2026-09-14'
+        note: >-
+          Le lot le plus biaise de l'unite avant correction — quatre bonnes
+          reponses sur cinq etaient la plus longue de leur question. Trois
+          editions, toutes du meme geste : la clause de justification quitte le
+          choix et rejoint l'explication. Aucune cle de reponse n'a bouge.

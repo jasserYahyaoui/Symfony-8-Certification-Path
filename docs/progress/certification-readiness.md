@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Official Coverage** | **100%** — 163 of 163 atomic official items are `EXAM_READY` |
-| **Certification Readiness** | **88.3%** — 144 of 163 are refined to the point where an unseen question is answerable |
+| **Certification Readiness** | **100%** — 163 of 163 are refined to the point where an unseen question is answerable |
 
 Coverage says the syllabus is covered. Readiness says how much of it
 has been refined so a candidate could answer a question they have
@@ -19,16 +19,16 @@ two figures agree will be the day the work is finished — not before.
 | Status | Items | Meaning |
 |---|---|---|
 | `NOT_REFINED` | 0 | fails a criterion its content level requires |
-| `PARTIALLY_REFINED` | 19 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 54 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 90 | refined, and assessable in exam mode at the top of what its level requires |
+| `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
+| `REFINED` | 62 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 101 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
 
 ## Lots
 
-**13 of 27 lots refined.**
+**26 of 27 lots refined.**
 
 | Lot | Refinement | Items | Ready | Lot readiness |
 |---|---|---|---|---|
@@ -45,19 +45,19 @@ Readiness. The formula, and why the automated criteria alone are not enough, are
 | 11 — Messenger | **REFINED** | 7 | 7 | 100% |
 | 12 — Console | **REFINED** | 9 | 9 | 100% |
 | 13 — Automated Tests | **REFINED** | 9 | 9 | 100% |
-| 14 — Configuration and Error Handling | TODO | 3 | 0 | 0% |
-| 15 — Profiler and Deployment | TODO | 2 | 0 | 0% |
-| 16 — Internationalization and Localization | TODO | 1 | 0 | 0% |
-| 17 — HTTP Caching | TODO | 1 | 0 | 0% |
-| 18 — Cache | TODO | 1 | 0 | 0% |
-| 19 — Clock | TODO | 1 | 0 | 0% |
-| 20 — EventDispatcher and Event | TODO | 2 | 0 | 0% |
-| 21 — Filesystem and Finder | TODO | 2 | 0 | 0% |
-| 22 — Mailer and Mime | TODO | 2 | 0 | 0% |
-| 23 — Process | TODO | 1 | 0 | 0% |
-| 24 — PropertyAccess | TODO | 1 | 0 | 0% |
-| 25 — Runtime | TODO | 1 | 0 | 0% |
-| 26 — Serializer | TODO | 1 | 0 | 0% |
+| 14 — Configuration and Error Handling | **REFINED** | 3 | 3 | 100% |
+| 15 — Profiler and Deployment | **REFINED** | 2 | 2 | 100% |
+| 16 — Internationalization and Localization | **REFINED** | 1 | 1 | 100% |
+| 17 — HTTP Caching | **REFINED** | 1 | 1 | 100% |
+| 18 — Cache | **REFINED** | 1 | 1 | 100% |
+| 19 — Clock | **REFINED** | 1 | 1 | 100% |
+| 20 — EventDispatcher and Event | **REFINED** | 2 | 2 | 100% |
+| 21 — Filesystem and Finder | **REFINED** | 2 | 2 | 100% |
+| 22 — Mailer and Mime | **REFINED** | 2 | 2 | 100% |
+| 23 — Process | **REFINED** | 1 | 1 | 100% |
+| 24 — PropertyAccess | **REFINED** | 1 | 1 | 100% |
+| 25 — Runtime | **REFINED** | 1 | 1 | 100% |
+| 26 — Serializer | **REFINED** | 1 | 1 | 100% |
 
 A lot audited under an earlier definition of refinement keeps its
 record and is shown with the version it was audited against. It is
@@ -74,6 +74,6 @@ still counting in the denominator.
 
 | | |
 |---|---|
-| Last completed | 11 — Messenger |
-| Recorded on | 2026-09-12 |
-| Next | 14 — Configuration and Error Handling |
+| Last completed | 26 — Serializer |
+| Recorded on | 2026-09-14 |
+| Next | _none_ |
