@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-11
+**Last updated:** 2026-09-14
 
 ---
 
@@ -41,6 +41,41 @@ zero-accented-character signal that locates the affected strings. Neither is a
 assesses all nine clauses against measured state.
 
 ## Current branch
+
+`master`, at `4773274` — **le chantier de raffinement est terminé : les
+vingt-six lots de contenu sont audités sous le cadre version 2, fusionnés et
+vérifiés en production.**
+
+| | |
+|---|---|
+| Dernières *pull requests* | **#127** (lots 22-26 raffinés) · **#128** (journal des lots 14 à 26) |
+| CI | #127 run 34897146689 `success` · #128 run 34898827157 `success` |
+| Pages | #127 run 34897857875 `success`, smoke job **104156839217** · #128 run 34899555371 `success`, smoke job **104162509789** |
+| Lu en production | `readiness deployed 100.0% (163/163), 26 of 27 lots refined — matches the repository dashboard` ; `practice 505`, `exam 136`, `mock-4 75 — the whole holdout and nothing else` |
+| Certification Readiness | 88,3 % (144/163) → **100 % (163/163)** |
+| `PARTIALLY_REFINED` | 19 → **0** ; `NOT_REFINED` 6 → **0** |
+| Lots raffinés | 13/27 → **26/27** (le lot 27 ne porte aucun item atomique) |
+| Questions | 707 → **716** (695 anglaises, 21 françaises ; 270 `hard`, 269 anglaises) |
+| Tests | **245** (13 990 assertions) |
+
+**Ce que ce 100 % ne dit pas.** Il mesure le raffinement, pas la réussite. La
+clause de §5 sur la performance chronométrée en anglais et l'épreuve du holdout
+restent le fait du candidat, qu'aucun script ne ferme ; le dépôt étant public,
+l'isolement du holdout est **fonctionnel**, jamais confidentiel.
+
+**Deux défauts trouvés par les contrôles pendant cette unité, tous deux réels :**
+
+- une citation de source qui renvoyait `404`
+  (`…/8.0/components/cache.rst`, corrigée en `…/8.0/cache.rst`), invisible à CI
+  parce que le *workflow* exécute `aud03` en `--offline` ;
+- `fr2_second_audit.py` avait **cessé de lire les outcomes** : ADR-0007 a changé
+  `learning_outcomes` en liste de `{id, outcome}` et l'extraction ne gardait que
+  les `str`. La règle était juste, sa lecture incomplète — la forme exacte des
+  cinq contrôles vides déjà trouvés ici. Lecture réparée aux trois endroits qui
+  la portaient, règle non touchée, et `FR2-1` remise à l'épreuve par injection
+  d'un défaut avec restauration byte-identique vérifiée en SHA-256.
+
+### L'état précédent, conservé
 
 `master`, at `57ee9ee` — **PED-010 est clos, la roadmap est recalibrée sur un
 examen au 15/12/2026, et le plan de révision est publié sur GitHub Pages, à la
@@ -551,6 +586,32 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+**Trois décisions du propriétaire, aucune prise ici.** Le chantier de
+raffinement n'a plus de lot à traiter ; ce qui reste demande un arbitrage.
+
+1. **`aud10` sous petit dénominateur.** Trois unités consécutives l'ont
+   signalé. Avec quatre ou cinq questions, les valeurs possibles sont
+   0/25/50/75/100 % : le pas de la mesure est plus grand que l'effet mesuré, et
+   le lot 19 a imposé une édition sur un écart de **un caractère**. Faut-il que
+   l'audit rende `NOT_APPLICABLE` sous un seuil (une dizaine de questions) au
+   lieu de conclure ? **La règle n'a pas été touchée.**
+2. **`PED-003` avertit sur 8 items** dont les outcomes sont plus nombreux que
+   les questions, donc une couverture un-pour-un y est arithmétiquement
+   impossible : lot-02 *Language detection*, lot-05 *Domain name matching*,
+   lot-05 *HTTP methods matching*, lot-06 *Assets management*, lot-07 *Handling
+   file upload*, lot-10 *Access Control Rules*, lot-24 *PropertyAccess*,
+   lot-25 *Runtime*. Ajouter une question à chacun, ou assumer l'écart ?
+3. **La condition de sortie d'ADR-0007** vise « les 27 lots ». Le journal en
+   porte **26**, le lot 27 n'ayant aucun item atomique. Peut-il être enregistré
+   en version 2 ? Tant que ce n'est pas tranché, la tolérance de staging
+   d'`ARC-001`, `PED-003`, `REV-001` et `aud10` reste en place alors qu'elle ne
+   couvre plus aucun lot — et le schéma n'est pas passé à 2.
+
+Rien de tout cela n'est un blocage de livraison : les 163 items sont
+`EXAM_READY` et raffinés, et le site est déployé.
+
+### L'action précédente, conservée
 
 **Le lot 02 (HTTP) sous le cadre de raffinement version 2.**
 
