@@ -42,10 +42,29 @@ def lotn(it):
 
 
 def strs(v):
+    """@return list[str] every French string carried by a scanned field.
+
+    `learning_outcomes` used to be a list of plain strings. ADR-0007 gave each
+    outcome an identity, so it is now a list of `{id, outcome}` mappings, and a
+    list comprehension that keeps only `str` silently stopped reading them.
+    That is how this audit failed on 2026-09-14: with the outcome text of the
+    refined lots invisible, the only `ou`-family evidence left in lots 12+ was
+    `où`, so FR2-1 concluded that lots 12+ always accent it and flagged five
+    perfectly correct `ou` (the conjunction) in lots 01-11.
+
+    The rule is untouched; what it reads is repaired. Reading the mapping puts
+    evidence BACK in front of the check rather than taking any away.
+    """
     if isinstance(v, str):
         return [v]
     if isinstance(v, list):
-        return [x for x in v if isinstance(x, str)]
+        out = []
+        for x in v:
+            if isinstance(x, str):
+                out.append(x)
+            elif isinstance(x, dict) and isinstance(x.get('outcome'), str):
+                out.append(x['outcome'])
+        return out
     return []
 
 

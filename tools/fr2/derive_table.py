@@ -43,10 +43,19 @@ def lotn(it):
 
 
 def strs(v):
+    # `learning_outcomes` became a list of `{id, outcome}` mappings with
+    # ADR-0007. Keeping only `str` silently stopped reading it — the defect
+    # fr2_second_audit.py hit on 2026-09-14. Follow the mapping shape too.
     if isinstance(v, str):
         return [v]
     if isinstance(v, list):
-        return [x for x in v if isinstance(x, str)]
+        out = []
+        for x in v:
+            if isinstance(x, str):
+                out.append(x)
+            elif isinstance(x, dict) and isinstance(x.get('outcome'), str):
+                out.append(x['outcome'])
+        return out
     return []
 
 

@@ -43,7 +43,9 @@ vérifiés dans les sources amont avant rédaction : `mailer.rst`,
 `components/mime.rst`, `components/process.rst`, `components/property_access.rst`,
 `components/runtime.rst`, `serializer.rst`, tous à la branche `8.0`.
 
-## 2. Une citation qui ne résolvait pas, héritée de l'unité précédente
+## 2. Deux contrôles qui ne voyaient pas ce qu'ils croyaient voir
+
+### 2.1 Une citation qui ne résolvait pas, héritée de l'unité précédente
 
 `aud03_source_anchor.py` signale **une** source en échec sur les 178 distinctes
 du corpus :
@@ -71,6 +73,62 @@ de `/current/` — mais ne peut pas savoir si elle répond. Une URL bien formée
 vers un fichier inexistant passe donc CI. C'est une limite réelle du contrôle,
 pas un défaut de cette unité, et elle est écrite ici pour qu'elle soit connue :
 **seule l'exécution en ligne, locale, prouve qu'une source existe.**
+
+### 2.2 Un audit qui avait cessé de lire la moitié de son corpus
+
+CI a refusé cette unité une seconde fois, sur `fr2_second_audit.py` :
+
+```
+[FR2-1 a form lots 12+ always accent is still unaccented] 1
+    'ou' x5 (lots 12+ write 'où')
+```
+
+`ou` — la conjonction — **s'écrit sans accent**. Accentuer les cinq occurrences
+aurait produit cinq fautes de français pour faire passer un contrôle. La cause
+était ailleurs.
+
+`FR2-1` compare les formes des lots 01-11 aux formes des lots 12+ : si les lots
+récents accentuent toujours un mot, une occurrence ancienne non accentuée est
+signalée. La fonction qui extrait les chaînes à lire ne gardait que les `str`
+d'une liste :
+
+```python
+return [x for x in v if isinstance(x, str)]
+```
+
+Or `learning_outcomes` **n'est plus une liste de chaînes** : ADR-0007 a donné
+une identité à chaque outcome, et c'est désormais une liste de `{id, outcome}`.
+Le texte des outcomes est donc devenu **invisible** pour cet audit à mesure que
+les lots étaient raffinés — silencieusement, sans qu'aucun compteur ne baisse
+de façon lisible. En convertissant les cinq derniers lots, cette unité a retiré
+le dernier témoin non accentué de `ou` dans les lots 12+, et la règle a conclu,
+correctement au vu de ce qu'elle voyait, que les lots récents accentuent
+toujours ce mot.
+
+Ce n'est pas un faux positif : c'est une **règle juste alimentée par une lecture
+incomplète**, exactement la forme des cinq contrôles vides déjà trouvés dans ce
+projet. La différence est que celui-ci s'est plaint.
+
+**La règle n'a pas été touchée ; sa lecture a été réparée** — l'extraction suit
+maintenant la forme `{id, outcome}`. L'effet est une lecture **plus large**, pas
+plus indulgente :
+
+| | Avant | Après |
+|---|---:|---:|
+| chaînes lues, lots 01-11 | 252 | **736** |
+| chaînes lues, lots 12+ | 74 | **193** |
+
+Et parce qu'un contrôle rendu silencieux par une correction ne prouve rien, la
+règle a été remise à l'épreuve : un mot que les lots 12+ accentuent toujours
+(`opérationnelle`) a été injecté sans accent dans un champ des lots 01-11.
+`FR2-1` l'a signalé, et la matrice a été restaurée **byte-identique**, vérifiée
+en SHA-256.
+
+**Ce que cela dit du reste.** Le défaut existait déjà sur `master` : les lots 12
+à 21 avaient été convertis dans les unités précédentes, et l'audit avait déjà
+cessé de lire leurs outcomes. Il passait parce qu'il lui restait des témoins
+ailleurs — pas parce qu'il regardait. Cette unité ne l'a pas créé, elle l'a
+rendu visible en épuisant la dernière preuve.
 
 ## 3. L'indice de longueur, et le dénominateur pour la troisième fois
 
@@ -150,7 +208,10 @@ Aucun des six cours ne dépasse le budget `REV-001` de son niveau : tous sont
 | `composer gate-full` | PASS — exit 0 |
 | `npm --prefix website run a11y` | PASS — 22 pages, 0 violation (inclus dans `gate-full`) |
 | `prove_framework_rules_fail.py` | PASS — 7 cas, restauration byte-identique |
-| `aud01` … `aud11` | PASS — 0 finding chacun, `aud03` après la correction du §2 |
+| `aud01` … `aud11` | PASS — 0 finding chacun, `aud03` après la correction du §2.1 |
+| `lot01_second_audit.py` | PASS — 0 finding |
+| `fr2_second_audit.py` | PASS — 0 finding après la réparation du §2.2 |
+| `FR2-1` fire toujours sur un défaut | PROUVÉ — mot injecté, règle déclenchée, matrice restaurée (SHA-256 vérifié) |
 | `aud10` sur les cinq lots | PASS — voir §3 |
 | Couverture officielle | 100 % (163/163 EXAM_READY) — inchangée |
 | *Pull request* | voir §8 |
@@ -182,9 +243,19 @@ réelles.
   des sources amont listées au §1, pas des cours.
 - Les neuf questions et les huit éditions **n'ont pas été relues par un humain**.
 - La question du §3 reste **ouverte**, posée pour la troisième unité consécutive.
-- La limite du §2 — `--offline` ne peut pas prouver qu'une source existe — est
+- La limite du §2.1 — `--offline` ne peut pas prouver qu'une source existe — est
   signalée, **pas corrigée** : rendre `aud03` en ligne obligatoire en CI
   dépendrait d'un egress que le *runner* ne garantit pas.
+- Le §2.2 corrige la même rupture de lecture dans **trois** fichiers : l'audit
+  `fr2_second_audit.py` et les deux outils qui l'alimentent,
+  `tools/fr2/derive_table.py` et `tools/fr2/witness.py`, qui portaient la même
+  extraction mot pour mot. Seul l'audit est exécuté par CI, donc **seul
+  l'audit a une preuve d'exécution ici** ; les deux outils sont corrigés par
+  identité de code, pas par un test qui les rejoue.
+- Les lecteurs PHP de `learning_outcomes` (`MatrixLoader`, `PayloadBuilder`)
+  n'ont **pas** cette rupture — ils lisent la forme `{id, outcome}` depuis
+  ADR-0007 et les 245 tests couvrent ce chemin. Aucun autre script Python ne
+  lit ce champ.
 - Le **recouvrement holdout** du §4 est une mesure d'isolement fonctionnel sur
   les bonnes réponses ; ce n'est pas une garantie de confidentialité, le dépôt
   étant public.
