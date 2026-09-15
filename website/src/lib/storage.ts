@@ -11,7 +11,7 @@
 import type {Question} from './types';
 
 const STORAGE_KEY = 'certpath.learner-state';
-const STORAGE_VERSION = 2;
+const STORAGE_VERSION = 3;
 
 export interface Attempt {
   question_id: string;
@@ -20,6 +20,12 @@ export interface Attempt {
   correct: boolean;
   chosen: string[];
   answered_at: string;
+  /**
+   * The practice series this attempt belongs to (Lot 27). Optional on purpose:
+   * every attempt recorded before Lot 27 has none, and back-filling one would
+   * invent a series that never happened.
+   */
+  session_id?: string;
   mode: 'practice' | 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5';
 }
 
@@ -32,6 +38,28 @@ export interface ExamSession {
   unanswered: number;
   elapsed_seconds: number;
   timed_out: boolean;
+  finished_at: string;
+}
+
+/**
+ * A finished Practice Mode series (Lot 27).
+ *
+ * Kept apart from ExamSession on purpose: an exam sitting is timed and can time
+ * out, a practice series is neither, and reusing the exam shape would mean
+ * recording `timed_out: false` about a mode in which timing out is not a thing
+ * that can happen. `elapsed_seconds` is absent for the same reason —
+ * PER_QUESTION_TIMING_NOT_IMPLEMENTED: no per-question timing is measured
+ * today, and this project does not write a number it did not measure.
+ */
+export interface PracticeSession {
+  mode: 'practice';
+  /** Stable across a series so its attempts can be grouped afterwards. */
+  session_id: string;
+  question_count: number;
+  answered: number;
+  correct: number;
+  /** Question ids in the order served, so a review replays the real series. */
+  order: string[];
   finished_at: string;
 }
 
@@ -62,6 +90,7 @@ export interface LearnerState {
   schema_version: number;
   attempts: Attempt[];
   sessions: ExamSession[];
+  practice_sessions: PracticeSession[];
   revision: RevisionState;
 }
 
@@ -72,6 +101,11 @@ const MIGRATIONS: Record<number, Migration> = {
   // The agenda arrived after the question banks. A learner returning with a
   // v1 record keeps every attempt and session; only the new slice is added.
   2: (state) => ({...state, revision: emptyRevision()}),
+  // Lot 27: Practice Mode gained an end-of-series report, which needs a record
+  // of the series. Attempts, sessions and agenda are carried through
+  // untouched — a learner who has been practising for weeks keeps everything
+  // and simply has no practice series recorded before this version.
+  3: (state) => ({...state, practice_sessions: []}),
 };
 
 function emptyRevision(): RevisionState {
@@ -79,7 +113,13 @@ function emptyRevision(): RevisionState {
 }
 
 function empty(): LearnerState {
-  return {schema_version: STORAGE_VERSION, attempts: [], sessions: [], revision: emptyRevision()};
+  return {
+    schema_version: STORAGE_VERSION,
+    attempts: [],
+    sessions: [],
+    practice_sessions: [],
+    revision: emptyRevision(),
+  };
 }
 
 function migrate(raw: unknown): LearnerState {
@@ -106,6 +146,7 @@ function migrate(raw: unknown): LearnerState {
     schema_version: STORAGE_VERSION,
     attempts: Array.isArray(state.attempts) ? state.attempts : [],
     sessions: Array.isArray(state.sessions) ? state.sessions : [],
+    practice_sessions: Array.isArray(state.practice_sessions) ? state.practice_sessions : [],
     revision: {
       done: revision.done && typeof revision.done === 'object' ? revision.done : {},
       settings: revision.settings ?? null,
@@ -172,6 +213,24 @@ export function recordSession(session: ExamSession): void {
   const state = readState();
   state.sessions.push(session);
   writeState(state);
+}
+
+export function recordPracticeSession(session: PracticeSession): void {
+  const state = readState();
+  state.practice_sessions.push(session);
+  writeState(state);
+}
+
+/**
+ * The attempts belonging to one practice series, in the order served.
+ *
+ * Read back rather than held in React state so that a reload during a series
+ * still produces a report — the attempts were written as they were answered.
+ * The last attempt per question wins: a learner who replays a question inside
+ * one series is graded on what they last did, not on their first guess.
+ */
+export function practiceAttempts(sessionId: string): Attempt[] {
+  return readState().attempts.filter((a) => a.session_id === sessionId);
 }
 
 /** Question ids answered incorrectly at least once — drives weakness replay. */

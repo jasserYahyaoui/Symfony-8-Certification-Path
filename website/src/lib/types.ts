@@ -41,6 +41,12 @@ export interface Payload {
   generated_at: string;
   pool: 'LEARNING' | 'VALIDATION' | 'HOLDOUT';
   questions: Question[];
+  /**
+   * Present on practice.json since Lot 27 and on every mock payload. Exam Mode
+   * does not carry it, so it stays optional rather than forcing a cast at the
+   * one call site that has no index.
+   */
+  items?: Record<string, ItemIndexEntry>;
 }
 
 /** An atomic official item, with what the learner is meant to be able to do. */
@@ -48,6 +54,12 @@ export interface ItemIndexEntry {
   official_item: string;
   official_topic: string;
   learning_outcomes: string[];
+  /**
+   * Where to revise the concept. Derived by CourseUrl at build time from the
+   * same helper that writes the page, so this never points at a route the
+   * build did not produce.
+   */
+  course_url: string;
 }
 
 /**

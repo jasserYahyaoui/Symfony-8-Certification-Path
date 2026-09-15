@@ -94,6 +94,75 @@ const server = createServer(async (req, res) => {
 });
 await new Promise((r) => server.listen(PORT, r));
 
+/**
+ * Lot 27: the Practice Mode states that only exist after an interaction.
+ *
+ * Until now this file only checked the state a screen is in on arrival, and
+ * said so honestly for the mocks. That is not enough for Practice Mode, whose whole
+ * point is what appears AFTER an answer: the correction, the code blocks inside
+ * it, and the end-of-series report. Auditing only the empty question form would
+ * be auditing the one state the learner spends the least time in.
+ *
+ * The states are reached through the product's own behaviour, not a test hook.
+ * Seeding one wrong attempt in localStorage and ticking "rejouer mes points
+ * faibles" narrows the queue to a single known question — the feature exists
+ * for learners, and reusing it keeps the audited DOM the real one.
+ */
+const practicePayload = JSON.parse(
+  await readFile(join(WEBSITE, 'static/data/practice.json'), 'utf8'),
+);
+
+function pickQuestion(mode) {
+  const found = practicePayload.questions.find(
+    (q) => q.answer_mode === mode && q.language === 'en',
+  );
+  if (!found) {
+    throw new Error(`a11y: no ${mode} English question in practice.json`);
+  }
+  return found;
+}
+
+/** Seed a weakness for exactly one question, at the current storage version. */
+function seedWeakness(questionId, officialItem) {
+  return {
+    schema_version: 3,
+    attempts: [{
+      question_id: questionId,
+      question_version: 1,
+      official_item: officialItem,
+      correct: false,
+      chosen: [],
+      answered_at: '2026-01-01T00:00:00.000Z',
+      mode: 'practice',
+    }],
+    sessions: [],
+    practice_sessions: [],
+    revision: {done: {}, settings: null},
+  };
+}
+
+async function openWeakSeries(page, question) {
+  await page.getByLabel('Rejouer mes points faibles').check();
+  await page.locator('fieldset.certpath-question').waitFor();
+}
+
+/** Answer the single-answer question, correctly or not, then submit. */
+function answerThen(question, wantCorrect, after) {
+  return async (page) => {
+    await openWeakSeries(page, question);
+    const target = question.choices.find((c) => c.correct === wantCorrect);
+    await page.locator(`#choice-${target.id}`).check();
+    await page.getByRole('button', {name: 'Valider ma réponse'}).click();
+    await page.locator('.certpath-feedback').waitFor();
+    if (after) {
+      await after(page);
+    }
+  };
+}
+
+const SINGLE = pickQuestion('single');
+const MULTIPLE = pickQuestion('multiple');
+
 // One page per interactive surface, plus a generated item page carrying the
 // <details> flashcards introduced by Lot 0.5.
 const PAGES = [
@@ -135,6 +204,32 @@ const PAGES = [
   ['agenda — vue semaine', '/calendar?view=week&date=2026-11-23'],
   ['agenda — vue jour', '/calendar?view=day&date=2026-11-24'],
   ['practice', '/practice'],
+  // The six Practice Mode states Lot 27 requires to be audited rather than
+  // assumed. Each drives the real UI; none uses a test-only code path.
+  ['practice — après bonne réponse', '/practice',
+    {state: () => seedWeakness(SINGLE.id, SINGLE.official_item),
+     drive: answerThen(SINGLE, true)}],
+  ['practice — après mauvaise réponse', '/practice',
+    {state: () => seedWeakness(SINGLE.id, SINGLE.official_item),
+     drive: answerThen(SINGLE, false)}],
+  ['practice — question multiple', '/practice',
+    {state: () => seedWeakness(MULTIPLE.id, MULTIPLE.official_item),
+     drive: async (page) => {
+       await openWeakSeries(page, MULTIPLE);
+     }}],
+  ['practice — bilan de série', '/practice',
+    {state: () => seedWeakness(SINGLE.id, SINGLE.official_item),
+     drive: answerThen(SINGLE, false, async (page) => {
+       await page.getByRole('button', {name: 'Voir mon bilan'}).click();
+       await page.locator('.certpath-results').waitFor();
+     })}],
+  ['practice — revue des erreurs ouverte', '/practice',
+    {state: () => seedWeakness(SINGLE.id, SINGLE.official_item),
+     drive: answerThen(SINGLE, false, async (page) => {
+       await page.getByRole('button', {name: 'Voir mon bilan'}).click();
+       await page.locator('.certpath-review').first().waitFor();
+       await page.locator('.certpath-review summary').first().click();
+     })}],
   ['exam', '/exam'],
   // Mock 4. Only the briefing screen is reachable without interaction, so
   // that is what this audits; the sitting reuses QuestionCard, covered through
@@ -161,11 +256,29 @@ const browser = await chromium.launch(
   existsSync(LOCAL_CHROME) ? {executablePath: LOCAL_CHROME} : {},
 );
 let total = 0;
-for (const [name, path] of PAGES) {
+for (const [name, path, script] of PAGES) {
   // axe-core/playwright requires a real context, not the default page.
-  const context = await browser.newContext();
+  // Interactive states are audited at phone width: a correction that forces a
+  // horizontal page scroll is a real defect and only shows up narrow.
+  const context = await browser.newContext(
+    script ? {viewport: {width: 390, height: 780}} : {},
+  );
   const page = await context.newPage();
+  if (script?.state) {
+    const seeded = script.state();
+    // Idempotent: addInitScript re-runs on every navigation, and a state the
+    // page itself wrote must survive one.
+    await page.addInitScript(
+      ([key, value]) => {
+        if (!window.localStorage.getItem(key)) window.localStorage.setItem(key, value);
+      },
+      ['certpath.learner-state', JSON.stringify(seeded)],
+    );
+  }
   await page.goto(`http://127.0.0.1:${PORT}${BASE}${path}`, {waitUntil: 'networkidle'});
+  if (script?.drive) {
+    await script.drive(page);
+  }
 
   const {violations} = await new AxeBuilder({page})
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -180,6 +293,18 @@ for (const [name, path] of PAGES) {
     for (const c of document.querySelectorAll('input,select,button,a[href],summary')) {
       const s = getComputedStyle(c);
       if (s.outlineStyle === 'none' && !s.boxShadow.length) out.push('no-focus-affordance:' + c.tagName);
+    }
+    // Lot 27: a code block may scroll; the document may not. A learner on a
+    // phone must never be pushed sideways by one wide snippet.
+    if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) {
+      out.push('page-scrolls-horizontally');
+    }
+    // A scrollable region has to be reachable by keyboard, or its content is
+    // unreadable without a mouse.
+    for (const pre of document.querySelectorAll('pre.certpath-code-block')) {
+      if (pre.scrollWidth > pre.clientWidth && pre.tabIndex < 0) {
+        out.push('unfocusable-scrolling-code');
+      }
     }
     return [...new Set(out)];
   });

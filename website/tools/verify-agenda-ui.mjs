@@ -20,6 +20,13 @@ import {extname, join} from 'node:path';
 const LOCAL_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 const ROOT = new URL('../build/', import.meta.url).pathname;
+const STORAGE_SOURCE = new URL('../src/lib/storage.ts', import.meta.url).pathname;
+const STORAGE_VERSION = Number(
+  (await readFile(STORAGE_SOURCE, 'utf8')).match(/STORAGE_VERSION\s*=\s*(\d+)/)?.[1],
+);
+if (!Number.isInteger(STORAGE_VERSION)) {
+  throw new Error('impossible de lire STORAGE_VERSION dans storage.ts');
+}
 const PORT = 4601;
 const BASE = '/Symfony-8-Certification-Path';
 const TYPES = {
@@ -105,8 +112,14 @@ await check('cocher une session survit au rechargement', async () => {
   if (Object.keys(stored?.revision?.done ?? {}).length !== 1) {
     throw new Error('la coche n est pas dans l état apprenant');
   }
-  if (stored.schema_version !== 2) {
-    throw new Error(`schema_version ${stored.schema_version}, attendu 2`);
+  // Read from storage.ts rather than retyped here. A hardcoded number has to
+  // be edited on every migration, and the edit that gets forgotten turns this
+  // into a check that fails for the wrong reason — as it did when Lot 27 moved
+  // the store to v3 and this line still said 2.
+  if (stored.schema_version !== STORAGE_VERSION) {
+    throw new Error(
+      `schema_version ${stored.schema_version}, attendu ${STORAGE_VERSION}`,
+    );
   }
 
   await again.uncheck();
