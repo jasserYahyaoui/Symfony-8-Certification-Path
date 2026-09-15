@@ -136,6 +136,97 @@ l'empoisonnement de `Host` (page à 865/900, 35 mots de marge) ; la restriction
 `setCache()` ; la prémisse `REMOTE_ADDR` des exemples `getClientIp()` ; `reviewed_at`
 non rafraîchi.
 
-## Revue n° 3
+## Revue n° 3 — 2026-09-15, HEAD `8cf5020`
 
-En cours. Le lot **reste bloqué** jusqu'à un verdict explicite.
+**Agent :** troisième sous-agent indépendant, sans contact avec les deux
+précédents, à qui il était demandé de ne pas lire les rapports avant d'avoir
+clos son jugement. 30 sources récupérées, composant 8.0 reconstitué,
+**~45 comportements exécutés** sous PHP 8.4.19.
+
+### Verdict : **LOT 02 NON VALIDÉ — 76,5 / 100** — **deux `P0`**, aucun `P1`
+
+| Poste | Barème | n° 1 | n° 2 | n° 3 |
+|---|---:|---:|---:|---:|
+| Exactitude Symfony 8.0 | 25 | 17 | 23 | **19** |
+| Couverture HTTP Fundamentals | 20 | 12 | 16 | **16** |
+| Préparation à la certification | 20 | 12 | 17 | **16** |
+| Qualité pédagogique | 15 | 11 | 12 | **12** |
+| Exemples et cas pratiques | 10 | 5 | 8 | **7** |
+| Sources et traçabilité | 5 | 4 | 3 | **3** |
+| Cohérence et navigation | 5 | 3 | 3,5 | **3,5** |
+| **Total** | **100** | **64** | **82,5** | **76,5** |
+
+**Les deux `P0` tombent tous les deux sur le cours *Caching*, et tous deux sont
+des défauts que les itérations précédentes ont produits ou manqués.**
+
+### `P0-1` — une annotation vraie isolément, fausse dans son bloc
+
+Corrigeant le `P2-1` de la revue n° 2, j'avais écrit :
+
+```php
+$response->setPublic();
+$response->setMaxAge(3600);         // émet « max-age=3600, private » → tous les caches
+```
+
+`ResponseHeaderBag::computeCacheControlValue()` n'ajoute `, private` que si ni
+`public`, ni `private`, ni `s-maxage` n'est présent :
+
+```php
+if (isset($this->cacheControl['public']) || isset($this->cacheControl['private'])) {
+    return $header;
+}
+```
+
+`setPublic()` précédant l'appel, l'en-tête émis est `public, max-age=3600`.
+J'avais recopié le comportement **isolé** de `setMaxAge()` — exact hors contexte
+— dans une séquence où il ne s'applique pas. L'annotation était de surcroît
+auto-contradictoire : `private` interdit le stockage par un cache partagé, donc
+« private → tous les caches » ne peut pas être vrai. **CORRIGÉE** : les trois
+lignes portent désormais l'en-tête cumulé réel, et le comportement isolé est
+énoncé à part.
+
+**C'est la quatrième correction de ce lot qui introduit un défaut.**
+
+### `P0-2` — « l'ETag l'emporte toujours » est faux
+
+Les revues n° 1 et n° 2 avaient **portré ce passage au crédit du lot**. La
+revue n° 3 l'a exécuté :
+
+```php
+if (($ifNoneMatchEtags = $request->getETags()) && (null !== $etag = $this->getEtag())) {
+```
+
+La garde exige **deux** conditions : un `If-None-Match` dans la requête **et**
+un ETag sur la réponse. Une réponse sans ETag, avec `Last-Modified`, face à une
+requête portant `If-None-Match` **et** `If-Modified-Since` correspondant, rend
+`true` et un 304 — la date a bien été évaluée. **CORRIGÉE**, et l'occasion
+pédagogique manquée est reprise : RFC 9110 §13.1.3 impose d'ignorer
+`If-Modified-Since` dès que `If-None-Match` est présent, **sans** condition sur
+la réponse. Symfony s'en écarte.
+
+### Aussi corrigés
+
+Trois `P3` issus de mon propre commit précédent : doublon du bloc de sources RFC,
+`anchor: "expiration"` qui n'existe pas dans `expiration.rst`, et « 303 complète
+ce tableau 2×2 » alors que 303 n'appartient pas à ce 2×2.
+
+### Ce que la revue n° 3 confirme comme juste
+
+12/12 liens à 200 ; **les 3 ancres RFC corrigées à l'itération précédente
+existent réellement** et pointent sur §15, §9.2 et §12 ; 17/17 numéros de ligne
+exacts ; `REV-001` recalculé avec la formule du dépôt : **10/10 conformes** ;
+`POOL-002` satisfait ; aucun renvoi inter-items mort ; et — vérification que
+personne n'avait faite — **aucun fait testé par `lot-02-http.yml` n'est absent
+des cours**.
+
+### Restent ouvertes
+
+`Partitioned`/CHIPS et les préfixes `__Host-` ; `setTrustedHosts()` ;
+la restriction 8.0 de l'override ; `send()`/`sendHeaders()` ; SSRF côté
+HttpClient ; `reviewed_at` non rafraîchi sur les 10 cours ; et un distracteur de
+`lot-02-http.yml` qui affirme « max-age applies to private caches » — le piège
+que le cours dénonce désormais.
+
+## Revue n° 4
+
+En cours. Le lot **reste bloqué**.

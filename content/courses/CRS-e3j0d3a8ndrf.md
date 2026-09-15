@@ -21,7 +21,6 @@ official_sources:
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache/expiration.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst"
-    anchor: "expiration"
     symbol_or_lines: '"Using the setSharedMaxAge() method is not equivalent to using both setPublic() and setMaxAge() methods ... That''s why it''s recommended to use both public and max-age directives"'
     repository: "symfony/symfony-docs"
     branch: "8.0"
@@ -53,14 +52,16 @@ passante.
 ## Expiration
 
 ```php
-$response->setPublic();
-$response->setMaxAge(3600);         // émet « max-age=3600, private » → tous les caches
-$response->setSharedMaxAge(86400);  // Cache-Control: s-maxage=86400 → caches partagés
+$response->setPublic();             // Cache-Control: public
+$response->setMaxAge(3600);         // public, max-age=3600
+$response->setSharedMaxAge(86400);  // public, max-age=3600, s-maxage=86400
 ```
 
-`setSharedMaxAge()` appelle **`setPublic()` lui-même** : une réponse à laquelle
-on ne fait que `setSharedMaxAge(600)` porte `public, s-maxage=600`. La première
-ligne de l'exemple est donc redondante — `setMaxAge()`, lui, ne rend rien public.
+Les directives **s'accumulent** : chaque appel ajoute la sienne. `setPublic()`
+est ici redondant, car `setSharedMaxAge()` l'appelle lui-même — ce que
+`setMaxAge()` ne fait pas. Seul, `setMaxAge(3600)` émet d'ailleurs
+`max-age=3600, private`, le `private` étant ajouté par défaut tant que ni
+`public` ni `s-maxage` n'est posé.
 
 **La documentation officielle recommande pourtant `setPublic()` + `setMaxAge()`**
 plutôt que `setSharedMaxAge()` : `s-maxage` interdit à un cache de servir une
@@ -90,9 +91,15 @@ if ($response->isNotModified($request)) {
 ```
 
 Le client renvoie ensuite `If-None-Match` (contre l'ETag) ou
-`If-Modified-Since` (contre la date). Les deux ne sont **pas symétriques** :
-si `If-None-Match` est présent, la date n'est jamais évaluée — la comparaison
-de dates est dans un `elseif`. L'ETag l'emporte toujours. `isNotModified()` compare et, en cas de
+`If-Modified-Since` (contre la date). Les deux ne sont **pas symétriques**, mais
+la condition est plus fine qu'il n'y paraît : la comparaison de dates est dans un
+`elseif` dont la branche `if` exige **deux** choses — un `If-None-Match` dans la
+requête **et** un ETag sur la réponse. Si la réponse ne porte pas d'ETag, la date
+est évaluée malgré `If-None-Match`, et peut produire un 304.
+
+RFC 9110 §13.1.3 est plus stricte : le destinataire **doit** ignorer
+`If-Modified-Since` dès que `If-None-Match` est présent, sans condition sur la
+réponse. Symfony s'en écarte ; c'est le code qui fait foi ici. `isNotModified()` compare et, en cas de
 correspondance, met le statut à 304 et vide le corps.
 
 **`isNotModified()` commence par une garde sur la méthode.** Son premier geste
@@ -158,7 +165,6 @@ dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur 
 ## Aller lire la source
 
 - [RFC 9110](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html) — §8.8 *Validator Fields*, §12.5.5 *Vary*
-- RFC 9111 §5.2 (`must-revalidate`), RFC 5861 §3, RFC 8246
 - [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isNotModified()` l. 1118, `setSharedMaxAge()` l. 841,
   `setPublic()`, `setMaxAge()` (branche 8.0, `6f841c0`)
 - [Cache HTTP](https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst)

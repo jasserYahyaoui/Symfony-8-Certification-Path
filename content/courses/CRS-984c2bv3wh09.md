@@ -70,7 +70,7 @@ temporaires. La différence entre l'ancienne et la nouvelle paire tient à la
 méthode : `307` et `308` **préservent la méthode et le corps** de la requête,
 alors que les agents transforment historiquement `301`/`302` en `GET`.
 
-**`303 See Other` complète ce tableau 2×2.** Il demande un `GET` (ou `HEAD`)
+**`303 See Other` n'entre pas dans ce 2×2.** Il demande un `GET` (ou `HEAD`)
 sur une autre ressource, quelle que soit la méthode d'origine : c'est
 POST-Redirect-GET, là où `307` rejouerait le `POST`.
 

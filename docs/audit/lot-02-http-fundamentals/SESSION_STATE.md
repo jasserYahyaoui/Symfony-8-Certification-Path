@@ -14,7 +14,7 @@
 
 ## Statut global
 
-`CORRECTIONS_REQUIRED` → seconde `INDEPENDENT_REVIEW` en cours
+`CORRECTIONS_REQUIRED` → quatrième `INDEPENDENT_REVIEW` en cours (n° 1 : 64/100, n° 2 : 82,5/100, n° 3 : 76,5/100 — tous NON VALIDÉ)
 
 ## Avancement
 
