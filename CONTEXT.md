@@ -596,12 +596,17 @@ raffinement n'a plus de lot à traiter ; ce qui reste demande un arbitrage.
    le lot 19 a imposé une édition sur un écart de **un caractère**. Faut-il que
    l'audit rende `NOT_APPLICABLE` sous un seuil (une dizaine de questions) au
    lieu de conclure ? **La règle n'a pas été touchée.**
-2. **`PED-003` avertit sur 8 items** dont les outcomes sont plus nombreux que
-   les questions, donc une couverture un-pour-un y est arithmétiquement
-   impossible : lot-02 *Language detection*, lot-05 *Domain name matching*,
-   lot-05 *HTTP methods matching*, lot-06 *Assets management*, lot-07 *Handling
-   file upload*, lot-10 *Access Control Rules*, lot-24 *PropertyAccess*,
-   lot-25 *Runtime*. Ajouter une question à chacun, ou assumer l'écart ?
+2. ~~**`PED-003` avertit sur 8 items**~~ — **tranché le 2026-09-15, et ce
+   n'était pas une décision.** La formulation de la PR #128 laissait entendre
+   qu'un outcome restait non évalué dans ces huit items. Lecture faite question
+   par question : **aucun ne l'est**. Le contrôle liant de `PED-003` — chaque
+   outcome évalué par une question qui le nomme — s'exécute en `ERROR` sur les
+   vingt-six lots et passe ; l'avertissement agrégé est un compteur dont le
+   commentaire de la règle dit lui-même qu'il ne prouve rien. Les deux seuls
+   cas discutables (lot-05) testeraient une syntaxe que le candidat ne peut pas
+   ne pas avoir vue : §1.4 dit stop. Rien ajouté, règle non touchée,
+   avertissement conservé. Voir
+   [`docs/audit/ped-003-shortfall-reading/`](docs/audit/ped-003-shortfall-reading/README.md).
 3. **La condition de sortie d'ADR-0007** vise « les 27 lots ». Le journal en
    porte **26**, le lot 27 n'ayant aucun item atomique. Peut-il être enregistré
    en version 2 ? Tant que ce n'est pas tranché, la tolérance de staging
