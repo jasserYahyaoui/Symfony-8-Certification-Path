@@ -211,7 +211,6 @@ final readonly class Project
             wordingFingerprints: $this->loadWordingFingerprints(),
             contentFiles: $this->markdownFiles(),
             projectDir: $this->rootDir,
-            frameworkRefinedLots: $this->lotsRefinedUnderCurrentFramework(),
         );
     }
 

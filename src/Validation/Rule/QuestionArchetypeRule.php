@@ -21,11 +21,15 @@ use CertPath\Validation\Violation;
  * that contradicts the question's own observable properties is rejected, so a
  * label cannot be applied for the sake of the gate.
  *
- * The field is required only for questions belonging to a lot recorded as
- * refined in docs/progress/refinement-log.yml. The 550 questions written
- * before the axis existed carry none; assigning archetypes to them by
- * guesswork would fabricate data (§19), and each lot's refinement pass brings
- * its own in.
+ * The field was at first required only for questions in a lot recorded as
+ * refined: the 550 questions written before the axis existed carried none, and
+ * assigning archetypes to them by guesswork would have fabricated data (§19).
+ * Each lot's refinement pass brought its own in.
+ *
+ * ADR-0007's staging was removed on 2026-09-15: the twenty-six lots that
+ * carry atomic official items are all recorded at framework version 2, so the
+ * tolerance covered nobody. It is gone rather than dormant, because a tolerance
+ * that covers nothing still tells the next reader the bar is optional.
  */
 final class QuestionArchetypeRule implements Rule
 {
@@ -39,7 +43,7 @@ final class QuestionArchetypeRule implements Rule
 
     public function description(): string
     {
-        return 'Questions in a refined lot declare a structural archetype consistent with the question written.';
+        return 'Every question declares a structural archetype consistent with the question written.';
     }
 
     public function check(ContentSet $content): array
@@ -53,18 +57,15 @@ final class QuestionArchetypeRule implements Rule
 
         foreach ($content->questions as $question) {
             $lot = $lotOfItem[$question->officialItemId] ?? null;
-            $refined = null !== $lot && \in_array($lot, $content->frameworkRefinedLots, true);
             $archetype = $question->questionArchetype;
 
             if (null === $archetype) {
-                if ($refined) {
-                    $violations[] = new Violation(
-                        $this->id(),
-                        Severity::Error,
-                        \sprintf('Question in refined lot "%s" declares no question_archetype.', $lot),
-                        $question->id->value,
-                    );
-                }
+                $violations[] = new Violation(
+                    $this->id(),
+                    Severity::Error,
+                    \sprintf('Question in lot "%s" declares no question_archetype.', $lot ?? 'unknown'),
+                    $question->id->value,
+                );
 
                 continue;
             }

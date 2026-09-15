@@ -45,7 +45,6 @@ final class RefinementFrameworkRuleTest extends TestCase
         $content = $this->content(
             [$item],
             [QuestionFactory::make(['officialItemId' => $item->id->value])],
-            refined: ['lot-01'],
         );
 
         $violations = (new QuestionArchetypeRule())->check($content);
@@ -56,20 +55,28 @@ final class RefinementFrameworkRuleTest extends TestCase
     }
 
     /**
-     * The staging that keeps the rule honest: 550 questions were written before
-     * the axis existed. Failing the build over them would have forced either a
-     * fabricated archetype on each or the rule's removal.
+     * Was testAQuestionOutsideARefinedLotNeedsNoArchetype until 2026-09-15.
+     *
+     * The staging it asserted kept the rule honest while 550 questions written
+     * before the axis existed carried no archetype: failing the build over them
+     * would have forced either a fabricated archetype on each or the rule's
+     * removal. Every one of them has since been annotated by its lot's
+     * refinement pass, so ADR-0007's exit act removed the tolerance and the
+     * field is required everywhere.
      */
-    public function testAQuestionOutsideARefinedLotNeedsNoArchetype(): void
+    public function testAQuestionWithoutAnArchetypeIsRejectedInAnyLot(): void
     {
         $item = ItemFactory::make(['lot' => 'lot-07']);
         $content = $this->content(
             [$item],
             [QuestionFactory::make(['officialItemId' => $item->id->value])],
-            refined: ['lot-01'],
         );
 
-        self::assertSame([], (new QuestionArchetypeRule())->check($content));
+        $violations = (new QuestionArchetypeRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertSame(Severity::Error, $violations[0]->severity);
+        self::assertStringContainsString('declares no question_archetype', $violations[0]->message);
     }
 
     /**
@@ -86,7 +93,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 // CODE_OUTPUT shows code; this question declares no code_language.
                 'questionArchetype' => QuestionArchetype::CodeOutput,
             ])],
-            refined: [],
         );
 
         $violations = (new QuestionArchetypeRule())->check($content);
@@ -105,7 +111,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::CodeDiagnosis,
                 'examSkill' => 'RECOGNIZE',
             ])],
-            refined: [],
         );
 
         $messages = array_map(static fn ($v): string => $v->message, (new QuestionArchetypeRule())->check($content));
@@ -124,7 +129,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::VersionAttribution,
                 'question' => 'Which feature was introduced most recently?',
             ])],
-            refined: [],
         );
 
         $violations = (new QuestionArchetypeRule())->check($content);
@@ -143,7 +147,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::VersionAttribution,
                 'question' => 'Which of these was added in PHP 8.4?',
             ])],
-            refined: ['lot-07'],
         );
 
         self::assertSame([], (new QuestionArchetypeRule())->check($content));
@@ -170,7 +173,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'officialItemId' => $item->id->value,
                 'assessesOutcomes' => [$assessed->value],
             ])],
-            refined: ['lot-01'],
         );
 
         $blocking = array_values(array_filter(
@@ -202,7 +204,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'officialItemId' => $item->id->value,
                 'assessesOutcomes' => [$declared->value, $stale->value],
             ])],
-            refined: [],
         );
 
         $blocking = array_values(array_filter(
@@ -230,7 +231,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 QuestionFactory::make(['officialItemId' => $item->id->value, 'assessesOutcomes' => [$one->value]]),
                 QuestionFactory::make(['officialItemId' => $item->id->value, 'assessesOutcomes' => [$two->value]]),
             ],
-            refined: ['lot-01'],
         );
 
         self::assertSame([], (new OutcomeAssessmentRule())->check($content));
@@ -239,18 +239,30 @@ final class RefinementFrameworkRuleTest extends TestCase
     /**
      * The aggregate that keeps this rule from being silent — and therefore
      * untested — on a corpus where no outcome carries an id yet.
+     *
+     * The fixture is the case the aggregate cannot distinguish, and the reason
+     * it proves nothing on its own: ONE question assessing BOTH outcomes. The
+     * item is fully covered — no per-outcome error — and the count still trips,
+     * because one question is fewer than two outcomes. Eight items of the real
+     * corpus are in exactly this state; see
+     * docs/audit/ped-003-shortfall-reading/.
      */
-    public function testTheArithmeticShortfallIsReportedAsAWarning(): void
+    public function testTheArithmeticShortfallIsReportedAsAWarningEvenWhenEveryOutcomeIsAssessed(): void
     {
+        $one = Id::mint(EntityType::LearningOutcome);
+        $two = Id::mint(EntityType::LearningOutcome);
+
         $item = ItemFactory::make([
             'lot' => 'lot-07',
-            'learningOutcomes' => [new LearningOutcome('One'), new LearningOutcome('Two')],
+            'learningOutcomes' => [new LearningOutcome('One', $one), new LearningOutcome('Two', $two)],
         ]);
 
         $content = $this->content(
             [$item],
-            [QuestionFactory::make(['officialItemId' => $item->id->value])],
-            refined: [],
+            [QuestionFactory::make([
+                'officialItemId' => $item->id->value,
+                'assessesOutcomes' => [$one->value, $two->value],
+            ])],
         );
 
         $violations = (new OutcomeAssessmentRule())->check($content);
@@ -276,7 +288,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::BehaviorPrediction,
                 'codeLanguage' => 'php',
             ])],
-            refined: [],
         );
 
         $violations = (new QuestionArchetypeRule())->check($content);
@@ -295,7 +306,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::BehaviorDiagnosis,
                 'examSkill' => 'RECOGNIZE',
             ])],
-            refined: [],
         );
 
         $messages = array_map(static fn ($v): string => $v->message, (new QuestionArchetypeRule())->check($content));
@@ -319,7 +329,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'questionArchetype' => QuestionArchetype::BehaviorPrediction,
                 'examSkill' => 'RECOGNIZE',
             ])],
-            refined: [],
         );
 
         self::assertSame([], (new QuestionArchetypeRule())->check($content));
@@ -349,7 +358,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                 'pool' => Pool::Holdout,
                 'assessesOutcomes' => [$outcome->value],
             ])],
-            refined: ['lot-01'],
         );
 
         $blocking = array_values(array_filter(
@@ -385,7 +393,6 @@ final class RefinementFrameworkRuleTest extends TestCase
                     'assessesOutcomes' => [$outcome->value],
                 ]),
             ],
-            refined: ['lot-01'],
         );
 
         self::assertSame([], (new OutcomeAssessmentRule())->check($content));
@@ -402,7 +409,6 @@ final class RefinementFrameworkRuleTest extends TestCase
         $content = $this->content(
             [$item],
             [],
-            refined: ['lot-01'],
             courses: [$this->course($item->id->value, ContentLevel::Minimal, $budget + 1)],
         );
 
@@ -413,7 +419,11 @@ final class RefinementFrameworkRuleTest extends TestCase
         self::assertSame(Severity::Error, $violations[0]->severity);
     }
 
-    public function testTheSameExcessOutsideARefinedLotIsOnlyAWarning(): void
+    /**
+     * Was testTheSameExcessOutsideARefinedLotIsOnlyAWarning until 2026-09-15:
+     * ADR-0007's exit act made the ceiling bite in every lot.
+     */
+    public function testTheSameExcessIsAnErrorInAnyLot(): void
     {
         $item = ItemFactory::make(['lot' => 'lot-07', 'contentLevel' => ContentLevel::Minimal]);
         $budget = RevisionBudgetRule::budgets()[ContentLevel::Minimal->value];
@@ -421,14 +431,13 @@ final class RefinementFrameworkRuleTest extends TestCase
         $content = $this->content(
             [$item],
             [],
-            refined: ['lot-01'],
             courses: [$this->course($item->id->value, ContentLevel::Minimal, $budget + 1)],
         );
 
         $violations = (new RevisionBudgetRule())->check($content);
 
         self::assertCount(1, $violations);
-        self::assertSame(Severity::Warning, $violations[0]->severity);
+        self::assertSame(Severity::Error, $violations[0]->severity);
     }
 
     public function testACourseAtExactlyTheBudgetIsAccepted(): void
@@ -439,7 +448,6 @@ final class RefinementFrameworkRuleTest extends TestCase
         $content = $this->content(
             [$item],
             [],
-            refined: ['lot-01'],
             courses: [$this->course($item->id->value, ContentLevel::Minimal, $budget)],
         );
 
@@ -480,16 +488,14 @@ final class RefinementFrameworkRuleTest extends TestCase
     /**
      * @param list<\CertPath\Domain\OfficialItem> $items
      * @param list<\CertPath\Domain\Question>     $questions
-     * @param list<string>                        $refined
      * @param list<Course>                        $courses
      */
-    private function content(array $items, array $questions, array $refined, array $courses = []): ContentSet
+    private function content(array $items, array $questions, array $courses = []): ContentSet
     {
         return new ContentSet(
             matrix: new SyllabusMatrix($items),
             questions: $questions,
             courses: $courses,
-            frameworkRefinedLots: $refined,
         );
     }
 

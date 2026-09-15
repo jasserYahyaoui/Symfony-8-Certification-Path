@@ -109,15 +109,18 @@ final readonly class MatrixLoader
     /**
      * A learning outcome is either a bare string or a `{id, outcome}` mapping.
      *
-     * Both shapes are accepted during the staged rollout of ADR-0007: an item
-     * belonging to a lot that has not been refined yet legitimately carries
-     * outcomes without a minted id. The tolerance is a parser tolerance only —
-     * rule PED-003 requires the identified shape for every item in a lot
-     * recorded as refined, so a refined lot cannot keep the old form.
+     * The bare-string form was accepted during the staged rollout of ADR-0007,
+     * because an item in a lot not yet refined legitimately carried outcomes
+     * without a minted id. That tolerance was removed on 2026-09-15, when the
+     * twenty-six lots carrying atomic official items were all recorded at
+     * framework version 2 — ADR-0007's own exit act. Migration
+     * SyllabusMatrixOutcomeIdentity refuses a version-1 document that still
+     * holds one, naming the command that mints the id.
      *
-     * A mapping missing `outcome`, or carrying a malformed id, is a schema
-     * error rather than a silently dropped outcome: an outcome that vanishes
-     * during parsing would shrink the assessment denominator invisibly.
+     * A mapping missing `outcome`, or carrying a malformed or absent id, is a
+     * schema error rather than a silently dropped outcome: an outcome that
+     * vanishes during parsing would shrink the assessment denominator
+     * invisibly.
      *
      * @param array<string, mixed> $raw
      *
@@ -130,14 +133,12 @@ final readonly class MatrixLoader
         foreach ($this->listOf($raw, 'learning_outcomes', $ctx, allowEmpty: true) as $index => $entry) {
             $where = \sprintf('%s learning outcome #%d', $ctx, $index);
 
-            if (\is_scalar($entry)) {
-                $outcomes[] = new LearningOutcome((string) $entry);
-
-                continue;
-            }
-
             if (!\is_array($entry)) {
-                throw new SchemaException(\sprintf('%s: expected a string or a mapping.', $where));
+                throw new SchemaException(\sprintf(
+                    '%s: expected an `{id, outcome}` mapping. The bare-string form was removed with '
+                    ."ADR-0007's exit act; mint an id with `php bin/cert id:mint LearningOutcome`.",
+                    $where,
+                ));
             }
 
             $text = $entry['outcome'] ?? null;
@@ -146,13 +147,13 @@ final readonly class MatrixLoader
             }
 
             $id = $entry['id'] ?? null;
-            if (null !== $id && (!\is_string($id) || !Id::isValid($id))) {
-                throw new SchemaException(\sprintf('%s: `id` is not a persistent identifier.', $where));
+            if (!\is_string($id) || !Id::isValid($id)) {
+                throw new SchemaException(\sprintf('%s: `id` is missing or not a persistent identifier.', $where));
             }
 
             $outcomes[] = new LearningOutcome(
                 text: (string) $text,
-                id: null !== $id ? Id::parse((string) $id) : null,
+                id: Id::parse($id),
             );
         }
 
