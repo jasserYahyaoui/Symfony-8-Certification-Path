@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15
+**Last updated:** 2026-09-15 (Lot 27, unité A)
 
 ---
 
@@ -588,6 +588,45 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+**Lot 27 — Practice Mode. Unité A livrée ; l'unité B est la suivante.**
+
+Unité A : audit read-only des **484 questions `LEARNING` anglaises**, PR #134,
+`35ffe92`, *smoke test* production `104307401287`. Artefacts sous
+[`docs/audit/lot-27-practice-mode/`](docs/audit/lot-27-practice-mode/).
+
+Résultat : **362 `READY_FOR_NEW_UI`**, 120 `CODE_INLINE_PRESENT`, 2
+`CODE_BLOCK_REQUIRED`, et **zéro** sur les sept autres classifications. Ces
+zéros sont prouvés non muets — `lot27_practice_audit.py --prove` injecte un
+défaut par classification et vérifie qu'elle se déclenche (12 cas), câblé dans
+CI.
+
+**Le défaut est unique et systémique, pas éditorial** : aucun composant ne rend
+le Markdown, donc une question affiche sa clôture ```` ```php ```` en toutes
+lettres, une autre voit ses attributs `#[Route]` aplatis, et 242 fragments
+inline sortent avec leurs *backticks*. Les 484 questions passent la porte
+pédagogique anglaise ; aucune n'a besoin d'être réécrite.
+
+Quatre manques, tous de **transport** : texte des learning outcomes, URL du
+cours, libellé lisible de l'atomic item — le payload porte l'identifiant
+`OIT-…` — et un corps de code séparé du prompt. Les trois premiers sont déjà
+produits par `PayloadBuilder::itemIndex()` pour les payloads de mock.
+
+**Unité B — à faire** : appeler `itemIndex()` pour `practice.json` et y ajouter
+l'URL du cours ; un composant de rendu du code appliqué aux **quatre** surfaces
+(énoncé, choix, explication, explication de distracteur), bloc si multiligne ou
+déjà clôturé et `<code>` inline sinon ; les sept sections du feedback dans
+l'ordre imposé ; un enregistrement de session Practice, qui suppose une
+migration `STORAGE_VERSION` 2 → 3 laissant l'historique lisible, `ExamSession`
+excluant aujourd'hui `practice`.
+
+**Unité C** : sa condition de déclenchement n'est satisfaite par rien pour
+l'instant ; elle reste ouverte pour un `BLOCKER` trouvé pendant l'unité B.
+
+`PER_QUESTION_TIMING_NOT_IMPLEMENTED` — aucun temps par question n'est mesuré,
+et ce signal ne sera pas simulé.
+
+### Les trois décisions du chantier de raffinement, conservées
 
 **Les trois décisions sont traitées, fusionnées et vérifiées en production.**
 Aucune n'a été refermée en affaiblissant un contrôle, et deux d'entre elles ont
