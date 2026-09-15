@@ -1,5 +1,5 @@
 question_id,surface,detected,render_as,declared_code_language,already_fenced,chars
-QST-cfhm8d3qscwq,prompt,php|php-attribute,block,php,no,297
+QST-cfhm8d3qscwq,prompt,php|php-attribute,block,php,yes,317
 QST-5darxtca2dmf,choice:CHO-7855p5j581w2,php,inline,php,no,49
 QST-5darxtca2dmf,choice:CHO-96v6pnrxhah9,php,inline,php,no,35
 QST-5darxtca2dmf,choice_expl:CHO-96v6pnrxhah9,php,inline,php,no,157

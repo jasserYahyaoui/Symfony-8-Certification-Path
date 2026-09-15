@@ -589,7 +589,7 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Lot 27 — Practice Mode. Unités A et B livrées ; l'unité C est la suivante.**
+**Lot 27 — Practice Mode. Unités A, B et C livrées ; l'unité D est la suivante.**
 
 Unité B : PR #136, `b16f1bd`, *smoke test* production `104323853743`.
 **Aucune question n'a été modifiée** — le correctif était un rendu et quatre
@@ -626,9 +626,23 @@ commentaire qui a changé, pas la règle.
 non-vacuité), câblé dans CI. 260 tests, 15 495 assertions ; a11y **27 états**,
 0 violation.
 
-**Unité C — à faire** : sa condition de déclenchement n'est satisfaite par rien
-et aucun `BLOCKER` n'a émergé pendant l'unité B. Elle doit être conclue en
-`NOT_APPLICABLE` **justifié par l'audit**, pas simplement sautée.
+**Unité C — livrée, et elle n'était pas vide.** Le contenu ne déclenchait rien
+— explication, distracteurs, outcomes, `course_ref`, sources : zéro défaut sur
+les 484 questions anglaises. Mais `QST-cfhm8d3qscwq` déclarait
+`code_language: php` et portait **du code multiligne non clôturé**, donc ses
+deux attributs `#[Route]` s'affichaient en texte courant. La ligne mêlait code
+et prose (`— and —`), donc tout clôturer aurait mis du non-PHP dans un bloc
+PHP : elle porte maintenant **deux blocs `php`** encadrant le connecteur.
+
+Un seul champ changé sur une seule question, code identique caractère pour
+caractère, clé de réponse inchangée — vérifié par script contre `HEAD`. Voir
+[`unit-c-determination.md`](docs/audit/lot-27-practice-mode/unit-c-determination.md).
+
+Cette unité a aussi révélé un défaut de **mon harnais** : la vérification « code
+en bloc » sélectionnait *la première question clôturée*, donc clôturer une
+seconde question l'a fait basculer sur celle dont les extraits tiennent en une
+ligne. Elle teste désormais le **corps** du bloc, ce qui la rend indépendante de
+l'ordre du payload.
 
 **Unité D — à faire** : vérification finale et rapport.
 
