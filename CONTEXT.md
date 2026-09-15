@@ -627,7 +627,10 @@ commentaire prétendait la refuser.
 | 12 audits de contenu | 0 *finding* ; `AUD-02` lit ses 1 138 sources |
 | `npm run build` · a11y · navigation | `SUCCESS` · **28 surfaces, 0 violation** · **209/210** |
 | `practice-smoke.py` | **518 citations**, 2 défauts injectés rejetés |
-| PR / merge / déploiement / *smoke* production | **EN ATTENTE** |
+| PR / merge | **#144**, fusionnée en `ffcb77d` |
+| CI | run **34982066035** `success` |
+| Pages | run **162** (`34982878984`) `success` |
+| *Smoke* production | job **104427952004** — `ok practice 518 citations, each carrying both a raw url and a rendered readable_url`, lu sur les octets servis |
 
 ---
 
