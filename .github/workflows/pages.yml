@@ -285,9 +285,11 @@ jobs:
           # Three course URLs, fetched for real. Three of 163 is a sample, and
           # the script says so: the structure of all 163 is checked above, and
           # `onBrokenLinks: throw` proves the build wrote the pages.
+          fetched=0
           while read -r course; do
             [ -n "$course" ] || continue
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /dev/null -w '%{http_code}' "$BASE_URL$course")
+            fetched=$((fetched + 1))
             if [ "$code" = "200" ]; then
               echo "ok  course  sampled $course serves $code"
             else
@@ -295,5 +297,15 @@ jobs:
               fail=1
             fi
           done < /tmp/course-sample.txt
+
+          # A loop that quietly fetches fewer URLs than were sampled is worse
+          # than no loop: the first production run dropped the last line,
+          # because `while read` skips a final line with no trailing newline,
+          # and still reported success. The count is now compared.
+          expected=$(wc -l < /tmp/course-sample.txt)
+          if [ "$fetched" -ne "$expected" ]; then
+            echo "FAIL  course  $fetched URL(s) fetched, $expected sampled"
+            fail=1
+          fi
 
           exit $fail

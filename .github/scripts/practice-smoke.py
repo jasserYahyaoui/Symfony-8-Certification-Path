@@ -83,8 +83,14 @@ def main(path: str, sample_out: str | None = None) -> int:
 
     if sample_out:
         urls = [items[k]['course_url'] for k in sorted(items)]
+        sample = [urls[0], urls[len(urls) // 2], urls[-1]]
+        # The TRAILING newline is load-bearing, not cosmetic. `while read` drops
+        # a final line that has none, so the first production run of this check
+        # fetched two of its three URLs and still reported success — a check
+        # silently doing less than it claims, which is worse than no check.
         with open(sample_out, 'w', encoding='utf-8') as handle:
-            handle.write('\n'.join([urls[0], urls[len(urls) // 2], urls[-1]]))
+            handle.write('\n'.join(sample) + '\n')
+        print(f'ok  practice  {len(sample)} course URLs sampled for fetching')
 
     outcomes = sum(len(e['learning_outcomes']) for e in items.values())
     print(f'ok  practice  {len(questions)} questions, {len(items)} items indexed, '
