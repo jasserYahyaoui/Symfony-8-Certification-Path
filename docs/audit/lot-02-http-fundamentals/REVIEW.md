@@ -66,6 +66,76 @@ resserrer le texte, y compris en retirant 12 mots de moindre valeur pour faire
 place à `303`. Le reviewer a lui-même vérifié que les cinq corrections tenaient
 dans les budgets existants.
 
-## Revue n° 2
+## Revue n° 2 — 2026-09-15, HEAD `20e1336`
+
+**Agent :** second sous-agent indépendant, n'ayant participé ni à la rédaction,
+ni à l'examen, ni à la revue n° 1, et à qui il était demandé de **ne pas lire
+les rapports** avant d'avoir formé son jugement. 24 sources récupérées, **~40
+comportements exécutés** en PHP 8.4.19 contre le composant 8.0 reconstitué.
+
+### Verdict : **LOT 02 NON VALIDÉ — 82,5 / 100** — aucun `P0`, **un `P1`**
+
+| Poste | Barème | n° 1 | n° 2 |
+|---|---:|---:|---:|
+| Exactitude Symfony 8.0 | 25 | 17 | **23** |
+| Couverture HTTP Fundamentals | 20 | 12 | **16** |
+| Préparation à la certification | 20 | 12 | **17** |
+| Qualité pédagogique | 15 | 11 | **12** |
+| Exemples et cas pratiques | 10 | 5 | **8** |
+| Sources et traçabilité | 5 | 4 | **3** |
+| Cohérence et navigation | 5 | 3 | **3,5** |
+| **Total** | **100** | **64** | **82,5** |
+
+Le reviewer confirme que **les cinq corrections de la revue n° 1 sont toutes
+exactes** et qu'aucune erreur n'a été introduite par elles — ce qui n'allait pas
+de soi, deux corrections antérieures de ce lot ayant déjà introduit un défaut.
+
+### `P1-1` — la définition du message n'était pas celle de RFC 9110
+
+Le cours écrivait : « **Message** : requête ou réponse, composé d'une **ligne de
+départ**, de champs d'en-tête, et éventuellement d'un corps. »
+
+RFC 9110 §6 *Message Abstraction*, relevé mot pour mot :
+
+> « A message consists of the following: **control data** to describe and route
+> the message, a **headers** lookup table…, a potentially unbounded stream of
+> **content**, and a **trailers** lookup table… »
+
+Trois aggravations : la « ligne de départ » est la forme **HTTP/1.1**, donc
+RFC 9112 — ce que la même page reproche 22 lignes plus bas ; §6 est déclarée
+**vérifiée** dans le front matter ; et les *trailers*, seul composant que le
+lecteur ne devinera pas, manquaient. Sur une page intitulée « Vocabulaire
+imposé », c'est la définition normative qui était fausse. **CORRIGÉE.**
+
+### Corrections faites dans la même itération
+
+| Anomalie | Traitement |
+|---|---|
+| `P1-1` définition du message | réécrite : données de contrôle, en-têtes, contenu, *trailers* |
+| `P2-4` **trois ancres RFC mortes** (`#section-15`, `#section-9.2`, `#section-12`) | remplacées par les ancres réelles du document httpwg — `#status.codes`, `#method.properties`, `#content.negotiation`, vérifiées présentes |
+| `P2-2` la recommandation `stale-if-error` reposait sur une page **ni citée ni liée** | `http_cache/expiration.rst` ajoutée en `official_sources` avec son passage exact, et liée |
+| `P2-3` trois RFC citées sans URL | RFC 9111 liée ; 5861 et 8246 nommées avec leur section |
+| `P2-1` `setMaxAge(3600)` annoté `max-age=3600` | l'en-tête réellement émis est `max-age=3600, private` |
+| `P2-10` `getPreferredFormat()` | la précédence de `_format` sur `Accept` est enseignée |
+| `P2-5` constantes de redirection | `HTTP_SEE_OTHER`, `HTTP_TEMPORARY_REDIRECT` et `HTTP_PERMANENTLY_REDIRECT` ajoutées, avec le piège de nommage |
+| `P3` « 303 impose un `GET` » | corrigé en « `GET` (ou `HEAD`) », conforme à §15.4.4 |
+| `P3` « une requête malformée est 4xx même si le serveur plante » | retiré — trompeur sur le code réellement renvoyé |
+
+**Budget.** `REV-001` a bloqué **trois fois de plus** dans cette itération (428,
+414, 405 mots sur un plafond `MINIMAL` de 400). Réponse à chaque fois : resserrer
+la prose, y compris en supprimant la phrase P3 trompeuse. **Aucune promotion de
+niveau.** Le reviewer avait lui-même vérifié que le correctif tenait dans les 9
+mots de marge.
+
+### Restent ouvertes
+
+`Partitioned`/CHIPS et les préfixes `__Host-` ; `setTrustedHosts()` et
+l'empoisonnement de `Host` (page à 865/900, 35 mots de marge) ; la restriction
+8.0 de l'override de méthode ; le corps des `PUT`/`PATCH`/`DELETE`/`QUERY` dans
+`createFromGlobals()` — atténué, la doc officielle dit encore `$_POST` ; `415` ;
+`setCache()` ; la prémisse `REMOTE_ADDR` des exemples `getClientIp()` ; `reviewed_at`
+non rafraîchi.
+
+## Revue n° 3
 
 En cours. Le lot **reste bloqué** jusqu'à un verdict explicite.

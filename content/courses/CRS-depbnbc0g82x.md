@@ -16,8 +16,7 @@ official_sources:
 
 ## Objectif
 
-Situer RFC 9110 dans la famille des spécifications HTTP et reconnaître le
-vocabulaire qu'elle impose.
+Situer RFC 9110 parmi les spécifications HTTP et reconnaître son vocabulaire.
 
 ## Ce que RFC 9110 remplace
 
@@ -33,22 +32,22 @@ référence actuelle pour la **sémantique** d'HTTP.
 | 9113 | HTTP/2 |
 | 9114 | HTTP/3 |
 
-La sémantique est **indépendante de la version** : une méthode ou un code de
-statut signifie la même chose en HTTP/1.1, HTTP/2 et HTTP/3. Seul le transport
-change.
+Une méthode ou un code de statut signifie la même chose en HTTP/1.1, HTTP/2 et
+HTTP/3 : seul le transport change.
 
 ## Vocabulaire imposé
 
-- **Message** : requête ou réponse, composé d'une ligne de départ, de champs
-  d'en-tête, et éventuellement d'un corps.
+- **Message** : **données de contrôle**, champs d'en-tête, **contenu**, champs
+  de fin (*trailers*). §6 le définit ainsi pour rester indépendant de la
+  version ; la « ligne de départ » est la forme HTTP/1.1, donc RFC 9112.
 - **Ressource** : la cible identifiée par un URI. Ce n'est pas un fichier.
 - **Représentation** : une forme concrète de l'état d'une ressource à un instant
   donné. Une même ressource peut en avoir plusieurs — JSON ou HTML, français ou
   anglais — et c'est le fondement de la négociation de contenu.
-- **Champ d'en-tête** : nom insensible à la casse, valeur associée.
+- **Champ d'en-tête** : nom insensible à la casse, valeur.
 
-La distinction ressource / représentation est celle qui rend intelligibles la
-négociation de contenu et l'en-tête `Vary`.
+La distinction ressource / représentation fonde la négociation de contenu et
+`Vary`.
 
 ## Pièges d'examen
 
@@ -61,8 +60,8 @@ méthode sûre est donc idempotente, l'inverse est faux.
 L'idempotence porte sur l'**effet sur le serveur** de requêtes répétées, pas sur
 l'égalité des réponses.
 
-**RFC 9110 ne décrit aucune syntaxe de trame.** Une question sur le codage
-`chunked` ou sur la ligne de requête relève de RFC 9112, pas de 9110.
+**RFC 9110 ne décrit aucune syntaxe de trame.** Le codage `chunked` ou la ligne
+de requête relèvent de RFC 9112.
 
 ## Points clés
 

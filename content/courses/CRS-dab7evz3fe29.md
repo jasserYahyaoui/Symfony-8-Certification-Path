@@ -82,6 +82,11 @@ généralement préférable en pratique.
 items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
 s'applique pas à cet accesseur.
 
+`getPreferredFormat()` ne commence pas par négocier : il consulte d'abord
+`getRequestFormat()`, donc l'attribut `_format` de la route ou un
+`setRequestFormat()` explicite. `Accept` n'est consulté qu'à défaut — un
+`_format=xml` l'emporte sur un `Accept: application/json`.
+
 ## Pièges d'examen
 
 **`q=0` refuse explicitement.** `Accept: */*;q=0.8, image/png;q=0` signifie
@@ -105,5 +110,5 @@ autre chose ; il l'annonce par `Content-Type`.
 
 ## Aller lire la source
 
-- [RFC 9110 §12 — *Content Negotiation*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#section-12)
+- [RFC 9110 §12 — *Content Negotiation*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#content.negotiation)
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getAcceptableContentTypes()` (branche 8.0, `6f841c0`)

@@ -19,6 +19,13 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "setPublic 609, setMaxAge 793, setSharedMaxAge 841, setEtag 954, isNotModified 1118"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache/expiration.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst"
+    anchor: "expiration"
+    symbol_or_lines: '"Using the setSharedMaxAge() method is not equivalent to using both setPublic() and setMaxAge() methods ... That''s why it''s recommended to use both public and max-age directives"'
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    verified_at: "2026-09-15"
 ---
 
 ## Objectif
@@ -47,7 +54,7 @@ passante.
 
 ```php
 $response->setPublic();
-$response->setMaxAge(3600);         // Cache-Control: max-age=3600  → tous les caches
+$response->setMaxAge(3600);         // émet « max-age=3600, private » → tous les caches
 $response->setSharedMaxAge(86400);  // Cache-Control: s-maxage=86400 → caches partagés
 ```
 
@@ -155,3 +162,7 @@ dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur 
 - [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isNotModified()` l. 1118, `setSharedMaxAge()` l. 841,
   `setPublic()`, `setMaxAge()` (branche 8.0, `6f841c0`)
 - [Cache HTTP](https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst)
+- [Expiration](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst) —
+  la note qui recommande `setPublic()` + `setMaxAge()` plutôt que `setSharedMaxAge()`
+- [RFC 9111](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html) —
+  §5.2 (`must-revalidate`, `s-maxage`) ; RFC 5861 §3 (`stale-while-revalidate`) ; RFC 8246 (`immutable`)

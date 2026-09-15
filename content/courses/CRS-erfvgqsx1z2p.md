@@ -116,6 +116,6 @@ le *code de statut renvoyé*, qui peut différer.
 
 ## Aller lire la source
 
-- [RFC 9110 §9.2 — *Common Method Properties*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#section-9.2)
+- [RFC 9110 §9.2 — *Common Method Properties*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#method.properties)
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `isMethodSafe()` l. 1444, `isMethodIdempotent()` l. 1452,
   `isMethodCacheable()` l. 1462 (branche 8.0, `6f841c0`)
