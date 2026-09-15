@@ -14,6 +14,17 @@ schema_version: 1
 mock: Mock 4 — official-format simulation
 status: "DELIVERED — the 75 holdout questions exist (Units A and B) and Mock 4 itself was implemented, merged and deployed in Unit C (PR #56, merge 4d31b53). It is served in production from its own payload at /mock-4 and /data/mock-4.json. The human timed sitting is a separate gate and remains PENDING_HUMAN_VALIDATION."
 distribution_label: TRAINING_DISTRIBUTION
+
+# Learner-facing guidance, published on /simulations. §10 fixes this mock's
+# role, its 75 questions and its 90 minutes; when to sit it is this project's
+# decision and is written here rather than in a React component.
+purpose: "Official-format simulation: one sitting under the published exam constraints, drawn from the
+  reserved HOLDOUT pool that no learning mode serves."
+when_to_use: "Une seule fois, \xe0 la fin du parcours, en conditions r\xe9elles et sans aide ext\xe9rieure. Sa
+  banque est r\xe9serv\xe9e et n'appara\xeet dans aucun autre mode : une fois vue, elle ne peut plus \xeatre in\xe9dite,
+  et c'est ce caract\xe8re in\xe9dit qui fait la valeur du r\xe9sultat."
+sequence: 5
+repeatable: false
 official_constraints:
   questions: 75
   minutes: 90

@@ -124,6 +124,16 @@ final readonly class DocsGenerator
             }
         }
 
+        // The simulations hub: what each mock is for and when to sit it. It is
+        // built from the two blueprints and carries no question at all, so the
+        // page that explains Mock 4 cannot reveal any of it.
+        if ([] !== $mocks && [] !== $blueprint) {
+            $simulations = $this->payloads->simulationsPayload($mocks, $blueprint);
+            PayloadBuilder::assertNoQuestionLeak($simulations);
+
+            $written[] = $this->writeJson($dataDir.'/simulations.json', $simulations);
+        }
+
         $report = $this->coverage->calculate($content->matrix);
 
         $written[] = $this->writeJson($dataDir.'/coverage.json', [

@@ -96,3 +96,38 @@ export interface TrainingMockPayload extends Payload {
   topic_spread: Record<string, number>;
   items: Record<string, ItemIndexEntry>;
 }
+
+/**
+ * The simulations hub (/simulations), built from the two mock blueprints.
+ *
+ * It carries no question, no choice and no answer: `assertNoQuestionLeak()`
+ * refuses a payload that has started to. Mock 4's value is that its bank is
+ * unseen, and a page explaining Mock 4 must not be the place it stops being.
+ */
+export interface SimulationEntry {
+  id: string;
+  route: string;
+  name: string;
+  /** Verbatim from the blueprint — the role §10 gives the mock. */
+  purpose: string;
+  /** When to sit it. This project's pedagogy, recorded in the blueprint. */
+  when_to_use: string;
+  sequence: number;
+  repeatable: boolean;
+  /** A string, not a number: Mock 5's count is a rule, not a figure. */
+  question_count: string;
+  duration_minutes: string;
+  /** What the sitting is drawn from, when that is a fixed pool. */
+  eligible_questions: number | null;
+  language: string;
+  pool: string;
+  scoring_policy: string;
+  /** OFFICIAL_FORMAT for Mock 4 alone; INTERNAL_TRAINING_FORMAT otherwise. */
+  format_label: string;
+}
+
+export interface SimulationsPayload {
+  generated_at: string;
+  not_official: string;
+  mocks: SimulationEntry[];
+}

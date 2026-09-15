@@ -107,10 +107,10 @@ jobs:
                       "docs/revision/roadmap" "docs/revision/calendar" \
                       "docs/revision/checkpoints" "docs/revision/readiness" \
                       "calendar" \
-                      "practice" "exam" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
+                      "practice" "exam" "simulations" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
                       "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
-                      "data/readiness.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json"; do
+                      "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
@@ -281,6 +281,19 @@ jobs:
           # rules and the accessibility audit all pass on a page that renders
           # perfectly and no longer says what to revise.
           python3 .github/scripts/practice-smoke.py /tmp/practice.json /tmp/course-sample.txt || fail=1
+
+          # The simulations hub holds none of its own text: every sentence comes
+          # from this payload. A payload that loses `when_to_use` leaves a page
+          # that renders perfectly and no longer answers the question it exists
+          # for.
+          #
+          # Only the payload is checked here, deliberately. The page is
+          # client-rendered, so its served HTML carries the shell and nothing
+          # else; grepping it for a mock name would match the NAVBAR and report
+          # success about a body that never rendered. That the body renders is
+          # proven in a browser by verify-simulations-ui.mjs in CI.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/simulations.json "$BASE_URL/data/simulations.json"
+          python3 .github/scripts/simulations-smoke.py /tmp/simulations.json || fail=1
 
           # Three course URLs, fetched for real. Three of 163 is a sample, and
           # the script says so: the structure of all 163 is checked above, and
