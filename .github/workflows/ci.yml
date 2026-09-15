@@ -116,6 +116,9 @@ jobs:
           python3 tools/audit/prove_framework_rules_fail.py
           python3 tools/audit/prove_flashcard_coverage_fails.py
           python3 tools/audit/aud10_answer_length_bias.py --prove
+          # Four of the Lot 27 classifications return zero on the real corpus,
+          # which is the shape every vacuous check in this project had. ~3 s.
+          python3 tools/audit/lot27_practice_audit.py --prove
 
       - name: Set up Node
         uses: actions/setup-node@v4
