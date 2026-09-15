@@ -632,7 +632,10 @@ ligne de §22 interdit aux huit autres de la compenser.
 | `phpunit` | **287 tests, 15 576 assertions, OK** |
 | 12 audits · 4 prouveurs | **0 finding** · tous verts |
 | Site · navigation · a11y | `SUCCESS` 210 pages · **209/210** · **28 surfaces, 0 violation** |
-| PR / merge / déploiement / *smoke* | **EN ATTENTE** |
+| PR / merge | **#146**, fusionnée en `d87e9d0` |
+| CI | run **34994988232** `success` |
+| Pages | run **164** (`34995748881`) `success` |
+| *Smoke* production | job **104472103827** — `518 citations, 518 of them linking a rendered GitHub page`, `mock-4 75 questions, the whole holdout and nothing else`, `readiness deployed 100.0% (163/163)` |
 
 **Prochaine action réelle : la passation du Mock 4 par l'owner.** Rien d'autre
 ne bloque, et rien d'autre ne peut la remplacer.
