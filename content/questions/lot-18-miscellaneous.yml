@@ -9,7 +9,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-ch9mc2vedk60
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -59,6 +59,7 @@ questions:
   explanation: get() both reads and writes, which is why the contracts define no set() method.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     branch: '8.0'
     symbol_or_lines: cache-basic-usage
     verified_at: '2026-09-02'
@@ -111,6 +112,7 @@ questions:
     it and INF forces an immediate recompute.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     branch: '8.0'
     symbol_or_lines: cache_stampede-prevention
     verified_at: '2026-09-02'
@@ -163,6 +165,7 @@ questions:
     cache.app needs no flush on deployment.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     branch: '8.0'
     symbol_or_lines: cache-app-system
     verified_at: '2026-09-02'
@@ -216,6 +219,7 @@ questions:
     the connection some adapters need. Keys from different pools never collide, even on one backend.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Cache Pools, Adapters and Items; Provider

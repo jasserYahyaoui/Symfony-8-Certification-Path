@@ -8,11 +8,13 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
     symbol_or_lines: 'Attributes overview; Attribute syntax ("Arguments can only be literal values or constant expressions"); Reading Attributes with the Reflection API (getAttributes() returns ReflectionAttribute instances; newInstance() constructs)'
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
     symbol_or_lines: 'class Route — the #[\\Attribute(...)] declaration with IS_REPEATABLE and its TARGET_CLASS|TARGET_METHOD flags, as a real attribute declaration'
     repository: "symfony/symfony"
     branch: "8.0"

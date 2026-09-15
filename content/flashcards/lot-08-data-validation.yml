@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 flashcards:
 - id: FLC-3sceej8y8a54
   official_item: OIT-6wd8860brzfy
@@ -12,6 +12,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
     branch: '8.0'
     symbol_or_lines: ValidatorInterface::validate
     verified_at: '2026-09-01'
@@ -27,6 +28,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
     symbol_or_lines: '"This constraint is used to enable validation on objects that are embedded as properties on an object being validated" — i.e. cascading requires #[Assert\\Valid] on the property'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -43,6 +45,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
     branch: '8.0'
     symbol_or_lines: NotBlankValidator::validate
     verified_at: '2026-09-01'
@@ -58,6 +61,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     anchor: getters
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -73,6 +77,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
     symbol_or_lines: '"Constraints in the Default group of a class are the constraints that have either no explicit group configured or that are configured to a group equal to the class name or the string Default"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -89,6 +94,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     symbol_or_lines: '"you have to use the {ClassName} (e.g. User) group when specifying a group sequence. When using Default, you get an infinite recursion (as the Default group references the group sequence, which will contain the Default group which references the same group sequence, ...)"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -103,6 +109,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
     anchor: static-callbacks
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -117,6 +124,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
     branch: '8.0'
     symbol_or_lines: addViolation
     verified_at: '2026-09-01'

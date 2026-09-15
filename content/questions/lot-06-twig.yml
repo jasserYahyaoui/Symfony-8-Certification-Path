@@ -7,7 +7,7 @@
 # Twig claims are anchored to the v3.22.0 tag, the version the syllabus names
 # verbatim. Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 
 questions:
 - id: QST-nqeq65rj5m97
@@ -58,6 +58,7 @@ questions:
     and the bundle that makes it all configurable.'
   official_sources: &id001
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     branch: '8.0'
     symbol_or_lines: Symfony templates documentation
     verified_at: '2026-09-01'
@@ -209,6 +210,7 @@ questions:
   explanation: 'Logical operators follow the same word-based style: and, or and not, never &&, || or !.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: Operators
     verified_at: '2026-09-01'
@@ -260,6 +262,7 @@ questions:
   explanation: 'Three delimiters, one role each: {{ }} prints, {% %} executes, {# #} comments.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: Synopsis
     verified_at: '2026-09-01'
@@ -312,6 +315,7 @@ questions:
     the presence of quotes around the attribute value.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst
     branch: v3.22.0
     symbol_or_lines: escaping strategies
     verified_at: '2026-09-01'
@@ -363,6 +367,7 @@ questions:
     raw opts a single value out of it.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst
     branch: v3.22.0
     symbol_or_lines: raw filter
     verified_at: '2026-09-01'
@@ -414,6 +419,7 @@ questions:
     surprise.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst
     branch: v3.22.0
     symbol_or_lines: child templates render only blocks
     verified_at: '2026-09-01'
@@ -465,6 +471,7 @@ questions:
     tag. {% use %} is the separate horizontal-reuse mechanism.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst
     branch: v3.22.0
     symbol_or_lines: parent()
     verified_at: '2026-09-01'
@@ -612,6 +619,7 @@ questions:
     as both, which is what makes the distinction visible.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: Filters and Functions
     verified_at: '2026-09-01'
@@ -712,6 +720,7 @@ questions:
     and with_context: false in the function form, cut that inheritance and force the fragment to declare its inputs.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst
     branch: v3.22.0
     symbol_or_lines: only keyword
     verified_at: '2026-09-01'
@@ -764,6 +773,7 @@ questions:
     skeleton.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/embed.rst
     branch: v3.22.0
     symbol_or_lines: embed combines include and extends
     verified_at: '2026-09-01'
@@ -815,6 +825,7 @@ questions:
     a Countable object.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst
     branch: v3.22.0
     symbol_or_lines: loop variable table
     verified_at: '2026-09-01'
@@ -867,6 +878,7 @@ questions:
     covers the empty case.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst
     branch: v3.22.0
     symbol_or_lines: filter and slice
     verified_at: '2026-09-01'
@@ -918,6 +930,7 @@ questions:
     becomes a query string.'
   official_sources: &id002
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
     branch: '8.0'
     symbol_or_lines: Symfony Twig reference
     verified_at: '2026-09-01'
@@ -1160,6 +1173,7 @@ questions:
     legacy pipe syntax still works but is no longer recommended.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     branch: '8.0'
     symbol_or_lines: ICU MessageFormat, +intl-icu suffix
     verified_at: '2026-09-01'
@@ -1211,6 +1225,7 @@ questions:
     when the literal text is wanted.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: String Interpolation
     verified_at: '2026-09-01'
@@ -1262,6 +1277,7 @@ questions:
     is inserted into the string.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: String Interpolation
     verified_at: '2026-09-01'
@@ -1597,6 +1613,7 @@ questions:
     decision.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst
     branch: v3.22.0
     symbol_or_lines: autoescape applies at output
     verified_at: '2026-09-01'
@@ -1648,6 +1665,7 @@ questions:
     templates with {% use %} — is the documented answer when more is needed.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/use.rst
     branch: v3.22.0
     symbol_or_lines: single inheritance
     verified_at: '2026-09-01'
@@ -1747,6 +1765,7 @@ questions:
     when whitespace is significant.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: apply tag
     verified_at: '2026-09-01'
@@ -1797,6 +1816,7 @@ questions:
   explanation: 'The keywords combine in a fixed order: ignore missing, then with {…}, then only.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst
     branch: v3.22.0
     symbol_or_lines: ignore missing
     verified_at: '2026-09-01'
@@ -1848,6 +1868,7 @@ questions:
     loop.index and loop.first work on any sequence.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst
     branch: v3.22.0
     symbol_or_lines: note on loop variables and Countable
     verified_at: '2026-09-01'
@@ -1992,6 +2013,7 @@ questions:
     own context-specific encoders.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst
     branch: v3.22.0
     symbol_or_lines: note on htmlspecialchars
     verified_at: '2026-09-01'
@@ -2042,6 +2064,7 @@ questions:
     {% apply spaceless %} removes whitespace between HTML tags instead.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     branch: v3.22.0
     symbol_or_lines: Whitespace Control
     verified_at: '2026-09-01'
@@ -2096,6 +2119,7 @@ questions:
     it, which is why an "extra templates folder" question is not answered by default_path.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: default templates directory, twig.default_path
@@ -2151,6 +2175,7 @@ questions:
     annotations. debug:twig answers the other half of the pair: what is available.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Linting Twig Templates, Inspecting Twig Information
@@ -2205,6 +2230,7 @@ questions:
     {{ value ?? "x" }} falls back only when the value is undefined or null.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: the ternary operator and the null-coalescing operator
@@ -2259,6 +2285,7 @@ questions:
     whitespace but not newlines. Each side of a tag is controlled independently.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: Whitespace Control
@@ -2315,6 +2342,7 @@ questions:
     subcomponent.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: escaping strategies for HTML documents
@@ -2369,6 +2397,7 @@ questions:
     not printed on their own, and the template still extends exactly one parent.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/use.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: horizontal reuse, the use statement
@@ -2423,6 +2452,7 @@ questions:
     guard is the usual cause of the error on a public page.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: The App Global Variable
@@ -2476,6 +2506,7 @@ questions:
     commute: joining then upper-casing is not the same as upper-casing then joining.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: Filters, chaining with the pipe operator
@@ -2530,11 +2561,13 @@ questions:
     — routes, assets, CSRF tokens, translations — arrives through the bridge.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Symfony Twig functions and filters
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: core filters and functions
@@ -2587,6 +2620,7 @@ questions:
     function: a returned value can be assigned, filtered or passed on.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: the include function, recommended over the tag
@@ -2640,6 +2674,7 @@ questions:
     iterations, which is what an empty sequence produces.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: the else clause
@@ -2693,11 +2728,13 @@ questions:
     not exist, where a plain comparison could not even read it.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: conditions and tests
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: Tests
@@ -2752,6 +2789,7 @@ questions:
     a route change and starts producing 404s.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Linking to Pages
@@ -2806,6 +2844,7 @@ questions:
     when it deliberately has none. Both run a sub-request.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Embedding Controllers
@@ -2860,6 +2899,7 @@ questions:
     needs its own tag, or an explicit domain on each call.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: setting the translation domain for a whole template
@@ -2913,6 +2953,7 @@ questions:
     carries the +intl-icu suffix.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: ICU MessageFormat placeholders
@@ -2967,6 +3008,7 @@ questions:
     translatable object fixes both, and the trans filter accepts it like a string.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Translatable Objects, the t() shortcut
@@ -3022,6 +3064,7 @@ questions:
     Single quotes are the other way out, at the cost of interpolation everywhere in that string.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
     repository: twigphp/Twig
     branch: v3.22.0
     symbol_or_lines: String Interpolation, escaping with a backslash
@@ -3077,6 +3120,7 @@ questions:
     exists rather than checking a template.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Linting Twig Templates

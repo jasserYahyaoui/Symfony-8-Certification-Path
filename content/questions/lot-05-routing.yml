@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-am0fchhs6cs8
     question_archetype: CONCEPT_DISTINCTION
@@ -50,6 +50,7 @@ questions:
       application parameters.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/composer.json
         branch: '8.0'
         symbol_or_lines: description
         verified_at: '2026-09-01'
@@ -103,6 +104,7 @@ questions:
       debug commands.'
     official_sources: &id001
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: routing documentation
         verified_at: '2026-09-01'
@@ -348,6 +350,7 @@ questions:
       absolute path and url() to the absolute URL.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
         branch: '8.0'
         symbol_or_lines: reference type constants
         verified_at: '2026-09-01'
@@ -1222,6 +1225,7 @@ questions:
       under controller.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Creating Routes, YAML and attribute forms
@@ -1277,6 +1281,7 @@ questions:
       are reached with !php/const.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1333,6 +1338,7 @@ questions:
       It changes generation only, never matching.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Optional Parameters, forcing default values into URLs
@@ -1388,6 +1394,7 @@ questions:
       to reach a controller state no URL can express.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Parameters Validation, default values and requirements
@@ -1444,6 +1451,7 @@ questions:
       it regenerates the routing cache.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Generating URLs, checking that a route exists
@@ -1499,6 +1507,7 @@ questions:
       topic.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Redirecting to URLs and Routes Directly from a Route
@@ -1553,6 +1562,7 @@ questions:
       Writing the option sets the default value of the reserved parameter — one mechanism, two spellings.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Special Parameters and their attribute options
@@ -1608,6 +1618,7 @@ questions:
       import rejects.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Special Parameters, use in route imports
@@ -1663,6 +1674,7 @@ questions:
       express.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Matching Expressions, the condition option
@@ -1718,6 +1730,7 @@ questions:
       quietly reach the whole container.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Matching Expressions, exposing services to conditions
@@ -1773,6 +1786,7 @@ questions:
       paths.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Localized Routes, default locale fallback
@@ -1827,6 +1841,7 @@ questions:
       instead.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Debugging Routes, debug:router options

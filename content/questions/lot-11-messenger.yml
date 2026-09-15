@@ -6,7 +6,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-4s59dzkg2rff
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -59,6 +59,7 @@ questions:
     readable on the returned envelope when handling was synchronous.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -111,6 +112,7 @@ questions:
     handler, all attached without touching the message class.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -163,6 +165,7 @@ questions:
     writes them and reads them back.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -216,6 +219,7 @@ questions:
     still works, but in the request instead of a worker.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -271,6 +275,7 @@ questions:
     in order to inspect what was sent.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -323,6 +328,7 @@ questions:
     type synchronous while the rest stays queued.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -375,6 +381,7 @@ questions:
     why neither a mapping nor an interface is required.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -427,6 +434,7 @@ questions:
     then carries one HandledStamp per handler.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -479,6 +487,7 @@ questions:
     as a frozen copy. Passing the identifier and reloading in the handler gives the current state.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -532,6 +541,7 @@ questions:
     after the current message so the supervisor restarts it with the new code.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -584,6 +594,7 @@ questions:
     The limits are not a workaround for leaks.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -636,6 +647,7 @@ questions:
     to the next when the previous is empty.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -688,6 +700,7 @@ questions:
     is considered failed.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -743,6 +756,7 @@ questions:
     skip retries and go straight to the failure path, which is what the unrecoverable exception expresses.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -795,6 +809,7 @@ questions:
     That is precisely what configuring one prevents.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -847,6 +862,7 @@ questions:
     jitter spreads simultaneous retries apart.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -900,6 +916,7 @@ questions:
     the chain, which is a real feature and an easy accident.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -952,6 +969,7 @@ questions:
     two passes is done by inspecting the stamps.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1004,6 +1022,7 @@ questions:
     envelope entirely.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1056,6 +1075,7 @@ questions:
     placed there runs continuously.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1108,6 +1128,7 @@ questions:
     fire only on the second.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1161,6 +1182,7 @@ questions:
     the chain.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1212,6 +1234,7 @@ questions:
     per-message state must be reset explicitly.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1262,6 +1285,7 @@ questions:
     makes the failure transport useful after a fix.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
@@ -1315,6 +1339,7 @@ questions:
     routed at all.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Routing Messages to a Transport, the message attribute and the routing key
@@ -1369,6 +1394,7 @@ questions:
     a worker on each consumes its own copy. Routing by parent class or by interface works the same way.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: send messages to multiple transports
@@ -1423,6 +1449,7 @@ questions:
     attribute can also sit on individual methods, so one class may handle several message types.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: a message handler is a PHP callable, the AsMessageHandler attribute and __invoke()
@@ -1479,6 +1506,7 @@ questions:
     with the no-reset option disables even that.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Stateless Worker, the same instance of a service in all messages, service reset
@@ -1534,6 +1562,7 @@ questions:
     the order is what tells you where to look for a message that is gone.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Retries and Failures, the retry strategy and the failure transport
@@ -1589,6 +1618,7 @@ questions:
     of a failure transport.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: messenger:failed:show, messenger:failed:retry, messenger:failed:remove
@@ -1642,6 +1672,7 @@ questions:
     it can still stop the message, and why one registered after it only ever runs on the way back out.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Handlers are called by the HandleMessageMiddleware middleware
@@ -1697,6 +1728,7 @@ questions:
     it cannot see any of that.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Messenger events, the worker life cycle

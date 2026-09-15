@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
     branch: "8.0"
     symbol_or_lines: "KernelBrowser"
     verified_at: "2026-09-02"

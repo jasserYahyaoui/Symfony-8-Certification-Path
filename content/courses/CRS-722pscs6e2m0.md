@@ -8,11 +8,13 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
+    readable_url: "https://github.com/php/php-src/blob/PHP-8.4/UPGRADING"
     repository: "php/php-src"
     branch: "PHP-8.4"
     symbol_or_lines: "New Features > Core"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml"
     symbol_or_lines: 'Visibility — "Class members declared public can be accessed everywhere. Members declared protected can be accessed ... Members declared as private may only be accessed by the class that defines the member"'
     repository: "php/doc-en"
     branch: "master"

@@ -6,7 +6,7 @@
 # La carte CSRF ne porte pas sur `form_end()`, déjà couvert par la carte
 # « Forms rendering with Twig » : elle porte sur la nature du refus.
 
-schema_version: 1
+schema_version: 2
 flashcards:
 - id: FLC-jsbfc1cnv01y
   official_item: OIT-mgvdw7cfpwyz
@@ -21,6 +21,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     branch: '8.0'
     symbol_or_lines: section Using the submit() Method, clearMissing
     verified_at: '2026-09-01'
@@ -36,6 +37,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: form event order and constraints
     verified_at: '2026-09-01'
@@ -51,6 +53,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: form event order and constraints
     verified_at: '2026-09-01'
@@ -66,6 +69,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: form event order and constraints
     verified_at: '2026-09-01'
@@ -82,6 +86,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
     branch: '8.0'
     symbol_or_lines: transform and reverseTransform
     verified_at: '2026-09-01'
@@ -97,6 +102,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: block lookup chain and form_themes order
     verified_at: '2026-09-01'
@@ -113,6 +119,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: block lookup chain and form_themes order
     verified_at: '2026-09-01'
@@ -128,6 +135,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     branch: '8.0'
     symbol_or_lines: section Rendering Forms, form_end
     verified_at: '2026-09-01'
@@ -144,6 +152,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     branch: '8.0'
     symbol_or_lines: setDefined vs setDefaults
     verified_at: '2026-09-01'
@@ -161,6 +170,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     branch: '8.0'
     symbol_or_lines: The Data Transformation Lifecycle
     verified_at: '2026-09-11'
@@ -175,6 +185,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     branch: '8.0'
     symbol_or_lines: Building Forms and Mapping Fields to Object Properties
     verified_at: '2026-09-11'
@@ -190,6 +201,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
     branch: '8.0'
     symbol_or_lines: creating a custom form field type
     verified_at: '2026-09-11'
@@ -206,6 +218,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     branch: '8.0'
     symbol_or_lines: CSRF protection in Symfony forms
     verified_at: '2026-09-11'
@@ -221,6 +234,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: adding the file field to the form
     verified_at: '2026-09-11'
@@ -237,6 +251,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst
     branch: '8.0'
     symbol_or_lines: supported field types
     verified_at: '2026-09-11'
@@ -253,6 +268,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
     branch: '8.0'
     symbol_or_lines: creating a form type extension
     verified_at: '2026-09-11'

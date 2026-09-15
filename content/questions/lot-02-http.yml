@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-ktj89z3z3d5c
     question_archetype: DEFINITION_RECALL
@@ -49,6 +49,7 @@ questions:
       9114 HTTP/3.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 1 Introduction
         verified_at: '2026-09-01'
@@ -101,6 +102,7 @@ questions:
       que la maniere de transporter les messages.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 1 Introduction
         verified_at: '2026-09-01'
@@ -156,6 +158,7 @@ questions:
       otherwise. Use all() for multi-valued input.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -208,6 +211,7 @@ questions:
       $attributes is application-supplied, so it is a ParameterBag without that restriction.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -262,6 +266,7 @@ questions:
       statuses that actually carry a Location header: it includes 201 and excludes 300 and 304.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -316,6 +321,7 @@ questions:
       StreamedResponse convient lorsque le corps est généré à la volée.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -369,6 +375,7 @@ questions:
       still modifying state.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 9.2 Common Method Properties
         verified_at: '2026-09-01'
@@ -421,6 +428,7 @@ questions:
       are three independent classifications.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -475,6 +483,7 @@ questions:
       warning, no cookie at all.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -531,6 +540,7 @@ questions:
       Seul SameSite controle cet envoi ; HttpOnly vise le XSS.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -586,6 +596,7 @@ questions:
       the response.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html
         branch: master
         symbol_or_lines: section 5.2 Cache-Control
         verified_at: '2026-09-01'
@@ -643,6 +654,7 @@ questions:
       where no shared cache exists.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 12.5.5 Vary
         verified_at: '2026-09-01'
@@ -694,6 +706,7 @@ questions:
       that representation.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 12.4.2 Quality Values
         verified_at: '2026-09-01'
@@ -746,6 +759,7 @@ questions:
       décroissant.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -801,6 +815,7 @@ questions:
       supports. Called with no argument it does not negotiate at all.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -855,6 +870,7 @@ questions:
       fr_FR.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -912,6 +928,7 @@ questions:
       inside the emitting loop serialises everything. Issue all requests first, then read — or use stream().
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
@@ -966,6 +983,7 @@ questions:
       Passing false returns the payload instead.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
@@ -1020,6 +1038,7 @@ questions:
       still use max-age=60.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html
         branch: master
         symbol_or_lines: section 5.2.2 Response Directives
         verified_at: '2026-09-01'
@@ -1075,6 +1094,7 @@ questions:
       is the safe default.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1133,6 +1153,7 @@ questions:
       makes content negotiation and Vary meaningful.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 3 Terminology, section 6 Message Abstraction
         verified_at: '2026-09-11'
@@ -1189,6 +1210,7 @@ questions:
       the handler.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 15 Status Codes
         verified_at: '2026-09-11'
@@ -1244,6 +1266,7 @@ questions:
       original client left-most, each proxy appending the address it received the request from.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1298,6 +1321,7 @@ questions:
       are not interchangeable, and 201 is the case that separates them.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1355,6 +1379,7 @@ questions:
       to the property.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 9.2.2 Idempotent Methods
         verified_at: '2026-09-11'
@@ -1422,6 +1447,7 @@ questions:
       the return value leaves the original untouched, so the cookie sent is the one create() produced.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1480,6 +1506,7 @@ questions:
       against script access and against cross-site POST.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1535,6 +1562,7 @@ questions:
       meaningful for GET, HEAD and QUERY, so on a POST the method returns false before comparing anything.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1592,6 +1620,7 @@ questions:
       on a response no shared cache may store would otherwise be meaningless.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1647,6 +1676,7 @@ questions:
       so application/json outranks text/*. Order of appearance never enters the computation.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 12.5.1 Accept
         verified_at: '2026-09-11'
@@ -1700,6 +1730,7 @@ questions:
       and fills body itself.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/HttpClientTrait.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/HttpClientTrait.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d

@@ -8,7 +8,14 @@ export interface Choice {
 }
 
 export interface SourceRef {
+  /** The raw file this project fetched to verify the claim. */
   url: string;
+  /**
+   * The same object as a rendered GitHub page — what a learner should open.
+   * Always present since the citation schema's version 2; the raw url is the
+   * fallback for a citation that has no rendered equivalent.
+   */
+  readable_url: string;
   anchor: string | null;
 }
 

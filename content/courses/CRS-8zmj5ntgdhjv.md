@@ -8,10 +8,12 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst"
     branch: "8.0"
     symbol_or_lines: "env var processors"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php"
     branch: "8.0"
     symbol_or_lines: "EnvVarProcessor::getProvidedTypes"
     verified_at: "2026-09-01"

@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-qbg1gkh7f4re
     question_archetype: CONCEPT_DISTINCTION
@@ -58,6 +58,7 @@ questions:
       bigger for `evaluate()`.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/expression_language.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: The Workflow (lines 176-190)
@@ -123,11 +124,13 @@ questions:
       the error must carry.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: tip on HttpExceptionInterface (lines 108-113)
         verified_at: '2026-09-03'
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php
         repository: symfony/symfony
         branch: '8.0'
         symbol_or_lines: interface HttpExceptionInterface
@@ -185,6 +188,7 @@ questions:
       instead.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: The Dump Server (lines 93-113)
@@ -246,6 +250,7 @@ questions:
       form field (so POST requests can be profiled) or as a request attribute.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Enabling the Profiler Conditionally (lines 187-223)
@@ -305,6 +310,7 @@ questions:
       that marks a response stale.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: More Response Methods (lines 289-299)
@@ -363,6 +369,7 @@ questions:
       `invalidateTags([...])` on the pool removes every item carrying one of those tags.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Using Cache Tags (lines 903-950) and the autowiring note (lines 1019-1024)
@@ -423,6 +430,7 @@ questions:
       at, or a boolean to freeze or restore the global clock.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Writing Time-Sensitive Tests (lines 302-318)
@@ -481,6 +489,7 @@ questions:
       a boolean and lets the code that dispatched the event see that it happened.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Stopping Event Flow/Propagation (lines 405-438)
@@ -544,6 +553,7 @@ questions:
       protected properties by reflection — with NORMALIZE_VISIBILITY available when that is too much.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: ObjectNormalizer (lines 1432-1445) and PropertyNormalizer (lines 1511-1540)
@@ -608,11 +618,13 @@ questions:
       default listener covers the array-plus-`#[Template]` case.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: '``kernel.view`` (lines 114-135)'
         verified_at: '2026-09-03'
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: 6) The ``kernel.view`` Event (lines 369-396)
@@ -677,6 +689,7 @@ questions:
       the override is what the `@!` prefix is for.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Templates (lines 8-40)
@@ -738,6 +751,7 @@ questions:
       carries the consequence of the removal — which can only happen on the next major.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Deprecating Code (lines 128-214)
@@ -798,6 +812,7 @@ questions:
       Each major or minor cycle is four months of development followed by two months of stabilization.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: time-based model (lines 8-19) and Development (lines 37-45)
@@ -860,6 +875,7 @@ questions:
       is the case where a bundle is right, and it does not have to be public.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Don't Create any Bundle to Organize your Application Logic (lines 163-175)
@@ -924,6 +940,7 @@ questions:
       `_controller` is the special route parameter that carries it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: controller value format (lines 96-131) and the `_controller` parameter (lines
@@ -989,11 +1006,13 @@ questions:
       is not valid JSON, or that decodes to something other than an array, raises a JsonException.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: The Request and Response Object (lines 790-800)
         verified_at: '2026-09-03'
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         repository: symfony/symfony
         branch: '8.0'
         symbol_or_lines: Request::getPayload() (lines 1539-1560)
@@ -1059,6 +1078,7 @@ questions:
       HTML and `/_error/{statusCode}.{format}` for anything else.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Testing Error Pages during Development (lines 137-185)
@@ -1124,6 +1144,7 @@ questions:
       set high in both cases, because it is client-side and can be manipulated.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: session expiry and the metadata bag (lines 408-445)
@@ -1180,6 +1201,7 @@ questions:
       written `is defined`.'
     official_sources:
       - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst
+        readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst
         repository: twigphp/Twig
         branch: v3.22.0
         symbol_or_lines: if tag, edge cases table (lines 58-80)
@@ -1239,6 +1261,7 @@ questions:
       list of templates and renders the first that exists.
     official_sources:
       - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst
+        readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst
         repository: twigphp/Twig
         branch: v3.22.0
         symbol_or_lines: include function and its arguments (lines 1-77)
@@ -1302,6 +1325,7 @@ questions:
       other message.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Translatable Objects (lines 339-398)
@@ -1363,6 +1387,7 @@ questions:
       the collision.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Template Location (lines 138-147) and twig.paths (lines 1295-1340)
@@ -1425,6 +1450,7 @@ questions:
       field it adds to the parent is still submitted with the rest.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Events in Nested Forms (lines 179-220) and The Form Lifecycle (lines 129-176)
@@ -1487,6 +1513,7 @@ questions:
       into a validation error whose wording is set by `invalid_message`.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: transform()/reverseTransform() and the null note (lines 183-245)
@@ -1549,6 +1576,7 @@ questions:
       a parent''s normalization instead of discarding it.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Option Normalization (lines 399-460)
@@ -1609,6 +1637,7 @@ questions:
       tag is applied automatically by autoconfiguration.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Generic Form Type Extensions (lines 228-243) and getExtendedTypes (lines 44-62)
@@ -1670,6 +1699,7 @@ questions:
       keeps injection intact while deferring construction to the moment a specific service is requested.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Public Versus Private Services (lines 1041-1052)
@@ -1733,6 +1763,7 @@ questions:
       than a tag has to be applied — laziness, bindings or method calls.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: '_instanceof and #[AutoconfigureTag] (lines 55-112)'
@@ -1799,6 +1830,7 @@ questions:
       the same job from the class itself, which suits a value only one service needs.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: 'Binding Arguments by Name or Type (lines 854-925) and the #[Autowire] tip (lines
@@ -1862,6 +1894,7 @@ questions:
       which is why an unknown configuration key fails there rather than being ignored at runtime.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Using the AbstractBundle Class (lines 46-112)
@@ -1924,6 +1957,7 @@ questions:
       and a default value is allowed not to satisfy the requirement declared for the same parameter.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: optional parameters, the `!` prefix and inlined defaults (lines 800-820)
@@ -1987,6 +2021,7 @@ questions:
       option — `locale`, `format`, `query` — so they can be declared more readably.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: special parameters created by Symfony (lines 1005-1033)
@@ -2049,6 +2084,7 @@ questions:
       the same value is what asset URLs generated outside a request use.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Generating URLs in Commands (lines 2302-2340)
@@ -2110,6 +2146,7 @@ questions:
       options included. `router:match <url>` answers the other question: which route a given URL reaches.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: debug:router and router:match (lines 418-474)
@@ -2177,6 +2214,7 @@ questions:
       two documented purposes above: one addressed to caches, one to user agents.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         repository: httpwg/httpwg.github.io
         branch: master
         symbol_or_lines: section 12.5.5 Vary
@@ -2237,6 +2275,7 @@ questions:
       differently.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
         repository: symfony/symfony
         branch: '8.0'
         symbol_or_lines: isSuccessful line 1184, isOk line 1224, isRedirect line 1254
@@ -2300,6 +2339,7 @@ questions:
       one resource possible, and therefore what content negotiation and Vary operate on.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         repository: httpwg/httpwg.github.io
         branch: master
         symbol_or_lines: sections 3.1 Resources and 3.2 Representations
@@ -2363,6 +2403,7 @@ questions:
       `security: false` so no authentication is attempted at all.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: 'firewalls configuration, the dev firewall with security: false (lines 460-480)'
@@ -2426,6 +2467,7 @@ questions:
       cookie.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Checking to see if a User is Logged In (lines 2540-2578)
@@ -2490,6 +2532,7 @@ questions:
       runs the constructor — that raises the error for a disallowed target.'
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
         repository: php/doc-en
         branch: master
         symbol_or_lines: target specification and IS_REPEATABLE (lines 320-380)
@@ -2554,6 +2597,7 @@ questions:
       class is not bound, and `bindTo()` on it warns and fails rather than binding.'
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/functions.xml
         repository: php/doc-en
         branch: master
         symbol_or_lines: Automatic binding of $this and Static anonymous functions (lines 1300-1400)
@@ -2612,6 +2656,7 @@ questions:
       and print more only when it is worth it.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: verbosity options and the SHELL_VERBOSITY table (lines 1-46)
@@ -2674,6 +2719,7 @@ questions:
       which is why a command must still behave sensibly when nothing was asked.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Command Lifecycle (lines 419-443)
@@ -2734,6 +2780,7 @@ questions:
       and `count($crawler)` says how many nodes are left.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Traversing (lines 8-66)
@@ -2792,6 +2839,7 @@ questions:
       uppercase, and prefix with `HTTP_`, so `X-Session-Token` is passed as `HTTP_X_SESSION_TOKEN`.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: passing headers to createClient() and per request (lines 786-809)
@@ -2855,6 +2903,7 @@ questions:
       before any instance exists. All three return a violation list that is empty on success.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
         repository: symfony/symfony
         branch: '8.0'
         symbol_or_lines: validate, validateProperty, validatePropertyValue (lines 28-68)
@@ -2916,6 +2965,7 @@ questions:
       ignored in either case — a problem is reported by adding a violation to the context.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: External Callbacks and Closures (lines 141-176)
@@ -2981,6 +3031,7 @@ questions:
       returns.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Getting Results from your Handlers (lines 2563-2581) and stamps on dispatch (lines

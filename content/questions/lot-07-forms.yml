@@ -9,7 +9,7 @@
 # `exclusion-note` tag SCOPE-001 requires for it; nothing else tests them.
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 
 questions:
 - id: QST-a4xhs81g86kj
@@ -60,6 +60,7 @@ questions:
     the model for most types.
   official_sources: &id001
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     branch: '8.0'
     symbol_or_lines: Symfony Forms documentation
     verified_at: '2026-09-01'
@@ -348,6 +349,7 @@ questions:
     a type; adding it as a field composes.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
     branch: '8.0'
     symbol_or_lines: getParent()
     verified_at: '2026-09-01'
@@ -399,6 +401,7 @@ questions:
     and getParent() alone.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
     branch: '8.0'
     symbol_or_lines: AbstractType methods
     verified_at: '2026-09-01'
@@ -545,6 +548,7 @@ questions:
     text_part.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: block lookup chain
     verified_at: '2026-09-01'
@@ -597,6 +601,7 @@ questions:
     has no visible effect.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: form_themes ordering
     verified_at: '2026-09-01'
@@ -648,6 +653,7 @@ questions:
     uses the Form component.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     branch: '8.0'
     symbol_or_lines: CSRF protection in Symfony forms
     verified_at: '2026-09-01'
@@ -700,6 +706,7 @@ questions:
     form is then not valid for another.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     branch: '8.0'
     symbol_or_lines: form CSRF options
     verified_at: '2026-09-01'
@@ -752,6 +759,7 @@ questions:
     form itself, and may be null when the upload is optional.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: unmapped FileType field
     verified_at: '2026-09-01'
@@ -803,6 +811,7 @@ questions:
     its name stored separately.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: the trick to make it work
     verified_at: '2026-09-01'
@@ -853,6 +862,7 @@ questions:
   explanation: The two booleans combine into four renderings, and ChoiceType is the parent of the whole choice family.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst
     branch: '8.0'
     symbol_or_lines: ChoiceType options
     verified_at: '2026-09-01'
@@ -903,6 +913,7 @@ questions:
   explanation: It is the password-confirmation pattern, and it works with any inner type.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst
     branch: '8.0'
     symbol_or_lines: supported field types
     verified_at: '2026-09-01'
@@ -954,6 +965,7 @@ questions:
     handles what the browser sent.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
     branch: '8.0'
     symbol_or_lines: transform and reverseTransform
     verified_at: '2026-09-01'
@@ -1006,6 +1018,7 @@ questions:
     user as an error page.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
     branch: '8.0'
     symbol_or_lines: TransformationFailedException
     verified_at: '2026-09-01'
@@ -1057,6 +1070,7 @@ questions:
     data.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: the field structure is locked
     verified_at: '2026-09-01'
@@ -1109,6 +1123,7 @@ questions:
     is available once submission completes.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: validation runs through a listener on POST_SUBMIT
     verified_at: '2026-09-01'
@@ -1162,6 +1177,7 @@ questions:
     or to submitted data, which comes from the request?'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: tip on PRE_SET_DATA versus PRE_SUBMIT
     verified_at: '2026-09-01'
@@ -1213,6 +1229,7 @@ questions:
     affects every field.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
     branch: '8.0'
     symbol_or_lines: getExtendedTypes
     verified_at: '2026-09-01'
@@ -1264,6 +1281,7 @@ questions:
     it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
     branch: '8.0'
     symbol_or_lines: form type extensions
     verified_at: '2026-09-01'
@@ -1315,6 +1333,7 @@ questions:
     of the component.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     branch: '8.0'
     symbol_or_lines: setDefined
     verified_at: '2026-09-01'
@@ -1366,6 +1385,7 @@ questions:
     matter.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     branch: '8.0'
     symbol_or_lines: lazy options
     verified_at: '2026-09-01'
@@ -1559,6 +1579,7 @@ questions:
     in a type extension affects every field.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
     branch: '8.0'
     symbol_or_lines: implicit parent
     verified_at: '2026-09-01'
@@ -1657,6 +1678,7 @@ questions:
     used on one page only.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: _self keyword
     verified_at: '2026-09-01'
@@ -1708,6 +1730,7 @@ questions:
     costs the page its cacheability by a shared proxy.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     branch: '8.0'
     symbol_or_lines: stateless CSRF tokens
     verified_at: '2026-09-01'
@@ -1759,6 +1782,7 @@ questions:
     value is displayed is a view concern.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
     branch: '8.0'
     symbol_or_lines: addModelTransformer and addViewTransformer
     verified_at: '2026-09-01'
@@ -1811,6 +1835,7 @@ questions:
     be added to the form whose value triggered it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     branch: '8.0'
     symbol_or_lines: events in nested forms
     verified_at: '2026-09-01'
@@ -1862,6 +1887,7 @@ questions:
     a list or a callback.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     branch: '8.0'
     symbol_or_lines: setAllowedValues
     verified_at: '2026-09-01'
@@ -1956,6 +1982,7 @@ questions:
     of the lookup chain is being customised.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     branch: '8.0'
     symbol_or_lines: form field parts
     verified_at: '2026-09-01'
@@ -2007,6 +2034,7 @@ questions:
     back onto it. Everything else — types, transformers, events — serves that one bidirectional mapping.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Understanding How Forms Work, bidirectional mapping layer
@@ -2061,6 +2089,7 @@ questions:
     is what the controller hands in and what it gets back.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: The Data Transformation Lifecycle, Model Data
@@ -2114,6 +2143,7 @@ questions:
     a class is what makes the definition reusable and testable.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Creating Form Classes, forms defined in classes can be reused
@@ -2167,6 +2197,7 @@ questions:
     be omitted so it is guessed.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Creating Forms in Controllers, add() calls
@@ -2223,6 +2254,7 @@ questions:
     the documented action returns a redirect on success and renders only on the other branch.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Handling Form Submissions, handleRequest()
@@ -2277,6 +2309,7 @@ questions:
     into the submitted array with a null value, so they count as submitted.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: submit() with $clearMissing false, validation warning
@@ -2329,6 +2362,7 @@ questions:
     single field type, which is why a form can be added as a field of another form.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Form classes are form types that implement FormTypeInterface
@@ -2383,11 +2417,13 @@ questions:
     its own value under its own key.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: getParent(), the parent is called before your type
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: The Form Type Hierarchy
@@ -2442,11 +2478,13 @@ questions:
     the coarsest call that still gives the control you need.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Form Field Parts
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Rendering Forms
@@ -2500,6 +2538,7 @@ questions:
     is why overriding one block is enough.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: lookup chain, most specific falling back to parent types
@@ -2553,6 +2592,7 @@ questions:
     the errors, and each can be themed on its own.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Form Field Parts table
@@ -2605,6 +2645,7 @@ questions:
     silently drops the token and every submission then fails validation.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: csrf_protection, the hidden token field
@@ -2658,6 +2699,7 @@ questions:
     to the one form it was issued for — a benefit tied to stateful tokens, the default.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: csrf_token_id, using a different string for each form
@@ -2712,6 +2754,7 @@ questions:
     they all accept the same options for how that list is rendered.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: The Form Type Hierarchy, ChoiceType and its children
@@ -2767,6 +2810,7 @@ questions:
     type backed by them is out of scope and is not studied here.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the built-in form type reference
@@ -2821,6 +2865,7 @@ questions:
     something it was not built to display.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: When null is passed to the transform() method
@@ -2874,6 +2919,7 @@ questions:
     is what makes the data carried by each event predictable.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the form lifecycle, phase 1 and phase 2
@@ -2926,6 +2972,7 @@ questions:
   explanation: The root type is the ancestor of the whole hierarchy, so an extension pointed at it reaches nearly every field at once — the documented way to add an option or a view variable everywhere. Its configureOptions() then runs for each of those fields.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: return [FormType::class] to modify (nearly) every field in the system
@@ -2980,6 +3027,7 @@ questions:
     explicitly.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: tagged with the form.type_extension tag
@@ -3034,6 +3082,7 @@ questions:
     and may depend on other resolved options.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Normalizers are executed after validating an option
@@ -3087,6 +3136,7 @@ questions:
     error — the reason a form type declares its options at all.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: UndefinedOptionsException, The option "usernme" does not exist

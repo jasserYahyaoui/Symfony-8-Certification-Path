@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst"
     branch: "8.0"
     symbol_or_lines: "type-based resolution, aliases, named autowiring aliases, Target, Autowire"
     verified_at: "2026-09-01"

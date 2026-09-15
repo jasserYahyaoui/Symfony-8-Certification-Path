@@ -8,7 +8,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-713sjezq7b99
   question_archetype: CONFIG_BEHAVIOR
@@ -59,6 +59,7 @@ questions:
     PHP, so it is slower than Varnish, but the application is unchanged if you switch.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
     branch: '8.0'
     symbol_or_lines: symfony-reverse-proxy
     verified_at: '2026-09-02'
@@ -111,6 +112,7 @@ questions:
     once its response is cached.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
     branch: '8.0'
     symbol_or_lines: safe-methods-only-caching-get-or-head-requests
     verified_at: '2026-09-02'
@@ -163,6 +165,7 @@ questions:
   explanation: The attribute sets a default policy that code in the controller is allowed to contradict.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
     branch: '8.0'
     symbol_or_lines: expiration-caching
     verified_at: '2026-09-02'

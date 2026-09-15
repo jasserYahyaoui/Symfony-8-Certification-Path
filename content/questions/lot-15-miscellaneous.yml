@@ -6,7 +6,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-y14y2m9jfwmr
   question_archetype: CONCEPT_DISTINCTION
@@ -57,6 +57,7 @@ questions:
     classes are found.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
     branch: '8.0'
     symbol_or_lines: c-install-update-your-vendors
     verified_at: '2026-09-02'
@@ -110,6 +111,7 @@ questions:
     is per environment.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
     branch: '8.0'
     symbol_or_lines: d-clear-your-symfony-cache
     verified_at: '2026-09-02'
@@ -163,6 +165,7 @@ questions:
     without values for setups relying only on real environment variables.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
     branch: '8.0'
     symbol_or_lines: b-configure-your-environment-variables
     verified_at: '2026-09-02'
@@ -214,6 +217,7 @@ questions:
   explanation: X-Debug-Token-Link carries the profile URL, and /_profiler lists every profile.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
     branch: '8.0'
     symbol_or_lines: profiler
     verified_at: '2026-09-02'
@@ -267,6 +271,7 @@ questions:
     request and the collector picks it up on kernel.response.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
     branch: '8.0'
     symbol_or_lines: creating-a-data-collector
     verified_at: '2026-09-02'
@@ -318,6 +323,7 @@ questions:
   explanation: lateCollect() is invoked just before the profiler serialises its data, during kernel.terminate.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
     branch: '8.0'
     symbol_or_lines: creating-a-data-collector
     verified_at: '2026-09-02'
@@ -371,6 +377,7 @@ questions:
     and running tests are listed separately, as optional additions.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the typical steps taken while deploying a Symfony application
@@ -426,6 +433,7 @@ questions:
     — which is how a test asserts on what a request did.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the toolbar is only injected into HTML responses; X-Debug-Token-Link and /_profiler

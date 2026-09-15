@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst"
     branch: "8.0"
     symbol_or_lines: "algorithm auto, migrate_from, UserPasswordHasherInterface"
     verified_at: "2026-09-01"

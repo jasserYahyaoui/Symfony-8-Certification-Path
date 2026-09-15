@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-kscwk0ja0heb
     question_archetype: API_SIGNATURE
@@ -48,6 +48,7 @@ questions:
       8.4, alongside asymmetric visibility.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/property-hooks.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/oop5/property-hooks.xml
         branch: master
         symbol_or_lines: 'Property Hooks: syntax, and "Property hooks were introduced in PHP 8.4"'
         verified_at: '2026-09-01'
@@ -101,6 +102,7 @@ questions:
       not the one it was written in. `self` would resolve to the declaring class.'
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/oop5/late-static-bindings.xml
         branch: master
         symbol_or_lines: new static
         verified_at: '2026-09-01'
@@ -152,6 +154,7 @@ questions:
       That is why bad arguments produce no error until a reader asks for the object.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
         branch: master
         symbol_or_lines: ReflectionAttribute::newInstance — "Objects of the attribute class are instantiated
           only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs
@@ -206,6 +209,7 @@ questions:
       but always by value, which is why they cannot be used here.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/functions.xml
         branch: master
         symbol_or_lines: anonymous functions, use by reference
         verified_at: '2026-09-01'
@@ -257,6 +261,7 @@ questions:
       fully implemented methods can still be abstract.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
         branch: master
         symbol_or_lines: abstract classes
         verified_at: '2026-09-01'
@@ -308,6 +313,7 @@ questions:
       misses TypeError, ValueError and the rest.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/errors/php7.xml
         branch: master
         symbol_or_lines: Throwable hierarchy
         verified_at: '2026-09-01'
@@ -360,6 +366,7 @@ questions:
       and `as` can alias the other.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
         branch: master
         symbol_or_lines: conflict resolution
         verified_at: '2026-09-01'
@@ -411,6 +418,7 @@ questions:
       name alone.
     official_sources:
       - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/enumerations.xml
         branch: master
         symbol_or_lines: backed enumerations
         verified_at: '2026-09-01'
@@ -463,6 +471,7 @@ questions:
       is why it is the safe choice for an API endpoint.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
         branch: '8.0'
         symbol_or_lines: getPayload
         verified_at: '2026-09-01'
@@ -514,6 +523,7 @@ questions:
       before the whole body exists.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php
         branch: '8.0'
         symbol_or_lines: class docblock
         verified_at: '2026-09-01'
@@ -565,6 +575,7 @@ questions:
       are idempotent without being safe.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 9.2 Common Method Properties
         verified_at: '2026-09-01'
@@ -618,6 +629,7 @@ questions:
       writes a second, unrelated cookie.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
         branch: '8.0'
         symbol_or_lines: clearCookie
         verified_at: '2026-09-01'
@@ -670,6 +682,7 @@ questions:
       is its opposite.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html
         branch: master
         symbol_or_lines: section 5.2 Cache-Control (must-revalidate 5.2.2.2); stale-while-revalidate is
           RFC 5861 section 3
@@ -722,6 +735,7 @@ questions:
       stored representation is reused for everyone.
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 12.5.5 Vary
         verified_at: '2026-09-01'
@@ -773,6 +787,7 @@ questions:
       data — reading the status code, the headers or the content.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
         branch: '8.0'
         symbol_or_lines: asynchronous requests
         verified_at: '2026-09-01'
@@ -825,6 +840,7 @@ questions:
       from symfony/recipes-contrib, which is not curated.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup.rst
         branch: '8.0'
         symbol_or_lines: main and contrib recipe repositories
         verified_at: '2026-09-01'
@@ -879,6 +895,7 @@ questions:
       needs both sides present and configures nothing in the framework.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json
         branch: '8.0'
         symbol_or_lines: description
         verified_at: '2026-09-01'
@@ -930,6 +947,7 @@ questions:
       is merged over them in that environment only.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
         branch: '8.0'
         symbol_or_lines: configuration environments
         verified_at: '2026-09-01'
@@ -983,6 +1001,7 @@ questions:
       still travels through kernel.response, finish_request and, after sending, terminate.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
         branch: '8.0'
         symbol_or_lines: kernel.request, kernel.response
         verified_at: '2026-09-01'
@@ -1035,6 +1054,7 @@ questions:
       An ordinary exception falls through to 500.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
         branch: '8.0'
         symbol_or_lines: lines 255-262
         verified_at: '2026-09-01'
@@ -1087,6 +1107,7 @@ questions:
       decides only among listeners sharing a priority.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
         branch: '8.0'
         symbol_or_lines: addListener priority
         verified_at: '2026-09-01'
@@ -1139,6 +1160,7 @@ questions:
       almost never changes.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst
         branch: '8.0'
         symbol_or_lines: Use Environment Variables for Infrastructure Configuration
         verified_at: '2026-09-01'
@@ -1190,6 +1212,7 @@ questions:
       validation translations, and everything under a Tests namespace.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst
         branch: '8.0'
         symbol_or_lines: warning on @internal and Tests namespaces
         verified_at: '2026-09-01'
@@ -1241,6 +1264,7 @@ questions:
       deprecated or contain deprecated methods, and neither can a new method.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
         branch: '8.0'
         symbol_or_lines: Deprecating Code
         verified_at: '2026-09-01'
@@ -1293,6 +1317,7 @@ questions:
       happens during container compilation, in a compiler pass.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst
         branch: '8.0'
         symbol_or_lines: Services & Configuration
         verified_at: '2026-09-01'
@@ -1344,6 +1369,7 @@ questions:
       support version.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
         branch: '8.0'
         symbol_or_lines: Maintenance
         verified_at: '2026-09-01'
@@ -1395,6 +1421,7 @@ questions:
       PSR-7 is immutable. Interoperability goes through a dedicated bridge plus a third-party implementation.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+        readable_url: https://github.com/symfony/symfony/blob/8.0/composer.json
         branch: '8.0'
         symbol_or_lines: provide key
         verified_at: '2026-09-01'
@@ -1446,6 +1473,7 @@ questions:
       The bundle wires them into a container and adds the developer conveniences.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
         branch: '8.0'
         symbol_or_lines: abstract class Kernel
         verified_at: '2026-09-01'
@@ -1497,6 +1525,7 @@ questions:
       Twig still boots: only the helper needing it fails, with an explicit message.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
         branch: '8.0'
         symbol_or_lines: getSubscribedServices
         verified_at: '2026-09-01'
@@ -1549,6 +1578,7 @@ questions:
       is what asks the browser to display it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
         branch: '8.0'
         symbol_or_lines: file()
         verified_at: '2026-09-01'
@@ -1600,6 +1630,7 @@ questions:
       it, which emits a session cookie and makes the response unsuitable for a shared cache.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
         branch: '8.0'
         symbol_or_lines: sessions are only started if you read from or write to them
         verified_at: '2026-09-01'
@@ -1652,6 +1683,7 @@ questions:
       the target's signature changes nothing.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst
         branch: '8.0'
         symbol_or_lines: the order of the arguments does not matter
         verified_at: '2026-09-01'
@@ -1704,6 +1736,7 @@ questions:
       for a 404. It works in tests and fails in production — the documentation flags this explicitly.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
         branch: '8.0'
         symbol_or_lines: Security & 404 Pages
         verified_at: '2026-09-01'
@@ -1755,6 +1788,7 @@ questions:
       request. move() is what makes it persist.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
         branch: '8.0'
         symbol_or_lines: moving the uploaded file
         verified_at: '2026-09-01'
@@ -1807,6 +1841,7 @@ questions:
       path or URL. permanent turns the 302 into a 301.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: RedirectController options
         verified_at: '2026-09-01'
@@ -1860,6 +1895,7 @@ questions:
       #[ValueResolver].'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst
         branch: '8.0'
         symbol_or_lines: Managing Value Resolvers
         verified_at: '2026-09-01'
@@ -1912,6 +1948,7 @@ questions:
       is why an option such as condition can count for matching only.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
         branch: '8.0'
         symbol_or_lines: generate()
         verified_at: '2026-09-01'
@@ -1963,6 +2000,7 @@ questions:
       to change that order without moving declarations.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: route evaluation order
         verified_at: '2026-09-01'
@@ -2015,6 +2053,7 @@ questions:
       the router moves on. A 404 is produced only when the whole collection has been exhausted.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Parameters Validation
         verified_at: '2026-09-01'
@@ -2066,6 +2105,7 @@ questions:
       be included.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Optional Parameters
         verified_at: '2026-09-01'
@@ -2117,6 +2157,7 @@ questions:
       normally needs.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Generating URLs in Templates
         verified_at: '2026-09-01'
@@ -2168,6 +2209,7 @@ questions:
       redirect.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Redirecting URLs with Trailing Slashes
         verified_at: '2026-09-01'
@@ -2220,6 +2262,7 @@ questions:
       application/json. It is what lets /search.json and /search.xml share one route.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Special Parameters
         verified_at: '2026-09-01'
@@ -2271,6 +2314,7 @@ questions:
       params is what allows a condition such as params['id'] < 1000.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Matching Expressions
         verified_at: '2026-09-01'
@@ -2323,6 +2367,7 @@ questions:
       route matches, Symfony uses that locale for the whole request.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
         branch: '8.0'
         symbol_or_lines: Localized Routes (i18n)
         verified_at: '2026-09-01'
@@ -2375,6 +2420,7 @@ questions:
       precisely for schemes — an API token, for instance — where there is no secret left to check.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst
         branch: '8.0'
         symbol_or_lines: Passport badges
         verified_at: '2026-09-01'

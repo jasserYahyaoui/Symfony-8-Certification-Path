@@ -8,7 +8,7 @@
 # the courses name, so a candidate cannot answer by lexical recognition
 # (CRS-001). Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-08dprb9gp7c9
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -61,6 +61,7 @@ questions:
     one returns a SentMessage and always sends synchronously.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     branch: '8.0'
     symbol_or_lines: mailer-debugging-emails
     verified_at: '2026-09-02'
@@ -115,6 +116,7 @@ questions:
     by default.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     branch: '8.0'
     symbol_or_lines: creating-sending-messages
     verified_at: '2026-09-02'
@@ -169,6 +171,7 @@ questions:
     it from the final email.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     branch: '8.0'
     symbol_or_lines: multiple-email-transports
     verified_at: '2026-09-02'
@@ -223,6 +226,7 @@ questions:
     must be added last.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
     branch: '8.0'
     symbol_or_lines: creating-raw-email-messages
     verified_at: '2026-09-02'
@@ -277,6 +281,7 @@ questions:
     named file is reported by its real type.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
     branch: '8.0'
     symbol_or_lines: components-mime-type-guess
     verified_at: '2026-09-02'
@@ -331,6 +336,7 @@ questions:
     problems with bounced emails.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
     branch: '8.0'
     symbol_or_lines: usage
     verified_at: '2026-09-02'
@@ -385,6 +391,7 @@ questions:
     the binary directly, whose behaviour the application controls.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the DSN protocol table and the warning against native://default
@@ -439,6 +446,7 @@ questions:
     on the returned object matters when something goes wrong.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: TransportInterface::send() and the SentMessage object
@@ -493,6 +501,7 @@ questions:
     yourself — which means knowing which container each part belongs in.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'two ways of creating MIME messages: a high-level and a low-level API'

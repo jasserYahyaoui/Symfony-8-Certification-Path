@@ -3,7 +3,7 @@
 # One card per official item: the point fact that re-reading the course does
 # not anchor, and that decides an exam answer.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
 - id: FLC-bhhw8akr7mb5
@@ -18,6 +18,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     symbol_or_lines: '"The MockClock is instantiated with a time and does not move forward on its own. The time is fixed until sleep() or modify() are called"'
     branch: '8.0'
     verified_at: '2026-09-02'

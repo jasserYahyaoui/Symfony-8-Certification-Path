@@ -8,7 +8,7 @@
 # so a candidate cannot answer by lexical recognition (CRS-001). Every
 # distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-qz4v99xfbh3t
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -61,6 +61,7 @@ questions:
     the timeout check regularly.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
     branch: '8.0'
     symbol_or_lines: process-timeout
     verified_at: '2026-09-02'
@@ -115,6 +116,7 @@ questions:
     is for shell features, and then escaping and portability become the developer's responsibility.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
     branch: '8.0'
     symbol_or_lines: using-features-from-the-os-shell
     verified_at: '2026-09-02'
@@ -169,6 +171,7 @@ questions:
     timeout is measured from the output the process produces.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
     branch: '8.0'
     symbol_or_lines: disabling-output
     verified_at: '2026-09-02'
@@ -223,6 +226,7 @@ questions:
     time-based then needs an explicit check from the caller.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: run() executes after the command finishes; asynchronous processes
@@ -277,6 +281,7 @@ questions:
     collection makes the idle one unavailable — it has nothing to watch.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the idle timeout only considers the time since the last output

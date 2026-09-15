@@ -8,10 +8,12 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst"
     branch: "8.0"
     symbol_or_lines: "public and private services, aliases"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst"
     symbol_or_lines: 'Public Versus Private Services — "Every service defined is private by default. When a service is private, you cannot access it directly from the container using $container->get()"; and "You can only set a parameter before the container is compiled, not at runtime"'
     branch: "8.0"
     verified_at: "2026-09-01"

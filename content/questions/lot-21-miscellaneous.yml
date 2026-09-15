@@ -8,7 +8,7 @@
 # course names, so a candidate cannot answer by lexical recognition (CRS-001).
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-q1g70cf81t0a
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -60,6 +60,7 @@ questions:
     a failure cannot pass unnoticed.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
     branch: '8.0'
     symbol_or_lines: readfile
     verified_at: '2026-09-02'
@@ -113,6 +114,7 @@ questions:
     to the current umask.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
     branch: '8.0'
     symbol_or_lines: mkdir
     verified_at: '2026-09-02'
@@ -165,6 +167,7 @@ questions:
     half-written file. The append method makes no such guarantee.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
     branch: '8.0'
     symbol_or_lines: dumpfile
     verified_at: '2026-09-02'
@@ -218,6 +221,7 @@ questions:
     each distinct search.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
     branch: '8.0'
     symbol_or_lines: usage
     verified_at: '2026-09-02'
@@ -270,6 +274,7 @@ questions:
     be supplied.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
     branch: '8.0'
     symbol_or_lines: files-or-directories
     verified_at: '2026-09-02'
@@ -323,6 +328,7 @@ questions:
     entries from overwriting one another.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
     branch: '8.0'
     symbol_or_lines: transforming-results-into-arrays
     verified_at: '2026-09-02'
@@ -377,6 +383,7 @@ questions:
     search needs a clone.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'chained criteria: files(), in(), name()'

@@ -205,6 +205,17 @@ Sources must be version-anchored to Symfony 8.0. `/current/` is rejected by CI.
 Prefer the raw upstream repositories listed in `docs/syllabus/source-map.yml` —
 they carry a commit SHA, which a rendered documentation page does not.
 
+**A citation carries two URLs, and they cannot drift.** `url` is the raw file
+this project fetches to verify the claim; `readable_url` is the same object as a
+rendered GitHub page, and it is what the site links to. `readable_url` must be
+*exactly* `SourceUrl::readable(url)` — rule `SRC-002` — so a learner always opens
+the file the claim was checked against. Omit it and it is derived; write it
+wrong and the build fails. Never convert `url` itself to `github.com/blob`:
+`AUD-02` extracts each citation's (repository, ref) from the raw form, and a
+blanket conversion would leave `CONTAM-1`, `CONTAM-2` and `CONTAM-8` skipping
+every source while reporting zero findings. See
+[the verification](docs/audit/source-url-readability/verification.md).
+
 ## Environment notes
 
 - `certification.symfony.com`, `symfony.com`, `www.php.net` and

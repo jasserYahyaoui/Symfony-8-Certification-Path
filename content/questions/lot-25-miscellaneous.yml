@@ -8,7 +8,7 @@
 # correct answer of a lot-03 question, and this item is assessed on the
 # bootstrapping abstraction itself.
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-rez80g9m6w88
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -62,6 +62,7 @@ questions:
     docs warn it must produce no side effects.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
     branch: '8.0'
     symbol_or_lines: usage
     verified_at: '2026-09-02'
@@ -115,6 +116,7 @@ questions:
     and then runs that application.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
     branch: '8.0'
     symbol_or_lines: usage
     verified_at: '2026-09-02'
@@ -169,6 +171,7 @@ questions:
     name matter.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
     branch: '8.0'
     symbol_or_lines: resolvable-arguments
     verified_at: '2026-09-02'
@@ -221,6 +224,7 @@ questions:
     made. A separate environment variable carries the runtime's own options, as an array or a JSON string.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: use the APP_RUNTIME environment variable or extra.runtime.class

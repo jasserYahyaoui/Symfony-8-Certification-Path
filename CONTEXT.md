@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15 (Lot 27, suivi : hub des simulations)
+**Last updated:** 2026-09-15 (citations : url vérifiée + url lisible)
 
 ---
 
@@ -588,6 +588,48 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+### Citations : l'URL vérifiée et l'URL lisible (`readable_url`)
+
+**Demande de l'owner :** convertir les URLs `raw.githubusercontent.com` au
+format `github.com/<owner>/<repo>/blob/<branch>/<path>`, déployer, et garantir
+que tout reste accessible. Option retenue après arbitrage : **les deux champs
+dans le YAML**, et vérification des URLs raw depuis cet environnement.
+
+**Pourquoi pas une conversion en bloc.** `AUD-02` extrait le couple (dépôt,
+référence) de chaque citation par une regex sur `raw.githubusercontent.com`.
+Convertir `url` aurait rendu `RAW.search()` muet : `CONTAM-1`, `CONTAM-2` et
+`CONTAM-8` sautés pour **les 1 138 sources**, et un audit de contamination de
+version affichant zéro *finding* en ne regardant plus rien — la forme exacte des
+cinq contrôles vacuous déjà trouvés ici. Après le changement, `AUD-02` lit
+toujours ses 1 138 sources, zéro « non-raw source ».
+
+**Livré.** `url` (raw, vérifiable) + `readable_url` (rendu, affiché) sur les
+1 138 citations, dérivation unique dans `src/Support/SourceUrl.php`, dérivation
+dans le **constructeur** de `SourceRef` pour que fixtures et tests en aient une
+aussi, schémas `question-bank` et `flashcard-deck` **1 → 2** avec migrations,
+règle mandatoire **`SRC-002`**, pages et *payloads* pointant vers la forme
+rendue avec l'URL raw conservée comme preuve.
+
+**Deux défauts trouvés par mes propres tests**, pas après coup : la dérivation
+était d'abord dans `fromArray` seul, donc toute `SourceRef` construite en code
+sortait avec un `null` et la règle accusait le corpus ; et la regex convertissait
+la forme `refs/heads/` en une URL que GitHub ne sert pas, alors que son
+commentaire prétendait la refuser.
+
+| Porte | Résultat réel |
+|---|---|
+| Accessibilité des sources | **177/177 URLs distinctes en `200`**, interrogées depuis le conteneur le 2026-09-15 |
+| Joignabilité du format `blob` | **NOT VERIFIED depuis ici** — `github.com` répond `403` pour un dépôt amont sous la politique d'accès de la session ; héritée par construction, et dit comme tel |
+| `vendor/bin/phpunit` | **286 tests, 15 575 assertions, OK** (18 nouveaux) |
+| `php bin/cert validate` | **23 règles**, 1 avertissement `PED-003` connu, 0 bloquant |
+| `prove_framework_rules_fail.py` | **9 cas**, dont 2 pour `SRC-002`, tous restaurés byte-identiquement |
+| 12 audits de contenu | 0 *finding* ; `AUD-02` lit ses 1 138 sources |
+| `npm run build` · a11y · navigation | `SUCCESS` · **28 surfaces, 0 violation** · **209/210** |
+| `practice-smoke.py` | **518 citations**, 2 défauts injectés rejetés |
+| PR / merge / déploiement / *smoke* production | **EN ATTENTE** |
+
+---
 
 ### Suivi Lot 27 — le hub des simulations (`/simulations`)
 

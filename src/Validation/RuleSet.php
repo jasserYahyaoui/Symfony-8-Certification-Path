@@ -20,6 +20,7 @@ use CertPath\Validation\Rule\OutcomeAssessmentRule;
 use CertPath\Validation\Rule\OutOfScopeContaminationRule;
 use CertPath\Validation\Rule\QuestionArchetypeRule;
 use CertPath\Validation\Rule\QuestionIntegrityRule;
+use CertPath\Validation\Rule\ReadableSourceUrlRule;
 use CertPath\Validation\Rule\ReferentialIntegrityRule;
 use CertPath\Validation\Rule\RevisionBudgetRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
@@ -47,6 +48,7 @@ final class RuleSet
             new LearningOutcomeRule(),
             new AssessmentCoverageRule(),
             new SourceAnchorRule(),
+            new ReadableSourceUrlRule(),
             new QuestionIntegrityRule(),
             new CognitiveLevelRule(),
             new CourseIntegrityRule(),

@@ -9,7 +9,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-qtng554v6wp6
   question_archetype: DEFINITION_RECALL
@@ -59,6 +59,7 @@ questions:
   explanation: 'messages.fr_FR.yaml: domain messages, locale fr_FR, loaded by the YAML loader chosen from the extension.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     branch: '8.0'
     symbol_or_lines: translation-resource-file-names-and-locations
     verified_at: '2026-09-02'
@@ -112,6 +113,7 @@ questions:
     which defaults to default_locale.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
     branch: '8.0'
     symbol_or_lines: translation-fallback
     verified_at: '2026-09-02'
@@ -165,6 +167,7 @@ questions:
     as a plain string.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst
     branch: '8.0'
     symbol_or_lines: using-the-icu-message-format
     verified_at: '2026-09-02'
