@@ -275,4 +275,25 @@ jobs:
 
           python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json /tmp/mock-1.json /tmp/mock-2.json /tmp/mock-3.json /tmp/mock-5.json || fail=1
 
+          # Lot 27. Practice Mode's feedback reads an item index Unit B added to
+          # this payload. If it stops being emitted, two of the seven feedback
+          # sections vanish while every other gate stays green: the build, the
+          # rules and the accessibility audit all pass on a page that renders
+          # perfectly and no longer says what to revise.
+          python3 .github/scripts/practice-smoke.py /tmp/practice.json /tmp/course-sample.txt || fail=1
+
+          # Three course URLs, fetched for real. Three of 163 is a sample, and
+          # the script says so: the structure of all 163 is checked above, and
+          # `onBrokenLinks: throw` proves the build wrote the pages.
+          while read -r course; do
+            [ -n "$course" ] || continue
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /dev/null -w '%{http_code}' "$BASE_URL$course")
+            if [ "$code" = "200" ]; then
+              echo "ok  course  sampled $course serves $code"
+            else
+              echo "FAIL  course  sampled $course serves $code"
+              fail=1
+            fi
+          done < /tmp/course-sample.txt
+
           exit $fail
