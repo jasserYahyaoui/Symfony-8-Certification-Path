@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CertPath\Schema;
 
+use CertPath\Schema\Migrations\FlashcardDeckReadableUrl;
+use CertPath\Schema\Migrations\QuestionBankReadableUrl;
 use CertPath\Schema\Migrations\SyllabusMatrixOutcomeIdentity;
 
 /**
@@ -39,6 +41,8 @@ final class MigrationRunner
     {
         return [
             new SyllabusMatrixOutcomeIdentity(),
+            new QuestionBankReadableUrl(),
+            new FlashcardDeckReadableUrl(),
         ];
     }
 

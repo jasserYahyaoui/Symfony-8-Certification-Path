@@ -3,7 +3,7 @@
 # One card per official item: the point fact that re-reading the course does
 # not anchor, and that decides an exam answer.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
 - id: FLC-tz5z2qr23ew3
@@ -17,6 +17,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     symbol_or_lines: '"An optional priority, defined as a positive or negative integer (defaults to 0). The higher the number, the earlier the listener is called. If two listeners have the same priority, they are executed in the order that they were added to the dispatcher"'
     branch: '8.0'
     verified_at: '2026-09-02'
@@ -31,6 +32,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     symbol_or_lines: 'Event::stopPropagation() — "the listener needs to be able to tell the dispatcher to stop all propagation of the event to future listeners (i.e. to not notify any more listeners)"'
     branch: '8.0'
     verified_at: '2026-09-02'

@@ -8,10 +8,12 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/validation.rst"
     anchor: "constraint-targets"
     branch: "8.0"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst"
     anchor: "class-constraint-validator"
     branch: "8.0"
     verified_at: "2026-09-01"

@@ -3,7 +3,7 @@
 # One card per official item: the point fact that re-reading the course does
 # not anchor, and that decides an exam answer.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
 - id: FLC-xnqfscd5c1cy
@@ -20,6 +20,7 @@ flashcards:
   reviewed_at: '2026-09-02'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     branch: '8.0'
     symbol_or_lines: mailer-debugging-emails
     verified_at: '2026-09-02'
@@ -36,6 +37,7 @@ flashcards:
   reviewed_at: '2026-09-02'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
     branch: '8.0'
     symbol_or_lines: creating-raw-email-messages
     verified_at: '2026-09-02'

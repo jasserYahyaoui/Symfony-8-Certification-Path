@@ -8,10 +8,12 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc"
     branch: "8.0"
     symbol_or_lines: "liste des contraintes natives"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php"
     branch: "8.0"
     symbol_or_lines: "NotBlankValidator::validate"
     verified_at: "2026-09-01"

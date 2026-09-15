@@ -9,7 +9,7 @@
 # this item is assessed on what it uniquely owns — path notation, the opposite
 # defaults on a missing path, and the readability queries.
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-rx52h6xb2zvd
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -63,6 +63,7 @@ questions:
     can reverse either.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
     branch: '8.0'
     symbol_or_lines: accessing-a-non-existent-property-path
     verified_at: '2026-09-02'
@@ -116,6 +117,7 @@ questions:
     be mixed in one path.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
     branch: '8.0'
     symbol_or_lines: reading-from-arrays
     verified_at: '2026-09-02'
@@ -170,6 +172,7 @@ questions:
     the same for reads.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
     branch: '8.0'
     symbol_or_lines: checking-property-paths
     verified_at: '2026-09-02'
@@ -223,6 +226,7 @@ questions:
     should be routed there.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'Magic __call() Method: you need to enable this feature'

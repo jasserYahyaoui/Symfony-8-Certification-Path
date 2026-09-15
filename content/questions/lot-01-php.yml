@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-g3y2dqj5820q
   question_archetype: VERSION_ATTRIBUTION
@@ -49,6 +49,7 @@ questions:
     visibility, lazy objects and the #[\Deprecated] attribute.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
+    readable_url: https://github.com/php/php-src/blob/PHP-8.4/UPGRADING
     repository: php/php-src
     branch: PHP-8.4
     symbol_or_lines: New Features > Core
@@ -103,6 +104,7 @@ questions:
     unlike readonly.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml
     symbol_or_lines: 'Asymmetric Property Visibility — "As of PHP 8.4, object properties may also have their visibility set asymmetrically, with a different scope for reading (get) and writing (set) ... provided it is not more permissive than the default visibility"; example "public private(set) string $title"'
     repository: php/doc-en
     branch: master
@@ -159,6 +161,7 @@ questions:
     actually called. This is why factories use `new static()`.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/late-static-bindings.xml
     symbol_or_lines: 'Limitations of self:: — "Static references to the current class like self:: or __CLASS__ are resolved using the class in which the function belongs, as in where it was defined"; and the introduction, static:: "can be used to reference the called class in the context of static inheritance"'
     repository: php/doc-en
     branch: master
@@ -214,6 +217,7 @@ questions:
     ultérieure, y compris l'ajout dans un tableau, lève une Error.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/properties.xml
     symbol_or_lines: 'Readonly properties — "A readonly property can only be initialized once, and only from the scope where it has been declared. Any other assignment or modification of the property will result in an Error exception"'
     repository: php/doc-en
     branch: master
@@ -270,6 +274,7 @@ questions:
     the attribute class until newInstance() is called, so its validation never runs.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
     symbol_or_lines: 'Reading Attributes with the Reflection API — "Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance, ensuring that argument validation occurs at that point"'
     repository: php/doc-en
     branch: master
@@ -321,6 +326,7 @@ questions:
     enum cases and constant arithmetic. Function calls and variables are rejected at compile time.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
     symbol_or_lines: 'Attribute syntax — "Arguments can only be literal values or constant expressions. Both positional and named argument syntax are supported"'
     repository: php/doc-en
     branch: master
@@ -375,6 +381,7 @@ questions:
     state, method bodies, or non-public members.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
     symbol_or_lines: '"All methods declared in an interface must be public; this is the nature of an interface"; and the Constants section, "It''s possible for interfaces to have constants"'
     repository: php/doc-en
     branch: master
@@ -430,11 +437,13 @@ questions:
     Une interface, elle, peut en étendre plusieurs.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
     symbol_or_lines: '"Classes may implement more than one interface if desired by separating each interface with a comma"; and "Interfaces can be extended like classes using the extends operator"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/basic.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/basic.xml
     branch: master
     symbol_or_lines: '"It is not possible to extend multiple classes; a class can only inherit from one base class"'
     verified_at: '2026-09-07'
@@ -488,6 +497,7 @@ questions:
     has no effect. `use (&$f)` would capture by reference and yield 50.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/functions.xml
     repository: php/doc-en
     branch: master
     symbol_or_lines: Anonymous functions
@@ -539,6 +549,7 @@ questions:
     value is returned. They have no `use` clause, so by-reference capture is unavailable.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/functions.xml
     repository: php/doc-en
     branch: master
     symbol_or_lines: Arrow functions
@@ -592,6 +603,7 @@ questions:
     are invisible to it. PHP rejects the combination outright.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
     symbol_or_lines: '"Methods defined as abstract simply declare the method''s signature and whether it is public or protected" — private is not among the permitted visibilities'
     repository: php/doc-en
     branch: master
@@ -647,6 +659,7 @@ questions:
     l'état et du comportement partagé au sein d'une hiérarchie.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
     symbol_or_lines: '"PHP has abstract classes, methods, and properties. Classes defined as abstract cannot be instantiated, and any class that contains at least one abstract method or property must also be abstract"'
     repository: php/doc-en
     branch: master
@@ -700,11 +713,13 @@ questions:
     never sees an Error; catch (Throwable) sees both.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/predefined/throwable.xml
     symbol_or_lines: '"Throwable is the base interface for any object that can be thrown via a throw statement, including Error and Exception"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/errors/php7.xml
     branch: master
     symbol_or_lines: '"As the Error hierarchy does not inherit from Exception, code that uses catch (Exception $e) blocks to handle uncaught exceptions ... will find that these Errors are not caught by these blocks"'
     verified_at: '2026-09-07'
@@ -759,11 +774,13 @@ questions:
     Error is the separate engine-error hierarchy, not the usual base for domain or application exceptions.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/predefined/throwable.xml
     symbol_or_lines: 'Note under "Introduction": "PHP classes cannot implement the Throwable interface directly"'
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
   - url: https://raw.githubusercontent.com/php/php-src/0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5/Zend/zend_exceptions.c
+    readable_url: https://github.com/php/php-src/blob/0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5/Zend/zend_exceptions.c
     repository: php/php-src
     branch: PHP-8.4
     commit_sha: 0c2fc141fcf9edb13b57b34c3843ed75e24ddcf5
@@ -818,6 +835,7 @@ questions:
   explanation: 'Precedence is: current class > trait > base class. The child''s own method wins.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
     repository: php/doc-en
     branch: master
     symbol_or_lines: section Precedence
@@ -870,6 +888,7 @@ questions:
     `as` only creates an additional name (and may change visibility).
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
     repository: php/doc-en
     branch: master
     symbol_or_lines: section Conflict Resolution
@@ -926,6 +945,7 @@ questions:
     from() throws \ValueError.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/enumerations.xml
     symbol_or_lines: '"tryFrom(int|string): ?self ... If one is not found, it will return null. This is mainly useful in cases where the input scalar is untrusted"; from() "will throw a ValueError"'
     repository: php/doc-en
     branch: master
@@ -977,6 +997,7 @@ questions:
     no instance state, no inheritance and no instantiation.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/enumerations.xml
     symbol_or_lines: 'Differences from objects — "Enum cases are forbidden from having state ... Constructors and Destructors are forbidden. Inheritance is not supported. Enums may not extend or be extended. Static or object properties are not allowed"; and "Enums ... may contain methods, and may implement interfaces"'
     repository: php/doc-en
     branch: master
@@ -1030,6 +1051,7 @@ questions:
     class must implement it; otherwise the class itself must be abstract.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
     symbol_or_lines: 'Abstract Trait Members — "Traits support the use of abstract methods in order to impose requirements upon the exhibiting class. Public, protected, and private methods are supported"'
     repository: php/doc-en
     branch: master
@@ -1083,6 +1105,7 @@ questions:
     is why returning from finally is discouraged.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/exceptions.xml
     symbol_or_lines: '"If a return statement is encountered inside either the try or the catch blocks, the finally block will still be executed ... Additionally, if the finally block also contains a return statement, the value from the finally block is returned"'
     repository: php/doc-en
     branch: master
@@ -1139,6 +1162,7 @@ questions:
     final is what forbids it. Reading the pre-8.1 rule into PHP 8.4 code is the trap.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
     symbol_or_lines: '"Prior to PHP 8.1.0, they cannot be overridden by a class/interface that inherits
       them"'
     repository: php/doc-en
@@ -1196,6 +1220,7 @@ questions:
     be written only once from the declaring scope.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
     symbol_or_lines: '"As of PHP 8.4.0, interfaces may also declare properties ... an interface property
       that is settable may not be readonly"'
     repository: php/doc-en
@@ -1251,6 +1276,7 @@ questions:
     common mistake, and it changes the cost of the code rather than its result.
   official_sources:
   - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
+    readable_url: https://github.com/php/php-src/blob/PHP-8.4/UPGRADING
     repository: php/php-src
     branch: PHP-8.4
     symbol_or_lines: New Features > Core
@@ -1306,6 +1332,7 @@ questions:
     calling its own. Making it protected is what enables the override.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml
     symbol_or_lines: Members declared private may only be accessed by the class that defines the member
     repository: php/doc-en
     branch: master
@@ -1359,6 +1386,7 @@ questions:
     outright: Cannot use the final modifier on an abstract class.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
     symbol_or_lines: Class Abstraction
     repository: php/doc-en
     branch: master
@@ -1414,6 +1442,7 @@ questions:
     the bug is silent, and only the ordering reveals it.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/exceptions.xml
     symbol_or_lines: '"The first catch block the thrown object matches will be used"'
     repository: php/doc-en
     branch: master
@@ -1471,6 +1500,7 @@ questions:
     them. A class scanned but never instantiated therefore reports no error at all.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
     symbol_or_lines: Attributes - getAttributes / ReflectionAttribute::newInstance
     repository: php/doc-en
     branch: master
@@ -1528,6 +1558,7 @@ questions:
     with "Using $this when not in object context".'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/functions.xml
     symbol_or_lines: Anonymous functions - "When declared in the context of a class, the current class
       is automatically bound to it, making $this available inside of the function's scope"
     repository: php/doc-en
@@ -1585,6 +1616,7 @@ questions:
     a trait supplying the implementation.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
     symbol_or_lines: Traits - "Traits can define static variables, static methods and static properties"
     repository: php/doc-en
     branch: master
@@ -1642,6 +1674,7 @@ questions:
     with "Access level to ... must be protected (as in class ...) or weaker".'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
     symbol_or_lines: Class Abstraction - "all methods marked abstract in the parent's class declaration
       must be defined by the child class, and follow the usual inheritance and signature compatibility
       rules"
@@ -1701,6 +1734,7 @@ questions:
     first is tested here.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
+    readable_url: https://github.com/php/php-src/blob/PHP-8.4/UPGRADING
     symbol_or_lines: 2. New Features > Core
     repository: php/php-src
     branch: PHP-8.4

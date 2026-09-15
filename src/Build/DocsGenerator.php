@@ -824,12 +824,21 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             foreach ($item->officialSources as $source) {
                 // A Markdown link, not an autolink: MDX parses `<https://…>`
                 // as JSX and fails on the first slash.
-                $markdown .= '- ['.$source->url.']('.$source->url.')';
+                //
+                // The learner is sent to the RENDERED page — github.com/blob —
+                // because a citation they cannot read is a citation they will
+                // not follow. The raw URL is what this project fetches to verify
+                // the claim, so it stays underneath as the evidence, named as
+                // such rather than shown as a second link nobody needs.
+                $markdown .= '- ['.$source->displayUrl().']('.$source->displayUrl().')';
                 if (null !== $source->commitSha) {
                     $markdown .= ' — `'.substr($source->commitSha, 0, 12).'`';
                 }
                 if (null !== $source->symbolOrLines && '' !== $source->symbolOrLines) {
                     $markdown .= ' — '.$this->mdxText($source->symbolOrLines);
+                }
+                if ($source->displayUrl() !== $source->url) {
+                    $markdown .= ' — source vérifiée : `'.$source->url.'`';
                 }
                 $markdown .= "\n";
             }

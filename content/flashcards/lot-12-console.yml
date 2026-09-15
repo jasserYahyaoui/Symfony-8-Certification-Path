@@ -3,7 +3,7 @@
 # One card per official item: the point fact that re-reading the course does
 # not anchor, and that decides an exam answer.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
 - id: FLC-1geh3bkk61mh
@@ -16,6 +16,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
     symbol_or_lines: 'Command::execute() signature — "protected function execute(InputInterface $input, OutputInterface $output): int"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -31,6 +32,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
     symbol_or_lines: 'Application::find() docblock — "this command tries to find the best match if you give it an abbreviation of a name or alias. @throws CommandNotFoundException When command name is incorrect or ambiguous"; and the throw: CommandNotFoundException "Command \\"%s\\" is ambiguous.\\nDid you mean one of these?"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -46,6 +48,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     symbol_or_lines: 'Creating a Command — "Commands are defined in classes and auto-registered using the #[AsCommand] attribute"; and "Additionally, you can extend the Command class to leverage advanced features like lifecycle hooks (e.g. Command::initialize and Command::interact)"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -61,6 +64,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     symbol_or_lines: '"The configure() method is called automatically at the end of the command constructor. If your command defines its own constructor, set the properties first and then call to the parent constructor, to make those properties available in the configure() method"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -75,6 +79,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
     symbol_or_lines: 'Option::from() — "if (!$reflection->hasDefaultValue()) { throw new LogicException(...''The option %s \\"$%s\\" of \\"%s\\" must declare a default value.''...) }"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -89,6 +94,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
     symbol_or_lines: 'interface ConsoleOutputInterface extends OutputInterface — "public function getErrorOutput(): OutputInterface"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -102,6 +108,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
     symbol_or_lines: 'QuestionHelper::ask() — "if (!$input->isInteractive()) { return $this->getDefaultAnswer($question); }"'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -116,6 +123,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     symbol_or_lines: 'the class declares exactly four event constants: COMMAND = ''console.command'', SIGNAL = ''console.signal'', TERMINATE = ''console.terminate'', ERROR = ''console.error'' (ALIASES is a map, not an event)'
     branch: '8.0'
     verified_at: '2026-09-01'
@@ -130,10 +138,12 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
     symbol_or_lines: 'the verbosity constants and their order — VERBOSITY_SILENT = 8, VERBOSITY_QUIET = 16, VERBOSITY_NORMAL = 32; SILENT is the lowest'
     branch: '8.0'
     verified_at: '2026-09-01'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
     branch: '8.0'
     symbol_or_lines: '"--silent # suppress all output, including errors" versus "-q # suppress all output (even the command result messages) but display errors"; and the table mapping --silent to -2 and --quiet to -1'
     verified_at: '2026-09-07'

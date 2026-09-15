@@ -7,7 +7,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-8h7ynmfznjpe
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -58,6 +58,7 @@ questions:
   explanation: The .env files supply defaults; a variable already present in the environment is never overwritten.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
     branch: '8.0'
     symbol_or_lines: configuration-multiple-env-files
     verified_at: '2026-09-02'
@@ -109,6 +110,7 @@ questions:
   explanation: .env.local is skipped in tests so that the suite produces the same result on every machine.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
     branch: '8.0'
     symbol_or_lines: configuration-multiple-env-files
     verified_at: '2026-09-02'
@@ -162,6 +164,7 @@ questions:
     to machines that give it different values.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
     branch: '8.0'
     symbol_or_lines: configuration-parameters
     verified_at: '2026-09-02'
@@ -214,6 +217,7 @@ questions:
     everything else is 500.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: how-to-customize-error-pages
     verified_at: '2026-09-02'
@@ -265,6 +269,7 @@ questions:
   explanation: error404.html.twig first, then error.html.twig; both live in templates/bundles/TwigBundle/Exception/.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: controller-error-pages-by-status-code
     verified_at: '2026-09-02'
@@ -318,6 +323,7 @@ questions:
     is previewed through the routes FrameworkBundle loads under when@dev.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: testing-error-pages
     verified_at: '2026-09-02'
@@ -369,6 +375,7 @@ questions:
   explanation: dd() is "dump and die"; dump() returns its argument, so it can be inserted into a chain of calls.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
     branch: '8.0'
     symbol_or_lines: components-var-dumper-dump
     verified_at: '2026-09-02'
@@ -421,6 +428,7 @@ questions:
     given path.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: running-commands
     verified_at: '2026-09-02'
@@ -473,6 +481,7 @@ questions:
     cannot be rendered, such as after dd() or a fatal error.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
     branch: '8.0'
     symbol_or_lines: debugbundle-and-twig-integration
     verified_at: '2026-09-02'
@@ -527,6 +536,7 @@ questions:
     on every request would be parsed every time.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/expression_language.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'the component provides 2 ways: evaluation and compile'

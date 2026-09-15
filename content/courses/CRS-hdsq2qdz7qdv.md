@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
     repository: "symfony/symfony"
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"

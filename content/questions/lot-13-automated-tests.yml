@@ -8,7 +8,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-rsbg20z3fzdk
   question_archetype: DEFINITION_RECALL
@@ -59,6 +59,7 @@ questions:
     another name for the last one.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: types-of-tests
     verified_at: '2026-09-02'
@@ -110,6 +111,7 @@ questions:
   explanation: The tests/ directory mirrors src/, and each test class ends with Test.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: unit-tests
     verified_at: '2026-09-02'
@@ -162,6 +164,7 @@ questions:
     a test an integration test.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: unit-tests
     verified_at: '2026-09-02'
@@ -213,6 +216,7 @@ questions:
   explanation: WebTestCase extends KernelTestCase and adds the client; createClient() boots the kernel itself.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: application-tests
     verified_at: '2026-09-02'
@@ -265,6 +269,7 @@ questions:
     machine cannot alter test results.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: customizing-environment-variables
     verified_at: '2026-09-02'
@@ -316,6 +321,7 @@ questions:
   explanation: assertRouteSame() checks the matched route, an fact no assertion on the HTML can establish.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: request-assertions
     verified_at: '2026-09-02'
@@ -367,6 +373,7 @@ questions:
   explanation: request() returns a Crawler over the rendered document; getResponse() returns the response.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: making-requests
     verified_at: '2026-09-02'
@@ -420,6 +427,7 @@ questions:
     before the request, makes it follow them all.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: redirecting
     verified_at: '2026-09-02'
@@ -472,6 +480,7 @@ questions:
     kernel.reset services still clears the token, which a compiler pass in the test environment can prevent.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: testing-multiple-requests-in-one-test
     verified_at: '2026-09-02'
@@ -524,6 +533,7 @@ questions:
     not.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/css_selector.rst
     branch: '8.0'
     symbol_or_lines: why-use-css-selectors
     verified_at: '2026-09-02'
@@ -575,6 +585,7 @@ questions:
   explanation: selectButton()->form() is the documented path, precisely because one form can carry several buttons.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: submitting-forms
     verified_at: '2026-09-02'
@@ -626,6 +637,7 @@ questions:
   explanation: text() and attr() read the first node; extract() and each() work across all of them.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst
     branch: '8.0'
     symbol_or_lines: extracting-information
     verified_at: '2026-09-02'
@@ -678,6 +690,7 @@ questions:
     call.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
     branch: '8.0'
     symbol_or_lines: enabling-the-profiler-in-tests
     verified_at: '2026-09-02'
@@ -730,6 +743,7 @@ questions:
   explanation: 'when@test sets profiler: { enabled: true, collect: false }, so collection is opt-in per test.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
     branch: '8.0'
     symbol_or_lines: enabling-the-profiler-in-tests
     verified_at: '2026-09-02'
@@ -782,6 +796,7 @@ questions:
     service still needs to be declared public in config/services_test.yaml.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: retrieving-services-in-the-test
     verified_at: '2026-09-02'
@@ -834,6 +849,7 @@ questions:
     it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: integration-tests
     verified_at: '2026-09-02'
@@ -887,6 +903,7 @@ questions:
     with whatever the container holds at that moment.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: mocking-dependencies
     verified_at: '2026-09-02'
@@ -938,6 +955,7 @@ questions:
   explanation: 'Custom headers follow RFC 3875: dashes to underscores, uppercase, prefixed with HTTP_.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: sending-custom-headers
     verified_at: '2026-09-02'
@@ -989,6 +1007,7 @@ questions:
   explanation: getSession() then save() persists the value; without save() the request finds nothing.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: set-up-the-session
     verified_at: '2026-09-02'
@@ -1043,6 +1062,7 @@ questions:
     and trace.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: reporting-exceptions
     verified_at: '2026-09-02'
@@ -1094,6 +1114,7 @@ questions:
   explanation: '"internal" marks the browser layer; the plain methods return the HttpFoundation objects.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
@@ -1145,6 +1166,7 @@ questions:
   explanation: getHistory(), getCookieJar() and getCrawler() complete the request and response accessors.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
@@ -1196,6 +1218,7 @@ questions:
   explanation: The _route attribute carries the matched route name, which is what assertRouteSame() compares against.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: accessing-internal-objects
     verified_at: '2026-09-02'
@@ -1248,6 +1271,7 @@ questions:
     any sign.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_minor.rst
     branch: '8.0'
     symbol_or_lines: upgrade-minor-symfony-code
     verified_at: '2026-09-02'
@@ -1300,6 +1324,7 @@ questions:
     and E_USER_DEPRECATED to log levels for exactly that reason.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
     branch: '8.0'
     symbol_or_lines: php-errors
     verified_at: '2026-09-02'
@@ -1352,6 +1377,7 @@ questions:
     the cache directory has to be removed in the bootstrap file.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: set-up-your-test-environment
     verified_at: '2026-09-02'
@@ -1402,6 +1428,7 @@ questions:
     browser behaviour.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     branch: '8.0'
     symbol_or_lines: browsing-the-site
     verified_at: '2026-09-02'
@@ -1457,6 +1484,7 @@ questions:
     at the project root.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'Installation: composer require --dev symfony/test-pack, then php bin/phpunit'
@@ -1511,6 +1539,7 @@ questions:
     deprecation must name the version it started in.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'Deprecating Code: deprecations must only be introduced on the next minor version'

@@ -8,7 +8,7 @@
 # the course names, so a candidate cannot answer by lexical recognition
 # (CRS-001). Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-jyjz9an9yt07
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -61,6 +61,7 @@ questions:
     once a group is requested.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     branch: '8.0'
     symbol_or_lines: selecting-specific-properties
     verified_at: '2026-09-02'
@@ -115,6 +116,7 @@ questions:
     to format.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     branch: '8.0'
     symbol_or_lines: the-serialization-process-normalizers-and-encoders
     verified_at: '2026-09-02'
@@ -168,6 +170,7 @@ questions:
     object is serialized before being treated as circular — defaults to 1.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     branch: '8.0'
     symbol_or_lines: handling-circular-references
     verified_at: '2026-09-02'
@@ -220,6 +223,7 @@ questions:
     why registration order matters. The encoder is chosen by the format argument, so exactly one runs.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: a sorted list of normalizers and one encoder for the specific format
@@ -275,6 +279,7 @@ questions:
     sets have to differ per context.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the ObjectNormalizer normalizes all properties and get/has/is/can methods; the

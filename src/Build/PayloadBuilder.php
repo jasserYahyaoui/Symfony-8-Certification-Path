@@ -611,7 +611,15 @@ final class PayloadBuilder
             ),
             'explanation' => $question->explanation,
             'official_sources' => array_map(
-                static fn (object $s): array => ['url' => $s->url, 'anchor' => $s->anchor],
+                // Both spellings travel: `url` is what the claim was verified
+                // against, `readable_url` is what a learner opens. A payload
+                // carrying only one of them forces the page to choose between
+                // being checkable and being followable.
+                static fn (object $s): array => [
+                    'url' => $s->url,
+                    'readable_url' => $s->displayUrl(),
+                    'anchor' => $s->anchor,
+                ],
                 $question->officialSources,
             ),
             'tags' => $question->tags,

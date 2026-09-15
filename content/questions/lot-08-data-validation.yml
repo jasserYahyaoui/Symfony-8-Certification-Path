@@ -6,7 +6,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-ga6bhvbf0ecp
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -60,6 +60,7 @@ questions:
     object, hence truthy. The test must be on count().
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
     branch: '8.0'
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
@@ -114,6 +115,7 @@ questions:
     property, and accepts a class name instead of an instance.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
     branch: '8.0'
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
@@ -168,6 +170,7 @@ questions:
     must be counted rather than tested for truth.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
     branch: '8.0'
     symbol_or_lines: ValidatorInterface
     verified_at: '2026-09-01'
@@ -222,6 +225,7 @@ questions:
     the cascade; without it the nested object is skipped silently.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
     branch: '8.0'
     symbol_or_lines: Valid constraint
     verified_at: '2026-09-01'
@@ -276,6 +280,7 @@ questions:
     overrides them. The only documented workaround is to place them in different validation groups.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     branch: '8.0'
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
@@ -330,6 +335,7 @@ questions:
     on which constraints are added property by property.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     branch: '8.0'
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
@@ -384,6 +390,7 @@ questions:
     is wrong when zero is a legitimate value.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
     branch: '8.0'
     symbol_or_lines: NotBlankValidator::validate
     verified_at: '2026-09-01'
@@ -438,6 +445,7 @@ questions:
     for arrays whose keys each have their own rules.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc
     branch: '8.0'
     symbol_or_lines: built-in constraints
     verified_at: '2026-09-01'
@@ -492,6 +500,7 @@ questions:
     never evaluated on a value already known to be malformed.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc
     branch: '8.0'
     symbol_or_lines: built-in constraints
     verified_at: '2026-09-01'
@@ -546,6 +555,7 @@ questions:
     no argument. Visibility does not matter.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     branch: '8.0'
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
@@ -600,6 +610,7 @@ questions:
     needs.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     branch: '8.0'
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
@@ -652,6 +663,7 @@ questions:
     the only one that sees all properties together.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
     branch: '8.0'
     symbol_or_lines: validation.rst
     verified_at: '2026-09-01'
@@ -706,6 +718,7 @@ questions:
     is inert until that group is requested.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
     branch: '8.0'
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
@@ -759,6 +772,7 @@ questions:
     a group, and each named group holds what was explicitly tagged.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
     branch: '8.0'
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
@@ -813,6 +827,7 @@ questions:
     classes, whose Default constraints are reached by Default but not by the class-name group.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
     branch: '8.0'
     symbol_or_lines: validation groups
     verified_at: '2026-09-01'
@@ -867,6 +882,7 @@ questions:
     the sequence contain itself. The class name must be used instead.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
@@ -921,6 +937,7 @@ questions:
     name validates just that group, in isolation.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
@@ -976,6 +993,7 @@ questions:
     stops, so the following step, Api, is skipped.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
@@ -1029,6 +1047,7 @@ questions:
     The point is to avoid running expensive or derived checks on data already known to be invalid.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
@@ -1086,6 +1105,7 @@ questions:
     with the context.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
     branch: '8.0'
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
@@ -1138,6 +1158,7 @@ questions:
     is how it says the value is valid, and its return value plays no part.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
     branch: '8.0'
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
@@ -1189,6 +1210,7 @@ questions:
   explanation: The callback is void. Silence — that is, adding no violation — is how it reports success.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
     branch: '8.0'
     symbol_or_lines: Callback constraint
     verified_at: '2026-09-01'
@@ -1243,6 +1265,7 @@ questions:
     the end of the chain adds the violation to the context.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
     branch: '8.0'
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
@@ -1297,6 +1320,7 @@ questions:
     to be translated without interpolating the value by hand.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
     branch: '8.0'
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
@@ -1351,6 +1375,7 @@ questions:
     a property, which is what makes the form render it on the right field.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
     branch: '8.0'
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-01'
@@ -1403,6 +1428,7 @@ questions:
     The string '0' is therefore accepted.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
     branch: '8.0'
     symbol_or_lines: NotBlankValidator::validate
     verified_at: '2026-09-01'
@@ -1455,6 +1481,7 @@ questions:
     neither Premium nor Api runs.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
@@ -1508,6 +1535,7 @@ questions:
     assigned to anything.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
     repository: symfony/symfony
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1564,6 +1592,7 @@ questions:
     of reaching for the one you happen to remember.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the constraint reference, grouped by family
@@ -1619,6 +1648,7 @@ questions:
     the callable form PHP itself accepts.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: External Callbacks and Closures
@@ -1673,6 +1703,7 @@ questions:
     its own adding call is made.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: buildViolation() returns a builder; addViolation() adds the violation to the context

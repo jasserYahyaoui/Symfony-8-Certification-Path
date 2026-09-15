@@ -26,6 +26,7 @@ import re
 import sys
 
 COURSE_URL = re.compile(r'^/docs/courses/[a-z0-9-]+/[a-z0-9-]+$')
+RAW_FILE = re.compile(r'^https://raw\.githubusercontent\.com/[^/]+/[^/]+/(?!refs/)[^/]+/.+$')
 
 
 def main(path: str, sample_out: str | None = None) -> int:
@@ -57,6 +58,26 @@ def main(path: str, sample_out: str | None = None) -> int:
         url = str(entry.get('course_url', ''))
         if not COURSE_URL.match(url):
             problems.append(f'{item_id}: course_url {url!r} is not a course route')
+
+    # Citations carry two spellings of one object since the citation schema's
+    # version 2: `url`, the raw file the claim was verified against, and
+    # `readable_url`, the rendered page a learner opens. SRC-002 holds them
+    # together in the repository; this holds the DEPLOYED payload to the same
+    # contract, because the field is only useful if it survives the build.
+    bad_readable = []
+    for question in questions:
+        for source in question.get('official_sources') or []:
+            raw = str(source.get('url', ''))
+            readable = str(source.get('readable_url', ''))
+            if not readable:
+                bad_readable.append(f"{question['id']}: citation without readable_url")
+            elif RAW_FILE.match(raw) and not readable.startswith('https://github.com/'):
+                bad_readable.append(
+                    f"{question['id']}: readable_url is not a rendered page ({readable})")
+    if bad_readable:
+        problems.extend(bad_readable[:5])
+        if len(bad_readable) > 5:
+            problems.append(f'{len(bad_readable) - 5} further citation defect(s) not listed')
 
     # Every question must reach an indexed item, or its feedback is degraded.
     orphans = [q['id'] for q in questions if q.get('official_item') not in items]
@@ -93,8 +114,11 @@ def main(path: str, sample_out: str | None = None) -> int:
         print(f'ok  practice  {len(sample)} course URLs sampled for fetching')
 
     outcomes = sum(len(e['learning_outcomes']) for e in items.values())
+    citations = sum(len(q.get('official_sources') or []) for q in questions)
     print(f'ok  practice  {len(questions)} questions, {len(items)} items indexed, '
           f'{outcomes} learning outcomes, every course_url well-formed')
+    print(f'ok  practice  {citations} citations, each carrying both a raw url and a '
+          'rendered readable_url')
     return 0
 
 

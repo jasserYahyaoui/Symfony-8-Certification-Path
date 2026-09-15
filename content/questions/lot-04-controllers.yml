@@ -4,7 +4,7 @@
 # and 2 HOLDOUT questions reserved for the final mocks. Every distractor
 # carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 
 questions:
 - id: QST-1rm2gsd2rpg3
@@ -56,6 +56,7 @@ questions:
     AbstractController, MicroKernelTrait and the framework: configuration tree.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
     branch: '8.0'
     symbol_or_lines: abstract class Kernel
     verified_at: '2026-09-01'
@@ -108,6 +109,7 @@ questions:
     kernel to be rebooted with a fresh container.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
     branch: '8.0'
     symbol_or_lines: class declaration
     verified_at: '2026-09-01'
@@ -161,6 +163,7 @@ questions:
     mais elle est suffixée Controller par convention.'
   official_sources: &id002
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: controller documentation
     verified_at: '2026-09-01'
@@ -213,6 +216,7 @@ questions:
     for a method that defines exactly one route.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
     branch: '8.0'
     symbol_or_lines: route names and aliases
     verified_at: '2026-09-01'
@@ -265,6 +269,7 @@ questions:
     so it is reachable only from the subclass.
   official_sources: &id001
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
     branch: '8.0'
     symbol_or_lines: class declaration and helpers
     verified_at: '2026-09-01'
@@ -559,6 +564,7 @@ questions:
     and removed with clearCookie(). Reading uses $request->cookies.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
     branch: '8.0'
     symbol_or_lines: setCookie, clearCookie
     verified_at: '2026-09-01'
@@ -610,6 +616,7 @@ questions:
     qui inspecte la réponse.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
     branch: '8.0'
     symbol_or_lines: setCookie
     verified_at: '2026-09-01'
@@ -662,6 +669,7 @@ questions:
     merely checking with has() is enough to start it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
     branch: '8.0'
     symbol_or_lines: sessions are only started if you read from or write to them
     verified_at: '2026-09-01'
@@ -715,6 +723,7 @@ questions:
     connexion. invalidate() est la déconnexion.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/SessionInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/SessionInterface.php
     branch: '8.0'
     symbol_or_lines: migrate() and invalidate() docblocks
     verified_at: '2026-09-01'
@@ -766,6 +775,7 @@ questions:
     while app.session.flashbag.peekAll() does not.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
     branch: '8.0'
     symbol_or_lines: Flash Messages, get vs peek
     verified_at: '2026-09-01'
@@ -817,6 +827,7 @@ questions:
     à la première lecture.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: section Flash Messages
     verified_at: '2026-09-01'
@@ -963,6 +974,7 @@ questions:
     URL is unchanged.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst
     branch: '8.0'
     symbol_or_lines: internal sub-request
     verified_at: '2026-09-01'
@@ -1015,6 +1027,7 @@ questions:
     missing. They can be supplied by adding those keys to the array passed to forward().
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst
     branch: '8.0'
     symbol_or_lines: note on app.current_route
     verified_at: '2026-09-01'
@@ -1114,6 +1127,7 @@ questions:
     error.html.twig, which covers every other status including 500.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: Overriding the Default Error Templates
     verified_at: '2026-09-01'
@@ -1166,6 +1180,7 @@ questions:
     is to generate the filename yourself and use it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: security note on client-provided metadata
     verified_at: '2026-09-01'
@@ -1219,6 +1234,7 @@ questions:
     documented way to make the upload optional.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: Mapping Uploaded Files
     verified_at: '2026-09-01'
@@ -1270,6 +1286,7 @@ questions:
     and headers are optional.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     branch: '8.0'
     symbol_or_lines: rendering a template directly from a route
     verified_at: '2026-09-01'
@@ -1323,6 +1340,7 @@ questions:
     301 becomes 308.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
     branch: '8.0'
     symbol_or_lines: RedirectController options
     verified_at: '2026-09-01'
@@ -1374,6 +1392,7 @@ questions:
     argument. An empty array is not an error: the next resolver is tried.'
   official_sources: &id003
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst
     branch: '8.0'
     symbol_or_lines: built-in resolvers and resolve() contract
     verified_at: '2026-09-01'
@@ -1572,6 +1591,7 @@ questions:
     second request, which is what changes the URL.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst
     branch: '8.0'
     symbol_or_lines: internal sub-request vs redirect
     verified_at: '2026-09-01'
@@ -1626,10 +1646,12 @@ questions:
     `MicroKernelTrait` belong to the bundle, not to the component.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
     branch: '8.0'
     symbol_or_lines: namespace declaration
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst
     branch: '8.0'
     symbol_or_lines: MicroKernelTrait introduction
     verified_at: '2026-09-11'
@@ -1686,6 +1708,7 @@ questions:
     that the `::method_name` part can be skipped when the action is `__invoke()`.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
     branch: '8.0'
     symbol_or_lines: controller value format, lines 100-131
     verified_at: '2026-09-11'
@@ -1741,6 +1764,7 @@ questions:
     offering helpers such as `render()` and `redirectToRoute()`. It is a convenience, not a contract.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
     branch: '8.0'
     symbol_or_lines: class declaration
     verified_at: '2026-09-11'
@@ -1797,6 +1821,7 @@ questions:
     which is what makes the container call the setter during instantiation.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
     branch: '8.0'
     symbol_or_lines: 'setContainer() and its #[Required] attribute'
     verified_at: '2026-09-11'
@@ -1850,6 +1875,7 @@ questions:
     Symfony's own request attributes carry an underscore prefix — `_route`, `_controller`, `_route_params`.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: redirecting to the current route, line 143
     verified_at: '2026-09-11'
@@ -1905,6 +1931,7 @@ questions:
     line serve a form-encoded and a JSON body alike.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: the Request object, lines 790-800
     verified_at: '2026-09-11'
@@ -1960,6 +1987,7 @@ questions:
     the transformation, handled through the `kernel.view` event.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: a controller is required to return a Response, and its note, lines 820-845
     verified_at: '2026-09-11'
@@ -2014,6 +2042,7 @@ questions:
     and a streaming response for a body produced progressively.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: json(), file() and streaming helpers, lines 865-915
     verified_at: '2026-09-11'
@@ -2068,6 +2097,7 @@ questions:
     inside the method that needs it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
     branch: '8.0'
     symbol_or_lines: accessing the session from a service, lines 32-55
     verified_at: '2026-09-11'
@@ -2122,6 +2152,7 @@ questions:
     exactly once: they vanish from the session automatically as soon as you retrieve them.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/session.rst
     branch: '8.0'
     symbol_or_lines: Flash Messages, lines 122-129
     verified_at: '2026-09-11'
@@ -2175,6 +2206,7 @@ questions:
     — it names a route. Redirecting externally is shown as `$this->redirect(''http://symfony.com/doc'')`.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: Redirecting, lines 109-147
     verified_at: '2026-09-11'
@@ -2230,6 +2262,7 @@ questions:
     and returns the Response of that controller.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst
     branch: '8.0'
     symbol_or_lines: introduction
     verified_at: '2026-09-11'
@@ -2286,6 +2319,7 @@ questions:
     }}`.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: error template variables, lines 105-122
     verified_at: '2026-09-11'
@@ -2344,6 +2378,7 @@ questions:
     error routes under `when@dev` with the `/_error` prefix exposes `http://localhost/_error/{statusCode}`.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: previewing error pages, lines 143-181
     verified_at: '2026-09-11'
@@ -2400,10 +2435,12 @@ questions:
     resolves a controller argument to the same `UploadedFile` object.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: retrieving the uploaded file
     verified_at: '2026-09-11'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
     symbol_or_lines: MapUploadedFile, line 633
     verified_at: '2026-09-11'
@@ -2461,6 +2498,7 @@ questions:
     tamper with it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
     branch: '8.0'
     symbol_or_lines: security note on client-provided names, lines 181-197
     verified_at: '2026-09-11'
@@ -2518,6 +2556,7 @@ questions:
     with `template`, `statusCode`, `maxAge` and the rest listed under `defaults`.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     branch: '8.0'
     symbol_or_lines: rendering a template directly from a route, lines 1051-1075
     verified_at: '2026-09-11'
@@ -2575,6 +2614,7 @@ questions:
     name.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst
     branch: '8.0'
     symbol_or_lines: built-in value resolvers, lines 86-110
     verified_at: '2026-09-11'
@@ -2630,6 +2670,7 @@ questions:
     running next if no value was provided.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst
     branch: '8.0'
     symbol_or_lines: targeted value resolvers, lines 225-256
     verified_at: '2026-09-11'

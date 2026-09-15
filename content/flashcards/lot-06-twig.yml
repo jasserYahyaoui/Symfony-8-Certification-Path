@@ -8,7 +8,7 @@
 # absolue, la sous-requête d'un rendu de contrôleur, la barre initiale
 # d'`asset()`.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
   - id: FLC-2e8x0yx9hbbp
@@ -27,6 +27,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
         branch: "8.0"
         symbol_or_lines: "section Template Variables, resolution order"
         verified_at: "2026-09-01"
@@ -45,6 +46,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
         branch: "v3.22.0"
         symbol_or_lines: "section Operators"
         verified_at: "2026-09-01"
@@ -63,6 +65,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst"
         branch: "v3.22.0"
         symbol_or_lines: "escaping strategies list"
         verified_at: "2026-09-01"
@@ -80,6 +83,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
         branch: "v3.22.0"
         symbol_or_lines: "child template renders only blocks"
         verified_at: "2026-09-01"
@@ -99,6 +103,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
         branch: "v3.22.0"
         symbol_or_lines: "loop variable table and note"
         verified_at: "2026-09-01"
@@ -117,6 +122,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
         branch: "v3.22.0"
         symbol_or_lines: "no break/continue, filter and slice"
         verified_at: "2026-09-01"
@@ -135,6 +141,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
         branch: "8.0"
         symbol_or_lines: "trans filter signature"
         verified_at: "2026-09-01"
@@ -153,6 +160,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
         branch: "v3.22.0"
         symbol_or_lines: "section String Interpolation"
         verified_at: "2026-09-01"
@@ -171,6 +179,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
         branch: "8.0"
         symbol_or_lines: "section Debugging Variables"
         verified_at: "2026-09-01"
@@ -185,6 +194,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
       branch: '8.0'
       symbol_or_lines: template locations, namespaces and configuration
       verified_at: '2026-09-11'
@@ -200,6 +210,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
       branch: '8.0'
       symbol_or_lines: the app global variable and twig.globals
       verified_at: '2026-09-11'
@@ -217,6 +228,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
       branch: '8.0'
       symbol_or_lines: filters and functions
       verified_at: '2026-09-11'
@@ -232,6 +244,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst
       branch: v3.22.0
       symbol_or_lines: include tag and options
       verified_at: '2026-09-11'
@@ -247,6 +260,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
       branch: '8.0'
       symbol_or_lines: path and url functions
       verified_at: '2026-09-11'
@@ -262,6 +276,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
       branch: '8.0'
       symbol_or_lines: embedding controllers and fragments path
       verified_at: '2026-09-11'
@@ -277,6 +292,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
       branch: '8.0'
       symbol_or_lines: asset and asset_version
       verified_at: '2026-09-11'

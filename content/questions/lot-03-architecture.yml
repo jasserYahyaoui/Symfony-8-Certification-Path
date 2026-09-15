@@ -4,7 +4,7 @@
 # for the final mocks. 25 are in English, matching the exam language (§5).
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 
 questions:
 - id: QST-cs5czk986ceh
@@ -56,6 +56,7 @@ questions:
     upon by everything above it.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst
     branch: '8.0'
     symbol_or_lines: introduction and installation
     verified_at: '2026-09-01'
@@ -109,6 +110,7 @@ questions:
     / getParentRequest() distinguish it from an enclosing one.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php
     branch: '8.0'
     symbol_or_lines: getCurrentRequest, getMainRequest, getParentRequest
     verified_at: '2026-09-01'
@@ -160,6 +162,7 @@ questions:
     `twig` can be resolved at all.
   official_sources: &id001
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup.rst
     branch: '8.0'
     symbol_or_lines: section Symfony Flex
     verified_at: '2026-09-01'
@@ -261,6 +264,7 @@ questions:
     text with Fabien Potencier as copyright holder.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE
+    readable_url: https://github.com/symfony/symfony/blob/8.0/LICENSE
     branch: '8.0'
     symbol_or_lines: lines 1-21
     verified_at: '2026-09-01'
@@ -312,6 +316,7 @@ questions:
     that the notice and licence text travel with substantial portions of the software.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE
+    readable_url: https://github.com/symfony/symfony/blob/8.0/LICENSE
     branch: '8.0'
     symbol_or_lines: lines 10-13
     verified_at: '2026-09-01'
@@ -363,6 +368,7 @@ questions:
     exposes no configuration; that is what separates it from a bundle.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json
     branch: '8.0'
     symbol_or_lines: description and require keys
     verified_at: '2026-09-01'
@@ -415,6 +421,7 @@ questions:
   explanation: 'C''est le critère qui sépare les trois : seul le bundle configure le framework.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/composer.json
     branch: '8.0'
     symbol_or_lines: replace key
     verified_at: '2026-09-01'
@@ -466,6 +473,7 @@ questions:
     what keeps application code out of reach of the browser.
   official_sources: &id005
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst
     branch: '8.0'
     symbol_or_lines: sections Configuration and Tests
     verified_at: '2026-09-01'
@@ -519,6 +527,7 @@ questions:
     only the kernel needs to know. The other directories move through composer.json''s extra key.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst
     branch: '8.0'
     symbol_or_lines: sections Cache, Log and Source directories
     verified_at: '2026-09-01'
@@ -571,6 +580,7 @@ questions:
     the controller is.
   official_sources: &id002
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
     branch: '8.0'
     symbol_or_lines: section Kernel Events
     verified_at: '2026-09-01'
@@ -674,6 +684,7 @@ questions:
     must be called first to impose it.
   official_sources: &id003
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
     branch: '8.0'
     symbol_or_lines: section kernel.exception
     verified_at: '2026-09-01'
@@ -774,6 +785,7 @@ questions:
     order.
   official_sources: &id004
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: addListener() and getSubscribedEvents()
     verified_at: '2026-09-01'
@@ -969,6 +981,7 @@ questions:
     classes. Elsewhere, named arguments may break on a minor upgrade.
   official_sources: &id006
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst
     branch: '8.0'
     symbol_or_lines: Using Symfony Code, use-case tables
     verified_at: '2026-09-01'
@@ -1067,6 +1080,7 @@ questions:
     without depending on the framework.
   official_sources: &id007
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
     branch: '8.0'
     symbol_or_lines: section Deprecating Code
     verified_at: '2026-09-01'
@@ -1168,6 +1182,7 @@ questions:
     is what breaks the loop.
   official_sources: &id008
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst
     branch: '8.0'
     symbol_or_lines: sections Templates and Validation Metadata
     verified_at: '2026-09-01'
@@ -1268,6 +1283,7 @@ questions:
     for both.
   official_sources: &id009
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
     branch: '8.0'
     symbol_or_lines: sections Development and Maintenance
     verified_at: '2026-09-01'
@@ -1369,6 +1385,7 @@ questions:
     be installed alongside it. PSR-7 and PSR-17 are the standards Symfony does not implement natively.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/psr7.rst
     branch: '8.0'
     symbol_or_lines: installation and usage sections
     verified_at: '2026-09-01'
@@ -1421,6 +1438,7 @@ questions:
     it unmodified. The composer.json `provide` key lists every standard Symfony implements.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/composer.json
     branch: '8.0'
     symbol_or_lines: provide key
     verified_at: '2026-09-01'
@@ -1471,6 +1489,7 @@ questions:
   explanation: PHPUnit's *TestCase classes are the documented exception to the Abstract prefix.
   official_sources: &id010
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst
     branch: '8.0'
     symbol_or_lines: section Naming Conventions
     verified_at: '2026-09-01'
@@ -1676,6 +1695,7 @@ questions:
     PHP's request globals and response functions. A Request built in a test needs no global state.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst
     branch: '8.0'
     symbol_or_lines: introduction, lines 4-12
     verified_at: '2026-09-10'
@@ -1732,6 +1752,7 @@ questions:
     package once Composer has installed it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst
     branch: '8.0'
     symbol_or_lines: lines 48-56
     verified_at: '2026-09-10'
@@ -1786,6 +1807,7 @@ questions:
     in `var/` (`cache/`, `log/`), and the catalogues in `translations/`.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst
     branch: '8.0'
     symbol_or_lines: default directory tree, lines 7-26
     verified_at: '2026-09-10'
@@ -1843,6 +1865,7 @@ questions:
     \Exception`.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php
     branch: '8.0'
     symbol_or_lines: handle() declaration and docblock
     verified_at: '2026-09-10'
@@ -1902,10 +1925,12 @@ questions:
     produces the callable and the ArgumentResolver its arguments.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
     branch: '8.0'
     symbol_or_lines: bootstrapping steps, lines 34-46
     verified_at: '2026-09-10'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst
     branch: '8.0'
     symbol_or_lines: ControllerResolverInterface and ArgumentResolverInterface, lines 216-320
     verified_at: '2026-09-10'
@@ -1961,6 +1986,7 @@ questions:
     a Response with `setResponse()` or substitutes another exception with `setThrowable()`.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
     branch: '8.0'
     symbol_or_lines: kernel.exception listener example, lines 241-251
     verified_at: '2026-09-10'
@@ -2016,6 +2042,7 @@ questions:
     an array indexed by event name. A listener carries no such declaration.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: event subscribers, lines 330-400
     verified_at: '2026-09-10'
@@ -2072,10 +2099,12 @@ questions:
     and the documented listener calls `$event->setController($myCustomController)`.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php
     branch: '8.0'
     symbol_or_lines: CONTROLLER constant and its @Event tag
     verified_at: '2026-09-10'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
     branch: '8.0'
     symbol_or_lines: kernel.controller listener example, lines 55-69
     verified_at: '2026-09-10'
@@ -2128,6 +2157,7 @@ questions:
     RESPONSE, FINISH_REQUEST and TERMINATE.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php
     branch: '8.0'
     symbol_or_lines: CONTROLLER_ARGUMENTS constant
     verified_at: '2026-09-10'
@@ -2186,6 +2216,7 @@ questions:
     collisions with Symfony and third-party bundle or library parameters.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst
     branch: '8.0'
     symbol_or_lines: parameter naming, lines 119-134
     verified_at: '2026-09-10'
@@ -2243,6 +2274,7 @@ questions:
     if you prefer.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst
     branch: '8.0'
     symbol_or_lines: Don't Use Application Bundles, lines 163-174
     verified_at: '2026-09-10'
@@ -2300,6 +2332,7 @@ questions:
     "Add a new method".
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst
     branch: '8.0'
     symbol_or_lines: Using our Interfaces and Using our Classes tables, lines 62-155
     verified_at: '2026-09-10'
@@ -2356,6 +2389,7 @@ questions:
     it is added only with `since Symfony x.y` in a minor release.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst
     branch: '8.0'
     symbol_or_lines: The final Keyword, lines 586-605
     verified_at: '2026-09-10'
@@ -2414,6 +2448,7 @@ questions:
     the replacement, and say a deprecation "must also be triggered to help people with the migration".
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
     branch: '8.0'
     symbol_or_lines: Deprecating Code, lines 145-170
     verified_at: '2026-09-10'
@@ -2470,6 +2505,7 @@ questions:
     for the consequences.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
     branch: '8.0'
     symbol_or_lines: deprecation bookkeeping, lines 184-206
     verified_at: '2026-09-10'
@@ -2525,6 +2561,7 @@ questions:
     uses. Symfony uses bundles internally, so error pages are customised by overriding TwigBundle templates.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst
     branch: '8.0'
     symbol_or_lines: Templates and the core-templates tip, lines 8-50
     verified_at: '2026-09-10'
@@ -2578,6 +2615,7 @@ questions:
     November, a major every two years in November of odd years.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
     branch: '8.0'
     symbol_or_lines: time-based model, lines 9-18
     verified_at: '2026-09-10'
@@ -2634,6 +2672,7 @@ questions:
     notices before upgrading.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
     branch: '8.0'
     symbol_or_lines: major version development, lines 96-110
     verified_at: '2026-09-10'
@@ -2693,10 +2732,12 @@ questions:
     The coding standards are based on PSR-12 and PSR-4, which are conventions, not interfaces.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/composer.json
     branch: '8.0'
     symbol_or_lines: provide block
     verified_at: '2026-09-10'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst
     branch: '8.0'
     symbol_or_lines: introduction, lines 7-9
     verified_at: '2026-09-10'
@@ -2751,6 +2792,7 @@ questions:
     arguments.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst
     branch: '8.0'
     symbol_or_lines: naming conventions, lines 238-242
     verified_at: '2026-09-10'

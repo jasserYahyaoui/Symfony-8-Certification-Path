@@ -120,6 +120,32 @@ CASES = [
         [(LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n')],
         '[ERROR] REV-001',
     ),
+    # SRC-002 guards a duplication: `url` is the raw file this project fetches
+    # to verify a claim, `readable_url` the rendered page a learner opens. The
+    # defect that matters is not a malformed URL, it is a PLAUSIBLE one — the
+    # right repository and file at the WRONG ref, which reads correctly to a
+    # human and sends the learner to a different version of the same page.
+    (
+        'SRC-002 rejects a readable_url pointing at another ref than its url',
+        [(
+            LOT01_COURSE,
+            'readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"',
+            'readable_url: "https://github.com/php/doc-en/blob/PHP-8.3/language/oop5/abstract.xml"',
+        )],
+        '[ERROR] SRC-002',
+    ),
+    # The other realistic mistake: pasting the raw URL into both fields. The
+    # citation then verifies fine and the learner is sent to unrendered bytes,
+    # which is precisely the thing readable_url exists to stop.
+    (
+        'SRC-002 rejects a readable_url left on the raw host',
+        [(
+            LOT01_COURSE,
+            'readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"',
+            'readable_url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"',
+        )],
+        '[ERROR] SRC-002',
+    ),
 ]
 
 

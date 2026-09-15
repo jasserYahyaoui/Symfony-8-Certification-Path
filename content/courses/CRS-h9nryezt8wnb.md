@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst"
     anchor: "filesystem-utilities"
     repository: "symfony/symfony-docs"
     branch: "8.0"

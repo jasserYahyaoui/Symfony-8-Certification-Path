@@ -7,7 +7,7 @@
 # and attribute syntaxes (retained by writing them), and for the badge list
 # (looked up, not recalled under time pressure).
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
   - id: FLC-bhhj8tz5bqg3
@@ -29,6 +29,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
         anchor: "status.401"
         branch: "master"
         verified_at: "2026-09-01"
@@ -48,6 +49,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
         anchor: "status.307"
         branch: "master"
         verified_at: "2026-09-01"
@@ -68,6 +70,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
         anchor: "priority-parameter"
         repository: "symfony/symfony-docs"
         branch: "8.0"
@@ -91,6 +94,7 @@ flashcards:
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php"
         repository: "symfony/symfony"
         branch: "8.0"
         commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"

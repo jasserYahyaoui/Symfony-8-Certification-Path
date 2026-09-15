@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
     repository: "php/doc-en"
     branch: "master"
     symbol_or_lines: "Anonymous functions, Static anonymous functions, Arrow functions"

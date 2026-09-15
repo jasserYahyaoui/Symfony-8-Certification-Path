@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-bkff08xmt369
     question_archetype: CONCEPT_DISTINCTION
@@ -53,6 +53,7 @@ questions:
       can no longer be checked at compile time. Injection names what the class needs.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -106,6 +107,7 @@ questions:
       state. Setters cover the optional case.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -158,6 +160,7 @@ questions:
       In a Symfony application it happens once and is cached.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -211,6 +214,7 @@ questions:
       the container; that is what makes it removable and its uses traceable.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
         branch: '8.0'
         symbol_or_lines: public and private services
         verified_at: '2026-09-01'
@@ -264,6 +268,7 @@ questions:
       creates it automatically when exactly one implementation exists.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
         branch: '8.0'
         symbol_or_lines: public and private services
         verified_at: '2026-09-01'
@@ -317,6 +322,7 @@ questions:
       a PHP container. Runtime reads that class, never the configuration.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -369,6 +375,7 @@ questions:
       requires. debug:container lists ids.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -421,6 +428,7 @@ questions:
       enables the bundle, the bundle registers its services.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -475,6 +483,7 @@ questions:
       runtime, which is exactly what a per-deployment value needs.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
         branch: '8.0'
         symbol_or_lines: EnvVarProcessor::getProvidedTypes
         verified_at: '2026-09-01'
@@ -529,6 +538,7 @@ questions:
       name is applied first, and each feeds the next outwards.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
         branch: '8.0'
         symbol_or_lines: EnvVarProcessor::getProvidedTypes
         verified_at: '2026-09-01'
@@ -581,6 +591,7 @@ questions:
       that makes the container look for a parameter that does not exist.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
         branch: '8.0'
         symbol_or_lines: EnvVarProcessor::getProvidedTypes
         verified_at: '2026-09-01'
@@ -636,6 +647,7 @@ questions:
       section and inherits nothing, so the service is registered without autowire or autoconfigure.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -688,6 +700,7 @@ questions:
       tag, which is why implementing the interface is enough.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -740,6 +753,7 @@ questions:
       because they are not services, not because they are forbidden.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
         symbol_or_lines: service container
         verified_at: '2026-09-01'
@@ -792,6 +806,7 @@ questions:
       lets the decorator keep the original behaviour.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
         branch: '8.0'
         symbol_or_lines: decoration
         verified_at: '2026-09-01'
@@ -846,6 +861,7 @@ questions:
       The lower priority becomes the outer layer, and therefore the one called first at runtime.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
         branch: '8.0'
         symbol_or_lines: decoration
         verified_at: '2026-09-01'
@@ -898,6 +914,7 @@ questions:
       is the point of the mechanism.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
         branch: '8.0'
         symbol_or_lines: decoration
         verified_at: '2026-09-01'
@@ -951,6 +968,7 @@ questions:
       — for it to mean anything, and its absence produces no error.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
         branch: '8.0'
         symbol_or_lines: service tags
         verified_at: '2026-09-01'
@@ -1005,6 +1023,7 @@ questions:
       iteration reaches it. #[AutowireIterator] is its attribute form.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
         branch: '8.0'
         symbol_or_lines: service tags
         verified_at: '2026-09-01'
@@ -1058,6 +1077,7 @@ questions:
       the service a key, turning the iterator into a lookup table.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
         branch: '8.0'
         symbol_or_lines: service tags
         verified_at: '2026-09-01'
@@ -1111,6 +1131,7 @@ questions:
       extension turns the validated result into services.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
         branch: '8.0'
         symbol_or_lines: bundle configuration
         verified_at: '2026-09-01'
@@ -1165,6 +1186,7 @@ questions:
       the last word. It is how a bundle registers its template path in Twig.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
         branch: '8.0'
         symbol_or_lines: bundle configuration
         verified_at: '2026-09-01'
@@ -1218,6 +1240,7 @@ questions:
       over a free-form options array.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
         branch: '8.0'
         symbol_or_lines: bundle configuration
         verified_at: '2026-09-01'
@@ -1271,6 +1294,7 @@ questions:
       is out of the path, which is why arguments reaches the factory.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
         branch: '8.0'
         symbol_or_lines: factories
         verified_at: '2026-09-01'
@@ -1323,6 +1347,7 @@ questions:
       when the static factory lives on the class itself.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
         branch: '8.0'
         symbol_or_lines: factories
         verified_at: '2026-09-01'
@@ -1378,6 +1403,7 @@ questions:
       factory method needs.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
         branch: '8.0'
         symbol_or_lines: factories
         verified_at: '2026-09-01'
@@ -1430,6 +1456,7 @@ questions:
       can add arguments or method calls freely.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
         branch: '8.0'
         symbol_or_lines: PassConfig::TYPE_*, addPass
         verified_at: '2026-09-01'
@@ -1484,6 +1511,7 @@ questions:
       TYPE_REMOVE, which drops private services nothing references.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
         branch: '8.0'
         symbol_or_lines: PassConfig::TYPE_*, addPass
         verified_at: '2026-09-01'
@@ -1536,6 +1564,7 @@ questions:
       safe place for a pass that collects or rewires services.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
         branch: '8.0'
         symbol_or_lines: PassConfig::TYPE_*, addPass
         verified_at: '2026-09-01'
@@ -1589,6 +1618,7 @@ questions:
       Priority defaults to 0.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
         branch: '8.0'
         symbol_or_lines: PassConfig::TYPE_*, addPass
         verified_at: '2026-09-01'
@@ -1645,6 +1675,7 @@ questions:
       removes that certainty, so the alias disappears and the choice must be declared.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
         branch: '8.0'
         symbol_or_lines: autowiring
         verified_at: '2026-09-01'
@@ -1700,6 +1731,7 @@ questions:
       one case where the argument name influences autowiring.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
         branch: '8.0'
         symbol_or_lines: autowiring
         verified_at: '2026-09-01'
@@ -1753,6 +1785,7 @@ questions:
       and turns a typo into an exception instead of a silent fallback.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
         branch: '8.0'
         symbol_or_lines: autowiring
         verified_at: '2026-09-01'
@@ -1806,6 +1839,7 @@ questions:
       #[Autowire], or an explicit argument.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
         branch: '8.0'
         symbol_or_lines: autowiring
         verified_at: '2026-09-01'
@@ -1859,6 +1893,7 @@ questions:
       verifiable at compile time — which is what service location loses.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
         branch: '8.0'
         symbol_or_lines: service subscribers and locators
         verified_at: '2026-09-01'
@@ -1913,6 +1948,7 @@ questions:
       and forgetting it fails silently until one is used.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
         branch: '8.0'
         symbol_or_lines: service subscribers and locators
         verified_at: '2026-09-01'
@@ -1964,6 +2000,7 @@ questions:
     explanation: The container calls it at compile time on the class itself, so it has to be static.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
         branch: '8.0'
         symbol_or_lines: service subscribers and locators
         verified_at: '2026-09-01'
@@ -2016,6 +2053,7 @@ questions:
       which matters when the generated one is inconvenient.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
         branch: '8.0'
         symbol_or_lines: decoration
         verified_at: '2026-09-01'
@@ -2068,6 +2106,7 @@ questions:
       A bare string value is read as a parameter reference or literal.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
         branch: '8.0'
         symbol_or_lines: autowiring
         verified_at: '2026-09-01'
@@ -2121,6 +2160,7 @@ questions:
       reused, so a service is a singleton within the container unless it is explicitly declared otherwise.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Service Container, service definitions and sharing
@@ -2176,6 +2216,7 @@ questions:
       can never be resolved by type.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: binding arguments by name
@@ -2231,6 +2272,7 @@ questions:
       of the constructor.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: explicit service configuration, named arguments
@@ -2287,6 +2329,7 @@ questions:
       the bare defaults.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: _defaults and environment blocks
@@ -2343,6 +2386,7 @@ questions:
       is still registered.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: automatic service loading, exclude
@@ -2398,6 +2442,7 @@ questions:
       a subscriber.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -2455,6 +2500,7 @@ questions:
       exists for them to read.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/extension.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/extension.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: loading service configuration inside a bundle
@@ -2511,6 +2557,7 @@ questions:
       called during compilation.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: registering a pass from the Kernel
@@ -2567,6 +2614,7 @@ questions:
       would mean copying a definition you do not control.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: working with compiler passes
@@ -2622,6 +2670,7 @@ questions:
       each service.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d

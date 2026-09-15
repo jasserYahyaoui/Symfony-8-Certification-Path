@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+    readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
     anchor: "string-interpolation"
     repository: "twigphp/Twig"
     branch: "v3.22.0"

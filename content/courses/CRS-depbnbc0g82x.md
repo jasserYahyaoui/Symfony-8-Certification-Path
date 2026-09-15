@@ -8,6 +8,7 @@ verification_status: VERIFIED
 reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+    readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
     branch: "master"
     symbol_or_lines: "sections 3 Terminology, 6 Message Abstraction, 9 Methods, 15 Status Codes"
     verified_at: "2026-09-01"

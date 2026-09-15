@@ -4,7 +4,7 @@
 # One card per official item: the point fact that re-reading the course does
 # not anchor, and that decides an exam answer.
 
-schema_version: 1
+schema_version: 2
 
 flashcards:
 - id: FLC-7ar3ewagp1y0
@@ -17,6 +17,7 @@ flashcards:
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst
     symbol_or_lines: '"suffixed with +intl-icu", with the table pairing messages.en.yaml against messages+intl-icu.en.yaml'
     branch: '8.0'
     verified_at: '2026-09-02'

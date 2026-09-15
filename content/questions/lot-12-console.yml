@@ -6,7 +6,7 @@
 #
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-s9dqp9mfqfrx
   question_archetype: API_SIGNATURE
@@ -57,6 +57,7 @@ questions:
   explanation: The returned integer becomes the process exit status. SUCCESS is 0, FAILURE 1, INVALID 2.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
     branch: '8.0'
     symbol_or_lines: Command::SUCCESS
     verified_at: '2026-09-01'
@@ -112,6 +113,7 @@ questions:
     fallback.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: command-lifecycle
     verified_at: '2026-09-01'
@@ -163,6 +165,7 @@ questions:
   explanation: INVALID (2) separates misuse from a genuine processing failure (1).
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
     branch: '8.0'
     symbol_or_lines: Command::INVALID
     verified_at: '2026-09-01'
@@ -214,6 +217,7 @@ questions:
   explanation: list is the discovery command, and running bin/console with no argument is equivalent.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: running-commands
     verified_at: '2026-09-01'
@@ -265,6 +269,7 @@ questions:
   explanation: A name may be shortened as long as exactly one command matches; otherwise the candidates are reported.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: running-commands
     verified_at: '2026-09-01'
@@ -317,6 +322,7 @@ questions:
   explanation: 'An invokable command extends nothing; #[AsCommand] plus __invoke() is the recommended form.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
@@ -371,6 +377,7 @@ questions:
     by hand.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
@@ -423,6 +430,7 @@ questions:
   explanation: initialize() and interact() belong to Command, so a class that needs them extends it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: creating-a-command
     verified_at: '2026-09-01'
@@ -474,6 +482,7 @@ questions:
   explanation: name is the only required parameter; everything else refines how the command is presented.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
     branch: '8.0'
     symbol_or_lines: AsCommand::__construct
     verified_at: '2026-09-01'
@@ -528,6 +537,7 @@ questions:
     be assigned before parent::__construct().
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     branch: '8.0'
     symbol_or_lines: legacy-syntax-to-define-commands
     verified_at: '2026-09-01'
@@ -580,6 +590,7 @@ questions:
   explanation: hidden removes the command from the catalogue shown to users without disabling it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
     branch: '8.0'
     symbol_or_lines: AsCommand::__construct
     verified_at: '2026-09-01'
@@ -634,6 +645,7 @@ questions:
     time.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
     branch: '8.0'
     symbol_or_lines: Option::tryFrom
     verified_at: '2026-09-01'
@@ -686,6 +698,7 @@ questions:
   explanation: 'The mode is inferred: no default and not nullable means required.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Argument.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Argument.php
     branch: '8.0'
     symbol_or_lines: Argument::tryFrom
     verified_at: '2026-09-01'
@@ -738,6 +751,7 @@ questions:
   explanation: A bool option whose default is not false becomes negatable, which adds the --no- form.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
     branch: '8.0'
     symbol_or_lines: Option::tryFrom
     verified_at: '2026-09-01'
@@ -789,6 +803,7 @@ questions:
   explanation: hasOption() interrogates the definition; the raw command line is inspected with hasParameterOption().
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php
     branch: '8.0'
     symbol_or_lines: InputInterface::hasOption
     verified_at: '2026-09-01'
@@ -843,6 +858,7 @@ questions:
     of redirected data.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
     branch: '8.0'
     symbol_or_lines: ConsoleOutputInterface::getErrorOutput
     verified_at: '2026-09-01'
@@ -896,6 +912,7 @@ questions:
     array supplied by a test.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php
     branch: '8.0'
     symbol_or_lines: InputInterface
     verified_at: '2026-09-01'
@@ -950,6 +967,7 @@ questions:
     be safe.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/questionhelper.rst
     branch: '8.0'
     symbol_or_lines: asking-the-user-for-confirmation
     verified_at: '2026-09-01'
@@ -1002,6 +1020,7 @@ questions:
   explanation: ProgressBar needs a known total; ProgressIndicator covers the case where there is none.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc
     branch: '8.0'
     symbol_or_lines: helpers
     verified_at: '2026-09-01'
@@ -1053,6 +1072,7 @@ questions:
   explanation: SymfonyStyle wraps the helpers behind a compact API and a consistent presentation.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php
     branch: '8.0'
     symbol_or_lines: SymfonyStyle
     verified_at: '2026-09-01'
@@ -1104,6 +1124,7 @@ questions:
   explanation: The class declares exactly four constants.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     branch: '8.0'
     symbol_or_lines: ConsoleEvents
     verified_at: '2026-09-01'
@@ -1156,6 +1177,7 @@ questions:
   explanation: TERMINATE always runs, which makes it the reliable place to release resources or measure duration.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
     branch: '8.0'
     symbol_or_lines: doRunCommand
     verified_at: '2026-09-01'
@@ -1208,6 +1230,7 @@ questions:
     can tell refusal apart from success and from failure.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
     branch: '8.0'
     symbol_or_lines: doRunCommand
     verified_at: '2026-09-01'
@@ -1260,6 +1283,7 @@ questions:
   explanation: Silent is the lowest level and hides everything; quiet hides ordinary output but keeps errors visible.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
     branch: '8.0'
     symbol_or_lines: VERBOSITY_SILENT
     verified_at: '2026-09-01'
@@ -1312,6 +1336,7 @@ questions:
     the same purpose when the message is expensive to build.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
     branch: '8.0'
     symbol_or_lines: OutputInterface::writeln
     verified_at: '2026-09-01'
@@ -1364,6 +1389,7 @@ questions:
     default must be false.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
     branch: '8.0'
     symbol_or_lines: Option::handleUnion
     verified_at: '2026-09-01'
@@ -1415,6 +1441,7 @@ questions:
     is dropped instead of being rethrown.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
     branch: '8.0'
     symbol_or_lines: ConsoleErrorEvent::setExitCode
     verified_at: '2026-09-01'
@@ -1467,6 +1494,7 @@ questions:
     it runs list, which is why bare bin/console prints the command listing.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the bin/console script; list is the default command
@@ -1522,6 +1550,7 @@ questions:
     in the listing.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the list command output, grouped by namespace
@@ -1575,6 +1604,7 @@ questions:
     a way to call the command, hiding removes it from the listing without removing any of those ways.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: '#[AsCommand] aliases and hidden'
@@ -1630,11 +1660,13 @@ questions:
     denotes.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the option mode is inferred from the parameter type and default value
     verified_at: '2026-09-12'
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputOption.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputOption.php
     repository: symfony/symfony
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1690,6 +1722,7 @@ questions:
     and question black on cyan. Writing <info>…</info> asks for one of those four by name.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
     repository: symfony/symfony
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1743,6 +1776,7 @@ questions:
     questions, tables, trees, debug formatting and the cursor. Routing belongs to HTTP, not to the console.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/index.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/index.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the list of documented helpers
@@ -1796,6 +1830,7 @@ questions:
     A listener that must see every run, successful or not, belongs on TERMINATE.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     repository: symfony/symfony
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1852,6 +1887,7 @@ questions:
     to the error's own non-zero code, or to 1.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
     repository: symfony/symfony
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -1907,6 +1943,7 @@ questions:
     reach the logger.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the table of console options and verbosity constants

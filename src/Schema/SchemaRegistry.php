@@ -36,8 +36,10 @@ final class SchemaRegistry
         self::GLOSSARY => 1,
         self::MOCK_BLUEPRINT => 1,
         self::ID_REGISTRY => 1,
-        self::QUESTION_BANK => 1,
-        self::FLASHCARD_DECK => 1,
+        // 2: every citation carries `readable_url`, the rendered spelling of
+        // its raw url (SRC-002 keeps the two from drifting).
+        self::QUESTION_BANK => 2,
+        self::FLASHCARD_DECK => 2,
         self::EXAM_BLUEPRINT => 1,
         self::LEARNER_STATE => 1,
         self::REFINEMENT_LOG => 1,

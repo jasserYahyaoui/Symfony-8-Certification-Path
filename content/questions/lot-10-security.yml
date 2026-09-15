@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 questions:
   - id: QST-xe6gkw0420ba
     question_archetype: CONCEPT_DISTINCTION
@@ -51,6 +51,7 @@ questions:
       which is why hashing requires no authentication system.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -103,6 +104,7 @@ questions:
       into an authentication attempt is security-http's job.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -157,6 +159,7 @@ questions:
       forms in applications with no security configured.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -210,6 +213,7 @@ questions:
       is a separate question answered by isGranted().
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -263,6 +267,7 @@ questions:
       credentials needs.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -315,6 +320,7 @@ questions:
       shortcut both read it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -368,6 +374,7 @@ questions:
       a known user is refused with 403, an anonymous one is sent to the entry point.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -421,6 +428,7 @@ questions:
       the object needs a voter, which receives the subject.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -473,6 +481,7 @@ questions:
       that a role voter happens to understand.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -526,6 +535,7 @@ questions:
       so a catch-all must be declared last.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -579,6 +589,7 @@ questions:
       answers what you need to enter.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -631,6 +642,7 @@ questions:
       cannot.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -684,6 +696,7 @@ questions:
       effect immediately.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
         branch: '8.0'
         symbol_or_lines: user providers
         verified_at: '2026-09-01'
@@ -736,6 +749,7 @@ questions:
       keeps it current afterwards.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
         branch: '8.0'
         symbol_or_lines: user providers
         verified_at: '2026-09-01'
@@ -787,6 +801,7 @@ questions:
     explanation: A firewall uses exactly one provider. With several declared, the choice must be explicit.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
         branch: '8.0'
         symbol_or_lines: user providers
         verified_at: '2026-09-01'
@@ -839,6 +854,7 @@ questions:
       a pattern must come last.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -891,6 +907,7 @@ questions:
       giving them the same context key.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -943,6 +960,7 @@ questions:
       the profiler and static assets.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -996,6 +1014,7 @@ questions:
       may authenticate without one.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         branch: '8.0'
         symbol_or_lines: UserInterface
         verified_at: '2026-09-01'
@@ -1048,6 +1067,7 @@ questions:
       right moment in the authentication flow.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -1102,6 +1122,7 @@ questions:
       and then removed; a class that still declares it is simply never called.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         branch: '8.0'
         symbol_or_lines: UserInterface
         verified_at: '2026-09-01'
@@ -1154,6 +1175,7 @@ questions:
       is what re-encodes it at the next successful login.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
         branch: '8.0'
         symbol_or_lines: password hashing
         verified_at: '2026-09-01'
@@ -1206,6 +1228,7 @@ questions:
       class.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
         branch: '8.0'
         symbol_or_lines: password hashing
         verified_at: '2026-09-01'
@@ -1259,6 +1282,7 @@ questions:
       provider able to store the upgrade.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
         branch: '8.0'
         symbol_or_lines: password hashing
         verified_at: '2026-09-01'
@@ -1311,6 +1335,7 @@ questions:
       by the security system.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -1363,6 +1388,7 @@ questions:
       not expressible there.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -1417,6 +1443,7 @@ questions:
       before general ones.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
         branch: '8.0'
         symbol_or_lines: access_control
         verified_at: '2026-09-01'
@@ -1470,6 +1497,7 @@ questions:
       a voter, which receives the subject.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
         branch: '8.0'
         symbol_or_lines: access_control
         verified_at: '2026-09-01'
@@ -1522,6 +1550,7 @@ questions:
       at the start of most rules.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
         branch: '8.0'
         symbol_or_lines: access_control
         verified_at: '2026-09-01'
@@ -1575,6 +1604,7 @@ questions:
       and subjects it understands.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
         branch: '8.0'
         symbol_or_lines: ACCESS_* constants
         verified_at: '2026-09-01'
@@ -1628,6 +1658,7 @@ questions:
       say.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         branch: '8.0'
         symbol_or_lines: voters and strategies
         verified_at: '2026-09-01'
@@ -1681,6 +1712,7 @@ questions:
       do not block it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         branch: '8.0'
         symbol_or_lines: voters and strategies
         verified_at: '2026-09-01'
@@ -1735,6 +1767,7 @@ questions:
       the safe default.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         branch: '8.0'
         symbol_or_lines: voters and strategies
         verified_at: '2026-09-01'
@@ -1787,6 +1820,7 @@ questions:
     explanation: A consensus tie is resolved by allow_if_equal_granted_denied, whose default grants access.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         branch: '8.0'
         symbol_or_lines: voters and strategies
         verified_at: '2026-09-01'
@@ -1838,6 +1872,7 @@ questions:
     explanation: lazy keeps a public page from opening the session, which preserves its cacheability.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
@@ -1893,6 +1928,7 @@ questions:
       where the rest of the application reads it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Security, the authentication flow
@@ -1948,6 +1984,7 @@ questions:
       a different section.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Security, firewalls and access control
@@ -2003,6 +2040,7 @@ questions:
       a custom provider implementing the interface yourself.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: the built-in user providers
@@ -2058,6 +2096,7 @@ questions:
       firewall below it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Security, firewall order
@@ -2113,6 +2152,7 @@ questions:
       a question many cannot, so it lives on a separate, optional interface.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -2169,6 +2209,7 @@ questions:
       users log in by email.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -2225,6 +2266,7 @@ questions:
       but they are not roles and have no place on the user.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: Security, roles and IS_AUTHENTICATED_* attributes
@@ -2279,6 +2321,7 @@ questions:
       older name belongs to previous versions.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
@@ -2334,6 +2377,7 @@ questions:
       for the cookie; without remember_me configured on the firewall there is nothing to issue it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: badges, RememberMeBadge
@@ -2390,6 +2434,7 @@ questions:
       its own domain.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+        readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         repository: symfony/symfony-docs
         branch: '8.0'
         symbol_or_lines: writing a voter, supports and voteOnAttribute
@@ -2444,6 +2489,7 @@ questions:
       denial as a grant.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
         repository: symfony/symfony
         branch: '8.0'
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d

@@ -7,7 +7,7 @@
 # Stems are situations, not sentences lifted from the course (CRS-001).
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-f2th6k9hk377
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -59,6 +59,7 @@ questions:
     what makes the test deterministic.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     branch: '8.0'
     symbol_or_lines: mockclock
     verified_at: '2026-09-02'
@@ -110,6 +111,7 @@ questions:
   explanation: It relies on hrtime() for a high-resolution monotonic reading, which is what a stopwatch requires.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     branch: '8.0'
     symbol_or_lines: monotonic-clock
     verified_at: '2026-09-02'
@@ -164,6 +166,7 @@ questions:
     helper. That is what lets a test substitute a mocked clock without changing the service.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     branch: '8.0'
     symbol_or_lines: clock_use-inside-a-service
     verified_at: '2026-09-02'
@@ -217,6 +220,7 @@ questions:
     solely for tests.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: the Clock component decouples applications from the system clock

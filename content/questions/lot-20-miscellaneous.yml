@@ -10,7 +10,7 @@
 # Stems are situations, not sentences lifted from the course (CRS-001).
 # Every distractor carries an explanation (§7.2).
 
-schema_version: 1
+schema_version: 2
 questions:
 - id: QST-xa6bq0yg86z5
   question_archetype: SEQUENCE_ORDER
@@ -61,6 +61,7 @@ questions:
   explanation: A higher number means earlier. Registration order decides only between listeners sharing a priority.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: connecting-listeners
     verified_at: '2026-09-02'
@@ -113,6 +114,7 @@ questions:
     framework uses subscribers internally.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: using-event-subscribers
     verified_at: '2026-09-02'
@@ -165,6 +167,7 @@ questions:
     is why subscriptions are commonly keyed on ::class.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: creating-and-dispatching-an-event
     verified_at: '2026-09-02'
@@ -217,6 +220,7 @@ questions:
     priority order.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: stopping-event-flow-propagation
     verified_at: '2026-09-02'
@@ -269,6 +273,7 @@ questions:
     — or by GenericEvent's subject and arguments.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
     branch: '8.0'
     symbol_or_lines: event-names-and-event-objects
     verified_at: '2026-09-02'
@@ -321,6 +326,7 @@ questions:
     by key.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst
     branch: '8.0'
     symbol_or_lines: the-generic-event-object
     verified_at: '2026-09-02'
