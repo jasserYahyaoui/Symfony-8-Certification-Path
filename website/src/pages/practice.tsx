@@ -1,11 +1,25 @@
 import React, {useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import type {Question} from '@site/src/lib/types';
-import {isCorrect, recordAttempt, shuffle, weakQuestionIds} from '@site/src/lib/storage';
+import type {ItemIndexEntry, Question} from '@site/src/lib/types';
+import {
+  isCorrect,
+  practiceAttempts,
+  recordAttempt,
+  recordPracticeSession,
+  shuffle,
+  weakQuestionIds,
+} from '@site/src/lib/storage';
 import usePayload from '@site/src/lib/usePayload';
 import QuestionCard from '@site/src/components/QuestionCard';
+import PracticeFeedback from '@site/src/components/PracticeFeedback';
+import PracticeResults from '@site/src/components/PracticeResults';
 import EmptyBank from '@site/src/components/EmptyBank';
+
+/** Enough entropy to separate two series, with no dependency to add. */
+function newSessionId(): string {
+  return `ps-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 interface Filters {
   topic: string;
@@ -30,8 +44,14 @@ export default function Practice(): React.JSX.Element {
   const [index, setIndex] = useState(0);
   const [answered, setAnswered] = useState<string[] | null>(null);
   const [round, setRound] = useState(0);
+  // One id per series, so the report reads back exactly the attempts of THIS
+  // run rather than every practice attempt ever recorded.
+  const [sessionId, setSessionId] = useState(() => newSessionId());
+  const [finished, setFinished] = useState(false);
 
   const all: Question[] = state.status === 'ready' ? state.payload.questions : [];
+  const items: Record<string, ItemIndexEntry> =
+    state.status === 'ready' ? (state.payload.items ?? {}) : {};
 
   const queue = useMemo(() => {
     const weak = filters.weakOnly ? weakQuestionIds() : null;
@@ -60,8 +80,14 @@ export default function Practice(): React.JSX.Element {
 
   function updateFilter<K extends keyof Filters>(key: K, value: Filters[K]): void {
     setFilters((current) => ({...current, [key]: value}));
+    startSeries();
+  }
+
+  function startSeries(): void {
     setIndex(0);
     setAnswered(null);
+    setFinished(false);
+    setSessionId(newSessionId());
   }
 
   function handleSubmit(question: Question, chosen: string[]): void {
@@ -73,8 +99,23 @@ export default function Practice(): React.JSX.Element {
       chosen,
       answered_at: new Date().toISOString(),
       mode: 'practice',
+      session_id: sessionId,
     });
     setAnswered(chosen);
+  }
+
+  function finish(): void {
+    const answeredAttempts = practiceAttempts(sessionId);
+    recordPracticeSession({
+      mode: 'practice',
+      session_id: sessionId,
+      question_count: queue.length,
+      answered: new Set(answeredAttempts.map((a) => a.question_id)).size,
+      correct: answeredAttempts.filter((a) => a.correct).length,
+      order: queue.map((q) => q.id),
+      finished_at: new Date().toISOString(),
+    });
+    setFinished(true);
   }
 
   const question = queue[index];
@@ -168,25 +209,33 @@ export default function Practice(): React.JSX.Element {
                 <p role="status">Aucune question ne correspond à ces filtres.</p>
               )}
 
-              {queue.length > 0 && index >= queue.length && (
+              {finished && (
+                <PracticeResults
+                  questions={queue}
+                  items={items}
+                  attempts={practiceAttempts(sessionId)}
+                  onRestart={() => {
+                    setRound((r) => r + 1);
+                    startSeries();
+                  }}
+                />
+              )}
+
+              {!finished && queue.length > 0 && index >= queue.length && (
                 <div>
                   <p role="status">Série terminée.</p>
                   <div className="certpath-actions">
                     <button
                       type="button"
                       className="button button--primary"
-                      onClick={() => {
-                        setIndex(0);
-                        setAnswered(null);
-                        setRound((r) => r + 1);
-                      }}>
-                      Recommencer
+                      onClick={finish}>
+                      Voir mon bilan
                     </button>
                   </div>
                 </div>
               )}
 
-              {question && (
+              {!finished && question && (
                 <>
                   <QuestionCard
                     key={`${question.id}-${round}`}
@@ -198,11 +247,19 @@ export default function Practice(): React.JSX.Element {
                     onSubmit={(chosen) => handleSubmit(question, chosen)}
                   />
 
+                  {/* Mounted only once an answer exists: before submission the
+                      correction is absent from the DOM entirely, not hidden. */}
                   {answered && (
-                    <Feedback
+                    <PracticeFeedback
                       question={question}
                       chosen={answered}
+                      item={items[question.official_item]}
+                      isLast={index + 1 >= queue.length}
                       onNext={() => {
+                        if (index + 1 >= queue.length) {
+                          finish();
+                          return;
+                        }
                         setIndex((i) => i + 1);
                         setAnswered(null);
                       }}
@@ -220,56 +277,5 @@ export default function Practice(): React.JSX.Element {
         </p>
       </main>
     </Layout>
-  );
-}
-
-function Feedback({
-  question,
-  chosen,
-  onNext,
-}: {
-  question: Question;
-  chosen: string[];
-  onNext: () => void;
-}): React.JSX.Element {
-  const correct = isCorrect(question, chosen);
-  const result = correct ? 'correct' : 'incorrect';
-
-  return (
-    <div className="certpath-feedback" data-result={result} role="status">
-      <p className="certpath-verdict" data-result={result}>
-        {correct ? 'Réponse correcte' : 'Réponse incorrecte'}
-      </p>
-
-      <p>{question.explanation}</p>
-
-      {question.choices
-        .filter((c) => !c.correct && c.explanation)
-        .map((c) => (
-          <p className="certpath-note" key={c.id}>
-            « {c.text} » — {c.explanation}
-          </p>
-        ))}
-
-      {question.official_sources.length > 0 && (
-        <p className="certpath-note">
-          Sources :{' '}
-          {question.official_sources.map((source, i) => (
-            <React.Fragment key={source.url}>
-              {i > 0 && ', '}
-              <a href={source.url} target="_blank" rel="noopener noreferrer">
-                {source.url}
-              </a>
-            </React.Fragment>
-          ))}
-        </p>
-      )}
-
-      <div className="certpath-actions">
-        <button type="button" className="button button--primary" onClick={onNext}>
-          Question suivante
-        </button>
-      </div>
-    </div>
   );
 }

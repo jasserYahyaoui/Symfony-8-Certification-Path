@@ -7,6 +7,7 @@ namespace CertPath\Build;
 use CertPath\Domain\Choice;
 use CertPath\Domain\Pool;
 use CertPath\Domain\Question;
+use CertPath\Support\CourseUrl;
 use CertPath\Validation\ContentSet;
 
 /**
@@ -32,6 +33,12 @@ final class PayloadBuilder
         return [
             'generated_at' => gmdate('c'),
             'pool' => Pool::Learning->value,
+            // Lot 27: Practice Mode has to tell the learner WHICH concept they
+            // missed and WHERE to revise it. Both are properties of the item,
+            // not of the question, so they travel in the same index the mock
+            // payloads already carry rather than being repeated on every
+            // question — or, worse, retyped inside a React component.
+            'items' => $this->itemIndex($content, $questions),
             'questions' => array_map($this->exportQuestion(...), $questions),
         ];
     }
@@ -129,6 +136,10 @@ final class PayloadBuilder
                 'official_item' => $item->officialItem,
                 'official_topic' => $item->officialTopic,
                 'learning_outcomes' => $item->learningOutcomeTexts(),
+                // Derived by CourseUrl, the same helper that writes the page,
+                // so a link shipped to the learner cannot point at a route the
+                // build did not produce.
+                'course_url' => CourseUrl::forItem($item),
             ];
         }
 

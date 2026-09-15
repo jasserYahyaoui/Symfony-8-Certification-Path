@@ -14,6 +14,7 @@ use CertPath\Domain\Flashcard;
 use CertPath\Domain\LotRegistry;
 use CertPath\Domain\OfficialItem;
 use CertPath\Domain\Pool;
+use CertPath\Support\CourseUrl;
 use CertPath\Support\Project;
 use CertPath\Validation\ContentSet;
 
@@ -238,8 +239,7 @@ final readonly class DocsGenerator
         $href = [];
 
         foreach ($content->matrix->items as $item) {
-            $href[$item->id->value] = '/docs/courses/'.$this->slug($item->lot)
-                .'/'.$this->slug($item->officialItem);
+            $href[$item->id->value] = CourseUrl::forItem($item);
         }
 
         $items = [];
@@ -695,12 +695,11 @@ donc exécutable, pas seulement documentaire.
         foreach ($byLot as $lot => $items) {
             // The id stays the slug: URLs, bookmarks and internal links are
             // built on it and must not move for a label change.
-            $slug = $this->slug($lot);
+            $slug = CourseUrl::slug($lot);
             $pages['courses/'.$slug.'/index.md'] = $this->lotIndexPage($lot, $items, $lots);
 
             foreach ($items as $item) {
-                $pages['courses/'.$slug.'/'.$this->slug($item->officialItem).'.md']
-                    = $this->itemPage($item, $content);
+                $pages[CourseUrl::pagePath($item).'.md'] = $this->itemPage($item, $content);
             }
         }
 
@@ -892,11 +891,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 
     private function slug(string $value): string
     {
-        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
-        $lower = mb_strtolower(false !== $ascii ? $ascii : $value);
-        $slug = preg_replace('/[^a-z0-9]+/', '-', $lower) ?? $lower;
-
-        return trim($slug, '-') ?: 'item';
+        return CourseUrl::slug($value);
     }
 
     private function pct(int $ready, int $total): string

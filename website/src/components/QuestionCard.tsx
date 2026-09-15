@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import type {Question} from '@site/src/lib/types';
 import {shuffle} from '@site/src/lib/storage';
+import RichText from './RichText';
 
 interface Props {
   question: Question;
@@ -60,7 +61,11 @@ export default function QuestionCard({
           Question {index + 1} sur {total}
         </legend>
 
-        <p className="certpath-prompt">{question.question}</p>
+        <RichText
+          className="certpath-prompt"
+          language={question.code_language}>
+          {question.question}
+        </RichText>
 
         {question.negative_wording && (
           <p className="certpath-note">
@@ -74,6 +79,17 @@ export default function QuestionCard({
             : 'Réponse unique.'}
         </p>
 
+        {multiple && chosen.length > question.required_answer_count && (
+          <p className="certpath-note" role="status">
+            <strong>
+              {chosen.length} réponses sélectionnées pour{' '}
+              {question.required_answer_count} attendues.
+            </strong>{' '}
+            La validation reste possible, et le barème est{' '}
+            <em>tout ou rien</em> : une sélection excédentaire compte faux.
+          </p>
+        )}
+
         {choices.map((choice) => (
           <div className="certpath-choice" key={choice.id}>
             <input
@@ -84,7 +100,11 @@ export default function QuestionCard({
               checked={chosen.includes(choice.id)}
               onChange={() => toggle(choice.id)}
             />
-            <label htmlFor={`choice-${choice.id}`}>{choice.text}</label>
+            <label htmlFor={`choice-${choice.id}`}>
+              <RichText as="span" language={question.code_language}>
+                {choice.text}
+              </RichText>
+            </label>
           </div>
         ))}
 
