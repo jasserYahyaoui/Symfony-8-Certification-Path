@@ -100,6 +100,8 @@ second toute la classe 2xx.
   excluant 300 et 304.
 - `isOk()` ≠ `isSuccessful()`.
 
-## Sources officielles
+## Aller lire la source
 
-- `Symfony\Component\HttpFoundation\Response` (branche 8.0, `6f841c0`)
+- [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isRedirect()` l. 1254, `isRedirection()` l. 1194,
+  `isOk()` l. 1224, `isSuccessful()` l. 1184 (branche 8.0, `6f841c0`)
+- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)

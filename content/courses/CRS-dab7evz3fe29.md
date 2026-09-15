@@ -98,7 +98,7 @@ autre chose ; il l'annonce par `Content-Type`.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §12 — *Content Negotiation*
-- `Symfony\Component\HttpFoundation\Request` (branche 8.0, `6f841c0`)
+- [RFC 9110 §12 — *Content Negotiation*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#section-12)
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getAcceptableContentTypes()` (branche 8.0, `6f841c0`)

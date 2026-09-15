@@ -130,7 +130,8 @@ JSON valide.
 - Les accesseurs lèvent sur statut d'erreur, sauf avec `false`.
 - `MockHttpClient` pour tester sans réseau.
 
-## Sources officielles
+## Aller lire la source
 
-- `http_client.rst` (symfony-docs, branche 8.0, `eea05cb`)
-- `Symfony\Contracts\HttpClient\HttpClientInterface` (branche 8.0, `6f841c0`)
+- [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, requêtes asynchrones
+- [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,
+  `withOptions()` (branche 8.0, `6f841c0`)

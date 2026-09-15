@@ -83,7 +83,7 @@ avec un corps vide n'est pas équivalent.
 - `307`/`308` préservent la méthode ; `301`/`302` ne le garantissent pas.
 - Les constantes `Response::HTTP_*` évitent les codes magiques dans le code.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §15 — Status Codes
-- `Symfony\Component\HttpFoundation\Response` (branche 8.0, `6f841c0`)
+- [RFC 9110 §15 — *Status Codes*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#section-15)
+- [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — constantes `HTTP_*` (branche 8.0, `6f841c0`)

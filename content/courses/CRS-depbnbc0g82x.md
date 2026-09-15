@@ -71,6 +71,6 @@ l'égalité des réponses.
 - Une ressource a des représentations ; c'est ce qui permet la négociation.
 - Les noms de champs d'en-tête sont insensibles à la casse.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 — *HTTP Semantics*
+- [RFC 9110 — *HTTP Semantics*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html) — §3 *Terminology*, §6 *Message Abstraction*

@@ -66,6 +66,7 @@ réponse selon cet en-tête.
 - `getPreferredLanguage($supported)` négocie ; sans argument, non.
 - Varier selon la langue impose `Vary: Accept-Language`.
 
-## Sources officielles
+## Aller lire la source
 
-- `Symfony\Component\HttpFoundation\Request` (branche 8.0, `6f841c0`)
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getLanguages()`, `getPreferredLanguage()`
+  (branche 8.0, `6f841c0`)

@@ -51,6 +51,11 @@ $response->setMaxAge(3600);         // Cache-Control: max-age=3600  → caches p
 $response->setSharedMaxAge(86400);  // Cache-Control: s-maxage=86400 → caches partagés
 ```
 
+`setSharedMaxAge()` appelle **`setPublic()` lui-même**. Une réponse laissée par
+défaut à laquelle on ne fait que `setSharedMaxAge(600)` porte donc
+`public, s-maxage=600` : la seconde ligne de l'exemple ci-dessus est redondante,
+et ce n'est pas le cas de `setMaxAge()`, qui ne rend rien public.
+
 - `private` (défaut Symfony) : seul le cache du navigateur peut stocker.
 - `public` : les caches partagés — CDN, reverse proxy — peuvent stocker aussi.
 - `s-maxage` ne concerne que les caches partagés et **prime sur `max-age`**
@@ -73,6 +78,12 @@ if ($response->isNotModified($request)) {
 Le client renvoie ensuite `If-None-Match` (contre l'ETag) ou
 `If-Modified-Since` (contre la date). `isNotModified()` compare et, en cas de
 correspondance, met le statut à 304 et vide le corps.
+
+**`isNotModified()` commence par une garde sur la méthode.** Son premier geste
+est `if (!$request->isMethodCacheable()) { return false; }` : sur une requête
+qui n'est ni `GET`, ni `HEAD`, ni `QUERY`, elle rend `false` **avant même de
+comparer quoi que ce soit**, ETag correspondant ou non. La validation n'a de
+sens que pour les méthodes cacheables.
 
 Un ETag **faible** (`W/"a1b2c3"`) déclare une équivalence sémantique plutôt
 qu'octet à octet : `setEtag('a1b2c3', true)`.
@@ -108,16 +119,27 @@ de requête doit le déclarer.
 **`no-cache` ne veut pas dire « ne pas stocker ».** Il impose une
 revalidation avant chaque usage. « Ne pas stocker » s'écrit `no-store`.
 
+**`isNotModified()` sur un `POST` renvoie `false`.** La garde de méthode passe
+avant la comparaison d'ETag : ce n'est pas « l'ETag ne correspond pas », c'est
+« la question n'est pas posée ».
+
+**`setSharedMaxAge()` rend la réponse publique.** Inutile d'appeler `setPublic()`
+avant lui ; et attention à ne pas croire que `setMaxAge()` fait de même.
+
 ## Points clés
 
 - Expiration (`max-age`, `s-maxage`) vs validation (`ETag`, `Last-Modified`).
 - `private` par défaut ; `setPublic()` pour les caches partagés.
-- `isNotModified()` produit le `304` et vide le corps.
+- `isNotModified()` produit le `304` et vide le corps — mais seulement si la
+  requête est cacheable ; sinon elle rend `false` d'emblée.
+- `setSharedMaxAge()` appelle `setPublic()` ; `setMaxAge()` non.
 - `Vary` est obligatoire dès qu'on négocie.
 - `no-cache` = revalider ; `no-store` = ne rien garder.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §8.8 et §12.5.5
+- [RFC 9110](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html) — §8.8 *Validator Fields*, §12.5.5 *Vary*
 - RFC 9111 §5.2 (`must-revalidate`), RFC 5861 §3, RFC 8246
-- `Symfony\Component\HttpFoundation\Response` (branche 8.0, `6f841c0`)
+- [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isNotModified()` l. 1118, `setSharedMaxAge()` l. 841,
+  `setPublic()`, `setMaxAge()` (branche 8.0, `6f841c0`)
+- [Cache HTTP](https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst)
