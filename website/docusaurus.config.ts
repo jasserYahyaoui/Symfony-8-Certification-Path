@@ -73,6 +73,27 @@ const config: Config = {
         {to: '/docs/revision/roadmap', label: 'Plan de révision', position: 'left'},
         {to: '/practice', label: 'Practice Mode', position: 'left'},
         {to: '/exam', label: 'Exam Mode', position: 'left'},
+        // The five mocks were published, deployed and smoke-tested, and linked
+        // from nowhere: a crawl of the built site on 2026-09-15 found 208 pages,
+        // 203 reachable by clicking, and exactly these 5 orphaned. Every gate was
+        // green because each visits them by a hardcoded URL list, and
+        // `onBrokenLinks` catches broken links, never missing ones. The learner
+        // had to type the address. Labels are the blueprint's own names.
+        {
+          type: 'dropdown',
+          label: 'Simulations',
+          position: 'left',
+          items: [
+            {to: '/mock-1', label: 'Mock 1 — Knowledge'},
+            {to: '/mock-2', label: 'Mock 2 — Application'},
+            {to: '/mock-3', label: 'Mock 3 — Certification difficulty'},
+            {to: '/mock-5', label: 'Mock 5 — Weakness-based'},
+            // Last, and named for what it costs: Mock 4 is the holdout, meant to
+            // be sat once. A label that reads like the others invites a click
+            // that cannot be taken back.
+            {to: '/mock-4', label: 'Mock 4 — finale, à ne passer qu\'une fois'},
+          ],
+        },
         {
           href: 'https://github.com/jasserYahyaoui/Symfony-8-Certification-Path',
           label: 'GitHub',
@@ -99,6 +120,12 @@ const config: Config = {
           items: [
             {label: 'Practice Mode', to: '/practice'},
             {label: 'Exam Mode', to: '/exam'},
+            {label: 'Mock 1 — Knowledge', to: '/mock-1'},
+            {label: 'Mock 2 — Application', to: '/mock-2'},
+            {label: 'Mock 3 — Certification difficulty', to: '/mock-3'},
+            {label: 'Mock 5 — Weakness-based', to: '/mock-5'},
+            {label: 'Mock 4 — finale, à ne passer qu\'une fois', to: '/mock-4'},
+            {label: 'Ma progression', to: '/progression'},
           ],
         },
         {
