@@ -139,8 +139,17 @@ stays out: it takes ~5 minutes and mutates canonical files.
 `aud09_course_sections.py` reads what is **under** each heading, because a
 heading count is a proxy and this project has already been misled by one.
 `aud10_answer_length_bias.py` measures whether the correct answer is the longest
-choice — 50.5% across the corpus against a 25% chance baseline — and fails only
-inside a refined lot, the same staging as `ARC-001`, `PED-003` and `REV-001`.
+choice — 50.5% across the corpus when it was written, against a 25% chance
+baseline; 21.8% today. Since 2026-09-15 it gates **every** lot (the staging went
+with ADR-0007's exit act) and it fails a lot on an **exact one-sided
+Poisson-binomial tail** below alpha 0.01, not on a comparison of two
+percentages. The old comparison had no notion of sampling variability and failed
+a four-question lot on a result chance produces 26% of the time — which is why
+lot 19 was once edited over a one-character gap. Alpha is 0.01 rather than 0.05
+because twenty-six lots are tested per push. A lot of **fewer than four**
+questions can never fail, even at total bias; the run prints that rather than
+leaving it to be derived, and `--prove` names the lot it cannot act on instead of
+implying full coverage.
 
 **A fence is not a hiding place (§4.3, rule `CRS-001`).** A course may show the
 code its **own** item teaches inside a fenced block, even when a question on
