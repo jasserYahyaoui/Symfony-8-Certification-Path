@@ -176,7 +176,25 @@ final class ReadableSourceUrlTest extends TestCase
         ));
 
         self::assertCount(1, $warnings);
-        self::assertStringContainsString('published as-is', $warnings[0]->message);
+        self::assertStringContainsString('published as written', $warnings[0]->message);
+    }
+
+    /**
+     * And it is a WARNING, not an error. The first version demanded equality for
+     * every citation, which made a correct hand-written rendered URL on a
+     * `refs/heads/` source a blocking error whose only green fix was to ship the
+     * unreadable raw one — a rule pushing the content the wrong way.
+     */
+    public function testAHandWrittenEquivalentForAnUnderivableUrlIsNotAnError(): void
+    {
+        $refsHeads = 'https://raw.githubusercontent.com/symfony/symfony-docs/refs/heads/8.0/routing.rst';
+
+        self::assertSame([], self::errors(new SourceRef(
+            url: $refsHeads,
+            readableUrl: 'https://github.com/symfony/symfony-docs/blob/8.0/routing.rst',
+            anchor: 'routing',
+            branch: '8.0',
+        )));
     }
 
     /**

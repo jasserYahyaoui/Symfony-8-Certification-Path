@@ -35,23 +35,27 @@ exactly that trade, and it is why this project reports `MISSING`, `BLOCKED` or
 §22 is assessed **after Lot 27**, not before it: three clauses depend on audits
 and mock exams that are Lot 27's deliverables (§14).
 
-## Measured state — 2026-09-07, commit `ff09d45` + this change
+## Measured state — 2026-09-15, `master` at `ef52ab3` + this change
 
-Every figure below was reconciled from the canonical files
-(`content/**`, `docs/syllabus/syllabus-matrix.yml`) by script, never from an
-earlier report and never from this table's previous revision.
+Every figure below was re-derived from the canonical files (`content/**`,
+`docs/syllabus/syllabus-matrix.yml`) **by script**, never from an earlier report
+and never from this table's previous revision. The previous revision, dated
+2026-09-07, understated the corpus by **172 questions, 92 tests, 16
+accessibility surfaces and 5 rules** — a stale state document reading like a
+current one, which is finding **A-5** of
+[AUD-09](../audit/lot-27-aud09-final-readiness/README.md).
 
 | # | §22 clause | What it requires here | State |
 |---|---|---|---|
-| 1 | 100% atomic official syllabus coverage | EXAM_READY atomic official items ÷ total, per §3.5 | **PASS** — `bin/cert coverage` exit 0: **100% (163/163)**, no report diff |
-| 2 | 0 critical syllabus gap | no official item without the content its level requires | **PASS as measured, with a standing limit that closing B-1 does not lift.** AUD-01 is `PASS` and blocker `B-1` is closed (26 of 26 conditions), and its two divergences are repaired: the Messenger third-party-transport exclusion is recorded and enforced (`SYL-1`), and the seven Messenger items state the boundary the syllabus states instead of denying one exists (`SYL-2`). Import fidelity is clean in both directions, 163/163. The limit stands regardless: the PDF is the same artefact the import was made from, so nothing here corroborates the scope against a second witness, and `certification.symfony.com` is still unreachable |
-| 3 | 0 known incorrect scored answer | no scored question with a wrong key | **PASS as known** — 18 rules, 0 violations over **544** questions; P2.2/P2.3/P2.4 corrected. Systematic re-check is Lot 27's *question-bank audit*, which has not run |
-| 4 | 0 scored OUT_OF_SCOPE dependency | no scored question depending on non-official material | **PASS** — all **544** questions are `classification: OFFICIAL`; zero non-official scored questions |
-| 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **PASS — AUD-02 and AUD-03 both `PASS`.** Version anchoring is clean (AUD-02 `PASS`, 0 findings over 918 citations) and every one of the 167 distinct source URLs returns 200, and every one of those 918 citations now carries a precise anchor to a passage that proves its claim — 15 of them needed a different or an additional source, found by verifying each one rather than by counting anchors. `SRC-001` enforces this over the whole learner-facing corpus at `Error` severity. **544 of 544** `verification_status: VERIFIED`; **0** occurrences of `symfony.com/doc/current` across every file in `content/` and `docs/syllabus/`; CI rejects `/current/` |
-| 6 | functioning English timed simulation | a working timed exam mode, in English | **PASS for the artefact** — `website/src/pages/exam.tsx`, 90-minute official duration, serving `exam.json`: **135 of 135 questions English**; and `/mock-4`, 75 questions, 90 minutes, **75 of 75 English**. The software exists and is deployed. **It has not been sat.** The owner's human validation gate below is separate from this clause and blocks final readiness on its own |
-| 7 | protected unseen holdout assessment | see [ADR-0005](../adr/0005-holdout-distribution-deferred.md) | **PASS on the definition the owner settled 2026-09-03 (Option A)**: *unseen* means never served by Practice Mode, Exam Mode or any other learning mode. The holdout is complete — **75 questions across 75 distinct atomic items, 308 choices**, all English — and Mock 4 is built. Proved against the deployed bytes, not any payload's own label: `practice.json` (334, all LEARNING), `exam.json` (135, all VALIDATION) and the three training-mock payloads (61, 83 and 67 eligible) carry none of the 75 holdout ids nor their 308 choice ids, while `mock-4.json` carries the whole holdout and nothing else. `PayloadBuilder::assertNoHoldoutLeak()` and `assertMockMatchesBlueprint()` assert both directions at build time and the production smoke test re-proves them on the deployed site. **Repository confidentiality: NO** — the questions and answers are readable by anyone deliberately inspecting the public source, and the project says so permanently. Lot 27's *holdout integrity audit* has not run |
-| 8 | manageable revision burden | a corpus a candidate can actually revise | **PASS as measured** — 163 courses, **65,151 body words** (median 381, mean 400, range 184–880), 137 flashcards, **544** questions. Roughly 4–5 hours of reading. Lot 27's *content-volume and duplication audit* has not run |
-| 9 | technical, pedagogical, accessibility and production gates | §17's gates, each green | **PASS as measured, the pedagogical gate still open** — measured on `f0a1e01`, 2026-09-08: validate 18 rules / 0 violations over 544 questions; coverage 100% (163/163 EXAM_READY) with no diff; phpunit **194 tests, 8,685 assertions**; `bin/cert build` exit 0; site build exit 0; a11y **12 surfaces, 0 violations** (landing, docs index, item page, glossary, practice, exam, mocks 1–5, progression); production: `master` deployed and smoke-tested every lot, most recently deploy run `34199063926` on `f0a1e01` with smoke `101973796981`, 21 URLs at 200 and the holdout check green in both directions, its log read line by line. Each command was run on its own with its exit code read (PROC-1). The **pedagogical** gate is the one word in this clause no command measures: Lot 27's audits are its evidence, and **AUD-01 through AUD-07 have now run** — but **AUD-08, whose subject is this clause, has not**, so the clause is not closed by its own audit |
+| 1 | 100% atomic official syllabus coverage | EXAM_READY atomic official items ÷ total, per §3.5 | **PASS** — `bin/cert coverage` exit 0: **100% (163/163)**, no report diff. Level distribution, stated as an **observation and never a target**: 125 STANDARD, 27 MINIMAL, 11 DEEP |
+| 2 | 0 critical syllabus gap | no official item without the content its level requires | **PASS as measured, with a standing limit.** 163/163 items over 14 official topics, **603 identified learning outcomes**, `AUD-01` `PASS` and blocker `B-1` closed. The limit does not lift: the import was made from the same PDF that certifies it, so nothing corroborates the scope against a second witness, and `certification.symfony.com` is unreachable. The published constraint says *15 topics* where the PDF renders **14** headings — recorded by the syllabus gate, not re-opened here |
+| 3 | 0 known incorrect scored answer | no scored question with a wrong key | **PASS as known** — **23 rules**, 0 blocking violations over **716 questions** and **2,872 choices**; `AUD-05` 0 findings. *Known* remains the operative word: no human reviewer has read the 695 English questions, and no script can decide whether a key is correct |
+| 4 | 0 scored OUT_OF_SCOPE dependency | no scored question depending on non-official material | **PASS** — **716/716** `classification: OFFICIAL` |
+| 5 | verified Symfony 8.0 sources | every source version-anchored to 8.0 | **PASS** — **1,138 citations**, **177 distinct URLs**, **177/177 returning `200`** when actually fetched on 2026-09-15; **0** occurrences of `/current/`; `AUD-02` reads all 1,138 sources with 0 findings and 0 non-raw; **163/163** courses `VERIFIED`. Each citation now also carries `readable_url`, held to the raw one by rule `SRC-002` |
+| 6 | functioning English timed simulation | a working timed exam mode, in English | **PASS for the artefact — `PENDING_HUMAN_VALIDATION` for the sitting.** `/exam` serves `exam.json`, **136 of 136 English**; `/mock-4` runs 75 questions at 90 minutes, **75 of 75 English**. Both deployed and smoke-tested. **Mock 4 has not been sat**, and that half is the project's only open blocker |
+| 7 | protected unseen holdout assessment | see [ADR-0005](../adr/0005-holdout-distribution-deferred.md) | **PASS on Option A, with the permanent qualifier.** **75 questions across 75 distinct atomic items, 308 choices, 75/75 English.** Proved against the built bytes: `practice.json` (505 LEARNING), `exam.json` (136 VALIDATION) and the four training mocks carry none of the 75 ids nor their 308 choice ids, while `mock-4.json` carries the whole holdout and nothing else — both directions asserted at build time and re-proved by the production smoke test. Functional isolation **yes**; **repository confidentiality NO** — the repository is public and the answers are readable by anyone deliberately opening the source |
+| 8 | manageable revision burden | a corpus a candidate can actually revise | **PASS as measured** — 163 courses, **71,680 body words** (median 421, mean 440, range 242–880, front matter excluded), **174 flashcards**, 716 questions. `AUD-04` 0 findings |
+| 9 | technical, pedagogical, accessibility and production gates | §17's gates, each green | **PASS, the pedagogical one still the least instrumented.** Measured 2026-09-15, each command run on its own with its exit code read (PROC-1): validate **23 rules** / 0 blocking; coverage 100% with no diff; phpunit **287 tests, 15,576 assertions**; 12 content audits **0 findings**; 4 non-vacuity proofs green; `bin/cert build` exit 0; site build `SUCCESS` (210 pages); typecheck exit 0; navigation **209 reachable of 210**; a11y **28 surfaces, 0 violations**; three browser verifiers green; production deployed and smoke-tested. `AUD-08` `PASS`. The **pedagogical** word is the one no command measures |
 
 ## The owner's Mock 4 human validation gate
 
@@ -90,7 +94,9 @@ sitting is the other half and it belongs to the candidate.
 ## Audits not yet run
 
 Recorded here so no clause above is read as more settled than it is. Each is a
-Lot 27 §14 deliverable, and none has been executed:
+Lot 27 §14 deliverable. **All nine have now been executed**; the section keeps
+its name and its history rather than being retitled, because what each audit
+found is the point, not that the list is complete:
 
 | # | Audit | Bears on | State |
 |---|---|---|---|
@@ -102,19 +108,24 @@ Lot 27 §14 deliverable, and none has been executed:
 | AUD-06 | [Holdout integrity audit](../audit/lot-27-aud06-holdout-integrity/README.md) | clause 7 | **`PASS`** — 2026-09-08. 75 holdout questions across 75 distinct items, all English, matching the blueprint's `official_constraints.questions`; 0 referenced as learning material over 450 matrix references; 0 holdout answers found across 932 haystacks, with `CRS-001`'s own-item fenced exemption applied and its single occurrence counted. Two of its checks were found **vacuous** by the fail-proof — `HOLD-1` compared against a hardcoded literal, `HOLD-6` used a substring that a rename left intact — and both are fixed. **Confidentiality is not claimed**: the repository is public and holdout answers are readable in `content/questions/*.yml` |
 | AUD-07 | [English readiness audit](../audit/lot-27-aud07-english-readiness/README.md) | clause 6 | **`PASS` for the corpus** — 2026-09-08. §5's three measurable requirements all met and recomputed independently: advanced questions 204/205 = 99.5% English, `VALIDATION` 135/135, `HOLDOUT` 75/75, 0 non-English questions in a bound bank, all 523 English questions readable inside their own time budget, glossary 81 entries. **§5's fourth requirement — acceptable timed performance in English — is the human sitting and no script closes it** |
 | AUD-08 | [Technical, accessibility and production audit](../audit/lot-27-aud08-technical-production/README.md) | clause 9 | **`FAIL` on first run, `PASS` after the gap was closed** — 2026-09-08. It audits the **coverage of §17's gates**, never their verdicts: 9/9 application routes, 3/3 generated syllabus pages and 8/8 payloads smoke-tested; 18 rule classes on disk all registered; 0 tests skipped; 0 generated files tracked; 5/5 `gate-full` gates also run by CI. The first run **failed**: `/docs/syllabus/coverage` and `/docs/syllabus/exclusions` were served to learners and **never accessibility-audited**, while the audit's own comments already excused other screens by citing *"the audited coverage page"*. Closed by **adding both pages to the audit** — 14 surfaces, 0 violations, passing on their first audited run. `TECH-7` was found **vacuous before it ever ran** (it compared the rule array against a count of itself) and rewritten to compare rule classes on disk against those registered |
-| AUD-09 | Final rationality and readiness assessment | all | `NOT RUN` — **FR-2 is `DONE` and the per-lot refinement series has begun ([Lot 01](../audit/lot-01-refinement/README.md) `DONE`)**, but AUD-09 still depends on every row above, on Lots 02–26 being refined, and on the Mock 4 human gate; it cannot be started while any is unsatisfied |
+| AUD-09 | [Final rationality and readiness assessment](../audit/lot-27-aud09-final-readiness/README.md) | all | **`PASS_WITH_BLOCKER`** — 2026-09-15. Every clause re-measured from the canonical files by script; **five findings, four of them fixed in the same pass**, three being gaps between what the project claimed and what it did. The eight instrumentable clauses hold on measured evidence; clause 6's sitting half remains `PENDING_HUMAN_VALIDATION`, and §22's last line forbids the other eight from compensating for it |
 
 Every audit moves `NOT RUN` → `RUNNING` → `PASS` / `FAIL` / `BLOCKED`, and no
 row may reach `PASS` without persisted evidence under `docs/audit/`. A run that
 finds defects is recorded as `FAIL`, never softened.
 
-**Clause 5 is therefore not `PASS`.** AUD-02 clears the version half of it;
-AUD-03 fails the anchor half. The clause-5 row above records what its two
-audits actually found.
+**Clause 5 is `PASS`, and this paragraph used to deny it.** It read *"Clause 5
+is therefore not `PASS` … AUD-03 fails the anchor half"* — written on
+2026-09-07, when that was true, and left standing after AUD-03 passed on its
+second run the next day. The AUD-03 row three lines above it said `PASS` the
+whole time. A governance document contradicting itself is worse than a stale
+figure, because each half looks authoritative; AUD-09 records it as finding
+**A-6**. Both halves of clause 5 now hold: AUD-02 clears the version anchoring,
+AUD-03 clears the passage anchoring and the reachability.
 
 `NOT RUN` is not `PASS`, and it is not `FAIL`. It is the absence of evidence,
 written down so that the passes above cannot be mistaken for a finished
-assessment.
+assessment. No row carries it today.
 
 ## Divergences to carry into Lot 27
 
