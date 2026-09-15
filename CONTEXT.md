@@ -640,7 +640,10 @@ vérifications, 4 preuves de non-vacuité), branché dans CI.
 | `verify-practice-ui.mjs` | 18 ok, 0 échec — non-régression |
 | `verify-agenda-ui.mjs`, `verify-reschedule.mjs` | verts |
 | `simulations-smoke.py` | vert, **5 défauts injectés rejetés** |
-| PR / merge / déploiement / *smoke* production | **EN ATTENTE** — à compléter avec les identifiants réels |
+| PR / merge | **#142**, fusionnée en `1427540` |
+| CI | run **34973344216** `success` — `verify-simulations-ui` et l'audit a11y à 28 surfaces y ont réellement tourné |
+| Pages | run **160** (`34974467078`) `success` |
+| *Smoke* production | job **104399185529** — `/simulations` 200, `data/simulations.json` 200, `ok simulations 5 mocks described, each with a role and a when-to-use, no question in the payload` |
 
 ---
 
