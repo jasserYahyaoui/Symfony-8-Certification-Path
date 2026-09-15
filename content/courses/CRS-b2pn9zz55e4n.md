@@ -14,6 +14,13 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst"
+    anchor: "form-events-nested-forms"
+    symbol_or_lines: '"The submit phase starts on the parent form. After the parent PRE_SUBMIT, children are *fully* submitted (including their own PRE_SUBMIT, SUBMIT, and POST_SUBMIT events) before the parent continues"; "That''s why dependent fields typically listen to POST_SUBMIT on the child: by that point, the child''s data is fully processed"'
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    verified_at: "2026-09-15"
 ---
 
 ## Objectif
@@ -86,6 +93,26 @@ Un champ dépendant d'un autre ne peut pas s'ajouter depuis son propre
 `POST_SUBMIT` au formulaire lui-même : sa structure est figée. On l'ajoute au
 **formulaire parent**, depuis l'événement de l'enfant. C'est ce qui rend le motif
 des listes dépendantes contre-intuitif à écrire.
+
+L'ordre de propagation explique pourquoi cela fonctionne. La soumission
+**commence par le parent** : après le `PRE_SUBMIT` du parent, chaque enfant est
+soumis **entièrement** — son `PRE_SUBMIT`, son `SUBMIT`, son `POST_SUBMIT` —
+*avant* que le parent ne continue. Pour un `TaskType` qui imbrique un
+`CategoryType` :
+
+```text
+TaskType::PRE_SUBMIT
+  CategoryType::PRE_SUBMIT
+  CategoryType::SUBMIT
+  CategoryType::POST_SUBMIT
+TaskType::SUBMIT
+TaskType::POST_SUBMIT
+```
+
+Au `POST_SUBMIT` de l'enfant, la donnée de l'enfant est donc entièrement
+traitée et **le parent n'a pas encore atteint son `SUBMIT`** : sa structure est
+encore ouverte. C'est la fenêtre exacte dans laquelle le champ dépendant
+s'ajoute.
 
 ## Comment s'abonner
 
