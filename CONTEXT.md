@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15 (Lot 27, unité A)
+**Last updated:** 2026-09-15 (Lot 27, unité B)
 
 ---
 
@@ -42,7 +42,7 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `a42e4b2` — **le chantier de raffinement est terminé : les
+`master`, at `b16f1bd` — **le chantier de raffinement est terminé : les
 vingt-six lots de contenu sont audités sous le cadre version 2, fusionnés et
 vérifiés en production.**
 
@@ -589,7 +589,50 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Lot 27 — Practice Mode. Unité A livrée ; l'unité B est la suivante.**
+**Lot 27 — Practice Mode. Unités A et B livrées ; l'unité C est la suivante.**
+
+Unité B : PR #136, `b16f1bd`, *smoke test* production `104323853743`.
+**Aucune question n'a été modifiée** — le correctif était un rendu et quatre
+champs de transport, exactement ce que l'unité A avait établi.
+
+- **Transport** : `practice.json` porte l'index d'items (libellé, sujet,
+  outcomes) et l'**URL du cours**, dérivée par `src/Support/CourseUrl.php`,
+  extrait de `DocsGenerator` pour que les trois appelants lisent une seule
+  définition. Vérifié sur les 163 items.
+- **Rendu** : `RichText` — bloc si multiligne ou déjà clôturé, `<code>` inline
+  sinon, sur les **quatre** surfaces. Ce n'est délibérément **pas** un moteur
+  Markdown : `*`, `_` et `#` sont des caractères de PHP, YAML et Twig. Aucun
+  `dangerouslySetInnerHTML` : tout est enfant texte React, donc Twig n'est
+  jamais parsé comme JSX.
+- **Feedback** : les sept sections dans l'ordre, chacune depuis sa source
+  canonique, le choix de l'apprenant rappelé. Monté seulement après réponse,
+  donc la correction est **absente du DOM** avant soumission.
+- **Bilan** : `PracticeSession` + migration `STORAGE_VERSION` **2 → 3** qui
+  conserve tentatives, sessions et agenda. Analyses par sujet, item et outcome,
+  revue des erreurs, recommandations. Formulations prudentes imposées ; aucun
+  seuil officiel ; `INTERNAL_TRAINING_FORMAT` ;
+  `PER_QUESTION_TIMING_NOT_IMPLEMENTED`.
+
+**Deux défauts trouvés par des contrôles, pas par moi.** L'audit a11y étendu
+aux six états interactifs à largeur téléphone a signalé
+`scrollable-region-focusable` : Infima passe les tables en `display: block`,
+c'était donc la *table* qui défilait. Et `verify-agenda-ui.mjs` codait
+`schema_version === 2` en dur ; il lit désormais `STORAGE_VERSION` dans la
+source. `TECH-5` d'`aud08` a par ailleurs attrapé ma propre prose — c'est le
+commentaire qui a changé, pas la règle.
+
+**Tests** : `PracticePayloadTest` (7 preuves par mutation) et
+`website/tools/verify-practice-ui.mjs` (14 vérifications dont 5 preuves de
+non-vacuité), câblé dans CI. 260 tests, 15 495 assertions ; a11y **27 états**,
+0 violation.
+
+**Unité C — à faire** : sa condition de déclenchement n'est satisfaite par rien
+et aucun `BLOCKER` n'a émergé pendant l'unité B. Elle doit être conclue en
+`NOT_APPLICABLE` **justifié par l'audit**, pas simplement sautée.
+
+**Unité D — à faire** : vérification finale et rapport.
+
+### L'unité A, conservée
 
 Unité A : audit read-only des **484 questions `LEARNING` anglaises**, PR #134,
 `35ffe92`, *smoke test* production `104307401287`. Artefacts sous
