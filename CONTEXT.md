@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-14
+**Last updated:** 2026-09-15
 
 ---
 
@@ -42,13 +42,13 @@ assesses all nine clauses against measured state.
 
 ## Current branch
 
-`master`, at `4773274` — **le chantier de raffinement est terminé : les
+`master`, at `a42e4b2` — **le chantier de raffinement est terminé : les
 vingt-six lots de contenu sont audités sous le cadre version 2, fusionnés et
 vérifiés en production.**
 
 | | |
 |---|---|
-| Dernières *pull requests* | **#127** (lots 22-26 raffinés) · **#128** (journal des lots 14 à 26) |
+| Dernières *pull requests* | **#127** (lots 22-26 raffinés) · **#128** (journal des lots 14 à 26) · **#130** (lecture PED-003) · **#131** (acte de sortie ADR-0007) · **#132** (`aud10` exact) |
 | CI | #127 run 34897146689 `success` · #128 run 34898827157 `success` |
 | Pages | #127 run 34897857875 `success`, smoke job **104156839217** · #128 run 34899555371 `success`, smoke job **104162509789** |
 | Lu en production | `readiness deployed 100.0% (163/163), 26 of 27 lots refined — matches the repository dashboard` ; `practice 505`, `exam 136`, `mock-4 75 — the whole holdout and nothing else` |
@@ -56,7 +56,9 @@ vérifiés en production.**
 | `PARTIALLY_REFINED` | 19 → **0** ; `NOT_REFINED` 6 → **0** |
 | Lots raffinés | 13/27 → **26/27** (le lot 27 ne porte aucun item atomique) |
 | Questions | 707 → **716** (695 anglaises, 21 françaises ; 270 `hard`, 269 anglaises) |
-| Tests | **245** (13 990 assertions) |
+| Tests | **247** (13 994 assertions) |
+| Schéma `syllabus-matrix` | 1 → **2** (migration `SyllabusMatrixOutcomeIdentity`) |
+| Staging ADR-0007 | **supprimé** — `ARC-001`, `PED-003`, `REV-001` et `aud10` gatent les 26 lots |
 
 **Ce que ce 100 % ne dit pas.** Il mesure le raffinement, pas la réussite. La
 clause de §5 sur la performance chronométrée en anglais et l'épreuve du holdout
@@ -587,34 +589,47 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Trois décisions du propriétaire, aucune prise ici.** Le chantier de
-raffinement n'a plus de lot à traiter ; ce qui reste demande un arbitrage.
+**Les trois décisions sont traitées, fusionnées et vérifiées en production.**
+Aucune n'a été refermée en affaiblissant un contrôle, et deux d'entre elles ont
+changé de nature une fois instruites.
 
-1. **`aud10` sous petit dénominateur.** Trois unités consécutives l'ont
-   signalé. Avec quatre ou cinq questions, les valeurs possibles sont
-   0/25/50/75/100 % : le pas de la mesure est plus grand que l'effet mesuré, et
-   le lot 19 a imposé une édition sur un écart de **un caractère**. Faut-il que
-   l'audit rende `NOT_APPLICABLE` sous un seuil (une dizaine de questions) au
-   lieu de conclure ? **La règle n'a pas été touchée.**
-2. ~~**`PED-003` avertit sur 8 items**~~ — **tranché le 2026-09-15, et ce
-   n'était pas une décision.** La formulation de la PR #128 laissait entendre
-   qu'un outcome restait non évalué dans ces huit items. Lecture faite question
-   par question : **aucun ne l'est**. Le contrôle liant de `PED-003` — chaque
-   outcome évalué par une question qui le nomme — s'exécute en `ERROR` sur les
-   vingt-six lots et passe ; l'avertissement agrégé est un compteur dont le
-   commentaire de la règle dit lui-même qu'il ne prouve rien. Les deux seuls
-   cas discutables (lot-05) testeraient une syntaxe que le candidat ne peut pas
-   ne pas avoir vue : §1.4 dit stop. Rien ajouté, règle non touchée,
-   avertissement conservé. Voir
+1. **`aud10` sous petit dénominateur** — PR #132, `a42e4b2`.
+   Instruction faite, **la cause n'était pas le dénominateur** : le test ne
+   calculait aucune probabilité. Il échouait un lot dès que le taux dépassait la
+   ligne de chance, donc il appelait défaut un résultat que le hasard produit
+   26 % du temps (n=4, obs=2) — c'est ce qui avait fait éditer le lot 19 sur
+   **un caractère**. Remplacé par une **queue de Poisson-binomiale exacte**,
+   unilatérale, alpha 0,01 (fixé par la multiplicité : 26 lots testés par push).
+   Ce n'est pas un assouplissement : rien n'était rouge sous l'un ou l'autre
+   test, la plus petite probabilité par lot est 0,61, et le biais historique
+   (271/537) reste rejeté à **P = 9,1e-37** — assertion que `--prove` recalcule
+   au lieu de la croire. Limite chiffrée et imprimée : un lot de moins de quatre
+   questions ne peut jamais échouer, et `--prove` nomme le lot concerné.
+   **Aucune échappatoire ajoutée** — pas de `NOT_APPLICABLE` sous seuil.
+
+2. **`PED-003` sur 8 items** — PR #130, `9ecdd37`.
+   Ce n'était pas une décision : la formulation de la PR #128 venait de moi et
+   laissait croire à un trou de couverture. Lecture faite des onze questions à
+   double lien, **aucun outcome n'est non évalué**. Rien ajouté, règle non
+   touchée, avertissement conservé. Voir
    [`docs/audit/ped-003-shortfall-reading/`](docs/audit/ped-003-shortfall-reading/README.md).
-3. **La condition de sortie d'ADR-0007** vise « les 27 lots ». Le journal en
-   porte **26**, le lot 27 n'ayant aucun item atomique. Peut-il être enregistré
-   en version 2 ? Tant que ce n'est pas tranché, la tolérance de staging
-   d'`ARC-001`, `PED-003`, `REV-001` et `aud10` reste en place alors qu'elle ne
-   couvre plus aucun lot — et le schéma n'est pas passé à 2.
 
-Rien de tout cela n'est un blocage de livraison : les 163 items sont
-`EXAM_READY` et raffinés, et le site est déployé.
+3. **La condition de sortie d'ADR-0007** — PR #131, `831eafa`.
+   Elle visait « les 27 lots » et était **insatisfiable par construction** : le
+   lot 27 porte 0 item et 0 question, donc aucun audit ne peut l'y enregistrer.
+   Défaut de rédaction, documenté dans un addendum à l'ADR. L'acte est exécuté
+   sur les vingt-six lots que le cadre peut saisir : `MatrixLoader` refuse la
+   chaîne nue, le schéma `syllabus-matrix` passe à **2** avec la migration
+   `SyllabusMatrixOutcomeIdentity` — qui convertit le contrat, jamais les
+   données, et n'invente aucun identifiant —, et `ARC-001`, `PED-003`, `REV-001`
+   et `aud10` perdent leur staging. Sur le corpus actuel l'acte ne change rien ;
+   il ferme une porte de sortie pour le contenu futur.
+
+**Ce qui reste est le fait du candidat, pas du dépôt.** Les 163 items sont
+`EXAM_READY` et raffinés, le site est déployé, et la clause de §5 sur la
+performance chronométrée en anglais comme l'épreuve du holdout ne se ferment par
+aucun script.
+
 
 ### L'action précédente, conservée
 
