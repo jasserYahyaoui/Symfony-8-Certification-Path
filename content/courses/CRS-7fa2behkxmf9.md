@@ -99,6 +99,15 @@ avec une date d'expiration passée, et **doit reprendre les mêmes `path` et
 **Un cookie de session n'a pas d'expiration** : il disparaît à la fermeture du
 navigateur. `withExpires(0)` produit ce comportement.
 
+**`Cookie::fromString()` n'a pas les mêmes défauts que `create()`.** Sa table
+interne pose `secure => false`, `httponly => false`, `samesite => null` : une
+lecture d'en-tête brut ne fabrique donc **pas** un cookie sûr.
+
+**`removeCookie()` n'efface rien chez le client.** Son propre docblock le dit :
+« removes a cookie from the array, but does not unset it in the browser ». Il
+retire le `Set-Cookie` de la réponse ; c'est `clearCookie()` qui envoie le
+cookie expiré qui efface.
+
 **Les défauts de `Cookie::create()` sont déjà sûrs.** `httpOnly` vaut `true` et
 `sameSite` vaut `lax` sans rien demander ; l'erreur d'examen consiste à croire
 qu'un cookie créé sans arguments est nu.
@@ -109,7 +118,9 @@ qu'un cookie créé sans arguments est nu.
 - `Cookie` est immuable : chaîner les `with*()` et utiliser le retour.
 - `HttpOnly` contre XSS, `SameSite` contre CSRF, `Secure` pour HTTPS.
 - Défauts de `Cookie::create()` : `path '/'`, `httpOnly true`, `sameSite lax`,
-  `secure` auto-activé en HTTPS, `expire 0`.
+  `secure` auto-activé en HTTPS, `expire 0` — mais `fromString()` a les siens,
+  bien moins sûrs.
+- `removeCookie()` retire de la réponse ; `clearCookie()` efface chez le client.
 - `SameSite=none` impose `Secure` ; suppression = mêmes `path` et `domain`.
 
 ## Aller lire la source

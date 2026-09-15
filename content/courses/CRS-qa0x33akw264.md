@@ -48,6 +48,10 @@ $request->getPreferredLanguage(['en', 'de']);
 `getLanguages()` normalise la casse et le séparateur : `fr-FR` devient
 `fr_FR`, la forme attendue par Symfony.
 
+Quand aucune langue demandée ne correspond, `getPreferredLanguage()` ne renvoie
+pas `null` : il renvoie **le premier locale de la liste fournie**, traité comme
+langue par défaut.
+
 ## Pièges d'examen
 
 **`getPreferredLanguage()` sans argument ne négocie rien.** Elle renvoie la

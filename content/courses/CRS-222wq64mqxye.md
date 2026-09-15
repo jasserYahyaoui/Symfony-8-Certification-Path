@@ -12,7 +12,7 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
-    symbol_or_lines: "public bag properties lines 94-130, getClientIp line 821"
+    symbol_or_lines: "public bag properties lines 94-130, getClientIp line 821, getClientIps line 798 and its docblock, normalizeAndFilterClientIps line 2146-2183 ending on array_reverse()"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
@@ -89,8 +89,14 @@ contenu vient de l'application, pas du client.
 $request->getContent();          // corps brut, utile pour du JSON
 $request->getPayload();          // InputBag depuis JSON ou form-data
 $request->isMethod('POST');      // comparaison insensible à la casse
-$request->getMethod();           // méthode effective
+$request->getMethod();           // méthode effective, override compris
+$request->getRealMethod();       // ce que le serveur a reçu, sans override
 ```
+
+**`getMethod()` peut ne pas être la méthode reçue.** Sur un `POST`, Symfony lit
+l'en-tête `X-HTTP-Method-Override` **sans qu'on ait rien à activer** ; seul le
+paramètre `_method` exige `enableHttpMethodParameterOverride()`. `getRealMethod()`
+donne la méthode brute, sans substitution.
 
 `getPayload()` retourne un **`InputBag`** : la contrainte scalaire ci-dessus s'y
 applique donc aussi, quel que soit le format d'entrée.
@@ -107,18 +113,30 @@ confiance sont déclarés (`Request::setTrustedProxies()` ou la configuration
 `X-Forwarded-For`, car un client peut le falsifier.
 
 **Quelle adresse est renvoyée, une fois les proxys déclarés.** `X-Forwarded-For`
-est une liste : chaque proxy traversé ajoute la sienne à droite. Symfony retire
-les proxys de confiance puis renvoie `getClientIps()[0]`, c'est-à-dire la valeur
-**la plus à gauche** — le client d'origine, pas le dernier intermédiaire.
+est une liste : chaque proxy traversé ajoute la sienne à droite. Symfony complète
+la chaîne avec `REMOTE_ADDR`, **retire toute adresse appartenant à un proxy de
+confiance**, puis **renverse** ce qui reste. `getClientIp()` renvoie le premier
+élément du résultat, c'est-à-dire l'adresse non fiable **la plus proche du
+serveur**.
 
 ```php
-// X-Forwarded-For: 203.0.113.7, 10.0.0.1, 10.0.0.2   (10.0.0.* = proxys déclarés)
-$request->getClientIp();    // '203.0.113.7'
-$request->getClientIps();   // liste complète, proxys de confiance retirés
+// tous les intermédiaires sont déclarés de confiance : le cas visé
+// X-Forwarded-For: 203.0.113.7, 10.0.0.1, 10.0.0.2   (10.0.0.* de confiance)
+$request->getClientIp();    // '203.0.113.7' — il ne reste qu'une adresse
+
+// un intermédiaire n'est PAS déclaré : le résultat change
+// X-Forwarded-For: 1.2.3.4, 5.6.7.8                  (aucun des deux de confiance)
+$request->getClientIp();    // '5.6.7.8', et non '1.2.3.4'
 ```
 
-`getClientIps()` existe, mais son propre docblock conseille `getClientIp()` :
-la liste sert aux cas où l'on doit inspecter la chaîne elle-même.
+Le client d'origine n'est donc renvoyé **que si toute la chaîne
+d'intermédiaires est déclarée de confiance**. Dès qu'un saut non déclaré
+subsiste, c'est lui qu'on obtient — et c'est le comportement sûr, puisque tout
+ce qui se trouve à sa gauche est écrit par un maillon auquel on ne fait pas
+confiance.
+
+`getClientIps()` renvoie la liste complète, « la plus fiable d'abord » selon son
+propre docblock, et conseille de lui préférer `getClientIp()`.
 
 ## Pièges d'examen
 
@@ -129,8 +147,11 @@ la liste sert aux cas où l'on doit inspecter la chaîne elle-même.
 **`getClientIp()` sans trusted proxies renvoie l'IP du proxy**, pas celle du
 client — et c'est le comportement sûr.
 
-**Avec trusted proxies, c'est la valeur la plus à gauche** de `X-Forwarded-For`
-qui est renvoyée, pas la plus proche du serveur.
+**`getClientIp()` ne renvoie pas « la plus à gauche ».** Il renvoie l'adresse
+non fiable la plus proche du serveur — ce qui coïncide avec le client d'origine
+uniquement quand toute la chaîne est déclarée de confiance. Fonder une
+allow-list sur la lecture inverse revient à faire confiance à une valeur que le
+client contrôle.
 
 **`Request::create()` n'est pas `createFromGlobals()`.** La première fabrique
 une requête arbitraire — tests, sous-requêtes ; la seconde lit les superglobales.
@@ -141,7 +162,8 @@ une requête arbitraire — tests, sous-requêtes ; la seconde lit les superglob
 - `InputBag::get()` exige un scalaire et lève sinon ; `all()` pour un tableau.
 - `getPayload()` lit JSON comme form-data, et retourne un `InputBag`.
 - `getClientIp()` n'est fiable qu'avec des trusted proxies déclarés, et renvoie
-  alors l'adresse la plus à gauche de `X-Forwarded-For`.
+  l'adresse non fiable la plus proche du serveur : le client d'origine seulement
+  si toute la chaîne est de confiance.
 - `createFromGlobals()` lit les superglobales ; `create()` fabrique une requête.
 
 ## Aller lire la source
@@ -149,5 +171,5 @@ une requête arbitraire — tests, sous-requêtes ; la seconde lit les superglob
 - [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst) — *Accessing Request Data*,
   `createFromGlobals()`, `create()`
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — sacs publics l. 94-130, `getClientIp()` l. 821,
-  `getClientIps()` l. 798 (branche 8.0, `6f841c0`)
+  `getClientIps()` l. 798, `normalizeAndFilterClientIps()` l. 2146-2183 (branche 8.0, `6f841c0`)
 - [`InputBag`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php) — `get()` et sa `BadRequestException` (branche 8.0, `6f841c0`)

@@ -56,7 +56,10 @@ défaut à laquelle on ne fait que `setSharedMaxAge(600)` porte donc
 `public, s-maxage=600` : la seconde ligne de l'exemple ci-dessus est redondante,
 et ce n'est pas le cas de `setMaxAge()`, qui ne rend rien public.
 
-- `private` (défaut Symfony) : seul le cache du navigateur peut stocker.
+- `private` (défaut Symfony) : seul le cache du navigateur peut stocker. La
+  valeur réellement émise par une réponse à laquelle on n'a rien demandé est
+  `no-cache, private` — ou `private, must-revalidate` dès qu'elle porte un
+  `Last-Modified` ou un `Expires`.
 - `public` : les caches partagés — CDN, reverse proxy — peuvent stocker aussi.
 - `s-maxage` ne concerne que les caches partagés et **prime sur `max-age`**
   pour eux.
@@ -76,7 +79,9 @@ if ($response->isNotModified($request)) {
 ```
 
 Le client renvoie ensuite `If-None-Match` (contre l'ETag) ou
-`If-Modified-Since` (contre la date). `isNotModified()` compare et, en cas de
+`If-Modified-Since` (contre la date). Les deux ne sont **pas symétriques** :
+si `If-None-Match` est présent, la date n'est jamais évaluée — la comparaison
+de dates est dans un `elseif`. L'ETag l'emporte toujours. `isNotModified()` compare et, en cas de
 correspondance, met le statut à 304 et vide le corps.
 
 **`isNotModified()` commence par une garde sur la méthode.** Son premier geste

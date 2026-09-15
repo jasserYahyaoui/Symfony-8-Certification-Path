@@ -21,9 +21,9 @@ vocabulaire qu'elle impose.
 
 ## Ce que RFC 9110 remplace
 
-RFC 9110 — *HTTP Semantics* (2022) — remplace les anciennes RFC 7230 à 7235,
-elles-mêmes successeurs de RFC 2616. C'est le document de référence actuel pour
-la **sémantique** d'HTTP.
+RFC 9110 — *HTTP Semantics* (2022) — remplace RFC 7230, 7231, 7232, 7233 et
+7235, successeurs de RFC 2616 ; **pas 7234**, que RFC 9111 reprend. C'est la
+référence actuelle pour la **sémantique** d'HTTP.
 
 | RFC | Périmètre |
 |---|---|

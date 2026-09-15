@@ -39,7 +39,11 @@ situent les erreurs.
 
 ## Le tableau
 
-Valeurs telles qu'implémentées par Symfony 8.0 :
+Valeurs telles qu'implémentées par Symfony 8.0. **La RFC et Symfony ne disent
+pas la même chose sur « cacheable »** : RFC 9110 §9.2.3 définit une sémantique
+de cache pour `GET`, `HEAD` **et `POST`** ; `isMethodCacheable()` retient
+`GET`, `HEAD` et `QUERY`. Une question sur la RFC et une question sur Symfony
+n'appellent donc pas la même réponse.
 
 | Méthode | Sûre | Idempotente | Cacheable |
 |---|:--:|:--:|:--:|

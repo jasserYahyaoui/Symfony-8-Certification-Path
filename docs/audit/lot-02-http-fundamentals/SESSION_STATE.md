@@ -27,16 +27,19 @@
 
 ## Dernière action effectuée
 
-Audit des 10 cours contre les sources officielles Symfony 8.0 réellement
-récupérées, correction des 8 anomalies, renommage du titre dupliqué, puis
-relance de toutes les portes du dépôt — toutes vertes. Examinateur indépendant
-lancé en sous-agent (remplaçant de Grill Me, indisponible).
+Examinateur indépendant exécuté : 25 questions, 10 COUVERT / 4 PARTIEL /
+11 NON COUVERT, et **deux erreurs factuelles** dont un **P0 que j'avais
+introduit moi-même** (`getClientIp()` « la plus à gauche » — faux, et de
+sécurité). Les deux erreurs et douze lacunes corrigées, chacune vérifiée par
+moi dans la source avant écriture. Toutes les portes relancées, vertes. Reviewer
+indépendant lancé.
 
 ## Prochaine action exacte
 
-Lire le rapport de l'examinateur indépendant et celui du reviewer indépendant,
-consigner leurs verdicts dans `GRILL.md` et `REVIEW.md`, corriger toute anomalie
-qu'ils lèvent, puis relancer les portes.
+Lire le rapport du reviewer indépendant, le consigner dans `REVIEW.md`,
+corriger tout P0/P1 qu'il lève, relancer les portes, puis relancer une revue
+indépendante. Le verdict ne peut être « LOT 02 VALIDÉ » qu'à ≥ 95/100 sans P0
+ni P1.
 
 ## Décisions prises
 

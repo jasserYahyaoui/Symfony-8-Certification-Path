@@ -31,7 +31,33 @@ les questions en anglais). La méthode retenue est la lecture.
 | L02-A08 | HTTP request | quelle adresse de `X-Forwarded-For` renvoie `getClientIp()` — non enseigné, alors que `QST-z116xknpac5j` (`hard`) le demande | **P1** | `Request.php` l. 798-824 | **CORRIGÉE** |
 | L02-A09 | les 10 pages | la section « Sources officielles » ne contenait **aucun lien** : prose non cliquable. Les `official_sources` du front matter ne sont pas rendues par le générateur | P2 | — | **CORRIGÉE** |
 
-**P0 ouverts : 0. P1 ouverts : 0.**
+### Anomalies levées par l'examinateur indépendant (voir `GRILL.md`)
+
+| ID | Page | Description | Criticité | Source | Statut |
+|---|---|---|---|---|---|
+| L02-E01 | HTTP request | **`getClientIp()` ne renvoie pas « la plus à gauche »** — règle fausse, introduite par moi lors de la correction de L02-A08, mise en gras dans les pièges, et illustrée par le seul exemple où l'erreur ne se voit pas. Erreur de **sécurité** | **P0** | `Request.php` l. 2146-2183, `array_reverse()` | **CORRIGÉE** |
+| L02-E02 | RFC 9110 | « remplace RFC 7230 à 7235 » inclut 7234, que 9110 n'obsolète pas — RFC 9111 le fait | **P1** | en-têtes `Obsoletes:` des deux RFC | **CORRIGÉE** |
+| L02-E03 | HttpClient | « ces méthodes lèvent » englobait `getStatusCode()`, qui ne lève pas | **P1** | Contracts `ResponseInterface.php` l. 27-32 | **CORRIGÉE** |
+| L02-E04 | Caching | le `Cache-Control` par défaut est `no-cache, private`, pas `private` | **P1** | `ResponseHeaderBag.php` l. 239-248 | **CORRIGÉE** |
+| L02-E05 | Caching | `If-None-Match` a priorité sur `If-Modified-Since` — présentés comme symétriques | **P1** | `Response.php` l. 1144-1148 (`elseif`) | **CORRIGÉE** |
+| L02-E06 | HTTP response | le constructeur de `RedirectResponse` valide son statut : 304 refusé, 201 accepté | P2 | `RedirectResponse.php` l. 41-43 | **CORRIGÉE** |
+| L02-E07 | HTTP response | `new Response()` porte `HTTP/1.0` ; rôle de `prepare()` | P2 | `Response.php` l. 202-208 | **CORRIGÉE** |
+| L02-E08 | Language detection | `getPreferredLanguage()` retombe sur `$locales[0]`, jamais `null` | P2 | `Request.php` `return $locales[0];` | **CORRIGÉE** |
+| L02-E09 | HTTP request | `X-HTTP-Method-Override` agit sur tout `POST` sans activation ; `_method` l'exige ; `getRealMethod()` | P2 | `Request.php` l. 1202-1249 | **CORRIGÉE** |
+| L02-E10 | Cookies | les défauts de `fromString()` diffèrent de `create()` et ne sont **pas** sûrs | P2 | `Cookie.php` l. 41-50 | **CORRIGÉE** |
+| L02-E11 | Cookies | `removeCookie()` n'efface rien chez le client, contrairement à `clearCookie()` | P2 | `ResponseHeaderBag.php` l. 166-169 vs 220-222 | **CORRIGÉE** |
+| L02-E12 | Content negotiation | `getAcceptableContentTypes()` trie sur `q` puis l'ordre d'écriture, garde les `q=0` ; la spécificité ne s'y applique pas | P2 | `AcceptHeader.php` l. 151-156 | **CORRIGÉE** |
+| L02-E13 | HttpClient | `timeout` = inactivité, `max_duration` = total (0 = illimité), `max_redirects = 20` | P2 | `HttpClientInterface.php` l. 41, 55-56 | **CORRIGÉE** |
+| L02-E14 | HTTP methods | RFC 9110 §9.2.3 définit une sémantique de cache pour `GET`, `HEAD` **et `POST`** — divergence avec `isMethodCacheable()` | P2 | RFC 9110 §9.2.3 | **CORRIGÉE** |
+| L02-E15 | Status codes | `303 See Other` et `HTTP_PERMANENTLY_REDIRECT = 308` absents | P2 | RFC 9110 §15.4.4 ; `Response.php` l. 45-46 | **OUVERTE — budget** |
+
+**L02-E15 reste ouverte à dessein.** *Status codes* est `MINIMAL` : plafond
+`REV-001` de 400 mots, occupé à 376. Le niveau d'un item est un constat, jamais
+une cible ; le promouvoir pour faire entrer du contenu est précisément ce que
+`CLAUDE.md` interdit. L'anomalie est donc **nommée et laissée ouverte** plutôt
+que dissimulée derrière une promotion.
+
+**P0 ouverts : 0. P1 ouverts : 0. P2 ouverts : 1 (L02-E15).**
 
 ## Observations — ni défauts, ni à corriger
 

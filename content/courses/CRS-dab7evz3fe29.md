@@ -77,6 +77,11 @@ Si aucune représentation ne convient, la réponse correcte est
 `406 Not Acceptable` — mais servir une représentation par défaut reste
 généralement préférable en pratique.
 
+`getAcceptableContentTypes()` trie sur la qualité décroissante puis sur
+**l'ordre d'écriture du client** — pas sur la spécificité, et sans retirer les
+items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
+s'applique pas à cet accesseur.
+
 ## Pièges d'examen
 
 **`q=0` refuse explicitement.** `Accept: */*;q=0.8, image/png;q=0` signifie

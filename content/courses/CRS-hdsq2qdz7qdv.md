@@ -30,6 +30,11 @@ $response->headers->set('X-Custom', 'value');
 
 `$response->headers` est un `ResponseHeaderBag`, qui gère aussi les cookies.
 
+Une `Response` fraîchement construite porte **`HTTP/1.0`** : c'est
+`prepare(Request $request)` qui la promeut en 1.1 le cas échéant, vide le corps
+sur un `HEAD` ou un statut sans corps, et complète le `Content-Type`. Le noyau
+l'appelle pour vous ; une réponse fabriquée hors du cycle, non.
+
 ## Les sous-classes
 
 | Classe | Usage |
@@ -92,6 +97,11 @@ second toute la classe 2xx.
 
 **Un `RedirectResponse` renvoie 302 par défaut** ; un permanent demande
 `new RedirectResponse($url, 301)`.
+
+**Son constructeur valide le statut avec `isRedirect()`** et lève une
+`\InvalidArgumentException` sinon. Conséquence directe de la liste ci-dessus :
+`new RedirectResponse($url, 304)` **échoue**, alors que
+`new RedirectResponse($url, 201)` est **accepté**.
 
 ## Points clés
 
