@@ -23,7 +23,7 @@
 # Topics 1-13 map one-to-one onto lots 01-13; the Miscellaneous topic is split
 # across lots 14-26. See docs/adr/0004-lot-numbering.md.
 
-schema_version: 1
+schema_version: 2
 syllabus_revision: "2026-09-01-complete"
 syllabus_complete: true
 syllabus_source: "https://certification.symfony.com/exams/symfony.html"

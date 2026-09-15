@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CertPath\Schema;
 
+use CertPath\Schema\Migrations\SyllabusMatrixOutcomeIdentity;
+
 /**
  * Applies the registered migrations until a document reaches the current
  * schema version. A gap in the migration chain is a hard failure rather than
@@ -16,11 +18,28 @@ final class MigrationRunner
     private array $migrations;
 
     /**
-     * @param list<Migration> $migrations
+     * @param list<Migration>|null $migrations null takes the project's registered
+     *        migrations; an explicit list (including an empty one) is used as given,
+     *        which is what lets a test drive the runner in isolation.
      */
-    public function __construct(array $migrations = [])
+    public function __construct(?array $migrations = null)
     {
-        $this->migrations = $migrations;
+        $this->migrations = $migrations ?? self::registered();
+    }
+
+    /**
+     * Every migration this project ships, in no particular order.
+     *
+     * A version bumped in SchemaRegistry without its migration listed here is a
+     * hard failure at load time rather than a silent pass — see migrate().
+     *
+     * @return list<Migration>
+     */
+    public static function registered(): array
+    {
+        return [
+            new SyllabusMatrixOutcomeIdentity(),
+        ];
     }
 
     /**

@@ -104,13 +104,22 @@ re-labelled as refined; it is re-refined. Raising `RefinementFramework::CURRENT`
 lowers Certification Readiness, and that is the intended behaviour: a metric
 that only ever rises measures effort, not readiness.
 
-The three rules those structures gate (`ARC-001`, `PED-003`, `REV-001`) raise
-errors only inside lots refined under the current framework, and warn elsewhere.
-That staging exists so that 550 questions written before the axis existed do not
-force either a fabricated archetype on each or the rule's removal — it is not a
-licence to leave a refined lot short. The exit condition is written into
-ADR-0007: when all 27 lots reach version 2, the tolerance is removed and the
-schema bumped.
+**The staging is gone — the exit act was executed on 2026-09-15.** The three
+rules those structures gate (`ARC-001`, `PED-003`, `REV-001`) once raised errors
+only inside refined lots and warned elsewhere, so that 550 questions written
+before the axis existed did not force either a fabricated archetype on each or
+the rule's removal. Every lot carrying atomic official items reached version 2,
+so the tolerance covered nobody and was removed rather than left dormant: a
+`question_archetype` is required on every question, an unidentified outcome is an
+error anywhere, the revision budget is a ceiling everywhere, and `aud10` gates
+all twenty-six lots. `MatrixLoader` no longer accepts a bare-string outcome and
+`syllabus-matrix` is at **schema version 2**.
+
+ADR-0007's exit condition named « all 27 lots », which was **unsatisfiable**:
+lot 27 carries no matrix item and no question, so no refinement audit can ever
+record it. The addendum to ADR-0007 documents that drafting defect and the
+reading retained — the twenty-six lots the framework can grip. Do not restore the
+staging to make a new lot easier to land: mint the ids and write the archetypes.
 
 **A rule that has only ever been silent is not passing (§16).** All three new
 rules report nothing on the current corpus — the shape all five vacuous checks

@@ -62,7 +62,7 @@ CASES = [
         '[ERROR] ARC-001',
     ),
     (
-        'ARC-001 requires the field once a lot claims refinement',
+        'ARC-001 requires the archetype on every question',
         [(
             LOT01_QUESTION,
             '  question_archetype: VERSION_ATTRIBUTION\n  assesses_outcomes:\n    - OUT-svjaxs75amyd\n',
@@ -71,13 +71,18 @@ CASES = [
         '[ERROR] ARC-001',
     ),
     (
-        'PED-003 requires identified outcomes once a lot claims refinement',
+        # Was a PED-003 case until 2026-09-15. ADR-0007's exit act removed the
+        # bare-string form from MatrixLoader, so an unidentified outcome is now
+        # refused at PARSE time and the run never reaches the rules. The defect
+        # is the same; the check that catches it moved earlier, and this case
+        # follows it rather than being deleted for going quiet.
+        'An unidentified outcome is refused before the rules run',
         [(
             'docs/syllabus/syllabus-matrix.yml',
             '      - id: OUT-svjaxs75amyd\n        outcome: ',
             '      - ',
         )],
-        '[ERROR] PED-003',
+        'The bare-string form was removed',
     ),
     (
         'PED-003 rejects a question claiming an outcome its item does not declare',

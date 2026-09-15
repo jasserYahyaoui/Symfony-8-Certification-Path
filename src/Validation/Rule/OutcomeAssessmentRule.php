@@ -25,9 +25,17 @@ use CertPath\Validation\Violation;
  * list: an index would silently remap the moment somebody reorders the list,
  * and a link that can be wrong without anybody noticing is worse than none.
  *
- * Scope, like ARC-001, is the refined lots. Outside them the rule reports the
- * shortfall as a WARNING so the figure stays visible without failing a build
- * over content whose refinement pass has not happened yet.
+ * Scope was at first the refined lots, ARC-001's staging, so that a build was
+ * not failed over content whose refinement pass had not happened yet.
+ *
+ * ADR-0007's staging was removed on 2026-09-15: the twenty-six lots that
+ * carry atomic official items are all recorded at framework version 2, so the
+ * tolerance covered nobody. It is gone rather than dormant, because a tolerance
+ * that covers nothing still tells the next reader the bar is optional.
+ *
+ * The aggregate arithmetic WARNING below is NOT part of that staging and stays:
+ * it counts items carrying fewer questions than outcomes, which proves nothing
+ * on its own (one question can assess two) but keeps a real figure visible.
  */
 final class OutcomeAssessmentRule implements Rule
 {
@@ -56,25 +64,21 @@ final class OutcomeAssessmentRule implements Rule
                 continue;
             }
 
-            $refined = \in_array($item->lot, $content->frameworkRefinedLots, true);
             $questions = $byItem[$item->id->value] ?? [];
-            $severity = $refined ? Severity::Error : Severity::Warning;
 
             $declaredIds = [];
             foreach ($item->learningOutcomes as $index => $outcome) {
                 if (null === $outcome->id) {
-                    if ($refined) {
-                        $violations[] = new Violation(
-                            $this->id(),
-                            Severity::Error,
-                            \sprintf(
-                                'Item in refined lot "%s" has an outcome without a minted id (outcome #%d).',
-                                $item->lot,
-                                $index,
-                            ),
-                            $item->id->value,
-                        );
-                    }
+                    $violations[] = new Violation(
+                        $this->id(),
+                        Severity::Error,
+                        \sprintf(
+                            'Item in lot "%s" has an outcome without a minted id (outcome #%d).',
+                            $item->lot,
+                            $index,
+                        ),
+                        $item->id->value,
+                    );
 
                     continue;
                 }
@@ -119,7 +123,7 @@ final class OutcomeAssessmentRule implements Rule
 
                     $violations[] = new Violation(
                         $this->id(),
-                        $severity,
+                        Severity::Error,
                         $onlyHoldout
                             ? \sprintf(
                                 'Learning outcome %s is named only by a HOLDOUT question, which the learner '

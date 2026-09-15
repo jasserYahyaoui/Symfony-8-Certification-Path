@@ -129,3 +129,84 @@ exactly the shape the five vacuous checks found in this project had.
 `tools/audit/prove_framework_rules_fail.py` injects one defect per rule into
 real canonical data, asserts the rule fires with `[ERROR]`, and restores every
 file byte-identically under SHA-256 comparison.
+
+---
+
+## Addendum — 2026-09-15 : la condition de sortie est exécutée, et sa rédaction était fausse
+
+### Le défaut de rédaction
+
+La condition de sortie écrite ci-dessus dit :
+
+> when all **27 lots** are recorded at framework version 2, the bare-string form
+> is removed from `MatrixLoader`, the schema is bumped to 2, and the rules drop
+> their staging.
+
+**Elle est insatisfiable par construction.** Le lot 27 ne porte aucun item de la
+matrice et aucune question — il consolide la revue finale, les mocks et le
+holdout. Les trois structures que le cadre version 2 ajoute (un `OUT` par
+outcome, le lien `assesses_outcomes`, le `question_archetype`) et le budget de
+révision n'ont, dans le lot 27, **rien sur quoi se poser**. Aucun audit de
+raffinement ne peut l'y enregistrer, aujourd'hui ni jamais.
+
+Vérifié plutôt que supposé : `lot-27` compte **0 item de matrice** et
+**0 question**. La matrice ne connaît que 26 lots distincts.
+
+Écrire « 27 » plutôt que « les lots qui portent des items officiels atomiques »
+était une erreur de ma part au moment de rédiger l'ADR. Laissée telle quelle,
+elle rendait la tolérance **permanente** — exactement ce que la phrase
+« so the tolerance cannot quietly become permanent » voulait empêcher.
+
+### La lecture retenue
+
+La condition de sortie vise **les lots que le cadre peut saisir** : les
+**vingt-six** qui portent des items officiels atomiques. Tous les vingt-six sont
+enregistrés à `framework_version: 2` dans `docs/progress/refinement-log.yml`,
+chacun avec sa *pull request*, son commit de fusion et son job de *smoke test*
+de production.
+
+### L'acte, exécuté
+
+Un seul acte délibéré, comme annoncé :
+
+- **`MatrixLoader`** n'accepte plus la chaîne nue. Un outcome sans identité est
+  une `SchemaException` nommant `php bin/cert id:mint LearningOutcome`.
+- **Le schéma `syllabus-matrix` passe à 2**, avec sa migration
+  `SyllabusMatrixOutcomeIdentity`. L'objection de l'époque — une migration
+  devrait inventer un identifiant, ce qu'ADR-0002 interdit — ne tient plus :
+  les 603 outcomes en portent un. La migration ne convertit donc **pas les
+  données, mais le contrat**, et refuse le document qui ne peut pas l'honorer.
+  Elle n'invente rien.
+- **`ARC-001`, `PED-003` et `REV-001` perdent leur staging.** Le
+  `question_archetype` est exigé partout, un outcome non identifié est une
+  erreur partout, le budget de révision est un plafond partout. Le champ
+  `frameworkRefinedLots` disparaît de `ContentSet` : une tolérance qui ne couvre
+  plus personne continue de dire au lecteur suivant que la barre est facultative.
+- **`aud10`** gate les vingt-six lots au lieu des lots raffinés.
+
+### Ce que l'acte ne change pas aujourd'hui
+
+**Rien, sur le corpus actuel.** Tous les lots étant déjà raffinés, la tolérance
+ne couvrait personne : `validate` sort à 0 avant comme après, avec le même
+unique avertissement agrégé. L'acte n'est pas un durcissement du contenu, c'est
+la suppression d'une porte de sortie pour le contenu futur.
+
+L'avertissement agrégé de `PED-003` **n'est pas** du staging et reste en place :
+il compte les items portant moins de questions que d'outcomes, ce qui ne prouve
+rien seul — une question peut en évaluer deux — mais garde un chiffre visible.
+Voir [`docs/audit/ped-003-shortfall-reading/`](../audit/ped-003-shortfall-reading/README.md).
+
+### Ce qui reste ouvert
+
+La **limite de dénominateur d'`aud10`** n'est pas traitée par cet acte et n'a
+jamais été traitée en affaiblissant la règle. Sous quatre ou cinq questions, le
+pas de la mesure est plus grand que l'effet mesuré. Trois unités consécutives
+l'ont signalée ; la décision de gouvernance reste à prendre.
+
+### Preuve
+
+`prove_framework_rules_fail.py` — **7 cas**, chacun injecté dans des données
+canoniques réelles, chaque fichier restauré byte-identique sous SHA-256. Un cas
+a changé de cible plutôt que d'être supprimé : l'outcome non identifié est
+désormais refusé **au parsing**, avant que les règles ne tournent, donc le cas
+suit le contrôle qui l'attrape au lieu d'être retiré parce qu'il s'était tu.

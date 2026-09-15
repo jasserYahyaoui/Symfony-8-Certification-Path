@@ -28,10 +28,15 @@ use CertPath\Validation\Violation;
  * a budget. A green REV-001 is therefore not evidence that revision load has
  * been audited under pressure; see docs/policy/revision-budget.md.
  *
- * Outside the refined lots the finding is a WARNING: the ceiling is a
+ * Outside the refined lots the finding was at first a WARNING: the ceiling is a
  * constraint on refinement work, and failing the build over a course whose
- * refinement pass has not happened yet would only invite the ceiling to be
- * raised.
+ * refinement pass had not happened yet would only have invited the ceiling to
+ * be raised.
+ *
+ * ADR-0007's staging was removed on 2026-09-15: the twenty-six lots that
+ * carry atomic official items are all recorded at framework version 2, so the
+ * tolerance covered nobody. It is gone rather than dormant, because a tolerance
+ * that covers nothing still tells the next reader the bar is optional.
  */
 final class RevisionBudgetRule implements Rule
 {
@@ -85,7 +90,7 @@ final class RevisionBudgetRule implements Rule
 
             $violations[] = new Violation(
                 $this->id(),
-                \in_array($item->lot, $content->frameworkRefinedLots, true) ? Severity::Error : Severity::Warning,
+                Severity::Error,
                 \sprintf(
                     'Revision cost %d body words exceeds the %s budget of %d; either the content is doing '
                     .'more than the level claims, or the level is wrong.',

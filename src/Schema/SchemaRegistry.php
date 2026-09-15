@@ -29,7 +29,8 @@ final class SchemaRegistry
      * @var array<string, int>
      */
     private const array CURRENT_VERSIONS = [
-        self::SYLLABUS_MATRIX => 1,
+        // 2: every learning outcome carries a minted id (ADR-0007's exit act).
+        self::SYLLABUS_MATRIX => 2,
         self::SOURCE_MAP => 1,
         self::EXCLUSIONS => 1,
         self::GLOSSARY => 1,

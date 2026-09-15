@@ -39,13 +39,35 @@ final class RefinementFrameworkLoaderTest extends TestCase
         rmdir($this->dir);
     }
 
-    public function testABareStringOutcomeStillLoads(): void
+    public function testABareStringOutcomeIsRejectedSinceTheExitAct(): void
     {
-        $items = $this->loadMatrix("      - \"Attribuer une fonctionnalité à sa version\"\n");
+        // Was testABareStringOutcomeStillLoads until 2026-09-15. The tolerance
+        // it asserted was ADR-0007's staging, removed once every lot carrying
+        // atomic official items reached framework version 2.
+        $this->expectException(SchemaException::class);
+        $this->expectExceptionMessageMatches('/bare-string form was removed/');
 
-        self::assertCount(1, $items[0]->learningOutcomes);
-        self::assertSame('Attribuer une fonctionnalité à sa version', $items[0]->learningOutcomes[0]->text);
-        self::assertFalse($items[0]->learningOutcomes[0]->isIdentified());
+        $this->loadMatrix("      - \"Attribuer une fonctionnalité à sa version\"\n");
+    }
+
+    public function testAVersionOneDocumentCarryingABareStringIsRefusedByTheMigration(): void
+    {
+        // The migration converts the contract, never the data: inventing the id
+        // here is what ADR-0002 forbids, so it names the command instead.
+        $this->expectException(SchemaException::class);
+        $this->expectExceptionMessageMatches('/will not invent an identifier/');
+
+        $this->loadMatrix("      - \"Attribuer une fonctionnalité à sa version\"\n", schemaVersion: 1);
+    }
+
+    public function testAVersionOneDocumentAlreadyIdentifiedIsStampedAndLoads(): void
+    {
+        $items = $this->loadMatrix(
+            "      - id: OUT-abcdefghjkmn\n        outcome: \"Attribuer une fonctionnalité à sa version\"\n",
+            schemaVersion: 1,
+        );
+
+        self::assertSame('OUT-abcdefghjkmn', $items[0]->learningOutcomes[0]->idValue());
     }
 
     public function testAnIdentifiedOutcomeCarriesItsMintedId(): void
@@ -109,11 +131,11 @@ final class RefinementFrameworkLoaderTest extends TestCase
     /**
      * @return list<\CertPath\Domain\OfficialItem>
      */
-    private function loadMatrix(string $outcomesBlock): array
+    private function loadMatrix(string $outcomesBlock, int $schemaVersion = 2): array
     {
         $path = $this->dir.'/matrix.yml';
         file_put_contents($path, <<<YML
-            schema_version: 1
+            schema_version: {$schemaVersion}
             syllabus_revision: "test"
             syllabus_complete: true
             items:
