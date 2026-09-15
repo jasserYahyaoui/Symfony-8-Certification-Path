@@ -39,7 +39,7 @@ Sans `q`, la valeur par défaut est `1.0`. Les valeurs vont de `0` à `1`, et
 
 ```php
 $request->getLanguages();
-// ['fr_FR', 'fr', 'en'] — triées par préférence décroissante
+// ['fr_FR', 'fr', 'en', '*'] — triées par préférence décroissante
 
 $request->getPreferredLanguage(['en', 'de']);
 // 'en' — le meilleur choix PARMI ceux que l'application propose

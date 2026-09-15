@@ -65,6 +65,9 @@ Symfony passe celle qui circule.
 Le nom `$request` désigne le **corps POST**, pas la requête entière : c'est une
 source de confusion classique.
 
+**`Request::get()` n'existe plus en 8.0.** Le raccourci qui cherchait dans
+`attributes`, puis `query`, puis `request` est supprimé : on nomme le sac.
+
 ## InputBag n'accepte que des scalaires
 
 C'est la différence de fond avec `ParameterBag`.

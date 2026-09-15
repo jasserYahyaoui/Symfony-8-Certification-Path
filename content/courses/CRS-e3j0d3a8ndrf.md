@@ -47,14 +47,18 @@ passante.
 
 ```php
 $response->setPublic();
-$response->setMaxAge(3600);         // Cache-Control: max-age=3600  → caches privés
+$response->setMaxAge(3600);         // Cache-Control: max-age=3600  → tous les caches
 $response->setSharedMaxAge(86400);  // Cache-Control: s-maxage=86400 → caches partagés
 ```
 
-`setSharedMaxAge()` appelle **`setPublic()` lui-même**. Une réponse laissée par
-défaut à laquelle on ne fait que `setSharedMaxAge(600)` porte donc
-`public, s-maxage=600` : la seconde ligne de l'exemple ci-dessus est redondante,
-et ce n'est pas le cas de `setMaxAge()`, qui ne rend rien public.
+`setSharedMaxAge()` appelle **`setPublic()` lui-même** : une réponse à laquelle
+on ne fait que `setSharedMaxAge(600)` porte `public, s-maxage=600`. La première
+ligne de l'exemple est donc redondante — `setMaxAge()`, lui, ne rend rien public.
+
+**La documentation officielle recommande pourtant `setPublic()` + `setMaxAge()`**
+plutôt que `setSharedMaxAge()` : `s-maxage` interdit à un cache de servir une
+réponse périmée en scénario `stale-if-error`. Le raccourci est exact, il n'est
+pas conseillé.
 
 - `private` (défaut Symfony) : seul le cache du navigateur peut stocker. La
   valeur réellement émise par une réponse à laquelle on n'a rien demandé est
@@ -128,8 +132,11 @@ revalidation avant chaque usage. « Ne pas stocker » s'écrit `no-store`.
 avant la comparaison d'ETag : ce n'est pas « l'ETag ne correspond pas », c'est
 « la question n'est pas posée ».
 
-**`setSharedMaxAge()` rend la réponse publique.** Inutile d'appeler `setPublic()`
-avant lui ; et attention à ne pas croire que `setMaxAge()` fait de même.
+**`setSharedMaxAge()` rend la réponse publique** — mais la doc recommande
+`setPublic()` + `setMaxAge()`, à cause de `stale-if-error`.
+
+**`max-age` n'est pas « pour les caches privés ».** Un cache partagé l'utilise
+dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur lui.
 
 ## Points clés
 

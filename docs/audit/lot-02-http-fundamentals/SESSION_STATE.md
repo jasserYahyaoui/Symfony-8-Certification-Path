@@ -14,7 +14,7 @@
 
 ## Statut global
 
-`INDEPENDENT_REVIEW`
+`CORRECTIONS_REQUIRED` → seconde `INDEPENDENT_REVIEW` en cours
 
 ## Avancement
 
@@ -36,10 +36,10 @@ indépendant lancé.
 
 ## Prochaine action exacte
 
-Lire le rapport du reviewer indépendant, le consigner dans `REVIEW.md`,
-corriger tout P0/P1 qu'il lève, relancer les portes, puis relancer une revue
-indépendante. Le verdict ne peut être « LOT 02 VALIDÉ » qu'à ≥ 95/100 sans P0
-ni P1.
+Lire le rapport de la **seconde** revue indépendante, le consigner dans
+`REVIEW.md`. Si P0 ou P1 subsiste : corriger, relancer les portes, relancer une
+troisième revue. Sinon, et si le score atteint 95/100, prononcer le verdict.
+Les 23 anomalies P2/P3 de la revue n° 1 restent ouvertes et nommées.
 
 ## Décisions prises
 

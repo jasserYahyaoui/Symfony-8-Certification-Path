@@ -38,8 +38,6 @@ RFC 9110 §15 définit cinq classes, identifiées par le premier chiffre :
 | `4xx` | Erreur **client** — la requête est fautive | `404 Not Found` |
 | `5xx` | Erreur **serveur** — le serveur a échoué sur une requête valide | `500 Internal Server Error` |
 
-C'est la seule chose à mémoriser par cœur. Le reste se déduit.
-
 ## Les codes qui comptent
 
 ```php
@@ -70,8 +68,12 @@ temporaires. La différence entre l'ancienne et la nouvelle paire tient à la
 méthode : `307` et `308` **préservent la méthode et le corps** de la requête,
 alors que les agents transforment historiquement `301`/`302` en `GET`.
 
-**204 vs 200.** `204 No Content` interdit un corps de réponse. Renvoyer `200`
-avec un corps vide n'est pas équivalent.
+**`303 See Other` complète ce tableau 2×2.** Il impose un `GET` sur une autre
+ressource, quelle que soit la méthode d'origine : c'est POST-Redirect-GET, là
+où `307` rejouerait le `POST`.
+
+**204 vs 200.** `204 No Content` interdit un corps ; `200` avec un corps vide
+n'est pas équivalent.
 
 **4xx vs 5xx.** Le premier chiffre attribue la faute. Une requête malformée est
 `4xx` même si le serveur plante en la traitant.
@@ -80,7 +82,7 @@ avec un corps vide n'est pas équivalent.
 
 - Le premier chiffre donne la classe ; c'est le seul élément à mémoriser.
 - `401` = authentification, `403` = autorisation.
-- `307`/`308` préservent la méthode ; `301`/`302` ne le garantissent pas.
+- `307`/`308` préservent la méthode ; `301`/`302` non ; `303` impose un `GET`.
 - Les constantes `Response::HTTP_*` évitent les codes magiques dans le code.
 
 ## Aller lire la source
