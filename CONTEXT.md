@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15 (citations : url vérifiée + url lisible)
+**Last updated:** 2026-09-15 (AUD-09 — audit final)
 
 ---
 
@@ -588,6 +588,56 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+### AUD-09 — audit final de rationalité et de préparation
+
+**Exécuté le 2026-09-15.** Verdict **`PASS_WITH_BLOCKER`**. Rapport :
+[`docs/audit/lot-27-aud09-final-readiness/README.md`](docs/audit/lot-27-aud09-final-readiness/README.md).
+
+C'était le dernier des neuf audits de §14 et le seul sans rapport. Sa question
+n'est pas « le corpus est-il grand » mais **« ce que le projet dit de lui-même
+est-il vrai »**. Il a produit **six trouvailles, toutes corrigées dans le même
+passage, dont quatre sont des écarts entre une affirmation du projet et son
+propre code** :
+
+| # | Trouvaille | État |
+|---|---|---|
+| A-1 | `PracticeFeedback.tsx` liait l'URL **brute** pendant que `CLAUDE.md` affirmait déjà que le site liait la rendue — l'affirmation précédait le code | Corrigé |
+| A-2 | `SRC-002` rendait une URL rendue **correcte** bloquante sur une source non dérivable, laissant l'URL brute illisible comme seule option verte | Corrigé |
+| A-3 | `practice-smoke.py` divergeait de `SourceUrl::RAW` (`.+` contre `[^?#]+`) : porte de dépôt verte, déploiement cassé | Corrigé |
+| A-4 | Le même script affirmait sans condition « each carrying a rendered readable_url » — un `PASS` non mérité | Corrigé |
+| A-5 | `final-readiness.md` datait du 2026-09-07, sous-estimant le corpus de 172 questions, 92 tests, 16 surfaces a11y et 5 règles | Corrigé |
+| A-6 | Le même fichier **se contredisait** : « Clause 5 is therefore not `PASS` » trois lignes sous une ligne donnant AUD-03 `PASS` | Corrigé |
+
+Deux observations sans effet, enregistrées pour ne plus être redécouvertes :
+36 des 75 questions HOLDOUT ne portent pas `assesses_outcomes` (légitime,
+`PED-003` refuse qu'une holdout décharge un outcome), et « 15 topics » contre 14
+est déjà établi par le *gate* syllabus.
+
+**Skills utilisés :** `/code-review` (4 des 6 trouvailles) et `/security-review`
+(aucune vulnérabilité HIGH ou MEDIUM sur le diff).
+
+**État §22 : huit clauses sur neuf tiennent sur preuve mesurée.** La neuvième —
+la **passation** du Mock 4 — reste `PENDING_HUMAN_VALIDATION`, et la dernière
+ligne de §22 interdit aux huit autres de la compenser.
+
+| Porte | Résultat réel, 2026-09-15 |
+|---|---|
+| Couverture | **100 % (163/163)**, aucune différence de rapport |
+| Questions | **716** — LEARNING 505, VALIDATION 136, HOLDOUT 75 ; 695 en / 21 fr ; 716/716 `OFFICIAL` |
+| Cours | **163**, **71 680 mots de corps** (médiane 421, étendue 242–880), 163/163 `VERIFIED` |
+| Citations | **1 138**, **177 URLs distinctes**, **177/177 en `200`**, 0 `/current/` |
+| Holdout | **75 questions / 75 items / 308 choix / 75 anglais**, absent des cinq payloads d'apprentissage |
+| `validate` | **23 règles**, 1 avertissement `PED-003`, 0 bloquant |
+| `phpunit` | **287 tests, 15 576 assertions, OK** |
+| 12 audits · 4 prouveurs | **0 finding** · tous verts |
+| Site · navigation · a11y | `SUCCESS` 210 pages · **209/210** · **28 surfaces, 0 violation** |
+| PR / merge / déploiement / *smoke* | **EN ATTENTE** |
+
+**Prochaine action réelle : la passation du Mock 4 par l'owner.** Rien d'autre
+ne bloque, et rien d'autre ne peut la remplacer.
+
+---
 
 ### Citations : l'URL vérifiée et l'URL lisible (`readable_url`)
 

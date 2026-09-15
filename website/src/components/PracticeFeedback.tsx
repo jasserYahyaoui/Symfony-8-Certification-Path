@@ -154,11 +154,20 @@ export default function PracticeFeedback({
         {question.official_sources.length > 0 && (
           <p className="certpath-note">
             Source officielle :{' '}
+            {/* The RENDERED page, not the raw file. The citation carries both:
+                `url` is what the claim was verified against, `readable_url` is
+                what a learner can actually read. This linked `url` for one
+                release while CLAUDE.md already claimed the site linked to the
+                readable one — the claim came first and the code did not follow.
+                `readable_url` is never empty: SourceRef derives it. */}
             {question.official_sources.map((source, i) => (
               <React.Fragment key={source.url}>
                 {i > 0 && ', '}
-                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                  {source.url}
+                <a
+                  href={source.readable_url || source.url}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  {source.readable_url || source.url}
                 </a>
               </React.Fragment>
             ))}

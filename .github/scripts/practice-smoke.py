@@ -26,7 +26,12 @@ import re
 import sys
 
 COURSE_URL = re.compile(r'^/docs/courses/[a-z0-9-]+/[a-z0-9-]+$')
-RAW_FILE = re.compile(r'^https://raw\.githubusercontent\.com/[^/]+/[^/]+/(?!refs/)[^/]+/.+$')
+# Deliberately character-for-character the PHP SourceUrl::RAW pattern. The first
+# version ended in `.+` where PHP has `[^?#]+`, so a citation carrying `?` or `#`
+# was a warning in `composer gate` and a FAILURE in the production smoke: a green
+# repository gate that still breaks the deploy.
+RAW_FILE = re.compile(
+    r'^https://raw\.githubusercontent\.com/[^/]+/[^/]+/(?!refs/)[^/?\#]+/[^?\#]+$')
 
 
 def main(path: str, sample_out: str | None = None) -> int:
@@ -117,8 +122,18 @@ def main(path: str, sample_out: str | None = None) -> int:
     citations = sum(len(q.get('official_sources') or []) for q in questions)
     print(f'ok  practice  {len(questions)} questions, {len(items)} items indexed, '
           f'{outcomes} learning outcomes, every course_url well-formed')
-    print(f'ok  practice  {citations} citations, each carrying both a raw url and a '
-          'rendered readable_url')
+    # Counted, not asserted. A citation whose url is not a raw GitHub file has no
+    # rendered equivalent and legitimately carries the same URL twice; saying
+    # "each carrying a rendered readable_url" over that set would be an unearned
+    # PASS of exactly the kind §16 and §19 forbid.
+    rendered = sum(
+        1
+        for question in questions
+        for source in question.get('official_sources') or []
+        if str(source.get('readable_url', '')).startswith('https://github.com/')
+    )
+    print(f'ok  practice  {citations} citations, {rendered} of them linking a rendered '
+          f'GitHub page, {citations - rendered} with no derivable equivalent')
     return 0
 
 

@@ -105,6 +105,22 @@ final class ReadableSourceUrlRule implements Rule
         // "missing" is not a state this rule can observe and is not checked
         // for. What it CAN observe is a value someone wrote by hand.
         $readable = (string) $source->readableUrl;
+
+        // A url this project cannot derive from — a documentation page, an RFC,
+        // the `refs/heads/` form — has no expected value, so equality is not
+        // demanded. Demanding it would make a CORRECT hand-written rendered URL
+        // a blocking error and leave shipping the unreadable raw one as the only
+        // green option: the rule would be pushing content the wrong way.
+        if (!SourceUrl::isRawFileUrl($source->url)) {
+            return [new Violation(
+                $this->id(),
+                Severity::Warning,
+                'Citation is not a raw GitHub file URL, so no rendered equivalent can be '
+                .'derived for it and whatever it carries is published as written: '.$source->url,
+                $ownerId,
+            )];
+        }
+
         $expected = SourceUrl::readable($source->url);
 
         if ($readable !== $expected) {
@@ -117,20 +133,6 @@ final class ReadableSourceUrlRule implements Rule
                     $expected,
                     $readable,
                 ),
-                $ownerId,
-            )];
-        }
-
-        // A raw url must actually convert. When it does not, readable() returns
-        // it unchanged, the comparison above passes, and the citation ships
-        // pointing at raw bytes — which is not wrong, but is worth naming
-        // rather than discovering on the page.
-        if (!SourceUrl::isRawFileUrl($source->url) && $readable === $source->url) {
-            return [new Violation(
-                $this->id(),
-                Severity::Warning,
-                'Citation is not a raw GitHub file URL, so it has no rendered equivalent and '
-                .'is published as-is: '.$source->url,
                 $ownerId,
             )];
         }
