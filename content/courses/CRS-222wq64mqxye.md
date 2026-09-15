@@ -43,10 +43,9 @@ $request = Request::create('/search?q=php', 'GET');   // fabriquée de toutes pi
 ```
 
 `createFromGlobals()` est ce que fait le *front controller* : il emballe les
-superglobales de PHP dans un objet. `create()` construit une requête sans
-superglobales — c'est l'outil des tests et des sous-requêtes. Dans un
-contrôleur, on n'appelle ni l'une ni l'autre : on type-hinte `Request` et
-Symfony passe celle qui circule.
+superglobales dans un objet. `create()` fabrique une requête sans elles — tests
+et sous-requêtes. Dans un contrôleur on n'appelle ni l'une ni l'autre : on
+type-hinte `Request`.
 
 ## Les sacs
 
@@ -79,9 +78,9 @@ $request->query->all('tags');   // ['php', 'http'] — correct
 ```
 
 `InputBag::get()` lève une `BadRequestException` si la valeur n'est pas un
-scalaire. La raison est défensive : les données utilisateur sont hostiles, et un
-tableau reçu là où un scalaire est attendu doit échouer bruyamment plutôt que de
-se propager. Pour une valeur multiple, `all()` est l'accesseur prévu.
+scalaire. La raison est défensive : un tableau reçu là où un scalaire est
+attendu doit échouer bruyamment plutôt que de se propager. Pour une valeur
+multiple, `all()` est l'accesseur prévu.
 
 `$attributes` est un `ParameterBag` sans cette restriction, parce que son
 contenu vient de l'application, pas du client.
@@ -97,9 +96,12 @@ $request->getRealMethod();       // ce que le serveur a reçu, sans override
 ```
 
 **`getMethod()` peut ne pas être la méthode reçue.** Sur un `POST`, Symfony lit
-l'en-tête `X-HTTP-Method-Override` **sans qu'on ait rien à activer** ; seul le
-paramètre `_method` exige `enableHttpMethodParameterOverride()`. `getRealMethod()`
-donne la méthode brute, sans substitution.
+l'en-tête `X-HTTP-Method-Override` **sans qu'on ait rien à activer** ; seul
+`_method` exige `enableHttpMethodParameterOverride()`. `getRealMethod()` donne la
+méthode brute. **Symfony 8.0 restreint le mécanisme** : un override vers `GET`,
+`HEAD`, `CONNECT` ou `TRACE` est désormais ignoré, et
+`setAllowedHttpMethodOverride()` permet de limiter la liste, voire de tout
+interdire.
 
 `getPayload()` retourne un **`InputBag`** : la contrainte scalaire ci-dessus s'y
 applique donc aussi, quel que soit le format d'entrée.

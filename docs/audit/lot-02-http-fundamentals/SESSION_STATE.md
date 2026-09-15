@@ -73,10 +73,21 @@ sera archivé dans `GRILL.md` sans jamais être présenté comme produit par Gri
 
 | ID | Fichier | Description | Criticité | Source | Correction attendue | Statut |
 |---|---|---|---|---|---|---|
-**Aucune anomalie P0 ou P1 ouverte.** Les huit anomalies trouvées (L02-A01,
-A02, A04, A05, A06, A07, A08, A09) sont **toutes corrigées** ; leur détail, leur
-criticité et leur source sont dans `AUDIT.md`, la modification correspondante
-dans `CHANGES.md`.
+**État au HEAD courant, après quatre revues indépendantes.**
+
+`P0` ouverts : **0**. `P1` ouverts : **0** — les quatre `P1` de la revue n° 4
+sont corrigés dans cette itération.
+
+Restent ouvertes et **nommées**, toutes `P2`/`P3` : `Partitioned`/CHIPS et les
+préfixes `__Host-`/`__Secure-` ; `setTrustedHosts()` et l'empoisonnement de
+`Host` ; `send()`/`sendHeaders()` ; la hiérarchie d'exceptions du client HTTP ;
+`415` ; `reviewed_at` non rafraîchi sur les 10 cours ; l'ordre alphabétique des
+directives dans les trois annotations d'en-tête cumulé de *Caching* ;
+`QST-055ctb1t92na`, dont la règle de spécificité s'applique à deux types
+distincts là où RFC 9110 §12.5.1 ne tranche qu'entre plages du **même** type.
+
+Le détail de chaque anomalie, sa criticité et sa source sont dans `AUDIT.md`
+et `REVIEW.md` ; la modification correspondante dans `CHANGES.md`.
 
 ## Contrôles exécutés
 
@@ -85,4 +96,22 @@ vérifiés.
 
 ## Dernier verdict indépendant
 
-Aucun.
+**Quatre revues indépendantes, quatre sous-agents distincts, aucun n'ayant
+participé à la rédaction ni aux revues précédentes.**
+
+| Revue | Score | Verdict | Ce qu'elle a trouvé |
+|---|---:|---|---|
+| n° 1 | 64/100 | NON VALIDÉ | 1 `P0` (`max-age` « caches privés ») + 4 `P1` |
+| n° 2 | 82,5/100 | NON VALIDÉ | 1 `P1` : la définition du message venait de RFC 9112 |
+| n° 3 | 76,5/100 | NON VALIDÉ | 2 `P0`, dont un **introduit par la correction précédente** |
+| n° 4 | 77/100 | NON VALIDÉ | **0 `P0`**, 4 `P1` — dont deux dans la **banque de questions**, un jamais traité depuis deux revues, un `VALIDATION.md` périmé |
+
+**Aucun verdict de validation n'a été prononcé.** Le lot reste bloqué tant
+qu'une revue indépendante n'atteint pas 95/100 sans `P0` ni `P1`.
+
+Constat de méthode de la revue n° 4, retenu : les cours sont désormais propres
+— aucun `P0` malgré exécution systématique. Les défauts restants ne sont plus
+dans les cours mais dans la **banque de questions** et dans les **rapports
+eux-mêmes**. Quatre revues avaient vérifié que « aucun fait testé n'est absent
+des cours » et jamais la réciproque : « aucune explication publiée ne contredit
+un cours ».

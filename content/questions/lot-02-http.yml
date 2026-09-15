@@ -1024,8 +1024,8 @@ questions:
       - id: CHO-j90hg99mvhj7
         text: 60 seconds
         correct: false
-        explanation: max-age applies to private caches; s-maxage overrides it for shared caches such as
-          a CDN.
+        explanation: max-age applies to every cache, shared ones included; s-maxage overrides it for
+          shared caches such as a CDN, which is why the CDN follows s-maxage here.
       - id: CHO-1exwna1bpr47
         text: The lower of the two, 60 seconds
         correct: false
@@ -1262,8 +1262,10 @@ questions:
         text: The whole list as a comma-separated string
         correct: false
         explanation: getClientIps() returns the list; getClientIp() returns its first element.
-    explanation: getClientIp() returns getClientIps()[0]. The X-Forwarded-For chain is ordered with the
-      original client left-most, each proxy appending the address it received the request from.
+    explanation: Symfony completes the chain with REMOTE_ADDR, strips every address belonging to a
+      trusted proxy, then reverses what remains; getClientIp() returns the first element, the untrusted
+      address nearest the server. When the whole chain is trusted, as here, only the original client
+      survives the stripping, so that is what comes back.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
