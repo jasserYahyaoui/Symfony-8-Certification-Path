@@ -589,7 +589,30 @@ default-behaviour clause and a code comment respectively. Finder course
 
 ## Next action
 
-**Lot 27 — Practice Mode. Unités A, B et C livrées ; l'unité D est la suivante.**
+**Lot 27 — Practice Mode. Les quatre unités sont livrées.**
+
+Statut : **`PASS_WITH_DEFERRED_FRENCH`**. Rapport final :
+[`final-report.md`](docs/audit/lot-27-practice-mode/final-report.md).
+
+Unité D : 18 vérifications dans un vrai navigateur dont 5 preuves de
+non-vacuité, 27 états accessibles à 0 violation dont six états interactifs à
+390 px, clavier seul, focus après soumission, non-régression d'Exam Mode qui
+partage `QuestionCard`, et un contrôle du contrat **sur les octets servis en
+production** (`.github/scripts/practice-smoke.py`, six défauts injectés
+rejetés) avec trois URL de cours réellement interrogées — un échantillon,
+dit comme tel.
+
+**Quatre des six défauts trouvés pendant le lot étaient dans mes propres
+contrôles**, pas dans le produit : un contrôle qui passe pour la mauvaise
+raison ne vaut pas mieux qu'un contrôle absent.
+
+**Ce que le lot ne prouve pas** : aucune des 484 questions anglaises n'a été
+relue par un humain ; `TECHNICALLY_INCORRECT` vaut 0 parce qu'aucun script ne
+peut l'établir. Le rendu est vérifié, la qualité pédagogique ne l'est pas.
+
+### Le détail par unité, conservé
+
+**Unités A, B et C.**
 
 Unité B : PR #136, `b16f1bd`, *smoke test* production `104323853743`.
 **Aucune question n'a été modifiée** — le correctif était un rendu et quatre

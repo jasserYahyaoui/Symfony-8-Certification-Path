@@ -369,6 +369,106 @@ await check('un historique v2 reste lisible', async () => {
   return 'tentative et agenda conservés, série jouable';
 });
 
+// ------------------------------------------------------ keyboard only, no mouse
+await check('une série se joue entièrement au clavier', async () => {
+  const {context, page} = await openSeries(SINGLE);
+  const target = SINGLE.choices.find((c) => !c.correct);
+
+  // Tab reaches the radio GROUP, not each radio: a keyboard user moves inside
+  // it with the arrow keys, and arrowing also selects. Tabbing 40 times looking
+  // for one specific radio passed only when the shuffle happened to put it
+  // first — a check that depends on a shuffle is a check that lies.
+  let inGroup = false;
+  for (let i = 0; i < 40 && !inGroup; i += 1) {
+    await page.keyboard.press('Tab');
+    inGroup = await page.evaluate(
+      () => document.activeElement?.getAttribute('name')?.startsWith('answer-') ?? false,
+    );
+  }
+  if (!inGroup) throw new Error('le groupe de choix n’est pas atteignable au clavier');
+
+  let onTarget = await page.evaluate(
+    (id) => document.activeElement?.id === `choice-${id}`,
+    target.id,
+  );
+  for (let i = 0; i < SINGLE.choices.length && !onTarget; i += 1) {
+    await page.keyboard.press('ArrowDown');
+    onTarget = await page.evaluate(
+      (id) => document.activeElement?.id === `choice-${id}`,
+      target.id,
+    );
+  }
+  if (!onTarget) throw new Error('les flèches ne parcourent pas le groupe de choix');
+  if (!(await page.locator(`#choice-${target.id}`).isChecked())) {
+    // Arrowing selects in a radio group; if it did not, Space must.
+    await page.keyboard.press('Space');
+  }
+  if (!(await page.locator(`#choice-${target.id}`).isChecked())) {
+    throw new Error('le choix focalisé ne peut pas être sélectionné au clavier');
+  }
+
+  // Then Tab to the submit button and activate it with Enter.
+  let onSubmit = false;
+  for (let i = 0; i < 12 && !onSubmit; i += 1) {
+    await page.keyboard.press('Tab');
+    onSubmit = await page.evaluate(
+      () => document.activeElement?.tagName === 'BUTTON'
+        && document.activeElement.type === 'submit',
+    );
+  }
+  if (!onSubmit) throw new Error('le bouton de validation n’est pas atteignable au clavier');
+  await page.keyboard.press('Enter');
+  await page.locator('.certpath-feedback').waitFor();
+
+  await context.close();
+  return 'Tab vers le groupe, flèches, Tab, Entrée — jouée sans souris';
+});
+
+await check('le focus va sur le verdict après soumission', async () => {
+  const {context, page} = await openSeries(SINGLE);
+  const wrong = SINGLE.choices.find((c) => !c.correct);
+  await page.locator(`#choice-${wrong.id}`).check();
+  await page.getByRole('button', {name: 'Valider ma réponse'}).click();
+  await page.locator('.certpath-feedback').waitFor();
+
+  // Without this the keyboard user is left on a disabled radio group and has
+  // to hunt for the correction that just appeared below them.
+  const focused = await page.evaluate(() =>
+    document.activeElement?.className ?? '',
+  );
+  if (!focused.includes('certpath-verdict')) {
+    throw new Error(`le focus est resté sur « ${focused || 'body'} »`);
+  }
+  await context.close();
+  return 'le verdict reçoit le focus';
+});
+
+// ------------------------------------------- other modes still work (QuestionCard)
+await check('Exam Mode fonctionne encore avec le QuestionCard modifié', async () => {
+  // Unit B changed QuestionCard, which Exam Mode and the five mocks all use.
+  // Rendering is covered by the a11y audit; that a question can still be
+  // answered there is not, and this lot had no business breaking it.
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto(url('/exam'), {waitUntil: 'networkidle'});
+
+  // Target the real control by name: `getByRole('button').first()` picks up a
+  // Docusaurus navbar button and would fail for a reason that has nothing to
+  // do with Exam Mode.
+  await page.getByRole('button', {name: 'Démarrer la simulation'}).click();
+  const card = page.locator('fieldset.certpath-question');
+  await card.waitFor({timeout: 15000});
+
+  const radio = page.locator('input[type="radio"], input[type="checkbox"]').first();
+  await radio.check();
+  if (!(await radio.isChecked())) throw new Error('un choix ne peut plus être sélectionné');
+  if (await page.locator('.certpath-feedback').count()) {
+    throw new Error('Exam Mode affiche une correction immédiate : régression');
+  }
+  await context.close();
+  return 'question servie, choix sélectionnable, aucune correction immédiate';
+});
+
 // --------------------------------------------------------------- pool isolation
 await check('practice.json ne contient que du LEARNING', async () => {
   if (payload.pool !== 'LEARNING') throw new Error(`pool = ${payload.pool}`);
