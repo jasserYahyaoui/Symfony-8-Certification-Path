@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15 (Lot 27, unité B)
+**Last updated:** 2026-09-15 (Lot 27, suivi : hub des simulations)
 
 ---
 
@@ -588,6 +588,61 @@ default-behaviour clause and a code comment respectively. Finder course
 593 → 529 body words.
 
 ## Next action
+
+### Suivi Lot 27 — le hub des simulations (`/simulations`)
+
+**Demande de l'owner :** « à quoi sert chaque mock entre 1 et 4, et quand les
+utiliser — ajoute ce détail dans le menu. »
+
+**Ce qui a été livré.** Une page `/simulations` qui donne, pour les cinq mocks,
+le rôle et le moment de le passer, plus l'entrée de menu qui y mène.
+
+- **Source de vérité** : rien n'est écrit dans le composant React. Les rôles
+  viennent des champs `purpose` des deux *blueprints* ; les consignes « quand le
+  passer » sont de nouveaux champs `when_to_use` **ajoutés aux blueprints**, avec
+  `sequence` et `repeatable`. `PayloadBuilder::simulationsPayload()` en fait
+  `website/static/data/simulations.json`, et la page rend ce fichier.
+- **La distinction qui ne doit pas se brouiller** : seul le Mock 4 est étiqueté
+  `OFFICIAL_FORMAT` — 75 questions, 90 minutes, anglais, fixés par §10. Les
+  quatre autres portent `INTERNAL_TRAINING_FORMAT` et la phrase `not_official`
+  du blueprint. Aucun seuil de réussite n'est affiché : ce projet n'en connaît
+  aucun.
+- **Aucune fuite** : le *payload* ne porte ni question, ni choix, ni
+  identifiant. `PayloadBuilder::assertNoQuestionLeak()` le refuse à la
+  construction ; quatre mutations le prouvent dans `SimulationsPayloadTest`.
+  La page qui explique que la banque du Mock 4 est inédite ne pouvait pas être
+  l'endroit où elle cesse de l'être.
+
+**Le menu ne peut pas porter de phrases.** Un item de *dropdown* Docusaurus
+est un libellé et un lien, sans champ de description. Des libellés d'une ligne
+de plus ont **élargi le menu au-delà de la fenêtre et fait défiler
+horizontalement toutes les pages du site** — trouvé par le contrôle
+`page-scrolls-horizontally` de l'audit d'accessibilité, pas à l'œil. Les
+libellés portent donc le rôle en quelques mots (≤ 33 caractères, contre 40
+auparavant) et la première entrée mène au hub, qui porte le détail complet.
+
+**Un contrôle de fumée écrit puis corrigé.** La première version lisait le HTML
+servi de `/simulations` et y cherchait les noms des mocks. La page étant rendue
+côté client, ce HTML ne contient que « Chargement… » : le contrôle aurait trouvé
+les noms **dans la barre de navigation** et déclaré vert un corps de page jamais
+rendu. Le contrôle de fumée ne regarde plus que le *payload* ; le rendu réel est
+prouvé dans un navigateur par `website/tools/verify-simulations-ui.mjs` (7
+vérifications, 4 preuves de non-vacuité), branché dans CI.
+
+| Porte | Résultat réel |
+|---|---|
+| `vendor/bin/phpunit` | **268 tests, 15 543 assertions, OK** (8 nouveaux) |
+| `php bin/cert validate` | 1 avertissement `PED-003` connu, 0 bloquant |
+| `npm run build` | `SUCCESS`, 210 pages |
+| `verify-navigation.mjs` | **209 atteignables au clic sur 210** (`/404` orpheline par conception) |
+| `npm run a11y` | **28 surfaces, 0 violation** (27 + `/simulations`) |
+| `verify-simulations-ui.mjs` | **11 ok, 0 échec** |
+| `verify-practice-ui.mjs` | 18 ok, 0 échec — non-régression |
+| `verify-agenda-ui.mjs`, `verify-reschedule.mjs` | verts |
+| `simulations-smoke.py` | vert, **5 défauts injectés rejetés** |
+| PR / merge / déploiement / *smoke* production | **EN ATTENTE** — à compléter avec les identifiants réels |
+
+---
 
 **Lot 27 — Practice Mode. Les quatre unités sont livrées.**
 

@@ -36,6 +36,13 @@ mocks:
   name: Mock 1 — Knowledge
   purpose: 'Direct mastery checks: recognition of APIs, rules and vocabulary, and the essential distinctions
     between them.'
+  # Learner-facing guidance (this project's decision, not §10). §10 fixes the
+  # ROLE; when to sit a mock is pedagogy, and it is written here rather than in
+  # a React component so the page cannot say something the blueprint does not.
+  when_to_use: "Apr\xe8s avoir termin\xe9 un groupe de lots, pour v\xe9rifier que les API, les r\xe8gles et le
+    vocabulaire sont reconnus. \xc0 passer en premier : il teste la reconnaissance, pas la mise en \u0153uvre."
+  sequence: 1
+  repeatable: true
   eligible_filter:
     pool: VALIDATION
     exam_skill_in:
@@ -72,6 +79,10 @@ mocks:
 - id: mock-2
   name: Mock 2 — Application
   purpose: 'Application: code, configuration and scenarios, answered by doing rather than recalling.'
+  when_to_use: "Quand la reconnaissance est acquise et qu'il faut lire du code, de la configuration et
+    des sc\xe9narios. \xc0 passer apr\xe8s le Mock 1, dont il suppose le vocabulaire."
+  sequence: 2
+  repeatable: true
   eligible_filter:
     pool: VALIDATION
     exam_skill: DIAGNOSE
@@ -115,6 +126,10 @@ mocks:
 - id: mock-3
   name: Mock 3 — Certification difficulty
   purpose: 'Certification difficulty: close, plausible distractors at the hardest level the bank carries.'
+  when_to_use: "Quand les Mocks 1 et 2 sont pass\xe9s : distracteurs proches, au niveau le plus difficile
+    que la banque contient. Un score plus bas y est attendu et ne constitue pas, seul, un signal d'alarme."
+  sequence: 3
+  repeatable: true
   eligible_filter:
     pool: VALIDATION
     difficulty: hard
@@ -150,6 +165,11 @@ mocks:
   name: Mock 5 — Weakness-based
   purpose: Generated from demonstrated weak outcomes in this learner's local data. Never the same selection
     for two learners.
+  when_to_use: "Entre deux mocks fixes, d\xe8s que des erreurs ont \xe9t\xe9 enregistr\xe9es localement. Il ne sert
+    que des questions d\xe9j\xe0 manqu\xe9es : la s\xe9lection change \xe0 chaque passage, donc son score n'est pas
+    comparable d'une fois \xe0 l'autre."
+  sequence: 4
+  repeatable: true
   eligible_filter:
     pool_in:
     - VALIDATION
@@ -172,6 +192,16 @@ mocks:
     unseen-in-this-sitting question per item, strongest weakness first, until the count is reached. No
     topic quota: the point is the learner''s weakness, not coverage.'
   question_count: variable, 10 minimum and 40 maximum
+  # Learner-facing restatements of the two lines around them, for /simulations.
+  # They say what the rule and the formula do; the rule and the formula stay
+  # above as the authority, and nothing here is a second decision.
+  question_count_summary: "variable : de 10 \xe0 40, born\xe9 par le nombre d'items faibles r\xe9ellement
+    constat\xe9s dans vos r\xe9ponses"
+  duration_summary: "variable : calcul\xe9e \xe0 la g\xe9n\xe9ration d'apr\xe8s le temps estim\xe9 des questions retenues,
+    avec la m\xeame marge de 15% que les autres mocks"
+  language: mixed
+  language_note: 'An outcome, not a setting: the selection is drawn from VALIDATION and LEARNING, so a
+    sitting carries whichever questions this learner got wrong.'
   question_count_rule: 'Bounded by the evidence, not by a target: at most one question per weak atomic
     item, so a learner with few recorded failures gets a short mock. Below 10 eligible weak items the
     fallback applies. The 40 ceiling mirrors Mock 1, the shortest fixed mock, so a weakness sitting never

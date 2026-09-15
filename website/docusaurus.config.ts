@@ -78,20 +78,34 @@ const config: Config = {
         // 203 reachable by clicking, and exactly these 5 orphaned. Every gate was
         // green because each visits them by a hardcoded URL list, and
         // `onBrokenLinks` catches broken links, never missing ones. The learner
-        // had to type the address. Labels are the blueprint's own names.
+        // had to type the address.
         {
           type: 'dropdown',
           label: 'Simulations',
           position: 'left',
+          //
+          // A dropdown item is a label and a link: Docusaurus gives it no room
+          // for a sentence, and the room it does have is finite in a way that is
+          // easy to miss. Labels one line longer than these widened the absolutely
+          // positioned menu past the viewport and made EVERY page of the site
+          // scroll sideways — caught by the accessibility gate's
+          // `page-scrolls-horizontally` check, not by eye.
+          //
+          // So each label carries the mock's role in a few words, inside that
+          // budget, and the first entry goes to the page that carries the full
+          // answer: what each one is for, and when to sit it. The authoritative
+          // text lives in the blueprints and is rendered on /simulations; these
+          // labels condense it and are never a second source.
           items: [
-            {to: '/mock-1', label: 'Mock 1 — Knowledge'},
-            {to: '/mock-2', label: 'Mock 2 — Application'},
-            {to: '/mock-3', label: 'Mock 3 — Certification difficulty'},
-            {to: '/mock-5', label: 'Mock 5 — Weakness-based'},
+            {to: '/simulations', label: 'À quoi sert chaque mock, et quand'},
+            {to: '/mock-1', label: 'Mock 1 — API, règles, vocabulaire'},
+            {to: '/mock-2', label: 'Mock 2 — code et scénarios'},
+            {to: '/mock-3', label: 'Mock 3 — distracteurs proches'},
+            {to: '/mock-5', label: 'Mock 5 — mes points faibles'},
             // Last, and named for what it costs: Mock 4 is the holdout, meant to
             // be sat once. A label that reads like the others invites a click
             // that cannot be taken back.
-            {to: '/mock-4', label: 'Mock 4 — finale, à ne passer qu\'une fois'},
+            {to: '/mock-4', label: 'Mock 4 — officiel, une seule fois'},
           ],
         },
         {
@@ -120,6 +134,7 @@ const config: Config = {
           items: [
             {label: 'Practice Mode', to: '/practice'},
             {label: 'Exam Mode', to: '/exam'},
+            {label: 'Simulations : à quoi sert chaque mock', to: '/simulations'},
             {label: 'Mock 1 — Knowledge', to: '/mock-1'},
             {label: 'Mock 2 — Application', to: '/mock-2'},
             {label: 'Mock 3 — Certification difficulty', to: '/mock-3'},

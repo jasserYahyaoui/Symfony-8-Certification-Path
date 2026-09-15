@@ -65,7 +65,7 @@ export default function Home(): React.JSX.Element {
         </div>
 
         <div className="row">
-          <div className="col col--4">
+          <div className="col col--3">
             <h2>Comprendre</h2>
             <p>
               Des explications ciblées sur ce qui est réellement examinable, avec
@@ -75,7 +75,7 @@ export default function Home(): React.JSX.Element {
             <Link to="/docs">Documentation →</Link>
           </div>
 
-          <div className="col col--4">
+          <div className="col col--3">
             <h2>S'entraîner</h2>
             <p>
               Practice Mode sans chronomètre : la réponse et l'explication
@@ -85,13 +85,26 @@ export default function Home(): React.JSX.Element {
             <Link to="/practice">Practice Mode →</Link>
           </div>
 
-          <div className="col col--4">
+          <div className="col col--3">
             <h2>Se tester</h2>
             <p>
               Exam Mode chronométré, au format publié de l'examen : 75 questions,
               90 minutes. Aucune correction avant la soumission finale.
             </p>
             <Link to="/exam">Exam Mode →</Link>
+          </div>
+
+          {/* The five mocks were reachable only from the navbar dropdown, whose
+              labels say what each one is but not which to sit. The hub answers
+              that; this card is how a learner finds the hub. */}
+          <div className="col col--3">
+            <h2>Simuler</h2>
+            <p>
+              Cinq simulations aux rôles distincts : connaissances, application,
+              difficulté certification, points faibles, et la finale au format
+              officiel — à ne passer qu'une fois.
+            </p>
+            <Link to="/simulations">À quoi sert chaque mock →</Link>
           </div>
         </div>
 

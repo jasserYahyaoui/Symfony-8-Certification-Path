@@ -235,6 +235,120 @@ final class PayloadBuilder
     }
 
     /**
+     * The simulations hub (/simulations): what each mock is for, and when to sit it.
+     *
+     * WHY A PAYLOAD AND NOT PROSE IN THE PAGE. Every sentence and every figure
+     * below already exists in a blueprint, and a React component holding its own
+     * copy is a component that will one day tell a learner a mock lasts 41
+     * minutes after the bank made it 44. The page renders this file and states
+     * nothing of its own.
+     *
+     * WHAT IT MUST NOT CARRY. No question, no choice, no answer, no question id
+     * — for Mock 4 above all, whose whole value is that its bank is unseen. The
+     * hub describes the sittings; it never samples them. assertNoQuestionLeak()
+     * refuses a payload that has started to.
+     *
+     * The count and duration of Mock 4 are OFFICIAL_FORMAT (§10 fixes them).
+     * Those of Mocks 1, 2, 3 and 5 are this project's decision, carried with the
+     * blueprint's own `not_official` sentence so the page cannot drop it.
+     *
+     * @param array<string, mixed> $mocks     the Mocks 1-2-3-5 blueprint
+     * @param array<string, mixed> $mockFour  the Mock 4 blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public function simulationsPayload(array $mocks, array $mockFour): array
+    {
+        $entries = [];
+
+        foreach ((array) ($mocks['mocks'] ?? []) as $spec) {
+            $entries[] = [
+                'id' => $spec['id'],
+                'route' => '/'.$spec['id'],
+                'name' => $spec['name'],
+                'purpose' => $spec['purpose'],
+                'when_to_use' => $spec['when_to_use'],
+                'sequence' => $spec['sequence'],
+                'repeatable' => $spec['repeatable'],
+                // A blueprint entry whose count and duration are a rule rather
+                // than a number carries a learner-facing restatement of that
+                // rule; it is preferred here, and it is still blueprint text.
+                'question_count' => (string) ($spec['question_count_summary'] ?? $spec['question_count']),
+                'duration_minutes' => (string) ($spec['duration_summary'] ?? $spec['duration_minutes']),
+                // Mock 5 draws from what the learner has failed, so it has no
+                // fixed pool to report; the others state what they draw from,
+                // which is what makes "two sittings differ" checkable.
+                'eligible_questions' => $spec['eligible_questions'] ?? null,
+                'language' => $spec['language'],
+                // The same vocabulary weaknessMockPayload already publishes in
+                // mock-5.json, so the hub and the payload cannot describe one
+                // sitting two ways.
+                'pool' => 'mock-5' === $spec['id'] ? 'VALIDATION+LEARNING' : Pool::Validation->value,
+                'scoring_policy' => $spec['scoring_policy'],
+                'format_label' => $mocks['format_label'],
+            ];
+        }
+
+        $constraints = (array) ($mockFour['official_constraints'] ?? []);
+
+        $entries[] = [
+            'id' => 'mock-4',
+            'route' => '/mock-4',
+            'name' => $mockFour['mock'],
+            'purpose' => $mockFour['purpose'],
+            'when_to_use' => $mockFour['when_to_use'],
+            'sequence' => $mockFour['sequence'],
+            'repeatable' => $mockFour['repeatable'],
+            'question_count' => (string) $constraints['questions'],
+            'duration_minutes' => (string) $constraints['minutes'],
+            'eligible_questions' => null,
+            'language' => $constraints['language'],
+            'pool' => Pool::Holdout->value,
+            'scoring_policy' => 'all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published',
+            // The only entry whose count and duration are published constraints
+            // rather than this project's decision. Labelling all five the same
+            // way would be false in one direction or the other.
+            'format_label' => 'OFFICIAL_FORMAT',
+        ];
+
+        usort($entries, static fn (array $a, array $b): int => $a['sequence'] <=> $b['sequence']);
+
+        return [
+            'generated_at' => gmdate('c'),
+            'not_official' => $mocks['not_official'],
+            'mocks' => $entries,
+        ];
+    }
+
+    /**
+     * The hub describes sittings; it must never sample one.
+     *
+     * Mock 4's bank is reserved and unseen (ADR-0005 Option A). A hub page that
+     * quoted one of its questions would spend that reservation quietly, and no
+     * other check in this repository looks at this payload's shape.
+     *
+     * @param array<string, mixed> $payload
+     */
+    public static function assertNoQuestionLeak(array $payload): void
+    {
+        $forbidden = ['questions', 'choices', 'question', 'explanation', 'items'];
+
+        foreach ($forbidden as $key) {
+            if (\array_key_exists($key, $payload)) {
+                throw new \LogicException(\sprintf('The simulations payload carries "%s"; it describes sittings and must never sample one.', $key));
+            }
+        }
+
+        foreach ((array) ($payload['mocks'] ?? []) as $entry) {
+            foreach ($forbidden as $key) {
+                if (\array_key_exists($key, (array) $entry)) {
+                    throw new \LogicException(\sprintf('%s carries "%s" in the simulations payload.', $entry['id'] ?? '?', $key));
+                }
+            }
+        }
+    }
+
+    /**
      * @param array<string, mixed> $blueprint
      *
      * @return array<string, mixed>

@@ -231,6 +231,9 @@ const PAGES = [
        await page.locator('.certpath-review summary').first().click();
      })}],
   ['exam', '/exam'],
+  // The simulations hub: a generated comparison table plus one section per
+  // mock. It reaches a rendered page, so it is a gate surface, not a note.
+  ['simulations', '/simulations'],
   // Mock 4. Only the briefing screen is reachable without interaction, so
   // that is what this audits; the sitting reuses QuestionCard, covered through
   // practice and exam, and the results screen is built from the same table and
