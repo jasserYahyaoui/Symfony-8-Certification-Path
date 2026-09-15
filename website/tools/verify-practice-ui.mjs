@@ -196,8 +196,16 @@ await check('le feedback contient les sections imposées, dans l’ordre', async
 
 // --------------------------------------------------------------- code rendering
 await check('le code est rendu en bloc, sans backticks littéraux', async () => {
-  const fenced = payload.questions.find((q) => q.question.includes('```'));
-  if (!fenced) throw new Error('aucune question clôturée dans le payload');
+  // Pick a question whose fence actually spans several lines. Selecting "the
+  // first fenced question" tied this check to whichever one sorted first, and
+  // it broke the moment Unit C fenced a second one whose snippets are
+  // single-line — a failure about the fixture, not about the renderer.
+  const fenced = payload.questions.find((q) => {
+    const body = q.question.match(/```[a-z]*\n([\s\S]*?)```/)?.[1] ?? '';
+
+    return body.replace(/\n$/, '').includes('\n');
+  });
+  if (!fenced) throw new Error('aucune question à bloc multiligne dans le payload');
 
   const {context, page} = await openSeries(fenced);
   const prompt = await page.locator('.certpath-prompt, .certpath-question').first().innerText();
@@ -215,6 +223,35 @@ await check('le code est rendu en bloc, sans backticks littéraux', async () => 
   }
   await context.close();
   return `bloc rendu, ${text.split('\n').length} lignes, white-space: ${white}`;
+});
+
+// Unit C fenced a second question whose two #[Route] attributes were prose
+// separated by an em-dash connector. Fencing the whole line would have put the
+// connector inside a PHP block, so it became two blocks around it — and a
+// question with more than one block is the case a single-fence renderer gets
+// wrong, which is why it is driven rather than assumed.
+await check('une question à deux blocs rend deux blocs et garde sa prose', async () => {
+  const two = payload.questions.find(
+    (q) => (q.question.match(/```/g) ?? []).length === 4,
+  );
+  if (!two) throw new Error('aucune question à deux blocs dans le payload');
+
+  const {context, page} = await openSeries(two);
+  const blocks = page.locator('pre.certpath-code-block');
+  const count = await blocks.count();
+  if (count !== 2) throw new Error(`${count} bloc(s) rendu(s), 2 attendus`);
+
+  const body = await page.locator('fieldset.certpath-question').innerText();
+  if (body.includes('```')) throw new Error('une clôture est affichée littéralement');
+  if (!body.includes('and')) throw new Error('la prose entre les deux blocs a disparu');
+  for (const frag of [
+    "#[Route('/blog/{slug}', name: 'blog_show')]",
+    "#[Route('/blog/list', name: 'blog_list')]",
+  ]) {
+    if (!body.includes(frag)) throw new Error(`fragment perdu : ${frag}`);
+  }
+  await context.close();
+  return '2 blocs, prose conservée, code identique au canonique';
 });
 
 proves(

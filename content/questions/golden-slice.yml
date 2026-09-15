@@ -130,12 +130,19 @@ questions:
     answer_mode: single
     required_answer_count: 1
     code_language: php
-    question: 'Two controller actions are annotated as below. Requesting /blog/list executes show() with
-      $slug = "list". What is the minimal correct fix?
+    question: |-
+      Two controller actions are annotated as below. Requesting /blog/list
+      executes show() with $slug = "list". What is the minimal correct fix?
 
+      ```php
+      #[Route('/blog/{slug}', name: 'blog_show')] public function show(string $slug) {}
+      ```
 
-      #[Route(''/blog/{slug}'', name: ''blog_show'')] public function show(string $slug) {} — and — #[Route(''/blog/list'',
-      name: ''blog_list'')] public function list() {}'
+      and
+
+      ```php
+      #[Route('/blog/list', name: 'blog_list')] public function list() {}
+      ```
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
