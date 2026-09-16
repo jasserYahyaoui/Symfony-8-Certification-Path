@@ -73,6 +73,21 @@ technical_authority:
     verified_at: "2026-08-31"
     notes: "www.rfc-editor.org is egress-blocked; the HTTP WG mirror is authoritative."
 
+  - id: SRC-COOKIES
+    role: "Brouillon httpbis « Cookies » (successeur de la RFC 6265), pour les regles que le navigateur applique et que Symfony n'implemente pas."
+    repository: "httpwg/http-extensions"
+    branch: "main"
+    raw_base: "https://raw.githubusercontent.com/httpwg/http-extensions/main/"
+    reachable: true
+    verified_at: "2026-09-16"
+    notes: >-
+      Declaree apres que AUD-02 eut refuse le depot, exactement comme SRC-PHP-UPGRADING:
+      la citation etait correcte et la carte incomplete, donc c'est la carte qui change.
+      Branche et non tag: le document est un Internet-Draft maintenu en continu et ne
+      porte pas d'artefact par version. C'est la seule source de ce projet qui ne soit
+      PAS une RFC publiee; elle n'est citee que pour les prefixes __Secure- et __Host-,
+      que la RFC 6265 d'origine ne definit pas.
+
   - id: SRC-TWIG
     role: "Twig official documentation, at the examinable version."
     repository: "twigphp/Twig"

@@ -80,6 +80,14 @@ Run each gate command with `set -o pipefail`, check `$?`, and prefer
 `composer gate-full`, which builds before it audits. `npm --prefix website run
 a11y` now refuses to run against a build older than its inputs.
 
+**`composer gate-full` does not run the audits.** It builds, validates, tests
+and audits accessibility — and stops there. The twelve scripts under
+`tools/audit/` run only in CI, so a green `gate-full` says nothing about them.
+Adding a citation to a repository absent from `docs/syllabus/source-map.yml`
+passes every local gate and fails `AUD-02` on the push, which is what happened
+on 2026-09-16 with `httpwg/http-extensions`. When a change touches citations,
+levels, question pools or course sections, run the audit set before pushing.
+
 **The three pools have distinct jobs (§7.3, [ADR-0006](docs/adr/0006-exam-mode-serves-the-validation-pool.md)).**
 `LEARNING` is Practice Mode. `VALIDATION` is the exam-mode bank used during
 study, and it is what `exam.json` contains. `HOLDOUT` is reserved for the final
