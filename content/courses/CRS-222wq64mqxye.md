@@ -2,7 +2,7 @@
 id: CRS-222wq64mqxye
 official_item: OIT-d3nyk9z0q2pd
 title: "HTTP request"
-content_level: STANDARD
+content_level: DEEP
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-16"

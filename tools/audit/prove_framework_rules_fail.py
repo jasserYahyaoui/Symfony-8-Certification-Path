@@ -120,6 +120,16 @@ CASES = [
         [(LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n')],
         '[ERROR] REV-001',
     ),
+    # CRS-002 guards the OTHER copy of the content level. The matrix holds the
+    # authority; each course front matter repeats it for whoever opens the file,
+    # and until 2026-09-16 nothing read that repeat. Two courses had drifted
+    # from their item and every gate was green. The defect is not a malformed
+    # value -- it is a VALID level that belongs to another item's judgement.
+    (
+        'CRS-002 rejects a course whose content_level left its item behind',
+        [(LOT01_COURSE, 'content_level: STANDARD\n', 'content_level: MINIMAL\n')],
+        '[ERROR] CRS-002',
+    ),
     # SRC-002 guards a duplication: `url` is the raw file this project fetches
     # to verify a claim, `readable_url` the rendered page a learner opens. The
     # defect that matters is not a malformed URL, it is a PLAUSIBLE one — the
