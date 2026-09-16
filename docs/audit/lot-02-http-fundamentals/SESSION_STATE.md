@@ -56,6 +56,18 @@ prévue ni reconstruite.
 ci-dessus établit donc que le site est en ligne, pas que les corrections de ce
 lot ont atteint le lecteur.
 
+**Le contrôle a parlé, en production.** Run Pages **`35061666616`** (n° 167),
+job `Production smoke test` **`104683438091`**, 2026-09-16 06:00:20.328 Z :
+
+```
+ok  lot-02  the Caching and HTTP request pages carry the three P0 corrections
+```
+
+C'est la ligne qui manquait : les trois `P0` sont désormais vérifiés sur les
+octets que GitHub Pages sert, pas seulement sur ceux du dépôt. La chaîne
+`MERGE → ACTIONS → PAGES → SMOKE TEST → VERIFY CONTENT → DOCUMENT EVIDENCE`
+est complète.
+
 **Ce qui a été ajouté pour combler ce trou.** Une étape du workflow Pages lit
 les pages *Caching* et *HTTP request* publiées et y cherche quatre chaînes
 correspondant aux trois `P0`. Les quatre ont été choisies pour **discriminer** :
