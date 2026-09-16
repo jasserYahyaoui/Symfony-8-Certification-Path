@@ -1738,3 +1738,230 @@ questions:
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
         symbol_or_lines: HttpClientTrait line 86
         verified_at: '2026-09-11'
+  - id: QST-v760ad9sdnbf
+    question_archetype: CODE_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-04bvez73yte3
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-d3nyk9z0q2pd
+    domain: symfony
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    code_language: php
+    question: An application calls Request::setTrustedHosts(['example.com']). A request arrives with Host
+      example.com.attacker.test, and getHost() returns it instead of throwing. Why?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - trusted-hosts
+      - security
+    choices:
+      - id: CHO-qrtbe1n2afyy
+        text: The patterns are regular expressions, and this one is not anchored
+        correct: true
+      - id: CHO-8h7rr6ffx1jh
+        text: The host list is consulted only once trusted proxies have also been declared
+        correct: false
+        explanation: The two lists are independent. getHost() checks the host patterns whether or not
+          any proxy is trusted.
+      - id: CHO-tt14bdq90w19
+        text: getHost() reads SERVER_NAME first, so the Host header was never examined
+        correct: false
+        explanation: Outside a trusted proxy the Host header is read first; SERVER_NAME is only a fallback.
+      - id: CHO-exqz8hfg2g8t
+        text: SuspiciousOperationException is raised only when the kernel runs in the prod environment
+        correct: false
+        explanation: The check has no notion of environment; it depends solely on whether a pattern matches.
+    explanation: setTrustedHosts() wraps each entry as {pattern}i, so the value is an unanchored,
+      case-insensitive regex. 'example.com' is therefore found as a substring of
+      example.com.attacker.test, and the unescaped dot matches any character besides. A trusted pattern
+      needs ^, $ and escaped dots — the documented form is '^(.+\.)?example\.com$'. An empty list skips
+      the check entirely.
+    official_sources:
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        branch: '8.0'
+        symbol_or_lines: setTrustedHosts line 642, getHost line 1132
+        verified_at: '2026-09-16'
+  - id: QST-mnphn3657eqn
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+      - OUT-mgpn4708q6rn
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-bz1f5nh8g9b2
+    domain: symfony
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: A response sets a cookie named __Host-session and leaves the Secure attribute off. What
+      happens?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - cookies
+      - security
+    choices:
+      - id: CHO-3c3wg3epa04g
+        text: The browser rejects it, and Symfony reports nothing
+        correct: true
+      - id: CHO-v6y3ezktt9yw
+        text: Symfony throws an InvalidArgumentException while the cookie is built
+        correct: false
+        explanation: Cookie validates the name characters and the path and domain syntax, never the prefix.
+      - id: CHO-h79s8ade6cm6
+        text: ResponseHeaderBag adds the Secure attribute because of the prefix
+        correct: false
+        explanation: Neither Cookie nor ResponseHeaderBag contains the string __Host- at all.
+      - id: CHO-jvtc1adwpxgt
+        text: The cookie is stored, because the prefix only constrains cookies sent over HTTPS
+        correct: false
+        explanation: The prefix constrains the attributes, not the transport, and a conformant agent rejects
+          the cookie outright.
+    explanation: __Host- is a naming rule enforced by the user agent, matched case-sensitively, and it
+      demands Secure, Path=/ and no Domain. Symfony 8.0 implements no part of it, so the mistake is
+      silent on the server and visible only as a cookie that never comes back.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md
+        readable_url: https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md
+        branch: main
+        symbol_or_lines: sections The "__Secure-" Prefix and The "__Host-" Prefix, lines 842-893
+        verified_at: '2026-09-16'
+  - id: QST-ye35qf35m0tt
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+      - OUT-gkcvmpt5dwz6
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-jh06tkfrhthq
+    domain: symfony
+    language: en
+    difficulty: hard
+    cognitive_level: UNDERSTAND
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: Why do kernel.terminate listeners run only after the client has already received the response?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 70
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - response
+      - kernel
+    choices:
+      - id: CHO-ac5xnct1da5y
+        text: The runner flushes the output itself, then calls terminate()
+        correct: true
+      - id: CHO-r8d2z4e8tfb8
+        text: Response::send() returns before any byte has left the process
+        correct: false
+        explanation: send() writes the headers and echoes the body synchronously.
+      - id: CHO-bzts80kgxw2v
+        text: terminate() runs in a separate PHP process started by the kernel
+        correct: false
+        explanation: It runs in the same process, after the response has been flushed.
+      - id: CHO-73zjgkb77wk1
+        text: The listeners carry a negative priority, which defers them past send()
+        correct: false
+        explanation: Priority orders listeners on one event; it cannot move them past the response.
+    explanation: HttpKernelRunner::run() calls send(false), which skips the buffer-closing block inside
+      Response::send(). The runner then performs fastcgi_finish_request() itself — except in debug — and
+      only afterwards calls terminate(). The client is released before the listeners start, which is what
+      makes kernel.terminate usable for slow work.
+    official_sources:
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php
+        branch: '8.0'
+        symbol_or_lines: 'run(): send(false) line 36, terminate() line 48'
+        verified_at: '2026-09-16'
+  - id: QST-8yjdrrs3v31p
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-a0z9e1zqpyxy
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-9kh5cqz5qtrb
+    domain: symfony
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: A 200 response arrives, its body is not valid JSON, and toArray() is called on it. Which
+      branch of the HttpClient exception hierarchy does the contract name, and on what grounds?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - http-client
+      - exceptions
+    choices:
+      - id: CHO-npzv1cc3ha2a
+        text: 'Decoding: a response arrived, and only its body could not be read'
+        correct: true
+      - id: CHO-be0042ge1jmh
+        text: 'Client: the contract charges an undecodable body to the caller'
+        correct: false
+        explanation: That branch is chosen by the status code, and this response is a 200.
+      - id: CHO-z0nx0sgfef78
+        text: 'Server: an unparseable payload is attributed to the origin'
+        correct: false
+        explanation: Also chosen by the status code, and a 200 rules it out.
+      - id: CHO-44xnm8vsbdhk
+        text: 'Transport: whatever denies the caller a usable value counts as one'
+        correct: false
+        explanation: Transport covers the network alone. The bytes arrived here; only their shape is wrong.
+    explanation: 'The hierarchy splits by where the failure happened. TransportExceptionInterface covers
+      the network, with TimeoutExceptionInterface beneath it; HttpExceptionInterface covers a response
+      whose status is unwelcome, with the client, server and redirection interfaces beneath it, and it
+      alone exposes getResponse(). DecodingExceptionInterface sits apart on ExceptionInterface: a
+      response did arrive, and its body simply could not be decoded.'
+    official_sources:
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php
+        branch: '8.0'
+        symbol_or_lines: toArray() @throws DecodingExceptionInterface
+        verified_at: '2026-09-16'

@@ -599,6 +599,8 @@ items:
         outcome: "Distinguer 401 et 403 dans un scénario d'accès"
       - id: OUT-6sg999w56sxb
         outcome: "Distinguer les redirections préservant la méthode (307/308) des autres"
+      - id: OUT-p4n2v9ecgmyv
+        outcome: "Distinguer 415 de 406 selon ce que le serveur refuse"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -660,6 +662,8 @@ items:
         outcome: "Utiliser all() plutôt que get() pour une entrée multiple"
       - id: OUT-g11rrz2thqp0
         outcome: "Expliquer pourquoi getClientIp() exige des trusted proxies"
+      - id: OUT-04bvez73yte3
+        outcome: "Expliquer pourquoi un motif de trusted host non ancré ne protège pas"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -723,6 +727,8 @@ items:
         outcome: "Distinguer isRedirect() de isRedirection() sur des statuts précis"
       - id: OUT-p5kb8nhzd8hm
         outcome: "Distinguer isOk() de isSuccessful()"
+      - id: OUT-gkcvmpt5dwz6
+        outcome: "Expliquer pourquoi kernel.terminate s'exécute après la réponse"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -835,6 +841,8 @@ items:
         outcome: "Énoncer la contrainte imposée par SameSite=none"
       - id: OUT-d3rkaszp9nga
         outcome: "Expliquer pourquoi la suppression exige les mêmes path et domain"
+      - id: OUT-mgpn4708q6rn
+        outcome: "Énoncer ce que le préfixe __Host- exige, et qui l'applique"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1063,6 +1071,8 @@ items:
         outcome: "Obtenir du parallélisme en émettant avant de lire"
       - id: OUT-9bcphcvp1dp0
         outcome: "Inspecter une réponse d'erreur sans exception"
+      - id: OUT-a0z9e1zqpyxy
+        outcome: "Choisir l'interface d'exception correspondant à la nature de l'échec"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

@@ -48,15 +48,15 @@ mocks:
     exam_skill_in:
     - RECOGNIZE
     - DISTINGUISH
-  eligible_questions: 61
+  eligible_questions: 62
   eligible_topics: 14
   smallest_topic: 2
   language: en
   language_note: 'An outcome, not a target: the VALIDATION pool is 136 of 136 English.'
-  question_count: 40
-  duration_minutes: 41
-  mean_estimated_seconds: 52.4
-  cap_from_variation: 40
+  question_count: 41
+  duration_minutes: 42
+  mean_estimated_seconds: 52.6
+  cap_from_variation: 41
   cap_from_duration: 59
   unused_after_selection: 21
   scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
@@ -68,7 +68,7 @@ mocks:
     Data Validation: 5
     Dependency Injection: 5
     Forms: 3
-    HTTP: 1
+    HTTP: 2
     Messenger: 4
     Miscellaneous: 5
     PHP: 3
@@ -175,7 +175,7 @@ mocks:
     - VALIDATION
     - LEARNING
     excludes: HOLDOUT
-  eligible_questions: 475
+  eligible_questions: 646
   weakness_evidence:
   - questions answered incorrectly, most recent first
   - official topics with the lowest success ratio

@@ -2424,3 +2424,62 @@ questions:
         branch: '8.0'
         symbol_or_lines: Passport badges
         verified_at: '2026-09-01'
+  - id: QST-ef8e1er1dxmr
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-p4n2v9ecgmyv
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-512se83ab7qj
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: An endpoint handles JSON only, and a client POSTs an XML body. Per RFC 9110, what separates
+      the status code for this from 406?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 65
+    classification: OFFICIAL
+    pool: VALIDATION
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+      - status-codes
+    choices:
+      - id: CHO-s2nx5fk3ea2y
+        text: 415 refuses the body sent; 406 refuses the representation asked for
+        correct: true
+      - id: CHO-0byxbyjhhkk1
+        text: 415 answers the Accept header, while 406 answers Content-Type
+        correct: false
+        explanation: Reversed. 415 is about the content the request carries; 406 is about what the client
+          declared it would accept in return.
+      - id: CHO-xf9s2a50ynvh
+        text: 415 marks a malformed body, and 406 an unknown media type
+        correct: false
+        explanation: A body that is well formed but in the wrong format is still a 415; malformed content
+          in a supported format is 400 or 422.
+      - id: CHO-tvr1bdbg98ev
+        text: 415 is emitted by origin servers and 406 only by proxies and gateways
+        correct: false
+        explanation: RFC 9110 attaches neither code to a particular kind of intermediary.
+    explanation: 'RFC 9110 §15.5.16 defines 415 as the origin server refusing because the content is in
+      a format not supported by this method on the target resource — Content-Type, Content-Encoding, or
+      the data itself. The response header follows the same split: Accept-Encoding when the coding is
+      unsupported, Accept when the media type is.'
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        anchor: status.415
+        branch: master
+        symbol_or_lines: section 15.5.16
+        verified_at: '2026-09-16'

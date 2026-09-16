@@ -181,6 +181,45 @@ final class MocksBlueprintTest extends TestCase
         }
     }
 
+    /**
+     * Mock 5's eligible pool is a figure like any other, and until 2026-09-16
+     * nothing checked it: every test above skips mock-5 because its SELECTION
+     * is generated per learner. Its eligible COUNT is not generated — it is the
+     * bank — and it had drifted to 475 against a real 641 while every gate
+     * stayed green. That is the shape of a vacuous check: a published number
+     * with no reader.
+     *
+     * The filter is read from the blueprint rather than restated here, so the
+     * test cannot agree with itself while the document says something else.
+     */
+    public function testMockFivesEligiblePoolIsTheBankAndNotAStoredNumber(): void
+    {
+        $five = null;
+        foreach ($this->blueprint()['mocks'] as $mock) {
+            if ('mock-5' === $mock['id']) {
+                $five = $mock;
+            }
+        }
+
+        self::assertNotNull($five, 'Mock 5 is missing from the blueprint');
+
+        $pools = $five['eligible_filter']['pool_in'];
+        self::assertContains(Pool::Validation->value, $pools);
+        self::assertContains(Pool::Learning->value, $pools);
+        self::assertNotContains(Pool::Holdout->value, $pools);
+
+        $eligible = array_filter(
+            Project::locate()->loadContentSet()->questions,
+            static fn (Question $q): bool => \in_array($q->pool->value, $pools, true),
+        );
+
+        self::assertSame(
+            \count($eligible),
+            $five['eligible_questions'],
+            'mock-5: the published eligible count is not what the bank holds',
+        );
+    }
+
     /** Mock 5 is generated, so what is checked is that it cannot invent a weakness. */
     public function testMockFiveDeclaresItsEvidenceAndItsFallback(): void
     {
