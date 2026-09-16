@@ -457,10 +457,38 @@ final class RefinementFrameworkRuleTest extends TestCase
     /**
      * The budgets and the derivation published in docs/policy/revision-budget.md
      * are one claim; if they drift apart the policy stops describing the rule.
+     *
+     * The counts moved with the budget: HTTP request was promoted STANDARD ->
+     * DEEP on the same day (ADR-0008), so the corpus is 27/124/12, not
+     * 27/125/11. Updating the constant without the counts would have kept the
+     * test green while the published derivation described a corpus that no
+     * longer exists.
      */
     public function testThePublishedCorpusCeilingMatchesTheBudgets(): void
     {
-        self::assertSame(136_500, RevisionBudgetRule::corpusCeiling(27, 125, 11));
+        self::assertSame(144_900, RevisionBudgetRule::corpusCeiling(27, 124, 12));
+    }
+
+    /**
+     * The raise is a governance decision, not a licence: a MINIMAL item at 701
+     * body words still fails. Without this the only assertion on the new
+     * ceiling would be arithmetic on a helper, and a budget nobody can breach
+     * is the vacuous shape this project has already found five times.
+     */
+    public function testTheRaisedMinimalBudgetIsStillACeiling(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-01', 'contentLevel' => ContentLevel::Minimal]);
+
+        $content = $this->content(
+            [$item],
+            [],
+            courses: [$this->course($item->id->value, ContentLevel::Minimal, 701)],
+        );
+
+        $violations = (new RevisionBudgetRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertSame(Severity::Error, $violations[0]->severity);
     }
 
     /**

@@ -75,7 +75,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **PHP : Enums** (STANDARD) — 11 min · 383 mots · 3 questions, 1 flashcards
 - NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 9 min · 395 mots · 3 questions, 1 flashcards
 - NOUVEAU · **HTTP : Status codes** (MINIMAL) — 10 min · 398 mots · 3 questions, 2 flashcards
-- NOUVEAU · **HTTP : HTTP request** (STANDARD) — 17 min · 894 mots · 4 questions, 1 flashcards
+- NOUVEAU · **HTTP : HTTP request** (DEEP) — 17 min · 894 mots · 4 questions, 1 flashcards
 - Révision **J+3** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
 *Budget du jour : 63 / 120 min*
@@ -86,9 +86,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 14 min · 608 mots · 4 questions, 1 flashcards
 - NOUVEAU · **HTTP : Cookies** (STANDARD) — 15 min · 645 mots · 5 questions, 1 flashcards
 - NOUVEAU · **HTTP : Caching** (STANDARD) — 18 min · 885 mots · 5 questions, 1 flashcards
-- Révision **J+1** (20 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
+- Révision **J+1** (22 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 80 / 120 min*
+*Budget du jour : 82 / 120 min*
 
 ### Mercredi 7 octobre 2026
 
@@ -107,10 +107,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 10 min · 466 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 12 min · 462 mots · 4 questions, 1 flashcards
 - Révision **J+1** (20 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
-- Révision **J+3** (14 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
+- Révision **J+3** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 91 / 120 min*
+*Budget du jour : 92 / 120 min*
 
 ### Vendredi 9 octobre 2026
 
@@ -169,9 +169,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 13 min · 525 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 15 min · 596 mots · 5 questions, 2 flashcards
 - Révision **J+3** (18 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
-- Révision **J+7** (14 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
+- Révision **J+7** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 89 / 120 min*
+*Budget du jour : 90 / 120 min*
 
 ### Mardi 13 octobre 2026
 
@@ -267,9 +267,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 13 min · 417 mots · 5 questions, 2 flashcards
 - Révision **J+3** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
 - Révision **J+7** (16 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule
-- Révision **J+14** (10 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
+- Révision **J+14** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 90 / 120 min*
+*Budget du jour : 91 / 120 min*
 
 ### Mardi 20 octobre 2026
 
@@ -496,9 +496,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (24 min) — Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
 - Révision **J+7** (17 min) — Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators · Data Validation : Violations builder
 - Révision **J+14** (10 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
-- Révision **J+30** (10 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
+- Révision **J+30** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 106 / 120 min*
+*Budget du jour : 107 / 120 min*
 
 ### Jeudi 5 novembre 2026
 
@@ -719,9 +719,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (15 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering
 - Révision **J+14** (8 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules
 - Révision **J+30** (11 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
-- Révision **J+45** (3 min) — PHP : Enums
+- Révision **J+45** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 112 / 120 min*
+*Budget du jour : 116 / 120 min*
 
 ### Vendredi 20 novembre 2026
 
@@ -932,9 +932,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+14** (11 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
 - Révision **J+30** (12 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
-- Révision **J+60** (3 min) — PHP : Enums
+- Révision **J+60** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 98 / 120 min*
+*Budget du jour : 102 / 120 min*
 
 ### Samedi 5 décembre 2026
 
