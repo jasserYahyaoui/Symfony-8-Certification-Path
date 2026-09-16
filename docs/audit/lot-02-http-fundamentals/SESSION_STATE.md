@@ -42,8 +42,26 @@ Ce déploiement est donc une **dérogation documentée**, pas une validation :
   autres — `Partitioned`/CHIPS, `send()`/`sendHeaders()`, la hiérarchie
   d'exceptions HttpClient — portaient 255, 416 et 371 mots de marge : elles
   n'ont jamais été empêchées, elles n'ont pas été écrites. Relever un budget
-  n'écrit pas un paragraphe. Le lot **reste non validé**, et aucune revue n'a
-  encore vu son état corrigé.
+  n'écrit pas un paragraphe.
+
+  **Les cinq ont été écrites le 2026-09-16.** Chaque affirmation est vérifiée
+  contre une source récupérée pendant la rédaction, jamais depuis la mémoire :
+  `Request.php` l. 642 et 1132, `Cookie.php` l. 75/262/313, `Response.php`
+  l. 316/385/399, `HttpKernelRunner.php` l. 36/48, les sept interfaces de
+  `Contracts/HttpClient/Exception/`, RFC 9110 §15.5.16 et le brouillon httpbis
+  « Cookies » l. 842-893.
+
+  Deux affirmations que je m'apprêtais à écrire ont été **abandonnées après
+  vérification** : Symfony 8.0 n'implémente aucun préfixe `__Host-`/`__Secure-`
+  (aucune occurrence dans `Cookie.php` ni `ResponseHeaderBag.php`), et le
+  runner appelle `send(false)`, pas `send()` — la valeur de `$flush` par défaut
+  n'est donc jamais celle qu'utilise Symfony. La première est publiée comme
+  fait négatif, la seconde a remplacé une phrase fausse écrite deux heures plus
+  tôt.
+
+  **Le lot reste non validé.** Aucune revue n'a vu cet état. Les questions
+  couvrant ces cinq notions n'existent pas encore : la couverture des cours a
+  changé, l'évaluation non.
 
 Ce qui est vrai et vérifié au moment du déploiement : les portes du dépôt sont
 vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot est

@@ -5,7 +5,7 @@ title: "HTTP request"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-16"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -143,6 +143,36 @@ confiance.
 `getClientIps()` renvoie la liste complète, « la plus fiable d'abord » selon son
 propre docblock, et conseille de lui préférer `getClientIp()`.
 
+## L'hôte, et la seconde liste de confiance
+
+`X-Forwarded-For` n'est pas le seul en-tête que le client contrôle. `Host` l'est
+aussi, et `getHost()` le lit — d'abord `X-Forwarded-Host` si la requête vient
+d'un proxy de confiance, sinon l'en-tête `Host`, sinon `SERVER_NAME`, sinon
+`SERVER_ADDR`. Le port est retiré et la valeur passée en minuscules.
+
+Un `Host` falsifié empoisonne tout ce qui est construit à partir de lui : une
+URL absolue dans un courriel de réinitialisation de mot de passe, une clé de
+cache. La parade est une **seconde** liste, distincte des proxys :
+
+```php
+Request::setTrustedHosts(['^(.+\.)?example\.com$']);
+```
+
+`getHost()` lève alors une `SuspiciousOperationException` sur un hôte hors
+liste — et aussi sur un hôte syntaxiquement invalide, avant même la liste.
+
+**Ce sont des expressions régulières, et elles ne sont pas ancrées pour vous.**
+Chaque motif est enveloppé en `{motif}i` : insensible à la casse, et surtout
+**non ancré**. `setTrustedHosts(['example.com'])` accepte donc
+`example.com.attaquant.test`, puisque le motif y est trouvé en sous-chaîne — et
+le point non échappé accepte en prime `exampleXcom`. Un motif de confiance
+s'écrit avec `^`, `$` et des points échappés, faute de quoi la liste donne
+l'apparence d'une protection sans en être une.
+
+**Une liste vide ne vérifie rien.** Le contrôle ne s'exécute que
+`if (count(self::$trustedHostPatterns) > 0)` : par défaut, n'importe quel `Host`
+est accepté. L'absence de configuration n'est pas un mode strict.
+
 ## Pièges d'examen
 
 **`$request->request` n'est pas la requête** : c'est le corps POST.
@@ -175,6 +205,7 @@ une requête arbitraire — tests, sous-requêtes ; la seconde lit les superglob
 
 - [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst) — *Accessing Request Data*,
   `createFromGlobals()`, `create()`
-- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — sacs publics l. 94-130, `getClientIp()` l. 821,
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `setTrustedHosts()` l. 642, `getHost()` l. 1132,
+  sacs publics l. 94-130, `getClientIp()` l. 821,
   `getClientIps()` l. 798, `normalizeAndFilterClientIps()` l. 2146-2183 (branche 8.0, `6f841c0`)
 - [`InputBag`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php) — `get()` et sa `BadRequestException` (branche 8.0, `6f841c0`)
