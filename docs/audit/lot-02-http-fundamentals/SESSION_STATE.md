@@ -59,9 +59,33 @@ Ce déploiement est donc une **dérogation documentée**, pas une validation :
   fait négatif, la seconde a remplacé une phrase fausse écrite deux heures plus
   tôt.
 
-  **Le lot reste non validé.** Aucune revue n'a vu cet état. Les questions
-  couvrant ces cinq notions n'existent pas encore : la couverture des cours a
-  changé, l'évaluation non.
+  **Les questions ont été écrites le 2026-09-16**, une par notion, toutes en
+  anglais, chacune avec un `OUT` frappé et déclaré sur son item.
+
+  Leur répartition n'est pas celle que j'avais prévue, et la raison est une
+  contrainte que le test a trouvée, pas moi. J'avais écrit les cinq en
+  `VALIDATION` ; `Mock2PayloadTest` a refusé le payload sur
+  `two eligible questions share an atomic item`. Le blueprint pose « une
+  question par item atomique par passage », et quatre de ces items portaient
+  déjà leur unique question `VALIDATION`. Plutôt que de tordre les questions
+  pour entrer dans le moule, elles ont été redistribuées : `415` reste en
+  `VALIDATION` sur *Status codes*, qui n'en avait aucune, et les quatre autres
+  passent en `LEARNING`, c'est-à-dire en Practice Mode et en Mock 5.
+
+  *Status codes* passe de `REFINED` à `MASTERED_READY` : il est désormais
+  évaluable en mode examen. C'est le seul mouvement de préparation, et il est
+  gagné.
+
+  **Deux dérives trouvées en chemin, sans rapport avec ce travail.** Le
+  blueprint publiait `mock-5 eligible_questions: 475` contre 641 réels — un
+  chiffre qui avait dérivé **parce qu'aucun test ne le lisait**, tous sautant
+  `mock-5`. Corrigé à 646 et désormais gardé par
+  `testMockFivesEligiblePoolIsTheBankAndNotAStoredNumber`, dont l'échec a été
+  prouvé sur la valeur fausse avec restauration vérifiée en SHA-256. Et
+  `docs/policy/language-policy.md` publiait des effectifs de corpus que les cinq
+  questions rendaient faux ; ils sont recalculés.
+
+  **Le lot reste non validé.** Aucune revue indépendante n'a vu cet état.
 
 Ce qui est vrai et vérifié au moment du déploiement : les portes du dépôt sont
 vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot est

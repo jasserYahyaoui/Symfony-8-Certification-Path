@@ -20,8 +20,8 @@ two figures agree will be the day the work is finished — not before.
 |---|---|---|
 | `NOT_REFINED` | 0 | fails a criterion its content level requires |
 | `PARTIALLY_REFINED` | 0 | meets every automated criterion; its lot has had no refinement audit |
-| `REFINED` | 62 | meets every criterion, in a lot whose refinement audit is recorded |
-| `MASTERED_READY` | 101 | refined, and assessable in exam mode at the top of what its level requires |
+| `REFINED` | 61 | meets every criterion, in a lot whose refinement audit is recorded |
+| `MASTERED_READY` | 102 | refined, and assessable in exam mode at the top of what its level requires |
 
 Only `REFINED` and `MASTERED_READY` count toward Certification
 Readiness. The formula, and why the automated criteria alone are not enough, are in [`docs/policy/readiness-formula.md`](../policy/readiness-formula.md).
