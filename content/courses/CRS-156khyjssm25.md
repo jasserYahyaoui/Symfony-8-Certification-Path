@@ -60,20 +60,29 @@ se retient mal :
 
 | Répertoire | Mécanisme |
 |---|---|
-| `bin/`, `config/`, `src/`, `public/`, `vendor/`, `translations/`, `templates/` | clé `extra` du `composer.json` (`bin-dir`, `config-dir`, `src-dir`, `public-dir`…) |
-| `var/cache/` | méthode `getCacheDir()` de la classe `Kernel` |
-| `var/log/` | méthode `getLogDir()` de la classe `Kernel` |
+| `bin/`, `config/`, `src/`, `public/` | clé **`extra`** du `composer.json` : `bin-dir`, `config-dir`, `src-dir`, `public-dir` — et rien d'autre |
+| `vendor/` | clé **`config`** du `composer.json` : `vendor-dir`. Pas `extra` |
+| `templates/` | option **`twig.default_path`** |
+| `translations/` | option **`framework.translator.default_path`** |
+| `var/cache/` | `getCacheDir()` sur le `Kernel`, ou la variable d'environnement `APP_CACHE_DIR` |
+| `var/log/` | `getLogDir()` sur le `Kernel`, ou `APP_LOG_DIR` |
 
-Autrement dit : ce que Composer doit connaître se déclare dans `composer.json` ;
-ce que seul le noyau doit connaître se surcharge en PHP dans le `Kernel`.
+Il y a donc **trois** voies, pas deux : ce que Composer doit connaître avant que
+PHP ne démarre (`extra`, et `config` pour `vendor/`), ce qu'un bundle configure
+lui-même (`twig`, `framework`), et ce que seul le noyau connaît (`getCacheDir()`,
+`getLogDir()`).
 
 ## Pièges d'examen
 
-**Déplacer un répertoire ne se fait pas au même endroit pour tous.** `bin/`,
-`config/`, `src/`, `public/`, `templates/`, `translations/` et `vendor/` se
-déplacent par la clé `extra` du `composer.json`. `var/cache/` et `var/log/` ne
-s'y trouvent pas : ils se surchargent en PHP, par `getCacheDir()` et
-`getLogDir()` sur le `Kernel`.
+**`extra` ne déplace que quatre répertoires.** `bin-dir`, `config-dir`,
+`src-dir`, `public-dir` : la liste est close. `templates/` et `translations/`
+se déplacent par **configuration de bundle** — `twig.default_path` et
+`framework.translator.default_path` — et `vendor/` par la clé **`config`** de
+Composer, pas `extra`. Une clé `extra.templates-dir` n'existe pas.
+
+**Le cache et les logs ont deux voies chacun.** `getCacheDir()` et `getLogDir()`
+sur le `Kernel`, mais aussi les variables d'environnement `APP_CACHE_DIR` et
+`APP_LOG_DIR`, que la documentation présente à égalité.
 
 **`config/packages/test/` ne s'ajoute pas à la configuration commune, il la
 surcharge.** Un sous-répertoire d'environnement n'est lu que dans cet
@@ -88,8 +97,10 @@ le serveur web qui tranche, pas le framework.
 - `public/` est le seul répertoire exposé ; `var/` le seul répertoire écrit.
 - `src/` = `App\`, et contient `Kernel.php`.
 - `config/packages/<env>/` surcharge la configuration pour un environnement.
-- Répertoires déplacés par `extra` dans `composer.json`, sauf cache et logs,
-  déplacés par `getCacheDir()` et `getLogDir()`.
+- Trois voies pour déplacer : `extra` (quatre répertoires) et `config`
+  (`vendor/`) dans `composer.json` ; `twig.default_path` et
+  `framework.translator.default_path` en configuration ; `getCacheDir()` /
+  `getLogDir()` ou `APP_CACHE_DIR` / `APP_LOG_DIR` pour `var/`.
 
 ## Sources officielles
 
