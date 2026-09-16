@@ -105,7 +105,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 12 min · 478 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : License** (MINIMAL) — 7 min · 248 mots · 2 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 10 min · 466 mots · 3 questions, 1 flashcards
-- NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 12 min · 462 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 12 min · 543 mots · 4 questions, 1 flashcards
 - Révision **J+1** (20 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 - Révision **J+3** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
@@ -115,7 +115,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 9 octobre 2026
 
 - NOUVEAU · **Symfony Architecture : Request handling** (DEEP) — 16 min · 646 mots · 5 questions, 2 flashcards
-- NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 12 min · 475 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 12 min · 532 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 15 min · 568 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 13 min · 517 mots · 5 questions, 1 flashcards
 - Révision **J+1** (22 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
@@ -166,12 +166,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Symfony Architecture : Backward compatibility promise** (STANDARD) — 16 min · 587 mots · 5 questions, 2 flashcards
 - NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 13 min · 514 mots · 5 questions, 1 flashcards
-- NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 13 min · 525 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 14 min · 636 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 15 min · 596 mots · 5 questions, 2 flashcards
 - Révision **J+3** (18 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Révision **J+7** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 90 / 120 min*
+*Budget du jour : 91 / 120 min*
 
 ### Mardi 13 octobre 2026
 

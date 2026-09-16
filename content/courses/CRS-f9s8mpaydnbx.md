@@ -30,10 +30,19 @@ et pourquoi ils diffèrent.
 | supprimer ou manipuler une définition | **passe de compilation** |
 | un type de formulaire | **extension de type de formulaire** |
 | une contrainte de validation | groupes de validation — la contrainte ne se remplace pas |
-| une traduction | fichier de même nom dans `translations/` |
+| une traduction | fichier dans `translations/` portant le **même domaine** |
+| une route | ne pas l'importer du tout, ou copier le fichier et importer sa copie |
+| un contrôleur | route de **même chemin**, chargée **avant** celle du bundle |
+| le mapping d'une entité | possible **uniquement** si le bundle expose une *mapped superclass* |
 
-Il n'y a pas de mécanisme unique : chaque sous-système a le sien, et c'est
-exactement ce que l'examen vérifie.
+Neuf lignes pour les **huit** sections du document officiel — décoration et
+passe de compilation relèvent toutes deux de *Services & Configuration*. Il n'y
+a pas de mécanisme unique : chaque sous-système a le sien, et c'est exactement
+ce que l'examen vérifie.
+
+**Le routage est le cas à part.** Symfony n'importe **jamais** une route de
+bundle automatiquement : elle n'existe que si l'application l'importe. « Surcharger »
+un routage revient donc à ne pas l'importer — il n'y a rien à neutraliser.
 
 ## Les gabarits
 

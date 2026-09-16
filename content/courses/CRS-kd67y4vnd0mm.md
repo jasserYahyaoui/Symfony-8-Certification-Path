@@ -60,8 +60,13 @@ exceptions du composant HttpKernel l'implémentent : `NotFoundHttpException`
 (404), `AccessDeniedHttpException` (403), `BadRequestHttpException` (400), et la
 classe générique `HttpException`, dont le statut est passé au constructeur.
 
-Une exception ordinaire — une `\RuntimeException`, une `\LogicException` — ne
-l'implémente pas : elle donne donc 500.
+Une exception applicative — une `\InvalidArgumentException`, une
+`\PDOException` — ne l'implémente pas : elle donne donc 500.
+
+**Le critère est l'interface, jamais la classe mère.** `HttpException` étend
+`\RuntimeException` : une `\RuntimeException` peut donc parfaitement porter un
+statut, et les trois exceptions citées ci-dessus en sont. Raisonner sur
+l'ascendance mène à la mauvaise réponse dans le cas le plus courant.
 
 ## Environnement de débogage
 
@@ -76,9 +81,10 @@ Il ne l'est que si elle est 4xx, 5xx ou une redirection. Une réponse `200` ou
 `204` construite dans `kernel.exception` ressort en `500`, sauf appel préalable
 à `allowCustomResponseCode()`.
 
-**Une exception ordinaire donne 500.** Seules celles qui implémentent
-`HttpExceptionInterface` portent un statut ; une `\RuntimeException` n'en porte
-aucun.
+**Une exception qui n'implémente pas l'interface donne 500 — et
+`\RuntimeException` n'est pas le bon contre-exemple.** `HttpException extends
+\RuntimeException implements HttpExceptionInterface` : la classe mère ne dit
+rien du statut. Seule l'interface le dit.
 
 **`setResponse()` met fin au traitement de l'erreur** — l'`ErrorListener`
 intégré ne prend plus la main, et la page d'erreur n'est pas produite.

@@ -492,7 +492,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: You must move the cache directory out of `var/`. How is that done?
+  question: You must move the cache directory out of `var/`. Which of these does Symfony document?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -513,8 +513,7 @@ questions:
   - id: CHO-h0n1vwvpps3v
     text: By setting extra.cache-dir in composer.json
     correct: false
-    explanation: composer.json's extra key moves directories Composer must know about, and the cache is not one
-      of them.
+    explanation: extra moves bin, config, src and public, and nothing else. The cache is not among them.
   - id: CHO-xjqrnem8sjj6
     text: By setting framework.cache.directory in config/packages/
     correct: false
@@ -522,9 +521,11 @@ questions:
   - id: CHO-r3cawwhppabg
     text: By defining the KERNEL_CACHE_DIR environment variable
     correct: false
-    explanation: No such variable is read by the kernel.
-  explanation: 'Cache and log directories are the two exceptions: they are moved in PHP, on the Kernel, because
-    only the kernel needs to know. The other directories move through composer.json''s extra key.'
+    explanation: The documented variable is APP_CACHE_DIR. KERNEL_CACHE_DIR is read by nothing.
+  explanation: 'getCacheDir() and getLogDir() are the kernel''s own hooks, and the documentation puts the
+    environment variables APP_CACHE_DIR and APP_LOG_DIR on the same footing. The other directories do not
+    share one mechanism: extra moves bin, config, src and public, config.vendor-dir moves vendor, and
+    templates and translations move through twig.default_path and framework.translator.default_path.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst
