@@ -39,7 +39,7 @@ Sans `q`, la valeur par défaut est `1.0`. Les valeurs vont de `0` à `1`, et
 
 ```php
 $request->getLanguages();
-// ['fr_FR', 'fr', 'en'] — triées par préférence décroissante
+// ['fr_FR', 'fr', 'en', '*'] — triées par préférence décroissante
 
 $request->getPreferredLanguage(['en', 'de']);
 // 'en' — le meilleur choix PARMI ceux que l'application propose
@@ -47,6 +47,10 @@ $request->getPreferredLanguage(['en', 'de']);
 
 `getLanguages()` normalise la casse et le séparateur : `fr-FR` devient
 `fr_FR`, la forme attendue par Symfony.
+
+Quand aucune langue demandée ne correspond, `getPreferredLanguage()` ne renvoie
+pas `null` : il renvoie **le premier locale de la liste fournie**, traité comme
+langue par défaut.
 
 ## Pièges d'examen
 
@@ -66,6 +70,7 @@ réponse selon cet en-tête.
 - `getPreferredLanguage($supported)` négocie ; sans argument, non.
 - Varier selon la langue impose `Vary: Accept-Language`.
 
-## Sources officielles
+## Aller lire la source
 
-- `Symfony\Component\HttpFoundation\Request` (branche 8.0, `6f841c0`)
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getLanguages()`, `getPreferredLanguage()`
+  (branche 8.0, `6f841c0`)

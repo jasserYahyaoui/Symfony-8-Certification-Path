@@ -39,7 +39,11 @@ situent les erreurs.
 
 ## Le tableau
 
-Valeurs telles qu'implémentées par Symfony 8.0 :
+Valeurs telles qu'implémentées par Symfony 8.0. **La RFC et Symfony ne disent
+pas la même chose sur « cacheable »** : RFC 9110 §9.2.3 définit une sémantique
+de cache pour `GET`, `HEAD` **et `POST`** ; `isMethodCacheable()` retient
+`GET`, `HEAD` et `QUERY`. Une question sur la RFC et une question sur Symfony
+n'appellent donc pas la même réponse.
 
 | Méthode | Sûre | Idempotente | Cacheable |
 |---|:--:|:--:|:--:|
@@ -52,6 +56,12 @@ Valeurs telles qu'implémentées par Symfony 8.0 :
 | `DELETE` | ❌ | ✅ | ❌ |
 | `POST` | ❌ | ❌ | ❌ |
 | `PATCH` | ❌ | ❌ | ❌ |
+
+`QUERY` est la seule ligne du tableau qui puisse surprendre : c'est une méthode
+récente, pensée pour les lectures dont les critères sont trop volumineux pour
+tenir dans une URL. Elle porte un corps, comme `POST`, mais garde la sémantique
+de `GET` — d'où sa place parmi les méthodes sûres, idempotentes **et**
+cacheables. Symfony 8.0 la traite comme telle dans les trois méthodes ci-dessous.
 
 ## Ce que le tableau enseigne
 
@@ -89,6 +99,11 @@ bord attendu ».
 
 **`OPTIONS` et `TRACE` sont sûrs mais non cacheables.**
 
+**Les cacheables sont `GET`, `HEAD` et `QUERY` — trois, pas deux.** Oublier
+`QUERY` est l'erreur attendue, et elle se propage : `Response::isNotModified()`
+s'ouvre sur `isMethodCacheable()`, donc la validation d'une réponse suit
+exactement cette liste.
+
 **`DELETE` est idempotent.** L'intuition « la seconde suppression échoue, donc
 ce n'est pas idempotent » confond l'*effet sur l'état*, qui est identique, avec
 le *code de statut renvoyé*, qui peut différer.
@@ -99,7 +114,8 @@ le *code de statut renvoyé*, qui peut différer.
 - `PUT`/`DELETE` : idempotents, non sûrs. `POST`/`PATCH` : ni l'un ni l'autre.
 - Cacheables : `GET`, `HEAD`, `QUERY`.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §9.2 — *Common Method Properties*
-- `Symfony\Component\HttpFoundation\Request` (branche 8.0, `6f841c0`)
+- [RFC 9110 §9.2 — *Common Method Properties*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#method.properties)
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `isMethodSafe()` l. 1444, `isMethodIdempotent()` l. 1452,
+  `isMethodCacheable()` l. 1462 (branche 8.0, `6f841c0`)

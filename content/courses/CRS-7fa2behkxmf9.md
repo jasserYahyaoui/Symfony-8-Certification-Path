@@ -44,6 +44,27 @@ $response->headers->clearCookie('theme');
 `Cookie` est **immuable** : chaque `with*()` renvoie une nouvelle instance.
 Ignorer la valeur de retour est sans effet.
 
+### Ce que `Cookie::create()` pose sans qu'on le demande
+
+L'exemple ci-dessus est explicite de bout en bout, mais la fabrique a déjà des
+défauts, et ce sont eux qui sont interrogés :
+
+| Paramètre | Défaut | Conséquence |
+|---|---|---|
+| `$path` | `'/'` | portée sur tout le site |
+| `$httpOnly` | `true` | **invisible à JavaScript par défaut** |
+| `$sameSite` | `Cookie::SAMESITE_LAX` | protection CSRF de base déjà active |
+| `$secure` | `null` | **auto-activé si la requête courante est déjà en HTTPS** |
+| `$expire` | `0` | cookie de session |
+
+```php
+Cookie::create('theme');   // path '/', httpOnly true, sameSite lax, secure auto
+```
+
+`$secure = null` ne vaut donc pas « non sécurisé » : c'est « décide d'après la
+requête ». Le forcer à `true` sur un site servi en HTTP empêcherait le cookie
+d'être posé.
+
 ## Les attributs de sécurité
 
 | Attribut | Ce qu'il protège |
@@ -78,13 +99,32 @@ avec une date d'expiration passée, et **doit reprendre les mêmes `path` et
 **Un cookie de session n'a pas d'expiration** : il disparaît à la fermeture du
 navigateur. `withExpires(0)` produit ce comportement.
 
+**`Cookie::fromString()` n'a pas les mêmes défauts que `create()`.** Sa table
+interne pose `secure => false`, `httponly => false`, `samesite => null` : une
+lecture d'en-tête brut ne fabrique donc **pas** un cookie sûr.
+
+**`removeCookie()` n'efface rien chez le client.** Son propre docblock le dit :
+« removes a cookie from the array, but does not unset it in the browser ». Il
+retire le `Set-Cookie` de la réponse ; c'est `clearCookie()` qui envoie le
+cookie expiré qui efface.
+
+**Les défauts de `Cookie::create()` sont déjà sûrs.** `httpOnly` vaut `true` et
+`sameSite` vaut `lax` sans rien demander ; l'erreur d'examen consiste à croire
+qu'un cookie créé sans arguments est nu.
+
 ## Points clés
 
 - Lecture par `$request->cookies`, écriture par `$response->headers->setCookie()`.
 - `Cookie` est immuable : chaîner les `with*()` et utiliser le retour.
 - `HttpOnly` contre XSS, `SameSite` contre CSRF, `Secure` pour HTTPS.
+- Défauts de `Cookie::create()` : `path '/'`, `httpOnly true`, `sameSite lax`,
+  `secure` auto-activé en HTTPS, `expire 0` — mais `fromString()` a les siens,
+  bien moins sûrs.
+- `removeCookie()` retire de la réponse ; `clearCookie()` efface chez le client.
 - `SameSite=none` impose `Secure` ; suppression = mêmes `path` et `domain`.
 
-## Sources officielles
+## Aller lire la source
 
-- `Symfony\Component\HttpFoundation\Cookie` (branche 8.0, `6f841c0`)
+- [`Cookie`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php) — `create()` et ses défauts, constantes `SAMESITE_*`
+  (branche 8.0, `6f841c0`)
+- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)

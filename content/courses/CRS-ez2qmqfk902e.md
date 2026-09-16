@@ -82,9 +82,11 @@ $response->getInfo('debug');
 $response->cancel();
 ```
 
-Par défaut ces méthodes **lèvent une exception** sur un statut non réussi. Le
-paramètre `$throw = false` désactive ce comportement lorsqu'on veut inspecter
-une réponse d'erreur.
+`getHeaders()`, `getContent()` et `toArray()` **lèvent** par défaut sur un
+statut non réussi ; leur paramètre `$throw = false` le désactive.
+**`getStatusCode()` ne lève pas** : sa signature ne porte aucun `$throw` et son
+contrat ne déclare qu'une `TransportExceptionInterface` en cas d'erreur réseau.
+C'est donc l'appel par lequel on inspecte un 404 sans rien attraper.
 
 ## Options utiles
 
@@ -109,6 +111,11 @@ répéter une base URL et un jeton.
 $client = new MockHttpClient(new MockResponse('{"ok":true}'));
 ```
 
+`timeout` est le délai **d'inactivité**, pas la durée totale : une requête qui
+progresse lentement ne l'atteint jamais. La durée totale s'écrit
+`max_duration`, qui vaut `0` — illimité — par défaut. Le client suit par
+ailleurs les redirections, jusqu'à `max_redirects`, qui vaut `20`.
+
 ## Pièges d'examen
 
 **`request()` ne déclenche pas l'attente.** L'erreur classique est de croire
@@ -130,7 +137,8 @@ JSON valide.
 - Les accesseurs lèvent sur statut d'erreur, sauf avec `false`.
 - `MockHttpClient` pour tester sans réseau.
 
-## Sources officielles
+## Aller lire la source
 
-- `http_client.rst` (symfony-docs, branche 8.0, `eea05cb`)
-- `Symfony\Contracts\HttpClient\HttpClientInterface` (branche 8.0, `6f841c0`)
+- [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, requêtes asynchrones
+- [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,
+  `withOptions()` (branche 8.0, `6f841c0`)

@@ -77,6 +77,16 @@ Si aucune représentation ne convient, la réponse correcte est
 `406 Not Acceptable` — mais servir une représentation par défaut reste
 généralement préférable en pratique.
 
+`getAcceptableContentTypes()` trie sur la qualité décroissante puis sur
+**l'ordre d'écriture du client** — pas sur la spécificité, et sans retirer les
+items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
+s'applique pas à cet accesseur.
+
+`getPreferredFormat()` ne commence pas par négocier : il consulte d'abord
+`getRequestFormat()`, donc l'attribut `_format` de la route ou un
+`setRequestFormat()` explicite. `Accept` n'est consulté qu'à défaut — un
+`_format=xml` l'emporte sur un `Accept: application/json`.
+
 ## Pièges d'examen
 
 **`q=0` refuse explicitement.** `Accept: */*;q=0.8, image/png;q=0` signifie
@@ -98,7 +108,7 @@ autre chose ; il l'annonce par `Content-Type`.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §12 — *Content Negotiation*
-- `Symfony\Component\HttpFoundation\Request` (branche 8.0, `6f841c0`)
+- [RFC 9110 §12 — *Content Negotiation*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#content.negotiation)
+- [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getAcceptableContentTypes()` (branche 8.0, `6f841c0`)

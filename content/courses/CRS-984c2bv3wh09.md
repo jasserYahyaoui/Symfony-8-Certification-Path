@@ -9,7 +9,7 @@ reviewed_at: "2026-09-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
-    anchor: "section-15"
+    anchor: "status.codes"
     branch: "master"
     verified_at: "2026-09-01"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -23,8 +23,7 @@ official_sources:
 
 ## Objectif
 
-Reconnaître la classe d'un code de statut HTTP et identifier les codes qui
-apparaissent réellement dans les questions d'examen.
+Reconnaître la classe d'un code de statut et les codes qui tombent à l'examen.
 
 ## Les cinq classes
 
@@ -38,8 +37,6 @@ RFC 9110 §15 définit cinq classes, identifiées par le premier chiffre :
 | `4xx` | Erreur **client** — la requête est fautive | `404 Not Found` |
 | `5xx` | Erreur **serveur** — le serveur a échoué sur une requête valide | `500 Internal Server Error` |
 
-C'est la seule chose à mémoriser par cœur. Le reste se déduit.
-
 ## Les codes qui comptent
 
 ```php
@@ -48,7 +45,10 @@ Response::HTTP_CREATED;               // 201
 Response::HTTP_NO_CONTENT;            // 204
 Response::HTTP_MOVED_PERMANENTLY;     // 301
 Response::HTTP_FOUND;                 // 302
+Response::HTTP_SEE_OTHER;             // 303
 Response::HTTP_NOT_MODIFIED;          // 304
+Response::HTTP_TEMPORARY_REDIRECT;    // 307
+Response::HTTP_PERMANENTLY_REDIRECT;  // 308 — et non HTTP_PERMANENT_REDIRECT
 Response::HTTP_BAD_REQUEST;           // 400
 Response::HTTP_UNAUTHORIZED;          // 401
 Response::HTTP_FORBIDDEN;             // 403
@@ -62,28 +62,31 @@ Response::HTTP_INTERNAL_SERVER_ERROR; // 500
 
 **401 vs 403.** `401 Unauthorized` signifie « je ne sais pas qui vous êtes » —
 authentification manquante ou invalide. `403 Forbidden` signifie « je sais qui
-vous êtes, et vous n'avez pas le droit ». Le nom `401 Unauthorized` est
-historiquement trompeur : il concerne l'**authentification**, pas l'autorisation.
+vous êtes, et vous n'avez pas le droit ». Le nom `401` est trompeur : il concerne
+l'**authentification**, pas l'autorisation.
 
 **301 vs 302 vs 307/308.** `301` et `308` sont permanents, `302` et `307` sont
 temporaires. La différence entre l'ancienne et la nouvelle paire tient à la
 méthode : `307` et `308` **préservent la méthode et le corps** de la requête,
 alors que les agents transforment historiquement `301`/`302` en `GET`.
 
-**204 vs 200.** `204 No Content` interdit un corps de réponse. Renvoyer `200`
-avec un corps vide n'est pas équivalent.
+**`303 See Other` n'entre pas dans ce 2×2.** Il demande un `GET` (ou `HEAD`)
+sur une autre ressource, quelle que soit la méthode d'origine : c'est
+POST-Redirect-GET, là où `307` rejouerait le `POST`.
 
-**4xx vs 5xx.** Le premier chiffre attribue la faute. Une requête malformée est
-`4xx` même si le serveur plante en la traitant.
+**204 vs 200.** `204 No Content` interdit un corps ; `200` avec un corps vide
+n'est pas équivalent.
+
+**4xx vs 5xx.** Le premier chiffre attribue la faute : au client ou au serveur.
 
 ## Points clés
 
 - Le premier chiffre donne la classe ; c'est le seul élément à mémoriser.
 - `401` = authentification, `403` = autorisation.
-- `307`/`308` préservent la méthode ; `301`/`302` ne le garantissent pas.
-- Les constantes `Response::HTTP_*` évitent les codes magiques dans le code.
+- `307`/`308` préservent la méthode ; `301`/`302` non ; `303` impose un `GET`.
+- Les constantes `Response::HTTP_*` évitent les codes magiques.
 
-## Sources officielles
+## Aller lire la source
 
-- RFC 9110 §15 — Status Codes
-- `Symfony\Component\HttpFoundation\Response` (branche 8.0, `6f841c0`)
+- [RFC 9110 §15 — *Status Codes*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#status.codes)
+- [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — constantes `HTTP_*` (branche 8.0, `6f841c0`)
