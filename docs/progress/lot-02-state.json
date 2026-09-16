@@ -1,0 +1,10 @@
+{
+  "lot": "02",
+  "current_subtopic": "02-01-http-specification-rfc-9110",
+  "phase": "SOURCE_ANALYST",
+  "completed_subtopics": [],
+  "pending_reviews": [],
+  "blocked_items": [],
+  "last_updated": "2026-09-16",
+  "next_action": "Attendre le livrable SOURCE_ANALYST, puis lancer COURSE_EXPERT sur CRS-depbnbc0g82x."
+}
