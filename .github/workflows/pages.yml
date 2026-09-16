@@ -250,6 +250,51 @@ jobs:
             echo "ok  lot-01  the Interfaces page carries the 8.1 and 8.4 rules"
           fi
 
+          # The Lot 02 audit, proved against the deployed bytes, for the same
+          # reason as the Lot 01 block above: no rule and no test reads a
+          # published page, so without this the only evidence the three P0
+          # corrections reached the learner would be that the build succeeded.
+          #
+          # These four needles were chosen to DISCRIMINATE, not merely to match:
+          # each one is absent from the pre-audit text at eef67f6 and present
+          # after, checked before this step was written. A needle that matched
+          # both would be a silent check -- the shape this project has already
+          # found five times. `mais seulement pour les caches partages` was
+          # dropped for exactly that reason: it predates the audit.
+          #
+          # They are also plain-text runs with no inline code span and no line
+          # break inside them. The full sentence `... un proxy de confiance`
+          # does NOT match: the source wraps between `de` and `confiance`, so
+          # the rendered HTML carries a newline there and a line-oriented grep
+          # stops at it. `-a` because the pages are detected as binary.
+          for page in caching http-request; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/l2-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Lot 02 page $page serves $code"
+              fail=1
+            fi
+          done
+          missing=""
+          # P0: max-age is not "for private caches" -- a shared cache uses it
+          # whenever s-maxage is absent.
+          grep -aq 'pour les caches privés' /tmp/l2-caching || missing="$missing max-age-not-private"
+          # P0: setMaxAge() alone emits `private`, and only while neither
+          # `public` nor `s-maxage` is set -- which is false in the block above
+          # it, where setPublic() precedes.
+          grep -aq 'étant ajouté par défaut tant que ni' /tmp/l2-caching || missing="$missing private-default-condition"
+          # P0, security-relevant: getClientIp() does not return the left-most
+          # X-Forwarded-For address. An allow-list built on that belief trusts a
+          # value the client controls.
+          grep -aq 'retire toute adresse appartenant à un proxy de' /tmp/l2-http-request || missing="$missing trusted-proxy-stripping"
+          grep -aq 'ne renvoie pas « la plus à gauche »' /tmp/l2-http-request || missing="$missing not-left-most"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 corrections missing from the published pages:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the Caching and HTTP request pages carry the three P0 corrections"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

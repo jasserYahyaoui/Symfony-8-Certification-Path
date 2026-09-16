@@ -38,6 +38,39 @@ vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot es
 mesurablement meilleur qu'avant l'audit. Ce n'est pas la même chose qu'être
 validé.
 
+## Déploiement — preuves réelles, lues après coup
+
+Chaque valeur ci-dessous a été relevée sur GitHub après exécution. Aucune n'est
+prévue ni reconstruite.
+
+| Étape | Preuve |
+|---|---|
+| CI sur la PR | `Technical gate` **success** — run `35060059043`, job `104678287650`, 2026-09-16 05:34:35 → 05:39:31 Z |
+| Correctif qui a débloqué la CI | `5a5430c` — `docs/revision/plan.json` et `study-calendar.md` régénérés : ils dérivent de la taille des cours, que l'audit avait changée |
+| Merge | PR **#149** fusionnée, merge commit **`f68880e95cc3cc4679e82f9c2ad87169a981a074`** |
+| GitHub Pages | run **`35060419570`** (n° 166) **success**, 05:40:00 → 05:42:04 Z — `Build` `104679372326`, `Deploy` `104679684388`, `Production smoke test` `104679725051`, les trois `success` |
+| Smoke test de production | 31 URL à **200** sur `https://jasseryahyaoui.github.io/Symfony-8-Certification-Path` ; `practice` 505 questions, `exam` 136, `mock-4` 75 — *le holdout entier et rien d'autre* ; **518 citations, 518 liant une page GitHub rendue, 0 sans équivalent dérivable** ; 3 cours échantillonnés à 200 |
+
+**Ce que le smoke test ne prouvait pas.** Son échantillon de cours est de 3 sur
+163 et tombait sur les lots 08, 13 et 04 — **aucune page du Lot 02**. Le run
+ci-dessus établit donc que le site est en ligne, pas que les corrections de ce
+lot ont atteint le lecteur.
+
+**Ce qui a été ajouté pour combler ce trou.** Une étape du workflow Pages lit
+les pages *Caching* et *HTTP request* publiées et y cherche quatre chaînes
+correspondant aux trois `P0`. Les quatre ont été choisies pour **discriminer** :
+chacune est absente du texte pré-audit (`eef67f6`) et présente après, vérifié
+avant écriture de l'étape. Une cinquième candidate, « mais seulement pour les
+caches partagés », a été **écartée** parce qu'elle était déjà présente avant
+l'audit : elle aurait passé quoi qu'il arrive. L'ensemble a été essayé dans les
+deux sens sur le build local — `ok` sur le contenu corrigé, échec nommant les
+quatre défauts sur le texte pré-audit.
+
+**Vérification directe impossible depuis le conteneur.** `jasseryahyaoui.github.io`
+est refusé par le proxy d'egress (`CONNECT` → 403, `recentRelayFailures` du proxy
+à 05:44:39 Z). Aucune page de production n'a donc été lue par moi-même ; toutes
+les preuves de production viennent du job CI, qui, lui, atteint l'hôte.
+
 ## Avancement
 
 - Fichiers découverts : **10 items / 11 pages rendues** (dont `index.md` généré)
