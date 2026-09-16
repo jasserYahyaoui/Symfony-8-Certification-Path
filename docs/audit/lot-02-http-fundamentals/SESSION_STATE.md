@@ -14,12 +14,29 @@
 
 ## Statut global
 
-`BLOCKED`
+`DEPLOYED_WITHOUT_VALIDATION` — **dérogation explicite de l'owner**
 
-Quatre revues indépendantes rendues, **toutes NON VALIDÉ** : 64, 82,5, 76,5 puis
-77/100. La cinquième a échoué sur une limite d'API sans produire de verdict.
-Les quatre `P1` de la revue n° 4 sont corrigés, mais **aucune revue n'a validé
-l'état corrigé** : le dernier verdict opposable reste `NON VALIDÉ`.
+## Décision de l'owner, 2026-09-16
+
+Quatre revues indépendantes ont rendu `LOT 02 NON VALIDÉ` (64 · 82,5 · 76,5 ·
+77 sur 100, seuil 95). La cinquième n'a pas abouti. Les quatre `P1` de la revue
+n° 4 sont corrigés mais n'ont jamais été soumis à revue.
+
+Mis devant les trois options — déployer tel quel, réviser les budgets
+`REV-001`, ou laisser en l'état — **l'owner a répondu « Déployer »**.
+
+Ce déploiement est donc une **dérogation documentée**, pas une validation :
+
+- le lot **n'a pas** de verdict `VALIDÉ` et n'en recevra pas rétroactivement ;
+- aucun rapport ne doit le décrire comme validé ;
+- les anomalies `P2`/`P3` restent **ouvertes et nommées** dans `REVIEW.md` ;
+- la question de fond — 95/100 est-il atteignable alors que quatre cours sont à
+  moins de 15 mots de leur plafond `REV-001` ? — reste **non tranchée**.
+
+Ce qui est vrai et vérifié au moment du déploiement : les portes du dépôt sont
+vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot est
+mesurablement meilleur qu'avant l'audit. Ce n'est pas la même chose qu'être
+validé.
 
 ## Avancement
 
