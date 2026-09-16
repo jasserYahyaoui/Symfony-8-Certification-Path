@@ -1,7 +1,8 @@
 # Revision budget
 
 **Rule:** `REV-001` · **Criterion:** `R14_revision_budget` ·
-**Decision:** [ADR-0007](../adr/0007-refinement-framework-v2.md)
+**Decision:** [ADR-0007](../adr/0007-refinement-framework-v2.md), budgets
+recalibrated by [ADR-0008](../adr/0008-revision-budget-recalibration.md)
 
 ## The one measure where more is worse
 
@@ -24,22 +25,66 @@ biased ruler is not a budget.
 
 ## The budgets
 
-| Content level | Budget | Observed on 2026-09-08 (n, median, p90, max) |
-|---|---|---|
-| `MINIMAL` | **400** | 27 · 246 · 319 · 450 |
-| `STANDARD` | **900** | 125 · 395 · 543 · 880 |
-| `DEEP` | **1200** | 11 · 584 · 646 · 677 |
+| Content level | Budget | Observed 2026-09-08 (n · median · p90 · max) | Observed 2026-09-16 |
+|---|---|---|---|
+| `MINIMAL` | **700** *(was 400)* | 27 · 246 · 319 · 450 | 27 · 339 · 395 · 398 |
+| `STANDARD` | **900** | 125 · 395 · 543 · 880 | 124 · 431 · 587 · 885 |
+| `DEEP` | **1200** | 11 · 584 · 646 · 677 | 12 · 584 · 755 · 894 |
 
 ### Where the numbers come from
 
-Each budget is roughly the observed p90 of its level plus headroom for the
-refinement work to come, rounded to a figure a person can hold in mind. The
-constraint that bounds them from above is the **full-corpus revision pass**:
+Each budget was originally roughly the observed p90 of its level plus headroom
+for the refinement work to come. The constraint that bounds them from above is
+the **full-corpus revision pass**:
 
 ```
-27 × 400  +  125 × 900  +  11 × 1200  =  136 500 body words
-136 500 / 250 words per minute        ≈  9.1 hours
+27 × 700  +  124 × 900  +  12 × 1200  =  144 900 body words
+144 900 / 250 words per minute        ≈  9.7 hours
 ```
+
+### Why MINIMAL was raised on 2026-09-16 (ADR-0008)
+
+**The p90 could not be used a second time.** By 2026-09-16 the MINIMAL p90 was
+395 against a ceiling of 400, and its maximum 398. A distribution pressed flat
+against its own cap says nothing about what the content needs; it says the rule
+is censoring it. Re-deriving the budget from that number would have baked the
+constraint into its own replacement.
+
+**The basis used instead is the calibration the other two levels already show.**
+Where a level's median sits inside its budget is a statement about how much room
+that level was given:
+
+| Level | Median | Budget | Median as % of budget |
+|---|---:|---:|---:|
+| `STANDARD` | 431 | 900 | **48%** |
+| `DEEP` | 584 | 1200 | **49%** |
+| `MINIMAL` *(before)* | 339 | 400 | **85%** |
+| `MINIMAL` *(after)* | 339 | 700 | **48%** |
+
+MINIMAL was the outlier, by a factor of nearly two. 700 is the figure that puts
+it on the same footing as the two levels nobody had complained about — not a
+figure chosen to make a particular course fit.
+
+**What the raise cost.** The corpus ceiling moves from 136 500 to 144 900 body
+words, and the "roughly one long day" claim from ≈9.1 h to ≈9.7 h. The promise
+is weaker by about 35 minutes. That is the price and it is written here rather
+than absorbed silently.
+
+**What the raise did not do.** It unblocked **two** of the five notions the Lot
+02 reviews named as missing — `415` on *Status codes* (2 words of margin) and
+`setTrustedHosts()` on *HTTP request* (6). The other three — `Partitioned`/CHIPS,
+`send()`/`sendHeaders()`, the HttpClient exception hierarchy — sat on items with
+255, 416 and 371 words of margin. They were never blocked by this rule. Raising
+a budget does not write a paragraph, and this document should not be read as
+though it had.
+
+**One promotion accompanied it, and it is not the same act.** *HTTP request*
+moved `STANDARD` → `DEEP` the same day. The justification in the matrix names
+three mechanisms and the ordered procedure the third one requires; it would read
+the same had the budget never been touched. §4.1 and CLAUDE.md both forbid
+promoting an item because a number looked tight, and the test of good faith is
+whether the justification survives with the numbers removed. Record it here so a
+later reader can check that for themselves rather than take it on trust.
 
 The stated assumption is 250 words per minute for technical prose being
 revised rather than read for the first time. **That assumption is not measured
@@ -53,12 +98,27 @@ distributed by how much each level was judged to need.
 asserts the 136 500 figure against the rule's own constants, so this document
 and the code cannot drift apart.
 
-The corpus measured **65 477 body words** on 2026-09-08 — about 4.4 hours.
+The corpus measured **65 477 body words** on 2026-09-08 — about 4.4 hours. On
+2026-09-16 it measured **73 321** — about 4.9 hours, or 51% of the ceiling the
+budgets allow. The aggregate was never the binding constraint; its *shape* was.
 
 ## Honest statement of what this rule catches today
 
-**One item of 163.** `Handling legacy deprecated code` (lot-13, `MINIMAL`, 450
-body words) exceeds its budget and is reported as a warning.
+**Nothing, as of 2026-09-16.** No item of the 163 exceeds its budget. The one
+item the rule used to flag — `Handling legacy deprecated code` (lot-13,
+`MINIMAL`) — now measures 396 body words against a budget of 700.
+
+That is worse than it sounds and is stated plainly: a raise that leaves a rule
+with nothing to say makes it, today, exactly the vacuous shape this project has
+found five times. Two things keep it from being dormant rather than merely
+quiet. `RefinementFrameworkRuleTest::testTheRaisedMinimalBudgetIsStillACeiling`
+asserts that a MINIMAL item at 701 words still raises an `ERROR`, and
+`tools/audit/prove_framework_rules_fail.py` grows a real course past its ceiling
+in the canonical data and asserts the rule fires. **A clean run is not the
+evidence; those two are.**
+
+*Before the raise, for the record:* one item of 163 exceeded its budget —
+`Handling legacy deprecated code`, then at 450 body words against 400.
 
 A rule that flags 1 in 163 is close to vacuous *today*, and saying otherwise
 would repeat the mistake this project has already made five times. Its value is

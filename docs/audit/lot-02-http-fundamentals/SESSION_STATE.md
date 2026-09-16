@@ -31,7 +31,19 @@ Ce déploiement est donc une **dérogation documentée**, pas une validation :
 - aucun rapport ne doit le décrire comme validé ;
 - les anomalies `P2`/`P3` restent **ouvertes et nommées** dans `REVIEW.md` ;
 - la question de fond — 95/100 est-il atteignable alors que quatre cours sont à
-  moins de 15 mots de leur plafond `REV-001` ? — reste **non tranchée**.
+  moins de 15 mots de leur plafond `REV-001` ? — a été **tranchée le
+  2026-09-16** : l'owner a choisi de relever le budget ([ADR-0008]
+  (../../adr/0008-revision-budget-recalibration.md)). `MINIMAL` passe de 400 à
+  700 mots et *HTTP request* passe `STANDARD` → `DEEP` sur justification.
+
+  **Ce que cela ne fait pas.** Des cinq notions que les revues ont laissées
+  ouvertes, `REV-001` n'en bloquait que **deux** — `415` sur *Status codes*
+  (2 mots de marge) et `setTrustedHosts()` sur *HTTP request* (6). Les trois
+  autres — `Partitioned`/CHIPS, `send()`/`sendHeaders()`, la hiérarchie
+  d'exceptions HttpClient — portaient 255, 416 et 371 mots de marge : elles
+  n'ont jamais été empêchées, elles n'ont pas été écrites. Relever un budget
+  n'écrit pas un paragraphe. Le lot **reste non validé**, et aucune revue n'a
+  encore vu son état corrigé.
 
 Ce qui est vrai et vérifié au moment du déploiement : les portes du dépôt sont
 vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot est

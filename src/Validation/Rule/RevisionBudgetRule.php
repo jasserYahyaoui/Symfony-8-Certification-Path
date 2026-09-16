@@ -41,14 +41,26 @@ use CertPath\Validation\Violation;
 final class RevisionBudgetRule implements Rule
 {
     /**
-     * Body words per item. Derived in docs/policy/revision-budget.md from the
-     * observed p90 of each level with headroom for refinement, and bounded by
-     * a full-corpus revision pass of roughly one long day at 250 words/minute.
+     * Body words per item. Derived in docs/policy/revision-budget.md, and
+     * bounded by a full-corpus revision pass of roughly one long day at 250
+     * words/minute.
+     *
+     * MINIMAL was raised from 400 to 700 on 2026-09-16 (ADR-0008). The first
+     * figure came from a p90 of 319 observed on 2026-09-08, BEFORE the
+     * refinement passes. By 2026-09-16 the MINIMAL p90 was 395 against a
+     * ceiling of 400 — a distribution pressed flat against its own cap, which
+     * is not an observation about the content but about the rule censoring it.
+     * Re-deriving from that p90 would have baked the constraint in.
+     *
+     * The basis used instead is the ratio the other two levels already show:
+     * STANDARD's median sits at 48% of its budget and DEEP's at 49%, while
+     * MINIMAL's sat at 85%. 700 puts MINIMAL at the same 48%, so the three
+     * levels are calibrated alike rather than one of them being starved.
      *
      * @var array<string, int>
      */
     private const array BUDGET = [
-        ContentLevel::Minimal->value => 400,
+        ContentLevel::Minimal->value => 700,
         ContentLevel::Standard->value => 900,
         ContentLevel::Deep->value => 1200,
     ];

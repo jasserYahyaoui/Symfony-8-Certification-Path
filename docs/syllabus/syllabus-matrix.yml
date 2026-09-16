@@ -648,9 +648,9 @@ items:
     lot: lot-02
     chapter: null
     classification: OFFICIAL
-    content_level: STANDARD
+    content_level: DEEP
     content_level_justification: >-
-      Concept important exigeant distinction et application : sept sacs dont les types diffèrent, et une contrainte défensive d'InputBag qui lève là où l'on attend null. La fiabilité de getClientIp() derrière un proxy est une seconde source d'erreur réelle, avec conséquence de sécurité.
+      Promu STANDARD -> DEEP le 2026-09-16 (ADR-0008), sur les concepts et non sur un compteur. L'item porte trois mécanismes distincts, chacun avec sa propre règle : le modèle des sept sacs et les types qui les séparent ; la contrainte défensive d'InputBag, qui lève là où l'on attend null ; et la chaîne de confiance de X-Forwarded-For, dont getClientIp() n'est que la sortie. Ce troisième mécanisme est une procédure ordonnée — complétion par REMOTE_ADDR, retrait des proxys déclarés, renversement — qu'on ne peut ni reconnaître ni appliquer sans la restituer en entier, et s'en tromper a une conséquence de sécurité : une allow-list bâtie sur la mauvaise extrémité fait confiance à une valeur que le client contrôle. Un item DEEP est celui dont l'évidence exige la restitution d'une séquence complète ; c'est le cas ici, et cela l'était avant que la question du budget ne se pose.
     learning_outcomes:
       - id: OUT-hm4eajgn6rks
         outcome: "Choisir le sac approprié parmi les sept exposes par Request"
@@ -665,7 +665,8 @@ items:
       - "FLASHCARD"
       - "EXAM"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies sur 2 sessions distinctes.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode
+      examen, et restitution de la séquence complète sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
