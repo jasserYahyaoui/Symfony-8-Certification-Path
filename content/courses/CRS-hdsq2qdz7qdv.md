@@ -5,7 +5,7 @@ title: "HTTP response"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-16"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -14,6 +14,12 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "isRedirect line 1254, isRedirection line 1194, isSuccessful line 1184"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "run(): send(false) ligne 36, terminate() ligne 48"
+    verified_at: "2026-09-16"
 ---
 
 ## Objectif
@@ -87,10 +93,46 @@ $response->isOk();           // exactement 200
 $response->isNotFound();     // exactement 404
 ```
 
+## L'émission : `send()`, et qui l'appelle
+
+```php
+public function send(bool $flush = true): static
+{
+    $this->sendHeaders();
+    $this->sendContent();
+
+    if (!$flush) {
+        return $this;                 // on s'arrete ici
+    }
+    // sinon fastcgi_finish_request(), litespeed_finish_request(),
+    // ou closeOutputBuffers(0, true) + flush() selon le SAPI
+}
+```
+
+`send()` n'est pas une méthode de contrôleur. Le contrôleur **rend** une
+`Response` ; elle est émise une seule fois, plus haut, par le runner du
+composant Runtime derrière `public/index.php`.
+
+`sendHeaders()` envoie le statut et les en-têtes, `sendContent()` fait un `echo`
+du corps. Deux détails valent d'être connus :
+
+- **Si les en-têtes sont déjà partis**, `sendHeaders()` ne recommence pas : il
+  réémet seulement la ligne de statut, et uniquement hors des SAPI `cli`,
+  `phpdbg` et `embed`. Aucune exception, aucun avertissement.
+- **`$flush = false`** saute la clôture des tampons — et c'est justement ce que
+  Symfony passe. `HttpKernelRunner::run()` appelle `send(false)`, exécute
+  lui-même `fastcgi_finish_request()` (sauf en mode debug), **puis** appelle
+  `terminate()`. C'est de là que vient la promesse de `kernel.terminate` :
+  ses écouteurs tournent après que le client a été relâché.
+
 ## Pièges d'examen
 
 **`isRedirect()` n'est pas « le statut est 3xx ».** Retenir 201 inclus, 304
 exclu.
+
+**`send()` n'appartient pas au contrôleur.** Un contrôleur retourne une
+`Response` ; il ne l'envoie pas. Et le runner l'appelle avec `false`, pas avec
+le défaut.
 
 **`isOk()` n'est pas `isSuccessful()`** : le premier teste 200 exactement, le
 second toute la classe 2xx.
@@ -109,9 +151,14 @@ second toute la classe 2xx.
 - `isRedirection()` = 3xx ; `isRedirect()` = liste explicite incluant 201 et
   excluant 300 et 304.
 - `isOk()` ≠ `isSuccessful()`.
+- `send()` = `sendHeaders()` + `sendContent()`, puis clôture des tampons sauf si
+  `$flush` est `false` — ce que le runner passe avant d'appeler `terminate()`.
 
 ## Aller lire la source
 
 - [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isRedirect()` l. 1254, `isRedirection()` l. 1194,
-  `isOk()` l. 1224, `isSuccessful()` l. 1184 (branche 8.0, `6f841c0`)
+  `isOk()` l. 1224, `isSuccessful()` l. 1184, `sendHeaders()` l. 316,
+  `sendContent()` l. 385, `send()` l. 399 (branche 8.0, `6f841c0`)
+- [`HttpKernelRunner`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php) — `run()` : `send(false)` l. 36 puis
+  `terminate()` l. 48 (branche 8.0)
 - [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)

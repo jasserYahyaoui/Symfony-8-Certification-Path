@@ -5,7 +5,7 @@ title: "Symfony HttpClient component"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-16"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
@@ -21,6 +21,18 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "request line 85, stream line 93, withOptions line 98"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "getResponse() ligne 23 ; interfaces voisines du repertoire Exception/"
+    verified_at: "2026-09-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "@throws de getStatusCode(), getHeaders(), getContent(), toArray()"
+    verified_at: "2026-09-16"
 ---
 
 ## Objectif
@@ -88,6 +100,39 @@ statut non réussi ; leur paramètre `$throw = false` le désactive.
 contrat ne déclare qu'une `TransportExceptionInterface` en cas d'erreur réseau.
 C'est donc l'appel par lequel on inspecte un 404 sans rien attraper.
 
+## La hiérarchie d'exceptions
+
+Tout descend d'une seule interface, et la branche dit **où** la chose a échoué :
+
+```text
+ExceptionInterface
+├── TransportExceptionInterface      le réseau — rien n'est arrivé
+│   └── TimeoutExceptionInterface    délai d'inactivité dépassé
+├── HttpExceptionInterface           une réponse est arrivée, son statut fâche
+│   ├── ClientExceptionInterface     4xx
+│   ├── ServerExceptionInterface     5xx
+│   └── RedirectionExceptionInterface 3xx, une fois `max_redirects` atteint
+└── DecodingExceptionInterface       le corps ne se décode pas
+```
+
+La ligne de partage est `HttpExceptionInterface` : elle seule expose
+`getResponse()`, parce qu'elle seule a une réponse à montrer. Un échec de
+transport n'en a aucune.
+
+```php
+try {
+    $data = $client->request('GET', $url)->toArray();
+} catch (ClientExceptionInterface $e) {
+    $body = $e->getResponse()->getContent(false);   // le corps du 4xx
+} catch (TransportExceptionInterface $e) {
+    // pas de getResponse() ici : rien n'est revenu
+}
+```
+
+Attraper `HttpExceptionInterface` couvre donc 3xx, 4xx et 5xx d'un coup, et
+`TransportExceptionInterface` couvre le délai dépassé — `TimeoutExceptionInterface`
+en hérite.
+
 ## Options utiles
 
 ```php
@@ -128,7 +173,12 @@ fonctionne, il est juste séquentiel.
 corps d'une erreur.
 
 **`toArray()` n'est pas `json_decode()`** : il lève si la réponse n'est pas du
-JSON valide.
+JSON valide — et l'exception est une `DecodingExceptionInterface`, pas une
+`ClientExceptionInterface`.
+
+**Seule `HttpExceptionInterface` porte `getResponse()`.** Sur une panne réseau
+il n'y a pas de réponse à inspecter ; chercher `getResponse()` sur une
+`TransportExceptionInterface` est l'erreur attendue.
 
 ## Points clés
 
@@ -136,9 +186,15 @@ JSON valide.
 - Émettre toutes les requêtes, puis lire — sinon pas de parallélisme.
 - Les accesseurs lèvent sur statut d'erreur, sauf avec `false`.
 - `MockHttpClient` pour tester sans réseau.
+- Deux branches d'exceptions : transport (rien n'est arrivé) et HTTP (une
+  réponse est là) ; seule la seconde expose `getResponse()`.
 
 ## Aller lire la source
 
 - [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, requêtes asynchrones
 - [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,
   `withOptions()` (branche 8.0, `6f841c0`)
+- [`HttpExceptionInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php) — `getResponse()`, et les interfaces
+  voisines du même répertoire `Exception/` (branche 8.0)
+- [`ResponseInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php) — les `@throws` de `getStatusCode()`,
+  `getHeaders()`, `getContent()` et `toArray()` (branche 8.0)

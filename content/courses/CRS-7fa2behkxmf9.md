@@ -5,7 +5,7 @@ title: "Cookies"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-16"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -14,6 +14,11 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "SAMESITE_NONE, SAMESITE_LAX, SAMESITE_STRICT lines 21-23"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md"
+    readable_url: "https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md"
+    branch: "main"
+    symbol_or_lines: "sections « The \"__Secure-\" Prefix » et « The \"__Host-\" Prefix », lignes 842-893"
+    verified_at: "2026-09-16"
 ---
 
 ## Objectif
@@ -84,6 +89,39 @@ d'être posé.
 - **`none`** — toujours envoyé. **Exige `Secure`** : sans lui, les navigateurs
   rejettent le cookie.
 
+## `Partitioned` — le cookie tiers cloisonné (CHIPS)
+
+```php
+Cookie::create('widget')->withSecure(true)->withSameSite(Cookie::SAMESITE_NONE)
+    ->withPartitioned(true);        // ajoute « ; partitioned » à l'en-tête
+```
+
+`withPartitioned()` vaut `true` sans argument ; le drapeau est `false` dans
+`create()`, et sérialisé en dernier, **après** `samesite`.
+
+Ce qu'il change : un cookie tiers partitionné est rangé dans un pot séparé par
+site intégrateur. Le widget reconnaît son visiteur sur `a.test` sans que ce soit
+le même cookie que sur `b.test` — le suivi intersites tombe, l'usage légitime
+survit.
+
+## Les préfixes `__Secure-` et `__Host-`
+
+Des règles **de nommage** appliquées par le navigateur, dont l'intérêt d'examen
+tient à ce qu'aucune API ne les pose :
+
+| Préfixe | Ce que le navigateur exige, sinon il rejette |
+|---|---|
+| `__Secure-` | l'attribut `Secure` |
+| `__Host-` | `Secure`, `Path=/`, et **aucun** `Domain` |
+
+La correspondance est **sensible à la casse** : `__host-sid` n'est pas un cookie
+préfixé.
+
+**Symfony 8.0 ne vérifie rien de tout cela.** Ni `Cookie` ni `ResponseHeaderBag`
+ne connaissent ces chaînes : `Cookie::create('__Host-session')` sans `Secure`
+part sans une plainte, et c'est le navigateur qui le jette en silence. Le
+contrôle est chez le client, pas dans le framework.
+
 ## Pièges d'examen
 
 **`SameSite=none` sans `Secure` est rejeté.** Ce n'est pas un avertissement :
@@ -121,10 +159,13 @@ qu'un cookie créé sans arguments est nu.
   `secure` auto-activé en HTTPS, `expire 0` — mais `fromString()` a les siens,
   bien moins sûrs.
 - `removeCookie()` retire de la réponse ; `clearCookie()` efface chez le client.
+- `withPartitioned()` cloisonne un cookie tiers ; les préfixes `__Host-` et
+  `__Secure-` sont tenus par le navigateur, jamais par Symfony.
 - `SameSite=none` impose `Secure` ; suppression = mêmes `path` et `domain`.
 
 ## Aller lire la source
 
-- [`Cookie`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php) — `create()` et ses défauts, constantes `SAMESITE_*`
-  (branche 8.0, `6f841c0`)
+- [`Cookie`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php) — `create()` et ses défauts l. 75, constantes `SAMESITE_*`,
+  `withPartitioned()` l. 262, sérialisation de `partitioned` l. 313 (branche 8.0, `6f841c0`)
+- [Brouillon httpbis « Cookies »](https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md) — préfixes `__Secure-` et `__Host-`
 - [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
