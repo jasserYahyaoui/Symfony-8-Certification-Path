@@ -85,7 +85,20 @@ Ce déploiement est donc une **dérogation documentée**, pas une validation :
   `docs/policy/language-policy.md` publiait des effectifs de corpus que les cinq
   questions rendaient faux ; ils sont recalculés.
 
-  **Le lot reste non validé.** Aucune revue indépendante n'a vu cet état.
+  **La revue n° 5 a eu lieu le 2026-09-16 : `LOT 02 NON VALIDÉ`, 72/100, 1 `P0`,
+  2 `P1`.** Détail complet dans `REVIEW.md`. Le `P0` — la casse des préfixes de
+  cookie — avait été **écrit par moi le jour même** : j'avais cité le chapitre
+  des exigences serveur du brouillon httpbis pour décrire le navigateur, alors
+  que ce chapitre renvoie explicitement vers l'autre, qui dit `MUST match
+  case-insensitively`. J'enseignais la vulnérabilité comme si c'était la règle.
+
+  Les quatre anomalies bloquantes sont corrigées le jour même, chacune vérifiée
+  contre la source récupérée. `CRS-002` est ajoutée : elle compare le
+  `content_level` du cours à celui de son item, ce qu'aucune règle ne faisait, et
+  elle a trouvé une seconde divergence dans le lot 01 dès sa première exécution.
+
+  **Le lot reste non validé** : aucune sixième revue n'a vu l'état corrigé, et
+  les `P2`/`P3` de la revue n° 5 restent ouverts et nommés.
 
 Ce qui est vrai et vérifié au moment du déploiement : les portes du dépôt sont
 vertes, les cours ne contiennent plus de `P0` selon la revue n° 4, et le lot est

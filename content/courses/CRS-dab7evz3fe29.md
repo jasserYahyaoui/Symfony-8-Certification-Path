@@ -46,8 +46,9 @@ Accept: text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8
 ```
 
 Chaque valeur porte un facteur de qualité `q` entre `0` et `1`, valant `1.0`
-par défaut. La spécificité départage à qualité égale : `text/html` l'emporte
-sur `text/*`, qui l'emporte sur `*/*`.
+par défaut. La spécificité ne départage pas deux types : elle décide **quel
+motif fixe le `q` d'un type donné**. Pour `text/html`, c'est `text/html` avant
+`text/*`, lui-même avant `*/*` — quelles que soient les qualités écrites.
 
 ## Côté Symfony
 
@@ -104,7 +105,8 @@ autre chose ; il l'annonce par `Content-Type`.
 ## Points clés
 
 - Une ressource, plusieurs représentations ; le client préfère, le serveur choisit.
-- `q` par défaut `1.0` ; `q=0` refuse ; la spécificité départage.
+- `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le motif qui
+  fixe le `q` d'un type, elle ne classe pas deux types entre eux.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.
 

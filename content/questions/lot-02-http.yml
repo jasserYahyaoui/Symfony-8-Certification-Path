@@ -1229,8 +1229,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Trusted proxies are correctly declared and X-Forwarded-For carries three addresses. Which
-      one does Request::getClientIp() return?
+    question: Every hop in the chain is declared a trusted proxy, and X-Forwarded-For carries three
+      addresses. Which one does Request::getClientIp() return?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1246,7 +1246,7 @@ questions:
       - proxy
     choices:
       - id: CHO-h54tpz0e05vs
-        text: The left-most address, which is the original client
+        text: The one address left once trusted proxies are stripped
         correct: true
       - id: CHO-3kpwwqxhr5cz
         text: The right-most address, which is the closest proxy
@@ -1643,8 +1643,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: 'A server can return HTML or JSON. The client sends Accept: text/*;q=0.9, application/json;q=0.9.
-      Which representation should be served?'
+    question: 'A Symfony application reads Accept: text/*;q=0.9, application/json;q=0.9. Which entry
+      does getAcceptableContentTypes() list first?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1660,28 +1660,37 @@ questions:
       - accept
     choices:
       - id: CHO-qf4pajeqej06
-        text: JSON, because at equal quality the more specific media range wins
+        text: text/*, because a tie on quality is broken by the client's order
         correct: true
       - id: CHO-bk480530tn6r
-        text: HTML, because text/* appears first in the header
+        text: application/json, because the more specific range wins
         correct: false
-        explanation: Position carries no weight in RFC 9110; only quality and specificity do.
+        explanation: That is RFC 9110's precedence rule, and it decides which range fixes the q of one
+          given type. It does not rank two ranges covering different types, and AcceptHeader never applies
+          it.
       - id: CHO-jfhgygxqzqkn
-        text: Either one, because the quality factors are equal
+        text: Either one; the sort leaves a tie in an unspecified order
         correct: false
-        explanation: Specificity is the documented tie-break, so the choice is determined.
+        explanation: The comparison falls through to getIndex(), so the resulting order is fully determined.
       - id: CHO-s1bc7cpvnyw5
-        text: Neither, and 406 Not Acceptable is the correct answer
+        text: Neither; ranges that tie are dropped from the list
         correct: false
-        explanation: Both ranges are acceptable at q=0.9; 406 applies when nothing is.
-    explanation: Quality factors rank the ranges first; where they tie, the more specific range prevails,
-      so application/json outranks text/*. Order of appearance never enters the computation.
+        explanation: Nothing is dropped, not even an item at q=0.
+    explanation: 'AcceptHeader::sort() compares the quality first and, when it ties, getIndex() — the
+      order the client wrote. Specificity never enters: RFC 9110 uses it to decide which range fixes the
+      q of a given type, not to rank two ranges covering different types. Here text/* covers text/html
+      and application/json covers itself, so the qualities genuinely tie and the client''s order decides.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
         readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
         symbol_or_lines: section 12.5.1 Accept
         verified_at: '2026-09-11'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/AcceptHeader.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/AcceptHeader.php
+        branch: '8.0'
+        symbol_or_lines: 'sort(): quality then getIndex()'
+        verified_at: '2026-09-16'
   - id: QST-8wjq9g6r7k3h
     question_archetype: API_SIGNATURE
     assesses_outcomes:
@@ -1844,14 +1853,17 @@ questions:
         correct: false
         explanation: The prefix constrains the attributes, not the transport, and a conformant agent rejects
           the cookie outright.
-    explanation: __Host- is a naming rule enforced by the user agent, matched case-sensitively, and it
-      demands Secure, Path=/ and no Domain. Symfony 8.0 implements no part of it, so the mistake is
-      silent on the server and visible only as a cookie that never comes back.
+    explanation: '__Host- is a naming rule enforced by the user agent, which demands Secure, Path=/ and
+      no Domain. The match is asymmetric and deliberately so: a server writes the prefix exactly, while
+      a UA MUST recognise it case-insensitively, so that a third party cannot slip a __SeCuRe-SID past
+      a server that compares without case either. Symfony 8.0 implements no part of it, so the mistake
+      is silent on the server and visible only as a cookie that never comes back.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md
         readable_url: https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md
         branch: main
-        symbol_or_lines: sections The "__Secure-" Prefix and The "__Host-" Prefix, lines 842-893
+        symbol_or_lines: server requirements lines 842-893; user-agent requirements "Cookie Name Prefixes"
+          lines 1245-1288 and storage model steps 20-21, lines 1817-1831
         verified_at: '2026-09-16'
   - id: QST-ye35qf35m0tt
     question_archetype: BEHAVIOR_DIAGNOSIS

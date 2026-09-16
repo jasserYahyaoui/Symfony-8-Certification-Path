@@ -2,7 +2,7 @@
 id: CRS-e4y7gtn5k4f0
 official_item: OIT-vt0p9cacpkpd
 title: "Interfaces"
-content_level: MINIMAL
+content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"

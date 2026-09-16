@@ -294,3 +294,83 @@ resserrer la prose, jamais de changer de palier. Reste une question ouverte que
 la revue n° 5 devait trancher : **95/100 est-il atteignable sous cette
 contrainte, ou le plafond réel est-il structurellement inférieur ?** Elle
 appelle une décision humaine, pas une itération de plus.
+
+---
+
+## Revue n° 5 — 2026-09-16 — **LOT 02 NON VALIDÉ, 72/100**
+
+Première revue à voir le lot après les trois vagues de corrections, les cinq
+notions et leurs questions. Sous-agent indépendant, n'ayant participé ni à la
+rédaction ni aux revues 1 à 4. Holdout non ouvert, vérifié.
+
+| Poste | Note |
+|---|---|
+| Exactitude technique | 14 / 25 |
+| Couverture du périmètre | 17 / 20 |
+| Pertinence certification | 17 / 20 |
+| Qualité pédagogique | 11 / 15 |
+| Exemples de code | 8 / 10 |
+| Sources | 3 / 5 |
+| Cohérence interne | 2 / 5 |
+| **Total** | **72 / 100** |
+
+### Les trois anomalies bloquantes, toutes vérifiées par moi contre la source
+
+**`P0-1` — la casse des préfixes de cookie. Écrite par moi le jour même.**
+J'avais cité les lignes 842-893 du brouillon httpbis, qui est le chapitre des
+exigences **serveur**, pour décrire ce que fait le **navigateur**. Le document
+dit l'inverse à l'intention des agents : « UAs **MUST** match the prefix string
+**case-insensitively** » (l. 1247), repris par les étapes 20 et 21 du storage
+model (l. 1817-1831). Pire, le brouillon consacre 35 lignes à expliquer que la
+correspondance sensible à la casse **est la faille** : un `__SeCuRe-SID` posé
+par un tiers se ferait passer pour un cookie ordinaire. J'enseignais donc la
+vulnérabilité comme si c'était la règle. Le chapitre que j'avais lu contient
+pourtant, en tête, le renvoi explicite vers l'autre : « The user agent
+requirements … are detailed in `{{ua-name-prefixes}}` ». Je ne l'ai pas suivi.
+
+**`P1-1` — une règle de départage inexistante.** `QST-055ctb1t92na` enseignait
+que la spécificité tranche entre deux motifs à qualité égale, et que « order of
+appearance never enters the computation ». `AcceptHeader::sort()` fait
+exactement le contraire : `getQuality() <=> … ?: getIndex() <=> …`. La question
+contredisait le cours du même item, qui énonce déjà la bonne règle.
+
+**`P1-2` — le libellé récompensait le piège que le cours démonte.**
+`QST-z116xknpac5j` donnait pour bonne réponse « The left-most address, which is
+the original client », alors que le cours consacre un paragraphe entier — et un
+point clé — à dire que `getClientIp()` ne renvoie **pas** la plus à gauche.
+J'avais corrigé l'`explanation` lors d'une revue précédente et laissé le
+libellé, qui est pourtant ce que l'apprenant mémorise.
+
+**`P2-1` — `content_level` du cours contre la matrice.** Ma promotion en `DEEP`
+(ADR-0008) avait modifié la matrice sans le front matter du cours.
+
+### Ce que la revue a explicitement **ne pas** trouvé
+
+Toutes les plages de lignes des dix sections « Aller lire la source » et des
+`official_sources` des 41 questions non-holdout vérifiées une à une : deux
+fausses sur plusieurs dizaines. Extraits de code fidèles au caractère près.
+Aucune fuite `CRS-001`. Aucun biais de longueur. Les 39 outcomes du lot tous
+évalués hors holdout. `POOL-002` satisfaite. Aucun dépassement `REV-001`.
+
+### Suites données le jour même
+
+`P0-1`, `P1-1`, `P1-2` et `P2-1` corrigés, chacun vérifié contre la source
+récupérée. Le cours *Content negotiation* corrigé aussi sur la formulation de
+spécificité, défaut connexe signalé par la revue.
+
+La recommandation hors barème est suivie : `Course::contentLevel` n'était
+consommé par **aucune** règle. `CRS-002` le compare désormais à celui de son
+item. Elle n'est pas muette — elle a trouvé **une seconde divergence** à sa
+première exécution, dans le lot 01 (*Interfaces*, `MINIMAL` contre `STANDARD`),
+que cette revue n'avait pas auditée. Son échec est prouvé par
+`prove_framework_rules_fail.py`, qui compte désormais dix cas.
+
+**Les `P2` et `P3` restants sont ouverts et nommés** : `WWW-Authenticate` sur
+401, `getContentTypeFormat()`, collision `BinaryFileResponse`/`StreamedResponse`,
+options de délai rangées sous `## Tests`, `PED-003` sur *Language detection*,
+plage `lines 28-160` fausse, ancre `section-15` inexistante, ordre `ksort()` des
+directives, exemple `getClientIp()` sous-spécifié, qualificatif « côté Symfony »
+perdu, « types acceptés » avec `q=0`, et l'ambiguïté de `QST-6mzvc5xvgyqe`.
+
+**Aucune sixième revue n'a vu l'état corrigé.** Le lot reste `NON VALIDÉ`.
+

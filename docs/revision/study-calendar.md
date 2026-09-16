@@ -84,21 +84,21 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **HTTP : HTTP response** (STANDARD) — 16 min · 729 mots · 5 questions, 1 flashcards
 - NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 14 min · 608 mots · 4 questions, 1 flashcards
-- NOUVEAU · **HTTP : Cookies** (STANDARD) — 18 min · 877 mots · 6 questions, 1 flashcards
+- NOUVEAU · **HTTP : Cookies** (STANDARD) — 19 min · 897 mots · 6 questions, 1 flashcards
 - NOUVEAU · **HTTP : Caching** (STANDARD) — 18 min · 885 mots · 5 questions, 1 flashcards
 - Révision **J+1** (22 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 88 / 120 min*
+*Budget du jour : 89 / 120 min*
 
 ### Mercredi 7 octobre 2026
 
-- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 11 min · 438 mots · 4 questions, 1 flashcards
+- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 12 min · 473 mots · 4 questions, 1 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 7 min · 274 mots · 2 questions, 1 flashcards
 - NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 17 min · 762 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 9 min · 370 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 68 / 120 min*
+*Budget du jour : 69 / 120 min*
 
 ### Jeudi 8 octobre 2026
 
