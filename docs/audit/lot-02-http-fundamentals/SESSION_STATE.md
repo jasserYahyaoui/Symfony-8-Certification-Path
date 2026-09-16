@@ -14,7 +14,12 @@
 
 ## Statut global
 
-`CORRECTIONS_REQUIRED` → quatrième `INDEPENDENT_REVIEW` en cours (n° 1 : 64/100, n° 2 : 82,5/100, n° 3 : 76,5/100 — tous NON VALIDÉ)
+`BLOCKED`
+
+Quatre revues indépendantes rendues, **toutes NON VALIDÉ** : 64, 82,5, 76,5 puis
+77/100. La cinquième a échoué sur une limite d'API sans produire de verdict.
+Les quatre `P1` de la revue n° 4 sont corrigés, mais **aucune revue n'a validé
+l'état corrigé** : le dernier verdict opposable reste `NON VALIDÉ`.
 
 ## Avancement
 
@@ -36,10 +41,14 @@ indépendant lancé.
 
 ## Prochaine action exacte
 
-Lire le rapport de la **seconde** revue indépendante, le consigner dans
-`REVIEW.md`. Si P0 ou P1 subsiste : corriger, relancer les portes, relancer une
-troisième revue. Sinon, et si le score atteint 95/100, prononcer le verdict.
-Les 23 anomalies P2/P3 de la revue n° 1 restent ouvertes et nommées.
+**Relancer une revue indépendante sur le HEAD `afeea75`** — les quatre `P1` de
+la revue n° 4 y sont corrigés et n'ont jamais été soumis à revue. Lui demander
+en outre de trancher la question ouverte : le poste « couverture » peut-il
+atteindre 20/20 alors que quatre cours sont à moins de 15 mots de leur plafond
+`REV-001` et que la promotion de niveau est interdite ? Si la réponse est non,
+le seuil de 95/100 est inatteignable par construction et **la décision revient
+à l'owner** : abaisser le seuil, réviser les budgets, ou accepter le lot avec
+ses `P2` nommés.
 
 ## Décisions prises
 

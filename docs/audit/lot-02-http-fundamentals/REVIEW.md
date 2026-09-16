@@ -227,6 +227,70 @@ HttpClient ; `reviewed_at` non rafraîchi sur les 10 cours ; et un distracteur d
 `lot-02-http.yml` qui affirme « max-age applies to private caches » — le piège
 que le cours dénonce désormais.
 
-## Revue n° 4
+## Revue n° 4 — 2026-09-15, HEAD `a6fd2c7`
 
-En cours. Le lot **reste bloqué**.
+**Agent :** quatrième sous-agent indépendant. Composant 8.0 cloné **et diffé
+octet à octet** contre les fichiers `raw` (6/6 identiques), **~50 comportements
+exécutés**, 25 sources, 11 liens et 5 ancres vérifiés, portes relancées par lui
+au HEAD.
+
+### Verdict : **LOT 02 NON VALIDÉ — 77 / 100** — **aucun `P0`**, 4 `P1`
+
+| Poste | Barème | n° 1 | n° 2 | n° 3 | n° 4 |
+|---|---:|---:|---:|---:|---:|
+| Exactitude Symfony 8.0 | 25 | 17 | 23 | 19 | **21** |
+| Couverture HTTP Fundamentals | 20 | 12 | 16 | 16 | **16** |
+| Préparation à la certification | 20 | 12 | 17 | 16 | **13** |
+| Qualité pédagogique | 15 | 11 | 12 | 12 | **13** |
+| Exemples et cas pratiques | 10 | 5 | 8 | 7 | **8** |
+| Sources et traçabilité | 5 | 4 | 3 | 3 | **3,5** |
+| Cohérence | 5 | 3 | 3,5 | 3,5 | **2,5** |
+| **Total** | **100** | **64** | **82,5** | **76,5** | **77** |
+
+**Résultat central : les cours ne contiennent plus de `P0`.** Les quatre `P1`
+étaient ailleurs — et deux d'entre eux dans un angle mort que quatre revues
+avaient laissé.
+
+| # | Où | Anomalie | Statut |
+|---|---|---|---|
+| `P1-1` | `lot-02-http.yml`, pool **HOLDOUT** | un distracteur enseignait « max-age applies to private caches » — le contre-sens que le cours dénonce (RFC 9111 §5.2.2.1 / §5.2.2.10) | **CORRIGÉE** |
+| `P1-2` | `QST-z116xknpac5j` | l'explication publiait « `getClientIps()[0]` … original client left-most » — mécanisme faux (`array_reverse`), rouvrant la faille que le cours ferme | **CORRIGÉE** |
+| `P1-3` | cours *HTTP request* | la restriction 8.0 de l'override (`GET`/`HEAD`/`CONNECT`/`TRACE` ignorés, `setAllowedHttpMethodOverride()`) — **ouverte depuis deux revues** | **CORRIGÉE** |
+| `P1-4` | `VALIDATION.md` | fichier daté de `d084d78`, **quatre commits de cours en amont** : build et a11y y attestaient d'un arbre disparu pendant que `SESSION_STATE` annonçait « toutes les portes au vert » | **CORRIGÉE** |
+
+Aucune clé de réponse n'a été modifiée : seules deux `explanation` ont été
+réécrites. `aud06_holdout_integrity` a été relancé parce que `P1-1` touche un
+payload `HOLDOUT` — il passe.
+
+### L'angle mort, nommé
+
+Quatre revues avaient vérifié qu'« aucun fait testé n'est absent des cours ».
+**Personne n'avait vérifié la réciproque** : qu'aucune explication publiée ne
+contredit un cours. Les deux derniers `P1` étaient exactement là.
+
+## Revue n° 5 — **NON EXÉCUTÉE**
+
+Lancée le 2026-09-15 sur le HEAD `afeea75`, avec pour consigne d'auditer la
+banque de questions explication par explication et de trancher la question du
+plafond de note atteignable sous contrainte `REV-001`.
+
+**Elle s'est arrêtée avant de produire le moindre verdict**, sur une limite de
+session de l'API (HTTP 429). Aucun score, aucune anomalie, aucune conclusion
+n'en est issue, et **rien n'est reporté ici à sa place**.
+
+Le lot **reste donc bloqué au dernier verdict rendu : celui de la revue n° 4,
+`LOT 02 NON VALIDÉ`.**
+
+## Question de fond, posée et non tranchée
+
+Le poste « couverture » plafonne à **16/20** sur les quatre revues. Les notions
+encore absentes — `Partitioned`/CHIPS, `setTrustedHosts()`, `send()`,
+hiérarchie d'exceptions du client HTTP, `415` — ne peuvent entrer qu'en
+retirant du texte : quatre cours sont à **moins de 15 mots** de leur plafond
+`REV-001`, et promouvoir un niveau est interdit.
+
+`REV-001` a bloqué **cinq fois** pendant cet audit. La réponse a toujours été de
+resserrer la prose, jamais de changer de palier. Reste une question ouverte que
+la revue n° 5 devait trancher : **95/100 est-il atteignable sous cette
+contrainte, ou le plafond réel est-il structurellement inférieur ?** Elle
+appelle une décision humaine, pas une itération de plus.
