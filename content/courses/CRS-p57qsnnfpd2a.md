@@ -100,5 +100,5 @@ une page d'erreur ne peut pas afficher son nom.
 
 ## Sources officielles
 
-- [How to Customize Error Pages](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst)
-- [Controller, « Managing Errors and 404 Pages »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [How to Customize Error Pages](https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst)
+- [Controller, « Managing Errors and 404 Pages »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

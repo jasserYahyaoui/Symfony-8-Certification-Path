@@ -140,4 +140,4 @@ sinon il faut poser l'étiquette `data_collector`.
 
 ## Sources officielles
 
-- [Profiler](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst)
+- [Profiler](https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst)

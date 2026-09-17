@@ -94,5 +94,5 @@ applicatif n'intervient.
 
 ## Sources officielles
 
-- [Routing, « Redirecting URLs with Trailing Slashes »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
-- [Routing, « Forcing HTTPS on Generated URLs »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Routing, « Redirecting URLs with Trailing Slashes »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
+- [Routing, « Forcing HTTPS on Generated URLs »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

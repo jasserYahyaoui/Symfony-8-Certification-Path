@@ -99,5 +99,5 @@ pour le rendu du gabarit.
 
 ## Sources officielles
 
-- [Translation, « Translating the Locale from the URL »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst)
-- [Routing, section « Localized Routes (i18n) »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Translation, « Translating the Locale from the URL »](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst)
+- [Routing, section « Localized Routes (i18n) »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

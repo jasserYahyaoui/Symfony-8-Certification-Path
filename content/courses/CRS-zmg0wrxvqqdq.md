@@ -101,5 +101,5 @@ ou viser un chemin, jamais les deux.
 
 ## Sources officielles
 
-- [Routing, redirection directe depuis une route](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
-- [Templates, rendre un gabarit depuis une route](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Routing, redirection directe depuis une route](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
+- [Templates, rendre un gabarit depuis une route](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

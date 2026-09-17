@@ -138,6 +138,6 @@ l'exécution.**
 
 ## Sources officielles
 
-- [Configuring Symfony](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst)
-- [Environment Variable Processors](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst)
-- [The ExpressionLanguage Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst)
+- [Configuring Symfony](https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst)
+- [Environment Variable Processors](https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst)
+- [The ExpressionLanguage Component](https://github.com/symfony/symfony-docs/blob/8.0/components/expression_language.rst)

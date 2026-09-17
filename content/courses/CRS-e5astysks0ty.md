@@ -91,4 +91,4 @@ un worker.
 
 ## Sources officielles
 
-- [Messenger, « Consuming Messages » et « Deploying to Production »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Consuming Messages » et « Deploying to Production »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

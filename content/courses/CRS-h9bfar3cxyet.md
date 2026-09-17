@@ -98,4 +98,4 @@ lisibles.
 
 ## Sources officielles
 
-- [Messenger, « Middleware »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Middleware »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

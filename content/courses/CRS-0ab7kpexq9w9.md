@@ -145,6 +145,6 @@ paramètre PHP.
 
 ## Sources officielles
 
-- [`InputInterface`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php)
-- [`OutputInterface`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
-- [How to Style a Console Command](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/style.rst)
+- [`InputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php)
+- [`OutputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
+- [How to Style a Console Command](https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst)

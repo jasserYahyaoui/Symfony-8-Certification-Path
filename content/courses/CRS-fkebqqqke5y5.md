@@ -117,4 +117,4 @@ changer.
 
 ## Sources officielles
 
-- [How to Decorate Services](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst)
+- [How to Decorate Services](https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst)

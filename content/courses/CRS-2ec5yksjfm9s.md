@@ -86,4 +86,4 @@ cumulées.
 
 ## Sources officielles
 
-- [How Does the Security access_control Work?](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst)
+- [How Does the Security access_control Work?](https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst)

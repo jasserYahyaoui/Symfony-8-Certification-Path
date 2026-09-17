@@ -104,5 +104,5 @@ autorise son absence.
 
 ## Sources officielles
 
-- [Twig 3.22, balise `include`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst)
-- [Twig 3.22, balise `embed`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst)
+- [Twig 3.22, balise `include`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst)
+- [Twig 3.22, balise `embed`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/embed.rst)

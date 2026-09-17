@@ -102,4 +102,4 @@ majeure n'apporte donc rien de neuf par lui-même.
 
 ## Sources officielles
 
-- [The Release Process](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst)
+- [The Release Process](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst)

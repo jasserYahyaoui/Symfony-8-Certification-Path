@@ -104,5 +104,5 @@ emplacement.
 
 ## Sources officielles
 
-- [Symfony Translation, traductions dans les gabarits](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst)
-- [Symfony Twig Reference, filtre `trans`](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst)
+- [Symfony Translation, traductions dans les gabarits](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst)
+- [Symfony Twig Reference, filtre `trans`](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)

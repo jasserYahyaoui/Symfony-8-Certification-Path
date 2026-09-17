@@ -167,6 +167,6 @@ d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
 
 ## Sources officielles
 
-- [HTTP Cache](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst)
-- [HTTP Cache Validation](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache/validation.rst)
-- [HTTP Cache Expiration](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache/expiration.rst)
+- [HTTP Cache](https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst)
+- [HTTP Cache Validation](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/validation.rst)
+- [HTTP Cache Expiration](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst)

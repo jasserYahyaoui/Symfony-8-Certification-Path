@@ -77,4 +77,4 @@ entièrement le rendu n'a pas d'endroit où l'attacher.
 
 ## Sources officielles
 
-- [ResponseHeaderBag, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php)
+- [ResponseHeaderBag, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php)

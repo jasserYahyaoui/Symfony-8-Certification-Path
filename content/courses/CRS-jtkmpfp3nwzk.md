@@ -76,4 +76,4 @@ bundle retire ses services : sans TwigBundle, pas d'`Environment` à injecter.
 
 ## Sources officielles
 
-- [Service Container, « Fetching and using Services »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst)
+- [Service Container, « Fetching and using Services »](https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst)

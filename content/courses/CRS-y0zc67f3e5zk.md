@@ -145,6 +145,6 @@ class CommandLogger implements EventSubscriberInterface
 
 ## Sources officielles
 
-- [`ConsoleEvents`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php)
-- [`Application::doRunCommand`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php)
-- [Using Events](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/events.rst)
+- [`ConsoleEvents`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php)
+- [`Application::doRunCommand`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php)
+- [Using Events](https://github.com/symfony/symfony-docs/blob/8.0/components/console/events.rst)

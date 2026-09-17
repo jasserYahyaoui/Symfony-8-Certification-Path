@@ -141,6 +141,6 @@ qui ne l'étend pas.
 
 ## Sources officielles
 
-- [The Console Helpers](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc)
-- [Question Helper](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst)
-- [`SymfonyStyle`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php)
+- [The Console Helpers](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc)
+- [Question Helper](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/questionhelper.rst)
+- [`SymfonyStyle`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php)

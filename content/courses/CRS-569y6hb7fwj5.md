@@ -89,5 +89,5 @@ violations sur la même propriété.
 
 ## Sources officielles
 
-- [Référence des contraintes](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc)
-- [`NotBlankValidator`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php)
+- [Référence des contraintes](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc)
+- [`NotBlankValidator`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php)

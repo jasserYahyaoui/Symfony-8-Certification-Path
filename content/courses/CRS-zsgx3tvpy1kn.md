@@ -80,4 +80,4 @@ même façon que les champs.
 
 ## Sources officielles
 
-- [Form Types Reference](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst)
+- [Form Types Reference](https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst)

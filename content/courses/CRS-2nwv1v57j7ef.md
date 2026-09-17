@@ -92,5 +92,5 @@ explique les paramètres réservés.
 
 ## Sources officielles
 
-- [composer.json du composant Routing](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json)
-- [UrlGeneratorInterface, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)
+- [composer.json du composant Routing](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/composer.json)
+- [UrlGeneratorInterface, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)

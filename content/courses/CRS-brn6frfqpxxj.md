@@ -93,5 +93,5 @@ répondra à aucune question.
 
 ## Sources officielles
 
-- [`Command`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php)
-- [Console Commands](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst)
+- [`Command`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php)
+- [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)

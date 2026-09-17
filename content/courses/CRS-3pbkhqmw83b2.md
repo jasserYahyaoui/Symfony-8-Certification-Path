@@ -94,4 +94,4 @@ reste des tentatives.
 
 ## Sources officielles
 
-- [Messenger, « Messenger Events »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Messenger Events »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

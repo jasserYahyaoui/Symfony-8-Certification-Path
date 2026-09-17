@@ -104,4 +104,4 @@ l'application.**
 
 ## Sources officielles
 
-- [`components/runtime.rst`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst)
+- [`components/runtime.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)

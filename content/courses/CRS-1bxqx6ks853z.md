@@ -96,5 +96,5 @@ en plus.
 
 ## Sources officielles
 
-- [composer.json de symfony/symfony (branche 8.0)](https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json)
-- [composer.json du bridge Twig](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json)
+- [composer.json de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/composer.json)
+- [composer.json du bridge Twig](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json)

@@ -80,4 +80,4 @@ pas une route ordinaire de l'application.
 
 ## Sources officielles
 
-- [Symfony Templates, « Embedding Controllers »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Symfony Templates, « Embedding Controllers »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

@@ -98,5 +98,5 @@ seconde détruit tout — c'est la déconnexion.
 
 ## Sources officielles
 
-- [Sessions](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst)
-- [Controller, « Managing the Session »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [Sessions](https://github.com/symfony/symfony-docs/blob/8.0/session.rst)
+- [Controller, « Managing the Session »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

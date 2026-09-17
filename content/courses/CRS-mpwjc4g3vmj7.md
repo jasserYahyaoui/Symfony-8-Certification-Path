@@ -128,6 +128,6 @@ rien à l'utilisateur.
 
 ## Sources officielles
 
-- [Composant HttpKernel, « The Request-Response Lifecycle »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst)
-- [Built-in Symfony Events, « Kernel Events »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst)
-- [Composant Runtime, section « Usage »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst)
+- [Composant HttpKernel, « The Request-Response Lifecycle »](https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst)
+- [Built-in Symfony Events, « Kernel Events »](https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst)
+- [Composant Runtime, section « Usage »](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)

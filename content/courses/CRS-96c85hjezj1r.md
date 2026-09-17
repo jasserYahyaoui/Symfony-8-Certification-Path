@@ -75,5 +75,5 @@ message marqué `VERBOSITY_VERBOSE` s'affiche à `-v`, `-vv` **et** `-vvv`.
 
 ## Sources officielles
 
-- [`OutputInterface`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
-- [Console Verbosity](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst)
+- [`OutputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
+- [Console Verbosity](https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst)

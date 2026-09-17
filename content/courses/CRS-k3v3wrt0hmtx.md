@@ -102,5 +102,5 @@ d'un seul.
 
 ## Sources officielles
 
-- [Twig 3.22, balise `extends`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst)
-- [Twig 3.22, balise `use`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst)
+- [Twig 3.22, balise `extends`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst)
+- [Twig 3.22, balise `use`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/use.rst)

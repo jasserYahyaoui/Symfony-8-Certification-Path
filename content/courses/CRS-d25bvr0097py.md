@@ -134,5 +134,5 @@ s'exécute pas à la compilation.
 
 ## Sources officielles
 
-- [How to Work with Compiler Passes](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst)
-- [`PassConfig`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php)
+- [How to Work with Compiler Passes](https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst)
+- [`PassConfig`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php)

@@ -91,5 +91,5 @@ a été retirée.
 
 ## Sources officielles
 
-- [`UserInterface`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php)
-- [Security](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst)
+- [`UserInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php)
+- [Security](https://github.com/symfony/symfony-docs/blob/8.0/security.rst)

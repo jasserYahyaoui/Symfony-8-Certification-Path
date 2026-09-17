@@ -113,4 +113,4 @@ Le sous-tableau est donc une étape ; la séquence est une suite d'étapes.
 
 ## Sources officielles
 
-- [How to Sequentially Apply Validation Groups](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst)
+- [How to Sequentially Apply Validation Groups](https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst)

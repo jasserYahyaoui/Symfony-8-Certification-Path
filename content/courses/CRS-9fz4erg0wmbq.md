@@ -80,5 +80,5 @@ jamais laissé vide.
 
 ## Sources officielles
 
-- [Controller, section « A Basic Controller »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
-- [Routing, génération d'URL et alias de route](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Controller, section « A Basic Controller »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
+- [Routing, génération d'URL et alias de route](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

@@ -134,4 +134,4 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 
 ## Sources officielles
 
-- [`components/mime.rst`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst)
+- [`components/mime.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst)

@@ -120,4 +120,4 @@ déploiement sont tous cités.
 
 ## Sources officielles
 
-- [How to Deploy a Symfony Application](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst)
+- [How to Deploy a Symfony Application](https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst)

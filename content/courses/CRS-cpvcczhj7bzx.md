@@ -76,4 +76,4 @@ champ est facultatif.
 
 ## Sources officielles
 
-- [How to Upload Files, ajout du champ au formulaire](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst)
+- [How to Upload Files, ajout du champ au formulaire](https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst)

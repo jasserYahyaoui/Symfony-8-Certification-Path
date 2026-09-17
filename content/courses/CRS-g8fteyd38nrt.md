@@ -102,4 +102,4 @@ automatique. Une classe exclue mais référencée explicitement est enregistrée
 
 ## Sources officielles
 
-- [Service Container, « Automatic Service Loading »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst)
+- [Service Container, « Automatic Service Loading »](https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst)

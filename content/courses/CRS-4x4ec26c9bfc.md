@@ -117,4 +117,4 @@ client fait de l'exception.
 
 ## Sources officielles
 
-- [Testing](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst)
+- [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)

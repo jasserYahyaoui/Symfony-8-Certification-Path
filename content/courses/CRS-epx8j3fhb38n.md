@@ -81,5 +81,5 @@ noyau est écrit dans son vocabulaire.
 
 ## Sources officielles
 
-- [Composant HttpFoundation](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst)
-- [RequestStack (branche 8.0)](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php)
+- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
+- [RequestStack (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php)

@@ -102,4 +102,4 @@ n'est pas vrai.
 
 ## Sources officielles
 
-- [Service Container, « What is a Service Container »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst)
+- [Service Container, « What is a Service Container »](https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst)

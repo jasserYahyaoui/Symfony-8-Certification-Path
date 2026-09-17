@@ -108,4 +108,4 @@ formulaire tente d'écrire dans quelque chose qui n'existe pas.
 
 ## Sources officielles
 
-- [Forms, « Building Forms »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst)
+- [Forms, « Building Forms »](https://github.com/symfony/symfony-docs/blob/8.0/forms.rst)

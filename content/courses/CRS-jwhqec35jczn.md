@@ -149,4 +149,4 @@ résultats s'écrasent.
 
 ## Sources officielles
 
-- [The Finder Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst)
+- [The Finder Component](https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst)

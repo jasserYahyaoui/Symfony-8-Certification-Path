@@ -140,6 +140,6 @@ HTML.
 
 ## Sources officielles
 
-- [Twig 3.22, *Twig for Template Designers*](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst)
-- [Symfony Templates, « Template Variables »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
-- [Twig 3.22, `CoreExtension::getAttribute()`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php)
+- [Twig 3.22, *Twig for Template Designers*](https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst)
+- [Symfony Templates, « Template Variables »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)
+- [Twig 3.22, `CoreExtension::getAttribute()`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)

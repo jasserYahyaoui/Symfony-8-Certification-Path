@@ -113,5 +113,5 @@ l'application garde le dernier mot.
 
 ## Sources officielles
 
-- [How to Create Friendly Configuration for a Bundle](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst)
-- [How to Load Service Configuration inside a Bundle](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/extension.rst)
+- [How to Create Friendly Configuration for a Bundle](https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst)
+- [How to Load Service Configuration inside a Bundle](https://github.com/symfony/symfony-docs/blob/8.0/bundles/extension.rst)

@@ -99,4 +99,4 @@ handler.
 
 ## Sources officielles
 
-- [Messenger, « Creating a Message & Handler »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Creating a Message & Handler »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

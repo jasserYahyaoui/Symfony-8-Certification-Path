@@ -140,5 +140,5 @@ remonter jusqu'à PHPUnit.
 
 ## Sources officielles
 
-- [Testing](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst)
-- [`KernelBrowser`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php)
+- [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)
+- [`KernelBrowser`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php)

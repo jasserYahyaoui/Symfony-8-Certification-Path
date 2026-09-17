@@ -121,5 +121,5 @@ mal lire.
 
 ## Sources officielles
 
-- [Twig 3.22, balise `for`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst)
-- [Twig 3.22, balise `if`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst)
+- [Twig 3.22, balise `for`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst)
+- [Twig 3.22, balise `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst)

@@ -78,4 +78,4 @@ service (`#[AsCommand]`), `Map...` concerne un argument de contrôleur
 
 ## Sources officielles
 
-- [Coding Standards, section « Naming Conventions »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst)
+- [Coding Standards, section « Naming Conventions »](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst)
