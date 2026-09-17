@@ -95,14 +95,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 26 min · 843 mots · 4 questions, 16 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 21 min · 605 mots · 2 questions, 15 flashcards
 - NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 29 min · 843 mots · 5 questions, 16 flashcards
-- NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 9 min · 370 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 23 min · 694 mots · 3 questions, 15 flashcards
 - Révision **J+1** (24 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 109 / 140 min*
+*Budget du jour : 123 / 140 min*
 
 ### Jeudi 8 octobre 2026
 
-- NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 12 min · 478 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 26 min · 802 mots · 4 questions, 15 flashcards
 - NOUVEAU · **Symfony Architecture : License** (MINIMAL) — 7 min · 248 mots · 2 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 10 min · 466 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 12 min · 543 mots · 4 questions, 1 flashcards
@@ -110,7 +110,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+3** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 92 / 140 min*
+*Budget du jour : 106 / 140 min*
 
 ### Vendredi 9 octobre 2026
 

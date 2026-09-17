@@ -528,6 +528,50 @@ jobs:
           done
           echo "ok  lot-02  no double-escaped entity on the three most code-heavy pages"
 
+          # Lot 03, page by page as the refinement lands. Same rule as lot 02:
+          # each needle absent from master before its change, present in the
+          # locally built page, no apostrophe and no code span.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-httpfoundation -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/httpfoundation-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page httpfoundation-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-httpfoundation || missing="$missing httpfoundation:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l3r-httpfoundation || missing="$missing httpfoundation:no-trap-heading"
+          grep -aq 'Les trois accesseurs, exactement' /tmp/l3r-httpfoundation \
+            || missing="$missing httpfoundation:no-accessors-section"
+          grep -aq 'un-compatible with other features' /tmp/l3r-httpfoundation \
+            || missing="$missing httpfoundation:no-esi-warning"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the HttpFoundation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the HttpFoundation page carries its levelled flashcards and exam tips"
+          fi
+
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-flex -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/symfony-flex")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page symfony-flex serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-flex || missing="$missing flex:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l3r-flex || missing="$missing flex:no-trap-heading"
+          grep -aq 'guaranteed to work' /tmp/l3r-flex || missing="$missing flex:no-contrib-correction"
+          grep -aq 'Trois mots, trois choses distinctes' /tmp/l3r-flex \
+            || missing="$missing flex:no-exam-tip"
+          grep -aq 'automatically unpacks the pack' /tmp/l3r-flex \
+            || missing="$missing flex:no-unpack-card"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Symfony Flex page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Symfony Flex page carries its levelled flashcards and the contrib correction"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

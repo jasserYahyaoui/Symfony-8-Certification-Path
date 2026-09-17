@@ -215,6 +215,7 @@ flashcards:
   - id: FLC-p419ytejyj1a
     official_item: OIT-y0ah7pq9c4hv
     language: fr
+    level: UNDERSTANDING
     front: 'Symfony : dans quel sens va la dépendance entre HttpFoundation et le framework ?'
     back: Du framework vers HttpFoundation. Le composant ne dépend d'aucun composant Symfony.
     explanation: Le contrat du noyau est écrit dans le vocabulaire de HttpFoundation (`Request`, `Response`),
@@ -231,6 +232,7 @@ flashcards:
   - id: FLC-7gcgff6wmgq8
     official_item: OIT-132nwnh9c6bc
     language: fr
+    level: RECALL
     front: 'Symfony Flex : quelle différence de comportement entre `symfony/recipes` et `symfony/recipes-contrib`
       ?'
     back: '`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande une autorisation.'
@@ -349,3 +351,697 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: provide key
       verified_at: '2026-09-11'
+
+  # ---------------------------------------------------------------------------
+  # OIT-y0ah7pq9c4hv — HttpFoundation component.
+  #
+  # Quatorze cartes ajoutées le 2026-09-17. RequestStack.php de la branche 8.0
+  # relu le jour même : push l. 45, pop l. 58, getCurrentRequest l. 67,
+  # getMainRequest l. 79, getParentRequest l. 97, getSession l. 109.
+  # La carte préexistante FLC-p419ytejyj1a porte sur le sens de la dépendance
+  # et n'est pas redoublée.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-97zy6sabcx93
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: RECALL
+    front: "Symfony : que rendent `getCurrentRequest()`, `getMainRequest()` et `getParentRequest()` en termes de pile ?"
+    back: "Le **dernier** empilé, le **premier**, et l'**avant-dernier** — soit `end($requests)`, `$requests[0]`, et l'index `count - 2`."
+    explanation: >-
+      Ce sont trois positions dans une même pile, pas trois notions distinctes.
+      Les trois rendent `null` sur une pile vide, et `getParentRequest()` rend
+      `null` dès que la requête courante **est** la principale : il n'y a alors
+      aucun élément avant elle.
+    memorization_justification: >-
+      Trois noms qui évoquent des rôles alors qu'ils désignent des indices ;
+      réduire la question à une position rend la réponse immédiate.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest l. 67, getMainRequest l. 79, getParentRequest l. 97"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m278q8xqqpv8
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: RECALL
+    front: "Symfony : quel accesseur de `RequestStack` lève une exception plutôt que de rendre `null` ?"
+    back: "`getSession()` — une `SessionNotFoundException`. Les trois accesseurs de requête rendent `null`."
+    explanation: >-
+      Son type de retour est `SessionInterface` sans `?` : il ne **peut** rien
+      rendre d'autre. Elle lève dans deux cas — la pile est vide, ou la requête
+      courante n'a pas de session. L'asymétrie avec les trois autres accesseurs
+      est donc portée par la signature, pas par une convention.
+    memorization_justification: >-
+      Un accesseur sur quatre a un contrat d'échec opposé aux autres, dans la
+      même classe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSession lignes 109-116"
+        verified_at: "2026-09-17"
+
+  - id: FLC-0jh21k7na6rp
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: RECALL
+    front: "Quelles superglobales PHP HttpFoundation remplace-t-il, et par quoi ?"
+    back: "`$_GET`, `$_POST`, `$_FILES`, `$_COOKIE`, `$_SERVER` — remplacées par des objets `Request` et `Response`."
+    explanation: >-
+      L'intérêt n'est pas cosmétique : un objet se **fabrique**.
+      `Request::create('/blog')` produit une requête complète sans serveur web,
+      donc une pile HTTP testable — ce qu'aucune superglobale ne permet. Côté
+      réponse, `header()` et `echo` deviennent un objet qu'on peut inspecter
+      avant émission.
+    memorization_justification: >-
+      Liste fermée de cinq superglobales, et la raison — la testabilité — qui
+      explique toute l'architecture qui suit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "the-httpfoundation-component"
+        symbol_or_lines: "introduction du composant"
+        verified_at: "2026-09-17"
+
+  - id: FLC-er0y5dcb5p86
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi n'injecte-t-on jamais `Request` dans un service ?"
+    back: "Parce qu'un service est construit **une fois** et que la requête change à chaque appel : on injecte `RequestStack`."
+    explanation: >-
+      Injecter la requête figerait, dans un objet à durée de vie longue, une
+      valeur qui n'est vraie que pendant un traitement. `RequestStack` résout
+      cela en déplaçant la lecture au moment de l'appel :
+      `getCurrentRequest()`. C'est le même raisonnement que pour n'importe quel
+      état changeant confié à un conteneur.
+    memorization_justification: >-
+      Règle d'architecture dont la raison — deux durées de vie différentes — est
+      ce qui permet de la retrouver plutôt que de la mémoriser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest lignes 67-70"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yzp1fcxnee9v
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le docblock déconseille-t-il de rendre son code conscient de la requête principale ?"
+    back: "Parce que cela « might make it un-compatible with other features of your framework like ESI support »."
+    explanation: >-
+      Une sous-requête existe pour être traitée **comme si** elle était seule :
+      c'est ce qui permet à un fragment ESI d'être rendu, mis en cache et servi
+      indépendamment. Un service qui consulte `getMainRequest()` fait dépendre
+      son résultat d'un contexte que le fragment n'aura pas quand il sera servi
+      seul depuis un cache.
+    memorization_justification: >-
+      Avertissement présent dans le code et absent des tutoriels ; il explique
+      pourquoi deux accesseurs existants sont à éviter.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "docblocks de getMainRequest l. 72-78 et getParentRequest l. 88-96"
+        verified_at: "2026-09-17"
+
+  - id: FLC-bfy6s9xy7qnq
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: UNDERSTANDING
+    front: "Dans quel sens va la dépendance entre HttpFoundation et le reste du framework ?"
+    back: "Du framework **vers** HttpFoundation. Le composant est autonome ; le contrat du noyau, `handle(Request): Response`, est écrit dans son vocabulaire."
+    explanation: >-
+      HttpFoundation s'installe et s'utilise dans n'importe quel projet PHP,
+      sans Symfony et sans dépendre d'un autre composant. L'inverse est
+      impossible : tout ce qui manipule une requête ou une réponse dans le
+      framework parle son langage. C'est la brique la plus basse de la pile
+      HTTP.
+    memorization_justification: >-
+      Sens de dépendance qu'on inverse spontanément parce que le framework est
+      ce qu'on utilise en premier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "the-httpfoundation-component"
+        symbol_or_lines: "presentation du composant comme autonome"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zqr17fen4pp3
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur rend un fragment par `render(controller(...))`. Que vaut `getParentRequest()` dans le service appelé ?"
+    back: "La requête principale : la sous-requête est empilée par-dessus elle, donc l'avant-dernier élément est bien la requête parente."
+    explanation: >-
+      La pile compte alors deux éléments. `getCurrentRequest()` rend la
+      sous-requête, `getMainRequest()` et `getParentRequest()` rendent toutes
+      deux la requête d'origine — elles coïncident tant qu'il n'y a qu'un
+      niveau d'imbrication. Avec deux sous-requêtes imbriquées, elles
+      divergent.
+    memorization_justification: >-
+      Cas où deux accesseurs rendent la même valeur, ce qui masque leur
+      différence jusqu'au jour où elle compte.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getParentRequest lignes 97-102"
+        verified_at: "2026-09-17"
+
+  - id: FLC-6pjjcba203rq
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: APPLICATION
+    front: "Comment fabriquer une requête pour un test, sans serveur web ?"
+    back: "`Request::create('/blog')` — la fabrique qui ne lit aucune superglobale."
+    explanation: >-
+      C'est la contrepartie de `createFromGlobals()`, qui emballe `$_GET`,
+      `$_POST` et les autres. `create()` prend la méthode, les paramètres, le
+      corps et les en-têtes en arguments, et produit un objet complet. C'est
+      précisément ce que le remplacement des superglobales rend possible, et
+      c'est ce qui rend la pile HTTP testable.
+    memorization_justification: >-
+      Deux fabriques de la même classe aux rôles opposés ; confondre les deux
+      fait échouer un test pour une raison invisible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "accessing-request-data"
+        symbol_or_lines: "exemples Request::createFromGlobals et Request::create"
+        verified_at: "2026-09-17"
+
+  - id: FLC-3f9cvmgbs9xs
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: APPLICATION
+    front: "Un service appelle `$requestStack->getCurrentRequest()` depuis une commande console. Que reçoit-il ?"
+    back: "`null` : aucune requête n'a été empilée hors du cycle HTTP."
+    explanation: >-
+      C'est le seul cas où le type de retour `?Request` sert vraiment. Un code
+      partagé entre HTTP et console doit donc traiter le `null`, et non
+      supposer qu'une requête existe toujours. Le même raisonnement vaut pour un
+      worker Messenger consommant hors requête.
+    memorization_justification: >-
+      Le `?` du type de retour paraît défensif jusqu'à ce qu'on exécute le même
+      service hors du cycle HTTP.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest lignes 67-70"
+        verified_at: "2026-09-17"
+
+  - id: FLC-v4fng9pqsz6m
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: APPLICATION
+    front: "Faut-il appeler `push()` et `pop()` soi-même sur `RequestStack` ?"
+    back: "Non : leur docblock dit que la gestion de la pile « should be taken care of by the application itself » — c'est le noyau qui empile et dépile."
+    explanation: >-
+      Empiler à la main désaligne la pile du cycle réel : un `pop()` manquant
+      laisse une requête morte au sommet, et tous les services qui appellent
+      `getCurrentRequest()` la reçoivent. Les deux méthodes existent pour le
+      noyau et pour les tests qui simulent une sous-requête, pas pour le code
+      applicatif.
+    memorization_justification: >-
+      Deux méthodes publiques dont le docblock déconseille l'usage direct — ce
+      que la visibilité `public` ne laisse pas deviner.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "push lignes 38-48 ; pop lignes 50-65"
+        verified_at: "2026-09-17"
+
+  - id: FLC-tcn0v3xtezsx
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « sur la requête principale, `getParentRequest()` rend cette requête »."
+    back: "Faux : elle rend `null`. L'index visé est `count - 2`, qui n'existe pas quand la pile n'a qu'un élément."
+    explanation: >-
+      L'implémentation est `$this->requests[$pos] ?? null` avec
+      `$pos = count($this->requests) - 2`. Sur une pile d'un élément, l'index
+      vaut `-1` : absent, donc `null`. Un code qui suppose une requête parente
+      toujours présente échoue précisément dans le cas le plus courant — une
+      requête sans sous-requête.
+    memorization_justification: >-
+      Le cas nominal est celui qui rend `null`, à rebours de l'intuition selon
+      laquelle un `null` signale une situation exceptionnelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getParentRequest lignes 97-102"
+        verified_at: "2026-09-17"
+
+  - id: FLC-tpxemj199a3e
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: TRAP
+    front: "`$requestStack->getSession()` dans un contrôleur d'API sans session : que se passe-t-il ?"
+    back: "Une `SessionNotFoundException` est levée — pas un `null` à tester."
+    explanation: >-
+      La méthode vérifie `$request->hasSession()` avant de rendre quoi que ce
+      soit, et lève sinon. Un `if (null === $session)` n'attrapera donc jamais
+      rien : il faut soit un `try`, soit tester `hasSession()` en amont. Le
+      piège est d'appliquer à cet accesseur l'habitude prise avec les trois
+      autres.
+    memorization_justification: >-
+      Contrat d'échec inverse de celui des accesseurs voisins, dans la même
+      classe et avec le même style d'appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSession lignes 104-116"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pk5smb3ggfr9
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: TRAP
+    front: "HttpFoundation dépend-il du FrameworkBundle pour fonctionner ?"
+    back: "Non. Il est autonome : il s'installe et s'utilise dans un projet PHP sans Symfony."
+    explanation: >-
+      L'erreur consiste à lire l'architecture depuis le framework, qui est ce
+      qu'on utilise en premier. La dépendance va dans l'autre sens : le contrat
+      du noyau — `handle(Request): Response` — est écrit dans le vocabulaire de
+      HttpFoundation, donc tout le framework en dépend, et lui de personne.
+    memorization_justification: >-
+      Sens de dépendance contre-intuitif, et c'est exactement ce que l'item
+      officiel demande de justifier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "the-httpfoundation-component"
+        symbol_or_lines: "installation et usage hors framework"
+        verified_at: "2026-09-17"
+
+  - id: FLC-y9tr0v3tmzyw
+    official_item: OIT-y0ah7pq9c4hv
+    language: fr
+    level: TRAP
+    front: "Avec une seule sous-requête en cours, `getMainRequest()` et `getParentRequest()` rendent-elles la même chose ?"
+    back: "Oui — et c'est ce qui masque leur différence. Elles divergent dès qu'il y a **deux** niveaux d'imbrication."
+    explanation: >-
+      À deux éléments, `$requests[0]` et `$requests[count - 2]` désignent le
+      même objet. À trois, `getMainRequest()` rend toujours le premier tandis
+      que `getParentRequest()` rend le deuxième. Un code écrit et testé sur un
+      seul niveau peut donc être faux sans que rien ne le montre.
+    memorization_justification: >-
+      Deux accesseurs qui coïncident dans le cas testé et divergent dans le cas
+      réel : la confusion ne se manifeste qu'en production.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMainRequest lignes 79-86 ; getParentRequest lignes 97-102"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-132nwnh9c6bc — Symfony Flex.
+  #
+  # Quatorze cartes ajoutées le 2026-09-17. `setup.rst` et
+  # `quick_tour/flex_recipes.rst` de la branche 8.0 relus le jour même. La carte
+  # préexistante FLC-7gcgff6wmgq8 n'est pas redoublée.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-g50ga9cn60xf
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Symfony Flex : quelles commandes Composer modifie-t-il ?"
+    back: "`require`, `update` et `remove` — les trois, et rien d'autre."
+    explanation: >-
+      « Symfony Flex modifies the behavior of the `require`, `update`, and
+      `remove` Composer commands ». C'est un **plugin Composer**, pas un bundle
+      ni une commande : il n'y a rien à appeler. D'où le fait que
+      `composer require logger` fonctionne dans un projet Flex et échoue
+      ailleurs, `logger` n'étant le nom d'aucun paquet.
+    memorization_justification: >-
+      Liste fermée de trois commandes, et une nature — plugin — qui explique
+      qu'aucune commande `flex` n'existe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "section Installing Packages, lignes 181-202"
+        verified_at: "2026-09-17"
+
+  - id: FLC-0wkg0d3eb92e
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Flex : quels fichiers la recette de `symfony/twig-bundle` ajoute-t-elle ?"
+    back: "`config/packages/twig.yaml`, `config/packages/test/twig.yaml` et le répertoire `templates/` avec un `base.html.twig` — en plus d'activer le bundle."
+    explanation: >-
+      L'exemple vaut mieux qu'une définition : une recette **crée** des
+      fichiers, en **modifie** — `config/bundles.php` —, crée des répertoires et
+      peut ajouter des variables dans `.env`. La configuration de test est
+      séparée de la configuration par défaut, ce qu'on n'attend pas d'une simple
+      « installation ».
+    memorization_justification: >-
+      Cas concret qui rend la notion de recette vérifiable plutôt que vague, et
+      dont le détail — un fichier de test distinct — surprend.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 58-70"
+        verified_at: "2026-09-17"
+
+  - id: FLC-dqrn0fp9xptb
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Où trouve-t-on la liste complète des recettes et des alias de Flex ?"
+    back: "Dans `RECIPES.md`, sur le dépôt des recettes."
+    explanation: >-
+      La documentation y renvoie explicitement. C'est aussi le seul endroit qui
+      fasse autorité : un alias n'est pas déductible du nom du paquet —
+      `twig` donne `symfony/twig-bundle`, mais `api` donne
+      `api-platform/api-pack`, qui n'est même pas un paquet Symfony.
+    memorization_justification: >-
+      Emplacement d'une référence qu'on cherche au mauvais endroit — dans la
+      documentation plutôt que dans le dépôt des recettes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "ligne 56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m2gnvk13wnk1
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Alias, recette, pack : que fait chacun des trois ?"
+    back: "L'**alias** est un nom court que Flex résout. La **recette** est la configuration que le paquet apporte. Le **pack** est un métapaquet sans code, qui ne regroupe que des dépendances."
+    explanation: >-
+      Une seule commande peut mettre les trois en jeu : `composer require api`
+      résout un alias vers `api-platform/api-pack`, lequel est un pack, dont
+      l'installation a déclenché **cinq** recettes selon la documentation. Les
+      confondre rend inexplicable qu'une commande installe une dizaine de
+      paquets.
+    memorization_justification: >-
+      Trois mécanismes distincts que la même commande déclenche, et dont les
+      noms ne disent pas le rôle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 46-56 et 178-186"
+        verified_at: "2026-09-17"
+
+  - id: FLC-674dn4bhra48
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `symfony.lock` doit-il être committé ?"
+    back: "Parce qu'il recense les **recettes** appliquées : sans lui, personne ne sait quelles recettes ont été installées ni dans quelle version."
+    explanation: >-
+      La documentation l'écrit comme une obligation : « which must be committed
+      to your code repository ». Il joue pour les recettes le rôle que
+      `composer.lock` joue pour les dépendances — deux fichiers distincts, deux
+      inventaires distincts, tous deux committés.
+    memorization_justification: >-
+      Fichier qu'on confond avec `composer.lock` ou qu'on ajoute au
+      `.gitignore` par réflexe, alors que la documentation l'interdit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 206-209"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fnnnpss9y72e
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi Flex demande-t-il une permission avant d'installer une recette contrib ?"
+    back: "À cause du **paquet**, pas de la recette : les recettes contrib « are guaranteed to work », mais leurs paquets « could be unmaintained »."
+    explanation: >-
+      Les deux dépôts sont alimentés par la communauté. Le principal est une
+      liste **curée** pour des paquets de qualité et maintenus, et c'est le seul
+      que Flex consulte par défaut. Dire « le contrib n'est pas revu » est donc
+      une approximation qui déplace le risque au mauvais endroit.
+    memorization_justification: >-
+      La raison couramment donnée — des recettes douteuses — n'est pas celle du
+      texte, et la question peut porter sur laquelle des deux est vraie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 211-221"
+        verified_at: "2026-09-17"
+
+  - id: FLC-czv1ng3s51b8
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un pack disparaît-il de `composer.json` après son installation ?"
+    back: "Parce que Flex le **dépaquette** : il inscrit les dépendances réelles à sa place, pour que le fichier reste lisible."
+    explanation: >-
+      « You won't see the `symfony/debug-pack` dependency in your
+      `composer.json`, as Flex automatically unpacks the pack ». Ce sont les
+      paquets réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
+      par exemple. Le pack a servi de raccourci à l'installation, pas de
+      dépendance durable.
+    memorization_justification: >-
+      Disparition volontaire d'une dépendance qu'on vient d'installer : sans
+      l'explication, elle ressemble à un bug.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-packs"
+        symbol_or_lines: "lignes 239-242"
+        verified_at: "2026-09-17"
+
+  - id: FLC-f4gap1s1c8kc
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "`composer require twig` dans un projet **sans** Flex : que se passe-t-il ?"
+    back: "Composer échoue : `twig` n'est le nom d'aucun paquet. C'est Flex qui résout l'alias."
+    explanation: >-
+      La documentation prend le même exemple avec `logger` : hors Flex, « you'll
+      see a Composer error explaining that `logger` is not a valid package
+      name ». La résolution d'alias n'est donc pas une fonctionnalité de
+      Composer, et elle ne survit pas au retrait du plugin.
+    memorization_justification: >-
+      Cas limite qui révèle qui fait quoi entre Composer et Flex, là où l'usage
+      quotidien les confond.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "lignes 194-202"
+        verified_at: "2026-09-17"
+
+  - id: FLC-vtkb4x03q17a
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "Après `composer require --dev debug`, que trouve-t-on dans `composer.json` ?"
+    back: "Les paquets réels — `symfony/var-dumper` et ses voisins dans `require-dev` — mais **pas** `symfony/debug-pack`."
+    explanation: >-
+      Le pack est un métapaquet : il tire `symfony/debug-bundle`,
+      `symfony/monolog-bundle`, `symfony/var-dumper` et d'autres, puis Flex le
+      dépaquette. Chercher le pack dans son `composer.json` revient à chercher
+      ce que Flex a délibérément retiré.
+    memorization_justification: >-
+      Résultat observable et contre-intuitif d'une commande courante ; il se
+      constate en ouvrant un fichier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-packs"
+        symbol_or_lines: "lignes 234-242"
+        verified_at: "2026-09-17"
+
+  - id: FLC-wck3zy98y2an
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "Une seule commande installe dix paquets et cinq fichiers de configuration. Quels mécanismes sont en jeu ?"
+    back: "Un alias vers un **pack**, le dépaquetage du pack, et une **recette** par paquet installé qui en possède une."
+    explanation: >-
+      C'est le cas d'`api` dans la documentation : alias vers
+      `api-platform/api-pack`, qui dépend du Validator, de Security et de
+      l'ORM Doctrine — et « Flex installed *5* recipes ». Le nombre de recettes
+      n'est pas celui des paquets : seules celles qui existent s'appliquent.
+    memorization_justification: >-
+      Enchaînement de trois mécanismes derrière une commande d'un mot, et un
+      chiffre — cinq recettes — qui montre qu'ils ne se recouvrent pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 176-186"
+        verified_at: "2026-09-17"
+
+  - id: FLC-et9ra0ah1ve6
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « les recettes du dépôt contrib ne sont pas garanties de fonctionner »."
+    back: "Faux. La documentation dit exactement l'inverse : « All of them are guaranteed to work ». C'est leur **paquet** qui peut être abandonné."
+    explanation: >-
+      L'approximation est répandue et déplace le risque : on se méfie de la
+      recette alors que le doute porte sur la maintenance du paquet qu'elle
+      configure. Elle explique aussi pourquoi Flex ne refuse pas ces recettes —
+      il demande seulement la permission.
+    memorization_justification: >-
+      Affirmation plausible que le texte officiel contredit mot pour mot ;
+      c'est le matériau d'un QCM vrai/faux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 216-221"
+        verified_at: "2026-09-17"
+
+  - id: FLC-hwymjn4wt8nh
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "`symfony.lock` fait-il double emploi avec `composer.lock` ?"
+    back: "Non : l'un recense les **recettes** appliquées, l'autre les **dépendances** verrouillées. Les deux se committent."
+    explanation: >-
+      Supprimer `symfony.lock` ne casse aucune dépendance — il n'en contient
+      pas — mais fait perdre la trace des recettes appliquées et de leur
+      version, donc la capacité de détecter qu'une recette a évolué depuis
+      l'installation.
+    memorization_justification: >-
+      Deux fichiers de même suffixe et de contenus disjoints ; la confusion
+      conduit à en ignorer un des deux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 206-209"
+        verified_at: "2026-09-17"
+
+  - id: FLC-sv4mb5ykzn41
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Flex est-il un bundle Symfony ?"
+    back: "Non : un **plugin Composer**. Il n'apparaît pas dans `config/bundles.php` et n'expose aucune commande."
+    explanation: >-
+      La documentation est explicite : « Technically speaking, Symfony Flex is a
+      Composer plugin ». Conséquence pratique : on ne l'active pas, on ne le
+      configure pas par un fichier de `config/packages/`, et le chercher parmi
+      les bundles est une impasse. Il est installé par défaut à la création
+      d'une application.
+    memorization_justification: >-
+      Tout ce qui porte le nom Symfony est supposé être un bundle ou un
+      composant ; celui-ci n'est ni l'un ni l'autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "lignes 181-184"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pf6cfqws97ac
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Un alias pointe-t-il toujours vers un bundle Symfony ?"
+    back: "Non. `api` pointe vers `api-platform/api-pack` — un pack, d'un éditeur tiers."
+    explanation: >-
+      Un alias est une entrée dans la liste des recettes, rien de plus : il peut
+      désigner un bundle (`twig` → `symfony/twig-bundle`), un pack, ou un
+      paquet qui n'a rien de Symfony. En déduire la cible depuis le nom court
+      est un pari, d'où l'existence de `RECIPES.md`.
+    memorization_justification: >-
+      Généralisation naturelle à partir des alias les plus connus, que le cas
+      `api` suffit à démentir.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 178-184"
+        verified_at: "2026-09-17"
