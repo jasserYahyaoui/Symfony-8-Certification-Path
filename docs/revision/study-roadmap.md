@@ -282,12 +282,20 @@ Le calendrier est **généré**, pas écrit à la main :
 ```bash
 python3 tools/revision/build_roadmap.py \
     --start 2026-10-01 --exam 2026-12-15 \
-    --max-new 4 --weekday 120 --weekend 180
+    --max-new 4 --weekday 140 --weekend 200
 python3 tools/revision/render_calendar.py
 ```
 
 Options : `--start` et `--exam` pour les dates, `--max-new` pour le plafond de
 nouveautés quotidiennes, `--weekday` et `--weekend` pour les budgets en minutes.
+
+Les budgets sont passés de 120/180 à **140/200 minutes** le 2026-09-17, sur
+décision du propriétaire. Le déclencheur est mesurable : les flashcards ajoutées
+au lot 02 allongent la première passe, la fin des lots recule, et à 120/180 le
+générateur ne trouvait plus de week-ends pour les quatre mocks — il refusait de
+produire un plan, ce qui est son travail. Les deux autres remèdes examinés —
+avancer le début au 2026-09-22, monter `--max-new` à 5 — fonctionnaient aussi ;
+celui-ci a été retenu.
 
 Le générateur **refuse** de produire un plan où les cinq mocks ne tiennent pas
 après la fin des lots : il s'arrête en nommant le nombre de week-ends manquants,

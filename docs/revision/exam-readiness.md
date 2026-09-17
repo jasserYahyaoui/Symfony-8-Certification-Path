@@ -201,7 +201,7 @@ En cas de glissement, **régénérez** plutôt que de décaler à la main :
 
 ```bash
 python3 tools/revision/build_roadmap.py --start AAAA-MM-JJ --exam AAAA-MM-JJ \
-    --max-new 4 --weekday 120 --weekend 180
+    --max-new 4 --weekday 140 --weekend 200
 python3 tools/revision/render_calendar.py
 ```
 
