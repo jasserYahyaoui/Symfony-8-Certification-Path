@@ -966,31 +966,17 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
      * Authored course bodies are deliberately NOT passed through here: they
      * are Markdown written for this pipeline and use `<details>` on purpose.
      */
+    /**
+     * The same guard as `mdxSafe()`, for a single canonical string.
+     *
+     * It delegates rather than repeating the logic: the two escapers had
+     * already drifted — this one escaped inside code spans, which published
+     * `&#123;motif}i` where the canonical text reads `{motif}i` — and two
+     * copies of a rule is how that happens.
+     */
     private function mdxText(string $value): string
     {
-        // `<` would open a JSX tag and `{` a JS expression, so both must be
-        // escaped — but ONLY outside an inline code span. MDX renders a code
-        // span verbatim, so escaping inside one publishes the entity itself:
-        // `&#123;motif}i` reached production that way, where the canonical
-        // text reads `{motif}i`.
-        //
-        // The split keeps the backticks as delimiters, so odd segments are the
-        // code spans. An unmatched trailing backtick leaves its segment in the
-        // even position, which is escaped — the safe side, since nothing then
-        // guarantees it is code.
-        $segments = preg_split('/(`[^`]*`)/u', $value, -1, \PREG_SPLIT_DELIM_CAPTURE);
-        if (false === $segments) {
-            return str_replace(['<', '{'], ['&lt;', '&#123;'], $value);
-        }
-
-        $out = '';
-        foreach ($segments as $index => $segment) {
-            $out .= 1 === $index % 2
-                ? $segment
-                : str_replace(['<', '{'], ['&lt;', '&#123;'], $segment);
-        }
-
-        return $out;
+        return $this->mdxSafe($value);
     }
 
     /** An un-researched item has no content level yet (§3.4). */

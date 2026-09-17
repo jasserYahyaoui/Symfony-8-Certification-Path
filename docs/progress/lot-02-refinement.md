@@ -449,6 +449,17 @@ quelle, sur **123 pages et 296 lignes**. Un second défaut symétrique échappai
 Les deux sont antérieurs à ce travail. Correctif, preuves de non-vacuité et
 revue des 313 cartes : PR #165, détaillée dans son propre message de commit.
 
+**Suite, le 2026-09-17 également.** Le dépôt portait **deux** échappeurs MDX :
+`mdxSafe()`, conscient des blocs et des spans de code, et `mdxText()`, qui
+répétait la règle en plus faible. C'est exactement ainsi que la divergence est
+née. `mdxText()` délègue désormais à `mdxSafe()` ; il n'y a plus qu'une règle.
+
+Et le défaut n'avait été trouvé par **aucun contrôle** — c'est un lecteur qui
+l'a vu. Le smoke test de production reçoit donc une sonde de régression : sur
+les trois pages du lot dont les cartes portent le plus de spans de code, la
+présence d'une entité **doublement** échappée (`&amp;gt;`) fait échouer le
+déploiement. Vérifié localement : 0 occurrence sur l'ensemble du site construit.
+
 ## Page 10 — Symfony HttpClient component, 2026-09-17
 
 **Fait**
