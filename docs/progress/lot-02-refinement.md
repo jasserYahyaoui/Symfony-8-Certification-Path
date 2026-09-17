@@ -238,8 +238,22 @@ l'œil.
 | Pull Request | [#159](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/159) |
 | CI « Technical gate » | `success`, run `35247964411`, 16:39:50 → 16:44:27 UTC |
 | Merge | commit `2dc3e57e8fab58692e2f2715de3de454d61e3db1` sur `master` |
-| Déploiement Pages | run `35248663136`, déclenché à 16:46:35 UTC |
-| Smoke test de production | **à lire dans ce run** — aucun statut `DEPLOYED` revendiqué avant |
+| Déploiement Pages | run `35248663136`, job `Deploy` **success**, 16:48:17 → 16:48:22 UTC |
+| Smoke test de production | job `105295839833` **success**, 16:48:34 → 16:48:44 UTC |
+
+Ligne décisive du smoke test, recopiée du journal du run :
+
+```text
+ok  lot-02  the three refined pages carry their levelled flashcards and exam tips
+```
+
+Les huit aiguilles ont donc été trouvées **dans les octets servis par
+`https://jasseryahyaoui.github.io/Symfony-8-Certification-Path`**, pas dans un
+build local. Les trois pages raffinées servent 200, portent les titres de
+niveau `Mémorisation` et `Pièges`, le corps d'une carte et le texte des tips.
+
+Statut des pages 1 à 3 : **DEPLOYED**, au sens de §16 — merge, build, deploy et
+smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
