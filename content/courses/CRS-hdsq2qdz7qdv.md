@@ -145,6 +145,21 @@ second toute la classe 2xx.
 `new RedirectResponse($url, 304)` **échoue**, alors que
 `new RedirectResponse($url, 201)` est **accepté**.
 
+## Tips d'examen
+
+**Le contrôleur rend, le runner émet.** `send()` n'apparaît jamais dans un
+contrôleur, et quand il est appelé c'est avec `false`.
+
+**`isOk()` est plus strict que `isSuccessful()`** — 200 pile contre toute la
+classe 2xx. Même rapport entre `isNotFound()` et `isClientError()`.
+
+**La liste de `isRedirect()` sert deux fois** : pour tester une réponse, et
+pour valider le statut d'un `RedirectResponse` à la construction. Retenir la
+liste, c'est retenir les deux comportements.
+
+**`JsonResponse` n'écrit pas le JSON de `json_encode()`** : elle ajoute quatre
+options d'échappement HTML. Comparer les données décodées, jamais la chaîne.
+
 ## Points clés
 
 - Sous-classes spécialisées plutôt que des en-têtes posés à la main.
