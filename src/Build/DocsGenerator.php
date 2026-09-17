@@ -11,6 +11,7 @@ use CertPath\Coverage\CoverageReport;
 use CertPath\Domain\ContentLevel;
 use CertPath\Domain\Course;
 use CertPath\Domain\Flashcard;
+use CertPath\Domain\FlashcardLevel;
 use CertPath\Domain\LotRegistry;
 use CertPath\Domain\OfficialItem;
 use CertPath\Domain\Pool;
@@ -833,16 +834,25 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             $markdown .= "\n---\n\n## Flashcards\n\n"
                 ."_La réponse reste masquée jusqu'à ce que vous dépliiez la carte._\n\n";
 
-            foreach ($cards as $card) {
-                // <details> hides the answer before reveal (§6) using a native,
-                // keyboard-operable control rather than a scripted one.
-                // Inside <details>/<summary> the text sits in a JSX context, so
-                // it needs the MDX escaping as well as the HTML one: a bare `{`
-                // in a flashcard front — `/{page}/blog` — is read as a JS
-                // expression and fails the build with "page is not defined".
-                $markdown .= "<details>\n<summary>".$this->mdxText($this->escapeHtml($card->front))."</summary>\n\n"
-                    ."**".$this->mdxText($this->escapeHtml($card->back))."**\n\n"
-                    .$this->mdxText($card->explanation)."\n\n</details>\n\n";
+            // Cards that declare no level keep their place at the top,
+            // ungrouped: inventing a heading for them would claim a reading
+            // nobody performed. A heading appears only for a level that has
+            // at least one card, so a deck is never padded with empty groups.
+            $markdown .= $this->renderCards(array_values(array_filter(
+                $cards,
+                static fn (Flashcard $c): bool => null === $c->level,
+            )));
+
+            foreach (FlashcardLevel::ordered() as $level) {
+                $ofLevel = array_values(array_filter(
+                    $cards,
+                    static fn (Flashcard $c): bool => $level === $c->level,
+                ));
+                if ([] === $ofLevel) {
+                    continue;
+                }
+
+                $markdown .= '### '.$level->label()."\n\n".$this->renderCards($ofLevel);
             }
         }
 
@@ -906,6 +916,27 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         }
 
         return $count;
+    }
+
+    /**
+     * @param list<Flashcard> $cards
+     */
+    private function renderCards(array $cards): string
+    {
+        $markdown = '';
+        foreach ($cards as $card) {
+            // <details> hides the answer before reveal (§6) using a native,
+            // keyboard-operable control rather than a scripted one.
+            // Inside <details>/<summary> the text sits in a JSX context, so
+            // it needs the MDX escaping as well as the HTML one: a bare `{`
+            // in a flashcard front — `/{page}/blog` — is read as a JS
+            // expression and fails the build with "page is not defined".
+            $markdown .= "<details>\n<summary>".$this->mdxText($this->escapeHtml($card->front))."</summary>\n\n"
+                ."**".$this->mdxText($this->escapeHtml($card->back))."**\n\n"
+                .$this->mdxText($card->explanation)."\n\n</details>\n\n";
+        }
+
+        return $markdown;
     }
 
     private function flashcardsFor(string $itemId, ContentSet $content): array

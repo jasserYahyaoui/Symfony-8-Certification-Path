@@ -28,6 +28,7 @@ final readonly class Flashcard
         public array $officialSources,
         public Language $language,
         public VerificationStatus $verificationStatus,
+        public ?FlashcardLevel $level = null,
     ) {
     }
 }

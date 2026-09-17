@@ -144,6 +144,7 @@ flashcards:
   - id: FLC-jn7eqg7cdsqb
     official_item: OIT-7801mj6w73ky
     language: fr
+    level: TRAP
     front: 'RFC 9110 : `DELETE` reste-t-elle idempotente si le second appel renvoie 404 ?'
     back: Oui. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité
       des réponses.
@@ -193,3 +194,365 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: getLanguages line 1663, getPreferredLanguage line 1633
       verified_at: '2026-09-11'
+
+  # ---------------------------------------------------------------------------
+  # OIT-7801mj6w73ky — HTTP Specification (RFC 9110).
+  #
+  # Quinze cartes ajoutées le 2026-09-17, réparties sur les quatre niveaux de
+  # l'axe `level`. Chaque affirmation a été relevée dans le document lui-même
+  # (specs/rfc9110.html) le jour de l'écriture, pas de mémoire : les numéros de
+  # section cités sont ceux du sommaire du document, et les formulations entre
+  # guillemets anglais sont recopiées.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-ne8ag8fv1beh
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 : que liste son en-tête `Obsoletes:` ?"
+    back: "2818, 7230, 7231, 7232, 7233, 7235, 7538, 7615, 7694 — et le document porte en plus `Updates: 3864`."
+    explanation: >-
+      L'en-tête du document écrit `7230` sans réserve ; le résumé et la Table 1
+      du §1.4 précisent « portions of 7230 », le reste de 7230 — la syntaxe de
+      trame — passant à RFC 9112. **2818** (*HTTP Over TLS*) est dans la liste,
+      ce qu'on oublie presque toujours. **7234 n'y est pas** : le cache est
+      repris par RFC 9111.
+    memorization_justification: >-
+      Liste arbitraire de neuf numéros qu'aucune règle ne permet de
+      reconstituer, et dont deux entrées — 2818 présente, 7234 absente —
+      contredisent l'attente.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document ; Abstract ; section 1.4 Specifications Obsoleted by This Document"
+        verified_at: "2026-09-17"
+
+  - id: FLC-crr1141h7qxe
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "HTTP : que couvrent RFC 9110, 9111, 9112, 9113 et 9114 ?"
+    back: "9110 la sémantique, 9111 le cache, 9112 HTTP/1.1, 9113 HTTP/2, 9114 HTTP/3."
+    explanation: >-
+      Les trois derniers numéros sont des **syntaxes de messages** ; les deux
+      premiers sont indépendants de la version. Les références normatives de
+      9110 les nomment ainsi : `[HTTP/1.1]` = RFC 9112, `[HTTP/2]` = RFC 9113,
+      `[HTTP/3]` = RFC 9114. Piège de numérotation : le numéro le plus petit,
+      9110, est le plus général, pas HTTP/1.1.
+    memorization_justification: >-
+      Cinq numéros consécutifs dont l'ordre ne suit ni la version du protocole
+      ni la généralité du contenu ; rien ne se déduit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 11 Normative References, entrées [CACHING], [HTTP/1.1], [HTTP/2], [HTTP/3]"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ydycedag6qe0
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §6 : de quoi un message HTTP est-il fait, indépendamment de la version ?"
+    back: "Données de contrôle, table des en-têtes, contenu, table des champs de fin (*trailers*)."
+    explanation: >-
+      Dans cet ordre, et c'est l'ordre d'émission : « Framing and control data
+      is sent first, followed by a header section… the content is sent after
+      the header section, potentially followed by a trailer section ». Chaque
+      partie a un rôle : les données de contrôle disent ce que le destinataire
+      doit savoir **immédiatement**, les en-têtes ce qu'il doit savoir **avant**
+      le contenu.
+    memorization_justification: >-
+      Le vocabulaire imposé remplace le découpage intuitif « ligne de départ +
+      en-têtes + corps », qui est celui de HTTP/1.1 et non celui de 9110.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 6 Message Abstraction ; sections 6.2 Control Data, 6.3 Header Fields, 6.4 Content, 6.5 Trailer Fields"
+        verified_at: "2026-09-17"
+
+  - id: FLC-v28552mvdx4y
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §3.7 : quelles sont les trois formes courantes d'intermédiaire HTTP ?"
+    back: "Proxy, gateway — que le document glose lui-même « a.k.a. reverse proxy » — et tunnel."
+    explanation: >-
+      Une gateway agit comme **serveur d'origine** du côté sortant et
+      retransmet vers l'intérieur : c'est la définition du reverse proxy, et
+      c'est ce qu'est un Varnish ou un Nginx devant une application Symfony. Un
+      tunnel ne lit pas les messages qu'il relaie, ce qui a une conséquence
+      directe : « a cache cannot be used while acting as a tunnel » (§3.8).
+    memorization_justification: >-
+      Trois termes dont un — gateway — est employé par la RFC dans un sens que
+      l'usage courant nomme autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.7 Intermediaries ; section 3.8 Caches"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yj2yrj91zwx2
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 : quelle est la différence entre une ressource et une représentation ?"
+    back: "La ressource est la cible de la requête ; la représentation est une information qui reflète un état — passé, actuel ou souhaité — de cette ressource, dans un format transmissible."
+    explanation: >-
+      §3.2 ajoute la raison d'être de la distinction : HTTP permet la
+      « dissimulation d'information » derrière son interface uniforme en
+      communiquant sur une représentation **transférable** plutôt qu'en
+      transférant la ressource elle-même. C'est ce qui autorise une ressource à
+      être « la météo actuelle à Laguna Beach » — quelque chose qu'aucun
+      transfert d'octets ne pourrait livrer.
+    memorization_justification: >-
+      Distinction fondatrice dont dépendent la négociation de contenu, `Vary` et
+      les requêtes conditionnelles ; la confondre rend ces trois sujets
+      inexplicables.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.1 Resources ; section 3.2 Representations"
+        verified_at: "2026-09-17"
+
+  - id: FLC-432f2dp6q1we
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 : à quoi sert la « représentation sélectionnée » (*selected representation*) ?"
+    back: "Elle fournit les données et métadonnées qui servent à évaluer les requêtes conditionnelles et à construire le contenu des réponses 200, 206 et 304 à un GET."
+    explanation: >-
+      Une ressource peut disposer de plusieurs représentations ; un algorithme —
+      « usually based on content negotiation » — en choisit une. Conséquence
+      pratique : `ETag` et `Last-Modified` qualifient **la représentation
+      sélectionnée**, pas la ressource. Deux représentations d'une même
+      ressource ont deux `ETag` différents, et c'est pourquoi `Vary` doit
+      accompagner l'un sans quoi un cache sert la mauvaise.
+    memorization_justification: >-
+      Terme technique précis qui relie négociation, cache et conditionnel ; la
+      liste « 200, 206, 304 » est énumérative et ne se déduit pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.2 Representations, paragraphe « selected representation »"
+        verified_at: "2026-09-17"
+
+  - id: FLC-kmqcsa6pwgm8
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 a une section 6.1 *Framing and Completeness* : définit-elle pour autant une syntaxe de trame ?"
+    back: "Non. Elle pose ce qu'est le *framing* et quand un message est complet ; « each major version of HTTP defines its own framing mechanism »."
+    explanation: >-
+      Dire « 9110 ne parle pas du tout de trame » est faux — la section existe
+      et définit la complétude. Dire « 9110 définit le `chunked` » est faux
+      aussi : ce codage est dans RFC 9112. La formule juste est : 9110 définit
+      la **notion**, chaque version majeure définit le **mécanisme**.
+    memorization_justification: >-
+      Nuance que les deux raccourcis opposés trahissent également ; l'existence
+      d'une section au titre explicite rend le raccourci « aucune trame »
+      indéfendable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 6.1 Framing and Completeness"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ysgkv98es205
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC : « obsolète » et « met à jour » désignent-ils la même relation ?"
+    back: "Non. Une RFC obsolétée est remplacée ; une RFC mise à jour reste en vigueur, amendée."
+    explanation: >-
+      9110 porte les deux en-têtes : `Obsoletes: 2818, 7230, …` et
+      `Updates: 3864`. RFC 3864 — l'enregistrement des noms de champs de
+      message — n'est donc **pas** remplacée : elle continue de s'appliquer,
+      modifiée par 9110. Lire `Updates:` comme un remplacement fait disparaître
+      un document encore normatif.
+    memorization_justification: >-
+      Deux en-têtes voisins dans le même document, de sens opposés, que le
+      français courant confond en « remplace ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document : `Obsoletes:` et `Updates: 3864`"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2gtzp3032jk0
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "Une requête HTTP/2 arrive avec `content-type` en minuscules : faut-il un traitement particulier ?"
+    back: "Non. « Field names are case-insensitive » : `content-type` et `Content-Type` sont le même champ."
+    explanation: >-
+      HTTP/2 et HTTP/3 imposent des noms de champs en minuscules ; HTTP/1.1
+      laisse la casse libre. Comme 9110 §5.1 déclare les noms insensibles à la
+      casse, la sémantique ne change pas d'une version à l'autre — c'est
+      exactement le service que rend la séparation sémantique / syntaxe. Côté
+      Symfony, `HeaderBag` normalise les noms pour la même raison.
+    memorization_justification: >-
+      Règle qui neutralise une différence visible entre versions ; la voir en
+      pratique pousse à croire à deux champs distincts.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.1 Field Names"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m0hjyf4w6taq
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "Un message porte deux lignes `Accept-Encoding`, `gzip` puis `br`. Que peut en faire le destinataire ?"
+    back: "Les combiner en une seule ligne `gzip, br` — mais sans changer l'ordre, qui est significatif."
+    explanation: >-
+      §5.3 autorise la recombinaison en liste séparée par des virgules, pour
+      les champs dont la définition l'admet, et interdit explicitement à un
+      proxy de réordonner ces valeurs : « a proxy **MUST NOT** change the order
+      of these field line values when forwarding a message ». L'ordre entre
+      champs de **noms différents** n'est en revanche pas significatif.
+    memorization_justification: >-
+      Deux règles d'ordre opposées dans la même section — significatif à nom
+      égal, indifférent à noms différents — qu'on retient volontiers à l'envers.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.3 Field Order"
+        verified_at: "2026-09-17"
+
+  - id: FLC-t8m1m0pp5zqx
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "La même ressource est servie en JSON et en HTML. Combien d'`ETag` distincts, et pourquoi ?"
+    back: "Deux : l'`ETag` qualifie la représentation sélectionnée, pas la ressource."
+    explanation: >-
+      §3.2 fait de la représentation sélectionnée la source des métadonnées qui
+      servent à évaluer les requêtes conditionnelles. Deux représentations
+      donnent donc deux validateurs. C'est aussi la raison d'être de `Vary` : un
+      cache qui stocke la réponse JSON et la ressert à un client demandant du
+      HTML se trompe de représentation, et seul `Vary: Accept` le lui interdit.
+    memorization_justification: >-
+      Cas concret où l'oubli de la distinction ressource / représentation
+      produit un bug de cache réel plutôt qu'une imprécision de vocabulaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.2 Representations ; section 8.8.3 ETag"
+        verified_at: "2026-09-17"
+
+  - id: FLC-grhnmtks7tcg
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « RFC 9110 remplace RFC 2616 »."
+    back: "Faux comme énoncé direct. 2616 avait déjà été remplacée par la série 7230-7235 en 2014 ; c'est cette série que les 911x remplacent."
+    explanation: >-
+      §1.1 retrace la filiation : 1945 (HTTP/1.0), 2068, 2616, puis
+      « revised again in 2014 ([RFC7230] through [RFC7235]) ». L'en-tête
+      `Obsoletes:` de 9110 ne cite d'ailleurs pas 2616 — il cite 7230 à 7235.
+      Le raccourci saute une génération entière et fait croire à un remplacement
+      d'un seul bloc, alors que 9110, 9111 et 9112 se partagent l'héritage.
+    memorization_justification: >-
+      Raccourci répandu, énoncé tel quel dans beaucoup de supports, et qu'un
+      QCM peut proposer mot pour mot comme affirmation vraie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 1.2 History and Evolution ; en-tête du document"
+        verified_at: "2026-09-17"
+
+  - id: FLC-22ekra7qvw3s
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "On cherche la définition de `Cache-Control: max-age`. Dans quelle RFC, et pourquoi pas dans 9110 ?"
+    back: "Dans RFC 9111. 9110 n'obsolète pas 7234 : le cache a été sorti du document de sémantique."
+    explanation: >-
+      La liste `Obsoletes:` de 9110 va de 7230 à 7235 en sautant **7234**, et ce
+      trou est délibéré : §1.2 dit que cette révision sépare la sémantique
+      (9110) du cache (`[CACHING]`, soit 9111) et de la syntaxe HTTP/1.1 (9112).
+      Chercher `max-age` dans 9110 et n'y trouver que des mentions croisées
+      n'est pas une erreur d'index : c'est le découpage.
+    memorization_justification: >-
+      Absence dans une liste — le plus difficile à retenir, parce qu'il n'y a
+      rien à voir ; la suite 7230…7235 paraît continue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document ; section 1.2 History and Evolution"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pv1vtj0grzrc
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Puisque §5.3 autorise à fusionner les lignes de même nom en liste séparée par des virgules, peut-on fusionner deux `Set-Cookie` ?"
+    back: "Non. 9110 nomme `Set-Cookie` comme l'exception connue : il n'utilise pas la syntaxe de liste et ne peut pas être combiné."
+    explanation: >-
+      La note de §5.3 est explicite : en pratique `Set-Cookie` apparaît sur
+      plusieurs lignes « violating the above requirements », et comme il ne peut
+      pas être combiné en une valeur unique, les destinataires doivent le
+      traiter comme un cas particulier. La règle de fusion ne s'applique qu'aux
+      champs dont la définition prévoit une liste `#(values)`.
+    memorization_justification: >-
+      Exception explicitement nommée dans le texte de la règle générale, donc
+      exactement le matériau d'un QCM « la règle, sauf pour… ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.3 Field Order, note sur Set-Cookie"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4p951zavvt5r
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « en HTTP, toute ressource est identifiée par un URI »."
+    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une requête est une ressource par définition."
+    explanation: >-
+      Le mot compte : 9110 ne limite pas la nature d'une ressource, il définit
+      seulement l'interface qui permet d'interagir avec elle. D'où la formule
+      exacte : « the target of an HTTP request is called a resource ». Retenir
+      « ressource = fichier » ou « ressource = URI » ferme la porte aux
+      ressources qui ne sont ni l'un ni l'autre, comme la fonction temporelle
+      citée en §3.2.
+    memorization_justification: >-
+      Quantificateur — « most » et non « all » — qu'une lecture rapide
+      transforme en règle absolue, et qu'un QCM teste par une affirmation
+      universelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.1 Resources"
+        verified_at: "2026-09-17"

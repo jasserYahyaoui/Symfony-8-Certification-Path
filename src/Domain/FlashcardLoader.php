@@ -63,7 +63,34 @@ final readonly class FlashcardLoader
             officialSources: $sources,
             language: Language::from($this->req($raw, 'language', $ctx)),
             verificationStatus: VerificationStatus::from($this->req($raw, 'verification_status', $ctx)),
+            level: $this->level($raw, $ctx),
         );
+    }
+
+    /**
+     * The level is optional: a deck written before the axis existed is not
+     * invalid, it is unlabelled. An unknown value is a hard failure rather
+     * than a silent null — a typo must not turn into « no level ».
+     *
+     * @param array<string, mixed> $raw
+     */
+    private function level(array $raw, string $ctx): ?FlashcardLevel
+    {
+        if (!isset($raw['level'])) {
+            return null;
+        }
+
+        if (!\is_string($raw['level'])) {
+            throw new SchemaException(\sprintf('%s: `level` must be a string.', $ctx));
+        }
+
+        return FlashcardLevel::tryFrom($raw['level'])
+            ?? throw new SchemaException(\sprintf(
+                '%s: unknown flashcard level "%s"; expected one of %s.',
+                $ctx,
+                $raw['level'],
+                implode(', ', array_column(FlashcardLevel::cases(), 'value')),
+            ));
     }
 
     /**
