@@ -82,4 +82,4 @@ paramètres de formulaire ne couvre que le second.
 
 ## Sources officielles
 
-- [Controller, « The Request Object as a Controller Argument »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [Controller, « The Request Object as a Controller Argument »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

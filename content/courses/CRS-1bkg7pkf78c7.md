@@ -79,4 +79,4 @@ appelé du tout.
 
 ## Sources officielles
 
-- [Using a Factory to Create Services](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst)
+- [Using a Factory to Create Services](https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst)

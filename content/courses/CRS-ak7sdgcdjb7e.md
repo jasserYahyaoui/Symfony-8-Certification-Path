@@ -75,4 +75,4 @@ pas une énumération imposée par le framework.
 
 ## Sources officielles
 
-- [Sessions, section « Flash Messages »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst)
+- [Sessions, section « Flash Messages »](https://github.com/symfony/symfony-docs/blob/8.0/session.rst)

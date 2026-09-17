@@ -113,4 +113,4 @@ n'itère pas.
 
 ## Sources officielles
 
-- [How to Work with Service Tags](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst)
+- [How to Work with Service Tags](https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst)

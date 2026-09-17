@@ -88,4 +88,4 @@ passe au générateur d'URL.
 
 ## Sources officielles
 
-- [Routing, section « Parameters Validation »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Routing, section « Parameters Validation »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

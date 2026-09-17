@@ -128,4 +128,4 @@ transport d'échec.
 
 ## Sources officielles
 
-- [Messenger, « Retries & Failures »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Retries & Failures »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

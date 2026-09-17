@@ -95,4 +95,4 @@ nomme.
 
 ## Sources officielles
 
-- [Validation Groups](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst)
+- [Validation Groups](https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst)

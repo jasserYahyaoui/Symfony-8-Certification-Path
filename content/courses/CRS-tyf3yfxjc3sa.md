@@ -97,5 +97,5 @@ demande une autorisation, parce qu'il n'est pas curé.
 
 ## Sources officielles
 
-- [Setup, section « Symfony Flex »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst)
-- [Quick Tour, « Flex Recipes and Aliases »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst)
+- [Setup, section « Symfony Flex »](https://github.com/symfony/symfony-docs/blob/8.0/setup.rst)
+- [Quick Tour, « Flex Recipes and Aliases »](https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst)

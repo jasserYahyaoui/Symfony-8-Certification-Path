@@ -8,6 +8,7 @@ use CertPath\Validation\Rule\AssessmentCoverageRule;
 use CertPath\Validation\Rule\CognitiveLevelRule;
 use CertPath\Validation\Rule\CourseIntegrityRule;
 use CertPath\Validation\Rule\CourseLevelAgreementRule;
+use CertPath\Validation\Rule\LearnerFacingLinkRule;
 use CertPath\Validation\Rule\DeadInternalLinkRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
 use CertPath\Validation\Rule\EnrichmentBudgetRule;
@@ -54,6 +55,7 @@ final class RuleSet
             new CognitiveLevelRule(),
             new CourseIntegrityRule(),
             new CourseLevelAgreementRule(),
+            new LearnerFacingLinkRule(),
             new FlashcardIntegrityRule(),
             new FlashcardCoverageRule(),
             new HoldoutIsolationRule(),

@@ -100,4 +100,4 @@ intégré ne prend plus la main, et la page d'erreur n'est pas produite.
 
 ## Sources officielles
 
-- [Built-in Symfony Events, section « kernel.exception »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst)
+- [Built-in Symfony Events, section « kernel.exception »](https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst)

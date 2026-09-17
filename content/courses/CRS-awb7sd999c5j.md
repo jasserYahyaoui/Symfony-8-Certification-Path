@@ -81,4 +81,4 @@ s'utilise seul, et le composant Form s'en sert sans pare-feu.
 
 ## Sources officielles
 
-- [Security](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst)
+- [Security](https://github.com/symfony/symfony-docs/blob/8.0/security.rst)

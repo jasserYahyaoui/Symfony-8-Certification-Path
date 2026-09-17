@@ -92,4 +92,4 @@ réencodage n'est jamais sauvegardé.
 
 ## Sources officielles
 
-- [Hashing and Verifying Passwords](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst)
+- [Hashing and Verifying Passwords](https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst)

@@ -131,4 +131,4 @@ répertoire déjà là.
 
 ## Sources officielles
 
-- [The Filesystem Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst)
+- [The Filesystem Component](https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst)

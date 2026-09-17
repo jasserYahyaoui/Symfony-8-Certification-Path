@@ -106,5 +106,5 @@ exception HTTP.
 
 ## Sources officielles
 
-- [How to Upload Files](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst)
-- [Controller, « Mapping Uploaded Files »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [How to Upload Files](https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst)
+- [Controller, « Mapping Uploaded Files »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

@@ -84,4 +84,4 @@ requête pour l'obtenir fonctionne, mais c'est le chemin long de la même chose.
 
 ## Sources officielles
 
-- [Symfony Templates, « The App Global Variable »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Symfony Templates, « The App Global Variable »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

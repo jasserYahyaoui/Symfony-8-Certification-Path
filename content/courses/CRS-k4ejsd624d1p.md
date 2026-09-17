@@ -81,4 +81,4 @@ en héritent. C'est puissant et rarement ce qu'on voulait.
 
 ## Sources officielles
 
-- [How to Create a Form Type Extension](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst)
+- [How to Create a Form Type Extension](https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst)

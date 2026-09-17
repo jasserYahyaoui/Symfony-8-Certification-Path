@@ -102,5 +102,5 @@ le mauvais choix laisse une faille ouverte sans rien signaler.
 
 ## Sources officielles
 
-- [Twig 3.22, filtre `escape`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst)
-- [Twig 3.22, balise `autoescape`](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst)
+- [Twig 3.22, filtre `escape`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst)
+- [Twig 3.22, balise `autoescape`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst)

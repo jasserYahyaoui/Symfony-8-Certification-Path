@@ -107,4 +107,4 @@ passe de compilation.
 
 ## Sources officielles
 
-- [How to Override any Part of a Bundle](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst)
+- [How to Override any Part of a Bundle](https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst)

@@ -64,4 +64,4 @@ logiciel — rien de plus.
 
 ## Sources officielles
 
-- [Fichier LICENSE de symfony/symfony (branche 8.0)](https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE)
+- [Fichier LICENSE de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/LICENSE)

@@ -97,5 +97,5 @@ Générer un lien pour un courriel demande de le dire explicitement.
 
 ## Sources officielles
 
-- [UrlGeneratorInterface, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)
-- [Routing, section « Generating URLs »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [UrlGeneratorInterface, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)
+- [Routing, section « Generating URLs »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

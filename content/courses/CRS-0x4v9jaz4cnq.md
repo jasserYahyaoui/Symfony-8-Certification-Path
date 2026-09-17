@@ -88,4 +88,4 @@ requêtes, un temps passé dans le framework.
 
 ## Sources officielles
 
-- [How to Use the Profiler in a Functional Test](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst)
+- [How to Use the Profiler in a Functional Test](https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst)

@@ -88,4 +88,4 @@ ignorés.
 
 ## Sources officielles
 
-- [Security, « Firewalls »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst)
+- [Security, « Firewalls »](https://github.com/symfony/symfony-docs/blob/8.0/security.rst)

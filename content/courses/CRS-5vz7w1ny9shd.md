@@ -107,4 +107,4 @@ Les deux défauts sont opposés.
 
 ## Sources officielles
 
-- [`components/property_access.rst`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst)
+- [`components/property_access.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst)

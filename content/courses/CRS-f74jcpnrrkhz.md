@@ -96,5 +96,5 @@ d'adaptateur à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
 
 ## Sources officielles
 
-- [composer.json de symfony/symfony, clé `provide`](https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json)
-- [The PSR-7 Bridge](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst)
+- [composer.json de symfony/symfony, clé `provide`](https://github.com/symfony/symfony/blob/8.0/composer.json)
+- [The PSR-7 Bridge](https://github.com/symfony/symfony-docs/blob/8.0/components/psr7.rst)

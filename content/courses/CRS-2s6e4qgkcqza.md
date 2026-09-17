@@ -70,4 +70,4 @@ comme attribut passé à `isGranted()`.
 
 ## Sources officielles
 
-- [Security, « Roles » et « Hierarchical Roles »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst)
+- [Security, « Roles » et « Hierarchical Roles »](https://github.com/symfony/symfony-docs/blob/8.0/security.rst)

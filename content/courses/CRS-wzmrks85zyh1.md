@@ -93,5 +93,5 @@ il lui faut la portée classe.
 
 ## Sources officielles
 
-- [Validation, « Constraint Targets »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst)
-- [Custom Validation Constraint, « Class Constraint Validator »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst)
+- [Validation, « Constraint Targets »](https://github.com/symfony/symfony-docs/blob/8.0/validation.rst)
+- [Custom Validation Constraint, « Class Constraint Validator »](https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst)

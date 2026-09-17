@@ -71,4 +71,4 @@ signale aucune erreur.
 
 ## Sources officielles
 
-- [Console Commands](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst)
+- [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)

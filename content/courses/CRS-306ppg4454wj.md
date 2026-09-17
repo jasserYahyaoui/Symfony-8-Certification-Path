@@ -115,5 +115,5 @@ seul.
 
 ## Sources officielles
 
-- [Symfony Twig Reference](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst)
-- [Twig 3.22, filtres et fonctions](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst)
+- [Symfony Twig Reference](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)
+- [Twig 3.22, filtres et fonctions](https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst)

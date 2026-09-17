@@ -132,6 +132,6 @@ n'est pas modifié.
 
 ## Sources officielles
 
-- [The DOM Crawler](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst)
-- [The CssSelector Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst)
-- [Testing](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst)
+- [The DOM Crawler](https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst)
+- [The CssSelector Component](https://github.com/symfony/symfony-docs/blob/8.0/components/css_selector.rst)
+- [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)

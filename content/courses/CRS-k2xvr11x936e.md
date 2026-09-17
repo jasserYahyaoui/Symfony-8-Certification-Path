@@ -90,4 +90,4 @@ les bundles sont pour le code partagé entre projets.
 
 ## Sources officielles
 
-- [The Symfony Framework Best Practices](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst)
+- [The Symfony Framework Best Practices](https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst)

@@ -109,4 +109,4 @@ l'extension.
 
 ## Sources officielles
 
-- [Our Backward Compatibility Promise](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst)
+- [Our Backward Compatibility Promise](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst)

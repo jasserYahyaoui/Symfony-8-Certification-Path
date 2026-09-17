@@ -97,4 +97,4 @@ une erreur serveur.
 
 ## Sources officielles
 
-- [How to Use Data Transformers](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst)
+- [How to Use Data Transformers](https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst)

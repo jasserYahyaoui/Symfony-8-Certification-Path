@@ -26,6 +26,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 LOT07_QUESTION = 'content/questions/lot-07-forms.yml'
 LOT01_COURSE = 'content/courses/CRS-0jtjh77tabt1.md'   # OIT-webdvbgbrfth, STANDARD, 314 body words
 
+# CRS-003 needs a course whose BODY carries a rendered link to turn back into a
+# raw one; the course above has citations but no body link at all.
+LINKED_COURSE = 'content/courses/CRS-0a0d5bp6769e.md'
+
 # The Traits outcome "what a trait may contain, and why it is not a type" is
 # named by one LEARNING question and by one HOLDOUT question. Removing the
 # LEARNING link leaves only the holdout one, which must not discharge it.
@@ -125,6 +129,13 @@ CASES = [
     # and until 2026-09-16 nothing read that repeat. Two courses had drifted
     # from their item and every gate was green. The defect is not a malformed
     # value -- it is a VALID level that belongs to another item's judgement.
+    (
+        'CRS-003 rejects a course linking a learner to a raw file',
+        [(LINKED_COURSE,
+          '](https://github.com/symfony/symfony-docs/blob/8.0/',
+          '](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/')],
+        '[ERROR] CRS-003',
+    ),
     (
         'CRS-002 rejects a course whose content_level left its item behind',
         [(LOT01_COURSE, 'content_level: STANDARD\n', 'content_level: MINIMAL\n')],

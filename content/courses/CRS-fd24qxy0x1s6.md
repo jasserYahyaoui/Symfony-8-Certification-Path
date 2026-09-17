@@ -92,4 +92,4 @@ route ne sont renseignés que si on les passe soi-même.
 
 ## Sources officielles
 
-- [How to Forward Requests to another Controller](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst)
+- [How to Forward Requests to another Controller](https://github.com/symfony/symfony-docs/blob/8.0/controller/forwarding.rst)

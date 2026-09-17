@@ -130,4 +130,4 @@ nommés existants ; c'est la réponse à « pourquoi ça ne se câble pas ».
 
 ## Sources officielles
 
-- [Defining Services Dependencies Automatically (Autowiring)](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst)
+- [Defining Services Dependencies Automatically (Autowiring)](https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst)

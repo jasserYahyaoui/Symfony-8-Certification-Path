@@ -77,4 +77,4 @@ volumineux.
 
 ## Sources officielles
 
-- [Symfony Templates, « Debugging Variables »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Symfony Templates, « Debugging Variables »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

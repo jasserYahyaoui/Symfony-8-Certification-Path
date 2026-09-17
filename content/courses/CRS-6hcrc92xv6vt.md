@@ -163,4 +163,4 @@ n'est pas ce qu'elle rend, c'est qu'on puisse la remplacer.
 
 ## Sources officielles
 
-- [The Clock Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst)
+- [The Clock Component](https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst)

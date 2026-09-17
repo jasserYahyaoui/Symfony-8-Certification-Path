@@ -118,4 +118,4 @@ injectable.
 
 ## Sources officielles
 
-- [Form Events](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst)
+- [Form Events](https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst)

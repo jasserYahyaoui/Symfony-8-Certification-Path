@@ -165,5 +165,5 @@ par clé.
 
 ## Sources officielles
 
-- [Translations](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst)
-- [ICU MessageFormat](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst)
+- [Translations](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst)
+- [ICU MessageFormat](https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst)

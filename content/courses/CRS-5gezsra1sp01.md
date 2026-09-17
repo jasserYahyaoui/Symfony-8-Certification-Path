@@ -88,4 +88,4 @@ uniquement en synchrone.
 
 ## Sources officielles
 
-- [Messenger, « Concepts »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Concepts »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

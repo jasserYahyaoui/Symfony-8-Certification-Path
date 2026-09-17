@@ -80,4 +80,4 @@ est interrogeable ici est la fonction et la configuration du composant.
 
 ## Sources officielles
 
-- [Symfony Twig Reference, `asset` et `asset_version`](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst)
+- [Symfony Twig Reference, `asset` et `asset_version`](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)

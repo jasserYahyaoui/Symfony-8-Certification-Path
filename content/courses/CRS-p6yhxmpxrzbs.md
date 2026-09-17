@@ -171,4 +171,4 @@ dérivables du code source.
 
 ## Sources officielles
 
-- [Cache](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst)
+- [Cache](https://github.com/symfony/symfony-docs/blob/8.0/cache.rst)

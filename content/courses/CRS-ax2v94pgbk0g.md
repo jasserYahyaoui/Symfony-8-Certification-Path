@@ -108,5 +108,5 @@ elle n'est jamais appelée.
 
 ## Sources officielles
 
-- [Validation, « Validating Object With Inheritance »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst)
-- [Contrainte `Valid`](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst)
+- [Validation, « Validating Object With Inheritance »](https://github.com/symfony/symfony-docs/blob/8.0/validation.rst)
+- [Contrainte `Valid`](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst)

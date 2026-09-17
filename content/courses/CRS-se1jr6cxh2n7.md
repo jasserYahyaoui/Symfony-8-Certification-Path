@@ -89,4 +89,4 @@ place.
 
 ## Sources officielles
 
-- [Messenger, « Transports » et « Routing Messages to a Transport »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst)
+- [Messenger, « Transports » et « Routing Messages to a Transport »](https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst)

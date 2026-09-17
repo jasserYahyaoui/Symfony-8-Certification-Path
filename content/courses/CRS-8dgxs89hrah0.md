@@ -69,4 +69,4 @@ pas le contrôleur attendu, c'est la seconde qui répond directement.
 
 ## Sources officielles
 
-- [Routing, section « Debugging Routes »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Routing, section « Debugging Routes »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

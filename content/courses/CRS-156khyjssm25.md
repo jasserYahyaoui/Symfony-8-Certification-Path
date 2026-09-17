@@ -104,5 +104,5 @@ le serveur web qui tranche, pas le framework.
 
 ## Sources officielles
 
-- [Best Practices, « Use the Default Directory Structure »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst)
-- [Override the Default Directory Structure](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst)
+- [Best Practices, « Use the Default Directory Structure »](https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst)
+- [Override the Default Directory Structure](https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst)

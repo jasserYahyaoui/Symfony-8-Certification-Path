@@ -118,5 +118,5 @@ fichier.
 
 ## Sources officielles
 
-- [The VarDumper Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst)
-- [Console Commands](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst)
+- [The VarDumper Component](https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst)
+- [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)

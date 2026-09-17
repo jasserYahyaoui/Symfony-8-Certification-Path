@@ -111,4 +111,4 @@ libellé, l'aide et les erreurs.
 
 ## Sources officielles
 
-- [How to Work with Form Themes](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst)
+- [How to Work with Form Themes](https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst)

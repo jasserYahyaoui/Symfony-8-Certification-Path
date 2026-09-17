@@ -95,4 +95,4 @@ avant : il transforme une valeur déjà acceptée.
 
 ## Sources officielles
 
-- [The OptionsResolver Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst)
+- [The OptionsResolver Component](https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst)

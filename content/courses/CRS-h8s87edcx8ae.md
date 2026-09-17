@@ -104,5 +104,5 @@ d'autre.
 
 ## Sources officielles
 
-- [AbstractController, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php)
-- [Controller, « The Base Controller Class & Services »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [AbstractController, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php)
+- [Controller, « The Base Controller Class & Services »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

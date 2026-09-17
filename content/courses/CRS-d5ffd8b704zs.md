@@ -120,5 +120,5 @@ de PHP — et ses `options`.
 
 ## Sources officielles
 
-- [Value Resolvers](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst)
-- [Controller, « Automatic Mapping Of The Request »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [Value Resolvers](https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst)
+- [Controller, « Automatic Mapping Of The Request »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

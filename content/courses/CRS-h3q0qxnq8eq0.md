@@ -76,4 +76,4 @@ routes indispensable.
 
 ## Sources officielles
 
-- [Routing, section « Matching HTTP Methods »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst)
+- [Routing, section « Matching HTTP Methods »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)

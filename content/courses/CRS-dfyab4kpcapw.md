@@ -79,4 +79,4 @@ dédié ; l'addition tente une somme numérique.
 
 ## Sources officielles
 
-- [Twig 3.22, « String Interpolation »](https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst)
+- [Twig 3.22, « String Interpolation »](https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst)

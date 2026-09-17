@@ -113,4 +113,4 @@ sens métier.
 
 ## Sources officielles
 
-- [How to Customize Error Pages](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst)
+- [How to Customize Error Pages](https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst)

@@ -100,4 +100,4 @@ envoyés sont mis à `null`.
 
 ## Sources officielles
 
-- [Forms, « Processing Forms » et « Using the submit() Method »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst)
+- [Forms, « Processing Forms » et « Using the submit() Method »](https://github.com/symfony/symfony-docs/blob/8.0/forms.rst)

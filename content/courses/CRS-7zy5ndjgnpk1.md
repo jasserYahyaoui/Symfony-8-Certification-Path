@@ -82,4 +82,4 @@ requête — ce n'est pas un appel interne.
 
 ## Sources officielles
 
-- [Controller, section « Redirecting »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst)
+- [Controller, section « Redirecting »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)

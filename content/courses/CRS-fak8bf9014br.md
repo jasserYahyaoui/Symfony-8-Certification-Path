@@ -79,5 +79,5 @@ dépréciations, puis passer à la majeure — qui supprime ce qui était dépr�
 
 ## Sources officielles
 
-- [Upgrading a Minor Version](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst)
-- [Framework configuration reference](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst)
+- [Upgrading a Minor Version](https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_minor.rst)
+- [Framework configuration reference](https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst)

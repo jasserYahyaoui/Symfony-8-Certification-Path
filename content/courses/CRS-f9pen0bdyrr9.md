@@ -101,4 +101,4 @@ qu'imposer des options n'en implémente que deux.
 
 ## Sources officielles
 
-- [How to Create a Custom Form Field Type](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst)
+- [How to Create a Custom Form Field Type](https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst)

@@ -87,4 +87,4 @@ noms.
 
 ## Sources officielles
 
-- [Templates, emplacements et espaces de noms](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst)
+- [Templates, emplacements et espaces de noms](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

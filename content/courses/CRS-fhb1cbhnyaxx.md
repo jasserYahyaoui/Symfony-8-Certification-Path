@@ -127,5 +127,5 @@ suivants d'être appelés.
 
 ## Sources officielles
 
-- [The EventDispatcher Component](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst)
-- [The Generic Event Object](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst)
+- [The EventDispatcher Component](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
+- [The Generic Event Object](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst)

@@ -104,5 +104,5 @@ depuis l'extérieur.
 
 ## Sources officielles
 
-- [How to Make Service Arguments/References Optional, « Public and Private Services »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst)
-- [Service Container](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst)
+- [How to Make Service Arguments/References Optional, « Public and Private Services »](https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst)
+- [Service Container](https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst)

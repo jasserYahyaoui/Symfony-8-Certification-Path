@@ -90,5 +90,5 @@ partage.
 
 ## Sources officielles
 
-- [Kernel, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
-- [Building your own Framework with the MicroKernelTrait](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst)
+- [Kernel, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
+- [Building your own Framework with the MicroKernelTrait](https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst)

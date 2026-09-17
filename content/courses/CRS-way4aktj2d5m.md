@@ -92,5 +92,5 @@ valeur candidate contre les contraintes de la propriété.
 
 ## Sources officielles
 
-- [ValidatorInterface, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php)
-- [Validation, « Using the Validator »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst)
+- [ValidatorInterface, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php)
+- [Validation, « Using the Validator »](https://github.com/symfony/symfony-docs/blob/8.0/validation.rst)

@@ -73,4 +73,4 @@ ailleurs — une faute de frappe ne produit aucune erreur.
 
 ## Sources officielles
 
-- [Symfony Twig Reference, `path` et `url`](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst)
+- [Symfony Twig Reference, `path` et `url`](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)

@@ -91,4 +91,4 @@ désactive l'authentification pour ces URL.
 
 ## Sources officielles
 
-- [Security](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst)
+- [Security](https://github.com/symfony/symfony-docs/blob/8.0/security.rst)

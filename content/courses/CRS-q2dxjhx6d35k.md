@@ -158,6 +158,6 @@ absorbant toutes les valeurs positionnelles restantes.
 
 ## Sources officielles
 
-- [Console Input](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst)
-- [`Attribute\Option`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php)
-- [`Attribute\Argument`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Argument.php)
+- [Console Input](https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst)
+- [`Attribute\Option`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php)
+- [`Attribute\Argument`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Argument.php)

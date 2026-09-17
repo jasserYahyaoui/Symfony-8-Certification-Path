@@ -107,4 +107,4 @@ endroits (`CHANGELOG.md`, les deux `UPGRADE-*.md`) dans la même pull request.
 
 ## Sources officielles
 
-- [Code Conventions, section « Deprecating Code »](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst)
+- [Code Conventions, section « Deprecating Code »](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst)

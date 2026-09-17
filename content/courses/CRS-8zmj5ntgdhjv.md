@@ -114,5 +114,5 @@ inexistant.
 
 ## Sources officielles
 
-- [Environment Variable Processors](https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst)
-- [`EnvVarProcessor`, branche 8.0](https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php)
+- [Environment Variable Processors](https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst)
+- [`EnvVarProcessor`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php)
