@@ -185,6 +185,7 @@ flashcards:
   - id: FLC-knw9ywe94k4z
     official_item: OIT-fhjmv9w3wxsb
     language: fr
+    level: TRAP
     front: 'Symfony : que renvoie `getPreferredLanguage()` appelée sans argument ?'
     back: La première langue demandée par le client, que l'application sache la servir ou non — aucune
       négociation n'a lieu.
@@ -3220,4 +3221,336 @@ flashcards:
         readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
         branch: "master"
         symbol_or_lines: "section 12.1 Proactive Negotiation ; section 12.5.5 Vary"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-fhjmv9w3wxsb — Language detection.
+  #
+  # Quatorze cartes ajoutées le 2026-09-17, lues dans Request.php de la branche
+  # 8.0 : getLanguages l. 1663, getPreferredLanguage l. 1633, formatLocale
+  # l. 1694, getLanguageCombinations l. 1712, getLanguageComponents l. 1737.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-wzx00b8cjwf7
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: RECALL
+    front: "Symfony : en quoi `getLanguages()` transforme-t-elle `fr-FR`, `zh-hans` et `fr-latn-fr` ?"
+    back: "`fr_FR`, `zh_Hans` et `fr_Latn_FR` : séparateur `_`, écriture en capitale initiale, région en majuscules."
+    explanation: >-
+      La décomposition reconnaît trois composants — langue (2 ou 3 lettres),
+      écriture (4 lettres), région (2 lettres) — et les recompose avec `_`.
+      L'écriture passe par `ucfirst(strtolower())`, la région par `strtoupper()`.
+      C'est la forme que Symfony attend partout ailleurs.
+    memorization_justification: >-
+      Trois règles de casse distinctes selon le composant, appliquées
+      silencieusement ; aucune ne se devine depuis l'en-tête reçu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "formatLocale lignes 1694-1699 ; getLanguageComponents lignes 1737-1756"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pz42zsr9q8a5
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: RECALL
+    front: "Quelles combinaisons Symfony construit-il pour le locale `fr_Latn_FR` ?"
+    back: "`fr_Latn_FR`, puis `fr_Latn`, puis `fr_FR`, puis `fr` — de la plus précise à la plus générale."
+    explanation: >-
+      L'ordre est celui de `getLanguageCombinations()`, et il n'est pas
+      symétrique : la paire langue + écriture vient **avant** la paire langue +
+      région. La liste est dédoublonnée, donc un locale sans écriture n'en
+      produit que deux entrées — `fr_FR` et `fr`.
+    memorization_justification: >-
+      Ordre à quatre niveaux dont le deuxième surprend ; c'est lui qui décide du
+      locale retenu quand plusieurs conviennent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguageCombinations lignes 1712-1722"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fcp1zcfrnqdh
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: RECALL
+    front: "Quels en-têtes Symfony lit-il avec le même analyseur qu'`Accept-Language` ?"
+    back: "`Accept`, `Accept-Charset` et `Accept-Encoding` : `getCharsets()` et `getEncodings()` passent aussi par `AcceptHeader::fromString()`."
+    explanation: >-
+      Les quatre accesseurs partagent donc le tri par qualité décroissante.
+      `getLanguages()` se distingue sur un point : elle **normalise** chaque
+      valeur en locale Symfony et dédoublonne, ce que les autres ne font pas —
+      elles rendent les jetons tels quels.
+    memorization_justification: >-
+      Famille d'accesseurs symétriques dont un seul applique une transformation
+      supplémentaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguages lignes 1663-1678 ; getCharsets lignes 1763-1766 ; getEncodings"
+        verified_at: "2026-09-17"
+
+  - id: FLC-v3n6pxmsmnxj
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getPreferredLanguage()` compare-t-elle des **préfixes** plutôt que des égalités ?"
+    back: "Pour qu'un client demandant `fr` obtienne un locale régional supporté : la comparaison est `str_starts_with($locale, $combinaison)`."
+    explanation: >-
+      Sans cela, une application qui ne propose que `fr_FR` ne répondrait rien à
+      un client demandant `fr`. Le revers est que le **premier** locale supporté
+      commençant par la combinaison gagne : avec `['fr_CA', 'fr_FR']`, un client
+      demandant `fr` obtient `fr_CA`. L'ordre de votre liste départage, pas une
+      proximité linguistique.
+    memorization_justification: >-
+      Mécanique de correspondance qui explique à la fois le comportement voulu
+      et un résultat surprenant, selon l'ordre d'une liste qu'on écrit sans y
+      penser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredLanguage lignes 1633-1656"
+        verified_at: "2026-09-17"
+
+  - id: FLC-wcv7j7h9tdn9
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: UNDERSTANDING
+    front: "Modifier l'en-tête `Accept-Language` après un premier appel à `getLanguages()` change-t-il son résultat ?"
+    back: "Non : la liste est mémorisée dans `$this->languages` au premier appel et rendue telle quelle ensuite."
+    explanation: >-
+      La garde est `if (null !== $this->languages) { return $this->languages; }`.
+      Conséquence en test : une requête fabriquée puis modifiée garde la
+      première lecture. `getPreferredLanguage()` s'appuyant sur cette liste, elle
+      hérite du même figement. Pour repartir de zéro, il faut une nouvelle
+      `Request`.
+    memorization_justification: >-
+      Mémorisation invisible depuis la signature, qui rend un accesseur non
+      réentrant après modification de la requête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguages lignes 1663-1668"
+        verified_at: "2026-09-17"
+
+  - id: FLC-7dx4hkd31czr
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: UNDERSTANDING
+    front: "Que devient une valeur d'`Accept-Language` que la grammaire des locales ne reconnaît pas, comme `*` ?"
+    back: "Elle n'est pas rejetée : elle ressort en minuscules, inchangée, et reste dans la liste."
+    explanation: >-
+      `getLanguageComponents()` rend `[$locale, null, null]` quand l'expression
+      régulière ne correspond pas, et `formatLocale()` recompose donc la valeur
+      seule. Le `*` d'un `Accept-Language: *` figure ainsi dans le résultat de
+      `getLanguages()` comme une langue ordinaire — c'est à l'appelant de
+      l'ignorer.
+    memorization_justification: >-
+      Comportement de repli silencieux qui laisse passer un joker dans une liste
+      de locales, là où l'on attendrait un filtrage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguageComponents lignes 1737-1743"
+        verified_at: "2026-09-17"
+
+  - id: FLC-gr6hswf49ryb
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: APPLICATION
+    front: "`Accept-Language: fr-FR,fr-fr;q=0.8`. Combien d'entrées rend `getLanguages()` ?"
+    back: "Une seule : `fr_FR`. La normalisation rend les deux valeurs identiques, et la liste est dédoublonnée."
+    explanation: >-
+      `array_unique()` s'applique **après** `formatLocale()`, donc sur les
+      valeurs normalisées. Deux écritures différentes de la même langue
+      fusionnent, et la première position — celle de la plus forte qualité —
+      est conservée.
+    memorization_justification: >-
+      Effet d'ordre entre normalisation et dédoublonnage, qui change le nombre
+      d'entrées rendues.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguages lignes 1663-1678"
+        verified_at: "2026-09-17"
+
+  - id: FLC-tbqhr1h50ktr
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: APPLICATION
+    front: "L'application supporte `['fr_CA', 'fr_FR']`, le client demande `fr`. Quel locale est retenu ?"
+    back: "`fr_CA` — le **premier** locale supporté dont le nom commence par `fr`."
+    explanation: >-
+      La boucle parcourt les combinaisons du client, puis, pour chacune, la liste
+      des locales **dans l'ordre fourni**. Rien ne mesure une distance
+      linguistique : le premier préfixe qui colle gagne. Pour servir `fr_FR` par
+      défaut, il faut l'écrire en premier.
+    memorization_justification: >-
+      Résultat entièrement déterminé par l'ordre d'un tableau de configuration,
+      ce que le nom « preferred » ne laisse pas soupçonner.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredLanguage lignes 1646-1655"
+        verified_at: "2026-09-17"
+
+  - id: FLC-qf8eae9zdmy5
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: APPLICATION
+    front: "Le client n'envoie aucun `Accept-Language` et l'application supporte `['en', 'fr']`. Que rend `getPreferredLanguage(['en','fr'])` ?"
+    back: "`en` — le premier locale de la liste fournie, traité comme langue par défaut."
+    explanation: >-
+      Deux chemins mènent au même résultat : aucune langue demandée, ou aucune
+      correspondance. Dans les deux cas c'est `$locales[0]`. La méthode ne rend
+      `null` que dans un seul cas — appelée **sans** liste, sur une requête sans
+      `Accept-Language`.
+    memorization_justification: >-
+      Trois situations distinctes pour deux valeurs de retour ; savoir laquelle
+      peut rendre `null` évite un test défensif inutile ou manquant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredLanguage lignes 1633-1656"
+        verified_at: "2026-09-17"
+
+  - id: FLC-9nzx0jzyd0he
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: APPLICATION
+    front: "Une réponse dépend de la langue du client. Quel en-tête manque presque toujours ?"
+    back: "`Vary: Accept-Language` — sans lui, un cache partagé sert la première langue obtenue à tous les visiteurs suivants."
+    explanation: >-
+      `Content-Language` annonce la langue choisie ; il ne dit rien au cache.
+      C'est `Vary` qui étend la clé de cache à l'en-tête utilisé. Le bug n'a
+      **aucun symptôme en local**, où aucun cache partagé n'intervient : il
+      n'apparaît qu'en production, derrière un CDN ou un reverse proxy.
+    memorization_justification: >-
+      Oubli dont l'absence de symptôme local garantit qu'il ne sera pas détecté
+      avant la mise en production.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.5 Vary ; section 8.5 Content-Language"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4vdkjxg4k806
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « `getPreferredLanguage()` renvoie `null` quand aucune langue supportée ne correspond »."
+    back: "Faux. Avec une liste, elle rend **le premier locale de cette liste**. Elle ne rend `null` que sans argument et sans `Accept-Language`."
+    explanation: >-
+      Le repli est silencieux : rien ne distingue « le client voulait vraiment
+      l'anglais » de « rien ne correspondait, voici le défaut ». Pour détecter
+      l'absence de correspondance, il faut comparer soi-même le retour à
+      `$locales[0]`, ou lire `getLanguages()` directement.
+    memorization_justification: >-
+      Valeur de repli prise pour un résultat de négociation ; le code appelant
+      teste un `null` qui n'arrivera jamais.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredLanguage lignes 1633-1656"
+        verified_at: "2026-09-17"
+
+  - id: FLC-5ecgnqexk8e7
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: TRAP
+    front: "Le code compare `$request->getLanguages()[0]` à `'fr-FR'`. Que se passe-t-il ?"
+    back: "La comparaison échoue toujours : Symfony rend `fr_FR`, avec un tiret bas."
+    explanation: >-
+      Le séparateur trahit la source : `fr-FR` vient du réseau, `fr_FR` de
+      Symfony. Voir un tiret dans une comparaison applicative signale une valeur
+      non normalisée — ou une constante écrite à la main sans passer par la
+      forme que produit le framework.
+    memorization_justification: >-
+      Différence d'un caractère entre la valeur reçue et la valeur rendue, qui
+      fait échouer une égalité sans erreur ni avertissement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "formatLocale lignes 1694-1699"
+        verified_at: "2026-09-17"
+
+  - id: FLC-qm276n2scr2v
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: TRAP
+    front: "`Accept-Language` oblige-t-il le serveur à répondre dans la langue demandée ?"
+    back: "Non : c'est une **préférence**. Le serveur peut répondre autrement, et l'annonce alors par `Content-Language`."
+    explanation: >-
+      Aucun code d'erreur n'est dû au client pour une langue non disponible —
+      `406` est possible mais rarement souhaitable. Servir une langue par défaut
+      en l'annonçant correctement est conforme. Ce qui n'est pas facultatif, en
+      revanche, c'est `Vary: Accept-Language` dès que la réponse varie.
+    memorization_justification: >-
+      Même confusion que pour `Accept` : un en-tête de préférence lu comme une
+      contrainte, avec une obligation réelle — `Vary` — à côté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.1 Proactive Negotiation ; section 12.5.4 Accept-Language"
+        verified_at: "2026-09-17"
+
+  - id: FLC-z6mfkvfxsgpr
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: TRAP
+    front: "Dans les combinaisons d'un locale, `fr_Latn` ou `fr_FR` vient-il en premier ?"
+    back: "`fr_Latn` : la paire langue + **écriture** précède la paire langue + région."
+    explanation: >-
+      L'ordre complet pour `fr_Latn_FR` est `fr_Latn_FR`, `fr_Latn`, `fr_FR`,
+      `fr`. Il décide du locale retenu quand l'application en supporte plusieurs
+      qui conviennent : une application proposant `fr_Latn` **et** `fr_FR`
+      servira le premier à un client demandant `fr-Latn-FR`.
+    memorization_justification: >-
+      Ordre de priorité entre deux composants de même niveau apparent, qui ne se
+      déduit d'aucune règle générale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLanguageCombinations lignes 1712-1722"
         verified_at: "2026-09-17"

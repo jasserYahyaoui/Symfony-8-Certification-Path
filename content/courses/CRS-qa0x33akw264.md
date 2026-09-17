@@ -52,6 +52,59 @@ Quand aucune langue demandée ne correspond, `getPreferredLanguage()` ne renvoie
 pas `null` : il renvoie **le premier locale de la liste fournie**, traité comme
 langue par défaut.
 
+## Comment Symfony normalise un tag de langue
+
+`getLanguages()` ne se contente pas de remplacer `-` par `_`. Chaque valeur
+passe par une décomposition en **trois composants** — langue, écriture, région —
+puis par une recomposition :
+
+```php
+// fr-FR      -> fr_FR
+// zh-hans    -> zh_Hans     (l'écriture prend une capitale initiale)
+// fr-latn-fr -> fr_Latn_FR  (la région passe en majuscules)
+```
+
+La grammaire reconnue est `2 ou 3 lettres` pour la langue, puis **4 lettres**
+optionnelles pour l'écriture, puis **2 lettres** optionnelles pour la région.
+Une valeur qui n'entre pas dans ce moule — ou le `*` d'un `Accept-Language` —
+n'est pas rejetée : elle ressort en minuscules, inchangée. La liste est enfin
+dédoublonnée, donc `fr-FR,fr-fr;q=0.8` ne produit qu'une entrée.
+
+## Comment `getPreferredLanguage()` choisit
+
+Avec une liste de locales supportées, la méthode ne compare pas des chaînes
+égales : elle construit pour chaque langue demandée **toutes ses combinaisons**,
+de la plus précise à la plus générale, et retient le premier locale supporté qui
+**commence par** l'une d'elles.
+
+Pour `fr_Latn_FR`, les combinaisons sont, dans cet ordre :
+
+```text
+fr_Latn_FR  ->  fr_Latn  ->  fr_FR  ->  fr
+```
+
+Deux conséquences que l'examen peut viser :
+
+- un client demandant `fr` obtient `fr_CA` si c'est le premier locale supporté
+  de la liste — **l'ordre de votre liste départage**, pas une proximité
+  linguistique ;
+- la comparaison est un **préfixe**, pas une égalité : `fr` sélectionne le
+  premier supporté commençant par `fr`.
+
+## Tips d'examen
+
+**Trois sorties, un seul nom de méthode.** `getPreferredLanguage()` rend la
+première langue *du client* sans argument ; avec une liste, le premier locale
+*correspondant* ; et si rien ne correspond, **le premier de la liste**. Jamais
+`null` dès qu'on lui passe une liste.
+
+**Le séparateur trahit la source.** `fr-FR` vient du réseau, `fr_FR` de
+Symfony : voir un tiret dans du code applicatif signale une valeur non
+normalisée.
+
+**Négocier la langue impose `Vary: Accept-Language`.** Sans lui, le premier
+visiteur fixe la langue servie à tous les suivants par le cache partagé.
+
 ## Pièges d'examen
 
 **`getPreferredLanguage()` sans argument ne négocie rien.** Elle renvoie la
