@@ -94,11 +94,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 26 min · 843 mots · 4 questions, 16 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 21 min · 605 mots · 2 questions, 15 flashcards
-- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 17 min · 762 mots · 5 questions, 1 flashcards
+- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 29 min · 843 mots · 5 questions, 16 flashcards
 - NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 9 min · 370 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 97 / 140 min*
+*Budget du jour : 109 / 140 min*
 
 ### Jeudi 8 octobre 2026
 

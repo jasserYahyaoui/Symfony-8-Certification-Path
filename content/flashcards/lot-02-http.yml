@@ -126,6 +126,7 @@ flashcards:
   - id: FLC-7cnykd5c7nxy
     official_item: OIT-9kh5cqz5qtrb
     language: fr
+    level: RECALL
     front: "Symfony HttpClient : à quel moment la requête est-elle réellement attendue ?"
     back: >-
       Pas à l'appel de request(), qui est asynchrone, mais à la première lecture
@@ -3553,4 +3554,362 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getLanguageCombinations lignes 1712-1722"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-9kh5cqz5qtrb — Symfony HttpClient component.
+  #
+  # Quinze cartes ajoutées le 2026-09-17. Contracts de la branche 8.0 relus le
+  # jour même : HttpClientInterface.php (OPTIONS_DEFAULTS l. 26-71) et
+  # ResponseInterface.php (les @throws et le contrat de getInfo). La carte
+  # préexistante FLC-7cnykd5c7nxy couvre déjà le moment de l'attente.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-p73531gzbc2d
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: RECALL
+    front: "HttpClient : quelles valeurs par défaut ont `max_redirects`, `max_duration` et `buffer` ?"
+    back: "`max_redirects` = **20**, `max_duration` = **0** (illimité), `buffer` = **true**."
+    explanation: >-
+      Les trois sont écrites dans `OPTIONS_DEFAULTS`. Un `max_redirects`
+      inférieur ou égal à `0` signifie « ne pas suivre les redirections » — ce
+      n'est donc pas un compteur illimité, contrairement à `max_duration` où `0`
+      veut dire sans limite. Deux zéros, deux sens opposés.
+    memorization_justification: >-
+      Trois valeurs numériques arbitraires, dont deux zéros qui ne signifient
+      pas la même chose selon l'option.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "OPTIONS_DEFAULTS lignes 41-58"
+        verified_at: "2026-09-17"
+
+  - id: FLC-3er2t3h6xv0b
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: RECALL
+    front: "HttpClient : `timeout` mesure-t-il la durée totale de la requête ?"
+    back: "Non : c'est le délai **d'inactivité**. La durée totale est `max_duration`, illimitée par défaut."
+    explanation: >-
+      Le commentaire du contrat est sans ambiguïté : « the idle timeout (in
+      seconds) - defaults to `ini_get('default_socket_timeout')` ». Une requête
+      lente mais qui progresse ne l'atteint donc jamais. Pour plafonner
+      réellement, il faut poser `max_duration`.
+    memorization_justification: >-
+      Le nom `timeout` désigne partout ailleurs une durée totale ; ici il n'en
+      est pas une, et l'option qui l'est vaut zéro par défaut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "OPTIONS_DEFAULTS lignes 55-57"
+        verified_at: "2026-09-17"
+
+  - id: FLC-h4c5q89sbwrz
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: RECALL
+    front: "HttpClient : quelles informations `getInfo()` doit-elle **obligatoirement** rendre ?"
+    back: "`canceled`, `error`, `http_code`, `http_method`, `redirect_count`, `redirect_url`, `response_headers`, `start_time`, `url` et `user_data`."
+    explanation: >-
+      Le contrat ajoute deux garanties qui font tout l'usage de la méthode :
+      elle **ne doit pas lever** et **ne doit pas bloquer**. L'information est
+      « live » — elle peut être vide et changer d'un appel à l'autre pendant que
+      la requête progresse. `http_code` vaut `0` tant que le code n'est pas connu.
+    memorization_justification: >-
+      Liste imposée de dix clés, et deux garanties — ni exception, ni blocage —
+      qui distinguent `getInfo()` de tous les autres accesseurs de la réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getInfo, docblock lignes 79-107"
+        verified_at: "2026-09-17"
+
+  - id: FLC-c2q1jzthdnz5
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: RECALL
+    front: "HttpClient : quelles méthodes portent le paramètre `$throw`, et laquelle ne le porte pas ?"
+    back: "`getHeaders()`, `getContent()` et `toArray()` le portent. **`getStatusCode()` non.**"
+    explanation: >-
+      Le contrat de `getStatusCode()` ne déclare qu'une
+      `TransportExceptionInterface` — une erreur réseau. Il n'a donc rien à
+      désactiver : un 404 n'est pas une erreur pour lui. C'est l'appel par
+      lequel on inspecte un statut d'échec sans rien attraper.
+    memorization_justification: >-
+      Asymétrie dans une famille d'accesseurs voisins ; elle décide de la façon
+      d'inspecter une réponse d'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getStatusCode lignes 26-32 ; getHeaders, getContent, toArray"
+        verified_at: "2026-09-17"
+
+  - id: FLC-j08c9r6s0c82
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi seule `HttpExceptionInterface` expose-t-elle `getResponse()` ?"
+    back: "Parce qu'elle seule a une réponse à montrer : une erreur de transport signifie que rien n'est arrivé."
+    explanation: >-
+      C'est la ligne de partage de toute la hiérarchie. `TransportExceptionInterface`
+      — et son héritière `TimeoutExceptionInterface` — couvre les échecs où
+      aucune réponse n'existe. `HttpExceptionInterface` couvre les cas où une
+      réponse est bien là, mais avec un statut qui fâche : 3xx une fois
+      `max_redirects` atteint, 4xx, 5xx.
+    memorization_justification: >-
+      Critère unique qui organise sept interfaces ; le connaître dispense de
+      mémoriser l'arbre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getResponse ligne 23 ; interfaces voisines du répertoire Exception/"
+        verified_at: "2026-09-17"
+
+  - id: FLC-291p4n076j22
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une réponse 3xx peut-elle lever, alors que le client suit les redirections ?"
+    back: "Parce qu'elle ne lève qu'**une fois `max_redirects` atteint** : la redirection n'a alors pas été suivie."
+    explanation: >-
+      Les `@throws` le disent mot pour mot : « On a 3xx when `$throw` is true
+      **and the max_redirects option has been reached** ». Tant que le budget de
+      redirections n'est pas épuisé, le client suit et l'appelant ne voit que la
+      réponse finale. Poser `max_redirects` à `0` transforme donc toute
+      redirection en `RedirectionExceptionInterface`.
+    memorization_justification: >-
+      Condition double — statut **et** budget épuisé — dont l'oubli fait croire
+      qu'un 3xx lève toujours ou ne lève jamais.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "@throws de getHeaders, getContent et toArray"
+        verified_at: "2026-09-17"
+
+  - id: FLC-8drwny5gz56k
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `toArray()` peut-elle lever une exception qu'aucun autre accesseur ne lève ?"
+    back: "Parce qu'elle décode : elle ajoute `DecodingExceptionInterface` « when the body cannot be decoded to an array »."
+    explanation: >-
+      Ses `@throws` sont ceux de `getContent()` **plus** celui-là. Conséquence :
+      un corps parfaitement reçu, avec un statut 200, peut faire lever
+      `toArray()` — l'échec n'est ni réseau ni HTTP, il est sémantique. Et
+      `$throw = false` ne désactive **pas** cette exception-là : il ne porte que
+      sur les statuts.
+    memorization_justification: >-
+      Quatrième branche d'exception attachée à un seul accesseur, et que le
+      paramètre `$throw` ne couvre pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "toArray lignes 60-71"
+        verified_at: "2026-09-17"
+
+  - id: FLC-t8jfygk82f7p
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: UNDERSTANDING
+    front: "Que garantit l'option `json` par rapport à `body` ?"
+    back: "L'implémentation **doit** encoder la valeur en JSON et poser un `content-type` JSON si l'appelant n'en a pas défini."
+    explanation: >-
+      Le contrat emploie `MUST` pour les deux effets. `body`, lui, accepte une
+      chaîne, un tableau — traité comme une charge de formulaire — une ressource,
+      un `Traversable` ou une `Closure`, et ne pose aucun en-tête. Les deux
+      options ne se combinent pas : `json` écrase `body`.
+    memorization_justification: >-
+      Deux options qui remplissent le même champ du message avec des garanties
+      différentes, dont une pose un en-tête à votre place.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "OPTIONS_DEFAULTS lignes 33-38"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x2qhtjq7q0sx
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: APPLICATION
+    front: "Une API renvoie 404 avec un corps JSON d'erreur. Comment le lire sans attraper d'exception ?"
+    back: "`$response->getContent(false)` — ou `toArray(false)`. `getStatusCode()`, elle, ne lève jamais sur un statut."
+    explanation: >-
+      Le `false` désactive la levée liée au **statut**, pas les autres :
+      `toArray(false)` lèvera encore si le corps n'est pas du JSON décodable, et
+      une panne réseau lèvera dans tous les cas. Depuis un bloc `catch`, le même
+      corps s'obtient par `$e->getResponse()->getContent(false)`.
+    memorization_justification: >-
+      Geste exact d'un besoin quotidien — inspecter une erreur — avec un
+      paramètre positionnel dont le sens ne se lit pas sur l'appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getContent lignes 48-58 ; toArray lignes 60-71"
+        verified_at: "2026-09-17"
+
+  - id: FLC-7peew3ny0hth
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: APPLICATION
+    front: "Dix requêtes sont lancées dans une boucle, et chacune est lue dans la même boucle. Que perd-on ?"
+    back: "Tout le parallélisme : chaque lecture attend sa réponse avant que la suivante ne parte. Le code marche, il est seulement séquentiel."
+    explanation: >-
+      Le remède est de séparer les deux temps : émettre les dix `request()`
+      d'abord, puis parcourir `$client->stream($responses)` et traiter chaque
+      morceau à mesure. Rien dans le code fautif ne signale l'erreur — ni
+      exception, ni avertissement, seulement une durée dix fois plus longue.
+    memorization_justification: >-
+      Défaut de performance sans aucun symptôme fonctionnel, dont la cause est
+      l'ordre de deux boucles.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "request et stream"
+        verified_at: "2026-09-17"
+
+  - id: FLC-dmazxxt9j2yv
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: APPLICATION
+    front: "Comment annuler une requête en cours, et que devient le flux ensuite ?"
+    back: "`$response->cancel()` : « No further chunk will be yielded after this method has been called »."
+    explanation: >-
+      La méthode ferme le flux et tous les tampons associés. L'annulation est
+      visible dans `getInfo('canceled')`, qui passe à `true` — c'est d'ailleurs
+      la première clé que le contrat impose. Utile dans un parcours de `stream()`
+      quand une réponse suffit et que les autres deviennent inutiles.
+    memorization_justification: >-
+      Méthode sans valeur de retour dont l'effet est observable ailleurs, par une
+      clé de `getInfo()` qu'il faut connaître.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "cancel lignes 72-78 ; getInfo, clé canceled"
+        verified_at: "2026-09-17"
+
+  - id: FLC-97b0qk3vemnx
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: APPLICATION
+    front: "Quelle option permet de retrouver, sur une réponse, l'objet métier qui a motivé la requête ?"
+    back: "`user_data` : le contrat impose qu'elle soit disponible via `$response->getInfo('user_data')`."
+    explanation: >-
+      C'est un `MUST`, et le contrat précise qu'elle n'est **pas utilisée en
+      interne** : elle existe uniquement pour l'appelant. Dans un parcours de
+      `stream()`, où les réponses reviennent dans le désordre, c'est ce qui
+      permet de savoir à quoi chacune correspond sans tenir un tableau parallèle.
+    memorization_justification: >-
+      Option sans effet sur le protocole, qui résout précisément le problème que
+      pose le parallélisme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "OPTIONS_DEFAULTS lignes 39-40"
+        verified_at: "2026-09-17"
+
+  - id: FLC-cnnkc1deq7x1
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: TRAP
+    front: "Peut-on appeler `getResponse()` sur une `TimeoutExceptionInterface` ?"
+    back: "Non. Elle hérite de `TransportExceptionInterface` : rien n'est arrivé, il n'y a aucune réponse à rendre."
+    explanation: >-
+      Un délai dépassé se range du côté transport, pas du côté HTTP — même si
+      l'attente a duré. C'est l'erreur attendue à l'examen : chercher le corps
+      d'une réponse là où la requête n'en a jamais reçu. Seules les branches
+      sous `HttpExceptionInterface` — 3xx, 4xx, 5xx — exposent `getResponse()`.
+    memorization_justification: >-
+      Le mot « timeout » évoque une réponse tardive plutôt qu'absente ; la
+      hiérarchie tranche dans l'autre sens.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getResponse ligne 23 ; TimeoutExceptionInterface du même répertoire"
+        verified_at: "2026-09-17"
+
+  - id: FLC-6vwwf28188zh
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: TRAP
+    front: "`$response->toArray(false)` sur une réponse 200 dont le corps est du HTML : que se passe-t-il ?"
+    back: "Elle lève quand même — une `DecodingExceptionInterface`. Le `false` ne désactive que les levées liées au **statut**."
+    explanation: >-
+      Les deux familles d'exception sont indépendantes : `$throw` gouverne 3xx,
+      4xx et 5xx ; le décodage, lui, échoue quel que soit le statut. Pour lire un
+      corps sans rien risquer sur sa forme, il faut `getContent(false)` et
+      décoder soi-même.
+    memorization_justification: >-
+      Paramètre qui paraît tout désactiver et n'en couvre qu'une partie ; la
+      confusion produit une exception non attrapée en production.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "toArray lignes 60-71"
+        verified_at: "2026-09-17"
+
+  - id: FLC-j55h8vd7c436
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « poser `max_redirects` à `0` laisse le client suivre les redirections sans limite »."
+    back: "Faux, et c'est l'inverse : « a value lower than or equal to 0 means redirects should not be followed »."
+    explanation: >-
+      Le zéro de `max_duration` veut bien dire « illimité », celui de
+      `max_redirects` veut dire « aucune ». Deux options voisines, deux
+      conventions opposées pour la même valeur. Le contrat ajoute qu'en suivant
+      une redirection, les en-têtes `Authorization` et `Cookie` **ne doivent
+      pas** être transmis à un autre nom d'hôte.
+    memorization_justification: >-
+      Même valeur, sens opposés selon l'option ; et la règle sur `Authorization`
+      est une garantie de sécurité qu'on ne soupçonne pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "OPTIONS_DEFAULTS lignes 41-44 et 56-57"
         verified_at: "2026-09-17"

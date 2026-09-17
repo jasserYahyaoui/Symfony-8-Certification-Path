@@ -67,7 +67,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 7 | Caching | STANDARD | 897 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 8 | Content negotiation | STANDARD | 843 / 900 | 16 | 3 | **RAFFINÉE** (2026-09-17) |
 | 9 | Language detection | MINIMAL | 605 / 700 | 16 | 2 | **RAFFINÉE** (2026-09-17) |
-| 10 | Symfony HttpClient component | STANDARD | 762 / 900 | 1 | 4 | à faire |
+| 10 | Symfony HttpClient component | STANDARD | 843 / 900 | 16 | 4 | **RAFFINÉE** (2026-09-17) |
 
 Chiffres réconciliés le 2026-09-17 depuis `syllabus-matrix.yml` et `content/**`
 par lecture du `ContentSet` chargé, pas depuis un rapport antérieur.
@@ -449,6 +449,136 @@ quelle, sur **123 pages et 296 lignes**. Un second défaut symétrique échappai
 Les deux sont antérieurs à ce travail. Correctif, preuves de non-vacuité et
 revue des 313 cartes : PR #165, détaillée dans son propre message de commit.
 
+## Page 10 — Symfony HttpClient component, 2026-09-17
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-p73531gzbc2d` … `FLC-j55h8vd7c436`) ; la carte
+  préexistante `FLC-7cnykd5c7nxy` a reçu le niveau `RECALL`.
+- Contrats relus le jour même : `HttpClientInterface.php` (`OPTIONS_DEFAULTS`
+  l. 26-71) et `ResponseInterface.php` (les `@throws` et le contrat de
+  `getInfo`).
+- Faits que la page n'enseignait pas : les **valeurs par défaut** exactes —
+  `max_redirects` = 20, `max_duration` = 0, `buffer` = true — et le fait que
+  **les deux zéros ont des sens opposés** (`max_duration = 0` est illimité,
+  `max_redirects = 0` interdit de suivre) ; les **dix clés** que `getInfo()`
+  doit rendre, et ses deux garanties — ne jamais lever, ne jamais bloquer ;
+  qu'un 3xx ne lève qu'une fois `max_redirects` **atteint** ; que `$throw =
+  false` ne couvre **pas** `DecodingExceptionInterface` ; que `json` impose
+  (`MUST`) l'encodage et le `content-type` là où `body` ne pose rien ; que
+  `user_data` doit être lisible via `getInfo('user_data')` et n'est pas utilisée
+  en interne ; qu'`Authorization` et `Cookie` ne doivent pas suivre une
+  redirection vers un autre hôte.
+- Section `## Tips d'examen` ajoutée. Corps : 762 → **843 mots** sur 900.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 766 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| Aiguilles de smoke test | 4 ajoutées ; `non-blocking` **écartée** — déjà présente sur `master` |
+
+## Rapport de fin de lot — Lot 02 (HTTP), 2026-09-17
+
+### Périmètre traité
+
+Les **dix pages** du lot 02, dans l'ordre de navigation. Le lot 01 était hors
+périmètre sur instruction explicite.
+
+### Modifications — chiffres réconciliés depuis les fichiers canoniques
+
+Lus par script depuis `syllabus-matrix.yml` et `content/**`, pas repris d'un
+rapport antérieur.
+
+| Page | Niveau | Mots (avant → après) | Flashcards (avant → après) |
+|---|---|---|---|
+| HTTP Specification (RFC 9110) | MINIMAL | 615 → **692** | 1 → **16** |
+| Status codes | MINIMAL | 535 → **666** | 2 → **17** |
+| HTTP request | DEEP | 1124 → **1183** | 1 → **17** |
+| HTTP response | STANDARD | 729 → **823** | 1 → **17** |
+| HTTP methods | STANDARD | 608 → **750** | 1 → **17** |
+| Cookies | STANDARD | 897 → **900** | 1 → **17** |
+| Caching | STANDARD | 885 → **897** | 1 → **17** |
+| Content negotiation | STANDARD | 473 → **843** | 1 → **16** |
+| Language detection | MINIMAL | 274 → **605** | 1 → **15** |
+| Symfony HttpClient component | STANDARD | 762 → **843** | 1 → **16** |
+| **Total du lot** | | **6902 → 8202** | **11 → 165** |
+
+**Nouveau sur ce lot** : +1300 mots de corps, **+154 flashcards**, 9 sections
+`Tips d'examen`, 2 erreurs de contenu corrigées.
+**Cumulé, hors périmètre de ce travail** : le dépôt compte 328 flashcards et la
+couverture reste à **163/163 items EXAM_READY, soit 100 %** — inchangée, aucun
+item n'ayant été ajouté ni retiré.
+
+**Répartition des niveaux, comme observation** : RECALL 42, UNDERSTANDING 40,
+APPLICATION 40, TRAP 43. Aucune cible n'a été visée ; c'est le résultat de
+cartes écrites une par une. Les 165 cartes du lot portent toutes un niveau.
+
+**Questions** : aucune ajoutée. Le lot en compte 42 LEARNING, 8 VALIDATION et
+5 HOLDOUT, toutes antérieures à ce travail. Chaque objectif d'apprentissage
+identifié reste couvert ; aucun item du lot ne figure parmi les 8 que `PED-003`
+signale.
+
+**Deux erreurs de contenu corrigées**, chacune trouvée en vérifiant une source :
+
+1. *Cookies* — le tableau rangeait `Domain` avec `Path` sous « restreignent la
+   portée ». Le brouillon httpbis dit l'inverse pour `Domain` : l'omettre
+   restreint au serveur d'origine, le poser **élargit** aux sous-domaines.
+2. *Content negotiation* — `Accept-Charset` était donné « déprécié en pratique ».
+   RFC 9110 le déprécie **elle-même**, en nommant le pistage passif.
+
+### Sources principales
+
+RFC 9110 (sémantique, statuts, méthodes, négociation), RFC 9111 (cache),
+brouillon httpbis `rfc6265bis` (cookies), et la branche `8.0` de
+`symfony/symfony` : `Request.php`, `Response.php`, `JsonResponse.php`,
+`RedirectResponse.php`, `StreamedResponse.php`, `Cookie.php`,
+`ResponseHeaderBag.php`, `ParameterBag.php`, `InputBag.php`, et les contrats
+`HttpClientInterface.php` / `ResponseInterface.php`. Toutes relues les 2026-09-16
+et 2026-09-17 ; aucun SHA n'est cité pour les fichiers relus sans que le commit
+ait été constaté.
+
+### Contrôles
+
+| Contrôle | Statut | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant à chaque page ; seul l'avertissement `PED-003` préexistant subsiste |
+| `composer gate-full` | **PASS** | exit 0 à chaque page ; dernier passage 293 tests, 15 766 assertions |
+| Accessibilité | **PASS** | `TOTAL VIOLATIONS: 0` ; la page RFC 9110 a été **ajoutée** à la liste auditée, sinon la structure `###` des niveaux passait sans être regardée |
+| Jeu d'audits CI | **PASS** | `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` rc=0 |
+| Preuves de non-vacuité | **PASS** | `prove_framework_rules_fail.py` 10 cas, `prove_flashcard_coverage_fails.py` OK, plus trois preuves ad hoc sur les nouveaux tests |
+| Pull Request + merge | **PASS** | #159, #160, #161, #162, #163, #164, #165, #166 et la PR de la page 10 |
+| Déploiement + smoke test production | **PASS pour les pages 1 à 5** | lignes `ok lot-02 …` relevées dans les runs 35248663136 et 35253345582 ; pages 6 à 10 en cours au moment de ce rapport |
+
+**Isolation du holdout** : les 5 questions HOLDOUT du lot restent absentes de
+`practice.json` et d'`exam.json`, ce que `assertNoHoldoutLeak()` vérifie au
+build. C'est une isolation **fonctionnelle** : `mock-4.json` est publié et porte
+les réponses correctes, donc rien ici ne prouve une confidentialité.
+
+### Résultats
+
+- 154 flashcards ajoutées, réparties sur quatre niveaux portés par la donnée.
+- 9 sections `Tips d'examen` ; la dixième page (*Caching*) n'en a pas reçu, sa
+  marge sous `REV-001` étant de 15 mots pour sept pièges déjà détaillés.
+- 2 erreurs de contenu corrigées, 1 défaut de rendu corrigé pour tout le dépôt
+  (double échappement, 123 pages).
+- 1 décision de gouvernance prise par le propriétaire : budgets de révision
+  portés à 140/200 minutes.
+
+### Statut
+
+**Lot 02 : RAFFINÉ.** Les dix pages sont traitées, validées et poussées. Le
+statut `DEPLOYED` n'est acquis, à la date de ce rapport, que pour les pages 1
+à 5 ; les suivantes attendent la fin de leur chaîne de déploiement.
+
+### Prochaine étape
+
+Lot 03 — *Architecture* —, en appliquant la même méthode : relire la source
+avant d'écrire, faire porter le volume par les flashcards là où `REV-001`
+plafonne le corps, et ajouter au smoke test une aiguille discriminante par page.
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -476,5 +606,5 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Page 10 du lot 02 — **Symfony HttpClient component** (STANDARD, 762 / 900 mots,
-1 flashcard, 138 mots de marge). Puis le rapport de fin de lot.
+Le lot 02 est traité. Voir le **rapport de fin de lot** ci-dessus. La suite est
+le lot 03 — *Architecture*.
