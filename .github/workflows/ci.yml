@@ -195,6 +195,13 @@ jobs:
       - name: Practice Mode corrects, renders code and reports
         run: node website/tools/verify-practice-ui.mjs
 
+      # The door from a course to its own questions. The accessibility audit
+      # walks a fixed list of pages with no query string, so it never sees
+      # `/practice?item=…` and never sees the banner that narrowing renders.
+      # This is the only check that does.
+      - name: A course links to its questions, and the link narrows the series
+        run: node website/tools/verify-course-to-questions.mjs
+
       # A page nothing links to is a page the learner does not have. The five
       # mocks were published, deployed, smoke-tested and a11y-audited for weeks
       # while linked from nowhere: every gate visits them by a hardcoded URL
