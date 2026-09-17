@@ -487,6 +487,47 @@ jobs:
             echo "ok  lot-02  the Language detection page carries its levelled flashcards and exam tips"
           fi
 
+          # Page 10, the last of the lot. `non-blocking` was rejected as a
+          # needle: it is already on master.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l2r-httpclient -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/symfony-httpclient-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 02 refined page symfony-httpclient-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l2r-httpclient || missing="$missing httpclient:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l2r-httpclient || missing="$missing httpclient:no-trap-heading"
+          grep -aq 'Deux zéros, deux sens' /tmp/l2r-httpclient \
+            || missing="$missing httpclient:no-exam-tip"
+          grep -aq 'redirects should not be followed' /tmp/l2r-httpclient \
+            || missing="$missing httpclient:no-max-redirects-card"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 refinement missing from the HttpClient page:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the HttpClient page carries its levelled flashcards and exam tips"
+          fi
+
+          # A regression of the double-escaping defect, proved against the
+          # deployed bytes. It was reported by a reader, not by a check: the
+          # cards read `$request-&gt;get(&#039;id&#039;)` inside a code span,
+          # on 123 pages, because the text was escaped twice. A regression
+          # would show up here as a DOUBLE-escaped entity — `&amp;gt;` — since
+          # the renderer escapes the `&` of the entity it was handed.
+          #
+          # The pages sampled are the three that carry the most code spans in
+          # their cards; the whole corpus was checked locally at the fix.
+          for page in http-request status-codes symfony-httpclient-component; do
+            curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/l2e-$page" "$BASE_URL/docs/courses/lot-02/$page"
+            if grep -aq '&amp;gt;\|&amp;#039;\|&amp;#123;\|&amp;lt;\|&amp;quot;' "/tmp/l2e-$page"; then
+              echo "::error::$page carries a double-escaped entity: the flashcard escaping regressed"
+              fail=1
+            fi
+          done
+          echo "ok  lot-02  no double-escaped entity on the three most code-heavy pages"
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

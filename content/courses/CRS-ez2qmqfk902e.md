@@ -180,6 +180,20 @@ JSON valide — et l'exception est une `DecodingExceptionInterface`, pas une
 il n'y a pas de réponse à inspecter ; chercher `getResponse()` sur une
 `TransportExceptionInterface` est l'erreur attendue.
 
+## Tips d'examen
+
+**Deux branches, une question : quelque chose est-il arrivé ?** Non → transport
+(et `TimeoutExceptionInterface` en fait partie). Oui, mais le statut fâche →
+`HttpExceptionInterface`, la seule qui porte `getResponse()`.
+
+**`$throw = false` ne désactive que le statut.** Un `toArray(false)` lève encore
+sur un corps indécodable, et une panne réseau lève toujours.
+
+**Deux zéros, deux sens.** `max_duration = 0` veut dire illimité ;
+`max_redirects = 0` veut dire aucune redirection suivie.
+
+**`timeout` est l'inactivité, pas la durée totale.**
+
 ## Points clés
 
 - `request()` est asynchrone ; l'attente survient à la première lecture.

@@ -137,7 +137,7 @@ final class FlashcardLevelTest extends TestCase
         $page = $this->pageMentioning($project, 'Flashcard MDX fixture');
 
         self::assertStringContainsString('`{motif}i`', $page, 'a code span must reach the page verbatim');
-        self::assertStringContainsString('/&#123;page}/blog', $page, '{ outside code opens a JS expression');
+        self::assertStringContainsString('/&#123;page&#125;/blog', $page, '{ outside code opens a JS expression');
         self::assertStringContainsString('&lt;Foo', $page, '< outside code opens a JSX tag');
     }
 
