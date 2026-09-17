@@ -2049,8 +2049,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Besides the 723x series, RFC 9110's obsoletes list carries one older RFC that candidates
-      rarely expect. Which one?
+    question: RFC 9110's obsoletes list carries one RFC predating the 723x series that candidates rarely
+      expect. Which one?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -2234,7 +2234,8 @@ questions:
       - id: CHO-bc9422sam6fw
         text: RFC 9110, beside the message abstraction it defines
         correct: false
-        explanation: 9110 deliberately specifies no framing at all; that is what makes it version-independent.
+        explanation: 9110 specifies no framing SYNTAX. Section 6.1, Framing and Completeness, leaves the
+          mechanism itself to each major version, which is what makes the semantics portable.
       - id: CHO-pyhfv136n8js
         text: RFC 9111, since chunking changes what a cache may store
         correct: false
@@ -2310,5 +2311,60 @@ questions:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
         readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
         branch: master
-        symbol_or_lines: section 3.2 Resources, section 3.3 Representations, section 12.5.5 Vary
+        symbol_or_lines: section 3.1 Resources, section 3.2 Representations, section 12.5.5 Vary
         verified_at: '2026-09-16'
+  - id: QST-zchg12m578px
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-rgdrqp8pe47j
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: RFC 9110 calls header field names case-insensitive. What exactly does that cover?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 55
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-17'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-67vx7fnztze6
+        text: The name only; each field's own grammar rules its value
+        correct: true
+      - id: CHO-r68rwev3cbkr
+        text: Both the name and the value, so any comparison may ignore case
+        correct: false
+        explanation: Values follow the grammar of their own field. An ETag is compared byte for byte, and
+          a URI path is case-sensitive.
+      - id: CHO-xhwyj00es0m0
+        text: Neither; names are registered and so must be matched exactly
+        correct: false
+        explanation: Section 5.1 says the opposite in one sentence. Field names are case-insensitive,
+          and registration is a separate recommendation.
+      - id: CHO-b1xm7gjj00cn
+        text: The value only, the registry having already fixed every name
+        correct: false
+        explanation: Reversed. The registry lists names; it does not make them case-sensitive.
+    explanation: 'Section 5.1 states it plainly: "Field names are case-insensitive". The rule stops at the
+      name. Whether a value may be compared without regard to case is decided field by field — some are
+      tokens, some are quoted strings, some carry a URI — so there is no single answer below the name.'
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: section 5.1 Field Names
+        verified_at: '2026-09-17'

@@ -1,19 +1,12 @@
 {
   "lot": "02",
-  "current_subtopic": "02-01-http-specification-rfc-9110",
-  "phase": "REVUE_INDEPENDANTE_A_RELANCER",
-  "completed_subtopics": [],
-  "pending_reviews": [
-    "QST-mfj1a2ba5h07",
-    "QST-0vv6vvfv4han",
-    "QST-tcvpfdg7b3j7",
-    "QST-s5dq5r2mg18c",
-    "QST-c8phy0j4j0fq",
-    "QST-43wvxedwe7wz"
+  "current_subtopic": "02-02-status-codes",
+  "phase": "A_DEMARRER",
+  "completed_subtopics": [
+    "02-01-http-specification-rfc-9110"
   ],
-  "blocked_items": [
-    "Revue 02-01 interrompue par une limite de session API (429). Aucun verdict."
-  ],
+  "pending_reviews": [],
+  "blocked_items": [],
   "last_updated": "2026-09-17",
-  "next_action": "Relancer INDEPENDENT_REVIEWER sur les 6 questions et le cours CRS-depbnbc0g82x, puis traiter K-0201-037 (casse des noms de champs, non couverte)."
+  "next_action": "Lancer SOURCE_ANALYST sur 02-02 Status codes (CRS-984c2bv3wh09, MINIMAL, item OIT-512se83ab7qj)."
 }

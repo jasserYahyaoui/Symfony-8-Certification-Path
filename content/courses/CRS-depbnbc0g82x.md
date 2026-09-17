@@ -10,7 +10,7 @@ official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
     branch: "master"
-    symbol_or_lines: "sections 3 Terminology, 6 Message Abstraction, 9 Methods, 15 Status Codes"
+    symbol_or_lines: "Abstract ; section 1.4 Specifications Obsoleted by This Document ; section 3 Terminology ; section 6 Message Abstraction"
     verified_at: "2026-09-01"
 ---
 
@@ -36,6 +36,12 @@ tableau.
 
 **2818 y figure**, alors qu'on l'oublie presque toujours : c'est *HTTP Over
 TLS*, et son contenu rejoint 9110.
+
+Un détail qui départage à l'examen : **obsolète et met à jour ne sont pas la même
+chose**. 9110 porte aussi `Updates: 3864`, sur l'enregistrement des noms de
+champs : 3864 reste en vigueur, amendée. Et l'en-tête du document liste `7230`
+sans réserve là où le résumé écrit « portions of 7230 » — c'est le résumé et la
+Table 1 qui donnent la nuance.
 
 | RFC | Périmètre |
 |---|---|

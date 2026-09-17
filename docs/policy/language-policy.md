@@ -37,7 +37,7 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-09-17, 727 questions)
+## Measured state (2026-09-17, 728 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
@@ -48,7 +48,7 @@ Quoted from the Master Plan:
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **706 English, 21 French**.
+Whole corpus: **707 English, 21 French**.
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to
 back. Lot 12 added ten questions and **removed one**; Lot 13 added two. All are
@@ -179,9 +179,10 @@ is not something this repository can do for itself.
 - Translating an API name, keyword, class, interface or configuration key.
   §5 keeps those in English inside otherwise-French prose.
 
-Les six questions écrites le 2026-09-17 pour le sous-topic *HTTP Specification
-(RFC 9110)* portent le corpus à 721 puis **727**, et le dénominateur avancé de
-272 à **274** : deux d'entre elles sont `hard`. Toutes sont anglaises et toutes
+Les **sept** questions écrites le 2026-09-17 pour le sous-topic *HTTP
+Specification (RFC 9110)* — six, puis une septième comblant le trou que la
+matrice de couverture avait nommé — portent le corpus à **728**, et le
+dénominateur avancé de 272 à **274** : deux d'entre elles sont `hard`. Toutes sont anglaises et toutes
 sont `LEARNING` — l'item est `MINIMAL`, donc `POOL-002` n'exige aucune question
 `VALIDATION`, et n'en ajouter aucune évite de déplacer les effectifs des mocks.
 Le compte français ne bouge pas : il est à 21 depuis l'écriture de cette
