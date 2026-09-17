@@ -87,6 +87,60 @@ final class FlashcardLevelTest extends TestCase
         self::assertLessThan(strpos($page, '### Pièges'), strpos($page, '### Mémorisation'));
     }
 
+    /**
+     * A code span is rendered verbatim by MDX, so HTML-escaping the front and
+     * back put `&gt;` and `&#039;` in front of the learner on every card whose
+     * text held `->` or a quote. Outside a code span the browser decodes the
+     * entity and the damage is invisible, which is how it survived on 123
+     * pages until a reader reported it.
+     */
+    public function testCodeSpansInACardAreNotHtmlEscaped(): void
+    {
+        $item = ItemFactory::make(['officialItem' => 'Flashcard escaping fixture']);
+        $front = "Symfony : que renvoie `\$request->get('id')` ?";
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            flashcards: [$this->card($item->id->value, FlashcardLevel::Recall, $front)],
+        );
+
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($content);
+
+        $page = $this->pageMentioning($project, 'Flashcard escaping fixture');
+
+        self::assertStringContainsString($front, $page, 'the card front must reach the page unescaped');
+        self::assertStringNotContainsString('&gt;', $page);
+        self::assertStringNotContainsString('&#039;', $page);
+    }
+
+    /**
+     * What the escaping was there for must still hold OUTSIDE a code span:
+     * `<` would open a JSX tag and `{` a JS expression, and either breaks the
+     * site build. Inside a code span, both must survive untouched — MDX
+     * renders that span verbatim, so an entity there is published as itself.
+     */
+    public function testMdxEscapingAppliesOutsideCodeSpansAndNotInside(): void
+    {
+        $item = ItemFactory::make(['officialItem' => 'Flashcard MDX fixture']);
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([$item]),
+            flashcards: [$this->card(
+                $item->id->value,
+                FlashcardLevel::Recall,
+                'Flashcard MDX fixture : `{motif}i` puis /{page}/blog et <Foo>',
+            )],
+        );
+
+        $project = Project::locate();
+        (new DocsGenerator($project))->generate($content);
+
+        $page = $this->pageMentioning($project, 'Flashcard MDX fixture');
+
+        self::assertStringContainsString('`{motif}i`', $page, 'a code span must reach the page verbatim');
+        self::assertStringContainsString('/&#123;page}/blog', $page, '{ outside code opens a JS expression');
+        self::assertStringContainsString('&lt;Foo', $page, '< outside code opens a JSX tag');
+    }
+
     private function card(string $itemId, ?FlashcardLevel $level, string $front): Flashcard
     {
         return new Flashcard(
