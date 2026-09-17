@@ -92,6 +92,22 @@ type de média non supporté elle préconise `Accept`.
 
 **4xx vs 5xx.** Le premier chiffre attribue la faute : au client ou au serveur.
 
+## Tips d'examen
+
+**401 pose « qui ? », 403 pose « quoi ? »** — identité contre permission.
+
+**307 et 308 sont les redirections qui ne touchent à rien** : même méthode, même
+corps. `303` fait l'inverse, et il le dit : *See Other*, donc `GET` ailleurs.
+Pour 302, la RFC écrit `MAY` : le comportement n'est pas garanti, il est
+indéterminé — c'est pourquoi 307 existe.
+
+**Un code inconnu se traite comme le `x00` de sa classe.** Un 499 reçu est une
+erreur client générique, jamais une exception : « treat an unrecognized status
+code as being equivalent to the x00 status code of that class » (§15).
+
+**Se méfier des « jamais ».** 404 est *heuristically cacheable* d'après §15.1,
+au même titre que 405, 410, 414 et 501.
+
 ## Points clés
 
 - Le premier chiffre donne la classe ; c'est le seul élément à mémoriser.

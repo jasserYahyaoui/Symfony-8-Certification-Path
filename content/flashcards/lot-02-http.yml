@@ -556,3 +556,390 @@ flashcards:
         branch: "master"
         symbol_or_lines: "section 3.1 Resources"
         verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-512se83ab7qj — Status codes.
+  #
+  # Quinze cartes ajoutées le 2026-09-17. Deux cartes préexistantes couvrent
+  # déjà 401/403 et 307/308 (deck golden-slice) : elles ne sont pas redoublées.
+  # Côté Symfony, les numéros de ligne sont ceux de la branche 8.0 relevés le
+  # jour même ; aucun SHA n'est cité, faute de l'avoir constaté.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-7jbsw0n0dkqt
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "HTTP : quelle est la plage valide des codes de statut, et quels chiffres catégorisent ?"
+    back: "100 à 599 inclus. Seul le premier chiffre catégorise : « the last two digits do not have any categorization role »."
+    explanation: >-
+      Dit autrement : 404 et 451 sont deux erreurs client sans qu'aucune règle
+      ne rapproche `04` de `51`. Symfony applique exactement cette plage —
+      `Response::isInvalid()` renvoie vrai en dessous de 100 et à partir de 600,
+      et `setStatusCode()` lève alors une `\InvalidArgumentException`.
+    memorization_justification: >-
+      Bornes exactes et inclusives, que l'habitude des codes usuels (200 à 503)
+      ne fait jamais rencontrer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15 Status Codes, premier paragraphe"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isInvalid ligne 1164 ; setStatusCode ligne 476"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fepyn18gaha9
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §15.1 : quels codes de statut sont *heuristically cacheable* ?"
+    back: "200, 203, 204, 206, 300, 301, 308, 404, 405, 410, 414 et 501. Tous les autres ne le sont pas."
+    explanation: >-
+      « Heuristically cacheable » veut dire qu'un cache peut les réutiliser avec
+      une expiration heuristique **en l'absence** de directive explicite. La
+      liste contient des codes d'erreur — **404, 405, 410, 414, 501** — ce qui
+      surprend, et n'en contient **ni 302 ni 304**.
+    memorization_justification: >-
+      Liste de douze numéros donnée en un seul endroit du document, dont
+      l'inclusion des erreurs contredit l'intuition « on ne cache que le succès ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-8nb3j79fsvpp
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "Quels en-têtes la RFC rend-elle **obligatoires** avec un 401 et avec un 405 ?"
+    back: "401 → `WWW-Authenticate` (MUST). 405 → `Allow` (MUST), listant les méthodes que la ressource accepte."
+    explanation: >-
+      Ce sont deux `MUST`, pas des recommandations : « The server generating a
+      401 response **MUST** send a WWW-Authenticate header field » et « The
+      origin server **MUST** generate an Allow header field in a 405 response ».
+      Un 401 sans `WWW-Authenticate` est une réponse non conforme — un cas que
+      produisent beaucoup d'API par API-token.
+    memorization_justification: >-
+      Obligations attachées à un code précis, invisibles dans le code
+      applicatif : rien n'échoue si on les omet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.5.2 401 Unauthorized ; section 15.5.6 405 Method Not Allowed"
+        verified_at: "2026-09-17"
+
+  - id: FLC-de4y4fk0shgj
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §15.2 : qu'est-ce qu'une réponse 1xx n'a pas le droit de contenir ?"
+    back: "Ni contenu ni champs de fin : « A 1xx response is terminated by the end of the header section »."
+    explanation: >-
+      Deux autres contraintes vont avec : un serveur **MUST NOT** envoyer une
+      réponse 1xx à un client HTTP/1.0, qui n'en connaît aucune, et un client
+      **MUST** savoir analyser une ou plusieurs réponses 1xx reçues avant la
+      réponse finale, même s'il n'en attendait pas. Une 1xx n'est donc jamais la
+      réponse finale : elle précède.
+    memorization_justification: >-
+      Classe la moins pratiquée des cinq ; ses interdictions ne se déduisent pas
+      de « information ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.2 Informational 1xx"
+        verified_at: "2026-09-17"
+
+  - id: FLC-0b4wq47q299g
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "415, 422, 406 : que refuse exactement chacun des trois ?"
+    back: "415 : le format du contenu envoyé. 422 : le format est compris et la syntaxe correcte, mais les instructions sont intraitables. 406 : aucune représentation acceptable à renvoyer."
+    explanation: >-
+      §15.5.21 formule l'enchaînement lui-même : 422 indique que le serveur
+      « understands the content type of the request content (**hence a 415 is
+      inappropriate**), and the syntax of the request content is correct ». 415
+      et 422 portent donc tous deux sur la requête, à deux étages différents ;
+      406 change de direction et porte sur la **réponse** attendue.
+    memorization_justification: >-
+      Trois refus voisins dont deux sont explicitement exclusifs dans le texte ;
+      l'axe qui les sépare (requête/réponse, puis format/sémantique) n'apparaît
+      dans aucun des trois noms.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 15.5.16 415, 15.5.21 422, 15.5.7 406"
+        verified_at: "2026-09-17"
+
+  - id: FLC-9pwkjh2taxkk
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi 303 n'entre-t-il pas dans le carré permanent/temporaire × méthode préservée ?"
+    back: "Parce qu'il ne rejoue rien : il demande une requête de récupération — GET ou HEAD — sur une autre ressource, quelle que soit la méthode d'origine."
+    explanation: >-
+      §15.4.4 précise deux choses que le raccourci « 303 = redirection après
+      POST » perd : le code est « applicable to any HTTP method », et l'URI de
+      `Location` n'est **pas** considéré comme équivalent à l'URI cible — c'est
+      une réponse *indirecte*. D'où POST-Redirect-GET : là où 307 rejouerait le
+      POST, 303 impose la lecture.
+    memorization_justification: >-
+      Le code est dans la classe 3xx avec quatre voisins qui s'apparient deux à
+      deux ; sa singularité est la seule chose à retenir et rien ne la signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.4.4 303 See Other"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x6thx1pn5j5m
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "La RFC interdit-elle à un agent de transformer un POST en GET après un 302 ?"
+    back: "Non : §15.4.3 l'autorise explicitement — « For historical reasons, a user agent **MAY** change the request method from POST to GET »."
+    explanation: >-
+      C'est un `MAY`, donc un comportement **permis et non garanti** : après un
+      302, on ne sait pas ce que fera l'agent. D'où la formule exacte de la
+      note : « If this behavior is undesired, the 307 (Temporary Redirect)
+      status code can be used instead ». 307 n'est pas « la version moderne de
+      302 » : c'est la version qui **garantit** quelque chose.
+    memorization_justification: >-
+      Le mot de la RFC est `MAY` là où les supports écrivent « 302 transforme en
+      GET » ; la nuance change la conclusion — indéterminé, pas transformé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.4.3 302 Found, note finale ; section 15.4.8 307"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4myarndc6m2p
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "La phrase de raison — « Not Found » après 404 — fait-elle partie du protocole ?"
+    back: "Non. §15.1 : les phrases de raison « are only recommendations — they can be replaced by local equivalents or left out altogether without affecting the protocol »."
+    explanation: >-
+      Un code de statut se lit sur ses trois chiffres, jamais sur son texte.
+      Conséquence concrète : un test fonctionnel qui assertait la chaîne
+      « Not Found » teste la mise en forme du serveur, pas la sémantique.
+      Symfony laisse d'ailleurs surcharger le texte —
+      `setStatusCode(404, 'Introuvable')` — et retombe sur
+      `'unknown status'` pour un code qu'il ne connaît pas.
+    memorization_justification: >-
+      Statut d'un élément visible partout — dans les logs, dans les outils de
+      développement — qu'on suppose normatif parce qu'il est constant en pratique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setStatusCode lignes 476-492"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2sc8bah6j6gg
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Un client reçoit un code 499, qu'il ne connaît pas. Que doit-il en faire ?"
+    back: "Le traiter comme un 400 : la RFC impose de comprendre la **classe** et de traiter un code inconnu comme le x00 de sa classe."
+    explanation: >-
+      « A client MUST understand the class of any status code, as indicated by
+      the first digit, and treat an unrecognized status code as being equivalent
+      to the x00 status code of that class ». C'est ce qui rend les codes de
+      statut extensibles sans casser les clients : un 499 inconnu devient une
+      erreur client générique, jamais un succès ni une exception.
+    memorization_justification: >-
+      Règle de repli que rien ne rappelle tant qu'on ne rencontre pas un code
+      hors registre, et qui explique à elle seule l'extensibilité annoncée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15 Status Codes, paragraphe « HTTP status codes are extensible »"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zjnm2f02xgef
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Symfony : `Response::isCacheable()` accepte-t-il les mêmes codes que la liste *heuristically cacheable* de la RFC ?"
+    back: "Non. Symfony teste 200, 203, 300, 301, 302, 404, 410 : il accepte 302, absent de la liste RFC, et ignore 204, 206, 308, 405, 414 et 501."
+    explanation: >-
+      Les deux listes répondent d'ailleurs à deux questions différentes :
+      la RFC décrit ce qu'un cache **peut** réutiliser par heuristique ;
+      `isCacheable()` décrit ce que *cette* réponse-ci autorise, et ajoute deux
+      conditions — ni `no-store` ni `private`, et la réponse doit être
+      validable ou fraîche. Un 404 sans `ETag` ni `max-age` renvoie donc `false`
+      en Symfony tout en restant heuristiquement cachable au sens de la RFC.
+    memorization_justification: >-
+      Deux listes proches au point d'être confondues, dont l'écart — 302 d'un
+      côté, 308/405/414/501 de l'autre — ne suit aucune logique dérivable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isCacheable lignes 545-556"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p8jj4e88a3hq
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Que se passe-t-il à l'exécution de `$response->setStatusCode(600)` ?"
+    back: "Une `\\InvalidArgumentException` : « The HTTP status code \"600\" is not valid ». 599 passe, avec le texte `unknown status`."
+    explanation: >-
+      `setStatusCode()` affecte d'abord, teste ensuite via `isInvalid()`, qui
+      est littéralement `< 100 || >= 600` — la plage de la RFC. Un code valide
+      mais inconnu de Symfony n'échoue pas : il reçoit `'unknown status'` comme
+      phrase de raison, ce qui est cohérent avec le fait que cette phrase n'est
+      pas normative.
+    memorization_justification: >-
+      Comportement exact d'une borne — exception d'un côté, texte de repli de
+      l'autre — que seule la lecture du code révèle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setStatusCode lignes 476-492 ; isInvalid lignes 1164-1167"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mkhjd9pf3m32
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "On renvoie `new Response('déjà écrit', 204)`. Que reste-t-il après `prepare()` ?"
+    back: "Rien : le contenu est mis à `null`, et `Content-Type` comme `Content-Length` sont retirés."
+    explanation: >-
+      `prepare()` traite ensemble les réponses informatives et « vides » —
+      `isEmpty()` est exactement `in_array($statusCode, [204, 304], true)`. Il
+      va jusqu'à `ini_set('default_mimetype', '')` pour empêcher PHP de poser
+      un `Content-Type` de son côté. Le corps n'est donc pas « ignoré par le
+      client » : il n'est pas émis.
+    memorization_justification: >-
+      Effet de bord silencieux : le code appelant paraît écrire un corps, et
+      rien ne signale sa disparition.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "prepare lignes 244-254 ; isEmpty lignes 1264-1267"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p2rbfr0mr4cb
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « une réponse 404 n'est jamais mise en cache »."
+    back: "Faux. 404 figure dans la liste des codes *heuristically cacheable* de §15.1, aux côtés de 405, 410, 414 et 501."
+    explanation: >-
+      Un cache peut réutiliser un 404 avec une expiration heuristique tant
+      qu'aucune directive explicite ne l'en empêche. C'est voulu : les erreurs
+      de ce type sont stables et coûteuses à recalculer. Pour l'empêcher
+      réellement, il faut une directive — `no-store`, par exemple — et non
+      l'espoir que le code de statut suffise.
+    memorization_justification: >-
+      Affirmation répandue et rassurante, que la liste de §15.1 contredit
+      nommément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x58em8v5yb1v
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Symfony expose `Response::HTTP_I_AM_A_TEAPOT`. Le code 418 est-il donc utilisable ?"
+    back: "Non. RFC 9110 §15.5.19 l'intitule « 418 (Unused) » : il est **réservé** au registre IANA et ne peut être attribué à aucun usage."
+    explanation: >-
+      La RFC raconte pourquoi : RFC 2324 était un poisson d'avril, et le code a
+      été déployé en plaisanterie assez souvent pour devenir inutilisable. La
+      constante existe côté Symfony parce que la bibliothèque suit le registre,
+      pas parce que le code a un sens applicatif. L'utiliser dans une API, c'est
+      envoyer un code que la spécification déclare non attribuable.
+    memorization_justification: >-
+      La présence de la constante dans le code du framework fait office de
+      caution ; seule la RFC dit son vrai statut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.5.19 418 (Unused)"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "HTTP_I_AM_A_TEAPOT ligne 65 ; statusTexts ligne 168"
+        verified_at: "2026-09-17"
+
+  - id: FLC-d4q9k3gjvj4s
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Symfony : les noms des constantes `HTTP_*` donnent-ils l'intitulé actuel du code ?"
+    back: "Pas toujours. 413 est `HTTP_REQUEST_ENTITY_TOO_LARGE` alors que son texte est « Content Too Large » ; 422 est `HTTP_UNPROCESSABLE_ENTITY` alors que son texte est « Unprocessable Content »."
+    explanation: >-
+      RFC 9110 a renommé ces deux codes ; les constantes gardent l'ancien nom
+      pour ne pas casser la compatibilité, tandis que le tableau
+      `Response::$statusTexts` a suivi la RFC. Le même fichier porte donc les
+      deux générations de vocabulaire. À l'examen, la question peut être posée
+      dans l'un ou l'autre : 413 et « Content Too Large » désignent la même chose.
+    memorization_justification: >-
+      Décalage de nommage entre deux endroits d'un même fichier ; aucun
+      raisonnement ne permet de deviner lequel est à jour.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "constantes lignes 60 et 67 ; statusTexts lignes 163 et 170"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 15.5.14 413 Content Too Large et 15.5.21 422 Unprocessable Content"
+        verified_at: "2026-09-17"

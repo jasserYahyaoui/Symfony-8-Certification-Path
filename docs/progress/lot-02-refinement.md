@@ -59,7 +59,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | # | Page | Niveau | Mots / plafond | Flashcards | QCM (pool LEARNING) | Statut |
 |---|---|---|---|---|---|---|
 | 1 | HTTP Specification (RFC 9110) | MINIMAL | 692 / 700 | 16 | 10 | **RAFFINÉE** (2026-09-17) |
-| 2 | Status codes | MINIMAL | 535 / 700 | 2 | 3 | à faire |
+| 2 | Status codes | MINIMAL | 666 / 700 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 3 | HTTP request | DEEP | 1124 / 1200 | 1 | 4 | à faire |
 | 4 | HTTP response | STANDARD | 729 / 900 | 1 | 4 | à faire |
 | 5 | HTTP methods | STANDARD | 608 / 900 | 1 | 3 | à faire |
@@ -117,10 +117,47 @@ par lecture du `ContentSet` chargé, pas depuis un rapport antérieur.
 de pousser n'a pas été donnée. Le travail est **commité localement** sur la
 branche `content/lot-02-01-rfc9110`. Aucun statut `DEPLOYED` n'est revendiqué.
 
+## Page 2 — Status codes, 2026-09-17
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-7jbsw0n0dkqt` … `FLC-d4q9k3gjvj4s`), réparties
+  4 RECALL / 4 UNDERSTANDING / 4 APPLICATION / 3 TRAP ; les deux cartes
+  préexistantes du deck `golden-slice` (401/403, 307/308) ont reçu leur niveau
+  après relecture, et ne sont pas redoublées.
+- Matière relevée le jour même dans `specs/rfc9110.html` (§15 préambule, §15.1,
+  §15.2, §15.4.3, §15.4.4, §15.5.2, §15.5.6, §15.5.7, §15.5.14, §15.5.16,
+  §15.5.19, §15.5.21) et dans `Response.php` de la branche 8.0 (`isCacheable`
+  l. 545, `setStatusCode` l. 476, `isInvalid` l. 1164, `isEmpty` l. 1264,
+  `prepare` l. 244, constantes l. 60-67, `statusTexts` l. 163-170).
+- Trois écarts entre la RFC et Symfony sont désormais enseignés, chacun vérifié
+  des deux côtés : la liste de `Response::isCacheable()` n'est pas la liste
+  *heuristically cacheable* de §15.1 (302 en plus, 204/206/308/405/414/501 en
+  moins) ; `HTTP_I_AM_A_TEAPOT` existe alors que §15.5.19 intitule 418
+  « (Unused) » et le réserve ; les constantes 413 et 422 gardent leurs anciens
+  noms quand `$statusTexts` a suivi les renommages de 9110.
+- Section `## Tips d'examen` ajoutée. Corps : 535 → **666 mots** sur 700.
+
+**Non fait, et pourquoi**
+
+- Aucune question ajoutée : l'item a 4 questions pour 4 objectifs identifiés,
+  soit une par objectif. Il n'est pas parmi les 8 items que `PED-003` signale.
+- Aucun SHA n'est cité pour `Response.php` : le fichier a été relu sur la
+  branche 8.0 le 2026-09-17 sans que le commit soit constaté, et un SHA
+  reconstruit serait inventé.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** (le même avertissement `PED-003` préexistant) |
+| `composer gate-full` | **exit 0** — 293 tests, 15 666 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09` | **rc=0** |
+| `docs/revision/plan.json` + `study-calendar.md` | régénérés ; diff = le seul item Status codes |
+
 ## Prochaine action
 
-Page 2 du lot 02 — **Status codes** (MINIMAL, 535 / 700 mots, 2 flashcards) :
-la marge de corps y est de **165 mots** et le deck n'a que **deux cartes** pour
-un item que l'examen interroge lourdement. Les pages 8 et 9 ont des marges plus
-larges encore (427 et 426 mots), mais l'ordre de navigation prime : le lot se
-traite page par page, dans l'ordre.
+Page 3 du lot 02 — **HTTP request** (DEEP, 1124 / 1200 mots, 1 flashcard,
+4 questions). La marge de corps n'y est que de **76 mots**, la plus étroite
+rencontrée jusqu'ici : le travail y sera presque entièrement dans les
+flashcards, comme sur la page 1.
