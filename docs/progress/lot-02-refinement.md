@@ -62,7 +62,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 2 | Status codes | MINIMAL | 666 / 700 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 3 | HTTP request | DEEP | 1183 / 1200 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 4 | HTTP response | STANDARD | 823 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
-| 5 | HTTP methods | STANDARD | 608 / 900 | 1 | 3 | à faire |
+| 5 | HTTP methods | STANDARD | 750 / 900 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 6 | Cookies | STANDARD | 897 / 900 | 1 | 5 | à faire |
 | 7 | Caching | STANDARD | 885 / 900 | 1 | 4 | à faire |
 | 8 | Content negotiation | STANDARD | 473 / 900 | 1 | 3 | à faire |
@@ -230,6 +230,37 @@ l'œil.
 | `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
 | Aiguilles de smoke test | 4 ajoutées, chacune absente de `master` et présente dans la page construite |
 
+## Page 5 — HTTP methods, 2026-09-17
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-2sq3a5cdq266` … `FLC-p3vmjc4wdfzy`), réparties
+  4 RECALL / 4 UNDERSTANDING / 4 APPLICATION / 4 TRAP ; la carte préexistante
+  `FLC-fwh5svxege2c` a reçu le niveau `RECALL`.
+- Sources relues le jour même : RFC 9110 §9.1, §9.2.1, §9.2.2, §9.2.3, §9.3.2,
+  §9.3.4, §9.3.5, §9.3.7, §9.3.8 ; `Request.php` de la branche 8.0
+  (`isMethodSafe` l. 1444, `isMethodIdempotent` l. 1452, `isMethodCacheable`
+  l. 1462, `createFromGlobals` l. 286-300).
+- Quatre faits que la page n'enseignait pas, chacun cité dans le texte source :
+  le **nom d'une méthode est sensible à la casse** (§9.1) quand les noms de
+  champs ne le sont pas (§5.1) ; la sûreté « does not prevent an implementation
+  from including behavior that is potentially harmful » (§9.2.1) ; DELETE porte
+  sur **l'association URI → fonction**, « similar to the `rm` command in UNIX »
+  (§9.3.5) ; **RFC 9110 ne définit pas PATCH** — ses trois seules occurrences
+  renvoient à RFC 5789, ce qui explique son absence des listes de §9.2.
+- `createFromGlobals()` analyse elle-même le corps pour **PUT, DELETE, PATCH et
+  QUERY** via `request_parse_body()`, avec repli silencieux sur `$_POST`.
+- Section `## Tips d'examen` ajoutée. Corps : 608 → **750 mots** sur 900.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 714 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| Aiguilles de smoke test | 4 ajoutées, chacune absente de `master` et présente dans la page construite |
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -257,6 +288,7 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Lire le smoke test du run `35248663136`, puis ouvrir la PR de la page 4 et
-enchaîner sur la page 5 — **HTTP methods** (STANDARD, 608 / 900 mots,
-1 flashcard, 292 mots de marge).
+Page 6 du lot 02 — **Cookies** (STANDARD, 897 / 900 mots, 1 flashcard). La marge
+de corps y est de **3 mots** : la page ne recevra pas de section « Tips
+d'examen » sans qu'une autre partie du corps soit resserrée d'abord, et tout le
+travail portera sur les flashcards.

@@ -108,6 +108,26 @@ exactement cette liste.
 ce n'est pas idempotent » confond l'*effet sur l'état*, qui est identique, avec
 le *code de statut renvoyé*, qui peut différer.
 
+## Tips d'examen
+
+**Lire d'abord le référentiel de la question.** Cacheable selon RFC 9110 §9.2.3 :
+`GET`, `HEAD`, `POST`. Cacheable selon `isMethodCacheable()` : `GET`, `HEAD`,
+`QUERY`. Les deux réponses sont justes, chacune chez elle.
+
+**Symfony ajoute, et retire.** Il ajoute `QUERY` aux méthodes sûres, `QUERY` et
+`PURGE` aux idempotentes — mais il retire `POST` des cacheables. Aucune des
+trois listes n'est « la RFC plus `QUERY` ».
+
+**RFC 9110 ne définit pas `PATCH`.** C'est RFC 5789. D'où son absence des listes
+de §9.2, qui portent sur « the request methods defined by this specification ».
+
+**Le nom d'une méthode est sensible à la casse** (§9.1) — à l'inverse des noms de
+champs d'en-tête (§5.1).
+
+**« Sûre » décrit l'intention, pas le code.** La RFC dit qu'un serveur reste
+libre d'y mettre un comportement nuisible ; la classification n'est pas une
+garantie d'exécution.
+
 ## Points clés
 
 - Sûre ⊂ idempotente ; cacheable est indépendante.

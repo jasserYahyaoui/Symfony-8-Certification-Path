@@ -11,6 +11,7 @@ flashcards:
   - id: FLC-fwh5svxege2c
     official_item: OIT-qnm508g1ktqm
     language: fr
+    level: RECALL
     front: "HTTP : PUT et DELETE sont-ils sûrs ? idempotents ?"
     back: "Non sûrs, mais idempotents. POST et PATCH ne sont ni l'un ni l'autre."
     explanation: >-
@@ -1717,4 +1718,391 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "__construct lignes 39-46 ; fromJsonString lignes 64-67"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-qnm508g1ktqm — HTTP methods.
+  #
+  # Seize cartes ajoutées le 2026-09-17. RFC 9110 §9 et Request.php de la
+  # branche 8.0, relus le jour même. La carte préexistante FLC-fwh5svxege2c
+  # couvre déjà « PUT et DELETE sont-ils sûrs ? idempotents ? ».
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-2sq3a5cdq266
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §9.2 : quelles méthodes la spécification déclare-t-elle sûres, et lesquelles idempotentes ?"
+    back: "Sûres : GET, HEAD, OPTIONS, TRACE. Idempotentes : « PUT, DELETE, and safe request methods »."
+    explanation: >-
+      L'inclusion est écrite dans le texte : toute méthode sûre est
+      idempotente, la réciproque est fausse. POST et PATCH ne sont dans aucune
+      des deux listes. Attention au périmètre de la phrase : « of the request
+      methods **defined by this specification** » — une méthode définie
+      ailleurs, comme PATCH, n'y figure pas parce qu'elle n'y est pas définie.
+    memorization_justification: >-
+      Deux listes imbriquées dont l'énoncé exact conditionne toutes les
+      questions de classement ; l'inclusion se retient à l'envers une fois sur
+      deux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 9.2.1 Safe Methods et 9.2.2 Idempotent Methods"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2ae2tmn3me9c
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §9.2.3 : pour quelles méthodes la spécification définit-elle une sémantique de cache ?"
+    back: "GET, HEAD et **POST** — « although the overwhelming majority of cache implementations only support GET and HEAD »."
+    explanation: >-
+      La RFC dit deux choses dans la même phrase : ce qu'elle définit, et ce
+      que le monde réel implémente. POST y est donc cacheable en théorie et
+      presque jamais en pratique. Symfony, lui, ne retient ni l'un ni l'autre
+      exactement : `isMethodCacheable()` teste GET, HEAD et QUERY.
+    memorization_justification: >-
+      Troisième méthode inattendue dans la liste, assortie d'une réserve
+      explicite : la question peut porter sur la règle ou sur la pratique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2.3 Methods and Caching"
+        verified_at: "2026-09-17"
+
+  - id: FLC-aqnrx7dwq85w
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : que testent exactement `isMethodSafe()`, `isMethodIdempotent()` et `isMethodCacheable()` ?"
+    back: "Sûre : GET, HEAD, OPTIONS, TRACE, QUERY. Idempotente : HEAD, GET, PUT, DELETE, TRACE, OPTIONS, PURGE, QUERY. Cacheable : GET, HEAD, QUERY."
+    explanation: >-
+      Trois listes écrites en dur, qu'il faut connaître **en tant que listes**
+      parce qu'aucune ne coïncide avec la RFC : QUERY s'ajoute aux trois,
+      PURGE — une convention de reverse proxy, pas une méthode standard —
+      s'ajoute à l'idempotence, et POST n'est cacheable nulle part côté
+      Symfony.
+    memorization_justification: >-
+      Trois énumérations littérales, dont deux contiennent une méthode que la
+      RFC ne définit pas ; rien ne se déduit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isMethodSafe ligne 1444, isMethodIdempotent ligne 1452, isMethodCacheable ligne 1462"
+        verified_at: "2026-09-17"
+
+  - id: FLC-bp6xr6zamse7
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: RECALL
+    front: "RFC 9110 : que dit-elle du corps et du cache pour TRACE et OPTIONS ?"
+    back: "« A client MUST NOT send content in a TRACE request » ; les réponses à TRACE **et** à OPTIONS ne sont pas cacheables."
+    explanation: >-
+      TRACE demande un écho applicatif de la requête : le destinataire final
+      renvoie le message reçu en contenu d'une réponse 200. D'où l'interdiction
+      du corps, et l'avertissement de la RFC de ne jamais y mettre de données
+      sensibles — elles reviendraient dans la réponse. `Max-Forwards` limite la
+      longueur de la chaîne parcourue.
+    memorization_justification: >-
+      Deux méthodes sûres mais non cacheables, avec pour TRACE une interdiction
+      explicite qu'aucune autre méthode ne porte.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 9.3.7 OPTIONS et 9.3.8 TRACE"
+        verified_at: "2026-09-17"
+
+  - id: FLC-w4jfbzn3krqt
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: UNDERSTANDING
+    front: "Le nom d'une méthode HTTP est-il sensible à la casse ?"
+    back: "Oui — et la RFC donne la raison : la méthode « might be used as a gateway to object-based systems with case-sensitive method names »."
+    explanation: >-
+      C'est l'exact inverse des **noms de champs**, que §5.1 déclare
+      insensibles à la casse. `get` n'est donc pas `GET`, alors que
+      `content-type` est bien `Content-Type`. La convention — méthodes
+      standardisées en majuscules US-ASCII — est une convention, pas la règle.
+    memorization_justification: >-
+      Deux règles de casse opposées dans le même document, à deux endroits
+      différents ; l'une des deux est toujours celle qu'on croit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.1 Overview ; section 5.1 Field Names"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yw99rrm1rfqh
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: UNDERSTANDING
+    front: "« Sûre » garantit-elle qu'un GET ne modifie rien sur le serveur ?"
+    back: "Non. La RFC écrit que cette définition « does not prevent an implementation from including behavior that is potentially harmful »."
+    explanation: >-
+      La sûreté est une propriété de la **sémantique demandée**, pas du code
+      exécuté : elle décrit ce que le client demande et attend, pas ce que le
+      serveur fait. Un GET qui incrémente un compteur viole le contrat sans que
+      rien ne l'en empêche. C'est pourquoi la RFC met en garde contre les effets
+      d'un robot d'indexation qui parcourt toutes les URL.
+    memorization_justification: >-
+      Le mot « sûre » se lit comme une garantie technique alors qu'il désigne
+      une intention ; la nuance est précisément ce qu'un QCM teste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2.1 Safe Methods"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m89tsm3153sh
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: UNDERSTANDING
+    front: "Que demande exactement un DELETE, d'après RFC 9110 ?"
+    back: "De supprimer **l'association** entre l'URI et sa fonction — « similar to the `rm` command in UNIX » — et non forcément les données."
+    explanation: >-
+      Les représentations existantes « might or might not be destroyed », et
+      l'espace de stockage « might or might not be reclaimed ». Un DELETE
+      conforme peut donc être une suppression logique, ce qui rend l'idempotence
+      cohérente : ce que la requête demande est déjà obtenu au second appel.
+    memorization_justification: >-
+      La méthode porte le nom d'une opération physique alors qu'elle décrit une
+      opération sur la table des URI ; l'analogie `rm` est dans le texte même.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.3.5 DELETE"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m1xq8czxda4r
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: UNDERSTANDING
+    front: "Après un PUT réussi, un GET suivant renvoie-t-il forcément la représentation envoyée ?"
+    back: "Non. La RFC ne donne « no guarantee that such a state change will be observable »."
+    explanation: >-
+      D'autres agents peuvent agir en parallèle, et le serveur d'origine peut
+      appliquer un traitement dynamique. « A successful response only implies
+      that the user agent's intent was achieved. » PUT décrit donc une
+      **intention de remplacement**, et c'est cette intention qui est
+      idempotente, pas l'état observé ensuite.
+    memorization_justification: >-
+      Nuance entre intention et observation qui fonde l'idempotence, et que la
+      formule courante « PUT remplace la ressource » efface.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.3.4 PUT"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yjfg1sxpqe2a
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: APPLICATION
+    front: "Une requête est un POST. Que renvoie `$request->isMethodCacheable()` ?"
+    back: "`false` — alors que RFC 9110 §9.2.3 définit bien une sémantique de cache pour POST."
+    explanation: >-
+      Les deux réponses sont justes, chacune dans son référentiel : une question
+      sur la RFC et une question sur Symfony n'appellent pas la même. Et la
+      liste de Symfony a une portée réelle : `Response::isNotModified()` s'ouvre
+      sur `isMethodCacheable()`, donc la validation conditionnelle suit
+      exactement GET, HEAD et QUERY.
+    memorization_justification: >-
+      Cas où deux sources officielles divergent ; répondre exige de savoir
+      laquelle est interrogée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isMethodCacheable ligne 1462"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2.3 Methods and Caching"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mt68eb5dmvwz
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: APPLICATION
+    front: "Symfony : pour quelles méthodes `createFromGlobals()` analyse-t-elle elle-même le corps de la requête ?"
+    back: "PUT, DELETE, PATCH et QUERY — via `request_parse_body()`, parce que PHP ne remplit `$_POST` que pour un POST."
+    explanation: >-
+      Pour toute autre méthode, la fabrique se contente des superglobales. Si
+      l'analyse échoue, elle retombe sur `$_POST` et `$_FILES` plutôt que de
+      lever. C'est ce qui permet à `$request->request` de contenir quelque chose
+      sur un PUT de formulaire, là où PHP nu laisserait le tableau vide.
+    memorization_justification: >-
+      Liste de quatre méthodes traitées à part dans une méthode qu'on croit
+      uniforme, et qui explique une différence de comportement observable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createFromGlobals lignes 286-300"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pqpskd63gfzz
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: APPLICATION
+    front: "Que signifie `OPTIONS * HTTP/1.1` ?"
+    back: "La requête porte sur le **serveur en général**, pas sur une ressource : c'est un ping ou un no-op."
+    explanation: >-
+      La RFC le dit dans ces termes : la forme astérisque « is only useful as a
+      *ping* or *no-op* type of method », puisque les options dépendent
+      normalement de la ressource. Une réponse OPTIONS peut porter un corps
+      décrivant les options, avec un `Content-Type` — mais la spécification ne
+      définit aucun usage pour ce contenu.
+    memorization_justification: >-
+      Forme de cible de requête sans équivalent ailleurs dans le protocole, et
+      dont l'usage réel est étroit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.3.7 OPTIONS"
+        verified_at: "2026-09-17"
+
+  - id: FLC-jmknqenys9jn
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: APPLICATION
+    front: "Une réponse à HEAD doit-elle porter les mêmes en-têtes qu'à GET ?"
+    back: "Le serveur **SHOULD** envoyer les mêmes, mais **MAY** omettre ceux qui ne se déterminent qu'en produisant le contenu."
+    explanation: >-
+      HEAD est « identical to GET except that the server MUST NOT send content
+      in the response ». L'exemple de la RFC : un serveur qui met en tampon une
+      réponse dynamique pour calculer `Content-Length` peut ne pas le faire pour
+      un HEAD. Conclure d'un HEAD que `Content-Length` sera présent sur le GET
+      correspondant est donc une inférence, pas une garantie.
+    memorization_justification: >-
+      Un MUST NOT, un SHOULD et un MAY dans la même définition : seule la
+      hiérarchie exacte permet de répondre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.3.2 HEAD"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mj4vstzqtfxd
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: TRAP
+    front: "Où RFC 9110 définit-elle la méthode PATCH ?"
+    back: "Nulle part. PATCH est définie par RFC 5789 ; 9110 ne fait que la mentionner en y renvoyant."
+    explanation: >-
+      Les trois seules occurrences du mot dans le document renvoient à
+      `[RFC5789]` : l'en-tête `Accept-Patch`, la mise à jour partielle citée en
+      §14.4, et la référence bibliographique. C'est aussi pourquoi PATCH
+      n'apparaît dans aucune des listes de §9.2 : ces listes portent sur « the
+      request methods **defined by this specification** ».
+    memorization_justification: >-
+      Absence structurante : elle explique pourquoi PATCH manque aux listes de
+      propriétés, ce qu'on interprète autrement comme un oubli.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.3 (Accept-Patch) ; section 14.4 ; références normatives, entrée RFC5789"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2q6jnswvxx6e
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: TRAP
+    front: "`$request->isMethodIdempotent()` renvoie `true` sur une méthode `PURGE`. Est-ce une erreur ?"
+    back: "Non : `PURGE` est bien dans la liste de Symfony. Ce n'est pourtant pas une méthode standard, mais une convention de reverse proxy."
+    explanation: >-
+      Elle ne figure ni dans RFC 9110 ni dans le registre des méthodes HTTP.
+      Symfony la reconnaît parce que les caches qui l'emploient — Varnish et
+      apparentés — la traitent comme rejouable sans effet supplémentaire. Répondre
+      « PURGE n'existe pas donc `false` » est donc faux **en Symfony**, et juste
+      du point de vue de la RFC.
+    memorization_justification: >-
+      Entrée non standard dans une liste standard : le raisonnement « ce n'est
+      pas dans la RFC » conduit à la mauvaise réponse sur le code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isMethodIdempotent ligne 1452"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zrjxg09xv5mq
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: TRAP
+    front: "Combien de méthodes `isMethodSafe()` reconnaît-il, et combien la RFC en déclare-t-elle sûres ?"
+    back: "Cinq côté Symfony — GET, HEAD, OPTIONS, TRACE, QUERY — contre quatre dans RFC 9110, qui ne définit pas QUERY."
+    explanation: >-
+      L'écart va dans les deux sens selon la propriété : Symfony ajoute QUERY
+      aux méthodes sûres et QUERY plus PURGE aux idempotentes, mais **retire**
+      POST des cacheables, que la RFC y met. Aucune des trois listes n'est donc
+      « la RFC plus QUERY ».
+    memorization_justification: >-
+      Écart de cardinalité entre deux sources également officielles, qui ne se
+      résume à aucune règle simple.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isMethodSafe ligne 1444, isMethodIdempotent ligne 1452, isMethodCacheable ligne 1462"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 9.2.1, 9.2.2, 9.2.3"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p3vmjc4wdfzy
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: TRAP
+    front: "Une API renvoie 200 à un `DELETE` déjà appliqué, puis 404 au suivant. L'idempotence est-elle rompue ?"
+    back: "Non. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité des réponses."
+    explanation: >-
+      La formulation de §9.2.2 est sans ambiguïté : « the intended effect on the
+      server of multiple identical requests … is the same as the effect for a
+      single such request ». Le code de statut peut varier ; l'état final, non.
+      La RFC ajoute qu'un serveur reste libre de journaliser chaque requête ou
+      d'en garder un historique de révisions.
+    memorization_justification: >-
+      Le contre-exemple qui vient à l'esprit — deux codes différents — porte sur
+      la mauvaise grandeur ; la définition doit être connue mot pour mot.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2.2 Idempotent Methods"
         verified_at: "2026-09-17"
