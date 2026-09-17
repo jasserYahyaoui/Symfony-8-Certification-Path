@@ -927,12 +927,19 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         foreach ($cards as $card) {
             // <details> hides the answer before reveal (§6) using a native,
             // keyboard-operable control rather than a scripted one.
-            // Inside <details>/<summary> the text sits in a JSX context, so
-            // it needs the MDX escaping as well as the HTML one: a bare `{`
-            // in a flashcard front — `/{page}/blog` — is read as a JS
-            // expression and fails the build with "page is not defined".
-            $markdown .= "<details>\n<summary>".$this->mdxText($this->escapeHtml($card->front))."</summary>\n\n"
-                ."**".$this->mdxText($this->escapeHtml($card->back))."**\n\n"
+            //
+            // `mdxText()` and NOTHING ELSE. Running the front and back through
+            // htmlspecialchars() as well corrupted every card whose text holds
+            // `>`, `'`, `"` or `&` inside a code span: MDX renders a code span
+            // verbatim, so `$request-&gt;get(&#039;id&#039;)` reached the
+            // learner exactly like that, on 123 pages. Outside a code span the
+            // browser decodes the entity and the damage is invisible, which is
+            // why it survived so long. `mdxText()` already escapes the two
+            // characters that actually break MDX — `<`, which would open a JSX
+            // tag, and `{`, which would open a JS expression and fail the
+            // build with "page is not defined".
+            $markdown .= "<details>\n<summary>".$this->mdxText($card->front)."</summary>\n\n"
+                ."**".$this->mdxText($card->back)."**\n\n"
                 .$this->mdxText($card->explanation)."\n\n</details>\n\n";
         }
 
@@ -945,11 +952,6 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             $content->flashcards,
             static fn (Flashcard $c): bool => $c->officialItemId === $itemId,
         ));
-    }
-
-    private function escapeHtml(string $value): string
-    {
-        return htmlspecialchars($value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
     }
 
     /**
@@ -966,7 +968,29 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
      */
     private function mdxText(string $value): string
     {
-        return str_replace(['<', '{'], ['&lt;', '&#123;'], $value);
+        // `<` would open a JSX tag and `{` a JS expression, so both must be
+        // escaped — but ONLY outside an inline code span. MDX renders a code
+        // span verbatim, so escaping inside one publishes the entity itself:
+        // `&#123;motif}i` reached production that way, where the canonical
+        // text reads `{motif}i`.
+        //
+        // The split keeps the backticks as delimiters, so odd segments are the
+        // code spans. An unmatched trailing backtick leaves its segment in the
+        // even position, which is escaped — the safe side, since nothing then
+        // guarantees it is code.
+        $segments = preg_split('/(`[^`]*`)/u', $value, -1, \PREG_SPLIT_DELIM_CAPTURE);
+        if (false === $segments) {
+            return str_replace(['<', '{'], ['&lt;', '&#123;'], $value);
+        }
+
+        $out = '';
+        foreach ($segments as $index => $segment) {
+            $out .= 1 === $index % 2
+                ? $segment
+                : str_replace(['<', '{'], ['&lt;', '&#123;'], $segment);
+        }
+
+        return $out;
     }
 
     /** An un-researched item has no content level yet (§3.4). */
