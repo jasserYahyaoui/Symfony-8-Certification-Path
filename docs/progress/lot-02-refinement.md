@@ -63,7 +63,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 3 | HTTP request | DEEP | 1183 / 1200 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 4 | HTTP response | STANDARD | 823 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 5 | HTTP methods | STANDARD | 750 / 900 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
-| 6 | Cookies | STANDARD | 897 / 900 | 1 | 5 | à faire |
+| 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE**, non poussée (2026-09-17) |
 | 7 | Caching | STANDARD | 885 / 900 | 1 | 4 | à faire |
 | 8 | Content negotiation | STANDARD | 473 / 900 | 1 | 3 | à faire |
 | 9 | Language detection | MINIMAL | 274 / 700 | 1 | 2 | à faire |
@@ -261,6 +261,74 @@ l'œil.
 | `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
 | Aiguilles de smoke test | 4 ajoutées, chacune absente de `master` et présente dans la page construite |
 
+## Page 6 — Cookies, 2026-09-17 — RAFFINÉE MAIS NON POUSSÉE
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-bgxzd03hz55x` … `FLC-2q4760k550k3`), 4 par
+  niveau ; la carte préexistante `FLC-m9c0rxyaz2dj` a reçu le niveau `TRAP`.
+- **Une erreur du cours corrigée.** Le tableau des attributs rangeait
+  `Domain` et `Path` ensemble sous « Restreignent la portée d'envoi ». C'est
+  faux pour `Domain` : le brouillon httpbis écrit que si le serveur omet
+  l'attribut, « the user agent will return the cookie only to the origin
+  server », et qu'avec `Domain=site.example` le cookie part aussi vers
+  `www.site.example` et `www.corp.site.example`. `Domain` **élargit** ; c'est
+  son absence qui restreint. La ligne du tableau et un point clé ont été
+  réécrits, et une carte porte la citation.
+- Autres faits lus dans `Cookie.php` et `ResponseHeaderBag.php` : `clearCookie()`
+  a **ses propres défauts** (`secure = false`, `sameSite = null`), différents de
+  ceux de `create()` ; une valeur vide sérialise `nom=deleted; …; Max-Age=0` ;
+  `withExpires(-1)` produit un cookie de **session** et non un cookie expiré,
+  parce que `expiresTimestamp()` ramène tout non-positif à `0` ; `getMaxAge()`
+  ne descend jamais sous `0`, donc seul `isCleared()` distingue les deux états.
+- Une carte que j'allais écrire a été abandonnée : elle redoublait
+  `FLC-m9c0rxyaz2dj` (SameSite=none impose Secure). Son identifiant minté porte
+  la carte `Domain` à la place.
+- Corps : 897 → **900 mots sur 900**. La correction coûtait plus que les 3 mots
+  de marge ; quatre formulations redondantes ont été resserrées pour la payer.
+  **La page est exactement au plafond : toute addition future devra libérer des
+  mots d'abord.**
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** (à 902 mots, `REV-001` a bloqué ; réduit à 900) |
+| `composer gate-full` | **exit 0** — 293 tests, 15 730 assertions ; `TOTAL VIOLATIONS: 0` |
+| Aiguilles de smoke test | 4 ajoutées, vérifiées présentes dans la page construite et absentes de `master` |
+
+### BLOQUANT — le plan de révision ne se régénère plus
+
+`python3 tools/revision/build_roadmap.py --start 2026-10-01 --exam 2026-12-15
+--max-new 4 --weekday 120 --weekend 180` sort en **erreur** :
+
+```text
+Pas de place : 4 mocks à caser entre 2026-11-30 et 2026-12-12, 2 jours de
+week-end disponibles. Avancer la fin des lots (--max-new plus haut) ou reculer
+la date d examen.
+```
+
+Mesuré, pas supposé : à `master` (pages 1 à 5) la même commande sort en `0` ;
+avec les 16 cartes de la page 6, elle échoue. Les flashcards ajoutent du temps
+de révision, la dernière introduction d'item recule, et la fenêtre des quatre
+mocks se referme.
+
+La CI exécute cette commande **avec ces paramètres exacts**, donc la page 6 ne
+peut pas passer la CI en l'état. Les trois remèdes que l'outil ou le contexte
+autorisent :
+
+1. `--max-new 5` — vérifié : sort en `0`. Le plan introduit jusqu'à 5 items
+   par jour au lieu de 4, à charge horaire quasi identique (88,2 h contre
+   87,3 h).
+2. Commencer le plan avant le 2026-10-01 — nous sommes le 2026-09-17, il y a
+   donc onze jours disponibles en amont.
+3. Réduire le nombre de flashcards — **écarté** : ce serait rétrécir la
+   commande pour satisfaire l'outil de planification.
+
+Le choix porte sur les journées de révision du propriétaire, pas sur le code :
+il n'est pas pris ici. La page 6 est **commitée en local et non poussée** en
+attendant.
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -288,7 +356,6 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Page 6 du lot 02 — **Cookies** (STANDARD, 897 / 900 mots, 1 flashcard). La marge
-de corps y est de **3 mots** : la page ne recevra pas de section « Tips
-d'examen » sans qu'une autre partie du corps soit resserrée d'abord, et tout le
-travail portera sur les flashcards.
+Trancher le blocage du plan de révision ci-dessus, puis pousser la page 6 et
+enchaîner sur la page 7 — **Caching** (STANDARD, 885 / 900 mots, 1 flashcard,
+15 mots de marge).

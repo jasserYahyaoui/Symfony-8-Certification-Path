@@ -82,6 +82,7 @@ flashcards:
   - id: FLC-m9c0rxyaz2dj
     official_item: OIT-bz1f5nh8g9b2
     language: fr
+    level: TRAP
     front: "Cookies : quelle contrainte impose SameSite=none ?"
     back: "L'attribut Secure est obligatoire. Sans lui, le navigateur rejette purement et simplement le cookie."
     explanation: >-
@@ -2105,4 +2106,389 @@ flashcards:
         readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
         branch: "master"
         symbol_or_lines: "section 9.2.2 Idempotent Methods"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-bz1f5nh8g9b2 — Cookies.
+  #
+  # Seize cartes ajoutées le 2026-09-17. Cookie.php et ResponseHeaderBag.php de
+  # la branche 8.0, relus le jour même. Le corps du cours est à 3 mots de son
+  # plafond REV-001 : tout l'ajout passe donc par les cartes.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-bgxzd03hz55x
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: RECALL
+    front: "Symfony : quels attributs `Cookie::create('x')` pose-t-il sans qu'on demande rien ?"
+    back: "`path` = `/`, `httpOnly` = `true`, `sameSite` = `lax`, `secure` = `null` (auto en HTTPS), `expire` = 0, `raw` et `partitioned` = `false`."
+    explanation: >-
+      Un cookie créé sans arguments n'est donc pas nu : il est déjà `httponly`
+      et `lax`. L'erreur d'examen consiste à croire l'inverse et à « ajouter »
+      une sécurité qui est déjà là — ou à croire qu'un `secure` à `null` veut
+      dire « non sécurisé ».
+    memorization_justification: >-
+      Sept valeurs par défaut invisibles à l'appel, dont trois portent
+      directement sur la sécurité.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "create ligne 75 ; __construct lignes 93-104"
+        verified_at: "2026-09-17"
+
+  - id: FLC-bcdef9sd5jbz
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: RECALL
+    front: "Symfony : `Cookie::fromString()` a-t-elle les mêmes défauts que `create()` ?"
+    back: "Non, et ils sont bien moins sûrs : `secure` = `false`, `httponly` = `false`, `samesite` = `null`."
+    explanation: >-
+      Sa table interne est écrite en clair dans la méthode. Reconstruire un
+      cookie depuis un en-tête brut ne fabrique donc **pas** un cookie sûr : les
+      attributs absents de la chaîne restent absents, alors que `create()` les
+      aurait posés. Seul `path` vaut `/` dans les deux cas.
+    memorization_justification: >-
+      Deux fabriques de la même classe avec des défauts opposés sur trois
+      attributs de sécurité ; rien dans les noms ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "fromString lignes 41-52"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fh8kpbtbv5yc
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: RECALL
+    front: "Dans quel ordre les attributs sont-ils sérialisés dans l'en-tête `Set-Cookie` par Symfony ?"
+    back: "valeur, puis `expires` et `Max-Age`, puis `path`, `domain`, `secure`, `httponly`, `samesite`, et `partitioned` en dernier."
+    explanation: >-
+      L'ordre est celui des `if` successifs de `__toString()`. Chaque attribut
+      n'est écrit que s'il est renseigné : pas de `domain` vide, pas de
+      `samesite` à `null`. `expires` et `Max-Age` partent ensemble ou pas du
+      tout — un cookie de session n'a ni l'un ni l'autre.
+    memorization_justification: >-
+      Ordre fixe et conditionnel, que seule la lecture de la sérialisation
+      révèle ; utile dès qu'on compare un en-tête attendu à un en-tête réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__toString lignes 273-317"
+        verified_at: "2026-09-17"
+
+  - id: FLC-7d9bz5d43cgf
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: RECALL
+    front: "Que le navigateur exige-t-il d'un cookie nommé `__Host-…`, et d'un cookie nommé `__Secure-…` ?"
+    back: "`__Secure-` : l'attribut `Secure`. `__Host-` : `Secure`, `Path=/` et **aucun** `Domain`."
+    explanation: >-
+      Ce sont des règles de **nommage**, tenues par le navigateur, qu'aucune API
+      ne pose. Le serveur écrit le préfixe exactement ; le navigateur le
+      reconnaît **sans tenir compte de la casse**, ce qui empêche un
+      `__SeCuRe-SID` posé par un tiers de passer pour un cookie ordinaire.
+      Symfony 8.0 ne vérifie rien de tout cela.
+    memorization_justification: >-
+      Trois exigences pour l'un, une pour l'autre, appliquées par un acteur —
+      le navigateur — que le code ne montre jamais.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md"
+        readable_url: "https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md"
+        repository: "httpwg/http-extensions"
+        branch: "main"
+        symbol_or_lines: "Cookie Name Prefixes ; exigences serveur et exigences agent utilisateur"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p7maqwtprtca
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `secure: null` ne veut-il pas dire « non sécurisé » ?"
+    back: "Parce que `isSecure()` est `$this->secure ?? $this->secureDefault` : `null` délègue la décision à un défaut posé d'après la requête."
+    explanation: >-
+      Le défaut est renseigné par `setSecureDefault()` quand la requête courante
+      est déjà en HTTPS. Conséquence : le même code produit un cookie `secure`
+      en production et non `secure` en HTTP local, ce qui est voulu — forcer
+      `true` sur un site servi en HTTP empêcherait le cookie d'être posé.
+    memorization_justification: >-
+      Troisième état d'un booléen, dont l'effet dépend du contexte d'exécution
+      et non de la valeur écrite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isSecure lignes 373-376 ; setSecureDefault lignes 421-424"
+        verified_at: "2026-09-17"
+
+  - id: FLC-cxqsvb6y4nva
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: UNDERSTANDING
+    front: "`removeCookie()` et `clearCookie()` : laquelle efface le cookie chez le client ?"
+    back: "`clearCookie()`. `removeCookie()` retire seulement le `Set-Cookie` de la réponse — « does not unset it in the browser », dit son docblock."
+    explanation: >-
+      `removeCookie()` agit sur le tableau interne du sac, indexé par domaine
+      puis par chemin. `clearCookie()` **ajoute** au contraire un cookie dont
+      l'expiration est dans le passé : c'est cet envoi qui demande au navigateur
+      d'oublier le sien. Annuler l'intention d'écrire et demander l'effacement
+      sont deux actions opposées.
+    memorization_justification: >-
+      Deux méthodes voisines dont les noms suggèrent le même effet alors que
+      l'une n'envoie rien du tout.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie lignes 169-180 ; clearCookie lignes 220-223"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mkmte3ak5h1n
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: UNDERSTANDING
+    front: "L'attribut `Domain` restreint-il la portée d'un cookie ?"
+    back: "Non, il l'**élargit** : c'est son absence qui restreint. Sans `Domain`, « the user agent will return the cookie only to the origin server »."
+    explanation: >-
+      Avec `Domain=site.example`, le cookie part vers `site.example`,
+      `www.site.example` **et** `www.corp.site.example`. Le navigateur refuse en
+      revanche un `Domain` qui n'inclurait pas le serveur d'origine — depuis
+      `foo.site.example`, `site.example` est accepté mais `bar.site.example` ne
+      l'est pas. `Path`, lui, restreint bel et bien, mais la spécification
+      avertit qu'on ne peut pas s'y fier pour la sécurité.
+    memorization_justification: >-
+      Attribut dont l'effet est l'inverse de ce que son voisinage avec `Path`
+      suggère ; l'erreur conduit à élargir la portée d'un cookie de session en
+      croyant la réduire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md"
+        readable_url: "https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md"
+        repository: "httpwg/http-extensions"
+        branch: "main"
+        symbol_or_lines: "The Domain Attribute ; The Path Attribute ; Domain Matching"
+        verified_at: "2026-09-17"
+
+  - id: FLC-g6zv0n288byc
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: UNDERSTANDING
+    front: "Que change `withPartitioned(true)` sur un cookie tiers ?"
+    back: "Le cookie est rangé dans un pot séparé **par site intégrateur** : même nom, stockages distincts selon le site visité."
+    explanation: >-
+      C'est CHIPS. Le widget reconnaît son visiteur sur `a.test` sans que ce
+      soit le même cookie que sur `b.test` : le suivi intersites tombe, l'usage
+      légitime survit. L'attribut n'a de sens qu'avec `Secure` et
+      `SameSite=None`, et Symfony le sérialise **en dernier**, après `samesite`.
+    memorization_justification: >-
+      Attribut récent dont l'effet — une partition du stockage — ne se déduit
+      ni de son nom ni de la forme de l'en-tête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "withPartitioned ; __toString, sérialisation de partitioned"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zmgmcf43j6m1
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: APPLICATION
+    front: "Le cookie `sid` a été posé avec `secure` et `samesite=lax`. Que produit `clearCookie('sid')` ?"
+    back: "Un cookie d'effacement aux attributs **différents** : `clearCookie()` a ses propres défauts — `secure = false`, `httpOnly = true`, `sameSite = null`."
+    explanation: >-
+      La signature est `clearCookie($name, $path = '/', $domain = null,
+      $secure = false, $httpOnly = true, $sameSite = null, $partitioned = false)`.
+      Elle ne relit pas le cookie d'origine : elle en fabrique un neuf. Pour que
+      l'effacement porte, il faut lui repasser les mêmes `path`, `domain` — et
+      les mêmes attributs quand le navigateur les compare.
+    memorization_justification: >-
+      Défauts d'une méthode d'effacement qui ne sont pas ceux de la fabrique de
+      création ; l'oubli produit un effacement qui ne prend pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clearCookie lignes 220-223"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fpp4v0sjvy58
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: APPLICATION
+    front: "Comment Symfony sérialise-t-il un cookie dont la valeur est vide ou `null` ?"
+    back: "`nom=deleted; expires=<il y a un an et un jour>; Max-Age=0` — la chaîne littérale `deleted`."
+    explanation: >-
+      La branche est explicite dans `__toString()` : valeur vide, donc
+      `'deleted'` et une date calculée à `time() - 31536001`. C'est ce que
+      produit `clearCookie()`, qui passe `null` comme valeur. Un test qui
+      cherche la valeur d'origine dans l'en-tête d'effacement ne la trouvera
+      jamais.
+    memorization_justification: >-
+      Chaîne magique produite par le code, invisible depuis l'API, et qu'on
+      rencontre en lisant un en-tête réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__toString lignes 283-285"
+        verified_at: "2026-09-17"
+
+  - id: FLC-sk50h4dwpmbk
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: APPLICATION
+    front: "Que donne `Cookie::create('x')->withExpires(-1)` ?"
+    back: "Un cookie de **session**, pas un cookie expiré : `expiresTimestamp()` ramène toute valeur non strictement positive à `0`."
+    explanation: >-
+      La ligne est `return 0 < $expire ? (int) $expire : 0;`. Un timestamp
+      négatif, censé exprimer « déjà expiré », produit donc exactement le
+      contraire : un cookie qui vit jusqu'à la fermeture du navigateur. Pour
+      effacer, il faut un timestamp **passé mais positif** — ce que fait
+      `clearCookie()` avec la valeur `1`.
+    memorization_justification: >-
+      Normalisation silencieuse qui inverse l'intention ; aucune erreur n'est
+      levée pour le signaler.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "expiresTimestamp lignes 158-173"
+        verified_at: "2026-09-17"
+
+  - id: FLC-gwyyxbxpd0mh
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: APPLICATION
+    front: "`withSameSite('Strict')` avec une majuscule : accepté ou refusé ?"
+    back: "Accepté — la valeur est passée en minuscules avant contrôle. Une valeur hors de la liste lève une `\\InvalidArgumentException`."
+    explanation: >-
+      La méthode fait `strtolower()`, traite la chaîne vide comme `null`, puis
+      vérifie l'appartenance à `[lax, strict, none, null]`. Elle est appelée
+      **depuis le constructeur** : un `sameSite` invalide échoue donc dès
+      `Cookie::create()`, pas à la sérialisation.
+    memorization_justification: >-
+      Contrôle strict mais tolérant à la casse, et déclenché plus tôt qu'on ne
+      l'attend dans le cycle de vie de l'objet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "withSameSite lignes 241-257 ; __construct ligne 119"
+        verified_at: "2026-09-17"
+
+  - id: FLC-sfh6e3d9dv8p
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: TRAP
+    front: "`Cookie::create('__Host-session')` sans `Secure` : qui se plaint ?"
+    back: "Personne côté serveur. Symfony ne connaît pas ces préfixes ; le navigateur jette le cookie en silence."
+    explanation: >-
+      Ni `Cookie` ni `ResponseHeaderBag` ne contiennent ces chaînes : la
+      vérification n'existe pas dans le framework. Le symptôme est donc « la
+      session ne tient pas » sans aucune trace dans les journaux, et le code
+      paraît correct. La règle est entièrement du côté de l'agent utilisateur.
+    memorization_justification: >-
+      Échec silencieux à distance : la cause est dans le nom du cookie, l'effet
+      dans le navigateur, et rien ne relie les deux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absence de __Host- et __Secure- dans la classe"
+        verified_at: "2026-09-17"
+
+  - id: FLC-swct473zwy2w
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: TRAP
+    front: "`HttpOnly` protège-t-il du CSRF ?"
+    back: "Non. Il empêche la **lecture** par script, pas l'**envoi** automatique par le navigateur. C'est `SameSite` qui traite ce risque."
+    explanation: >-
+      Les deux attributs répondent à deux attaques distinctes : `HttpOnly`
+      atténue le vol de cookie par XSS, `SameSite` atténue l'usage du cookie
+      depuis un autre site. Un cookie `httponly` sans `samesite` part toujours
+      avec une requête intersite — et c'est précisément le CSRF.
+    memorization_justification: >-
+      Deux attributs de sécurité qu'on regroupe en « cookie sécurisé » alors
+      qu'ils ne couvrent pas la même menace.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md"
+        readable_url: "https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md"
+        repository: "httpwg/http-extensions"
+        branch: "main"
+        symbol_or_lines: "HttpOnly et SameSite, sections de sécurité"
+        verified_at: "2026-09-17"
+
+  - id: FLC-k8snk3cek04j
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: TRAP
+    front: "Un cookie est déjà expiré. Que renvoie `getMaxAge()` ?"
+    back: "`0`, jamais un nombre négatif : la méthode est `max(0, $this->expire - time())`."
+    explanation: >-
+      Pour savoir si un cookie est un cookie d'effacement, l'accesseur à lire
+      est `isCleared()` — `0 !== $this->expire && $this->expire < time()` — et
+      non `getMaxAge()`, qui plafonne par le bas et rend `0` aussi bien pour un
+      cookie de session que pour un cookie expiré.
+    memorization_justification: >-
+      Valeur plafonnée qui confond deux états distincts ; l'accesseur qui les
+      distingue porte un autre nom.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMaxAge lignes 355-360 ; isCleared lignes 389-392"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2q4760k550k3
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: TRAP
+    front: "Quels appels au constructeur de `Cookie` lèvent une exception ?"
+    back: "Un nom vide, un nom contenant des caractères réservés **en mode `raw`**, un `sameSite` hors liste, un `path` ou `domain` invalide, et une date d'expiration non analysable."
+    explanation: >-
+      Le contrôle des caractères réservés — `=,; \t\r\n\v\f` — ne s'applique
+      qu'en mode `raw` : hors de ce mode, ils sont **encodés** par
+      `__toString()` au lieu d'être refusés. Une chaîne d'expiration part par
+      `strtotime()`, et lève « The cookie expiration time is not valid » si elle
+      n'est pas comprise.
+    memorization_justification: >-
+      Cinq conditions d'échec dont une seule dépend d'un autre paramètre
+      (`raw`) ; l'encodage silencieux du cas courant masque la règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct lignes 105-120 ; expiresTimestamp lignes 158-173 ; RESERVED_CHARS_LIST ligne 31"
         verified_at: "2026-09-17"

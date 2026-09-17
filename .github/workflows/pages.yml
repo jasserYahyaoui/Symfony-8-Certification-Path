@@ -393,6 +393,28 @@ jobs:
             echo "ok  lot-02  the HTTP methods page carries its levelled flashcards and exam tips"
           fi
 
+          # Page 6. The Domain needles also guard a correction: the page used
+          # to teach that Domain RESTRICTS the scope, where the cookies draft
+          # says an absent Domain restricts and a present one broadens.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l2r-cookies -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/cookies")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 02 refined page cookies serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l2r-cookies || missing="$missing cookies:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l2r-cookies || missing="$missing cookies:no-trap-heading"
+          grep -aq 'aux sous-domaines' /tmp/l2r-cookies || missing="$missing cookies:no-domain-correction"
+          grep -aq 'only to the origin server' /tmp/l2r-cookies \
+            || missing="$missing cookies:no-domain-card"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 refinement missing from the Cookies page:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the Cookies page carries its levelled flashcards and the Domain correction"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

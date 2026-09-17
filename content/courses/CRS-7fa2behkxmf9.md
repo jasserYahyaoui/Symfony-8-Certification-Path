@@ -51,8 +51,7 @@ Ignorer la valeur de retour est sans effet.
 
 ### Ce que `Cookie::create()` pose sans qu'on le demande
 
-L'exemple ci-dessus est explicite de bout en bout, mais la fabrique a déjà des
-défauts, et ce sont eux qui sont interrogés :
+La fabrique a déjà des défauts, et ce sont eux qui sont interrogés :
 
 | Paramètre | Défaut | Conséquence |
 |---|---|---|
@@ -77,7 +76,8 @@ d'être posé.
 | `HttpOnly` | Rend le cookie invisible à JavaScript — atténue le vol par XSS |
 | `Secure` | N'envoie le cookie que sur HTTPS |
 | `SameSite` | Contrôle l'envoi en contexte tiers — atténue le CSRF |
-| `Domain` / `Path` | Restreignent la portée d'envoi |
+| `Path` | Restreint l'envoi à un chemin et ses sous-répertoires |
+| `Domain` | **Élargit** aux sous-domaines ; l'omettre limite à l'origine |
 
 ## Les trois valeurs de SameSite
 
@@ -93,7 +93,7 @@ d'être posé.
 
 ```php
 Cookie::create('widget')->withSecure(true)->withSameSite(Cookie::SAMESITE_NONE)
-    ->withPartitioned(true);        // ajoute « ; partitioned » à l'en-tête
+    ->withPartitioned(true);        // ajoute « ; partitioned »
 ```
 
 `withPartitioned()` vaut `true` sans argument ; `create()` le laisse à `false`,
@@ -101,7 +101,7 @@ et l'attribut est sérialisé en dernier, **après** `samesite`.
 
 Un cookie tiers partitionné est rangé dans un pot séparé par site intégrateur :
 le widget reconnaît son visiteur sur `a.test` sans que ce soit le même cookie
-que sur `b.test`. Le suivi intersites tombe, l'usage légitime survit.
+que sur `b.test`. Le suivi intersites tombe, l'usage légitime reste.
 
 ## Les préfixes `__Secure-` et `__Host-`
 
@@ -113,9 +113,8 @@ Des règles **de nommage** appliquées par le navigateur, qu'aucune API ne pose 
 | `__Host-` | `Secure`, `Path=/`, et **aucun** `Domain` |
 
 **Le serveur l'écrit exactement ; le navigateur le reconnaît sans la casse.**
-`__host-sid` est donc préfixé, et rejeté sans `Secure`. Sans cette
-insensibilité, un `__SeCuRe-SID` posé par un tiers passerait pour un cookie
-ordinaire devant un serveur comparant lui aussi sans la casse.
+`__host-sid` est donc préfixé, et rejeté sans `Secure` — sans quoi un
+`__SeCuRe-SID` posé par un tiers passerait pour un cookie ordinaire.
 
 **Symfony 8.0 ne vérifie rien de tout cela.** Ni `Cookie` ni `ResponseHeaderBag`
 ne connaissent ces chaînes : `Cookie::create('__Host-session')` sans `Secure`
@@ -134,7 +133,7 @@ avec une date d'expiration passée, et **doit reprendre les mêmes `path` et
 `domain`** ; sinon le navigateur conserve l'original.
 
 **Un cookie de session n'a pas d'expiration** : il disparaît à la fermeture du
-navigateur. `withExpires(0)` produit ce comportement.
+navigateur, et `withExpires(0)` le produit.
 
 **`Cookie::fromString()` n'a pas les mêmes défauts que `create()`.** Sa table
 interne pose `secure => false`, `httponly => false`, `samesite => null` : une
@@ -153,7 +152,8 @@ qu'un cookie créé sans arguments est nu.
 
 - Lecture par `$request->cookies`, écriture par `$response->headers->setCookie()`.
 - `Cookie` est immuable : chaîner les `with*()` et utiliser le retour.
-- `HttpOnly` contre XSS, `SameSite` contre CSRF, `Secure` pour HTTPS.
+- `HttpOnly` contre XSS, `SameSite` contre CSRF, `Secure` pour HTTPS ;
+  `Domain` élargit aux sous-domaines au lieu de restreindre.
 - Défauts de `Cookie::create()` : `path '/'`, `httpOnly true`, `sameSite lax`,
   `secure` auto-activé en HTTPS, `expire 0` — mais `fromString()` a les siens,
   bien moins sûrs.
