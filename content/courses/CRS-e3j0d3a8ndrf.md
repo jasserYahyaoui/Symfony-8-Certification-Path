@@ -161,6 +161,7 @@ dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur 
 - `setSharedMaxAge()` appelle `setPublic()` ; `setMaxAge()` non.
 - `Vary` est obligatoire dès qu'on négocie.
 - `no-cache` = revalider ; `no-store` = ne rien garder.
+- Mnémonique : `s-` = *shared*, et il **prime** sans être exclusif.
 
 ## Aller lire la source
 

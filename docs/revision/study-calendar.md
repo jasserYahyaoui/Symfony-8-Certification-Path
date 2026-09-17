@@ -85,10 +85,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **HTTP : HTTP response** (STANDARD) — 29 min · 823 mots · 5 questions, 17 flashcards
 - NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 27 min · 750 mots · 4 questions, 17 flashcards
 - NOUVEAU · **HTTP : Cookies** (STANDARD) — 31 min · 900 mots · 6 questions, 17 flashcards
-- NOUVEAU · **HTTP : Caching** (STANDARD) — 18 min · 885 mots · 5 questions, 1 flashcards
+- NOUVEAU · **HTTP : Caching** (STANDARD) — 30 min · 897 mots · 5 questions, 17 flashcards
 - Révision **J+1** (22 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 127 / 140 min*
+*Budget du jour : 139 / 140 min*
 
 ### Mercredi 7 octobre 2026
 
