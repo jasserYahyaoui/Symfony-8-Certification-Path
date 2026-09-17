@@ -46,6 +46,48 @@ logiciel est fourni « en l'état », sans garantie.
 Ce n'est donc pas une licence *copyleft* : rien n'oblige à publier sous MIT le
 code qui utilise Symfony.
 
+## Le texte, clause par clause
+
+Le fichier `LICENSE` tient en trois paragraphes, et chacun a un rôle distinct.
+
+**L'attribution.** `Copyright (c) 2004-present Fabien Potencier` — une personne
+physique, pas une société ni la SensioLabs.
+
+**La concession.** Le droit est accordé « free of charge, to any person
+obtaining a copy », et il porte sur huit verbes : *use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell*. « Sublicense » est celui qui
+compte pour un éditeur : on peut redistribuer sous **une autre licence**.
+
+**La condition, au singulier.** « The above copyright notice and this permission
+notice shall be included in all copies or **substantial portions** of the
+Software. » L'obligation porte sur les deux avis — copyright **et** licence — et
+non sur le seul nom de Symfony.
+
+**Les deux clauses finales**, souvent lues comme une seule : le logiciel est
+fourni *AS IS*, sans garantie (dont la qualité marchande et l'adéquation à un
+usage particulier), **et** les auteurs ne peuvent être tenus responsables
+d'aucun dommage. Absence de garantie et absence de responsabilité sont deux
+protections distinctes.
+
+## MIT contre copyleft
+
+| | MIT | Copyleft (GPL et apparentées) |
+|---|---|---|
+| Usage propriétaire | autorisé | restreint |
+| Publier son propre code | non exigé | exigé pour les œuvres dérivées |
+| Sous-licencier | autorisé | interdit |
+| Obligation | reproduire les deux avis | reproduire **et** partager à l'identique |
+
+## Tips d'examen
+
+**Une seule obligation, et elle est documentaire.** Reproduire l'avis de
+copyright et le texte de la licence. Rien sur le code, rien sur la publication.
+
+**« Substantial portions »**, pas « le logiciel entier » : copier un fichier
+significatif suffit à déclencher l'obligation.
+
+**Le titulaire est une personne.** Fabien Potencier, depuis 2004.
+
 ## Pièges d'examen
 
 **MIT n'est pas copyleft.** Une application qui utilise Symfony n'a aucune
