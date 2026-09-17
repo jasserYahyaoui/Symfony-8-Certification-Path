@@ -73,12 +73,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 5 octobre 2026
 
 - NOUVEAU · **PHP : Enums** (STANDARD) — 11 min · 383 mots · 3 questions, 1 flashcards
-- NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 9 min · 395 mots · 3 questions, 1 flashcards
+- NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 19 min · 550 mots · 9 questions, 1 flashcards
 - NOUVEAU · **HTTP : Status codes** (MINIMAL) — 13 min · 535 mots · 4 questions, 2 flashcards
 - NOUVEAU · **HTTP : HTTP request** (DEEP) — 21 min · 1124 mots · 5 questions, 1 flashcards
 - Révision **J+3** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 70 / 120 min*
+*Budget du jour : 80 / 120 min*
 
 ### Mardi 6 octobre 2026
 

@@ -1977,3 +1977,338 @@ questions:
         branch: '8.0'
         symbol_or_lines: toArray() @throws DecodingExceptionInterface
         verified_at: '2026-09-16'
+  - id: QST-mfj1a2ba5h07
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-b4zep1k4shd7
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: RFC 9110 states in its own abstract what it makes obsolete. What does it say about RFC
+      7230?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-nqcsknvst6bz
+        text: Only portions of it, the rest passing to RFC 9112
+        correct: true
+      - id: CHO-4xj8ajkyyg33
+        text: All of it, since everything 7230 held became semantics
+        correct: false
+        explanation: The abstract says "portions of 7230" precisely because the framing half did not become
+          semantics.
+      - id: CHO-0t9k4vbs0ayn
+        text: All of it, together with 7234, which 9111 merely restates
+        correct: false
+        explanation: 7234 is absent from 9110's list. RFC 9111 carries "Obsoletes 7234" itself.
+      - id: CHO-dpfc9fps8twf
+        text: Nothing; 7230 was left entirely to RFC 9112
+        correct: false
+        explanation: 9112 takes the framing portions, but 7230's version-independent material did move into
+          9110.
+    explanation: 'The abstract reads: obsoletes RFCs 2818, 7231, 7232, 7233, 7235, 7538, 7615, 7694, and
+      portions of 7230. The Table in section 1.4 marks that one line with an asterisk, alone in the table.
+      The split is the whole point of the revision: semantics in 9110, caching in 9111, HTTP/1.1 framing
+      in 9112.'
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: Abstract, and section 1.4 Specifications Obsoleted by This Document
+        verified_at: '2026-09-16'
+  - id: QST-0vv6vvfv4han
+    question_archetype: DEFINITION_RECALL
+    assesses_outcomes:
+      - OUT-b4zep1k4shd7
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: hard
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: Besides the 723x series, RFC 9110's obsoletes list carries one older RFC that candidates
+      rarely expect. Which one?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 55
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-6a4wjdv74ytt
+        text: RFC 2818, HTTP Over TLS
+        correct: true
+      - id: CHO-wcer1e457cam
+        text: RFC 2616, the single HTTP/1.1 document
+        correct: false
+        explanation: 2616 had already been obsoleted by the 723x series, so 9110 had nothing left to obsolete
+          there.
+      - id: CHO-mayfccpbww86
+        text: RFC 3864, on registering field names
+        correct: false
+        explanation: 9110 UPDATES 3864; updating and obsoleting are two different things, and the header
+          says which.
+      - id: CHO-mc3hrfaw6nkv
+        text: RFC 7540, the first HTTP/2 specification
+        correct: false
+        explanation: 7540 is obsoleted by RFC 9113, the HTTP/2 document of the same series.
+    explanation: 2818 is the one nobody recites. The "https" URI scheme it defined is now part of 9110,
+      which is why the document that once stood alone for HTTP over TLS is retired here rather than in
+      a transport document.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: Abstract; Obsoletes and Updates fields of the document header
+        verified_at: '2026-09-16'
+  - id: QST-tcvpfdg7b3j7
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-rvm0f266br2d
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: RFC 9110 defines a message as control data, header fields, content and trailers. Where is
+      the HTTP/1.1 request line specified?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-j259jqym8tmk
+        text: In RFC 9112, as one framing of the control data
+        correct: true
+      - id: CHO-01x0apfja8v7
+        text: In RFC 9110, as the first element of the message abstraction
+        correct: false
+        explanation: The abstraction names control data, not a line. A line is what one particular version
+          uses to carry it.
+      - id: CHO-7capkj6j5j3q
+        text: In RFC 9110, beside the method definitions it already carries
+        correct: false
+        explanation: 9110 defines what the methods mean, never how a version writes them on the wire.
+      - id: CHO-869t5r16v4wb
+        text: Identically in 9112, 9113 and 9114, the line being shared
+        correct: false
+        explanation: HTTP/2 and HTTP/3 carry the same control data in binary frames and pseudo-header fields,
+          with no request line at all.
+    explanation: The abstraction exists so that one set of semantics can survive three transports. Control
+      data is the abstract slot; the request line is HTTP/1.1's way of filling it, and that is why it
+      belongs to 9112.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: section 6 Message Abstraction, and section 6.2 Control Data
+        verified_at: '2026-09-16'
+  - id: QST-s5dq5r2mg18c
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+      - OUT-b4zep1k4shd7
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: A candidate says "RFC 9110 replaced RFC 2616". What is wrong with that sentence?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 55
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-zr724z8pgd4k
+        text: The 723x series replaced 2616 first
+        correct: true
+      - id: CHO-08fp24ytwt2g
+        text: Nothing is wrong; 2616 appears in 9110's obsoletes field
+        correct: false
+        explanation: The older RFC in that field is 2818, not 2616.
+      - id: CHO-y30femd82y2e
+        text: 9110 took only the caching half of 2616, 9111 taking the rest
+        correct: false
+        explanation: Reversed, and neither document derives from 2616 directly. 9111 is the caching one.
+      - id: CHO-f6rkezytgnhq
+        text: 2616 is still current for HTTP/1.1, which 9110 does not define
+        correct: false
+        explanation: 2616 is obsolete. HTTP/1.1 is defined today by 9112 together with 9110 and 9111.
+    explanation: 2616 was the single 1999 document. It was split into 7230-7235 in 2014, and it is that
+      series the 911x documents replace. Saying 9110 replaced 2616 skips a generation and hides why the
+      material is spread across three RFCs today.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: Abstract; section 1.4 and its Table of obsoleted specifications
+        verified_at: '2026-09-16'
+  - id: QST-c8phy0j4j0fq
+    question_archetype: DEFINITION_RECALL
+    assesses_outcomes:
+      - OUT-rvm0f266br2d
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: Which document specifies the chunked transfer coding?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 45
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+    choices:
+      - id: CHO-p46de72r8451
+        text: RFC 9112, with the rest of HTTP/1.1 framing
+        correct: true
+      - id: CHO-bc9422sam6fw
+        text: RFC 9110, beside the message abstraction it defines
+        correct: false
+        explanation: 9110 deliberately specifies no framing at all; that is what makes it version-independent.
+      - id: CHO-pyhfv136n8js
+        text: RFC 9111, since chunking changes what a cache may store
+        correct: false
+        explanation: 9111 is about caching rules. How the bytes were framed on arrival is not its subject.
+      - id: CHO-0xe3h5p280ta
+        text: RFC 9110, among the rules governing representation data
+        correct: false
+        explanation: Representation data is what the content means; chunking is how one version delimits
+          it.
+    explanation: Chunking exists only because HTTP/1.1 needs a way to delimit a body of unknown length.
+      HTTP/2 and HTTP/3 frame messages themselves and have no equivalent, which is exactly why the coding
+      lives in the HTTP/1.1 document rather than in the semantics one.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9112.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9112.html
+        branch: master
+        symbol_or_lines: section 7 Transfer Codings
+        verified_at: '2026-09-16'
+  - id: QST-43wvxedwe7wz
+    question_archetype: SCENARIO_CHOICE
+    assesses_outcomes:
+      - OUT-5qj9w53751fy
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-7801mj6w73ky
+    domain: http
+    language: en
+    difficulty: hard
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: One URI serves French HTML to one client and English JSON to another. A shared cache sits
+      in front. Why must the response name, in Vary, the request fields used to choose?
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+      - tech-lead
+    reviewed_at: '2026-09-16'
+    tags:
+      - rfc9110
+      - vary
+    choices:
+      - id: CHO-pgjrzas4as8t
+        text: A cache stores representations, not resources
+        correct: true
+      - id: CHO-v9f4h076rqxs
+        text: Without Vary a resource may not hold several representations
+        correct: false
+        explanation: A resource may always have several; Vary changes how a cache reuses them, not whether
+          they may exist.
+      - id: CHO-93g0rnd1567d
+        text: Vary is the field by which the server picks the representation
+        correct: false
+        explanation: The server picks from the request's own fields. Vary reports, afterwards, which ones
+          it used.
+      - id: CHO-j0xh0ees11me
+        text: The resource itself changes each time a representation changes
+        correct: false
+        explanation: The resource is the identified thing and does not change because one of its forms
+          differs.
+    explanation: This is the whole payoff of the resource/representation distinction. The URI identifies
+      one resource, but what a cache holds is one concrete representation. Without Vary the cache has
+      no way to know that the stored copy was chosen for a French reader, and it will hand that copy to
+      the English one.
+    official_sources:
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+        branch: master
+        symbol_or_lines: section 3.2 Resources, section 3.3 Representations, section 12.5.5 Vary
+        verified_at: '2026-09-16'

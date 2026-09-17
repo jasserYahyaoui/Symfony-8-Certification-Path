@@ -1,0 +1,113 @@
+[
+  {
+    "id": "SRC-0201-001",
+    "title": "RFC 9110 — HTTP Semantics",
+    "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+    "readable_url": "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html",
+    "type": "rfc",
+    "version": "RFC 9110, STD 97, juin 2022 (miroir HTTP WG, branche master, recupere le 2026-09-16)",
+    "sections_analysees": [
+      "en-tete du document (champs Obsoletes / Updates / STD)",
+      "1.1 Purpose",
+      "1.2 History and Evolution",
+      "1.3 Core Semantics",
+      "1.4 Specifications Obsoleted by This Document",
+      "2.1 Syntax Notation",
+      "2.2 Requirements Notation",
+      "2.3 Length Requirements",
+      "2.4 Error Handling",
+      "2.5 Protocol Version",
+      "3.1 Resources",
+      "3.2 Representations",
+      "3.3 Connections, Clients, and Servers",
+      "3.4 Messages",
+      "3.5 User Agents",
+      "3.6 Origin Server",
+      "3.7 Intermediaries",
+      "3.8 Caches",
+      "5 Fields",
+      "5.1 Field Names",
+      "5.2 Field Lines and Combined Field Value",
+      "5.3 Field Order",
+      "6 Message Abstraction",
+      "6.1 Framing and Completeness",
+      "6.2 Control Data",
+      "6.3 Header Fields",
+      "6.4 Content",
+      "6.5 Trailer Fields",
+      "9.2.1 Safe Methods et 9.2.2 Idempotent Methods (lues uniquement pour tracer la frontiere d'exclusion)",
+      "19.1 Normative References"
+    ],
+    "subtopics": [
+      "02-01 HTTP Specification (RFC 9110)"
+    ],
+    "resume_factuel": "Document de reference pour la SEMANTIQUE d'HTTP, independante de la version de transport. Son champ Obsoletes liste 2818, 7230, 7231, 7232, 7233, 7235, 7538, 7615 et 7694 ; il met a jour 3864. La note [*] de la Table 1 (section 1.4) precise que seules les parties de 7230 independantes de la syntaxe de messagerie et de la gestion de connexion HTTP/1.1 sont obsoletees ici. Le document ne definit aucune syntaxe de trame (section 6.1 : chaque version majeure definit son propre cadrage). Sections 3.1 a 3.8 : vocabulaire normatif (ressource, representation, client/serveur, message, user agent, serveur d'origine, intermediaire, cache). Section 5.1 : les noms de champs sont insensibles a la casse. Section 6 : un message = donnees de controle + table de headers + flux de contenu + table de trailers.",
+    "statut_verification": "VERIFIED",
+    "derniere_verification": "2026-09-16",
+    "note_numeros_de_ligne": "Pour les RFC, les numeros de ligne renvoient a un rendu texte du HTML recupere et servent de reperage ; l'ancre durable est le numero de section. Pour les fichiers PHP, ils renvoient au fichier source recupere."
+  },
+  {
+    "id": "SRC-0201-002",
+    "title": "RFC 9111 — HTTP Caching",
+    "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html",
+    "readable_url": "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html",
+    "type": "rfc",
+    "version": "RFC 9111, STD 98, juin 2022 (miroir HTTP WG, branche master, recupere le 2026-09-16)",
+    "sections_analysees": [
+      "en-tete du document (champ Obsoletes)",
+      "Abstract",
+      "1 Introduction"
+    ],
+    "subtopics": [
+      "02-01 HTTP Specification (RFC 9110)"
+    ],
+    "resume_factuel": "Source ajoutee pour prouver, et non supposer, le point d'examen central du sous-topic : le champ Obsoletes de RFC 9111 porte la seule valeur 7234. C'est donc 9111, et non 9110, qui remplace la RFC de mise en cache. Le reste du document (fraicheur, validation, cle de cache Vary, Cache-Control) appartient a l'item << Caching >> et est explicitement exclu ici.",
+    "statut_verification": "VERIFIED",
+    "derniere_verification": "2026-09-16",
+    "note_numeros_de_ligne": "Pour les RFC, les numeros de ligne renvoient a un rendu texte du HTML recupere et servent de reperage ; l'ancre durable est le numero de section. Pour les fichiers PHP, ils renvoient au fichier source recupere."
+  },
+  {
+    "id": "SRC-0201-003",
+    "title": "RFC 9112 — HTTP/1.1",
+    "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9112.html",
+    "readable_url": "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9112.html",
+    "type": "rfc",
+    "version": "RFC 9112, STD 99, juin 2022 (miroir HTTP WG, branche master, recupere le 2026-09-16)",
+    "sections_analysees": [
+      "en-tete du document (champ Obsoletes)",
+      "Abstract",
+      "1 Introduction",
+      "table des matieres (reperage de 7 Transfer Codings / 7.1 Chunked Transfer Coding)"
+    ],
+    "subtopics": [
+      "02-01 HTTP Specification (RFC 9110)"
+    ],
+    "resume_factuel": "Source ajoutee pour prouver la frontiere semantique/syntaxe affirmee par le cours. RFC 9112 declare Obsoletes: 7230 et precise en section 1 qu'elle obsolete les parties de 7230 relatives a la messagerie et a la gestion de connexion HTTP/1.1, les autres parties etant obsoletees par RFC 9110. Le codage chunked est defini ici (section 7.1), pas dans 9110.",
+    "statut_verification": "VERIFIED",
+    "derniere_verification": "2026-09-16",
+    "note_numeros_de_ligne": "Pour les RFC, les numeros de ligne renvoient a un rendu texte du HTML recupere et servent de reperage ; l'ancre durable est le numero de section. Pour les fichiers PHP, ils renvoient au fichier source recupere."
+  },
+  {
+    "id": "SRC-0201-004",
+    "title": "Symfony HttpFoundation — HeaderBag",
+    "url": "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/HeaderBag.php",
+    "readable_url": "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/HeaderBag.php",
+    "type": "code_symfony",
+    "version": "symfony/symfony branche 8.0 (aucun commit_sha releve : api.github.com est bloque par le proxy sortant)",
+    "sections_analysees": [
+      "constantes UPPER et LOWER, lignes 23-24",
+      "all(), lignes 68-75",
+      "get(), lignes 109-122",
+      "set(), signature ligne 130 et normalisation du nom ligne 132",
+      "has(), lignes 158-161",
+      "remove(), signature ligne 174 et normalisation du nom ligne 176"
+    ],
+    "subtopics": [
+      "02-01 HTTP Specification (RFC 9110)"
+    ],
+    "resume_factuel": "Seule source Symfony pertinente pour ce sous-topic : elle materialise la regle RFC 9110 section 5.1 (noms de champs insensibles a la casse) et va au-dela. La normalisation est strtr($key, UPPER, LOWER) avec UPPER='_ABCDEFGHIJKLMNOPQRSTUVWXYZ' et LOWER='-abcdefghijklmnopqrstuvwxyz' : Symfony minuscule le nom ET transforme le souligne en tiret. Les autres API HttpFoundation relevent des items << HTTP request >>, << HTTP response >> et << HttpFoundation component >>.",
+    "statut_verification": "VERIFIED",
+    "derniere_verification": "2026-09-16",
+    "note_numeros_de_ligne": "Pour les RFC, les numeros de ligne renvoient a un rendu texte du HTML recupere et servent de reperage ; l'ancre durable est le numero de section. Pour les fichiers PHP, ils renvoient au fichier source recupere."
+  }
+]

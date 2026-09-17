@@ -1,10 +1,19 @@
 {
   "lot": "02",
   "current_subtopic": "02-01-http-specification-rfc-9110",
-  "phase": "SOURCE_ANALYST",
+  "phase": "REVUE_INDEPENDANTE_A_RELANCER",
   "completed_subtopics": [],
-  "pending_reviews": [],
-  "blocked_items": [],
-  "last_updated": "2026-09-16",
-  "next_action": "Attendre le livrable SOURCE_ANALYST, puis lancer COURSE_EXPERT sur CRS-depbnbc0g82x."
+  "pending_reviews": [
+    "QST-mfj1a2ba5h07",
+    "QST-0vv6vvfv4han",
+    "QST-tcvpfdg7b3j7",
+    "QST-s5dq5r2mg18c",
+    "QST-c8phy0j4j0fq",
+    "QST-43wvxedwe7wz"
+  ],
+  "blocked_items": [
+    "Revue 02-01 interrompue par une limite de session API (429). Aucun verdict."
+  ],
+  "last_updated": "2026-09-17",
+  "next_action": "Relancer INDEPENDENT_REVIEWER sur les 6 questions et le cours CRS-depbnbc0g82x, puis traiter K-0201-037 (casse des noms de champs, non couverte)."
 }

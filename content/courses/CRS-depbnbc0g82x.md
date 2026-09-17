@@ -20,9 +20,22 @@ Situer RFC 9110 parmi les spécifications HTTP et reconnaître son vocabulaire.
 
 ## Ce que RFC 9110 remplace
 
-RFC 9110 — *HTTP Semantics* (2022) — remplace RFC 7230, 7231, 7232, 7233 et
-7235, successeurs de RFC 2616 ; **pas 7234**, que RFC 9111 reprend. C'est la
-référence actuelle pour la **sémantique** d'HTTP.
+RFC 9110 — *HTTP Semantics* (2022) — est la référence actuelle pour la
+**sémantique** d'HTTP. Son propre résumé énonce la liste, et elle est plus
+longue qu'on ne la retient : elle « obsolète les RFC **2818, 7231, 7232, 7233,
+7235, 7538, 7615, 7694, et des parties de 7230** ».
+
+Trois choses s'y cachent.
+
+**7230 n'est obsolétée qu'en partie.** Ce qui relevait de la sémantique passe
+dans 9110 ; ce qui relevait de la syntaxe de trame HTTP/1.1 passe dans **9112**.
+La Table 1 du §1.4 marque d'ailleurs cette ligne d'un astérisque, seule de son
+tableau.
+
+**7234 n'y figure pas du tout** : la mise en cache est reprise par **RFC 9111**.
+
+**2818 y figure**, alors qu'on l'oublie presque toujours : c'est *HTTP Over
+TLS*, et son contenu rejoint 9110.
 
 | RFC | Périmètre |
 |---|---|
@@ -51,14 +64,18 @@ La distinction ressource / représentation fonde la négociation de contenu et
 
 ## Pièges d'examen
 
-**Sûre et idempotente ne sont pas la même propriété.** §9.2.1 déclare sûres
-`GET`, `HEAD`, `OPTIONS` et `TRACE` ; §9.2.2 rend idempotentes `PUT`, `DELETE`
-**et toutes les méthodes sûres**. `POST` n'est ni l'une ni l'autre. Toute
-méthode sûre est donc idempotente, l'inverse est faux.
+**« RFC 9110 remplace RFC 2616 » est un raccourci.** 2616 a d'abord été éclatée
+en 7230-7235 ; c'est cette série-là que les 911x remplacent, et pas d'un bloc :
+9110 prend la sémantique, 9111 le cache, 9112 la trame HTTP/1.1.
 
-**`DELETE` reste idempotente même si le second appel renvoie `404`.**
-L'idempotence porte sur l'**effet sur le serveur** de requêtes répétées, pas sur
-l'égalité des réponses.
+**Une ressource n'est pas sa représentation, et ce n'est pas un détail de
+vocabulaire.** `/article/42` désigne une ressource ; le JSON français et le HTML
+anglais qu'elle peut rendre sont des représentations. C'est pourquoi la
+négociation de contenu porte sur la représentation, et pourquoi `Vary` nomme les
+champs qui ont servi à la choisir. Confondre les deux rend `Vary` inexplicable.
+
+**Les propriétés des méthodes — sûre, idempotente — sont bien définies par RFC
+9110 (§9.2), mais elles sont évaluées sous l'item *HTTP methods*** de ce lot.
 
 **RFC 9110 ne décrit aucune syntaxe de trame.** Le codage `chunked` ou la ligne
 de requête relèvent de RFC 9112.
