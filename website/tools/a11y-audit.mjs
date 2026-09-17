@@ -169,6 +169,11 @@ const PAGES = [
   ['landing', '/'],
   ['docs index', '/docs'],
   ['item page with flashcards', '/docs/courses/lot-02/status-codes'],
+  // The same page shape once its deck declares levels: the flashcard block
+  // then emits `###` headings under its `##`, which is precisely what the
+  // heading-order check exists to catch. Auditing only a deck without levels
+  // would leave that structure unaudited while reporting a full pass.
+  ['item page with levelled flashcards', '/docs/courses/lot-02/http-specification-rfc-9110'],
   // §5 glossary: a generated table, so its header scope and reading order
   // are worth auditing rather than assumed.
   ['glossary', '/docs/syllabus/glossary'],

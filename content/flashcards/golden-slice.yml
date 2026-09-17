@@ -13,6 +13,7 @@ flashcards:
   - id: FLC-bhhj8tz5bqg3
     official_item: OIT-512se83ab7qj
     language: fr
+    level: UNDERSTANDING
     front: "HTTP : quelle est la différence entre 401 et 403 ?"
     back: >-
       401 Unauthorized = authentification manquante ou invalide (« je ne sais
@@ -37,6 +38,7 @@ flashcards:
   - id: FLC-bwn83abnd4vh
     official_item: OIT-512se83ab7qj
     language: fr
+    level: RECALL
     front: "HTTP : quels codes de redirection préservent la méthode et le corps de la requête ?"
     back: "307 Temporary Redirect et 308 Permanent Redirect."
     explanation: >-

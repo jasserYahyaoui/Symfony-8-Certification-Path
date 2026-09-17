@@ -55,6 +55,7 @@ flashcards:
   - id: FLC-ke52b2c0c9vm
     official_item: OIT-d3nyk9z0q2pd
     language: fr
+    level: APPLICATION
     front: "Symfony : que fait $request->query->get('tags') si l'URL contient ?tags[]=a&tags[]=b ?"
     back: "Elle lève une BadRequestException. InputBag::get() n'accepte que des scalaires ; il faut all()."
     explanation: >-
@@ -144,6 +145,7 @@ flashcards:
   - id: FLC-jn7eqg7cdsqb
     official_item: OIT-7801mj6w73ky
     language: fr
+    level: TRAP
     front: 'RFC 9110 : `DELETE` reste-t-elle idempotente si le second appel renvoie 404 ?'
     back: Oui. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité
       des réponses.
@@ -193,3 +195,1139 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: getLanguages line 1663, getPreferredLanguage line 1633
       verified_at: '2026-09-11'
+
+  # ---------------------------------------------------------------------------
+  # OIT-7801mj6w73ky — HTTP Specification (RFC 9110).
+  #
+  # Quinze cartes ajoutées le 2026-09-17, réparties sur les quatre niveaux de
+  # l'axe `level`. Chaque affirmation a été relevée dans le document lui-même
+  # (specs/rfc9110.html) le jour de l'écriture, pas de mémoire : les numéros de
+  # section cités sont ceux du sommaire du document, et les formulations entre
+  # guillemets anglais sont recopiées.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-ne8ag8fv1beh
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 : que liste son en-tête `Obsoletes:` ?"
+    back: "2818, 7230, 7231, 7232, 7233, 7235, 7538, 7615, 7694 — et le document porte en plus `Updates: 3864`."
+    explanation: >-
+      L'en-tête du document écrit `7230` sans réserve ; le résumé et la Table 1
+      du §1.4 précisent « portions of 7230 », le reste de 7230 — la syntaxe de
+      trame — passant à RFC 9112. **2818** (*HTTP Over TLS*) est dans la liste,
+      ce qu'on oublie presque toujours. **7234 n'y est pas** : le cache est
+      repris par RFC 9111.
+    memorization_justification: >-
+      Liste arbitraire de neuf numéros qu'aucune règle ne permet de
+      reconstituer, et dont deux entrées — 2818 présente, 7234 absente —
+      contredisent l'attente.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document ; Abstract ; section 1.4 Specifications Obsoleted by This Document"
+        verified_at: "2026-09-17"
+
+  - id: FLC-crr1141h7qxe
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "HTTP : que couvrent RFC 9110, 9111, 9112, 9113 et 9114 ?"
+    back: "9110 la sémantique, 9111 le cache, 9112 HTTP/1.1, 9113 HTTP/2, 9114 HTTP/3."
+    explanation: >-
+      Les trois derniers numéros sont des **syntaxes de messages** ; les deux
+      premiers sont indépendants de la version. Les références normatives de
+      9110 les nomment ainsi : `[HTTP/1.1]` = RFC 9112, `[HTTP/2]` = RFC 9113,
+      `[HTTP/3]` = RFC 9114. Piège de numérotation : le numéro le plus petit,
+      9110, est le plus général, pas HTTP/1.1.
+    memorization_justification: >-
+      Cinq numéros consécutifs dont l'ordre ne suit ni la version du protocole
+      ni la généralité du contenu ; rien ne se déduit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 11 Normative References, entrées [CACHING], [HTTP/1.1], [HTTP/2], [HTTP/3]"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ydycedag6qe0
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §6 : de quoi un message HTTP est-il fait, indépendamment de la version ?"
+    back: "Données de contrôle, table des en-têtes, contenu, table des champs de fin (*trailers*)."
+    explanation: >-
+      Dans cet ordre, et c'est l'ordre d'émission : « Framing and control data
+      is sent first, followed by a header section… the content is sent after
+      the header section, potentially followed by a trailer section ». Chaque
+      partie a un rôle : les données de contrôle disent ce que le destinataire
+      doit savoir **immédiatement**, les en-têtes ce qu'il doit savoir **avant**
+      le contenu.
+    memorization_justification: >-
+      Le vocabulaire imposé remplace le découpage intuitif « ligne de départ +
+      en-têtes + corps », qui est celui de HTTP/1.1 et non celui de 9110.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 6 Message Abstraction ; sections 6.2 Control Data, 6.3 Header Fields, 6.4 Content, 6.5 Trailer Fields"
+        verified_at: "2026-09-17"
+
+  - id: FLC-v28552mvdx4y
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §3.7 : quelles sont les trois formes courantes d'intermédiaire HTTP ?"
+    back: "Proxy, gateway — que le document glose lui-même « a.k.a. reverse proxy » — et tunnel."
+    explanation: >-
+      Une gateway agit comme **serveur d'origine** du côté sortant et
+      retransmet vers l'intérieur : c'est la définition du reverse proxy, et
+      c'est ce qu'est un Varnish ou un Nginx devant une application Symfony. Un
+      tunnel ne lit pas les messages qu'il relaie, ce qui a une conséquence
+      directe : « a cache cannot be used while acting as a tunnel » (§3.8).
+    memorization_justification: >-
+      Trois termes dont un — gateway — est employé par la RFC dans un sens que
+      l'usage courant nomme autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.7 Intermediaries ; section 3.8 Caches"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yj2yrj91zwx2
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 : quelle est la différence entre une ressource et une représentation ?"
+    back: "La ressource est la cible de la requête ; la représentation est une information qui reflète un état — passé, actuel ou souhaité — de cette ressource, dans un format transmissible."
+    explanation: >-
+      §3.2 ajoute la raison d'être de la distinction : HTTP permet la
+      « dissimulation d'information » derrière son interface uniforme en
+      communiquant sur une représentation **transférable** plutôt qu'en
+      transférant la ressource elle-même. C'est ce qui autorise une ressource à
+      être « la météo actuelle à Laguna Beach » — quelque chose qu'aucun
+      transfert d'octets ne pourrait livrer.
+    memorization_justification: >-
+      Distinction fondatrice dont dépendent la négociation de contenu, `Vary` et
+      les requêtes conditionnelles ; la confondre rend ces trois sujets
+      inexplicables.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.1 Resources ; section 3.2 Representations"
+        verified_at: "2026-09-17"
+
+  - id: FLC-432f2dp6q1we
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 : à quoi sert la « représentation sélectionnée » (*selected representation*) ?"
+    back: "Elle fournit les données et métadonnées qui servent à évaluer les requêtes conditionnelles et à construire le contenu des réponses 200, 206 et 304 à un GET."
+    explanation: >-
+      Une ressource peut disposer de plusieurs représentations ; un algorithme —
+      « usually based on content negotiation » — en choisit une. Conséquence
+      pratique : `ETag` et `Last-Modified` qualifient **la représentation
+      sélectionnée**, pas la ressource. Deux représentations d'une même
+      ressource ont deux `ETag` différents, et c'est pourquoi `Vary` doit
+      accompagner l'un sans quoi un cache sert la mauvaise.
+    memorization_justification: >-
+      Terme technique précis qui relie négociation, cache et conditionnel ; la
+      liste « 200, 206, 304 » est énumérative et ne se déduit pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.2 Representations, paragraphe « selected representation »"
+        verified_at: "2026-09-17"
+
+  - id: FLC-kmqcsa6pwgm8
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC 9110 a une section 6.1 *Framing and Completeness* : définit-elle pour autant une syntaxe de trame ?"
+    back: "Non. Elle pose ce qu'est le *framing* et quand un message est complet ; « each major version of HTTP defines its own framing mechanism »."
+    explanation: >-
+      Dire « 9110 ne parle pas du tout de trame » est faux — la section existe
+      et définit la complétude. Dire « 9110 définit le `chunked` » est faux
+      aussi : ce codage est dans RFC 9112. La formule juste est : 9110 définit
+      la **notion**, chaque version majeure définit le **mécanisme**.
+    memorization_justification: >-
+      Nuance que les deux raccourcis opposés trahissent également ; l'existence
+      d'une section au titre explicite rend le raccourci « aucune trame »
+      indéfendable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 6.1 Framing and Completeness"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ysgkv98es205
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: UNDERSTANDING
+    front: "RFC : « obsolète » et « met à jour » désignent-ils la même relation ?"
+    back: "Non. Une RFC obsolétée est remplacée ; une RFC mise à jour reste en vigueur, amendée."
+    explanation: >-
+      9110 porte les deux en-têtes : `Obsoletes: 2818, 7230, …` et
+      `Updates: 3864`. RFC 3864 — l'enregistrement des noms de champs de
+      message — n'est donc **pas** remplacée : elle continue de s'appliquer,
+      modifiée par 9110. Lire `Updates:` comme un remplacement fait disparaître
+      un document encore normatif.
+    memorization_justification: >-
+      Deux en-têtes voisins dans le même document, de sens opposés, que le
+      français courant confond en « remplace ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document : `Obsoletes:` et `Updates: 3864`"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2gtzp3032jk0
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "Une requête HTTP/2 arrive avec `content-type` en minuscules : faut-il un traitement particulier ?"
+    back: "Non. « Field names are case-insensitive » : `content-type` et `Content-Type` sont le même champ."
+    explanation: >-
+      HTTP/2 et HTTP/3 imposent des noms de champs en minuscules ; HTTP/1.1
+      laisse la casse libre. Comme 9110 §5.1 déclare les noms insensibles à la
+      casse, la sémantique ne change pas d'une version à l'autre — c'est
+      exactement le service que rend la séparation sémantique / syntaxe. Côté
+      Symfony, `HeaderBag` normalise les noms pour la même raison.
+    memorization_justification: >-
+      Règle qui neutralise une différence visible entre versions ; la voir en
+      pratique pousse à croire à deux champs distincts.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.1 Field Names"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m0hjyf4w6taq
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "Un message porte deux lignes `Accept-Encoding`, `gzip` puis `br`. Que peut en faire le destinataire ?"
+    back: "Les combiner en une seule ligne `gzip, br` — mais sans changer l'ordre, qui est significatif."
+    explanation: >-
+      §5.3 autorise la recombinaison en liste séparée par des virgules, pour
+      les champs dont la définition l'admet, et interdit explicitement à un
+      proxy de réordonner ces valeurs : « a proxy **MUST NOT** change the order
+      of these field line values when forwarding a message ». L'ordre entre
+      champs de **noms différents** n'est en revanche pas significatif.
+    memorization_justification: >-
+      Deux règles d'ordre opposées dans la même section — significatif à nom
+      égal, indifférent à noms différents — qu'on retient volontiers à l'envers.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.3 Field Order"
+        verified_at: "2026-09-17"
+
+  - id: FLC-t8m1m0pp5zqx
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: APPLICATION
+    front: "La même ressource est servie en JSON et en HTML. Combien d'`ETag` distincts, et pourquoi ?"
+    back: "Deux : l'`ETag` qualifie la représentation sélectionnée, pas la ressource."
+    explanation: >-
+      §3.2 fait de la représentation sélectionnée la source des métadonnées qui
+      servent à évaluer les requêtes conditionnelles. Deux représentations
+      donnent donc deux validateurs. C'est aussi la raison d'être de `Vary` : un
+      cache qui stocke la réponse JSON et la ressert à un client demandant du
+      HTML se trompe de représentation, et seul `Vary: Accept` le lui interdit.
+    memorization_justification: >-
+      Cas concret où l'oubli de la distinction ressource / représentation
+      produit un bug de cache réel plutôt qu'une imprécision de vocabulaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.2 Representations ; section 8.8.3 ETag"
+        verified_at: "2026-09-17"
+
+  - id: FLC-grhnmtks7tcg
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « RFC 9110 remplace RFC 2616 »."
+    back: "Faux comme énoncé direct. 2616 avait déjà été remplacée par la série 7230-7235 en 2014 ; c'est cette série que les 911x remplacent."
+    explanation: >-
+      §1.1 retrace la filiation : 1945 (HTTP/1.0), 2068, 2616, puis
+      « revised again in 2014 ([RFC7230] through [RFC7235]) ». L'en-tête
+      `Obsoletes:` de 9110 ne cite d'ailleurs pas 2616 — il cite 7230 à 7235.
+      Le raccourci saute une génération entière et fait croire à un remplacement
+      d'un seul bloc, alors que 9110, 9111 et 9112 se partagent l'héritage.
+    memorization_justification: >-
+      Raccourci répandu, énoncé tel quel dans beaucoup de supports, et qu'un
+      QCM peut proposer mot pour mot comme affirmation vraie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 1.2 History and Evolution ; en-tête du document"
+        verified_at: "2026-09-17"
+
+  - id: FLC-22ekra7qvw3s
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "On cherche la définition de `Cache-Control: max-age`. Dans quelle RFC, et pourquoi pas dans 9110 ?"
+    back: "Dans RFC 9111. 9110 n'obsolète pas 7234 : le cache a été sorti du document de sémantique."
+    explanation: >-
+      La liste `Obsoletes:` de 9110 va de 7230 à 7235 en sautant **7234**, et ce
+      trou est délibéré : §1.2 dit que cette révision sépare la sémantique
+      (9110) du cache (`[CACHING]`, soit 9111) et de la syntaxe HTTP/1.1 (9112).
+      Chercher `max-age` dans 9110 et n'y trouver que des mentions croisées
+      n'est pas une erreur d'index : c'est le découpage.
+    memorization_justification: >-
+      Absence dans une liste — le plus difficile à retenir, parce qu'il n'y a
+      rien à voir ; la suite 7230…7235 paraît continue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "en-tête du document ; section 1.2 History and Evolution"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pv1vtj0grzrc
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Puisque §5.3 autorise à fusionner les lignes de même nom en liste séparée par des virgules, peut-on fusionner deux `Set-Cookie` ?"
+    back: "Non. 9110 nomme `Set-Cookie` comme l'exception connue : il n'utilise pas la syntaxe de liste et ne peut pas être combiné."
+    explanation: >-
+      La note de §5.3 est explicite : en pratique `Set-Cookie` apparaît sur
+      plusieurs lignes « violating the above requirements », et comme il ne peut
+      pas être combiné en une valeur unique, les destinataires doivent le
+      traiter comme un cas particulier. La règle de fusion ne s'applique qu'aux
+      champs dont la définition prévoit une liste `#(values)`.
+    memorization_justification: >-
+      Exception explicitement nommée dans le texte de la règle générale, donc
+      exactement le matériau d'un QCM « la règle, sauf pour… ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 5.3 Field Order, note sur Set-Cookie"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4p951zavvt5r
+    official_item: OIT-7801mj6w73ky
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « en HTTP, toute ressource est identifiée par un URI »."
+    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une requête est une ressource par définition."
+    explanation: >-
+      Le mot compte : 9110 ne limite pas la nature d'une ressource, il définit
+      seulement l'interface qui permet d'interagir avec elle. D'où la formule
+      exacte : « the target of an HTTP request is called a resource ». Retenir
+      « ressource = fichier » ou « ressource = URI » ferme la porte aux
+      ressources qui ne sont ni l'un ni l'autre, comme la fonction temporelle
+      citée en §3.2.
+    memorization_justification: >-
+      Quantificateur — « most » et non « all » — qu'une lecture rapide
+      transforme en règle absolue, et qu'un QCM teste par une affirmation
+      universelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 3.1 Resources"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-512se83ab7qj — Status codes.
+  #
+  # Quinze cartes ajoutées le 2026-09-17. Deux cartes préexistantes couvrent
+  # déjà 401/403 et 307/308 (deck golden-slice) : elles ne sont pas redoublées.
+  # Côté Symfony, les numéros de ligne sont ceux de la branche 8.0 relevés le
+  # jour même ; aucun SHA n'est cité, faute de l'avoir constaté.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-7jbsw0n0dkqt
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "HTTP : quelle est la plage valide des codes de statut, et quels chiffres catégorisent ?"
+    back: "100 à 599 inclus. Seul le premier chiffre catégorise : « the last two digits do not have any categorization role »."
+    explanation: >-
+      Dit autrement : 404 et 451 sont deux erreurs client sans qu'aucune règle
+      ne rapproche `04` de `51`. Symfony applique exactement cette plage —
+      `Response::isInvalid()` renvoie vrai en dessous de 100 et à partir de 600,
+      et `setStatusCode()` lève alors une `\InvalidArgumentException`.
+    memorization_justification: >-
+      Bornes exactes et inclusives, que l'habitude des codes usuels (200 à 503)
+      ne fait jamais rencontrer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15 Status Codes, premier paragraphe"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isInvalid ligne 1164 ; setStatusCode ligne 476"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fepyn18gaha9
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §15.1 : quels codes de statut sont *heuristically cacheable* ?"
+    back: "200, 203, 204, 206, 300, 301, 308, 404, 405, 410, 414 et 501. Tous les autres ne le sont pas."
+    explanation: >-
+      « Heuristically cacheable » veut dire qu'un cache peut les réutiliser avec
+      une expiration heuristique **en l'absence** de directive explicite. La
+      liste contient des codes d'erreur — **404, 405, 410, 414, 501** — ce qui
+      surprend, et n'en contient **ni 302 ni 304**.
+    memorization_justification: >-
+      Liste de douze numéros donnée en un seul endroit du document, dont
+      l'inclusion des erreurs contredit l'intuition « on ne cache que le succès ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-8nb3j79fsvpp
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "Quels en-têtes la RFC rend-elle **obligatoires** avec un 401 et avec un 405 ?"
+    back: "401 → `WWW-Authenticate` (MUST). 405 → `Allow` (MUST), listant les méthodes que la ressource accepte."
+    explanation: >-
+      Ce sont deux `MUST`, pas des recommandations : « The server generating a
+      401 response **MUST** send a WWW-Authenticate header field » et « The
+      origin server **MUST** generate an Allow header field in a 405 response ».
+      Un 401 sans `WWW-Authenticate` est une réponse non conforme — un cas que
+      produisent beaucoup d'API par API-token.
+    memorization_justification: >-
+      Obligations attachées à un code précis, invisibles dans le code
+      applicatif : rien n'échoue si on les omet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.5.2 401 Unauthorized ; section 15.5.6 405 Method Not Allowed"
+        verified_at: "2026-09-17"
+
+  - id: FLC-de4y4fk0shgj
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §15.2 : qu'est-ce qu'une réponse 1xx n'a pas le droit de contenir ?"
+    back: "Ni contenu ni champs de fin : « A 1xx response is terminated by the end of the header section »."
+    explanation: >-
+      Deux autres contraintes vont avec : un serveur **MUST NOT** envoyer une
+      réponse 1xx à un client HTTP/1.0, qui n'en connaît aucune, et un client
+      **MUST** savoir analyser une ou plusieurs réponses 1xx reçues avant la
+      réponse finale, même s'il n'en attendait pas. Une 1xx n'est donc jamais la
+      réponse finale : elle précède.
+    memorization_justification: >-
+      Classe la moins pratiquée des cinq ; ses interdictions ne se déduisent pas
+      de « information ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.2 Informational 1xx"
+        verified_at: "2026-09-17"
+
+  - id: FLC-0b4wq47q299g
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "415, 422, 406 : que refuse exactement chacun des trois ?"
+    back: "415 : le format du contenu envoyé. 422 : le format est compris et la syntaxe correcte, mais les instructions sont intraitables. 406 : aucune représentation acceptable à renvoyer."
+    explanation: >-
+      §15.5.21 formule l'enchaînement lui-même : 422 indique que le serveur
+      « understands the content type of the request content (**hence a 415 is
+      inappropriate**), and the syntax of the request content is correct ». 415
+      et 422 portent donc tous deux sur la requête, à deux étages différents ;
+      406 change de direction et porte sur la **réponse** attendue.
+    memorization_justification: >-
+      Trois refus voisins dont deux sont explicitement exclusifs dans le texte ;
+      l'axe qui les sépare (requête/réponse, puis format/sémantique) n'apparaît
+      dans aucun des trois noms.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 15.5.16 415, 15.5.21 422, 15.5.7 406"
+        verified_at: "2026-09-17"
+
+  - id: FLC-9pwkjh2taxkk
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi 303 n'entre-t-il pas dans le carré permanent/temporaire × méthode préservée ?"
+    back: "Parce qu'il ne rejoue rien : il demande une requête de récupération — GET ou HEAD — sur une autre ressource, quelle que soit la méthode d'origine."
+    explanation: >-
+      §15.4.4 précise deux choses que le raccourci « 303 = redirection après
+      POST » perd : le code est « applicable to any HTTP method », et l'URI de
+      `Location` n'est **pas** considéré comme équivalent à l'URI cible — c'est
+      une réponse *indirecte*. D'où POST-Redirect-GET : là où 307 rejouerait le
+      POST, 303 impose la lecture.
+    memorization_justification: >-
+      Le code est dans la classe 3xx avec quatre voisins qui s'apparient deux à
+      deux ; sa singularité est la seule chose à retenir et rien ne la signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.4.4 303 See Other"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x6thx1pn5j5m
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "La RFC interdit-elle à un agent de transformer un POST en GET après un 302 ?"
+    back: "Non : §15.4.3 l'autorise explicitement — « For historical reasons, a user agent **MAY** change the request method from POST to GET »."
+    explanation: >-
+      C'est un `MAY`, donc un comportement **permis et non garanti** : après un
+      302, on ne sait pas ce que fera l'agent. D'où la formule exacte de la
+      note : « If this behavior is undesired, the 307 (Temporary Redirect)
+      status code can be used instead ». 307 n'est pas « la version moderne de
+      302 » : c'est la version qui **garantit** quelque chose.
+    memorization_justification: >-
+      Le mot de la RFC est `MAY` là où les supports écrivent « 302 transforme en
+      GET » ; la nuance change la conclusion — indéterminé, pas transformé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.4.3 302 Found, note finale ; section 15.4.8 307"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4myarndc6m2p
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: UNDERSTANDING
+    front: "La phrase de raison — « Not Found » après 404 — fait-elle partie du protocole ?"
+    back: "Non. §15.1 : les phrases de raison « are only recommendations — they can be replaced by local equivalents or left out altogether without affecting the protocol »."
+    explanation: >-
+      Un code de statut se lit sur ses trois chiffres, jamais sur son texte.
+      Conséquence concrète : un test fonctionnel qui assertait la chaîne
+      « Not Found » teste la mise en forme du serveur, pas la sémantique.
+      Symfony laisse d'ailleurs surcharger le texte —
+      `setStatusCode(404, 'Introuvable')` — et retombe sur
+      `'unknown status'` pour un code qu'il ne connaît pas.
+    memorization_justification: >-
+      Statut d'un élément visible partout — dans les logs, dans les outils de
+      développement — qu'on suppose normatif parce qu'il est constant en pratique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setStatusCode lignes 476-492"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2sc8bah6j6gg
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Un client reçoit un code 499, qu'il ne connaît pas. Que doit-il en faire ?"
+    back: "Le traiter comme un 400 : la RFC impose de comprendre la **classe** et de traiter un code inconnu comme le x00 de sa classe."
+    explanation: >-
+      « A client MUST understand the class of any status code, as indicated by
+      the first digit, and treat an unrecognized status code as being equivalent
+      to the x00 status code of that class ». C'est ce qui rend les codes de
+      statut extensibles sans casser les clients : un 499 inconnu devient une
+      erreur client générique, jamais un succès ni une exception.
+    memorization_justification: >-
+      Règle de repli que rien ne rappelle tant qu'on ne rencontre pas un code
+      hors registre, et qui explique à elle seule l'extensibilité annoncée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15 Status Codes, paragraphe « HTTP status codes are extensible »"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zjnm2f02xgef
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Symfony : `Response::isCacheable()` accepte-t-il les mêmes codes que la liste *heuristically cacheable* de la RFC ?"
+    back: "Non. Symfony teste 200, 203, 300, 301, 302, 404, 410 : il accepte 302, absent de la liste RFC, et ignore 204, 206, 308, 405, 414 et 501."
+    explanation: >-
+      Les deux listes répondent d'ailleurs à deux questions différentes :
+      la RFC décrit ce qu'un cache **peut** réutiliser par heuristique ;
+      `isCacheable()` décrit ce que *cette* réponse-ci autorise, et ajoute deux
+      conditions — ni `no-store` ni `private`, et la réponse doit être
+      validable ou fraîche. Un 404 sans `ETag` ni `max-age` renvoie donc `false`
+      en Symfony tout en restant heuristiquement cachable au sens de la RFC.
+    memorization_justification: >-
+      Deux listes proches au point d'être confondues, dont l'écart — 302 d'un
+      côté, 308/405/414/501 de l'autre — ne suit aucune logique dérivable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isCacheable lignes 545-556"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p8jj4e88a3hq
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "Que se passe-t-il à l'exécution de `$response->setStatusCode(600)` ?"
+    back: "Une `\\InvalidArgumentException` : « The HTTP status code \"600\" is not valid ». 599 passe, avec le texte `unknown status`."
+    explanation: >-
+      `setStatusCode()` affecte d'abord, teste ensuite via `isInvalid()`, qui
+      est littéralement `< 100 || >= 600` — la plage de la RFC. Un code valide
+      mais inconnu de Symfony n'échoue pas : il reçoit `'unknown status'` comme
+      phrase de raison, ce qui est cohérent avec le fait que cette phrase n'est
+      pas normative.
+    memorization_justification: >-
+      Comportement exact d'une borne — exception d'un côté, texte de repli de
+      l'autre — que seule la lecture du code révèle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setStatusCode lignes 476-492 ; isInvalid lignes 1164-1167"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mkhjd9pf3m32
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: APPLICATION
+    front: "On renvoie `new Response('déjà écrit', 204)`. Que reste-t-il après `prepare()` ?"
+    back: "Rien : le contenu est mis à `null`, et `Content-Type` comme `Content-Length` sont retirés."
+    explanation: >-
+      `prepare()` traite ensemble les réponses informatives et « vides » —
+      `isEmpty()` est exactement `in_array($statusCode, [204, 304], true)`. Il
+      va jusqu'à `ini_set('default_mimetype', '')` pour empêcher PHP de poser
+      un `Content-Type` de son côté. Le corps n'est donc pas « ignoré par le
+      client » : il n'est pas émis.
+    memorization_justification: >-
+      Effet de bord silencieux : le code appelant paraît écrire un corps, et
+      rien ne signale sa disparition.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "prepare lignes 244-254 ; isEmpty lignes 1264-1267"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p2rbfr0mr4cb
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « une réponse 404 n'est jamais mise en cache »."
+    back: "Faux. 404 figure dans la liste des codes *heuristically cacheable* de §15.1, aux côtés de 405, 410, 414 et 501."
+    explanation: >-
+      Un cache peut réutiliser un 404 avec une expiration heuristique tant
+      qu'aucune directive explicite ne l'en empêche. C'est voulu : les erreurs
+      de ce type sont stables et coûteuses à recalculer. Pour l'empêcher
+      réellement, il faut une directive — `no-store`, par exemple — et non
+      l'espoir que le code de statut suffise.
+    memorization_justification: >-
+      Affirmation répandue et rassurante, que la liste de §15.1 contredit
+      nommément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.1 Overview of Status Codes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x58em8v5yb1v
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Symfony expose `Response::HTTP_I_AM_A_TEAPOT`. Le code 418 est-il donc utilisable ?"
+    back: "Non. RFC 9110 §15.5.19 l'intitule « 418 (Unused) » : il est **réservé** au registre IANA et ne peut être attribué à aucun usage."
+    explanation: >-
+      La RFC raconte pourquoi : RFC 2324 était un poisson d'avril, et le code a
+      été déployé en plaisanterie assez souvent pour devenir inutilisable. La
+      constante existe côté Symfony parce que la bibliothèque suit le registre,
+      pas parce que le code a un sens applicatif. L'utiliser dans une API, c'est
+      envoyer un code que la spécification déclare non attribuable.
+    memorization_justification: >-
+      La présence de la constante dans le code du framework fait office de
+      caution ; seule la RFC dit son vrai statut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.5.19 418 (Unused)"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "HTTP_I_AM_A_TEAPOT ligne 65 ; statusTexts ligne 168"
+        verified_at: "2026-09-17"
+
+  - id: FLC-d4q9k3gjvj4s
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "Symfony : les noms des constantes `HTTP_*` donnent-ils l'intitulé actuel du code ?"
+    back: "Pas toujours. 413 est `HTTP_REQUEST_ENTITY_TOO_LARGE` alors que son texte est « Content Too Large » ; 422 est `HTTP_UNPROCESSABLE_ENTITY` alors que son texte est « Unprocessable Content »."
+    explanation: >-
+      RFC 9110 a renommé ces deux codes ; les constantes gardent l'ancien nom
+      pour ne pas casser la compatibilité, tandis que le tableau
+      `Response::$statusTexts` a suivi la RFC. Le même fichier porte donc les
+      deux générations de vocabulaire. À l'examen, la question peut être posée
+      dans l'un ou l'autre : 413 et « Content Too Large » désignent la même chose.
+    memorization_justification: >-
+      Décalage de nommage entre deux endroits d'un même fichier ; aucun
+      raisonnement ne permet de deviner lequel est à jour.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "constantes lignes 60 et 67 ; statusTexts lignes 163 et 170"
+        verified_at: "2026-09-17"
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 15.5.14 413 Content Too Large et 15.5.21 422 Unprocessable Content"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-d3nyk9z0q2pd — HTTP request.
+  #
+  # Seize cartes ajoutées le 2026-09-17. Sources relues le jour même sur la
+  # branche 8.0 : Request.php, InputBag.php, ParameterBag.php. Les numéros de
+  # ligne sont ceux de ces fichiers ce jour-là ; aucun SHA n'est cité faute de
+  # l'avoir constaté.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-c1n5fb6sdjzt
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : quels sacs de `Request` sont des `InputBag`, et lesquels ne le sont pas ?"
+    back: "`$query`, `$request` et `$cookies` sont des `InputBag`. `$attributes` est un `ParameterBag`, `$headers` un `HeaderBag`, `$server` un `ServerBag`, `$files` un `FileBag`."
+    explanation: >-
+      Le partage n'est pas décoratif : seuls les trois `InputBag` portent la
+      contrainte scalaire, parce que seuls eux contiennent des données venues du
+      client. `$attributes` est rempli par l'application — le routeur y écrit
+      `_route` et `_controller` — et accepte donc n'importe quelle valeur.
+    memorization_justification: >-
+      Sept propriétés de quatre types différents ; la répartition porte toute la
+      différence de comportement et ne se devine pas depuis les noms.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "propriétés publiques lignes 94-130"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ndrjckq2359p
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : que renvoie `$request->get('id')` ?"
+    back: "Rien : la méthode n'existe plus. Il faut nommer le sac — `$request->attributes->get('id')`, `$request->query->get('id')`…"
+    explanation: >-
+      L'ancien raccourci cherchait dans `attributes`, puis `query`, puis
+      `request`, dans cet ordre : une valeur de route pouvait donc être masquée
+      ou remplacée selon l'origine de la donnée. Sa suppression force à dire
+      d'où vient l'entrée, ce qui est exactement ce que l'ordre de recherche
+      rendait flou.
+    memorization_justification: >-
+      Appel encore présent dans beaucoup de code et de tutoriels ; son absence
+      en 8.0 est une connaissance de version, non un raisonnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absence de Request::get() dans la classe"
+        verified_at: "2026-09-17"
+
+  - id: FLC-3wf2w0xzcb18
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : que distingue `getMethod()`, `getRealMethod()` et `isMethod()` ?"
+    back: "`getRealMethod()` renvoie `REQUEST_METHOD` tel quel ; `getMethod()` applique l'override et mémorise le résultat ; `isMethod()` compare à `getMethod()` sans tenir compte de la casse."
+    explanation: >-
+      `getMethod()` met son résultat en cache dans `$this->method` dès le
+      premier appel : changer un en-tête après coup ne le fait pas changer
+      d'avis. Les deux renvoient toujours une chaîne **en majuscules**.
+    memorization_justification: >-
+      Trois méthodes voisines dont deux peuvent renvoyer des valeurs
+      différentes sur la même requête ; le nom `getRealMethod` ne dit pas
+      laquelle des deux est « la vraie » pour le code applicatif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1202-1239 ; getRealMethod lignes 1246-1249"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pdbzzrej8yrk
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : combien de listes de confiance `Request` porte-t-elle, et sur quoi portent-elles ?"
+    back: "Deux, indépendantes : `setTrustedProxies()` sur des adresses IP d'intermédiaires, `setTrustedHosts()` sur des motifs d'expression régulière pour l'hôte."
+    explanation: >-
+      Elles gardent deux valeurs que le client contrôle : `X-Forwarded-For`
+      pour la première, `Host` pour la seconde. Déclarer l'une ne configure pas
+      l'autre, et les deux sont vides par défaut. Une application derrière un
+      proxy correctement déclaré peut donc rester exposée à l'empoisonnement de
+      `Host`.
+    memorization_justification: >-
+      Deux mécanismes de nom voisin qu'on croit volontiers liés ; leur
+      indépendance est ce qui crée l'angle mort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTrustedHosts ligne 642 ; getHost lignes 1132-1166"
+        verified_at: "2026-09-17"
+
+  - id: FLC-g4t4cwpx368d
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `InputBag` refuse-t-il une valeur non scalaire là où `ParameterBag` l'accepte ?"
+    back: "Parce que le contenu d'un `InputBag` vient du client, qui peut envoyer un tableau là où le code attend une chaîne."
+    explanation: >-
+      `?id=1` et `?id[]=1` sont tous deux des URL valides ; sans la contrainte,
+      la seconde ferait circuler un `array` dans du code écrit pour une chaîne.
+      `InputBag::get()` lève donc une `BadRequestException` — un échec bruyant
+      et immédiat. `$attributes`, rempli par l'application, n'a pas cette
+      exposition : c'est un `ParameterBag`.
+    memorization_justification: >-
+      La règle paraît arbitraire tant qu'on ne relie pas le type du sac à
+      l'origine de la donnée ; ce lien est ce qui la rend prévisible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get lignes 37-50"
+        verified_at: "2026-09-17"
+
+  - id: FLC-krjpqt3gabtc
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "`all('tags')` est-il simplement la version « tableau » de `get('tags')` ?"
+    back: "C'est son miroir exact : `get()` refuse un tableau, `all($clé)` refuse ce qui n'en est pas un — même exception, `BadRequestException`."
+    explanation: >-
+      `ParameterBag::all($clé)` lève « Unexpected value for parameter … :
+      expecting « array » » si la valeur n'est pas un tableau. Une clé
+      **absente**, en revanche, ne lève pas : elle renvoie `[]`. Les deux
+      accesseurs sont donc stricts dans des directions opposées, et aucun n'est
+      un repli sûr pour l'autre.
+    memorization_justification: >-
+      Symétrie que l'intuition « all = tout, get = un » ne prépare pas, avec un
+      troisième cas — clé absente — qui se comporte encore autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all lignes 45-56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-vgxs994c4k9q
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un motif de `setTrustedHosts()` doit-il porter `^` et `$` ?"
+    back: "Parce que Symfony n'enveloppe le motif que par `{motif}i` : il est insensible à la casse et **non ancré**, donc satisfait par une sous-chaîne."
+    explanation: >-
+      `setTrustedHosts(['example.com'])` accepte `example.com.attaquant.test` :
+      le motif y est trouvé au milieu. Le point non échappé accepte en prime
+      `exampleXcom`. Le motif juste s'écrit `^(.+\.)?example\.com$`. Une liste
+      mal écrite est pire qu'une liste absente : elle donne l'apparence d'un
+      contrôle.
+    memorization_justification: >-
+      L'API accepte une chaîne qui ressemble à un nom de domaine et se comporte
+      comme une expression régulière ; rien dans l'appel ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTrustedHosts lignes 642-647, sprintf('{%s}i', $hostPattern)"
+        verified_at: "2026-09-17"
+
+  - id: FLC-xwwc4rksxk78
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getClientIp()` ne renvoie-t-il pas la première adresse de `X-Forwarded-For` ?"
+    back: "Parce qu'il renvoie l'adresse non fiable la **plus proche du serveur** : tout ce qui est à sa gauche a été écrit par un maillon auquel on ne fait pas confiance."
+    explanation: >-
+      Symfony complète la chaîne avec `REMOTE_ADDR`, retire les adresses des
+      proxys déclarés de confiance, puis renverse ce qui reste et prend le
+      premier élément. Le client d'origine n'est donc obtenu que si **toute** la
+      chaîne est déclarée. C'est le comportement sûr : la partie gauche de
+      l'en-tête est falsifiable par le client.
+    memorization_justification: >-
+      La règle « le client est la première adresse » est vraie dans le cas
+      nominal et fausse dès qu'un saut n'est pas déclaré — donc juste assez
+      souvent pour s'installer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getClientIp ligne 821 ; getClientIps ligne 798 ; normalizeAndFilterClientIps lignes 2146-2183"
+        verified_at: "2026-09-17"
+
+  - id: FLC-gftv2y7rzn6c
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "L'URL est `/s?tags=php` (valeur unique). Que fait `$request->query->all('tags')` ?"
+    back: "Elle lève une `BadRequestException` : la valeur existe mais n'est pas un tableau."
+    explanation: >-
+      C'est le cas inverse du piège habituel, et il mord dans le code défensif :
+      passer systématiquement par `all()` « pour être tranquille » échoue dès
+      qu'un seul paramètre arrive. Pour accepter les deux formes, il faut
+      tester, ou lire la valeur brute via `$request->query->all()` sans clé.
+    memorization_justification: >-
+      Cas concret où la parade au piège connu crée le piège symétrique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all lignes 45-56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-edpmhmymcjfd
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Quelle exception lève `$request->query->get('page', ['défaut'])` ?"
+    back: "Une `\\InvalidArgumentException` — pas une `BadRequestException` : c'est la **valeur par défaut** qui est fautive, pas l'entrée."
+    explanation: >-
+      `InputBag::get()` vérifie d'abord son deuxième argument : « Expected a
+      scalar value as a 2nd argument ». La distinction est logique — une entrée
+      non scalaire vient du client et donne un 400, un défaut non scalaire est
+      une faute du programmeur et n'a rien à voir avec la requête. Les deux
+      contrôles acceptent aussi un objet `\Stringable`.
+    memorization_justification: >-
+      Deux exceptions de types différents levées par la même méthode, selon
+      lequel de ses deux arguments est en cause.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get lignes 37-50"
+        verified_at: "2026-09-17"
+
+  - id: FLC-c6kdb458s7bn
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Sur un POST de formulaire, modifier le sac renvoyé par `getPayload()` modifie-t-il `$request->request` ?"
+    back: "Non : quand le sac POST est non vide, `getPayload()` en renvoie un **clone**."
+    explanation: >-
+      Le corps de la méthode est explicite : `if ($this->request->count())
+      { return clone $this->request; }`. Sinon elle décode le corps en JSON et
+      construit un `InputBag` neuf. Dans les deux cas, l'objet rendu est
+      détaché : `getPayload()` est un accesseur de lecture, pas une vue.
+    memorization_justification: >-
+      Le clonage est invisible à l'appel et change le résultat de toute écriture
+      faite sur le sac rendu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload lignes 1539-1560"
+        verified_at: "2026-09-17"
+
+  - id: FLC-g06p29cbe5hv
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Un POST porte `X-HTTP-Method-Override: GET`. Que renvoie `getMethod()` ?"
+    back: "`POST`. GET, HEAD, CONNECT et TRACE sont ignorés comme cibles d'override en Symfony 8.0."
+    explanation: >-
+      La liste est écrite en dur dans `getMethod()`, et `setAllowedHttpMethodOverride()`
+      refuse d'ailleurs qu'on l'y remette : l'appel lève une
+      `\InvalidArgumentException`. Un override vers `PATCH` fonctionne, lui.
+      Et une valeur qui n'est pas faite que de lettres majuscules — `P@TCH` —
+      lève une `SuspiciousOperationException`.
+    memorization_justification: >-
+      Quatre méthodes traitées à part, sans message ni avertissement : la
+      requête est simplement traitée comme un POST.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1202-1239 ; setAllowedHttpMethodOverride lignes 710-716"
+        verified_at: "2026-09-17"
+
+  - id: FLC-smdzenndjcyp
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "L'en-tête `X-HTTP-Method-Override` demande-t-il d'être activé, comme `_method` ?"
+    back: "Non. L'en-tête est lu sur tout POST sans rien activer ; seul le paramètre `_method` exige `enableHttpMethodParameterOverride()`."
+    explanation: >-
+      Les deux mécanismes sont souvent présentés ensemble, ce qui laisse croire
+      au même interrupteur. Pour désactiver l'en-tête, il faut
+      `setAllowedHttpMethodOverride([])` — une liste vide, que `getMethod()`
+      traite comme « aucun override permis ». Le défaut, `null`, veut dire
+      « tous permis », à l'exception des quatre méthodes exclues.
+    memorization_justification: >-
+      Asymétrie contre-intuitive entre deux mécanismes jumeaux, et défaut
+      permissif que l'existence même du réglage fait croire fermé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1209-1218 ; $httpMethodParameterOverride ligne 82"
+        verified_at: "2026-09-17"
+
+  - id: FLC-qchqy6cdtpby
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "Aucun `setTrustedHosts()` n'a été appelé. Quel `Host` est accepté ?"
+    back: "N'importe lequel : le contrôle ne s'exécute que `if (count(self::$trustedHostPatterns) > 0)`."
+    explanation: >-
+      L'absence de configuration n'est pas un mode strict, c'est l'absence de
+      contrôle. Seule la validité **syntaxique** de l'hôte est vérifiée en
+      amont, indépendamment de la liste. Un `Host` falsifié empoisonne alors
+      tout ce qui se construit à partir de lui : URL absolue d'un courriel de
+      réinitialisation, clé de cache.
+    memorization_justification: >-
+      Défaut ouvert d'un mécanisme de sécurité : l'intuition attend l'inverse
+      d'une liste blanche vide.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getHost lignes 1154-1166"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4vae74bv226h
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "`getHost()` a levé une `SuspiciousOperationException` sur un hôte invalide. Que renvoie le second appel ?"
+    back: "La chaîne vide. L'exception n'est levée qu'une fois : ensuite `getHost()` renvoie `''`."
+    explanation: >-
+      Le garde est `if (!$this->isHostValid) { return ''; }` avant la levée :
+      le premier appel bascule le drapeau, les suivants sortent silencieusement.
+      Un code qui attrape l'exception et réessaie obtient donc une chaîne vide,
+      pas une seconde exception — et une chaîne vide se propage sans bruit.
+    memorization_justification: >-
+      Comportement non idempotent d'un accesseur : rien dans la signature ne
+      laisse deviner que deux appels identiques donnent deux résultats.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getHost lignes 1145-1152"
+        verified_at: "2026-09-17"
+
+  - id: FLC-e3jfzd2kpmvf
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "Le corps de la requête est le JSON `\"42\"`. Que fait `getPayload()` ?"
+    back: "Elle lève une `JsonException` : le JSON est valide mais ne décode pas vers un tableau."
+    explanation: >-
+      Le message est explicite : « JSON content was expected to decode to an
+      array ». Un corps vide, lui, ne lève pas — il rend un `InputBag` vide.
+      Trois issues, donc, pour la même méthode : le clone du sac POST, un sac
+      construit depuis un tableau JSON, ou une exception.
+    memorization_justification: >-
+      Cas limite entre « JSON invalide » et « JSON valide inexploitable », que
+      le nom de la méthode ne laisse pas soupçonner.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload lignes 1539-1560"
+        verified_at: "2026-09-17"

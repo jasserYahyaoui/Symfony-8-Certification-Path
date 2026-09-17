@@ -86,6 +86,18 @@ champs qui ont servi à la choisir. Confondre les deux rend `Vary` inexplicable.
 **RFC 9110 ne décrit aucune syntaxe de trame.** Le codage `chunked` ou la ligne
 de requête relèvent de RFC 9112.
 
+## Tips d'examen
+
+**« 10, 11, 12 » du plus général au plus concret** : 9110 la sémantique, 9111 le
+cache, 9112 HTTP/1.1. Ensuite les numéros suivent les versions : 9113 = HTTP/2,
+9114 = HTTP/3.
+
+**`Obsoletes` remplace, `Updates` amende.** RFC 3864 est amendée par 9110, donc
+toujours en vigueur.
+
+**Devant un énoncé absolu — « toute », « aucune », « jamais » — relire.** §3.1
+écrit « *most* resources are identified by a URI ».
+
 ## Points clés
 
 - RFC 9110 = sémantique HTTP, indépendante de la version de transport.
