@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import {useLocation} from '@docusaurus/router';
 import type {ItemIndexEntry, Question} from '@site/src/lib/types';
 import {
   isCorrect,
@@ -35,6 +36,11 @@ interface Filters {
  */
 export default function Practice(): React.JSX.Element {
   const state = usePayload('practice.json');
+  // `?item=OIT-…` narrows the series to one atomic official item. It is how a
+  // course page hands the learner its own questions: before 2026-09-17 the only
+  // way in was this page's mixed stream of every LEARNING question in the bank,
+  // so finishing a course led nowhere.
+  const requestedItem = new URLSearchParams(useLocation().search).get('item') ?? '';
   const [filters, setFilters] = useState<Filters>({
     topic: '',
     difficulty: '',
@@ -58,6 +64,7 @@ export default function Practice(): React.JSX.Element {
 
     return shuffle(
       all.filter((q) => {
+        if (requestedItem && q.official_item !== requestedItem) return false;
         if (filters.topic && q.official_topic !== filters.topic) return false;
         if (filters.difficulty && q.difficulty !== filters.difficulty) return false;
         if (filters.language && q.language !== filters.language) return false;
@@ -67,7 +74,7 @@ export default function Practice(): React.JSX.Element {
     );
     // `round` re-shuffles deliberately when the learner restarts a series.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [all, filters, round]);
+  }, [all, filters, requestedItem, round]);
 
   const topics = useMemo(
     () => [...new Set(all.map((q) => q.official_topic))].sort(),
@@ -140,6 +147,31 @@ export default function Practice(): React.JSX.Element {
         )}
 
         {state.status === 'ready' && all.length === 0 && <EmptyBank mode="practice" />}
+
+        {state.status === 'ready' && requestedItem !== '' && (
+          /* The series is narrowed. Say so, name what to, and offer the way
+             back: a filter the learner cannot see is a filter they will blame
+             the bank for. `role="status"` because the narrowing is the result
+             of their navigation, announced once on arrival. */
+          <p role="status" className="certpath-scope">
+            {items[requestedItem] ? (
+              <>
+                Série restreinte à l'item{' '}
+                <strong>{items[requestedItem].official_item}</strong> —{' '}
+                {queue.length} question{queue.length > 1 ? 's' : ''}.{' '}
+                <Link to={items[requestedItem].course_url}>Revenir au cours</Link>
+                {' · '}
+                <Link to="/practice">Toutes les questions</Link>
+              </>
+            ) : (
+              <>
+                Aucun item ne porte l'identifiant <code>{requestedItem}</code>, donc
+                aucune question ne correspond.{' '}
+                <Link to="/practice">Voir toutes les questions</Link>
+              </>
+            )}
+          </p>
+        )}
 
         {state.status === 'ready' && all.length > 0 && (
           <>

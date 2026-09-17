@@ -801,6 +801,33 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             $markdown .= "\n---\n\n".$course->body."\n";
         }
 
+        // The door from the course to its questions.
+        //
+        // It did not exist until 2026-09-17: questions were written, deployed and
+        // reachable ONLY through Practice Mode's mixed stream of every LEARNING
+        // question in the corpus. A learner finishing this page had no way to
+        // practise what they had just read, which is the one thing they want next.
+        //
+        // The count is LEARNING only, because that is exactly what the link
+        // delivers. A first draft counted every non-holdout question and the
+        // browser check caught it: Exam Mode draws on VALIDATION, so the page
+        // promised more than Practice could serve. Announcing a number the next
+        // page does not honour is the small lie this project exists to refuse.
+        $questionCount = $this->practisableQuestionCount($item->id->value, $content);
+        if ($questionCount > 0) {
+            $markdown .= "\n---\n\n## Questions\n\n"
+                .\sprintf(
+                    "**%d question%s d'entraînement** porte%s sur cet item.\n\n"
+                    ."[S'entraîner sur cet item](/practice?item=%s)\n\n",
+                    $questionCount,
+                    $questionCount > 1 ? 's' : '',
+                    $questionCount > 1 ? 'nt' : '',
+                    $item->id->value,
+                )
+                ."_Le mode entraînement n'est pas chronométré : la réponse se valide avant que "
+                ."l'explication et les sources n'apparaissent._\n";
+        }
+
         $cards = $this->flashcardsFor($item->id->value, $content);
         if ([] !== $cards) {
             $markdown .= "\n---\n\n## Flashcards\n\n"
@@ -861,6 +888,26 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
     /**
      * @return list<Flashcard>
      */
+    /**
+     * Questions on this item that PRACTICE MODE can serve — the LEARNING pool.
+     *
+     * Not "every question that is not holdout". VALIDATION feeds Exam Mode,
+     * which is a whole-bank timed simulation rather than a per-item drill, so
+     * filtering it to one item would misrepresent what that mode is for. The
+     * count therefore matches, exactly, what the link beside it hands over.
+     */
+    private function practisableQuestionCount(string $itemId, ContentSet $content): int
+    {
+        $count = 0;
+        foreach ($content->questions as $question) {
+            if ($question->officialItemId === $itemId && Pool::Learning === $question->pool) {
+                ++$count;
+            }
+        }
+
+        return $count;
+    }
+
     private function flashcardsFor(string $itemId, ContentSet $content): array
     {
         return array_values(array_filter(
