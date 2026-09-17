@@ -22,7 +22,7 @@ vérification y est une lecture attentive, pas un `grep`.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | HttpFoundation component | MINIMAL | 694 / 700 | 15 | **RAFFINÉE** (2026-09-17) |
-| 2 | Symfony Flex | STANDARD | 478 / 900 | 1 | à faire |
+| 2 | Symfony Flex | STANDARD | 802 / 900 | 15 | **RAFFINÉE** (2026-09-17) |
 | 3 | License | MINIMAL | 248 / 700 | 1 | à faire |
 | 4 | Components and Bridges | STANDARD | 466 / 900 | 1 | à faire |
 | 5 | Code organization | STANDARD | 543 / 900 | 1 | à faire |
@@ -73,7 +73,36 @@ d'un rapport.
 | `composer gate-full` | **exit 0** — 295 tests, 15 786 assertions ; `TOTAL VIOLATIONS: 0` |
 | Aiguilles de smoke test | 4 ajoutées, vérifiées présentes dans la page construite et absentes de `master` |
 
+## Page 2 — Symfony Flex, 2026-09-17
+
+**Fait**
+
+- 14 flashcards ajoutées (`FLC-g50ga9cn60xf` … `FLC-pf6cfqws97ac`) ; la carte
+  préexistante `FLC-7gcgff6wmgq8` a reçu le niveau `RECALL`.
+- **Une imprécision corrigée.** La page opposait les deux dépôts de recettes par
+  la qualité : « le dépôt principal est revu, le dépôt contrib ne l'est pas ».
+  `setup.rst` dit l'inverse des recettes contrib — « All of them are guaranteed
+  to work » — et place le doute sur le **paquet** associé, qui « could be
+  unmaintained ». Les deux dépôts sont alimentés par la communauté ; le principal
+  est une liste *curée*, et c'est le seul que Flex consulte sans demander.
+- Deux sections ajoutées, toutes deux tirées d'exemples de la documentation :
+  *Ce qu'une recette fait, concrètement* — les trois fichiers exacts que la
+  recette Twig dépose, dont une configuration **de test** distincte — et
+  *Les packs, et pourquoi ils disparaissent*, où `composer.json` ne montre jamais
+  `symfony/debug-pack` puisque Flex le dépaquette.
+- Un enchaînement que la page ne montrait pas : `composer require api` résout un
+  **alias** vers un **pack** tiers, dont l'installation déclenche **cinq
+  recettes**. Trois mécanismes derrière une commande d'un mot.
+- Section `## Tips d'examen` ajoutée. Corps : 478 → **802 mots** sur 900.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 295 tests, 15 800 assertions ; `TOTAL VIOLATIONS: 0` |
+| Aiguilles de smoke test | 5 ajoutées, vérifiées présentes dans la page construite et absentes de `master` |
+
 ## Prochaine étape
 
-Page 2 — **Symfony Flex** (STANDARD, 478 / 900 mots, 1 flashcard, 422 mots de
-marge).
+Page 3 — **License** (MINIMAL, 248 / 700 mots, 1 flashcard, 452 mots de marge).

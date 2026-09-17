@@ -232,6 +232,7 @@ flashcards:
   - id: FLC-7gcgff6wmgq8
     official_item: OIT-132nwnh9c6bc
     language: fr
+    level: RECALL
     front: 'Symfony Flex : quelle différence de comportement entre `symfony/recipes` et `symfony/recipes-contrib`
       ?'
     back: '`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande une autorisation.'
@@ -694,4 +695,353 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getMainRequest lignes 79-86 ; getParentRequest lignes 97-102"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-132nwnh9c6bc — Symfony Flex.
+  #
+  # Quatorze cartes ajoutées le 2026-09-17. `setup.rst` et
+  # `quick_tour/flex_recipes.rst` de la branche 8.0 relus le jour même. La carte
+  # préexistante FLC-7gcgff6wmgq8 n'est pas redoublée.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-g50ga9cn60xf
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Symfony Flex : quelles commandes Composer modifie-t-il ?"
+    back: "`require`, `update` et `remove` — les trois, et rien d'autre."
+    explanation: >-
+      « Symfony Flex modifies the behavior of the `require`, `update`, and
+      `remove` Composer commands ». C'est un **plugin Composer**, pas un bundle
+      ni une commande : il n'y a rien à appeler. D'où le fait que
+      `composer require logger` fonctionne dans un projet Flex et échoue
+      ailleurs, `logger` n'étant le nom d'aucun paquet.
+    memorization_justification: >-
+      Liste fermée de trois commandes, et une nature — plugin — qui explique
+      qu'aucune commande `flex` n'existe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "section Installing Packages, lignes 181-202"
+        verified_at: "2026-09-17"
+
+  - id: FLC-0wkg0d3eb92e
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Flex : quels fichiers la recette de `symfony/twig-bundle` ajoute-t-elle ?"
+    back: "`config/packages/twig.yaml`, `config/packages/test/twig.yaml` et le répertoire `templates/` avec un `base.html.twig` — en plus d'activer le bundle."
+    explanation: >-
+      L'exemple vaut mieux qu'une définition : une recette **crée** des
+      fichiers, en **modifie** — `config/bundles.php` —, crée des répertoires et
+      peut ajouter des variables dans `.env`. La configuration de test est
+      séparée de la configuration par défaut, ce qu'on n'attend pas d'une simple
+      « installation ».
+    memorization_justification: >-
+      Cas concret qui rend la notion de recette vérifiable plutôt que vague, et
+      dont le détail — un fichier de test distinct — surprend.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 58-70"
+        verified_at: "2026-09-17"
+
+  - id: FLC-dqrn0fp9xptb
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: RECALL
+    front: "Où trouve-t-on la liste complète des recettes et des alias de Flex ?"
+    back: "Dans `RECIPES.md`, sur le dépôt des recettes."
+    explanation: >-
+      La documentation y renvoie explicitement. C'est aussi le seul endroit qui
+      fasse autorité : un alias n'est pas déductible du nom du paquet —
+      `twig` donne `symfony/twig-bundle`, mais `api` donne
+      `api-platform/api-pack`, qui n'est même pas un paquet Symfony.
+    memorization_justification: >-
+      Emplacement d'une référence qu'on cherche au mauvais endroit — dans la
+      documentation plutôt que dans le dépôt des recettes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "ligne 56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-m2gnvk13wnk1
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Alias, recette, pack : que fait chacun des trois ?"
+    back: "L'**alias** est un nom court que Flex résout. La **recette** est la configuration que le paquet apporte. Le **pack** est un métapaquet sans code, qui ne regroupe que des dépendances."
+    explanation: >-
+      Une seule commande peut mettre les trois en jeu : `composer require api`
+      résout un alias vers `api-platform/api-pack`, lequel est un pack, dont
+      l'installation a déclenché **cinq** recettes selon la documentation. Les
+      confondre rend inexplicable qu'une commande installe une dizaine de
+      paquets.
+    memorization_justification: >-
+      Trois mécanismes distincts que la même commande déclenche, et dont les
+      noms ne disent pas le rôle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 46-56 et 178-186"
+        verified_at: "2026-09-17"
+
+  - id: FLC-674dn4bhra48
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `symfony.lock` doit-il être committé ?"
+    back: "Parce qu'il recense les **recettes** appliquées : sans lui, personne ne sait quelles recettes ont été installées ni dans quelle version."
+    explanation: >-
+      La documentation l'écrit comme une obligation : « which must be committed
+      to your code repository ». Il joue pour les recettes le rôle que
+      `composer.lock` joue pour les dépendances — deux fichiers distincts, deux
+      inventaires distincts, tous deux committés.
+    memorization_justification: >-
+      Fichier qu'on confond avec `composer.lock` ou qu'on ajoute au
+      `.gitignore` par réflexe, alors que la documentation l'interdit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 206-209"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fnnnpss9y72e
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi Flex demande-t-il une permission avant d'installer une recette contrib ?"
+    back: "À cause du **paquet**, pas de la recette : les recettes contrib « are guaranteed to work », mais leurs paquets « could be unmaintained »."
+    explanation: >-
+      Les deux dépôts sont alimentés par la communauté. Le principal est une
+      liste **curée** pour des paquets de qualité et maintenus, et c'est le seul
+      que Flex consulte par défaut. Dire « le contrib n'est pas revu » est donc
+      une approximation qui déplace le risque au mauvais endroit.
+    memorization_justification: >-
+      La raison couramment donnée — des recettes douteuses — n'est pas celle du
+      texte, et la question peut porter sur laquelle des deux est vraie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 211-221"
+        verified_at: "2026-09-17"
+
+  - id: FLC-czv1ng3s51b8
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un pack disparaît-il de `composer.json` après son installation ?"
+    back: "Parce que Flex le **dépaquette** : il inscrit les dépendances réelles à sa place, pour que le fichier reste lisible."
+    explanation: >-
+      « You won't see the `symfony/debug-pack` dependency in your
+      `composer.json`, as Flex automatically unpacks the pack ». Ce sont les
+      paquets réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
+      par exemple. Le pack a servi de raccourci à l'installation, pas de
+      dépendance durable.
+    memorization_justification: >-
+      Disparition volontaire d'une dépendance qu'on vient d'installer : sans
+      l'explication, elle ressemble à un bug.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-packs"
+        symbol_or_lines: "lignes 239-242"
+        verified_at: "2026-09-17"
+
+  - id: FLC-f4gap1s1c8kc
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "`composer require twig` dans un projet **sans** Flex : que se passe-t-il ?"
+    back: "Composer échoue : `twig` n'est le nom d'aucun paquet. C'est Flex qui résout l'alias."
+    explanation: >-
+      La documentation prend le même exemple avec `logger` : hors Flex, « you'll
+      see a Composer error explaining that `logger` is not a valid package
+      name ». La résolution d'alias n'est donc pas une fonctionnalité de
+      Composer, et elle ne survit pas au retrait du plugin.
+    memorization_justification: >-
+      Cas limite qui révèle qui fait quoi entre Composer et Flex, là où l'usage
+      quotidien les confond.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "lignes 194-202"
+        verified_at: "2026-09-17"
+
+  - id: FLC-vtkb4x03q17a
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "Après `composer require --dev debug`, que trouve-t-on dans `composer.json` ?"
+    back: "Les paquets réels — `symfony/var-dumper` et ses voisins dans `require-dev` — mais **pas** `symfony/debug-pack`."
+    explanation: >-
+      Le pack est un métapaquet : il tire `symfony/debug-bundle`,
+      `symfony/monolog-bundle`, `symfony/var-dumper` et d'autres, puis Flex le
+      dépaquette. Chercher le pack dans son `composer.json` revient à chercher
+      ce que Flex a délibérément retiré.
+    memorization_justification: >-
+      Résultat observable et contre-intuitif d'une commande courante ; il se
+      constate en ouvrant un fichier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-packs"
+        symbol_or_lines: "lignes 234-242"
+        verified_at: "2026-09-17"
+
+  - id: FLC-wck3zy98y2an
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: APPLICATION
+    front: "Une seule commande installe dix paquets et cinq fichiers de configuration. Quels mécanismes sont en jeu ?"
+    back: "Un alias vers un **pack**, le dépaquetage du pack, et une **recette** par paquet installé qui en possède une."
+    explanation: >-
+      C'est le cas d'`api` dans la documentation : alias vers
+      `api-platform/api-pack`, qui dépend du Validator, de Security et de
+      l'ORM Doctrine — et « Flex installed *5* recipes ». Le nombre de recettes
+      n'est pas celui des paquets : seules celles qui existent s'appliquent.
+    memorization_justification: >-
+      Enchaînement de trois mécanismes derrière une commande d'un mot, et un
+      chiffre — cinq recettes — qui montre qu'ils ne se recouvrent pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 176-186"
+        verified_at: "2026-09-17"
+
+  - id: FLC-et9ra0ah1ve6
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « les recettes du dépôt contrib ne sont pas garanties de fonctionner »."
+    back: "Faux. La documentation dit exactement l'inverse : « All of them are guaranteed to work ». C'est leur **paquet** qui peut être abandonné."
+    explanation: >-
+      L'approximation est répandue et déplace le risque : on se méfie de la
+      recette alors que le doute porte sur la maintenance du paquet qu'elle
+      configure. Elle explique aussi pourquoi Flex ne refuse pas ces recettes —
+      il demande seulement la permission.
+    memorization_justification: >-
+      Affirmation plausible que le texte officiel contredit mot pour mot ;
+      c'est le matériau d'un QCM vrai/faux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 216-221"
+        verified_at: "2026-09-17"
+
+  - id: FLC-hwymjn4wt8nh
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "`symfony.lock` fait-il double emploi avec `composer.lock` ?"
+    back: "Non : l'un recense les **recettes** appliquées, l'autre les **dépendances** verrouillées. Les deux se committent."
+    explanation: >-
+      Supprimer `symfony.lock` ne casse aucune dépendance — il n'en contient
+      pas — mais fait perdre la trace des recettes appliquées et de leur
+      version, donc la capacité de détecter qu'une recette a évolué depuis
+      l'installation.
+    memorization_justification: >-
+      Deux fichiers de même suffixe et de contenus disjoints ; la confusion
+      conduit à en ignorer un des deux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "recipes-description"
+        symbol_or_lines: "lignes 206-209"
+        verified_at: "2026-09-17"
+
+  - id: FLC-sv4mb5ykzn41
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Flex est-il un bundle Symfony ?"
+    back: "Non : un **plugin Composer**. Il n'apparaît pas dans `config/bundles.php` et n'expose aucune commande."
+    explanation: >-
+      La documentation est explicite : « Technically speaking, Symfony Flex is a
+      Composer plugin ». Conséquence pratique : on ne l'active pas, on ne le
+      configure pas par un fichier de `config/packages/`, et le chercher parmi
+      les bundles est une impasse. Il est installé par défaut à la création
+      d'une application.
+    memorization_justification: >-
+      Tout ce qui porte le nom Symfony est supposé être un bundle ou un
+      composant ; celui-ci n'est ni l'un ni l'autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "symfony-flex"
+        symbol_or_lines: "lignes 181-184"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pf6cfqws97ac
+    official_item: OIT-132nwnh9c6bc
+    language: fr
+    level: TRAP
+    front: "Un alias pointe-t-il toujours vers un bundle Symfony ?"
+    back: "Non. `api` pointe vers `api-platform/api-pack` — un pack, d'un éditeur tiers."
+    explanation: >-
+      Un alias est une entrée dans la liste des recettes, rien de plus : il peut
+      désigner un bundle (`twig` → `symfony/twig-bundle`), un pack, ou un
+      paquet qui n'a rien de Symfony. En déduire la cible depuis le nom court
+      est un pari, d'où l'existence de `RECIPES.md`.
+    memorization_justification: >-
+      Généralisation naturelle à partir des alias les plus connus, que le cas
+      `api` suffit à démentir.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "flex-recipes-and-aliases"
+        symbol_or_lines: "lignes 178-184"
         verified_at: "2026-09-17"
