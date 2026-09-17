@@ -63,7 +63,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 3 | HTTP request | DEEP | 1183 / 1200 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 4 | HTTP response | STANDARD | 823 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 5 | HTTP methods | STANDARD | 750 / 900 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
-| 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE**, non poussée (2026-09-17) |
+| 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE** (2026-09-17) |
 | 7 | Caching | STANDARD | 885 / 900 | 1 | 4 | à faire |
 | 8 | Content negotiation | STANDARD | 473 / 900 | 1 | 3 | à faire |
 | 9 | Language detection | MINIMAL | 274 / 700 | 1 | 2 | à faire |
@@ -325,9 +325,17 @@ autorisent :
 3. Réduire le nombre de flashcards — **écarté** : ce serait rétrécir la
    commande pour satisfaire l'outil de planification.
 
-Le choix porte sur les journées de révision du propriétaire, pas sur le code :
-il n'est pas pris ici. La page 6 est **commitée en local et non poussée** en
-attendant.
+**Tranché le 2026-09-17 par le propriétaire : journées plus longues.** Les
+budgets passent de 120/180 à **140/200 minutes**, le départ reste au
+2026-10-01 et `--max-new` reste à 4. Vérifié après application : le générateur
+sort en `0`, 76 jours planifiés, 436 sessions, 87,6 h hors mocks, les cinq mocks
+placés et le dernier jour au 2026-12-15.
+
+Trois fichiers portaient les anciens paramètres et ont été mis à jour ensemble,
+faute de quoi la documentation aurait enseigné une commande ne produisant plus
+le plan commité : `.github/workflows/ci.yml`, `docs/revision/study-roadmap.md`
+et `docs/revision/exam-readiness.md`. Le remède retenu et les deux écartés sont
+consignés dans `study-roadmap.md`, à côté de la commande.
 
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
