@@ -168,6 +168,7 @@ flashcards:
   - id: FLC-6ehsc6k7qkjf
     official_item: OIT-mrvrtxm4v2m5
     language: fr
+    level: TRAP
     front: 'HTTP : que signifie `q=0` dans un en-tête `Accept` ?'
     back: Un refus explicite de ce type de média.
     explanation: '`Accept: */*;q=0.8, image/png;q=0` se lit « tout sauf du PNG ». `q=0` n''est pas «
@@ -2868,4 +2869,355 @@ flashcards:
         readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
         branch: "master"
         symbol_or_lines: "section 4.4 Invalidating Stored Responses"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-mrvrtxm4v2m5 — Content negotiation.
+  #
+  # Quinze cartes ajoutées le 2026-09-17. RFC 9110 §12 et Request.php de la
+  # branche 8.0, relus le jour même. La carte préexistante FLC-6ehsc6k7qkjf
+  # couvre déjà `q=0` et n'est pas redoublée.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-ajgfhqbw3qpy
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §12 : quelles sont les deux formes de négociation de contenu, et leurs synonymes ?"
+    back: "Proactive, dite *server-driven* — le serveur choisit ; réactive, dite *agent-driven* — le serveur liste des alternatives et le client choisit."
+    explanation: >-
+      Le synonyme donne la réponse à chaque fois : *server-driven* = le serveur
+      décide, *agent-driven* = l'agent décide. La négociation réactive suppose un
+      aller-retour supplémentaire ; c'est ce que sert `300 Multiple Choices`.
+      L'examen vise la proactive, mais la question peut porter sur la
+      distinction.
+    memorization_justification: >-
+      Deux couples de termes — quatre mots — dont les synonymes sont plus
+      parlants que les noms officiels, et qu'on intervertit sans eux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "sections 12.1 Proactive Negotiation et 12.2 Reactive Negotiation"
+        verified_at: "2026-09-17"
+
+  - id: FLC-rm0badmq0sbq
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: RECALL
+    front: "RFC 9110 §12.4.2 : quelle est la plus faible préférence exprimable, et combien de décimales `q` accepte-t-il ?"
+    back: "`q=0.001` est la plus faible ; la grammaire n'admet que **trois** décimales. `q=0` signifie *not acceptable*."
+    explanation: >-
+      L'ABNF est `qvalue = ( 0 [ . 0*3 DIGIT ] ) / ( 1 [ . 0*3(0) ] )`, les
+      littéraux étant entre guillemets dans le document : au-delà de trois
+      décimales, la valeur est mal formée, et
+      au-dessus de 1 elle n'existe pas. Le nom du paramètre est en outre
+      **insensible à la casse** — `Q=0.8` est valide.
+    memorization_justification: >-
+      Bornes et précision exactes d'une syntaxe qu'on manipule sans jamais en
+      lire la grammaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.4.2 Quality Values"
+        verified_at: "2026-09-17"
+
+  - id: FLC-xce3hp23fjyd
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: RECALL
+    front: "Que signifie le jeton `identity` dans un `Accept-Encoding` ?"
+    back: "« No encoding » — un synonyme pour dire qu'aucun codage de contenu n'est souhaité."
+    explanation: >-
+      La grammaire est `codings = content-coding / identity / *`, les deux
+      derniers étant des littéraux entre guillemets dans le document. Le même
+      en-tête peut aussi être envoyé **par le serveur** dans une réponse, pour
+      indiquer les codages qu'il préférerait recevoir dans une requête suivante
+      vers la même ressource — usage rare et méconnu.
+    memorization_justification: >-
+      Jeton réservé au sens contre-intuitif — il nomme l'absence de codage — et
+      en-tête dont la direction n'est pas toujours celle qu'on croit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.3 Accept-Encoding"
+        verified_at: "2026-09-17"
+
+  - id: FLC-b6qc7b7j3g0d
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: RECALL
+    front: "Que signifie `Vary: *`, et qui n'a pas le droit de l'écrire ?"
+    back: "Que d'autres aspects de la requête ont pu compter, « possibly including aspects outside the message syntax ». Un **proxy** ne doit jamais en générer."
+    explanation: >-
+      Conséquence directe : un destinataire ne peut plus décider si la réponse
+      convient à une requête ultérieure sans la transmettre au serveur
+      d'origine. `Vary: *` désactive donc en pratique la réutilisation par un
+      cache. L'interdiction faite au proxy est un `MUST NOT`.
+    memorization_justification: >-
+      Valeur spéciale d'un en-tête courant, avec une interdiction ciblée sur un
+      seul type d'acteur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.5 Vary"
+        verified_at: "2026-09-17"
+
+  - id: FLC-vy9mvzt6akf9
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la spécificité d'un motif `Accept` ne classe-t-elle pas deux types de média entre eux ?"
+    back: "Parce qu'elle sert à désigner **quel motif fixe le `q` d'un type donné** : pour `text/html`, c'est `text/html`, sinon `text/*`, sinon `*/*`."
+    explanation: >-
+      Une fois chaque type doté de son `q`, c'est le `q` — et lui seul — qui
+      classe. D'où la lecture correcte de
+      `Accept: text/*;q=0.3, text/html;q=0.7` : `text/html` vaut 0,7 parce que
+      le motif le plus spécifique le nomme, et non 0,3.
+    memorization_justification: >-
+      Deux règles enchaînées qu'on fusionne en une seule — « le plus spécifique
+      gagne » — ce qui donne la bonne réponse par hasard et la mauvaise dès que
+      les qualités s'inversent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.1 Accept"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x0v8e591yzc4
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi RFC 9110 déprécie-t-elle `Accept-Charset` ?"
+    back: "Parce qu'UTF-8 est devenu quasi universel, et que la liste détaillée des préférences « makes passive fingerprinting far too easy »."
+    explanation: >-
+      La note donne trois raisons : bande passante gaspillée, latence accrue, et
+      empreinte passive facilitée. Ce n'est donc pas un abandon par désuétude
+      mais une dépréciation motivée, dont l'argument de vie privée est le plus
+      fort. La plupart des agents ne l'envoient plus sans configuration
+      explicite.
+    memorization_justification: >-
+      Dépréciation portée par le texte normatif lui-même, avec un motif — le
+      pistage passif — qu'on n'associe pas spontanément à un en-tête de
+      négociation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.2 Accept-Charset, note finale"
+        verified_at: "2026-09-17"
+
+  - id: FLC-32rsrq2d4c1m
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: UNDERSTANDING
+    front: "Peut-on se fier à l'ordre d'écriture des langues dans `Accept-Language` ?"
+    back: "Non. La RFC note que certains destinataires le font pour des valeurs de qualité égales, « however, this behavior cannot be relied upon »."
+    explanation: >-
+      L'exemple du texte est `Accept-Language: da, en-gb;q=0.8, en;q=0.7`, à lire
+      « je préfère le danois, mais j'accepte l'anglais britannique puis l'anglais
+      en général ». Pour exprimer un ordre, il faut donc écrire des `q`
+      distincts, et non compter sur la position.
+    memorization_justification: >-
+      Comportement répandu mais explicitement non garanti ; la nuance distingue
+      une lecture juste d'une lecture qui marche souvent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.4 Accept-Language"
+        verified_at: "2026-09-17"
+
+  - id: FLC-6vn3593gvj5f
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: UNDERSTANDING
+    front: "À quoi sert `Vary`, au-delà de « déclarer ce qui a varié » ?"
+    back: "Il **étend la clé de cache** : un cache ne peut réutiliser la réponse que si les en-têtes nommés ont la même valeur dans la nouvelle requête."
+    explanation: >-
+      Le texte énonce deux buts, et celui-là est le premier : informer les caches
+      qu'ils ne doivent pas servir cette réponse à une requête dont les champs
+      listés diffèrent. Le second est d'indiquer à l'agent utilisateur les
+      dimensions sur lesquelles une nouvelle requête peut jouer.
+    memorization_justification: >-
+      En-tête compris comme documentaire alors qu'il pilote une mécanique
+      précise de stockage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.5 Vary, « two purposes »"
+        verified_at: "2026-09-17"
+
+  - id: FLC-abs76ksp12nb
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: APPLICATION
+    front: "Sur quoi `Request::getAcceptableContentTypes()` trie-t-elle sa liste ?"
+    back: "Sur la qualité décroissante, puis sur **l'ordre d'écriture du client** — pas sur la spécificité, et sans retirer les `q=0`."
+    explanation: >-
+      La règle de spécificité de la RFC ne s'applique donc **pas** à cet
+      accesseur : elle sert à attribuer un `q`, pas à trier. Et une valeur
+      refusée par `q=0` reste dans la liste rendue : filtrer les refus est à la
+      charge de l'appelant.
+    memorization_justification: >-
+      Écart entre la règle normative et l'implémentation, sur une méthode qu'on
+      croit appliquer la RFC littéralement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getAcceptableContentTypes ; AcceptHeader::all"
+        verified_at: "2026-09-17"
+
+  - id: FLC-x3ncraebv53m
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: APPLICATION
+    front: "La route déclare `_format=xml`, la requête porte `Accept: application/json`. Que rend `getPreferredFormat()` ?"
+    back: "`xml`. La méthode consulte `getRequestFormat(null)` **avant** de regarder `Accept`."
+    explanation: >-
+      L'ordre est explicite dans le corps : si un format de requête existe —
+      attribut `_format` de la route, ou `setRequestFormat()` — il est retenu et
+      mémorisé. `Accept` n'est parcouru qu'à défaut, et le premier type de média
+      reconnu par `getFormat()` gagne. Le nom « preferred » désigne donc la
+      préférence **de l'application** avant celle du client.
+    memorization_justification: >-
+      Priorité inversée par rapport à ce que le nom suggère, et qui explique
+      qu'une négociation « ne marche pas » sur une route typée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredFormat lignes 1609-1626 ; getRequestFormat lignes 1368-1373"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2pnwyf5bw5jq
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: APPLICATION
+    front: "`getPreferredLanguage(['fr', 'en'])` avec un `Accept-Language: de` : que renvoie-t-elle ?"
+    back: "`fr` — le **premier** locale fourni. La méthode ne rend jamais `null` quand on lui passe une liste."
+    explanation: >-
+      Trois sorties possibles : le premier locale si le client n'exprime aucune
+      préférence, le premier locale qui correspond à une combinaison des langues
+      demandées, et — à défaut de correspondance — encore le premier locale.
+      Sans argument, en revanche, elle rend la première langue **du client**,
+      sans vérifier que l'application la propose.
+    memorization_justification: >-
+      Même méthode, deux comportements opposés selon qu'on lui passe une liste
+      ou non ; le repli silencieux masque l'absence de correspondance.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPreferredLanguage lignes 1633-1656 ; getLanguages lignes 1663-1678"
+        verified_at: "2026-09-17"
+
+  - id: FLC-qyth51wgg7qe
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: APPLICATION
+    front: "Un client envoie `Accept: text/*;q=0.3, text/html;q=0.7, */*;q=0.1`. Quelle est la qualité de `text/plain` ?"
+    back: "0,3 — c'est `text/*`, le motif le plus spécifique qui le couvre, qui fixe son `q`."
+    explanation: >-
+      `text/html` vaut 0,7 parce qu'un motif le nomme exactement ; `text/plain`
+      n'est couvert que par `text/*` ; une image ne l'est que par `*/*` et vaut
+      0,1. La spécificité choisit le motif applicable, puis les `q` obtenus
+      classent les représentations disponibles.
+    memorization_justification: >-
+      Cas concret où trois motifs se recouvrent : c'est l'exercice type, et il se
+      résout par la règle en deux temps plutôt que par une intuition.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.5.1 Accept ; section 12.4.2 Quality Values"
+        verified_at: "2026-09-17"
+
+  - id: FLC-61bnm345skcj
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « l'ordre des valeurs dans `Accept` exprime la préférence »."
+    back: "Faux au regard de la RFC : seul `q` classe, et son absence vaut `1.0`. L'ordre n'a de rôle que dans l'implémentation de Symfony, à qualité égale."
+    explanation: >-
+      Les deux niveaux se confondent facilement. Côté protocole, une valeur sans
+      `q` est au maximum de préférence, quelle que soit sa position. Côté
+      Symfony, `getAcceptableContentTypes()` départage les égalités par l'ordre
+      d'écriture — ce qui est un choix d'implémentation, pas une règle du
+      protocole.
+    memorization_justification: >-
+      Croyance renforcée par le fait que les navigateurs écrivent souvent leurs
+      valeurs dans l'ordre de préférence ; elle marche jusqu'à ce qu'un `q`
+      contredise la position.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.4.2 Quality Values"
+        verified_at: "2026-09-17"
+
+  - id: FLC-dp1fhxx0me34
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: TRAP
+    front: "Une API ne sait servir que du JSON et reçoit `Accept: text/html`. Que doit-elle renvoyer ?"
+    back: "`406 Not Acceptable` est la réponse conforme — mais servir une représentation par défaut reste courant et admis."
+    explanation: >-
+      `Accept` est une **préférence**, pas une contrainte : le serveur peut
+      répondre autre chose, et il l'annonce par `Content-Type`. §15.5.7 précise
+      qu'un 406 devrait s'accompagner de la liste des représentations
+      disponibles. Le piège consiste à croire le 406 obligatoire.
+    memorization_justification: >-
+      Question à deux réponses défendables, dont le départage tient à la nature
+      — préférence, non contrainte — de l'en-tête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.1 Proactive Negotiation ; section 15.5.7 406 Not Acceptable"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ep58kf6jje18
+    official_item: OIT-mrvrtxm4v2m5
+    language: fr
+    level: TRAP
+    front: "La négociation proactive ne s'appuie-t-elle que sur les en-têtes `Accept*` ?"
+    back: "Non. §12.1 nomme aussi des caractéristiques **implicites** : l'adresse réseau du client, des parties de `User-Agent`."
+    explanation: >-
+      C'est ce qui rend `Vary` insuffisant dans certains cas : si le choix a
+      dépendu de l'adresse IP, aucun nom de champ ne le déclare — d'où
+      l'existence de `Vary: *`. Une négociation fondée sur des signaux implicites
+      est donc, par construction, mal cachable.
+    memorization_justification: >-
+      Dimension invisible de la négociation, qui explique une valeur spéciale de
+      `Vary` que rien d'autre ne justifie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 12.1 Proactive Negotiation ; section 12.5.5 Vary"
         verified_at: "2026-09-17"

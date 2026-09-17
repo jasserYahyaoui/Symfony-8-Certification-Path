@@ -92,13 +92,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 7 octobre 2026
 
-- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 12 min · 473 mots · 4 questions, 1 flashcards
+- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 26 min · 843 mots · 4 questions, 16 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 7 min · 274 mots · 2 questions, 1 flashcards
 - NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 17 min · 762 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 9 min · 370 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 69 / 140 min*
+*Budget du jour : 83 / 140 min*
 
 ### Jeudi 8 octobre 2026
 

@@ -39,7 +39,7 @@ choisit. C'est la *négociation proactive*, celle que l'examen vise.
 | `Accept` | Type de média |
 | `Accept-Language` | Langue |
 | `Accept-Encoding` | Compression |
-| `Accept-Charset` | Jeu de caractères (déprécié en pratique) |
+| `Accept-Charset` | Jeu de caractères — **déprécié par la RFC elle-même** |
 
 ```http
 Accept: text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8
@@ -88,6 +88,42 @@ s'applique pas à cet accesseur.
 `setRequestFormat()` explicite. `Accept` n'est consulté qu'à défaut — un
 `_format=xml` l'emporte sur un `Accept: application/json`.
 
+## Proactive contre réactive
+
+RFC 9110 définit **deux** négociations, et l'examen ne vise que la première.
+
+- **Proactive** (§12.1), dite aussi *server-driven* : le client envoie ses
+  préférences, un algorithme côté serveur choisit. La sélection s'appuie sur les
+  en-têtes `Accept*` **et** sur des caractéristiques implicites que le texte
+  nomme — l'adresse réseau du client, des morceaux de `User-Agent`.
+- **Réactive** (§12.2), dite aussi *agent-driven* : le serveur renvoie une
+  **liste d'alternatives**, et le client choisit puis redemande. Le code `300
+  Multiple Choices` sert cela.
+
+La conséquence pratique tient en une phrase : en négociation proactive, le
+serveur décide seul et doit dire sur quoi il s'est fondé — d'où `Vary`.
+
+## Le facteur de qualité, exactement
+
+§12.4.2 fixe quatre choses qu'on croit savoir :
+
+- le nom du paramètre `q` est **insensible à la casse** ;
+- l'échelle va de `0` à `1`, où **`0.001` est la préférence la plus faible** et
+  `0` signifie *not acceptable* ;
+- la grammaire n'autorise que **trois décimales** — `q=0.3333` est mal formé ;
+- en l'absence de `q`, le poids vaut `1`.
+
+Pour `Accept-Language`, la RFC ajoute un avertissement utile : certains
+destinataires traitent l'ordre d'écriture comme une priorité décroissante entre
+valeurs de même qualité, « however, this behavior cannot be relied upon ».
+
+## `Vary: *`
+
+La valeur `*` est légale et signifie que d'autres aspects de la requête ont pu
+compter, « possibly including aspects outside the message syntax ». Un cache ne
+peut alors rien réutiliser sans revalider. Un **proxy**, lui, n'a pas le droit
+d'en générer : « A proxy MUST NOT generate `*` in a Vary field value ».
+
 ## Pièges d'examen
 
 **`q=0` refuse explicitement.** `Accept: */*;q=0.8, image/png;q=0` signifie
@@ -101,6 +137,23 @@ localement, où il n'y a pas de cache partagé.
 
 **`Accept` est une préférence, pas une contrainte.** Un serveur peut répondre
 autre chose ; il l'annonce par `Content-Type`.
+
+## Tips d'examen
+
+**Lire l'en-tête, pas la position.** Sans `q`, c'est `1.0` — pas « moins que le
+précédent ». Seul `q` classe.
+
+**`q=0` est un refus, pas une préférence faible.** La préférence faible, c'est
+`q=0.001`.
+
+**Proactive = le serveur choisit ; réactive = le client choisit** dans une liste.
+Le mot *driven* du synonyme donne la réponse : *server-driven* contre
+*agent-driven*.
+
+**Côté Symfony, deux accesseurs ne négocient pas ce qu'on croit.**
+`getAcceptableContentTypes()` trie sur la qualité puis sur l'ordre d'écriture —
+ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consulte
+`_format` **avant** `Accept`.
 
 ## Points clés
 

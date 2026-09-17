@@ -65,7 +65,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 5 | HTTP methods | STANDARD | 750 / 900 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE** (2026-09-17) |
 | 7 | Caching | STANDARD | 897 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
-| 8 | Content negotiation | STANDARD | 473 / 900 | 1 | 3 | à faire |
+| 8 | Content negotiation | STANDARD | 843 / 900 | 16 | 3 | **RAFFINÉE** (2026-09-17) |
 | 9 | Language detection | MINIMAL | 274 / 700 | 1 | 2 | à faire |
 | 10 | Symfony HttpClient component | STANDARD | 762 / 900 | 1 | 4 | à faire |
 
@@ -374,6 +374,41 @@ consignés dans `study-roadmap.md`, à côté de la commande.
 | `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
 | Aiguilles de smoke test | 5 ajoutées ; `shared` a été **écartée** comme aiguille — elle apparaît déjà treize fois sur `master` et aurait matché quoi qu'il arrive |
 
+## Page 8 — Content negotiation, 2026-09-17
+
+Première page du lot dont la marge — 427 mots — permettait d'écrire les sections
+que le brief demande sans rien retirer.
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-ajgfhqbw3qpy` … `FLC-ep58kf6jje18`) ; la carte
+  préexistante `FLC-6ehsc6k7qkjf` (`q=0`) a reçu le niveau `TRAP` et n'a pas été
+  redoublée.
+- **Deux sections ajoutées au cours** : *Proactive contre réactive*, *Le facteur
+  de qualité, exactement*, *`Vary: *`*, et *Tips d'examen*. Corps : 473 →
+  **843 mots** sur 900.
+- **Une imprécision corrigée** : le tableau disait `Accept-Charset` « déprécié en
+  pratique ». La RFC le déprécie elle-même, et donne ses raisons — bande
+  passante, latence, et « makes passive fingerprinting far too easy ».
+- Faits relevés dans RFC 9110 §12 : `q` est **insensible à la casse**, l'échelle
+  s'arrête à **trois décimales**, `0.001` est la plus faible préférence ;
+  `identity` nomme l'absence de codage ; `Vary: *` existe et un **proxy** ne doit
+  jamais en générer ; l'ordre d'écriture d'`Accept-Language` « cannot be relied
+  upon » ; la négociation proactive s'appuie aussi sur des caractéristiques
+  **implicites** — adresse réseau, `User-Agent` — ce qui explique `Vary: *`.
+- Côté Symfony : `getPreferredFormat()` consulte `_format` **avant** `Accept`, et
+  `getPreferredLanguage($locales)` rend le **premier locale** plutôt que `null`
+  quand rien ne correspond.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 737 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| Aiguilles de smoke test | 5 ajoutées, dont une sur la nouvelle section du cours |
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -401,7 +436,7 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Page 8 du lot 02 — **Content negotiation** (STANDARD, 473 / 900 mots,
-1 flashcard). La marge de corps y est de **427 mots**, la plus large du lot :
-c'est la première page depuis le début où une section « Tips d'examen » complète
-tient sans rien retirer.
+Page 9 du lot 02 — **Language detection** (MINIMAL, 274 / 700 mots,
+1 flashcard). Marge de **426 mots** : même configuration confortable que la
+page 8. Puis la page 10, *Symfony HttpClient component*, et le rapport de fin de
+lot.
