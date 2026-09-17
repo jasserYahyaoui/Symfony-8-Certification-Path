@@ -32,6 +32,7 @@ flashcards:
   - id: FLC-c3jxj5v9jt5n
     official_item: OIT-jh06tkfrhthq
     language: fr
+    level: TRAP
     front: "Symfony : Response::isRedirect() couvre quels statuts ?"
     back: "201, 301, 302, 303, 307, 308 — donc 201 inclus, 300 et 304 exclus."
     explanation: >-
@@ -1330,4 +1331,390 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getPayload lignes 1539-1560"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-jh06tkfrhthq — HTTP response.
+  #
+  # Seize cartes ajoutées le 2026-09-17. Sources relues le jour même sur la
+  # branche 8.0 : Response.php, JsonResponse.php, RedirectResponse.php,
+  # StreamedResponse.php. La carte préexistante FLC-c3jxj5v9jt5n couvre déjà
+  # isRedirect/isRedirection et n'est pas redoublée.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-keg9pm2d1bcq
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: RECALL
+    front: "Symfony : quelle version de protocole porte une `Response` fraîchement construite ?"
+    back: "`HTTP/1.0`. C'est `prepare()` qui la promeut en 1.1 quand `SERVER_PROTOCOL` n'est pas `HTTP/1.0`."
+    explanation: >-
+      Le noyau appelle `prepare()` pour vous ; une réponse fabriquée hors du
+      cycle — dans un test, dans une commande — garde donc `HTTP/1.0` tant que
+      personne ne l'a préparée. `prepare()` fait d'ailleurs bien plus : il vide
+      le corps d'une réponse 204 ou 304, retire le corps d'un `HEAD`, et
+      complète le `Content-Type`.
+    memorization_justification: >-
+      Valeur par défaut contre-intuitive en 2026, et invisible tant qu'on reste
+      dans le cycle HTTP normal.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "prepare lignes 244-290"
+        verified_at: "2026-09-17"
+
+  - id: FLC-77wmysp932e7
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: RECALL
+    front: "Symfony : que vaut `JsonResponse::DEFAULT_ENCODING_OPTIONS`, et qu'encode-t-elle ?"
+    back: "15, soit `JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT` : les caractères `<`, `>`, `'`, `&` et `\"` sortent échappés."
+    explanation: >-
+      Le commentaire du code le dit : « making it also safe to be embedded into
+      HTML ». Conséquence directe, une `JsonResponse` ne produit **pas** la
+      même chaîne que `json_encode()` nu — `<b>` devient `\u003Cb\u003E`.
+      Un test qui compare au résultat de `json_encode()` échoue pour cette
+      seule raison.
+    memorization_justification: >-
+      Valeur numérique opaque dont l'effet est visible dans la sortie et
+      surprend à la première comparaison de chaînes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "DEFAULT_ENCODING_OPTIONS lignes 30-34"
+        verified_at: "2026-09-17"
+
+  - id: FLC-1h9hg9hmge3e
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: RECALL
+    front: "Symfony : quelles sont les cinq sous-classes de `Response` à connaître, et ce qui les distingue ?"
+    back: "`JsonResponse` (encode et pose le type), `RedirectResponse` (pose `Location`, 302 par défaut), `BinaryFileResponse` (fichier, requêtes de plage), `StreamedResponse` (corps produit par un callable), `StreamedJsonResponse` (JSON diffusé depuis un itérable)."
+    explanation: >-
+      Choisir la sous-classe plutôt que poser les en-têtes à la main, c'est
+      hériter des règles qui vont avec : `RedirectResponse` valide son statut,
+      `JsonResponse` échappe pour HTML, `BinaryFileResponse` sait répondre à un
+      `Range`. Un `new Response(json_encode($d))` n'a aucune de ces garanties.
+    memorization_justification: >-
+      Liste fermée, et le choix se fait au moment d'écrire la ligne de retour :
+      chercher la classe après coup coûte plus que la connaître.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        anchor: "response"
+        symbol_or_lines: "section Response et ses sous-classes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-36jw118n66v5
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: RECALL
+    front: "Symfony : qui appelle `Response::send()`, et avec quel argument ?"
+    back: "Le runner du composant Runtime, derrière `public/index.php` : `HttpKernelRunner::run()` appelle `send(false)`."
+    explanation: >-
+      Un contrôleur **rend** une `Response` ; il ne l'émet pas. Le `false`
+      saute la clôture des tampons à l'intérieur de `send()`, parce que le
+      runner exécute lui-même `fastcgi_finish_request()` (sauf en debug) avant
+      d'appeler `terminate()`. C'est de là que vient la promesse de
+      `kernel.terminate` : ses écouteurs tournent après le relâchement du client.
+    memorization_justification: >-
+      Chaîne d'appels invisible depuis le code applicatif, et qui explique un
+      comportement — `kernel.terminate` — qu'on utilise sans savoir d'où il vient.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "run() : send(false) puis terminate()"
+        verified_at: "2026-09-17"
+
+  - id: FLC-tc5yj47dh7b5
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `isOk()` et `isSuccessful()` ne sont-elles pas la même chose ?"
+    back: "`isOk()` teste **200 exactement** ; `isSuccessful()` teste toute la classe 2xx."
+    explanation: >-
+      La même logique vaut pour `isNotFound()`, qui teste 404 exactement, face
+      à `isClientError()` qui couvre 4xx. Un test fonctionnel qui assertait
+      `isSuccessful()` passe donc sur un 201 ou un 204 — ce qui est parfois
+      voulu, et parfois exactement le bug qu'on croyait couvert.
+    memorization_justification: >-
+      Deux méthodes proches dont l'une est un cas particulier de l'autre ; le
+      nom `isOk` ne dit pas laquelle est la plus stricte.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isOk, isSuccessful, isNotFound"
+        verified_at: "2026-09-17"
+
+  - id: FLC-s300d2t0hjcb
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le constructeur de `RedirectResponse` peut-il lever une exception ?"
+    back: "Parce qu'il valide son statut avec `isRedirect()` : tout code hors de `[201, 301, 302, 303, 307, 308]` lève une `\\InvalidArgumentException`."
+    explanation: >-
+      La conséquence est directe et contre-intuitive : `new RedirectResponse($u, 304)`
+      **échoue**, alors que `new RedirectResponse($u, 201)` est **accepté** —
+      201 porte un `Location`, 304 n'en porte pas. La même classe refuse aussi
+      une URL vide, via `setTargetUrl()`.
+    memorization_justification: >-
+      La validation s'appuie sur une liste que rien dans le nom de la classe
+      ne laisse deviner ; deux codes 3xx y sont refusés et un code 2xx accepté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct lignes 35-48 ; setTargetUrl lignes 64-90"
+        verified_at: "2026-09-17"
+
+  - id: FLC-90pxfg11mzw2
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `JsonResponse::update()` ne pose-t-il pas toujours `Content-Type: application/json` ?"
+    back: "Parce qu'il ne l'écrit que s'il n'y en a pas, ou s'il vaut `text/javascript` : un type posé par l'appelant est préservé."
+    explanation: >-
+      Cela permet de servir du `application/problem+json` ou du
+      `application/ld+json` sans quitter `JsonResponse`. La seconde condition
+      existe pour rattraper le mode JSONP : `setCallback()` bascule le type en
+      `text/javascript`, et retirer le callback doit pouvoir revenir à
+      `application/json`.
+    memorization_justification: >-
+      Règle conditionnelle dans une méthode qu'on croit inconditionnelle ;
+      elle décide si un en-tête personnalisé survit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "update lignes 167-187"
+        verified_at: "2026-09-17"
+
+  - id: FLC-92b1m783f7pc
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `RedirectResponse` retire-t-il `cache-control` sur un 301 ?"
+    back: "Pour laisser la redirection permanente être mise en cache : `Response` pose `no-cache, private` par défaut, ce qui l'en empêcherait."
+    explanation: >-
+      Le retrait est conditionnel — il n'a lieu que si l'appelant n'a **pas**
+      fourni lui-même un `cache-control` dans les en-têtes du constructeur. La
+      distinction rejoint la RFC : 301 et 308 sont *heuristically cacheable*,
+      302 ne l'est pas. Le framework aligne donc son défaut sur la sémantique
+      du code choisi.
+    memorization_justification: >-
+      Effet de bord silencieux, conditionné à un argument du constructeur, et
+      qui ne se produit que pour un seul code de statut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct lignes 44-47"
+        verified_at: "2026-09-17"
+
+  - id: FLC-rs21b0dws3vt
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: APPLICATION
+    front: "Que contient le corps de la réponse produite par `new RedirectResponse('/login')` ?"
+    back: "Une page HTML complète, avec un `meta http-equiv=\"refresh\"` et un lien cliquable vers l'URL."
+    explanation: >-
+      Le corps n'est pas vide : `setTargetUrl()` écrit un document entier, pose
+      `Location` et `Content-Type: text/html; charset=utf-8`. L'URL y est
+      passée par `htmlspecialchars(..., ENT_QUOTES)`, ce qui est indispensable
+      puisqu'elle est réinjectée trois fois dans du HTML. C'est le repli pour
+      les clients qui ne suivent pas la redirection.
+    memorization_justification: >-
+      Contredit l'attente « une redirection n'a pas de corps », et se vérifie
+      dès qu'un test fonctionnel lit le contenu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTargetUrl lignes 64-90"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pjm2ndetnp37
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: APPLICATION
+    front: "Que produit `new JsonResponse()` sans argument ?"
+    back: "`{}` — le constructeur remplace `null` par un `\\ArrayObject` vide, qui s'encode en objet et non en `null`."
+    explanation: >-
+      C'est délibéré, et la classe cite la fiche OWASP correspondante : une
+      réponse JSON doit porter un **objet** à la racine. `new JsonResponse([])`
+      donnerait `[]`, un tableau — la différence compte pour un client typé.
+    memorization_justification: >-
+      Valeur par défaut choisie pour une raison de sécurité, que ni la
+      signature ni l'appel ne laissent voir.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct lignes 39-50 ; en-tête de classe, lien OWASP"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ntca4dcmvtt8
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: APPLICATION
+    front: "Dans un test fonctionnel, que renvoie `getContent()` sur une `StreamedResponse` ?"
+    back: "`false`. La classe le renvoie littéralement : il n'y a pas de contenu en mémoire à rendre."
+    explanation: >-
+      Pour lire ce qui est diffusé, il faut exécuter le flux et capturer la
+      sortie — par exemple avec `ob_start()` autour de `sendContent()`. Dans le
+      même esprit, `setContent()` avec autre chose que `null` lève une
+      `\LogicException` : on ne peut pas donner un corps à une réponse dont le
+      corps est un callable.
+    memorization_justification: >-
+      Valeur de retour atypique — `false`, pas une chaîne vide — qui fait
+      échouer une assertion de test sans expliquer pourquoi.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getContent lignes 145-148 ; setContent lignes 132-143"
+        verified_at: "2026-09-17"
+
+  - id: FLC-63yq0ddtt8pa
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: APPLICATION
+    front: "Une `StreamedResponse` est envoyée deux fois. Le corps part-il deux fois ?"
+    back: "Non : `sendContent()` pose un drapeau `streamed` au premier passage et ne rappelle plus le callable."
+    explanation: >-
+      `sendHeaders()` a la même protection de son côté. Et si aucun callable
+      n'a été fourni, `sendContent()` lève une `\LogicException` : « The
+      Response callback must be set ». Une réponse diffusée est donc, par
+      construction, à usage unique.
+    memorization_justification: >-
+      Comportement non répétable d'une méthode d'émission, là où une `Response`
+      ordinaire peut être renvoyée sans conséquence.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/StreamedResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "sendContent lignes 113-128 ; sendHeaders lignes 95-106"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pv48hs5tsar0
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « une `JsonResponse` contient le même JSON que `json_encode($data)` »."
+    back: "Faux par défaut : `JsonResponse` ajoute quatre options d'échappement HTML que `json_encode()` n'applique pas."
+    explanation: >-
+      `<`, `>`, `'`, `&` et le guillemet droit sortent sous forme `\uXXXX`. Le JSON reste
+      valide et se décode à l'identique — seule la **chaîne** diffère. D'où la
+      règle de test : comparer les données décodées, jamais les octets.
+      `setEncodingOptions()` permet de changer ce choix, au prix de la sûreté
+      d'insertion dans du HTML.
+    memorization_justification: >-
+      Différence invisible à la lecture du code appelant, qui ne se manifeste
+      que par un échec d'assertion sur une chaîne.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "DEFAULT_ENCODING_OPTIONS lignes 30-34 ; setEncodingOptions lignes 155-163"
+        verified_at: "2026-09-17"
+
+  - id: FLC-8jmvzzwwb0q4
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: TRAP
+    front: "Les en-têtes sont déjà partis quand `sendHeaders()` est appelé. Quelle erreur obtient-on ?"
+    back: "Aucune. La méthode réémet seulement la ligne de statut, et uniquement hors des SAPI `cli`, `phpdbg` et `embed`."
+    explanation: >-
+      Ni exception, ni avertissement, ni `headers already sent` : le cas est
+      traité, pas signalé. Un `echo` malencontreux avant le retour du
+      contrôleur ne casse donc rien de visible — il fait simplement disparaître
+      tous les en-têtes que la réponse voulait poser, cookies compris.
+    memorization_justification: >-
+      Échec silencieux : rien dans les journaux ne rattache la disparition des
+      en-têtes à sa cause.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "sendHeaders lignes 316-384"
+        verified_at: "2026-09-17"
+
+  - id: FLC-2w1p3pxb5mn7
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: TRAP
+    front: "`$response->headers` : de quel type est-il, et qu'y range-t-on d'inattendu ?"
+    back: "Un `ResponseHeaderBag` — et c'est lui qui porte les **cookies**, pas un sac séparé."
+    explanation: >-
+      `setCookie()`, `removeCookie()` et `clearCookie()` vivent sur ce sac. Un
+      cookie n'est donc pas une propriété de la réponse mais un en-tête en
+      attente de sérialisation, ce qui explique pourquoi il disparaît si les
+      en-têtes sont déjà partis. Côté requête, `$request->cookies` est un
+      `InputBag` : les deux côtés ne se ressemblent pas.
+    memorization_justification: >-
+      Asymétrie entre requête et réponse pour une même notion, et emplacement
+      non deviné d'une API qu'on cherche ailleurs.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setCookie, removeCookie, clearCookie"
+        verified_at: "2026-09-17"
+
+  - id: FLC-rpe8vx2qy4gx
+    official_item: OIT-jh06tkfrhthq
+    language: fr
+    level: TRAP
+    front: "`JsonResponse::fromJsonString($data)` reçoit un tableau. Que se passe-t-il ?"
+    back: "Une `\\TypeError` : avec `$json = true`, l'argument doit être une chaîne, un nombre ou un objet `\\Stringable`."
+    explanation: >-
+      La fabrique existe pour du JSON **déjà encodé** — une charge produite par
+      le sérialiseur, par exemple — et lui passer un tableau reviendrait à
+      écrire `Array` dans le corps. Le contrôle est fait dans le constructeur,
+      avant tout encodage.
+    memorization_justification: >-
+      Deux points d'entrée de la même classe attendent des types opposés ; le
+      nom `fromJsonString` est le seul indice, et il est facile à survoler.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct lignes 39-46 ; fromJsonString lignes 64-67"
         verified_at: "2026-09-17"

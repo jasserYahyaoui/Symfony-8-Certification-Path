@@ -346,6 +346,29 @@ jobs:
             echo "ok  lot-02  the three refined pages carry their levelled flashcards and exam tips"
           fi
 
+          # Page 4 of the same refinement, added when it shipped. Same rule:
+          # each needle absent from master before the change, present in the
+          # locally built page, no apostrophe and no code span.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l2r-http-response -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/http-response")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 02 refined page http-response serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l2r-http-response || missing="$missing response:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l2r-http-response || missing="$missing response:no-trap-heading"
+          grep -aq 'Le contrôleur rend, le runner émet' /tmp/l2r-http-response \
+            || missing="$missing response:no-send-tip"
+          grep -aq 'making it also safe to be embedded into HTML' /tmp/l2r-http-response \
+            || missing="$missing response:no-json-encoding-card"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 refinement missing from the HTTP response page:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the HTTP response page carries its levelled flashcards and exam tips"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

@@ -61,7 +61,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 1 | HTTP Specification (RFC 9110) | MINIMAL | 692 / 700 | 16 | 10 | **RAFFINÉE** (2026-09-17) |
 | 2 | Status codes | MINIMAL | 666 / 700 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 3 | HTTP request | DEEP | 1183 / 1200 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
-| 4 | HTTP response | STANDARD | 729 / 900 | 1 | 4 | à faire |
+| 4 | HTTP response | STANDARD | 823 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 5 | HTTP methods | STANDARD | 608 / 900 | 1 | 3 | à faire |
 | 6 | Cookies | STANDARD | 897 / 900 | 1 | 5 | à faire |
 | 7 | Caching | STANDARD | 885 / 900 | 1 | 4 | à faire |
@@ -198,8 +198,65 @@ sur-échappées (`\\Stringable`, `\"array\"`) issues du heredoc d'écriture, qui
 seraient parties telles quelles sur la page. Relues après analyse YAML, pas à
 l'œil.
 
+## Page 4 — HTTP response, 2026-09-17
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-keg9pm2d1bcq` … `FLC-rpe8vx2qy4gx`), réparties
+  4 RECALL / 4 UNDERSTANDING / 4 APPLICATION / 4 TRAP ; la carte préexistante
+  `FLC-c3jxj5v9jt5n` (isRedirect / isRedirection) a reçu le niveau `TRAP`.
+- Sources relues le jour même sur la branche 8.0 : `Response.php` (`prepare`,
+  `sendHeaders`), `JsonResponse.php` (`DEFAULT_ENCODING_OPTIONS` l. 30-34,
+  `__construct` l. 39-50, `update` l. 167-187, `setEncodingOptions`),
+  `RedirectResponse.php` (`__construct` l. 35-48, `setTargetUrl` l. 64-90),
+  `StreamedResponse.php` (`sendContent` l. 113-128, `setContent` l. 132-143,
+  `getContent` l. 145-148), `ResponseHeaderBag.php`.
+- Cinq comportements que la page n'enseignait pas, chacun lu dans le code :
+  `JsonResponse` échappe `<`, `>`, `'`, `&` et le guillemet droit, donc sa
+  sortie n'est pas celle de `json_encode()` ; `new JsonResponse()` produit `{}`
+  et non `null`, par une raison de sécurité que la classe cite (OWASP) ;
+  `RedirectResponse` écrit un **corps HTML complet** avec un `meta refresh`, et
+  retire `cache-control` sur un 301 non explicitement configuré ;
+  `StreamedResponse::getContent()` renvoie **`false`** et son `setContent()`
+  non nul lève ; `fromJsonString()` sur un tableau lève une `\TypeError`.
+- Section `## Tips d'examen` ajoutée. Corps : 729 → **823 mots** sur 900.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 698 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| Aiguilles de smoke test | 4 ajoutées, chacune absente de `master` et présente dans la page construite |
+
+## Déploiement des pages 1 à 3 — 2026-09-17
+
+| Étape | Preuve |
+|---|---|
+| Push | `5ba2aba..a0fc246` sur `content/lot-02-01-rfc9110` |
+| Pull Request | [#159](https://github.com/jasserYahyaoui/Symfony-8-Certification-Path/pull/159) |
+| CI « Technical gate » | `success`, run `35247964411`, 16:39:50 → 16:44:27 UTC |
+| Merge | commit `2dc3e57e8fab58692e2f2715de3de454d61e3db1` sur `master` |
+| Déploiement Pages | run `35248663136`, job `Deploy` **success**, 16:48:17 → 16:48:22 UTC |
+| Smoke test de production | job `105295839833` **success**, 16:48:34 → 16:48:44 UTC |
+
+Ligne décisive du smoke test, recopiée du journal du run :
+
+```text
+ok  lot-02  the three refined pages carry their levelled flashcards and exam tips
+```
+
+Les huit aiguilles ont donc été trouvées **dans les octets servis par
+`https://jasseryahyaoui.github.io/Symfony-8-Certification-Path`**, pas dans un
+build local. Les trois pages raffinées servent 200, portent les titres de
+niveau `Mémorisation` et `Pièges`, le corps d'une carte et le texte des tips.
+
+Statut des pages 1 à 3 : **DEPLOYED**, au sens de §16 — merge, build, deploy et
+smoke test de production, chacun avec sa sortie réelle.
+
 ## Prochaine action
 
-Page 4 du lot 02 — **HTTP response** (STANDARD, 729 / 900 mots, 1 flashcard).
-La marge de corps y est de **171 mots**, la plus large rencontrée jusqu'ici dans
-ce lot.
+Lire le smoke test du run `35248663136`, puis ouvrir la PR de la page 4 et
+enchaîner sur la page 5 — **HTTP methods** (STANDARD, 608 / 900 mots,
+1 flashcard, 292 mots de marge).
