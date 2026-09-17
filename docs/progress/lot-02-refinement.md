@@ -66,7 +66,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE** (2026-09-17) |
 | 7 | Caching | STANDARD | 897 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 8 | Content negotiation | STANDARD | 843 / 900 | 16 | 3 | **RAFFINÉE** (2026-09-17) |
-| 9 | Language detection | MINIMAL | 274 / 700 | 1 | 2 | à faire |
+| 9 | Language detection | MINIMAL | 605 / 700 | 16 | 2 | **RAFFINÉE** (2026-09-17) |
 | 10 | Symfony HttpClient component | STANDARD | 762 / 900 | 1 | 4 | à faire |
 
 Chiffres réconciliés le 2026-09-17 depuis `syllabus-matrix.yml` et `content/**`
@@ -409,6 +409,46 @@ que le brief demande sans rien retirer.
 | `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
 | Aiguilles de smoke test | 5 ajoutées, dont une sur la nouvelle section du cours |
 
+## Page 9 — Language detection, 2026-09-17
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-wzx00b8cjwf7` … `FLC-z6mfkvfxsgpr`) ; la carte
+  préexistante `FLC-knw9ywe94k4z` a reçu le niveau `TRAP`.
+- **Deux sections ajoutées** — *Comment Symfony normalise un tag de langue*,
+  *Comment `getPreferredLanguage()` choisit* — et *Tips d'examen*. Corps :
+  274 → **605 mots** sur 700.
+- Mécanique lue dans `Request.php` (l. 1633-1756) et enseignée pour la première
+  fois : la décomposition en **trois composants** avec leurs casses respectives
+  (`zh-hans` → `zh_Hans`, région en majuscules) ; les **combinaisons** d'un
+  locale, dans l'ordre `fr_Latn_FR`, `fr_Latn`, `fr_FR`, `fr` — la paire
+  langue + écriture **avant** langue + région ; la correspondance par **préfixe**
+  et non par égalité, donc `['fr_CA', 'fr_FR']` sert `fr_CA` à un client
+  demandant `fr` ; le **repli** sur `$locales[0]` qui masque l'absence de
+  correspondance ; la **mémorisation** de `getLanguages()`, qui fige la liste au
+  premier appel.
+- Une carte prévue a été abandonnée parce qu'elle redoublait
+  `FLC-knw9ywe94k4z` ; son identifiant minté porte la carte sur la mémorisation.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 295 tests, 15 756 assertions ; `TOTAL VIOLATIONS: 0` |
+| Aiguilles de smoke test | 5 ajoutées ; `commence par` **écartée** — dix occurrences sur `master` |
+
+## Défaut de rendu signalé par le propriétaire — 2026-09-17
+
+Capture d'écran à l'appui : les cartes arrivaient **échappées deux fois**.
+`front` et `back` passaient par `htmlspecialchars()` en plus de l'échappement
+MDX, et MDX rend un span de code verbatim — l'entité était donc publiée telle
+quelle, sur **123 pages et 296 lignes**. Un second défaut symétrique échappait
+`<` et `{` **dans** les spans de code.
+
+Les deux sont antérieurs à ce travail. Correctif, preuves de non-vacuité et
+revue des 313 cartes : PR #165, détaillée dans son propre message de commit.
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -436,7 +476,5 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Page 9 du lot 02 — **Language detection** (MINIMAL, 274 / 700 mots,
-1 flashcard). Marge de **426 mots** : même configuration confortable que la
-page 8. Puis la page 10, *Symfony HttpClient component*, et le rapport de fin de
-lot.
+Page 10 du lot 02 — **Symfony HttpClient component** (STANDARD, 762 / 900 mots,
+1 flashcard, 138 mots de marge). Puis le rapport de fin de lot.

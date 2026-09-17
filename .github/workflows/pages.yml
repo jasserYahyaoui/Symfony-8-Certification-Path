@@ -464,6 +464,29 @@ jobs:
             echo "ok  lot-02  the Content negotiation page carries its levelled flashcards and exam tips"
           fi
 
+          # Page 9. `commence par` was rejected as a needle: it appears ten
+          # times on master already.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l2r-language -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/language-detection")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 02 refined page language-detection serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l2r-language || missing="$missing language:no-recall-heading"
+          grep -aq '>Pièges<' /tmp/l2r-language || missing="$missing language:no-trap-heading"
+          grep -aq 'Comment Symfony normalise un tag de langue' /tmp/l2r-language \
+            || missing="$missing language:no-normalisation-section"
+          grep -aq 'Le séparateur trahit la source' /tmp/l2r-language \
+            || missing="$missing language:no-exam-tip"
+          grep -aq 'fr_Latn_FR' /tmp/l2r-language || missing="$missing language:no-combinations"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 refinement missing from the Language detection page:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the Language detection page carries its levelled flashcards and exam tips"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
