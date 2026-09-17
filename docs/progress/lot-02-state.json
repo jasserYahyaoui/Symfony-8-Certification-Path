@@ -1,0 +1,12 @@
+{
+  "lot": "02",
+  "current_subtopic": "02-02-status-codes",
+  "phase": "A_DEMARRER",
+  "completed_subtopics": [
+    "02-01-http-specification-rfc-9110"
+  ],
+  "pending_reviews": [],
+  "blocked_items": [],
+  "last_updated": "2026-09-17",
+  "next_action": "Lancer SOURCE_ANALYST sur 02-02 Status codes (CRS-984c2bv3wh09, MINIMAL, item OIT-512se83ab7qj)."
+}

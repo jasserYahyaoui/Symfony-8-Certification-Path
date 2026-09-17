@@ -1,0 +1,1301 @@
+{
+  "lot": "lot-02",
+  "subtopic": "02-01 HTTP Specification (RFC 9110)",
+  "official_item_id": "OIT-7801mj6w73ky",
+  "course_id": "CRS-depbnbc0g82x",
+  "content_level": "MINIMAL",
+  "learning_outcomes": [
+    {
+      "id": "OUT-6w2h5pvzsg06",
+      "outcome": "Situer RFC 9110 parmi 9111, 9112, 9113 et 9114"
+    },
+    {
+      "id": "OUT-tv622sx0szjv",
+      "outcome": "Enoncer que la semantique est independante de la version de transport"
+    },
+    {
+      "id": "OUT-y8177jvv3m21",
+      "outcome": "Distinguer ressource et representation"
+    }
+  ],
+  "exclusion_boundaries_matrice": "None stated by the syllabus for this item.",
+  "note_de_forme": "Le livrable demande un tableau d'objets ET une cle 'exclusions'. Les deux ne peuvent coexister dans un tableau JSON : les notions sont donc sous la cle 'knowledge' et les exclusions sous la cle 'exclusions'.",
+  "genere_le": "2026-09-16",
+  "knowledge": [
+    {
+      "knowledge_id": "K-0201-001",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "1. Identite du document",
+      "sous_section": "En-tete RFC",
+      "notion": "RFC 9110 s'intitule << HTTP Semantics >>, est datee de juin 2022, de categorie Standards Track, et porte STD 97.",
+      "categorie": "convention",
+      "explication": "L'en-tete du document porte 'Request for Comments: 9110', 'STD: 97', 'Category: Standards Track', 'June 2022'. Le titre est le premier discriminant a l'examen : 9110 traite de semantique, pas de syntaxe ni de cache.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "en-tete du document, lignes 260-266 ('Request for Comments: 9110', 'STD: 97', 'Updates: 3864', 'June 2022', 'HTTP Semantics')",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Confondre le numero STD (97) et le numero de RFC (9110).",
+        "Croire que 9110 est un draft : elle est Standards Track et fait partie d'un STD."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-002",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "1. Identite du document",
+      "sous_section": "Champ Obsoletes",
+      "notion": "Le champ Obsoletes de RFC 9110 liste exactement : 2818, 7230, 7231, 7232, 7233, 7235, 7538, 7615, 7694.",
+      "categorie": "difference_version",
+      "explication": "Ligne lue telle quelle dans le document : 'Obsoletes: 2818 , 7230 , 7231 , 7232 , 7233 , 7235 , 7538 , 7615 , 7694'. L'Abstract la reformule : 'obsoletes RFCs 2818, 7231, 7232, 7233, 7235, 7538, 7615, 7694, and portions of 7230'. RFC 7234 n'y figure pas.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "champ Obsoletes, ligne 261 ; Abstract, ligne 269",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "La liste inclut RFC 2818 (HTTP Over TLS), qu'on oublie presque toujours en ne citant que la serie 723x.",
+        "Elle inclut aussi 7538, 7615 et 7694, souvent omises.",
+        "Elle n'inclut PAS 7234 : c'est RFC 9111 qui l'obsolete.",
+        "L'Abstract dit 'portions of 7230' la ou le champ Obsoletes dit '7230' sans nuance : le champ seul est trompeur."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-003",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "1. Identite du document",
+      "sous_section": "1.4 Specifications Obsoleted by This Document",
+      "notion": "RFC 7230 n'est obsoletee par 9110 que pour ses parties independantes de la syntaxe de messagerie et de la gestion de connexion HTTP/1.1 ; le reste l'est par RFC 9112.",
+      "categorie": "cas_limite",
+      "explication": "Note [*] sous la Table 1 de la section 1.4 : 'This document only obsoletes the portions of RFC 7230 that are independent of the HTTP/1.1 messaging syntax and connection management; the remaining bits of RFC 7230 are obsoleted by \"HTTP/1.1\" [HTTP/1.1]'. RFC 9112 le confirme du cote oppose.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 1.4, Table 1 lignes 540-549 et sa note [*] ligne 550",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Repondre que 7230 est integralement remplacee par 9110 : c'est un partage entre 9110 et 9112."
+      ],
+      "prerequis": [
+        "K-0201-002"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-004",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "1. Identite du document",
+      "sous_section": "1.4 Table 1",
+      "notion": "La Table 1 de la section 1.4 donne le titre de chaque specification obsoletee : 2818 HTTP Over TLS, 7230 HTTP/1.1 Message Syntax and Routing, 7231 HTTP/1.1 Semantics and Content, 7232 Conditional Requests, 7233 Range Requests, 7235 Authentication, 7538 HTTP Status Code 308 (Permanent Redirect), 7615 Authentication-Info and Proxy-Authentication-Info Response Header Fields, 7694 HTTP Client-Initiated Content-Encoding.",
+      "categorie": "convention",
+      "explication": "Les titres permettent de reconstituer le perimetre absorbe par 9110 sans apprendre les numeros par coeur : conditionnel, ranges, authentification, 308, Authentication-Info et content-encoding cote client.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 1.4, Table 1, lignes 540-549",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-002"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-005",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "1. Identite du document",
+      "sous_section": "Champ Updates",
+      "notion": "RFC 9110 met a jour (Updates) RFC 3864, sans l'obsoleter.",
+      "categorie": "difference_version",
+      "explication": "L'en-tete porte 'Updates: 3864' et l'Abstract dit 'This document updates RFC 3864'. RFC 3864 definit les procedures d'enregistrement des noms de champs de message ; 9110 les modifie mais ne les remplace pas.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "champ Updates, ligne 263 ; Abstract, ligne 269",
+      "importance": "BASSE",
+      "testable": true,
+      "pieges": [
+        "Confondre Updates et Obsoletes : 3864 reste en vigueur."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-006",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "19.1 Normative References",
+      "notion": "RFC 9111 est << HTTP Caching >> et porte STD 98 ; RFC 9112 est << HTTP/1.1 >> et porte STD 99.",
+      "categorie": "convention",
+      "explication": "Entrees [CACHING] et [HTTP/1.1] des references normatives de RFC 9110 : 'HTTP Caching, STD 98, RFC 9111, June 2022' et 'HTTP/1.1, STD 99, RFC 9112, June 2022'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 19.1, entrees [CACHING] ligne 2731 et [HTTP/1.1] ligne 2802",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-007",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "19.1 Normative References",
+      "notion": "RFC 9113 est << HTTP/2 >> et RFC 9114 est << HTTP/3 >> ; ni l'une ni l'autre ne porte de numero STD dans les references de RFC 9110.",
+      "categorie": "cas_limite",
+      "explication": "Entrees [HTTP/2] 'HTTP/2, RFC 9113, June 2022' et [HTTP/3] 'HTTP/3, RFC 9114, June 2022'. Les entrees 9111 et 9112 portent 'STD 98' et 'STD 99' ; celles de 9113 et 9114 n'ont pas d'equivalent.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 19.1, entrees [HTTP/2] ligne 2804 et [HTTP/3] ligne 2806",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Extrapoler une serie STD 97/98/99/100/101 : 9113 et 9114 ne portent pas de STD ici."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-008",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "1.2 History and Evolution",
+      "notion": "Les trois versions majeures d'HTTP reposent toutes sur la semantique definie par RFC 9110 et ne s'obsoletent pas mutuellement.",
+      "categorie": "semantique_http",
+      "explication": "Texte de la section 1.2 : 'All three major versions of HTTP rely on the semantics defined by this document. They have not obsoleted each other because each one has specific benefits and limitations depending on the context of use.' C'est la preuve textuelle de l'outcome OUT-tv622sx0szjv.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 1.2, ligne 532",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Croire que HTTP/2 rend HTTP/1.1 obsolete : la RFC dit explicitement le contraire."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-009",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "1.2 History and Evolution",
+      "notion": "Cette revision separe la semantique (9110) et la mise en cache (9111) de la syntaxe de messagerie HTTP/1.1 (9112), afin que chaque version majeure progresse independamment en se referant au meme coeur semantique.",
+      "categorie": "semantique_http",
+      "explication": "Texte de la section 1.2 : 'This revision of HTTP separates the definition of semantics (this document) and caching ([CACHING]) from the current HTTP/1.1 messaging syntax ([HTTP/1.1]) to allow each major protocol version to progress independently while referring to the same core semantics.' C'est la raison d'etre de la decoupe 911x, donc la justification de l'outcome OUT-6w2h5pvzsg06.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 1.2, ligne 533",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-010",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "En-tete RFC 9111",
+      "notion": "Le champ Obsoletes de RFC 9111 porte la seule valeur 7234 : c'est 9111, et non 9110, qui remplace la RFC de mise en cache.",
+      "categorie": "difference_version",
+      "explication": "En-tete de RFC 9111 : 'Obsoletes: 7234'. Abstract : 'This document obsoletes RFC 7234'. Section 1 : 'This document obsoletes RFC 7234, with the changes being summarized in Appendix B'. Verifie dans le document 9111 lui-meme, et non deduit de l'absence de 7234 dans la liste de 9110.",
+      "source_id": "SRC-0201-002",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html",
+      "version_verifiee": "RFC 9111 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "en-tete ligne 74, Abstract ligne 82, section 1 ligne 153",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Repondre 9110 a la question << quelle RFC remplace la 7234 ? >> parce que 9110 remplace << toute la serie 723x >> : 7234 est la seule exception de la serie."
+      ],
+      "prerequis": [
+        "K-0201-002"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-011",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "En-tete RFC 9112",
+      "notion": "RFC 9112 declare Obsoletes: 7230 et precise obsoleter les parties de 7230 relatives a la messagerie et a la gestion de connexion HTTP/1.1, les autres etant obsoletees par RFC 9110.",
+      "categorie": "difference_version",
+      "explication": "En-tete de RFC 9112 : 'Obsoletes: 7230'. Abstract : 'This document obsoletes portions of RFC 7230'. Section 1 : 'This document obsoletes the portions of RFC 7230 related to HTTP/1.1 messaging and connection management [...] The other parts of RFC 7230 are obsoleted by \"HTTP Semantics\" [HTTP]'. Verifie des deux cotes du partage.",
+      "source_id": "SRC-0201-003",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9112.html",
+      "version_verifiee": "RFC 9112 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "en-tete ligne 77, Abstract ligne 85, section 1 ligne 160",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-003"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-012",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "RFC 9112 section 1",
+      "notion": "HTTP/1.1 est defini par la conjonction de trois documents : RFC 9112 lui-meme, << HTTP Semantics >> (9110) et << HTTP Caching >> (9111).",
+      "categorie": "cas_limite",
+      "explication": "Section 1 de RFC 9112 : 'HTTP/1.1 is defined by: This document, \"HTTP Semantics\" [HTTP], \"HTTP Caching\" [CACHING]'. RFC 9110 section 2.5 le dit symetriquement : 'the version \"HTTP/1.1\" is defined by the combined specifications of this document, \"HTTP Caching\" [CACHING], and \"HTTP/1.1\" [HTTP/1.1]'.",
+      "source_id": "SRC-0201-003",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9112.html",
+      "version_verifiee": "RFC 9112 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "RFC 9112 section 1, lignes 155-158 ; RFC 9110 section 2.5, ligne 579",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Croire que 9112 suffit a definir HTTP/1.1 : la mise en cache fait partie de la definition de la version."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-013",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Famille 911x",
+      "sous_section": "6.1 Framing and Completeness",
+      "notion": "RFC 9110 ne definit aucune syntaxe de trame : chaque version majeure d'HTTP definit son propre mecanisme de cadrage.",
+      "categorie": "semantique_http",
+      "explication": "Section 6.1 : 'Message framing indicates how each message begins and ends [...] Each major version of HTTP defines its own framing mechanism.' Le codage chunked, par exemple, est defini en section 7.1 de RFC 9112.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.1, ligne 928 ; RFC 9112 section 7.1 Chunked Transfer Coding, ligne 370",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Attribuer le codage chunked, la ligne de requete ou Content-Length a RFC 9110 : tout cela releve de RFC 9112."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-014",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.1 Resources",
+      "notion": "Une ressource est la cible d'une requete HTTP ; HTTP ne limite pas la nature d'une ressource, il definit seulement une interface pour interagir avec elle.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.1 : 'The target of an HTTP request is called a resource. HTTP does not limit the nature of a resource; it merely defines an interface that might be used to interact with resources. Most resources are identified by a Uniform Resource Identifier (URI).' Noter le 'Most' : l'identification par URI est la regle, pas une definition.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.1, ligne 586",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Definir une ressource comme un fichier, ou comme << ce qu'un URI designe >> : la RFC dit 'the target of an HTTP request'."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-015",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.1 Resources",
+      "notion": "Un objectif de conception d'HTTP est de separer l'identification de la ressource de la semantique de la requete ; cette derniere est portee par la methode et quelques champs d'en-tete modificateurs.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.1 : 'One design goal of HTTP is to separate resource identification from request semantics, which is made possible by vesting the request semantics in the request method (Section 9) and a few request-modifying header fields. A resource cannot treat a request in a manner inconsistent with the semantics of the method.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.1, ligne 587",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Deduire la semantique d'une operation de la forme de l'URI : la RFC dit qu'un URI peut suggerer une semantique non sure sans que la ressource ait le droit d'agir en consequence pour une methode sure."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-016",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.2 Representations",
+      "notion": "Une representation est une information destinee a refleter un etat passe, courant ou souhaite d'une ressource, dans un format transmissible par le protocole ; elle se compose de metadonnees de representation et d'un flux potentiellement non borne de donnees de representation.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.2 : 'A representation is information that is intended to reflect a past, current, or desired state of a given resource, in a format that can be readily communicated via the protocol. A representation consists of a set of representation metadata and a potentially unbounded stream of representation data (Section 8).'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.2, ligne 590",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Reduire la representation a l'etat *courant* : la definition couvre aussi un etat passe ou souhaite (c'est ce qui rend PUT et 304 descriptibles dans le meme vocabulaire)."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-017",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.2 Representations",
+      "notion": "HTTP pratique le << masquage d'information >> : la communication porte sur une representation transferable de l'etat de la ressource, jamais sur la ressource elle-meme.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.2 : 'HTTP allows \"information hiding\" behind its uniform interface by defining communication with respect to a transferable representation of the resource state, rather than transferring the resource itself. This allows the resource identified by a URI to be anything, including temporal functions like \"the current weather in Laguna Beach\".'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.2, ligne 591",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Penser qu'un GET << transfere la ressource >> : il transfere une representation."
+      ],
+      "prerequis": [
+        "K-0201-016"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-018",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.2 Representations",
+      "notion": "Une ressource cible peut disposer de plusieurs representations ; un algorithme, generalement la negociation de contenu, en selectionne une, appelee representation selectionnee.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.2 : 'A target resource might be provided with, or be capable of generating, multiple representations [...] An algorithm, usually based on content negotiation (Section 12), would be used to select one of those representations as being most applicable to a given request. This selected representation provides the data and metadata for evaluating conditional requests (Section 13) and constructing the content for 200 (OK), 206 (Partial Content), and 304 (Not Modified) responses to GET.' C'est la preuve textuelle de l'outcome OUT-y8177jvv3m21 (distinguer ressource et representation).",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.2, ligne 593",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Le MECANISME de negociation appartient a l'item << Content negotiation >> ; seule la multiplicite des representations est evaluee ici."
+      ],
+      "prerequis": [
+        "K-0201-016",
+        "K-0201-017"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-019",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.3 Connections, Clients, and Servers",
+      "notion": "Les termes client et serveur designent uniquement des roles tenus pour une connexion donnee ; un meme programme peut etre client sur certaines connexions et serveur sur d'autres.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.3 : 'The terms client and server refer only to the roles that these programs perform for a particular connection. The same program might act as a client on some connections and a server on others.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.3, ligne 597",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-020",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.3 Connections, Clients, and Servers",
+      "notion": "HTTP est defini comme un protocole sans etat : la semantique de chaque message de requete se comprend isolement, et la relation entre connexions et messages n'influe pas sur leur interpretation.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 3.3 : 'HTTP is defined as a stateless protocol, meaning that each request message's semantics can be understood in isolation, and that the relationship between connections and messages on them has no impact on the interpretation of those messages.' La consequence normative suit : 'a server MUST NOT assume that two requests on the same connection are from the same user agent unless the connection is secured and specific to that agent.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.3, lignes 598-599",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Confondre << sans etat >> et << sans session >> : les cookies n'ont pas rendu HTTP a etat, ils ajoutent un etat au-dessus du protocole.",
+        "Croire qu'une connexion persistante autorise a rattacher deux requetes au meme agent : la RFC l'interdit par un MUST NOT, sauf connexion securisee et propre a cet agent."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-021",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.4 Messages",
+      "notion": "Une requete porte une methode et une cible de requete ; une reponse porte un code de statut. L'une comme l'autre peut porter des champs d'en-tete, du contenu et des champs de fin.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.4 : le client envoie 'a request message with a method (Section 9) and request target (Section 7.1)' ; le serveur repond par 'one or more response messages, each including a status code (Section 15)'. Les deux peuvent contenir header fields, content et trailer fields.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.4, lignes 602-603",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Un serveur peut repondre par PLUSIEURS messages de reponse a une requete ('one or more response messages'), ce qui couvre les reponses 1xx intermediaires."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-022",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.5 User Agents",
+      "notion": "Le terme user agent designe tout programme client qui initie une requete ; il n'implique ni un navigateur, ni la presence d'un humain au moment de la requete.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.5 : 'The term user agent refers to any of the various client programs that initiate a request. The most familiar form of user agent is the general-purpose Web browser, but that's only a small percentage of implementations [...] Being a user agent does not imply that there is a human user directly interacting with the software agent at the time of a request.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.5, lignes 605-607",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Assimiler user agent et navigateur ; l'en-tete User-Agent ne change rien a la definition."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-023",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.6 Origin Server",
+      "notion": "Le serveur d'origine est le programme capable de produire des reponses faisant autorite pour une ressource cible donnee.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.6 : 'The term origin server refers to a program that can originate authoritative responses for a given target resource.' La notion est relative a une ressource, pas absolue : un meme programme peut etre serveur d'origine pour certaines ressources seulement.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.6, ligne 610",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-024",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.7 Intermediaries",
+      "notion": "RFC 9110 nomme trois formes courantes d'intermediaire HTTP : le proxy, la passerelle (gateway, alias reverse proxy) et le tunnel.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.7 : 'There are three common forms of HTTP intermediary: proxy, gateway, and tunnel. In some cases, a single intermediary might act as an origin server, proxy, gateway, or tunnel, switching behavior based on the nature of each request.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.7, ligne 617",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Ajouter le cache a la liste : le cache est traite separement en section 3.8 et n'est pas une forme d'intermediaire.",
+        "Croire qu'un intermediaire tient un role fixe : il peut changer de role selon la requete."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-025",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.7 Intermediaries",
+      "notion": "Le proxy est choisi par le client ; la passerelle agit en serveur d'origine sur la connexion sortante et transmet vers l'amont ; le tunnel est un relais aveugle qui n'est pas partie a la communication HTTP.",
+      "categorie": "semantique_http",
+      "explication": "Section 3.7 : 'A proxy is a message-forwarding agent that is chosen by the client, usually via local configuration rules' ; 'A gateway (a.k.a. reverse proxy) is an intermediary that acts as an origin server for the outbound connection but translates received requests and forwards them inbound to another server or servers' ; 'A tunnel acts as a blind relay between two connections without changing the messages. Once active, a tunnel is not considered a party to the HTTP communication.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.7, lignes 623 (proxy), 624 (gateway) et 626 (tunnel)",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Le critere qui distingue un proxy d'une passerelle est << choisi par le client >>, pas << place devant le serveur >>.",
+        "Toutes les exigences applicables a un serveur d'origine s'appliquent a la communication sortante d'une passerelle (section 3.7, ligne 625)."
+      ],
+      "prerequis": [
+        "K-0201-024"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-026",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.7 Intermediaries",
+      "notion": "upstream / downstream se rapportent au flux du message ; inbound / outbound se rapportent a la route de la requete, inbound signifiant << vers le serveur d'origine >> et outbound << vers le user agent >>.",
+      "categorie": "piege_examen",
+      "explication": "Section 3.7 : 'The terms upstream and downstream are used to describe directional requirements in relation to the message flow: all messages flow from upstream to downstream. The terms inbound and outbound are used to describe directional requirements in relation to the request route: inbound means \"toward the origin server\", whereas outbound means \"toward the user agent\".'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.7, ligne 622",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Les deux paires ne sont pas synonymes : upstream/downstream suit le message courant (donc s'inverse entre requete et reponse), inbound/outbound est fixe par la route de la requete."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-027",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.7 Intermediaries",
+      "notion": "Un proxy d'interception (dit aussi proxy transparent) differe d'un proxy HTTP parce qu'il n'est pas choisi par le client.",
+      "categorie": "cas_limite",
+      "explication": "Section 3.7 : 'an interception proxy [RFC3040] (also commonly known as a transparent proxy [RFC1919]) differs from an HTTP proxy because it is not chosen by the client. Instead, an interception proxy filters or redirects outgoing TCP port 80 packets.' La RFC precise plus haut que les intermediaires reseau sont 'indistinguishable (at a protocol level) from an on-path attacker'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.7, ligne 628",
+      "importance": "BASSE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-025"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-028",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "3. Terminologie",
+      "sous_section": "3.8 Caches",
+      "notion": "Un cache est un stockage local de messages de reponse anterieurs et le sous-systeme qui le controle ; tout client ou serveur PEUT (MAY) employer un cache, mais pas en agissant comme tunnel.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 3.8 : 'A cache is a local store of previous response messages and the subsystem that controls its message storage, retrieval, and deletion [...] Any client or server MAY employ a cache, though a cache cannot be used while acting as a tunnel.' Les exigences de comportement des caches sont renvoyees a [CACHING], c'est-a-dire RFC 9111.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 3.8, lignes 630 et 635",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "L'exclusion du tunnel decoule de sa definition (relais aveugle qui ne modifie pas les messages), pas d'une regle arbitraire.",
+        "Le MECANISME de cache (fraicheur, validation, Cache-Control) appartient a l'item << Caching >> et a RFC 9111."
+      ],
+      "prerequis": [
+        "K-0201-025"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-029",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6. Message Abstraction",
+      "notion": "Un message HTTP se compose de quatre parties : des donnees de controle, une table de headers (paires nom/valeur), un flux potentiellement non borne de contenu, et une table de trailers.",
+      "categorie": "semantique_http",
+      "explication": "Introduction de la section 6 : 'A message consists of the following: control data to describe and route the message, a headers lookup table of name/value pairs [...], a potentially unbounded stream of content, and a trailers lookup table of name/value pairs.' Cette decomposition est volontairement independante de la version.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6, lignes 918-922",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Ajouter la << ligne de depart >> (start-line) a cette liste : ce n'est pas un element de l'abstraction de 9110, c'est la forme HTTP/1.1 des donnees de controle (RFC 9112)."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-030",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6. Message Abstraction",
+      "notion": "L'ordre sur le fil est : cadrage et donnees de controle, puis section d'en-tete, puis contenu s'il y en a, puis eventuellement section de fin (trailers).",
+      "categorie": "semantique_http",
+      "explication": "Section 6 : 'Framing and control data is sent first, followed by a header section containing fields for the headers table. When a message includes content, the content is sent after the header section, potentially followed by a trailer section.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6, ligne 923",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-029"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-031",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6. Message Abstraction",
+      "notion": "Les messages sont auto-descriptifs, mais un client DOIT (MUST) conserver la connaissance de la requete pour analyser, interpreter ou mettre en cache la reponse correspondante.",
+      "categorie": "piege_examen",
+      "explication": "Section 6 : 'Messages are intended to be self-descriptive [...] However, a client MUST retain knowledge of the request when parsing, interpreting, or caching a corresponding response. For example, responses to the HEAD method look just like the beginning of a response to GET but cannot be parsed in the same manner.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6, ligne 925",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Deduire de << auto-descriptif >> qu'une reponse se lit sans rien savoir de la requete : la RFC pose l'exception par un MUST et donne HEAD en contre-exemple."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-032",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6. Message Abstraction",
+      "notion": "Les trailers sont une generalisation : ils sont nes de la section de fin du codage chunked d'HTTP/1.1, et HTTP/2 comme HTTP/3 offrent une fonctionnalite equivalente dans le bloc d'en-tete qui termine chaque flux.",
+      "categorie": "difference_version",
+      "explication": "Section 6 : 'Note that this message abstraction is a generalization across many versions of HTTP, including features that might not be found in some versions. For example, trailers were introduced within the HTTP/1.1 chunked transfer coding as a trailer section after the content. An equivalent feature is present in HTTP/2 and HTTP/3 within the header block that terminates each stream.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6, ligne 926",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-033",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.1 Framing and Completeness",
+      "notion": "Un message est considere complet quand tous les octets indiques par son cadrage sont disponibles ; sans cadrage explicite, une reponse terminee par la fermeture de connexion est reputee complete, meme si elle est indiscernable d'une reponse tronquee.",
+      "categorie": "cas_limite",
+      "explication": "Section 6.1 : 'A message is considered complete when all of the octets indicated by its framing are available. Note that, when no explicit framing is used, a response message that is ended by the underlying connection's close is considered complete even though it might be indistinguishable from an incomplete response, unless a transport-level error indicates that it is not complete.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.1, ligne 930",
+      "importance": "BASSE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-013"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-034",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.2 Control Data",
+      "notion": "Les donnees de controle d'une requete sont la methode, la cible de requete et la version du protocole ; celles d'une reponse sont le code de statut, une phrase de raison optionnelle et la version du protocole.",
+      "categorie": "semantique_http",
+      "explication": "Section 6.2 : 'Request message control data includes a request method (Section 9), request target (Section 7.1), and protocol version (Section 2.5). Response message control data includes a status code (Section 15), optional reason phrase, and protocol version.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.2, ligne 932",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "La phrase de raison est optionnelle des le niveau de l'abstraction, pas seulement en HTTP/2."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-035",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.2 Control Data",
+      "notion": "En HTTP/1.1 et anterieur, les donnees de controle sont envoyees sur la premiere ligne du message ; en HTTP/2 et HTTP/3, elles sont envoyees sous forme de pseudo-champs d'en-tete a prefixe reserve (par exemple << :authority >>).",
+      "categorie": "difference_version",
+      "explication": "Section 6.2 : 'In HTTP/1.1 ([HTTP/1.1]) and earlier, control data is sent as the first line of a message. In HTTP/2 ([HTTP/2]) and HTTP/3 ([HTTP/3]), control data is sent as pseudo-header fields with a reserved name prefix (e.g., \":authority\").'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.2, ligne 933",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "C'est l'illustration la plus nette de la separation semantique/transport : meme information de controle, deux expressions sur le fil."
+      ],
+      "prerequis": [
+        "K-0201-034"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-036",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.2 Control Data",
+      "notion": "Tout message HTTP a une version de protocole ; elle peut etre explicite dans le message ou deduite de la connexion sur laquelle le message est recu, et elle est mise a jour par un intermediaire qui retransmet le message.",
+      "categorie": "semantique_http",
+      "explication": "Section 6.2 : 'Every HTTP message has a protocol version. Depending on the version in use, it might be identified within the message explicitly or inferred by the connection over which the message is received.' et 'When a message is forwarded by an intermediary, the protocol version is updated to reflect the version used by that intermediary. The Via header field (Section 7.6.3) is used to communicate upstream protocol information.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.2, lignes 934-935",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Croire que la version voyage inchangee de bout en bout : un intermediaire la reecrit, et c'est Via qui conserve la trace amont."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-037",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.3 Header Fields",
+      "notion": "On appelle champs d'en-tete les champs envoyes ou recus AVANT le contenu ; un champ n'est designe specifiquement comme << header field >> que lorsqu'il ne peut etre envoye que dans la section d'en-tete.",
+      "categorie": "semantique_http",
+      "explication": "Section 6.3 : 'Fields (Section 5) that are sent or received before the content are referred to as \"header fields\" (or just \"headers\", colloquially).' et la note : 'We refer to named fields specifically as a \"header field\" when they are only allowed to be sent in the header section.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.3, lignes 941 et 943",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-038",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.4 Content",
+      "notion": "Le contenu est le flux d'octets envoye apres la section d'en-tete, tel qu'extrait du cadrage : pour un message chunked, il exclut les longueurs de chunk, la syntaxe de cadrage et les champs de fin.",
+      "categorie": "cas_limite",
+      "explication": "Section 6.4 : 'HTTP messages often transfer a complete or partial representation as the message content: a stream of octets sent after the header section, as delineated by the message framing. This abstract definition of content reflects the data after it has been extracted from the message framing [...] the content of that same message includes only the data stream after the transfer coding has been decoded; it does not include the chunk lengths, chunked framing syntax, nor the trailer fields.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.4, lignes 945-946",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Confondre << content >> (9110, apres decodage du transfer coding) et << message body >> (9112, tel quel sur le fil)."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-039",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.4 Content",
+      "notion": "Le prefixe << Content- >> est une convention informelle : certains de ces champs decrivent le contenu du message, d'autres portent sur la representation selectionnee.",
+      "categorie": "piege_examen",
+      "explication": "Note de la section 6.4 : 'Some field names have a \"Content-\" prefix. This is an informal convention; while some of these fields refer to the content of the message, as defined above, others are scoped to the selected representation (Section 3.2). See the individual field's definition to disambiguate.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.4, ligne 947",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Deduire la portee d'un champ de son prefixe : la RFC dit explicitement qu'il faut lire la definition du champ."
+      ],
+      "prerequis": [
+        "K-0201-018"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-040",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.5 Trailer Fields",
+      "notion": "Les champs de fin (trailers) sont les champs situes dans la section de fin ; ils servent a transporter des controles d'integrite, des signatures, des metriques de livraison ou un statut de post-traitement.",
+      "categorie": "semantique_http",
+      "explication": "Section 6.5 : 'Fields (Section 5) that are located within a trailer section are referred to as \"trailer fields\" (or just \"trailers\", colloquially). Trailer fields can be useful for supplying message integrity checks, digital signatures, delivery metrics, or post-processing status information.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.5, ligne 972",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-041",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "6. Abstraction de message",
+      "sous_section": "6.5.1 Limitations on Use of Trailers",
+      "notion": "Une section de fin n'est possible que si la version d'HTTP en usage la prend en charge ET qu'un mecanisme de cadrage explicite l'active ; un emetteur NE DOIT PAS (MUST NOT) generer un champ de fin sans savoir que la definition du champ l'autorise dans les trailers.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 6.5.1 : 'A trailer section is only possible when supported by the version of HTTP in use and enabled by an explicit framing mechanism. For example, the chunked transfer coding in HTTP/1.1 allows a trailer section to be sent after the content' et 'A sender MUST NOT generate a trailer field unless the sender knows the corresponding header field name's definition permits the field to be sent in trailers.' Suit un SHOULD NOT : 'a server SHOULD NOT generate trailer fields that it believes are necessary for the user agent to receive', parce que les trailers peuvent etre jetes en transit.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 6.5.1, lignes 975, 976 et 979",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Le MUST NOT porte sur l'emetteur ; cote reception, c'est un MUST NOT de fusion dans la section d'en-tete sans autorisation explicite de la definition du champ."
+      ],
+      "prerequis": [
+        "K-0201-040"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-042",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5. Fields",
+      "notion": "HTTP utilise des champs : des paires nom/valeur extensibles dans un espace de noms enregistre, transmises dans les sections d'en-tete et de fin des messages.",
+      "categorie": "semantique_http",
+      "explication": "Section 5 : 'HTTP uses fields to provide data in the form of extensible name/value pairs with a registered key namespace. Fields are sent and received within the header and trailer sections of messages (Section 6).' Le terme generique est << field >> ; << header >> et << trailer >> designent l'emplacement, pas la nature.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5, ligne 756",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Utiliser << header >> comme terme generique : RFC 9110 a deliberement generalise en << field >> pour couvrir les trailers."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-043",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.1 Field Names",
+      "notion": "Les noms de champs sont insensibles a la casse.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 5.1 : 'Field names are case-insensitive and ought to be registered within the \"Hypertext Transfer Protocol (HTTP) Field Name Registry\"; see Section 16.3.1.' La production ABNF est 'field-name = token'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.1, ligne 760 ; ABNF 'field-name = token' ligne 759",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "L'insensibilite porte sur le NOM ; la sensibilite a la casse de la VALEUR depend de la definition de chaque champ.",
+        "'ought to be registered' est une recommandation faible, pas un SHOULD formel : un champ non enregistre reste un champ valide."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-044",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.1 Field Names",
+      "notion": "Sauf indication contraire, les champs sont definis pour toutes les versions d'HTTP, et l'interpretation d'un champ ne change pas entre versions mineures d'une meme version majeure.",
+      "categorie": "semantique_http",
+      "explication": "Section 5.1 : 'The interpretation of a field does not change between minor versions of the same major HTTP version, though the default behavior of a recipient in the absence of such a field can change. Unless specified otherwise, fields are defined for all versions of HTTP. In particular, the Host and Connection fields ought to be recognized by all HTTP implementations whether or not they advertise conformance with HTTP/1.1.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.1, ligne 761",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Ce qui peut changer entre versions mineures, c'est le comportement par defaut EN L'ABSENCE du champ, pas l'interpretation du champ present."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-045",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.1 Field Names",
+      "notion": "Un proxy DOIT (MUST) retransmettre les champs d'en-tete qu'il ne reconnait pas, sauf si le nom figure dans le champ Connection ou s'il est specifiquement configure pour les bloquer ou les transformer ; les autres destinataires DEVRAIENT (SHOULD) ignorer les champs inconnus.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 5.1 : 'A proxy MUST forward unrecognized header fields unless the field name is listed in the Connection header field (Section 7.6.1) or the proxy is specifically configured to block, or otherwise transform, such fields. Other recipients SHOULD ignore unrecognized header and trailer fields. Adhering to these requirements allows HTTP's functionality to be extended without updating or removing deployed intermediaries.' C'est le mecanisme d'extensibilite d'HTTP.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.1, ligne 763",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Deux niveaux d'exigence differents dans la meme phrase : MUST pour le proxy qui retransmet, SHOULD pour le destinataire qui ignore."
+      ],
+      "prerequis": [
+        "K-0201-025"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-046",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.2 Field Lines and Combined Field Value",
+      "notion": "Quand un nom de champ se repete dans une section, la valeur combinee du champ est la liste des valeurs de ligne dans l'ordre, concatenees et separees par une virgule.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 5.2 : 'When a field name is repeated within a section, its combined field value consists of the list of corresponding field line values within that section, concatenated in order, with each field line value separated by a comma.' L'exemple du document : deux lignes 'Example-Field: Foo, Bar' et 'Example-Field: Baz' donnent la liste 'Foo, Bar, Baz'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.2, lignes 766-770 (definition et exemple Example-Field)",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "La RFC distingue trois termes : field line (une ligne), field line value (la valeur d'une ligne) et combined field value (la valeur du champ)."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-047",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.3 Field Order",
+      "notion": "L'ordre de reception des lignes de champ portant le meme nom est significatif ; un proxy NE DOIT PAS (MUST NOT) modifier cet ordre en retransmettant.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 5.3 : 'The order in which field lines with the same name are received is therefore significant to the interpretation of the field value; a proxy MUST NOT change the order of these field line values when forwarding a message.' La phrase suivante pose la contrainte d'emission : 'a sender MUST NOT generate multiple field lines with the same name [...] unless that field's definition allows multiple field line values to be recombined as a comma-separated list'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.3, lignes 773-774",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "L'ordre entre champs de noms DIFFERENTS n'est pas contraint ici ; seul l'ordre entre lignes de MEME nom l'est."
+      ],
+      "prerequis": [
+        "K-0201-046"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-048",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "5. Champs",
+      "sous_section": "5.3 Field Order",
+      "notion": "Set-Cookie est l'exception connue : il apparait souvent sur plusieurs lignes de champ dans une reponse et n'utilise pas la syntaxe de liste, ce qui viole les exigences de la section 5.3.",
+      "categorie": "exception",
+      "explication": "Note de la section 5.3 : 'In practice, the \"Set-Cookie\" header field ([COOKIE]) often appears in a response message across multiple field lines and does not use the list syntax, violating the above requirements on multiple field lines with the same field name. Since it cannot be combined into a single field value, recipients ought to handle \"Set-Cookie\" as a special case while processing fields.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 5.3, ligne 775",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "Appliquer la regle de recombinaison par virgule a Set-Cookie : la RFC la designe nommement comme la violation a traiter en cas particulier.",
+        "Le MECANISME des cookies appartient a l'item << Cookies >> ; seule l'exception de la section 5.3 est evaluable ici."
+      ],
+      "prerequis": [
+        "K-0201-047"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-049",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.1 Syntax Notation",
+      "notion": "Les noms de regles ABNF prefixes par << obs- >> designent, par convention, des regles de grammaire obsoletes conservees pour raisons historiques.",
+      "categorie": "convention",
+      "explication": "Section 2.1 : 'As a convention, ABNF rule names prefixed with \"obs-\" denote obsolete grammar rules that appear for historical reasons.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.1, ligne 555",
+      "importance": "BASSE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-050",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.2 Requirements Notation",
+      "notion": "Les mots-cles BCP 14 (MUST, SHOULD, MAY, etc.) ne doivent etre interpretes comme normatifs QUE lorsqu'ils apparaissent en majuscules.",
+      "categorie": "convention",
+      "explication": "Section 2.2 : 'The key words \"MUST\", \"MUST NOT\", [...] in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.2, ligne 560",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Un << must >> en minuscules dans le corps d'une RFC n'est pas une exigence normative."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-051",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.3 Length Requirements",
+      "notion": "HTTP ne fixe pas de limite de longueur pour beaucoup de ses elements de protocole ; au minimum, un destinataire DOIT (MUST) pouvoir analyser des longueurs au moins egales a celles qu'il genere lui-meme pour les memes elements.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 2.3 : 'HTTP does not have specific length limitations for many of its protocol elements [...] At a minimum, a recipient MUST be able to parse and process protocol element lengths that are at least as long as the values that it generates for those same protocol elements in other messages.' Precede d'un SHOULD : 'A recipient SHOULD parse a received protocol element defensively'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.3, lignes 568-570",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "Citer une limite chiffree d'URI ou d'en-tete comme venant de la RFC : elle n'en fixe aucune ; les limites usuelles viennent des serveurs."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-052",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.4 Error Handling",
+      "notion": "HTTP ne definit pas de mecanisme de gestion d'erreur specifique, sauf quand cela a un impact direct sur la securite ; un destinataire PEUT (MAY) tenter de recuperer un element de protocole exploitable dans une construction invalide.",
+      "categorie": "regle_normative_http",
+      "explication": "Section 2.4 : 'Unless noted otherwise, a recipient MAY attempt to recover a usable protocol element from an invalid construct. HTTP does not define specific error handling mechanisms except when they have a direct impact on security, since different applications of the protocol require different error handling strategies.' Precede par : 'A recipient MUST interpret a received protocol element according to the semantics defined for it by this specification [...] unless the recipient has determined [...] that the sender incorrectly implements' ces semantiques.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.4, lignes 573-574",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-053",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.5 Protocol Version",
+      "notion": "Le numero de version HTTP est fait de deux chiffres decimaux separes par un point : le premier (majeur) indique la syntaxe de messagerie, le second (mineur) la plus haute version mineure a laquelle l'emetteur se conforme.",
+      "categorie": "semantique_http",
+      "explication": "Section 2.5 : 'HTTP's version number consists of two decimal digits separated by a \".\" [...] The first digit (major version) indicates the messaging syntax, whereas the second digit (minor version) indicates the highest minor version within that major version to which the sender is conformant.' Et : 'HTTP's major version number is incremented when an incompatible message syntax is introduced.'",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.5, lignes 577 et 580",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "La version mineure annonce une CAPACITE de l'emetteur, meme s'il n'utilise qu'un sous-ensemble retro-compatible (section 2.5, ligne 581)."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-054",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.5 Protocol Version",
+      "notion": "Le coeur semantique d'HTTP ne change pas d'une version de protocole a l'autre ; le numero de version change lorsque des changements incompatibles sont apportes au format sur le fil.",
+      "categorie": "semantique_http",
+      "explication": "Section 2.5 : 'While HTTP's core semantics don't change between protocol versions, their expression \"on the wire\" can change, and so the HTTP version number changes when incompatible changes are made to the wire format.' C'est l'enonce le plus direct de l'outcome OUT-tv622sx0szjv.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.5, ligne 578",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [],
+      "prerequis": [
+        "K-0201-008"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-055",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "2. Conformance",
+      "sous_section": "2.5 Protocol Version",
+      "notion": "Quand une version majeure d'HTTP ne definit aucune version mineure, la version mineure << 0 >> est sous-entendue et utilisee dans les elements qui exigent un identifiant de version mineure.",
+      "categorie": "cas_limite",
+      "explication": "Section 2.5 : 'When a major version of HTTP does not define any minor versions, the minor version \"0\" is implied. The \"0\" is used when referring to that protocol within elements that require a minor version identifier.' La Table 12 du registre des jetons d'Upgrade donne l'exemple 'any DIGIT.DIGIT (e.g., \"2.0\")'.",
+      "source_id": "SRC-0201-001",
+      "url": "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html",
+      "version_verifiee": "RFC 9110 (juin 2022), miroir httpwg.github.io@master, verifie le 2026-09-16",
+      "symbole": "section 2.5, ligne 582 ; Table 12, ligne 2727",
+      "importance": "BASSE",
+      "testable": true,
+      "pieges": [
+        "HTTP/2 s'ecrit << 2.0 >> la ou un identifiant de version mineure est requis, alors qu'on le nomme couramment HTTP/2."
+      ],
+      "prerequis": [],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-056",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "Ancrage Symfony",
+      "sous_section": "HeaderBag",
+      "notion": "Symfony normalise les noms d'en-tete avec strtr($key, self::UPPER, self::LOWER) ou UPPER vaut '_ABCDEFGHIJKLMNOPQRSTUVWXYZ' et LOWER vaut '-abcdefghijklmnopqrstuvwxyz' : le nom est mis en minuscules ET le souligne est transforme en tiret.",
+      "categorie": "comportement_public_symfony",
+      "explication": "HeaderBag declare les deux constantes lignes 23-24, puis applique strtr dans set() (ligne 132), all() (ligne 71), has() (ligne 160) et remove() (ligne 176). Consequence : 'Content-Type', 'CONTENT-TYPE', 'content_type' et 'CONTENT_TYPE' designent la meme cle 'content-type'.",
+      "source_id": "SRC-0201-004",
+      "url": "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/HeaderBag.php",
+      "version_verifiee": "symfony/symfony@8.0, verifie le 2026-09-16",
+      "symbole": "Symfony\\Component\\HttpFoundation\\HeaderBag::UPPER / ::LOWER lignes 23-24 ; set() ligne 132 ; all() ligne 71 ; has() ligne 160 ; remove() ligne 176",
+      "importance": "HAUTE",
+      "testable": true,
+      "pieges": [
+        "La conversion souligne -> tiret est un comportement SYMFONY, pas une regle de RFC 9110 : la RFC n'impose que l'insensibilite a la casse, et '_' est un caractere valide de token.",
+        "Ne pas presenter HeaderBag comme une simple application de la RFC : il fait strictement plus."
+      ],
+      "prerequis": [
+        "K-0201-043"
+      ],
+      "statut_verification": "VERIFIED"
+    },
+    {
+      "knowledge_id": "K-0201-057",
+      "lot": "lot-02",
+      "subtopic": "02-01 HTTP Specification (RFC 9110)",
+      "section": "Ancrage Symfony",
+      "sous_section": "HeaderBag",
+      "notion": "HeaderBag::get(string $key, ?string $default = null): ?string renvoie la PREMIERE valeur du champ ; HeaderBag::all(?string $key = null): array renvoie la liste complete des valeurs.",
+      "categorie": "api_publique_symfony",
+      "explication": "get() appelle $this->all($key), renvoie $default si la liste est vide, sinon $headers[0]. all(null) renvoie toute la table ; all($key) renvoie la liste des valeurs de ce champ apres normalisation du nom. C'est la traduction PHP de la distinction field line value / combined field value de RFC 9110 section 5.2 — sauf que Symfony conserve une liste au lieu de concatener par virgule.",
+      "source_id": "SRC-0201-004",
+      "url": "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/HeaderBag.php",
+      "version_verifiee": "symfony/symfony@8.0, verifie le 2026-09-16",
+      "symbole": "HeaderBag::get() lignes 109-122 ; HeaderBag::all() lignes 68-75",
+      "importance": "MOYENNE",
+      "testable": true,
+      "pieges": [
+        "get() ne concatene pas les valeurs multiples : il ne rend que la premiere, la ou RFC 9110 section 5.2 definit une valeur combinee separee par des virgules."
+      ],
+      "prerequis": [
+        "K-0201-046",
+        "K-0201-056"
+      ],
+      "statut_verification": "VERIFIED"
+    }
+  ],
+  "exclusions": [
+    {
+      "notion": "Methodes sures (RFC 9110 section 9.2.1 : GET, HEAD, OPTIONS, TRACE) et idempotentes (section 9.2.2 : PUT, DELETE et toutes les methodes sures).",
+      "motif": "Appartient a l'item << HTTP methods >> (OIT-qnm508g1ktqm), dont les outcomes OUT-pvvwmsfr9v99 / OUT-yfskr4jf463t / OUT-vx89t3yy7xck couvrent exactement cela ; a signaler toutefois : la section << Pieges d'examen >> du cours CRS-depbnbc0g82x traite ce sujet alors que l'item ne le porte pas."
+    },
+    {
+      "notion": "DELETE reste idempotente meme si le second appel renvoie 404 (section 9.2.2, l'effet vise sur le serveur).",
+      "motif": "Meme frontiere : outcome OUT-vx89t3yy7xck de l'item << HTTP methods >> ; present dans le cours de ce sous-topic mais non evaluable sous cet item."
+    },
+    {
+      "notion": "Classes de codes de statut et codes individuels (RFC 9110 section 15), 401 vs 403, 307/308, 415 vs 406.",
+      "motif": "Appartient a l'item << Status codes >> (OIT-512se83ab7qj)."
+    },
+    {
+      "notion": "Mecanique de cache : fraicheur, duree de vie, Age, validation, Cache-Control, cle de cache Vary (RFC 9111 sections 2 a 5).",
+      "motif": "Appartient a l'item << Caching >> ; seul le fait << 9111 obsolete 7234 >> est retenu ici."
+    },
+    {
+      "notion": "Algorithmes de negociation de contenu, en-tetes Accept / Accept-Encoding / Accept-Language, valeurs de qualite q, champ Vary (RFC 9110 section 12).",
+      "motif": "Appartient aux items << Content negotiation >> et << Language detection >> ; seule la multiplicite des representations (section 3.2) est retenue ici."
+    },
+    {
+      "notion": "Syntaxe HTTP/1.1 : request-line, status-line, formes de cible de requete, pliage de ligne obsolete, Transfer-Encoding, Content-Length, codage chunked (RFC 9112 sections 2 a 7).",
+      "motif": "Hors du perimetre de RFC 9110 par construction (section 6.1) ; retenu uniquement comme frontiere negative, pas comme matiere."
+    },
+    {
+      "notion": "Mecanique des cookies : Set-Cookie, Cookie, attributs, prefixes __Secure- et __Host-.",
+      "motif": "Appartient a l'item << Cookies >> ; seule l'exception de la section 5.3 de RFC 9110 (Set-Cookie viole la syntaxe de liste) est retenue."
+    },
+    {
+      "notion": "Requetes conditionnelles (section 13), requetes de plage (section 14), authentification (section 11), champs de routage Host / Via / Forwarded (section 7).",
+      "motif": "Aucun item de lot-02 ne porte ces mecanismes ; les evaluer depasserait le perimetre officiel du sous-topic."
+    },
+    {
+      "notion": "Schemes d'URI http et https, normalisation et comparaison, verification de certificat, identite IP-ID (sections 4.2 et 4.3).",
+      "motif": "Hors perimetre de l'item, qui est de niveau MINIMAL et vise le positionnement du document et le vocabulaire ; aucun outcome ne les couvre."
+    },
+    {
+      "notion": "Grammaire ABNF collectee (annexe A), regles de listes #, tokens, quoted-string, parametres, formats de date (sections 5.6.1 a 5.6.7).",
+      "motif": "Non testable a ce niveau : syntaxe de detail sans outcome associe et sans valeur pour une question officielle (test d'admission du plan, section 1.2)."
+    },
+    {
+      "notion": "Considerations de securite (section 17) et registres IANA (section 16).",
+      "motif": "Hors perimetre : aucun outcome, et le contenu est procedural plutot que semantique."
+    },
+    {
+      "notion": "API Symfony Request, Response, HttpClient, ainsi que isMethodSafe / isMethodIdempotent / isMethodCacheable.",
+      "motif": "Appartiennent aux items << HTTP request >>, << HTTP response >>, << HTTP methods >> et << Symfony HttpClient component >> ; seul HeaderBag est retenu ici, parce qu'il materialise la regle section 5.1."
+    },
+    {
+      "notion": "Appendice B (Changes from RFC 7230/7231/7232/7233/7235/7538/7615/7694) dans le detail de chaque changement.",
+      "motif": "Non testable : liste de diffs editoriaux ; seuls les titres de la Table 1 (section 1.4) sont retenus."
+    }
+  ],
+  "note_sur_les_numeros_de_ligne": "Les numeros de ligne renvoient a un rendu texte des fichiers HTML recuperes (balises supprimees, blocs de bloc convertis en sauts de ligne). Ils ont tous ete releves dans ce rendu, jamais supposes, et servent de reperage rapide ; l'ancre durable reste le numero de SECTION de la RFC, qui ne depend d'aucun rendu. Les numeros de ligne des fichiers PHP renvoient au fichier source tel que recupere."
+}

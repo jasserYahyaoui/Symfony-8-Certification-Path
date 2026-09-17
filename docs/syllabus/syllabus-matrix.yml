@@ -551,6 +551,14 @@ items:
         outcome: "Énoncer que la sémantique est indépendante de la version de transport"
       - id: OUT-y8177jvv3m21
         outcome: "Distinguer ressource et représentation"
+      - id: OUT-b4zep1k4shd7
+        outcome: "Énoncer quelles RFC 9110 obsolète, et laquelle ne l'est qu'en partie"
+      - id: OUT-rvm0f266br2d
+        outcome: "Situer la frontière entre sémantique (9110) et syntaxe de trame (9112)"
+      - id: OUT-5qj9w53751fy
+        outcome: "Relier la représentation à la négociation de contenu et à Vary"
+      - id: OUT-rgdrqp8pe47j
+        outcome: "Énoncer ce qui est insensible à la casse dans un champ d'en-tête, et ce qui ne l'est pas"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
