@@ -64,7 +64,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 | 4 | HTTP response | STANDARD | 823 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 5 | HTTP methods | STANDARD | 750 / 900 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
 | 6 | Cookies | STANDARD | 900 / 900 | 17 | 5 | **RAFFINÉE** (2026-09-17) |
-| 7 | Caching | STANDARD | 885 / 900 | 1 | 4 | à faire |
+| 7 | Caching | STANDARD | 897 / 900 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 8 | Content negotiation | STANDARD | 473 / 900 | 1 | 3 | à faire |
 | 9 | Language detection | MINIMAL | 274 / 700 | 1 | 2 | à faire |
 | 10 | Symfony HttpClient component | STANDARD | 762 / 900 | 1 | 4 | à faire |
@@ -337,6 +337,43 @@ le plan commité : `.github/workflows/ci.yml`, `docs/revision/study-roadmap.md`
 et `docs/revision/exam-readiness.md`. Le remède retenu et les deux écartés sont
 consignés dans `study-roadmap.md`, à côté de la commande.
 
+## Page 7 — Caching, 2026-09-17
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-bpgzt93x2ksk` … `FLC-ffg9h4983rg5`), 4 par
+  niveau ; la carte préexistante `FLC-17ebjqxfdy6d` a reçu le niveau `TRAP`.
+- Sources relues le jour même : RFC 9111 §4.1, §4.2.1, §4.2.2, §4.4, §5.2.2.3,
+  §5.2.2.4, §5.2.2.7, §5.2.2.10 ; `Response.php` de la branche 8.0 (`getMaxAge`
+  l. 765-782, `getAge` l. 693-700, `getTtl` l. 859-864, `setTtl` l. 875-880,
+  `setClientTtl` l. 891-896, `expire` l. 707-715, `setPublic` l. 609,
+  `setPrivate` l. 592).
+- Six comportements que la page n'enseignait pas, chacun lu dans sa source :
+  la fraîcheur se calcule « using the first match » — `s-maxage` si le cache est
+  partagé, puis `max-age`, puis `Expires` − `Date`, puis l'heuristique ;
+  `private` **autorise** le cache privé « even if the response would not
+  otherwise be heuristically cacheable » ; `no-cache` et `private` ont une forme
+  **qualifiée** qui ne protège que les champs nommés ; `must-understand` permet
+  d'ignorer un `no-store` posé à côté d'elle ; §4.4 impose au cache d'invalider
+  l'URI cible après une écriture non erronée ; côté Symfony, `getMaxAge()`
+  renvoie `s-maxage` en premier malgré son nom, `setTtl()` rend la réponse
+  **publique** par effet de bord, et `expire()` ne fait rien sur une réponse
+  déjà périmée.
+- **Pas de section « Tips d'examen » sur cette page.** Le corps était à 15 mots
+  de son plafond et la page porte déjà sept pièges détaillés ; couper du contenu
+  vérifié pour loger un titre imposé aurait échangé de la matière contre une
+  forme. Un mnémonique d'une ligne a été ajouté aux points clés à la place —
+  885 → **897 mots sur 900**.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 722 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| Aiguilles de smoke test | 5 ajoutées ; `shared` a été **écartée** comme aiguille — elle apparaît déjà treize fois sur `master` et aurait matché quoi qu'il arrive |
+
 ## Déploiement des pages 1 à 3 — 2026-09-17
 
 | Étape | Preuve |
@@ -364,6 +401,7 @@ smoke test de production, chacun avec sa sortie réelle.
 
 ## Prochaine action
 
-Trancher le blocage du plan de révision ci-dessus, puis pousser la page 6 et
-enchaîner sur la page 7 — **Caching** (STANDARD, 885 / 900 mots, 1 flashcard,
-15 mots de marge).
+Page 8 du lot 02 — **Content negotiation** (STANDARD, 473 / 900 mots,
+1 flashcard). La marge de corps y est de **427 mots**, la plus large du lot :
+c'est la première page depuis le début où une section « Tips d'examen » complète
+tient sans rien retirer.

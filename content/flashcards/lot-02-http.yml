@@ -105,6 +105,7 @@ flashcards:
   - id: FLC-17ebjqxfdy6d
     official_item: OIT-tc39jp8japfc
     language: fr
+    level: TRAP
     front: "Cache HTTP : quelle est la différence entre no-cache et no-store ?"
     back: "no-cache = stocker mais revalider avant chaque usage. no-store = ne rien conserver du tout."
     explanation: >-
@@ -2491,4 +2492,380 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "__construct lignes 105-120 ; expiresTimestamp lignes 158-173 ; RESERVED_CHARS_LIST ligne 31"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-tc39jp8japfc — Caching.
+  #
+  # Seize cartes ajoutées le 2026-09-17. RFC 9111 et Response.php de la branche
+  # 8.0, relus le jour même. Le corps du cours est à 15 mots de son plafond.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-bpgzt93x2ksk
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: RECALL
+    front: "RFC 9111 §4.2.1 : dans quel ordre un cache calcule-t-il la durée de fraîcheur ?"
+    back: "`s-maxage` s'il est partagé, sinon `max-age`, sinon `Expires` moins `Date`, sinon une heuristique."
+    explanation: >-
+      « Using the first match » : la règle est un ordre de priorité, pas une
+      combinaison. `s-maxage` n'est consulté **que** par un cache partagé ; un
+      cache privé saute directement à `max-age`. Et l'heuristique est un dernier
+      recours — §4.2.2 interdit d'y recourir dès qu'une expiration explicite est
+      présente.
+    memorization_justification: >-
+      Quatre niveaux ordonnés dont le premier est conditionné au type de cache ;
+      l'ordre décide seul de la valeur retenue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.2.1 Calculating Freshness Lifetime ; section 4.2.2"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fs0j5p7qvj2r
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: RECALL
+    front: "RFC 9111 : que dit `no-cache` sous sa forme **qualifiée**, `no-cache=\"Set-Cookie\"` ?"
+    back: "Que le cache **peut** réutiliser la réponse sans revalider, à condition d'en exclure les champs nommés."
+    explanation: >-
+      La forme non qualifiée interdit toute réutilisation sans revalidation. La
+      forme qualifiée est donc bien plus permissive : elle protège un en-tête
+      précis, pas la réponse entière. `private` accepte le même argument, avec
+      le même sens — seuls les champs listés sont réservés à un seul
+      utilisateur.
+    memorization_justification: >-
+      Même directive, deux comportements opposés selon la présence d'un
+      argument ; la forme qualifiée est rarement rencontrée en pratique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "sections 5.2.2.4 no-cache et 5.2.2.7 private"
+        verified_at: "2026-09-17"
+
+  - id: FLC-f6r9rh84acrf
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: RECALL
+    front: "Symfony : que renvoie `Response::getMaxAge()` quand la réponse porte `max-age` **et** `s-maxage` ?"
+    back: "La valeur de `s-maxage`. La méthode le teste en premier, malgré son nom."
+    explanation: >-
+      L'ordre est celui de la RFC — `s-maxage`, puis `max-age`, puis `Expires`
+      moins `Date` — mais sans la condition « si le cache est partagé », qu'un
+      objet `Response` ne peut pas connaître. Elle rend `null` quand aucune
+      information de fraîcheur n'est présente, et c'est ce `null` que `getTtl()`
+      propage.
+    memorization_justification: >-
+      Nom de méthode qui désigne une directive et valeur qui en vient
+      généralement d'une autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMaxAge lignes 765-782 ; getTtl lignes 859-864"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pxrcmhkbsjwn
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: RECALL
+    front: "RFC 9111 §4.4 : que doit faire un cache après un `POST`, un `PUT` ou un `DELETE` réussi ?"
+    back: "Invalider la réponse stockée pour l'URI cible — c'est un `MUST`, dès lors que le statut n'est pas une erreur."
+    explanation: >-
+      L'invalidation porte obligatoirement sur l'URI cible et **peut** s'étendre
+      à d'autres URI, notamment celles de `Location` et `Content-Location`. La
+      règle vaut aussi pour les méthodes « dont la sûreté est inconnue » : un
+      cache qui ne connaît pas une méthode doit la traiter comme non sûre.
+    memorization_justification: >-
+      Obligation à la charge du cache, déclenchée par une requête d'écriture,
+      donc invisible depuis le code qui écrit la réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.4 Invalidating Stored Responses"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p4tqdwqy528s
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `Vary` conditionne-t-il la réutilisation d'une réponse stockée ?"
+    back: "Parce qu'il définit la **clé de cache** : le cache ne peut pas réutiliser la réponse sans revalidation si l'un des en-têtes nommés diffère de la requête d'origine."
+    explanation: >-
+      C'est le titre même de §4.1 : *Calculating Cache Keys with the Vary Header
+      Field*. La comparaison tolère les différences de blancs et la
+      recombinaison de lignes de même nom, mais pas une valeur différente. Sans
+      `Vary`, la clé est l'URI seule — et un cache partagé sert la version
+      française à un client anglophone.
+    memorization_justification: >-
+      `Vary` se lit comme une indication au serveur alors qu'il pilote le
+      stockage côté cache ; c'est cette inversion qui rend le bug inexplicable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.1 Calculating Cache Keys with the Vary Header Field"
+        verified_at: "2026-09-17"
+
+  - id: FLC-jkca3f4pqavr
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: UNDERSTANDING
+    front: "Que change la directive `must-understand` de RFC 9111 ?"
+    back: "Elle réserve la mise en cache aux caches qui comprennent les règles du **code de statut** de la réponse, et permet d'ignorer un `no-store` posé à côté d'elle."
+    explanation: >-
+      Le couple est délibéré : une réponse portant `must-understand` **devrait**
+      aussi porter `no-store`, et un cache qui comprend le code de statut
+      **devrait** alors ignorer ce `no-store`. Autrement dit, `no-store` sert de
+      repli pour les caches anciens, et `must-understand` autorise les caches
+      modernes à passer outre.
+    memorization_justification: >-
+      Directive récente dont l'effet est de neutraliser conditionnellement une
+      autre directive — mécanique unique dans le document.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 5.2.2.3 must-understand"
+        verified_at: "2026-09-17"
+
+  - id: FLC-drgr040zt749
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: UNDERSTANDING
+    front: "`private` interdit-il à un cache privé de stocker la réponse ?"
+    back: "Au contraire : il l'y autorise explicitement, « even if the response would not otherwise be heuristically cacheable ». Il interdit seulement au cache **partagé**."
+    explanation: >-
+      La directive est donc permissive d'un côté et restrictive de l'autre, ce
+      que son nom ne dit pas. Pour empêcher toute conservation, y compris par le
+      navigateur, il faut `no-store`. Sous sa forme qualifiée, `private` ne
+      réserve que les champs nommés : le reste de la réponse peut être stocké
+      par un cache partagé.
+    memorization_justification: >-
+      Directive dont l'effet sur les caches privés est l'inverse de ce que le
+      mot suggère.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 5.2.2.7 private"
+        verified_at: "2026-09-17"
+
+  - id: FLC-zccht0fse418
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: UNDERSTANDING
+    front: "Quand un cache a-t-il le droit d'inventer une durée de fraîcheur ?"
+    back: "Seulement en l'absence d'expiration explicite : « A cache MUST NOT use heuristics to determine freshness when an explicit expiration time is present »."
+    explanation: >-
+      La RFC ne fixe aucun algorithme, seulement des contraintes de pire cas ;
+      l'usage répandu est une fraction du temps écoulé depuis `Last-Modified`.
+      Conséquence pratique : une réponse sans `Cache-Control` ni `Expires`
+      **n'est pas** « non cachée » — elle est cachée pour une durée que vous ne
+      choisissez pas. Poser `max-age` reprend la main.
+    memorization_justification: >-
+      Comportement par défaut d'un cache, invisible depuis l'application, et
+      contraire à l'intuition « rien de déclaré, donc rien de caché ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.2.2 Calculating Heuristic Freshness"
+        verified_at: "2026-09-17"
+
+  - id: FLC-xzqkx832q5re
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: APPLICATION
+    front: "Symfony : que fait `setTtl(600)` de plus que `setMaxAge(600)` ?"
+    back: "Elle appelle `setSharedMaxAge(getAge() + 600)` — donc elle rend la réponse **publique** et écrit `s-maxage`, pas `max-age`."
+    explanation: >-
+      Deux effets de bord dans un appel qui n'en annonce aucun : le passage en
+      `public` vient de `setSharedMaxAge()`, et l'âge déjà écoulé est ajouté
+      pour que le TTL parte de maintenant. L'équivalent privé est
+      `setClientTtl()`, qui passe par `setMaxAge()` et ne touche pas à
+      `public` / `private`.
+    memorization_justification: >-
+      Méthode au nom neutre qui modifie la visibilité de la réponse ; l'erreur
+      publie une réponse destinée à un seul utilisateur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTtl lignes 875-880 ; setClientTtl lignes 891-896 ; setSharedMaxAge lignes 841-847"
+        verified_at: "2026-09-17"
+
+  - id: FLC-r70fe1dxw2yw
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: APPLICATION
+    front: "Que fait `Response::expire()` sur une réponse déjà périmée ?"
+    back: "Rien. La méthode s'ouvre sur `if ($this->isFresh())` : elle n'agit que sur une réponse fraîche."
+    explanation: >-
+      Sur une réponse fraîche, elle pose `Age` à la valeur de `getMaxAge()` — ce
+      qui la rend périmée sans toucher aux directives — et retire `Expires`.
+      L'appel est donc idempotent, mais pas pour la raison qu'on croit : il ne
+      « re-périme » pas, il ne fait simplement plus rien.
+    memorization_justification: >-
+      Garde d'entrée qui transforme un appel en no-op silencieux selon l'état de
+      la réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "expire lignes 707-715 ; getAge lignes 693-700"
+        verified_at: "2026-09-17"
+
+  - id: FLC-nxc7graa2bs7
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: APPLICATION
+    front: "Une réponse porte `max-age=600` et aucun en-tête `Age`. Que vaut `getAge()` ?"
+    back: "Le nombre de secondes écoulées depuis l'en-tête `Date`, jamais négatif : `max(time() - Date, 0)`."
+    explanation: >-
+      L'en-tête `Age` a la priorité s'il est présent — c'est un cache
+      intermédiaire qui le pose. Sinon Symfony le déduit de `Date`. `getTtl()`
+      s'appuie dessus : `max(getMaxAge() - getAge(), 0)`, et rend `null` si
+      aucune information de fraîcheur n'existe. Un `0` et un `null` ne disent
+      donc pas la même chose.
+    memorization_justification: >-
+      Deux sources possibles pour une même valeur, et une distinction `0` /
+      `null` que le typage seul ne révèle pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getAge lignes 693-700 ; getTtl lignes 859-864"
+        verified_at: "2026-09-17"
+
+  - id: FLC-8ke6sjqnvzyd
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: APPLICATION
+    front: "Symfony : `setPublic()` et `setPrivate()` peuvent-elles coexister sur une réponse ?"
+    back: "Non : chacune **retire** l'autre directive en plus d'ajouter la sienne."
+    explanation: >-
+      `setPublic()` ajoute `public` et retire `private` ; `setPrivate()` fait
+      l'inverse. Le dernier appel gagne, sans avertissement. C'est ce qui rend
+      l'ordre significatif quand `setSharedMaxAge()` — qui appelle
+      `setPublic()` — est suivi d'un `setPrivate()` : la réponse garde
+      `s-maxage` tout en étant `private`.
+    memorization_justification: >-
+      Deux méthodes mutuellement exclusives qui ne le signalent pas ; l'état
+      final dépend de l'ordre des appels.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setPrivate lignes 592-598 ; setPublic lignes 609-615"
+        verified_at: "2026-09-17"
+
+  - id: FLC-jzj2aesrhz06
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « une réponse sans `Cache-Control` n'est pas mise en cache »."
+    back: "Faux. Sans expiration explicite, un cache **peut** appliquer une fraîcheur heuristique, qu'il choisit lui-même."
+    explanation: >-
+      §4.2.2 n'interdit l'heuristique que lorsqu'une expiration explicite est
+      présente. L'absence de directive n'est donc pas une interdiction : c'est
+      une délégation. Pour décider soi-même, il faut écrire `max-age` — et pour
+      interdire réellement le stockage, `no-store`.
+    memorization_justification: >-
+      Affirmation rassurante et répandue, que la section sur l'heuristique
+      contredit directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.2.2 Calculating Heuristic Freshness"
+        verified_at: "2026-09-17"
+
+  - id: FLC-b6aztgp7r88m
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: TRAP
+    front: "`max-age` s'adresse-t-il aux caches privés, et `s-maxage` aux caches partagés ?"
+    back: "Non. `max-age` s'adresse à **tous** les caches ; `s-maxage` ne fait que le remplacer pour les caches partagés."
+    explanation: >-
+      §4.2.1 le dit par son ordre : un cache partagé consulte `s-maxage`
+      d'abord, puis `max-age`. Un cache partagé applique donc `max-age` dès que
+      `s-maxage` est absent — c'est précisément pourquoi on dit que `s-maxage`
+      « prime ». La lecture « un pour chacun » fait croire qu'une réponse sans
+      `s-maxage` n'est pas cachée en partagé.
+    memorization_justification: >-
+      Répartition symétrique et fausse, plus simple à retenir que la vraie règle
+      de priorité ; c'est celle qui s'installe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.2.1 Calculating Freshness Lifetime ; section 5.2.2.10 s-maxage"
+        verified_at: "2026-09-17"
+
+  - id: FLC-p1bv1d3zrvaa
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: TRAP
+    front: "`$response->isNotModified($request)` sur une requête `POST` dont l'ETag correspond : que renvoie-t-elle ?"
+    back: "`false`. Son premier geste est `if (!$request->isMethodCacheable()) { return false; }` — la comparaison n'a pas lieu."
+    explanation: >-
+      Ce n'est pas « l'ETag ne correspond pas », c'est « la question n'est pas
+      posée ». La liste des méthodes cacheables côté Symfony étant `GET`, `HEAD`
+      et `QUERY`, toute autre méthode sort par cette garde. Un test qui conclut
+      « mon ETag est faux » cherche au mauvais endroit.
+    memorization_justification: >-
+      Garde d'entrée qui court-circuite la logique attendue et produit une
+      réponse correcte pour une raison inattendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isNotModified lignes 1118 et suivantes"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ffg9h4983rg5
+    official_item: OIT-tc39jp8japfc
+    language: fr
+    level: TRAP
+    front: "Une API renvoie 200 à un `DELETE`. Que doivent faire les caches intermédiaires ?"
+    back: "Invalider la réponse stockée pour l'URI cible — obligatoirement, parce que le statut n'est pas une erreur."
+    explanation: >-
+      L'erreur consiste à croire qu'un cache ne s'occupe que des lectures.
+      §4.4 lui impose de réagir aux écritures qui le traversent, et l'obligation
+      tombe justement quand la réponse est une **erreur** : un `DELETE` renvoyant
+      500 n'invalide rien, puisque rien ne prouve que l'état a changé.
+    memorization_justification: >-
+      Obligation conditionnée au code de statut, dans une section qu'on ne lit
+      pas en cherchant « comment mettre en cache ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+        branch: "master"
+        symbol_or_lines: "section 4.4 Invalidating Stored Responses"
         verified_at: "2026-09-17"
