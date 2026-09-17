@@ -191,6 +191,17 @@ client contrôle.
 **`Request::create()` n'est pas `createFromGlobals()`.** La première fabrique
 une requête arbitraire — tests, sous-requêtes ; la seconde lit les superglobales.
 
+## Tips d'examen
+
+**`get()` refuse un tableau, `all($clé)` refuse ce qui n'en est pas un** : deux
+`BadRequestException` symétriques. Une clé absente, elle, rend `[]`.
+
+**Deux listes, deux dangers** : `trusted_proxies` garde `X-Forwarded-For`,
+`trusted_hosts` garde `Host`. Vides par défaut toutes les deux.
+
+**Un motif d'hôte est une expression régulière non ancrée** : sans `^` ni `$`,
+la sous-chaîne suffit.
+
 ## Points clés
 
 - Sept sacs typés ; `$request` = corps POST, `$attributes` = données internes.

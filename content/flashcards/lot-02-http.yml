@@ -55,6 +55,7 @@ flashcards:
   - id: FLC-ke52b2c0c9vm
     official_item: OIT-d3nyk9z0q2pd
     language: fr
+    level: APPLICATION
     front: "Symfony : que fait $request->query->get('tags') si l'URL contient ?tags[]=a&tags[]=b ?"
     back: "Elle lève une BadRequestException. InputBag::get() n'accepte que des scalaires ; il faut all()."
     explanation: >-
@@ -942,4 +943,391 @@ flashcards:
         readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
         branch: "master"
         symbol_or_lines: "sections 15.5.14 413 Content Too Large et 15.5.21 422 Unprocessable Content"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-d3nyk9z0q2pd — HTTP request.
+  #
+  # Seize cartes ajoutées le 2026-09-17. Sources relues le jour même sur la
+  # branche 8.0 : Request.php, InputBag.php, ParameterBag.php. Les numéros de
+  # ligne sont ceux de ces fichiers ce jour-là ; aucun SHA n'est cité faute de
+  # l'avoir constaté.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-c1n5fb6sdjzt
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : quels sacs de `Request` sont des `InputBag`, et lesquels ne le sont pas ?"
+    back: "`$query`, `$request` et `$cookies` sont des `InputBag`. `$attributes` est un `ParameterBag`, `$headers` un `HeaderBag`, `$server` un `ServerBag`, `$files` un `FileBag`."
+    explanation: >-
+      Le partage n'est pas décoratif : seuls les trois `InputBag` portent la
+      contrainte scalaire, parce que seuls eux contiennent des données venues du
+      client. `$attributes` est rempli par l'application — le routeur y écrit
+      `_route` et `_controller` — et accepte donc n'importe quelle valeur.
+    memorization_justification: >-
+      Sept propriétés de quatre types différents ; la répartition porte toute la
+      différence de comportement et ne se devine pas depuis les noms.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "propriétés publiques lignes 94-130"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ndrjckq2359p
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : que renvoie `$request->get('id')` ?"
+    back: "Rien : la méthode n'existe plus. Il faut nommer le sac — `$request->attributes->get('id')`, `$request->query->get('id')`…"
+    explanation: >-
+      L'ancien raccourci cherchait dans `attributes`, puis `query`, puis
+      `request`, dans cet ordre : une valeur de route pouvait donc être masquée
+      ou remplacée selon l'origine de la donnée. Sa suppression force à dire
+      d'où vient l'entrée, ce qui est exactement ce que l'ordre de recherche
+      rendait flou.
+    memorization_justification: >-
+      Appel encore présent dans beaucoup de code et de tutoriels ; son absence
+      en 8.0 est une connaissance de version, non un raisonnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absence de Request::get() dans la classe"
+        verified_at: "2026-09-17"
+
+  - id: FLC-3wf2w0xzcb18
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : que distingue `getMethod()`, `getRealMethod()` et `isMethod()` ?"
+    back: "`getRealMethod()` renvoie `REQUEST_METHOD` tel quel ; `getMethod()` applique l'override et mémorise le résultat ; `isMethod()` compare à `getMethod()` sans tenir compte de la casse."
+    explanation: >-
+      `getMethod()` met son résultat en cache dans `$this->method` dès le
+      premier appel : changer un en-tête après coup ne le fait pas changer
+      d'avis. Les deux renvoient toujours une chaîne **en majuscules**.
+    memorization_justification: >-
+      Trois méthodes voisines dont deux peuvent renvoyer des valeurs
+      différentes sur la même requête ; le nom `getRealMethod` ne dit pas
+      laquelle des deux est « la vraie » pour le code applicatif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1202-1239 ; getRealMethod lignes 1246-1249"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pdbzzrej8yrk
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: RECALL
+    front: "Symfony : combien de listes de confiance `Request` porte-t-elle, et sur quoi portent-elles ?"
+    back: "Deux, indépendantes : `setTrustedProxies()` sur des adresses IP d'intermédiaires, `setTrustedHosts()` sur des motifs d'expression régulière pour l'hôte."
+    explanation: >-
+      Elles gardent deux valeurs que le client contrôle : `X-Forwarded-For`
+      pour la première, `Host` pour la seconde. Déclarer l'une ne configure pas
+      l'autre, et les deux sont vides par défaut. Une application derrière un
+      proxy correctement déclaré peut donc rester exposée à l'empoisonnement de
+      `Host`.
+    memorization_justification: >-
+      Deux mécanismes de nom voisin qu'on croit volontiers liés ; leur
+      indépendance est ce qui crée l'angle mort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTrustedHosts ligne 642 ; getHost lignes 1132-1166"
+        verified_at: "2026-09-17"
+
+  - id: FLC-g4t4cwpx368d
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `InputBag` refuse-t-il une valeur non scalaire là où `ParameterBag` l'accepte ?"
+    back: "Parce que le contenu d'un `InputBag` vient du client, qui peut envoyer un tableau là où le code attend une chaîne."
+    explanation: >-
+      `?id=1` et `?id[]=1` sont tous deux des URL valides ; sans la contrainte,
+      la seconde ferait circuler un `array` dans du code écrit pour une chaîne.
+      `InputBag::get()` lève donc une `BadRequestException` — un échec bruyant
+      et immédiat. `$attributes`, rempli par l'application, n'a pas cette
+      exposition : c'est un `ParameterBag`.
+    memorization_justification: >-
+      La règle paraît arbitraire tant qu'on ne relie pas le type du sac à
+      l'origine de la donnée ; ce lien est ce qui la rend prévisible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get lignes 37-50"
+        verified_at: "2026-09-17"
+
+  - id: FLC-krjpqt3gabtc
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "`all('tags')` est-il simplement la version « tableau » de `get('tags')` ?"
+    back: "C'est son miroir exact : `get()` refuse un tableau, `all($clé)` refuse ce qui n'en est pas un — même exception, `BadRequestException`."
+    explanation: >-
+      `ParameterBag::all($clé)` lève « Unexpected value for parameter … :
+      expecting « array » » si la valeur n'est pas un tableau. Une clé
+      **absente**, en revanche, ne lève pas : elle renvoie `[]`. Les deux
+      accesseurs sont donc stricts dans des directions opposées, et aucun n'est
+      un repli sûr pour l'autre.
+    memorization_justification: >-
+      Symétrie que l'intuition « all = tout, get = un » ne prépare pas, avec un
+      troisième cas — clé absente — qui se comporte encore autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all lignes 45-56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-vgxs994c4k9q
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un motif de `setTrustedHosts()` doit-il porter `^` et `$` ?"
+    back: "Parce que Symfony n'enveloppe le motif que par `{motif}i` : il est insensible à la casse et **non ancré**, donc satisfait par une sous-chaîne."
+    explanation: >-
+      `setTrustedHosts(['example.com'])` accepte `example.com.attaquant.test` :
+      le motif y est trouvé au milieu. Le point non échappé accepte en prime
+      `exampleXcom`. Le motif juste s'écrit `^(.+\.)?example\.com$`. Une liste
+      mal écrite est pire qu'une liste absente : elle donne l'apparence d'un
+      contrôle.
+    memorization_justification: >-
+      L'API accepte une chaîne qui ressemble à un nom de domaine et se comporte
+      comme une expression régulière ; rien dans l'appel ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setTrustedHosts lignes 642-647, sprintf('{%s}i', $hostPattern)"
+        verified_at: "2026-09-17"
+
+  - id: FLC-xwwc4rksxk78
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getClientIp()` ne renvoie-t-il pas la première adresse de `X-Forwarded-For` ?"
+    back: "Parce qu'il renvoie l'adresse non fiable la **plus proche du serveur** : tout ce qui est à sa gauche a été écrit par un maillon auquel on ne fait pas confiance."
+    explanation: >-
+      Symfony complète la chaîne avec `REMOTE_ADDR`, retire les adresses des
+      proxys déclarés de confiance, puis renverse ce qui reste et prend le
+      premier élément. Le client d'origine n'est donc obtenu que si **toute** la
+      chaîne est déclarée. C'est le comportement sûr : la partie gauche de
+      l'en-tête est falsifiable par le client.
+    memorization_justification: >-
+      La règle « le client est la première adresse » est vraie dans le cas
+      nominal et fausse dès qu'un saut n'est pas déclaré — donc juste assez
+      souvent pour s'installer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getClientIp ligne 821 ; getClientIps ligne 798 ; normalizeAndFilterClientIps lignes 2146-2183"
+        verified_at: "2026-09-17"
+
+  - id: FLC-gftv2y7rzn6c
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "L'URL est `/s?tags=php` (valeur unique). Que fait `$request->query->all('tags')` ?"
+    back: "Elle lève une `BadRequestException` : la valeur existe mais n'est pas un tableau."
+    explanation: >-
+      C'est le cas inverse du piège habituel, et il mord dans le code défensif :
+      passer systématiquement par `all()` « pour être tranquille » échoue dès
+      qu'un seul paramètre arrive. Pour accepter les deux formes, il faut
+      tester, ou lire la valeur brute via `$request->query->all()` sans clé.
+    memorization_justification: >-
+      Cas concret où la parade au piège connu crée le piège symétrique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all lignes 45-56"
+        verified_at: "2026-09-17"
+
+  - id: FLC-edpmhmymcjfd
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Quelle exception lève `$request->query->get('page', ['défaut'])` ?"
+    back: "Une `\\InvalidArgumentException` — pas une `BadRequestException` : c'est la **valeur par défaut** qui est fautive, pas l'entrée."
+    explanation: >-
+      `InputBag::get()` vérifie d'abord son deuxième argument : « Expected a
+      scalar value as a 2nd argument ». La distinction est logique — une entrée
+      non scalaire vient du client et donne un 400, un défaut non scalaire est
+      une faute du programmeur et n'a rien à voir avec la requête. Les deux
+      contrôles acceptent aussi un objet `\Stringable`.
+    memorization_justification: >-
+      Deux exceptions de types différents levées par la même méthode, selon
+      lequel de ses deux arguments est en cause.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get lignes 37-50"
+        verified_at: "2026-09-17"
+
+  - id: FLC-c6kdb458s7bn
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Sur un POST de formulaire, modifier le sac renvoyé par `getPayload()` modifie-t-il `$request->request` ?"
+    back: "Non : quand le sac POST est non vide, `getPayload()` en renvoie un **clone**."
+    explanation: >-
+      Le corps de la méthode est explicite : `if ($this->request->count())
+      { return clone $this->request; }`. Sinon elle décode le corps en JSON et
+      construit un `InputBag` neuf. Dans les deux cas, l'objet rendu est
+      détaché : `getPayload()` est un accesseur de lecture, pas une vue.
+    memorization_justification: >-
+      Le clonage est invisible à l'appel et change le résultat de toute écriture
+      faite sur le sac rendu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload lignes 1539-1560"
+        verified_at: "2026-09-17"
+
+  - id: FLC-g06p29cbe5hv
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Un POST porte `X-HTTP-Method-Override: GET`. Que renvoie `getMethod()` ?"
+    back: "`POST`. GET, HEAD, CONNECT et TRACE sont ignorés comme cibles d'override en Symfony 8.0."
+    explanation: >-
+      La liste est écrite en dur dans `getMethod()`, et `setAllowedHttpMethodOverride()`
+      refuse d'ailleurs qu'on l'y remette : l'appel lève une
+      `\InvalidArgumentException`. Un override vers `PATCH` fonctionne, lui.
+      Et une valeur qui n'est pas faite que de lettres majuscules — `P@TCH` —
+      lève une `SuspiciousOperationException`.
+    memorization_justification: >-
+      Quatre méthodes traitées à part, sans message ni avertissement : la
+      requête est simplement traitée comme un POST.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1202-1239 ; setAllowedHttpMethodOverride lignes 710-716"
+        verified_at: "2026-09-17"
+
+  - id: FLC-smdzenndjcyp
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "L'en-tête `X-HTTP-Method-Override` demande-t-il d'être activé, comme `_method` ?"
+    back: "Non. L'en-tête est lu sur tout POST sans rien activer ; seul le paramètre `_method` exige `enableHttpMethodParameterOverride()`."
+    explanation: >-
+      Les deux mécanismes sont souvent présentés ensemble, ce qui laisse croire
+      au même interrupteur. Pour désactiver l'en-tête, il faut
+      `setAllowedHttpMethodOverride([])` — une liste vide, que `getMethod()`
+      traite comme « aucun override permis ». Le défaut, `null`, veut dire
+      « tous permis », à l'exception des quatre méthodes exclues.
+    memorization_justification: >-
+      Asymétrie contre-intuitive entre deux mécanismes jumeaux, et défaut
+      permissif que l'existence même du réglage fait croire fermé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod lignes 1209-1218 ; $httpMethodParameterOverride ligne 82"
+        verified_at: "2026-09-17"
+
+  - id: FLC-qchqy6cdtpby
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "Aucun `setTrustedHosts()` n'a été appelé. Quel `Host` est accepté ?"
+    back: "N'importe lequel : le contrôle ne s'exécute que `if (count(self::$trustedHostPatterns) > 0)`."
+    explanation: >-
+      L'absence de configuration n'est pas un mode strict, c'est l'absence de
+      contrôle. Seule la validité **syntaxique** de l'hôte est vérifiée en
+      amont, indépendamment de la liste. Un `Host` falsifié empoisonne alors
+      tout ce qui se construit à partir de lui : URL absolue d'un courriel de
+      réinitialisation, clé de cache.
+    memorization_justification: >-
+      Défaut ouvert d'un mécanisme de sécurité : l'intuition attend l'inverse
+      d'une liste blanche vide.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getHost lignes 1154-1166"
+        verified_at: "2026-09-17"
+
+  - id: FLC-4vae74bv226h
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "`getHost()` a levé une `SuspiciousOperationException` sur un hôte invalide. Que renvoie le second appel ?"
+    back: "La chaîne vide. L'exception n'est levée qu'une fois : ensuite `getHost()` renvoie `''`."
+    explanation: >-
+      Le garde est `if (!$this->isHostValid) { return ''; }` avant la levée :
+      le premier appel bascule le drapeau, les suivants sortent silencieusement.
+      Un code qui attrape l'exception et réessaie obtient donc une chaîne vide,
+      pas une seconde exception — et une chaîne vide se propage sans bruit.
+    memorization_justification: >-
+      Comportement non idempotent d'un accesseur : rien dans la signature ne
+      laisse deviner que deux appels identiques donnent deux résultats.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getHost lignes 1145-1152"
+        verified_at: "2026-09-17"
+
+  - id: FLC-e3jfzd2kpmvf
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "Le corps de la requête est le JSON `\"42\"`. Que fait `getPayload()` ?"
+    back: "Elle lève une `JsonException` : le JSON est valide mais ne décode pas vers un tableau."
+    explanation: >-
+      Le message est explicite : « JSON content was expected to decode to an
+      array ». Un corps vide, lui, ne lève pas — il rend un `InputBag` vide.
+      Trois issues, donc, pour la même méthode : le clone du sac POST, un sac
+      construit depuis un tableau JSON, ou une exception.
+    memorization_justification: >-
+      Cas limite entre « JSON invalide » et « JSON valide inexploitable », que
+      le nom de la méthode ne laisse pas soupçonner.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload lignes 1539-1560"
         verified_at: "2026-09-17"

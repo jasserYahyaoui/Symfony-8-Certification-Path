@@ -60,7 +60,7 @@ la donnée, pas par la mise en page : `FlashcardLevel` = `RECALL`,
 |---|---|---|---|---|---|---|
 | 1 | HTTP Specification (RFC 9110) | MINIMAL | 692 / 700 | 16 | 10 | **RAFFINÉE** (2026-09-17) |
 | 2 | Status codes | MINIMAL | 666 / 700 | 17 | 3 | **RAFFINÉE** (2026-09-17) |
-| 3 | HTTP request | DEEP | 1124 / 1200 | 1 | 4 | à faire |
+| 3 | HTTP request | DEEP | 1183 / 1200 | 17 | 4 | **RAFFINÉE** (2026-09-17) |
 | 4 | HTTP response | STANDARD | 729 / 900 | 1 | 4 | à faire |
 | 5 | HTTP methods | STANDARD | 608 / 900 | 1 | 3 | à faire |
 | 6 | Cookies | STANDARD | 897 / 900 | 1 | 5 | à faire |
@@ -155,9 +155,51 @@ branche `content/lot-02-01-rfc9110`. Aucun statut `DEPLOYED` n'est revendiqué.
 | `aud02`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09` | **rc=0** |
 | `docs/revision/plan.json` + `study-calendar.md` | régénérés ; diff = le seul item Status codes |
 
+## Page 3 — HTTP request, 2026-09-17
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-c1n5fb6sdjzt` … `FLC-e3jfzd2kpmvf`), réparties
+  4 RECALL / 4 UNDERSTANDING / 4 APPLICATION / 4 TRAP ; la carte préexistante
+  `FLC-ke52b2c0c9vm` a reçu le niveau `APPLICATION`.
+- Sources relues le jour même sur la branche 8.0 : `Request.php` (sacs publics
+  l. 94-130, `getMethod` l. 1202-1239, `getRealMethod` l. 1246, `getPayload`
+  l. 1539-1560, `getHost` l. 1132-1166, `setTrustedHosts` l. 642,
+  `setAllowedHttpMethodOverride` l. 710), `InputBag.php` (`get` l. 37-50),
+  `ParameterBag.php` (`all` l. 45-56).
+- Cinq comportements implicites que la page n'enseignait pas sont désormais
+  couverts, chacun lu dans le code : `all($clé)` lève la **même** exception que
+  `get()` mais dans la direction opposée, et rend `[]` sur une clé absente ; un
+  **défaut** non scalaire donne une `\InvalidArgumentException` et non une
+  `BadRequestException` ; `getPayload()` rend un **clone** du sac POST, et lève
+  une `JsonException` sur un JSON valide qui ne décode pas vers un tableau ;
+  un override vers GET/HEAD/CONNECT/TRACE est ignoré en silence, et une valeur
+  non alphabétique lève une `SuspiciousOperationException` ; `getHost()` ne lève
+  qu'**une fois** puis rend la chaîne vide.
+- Section `## Tips d'examen` ajoutée. Corps : 1124 → **1183 mots** sur 1200.
+
+**Non fait, et pourquoi**
+
+- Aucune question ajoutée : les 5 objectifs identifiés sont couverts par
+  6 questions, dont une holdout et une VALIDATION.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 293 tests, 15 682 assertions ; `TOTAL VIOLATIONS: 0` |
+| `aud02`, `aud03 --offline`, `aud04`, `aud05`, `aud07`, `aud08`, `aud09`, `aud10` | **rc=0** |
+| `prove_flashcard_coverage_fails.py` | **rc=0** |
+| `docs/revision/plan.json` + `study-calendar.md` | régénérés |
+
+**Défaut corrigé en cours de route** : quatre cartes portaient des séquences
+sur-échappées (`\\Stringable`, `\"array\"`) issues du heredoc d'écriture, qui
+seraient parties telles quelles sur la page. Relues après analyse YAML, pas à
+l'œil.
+
 ## Prochaine action
 
-Page 3 du lot 02 — **HTTP request** (DEEP, 1124 / 1200 mots, 1 flashcard,
-4 questions). La marge de corps n'y est que de **76 mots**, la plus étroite
-rencontrée jusqu'ici : le travail y sera presque entièrement dans les
-flashcards, comme sur la page 1.
+Page 4 du lot 02 — **HTTP response** (STANDARD, 729 / 900 mots, 1 flashcard).
+La marge de corps y est de **171 mots**, la plus large rencontrée jusqu'ici dans
+ce lot.
