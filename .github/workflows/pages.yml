@@ -295,6 +295,57 @@ jobs:
             echo "ok  lot-02  the Caching and HTTP request pages carry the three P0 corrections"
           fi
 
+          # The Lot 02 pedagogical refinement, proved against the deployed
+          # bytes. The flashcard level axis publishes an `###` heading per
+          # non-empty level under `## Flashcards`; a build that silently lost
+          # the grouping, or a deck whose `level` was dropped by the loader,
+          # would still serve a 200 and still show the cards.
+          #
+          # Each needle below is ABSENT from master before this change --
+          # `git grep` on the canonical content returned nothing for any of
+          # them -- and present in the locally built page. A needle that
+          # matched both would prove nothing, which is the failure this
+          # project has already found five times.
+          #
+          # Plain-text runs only: no inline code span, no apostrophe (the
+          # renderer escapes it), and no line break inside the run.
+          for page in http-specification-rfc-9110 status-codes http-request; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/l2r-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Lot 02 refined page $page serves $code"
+              fail=1
+            fi
+          done
+          missing=""
+          # The level axis reached the rendered page, on all three.
+          for page in http-specification-rfc-9110 status-codes http-request; do
+            grep -aq '>Mémorisation<' "/tmp/l2r-$page" || missing="$missing $page:no-recall-heading"
+            grep -aq '>Pièges<' "/tmp/l2r-$page" || missing="$missing $page:no-trap-heading"
+          done
+          # Course prose added by the refinement: the mnemonic on RFC 9110,
+          # the 401/403 question pair on Status codes, the two trust lists on
+          # HTTP request.
+          grep -aq 'du plus général au plus concret' /tmp/l2r-http-specification-rfc-9110 \
+            || missing="$missing rfc9110:no-mnemonic"
+          grep -aq 'Devant un énoncé absolu' /tmp/l2r-http-specification-rfc-9110 \
+            || missing="$missing rfc9110:no-absolute-claim-tip"
+          grep -aq '403 pose' /tmp/l2r-status-codes || missing="$missing status:no-401-403-tip"
+          grep -aq 'Deux listes, deux dangers' /tmp/l2r-http-request \
+            || missing="$missing request:no-two-lists-tip"
+          # Flashcard bodies, one per page: the card text itself shipped, not
+          # only the headings above it.
+          grep -aq 'les deux générations de vocabulaire' /tmp/l2r-status-codes \
+            || missing="$missing status:no-constant-naming-card"
+          grep -aq 'stricts dans des directions opposées' /tmp/l2r-http-request \
+            || missing="$missing request:no-all-vs-get-card"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 02 refinement missing from the published pages:$missing"
+            fail=1
+          else
+            echo "ok  lot-02  the three refined pages carry their levelled flashcards and exam tips"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
