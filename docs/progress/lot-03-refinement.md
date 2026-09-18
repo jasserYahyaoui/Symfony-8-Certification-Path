@@ -135,7 +135,74 @@ rempli la page sans améliorer la probabilité de répondre juste, ce que le
 | `composer gate-full` | **exit 0** — 295 tests, 15 809 assertions ; `TOTAL VIOLATIONS: 0` |
 | Aiguilles de smoke test | 4 ajoutées ; `substantial portions` **écartée** — déjà présente une fois sur `master` |
 
+## Page 4 — Components and Bridges, 2026-09-18
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-tysgghm0xyx0` … `FLC-6m7k069wqxwq`) ; la carte
+  préexistante `FLC-396ywyjsv9pb` a reçu le niveau `UNDERSTANDING`. L'item en
+  porte **16**, quatre par niveau.
+- Corps : 466 → **836 mots** sur 900.
+
+**Une affirmation retirée : « cinq bridges »**
+
+La page annonçait cinq bridges. Aucune source ne l'établit. Ce que les sources
+établissent, et qui est désormais écrit :
+
+- la clé `replace` du `composer.json` du mono-dépôt liste exactement **trois**
+  bridges publiés comme paquets — `doctrine-bridge`, `monolog-bridge`,
+  `twig-bridge` ;
+- un quatrième répertoire, `src/Symfony/Bridge/PhpUnit/`, existe et est
+  **absent** de `replace`.
+
+L'énumération exhaustive des répertoires de `src/Symfony/Bridge/` n'a pas pu
+être faite : `api.github.com` est bloqué par le proxy et l'appel MCP
+`get_file_contents` sur `symfony/symfony` a été refusé. Des sondages d'URL
+brutes ont renvoyé 200 pour `Doctrine`, `Monolog`, `Twig` et `PhpUnit`, et 404
+pour `ProxyManager`, `Propel1` et `Swiftmailer` — ce qui ne prouve pas une
+liste complète. La page n'affirme donc **pas** de nombre total de répertoires.
+
+**Une section ajoutée : le bridge PHPUnit dément la définition**
+
+`symfony/phpunit-bridge` porte le type `symfony-bridge` et vit dans
+`src/Symfony/Bridge/`, mais son `require` ne contient que `php >=8.1.0` —
+aucun composant Symfony, aucune bibliothèque tierce. Il n'a pas les « deux
+côtés » que la définition générale suppose. Comparé au bridge Twig
+(`php >=8.4`, `symfony/translation-contracts ^2.5|^3`, `twig/twig ^3.21|^4.0`),
+l'écart est frappant, et la contrainte PHP plus basse s'explique : le bridge
+sert à tester, il doit tourner sur des PHP plus anciens.
+
+**Une section ajoutée : `replace` et `provide`**
+
+Le `composer.json` du mono-dépôt porte deux clés voisines que la page
+ignorait. `replace` compte **65** entrées et ne contient pas que des
+composants — cinq bundles y figurent. `provide` ne contient **aucun** paquet
+Symfony : quinze noms terminés par `-implementation`, qui déclarent les
+interfaces implémentées. Le `composer.json` était déjà cité en front matter
+pour ses deux clés ; seule `replace` était exploitée.
+
+**Un doublon corrigé avant commit**
+
+`AUD-04` a levé `VOL-4` sur `FLC-077chfqb2wvg` et `FLC-96yjsk63bse0` : une fois
+les segments de code normalisés, les deux fronts se réduisaient à « que déclare
+la clé du de ». Le front de la première a été reformulé pour que le mot
+distinctif tombe hors segment de code. Un premier doublon avait déjà été écarté
+plus tôt : la carte que j'avais écrite sur le critère bridge/bundle reprenait
+`FLC-396ywyjsv9pb`, elle a été remplacée par la carte `provide`.
+
+**Contrôles réellement exécutés le 2026-09-18**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart — rapport inchangé |
+| `composer gate-full` | **exit 0** — 295 tests, 15 824 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` — restauration SHA-256 |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 7 ajoutées ; « cinq bundles y figurent » **écartée** — coupée par le retour à la ligne, elle ne survit pas comme chaîne unique dans la page rendue |
+
 ## Prochaine étape
 
-Page 4 — **Components and Bridges** (STANDARD, 466 / 900 mots, 1 flashcard,
-434 mots de marge).
+Page 5 — **Code organization**.
