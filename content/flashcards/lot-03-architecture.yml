@@ -268,6 +268,7 @@ flashcards:
   - id: FLC-396ywyjsv9pb
     official_item: OIT-d416348gfhde
     language: fr
+    level: UNDERSTANDING
     front: 'Symfony : quel est le critère qui sépare un bridge d''un bundle ?'
     back: Le bundle apporte la configuration et enregistre des services ; un bridge ne configure rien.
     explanation: 'Le bridge relie un composant à une bibliothèque tierce. Posé seul dans un projet Symfony,
@@ -1261,4 +1262,356 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "lignes 10-11"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-d416348gfhde — Components and Bridges.
+  #
+  # Douze cartes ajoutées le 2026-09-17. `composer.json` du mono-dépôt et des
+  # bridges Twig et PhpUnit relus le jour même sur la branche 8.0.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-tysgghm0xyx0
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: RECALL
+    front: "Quels bridges Symfony sont publiés comme paquets et listés dans `replace` sur la branche 8.0 ?"
+    back: "Trois : `symfony/doctrine-bridge`, `symfony/monolog-bridge` et `symfony/twig-bridge`."
+    explanation: >-
+      La clé `replace` du `composer.json` du mono-dépôt compte 65 paquets, dont
+      exactement ces trois bridges. Un quatrième répertoire de bridge existe —
+      `PhpUnit` — mais il n'y figure pas : installer `symfony/symfony` ne
+      fournit donc pas `symfony/phpunit-bridge`.
+    memorization_justification: >-
+      Liste courte et vérifiable, dont l'intérêt est l'absence du quatrième :
+      c'est elle qui se retient mal.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé replace, entrées *-bridge"
+        verified_at: "2026-09-17"
+
+  - id: FLC-96yjsk63bse0
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: RECALL
+    front: "Que déclare la clé `replace` du `composer.json` de `symfony/symfony` ?"
+    back: "Que `symfony/symfony` **remplace** 65 paquets individuels — il ne les installe pas en plus."
+    explanation: >-
+      C'est ce qui permet d'installer le mono-dépôt sans entrer en conflit avec
+      les paquets séparés extraits de lui. `replace` et `require` disent des
+      choses opposées : l'un annonce « je fournis déjà ceci », l'autre « j'ai
+      besoin de ceci ».
+    memorization_justification: >-
+      Clé Composer peu manipulée, dont le sens s'inverse facilement avec celui
+      de `require`.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé replace"
+        verified_at: "2026-09-17"
+
+  - id: FLC-wz9hsw7azeq4
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: RECALL
+    front: "Que requiert le `composer.json` du bridge Twig sur la branche 8.0 ?"
+    back: "`php >=8.4`, `symfony/translation-contracts` et `twig/twig ^3.21|^4.0` — les deux côtés du pont."
+    explanation: >-
+      C'est le cas canonique : un composant Symfony d'un côté, une bibliothèque
+      tierce de l'autre. Sa description le dit — « Provides integration for Twig
+      with various Symfony components ». Sans Twig il est inutile ; sans les
+      composants, il n'a rien à exposer.
+    memorization_justification: >-
+      Exemple qui rend la définition vérifiable dans un fichier plutôt que
+      mémorisée comme une formule.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clés description et require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-077chfqb2wvg
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: UNDERSTANDING
+    front: "La clé `provide` du mono-dépôt recense-t-elle des paquets ou des interfaces ?"
+    back: "Des implémentations d'interfaces, pas des paquets : uniquement des noms terminés par `-implementation`."
+    explanation: >-
+      Sur la branche 8.0 elle en liste quinze — `psr/log-implementation`,
+      `psr/cache-implementation`, `psr/container-implementation`,
+      `symfony/event-dispatcher-implementation`… Aucun paquet Symfony n'y
+      figure. Elle déclare que ce dépôt fournit une implémentation de ces
+      interfaces, ce qui satisfait une bibliothèque tierce qui l'exige.
+    memorization_justification: >-
+      Deuxième clé du même fichier, constamment confondue avec `replace` ; la
+      distinction se teste en une question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-18"
+
+  - id: FLC-0vgwn0pthjxt
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: RECALL
+    front: "La clé `replace` du mono-dépôt ne contient-elle que des composants ?"
+    back: "Non. Cinq bundles y figurent : `framework-bundle`, `security-bundle`, `twig-bundle`, `debug-bundle`, `web-profiler-bundle`."
+    explanation: >-
+      Sur les 65 entrées, on trouve les composants, les trois bridges publiés et
+      ces cinq bundles. `replace` recense ce que le mono-dépôt fournit, quelle
+      que soit la catégorie du paquet — ce n'est pas une liste de composants.
+    memorization_justification: >-
+      Corrige la lecture naturelle de `replace` comme « la liste des
+      composants », qui est fausse et qu'un QCM peut exploiter directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé replace"
+        verified_at: "2026-09-18"
+
+  - id: FLC-hxz591mg4zc5
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: TRAP
+    front: "`replace` et `provide` : laquelle des deux contient `symfony/console` ?"
+    back: "`replace`. `provide` ne contient aucun paquet Symfony — seulement des noms en `-implementation`."
+    explanation: >-
+      Les deux clés voisinent dans le même fichier et se ressemblent assez pour
+      qu'une question les intervertisse. `replace` nomme des paquets réels que
+      `symfony/symfony` fournit à leur place ; `provide` nomme des interfaces
+      qu'il implémente.
+    memorization_justification: >-
+      Piège d'interversion sur deux clés adjacentes du fichier le plus cité de
+      l'item ; il ne se désamorce que si la différence a été apprise.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clés replace et provide"
+        verified_at: "2026-09-18"
+
+  - id: FLC-6m7k069wqxwq
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: APPLICATION
+    front: "Une bibliothèque tierce exige `psr/log-implementation`. Un projet Symfony la satisfait-il ?"
+    back: "Oui : `symfony/symfony` déclare `psr/log-implementation` dans sa clé `provide`, aux versions 1.0, 2.0 et 3.0."
+    explanation: >-
+      C'est précisément le rôle de `provide` : permettre à une dépendance
+      exprimée en termes d'interface — et non de paquet — d'être résolue par ce
+      dépôt. La même clé couvre `psr/cache-implementation`,
+      `psr/container-implementation` et onze autres.
+    memorization_justification: >-
+      Transpose la clé en situation réelle de résolution de dépendances, qui est
+      la forme sous laquelle la notion est utile et testée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-18"
+
+  - id: FLC-0pfe56mwrbrp
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: UNDERSTANDING
+    front: "Quel test décide qu'un paquet Symfony est un **composant** ?"
+    back: "Peut-il s'installer et servir dans un projet PHP quelconque, sans le framework ? Si non, ce n'est pas un composant."
+    explanation: >-
+      Chaque composant a son dépôt en lecture seule extrait du mono-dépôt —
+      `symfony/console`, `symfony/routing` — et aucune dépendance au framework.
+      Le test est opérationnel : on peut l'exécuter mentalement sans connaître
+      la liste des composants par cœur.
+    memorization_justification: >-
+      Critère exécutable qui remplace une liste à retenir ; c'est ce que l'item
+      officiel demande de savoir classer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé replace, paquets extraits du mono-dépôt"
+        verified_at: "2026-09-17"
+
+  - id: FLC-bc6jfzdpjsy9
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le bridge PHPUnit contredit-il la définition générale d'un bridge ?"
+    back: "Parce qu'il n'a pas de « deuxième côté » : son `require` ne contient que `php >=8.1.0` — aucun composant Symfony, aucune bibliothèque tierce."
+    explanation: >-
+      Il porte pourtant le type « symfony-bridge » dans son manifeste et vit dans
+      `src/Symfony/Bridge/`. C'est donc un bridge par son nom et par son type
+      déclaré, pas par sa structure de dépendances. Sa description dit ce qu'il
+      fait réellement : « utilities for PHPUnit, especially user deprecation
+      notices management ».
+    memorization_justification: >-
+      Contre-exemple d'une définition apprise comme universelle ; il est dans le
+      périmètre officiel et c'est exactement ce qu'un QCM exploite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clés name, description, type et require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ctpn0f8zk2pr
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: APPLICATION
+    front: "On installe `symfony/symfony`. Obtient-on `symfony/phpunit-bridge` ?"
+    back: "Non : il est **absent** de la clé `replace`. Il s'installe séparément, en `require-dev`."
+    explanation: >-
+      Les trois autres bridges — doctrine, monolog, twig — y figurent et sont
+      donc fournis par le mono-dépôt. Le bridge PHPUnit suit son propre cycle :
+      c'est un outil de test, qui doit pouvoir s'installer sur un projet dont la
+      version de Symfony n'est pas celle du bridge.
+    memorization_justification: >-
+      Exception dans une liste, donc invisible à la lecture ; elle se manifeste
+      par une classe introuvable au moment d'écrire un test.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé replace, absence de symfony/phpunit-bridge"
+        verified_at: "2026-09-17"
+
+  - id: FLC-se9e4h1k1h53
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: APPLICATION
+    front: "Pourquoi le bridge PHPUnit accepte-t-il `php >=8.1.0` quand le bridge Twig exige `php >=8.4` ?"
+    back: "Parce qu'il sert à **tester** : il doit pouvoir s'exécuter sur des versions de PHP plus anciennes que celles du framework qu'il aide à tester."
+    explanation: >-
+      La contrainte la plus basse du dépôt n'est donc pas une négligence mais
+      une conséquence de son rôle. C'est cohérent avec son absence de `replace`
+      et avec son installation en `require-dev` : il vit à côté du framework,
+      pas dedans.
+    memorization_justification: >-
+      Écart de contrainte de version entre deux paquets du même dépôt, dont la
+      raison éclaire la place du paquet dans l'ensemble.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fs7jw9byt8je
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: APPLICATION
+    front: "Twig apparaît sous trois noms dans Symfony. Lesquels, et qui fait quoi ?"
+    back: "`twig/twig` — la bibliothèque tierce ; `symfony/twig-bridge` — l'intégration avec les composants ; `symfony/twig-bundle` — l'intégration dans le framework et sa configuration."
+    explanation: >-
+      L'enchaînement se lit dans cet ordre, et chaque étage a un rôle que les
+      autres n'ont pas. C'est pourquoi retirer le bundle laisse le bridge
+      fonctionner hors framework, tandis que retirer le bridge prive le bundle
+      de ce qu'il devait brancher.
+    memorization_justification: >-
+      Cas concret où les trois notions coexistent ; il rend le triangle
+      mémorable par un exemple plutôt que par un tableau.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clés name, description et require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-ttytsw9z60pf
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « tout ce qui vit dans `src/Symfony/Bridge/` dépend d'une bibliothèque tierce »."
+    back: "Faux. `symfony/phpunit-bridge` ne requiert que `php >=8.1.0`."
+    explanation: >-
+      La définition — un pont entre un composant et une bibliothèque tierce —
+      décrit trois des quatre répertoires. Le quatrième porte le nom et le type
+      sans la structure. Généraliser à partir du bridge Twig, qui est le cas
+      canonique, conduit exactement à cette erreur.
+    memorization_justification: >-
+      Généralisation naturelle à partir de l'exemple le plus enseigné, que le
+      `composer.json` du bridge PHPUnit dément en une ligne.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-b0qfp09pj6zn
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: TRAP
+    front: "`replace` dans le `composer.json` du mono-dépôt installe-t-il les 65 paquets ?"
+    back: "Non : il déclare que `symfony/symfony` les **remplace**. Rien n'est installé en plus."
+    explanation: >-
+      Confondre `replace` et `require` fait attendre 65 dépendances là où il n'y
+      en a aucune de ce fait. L'effet réel est un effet de résolution : Composer
+      sait qu'il ne doit pas installer `symfony/console` à côté de
+      `symfony/symfony`, puisque le second le fournit déjà.
+    memorization_justification: >-
+      Deux clés voisines aux effets opposés ; la confusion se voit rarement,
+      parce qu'elle ne casse rien immédiatement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clés replace et require"
+        verified_at: "2026-09-17"
+
+  - id: FLC-mrsnat360xye
+    official_item: OIT-d416348gfhde
+    language: fr
+    level: TRAP
+    front: "Un bridge installé seul dans un projet Symfony enregistre-t-il ses services ?"
+    back: "Non : aucun. C'est le **bundle** qui enregistre des services et apporte la configuration."
+    explanation: >-
+      Le symptôme est déroutant — les classes sont là, l'autowiring ne trouve
+      rien — parce qu'on attend d'un paquet installé qu'il « marche ». Le bridge
+      fournit du code ; sans bundle, personne ne le déclare au conteneur.
+    memorization_justification: >-
+      Erreur dont le symptôme ne désigne pas la cause : on cherche une faute de
+      configuration là où il manque une couche entière.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé description ; absence d'extension de configuration"
         verified_at: "2026-09-17"
