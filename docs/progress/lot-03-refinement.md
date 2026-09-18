@@ -268,6 +268,40 @@ reformulé.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 8 ajoutées ; « sans l'environnement » **écartée** — l'apostrophe est échappée au rendu, la chaîne littérale n'apparaît pas dans les octets servis |
 
+### Ce que la page 5 a fait tomber : une divergence latente du planificateur
+
+La CI de la PR #172 a échoué sur une étape que `composer gate-full` **ne couvre
+pas** — `node website/tools/verify-reschedule.mjs`, qui compare le
+planificateur du navigateur à `build_roadmap.py`. Message :
+
+```text
+2026-10-08 slot 6 title: "Nouveau — Code organization" vs "Nouveau (suite) — Code organization"
+```
+
+`a` est `plan.json` (Python), `b` est le port TypeScript. La cause est une
+divergence d'une ligne dans le cas où un item **déborde** de son créneau :
+
+| | branche « morceau partiel » |
+|---|---|
+| `build_roadmap.py` | `D['new'].append((it, free, left == it['total']))` |
+| `reschedule.ts` | `D.neu.push({id, minutes: free, full: false})` |
+
+`full` marque l'**entrée** d'un item, pas le fait de le finir : c'est ce
+drapeau que compte `maxNew`, et c'est lui qui écrit « Nouveau » plutôt que
+« Nouveau (suite) ». Un premier morceau partiel est donc bien une entrée, ce
+que `left === item.total` exprime. Le port le figeait à `false`, ce qui
+mislabellisait le premier morceau **et** sous-comptait `maxNew` côté
+navigateur.
+
+Le port a été corrigé, pas le contrôle. La divergence était **latente** :
+elle n'apparaît que lorsqu'un item déborde de son premier créneau, ce que
+l'agrandissement de la page 5 (543 → 848 mots) a provoqué pour la première
+fois. Le contrôle vient donc de prouver qu'il n'est pas vide.
+
+Leçon opérationnelle, à ajouter à celle de `CLAUDE.md` sur les audits :
+`gate-full` ne lance pas non plus `verify-reschedule.mjs`. Il faut le lancer
+quand un changement de contenu modifie la durée estimée d'un item.
+
 ## Prochaine étape
 
 Page 6 — **Request handling** (DEEP).
