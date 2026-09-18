@@ -203,6 +203,105 @@ plus tôt : la carte que j'avais écrite sur le critère bridge/bundle reprenait
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 7 ajoutées ; « cinq bundles y figurent » **écartée** — coupée par le retour à la ligne, elle ne survit pas comme chaîne unique dans la page rendue |
 
+## Page 5 — Code organization, 2026-09-18
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-srxd7601p8cb` … `FLC-a2gc9fn1n43v`) ; la carte
+  préexistante `FLC-82hpxh6bv6y3` a reçu le niveau `UNDERSTANDING`. L'item en
+  porte **16**.
+- Corps : 543 → **848 mots** sur 900.
+
+**Une erreur corrigée dans une carte existante**
+
+`FLC-82hpxh6bv6y3` affirmait que « `bin/`, `config/`, `src/`, `public/`,
+`templates/`, `translations/` et `vendor/` se déplacent par `extra` ». C'est
+faux, et la page de cours disait déjà le contraire : `templates/` et
+`translations/` se déplacent par configuration de bundle,
+`vendor/` par la clé `config` de Composer. L'explication a été réécrite.
+
+**Une affirmation corrigée dans le cours : « la liste est close »**
+
+La page affirmait que `extra` ne porte que quatre clés et que « la liste est
+close ». `configuration/override_dir_structure.rst` en documente une
+cinquième, imbriquée : `extra.runtime.dotenv_path`, qui déplace le fichier
+`.env`. Le piège a été réécrit pour énoncer ce que `extra` ne déplace **pas**,
+plutôt qu'une liste close qui ne l'est pas.
+
+**Deux sections ajoutées, tirées de la source et non de la documentation**
+
+`Kernel.php` et `MicroKernelTrait.php` relus sur la branche 8.0. Ce que la
+documentation ne dit pas, ou dit autrement :
+
+- `Kernel` expose **quatre** accesseurs, pas deux : `getCacheDir()`,
+  `getBuildDir()`, `getShareDir()`, `getLogDir()`. Les deux du milieu délèguent
+  à `getCacheDir()` par compatibilité ascendante.
+- Les défauts sont **asymétriques** : `var/cache/<environnement>` d'un côté,
+  `var/log` **sans** environnement de l'autre.
+- `getShareDir()` est le seul de type `?string` ; quand il rend `null`, le
+  paramètre `%kernel.share_dir%` n'est pas enregistré.
+- Les `APP_*_DIR` sont lues par **`MicroKernelTrait`**, pas par `Kernel` — un
+  noyau sans le trait les ignore. Il y en a **quatre**, `APP_BUILD_DIR`
+  comprise, que la page de documentation ne mentionne pas.
+- `APP_CACHE_DIR`, `APP_BUILD_DIR` et `APP_SHARE_DIR` passent par
+  `getEnvDir()`, qui **ajoute l'environnement** au chemin et résout un chemin
+  relatif depuis la racine du projet. `APP_LOG_DIR` est prise telle quelle. La
+  documentation les décrit comme « le chemin complet du dossier » ; sur ce
+  point la source prime, et c'est elle qui est écrite.
+
+**Un doublon attrapé par l'audit**
+
+`AUD-04` a levé `VOL-4` sur `FLC-vpyxr6rxb8j5` et `FLC-1v32rnyqb3bf` : les deux
+fronts se réduisaient à « quelle est la valeur par défaut de ». Le second a été
+reformulé.
+
+**Contrôles réellement exécutés le 2026-09-18**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart — rapport inchangé |
+| `composer gate-full` | **exit 0** — 295 tests, 15 845 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` — restauration SHA-256 |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8 ajoutées ; « sans l'environnement » **écartée** — l'apostrophe est échappée au rendu, la chaîne littérale n'apparaît pas dans les octets servis |
+
+### Ce que la page 5 a fait tomber : une divergence latente du planificateur
+
+La CI de la PR #172 a échoué sur une étape que `composer gate-full` **ne couvre
+pas** — `node website/tools/verify-reschedule.mjs`, qui compare le
+planificateur du navigateur à `build_roadmap.py`. Message :
+
+```text
+2026-10-08 slot 6 title: "Nouveau — Code organization" vs "Nouveau (suite) — Code organization"
+```
+
+`a` est `plan.json` (Python), `b` est le port TypeScript. La cause est une
+divergence d'une ligne dans le cas où un item **déborde** de son créneau :
+
+| | branche « morceau partiel » |
+|---|---|
+| `build_roadmap.py` | `D['new'].append((it, free, left == it['total']))` |
+| `reschedule.ts` | `D.neu.push({id, minutes: free, full: false})` |
+
+`full` marque l'**entrée** d'un item, pas le fait de le finir : c'est ce
+drapeau que compte `maxNew`, et c'est lui qui écrit « Nouveau » plutôt que
+« Nouveau (suite) ». Un premier morceau partiel est donc bien une entrée, ce
+que `left === item.total` exprime. Le port le figeait à `false`, ce qui
+mislabellisait le premier morceau **et** sous-comptait `maxNew` côté
+navigateur.
+
+Le port a été corrigé, pas le contrôle. La divergence était **latente** :
+elle n'apparaît que lorsqu'un item déborde de son premier créneau, ce que
+l'agrandissement de la page 5 (543 → 848 mots) a provoqué pour la première
+fois. Le contrôle vient donc de prouver qu'il n'est pas vide.
+
+Leçon opérationnelle, à ajouter à celle de `CLAUDE.md` sur les audits :
+`gate-full` ne lance pas non plus `verify-reschedule.mjs`. Il faut le lancer
+quand un changement de contenu modifie la durée estimée d'un item.
+
 ## Prochaine étape
 
-Page 5 — **Code organization**.
+Page 6 — **Request handling** (DEEP).

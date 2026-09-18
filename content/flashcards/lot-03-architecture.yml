@@ -285,11 +285,16 @@ flashcards:
   - id: FLC-82hpxh6bv6y3
     official_item: OIT-p3p7te94qc1n
     language: fr
+    level: UNDERSTANDING
     front: 'Symfony : où se déplacent `var/cache/` et `var/log/`, contrairement à `src/` ou `public/`
       ?'
     back: En PHP, par `getCacheDir()` et `getLogDir()` sur le `Kernel` — pas par la clé `extra` du `composer.json`.
-    explanation: '`bin/`, `config/`, `src/`, `public/`, `templates/`, `translations/` et `vendor/` se
-      déplacent par `extra`. Les deux répertoires générés font exception et se surchargent par code.'
+    explanation: >-
+      Seuls `bin/`, `config/`, `src/` et `public/` se déplacent par `extra` ;
+      `templates/` et `translations/` par configuration de bundle, `vendor/` par
+      la clé `config` de Composer. Les deux répertoires générés font exception à
+      tout cela : ils se surchargent par code, ou par une variable
+      d'environnement que lit `MicroKernelTrait`.
     memorization_justification: 'Exception arbitraire : la règle générale est le `composer.json`, et
       rien n''annonce que ces deux-là s''en écartent.'
     verification_status: VERIFIED
@@ -1615,3 +1620,340 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "clé description ; absence d'extension de configuration"
         verified_at: "2026-09-17"
+
+  # Lot 03 page 5 — Code organization (OIT-p3p7te94qc1n). Kernel.php et
+  # MicroKernelTrait.php relus sur la branche 8.0 le 2026-09-18.
+  - id: FLC-srxd7601p8cb
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: RECALL
+    front: "Quelles clés `extra` du `composer.json` déplacent un répertoire ?"
+    back: "Quatre : `bin-dir`, `config-dir`, `src-dir`, `public-dir`."
+    explanation: >-
+      `templates/` et `translations/` se déplacent par configuration de bundle,
+      `vendor/` par la clé `config` de Composer, `var/cache/` et `var/log/` par
+      le noyau. Une clé `extra.templates-dir` n'existe pas.
+    memorization_justification: >-
+      Liste close et courte, que le QCM allonge ou raccourcit d'une entrée ;
+      elle ne se reconstruit pas par raisonnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Binary, Configuration, Source and Public Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-ywbrh6p1k3r6
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: RECALL
+    front: "Par quelle clé se déplace le fichier `.env` ?"
+    back: "`extra.runtime.dotenv_path` — sous `extra`, mais imbriquée d'un cran."
+    explanation: >-
+      Les quatre autres clés sont plates sous `extra` ; celle-ci vit sous
+      `extra.runtime`. Après l'avoir changée il faut regénérer
+      `vendor/autoload_runtime.php`, par exemple avec `composer dump-autoload`.
+    memorization_justification: >-
+      Seule clé imbriquée de la famille, et seule qui vise un fichier plutôt
+      qu'un répertoire ; la forme exacte ne se devine pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Environment (DotEnv) Files Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-vpyxr6rxb8j5
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: RECALL
+    front: "Quelle est la valeur par défaut de `Kernel::getCacheDir()` ?"
+    back: "`<racine du projet>/var/cache/<environnement>` — l'environnement est dans le chemin."
+    explanation: >-
+      Chaque environnement génère sa propre configuration compilée ; le
+      cloisonnement par défaut évite qu'ils se marchent dessus. C'est aussi
+      pourquoi la documentation avertit de garder des répertoires distincts si
+      l'on surcharge la méthode.
+    memorization_justification: >-
+      Valeur exacte, avec un segment que la lecture rapide de « var/cache »
+      fait oublier ; elle est la moitié d'une asymétrie que le QCM teste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCacheDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-1v32rnyqb3bf
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: RECALL
+    front: "Où `Kernel` place-t-il les logs par défaut ?"
+    back: "`<racine du projet>/var/log` — **sans** l'environnement."
+    explanation: >-
+      Contrairement au cache, les logs ne sont pas cloisonnés par environnement
+      par défaut. Les deux méthodes se ressemblent assez pour qu'on leur prête
+      la même forme ; la source dit le contraire.
+    memorization_justification: >-
+      L'autre moitié de l'asymétrie ; c'est elle qui rend la question piégeuse
+      et elle ne se déduit d'aucune règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLogDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-qz2s7spcbc3w
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: RECALL
+    front: "Quels répertoires `Kernel` expose-t-il par une méthode ?"
+    back: "Quatre : `getCacheDir()`, `getBuildDir()`, `getShareDir()`, `getLogDir()`."
+    explanation: >-
+      `getBuildDir()` et `getShareDir()` délèguent par défaut à `getCacheDir()`,
+      par compatibilité ascendante. On les cite rarement, mais ce sont bien
+      quatre points de surcharge distincts.
+    memorization_justification: >-
+      Le nombre exact est la réponse à une question fermée, et deux des quatre
+      sont invisibles dans un projet non modifié.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCacheDir, getBuildDir, getShareDir, getLogDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-by12v3r138x0
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le cache est-il cloisonné par environnement et pas le log ?"
+    back: "Le cache contient la configuration compilée, qui diffère par environnement ; un log est un journal, que rien n'oblige à séparer."
+    explanation: >-
+      La documentation avertit explicitement de garder un répertoire de cache
+      distinct par environnement sous peine de comportements inattendus. Aucun
+      avertissement équivalent n'existe pour les logs, et le défaut le reflète.
+    memorization_justification: >-
+      Donne la raison derrière l'asymétrie, ce qui permet de la restituer même
+      si le détail exact s'est effacé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Cache Directory, warning"
+        verified_at: "2026-09-18"
+
+  - id: FLC-5s3v1d1k2k9a
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: UNDERSTANDING
+    front: "Qui lit `APP_CACHE_DIR` et les autres `APP_*_DIR` ?"
+    back: "`MicroKernelTrait`, pas `Kernel`. Un noyau qui n'utilise pas le trait les ignore."
+    explanation: >-
+      Le trait surcharge les quatre accesseurs et consulte `$_SERVER` avant de
+      déléguer au parent. La documentation présente la variable et la méthode
+      comme deux voies équivalentes ; la source montre qu'elles ne sont pas au
+      même endroit.
+    memorization_justification: >-
+      Corrige une lecture naturelle de la documentation, et explique pourquoi
+      la variable peut rester sans effet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCacheDir, getBuildDir, getShareDir, getLogDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-04dgypgbpsey
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getShareDir()` peut-il rendre `null` alors que les trois autres non ?"
+    back: "Le répertoire partagé est facultatif ; sans lui, le paramètre `%kernel.share_dir%` n'est simplement pas enregistré."
+    explanation: >-
+      Il sert aux installations où plusieurs frontaux partagent un système de
+      fichiers. Sa signature est `?string`, et le noyau n'ajoute le paramètre de
+      conteneur que si la valeur n'est pas nulle.
+    memorization_justification: >-
+      Seul accesseur au type nullable, avec une conséquence observable sur le
+      conteneur ; l'exception se teste directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getShareDir, kernel.share_dir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-256rcewrq2hm
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `public/` est-il le seul répertoire exposé ?"
+    back: "C'est le serveur web qui décide, pas Symfony : sa racine documentaire pointe sur `public/`, et rien d'autre n'est atteignable."
+    explanation: >-
+      Aucune configuration Symfony ne rend accessible un fichier posé hors de
+      cette racine. C'est la raison d'être de la séparation : `config/`, `src/`
+      et `var/` restent hors d'atteinte du navigateur.
+    memorization_justification: >-
+      Déplace la cause au bon endroit ; l'erreur classique est de chercher une
+      option Symfony pour exposer un fichier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Public Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-pk8q1bqrtw3v
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: APPLICATION
+    front: "On pose `extra.src-dir` sur `app/`. L'application démarre-t-elle ?"
+    back: "Non, si `autoload.psr-4` n'a pas suivi : l'autochargement cherche encore les classes `App\\` dans `src/`."
+    explanation: >-
+      La documentation demande les deux changements, plus un
+      `composer dump-autoload`. La clé `extra` dit à Symfony où est le code ;
+      `autoload.psr-4` dit à Composer où le charger. Les deux sont nécessaires.
+    memorization_justification: >-
+      Cas où une réponse partielle paraît complète ; la question se pose
+      naturellement sous forme « que faut-il faire d'autre ? ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Source Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-fnzkp3nk6jk2
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: APPLICATION
+    front: "`APP_CACHE_DIR` vaut `/data/cache`. Où le cache est-il écrit en `prod` ?"
+    back: "Dans `/data/cache/prod` : `getEnvDir()` ajoute l'environnement au chemin reçu."
+    explanation: >-
+      La documentation décrit la variable comme « le chemin complet du dossier
+      de cache », mais le trait la fait passer par `getEnvDir()`, qui suffixe
+      l'environnement — et qui résout un chemin relatif depuis la racine du
+      projet. Sur ce point, la source prime.
+    memorization_justification: >-
+      Écart entre documentation et source, avec un effet visible sur le chemin
+      final ; c'est exactement le genre d'écart qu'une question exploite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCacheDir, getEnvDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-c2ppxs42sa1x
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: APPLICATION
+    front: "Les gabarits vivent dans deux répertoires. Quelle option de configuration ?"
+    back: "`twig.paths`. `twig.default_path` n'en désigne qu'un seul."
+    explanation: >-
+      Même partage du côté des traductions :
+      `framework.translator.default_path` pour un répertoire,
+      `framework.translator.paths` pour plusieurs.
+    memorization_justification: >-
+      Le besoin réel — plusieurs répertoires — ne se couvre pas avec l'option
+      la plus citée ; la distinction singulier / pluriel est la réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Templates and Translations Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-4gwjqn3b4cxd
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : `vendor/` se déplace par la clé `extra` du `composer.json`."
+    back: "Faux. Par la clé `config` : `config.vendor-dir`."
+    explanation: >-
+      `extra` est lue par Symfony Flex ; `config` est une clé native de
+      Composer, qui doit connaître l'emplacement de `vendor/` avant que le
+      moindre code Symfony ne soit chargé. L'ordre de démarrage explique la
+      séparation.
+    memorization_justification: >-
+      Exception au milieu d'une liste homogène, et la seule que l'intuition
+      range du mauvais côté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Override the Vendor Directory"
+        verified_at: "2026-09-18"
+
+  - id: FLC-gjsb12232ddh
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: TRAP
+    front: "`APP_LOG_DIR` vaut `/data/log`. Les logs de `prod` vont-ils dans `/data/log/prod` ?"
+    back: "Non, dans `/data/log`. Contrairement aux trois autres, cette variable est prise telle quelle."
+    explanation: >-
+      `APP_CACHE_DIR`, `APP_BUILD_DIR` et `APP_SHARE_DIR` passent par
+      `getEnvDir()` ; `APP_LOG_DIR` est renvoyée directement. L'asymétrie des
+      valeurs par défaut se retrouve donc dans celle des variables.
+    memorization_justification: >-
+      Trois cas sur quatre suivent une règle, le quatrième non ; la
+      généralisation est exactement l'erreur attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getLogDir, getEnvDir"
+        verified_at: "2026-09-18"
+
+  - id: FLC-a2gc9fn1n43v
+    official_item: OIT-p3p7te94qc1n
+    language: fr
+    level: TRAP
+    front: "`config/packages/test/` s'ajoute-t-il à la configuration commune ?"
+    back: "Il la surcharge, et seulement dans l'environnement `test`."
+    explanation: >-
+      Un sous-répertoire nommé d'après un environnement n'est lu que dans cet
+      environnement, et ce qu'il déclare l'emporte sur `config/packages/`. Le
+      mot « ajoute » suggère une fusion additive, qui n'est pas ce qui se
+      produit.
+    memorization_justification: >-
+      Le verbe exact est ce qui se teste ; ajouter et surcharger donnent des
+      résultats différents sur une même clé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use the Default Directory Structure"
+        verified_at: "2026-09-18"

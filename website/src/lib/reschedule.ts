@@ -204,7 +204,13 @@ export function reschedule(
             lotDone[item.lot] = t;
           }
         } else if (free >= 20) {
-          D.neu.push({id, minutes: free, full: false});
+          // `full` marque l'ENTRÉE d'un item, pas le fait de le finir : c'est
+          // ce drapeau que compte `maxNew` ci-dessus, et c'est lui qui écrit
+          // « Nouveau » plutôt que « Nouveau (suite) ». Un premier morceau
+          // partiel reste donc une entrée — `left === item.total` le dit.
+          // Le figer à `false` faisait diverger le port de build_roadmap.py
+          // dès qu'un item débordait de son premier créneau.
+          D.neu.push({id, minutes: free, full: left === item.total});
           remaining[id] = left - free;
           D.used += free;
           if (!introduced.includes(id)) {
