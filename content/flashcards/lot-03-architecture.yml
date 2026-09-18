@@ -250,6 +250,7 @@ flashcards:
   - id: FLC-pyh6wnkg7dc5
     official_item: OIT-347k8phdewem
     language: fr
+    level: TRAP
     front: 'Licence MIT de Symfony : quelle est l''unique obligation qu''elle impose ?'
     back: Reproduire l'avis de copyright et le texte de la licence dans toute copie substantielle du
       logiciel.
@@ -1044,4 +1045,220 @@ flashcards:
         branch: "8.0"
         anchor: "flex-recipes-and-aliases"
         symbol_or_lines: "lignes 178-184"
+        verified_at: "2026-09-17"
+
+  # ---------------------------------------------------------------------------
+  # OIT-347k8phdewem — License.
+  #
+  # Neuf cartes ajoutées le 2026-09-17, lues dans le fichier LICENSE de
+  # symfony/symfony (branche 8.0) le jour même. L'item a deux objectifs
+  # d'apprentissage et un périmètre étroit : la page reste courte à dessein, et
+  # les cartes portent sur ce qu'un QCM peut réellement demander.
+  # ---------------------------------------------------------------------------
+
+  - id: FLC-q56067d1yze3
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: RECALL
+    front: "Qui est le titulaire du copyright de Symfony, et depuis quand ?"
+    back: "**Fabien Potencier**, « Copyright (c) 2004-present » — une personne physique, pas une société."
+    explanation: >-
+      Le fichier `LICENSE` de `symfony/symfony` l'écrit en première ligne. Ni
+      SensioLabs, ni la Symfony SAS : le titulaire est nommément une personne, ce
+      qui surprend pour un projet de cette taille et se retient mieux pour cette
+      raison.
+    memorization_justification: >-
+      Fait nominatif exact, impossible à déduire, et dont l'intuition — une
+      société — est fausse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ligne 1"
+        verified_at: "2026-09-17"
+
+  - id: FLC-5jt2wnzjjq3p
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: RECALL
+    front: "Quelle est l'unique obligation imposée par la licence de Symfony ?"
+    back: "Inclure l'avis de copyright **et** le texte de la licence dans toute copie ou « substantial portion » du logiciel."
+    explanation: >-
+      C'est la seule phrase conditionnelle du document : « The above copyright
+      notice and this permission notice shall be included in all copies or
+      substantial portions of the Software. » Deux avis, pas un — et un seuil
+      qui n'est pas « le logiciel entier ».
+    memorization_justification: >-
+      Formulation exacte d'une obligation unique, dont on retient souvent une
+      moitié — l'avis de copyright — en oubliant le texte de la licence.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 10-11"
+        verified_at: "2026-09-17"
+
+  - id: FLC-yg0rbde8bwnb
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: RECALL
+    front: "Quels droits la licence MIT accorde-t-elle explicitement ?"
+    back: "*use, copy, modify, merge, publish, distribute, sublicense, and/or sell* — huit verbes, gratuitement et sans restriction."
+    explanation: >-
+      La concession est ouverte à « any person obtaining a copy », « free of
+      charge ». Le verbe qui compte en pratique est **sublicense** : il autorise
+      à redistribuer sous une autre licence, ce qu'une licence copyleft interdit.
+    memorization_justification: >-
+      Énumération littérale dont un terme — sublicense — porte la différence
+      juridique décisive avec le copyleft.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 3-8"
+        verified_at: "2026-09-17"
+
+  - id: FLC-w28tr5p1yfm2
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la MIT n'est-elle pas une licence *copyleft* ?"
+    back: "Parce qu'elle n'exige aucune réciprocité : rien n'oblige à publier sous MIT — ni à publier du tout — le code qui utilise Symfony."
+    explanation: >-
+      Une licence copyleft impose aux œuvres dérivées la licence de l'original.
+      La MIT ne pose qu'une condition documentaire, et autorise explicitement le
+      sous-licenciement. C'est ce qui rend l'usage propriétaire et commercial
+      possible sans contrepartie.
+    memorization_justification: >-
+      Le critère qui sépare les deux familles de licences ; le connaître rend
+      inutile de mémoriser des listes de licences.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 3-11"
+        verified_at: "2026-09-17"
+
+  - id: FLC-pd334sa7jk6x
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: UNDERSTANDING
+    front: "Les deux dernières clauses de la MIT disent-elles la même chose ?"
+    back: "Non : l'une écarte toute **garantie** (*AS IS*), l'autre écarte toute **responsabilité** en cas de dommage. Deux protections distinctes."
+    explanation: >-
+      La première nomme les garanties écartées — qualité marchande, adéquation à
+      un usage particulier, non-contrefaçon. La seconde dit qu'« in no event
+      shall the authors or copyright holders be liable », que la réclamation
+      naisse d'un contrat, d'un délit ou d'autre chose. Sans garantie ne suffit
+      pas à écarter la responsabilité : il faut les deux.
+    memorization_justification: >-
+      Deux paragraphes en majuscules qu'on lit comme un bloc, alors qu'ils
+      couvrent deux risques juridiques différents.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 13-19"
+        verified_at: "2026-09-17"
+
+  - id: FLC-fbn22h4d59vp
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: APPLICATION
+    front: "Une société vend une application propriétaire bâtie sur Symfony. Que doit-elle faire ?"
+    back: "Reproduire l'avis de copyright et le texte de la licence. Rien d'autre : ni publier son code, ni payer, ni demander une autorisation."
+    explanation: >-
+      La MIT accorde explicitement le droit de *sell* et de *sublicense*, et
+      n'exige aucune réciprocité. L'obligation est documentaire — en pratique,
+      une mention dans les crédits ou un fichier de licences tiers — et elle
+      porte sur le logiciel copié, pas sur l'application qui l'utilise.
+    memorization_justification: >-
+      Cas d'usage le plus fréquent en entreprise, et celui dont on redoute à
+      tort qu'il impose une contrepartie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 3-11"
+        verified_at: "2026-09-17"
+
+  - id: FLC-gmkk1qmy41zd
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: APPLICATION
+    front: "Où lit-on la licence de Symfony sans ouvrir le fichier `LICENSE` ?"
+    back: "Dans la clé `license` du `composer.json` de `symfony/symfony`, qui porte la valeur `MIT`."
+    explanation: >-
+      Les deux sources disent la même chose sous deux formes : l'identifiant
+      normalisé côté Composer, le texte intégral côté fichier. L'identifiant
+      suit la nomenclature SPDX, ce qui permet à un outil d'audit de licences de
+      le traiter automatiquement.
+    memorization_justification: >-
+      Deuxième emplacement d'un même fait, utile parce que c'est celui qu'un
+      outillage lit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé license"
+        verified_at: "2026-09-17"
+
+  - id: FLC-71nhnm9tc4m2
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : « utiliser Symfony oblige à publier son propre code »."
+    back: "Faux. C'est la confusion MIT / copyleft : la MIT n'exige aucune réciprocité."
+    explanation: >-
+      L'obligation unique est documentaire — reproduire les deux avis — et elle
+      porte sur les copies du **logiciel**, pas sur l'application qui en dépend.
+      Une application Symfony peut rester fermée, être vendue, et ne jamais être
+      publiée.
+    memorization_justification: >-
+      Crainte répandue, issue d'une généralisation de la GPL à tout l'open
+      source ; c'est l'affirmation type d'un QCM vrai/faux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 10-11"
+        verified_at: "2026-09-17"
+
+  - id: FLC-v7t03wr8rvym
+    official_item: OIT-347k8phdewem
+    language: fr
+    level: TRAP
+    front: "L'obligation de la MIT se déclenche-t-elle seulement si l'on redistribue le logiciel **entier** ?"
+    back: "Non : le texte vise « all copies or **substantial portions** of the Software »."
+    explanation: >-
+      Copier un fichier significatif suffit. Le seuil n'est pas défini au
+      caractère près, mais il est clairement en deçà du logiciel complet — ce qui
+      vise précisément le cas courant : reprendre une classe ou un composant dans
+      son propre projet.
+    memorization_justification: >-
+      Deux mots du texte — « substantial portions » — qui élargissent la portée
+      de l'obligation bien au-delà de ce qu'on suppose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "lignes 10-11"
         verified_at: "2026-09-17"

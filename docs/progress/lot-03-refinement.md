@@ -23,7 +23,7 @@ vérification y est une lecture attentive, pas un `grep`.
 |---|---|---|---|---|---|
 | 1 | HttpFoundation component | MINIMAL | 694 / 700 | 15 | **RAFFINÉE** (2026-09-17) |
 | 2 | Symfony Flex | STANDARD | 802 / 900 | 15 | **RAFFINÉE** (2026-09-17) |
-| 3 | License | MINIMAL | 248 / 700 | 1 | à faire |
+| 3 | License | MINIMAL | 542 / 700 | 10 | **RAFFINÉE** (2026-09-17) |
 | 4 | Components and Bridges | STANDARD | 466 / 900 | 1 | à faire |
 | 5 | Code organization | STANDARD | 543 / 900 | 1 | à faire |
 | 6 | Request handling | DEEP | 646 / 1200 | 2 | à faire |
@@ -103,6 +103,39 @@ d'un rapport.
 | `composer gate-full` | **exit 0** — 295 tests, 15 800 assertions ; `TOTAL VIOLATIONS: 0` |
 | Aiguilles de smoke test | 5 ajoutées, vérifiées présentes dans la page construite et absentes de `master` |
 
+## Page 3 — License, 2026-09-17
+
+**Fait**
+
+- 9 flashcards ajoutées (`FLC-q56067d1yze3` … `FLC-v7t03wr8rvym`) ; la carte
+  préexistante `FLC-pyh6wnkg7dc5` a reçu le niveau `TRAP`.
+- Le fichier `LICENSE` de `symfony/symfony` relu ligne à ligne. Ce que la page
+  n'énonçait pas : les **huit verbes** de la concession — dont `sublicense`, qui
+  porte la différence juridique avec le copyleft ; le fait que les deux clauses
+  finales couvrent **deux** risques distincts, l'absence de **garantie** et
+  l'absence de **responsabilité** ; et que le titulaire est une **personne
+  physique**, « Copyright (c) 2004-present Fabien Potencier ».
+- Une comparaison MIT / copyleft en quatre lignes, parce que c'est exactement la
+  confusion qu'un QCM teste.
+- Corps : 248 → **542 mots** sur 700.
+
+**Ce que je n'ai pas fait, et pourquoi**
+
+La marge autorisait 700 mots ; la page s'arrête à 542. L'item porte **deux**
+objectifs d'apprentissage et un périmètre étroit — la licence de Symfony et son
+unique obligation. Ajouter une théorie générale des licences libres aurait
+rempli la page sans améliorer la probabilité de répondre juste, ce que le
+§1.4 interdit. Une marge disponible n'est pas une marge à consommer.
+
+**Contrôles réellement exécutés le 2026-09-17**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `composer gate-full` | **exit 0** — 295 tests, 15 809 assertions ; `TOTAL VIOLATIONS: 0` |
+| Aiguilles de smoke test | 4 ajoutées ; `substantial portions` **écartée** — déjà présente une fois sur `master` |
+
 ## Prochaine étape
 
-Page 3 — **License** (MINIMAL, 248 / 700 mots, 1 flashcard, 452 mots de marge).
+Page 4 — **Components and Bridges** (STANDARD, 466 / 900 mots, 1 flashcard,
+434 mots de marge).
