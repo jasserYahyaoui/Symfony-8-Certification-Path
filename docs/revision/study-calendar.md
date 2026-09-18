@@ -105,28 +105,29 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 26 min · 802 mots · 4 questions, 15 flashcards
 - NOUVEAU · **Symfony Architecture : License** (MINIMAL) — 16 min · 542 mots · 2 questions, 10 flashcards
 - NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 24 min · 836 mots · 3 questions, 16 flashcards
-- NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 12 min · 543 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 23 min · 848 mots · 4 questions, 16 flashcards
 - Révision **J+1** (20 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 - Révision **J+3** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 129 / 140 min*
+*Budget du jour : 140 / 140 min*
 
 ### Vendredi 9 octobre 2026
 
+- NOUVEAU (suite) · **Symfony Architecture : Code organization** (STANDARD) — 3 min · 848 mots · 4 questions, 16 flashcards
 - NOUVEAU · **Symfony Architecture : Request handling** (DEEP) — 16 min · 646 mots · 5 questions, 2 flashcards
 - NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 12 min · 532 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 15 min · 568 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 13 min · 517 mots · 5 questions, 1 flashcards
-- Révision **J+1** (22 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+1** (16 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Révision **J+3** (16 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 - Révision **J+7** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 110 / 140 min*
+*Budget du jour : 107 / 140 min*
 
 ### Samedi 10 octobre 2026
 
-- **Source tour et mise en pratique** sur les 20 items de la semaine :
+- **Source tour et mise en pratique** sur les 21 items de la semaine :
   - PHP : Enums
   - HTTP : HTTP Specification (RFC 9110)
   - HTTP : Status codes
@@ -143,12 +144,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Symfony Architecture : License
   - Symfony Architecture : Components and Bridges
   - Symfony Architecture : Code organization
+  - Symfony Architecture : Code organization
   - Symfony Architecture : Request handling
   - Symfony Architecture : Exception handling
   - Symfony Architecture : Event dispatcher and kernel events
   - Symfony Architecture : Official best practices
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+1** (28 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+1** (34 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Révision **J+3** (14 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
 *Budget du jour : 200 / 200 min*
@@ -157,7 +159,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - **Assessment lot-01 — PHP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-02 — HTTP** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+3** (15 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+3** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
 *Budget du jour : 200 / 200 min*
@@ -168,10 +170,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 13 min · 514 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 14 min · 636 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 15 min · 596 mots · 5 questions, 2 flashcards
-- Révision **J+3** (18 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+3** (22 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Révision **J+7** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 91 / 140 min*
+*Budget du jour : 95 / 140 min*
 
 ### Mardi 13 octobre 2026
 
@@ -203,10 +205,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 11 min · 395 mots · 4 questions, 1 flashcards
 - Révision **J+1** (20 min) — Controllers : The base AbstractController class · Controllers : The request · Controllers : The response · Controllers : The cookies
 - Révision **J+3** (16 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule
-- Révision **J+7** (15 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+7** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Révision **J+14** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 104 / 140 min*
+*Budget du jour : 100 / 140 min*
 
 ### Vendredi 16 octobre 2026
 
@@ -216,10 +218,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 17 min · 632 mots · 6 questions, 1 flashcards
 - Révision **J+1** (20 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+3** (14 min) — Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions
-- Révision **J+7** (18 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+7** (22 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Révision **J+14** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 117 / 140 min*
+*Budget du jour : 121 / 140 min*
 
 ### Samedi 17 octobre 2026
 
@@ -304,9 +306,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (20 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
 - Révision **J+3** (16 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+7** (14 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
-- Révision **J+14** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+14** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
-*Budget du jour : 101 / 140 min*
+*Budget du jour : 98 / 140 min*
 
 ### Vendredi 23 octobre 2026
 
@@ -317,9 +319,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (22 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Révision **J+3** (15 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
 - Révision **J+7** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
-- Révision **J+14** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+14** (17 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 114 / 140 min*
+*Budget du jour : 117 / 140 min*
 
 ### Samedi 24 octobre 2026
 
@@ -554,7 +556,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
 - Révision **J+1** (26 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports · Messenger : Messages and handlers
 - Révision **J+3** (16 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
-- Révision **J+30** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+30** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
 *Budget du jour : 200 / 200 min*
 
@@ -563,7 +565,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-07 — Forms** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-10 — Security** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (16 min) — Security : Password hashers · Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
-- Révision **J+30** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+30** (17 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
 *Budget du jour : 200 / 200 min*
@@ -779,7 +781,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (15 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+30** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
-- Révision **J+45** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+45** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
 *Budget du jour : 200 / 200 min*
@@ -793,9 +795,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+3** (16 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+7** (16 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 - Révision **J+14** (13 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware · Messenger : Events
-- Révision **J+45** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+45** (17 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 115 / 140 min*
+*Budget du jour : 118 / 140 min*
 
 ### Mardi 24 novembre 2026
 
@@ -959,17 +961,17 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Correction Mock 3** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+14** (12 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+45** (12 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
-- Révision **J+60** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
+- Révision **J+60** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
-*Budget du jour : 95 / 140 min*
+*Budget du jour : 92 / 140 min*
 
 ### Mardi 8 décembre 2026
 
 - **Correction Mock 5** — analyse par item, plan de correction, re-révision ciblée
 - Révision **J+14** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem
-- Révision **J+60** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
+- Révision **J+60** (17 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 86 / 140 min*
+*Budget du jour : 89 / 140 min*
 
 ### Mercredi 9 décembre 2026
 

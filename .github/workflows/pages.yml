@@ -621,6 +621,32 @@ jobs:
             echo "ok  lot-03  the Components and Bridges page carries its levelled flashcards, the replace/provide split and the PhpUnit counterexample"
           fi
 
+          # Page 5. `sans l'environnement` was rejected as a needle: the
+          # renderer escapes the apostrophe, so the literal string never
+          # appears in the served bytes.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-codeorg -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/code-organization")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page code-organization serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-codeorg || missing="$missing codeorg:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-codeorg || missing="$missing codeorg:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-codeorg || missing="$missing codeorg:no-trap-heading"
+          grep -aq 'Les quatre accesseurs du noyau' /tmp/l3r-codeorg \
+            || missing="$missing codeorg:no-kernel-accessors-section"
+          grep -aq 'getShareDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-share-dir"
+          grep -aq 'getEnvDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-env-dir"
+          grep -aq 'APP_BUILD_DIR' /tmp/l3r-codeorg || missing="$missing codeorg:no-build-dir-var"
+          grep -aq 'dotenv_path' /tmp/l3r-codeorg || missing="$missing codeorg:no-dotenv-path"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Code organization page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Code organization page carries its levelled flashcards, the four kernel accessors and the APP_*_DIR reading"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

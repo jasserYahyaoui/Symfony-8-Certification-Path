@@ -203,6 +203,71 @@ plus tôt : la carte que j'avais écrite sur le critère bridge/bundle reprenait
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 7 ajoutées ; « cinq bundles y figurent » **écartée** — coupée par le retour à la ligne, elle ne survit pas comme chaîne unique dans la page rendue |
 
+## Page 5 — Code organization, 2026-09-18
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-srxd7601p8cb` … `FLC-a2gc9fn1n43v`) ; la carte
+  préexistante `FLC-82hpxh6bv6y3` a reçu le niveau `UNDERSTANDING`. L'item en
+  porte **16**.
+- Corps : 543 → **848 mots** sur 900.
+
+**Une erreur corrigée dans une carte existante**
+
+`FLC-82hpxh6bv6y3` affirmait que « `bin/`, `config/`, `src/`, `public/`,
+`templates/`, `translations/` et `vendor/` se déplacent par `extra` ». C'est
+faux, et la page de cours disait déjà le contraire : `templates/` et
+`translations/` se déplacent par configuration de bundle,
+`vendor/` par la clé `config` de Composer. L'explication a été réécrite.
+
+**Une affirmation corrigée dans le cours : « la liste est close »**
+
+La page affirmait que `extra` ne porte que quatre clés et que « la liste est
+close ». `configuration/override_dir_structure.rst` en documente une
+cinquième, imbriquée : `extra.runtime.dotenv_path`, qui déplace le fichier
+`.env`. Le piège a été réécrit pour énoncer ce que `extra` ne déplace **pas**,
+plutôt qu'une liste close qui ne l'est pas.
+
+**Deux sections ajoutées, tirées de la source et non de la documentation**
+
+`Kernel.php` et `MicroKernelTrait.php` relus sur la branche 8.0. Ce que la
+documentation ne dit pas, ou dit autrement :
+
+- `Kernel` expose **quatre** accesseurs, pas deux : `getCacheDir()`,
+  `getBuildDir()`, `getShareDir()`, `getLogDir()`. Les deux du milieu délèguent
+  à `getCacheDir()` par compatibilité ascendante.
+- Les défauts sont **asymétriques** : `var/cache/<environnement>` d'un côté,
+  `var/log` **sans** environnement de l'autre.
+- `getShareDir()` est le seul de type `?string` ; quand il rend `null`, le
+  paramètre `%kernel.share_dir%` n'est pas enregistré.
+- Les `APP_*_DIR` sont lues par **`MicroKernelTrait`**, pas par `Kernel` — un
+  noyau sans le trait les ignore. Il y en a **quatre**, `APP_BUILD_DIR`
+  comprise, que la page de documentation ne mentionne pas.
+- `APP_CACHE_DIR`, `APP_BUILD_DIR` et `APP_SHARE_DIR` passent par
+  `getEnvDir()`, qui **ajoute l'environnement** au chemin et résout un chemin
+  relatif depuis la racine du projet. `APP_LOG_DIR` est prise telle quelle. La
+  documentation les décrit comme « le chemin complet du dossier » ; sur ce
+  point la source prime, et c'est elle qui est écrite.
+
+**Un doublon attrapé par l'audit**
+
+`AUD-04` a levé `VOL-4` sur `FLC-vpyxr6rxb8j5` et `FLC-1v32rnyqb3bf` : les deux
+fronts se réduisaient à « quelle est la valeur par défaut de ». Le second a été
+reformulé.
+
+**Contrôles réellement exécutés le 2026-09-18**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart — rapport inchangé |
+| `composer gate-full` | **exit 0** — 295 tests, 15 845 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` — restauration SHA-256 |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8 ajoutées ; « sans l'environnement » **écartée** — l'apostrophe est échappée au rendu, la chaîne littérale n'apparaît pas dans les octets servis |
+
 ## Prochaine étape
 
-Page 5 — **Code organization**.
+Page 6 — **Request handling** (DEEP).
