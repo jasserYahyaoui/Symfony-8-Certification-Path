@@ -503,6 +503,68 @@ vérifiées de cette façon.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 7 ajoutées, chacune vérifiée absente de la version `master` **de cette page** |
 
+## Page 9 — Official best practices, 2026-09-21
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-knxr0c9z2t9r` … `FLC-45sf7844wgck`) ; la carte
+  préexistante `FLC-g0kpwp6w0xg6` a reçu le niveau `TRAP`. L'item en porte
+  **17**.
+- Corps : 517 → **869 mots** sur 900.
+
+**« Une trentaine » est devenu « exactement trente »**
+
+`best_practices.rst` relu section par section, titres de niveau 3 comptés un à
+un : **30** recommandations, **10** sections. La page disait « une trentaine…
+dix sections », ce qui était juste mais invérifiable pour le lecteur. Le nombre
+exact est maintenant écrit, et un tableau donne **les trente**, groupées par
+section.
+
+**Ce que la page couvrait, et ce qu'elle laissait de côté**
+
+Elle traitait environ huit recommandations sur trente. Manquaient notamment
+`AbstractController`, l'autowiring, les attributs pour le mapping Doctrine et
+pour le routage, l'injection de dépendances plutôt que le conteneur,
+`EntityValueResolver`, les formulaires en classes PHP, les contraintes sur
+l'objet sous-jacent, le hacheur `auto`, les voteurs, AssetMapper et le *smoke
+test* des URL.
+
+**Quatre points développés, avec leur raison**
+
+- **Les boutons d'un formulaire vont dans le gabarit**, ni dans la classe ni
+  dans le contrôleur : la classe doit rester agnostique quant à l'endroit où
+  elle sert — le même formulaire affiche « Ajouter » à la création et
+  « Enregistrer » à l'édition.
+- **`EntityValueResolver` est facultatif.** Son titre même porte la condition :
+  « si c'est commode ». Dès que la logique se complique, la recommandation est
+  de faire la requête dans le contrôleur.
+- **`auto` n'est pas un algorithme** mais un sélecteur ; son défaut actuel est
+  `bcrypt`. Répondre « bcrypt » à « quel hacheur recommander ? » est inexact.
+- **Deux recommandations distinctes portent sur les URL en test** : le *smoke
+  test* qui les parcourt toutes via un fournisseur de données PHPUnit, et l'URL
+  **en dur** dans le test fonctionnel. La page les confondait implicitement.
+
+**Un dépassement de budget, réglé par déduplication**
+
+Le premier jet faisait 914 mots pour 900. La liste « les recommandations qui
+surprennent » répétait cinq entrées que le nouveau tableau énonce déjà. Elles en
+ont été retirées ; ne restent dans la liste que celles qui portent une
+**raison** que le tableau ne peut pas contenir. Le niveau n'a pas été promu.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 948 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8, chacune vérifiée absente de la version `master` **de cette page** et du fichier de flashcards du lot |
+
 ## Prochaine étape
 
-Page 9 — **Official best practices**.
+Page 10 — **Backward compatibility promise**.

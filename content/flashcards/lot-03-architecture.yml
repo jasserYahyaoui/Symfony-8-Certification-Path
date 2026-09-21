@@ -311,6 +311,7 @@ flashcards:
   - id: FLC-g0kpwp6w0xg6
     official_item: OIT-hzbednd04fd4
     language: fr
+    level: TRAP
     front: 'Best practices Symfony : sous quelle forme définir une valeur qui ne change presque jamais
       ?'
     back: Une constante de classe — pas un paramètre du conteneur.
@@ -3088,4 +3089,359 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "class Event implements StoppableEventInterface"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 9 — Official best practices (OIT-hzbednd04fd4). best_practices.rst
+  # relu section par section sur la branche 8.0 le 2026-09-21 ; les titres de
+  # niveau 3 comptes un par un.
+  - id: FLC-knxr0c9z2t9r
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: RECALL
+    front: "Combien de recommandations et de sections le document *Best Practices* contient-il ?"
+    back: "**Trente** recommandations, réparties en **dix** sections."
+    explanation: >-
+      Les dix sections : création du projet, configuration, logique métier,
+      contrôleurs, gabarits, formulaires, internationalisation, sécurité,
+      ressources web, tests.
+    memorization_justification: >-
+      Deux nombres exacts qu'une question peut demander telle quelle, et qu'on
+      ne retrouve qu'en comptant le document.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "toutes les sections et sous-sections"
+        verified_at: "2026-09-21"
+
+  - id: FLC-q48eez4ps3t4
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: RECALL
+    front: "Quel hacheur de mots de passe le document recommande-t-il ?"
+    back: "`auto` — et son défaut actuel est **`bcrypt`**."
+    explanation: >-
+      `auto` n'est pas un algorithme mais un sélecteur : il choisit le meilleur
+      disponible selon l'installation PHP. Le document précise l'algorithme
+      retenu aujourd'hui.
+    memorization_justification: >-
+      Deux réponses possibles à une même question ; savoir laquelle est le
+      réglage et laquelle est son effet est exactement ce qui est testé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use the auto Password Hasher"
+        verified_at: "2026-09-21"
+
+  - id: FLC-fdpjs4wt0s98
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: RECALL
+    front: "Où le document recommande-t-il de placer les boutons d'un formulaire ?"
+    back: "Dans le **gabarit** — ni dans la classe de formulaire, ni dans le contrôleur."
+    explanation: >-
+      La classe doit rester agnostique quant à l'endroit où elle sert : le même
+      formulaire affiche « Ajouter » à la création et « Enregistrer » à
+      l'édition. Le style du bouton reste ainsi dans le gabarit.
+    memorization_justification: >-
+      Recommandation contre-intuitive — le bouton fait partie du formulaire pour
+      l'intuition — avec une raison claire qui la rend restituable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Add Form Buttons in Templates"
+        verified_at: "2026-09-21"
+
+  - id: FLC-7b05aabxmcjc
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: RECALL
+    front: "Quelle classe de base le document recommande-t-il pour un contrôleur ?"
+    back: "`AbstractController`."
+    explanation: >-
+      Elle apporte les raccourcis usuels — `render()`, `redirectToRoute()`,
+      `createForm()` — sans rendre le contrôleur dépendant du conteneur entier,
+      puisque les services propres s'obtiennent par injection.
+    memorization_justification: >-
+      Nom exact d'une classe, réponse fermée à une question fréquente sur les
+      contrôleurs.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Make your Controller Extend the AbstractController Base Controller"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ahnrp0p661gp
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: RECALL
+    front: "Quel outil le document recommande-t-il pour les ressources web ?"
+    back: "**AssetMapper**."
+    explanation: >-
+      C'est la seule recommandation de la section « ressources web ». Elle
+      remplace l'ancienne recommandation d'un outil de compilation côté
+      JavaScript.
+    memorization_justification: >-
+      Section à une seule entrée : la question « que dit la section ressources
+      web ? » a une réponse unique qu'il faut connaître.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use AssetMapper to Manage Web Assets"
+        verified_at: "2026-09-21"
+
+  - id: FLC-361rtd2vfkwm
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une valeur qui change rarement devient-elle une constante plutôt qu'un paramètre ?"
+    back: "Parce qu'une constante est lisible partout, y compris depuis un gabarit, là où un paramètre exige le conteneur."
+    explanation: >-
+      Le document donne l'exemple d'une constante `NUMBER_OF_ITEMS` sur
+      l'entité. Le prix à payer est qu'une constante est difficile à redéfinir
+      dans un test.
+    memorization_justification: >-
+      Recommandation qui contredit le réflexe « tout ce qui est configurable est
+      un paramètre » ; sa raison est ce qui permet de trancher.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use Constants to Define Options that Rarely Change"
+        verified_at: "2026-09-21"
+
+  - id: FLC-dcyrc9j32m03
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi coder une URL en dur dans un test fonctionnel plutôt que la générer ?"
+    back: "Pour que le test **échoue** si l'URL publique change — la générer masquerait le changement."
+    explanation: >-
+      Une URL publique fait partie du contrat avec l'extérieur. La générer
+      depuis la route rendrait le test insensible à une modification que des
+      liens externes, eux, subiraient.
+    memorization_justification: >-
+      Ressemble à un raccourci toléré alors que c'est la recommandation ; la
+      raison est ce qui empêche de répondre l'inverse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Hard-code URLs in a Functional Test"
+        verified_at: "2026-09-21"
+
+  - id: FLC-xh5wxnqqjrf6
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le document déconseille-t-il un bundle pour le code de l'application ?"
+    back: "Parce qu'un projet est **une** application. Les bundles servent à partager du code entre projets."
+    explanation: >-
+      L'organisation interne se fait par l'arborescence de `src/` et les
+      espaces de noms. Créer un bundle applicatif ajoute une couche sans rien
+      rendre réutilisable.
+    memorization_justification: >-
+      Contredit une pratique longtemps répandue, et le critère — réutilisation
+      entre projets — permet de répondre sur un cas non vu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Don't Create any Bundle to Organize your Application Logic"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4apj5ej3vsnp
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: UNDERSTANDING
+    front: "Que signifie le « si c'est commode » de la recommandation sur `EntityValueResolver` ?"
+    back: "Qu'elle est **facultative** : dès que la logique se complique, faire la requête dans le contrôleur."
+    explanation: >-
+      C'est la seule recommandation du document assortie d'une condition dans
+      son titre même. Le résolveur rend aussi une 404 si l'entité est
+      introuvable, ce qui convient tant que la règle reste simple.
+    memorization_justification: >-
+      Nuance portée par le titre de la recommandation ; la lire comme un
+      impératif est l'erreur que la formulation invite à faire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use Entity Value Resolvers If They Are Convenient"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ngdthkbsgkyw
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: APPLICATION
+    front: "L'URL de la base de données : variable d'environnement, secret ou paramètre ?"
+    back: "**Variable d'environnement** — elle dépend de l'endroit où tourne l'application."
+    explanation: >-
+      Le critère est l'infrastructure, pas la sensibilité. Un mot de passe isolé
+      relève du **secret** ; une valeur propre à l'application et non à son
+      hébergement relève du **paramètre**.
+    memorization_justification: >-
+      Les trois catégories se recouvrent en apparence ; un cas concret est la
+      forme sous laquelle la distinction est testée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use Environment Variables for Infrastructure Configuration"
+        verified_at: "2026-09-21"
+
+  - id: FLC-1e68mr6n4v5w
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: APPLICATION
+    front: "Un formulaire sert à créer **et** à éditer. Combien d'actions de contrôleur ?"
+    back: "Une seule action par usage, qui affiche **et** traite le formulaire."
+    explanation: >-
+      La recommandation porte sur l'affichage et le traitement, qui ne se
+      séparent pas. C'est le **bouton** qui distingue création et édition, et il
+      vit dans le gabarit.
+    memorization_justification: >-
+      Rassemble deux recommandations voisines dont la combinaison est le cas
+      réel ; les traiter séparément mène à une mauvaise réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use a Single Action to Render and Process the Form"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4j8radx0xaha
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: APPLICATION
+    front: "On veut vérifier que toutes les URL de l'application répondent. Que recommande le document ?"
+    back: "Un *smoke test* : un test fonctionnel alimenté par un **fournisseur de données** PHPUnit."
+    explanation: >-
+      C'est une recommandation distincte de « coder l'URL en dur », même si les
+      deux portent sur les URL en test. Le *smoke test* les parcourt toutes ;
+      l'autre concerne la façon d'écrire chaque URL.
+    memorization_justification: >-
+      Deux recommandations voisines qu'un QCM peut confondre volontairement ;
+      seule leur séparation permet de répondre juste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Smoke Test your URLs"
+        verified_at: "2026-09-21"
+
+  - id: FLC-hmww7q9z3561
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: APPLICATION
+    front: "Où poser les contraintes de validation d'un formulaire ?"
+    back: "Sur l'**objet sous-jacent**, pas sur la classe de formulaire."
+    explanation: >-
+      Les contraintes décrivent ce qui rend l'objet valide, indépendamment du
+      formulaire qui le remplit. Le même objet peut ainsi être validé hors
+      contexte de formulaire.
+    memorization_justification: >-
+      Choix d'emplacement qui se pose à chaque formulaire écrit, et dont les
+      deux options paraissent également défendables sans la règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Define Validation Constraints on the Underlying Object"
+        verified_at: "2026-09-21"
+
+  - id: FLC-2qt87p9ze85p
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : `auto` est un algorithme de hachage."
+    back: "Faux. C'est un **sélecteur** qui choisit le meilleur disponible — aujourd'hui `bcrypt`."
+    explanation: >-
+      Répondre « bcrypt » à la question « quel hacheur recommander ? » est
+      inexact : la recommandation porte sur `auto`, dont `bcrypt` n'est que
+      l'effet actuel.
+    memorization_justification: >-
+      Le réglage et son effet portent deux noms différents, et la question peut
+      viser l'un ou l'autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Use the auto Password Hasher"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vvjayrmrfay4
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: TRAP
+    front: "Combien de pare-feu la configuration de sécurité devrait-elle définir ?"
+    back: "**Un seul**, selon la recommandation."
+    explanation: >-
+      L'intuition pousse à en créer un par zone — administration, API, site
+      public. Le document recommande l'inverse : un pare-feu unique, et des
+      **voteurs** pour les restrictions fines.
+    memorization_justification: >-
+      Le nombre attendu est contre-intuitif, et la recommandation de repli —
+      les voteurs — fait partie de la même réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Define a Single Firewall, Use Voters"
+        verified_at: "2026-09-21"
+
+  - id: FLC-45sf7844wgck
+    official_item: OIT-hzbednd04fd4
+    language: fr
+    level: TRAP
+    front: "Ces recommandations sont-elles des règles du framework ?"
+    back: "Non. Ce sont des recommandations pour une application web classique : rien ne casse si on les ignore."
+    explanation: >-
+      Aucune n'est vérifiée par le framework, et aucune n'est obligatoire. Les
+      confondre avec des contraintes techniques fait chercher une erreur là où
+      il n'y a qu'un écart de style.
+    memorization_justification: >-
+      Statut du document lui-même, qui conditionne la lecture des trente
+      entrées ; une question peut porter directement dessus.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "introduction"
         verified_at: "2026-09-21"

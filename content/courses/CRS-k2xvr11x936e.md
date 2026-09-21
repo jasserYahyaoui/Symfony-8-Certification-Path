@@ -23,13 +23,26 @@ Practices*, et surtout celles que l'intuition contredit.
 
 ## Ce que le document est
 
-Un document officiel, versionné avec la documentation, qui énonce une trentaine
-de recommandations réparties en dix sections : création du projet,
-configuration, logique métier, contrôleurs, gabarits, formulaires,
-internationalisation, sécurité, ressources web, tests.
+Un document officiel, versionné avec la documentation, qui énonce **exactement
+trente** recommandations réparties en **dix** sections.
 
 Ce sont des **recommandations pour une application web classique**, pas des
 règles du framework : rien ne casse si on les ignore.
+
+## Les trente, par section
+
+| Section | Recommandations |
+|---|---|
+| Création du projet | binaire Symfony ; arborescence par défaut |
+| Configuration | variables d'environnement pour l'infrastructure ; secrets pour le sensible ; paramètres pour l'applicatif ; noms courts et préfixés ; **constantes** pour ce qui change rarement |
+| Logique métier | pas de bundle applicatif ; autowiring ; services privés ; configuration minimale de ses propres services ; attributs pour le mapping Doctrine |
+| Contrôleurs | étendre `AbstractController` ; attributs pour routage, cache et sécurité ; injection de dépendances pour obtenir un service ; `EntityValueResolver` **si c'est commode** |
+| Gabarits | `snake_case` pour noms et variables ; préfixe `_` pour les fragments |
+| Formulaires | formulaires en classes PHP ; **boutons dans les gabarits** ; contraintes sur l'objet sous-jacent ; une seule action pour afficher et traiter |
+| Internationalisation | format XLIFF ; **clés** plutôt que texte source |
+| Sécurité | **un seul** pare-feu ; hacheur `auto` ; voteurs pour le fin |
+| Ressources web | AssetMapper |
+| Tests | *smoke tests* des URL ; URL **en dur** dans un test fonctionnel |
 
 ## Configuration : la règle des trois niveaux
 
@@ -57,15 +70,19 @@ avec un ou deux mots descriptifs : `app.contents_dir` plutôt que `app.dir`.
 
 - **Ne pas créer de bundle** pour organiser le code de l'application. Un projet
   = une application, sans bundle applicatif.
-- **Rendre les services privés** autant que possible.
-- **Un seul pare-feu** dans la configuration de sécurité.
 - **Coder l'URL en dur dans un test fonctionnel**, au lieu de la générer — pour
-  que le test échoue si l'URL publique change.
-- **`snake_case` pour les noms de gabarits et de variables Twig**, et un
-  **préfixe `_`** pour les fragments de gabarit.
-- **Une seule action** pour afficher *et* traiter un formulaire.
-- **Format XLIFF** pour les traductions, et des **clés** plutôt que le texte
-  source comme identifiant de traduction.
+  que le test échoue si l'URL publique change. À ne pas confondre avec le
+  *smoke test* des URL, qui les parcourt toutes via un fournisseur de données
+  PHPUnit.
+- **Les boutons d'un formulaire vont dans le gabarit**, ni dans la classe de
+  formulaire, ni dans le contrôleur : la classe doit rester agnostique quant à
+  l'endroit où elle sert. Le même formulaire affiche « Ajouter » à la création
+  et « Enregistrer » à l'édition — et le style du bouton reste dans le gabarit.
+- **`EntityValueResolver` est facultatif** : « si c'est commode ». Dès que la
+  logique de récupération se complique, la recommandation est de faire la
+  requête **dans le contrôleur**.
+- **Hacheur `auto`**, qui choisit le meilleur disponible selon l'installation
+  PHP. Son défaut actuel est **`bcrypt`**.
 
 ## Pièges d'examen
 
@@ -80,6 +97,22 @@ toléré, c'est la recommandation : le test doit échouer si l'URL publique chan
 **Pas de bundle pour le code de l'application.** Un projet est une application ;
 les bundles sont pour le code partagé entre projets.
 
+**Le bouton n'appartient pas au formulaire.** Le mettre dans la classe est
+précisément ce que le document déconseille, parce que la classe doit pouvoir
+servir à la création comme à l'édition.
+
+**`auto` n'est pas un algorithme.** C'est un sélecteur ; ce qu'il choisit
+aujourd'hui est `bcrypt`.
+
+## Tips d'examen
+
+**Trente recommandations, dix sections.** Si un nombre est demandé, ce sont
+ceux-là.
+
+**Trois recommandations portent sur les URL de test**, et elles ne disent pas
+la même chose : *smoke tester* toutes les URL avec un fournisseur de données,
+et coder l'URL **en dur** dans le test fonctionnel.
+
 ## Points clés
 
 - Environnement → infrastructure ; secret → sensible ; paramètre →
@@ -87,6 +120,9 @@ les bundles sont pour le code partagé entre projets.
 - Préfixe `app.` pour les paramètres applicatifs.
 - Pas de bundle pour le code applicatif ; services privés ; un seul pare-feu.
 - URL en dur dans un test fonctionnel : c'est bien la recommandation.
+- Trente recommandations, dix sections.
+- Boutons de formulaire dans le **gabarit** ; `EntityValueResolver` facultatif ;
+  hacheur `auto`, aujourd'hui `bcrypt`.
 
 ## Sources officielles
 
