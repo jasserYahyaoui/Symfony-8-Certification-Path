@@ -157,6 +157,7 @@ flashcards:
   - id: FLC-79nmwswd5a50
     official_item: OIT-xc4zfr70jjas
     language: fr
+    level: RECALL
     front: "kernel.exception : comment le code de statut de la réponse est-il choisi ?"
     back: "1) réponse 4xx, 5xx ou 3xx → son code ; 2) sinon exception HttpExceptionInterface → getStatusCode() ; 3) sinon 500."
     explanation: >-
@@ -2357,3 +2358,336 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "handleRaw"
         verified_at: "2026-09-18"
+
+  # Lot 03 page 7 — Exception handling (OIT-xc4zfr70jjas). ErrorListener.php et
+  # HttpKernel::handleThrowable relus sur la branche 8.0 le 2026-09-21.
+  - id: FLC-cmjnpw30mh3f
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: RECALL
+    front: "À quelles priorités `ErrorListener` s'abonne-t-il à `kernel.exception` ?"
+    back: "Deux fois : `logKernelException` à **0**, `onKernelException` à **−128**."
+    explanation: >-
+      Le log passe tôt, la construction de la page d'erreur en tout dernier.
+      C'est cet écart qui laisse un écouteur applicatif devancer le listener
+      intégré tout en gardant la journalisation.
+    memorization_justification: >-
+      Deux valeurs exactes qui expliquent un comportement entier ; aucune ne se
+      devine, et la question se pose directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents"
+        verified_at: "2026-09-21"
+
+  - id: FLC-t0z4ytrsbgyh
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: RECALL
+    front: "Sur combien d'événements `ErrorListener` est-il branché ?"
+    back: "Quatre : `kernel.exception` (deux fois), `kernel.controller_arguments` et `kernel.response`."
+    explanation: >-
+      Son nom suggère un unique point d'entrée. `onControllerArguments` convertit
+      un argument `\Throwable` du contrôleur d'erreur, et `removeCspHeader`
+      retire l'en-tête `Content-Security-Policy` en débogage.
+    memorization_justification: >-
+      Le nombre exact contredit ce que le nom laisse croire, et c'est une
+      question fermée immédiate.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents"
+        verified_at: "2026-09-21"
+
+  - id: FLC-k3evs3gt04y2
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: RECALL
+    front: "Quel attribut PHP associe une classe d'exception à un statut HTTP ?"
+    back: "`#[WithHttpStatus(…)]`, du composant HttpKernel."
+    explanation: >-
+      `logKernelException` le lit et remplace l'exception par une
+      `HttpException` portant ce statut. Un attribut frère, `#[WithLogLevel]`,
+      fait de même pour le niveau de journalisation.
+    memorization_justification: >-
+      Nom exact d'un attribut qui change le statut sortant sans qu'aucun
+      écouteur soit écrit ; il ne se déduit d'aucune règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "logKernelException, WithHttpStatus"
+        verified_at: "2026-09-21"
+
+  - id: FLC-5kvqjydy5y9e
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: RECALL
+    front: "Quelles trois clés la table `exceptions` du framework associe-t-elle à une classe ?"
+    back: "`status_code`, `log_level` et `log_channel`."
+    explanation: >-
+      `ErrorListener` reçoit cette table en constructeur. Une entrée sans
+      `status_code` ne change que la journalisation ; avec, elle remplace
+      l'exception par une `HttpException`.
+    memorization_justification: >-
+      Trois clés exactes, dont une seule agit sur le statut ; la confusion
+      entre les deux effets est le piège naturel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct, exceptionsMapping"
+        verified_at: "2026-09-21"
+
+  - id: FLC-xg9mbme3gxyc
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une exception est-elle journalisée même si un écouteur fournit une réponse ?"
+    back: "Parce que le log passe à la priorité 0 et la page d'erreur à −128 : l'écouteur devance la seconde, pas la première."
+    explanation: >-
+      `setResponse()` n'interrompt pas le dispatch ; il rend simplement
+      `onKernelException` sans effet. `logKernelException`, lui, s'est exécuté
+      avant tout écouteur de priorité négative.
+    memorization_justification: >-
+      Corrige l'idée que « fournir une réponse arrête tout » ; la nuance a une
+      conséquence observable dans les journaux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, logKernelException"
+        verified_at: "2026-09-21"
+
+  - id: FLC-1y7avgmb56sw
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: UNDERSTANDING
+    front: "Comment la page d'erreur est-elle produite ?"
+    back: "Par une **sous-requête** vers le contrôleur d'erreur : `handle($request, SUB_REQUEST, false)`."
+    explanation: >-
+      `onKernelException` duplique la requête et rappelle le noyau. Ce n'est
+      donc pas une réponse fabriquée à la main : c'est un cycle complet, avec
+      ses propres événements.
+    memorization_justification: >-
+      Explique pourquoi une page d'erreur déclenche des écouteurs, ce qui
+      surprend quand on croit à une réponse construite directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelException"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4n13szbsvrj8
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le critère du statut est-il l'interface et non la classe mère ?"
+    back: "Parce que `HttpException extends \\RuntimeException implements HttpExceptionInterface` : l'ascendance ne dit rien du statut."
+    explanation: >-
+      `NotFoundHttpException`, `AccessDeniedHttpException` et
+      `BadRequestHttpException` sont toutes des `\RuntimeException`. Raisonner
+      sur la classe mère mène donc à la mauvaise réponse dans le cas le plus
+      courant.
+    memorization_justification: >-
+      Le contre-exemple qu'on croit valable est précisément le cas standard ;
+      la distinction se teste en une question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "kernel.exception"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3jnvmtdmkx7p
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `#[WithHttpStatus]` fonctionne-t-il sans écouteur écrit à la main ?"
+    back: "Parce que `logKernelException` s'exécute **avant** la règle du statut et remplace l'exception par une `HttpException`."
+    explanation: >-
+      Le noyau relit l'exception après le dispatch. Il voit donc une exception
+      conforme à `HttpExceptionInterface` et applique sa règle 2, sans savoir
+      qu'elle a été substituée.
+    memorization_justification: >-
+      Relie l'attribut au mécanisme réel ; sans cela il reste une magie dont on
+      ne sait pas prédire les limites.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleThrowable"
+        verified_at: "2026-09-21"
+
+  - id: FLC-h2e5dj32pzgg
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: APPLICATION
+    front: "Un écouteur pose une `Response` à **204**. Quel statut sort ?"
+    back: "**500**, sauf appel préalable à `allowCustomResponseCode()`."
+    explanation: >-
+      204 n'est ni une erreur client, ni une erreur serveur, ni une
+      redirection : la règle 1 ne s'applique pas. L'exception d'origine ne
+      portant pas de statut, le noyau retombe sur 500.
+    memorization_justification: >-
+      Cas concret où le code écrit par le développeur est écrasé sans
+      avertissement ; c'est la forme sous laquelle la règle est testée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleThrowable"
+        verified_at: "2026-09-21"
+
+  - id: FLC-kw0y3d46bh2p
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: APPLICATION
+    front: "Une `\\InvalidArgumentException` porte `#[WithHttpStatus(422)]`. Quel statut sort ?"
+    back: "**422**. L'exception est remplacée par une `HttpException` avant que la règle du statut ne s'applique."
+    explanation: >-
+      Sans l'attribut, la même exception donnerait 500 : elle n'implémente pas
+      `HttpExceptionInterface`. La table `exceptions` du framework produit le
+      même effet.
+    memorization_justification: >-
+      Contre-exemple à la règle « pas l'interface, donc 500 », qui est vraie du
+      noyau seul et fausse d'une application Symfony.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "logKernelException, WithHttpStatus"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ja23bhb39d80
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: APPLICATION
+    front: "Le contrôleur d'erreur lève lui-même une exception. Est-elle rattrapée ?"
+    back: "Non. La sous-requête est lancée avec `$catch = false` : elle remonte, l'originale chaînée en `previous`."
+    explanation: >-
+      Sans cela, une page d'erreur défaillante provoquerait une récursion. Le
+      noyau journalise l'échec, raccroche l'exception d'origine au bout de la
+      chaîne, et relance.
+    memorization_justification: >-
+      Cas limite dont la réponse intuitive — « oui, elle repasse par
+      kernel.exception » — est fausse et produirait une boucle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelException"
+        verified_at: "2026-09-21"
+
+  - id: FLC-mv33nmsackn8
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: APPLICATION
+    front: "Une `HttpException` porte des en-têtes. Sont-ils appliqués à la réponse ?"
+    back: "Oui, quand la règle 2 s'applique : le noyau ajoute `getHeaders()` en même temps que `getStatusCode()`."
+    explanation: >-
+      C'est ainsi qu'un 405 apporte son `Allow` et un 401 son
+      `WWW-Authenticate`. Si la règle 1 a conservé le statut de la réponse, en
+      revanche, les en-têtes de l'exception ne sont pas ajoutés.
+    memorization_justification: >-
+      Effet de bord méconnu de la règle 2, et la condition sous laquelle il
+      disparaît est exactement ce qu'une question isole.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleThrowable"
+        verified_at: "2026-09-21"
+
+  - id: FLC-1gt94kdaqnvv
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : `setResponse()` empêche l'exception d'être journalisée."
+    back: "Faux. Le log passe à la priorité 0, bien avant `onKernelException` à −128."
+    explanation: >-
+      L'écouteur applicatif devance la construction de la page d'erreur, pas la
+      journalisation. Croire le contraire fait chercher en vain un journal
+      manquant.
+    memorization_justification: >-
+      L'expression « met fin au traitement » suggère un arrêt total ; la
+      distinction est précisément ce qui est testé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ytm4jfpsn8mj
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: TRAP
+    front: "Une `\\RuntimeException` peut-elle porter un statut HTTP ?"
+    back: "Oui. `HttpException` étend `\\RuntimeException` — et toutes les exceptions HTTP du composant en descendent."
+    explanation: >-
+      Le critère est l'implémentation de `HttpExceptionInterface`, jamais
+      l'ascendance. `\RuntimeException` est donc le contre-exemple le moins bien
+      choisi qui soit.
+    memorization_justification: >-
+      Piège bâti sur une hiérarchie que l'on croit connaître ; la réponse
+      intuitive est fausse pour le cas le plus fréquent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "kernel.exception"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ncttmnm3hg2w
+    official_item: OIT-xc4zfr70jjas
+    language: fr
+    level: TRAP
+    front: "Une exception levée pendant `kernel.terminate` produit-elle une page d'erreur en production ?"
+    back: "Non. `onKernelException` renonce hors débogage : la réponse est déjà partie."
+    explanation: >-
+      L'événement d'exception porte un indicateur disant que le noyau est en
+      train de terminer. En débogage, la page est produite quand même, ce qui
+      explique qu'on observe des comportements opposés selon l'environnement.
+    memorization_justification: >-
+      Divergence prod / debug sur un cas que rien ne signale, et qui rend un
+      symptôme irreproductible en local.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelException, isKernelTerminating"
+        verified_at: "2026-09-21"
