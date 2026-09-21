@@ -625,6 +625,62 @@ redondants avec les pièges ont été condensés. Le niveau n'a pas été promu.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 8 ; `LTS` **écartée** — déjà présente dans le fichier de flashcards du lot sur `master`, sur les cartes d'autres items |
 
+## Page 11 — Deprecations best practices, 2026-09-21
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-wwvyvhv5zbma` … `FLC-vb8q7pbvtk3e`) ; la carte
+  préexistante `FLC-9m8p1pfmbs1b` a reçu le niveau `RECALL`. L'item en porte
+  **17**.
+- Corps : 514 → **838 mots** sur 900, **sans dépassement** cette fois.
+
+**Une section entière de `conventions.rst` manquait : les règles du CHANGELOG**
+
+La page nommait le fichier sans dire comment on l'écrit. Le document est
+normatif :
+
+- titre principal **toujours** `CHANGELOG` ;
+- entrées sous une section de **version mineure**, comme éléments de liste ;
+- **aucune section de troisième niveau** ;
+- message court, **capitalisé**, **sans point final**, verbe à l'impératif ;
+- nouvelles entrées **en haut**.
+
+Et une note que la page ignorait : les `CHANGELOG-*` à la racine de
+`symfony/symfony` sont **générés** à la préparation des versions et ne doivent
+jamais être modifiés à la main. Celui qu'on édite est celui **du composant**.
+
+**La trace écrite compte quatre moments, pas trois**
+
+La page énonçait trois fichiers à documenter au moment de la dépréciation. Il
+en manque un quatrième, décalé dans le temps : quand la suppression arrive, deux
+ans plus tard, ses **conséquences** doivent être ajoutées au `CHANGELOG.md` du
+composant, dans la même pull request que la suppression. Le document qualifie la
+tâche d'obligatoire.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 980 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8, chacune vérifiée absente de la version `master` de cette page et du fichier de flashcards du lot |
+
+**Note pour la page 15**
+
+`conventions.rst` porte aussi une section « Naming a Method » — les douze verbes
+normalisés (`get`, `set`, `has`, `all`, `replace`, `remove`, `clear`,
+`isEmpty`, `add`, `register`, `count`, `keys`), leur variante `XXX` quand il n'y
+a pas de relation principale, et la différence entre `setXXX()` et
+`replaceXXX()` (le second **ne peut pas ajouter** et doit lever une exception
+sur une clé inconnue). C'est le matériau de la page **Naming conventions**, pas
+de celle-ci.
+
 ## Prochaine étape
 
-Page 11 — **Deprecations best practices**.
+Page 12 — **Framework overloading**.

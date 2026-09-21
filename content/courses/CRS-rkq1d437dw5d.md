@@ -76,6 +76,47 @@ Une dépréciation n'est complète que si elle est documentée aux trois endroit
 2. le `UPGRADE-<version mineure>.md` — la dépréciation ;
 3. le `UPGRADE-<version majeure>.md` — la suppression à venir.
 
+## Le `CHANGELOG.md` a ses propres règles
+
+Le document les énonce, et elles sont vérifiables à l'œil :
+
+- le titre principal est **toujours** `CHANGELOG` ;
+- chaque entrée va dans une section de **version mineure** — `5.3` — comme
+  élément de liste ;
+- **aucune section de troisième niveau** n'est admise ;
+- le message suit les conventions de commit : court, **capitalisé**, **sans
+  point final**, commençant par un verbe à l'impératif ;
+- les nouvelles entrées s'ajoutent **en haut** de la liste.
+
+```markdown
+CHANGELOG
+=========
+
+5.3
+---
+
+ * Add `MagicConfig` that allows configuring things
+```
+
+Le fichier concerné est celui **du composant, du bridge ou du bundle modifié**.
+Les `CHANGELOG-*` à la racine de `symfony/symfony` sont **générés
+automatiquement** à la préparation des versions et ne doivent jamais être
+modifiés à la main.
+
+## La suppression a sa propre trace
+
+La trace écrite ci-dessus accompagne la **dépréciation**. La **suppression**,
+deux ans plus tard, en exige une quatrième : les conséquences doivent être
+ajoutées au `CHANGELOG.md` du composant, dans la même pull request que la
+suppression.
+
+```markdown
+5.0
+---
+
+ * Remove the `Deprecated` class, use `Replacement` instead
+```
+
 ## Côté application
 
 Cette mécanique a une conséquence pratique directe : monter d'abord jusqu'à la
@@ -97,13 +138,32 @@ dépréciée, ni contenir des méthodes dépréciées ; une nouvelle méthode no
 mineure, suppression en majeure suivante — et la trace écrite va aux trois
 endroits (`CHANGELOG.md`, les deux `UPGRADE-*.md`) dans la même pull request.
 
+**La suppression écrit à son tour.** Une **quatrième** entrée de `CHANGELOG.md`
+décrit les conséquences, dans la pull request qui supprime.
+
+**Les `CHANGELOG-*` de la racine ne se modifient pas à la main.** Ils sont
+générés à la préparation des versions. Celui qu'on édite est celui du
+**composant**.
+
+## Tips d'examen
+
+**Mineure pour déprécier, majeure pour supprimer**, et rien ne naît déprécié.
+Trois affirmations qui couvrent l'essentiel du calendrier.
+
+**Le message de `CHANGELOG` se reconnaît à trois traits** : impératif,
+capitalisé, sans point final. Une proposition qui en viole un est fausse.
+
 ## Points clés
 
 - Dépréciation en mineure, suppression en majeure suivante.
 - Une nouvelle classe ou méthode ne peut pas naître dépréciée.
 - `@deprecated` pour le lecteur, `trigger_deprecation()` pour l'exécution.
 - `trigger_deprecation()` vient d'un paquet de contrats dédié, pas du framework.
-- CHANGELOG + les deux UPGRADE, dans la même pull request.
+- CHANGELOG + les deux UPGRADE, dans la même pull request ; et une quatrième
+  entrée de CHANGELOG au moment de la suppression.
+- `CHANGELOG.md` : titre `CHANGELOG`, sections de version mineure, pas de
+  troisième niveau, impératif capitalisé sans point, nouvelles entrées en haut.
+- Les `CHANGELOG-*` de la racine du mono-dépôt sont générés, jamais édités.
 
 ## Sources officielles
 

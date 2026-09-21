@@ -202,6 +202,7 @@ flashcards:
   - id: FLC-9m8p1pfmbs1b
     official_item: OIT-ehf5zdnmdb1j
     language: fr
+    level: RECALL
     front: "Symfony : dans quelles versions une fonctionnalité peut-elle être dépréciée, puis supprimée ?"
     back: "Dépréciée dans une version mineure ; supprimée seulement dans la majeure suivante."
     explanation: >-
@@ -3799,4 +3800,357 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Using Symfony Code"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 11 — Deprecations best practices (OIT-ehf5zdnmdb1j).
+  # contributing/code/conventions.rst relu sur la branche 8.0 le 2026-09-21,
+  # sections « Writing a CHANGELOG Entry », « Deprecating Code » et « Removing
+  # Deprecated Code ».
+  - id: FLC-wwvyvhv5zbma
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: RECALL
+    front: "Quel est le titre principal obligatoire d'un `CHANGELOG.md` de composant ?"
+    back: "`CHANGELOG`, toujours."
+    explanation: >-
+      Les entrées se rangent ensuite sous des sections de **version mineure** —
+      `5.3` — et aucune section de troisième niveau n'est admise.
+    memorization_justification: >-
+      Convention littérale, vérifiable à l'œil, et qu'une proposition de QCM
+      peut altérer d'un mot.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Writing a CHANGELOG Entry"
+        verified_at: "2026-09-21"
+
+  - id: FLC-zg0rky07xp5h
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: RECALL
+    front: "Quels trois traits caractérisent un message de `CHANGELOG` ?"
+    back: "Verbe à l'**impératif**, ligne **capitalisée**, **sans point final**."
+    explanation: >-
+      Ce sont les conventions de message de commit, reprises telles quelles. Les
+      nouvelles entrées s'ajoutent par ailleurs **en haut** de la liste.
+    memorization_justification: >-
+      Trois critères formels et indépendants ; une proposition qui en viole un
+      seul est fausse, ce qui en fait un test commode.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Writing a CHANGELOG Entry"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vvckgchsjf5m
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: RECALL
+    front: "Quel paquet fournit `trigger_deprecation()` ?"
+    back: "`symfony/deprecation-contracts`."
+    explanation: >-
+      Un paquet de contrats minuscule, volontairement séparé du framework, pour
+      qu'une bibliothèque puisse signaler une dépréciation sans dépendre de
+      Symfony.
+    memorization_justification: >-
+      Nom exact d'un paquet qu'on ne trouve pas en cherchant la fonction dans
+      les composants.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-dmvvzny8189q
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: RECALL
+    front: "Quels sont les trois premiers arguments de `trigger_deprecation()` ?"
+    back: "Le **paquet**, la **version** d'introduction, le **message** formaté."
+    explanation: >-
+      Exemple :
+      `trigger_deprecation('symfony/routing', '4.4', 'The \"%s\" class is deprecated…', Old::class)`.
+      Les arguments suivants alimentent le format.
+    memorization_justification: >-
+      Ordre exact des arguments d'une fonction qu'on écrit rarement, et que
+      l'intuition range volontiers autrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-1akezpqxhagj
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: RECALL
+    front: "Où se place l'appel `trigger_deprecation()` quand c'est une classe entière qui est dépréciée ?"
+    back: "**Après les déclarations `use`**, avant la classe."
+    explanation: >-
+      L'appel doit s'exécuter au chargement du fichier, et non à l'instanciation :
+      le placer dans le constructeur ne signalerait rien à qui se contente de
+      référencer la classe.
+    memorization_justification: >-
+      Position précise dans le fichier, qui ne se devine pas et dont la raison
+      éclaire le mécanisme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3bfj091w0m3y
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `trigger_deprecation()` vit-elle hors du framework ?"
+    back: "Pour qu'une bibliothèque tierce puisse signaler ses dépréciations sans dépendre de Symfony."
+    explanation: >-
+      Le paquet de contrats est minuscule et sans dépendance. C'est la même
+      logique que les autres contrats : offrir une interface commune sans
+      imposer l'implémentation.
+    memorization_justification: >-
+      Explique un placement surprenant, et généralise à la philosophie des
+      paquets de contrats.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-tndbf49d5spa
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une dépréciation se déclare-t-elle **deux** fois ?"
+    back: "Deux publics : `@deprecated` pour qui **lit** le code, `trigger_deprecation()` pour le code qui **tourne**."
+    explanation: >-
+      L'annotation apparaît dans l'IDE et la documentation ; l'appel remonte
+      dans les journaux et les tests. L'un sans l'autre laisse la moitié des
+      utilisateurs sans avertissement.
+    memorization_justification: >-
+      La dualité est le cœur du mécanisme ; n'en retenir qu'une moitié est
+      l'erreur que la question vise.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-7aeb1ekg4jqm
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi monter d'abord à la dernière mineure avant de passer à la majeure suivante ?"
+    back: "Parce que la majeure ne fait que **supprimer** ce que la dernière mineure a signalé comme déprécié."
+    explanation: >-
+      En corrigeant toutes les dépréciations sur la dernière mineure, on arrive
+      à la majeure sans rien à changer. Sauter l'étape revient à découvrir les
+      ruptures sans le filet des avertissements.
+    memorization_justification: >-
+      Conséquence pratique directe des deux règles de calendrier, et la seule
+      qui serve réellement le jour d'une montée de version.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Removing Deprecated Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-0qcpge4ckz7d
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: APPLICATION
+    front: "Vous dépréciez une méthode. Combien de fichiers documenter, et lesquels ?"
+    back: "Trois : le `CHANGELOG.md` du composant, `UPGRADE-<mineure>.md` et `UPGRADE-<majeure>.md` — dans la **même** pull request."
+    explanation: >-
+      Le premier `UPGRADE` annonce la dépréciation, le second la suppression à
+      venir. Une quatrième entrée de `CHANGELOG.md` s'ajoutera le jour de la
+      suppression.
+    memorization_justification: >-
+      Liste close de trois fichiers, plus une quatrième écriture différée ;
+      le compte exact est la question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-tr10g3xdvq9f
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: APPLICATION
+    front: "Vous supprimez du code déprécié. Que faut-il écrire, et où ?"
+    back: "Les conséquences, dans le `CHANGELOG.md` du composant, dans la **même** pull request que la suppression."
+    explanation: >-
+      Exemple du document : sous la section `5.0`,
+      « Remove the `Deprecated` class, use `Replacement` instead ». La tâche est
+      qualifiée d'obligatoire.
+    memorization_justification: >-
+      Étape qu'on croit réservée au moment de la dépréciation ; la suppression
+      a sa propre obligation d'écriture.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Removing Deprecated Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-5w239fgrrrqc
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: APPLICATION
+    front: "Le remplacement d'une classe dépréciée vit dans un autre espace de noms. Comment l'écrire ?"
+    back: "Avec son nom **pleinement qualifié** — c'est obligatoire dans ce cas."
+    explanation: >-
+      L'annotation `@deprecated` doit indiquer la version et, autant que
+      possible, le remplacement. Un nom court serait ambigu hors de l'espace de
+      noms d'origine.
+    memorization_justification: >-
+      Règle conditionnelle — elle ne s'applique qu'au changement d'espace de
+      noms — donc facile à énoncer trop largement ou trop étroitement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3k64rjpnpnxh
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: APPLICATION
+    front: "Vous ajoutez une entrée à un `CHANGELOG.md`. En haut ou en bas de la liste ?"
+    back: "**En haut**."
+    explanation: >-
+      Et sous la section de la version mineure concernée, sans créer de section
+      de troisième niveau. Le fichier se lit ainsi du plus récent au plus
+      ancien.
+    memorization_justification: >-
+      Détail d'ordre que les deux réponses rendent plausibles, et qui se vérifie
+      d'un coup d'œil sur un extrait.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Writing a CHANGELOG Entry"
+        verified_at: "2026-09-21"
+
+  - id: FLC-bhyn20e0t0sr
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Peut-on modifier à la main les fichiers `CHANGELOG-*` de la racine de `symfony/symfony` ?"
+    back: "Non. Ils sont **générés** à la préparation des versions."
+    explanation: >-
+      Celui qu'on édite est le `CHANGELOG.md` du **composant**, du bridge ou du
+      bundle modifié. Les deux se ressemblent assez pour qu'on se trompe de
+      fichier.
+    memorization_justification: >-
+      Deux fichiers au nom voisin, dont un seul s'édite ; la confusion est
+      exactement ce qu'une question isole.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Writing a CHANGELOG Entry, note"
+        verified_at: "2026-09-21"
+
+  - id: FLC-n17zfdyt572z
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Une nouvelle classe peut-elle être introduite avec des méthodes déjà dépréciées ?"
+    back: "Non. Rien ne naît déprécié — ni une classe, ni une méthode."
+    explanation: >-
+      Introduire du code déjà déprécié reviendrait à livrer une dette dès le
+      premier jour, et à ouvrir une fenêtre de suppression sans qu'aucune
+      version n'ait jamais recommandé l'usage.
+    memorization_justification: >-
+      Interdit qui ne se déduit d'aucune règle de calendrier, et que rien
+      n'empêche techniquement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Deprecating Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-20f8sz039mg9
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Une dépréciation peut-elle être supprimée dans la mineure suivante ?"
+    back: "Non. Seule la **prochaine majeure** supprime — environ tous les deux ans."
+    explanation: >-
+      La mineure introduit la dépréciation, la majeure la consomme. Toute autre
+      combinaison casserait la promesse de rétrocompatibilité.
+    memorization_justification: >-
+      Les deux règles de calendrier se ressemblent assez pour être
+      interverties, et l'interversion est le piège standard.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Removing Deprecated Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vb8q7pbvtk3e
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Un message de `CHANGELOG` se termine-t-il par un point ?"
+    back: "Non. Ligne capitalisée, verbe à l'impératif, **pas de point final**."
+    explanation: >-
+      Ce sont les conventions de message de commit. L'exemple du document se lit
+      « Add `MagicConfig` that allows configuring things » — capitale initiale,
+      aucun point.
+    memorization_justification: >-
+      Détail typographique qu'on n'imagine pas normé, et qui distingue une
+      proposition correcte d'une proposition plausible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Writing a CHANGELOG Entry"
         verified_at: "2026-09-21"
