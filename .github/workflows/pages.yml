@@ -817,6 +817,33 @@ jobs:
             echo "ok  lot-03  the Deprecations page carries its levelled flashcards, the CHANGELOG conventions and the removal entry"
           fi
 
+          # Page 12. `mapped superclass` was rejected as a needle: it already
+          # appears in master's version of this very page. `deux réponses` was
+          # rejected too: it appears on other items' cards in the lot-03
+          # flashcard file on master.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-overloading -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/framework-overloading")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page framework-overloading serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-overloading || missing="$missing overloading:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-overloading || missing="$missing overloading:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-overloading || missing="$missing overloading:no-trap-heading"
+          grep -aq 'voir la section suivante' /tmp/l3r-overloading \
+            || missing="$missing overloading:no-controller-condition"
+          grep -aq 'branche de repli' /tmp/l3r-overloading \
+            || missing="$missing overloading:no-controller-fallback"
+          grep -aq 'ne dépendent pas des bundles' /tmp/l3r-overloading \
+            || missing="$missing overloading:no-translation-domain-section"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Framework overloading page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Framework overloading page carries its levelled flashcards, the controller condition and the translation-domain rule"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

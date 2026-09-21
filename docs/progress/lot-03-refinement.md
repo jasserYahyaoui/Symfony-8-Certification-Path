@@ -681,6 +681,59 @@ a pas de relation principale, et la différence entre `setXXX()` et
 sur une clé inconnue). C'est le matériau de la page **Naming conventions**, pas
 de celle-ci.
 
+## Page 12 — Framework overloading, 2026-09-21
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-bg28kgf029js` … `FLC-06jf9jywescz`) ; la carte
+  préexistante `FLC-y51trsyr41em` a reçu le niveau `TRAP`. L'item en porte
+  **17**.
+- Corps : 636 → **887 mots** sur 900.
+
+**Une condition que la page sautait : le contrôleur a deux réponses**
+
+La section « Controllers » du document **ouvre** par une condition :
+« si le contrôleur est un service, voir la section suivante » — c'est-à-dire la
+**décoration**. La route de même chemin n'est que la branche **sinon**.
+
+La page ne donnait que la seconde. Or dans une application moderne, les
+contrôleurs sont des services autoconfigurés : c'est la **première** branche qui
+s'applique le plus souvent. Le tableau distingue désormais les deux cas.
+
+**Le principe derrière la surcharge des traductions**
+
+Le document le dit en une phrase : « les traductions ne sont pas liées aux
+bundles, mais aux **domaines** ». La page appliquait la règle — « même
+domaine » — sans énoncer le principe. Conséquence pratique désormais écrite :
+aucune déclaration n'est nécessaire, et le nom du bundle dans
+`AcmeUserBundle.es.yaml` n'est là que parce qu'il **est** le nom du domaine.
+
+**Précision sur le mapping**
+
+Quand une *mapped superclass* existe, la surcharge porte sur les **attributs**
+et les **associations** — la page disait seulement que c'était possible.
+
+**Trois passes de resserrement**
+
+Premier jet à 1003 mots pour 900. Réglé en trois passes : condensation des
+sections « gabarits », « services » et « validation » dont les pièges reprenaient
+déjà la substance, puis fusion de la section « mapping » dans la ligne de tableau
+correspondante. Rien de vérifié n'a été supprimé, le niveau n'a pas été promu.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 002 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 6 ; `mapped superclass` **écartée** — présente dans la version `master` de cette page même ; `deux réponses` écartée — présente sur les cartes d'autres items |
+
 ## Prochaine étape
 
-Page 12 — **Framework overloading**.
+Page 13 — **Release management and roadmap schedule**.
