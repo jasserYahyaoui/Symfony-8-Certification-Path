@@ -13,6 +13,7 @@ flashcards:
   - id: FLC-9m38p016nbap
     official_item: OIT-pk5s7cnhk776
     language: fr
+    level: RECALL
     front: "Symfony : durées de maintenance d'une version standard et d'une LTS ?"
     back: "Standard : 8 mois de bugs, 8 mois de sécurité. LTS : 3 ans de bugs, 4 ans de sécurité."
     explanation: >-
@@ -34,6 +35,7 @@ flashcards:
   - id: FLC-p6z5q1gh8any
     official_item: OIT-pk5s7cnhk776
     language: fr
+    level: RECALL
     front: "Symfony : quand sortent une mineure et une majeure ?"
     back: "Mineure tous les 6 mois, en mai et en novembre. Majeure tous les 2 ans, en novembre des années impaires."
     explanation: >-
@@ -4503,4 +4505,330 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Controllers"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 13 — Release management and roadmap schedule (OIT-pk5s7cnhk776).
+  # contributing/code/releases.rst relu section par section sur la branche 8.0
+  # le 2026-09-21, y compris « Rationale » et « PHP Compatibility ».
+  - id: FLC-sgwqw3p540fc
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: RECALL
+    front: "Combien de temps a-t-on pour migrer, en standard et en LTS ?"
+    back: "**Deux mois** en standard, **un an** en LTS."
+    explanation: >-
+      Ce sont les délais que l'exposé des motifs annonce, distincts des durées
+      de maintenance : 8 mois pour une standard, 3 ou 4 ans pour une LTS.
+    memorization_justification: >-
+      Deux chiffres que la page n'énonçait pas et qu'on confond avec les durées
+      de maintenance, alors qu'ils répondent à une autre question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Rationale, dual maintenance mode"
+        verified_at: "2026-09-21"
+
+  - id: FLC-7jzgp65y5sj2
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: RECALL
+    front: "Qui décide de la version **minimale** de PHP, et à quelle occasion ?"
+    back: "L'**équipe centrale**, par consensus, pour chaque version **majeure** de Symfony."
+    explanation: >-
+      La décision est documentée dans les prérequis techniques. Une exception
+      existe : relever la **mineure** minimale de PHP est possible dans une
+      mineure de Symfony si cela aide à corriger des problèmes importants.
+    memorization_justification: >-
+      L'instance décisionnaire et la cadence sont deux informations distinctes,
+      et l'exception invalide la formulation la plus naturelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "PHP Compatibility"
+        verified_at: "2026-09-21"
+
+  - id: FLC-san4bgntmaw9
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: RECALL
+    front: "Depuis quelle branche le nombre de mineures est-il limité à cinq ?"
+    back: "Depuis la branche **3.x**."
+    explanation: >-
+      X.0 à X.4, la dernière étant la LTS. Avant 3.x, le nombre de mineures par
+      branche n'était pas fixé.
+    memorization_justification: >-
+      Le point de départ historique est une information distincte de la règle
+      elle-même, et une question peut porter sur l'un ou l'autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Maintenance"
+        verified_at: "2026-09-21"
+
+  - id: FLC-wmwy4jyq8r8k
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: RECALL
+    front: "Comment se découpent les six mois d'un cycle ?"
+    back: "**Quatre mois** de développement, puis **deux mois** de stabilisation."
+    explanation: >-
+      La stabilisation sert à corriger, préparer la publication et laisser
+      l'écosystème suivre. Une fonctionnalité non prête pendant les quatre
+      premiers mois est reportée au cycle suivant.
+    memorization_justification: >-
+      Découpage chiffré, avec une somme qui se vérifie ; le 4+2 ne se devine
+      pas depuis la durée totale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Development"
+        verified_at: "2026-09-21"
+
+  - id: FLC-zmm7jna0qtwp
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la période de six mois a-t-elle été choisie ?"
+    back: "Parce que deux publications tiennent dans une année, et qu'une fonctionnalité non prête attend peu avant le cycle suivant."
+    explanation: >-
+      Le document ajoute que le rythme laisse assez de temps pour travailler
+      les nouveautés. C'est un arbitrage entre vitesse de livraison et coût du
+      report.
+    memorization_justification: >-
+      La raison rend le chiffre reconstructible, et le rythme annuel est le
+      point d'ancrage le plus stable du calendrier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Rationale"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vwhsj3z9zv9y
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi 8.0 et 7.4 ont-elles les mêmes fonctionnalités ?"
+    back: "Parce que la majeure se développe **en parallèle** de la dernière mineure de la branche précédente."
+    explanation: >-
+      Elles ne diffèrent que par les dépréciations : présentes dans l'ancienne,
+      supprimées dans la nouvelle. Monter en majeure n'apporte donc rien de neuf
+      par soi-même.
+    memorization_justification: >-
+      Contredit l'idée qu'une majeure apporte des nouveautés, et explique la
+      stratégie de montée de version.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Development"
+        verified_at: "2026-09-21"
+
+  - id: FLC-2w9n254n3n42
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le *dual maintenance mode* existe-t-il ?"
+    back: "Pour servir deux publics : ceux qui veulent les nouveautés vite, et les entreprises qui veulent de la stabilité."
+    explanation: >-
+      Les premiers prennent les versions standard — une tous les six mois, deux
+      mois pour migrer. Les secondes prennent les LTS — une tous les deux ans,
+      un an pour migrer.
+    memorization_justification: >-
+      Relie les deux régimes à leur raison d'être, ce qui permet de retrouver
+      les délais plutôt que de les mémoriser isolément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Rationale"
+        verified_at: "2026-09-21"
+
+  - id: FLC-fj8x3js62e0p
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: APPLICATION
+    front: "Une nouvelle majeure de PHP sort pendant la vie d'une version de Symfony maintenue. Supportée ?"
+    back: "Oui. La version maximale supportée est **la dernière publiée**, majeures comprises."
+    explanation: >-
+      Seule la version **minimale** est figée par majeure de Symfony. Le plafond,
+      lui, suit PHP au fil de la vie de la version.
+    memorization_justification: >-
+      Asymétrie entre plancher fixe et plafond mouvant, dont la moitié
+      « plafond » s'oublie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "PHP Compatibility"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ff82qyqyde1d
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: APPLICATION
+    front: "Une version de Symfony est hors support. Quelle version de PHP reste supportée ?"
+    back: "Celle en vigueur à la **fin de vie**. Les suivantes « peuvent fonctionner ou non »."
+    explanation: >-
+      Le plafond mouvant s'arrête avec le support. Au-delà, plus aucune garantie
+      n'est donnée — la formulation du document est délibérément prudente.
+    memorization_justification: >-
+      Cas limite du plafond mouvant, et la réponse n'est ni « aucune » ni
+      « toutes ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "PHP Compatibility"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4rj2p3gddvc0
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: APPLICATION
+    front: "Une fonctionnalité n'est pas prête au bout de quatre mois. Que devient-elle ?"
+    back: "Elle est **reportée** au cycle suivant — six mois plus tard."
+    explanation: >-
+      C'est l'un des arguments du choix des six mois : le report ne coûte pas
+      cher, donc rien n'est publié à moitié pour tenir une date.
+    memorization_justification: >-
+      Conséquence du modèle temporel sur le contenu, et elle explique pourquoi
+      aucune feuille de route n'est annoncée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Development, Rationale"
+        verified_at: "2026-09-21"
+
+  - id: FLC-7w0917vmtdaw
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: APPLICATION
+    front: "Une entreprise veut migrer le moins souvent possible. Quelle branche, quel rythme ?"
+    back: "Les **LTS** : une tous les deux ans, avec **un an** pour migrer."
+    explanation: >-
+      Bugs corrigés trois ans, failles quatre ans. La stabilité se paie en
+      nouveautés : les fonctionnalités des mineures intermédiaires n'arrivent
+      que deux ans plus tard.
+    memorization_justification: >-
+      Traduit le régime LTS en décision concrète, forme sous laquelle la
+      question se pose réellement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Maintenance, Rationale"
+        verified_at: "2026-09-21"
+
+  - id: FLC-462kst2hv5fy
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: TRAP
+    front: "Une LTS corrige-t-elle bugs et failles pendant la même durée ?"
+    back: "Non. **Trois** ans pour les bugs, **quatre** ans pour les failles."
+    explanation: >-
+      Une version standard, elle, s'arrête à huit mois pour les deux. C'est la
+      LTS qui introduit l'asymétrie, et elle se retient mal.
+    memorization_justification: >-
+      L'égalité des deux durées est vraie en standard et fausse en LTS, ce qui
+      rend la généralisation tentante.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Maintenance"
+        verified_at: "2026-09-21"
+
+  - id: FLC-d1v69zn5xh8e
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: TRAP
+    front: "Une version **mineure** de Symfony peut-elle relever la version minimale de PHP ?"
+    back: "Oui, **par exception** : la mineure minimale de PHP, quand cela aide à corriger des problèmes importants."
+    explanation: >-
+      La règle générale fixe le minimum par version **majeure** de Symfony.
+      L'exception est explicitement notée dans le document, et c'est elle qui
+      rend fausse la formulation absolue.
+    memorization_justification: >-
+      Règle nette assortie d'une exception discrète ; la question porte
+      précisément sur l'exception.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "PHP Compatibility, note"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4bdveywx6ayq
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: TRAP
+    front: "Existe-t-il une feuille de route annonçant le contenu des prochaines versions ?"
+    back: "Non. Le calendrier est fixe, le contenu ne l'est pas."
+    explanation: >-
+      Le projet est piloté par la communauté : une fonctionnalité demandée n'est
+      pas planifiée, et rien ne garantit qu'elle arrive dans une version donnée.
+    memorization_justification: >-
+      La régularité du calendrier fait croire à une planification du contenu,
+      qui n'existe pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Development"
+        verified_at: "2026-09-21"
+
+  - id: FLC-rsbd14ed4kkf
+    official_item: OIT-pk5s7cnhk776
+    language: fr
+    level: TRAP
+    front: "« Une version standard est maintenue 8 mois » : peut-on en déduire 8 mois pour migrer ?"
+    back: "Non. Le délai annoncé pour migrer est de **deux mois**."
+    explanation: >-
+      Durée de maintenance et délai de migration répondent à deux questions
+      différentes. Les huit mois couvrent le chevauchement avec la version
+      suivante ; les deux mois sont la fenêtre recommandée.
+    memorization_justification: >-
+      Deux chiffres du même document qu'on assimile naturellement, alors qu'ils
+      ne mesurent pas la même chose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Maintenance, Rationale"
         verified_at: "2026-09-21"

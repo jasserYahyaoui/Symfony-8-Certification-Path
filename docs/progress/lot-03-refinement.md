@@ -734,6 +734,66 @@ correspondante. Rien de vérifié n'a été supprimé, le niveau n'a pas été p
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 6 ; `mapped superclass` **écartée** — présente dans la version `master` de cette page même ; `deux réponses` écartée — présente sur les cartes d'autres items |
 
+## Page 13 — Release management and roadmap schedule, 2026-09-21
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-sgwqw3p540fc` … `FLC-rsbd14ed4kkf`) ; les deux
+  cartes préexistantes ont reçu le niveau `RECALL`. L'item en porte **17**.
+- Corps : 596 → **894 mots** sur 900.
+
+**Des chiffres que la page n'avait pas : les délais de migration**
+
+La page donnait les **durées de maintenance** — 8 mois en standard, 3 et 4 ans
+en LTS. L'exposé des motifs du document donne un autre couple, que la page
+ignorait : le **délai dont on dispose pour migrer**.
+
+| | Nouvelle version tous les… | Délai pour migrer |
+|---|---|---|
+| Standard | six mois | **deux mois** |
+| LTS | deux ans | **un an** |
+
+Les deux couples répondent à des questions différentes, et rien dans les
+chiffres ne le signale : c'est exactement le genre d'assimilation qu'un QCM
+exploite. Une carte `TRAP` est dédiée à la confusion.
+
+**Une exception qui invalide une formulation absolue**
+
+La page écrivait « la version minimale de PHP est fixée pour chaque version
+majeure de Symfony ». C'est la règle, et le document y attache une note :
+**relever la version *mineure* minimale de PHP est possible dans une version
+*mineure* de Symfony**, quand cela aide à corriger des problèmes importants.
+
+Ajouté aussi : le minimum est décidé **par consensus de l'équipe centrale** ; et
+pour une version de Symfony hors support, la dernière version de PHP supportée
+est celle en vigueur à la fin de vie — les suivantes « peuvent fonctionner ou
+non ».
+
+**Une précision de date**
+
+La limite de cinq mineures par branche vaut **depuis la branche 3.x**. La page
+l'énonçait comme une règle intemporelle.
+
+**Deux passes de resserrement**
+
+Premier jet à 953 mots pour 900. Réglé en condensant les sections « six mois »,
+« développement en double » et le modèle temporel, dont les pièges et les points
+clés reprenaient déjà la substance. Le niveau n'a pas été promu.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 017 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8, chacune vérifiée absente de la version `master` de cette page et du fichier de flashcards du lot |
+
 ## Prochaine étape
 
-Page 13 — **Release management and roadmap schedule**.
+Page 14 — **Framework interoperability and PSRs**.
