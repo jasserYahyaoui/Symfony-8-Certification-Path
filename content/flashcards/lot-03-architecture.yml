@@ -184,6 +184,7 @@ flashcards:
   - id: FLC-00w816qz6wh8
     official_item: OIT-c9pjp03cv4bq
     language: fr
+    level: RECALL
     front: "Symfony : que préfixent respectivement As... et Map... dans un attribut PHP ?"
     back: "As... configure un service (#[AsCommand]). Map... concerne un argument de contrôleur (#[MapEntity])."
     explanation: >-
@@ -5184,4 +5185,305 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 15 — Naming conventions (OIT-c9pjp03cv4bq). standards.rst et la
+  # section « Naming a Method » de conventions.rst relues sur la branche 8.0 le
+  # 2026-09-21.
+  - id: FLC-435p71j9g13k
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: RECALL
+    front: "Quels sont les douze noms de méthodes normalisés pour une relation principale ?"
+    back: "`get`, `set`, `has`, `all`, `replace`, `remove`, `clear`, `isEmpty`, `add`, `register`, `count`, `keys`."
+    explanation: >-
+      Ils ne s'emploient que lorsqu'un objet a une relation « principale »
+      évidente avec des choses apparentées. Sinon, on suffixe par le nom de la
+      chose.
+    memorization_justification: >-
+      Liste close de douze verbes qu'aucune règle ne reconstruit, et dont
+      l'appartenance se teste entrée par entrée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3tts21dfmvcj
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: RECALL
+    front: "Que devient `all()` quand la relation n'est pas la principale ?"
+    back: "**`getXXXs()`** — pas `allXXX()`."
+    explanation: >-
+      C'est l'une des deux lignes irrégulières du tableau : `replace()` devient
+      de même `setXXXs()`, et non `replaceXXXs()`.
+    memorization_justification: >-
+      Transformation qui ne suit pas le schéma « verbe + XXX » ; la réponse
+      intuitive est fausse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method, table"
+        verified_at: "2026-09-21"
+
+  - id: FLC-sgkfqtmc07qt
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: RECALL
+    front: "Quelle casse pour un **cas d'énumération**, et pour une **constante** ?"
+    back: "`UpperCamelCase` pour le cas d'énumération, `SCREAMING_SNAKE_CASE` pour la constante."
+    explanation: >-
+      `InputArgumentMode::IsArray` contre `InputArgument::IS_ARRAY`. Les deux
+      cohabitent dans le même code, ce qui rend la confusion facile.
+    memorization_justification: >-
+      Deux casses différentes pour deux choses qui se ressemblent à l'usage, et
+      l'exemple montre les deux côte à côte.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ay71evrsc8x8
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: RECALL
+    front: "Quels types écrire dans un PHPDoc : `bool` ou `boolean` ?"
+    back: "`bool`, `int`, `float` — jamais `boolean`, `integer`, `double` ni `real`."
+    explanation: >-
+      La règle vaut pour les PHPDoc **et** les transtypages. Les formes longues
+      sont proscrites bien qu'elles soient valides en PHP.
+    memorization_justification: >-
+      Quatre formes interdites nommément ; savoir lesquelles est la question,
+      et `real` s'oublie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-pjyw6k1rxj7s
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la convention des douze verbes ne s'applique-t-elle pas à un `Input` de console ?"
+    back: "Parce qu'il a des arguments **et** des options : aucune relation n'est « principale »."
+    explanation: >-
+      Le document oppose ce cas à celui du `CookieJar`, qui a beaucoup de
+      `Cookie` et une seule relation. Sans relation dominante, on suffixe par
+      le nom de la chose.
+    memorization_justification: >-
+      Le critère d'application est une condition, pas une règle générale ; les
+      deux exemples du document la rendent décidable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-pyc5bntdapdb
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: UNDERSTANDING
+    front: "Le conteneur de services a beaucoup de services **et** de paramètres. La convention s'applique-t-elle ?"
+    back: "Oui — les **services** sont la relation principale, et ce sont eux qui prennent les noms courts."
+    explanation: >-
+      Deux relations n'empêchent pas la convention si l'une domine. Les
+      paramètres, relation secondaire, prennent la forme suffixée.
+    memorization_justification: >-
+      Cas intermédiaire entre le `CookieJar` et l'`Input` ; il montre que le
+      critère est la domination, pas l'unicité.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-wbxabshyxyh7
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: UNDERSTANDING
+    front: "Qu'est-ce qui sépare `setXXX()` de `replaceXXX()` ?"
+    back: "`setXXX()` peut **ajouter** un élément ; `replaceXXX()` ne le peut pas et doit lever une exception sur une clé inconnue."
+    explanation: >-
+      Les deux noms suggèrent la même opération. La différence est un **droit** :
+      l'un crée, l'autre exige que la clé existe déjà.
+    memorization_justification: >-
+      Distinction sémantique invisible dans les noms, avec une conséquence
+      observable — l'exception.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method, note"
+        verified_at: "2026-09-21"
+
+  - id: FLC-d346mdam6zd4
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `Abstract` est-il un préfixe alors que `Interface` est un suffixe ?"
+    back: "C'est la convention telle quelle : `Abstract` devant, `Interface`, `Trait` et `Exception` derrière."
+    explanation: >-
+      Aucune logique ne la dérive ; il faut la connaître. Une exception existe
+      pour le préfixe : les classes `*TestCase` de PHPUnit ne le portent pas.
+    memorization_justification: >-
+      Position arbitraire, avec une exception nommée ; les deux moitiés se
+      testent séparément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-wwr1eda5n3n5
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: APPLICATION
+    front: "Un `CookieJar` expose toutes ses options, relation secondaire. Quel nom de méthode ?"
+    back: "`getOptions()` — la forme `getXXXs()`, et non `allOptions()`."
+    explanation: >-
+      `all()` est réservé à la relation principale, ici les cookies. Pour toute
+      autre relation, c'est `getXXXs()` qui s'applique.
+    memorization_justification: >-
+      Met la ligne irrégulière du tableau en situation, forme sous laquelle
+      l'erreur se produit réellement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method, table"
+        verified_at: "2026-09-21"
+
+  - id: FLC-yrwkmv7ahs7b
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: APPLICATION
+    front: "Vous écrivez un attribut PHP qui déclare un abonné d'événement. Quel préfixe ?"
+    back: "`As...` — l'attribut configure un **service**, comme `#[AsCommand]` ou `#[AsEventListener]`."
+    explanation: >-
+      `Map...` est réservé aux **arguments de contrôleur** : `#[MapEntity]`,
+      `#[MapCurrentUser]`. Le critère est ce que l'attribut configure, pas où
+      il est écrit.
+    memorization_justification: >-
+      Décision concrète d'écriture, et le critère permet de trancher sur un
+      attribut jamais vu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-rqk6rdv4hn4y
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: APPLICATION
+    front: "Comment nommer un gabarit Twig et un paramètre de configuration ?"
+    back: "`snake_case` pour les deux : `section_layout.html.twig`, `framework.csrf_protection`."
+    explanation: >-
+      Le `snake_case` couvre la configuration, les noms de route, les variables
+      Twig, les gabarits et les ressources web. Le `camelCase` reste au code
+      PHP.
+    memorization_justification: >-
+      Frontière entre deux casses qui traverse le projet ; la ranger par
+      « code / non-code » évite de mémoriser chaque cas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-67ayv2t6w50z
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: TRAP
+    front: "Quelle est la forme suffixée de `keys()` ?"
+    back: "Il n'y en a **pas**. La ligne `keys()` n'a pas de variante `XXX`."
+    explanation: >-
+      Symétriquement, `replaceXXX()` n'a **aucune** contrepartie en relation
+      principale. Le tableau n'est donc pas une bijection.
+    memorization_justification: >-
+      Absence là où le schéma en fait attendre une ; inventer `keysXXX()` est
+      l'erreur naturelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming a Method, table"
+        verified_at: "2026-09-21"
+
+  - id: FLC-t7ny1j1r75jg
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: TRAP
+    front: "Existe-t-il un suffixe pour une classe ordinaire ou une énumération ?"
+    back: "Non. Ni `...Class`, ni `...Enum`. Seuls `Interface`, `Trait` et `Exception` sont des suffixes."
+    explanation: >-
+      L'existence de trois suffixes fait croire à une série complète. Les
+      classes ordinaires et les énumérations n'en portent aucun.
+    memorization_justification: >-
+      Généralisation abusive à partir d'une liste incomplète ; la réponse est
+      une absence.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
+        verified_at: "2026-09-21"
+
+  - id: FLC-n8wtgz598t9a
+    official_item: OIT-c9pjp03cv4bq
+    language: fr
+    level: TRAP
+    front: "Toutes les classes abstraites portent-elles le préfixe `Abstract` ?"
+    back: "Non : les classes `*TestCase` de PHPUnit en sont dispensées."
+    explanation: >-
+      C'est la seule exception nommée par le document. Une classe abstraite de
+      test s'appelle donc `KernelTestCase`, pas `AbstractKernelTestCase`.
+    memorization_justification: >-
+      Exception unique à une règle énoncée comme générale, et elle se rencontre
+      dans tout projet Symfony.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Naming Conventions"
         verified_at: "2026-09-21"
