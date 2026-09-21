@@ -794,6 +794,70 @@ clés reprenaient déjà la substance. Le niveau n'a pas été promu.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 8, chacune vérifiée absente de la version `master` de cette page et du fichier de flashcards du lot |
 
+## Page 14 — Framework interoperability and PSRs, 2026-09-21
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-tq9e37tkngem` … `FLC-75qhxd0cfawg`) ; la carte
+  préexistante `FLC-f6phwa9qmmek` a reçu le niveau `TRAP`. L'item en porte
+  **17**.
+- Corps : 419 → **709 mots** sur 900.
+
+**`provide` ne contient pas que des PSR**
+
+La page présentait la clé `provide` comme « la réponse autoritative » et n'en
+montrait que les huit entrées `psr/*`. Relue entrée par entrée, la clé compte
+**quinze** entrées :
+
+| Famille | Nombre |
+|---|---|
+| `psr/*` | **8** |
+| contrats Symfony (`cache`, `event-dispatcher`, `http-client`, `service`, `translation`) | **5** |
+| HTTPlug (`php-http/client-implementation`, `php-http/async-client-implementation`) | **2** |
+
+Sept entrées sur quinze passaient donc à la trappe. Les contrats Symfony sont
+directement sur le sujet de la page — ce sont des abstractions en paquets
+minuscules, qu'une bibliothèque peut exiger **sans dépendre de Symfony**. Et
+HTTPlug est l'abstraction client HTTP antérieure à PSR-18, que HttpClient
+satisfait aussi.
+
+**Les versions déclarées ne sont pas uniformes**
+
+`provide` ne nomme pas seulement l'interface, il dit quelles **versions
+majeures** Symfony satisfait — et elles diffèrent : trois pour PSR-3 et PSR-16,
+deux pour PSR-6 (`2.0|3.0`, **pas** `1.0`), PSR-11 et PSR-13, une seule pour
+PSR-14, PSR-18 et PSR-20. La page laissait croire à une couverture uniforme.
+
+**`CRS-001` a levé, et la correction a été faite dans le contenu**
+
+Mon premier jet illustrait la logique des contrats en citant le paquet qui
+fournit `trigger_deprecation()`. Cette chaîne est la **réponse correcte** d'une
+question `LEARNING` rattachée à un **autre** item — celui des dépréciations.
+`bin/cert validate` a refusé :
+
+```text
+[ERROR] CRS-001: Course reproduces the correct answer of question QST-qyf1tg8cm0w6 verbatim (§4.3). (CRS-f74jcpnrrkhz)
+```
+
+Le nom du paquet a été **retiré** du corps, remplacé par un renvoi à la page qui
+le traite. Conformément à `CLAUDE.md`, il n'a pas été déplacé dans un bloc de
+code : « moving the string into a fence is gaming the check, not passing it ».
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** après correction de `CRS-001` |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 033 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 7 ; `nyholm` **écartée** (présente dans la version `master` de cette page) et `quinze` **écartée** (présente sur les cartes d'autres items) |
+
 ## Prochaine étape
 
-Page 14 — **Framework interoperability and PSRs**.
+Page 15 — **Naming conventions**, dernière du lot. La matière a été repérée à la
+page 11 : la section « Naming a Method » de `conventions.rst`.
