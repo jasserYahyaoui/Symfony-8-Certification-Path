@@ -95,6 +95,7 @@ flashcards:
   - id: FLC-4hjvn6s53v7y
     official_item: OIT-rd9b27fkb72r
     language: fr
+    level: RECALL
     front: "EventDispatcher : quelle priorité s'exécute en premier, et quelle est la valeur par défaut ?"
     back: "La plus grande s'exécute en premier. Défaut : 0. Les valeurs négatives sont valides."
     explanation: >-
@@ -2690,4 +2691,401 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "onKernelException, isKernelTerminating"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 8 — Event dispatcher and kernel events (OIT-rd9b27fkb72r).
+  # EventDispatcher.php, KernelEvents.php et Contracts/Event.php relus sur la
+  # branche 8.0 le 2026-09-21.
+  - id: FLC-enc60pxerqbp
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Quelle est la signature de `EventDispatcher::dispatch()` ?"
+    back: "`dispatch(object $event, ?string $eventName = null): object` — le nom est facultatif, et l'événement est **retourné**."
+    explanation: >-
+      Le retour permet l'idiome
+      `$event = $dispatcher->dispatch(new FooEvent(...))` : l'objet revient
+      enrichi par les écouteurs.
+    memorization_justification: >-
+      Signature exacte dont deux détails — nom facultatif, valeur de retour —
+      changent la façon d'écrire l'appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "dispatch"
+        verified_at: "2026-09-21"
+
+  - id: FLC-9tf5y9q9e1ec
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Combien d'arguments un écouteur reçoit-il à l'appel ?"
+    back: "Trois : l'événement, le **nom** de l'événement, et le dispatcher."
+    explanation: >-
+      `callListeners()` appelle `$listener($event, $eventName, $this)`. Le
+      deuxième argument sert quand une même méthode est branchée sur plusieurs
+      événements.
+    memorization_justification: >-
+      On n'en déclare qu'un dans la pratique courante, donc les deux autres
+      s'oublient ; leur existence est une question fermée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "callListeners"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4g7yc552dx9x
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Que contient la constante `KernelEvents::ALIASES` ?"
+    back: "La correspondance **classe d'événement → nom** : `RequestEvent::class => 'kernel.request'`, etc."
+    explanation: >-
+      Elle est consommée par `RegisterListenersPass`. C'est elle qui permet à
+      `#[AsEventListener]` de déduire l'événement du type de l'argument, sans
+      paramètre `event`.
+    memorization_justification: >-
+      Constante peu citée qui explique une commodité très utilisée ; son
+      existence même est la réponse attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ALIASES"
+        verified_at: "2026-09-21"
+
+  - id: FLC-20fyx6fq20s0
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Quelles méthodes d'introspection le dispatcher expose-t-il ?"
+    back: "`hasListeners($nom)`, `getListeners($nom)` et `getListenerPriority($nom, $listener)`."
+    explanation: >-
+      `getListenerPriority()` rend la priorité réelle, ou `null` si l'écouteur
+      n'est pas enregistré. S'y ajoutent les symétriques d'ajout :
+      `removeListener()` et `removeSubscriber()`.
+    memorization_justification: >-
+      Partie de l'API qu'on n'écrit jamais et qu'un QCM énumère ; elle ne se
+      devine pas depuis `addListener()`.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "hasListeners, getListeners, getListenerPriority"
+        verified_at: "2026-09-21"
+
+  - id: FLC-q5zrw4mwb613
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Quelle fonction PHP trie les écouteurs par priorité ?"
+    back: "`krsort()` — tri par **clé décroissante**."
+    explanation: >-
+      Les priorités sont les clés du tableau interne. Le nom de la fonction dit
+      donc le sens de l'ordre : 255 avant 0 avant −255.
+    memorization_justification: >-
+      Mnémonique vérifiable : quand le sens de la priorité s'échappe, le nom de
+      la fonction le restitue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "sortListeners"
+        verified_at: "2026-09-21"
+
+  - id: FLC-g7k77p7gmsg3
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: UNDERSTANDING
+    front: "À quelle condition `stopPropagation()` a-t-il un effet ?"
+    back: "L'événement doit implémenter `StoppableEventInterface` — `callListeners()` ne teste la propagation que dans ce cas."
+    explanation: >-
+      `Symfony\Contracts\EventDispatcher\Event` l'implémente, et `KernelEvent`
+      l'étend : les huit événements du noyau sont arrêtables. Un simple objet
+      dispatché, lui, ne l'est pas.
+    memorization_justification: >-
+      Condition jamais visible dans l'usage courant, parce que tout ce qu'on
+      manipule l'implémente déjà ; elle ne se révèle que sur un événement maison.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "callListeners"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ns8r1qzptegb
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `#[AsEventListener]` peut-il se passer du paramètre `event` ?"
+    back: "Parce que `RegisterListenersPass` déduit le nom du **type** de l'argument, via `KernelEvents::ALIASES`."
+    explanation: >-
+      Retirer le type de l'argument rend donc l'attribut inopérant. Les autres
+      paramètres — `method`, `priority`, `dispatcher` — restent facultatifs eux
+      aussi.
+    memorization_justification: >-
+      Relie une commodité d'écriture à son mécanisme, et dit du même coup ce qui
+      la casse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ALIASES"
+        verified_at: "2026-09-21"
+
+  - id: FLC-cc8avw6cmxss
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: UNDERSTANDING
+    front: "Écouteur ou abonné : qu'est-ce qui change réellement ?"
+    back: "Qui déclare l'abonnement. Le fonctionnement est identique."
+    explanation: >-
+      Avec un écouteur, c'est la configuration qui sait à quoi il s'abonne ;
+      avec un abonné, c'est la classe, via la méthode statique
+      `getSubscribedEvents()`. Déplacer la classe déplace alors l'abonnement.
+    memorization_justification: >-
+      Distinction de responsabilité, pas de mécanique ; l'erreur classique est
+      de croire à une différence de comportement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using Event Subscribers"
+        verified_at: "2026-09-21"
+
+  - id: FLC-0qk4c9p6m5bt
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: UNDERSTANDING
+    front: "Que donne `getSubscribedEvents()` comme valeur pour un événement ?"
+    back: "Soit un nom de méthode, soit `[méthode, priorité]`, soit une **liste** de tels couples."
+    explanation: >-
+      La troisième forme permet de s'abonner plusieurs fois au même événement à
+      des priorités différentes — c'est exactement ce que fait `ErrorListener`
+      sur `kernel.exception`.
+    memorization_justification: >-
+      La troisième forme est la moins connue et la seule qui explique un
+      abonnement double ; elle se teste directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using Event Subscribers"
+        verified_at: "2026-09-21"
+
+  - id: FLC-5ex6g52ysc4h
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: APPLICATION
+    front: "On fait `$dispatcher->dispatch(new OrderPlaced($o));` sans second argument. Sous quel nom ?"
+    back: "Sous `App\\Event\\OrderPlaced` — le **nom de la classe**, pas une chaîne pointée."
+    explanation: >-
+      `$eventName ??= $event::class`. Un écouteur branché sur `'order.placed'`
+      ne sera donc jamais appelé : il faut soit passer le nom en second
+      argument, soit écouter la classe.
+    memorization_justification: >-
+      Erreur silencieuse — rien n'échoue, l'écouteur ne se déclenche
+      simplement jamais — et elle découle d'un défaut d'argument.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "dispatch"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vawmqcfgnrts
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: APPLICATION
+    front: "Deux écouteurs, priorités `10` et `-10`. Lequel s'exécute en premier ?"
+    back: "Celui à `10`. Tri par clé décroissante : les grands nombres d'abord."
+    explanation: >-
+      À priorité égale, l'ordre est celui de l'enregistrement.
+      `php bin/console debug:event-dispatcher <événement>` donne l'ordre réel
+      dans une application.
+    memorization_justification: >-
+      Sens que l'intuition inverse volontiers ; la question se pose telle quelle
+      avec deux valeurs.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "sortListeners"
+        verified_at: "2026-09-21"
+
+  - id: FLC-87p1bd8b8xdp
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: APPLICATION
+    front: "Un écouteur de `kernel.request` appelle `stopPropagation()`. `kernel.response` a-t-il lieu ?"
+    back: "Oui. L'arrêt ne concerne que les écouteurs restants du **même** événement."
+    explanation: >-
+      La propagation est une notion locale à un événement. Le cycle de la
+      requête continue normalement, et tous les autres événements sont
+      dispatchés.
+    memorization_justification: >-
+      Confusion classique entre arrêter un événement et arrêter le traitement ;
+      les deux réponses sont plausibles sans la règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Stopping Event Flow/Propagation"
+        verified_at: "2026-09-21"
+
+  - id: FLC-85hfb5gq1xpk
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: APPLICATION
+    front: "On veut modifier la réponse. Quels événements du noyau le permettent ?"
+    back: "`kernel.request`, `kernel.view`, `kernel.exception` la **posent** ; `kernel.response` la modifie. Ni `finish_request` ni `terminate`."
+    explanation: >-
+      `kernel.finish_request` intervient après `kernel.response`, et
+      `kernel.terminate` après l'envoi : à ces deux moments, plus rien n'est
+      modifiable.
+    memorization_justification: >-
+      Reformule le catalogue sous la forme d'un besoin réel, qui est celle sous
+      laquelle la question se pose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "constants"
+        verified_at: "2026-09-21"
+
+  - id: FLC-1r4zg4kbx5wz
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: APPLICATION
+    front: "Une même méthode écoute trois événements. Comment sait-elle lequel l'a appelée ?"
+    back: "Par son **deuxième** argument : le dispatcher passe le nom de l'événement."
+    explanation: >-
+      `$listener($event, $eventName, $this)`. Sans cet argument il faudrait
+      inspecter la classe de l'événement, ce qui échoue dès que deux noms
+      partagent une classe.
+    memorization_justification: >-
+      Usage concret du deuxième argument, seule raison pour laquelle on pense à
+      le déclarer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "callListeners"
+        verified_at: "2026-09-21"
+
+  - id: FLC-4eb8na9yp4g0
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : une priorité négative est invalide."
+    back: "Faux. La priorité est un entier quelconque ; `0` est seulement le défaut."
+    explanation: >-
+      Le framework lui-même utilise `−128` abondamment — `ErrorListener` y place
+      sa construction de page d'erreur. Le négatif signifie « tard », pas
+      « interdit ».
+    memorization_justification: >-
+      Le mot « priorité » suggère une échelle positive ; le framework prouve le
+      contraire dans son propre code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addListener"
+        verified_at: "2026-09-21"
+
+  - id: FLC-nybtat3hrbab
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: TRAP
+    front: "`getSubscribedEvents()` est-elle une méthode d'instance ?"
+    back: "Non, elle est **statique** — le conteneur l'appelle sans construire le service."
+    explanation: >-
+      C'est ce qui permet de connaître les abonnements à la compilation, donc
+      d'instancier l'abonné seulement quand son événement survient.
+    memorization_justification: >-
+      Le mot-clé `static` s'oublie à l'écriture, et son oubli a une cause
+      technique qu'une question peut demander.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "EventSubscriberInterface"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ed4sfatqhmp0
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: TRAP
+    front: "Combien d'événements la classe `KernelEvents` déclare-t-elle ?"
+    back: "**Huit** constantes — plus une table `ALIASES`, qui n'est pas un événement."
+    explanation: >-
+      `REQUEST`, `EXCEPTION`, `CONTROLLER`, `CONTROLLER_ARGUMENTS`, `VIEW`,
+      `RESPONSE`, `FINISH_REQUEST`, `TERMINATE`. `ALIASES` est une neuvième
+      constante publique, mais elle ne nomme aucun événement nouveau.
+    memorization_justification: >-
+      Le comptage naïf des constantes publiques donne neuf ; la distinction est
+      exactement ce qu'une question exploite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "constants, ALIASES"
+        verified_at: "2026-09-21"
+
+  - id: FLC-pk83wg9jz0br
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: TRAP
+    front: "Tout objet dispatché peut-il voir sa propagation arrêtée ?"
+    back: "Non. Sans `StoppableEventInterface`, tous les écouteurs sont appelés quoi qu'il arrive."
+    explanation: >-
+      `callListeners()` ne teste `isPropagationStopped()` que sur un événement
+      arrêtable. PSR-14 autorise à dispatcher n'importe quel objet ; l'arrêt,
+      lui, suppose l'interface.
+    memorization_justification: >-
+      L'expérience quotidienne dit « oui » parce que tout hérite de `Event` ;
+      le cas contraire ne se rencontre que sur un événement maison.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "class Event implements StoppableEventInterface"
         verified_at: "2026-09-21"

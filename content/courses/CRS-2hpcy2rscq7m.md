@@ -28,6 +28,18 @@ official_sources:
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+    symbol_or_lines: "dispatch, callListeners, sortListeners, getListenerPriority"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-21"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+    symbol_or_lines: "class Event implements StoppableEventInterface"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-21"
 ---
 
 ## Objectif
@@ -86,6 +98,62 @@ ni le traitement de la requête, ni les autres événements — c'est une erreur
 d'interprétation fréquente. `isPropagationStopped()` permet de le constater
 après coup.
 
+**Mais tout objet n'est pas arrêtable.** `callListeners()` ne consulte
+`isPropagationStopped()` que si l'événement implémente
+`StoppableEventInterface`, l'interface PSR-14. Un objet quelconque dispatché
+sans elle voit **tous** ses écouteurs appelés, quoi qu'ils fassent. En pratique
+`Symfony\Contracts\EventDispatcher\Event` l'implémente, et `KernelEvent`
+l'étend : les huit événements du noyau sont donc arrêtables. C'est l'événement
+maison bâti sur un simple objet qui ne l'est pas.
+
+## Ce que fait `dispatch()`, exactement
+
+```php
+public function dispatch(object $event, ?string $eventName = null): object
+```
+
+Trois choses méritent d'être lues dans cette signature.
+
+**Le nom est facultatif, et son défaut est le nom de la classe.** `$eventName
+??= $event::class`. Dispatcher un `OrderPlacedEvent` sans second argument
+l'enregistre donc sous `App\Event\OrderPlacedEvent`, pas sous une chaîne
+pointée. Un écouteur branché sur `'order.placed'` ne sera jamais appelé.
+
+**L'événement est retourné.** D'où l'idiome
+`$event = $dispatcher->dispatch(new OrderPlacedEvent($order));` — l'objet revient
+enrichi par les écouteurs.
+
+**Chaque écouteur reçoit trois arguments**, pas un :
+`$listener($event, $eventName, $this)`. Le deuxième est utile quand une même
+méthode est branchée sur plusieurs événements ; le troisième est le dispatcher
+lui-même.
+
+## `KernelEvents::ALIASES`
+
+La classe ne porte pas que les huit constantes : elle porte aussi une table
+`ALIASES` qui associe **chaque classe d'événement à son nom**.
+
+```php
+RequestEvent::class  => self::REQUEST,
+ResponseEvent::class => self::RESPONSE,
+// …
+```
+
+C'est ce que lit `RegisterListenersPass`, et c'est ce qui permet d'écrire
+`#[AsEventListener]` **sans** paramètre `event` : le nom est déduit du type de
+l'argument de la méthode. Retirer le type rend l'attribut inopérant.
+
+## Le reste de l'API
+
+`addListener()` et `addSubscriber()` ont leurs symétriques, `removeListener()`
+et `removeSubscriber()`. Deux méthodes d'introspection complètent l'ensemble :
+`hasListeners($nom)` et `getListenerPriority($nom, $listener)`, qui rend la
+priorité réelle ou `null` si l'écouteur n'est pas enregistré.
+
+L'ordre, lui, est établi par un `krsort()` sur les priorités — un tri **par clé
+décroissante**, ce qui est la formulation la plus directe de « plus le nombre
+est grand, plus tôt ».
+
 ## Le catalogue du noyau
 
 Tous les événements du noyau étendent `KernelEvent`, qui donne `getRequest()`,
@@ -113,6 +181,21 @@ premier intervient après `kernel.response`, le second après l'envoi.
 - `kernel.terminate` ne peut plus rien changer à la réponse.
 - Les constantes sont sur `KernelEvents` ; leurs valeurs sont les chaînes
   `kernel.*`.
+- `dispatch()` sans nom explicite utilise le **nom de la classe**, pas une
+  chaîne pointée.
+- Un événement qui n'implémente pas `StoppableEventInterface` ne peut **pas**
+  être arrêté — `stopPropagation()` n'existe même pas dessus.
+- `#[AsEventListener]` sans `event` dépend du **type** de l'argument, via
+  `KernelEvents::ALIASES`.
+
+## Tips d'examen
+
+**`krsort` est le mot à retenir pour la priorité.** Tri par clé décroissante :
+255 avant 0 avant −255. Si le sens s'échappe, le nom de la fonction le rend.
+
+**Deux questions pour classer un événement.** La réponse existe-t-elle déjà ?
+(oui → on ne peut que la modifier). Est-elle déjà partie ? (oui → on ne peut
+plus rien).
 
 ## Points clés
 
@@ -120,8 +203,15 @@ premier intervient après `kernel.response`, le second après l'envoi.
 - Priorité entière, défaut `0`, décroissante dans l'ordre d'appel.
 - Huit événements de noyau, tous dérivés de `KernelEvent`.
 - Chaque événement a un pouvoir propre : ce que l'un permet, l'autre l'interdit.
+- `dispatch(object $event, ?string $eventName = null): object` — nom par défaut
+  = classe, événement retourné, écouteur appelé avec trois arguments.
+- L'arrêt de propagation suppose `StoppableEventInterface`.
+- `KernelEvents::ALIASES` relie classe et nom ; c'est le socle de
+  `#[AsEventListener]` sans `event`.
 
 ## Sources officielles
 
 - [Composant EventDispatcher](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [KernelEvents (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php)
+- [`EventDispatcher` (le code du dispatch)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php)
+- [`Event` des contrats, et `StoppableEventInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php)

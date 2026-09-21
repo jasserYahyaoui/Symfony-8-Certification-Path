@@ -434,6 +434,75 @@ aucun contenu vérifié n'a été supprimé.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 8 ajoutées ; « deux » **écartée** — 440 occurrences sur `master` |
 
+## Page 8 — Event dispatcher and kernel events, 2026-09-21
+
+**Fait**
+
+- 18 flashcards ajoutées (`FLC-enc60pxerqbp` … `FLC-pk83wg9jz0br`) ; la carte
+  préexistante `FLC-4hjvn6s53v7y` a reçu le niveau `RECALL`. L'item en porte
+  **19**.
+- Corps : 568 → **1038 mots** sur 1200.
+
+**Une affirmation non qualifiée dans le cours**
+
+La page écrivait « un écouteur peut appeler `$event->stopPropagation()` », sans
+condition. `EventDispatcher::callListeners()` ne consulte
+`isPropagationStopped()` **que si** l'événement implémente
+`StoppableEventInterface` (PSR-14). Un objet quelconque dispatché sans elle voit
+**tous** ses écouteurs appelés, quoi qu'ils fassent.
+
+En pratique `Symfony\Contracts\EventDispatcher\Event` l'implémente et
+`KernelEvent` l'étend — les huit événements du noyau sont donc arrêtables. C'est
+l'événement maison bâti sur un simple objet qui ne l'est pas, et c'est
+exactement le cas où l'on se demande pourquoi l'arrêt ne fonctionne pas.
+
+**Trois sections ajoutées, tirées de `EventDispatcher.php`**
+
+*« Ce que fait `dispatch()`, exactement. »* La signature dit trois choses que la
+page passait sous silence :
+
+- le nom est facultatif et **son défaut est le nom de la classe**
+  (`$eventName ??= $event::class`) — dispatcher un `OrderPlaced` sans second
+  argument l'enregistre sous son FQCN, et un écouteur branché sur
+  `'order.placed'` ne sera jamais appelé ;
+- **l'événement est retourné**, d'où l'idiome `$event = $dispatcher->dispatch(…)` ;
+- **chaque écouteur reçoit trois arguments** — `$listener($event, $eventName, $this)`.
+
+*« `KernelEvents::ALIASES`. »* La classe ne porte pas que huit constantes : elle
+porte une table associant **chaque classe d'événement à son nom**, lue par
+`RegisterListenersPass`. C'est elle qui permet `#[AsEventListener]` **sans**
+paramètre `event` — le nom est déduit du type de l'argument, et retirer le type
+rend l'attribut inopérant.
+
+*« Le reste de l'API. »* `removeListener()`, `removeSubscriber()`,
+`hasListeners()`, `getListenerPriority()`. Et l'ordre est établi par un
+`krsort()` — tri par clé décroissante, ce qui est la formulation la plus directe
+de « plus le nombre est grand, plus tôt ».
+
+**Une vérification qui a changé la méthode des aiguilles**
+
+Jusqu'ici je comparais une aiguille candidate à **tout** `content/` sur
+`master`. C'est le mauvais dénominateur : le smoke test interroge **une** page.
+Une chaîne présente ailleurs sur le site mais absente de cette page-ci est
+parfaitement discriminante. `ALIASES` apparaissait 3 fois dans `content/` sur
+`master` et **0 fois** dans la version `master` de cette page et du fichier de
+flashcards du lot — elle est donc retenue. Les quatre aiguilles ont été
+vérifiées de cette façon.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 932 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 7 ajoutées, chacune vérifiée absente de la version `master` **de cette page** |
+
 ## Prochaine étape
 
-Page 8 — **Event dispatcher and kernel events** (DEEP).
+Page 9 — **Official best practices**.

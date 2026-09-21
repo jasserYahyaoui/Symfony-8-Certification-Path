@@ -703,6 +703,33 @@ jobs:
             echo "ok  lot-03  the Exception handling page carries its levelled flashcards, the ErrorListener priorities and the WithHttpStatus path"
           fi
 
+          # Page 8. Each needle was checked against master's own version of
+          # this page and of the lot-03 flashcard file: zero occurrences.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-dispatcher -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/event-dispatcher-and-kernel-events")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page event-dispatcher-and-kernel-events serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-dispatcher || missing="$missing dispatcher:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-dispatcher || missing="$missing dispatcher:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-dispatcher || missing="$missing dispatcher:no-trap-heading"
+          grep -aq 'StoppableEventInterface' /tmp/l3r-dispatcher \
+            || missing="$missing dispatcher:no-stoppable-condition"
+          grep -aq 'callListeners' /tmp/l3r-dispatcher \
+            || missing="$missing dispatcher:no-dispatch-internals"
+          grep -aq 'krsort' /tmp/l3r-dispatcher \
+            || missing="$missing dispatcher:no-priority-sort"
+          grep -aq 'ALIASES' /tmp/l3r-dispatcher \
+            || missing="$missing dispatcher:no-aliases-table"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Event dispatcher page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Event dispatcher page carries its levelled flashcards, the dispatch internals and the ALIASES table"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
