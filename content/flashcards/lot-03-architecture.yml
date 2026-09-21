@@ -354,6 +354,7 @@ flashcards:
   - id: FLC-f6phwa9qmmek
     official_item: OIT-kcj9a5846b1s
     language: fr
+    level: TRAP
     front: 'Symfony : quelle PSR de la liste n''est pas implémentée nativement, et que faut-il alors
       ?'
     back: 'PSR-7 : elle demande le pont `symfony/psr-http-message-bridge` **plus** une implémentation
@@ -4831,4 +4832,356 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Maintenance, Rationale"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 14 — Framework interoperability and PSRs (OIT-kcj9a5846b1s).
+  # La cle provide du composer.json de symfony/symfony relue entree par entree
+  # sur la branche 8.0 le 2026-09-21 : 15 entrees, 8 psr/, 5 contrats Symfony,
+  # 2 HTTPlug.
+  - id: FLC-tq9e37tkngem
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: RECALL
+    front: "Combien d'entrées la clé `provide` compte-t-elle, et comment se répartissent-elles ?"
+    back: "**Quinze** : huit `psr/*`, cinq contrats Symfony, deux HTTPlug."
+    explanation: >-
+      Les PSR n'en sont donc qu'un peu plus de la moitié. Lire `provide` comme
+      « la liste des PSR implémentées » fait passer sept entrées à la trappe.
+    memorization_justification: >-
+      Le total et sa décomposition sont deux nombres exacts, vérifiables dans un
+      seul fichier, qu'aucun raisonnement ne donne.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  - id: FLC-kjzrfb1rchjf
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: RECALL
+    front: "Quelles sont les huit PSR déclarées dans `provide` ?"
+    back: "PSR-3, 6, 11, 13, 14, 16, 18, 20 — log, cache, container, link, event-dispatcher, simple-cache, http-client, clock."
+    explanation: >-
+      La liste est close et vérifiable : chaque entrée s'écrit
+      `psr/<nom>-implementation`. Ce qui n'y figure pas n'est pas implémenté,
+      quoi qu'en dise l'intuition.
+    memorization_justification: >-
+      Huit numéros sans logique interne ; la question les demande souvent par
+      exclusion — « laquelle n'y est pas ? ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide, entrées psr/"
+        verified_at: "2026-09-21"
+
+  - id: FLC-6vssx45x92tn
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: RECALL
+    front: "Quelles versions majeures de PSR-3 Symfony déclare-t-il satisfaire ?"
+    back: "**Trois** : `1.0`, `2.0` et `3.0`."
+    explanation: >-
+      `psr/simple-cache-implementation` en déclare autant. À l'opposé,
+      `psr/clock-implementation`, `psr/event-dispatcher-implementation` et
+      `psr/http-client-implementation` n'en déclarent qu'une.
+    memorization_justification: >-
+      La contrainte de version fait partie de la déclaration ; l'ignorer fait
+      croire à une couverture uniforme qui n'existe pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "psr/log-implementation"
+        verified_at: "2026-09-21"
+
+  - id: FLC-qdk1yk0gat8z
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: RECALL
+    front: "Quelles PSR Symfony **suit** sans les implémenter ?"
+    back: "**PSR-4** (autoloading) et **PSR-12** (style de code)."
+    explanation: >-
+      Elles ne figurent pas dans `provide` : on ne « fournit » pas une
+      convention. PSR-4 fait correspondre `src/` à `App\` ; les standards de
+      codage de Symfony sont fondés sur PSR-12 et PSR-4.
+    memorization_justification: >-
+      Deux PSR d'un statut différent des huit autres ; les ranger avec elles
+      est l'erreur attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "introduction"
+        verified_at: "2026-09-21"
+
+  - id: FLC-z09vg2xm6n20
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: RECALL
+    front: "Quelles entrées non-PSR la clé `provide` contient-elle ?"
+    back: "Cinq **contrats Symfony** (cache, event-dispatcher, http-client, service, translation) et deux **HTTPlug**."
+    explanation: >-
+      Les HTTPlug — `php-http/client-implementation` et
+      `php-http/async-client-implementation` — sont déclarées à `*`. C'est
+      l'abstraction client HTTP antérieure à PSR-18, que HttpClient satisfait
+      aussi.
+    memorization_justification: >-
+      Sept entrées sur quinze qu'une lecture « PSR seulement » ignore
+      entièrement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide, entrées symfony/ et php-http/"
+        verified_at: "2026-09-21"
+
+  - id: FLC-wkfzbd6nmgkn
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi PSR-7 demande-t-elle un pont quand les autres n'en demandent pas ?"
+    back: "Parce que HttpFoundation a son propre modèle `Request` / `Response`, antérieur à PSR-7 et **mutable** là où PSR-7 est immuable."
+    explanation: >-
+      Pour les autres PSR, Symfony **est** l'implémentation. Pour PSR-7 il faut
+      convertir, et le pont ne fournit pas d'implémentation : il en faut une
+      tierce.
+    memorization_justification: >-
+      La raison — antériorité et mutabilité — explique pourquoi le cas ne se
+      résoudra pas et restera une conversion.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/psr7.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The PSR-7 Bridge"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3n0hkv9vgkfy
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: UNDERSTANDING
+    front: "À quoi servent les contrats Symfony, et pourquoi sont-ils publiés à part ?"
+    back: "Ce sont des abstractions en paquets minuscules et sans dépendance : une bibliothèque peut les exiger sans dépendre de Symfony."
+    explanation: >-
+      `provide` en déclare cinq — cache, event-dispatcher, http-client, service,
+      translation. C'est la même logique que le paquet de contrats portant la
+      fonction de signalement des dépréciations.
+    memorization_justification: >-
+      Principe d'architecture qui se retrouve à plusieurs endroits du
+      framework, et qui explique un choix de packaging surprenant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide, entrées symfony/"
+        verified_at: "2026-09-21"
+
+  - id: FLC-g6tm7zgffmj0
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi PSR-4 et PSR-12 ne figurent-elles pas dans `provide` ?"
+    back: "Parce qu'on ne « fournit » pas une convention : `provide` déclare des **interfaces implémentées**."
+    explanation: >-
+      PSR-4 organise les espaces de noms, PSR-12 le style du code. Ni l'une ni
+      l'autre n'est un contrat qu'un paquet puisse satisfaire au sens de
+      Composer.
+    memorization_justification: >-
+      Relie le statut d'une PSR à la mécanique qui l'enregistre ; le critère
+      permet de classer une PSR jamais vue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  - id: FLC-pfhcqwca2vhd
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: APPLICATION
+    front: "Une bibliothèque type contre `Psr\\Container\\ContainerInterface`. Faut-il un adaptateur ?"
+    back: "Non. Le conteneur de Symfony **est** un `ContainerInterface` PSR-11."
+    explanation: >-
+      Même chose pour PSR-14 : le dispatcher de Symfony **est** un
+      `Psr\EventDispatcher\EventDispatcherInterface`. C'est la différence entre
+      implémenter et ponter.
+    memorization_justification: >-
+      Cas concret d'intégration, et la réponse « il faut un adaptateur » est
+      celle qu'on donne par prudence à tort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "psr/container-implementation, psr/event-dispatcher-implementation"
+        verified_at: "2026-09-21"
+
+  - id: FLC-9mkphgmbjj4m
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: APPLICATION
+    front: "Vous installez le pont PSR-7. Suffit-il à manipuler des messages PSR-7 ?"
+    back: "Non. Le pont **convertit** ; il faut en plus une implémentation PSR-7 tierce."
+    explanation: >-
+      Le pont traduit entre le modèle de HttpFoundation et PSR-7 dans les deux
+      sens, mais ne fournit aucun objet PSR-7. Une implémentation comme
+      `nyholm/psr7` reste nécessaire.
+    memorization_justification: >-
+      Deux paquets là où on en attend un ; l'oubli du second est une erreur
+      d'installation réelle et une question fermée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/psr7.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The PSR-7 Bridge"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vvs4w740b6rr
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: APPLICATION
+    front: "Comment vérifier qu'une PSR est implémentée par Symfony, sans mémoriser la liste ?"
+    back: "Chercher `psr/<nom>-implementation` dans la clé `provide` du `composer.json` du mono-dépôt."
+    explanation: >-
+      Le nom du paquet virtuel donne la réponse directement. Absent de
+      `provide` ⇒ non implémentée, quelle que soit l'impression laissée par
+      l'usage.
+    memorization_justification: >-
+      Méthode reproductible qui remplace huit mémorisations par une seule
+      vérification.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  - id: FLC-vbqrnsd5rj3s
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: APPLICATION
+    front: "Une bibliothèque exige `php-http/client-implementation`. Symfony la satisfait-il ?"
+    back: "Oui, et sans contrainte de version : l'entrée est déclarée à `*`."
+    explanation: >-
+      HTTPlug précède PSR-18, et HttpClient satisfait les deux abstractions.
+      C'est l'une des deux entrées non-PSR et non-Symfony de `provide`.
+    memorization_justification: >-
+      Cas d'interopérabilité hors PSR, que la lecture « Symfony et les PSR »
+      laisse entièrement de côté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "php-http/client-implementation"
+        verified_at: "2026-09-21"
+
+  - id: FLC-gkptjb6qvar4
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: TRAP
+    front: "`provide` est-elle « la liste des PSR que Symfony implémente » ?"
+    back: "Pas exactement : sur quinze entrées, **sept** ne sont pas des `psr/*`."
+    explanation: >-
+      Cinq contrats Symfony et deux HTTPlug s'y trouvent aussi. La clé déclare
+      des interfaces implémentées, pas spécifiquement des PSR.
+    memorization_justification: >-
+      Raccourci commode mais faux, qui fait manquer la moitié de ce que la clé
+      déclare.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  - id: FLC-pm6b840h0s5t
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: TRAP
+    front: "Symfony déclare-t-il satisfaire PSR-6 dans toutes ses versions majeures ?"
+    back: "Non. `psr/cache-implementation` est déclarée à `2.0|3.0` — **pas** `1.0`."
+    explanation: >-
+      Les contraintes varient d'une entrée à l'autre : trois majeures pour
+      PSR-3 et PSR-16, deux pour PSR-6, PSR-11 et PSR-13, une seule pour
+      PSR-14, PSR-18 et PSR-20.
+    memorization_justification: >-
+      L'uniformité supposée des déclarations est fausse, et l'exception de
+      PSR-6 est vérifiable d'un coup d'œil.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "psr/cache-implementation"
+        verified_at: "2026-09-21"
+
+  - id: FLC-awet5d7w86j9
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: TRAP
+    front: "PSR-12 figure-t-elle dans `provide` ?"
+    back: "Non — et elle ne peut pas y figurer : c'est une convention de style, pas une interface."
+    explanation: >-
+      Symfony la **suit**, au même titre que PSR-4. Seules des interfaces
+      implémentées entrent dans `provide`.
+    memorization_justification: >-
+      Le mot « suivre » et le mot « implémenter » se confondent à l'oral ; la
+      clé `provide` tranche mécaniquement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
+        verified_at: "2026-09-21"
+
+  - id: FLC-75qhxd0cfawg
+    official_item: OIT-kcj9a5846b1s
+    language: fr
+    level: TRAP
+    front: "PSR-17 est-elle implémentée nativement puisque PSR-7 a un pont ?"
+    back: "Non. PSR-7 **et** PSR-17 sont hors de l'implémentation native."
+    explanation: >-
+      PSR-17 définit les fabriques de messages PSR-7 ; elle suit donc le même
+      sort. Ni l'une ni l'autre n'apparaît dans `provide`.
+    memorization_justification: >-
+      La seconde PSR du couple s'oublie, et sa présence dans une proposition
+      suffit à la rendre fausse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clé provide"
         verified_at: "2026-09-21"

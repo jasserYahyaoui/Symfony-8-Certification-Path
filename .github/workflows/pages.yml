@@ -873,6 +873,34 @@ jobs:
             echo "ok  lot-03  the Release management page carries its levelled flashcards, the upgrade windows and the PHP minor exception"
           fi
 
+          # Page 14. `nyholm` was rejected as a needle: it already appears in
+          # master's version of this page. `quinze` was rejected too: it
+          # appears on other items' cards in the lot-03 flashcard file.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-psrs -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/framework-interoperability-and-psrs")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page framework-interoperability-and-psrs serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-psrs || missing="$missing psrs:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-psrs || missing="$missing psrs:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-psrs || missing="$missing psrs:no-trap-heading"
+          grep -aq 'deux autres familles' /tmp/l3r-psrs \
+            || missing="$missing psrs:no-provide-families-section"
+          grep -aq 'HTTPlug' /tmp/l3r-psrs \
+            || missing="$missing psrs:no-httplug"
+          grep -aq 'php-http' /tmp/l3r-psrs \
+            || missing="$missing psrs:no-httplug-packages"
+          grep -aq 'contrats Symfony' /tmp/l3r-psrs \
+            || missing="$missing psrs:no-symfony-contracts"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the PSRs page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the PSRs page carries its levelled flashcards, the full provide breakdown and the HTTPlug entries"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

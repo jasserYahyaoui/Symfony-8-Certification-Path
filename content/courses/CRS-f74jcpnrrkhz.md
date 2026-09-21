@@ -31,7 +31,8 @@ Savoir quelles recommandations du PHP-FIG Symfony **implémente**, lesquelles il
 ## Les PSR implémentées
 
 La clé `provide` du `composer.json` de `symfony/symfony` est la réponse
-autoritative : elle déclare les interfaces standard que le framework fournit.
+autoritative. Elle compte **quinze** entrées, et les PSR n'en sont qu'une part :
+**huit** `psr/*`, **cinq** contrats Symfony, **deux** HTTPlug.
 
 | PSR | Objet | Composant Symfony |
 |---|---|---|
@@ -48,6 +49,32 @@ Concrètement : le conteneur de services de Symfony **est** un
 `Psr\Container\ContainerInterface`, et son dispatcher d'événements **est** un
 `Psr\EventDispatcher\EventDispatcherInterface`. Une bibliothèque tierce qui type
 contre ces interfaces fonctionne sans adaptateur.
+
+### Les versions déclarées ne sont pas les mêmes
+
+`provide` ne nomme pas seulement l'interface, il dit **quelles versions majeures**
+Symfony satisfait. Elles diffèrent, et c'est vérifiable ligne à ligne :
+
+| Entrée | Versions |
+|---|---|
+| `psr/log-implementation` | `1.0`, `2.0`, `3.0` |
+| `psr/simple-cache-implementation` | `1.0`, `2.0`, `3.0` |
+| `psr/cache-implementation` | `2.0`, `3.0` — **pas** `1.0` |
+| `psr/container-implementation`, `psr/link-implementation` | `1.0`, `2.0` |
+| `psr/clock-implementation`, `psr/event-dispatcher-implementation`, `psr/http-client-implementation` | `1.0` seulement |
+
+## Les deux autres familles de `provide`
+
+**Les contrats Symfony** — `symfony/cache-implementation`,
+`event-dispatcher`, `http-client`, `service`, `translation`. Ce sont des
+abstractions publiées à part, dans des paquets minuscules et sans dépendance.
+Une bibliothèque qui exige `symfony/service-implementation` fonctionne avec
+Symfony sans en dépendre — la même logique que le paquet de contrats qui porte
+`trigger_deprecation()`, traité dans la page sur les dépréciations.
+
+**HTTPlug** — `php-http/client-implementation` et
+`php-http/async-client-implementation`, déclarés à `*`. C'est l'abstraction
+client HTTP qui précède PSR-18 ; HttpClient satisfait les deux.
 
 ## Les PSR suivies
 
@@ -86,6 +113,21 @@ respectent, elles ne s'implémentent pas : elles ne figurent pas dans la clé
 **Le conteneur *est* un `Psr\Container\ContainerInterface`.** Il n'y a pas
 d'adaptateur à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
 
+**`provide` ne contient pas que des PSR.** Sur quinze entrées, sept ne sont pas
+des `psr/*` : cinq contrats Symfony et deux HTTPlug.
+
+**PSR-6 est déclarée à partir de `2.0`.** Toutes les PSR implémentées ne
+couvrent pas les mêmes versions majeures : trois pour PSR-3 et PSR-16, une
+seule pour PSR-20, PSR-14 et PSR-18.
+
+## Tips d'examen
+
+**Trois verbes pour trois statuts.** Symfony **implémente** (PSR-3, 6, 11, 13,
+14, 16, 18, 20), **suit** (PSR-4, PSR-12), **ponte** (PSR-7 / PSR-17).
+
+**Le nom du paquet virtuel donne la réponse.** `psr/<nom>-implementation` dans
+`provide` ⇒ implémentée. Absent ⇒ pas implémentée, quoi qu'en dise l'intuition.
+
 ## Points clés
 
 - Implémentées : PSR-3, 6, 11, 13, 14, 16, 18, 20.
@@ -93,6 +135,9 @@ d'adaptateur à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
 - PSR-7 / PSR-17 : **non natif**, via `symfony/psr-http-message-bridge` plus une
   implémentation tierce.
 - Le conteneur est PSR-11 ; le dispatcher est PSR-14.
+- `provide` : **15** entrées — 8 `psr/*`, 5 contrats Symfony, 2 HTTPlug.
+- Les versions déclarées diffèrent : `1.0|2.0|3.0` pour PSR-3, `1.0` seul pour
+  PSR-20.
 
 ## Sources officielles
 
