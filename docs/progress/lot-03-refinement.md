@@ -366,6 +366,74 @@ requête malformée.
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 7 ajoutées ; « Trois façons » et « StreamedResponse » **écartées** — déjà présentes sur `master`, 3 et 17 fois |
 
+## Page 7 — Exception handling, 2026-09-21
+
+**Fait**
+
+- 15 flashcards ajoutées (`FLC-cmjnpw30mh3f` … `FLC-ncttmnm3hg2w`) ; la carte
+  préexistante `FLC-79nmwswd5a50` a reçu le niveau `RECALL`. L'item en porte
+  **16**.
+- Corps : 532 → **882 mots** sur 900.
+
+**Une règle du cours était incomplète**
+
+La page énonçait trois règles pour le statut, dont « sinon, 500 ». C'est vrai du
+noyau **seul**, et faux d'une application Symfony : `ErrorListener::logKernelException`
+s'exécute à la priorité **0**, donc **avant** que la règle du statut ne
+s'applique, et peut remplacer l'exception par une `HttpException` — via
+l'attribut `#[WithHttpStatus(…)]` ou via la table `exceptions` de la
+configuration du framework, qui associe une classe à un `status_code`, un
+`log_level` et un `log_channel`. Une `\InvalidArgumentException` annotée
+`#[WithHttpStatus(422)]` sort donc en **422**.
+
+La page dit désormais « sans intervention, elle donne 500 » et consacre une
+sous-section aux deux façons de faire entrer une exception dans l'interface.
+
+**`ErrorListener` s'abonne deux fois au même événement**
+
+| Événement | Méthode | Priorité |
+|---|---|---|
+| `kernel.exception` | `logKernelException` | **0** |
+| `kernel.exception` | `onKernelException` | **−128** |
+| `kernel.controller_arguments` | `onControllerArguments` | — |
+| `kernel.response` | `removeCspHeader` | **−128** |
+
+Quatre hooks, pas un. Et l'écart de priorité explique un comportement que la
+page présentait sans cause : `setResponse()` devance la **construction de la
+page d'erreur**, pas la **journalisation**, qui a déjà eu lieu.
+
+**La page d'erreur est une vraie sous-requête**
+
+`onKernelException` duplique la requête et rappelle le noyau :
+`handle($request, SUB_REQUEST, false)`. Ce `false` est `$catch` — une exception
+levée *dans* le contrôleur d'erreur n'est **pas** rattrapée une seconde fois ;
+elle remonte, l'originale chaînée en `previous`. Et en production, une exception
+survenue pendant `kernel.terminate` ne produit aucune page d'erreur :
+`onKernelException` renonce.
+
+**Une contradiction introduite puis corrigée**
+
+Après un premier jet, la page affirmait à la fois « elle donne donc 500 » et
+« elle sort en 422 ». Le corps dépassait aussi le budget `REV-001` — 1000 mots
+pour 900. Les deux ont été réglés par resserrement de la prose et
+réorganisation : la sous-section 422 a été déplacée **après**
+`HttpExceptionInterface`, qu'elle présuppose. Le niveau n'a pas été promu et
+aucun contenu vérifié n'a été supprimé.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 437 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 878 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8 ajoutées ; « deux » **écartée** — 440 occurrences sur `master` |
+
 ## Prochaine étape
 
-Page 7 — **Exception handling** (STANDARD, 532 / 900 mots).
+Page 8 — **Event dispatcher and kernel events** (DEEP).

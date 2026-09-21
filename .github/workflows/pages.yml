@@ -674,6 +674,35 @@ jobs:
             echo "ok  lot-03  the Request handling page carries its levelled flashcards, the request stack and the exception branch"
           fi
 
+          # Page 7. `deux` was rejected as a needle: it appears 440 times on
+          # master.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-exception -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/exception-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page exception-handling serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-exception || missing="$missing exception:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-exception || missing="$missing exception:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-exception || missing="$missing exception:no-trap-heading"
+          grep -aq 'logKernelException' /tmp/l3r-exception \
+            || missing="$missing exception:no-listener-priorities"
+          grep -aq 'removeCspHeader' /tmp/l3r-exception \
+            || missing="$missing exception:no-fourth-hook"
+          grep -aq 'vraie sous-requête' /tmp/l3r-exception \
+            || missing="$missing exception:no-sub-request-section"
+          grep -aq 'WithHttpStatus' /tmp/l3r-exception \
+            || missing="$missing exception:no-with-http-status"
+          grep -aq 'sans un seul écouteur' /tmp/l3r-exception \
+            || missing="$missing exception:no-422-conclusion"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Exception handling page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Exception handling page carries its levelled flashcards, the ErrorListener priorities and the WithHttpStatus path"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
