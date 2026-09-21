@@ -167,12 +167,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 5 min · 1038 mots · 6 questions, 19 flashcards
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 28 min · 869 mots · 5 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Backward compatibility promise** (STANDARD) — 31 min · 890 mots · 5 questions, 18 flashcards
-- NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 13 min · 514 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 28 min · 838 mots · 5 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 14 min · 636 mots · 4 questions, 1 flashcards
 - Révision **J+3** (13 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling
 - Révision **J+7** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 119 / 140 min*
+*Budget du jour : 134 / 140 min*
 
 ### Mardi 13 octobre 2026
 
