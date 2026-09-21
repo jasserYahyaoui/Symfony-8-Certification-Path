@@ -54,6 +54,7 @@ flashcards:
   - id: FLC-rzxtm8jvz6k3
     official_item: OIT-vk57zg2wpep7
     language: fr
+    level: TRAP
     front: "Promesse de rétrocompatibilité : les arguments nommés sont-ils couverts ?"
     back: "Non — sauf pour les constructeurs de classes d'attribut."
     explanation: >-
@@ -75,6 +76,7 @@ flashcards:
   - id: FLC-tbf0byhf3qkz
     official_item: OIT-vk57zg2wpep7
     language: fr
+    level: TRAP
     front: "Vous étendez une classe Symfony : ajouter une nouvelle méthode est-il couvert par la promesse ?"
     back: "Non. Ajouter une propriété ou une méthode dans une classe étendue n'est pas garanti."
     explanation: >-
@@ -3444,4 +3446,357 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "introduction"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 10 — Backward compatibility promise (OIT-vk57zg2wpep7).
+  # contributing/code/bc.rst relu section par section sur la branche 8.0 le
+  # 2026-09-21, y compris les tableaux des traits et le procede d'ajout
+  # d'argument.
+  - id: FLC-xhbtz865fgsr
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: RECALL
+    front: "Combien de temps une fonctionnalité peut-elle rester `@experimental` ?"
+    back: "**Une seule version mineure** — prolongeable d'**une** de plus au cas par cas."
+    explanation: >-
+      Le document ajoute qu'une fonctionnalité expérimentale ne peut **jamais**
+      être introduite dans une version LTS, et que le `CHANGELOG` doit expliquer
+      chaque rupture tant qu'elle l'est.
+    memorization_justification: >-
+      Durée chiffrée que rien ne permet de deviner, et qui se demande telle
+      quelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Experimental Features"
+        verified_at: "2026-09-21"
+
+  - id: FLC-75mg5z82z29v
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: RECALL
+    front: "Dans quel type de version une fonctionnalité expérimentale ne peut-elle jamais apparaître ?"
+    back: "Dans une version **LTS**."
+    explanation: >-
+      Une LTS est maintenue des années ; y introduire une API non stabilisée
+      reviendrait à s'engager longtemps sur quelque chose que l'on se réserve de
+      casser.
+    memorization_justification: >-
+      Règle absolue, énoncée en un mot, et dont la raison se reconstruit si le
+      mot s'échappe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Experimental Features"
+        verified_at: "2026-09-21"
+
+  - id: FLC-k2171h85a333
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: RECALL
+    front: "À quelle position un argument peut-il être ajouté à une méthode publique ?"
+    back: "**En dernier**, et nulle part ailleurs."
+    explanation: >-
+      C'est la seule position qui laisse valides les appels existants. Ajouter
+      ailleurs décalerait tous les arguments positionnels déjà écrits.
+    memorization_justification: >-
+      Contrainte unique et absolue, dont la raison — les appels positionnels
+      existants — la rend restituable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Adding an Argument to a Public Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-12sr8ac3dznw
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: RECALL
+    front: "Quelles fonctions PHP servent à lire un argument ajouté en version mineure ?"
+    back: "`func_num_args()` et `func_get_arg()`."
+    explanation: >-
+      L'argument reste **en commentaire** dans la signature le temps d'une
+      transition, documenté en PHPDoc, et lu par ces deux fonctions. C'est ce
+      qui explique les signatures à argument commenté du framework.
+    memorization_justification: >-
+      Deux noms de fonctions exacts, associés à un motif visible dans le code
+      de Symfony et souvent incompris.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Adding an Argument to a Public Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-65st4p26cxpj
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: RECALL
+    front: "Quelles sont les trois exclusions de la promesse ?"
+    back: "`@internal` (et les espaces de noms `*\\Tests\\`), les fonctionnalités expérimentales, les traductions internes de sécurité et de validation."
+    explanation: >-
+      S'y ajoute une tolérance, qui n'est pas une exclusion : une rupture est
+      admise quand elle est nécessaire pour corriger une faille de sécurité.
+    memorization_justification: >-
+      Liste close de trois entrées ; un QCM en ajoute ou en retire une sans que
+      rien ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using Symfony Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-g6wrcr52xgcm
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le privé d'un **trait** est-il garanti quand celui d'une classe ne l'est pas ?"
+    back: "Parce qu'un trait importé fait partie de **votre** classe ; la classe étendue reste celle de Symfony."
+    explanation: >-
+      Le tableau des traits ne répond jamais non — propriétés et méthodes
+      privées comprises. Celui des classes exclut l'accès au privé par
+      réflexion. La différence est structurelle, pas arbitraire.
+    memorization_justification: >-
+      Asymétrie surprenante entre deux mécanismes voisins ; sa raison est ce
+      qui permet de trancher sans avoir mémorisé les deux tableaux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using our Traits, Using our Classes"
+        verified_at: "2026-09-21"
+
+  - id: FLC-3258mk5xd2me
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi ajouter une méthode à une classe Symfony étendue n'est-il pas garanti ?"
+    back: "Parce que Symfony peut introduire le même nom en version mineure, avec une autre signature."
+    explanation: >-
+      La collision est alors inévitable, et c'est votre code qui casse. Le
+      risque vous appartient : la promesse ne couvre pas les noms que vous
+      ajoutez dans l'espace de la classe parente.
+    memorization_justification: >-
+      Exception qui contredit « étendre est couvert » ; la raison la rend
+      prévisible plutôt qu'arbitraire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using our Classes"
+        verified_at: "2026-09-21"
+
+  - id: FLC-15xmaj2256tx
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un argument ajouté reste-t-il en commentaire dans la signature ?"
+    back: "Pour ne pas casser les classes qui surchargent la méthode avec l'ancienne signature."
+    explanation: >-
+      Déclarer l'argument pour de bon rendrait incompatibles toutes les
+      surcharges existantes. Le commentaire annonce la signature future ; la
+      méthode lit l'argument par `func_num_args()` en attendant.
+    memorization_justification: >-
+      Explique un motif de code déroutant, et la raison se transpose à tout
+      changement de signature en mineure.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Adding an Argument to a Public Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-hf0xnyg7t4n8
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: UNDERSTANDING
+    front: "`@final` et `final` : quelle différence d'effet ?"
+    back: "`final` **interdit** l'extension ; `@final` la laisse fonctionner mais la sort de la promesse."
+    explanation: >-
+      `@final since Symfony x.y` signale une transition : la classe n'est pas
+      encore considérée finale. Étendre une classe `@final` compile et
+      s'exécute — simplement sans garantie.
+    memorization_justification: >-
+      Deux notations voisines aux effets techniques opposés ; la confusion est
+      le piège attendu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The final Keyword"
+        verified_at: "2026-09-21"
+
+  - id: FLC-y3qe90t9q8dd
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: APPLICATION
+    front: "Vous utilisez une méthode **privée** d'un trait Symfony. Couvert ?"
+    back: "Oui. Le tableau des traits garantit tout, privé compris."
+    explanation: >-
+      La même question sur une **classe** aurait la réponse inverse : le privé
+      atteint par réflexion n'est jamais garanti. Seul le trait `@internal`
+      échappe à la garantie.
+    memorization_justification: >-
+      Cas concret où deux mécanismes voisins donnent des réponses opposées ;
+      c'est la forme sous laquelle la distinction se teste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using our Traits"
+        verified_at: "2026-09-21"
+
+  - id: FLC-6jd62v69a0r7
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: APPLICATION
+    front: "Vous appelez `$mailer->send(message: $m)`. Le code survivra-t-il à une mineure ?"
+    back: "Rien ne le garantit : les noms de paramètres ne sont couverts que pour les constructeurs de classes d'attribut."
+    explanation: >-
+      Le nom d'un paramètre peut changer sans rupture déclarée. Un appel
+      positionnel, lui, reste valide — c'est la signature qui est garantie, pas
+      la dénomination.
+    memorization_justification: >-
+      Syntaxe moderne et répandue, dont le statut au regard de la promesse est
+      contre-intuitif et directement exploitable en QCM.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Notes"
+        verified_at: "2026-09-21"
+
+  - id: FLC-32zq739dq12k
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: APPLICATION
+    front: "Vous étendez une classe Symfony et ajoutez `public array $cache = [];`. Couvert ?"
+    back: "Non. Ajouter une **propriété** à une classe étendue n'est pas garanti."
+    explanation: >-
+      Symfony peut introduire une propriété du même nom en version mineure. La
+      règle vaut pour les propriétés comme pour les méthodes ; ce sont les deux
+      lignes du tableau qui concernent le code ordinaire.
+    memorization_justification: >-
+      Geste banal qu'on ne soupçonne pas d'être hors promesse ; il se pose
+      sous forme de cas concret.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using our Classes"
+        verified_at: "2026-09-21"
+
+  - id: FLC-9469gwk4ptrb
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: APPLICATION
+    front: "Une faille de sécurité impose une rupture en version mineure. Est-ce permis ?"
+    back: "Oui. C'est la tolérance explicite du document, et elle n'est pas une exclusion."
+    explanation: >-
+      La promesse cède devant la sécurité. À distinguer des trois exclusions —
+      `@internal`, expérimental, traductions internes — qui, elles, n'ont jamais
+      été couvertes.
+    memorization_justification: >-
+      Exception d'une nature différente des trois autres ; les ranger ensemble
+      est l'erreur attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using Symfony Code"
+        verified_at: "2026-09-21"
+
+  - id: FLC-sh9yczbtkr0c
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : étendre une classe marquée `@final` provoque une erreur."
+    back: "Faux. Le code fonctionne ; il sort seulement de la promesse."
+    explanation: >-
+      Seul le mot-clé `final` empêche l'extension. L'annotation est une
+      intention documentée, que PHP ignore.
+    memorization_justification: >-
+      L'arobase suggère un équivalent du mot-clé ; l'effet technique est nul,
+      et c'est exactement ce qui est demandé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The final Keyword"
+        verified_at: "2026-09-21"
+
+  - id: FLC-h50jp0t71wec
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: TRAP
+    front: "Le défaut d'un argument ajouté en mineure est-il la valeur annoncée dans le commentaire ?"
+    back: "Non. C'est celle qui **préserve** le comportement actuel, même si le commentaire en annonce une autre."
+    explanation: >-
+      L'exemple du document montre `/* bool $stripWhitespace = true */` dans la
+      signature commentée, et `false` comme valeur de repli dans le corps. Le
+      commentaire décrit la signature **future**.
+    memorization_justification: >-
+      Deux valeurs contradictoires dans le même extrait ; savoir laquelle agit
+      aujourd'hui est la question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Adding an Argument to a Public Method"
+        verified_at: "2026-09-21"
+
+  - id: FLC-h0fydgt8ycjv
+    official_item: OIT-vk57zg2wpep7
+    language: fr
+    level: TRAP
+    front: "Les classes d'un espace de noms `*\\Tests\\` sont-elles couvertes ?"
+    back: "Non. Elles sont hors promesse au même titre que ce qui porte `@internal`."
+    explanation: >-
+      Le document les range ensemble. Utiliser une classe de test de Symfony
+      dans du code applicatif est donc sans garantie, même si elle est publique
+      et sans annotation.
+    memorization_justification: >-
+      Exclusion qui ne repose sur aucune annotation visible dans le fichier,
+      mais sur l'espace de noms seul.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Using Symfony Code"
         verified_at: "2026-09-21"

@@ -565,6 +565,66 @@ ont été retirées ; ne restent dans la liste que celles qui portent une
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 8, chacune vérifiée absente de la version `master` **de cette page** et du fichier de flashcards du lot |
 
+## Page 10 — Backward compatibility promise, 2026-09-21
+
+**Fait**
+
+- 16 flashcards ajoutées (`FLC-xhbtz865fgsr` … `FLC-h0fydgt8ycjv`) ; les deux
+  cartes préexistantes ont reçu le niveau `TRAP`. L'item en porte **18**.
+- Corps : 587 → **890 mots** sur 900.
+
+**Une section entière du document était absente : les traits**
+
+`bc.rst` leur consacre une section et un tableau propre, qui ne répond **jamais
+non** — propriétés et méthodes **privées** comprises. Le contraste avec les
+classes est net et structurel :
+
+| | Privé garanti ? |
+|---|---|
+| Membre privé d'une **classe** Symfony étendue | **non** |
+| Membre privé d'un **trait** Symfony utilisé | **oui** |
+
+Un trait importé fait partie de *votre* classe ; la classe étendue reste celle
+de Symfony. Seule exception, le trait marqué `@internal`.
+
+**Le procédé d'ajout d'argument, qui explique un motif du framework**
+
+Un argument ne s'ajoute à une méthode publique **que s'il est le dernier**. En
+version mineure, il reste **en commentaire** dans la signature, documenté en
+PHPDoc, et lu par `func_num_args()` / `func_get_arg()`.
+
+Détail à ne pas manquer : le défaut retenu dans le corps est celui qui
+**préserve** le comportement actuel — le document montre
+`/* bool $stripWhitespace = true */` dans la signature et `false` comme repli.
+Le commentaire décrit la signature **future**, pas le comportement présent.
+
+**L'expérimental, chiffré**
+
+La page mentionnait « les fonctionnalités expérimentales » sans plus. Le
+document est précis : `@experimental`, **une seule version mineure**
+(prolongeable d'**une** au cas par cas), **jamais** en LTS, et le `CHANGELOG`
+doit expliquer chaque rupture tant que le statut dure.
+
+**Un dépassement de budget, réglé par resserrement**
+
+Premier jet à 1016 mots pour 900. Réglé en deux passes, sans rien supprimer de
+vérifié : le tableau des traits est devenu une phrase, et quatre paragraphes
+redondants avec les pièges ont été condensés. Le niveau n'a pas été promu.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 964 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 8 ; `LTS` **écartée** — déjà présente dans le fichier de flashcards du lot sur `master`, sur les cartes d'autres items |
+
 ## Prochaine étape
 
-Page 10 — **Backward compatibility promise**.
+Page 11 — **Deprecations best practices**.
