@@ -168,22 +168,23 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 28 min · 869 mots · 5 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Backward compatibility promise** (STANDARD) — 31 min · 890 mots · 5 questions, 18 flashcards
 - NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 28 min · 838 mots · 5 questions, 17 flashcards
-- NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 14 min · 636 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 20 min · 887 mots · 4 questions, 17 flashcards
 - Révision **J+3** (13 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling
 - Révision **J+7** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 134 / 140 min*
+*Budget du jour : 140 / 140 min*
 
 ### Mardi 13 octobre 2026
 
+- NOUVEAU (suite) · **Symfony Architecture : Framework overloading** (STANDARD) — 9 min · 887 mots · 4 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 15 min · 596 mots · 5 questions, 2 flashcards
 - NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 11 min · 419 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 9 min · 339 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Controllers : HttpKernel component and FrameworkBundle** (STANDARD) — 11 min · 428 mots · 4 questions, 1 flashcards
-- Révision **J+1** (32 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+1** (26 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+7** (16 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 94 / 140 min*
+*Budget du jour : 97 / 140 min*
 
 ### Mercredi 14 octobre 2026
 
@@ -191,10 +192,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : The base AbstractController class** (STANDARD) — 14 min · 490 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Controllers : The request** (MINIMAL) — 10 min · 359 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Controllers : The response** (STANDARD) — 14 min · 453 mots · 5 questions, 1 flashcards
-- Révision **J+1** (22 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
+- Révision **J+1** (28 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 - Révision **J+7** (14 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 83 / 140 min*
+*Budget du jour : 89 / 140 min*
 
 ### Jeudi 15 octobre 2026
 
@@ -203,11 +204,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : The flash messages** (MINIMAL) — 8 min · 317 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Controllers : HTTP redirects** (MINIMAL) — 10 min · 344 mots · 3 questions, 1 flashcards
 - Révision **J+1** (20 min) — Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request · Controllers : The response
-- Révision **J+3** (21 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+3** (17 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+7** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Révision **J+14** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 102 / 140 min*
+*Budget du jour : 98 / 140 min*
 
 ### Vendredi 16 octobre 2026
 
@@ -216,19 +217,20 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 12 min · 404 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 11 min · 402 mots · 4 questions, 1 flashcards
 - Révision **J+1** (18 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
-- Révision **J+3** (15 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
+- Révision **J+3** (19 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 - Révision **J+7** (13 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling
 - Révision **J+14** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 105 / 140 min*
+*Budget du jour : 109 / 140 min*
 
 ### Samedi 17 octobre 2026
 
-- **Source tour et mise en pratique** sur les 21 items de la semaine :
+- **Source tour et mise en pratique** sur les 22 items de la semaine :
   - Symfony Architecture : Event dispatcher and kernel events
   - Symfony Architecture : Official best practices
   - Symfony Architecture : Backward compatibility promise
   - Symfony Architecture : Deprecations best practices
+  - Symfony Architecture : Framework overloading
   - Symfony Architecture : Framework overloading
   - Symfony Architecture : Release management and roadmap schedule
   - Symfony Architecture : Framework interoperability and PSRs
@@ -267,10 +269,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 13 min · 551 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 11 min · 392 mots · 4 questions, 1 flashcards
 - Révision **J+3** (16 min) — Controllers : Internal redirects · Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
-- Révision **J+7** (21 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+7** (17 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+14** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 99 / 140 min*
+*Budget du jour : 95 / 140 min*
 
 ### Mardi 20 octobre 2026
 
@@ -279,10 +281,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 11 min · 432 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 12 min · 391 mots · 5 questions, 1 flashcards
 - Révision **J+1** (26 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
-- Révision **J+7** (15 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
+- Révision **J+7** (19 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 - Révision **J+14** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 100 / 140 min*
+*Budget du jour : 104 / 140 min*
 
 ### Mercredi 21 octobre 2026
 
@@ -368,9 +370,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 13 min · 597 mots · 4 questions, 1 flashcards
 - Révision **J+3** (16 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags
 - Révision **J+7** (17 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
-- Révision **J+14** (16 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+14** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 97 / 140 min*
+*Budget du jour : 94 / 140 min*
 
 ### Mardi 27 octobre 2026
 
@@ -380,9 +382,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 11 min · 398 mots · 4 questions, 1 flashcards
 - Révision **J+1** (28 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 - Révision **J+7** (16 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
-- Révision **J+14** (11 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
+- Révision **J+14** (14 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 
-*Budget du jour : 98 / 140 min*
+*Budget du jour : 101 / 140 min*
 
 ### Mercredi 28 octobre 2026
 
@@ -603,9 +605,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (26 min) — Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping
 - Révision **J+7** (16 min) — Security : Authorization · Security : Configuration · Security : Providers · Security : Firewalls
 - Révision **J+14** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
-- Révision **J+30** (16 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+30** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 116 / 140 min*
+*Budget du jour : 113 / 140 min*
 
 ### Jeudi 12 novembre 2026
 
@@ -617,9 +619,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+3** (17 min) — Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+7** (15 min) — Security : Users · Security : Password hashers · Security : Roles · Security : Access Control Rules
 - Révision **J+14** (12 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation · Forms : Forms handling
-- Révision **J+30** (11 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
+- Révision **J+30** (14 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 
-*Budget du jour : 127 / 140 min*
+*Budget du jour : 130 / 140 min*
 
 ### Vendredi 13 novembre 2026
 
@@ -834,9 +836,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (15 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
 - Révision **J+14** (11 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization
 - Révision **J+30** (12 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
-- Révision **J+45** (16 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+45** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 132 / 140 min*
+*Budget du jour : 129 / 140 min*
 
 ### Vendredi 27 novembre 2026
 
@@ -846,9 +848,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (15 min) — Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 - Révision **J+14** (9 min) — Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component
 - Révision **J+30** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
-- Révision **J+45** (8 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
+- Révision **J+45** (11 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 92 / 140 min*
+*Budget du jour : 95 / 140 min*
 
 ### Samedi 28 novembre 2026
 
@@ -998,18 +1000,18 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (3 min) — Miscellaneous : Serializer
 - Révision **J+30** (12 min) — Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes
 - Révision **J+45** (3 min) — Dependency Injection : Service locators
-- Révision **J+60** (16 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
+- Révision **J+60** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 34 / 140 min*
+*Budget du jour : 31 / 140 min*
 
 ### Samedi 12 décembre 2026
 
 - **Mock 4** — 75 questions / 90 min — holdout, format fixé par §10, une seule fois
 - Révision **J+30** (11 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization
 - Révision **J+45** (4 min) — Data Validation : Group sequence
-- Révision **J+60** (8 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
+- Révision **J+60** (11 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 113 / 200 min*
+*Budget du jour : 116 / 200 min*
 
 ### Dimanche 13 décembre 2026
 

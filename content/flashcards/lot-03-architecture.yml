@@ -333,6 +333,7 @@ flashcards:
   - id: FLC-y51trsyr41em
     official_item: OIT-efzq92vdtayj
     language: fr
+    level: TRAP
     front: 'Twig : que se passe-t-il si un gabarit de surcharge étend le gabarit qu''il surcharge par
       son nom ordinaire ?'
     back: 'Une boucle infinie : le nom résout vers la surcharge, donc vers lui-même. Le préfixe `@!`
@@ -4153,4 +4154,353 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Writing a CHANGELOG Entry"
+        verified_at: "2026-09-21"
+
+  # Lot 03 page 12 — Framework overloading (OIT-efzq92vdtayj).
+  # bundles/override.rst relu section par section sur la branche 8.0 le
+  # 2026-09-21.
+  - id: FLC-bg28kgf029js
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: RECALL
+    front: "Où placer un gabarit qui surcharge celui d'un bundle ?"
+    back: "Sous `templates/bundles/<NomDuBundle>/`, avec le **même chemin relatif**."
+    explanation: >-
+      `registration/confirmed.html.twig` d'`AcmeUserBundle` devient
+      `templates/bundles/AcmeUserBundle/registration/confirmed.html.twig`. Il
+      faut parfois vider le cache après un ajout à un emplacement nouveau, même
+      en mode debug.
+    memorization_justification: >-
+      Chemin exact, avec un segment `bundles/` que rien n'annonce ; il ne se
+      reconstruit pas par raisonnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Templates"
+        verified_at: "2026-09-21"
+
+  - id: FLC-zp0ygek9kbpa
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: RECALL
+    front: "Que signifie le préfixe `@!` devant un nom de gabarit ?"
+    back: "« Le gabarit **original**, pas la surcharge. »"
+    explanation: >-
+      Sans lui, `{% extends \"@AcmeUser/...\" %}` dans le gabarit qui surcharge
+      ce même fichier résout vers lui-même et produit une boucle infinie.
+    memorization_justification: >-
+      Syntaxe d'un caractère, invisible à la lecture rapide, et seule solution
+      à une panne dont la cause n'est pas évidente.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Templates"
+        verified_at: "2026-09-21"
+
+  - id: FLC-xzepnd6qxex0
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: RECALL
+    front: "Par quel mécanisme se surcharge un **type de formulaire** ?"
+    back: "Par une **extension de type de formulaire**."
+    explanation: >-
+      C'est la seule réponse de la section « Forms » du document. Ni décoration,
+      ni passe de compilation : un mécanisme propre au sous-système des
+      formulaires.
+    memorization_justification: >-
+      Sous-système à mécanisme unique, qu'on confond volontiers avec la
+      décoration de service.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Forms"
+        verified_at: "2026-09-21"
+
+  - id: FLC-2yr31jgjhags
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: RECALL
+    front: "À quelle condition le mapping d'une entité de bundle est-il surchargeable ?"
+    back: "Uniquement si le bundle expose une *mapped superclass*."
+    explanation: >-
+      La surcharge porte alors sur les **attributs** et les **associations**.
+      Hors de ce cas, le mapping d'une entité concrète ne se surcharge pas.
+    memorization_justification: >-
+      Condition unique et bloquante, et ce qu'elle autorise exactement est la
+      seconde moitié de la réponse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Entities & Entity Mapping"
+        verified_at: "2026-09-21"
+
+  - id: FLC-d6tnwq9ft53f
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une contrainte de validation ne se remplace-t-elle pas ?"
+    back: "Parce que Symfony fusionne la configuration de **tous** les bundles en un seul arbre de métadonnées."
+    explanation: >-
+      On peut donc ajouter une contrainte à une propriété, jamais en retirer
+      une. Le seul contournement suppose que le bundle ait prévu des **groupes
+      de validation**.
+    memorization_justification: >-
+      Exception unique parmi les huit sous-systèmes, et sa raison — la fusion —
+      explique aussi pourquoi le contournement passe par les groupes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Validation Metadata"
+        verified_at: "2026-09-21"
+
+  - id: FLC-fbs970tcxxje
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi « surcharger » une route de bundle revient-il à ne rien faire ?"
+    back: "Parce que Symfony n'importe **jamais** une route de bundle automatiquement : il n'y a rien à neutraliser."
+    explanation: >-
+      La route n'existe que si l'application l'importe. Pour la modifier, on
+      copie le fichier dans le projet et on importe la copie, sans jamais
+      importer l'original.
+    memorization_justification: >-
+      Le sous-système où la question elle-même est mal posée ; comprendre
+      pourquoi évite de chercher un mécanisme inexistant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Routing"
+        verified_at: "2026-09-21"
+
+  - id: FLC-5qfn4kx12w4c
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une traduction se surcharge-t-elle sans rien déclarer ?"
+    back: "Parce que les traductions sont liées à un **domaine**, pas à un bundle."
+    explanation: >-
+      Un fichier du `translations/` du projet portant le même domaine l'emporte.
+      Le nom du bundle dans `AcmeUserBundle.es.yaml` n'est là que parce qu'il
+      **est** le nom du domaine.
+    memorization_justification: >-
+      Le nom de fichier suggère un lien au bundle qui n'existe pas ; la vraie
+      clé est le domaine.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations"
+        verified_at: "2026-09-21"
+
+  - id: FLC-tqn1hds5k79p
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: UNDERSTANDING
+    front: "Décoration ou passe de compilation : qu'est-ce qui les sépare ?"
+    back: "La décoration **enveloppe** un service existant ; la passe de compilation **manipule la définition** elle-même."
+    explanation: >-
+      Supprimer une définition, en modifier une créée par un autre bundle ou
+      ajouter un argument demande une passe : la configuration ne le permet pas.
+    memorization_justification: >-
+      Deux mécanismes du même sous-système, à des niveaux différents ; choisir
+      le mauvais mène à une impasse technique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Services & Configuration"
+        verified_at: "2026-09-21"
+
+  - id: FLC-fzbbb7r82r7p
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: APPLICATION
+    front: "Le contrôleur à surcharger **est un service**. Que fait-on ?"
+    back: "On le **décore**, comme n'importe quel service."
+    explanation: >-
+      Le document ouvre sa section par cette condition : « si le contrôleur est
+      un service, voir la section suivante ». La route de même chemin n'est que
+      la branche **sinon**.
+    memorization_justification: >-
+      Branche prioritaire du document, et celle qui s'applique le plus souvent
+      dans une application moderne où les contrôleurs sont des services.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Controllers"
+        verified_at: "2026-09-21"
+
+  - id: FLC-e0q12qrdbyw0
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: APPLICATION
+    front: "Le contrôleur à surcharger **n'est pas** un service. Que fait-on ?"
+    back: "Une route de **même chemin**, chargée **avant** celle du bundle."
+    explanation: >-
+      L'ordre de chargement décide : la première route qui correspond gagne.
+      C'est la branche de repli du document, pas sa réponse principale.
+    memorization_justification: >-
+      L'autre moitié de la condition ; la mention « chargée avant » est la
+      partie qu'on oublie et qui fait échouer la surcharge.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Controllers"
+        verified_at: "2026-09-21"
+
+  - id: FLC-ty2vdbda215k
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: APPLICATION
+    front: "Vous voulez ajouter `NotBlank` sur une propriété d'une entité de bundle. Possible ?"
+    back: "Oui : **ajouter** une contrainte est permis. C'est la remplacer qui ne l'est pas."
+    explanation: >-
+      La fusion des métadonnées empile les contraintes de tous les bundles. Pour
+      neutraliser une contrainte existante, il faut que le bundle ait prévu un
+      groupe de validation.
+    memorization_justification: >-
+      Distingue les deux gestes qu'on croit symétriques ; l'un passe, l'autre
+      est impossible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Validation Metadata"
+        verified_at: "2026-09-21"
+
+  - id: FLC-sta9z8n1jdna
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: APPLICATION
+    front: "Vous devez **supprimer** une définition de service posée par un bundle. Comment ?"
+    back: "Par une **passe de compilation**. La décoration ne sait qu'envelopper."
+    explanation: >-
+      La passe s'exécute pendant la compilation du conteneur, quand toutes les
+      définitions sont connues et avant qu'elles ne soient figées.
+    memorization_justification: >-
+      Cas concret où la réponse la plus familière — décorer — ne fonctionne
+      pas du tout.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Services & Configuration"
+        verified_at: "2026-09-21"
+
+  - id: FLC-sn2wnhs1xtjf
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: TRAP
+    front: "Existe-t-il un mécanisme unique pour surcharger un bundle ?"
+    back: "Non. Huit sections, chacune avec son mécanisme propre."
+    explanation: >-
+      Gabarits, routage, contrôleurs, services et configuration, entités,
+      formulaires, métadonnées de validation, traductions. Chercher une réponse
+      universelle est l'erreur de départ.
+    memorization_justification: >-
+      La structure même du sujet ; croire à un mécanisme unique rend fausse
+      toute réponse à une question particulière.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "toutes les sections"
+        verified_at: "2026-09-21"
+
+  - id: FLC-kkgjhggdjn2q
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: TRAP
+    front: "Un fichier de traduction doit-il être déclaré pour surcharger celui d'un bundle ?"
+    back: "Non. Il suffit qu'il porte le **même domaine** et vive dans `translations/`."
+    explanation: >-
+      Aucune configuration, aucun enregistrement. Le mécanisme repose
+      entièrement sur la correspondance de domaine.
+    memorization_justification: >-
+      L'absence d'étape déclarative surprend, et fait chercher une
+      configuration qui n'existe pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations"
+        verified_at: "2026-09-21"
+
+  - id: FLC-er7yqf77t3jx
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: TRAP
+    front: "Faut-il vider le cache après avoir ajouté un gabarit de surcharge, en mode debug ?"
+    back: "Parfois oui — le document le signale explicitement, **même en debug**."
+    explanation: >-
+      Le mode debug recompile les gabarits modifiés, mais l'apparition d'un
+      fichier à un **emplacement nouveau** n'est pas toujours détectée.
+    memorization_justification: >-
+      Contredit la garantie que l'on prête au mode debug, et explique une
+      surcharge qui semble sans effet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Templates"
+        verified_at: "2026-09-21"
+
+  - id: FLC-06jf9jywescz
+    official_item: OIT-efzq92vdtayj
+    language: fr
+    level: TRAP
+    front: "Surcharger un contrôleur, est-ce toujours une affaire de route ?"
+    back: "Non. S'il est un service, c'est une affaire de **décoration**."
+    explanation: >-
+      Le document pose la condition avant tout le reste. Répondre « route de
+      même chemin » sans se demander si le contrôleur est un service, c'est
+      répondre à la branche de repli.
+    memorization_justification: >-
+      Question dont la réponse dépend d'une condition qu'on oublie de se poser ;
+      c'est exactement ce que le piège exploite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Controllers"
         verified_at: "2026-09-21"
