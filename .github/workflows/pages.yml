@@ -844,6 +844,35 @@ jobs:
             echo "ok  lot-03  the Framework overloading page carries its levelled flashcards, the controller condition and the translation-domain rule"
           fi
 
+          # Page 13. Needles checked against master's own version of this page
+          # and of the lot-03 flashcard file: zero occurrences each.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l3r-releases -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/release-management-and-roadmap-schedule")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 03 refined page release-management-and-roadmap-schedule serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l3r-releases || missing="$missing releases:no-recall-heading"
+          grep -aq '>Application<' /tmp/l3r-releases || missing="$missing releases:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l3r-releases || missing="$missing releases:no-trap-heading"
+          grep -aq 'fenêtres de migration' /tmp/l3r-releases \
+            || missing="$missing releases:no-upgrade-window-section"
+          grep -aq 'dual maintenance mode' /tmp/l3r-releases \
+            || missing="$missing releases:no-dual-mode"
+          grep -aq 'par exception' /tmp/l3r-releases \
+            || missing="$missing releases:no-php-minor-exception"
+          grep -aq 'peuvent fonctionner ou non' /tmp/l3r-releases \
+            || missing="$missing releases:no-eol-php-rule"
+          grep -aq 'branche 3.x' /tmp/l3r-releases \
+            || missing="$missing releases:no-five-minors-origin"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 03 refinement missing from the Release management page:$missing"
+            fail=1
+          else
+            echo "ok  lot-03  the Release management page carries its levelled flashcards, the upgrade windows and the PHP minor exception"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
