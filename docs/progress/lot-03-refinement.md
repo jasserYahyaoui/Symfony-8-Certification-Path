@@ -302,6 +302,70 @@ Leçon opérationnelle, à ajouter à celle de `CLAUDE.md` sur les audits :
 `gate-full` ne lance pas non plus `verify-reschedule.mjs`. Il faut le lancer
 quand un changement de contenu modifie la durée estimée d'un item.
 
+## Page 6 — Request handling, 2026-09-18
+
+**Fait**
+
+- 18 flashcards ajoutées (`FLC-wtj0r3jza7sb` … `FLC-rfbc1zdyg3xr`) ; les deux
+  cartes préexistantes ont reçu un niveau. L'item en porte **20**.
+- Corps : 646 → **1181 mots** sur 1200.
+
+**Le trou le plus large : la page ne mentionnait nulle part `kernel.exception`**
+
+Une page sur le traitement d'une requête qui ne décrit que le chemin nominal
+laisse de côté la moitié du comportement observable. `HttpKernel.php` relu ligne
+à ligne, trois sections ajoutées.
+
+**« La pile de requêtes, poussée et dépilée par `handle()` »** — `handle()`
+empile la requête à l'entrée et la dépile dans un `finally`, donc quoi qu'il
+arrive. C'est tout le mécanisme derrière `getCurrentRequest()` et
+`getParentRequest()`. Une `StreamedResponse` voit sa fonction de rendu
+**réenveloppée** pour réempiler la requête le temps du flux : sans cela,
+`getCurrentRequest()` rendrait `null` à l'intérieur du `callback`, qui s'exécute
+après la sortie de `handle()`.
+
+**« La branche que le trajet nominal ne montre pas »** — `$catch` décide si
+`kernel.exception` est dispatché. Le fait à retenir, et qui n'était écrit nulle
+part :
+
+| Chemin | `kernel.exception` | `kernel.response` | `kernel.finish_request` |
+|---|---|---|---|
+| Succès | non | **oui** | **oui** |
+| Exception, `$catch = true`, un écouteur pose une réponse | **oui** | **oui** | **oui** |
+| Exception, `$catch = true`, aucune réponse posée | **oui** | non | **oui** |
+| Exception, `$catch = false` | **non** | non | **oui** |
+
+`kernel.finish_request` a donc lieu sur **tous** les chemins. C'est la seule
+garantie de ce type du cycle, et c'est ce qui rend l'événement fiable pour
+restaurer un état global.
+
+**« Trois façons d'échouer, trois exceptions »** — `NotFoundHttpException` quand
+le résolveur ne trouve aucun contrôleur, `ControllerDoesNotReturnResponseException`
+quand `kernel.view` n'a rien donné (l'événement **a eu lieu** ; il n'a rien
+produit — la distinction est la question), et `BadRequestHttpException` pour une
+requête malformée.
+
+**Deux précisions tirées de la source**
+
+- `MAIN_REQUEST` vaut **1** et `SUB_REQUEST` **2**.
+- `kernel.controller_arguments` relit le contrôleur **et** les arguments après
+  le dispatch : l'étape 5 n'est donc pas la dernière occasion de changer de
+  contrôleur.
+
+**Contrôles réellement exécutés le 2026-09-18**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 437 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 15 863 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 7 ajoutées ; « Trois façons » et « StreamedResponse » **écartées** — déjà présentes sur `master`, 3 et 17 fois |
+
 ## Prochaine étape
 
-Page 6 — **Request handling** (DEEP).
+Page 7 — **Exception handling** (STANDARD, 532 / 900 mots).

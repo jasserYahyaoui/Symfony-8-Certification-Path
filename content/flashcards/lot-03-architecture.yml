@@ -114,6 +114,7 @@ flashcards:
   - id: FLC-jjsdae8j3b56
     official_item: OIT-7sewqvmw6468
     language: fr
+    level: RECALL
     front: "Ordre des événements du noyau pour une requête traitée sans erreur ?"
     back: "request → controller → controller_arguments → view → response → finish_request → terminate."
     explanation: >-
@@ -135,6 +136,7 @@ flashcards:
   - id: FLC-62g2dayy67zs
     official_item: OIT-7sewqvmw6468
     language: fr
+    level: UNDERSTANDING
     front: "Quand kernel.view est-il dispatché ?"
     back: "Uniquement si le contrôleur n'a pas retourné d'objet Response."
     explanation: >-
@@ -1956,4 +1958,402 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Use the Default Directory Structure"
+        verified_at: "2026-09-18"
+
+  # Lot 03 page 6 — Request handling (OIT-7sewqvmw6468). HttpKernel.php et
+  # HttpKernelInterface.php relus sur la branche 8.0 le 2026-09-18.
+  - id: FLC-wtj0r3jza7sb
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: RECALL
+    front: "Quelles sont les valeurs de `MAIN_REQUEST` et `SUB_REQUEST` ?"
+    back: "1 et 2. Pas 0 et 1."
+    explanation: >-
+      Ce sont deux constantes de `HttpKernelInterface`, et le second argument de
+      `handle()` vaut l'une des deux. Le noyau traite les deux types par le même
+      code ; ce sont les écouteurs qui font la différence.
+    memorization_justification: >-
+      Valeurs arbitraires qu'aucun raisonnement ne donne, et qu'un QCM décale
+      d'un cran sans que rien ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "MAIN_REQUEST, SUB_REQUEST"
+        verified_at: "2026-09-18"
+
+  - id: FLC-4mrg5tgjhrz3
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: RECALL
+    front: "Que fait `handle()` avec le `RequestStack` ?"
+    back: "Il empile la requête à l'entrée et la dépile dans un `finally`."
+    explanation: >-
+      Le `finally` garantit le dépilement même si une exception remonte. C'est
+      ce mécanisme, et rien d'autre, qui fait fonctionner `getCurrentRequest()`
+      et `getParentRequest()`.
+    memorization_justification: >-
+      Relie une méthode très utilisée à son implémentation réelle ; sans elle,
+      `getCurrentRequest()` reste magique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handle"
+        verified_at: "2026-09-18"
+
+  - id: FLC-8sbwtdb0745g
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: RECALL
+    front: "Quelle exception est levée si le résolveur ne trouve aucun contrôleur ?"
+    back: "`NotFoundHttpException`, avec le message « the route is wrongly configured »."
+    explanation: >-
+      `ControllerResolverInterface::getController()` rend `false` quand il
+      échoue, et `handleRaw()` traduit ce `false` en 404. L'erreur est donc
+      présentée comme une route mal configurée, pas comme un contrôleur absent.
+    memorization_justification: >-
+      Exception nommée, associée à un message reconnaissable ; le QCM propose
+      volontiers une `LogicException` à la place.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw"
+        verified_at: "2026-09-18"
+
+  - id: FLC-vb8gkkq22m4x
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: RECALL
+    front: "Quelle exception suit « Did you forget to add a return statement… » ?"
+    back: "`ControllerDoesNotReturnResponseException`."
+    explanation: >-
+      Elle est levée quand le contrôleur ne rend pas une `Response` et qu'aucun
+      écouteur de `kernel.view` n'en pose une. La phrase sur le `return` n'est
+      ajoutée que si la valeur retournée est `null`.
+    memorization_justification: >-
+      Le message est familier, le nom de la classe ne l'est pas ; c'est
+      exactement l'écart qu'une question exploite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw, ViewEvent"
+        verified_at: "2026-09-18"
+
+  - id: FLC-5rm5a89fpm9v
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `kernel.finish_request` est-il fiable pour restaurer un état global ?"
+    back: "Parce qu'il est dispatché sur les trois chemins : succès, exception rattrapée, exception relancée."
+    explanation: >-
+      Même quand `$catch` vaut `false` et que `kernel.exception` n'a pas lieu,
+      `finishRequest()` est appelé avant que l'exception ne remonte. Aucun autre
+      événement du cycle n'offre cette garantie.
+    memorization_justification: >-
+      Donne la raison d'être de l'événement ; sans elle, on le confond avec un
+      simple synonyme tardif de `kernel.response`.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handle, filterResponse, handleThrowable"
+        verified_at: "2026-09-18"
+
+  - id: FLC-bje91n5wwq3x
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: UNDERSTANDING
+    front: "Que décide exactement l'argument `$catch` de `handle()` ?"
+    back: "Si `kernel.exception` est dispatché. À `false`, l'exception remonte sans passer par l'événement."
+    explanation: >-
+      À `true`, un écouteur peut convertir l'exception en réponse et le cycle
+      reprend au filtre de réponse. À `false`, seule `finishRequest()` a lieu
+      avant que l'exception ne soit relancée telle quelle.
+    memorization_justification: >-
+      Argument souvent lu comme « attraper ou non », alors qu'il commande la
+      tenue d'un événement précis, avec des conséquences observables.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handle"
+        verified_at: "2026-09-18"
+
+  - id: FLC-yvta3dzcbb7k
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un court-circuit sur `kernel.request` ne saute-t-il pas `kernel.response` ?"
+    back: "Parce que la réponse posée par l'écouteur passe par le même filtre de réponse que la réponse d'un contrôleur."
+    explanation: >-
+      `handleRaw()` rend `filterResponse($event->getResponse(), …)`, et ce filtre
+      dispatche `kernel.response` puis `kernel.finish_request`. Seules la
+      résolution et l'exécution du contrôleur sont sautées.
+    memorization_justification: >-
+      Le mot « court-circuit » suggère une sortie immédiate ; comprendre par où
+      passe la réponse évite l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw, filterResponse"
+        verified_at: "2026-09-18"
+
+  - id: FLC-4nmfssct51rz
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une `StreamedResponse` reçoit-elle une fonction de rendu réenveloppée ?"
+    back: "Parce que le flux s'exécute après la sortie de `handle()`, donc après le dépilement de la requête."
+    explanation: >-
+      Sans réenveloppement, `getCurrentRequest()` rendrait `null` à l'intérieur
+      du `callback`. Le noyau réempile la requête le temps du flux, puis la
+      dépile dans un `finally`.
+    memorization_justification: >-
+      Conséquence directe de la mécanique de la pile, et cas où l'intuition
+      « la requête est toujours là » est fausse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handle, StreamedResponse callback"
+        verified_at: "2026-09-18"
+
+  - id: FLC-k6h61724mm78
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: UNDERSTANDING
+    front: "Qui crée la `Request` et appelle `handle()` ?"
+    back: "Le composant Runtime, via `vendor/autoload_runtime.php` — pas `public/index.php` lui-même."
+    explanation: >-
+      Le contrôleur frontal se contente de retourner une fonction qui construit
+      le `Kernel`. C'est le Runtime qui crée la requête depuis les globales,
+      appelle `handle()`, envoie la réponse et déclenche `terminate()`.
+    memorization_justification: >-
+      Le fichier qu'on lit ne fait pas ce qu'on croit y lire ; la répartition
+      réelle des rôles se teste directement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Usage"
+        verified_at: "2026-09-18"
+
+  - id: FLC-z56s5mxrnev5
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "Un écouteur de `kernel.request` pose une réponse. Quels événements ont encore lieu ?"
+    back: "`kernel.response`, `kernel.finish_request`, puis `kernel.terminate` après l'envoi. Pas `kernel.controller` ni `kernel.view`."
+    explanation: >-
+      C'est exactement le fonctionnement d'une redirection de sécurité : le
+      contrôleur n'est jamais résolu, mais la réponse traverse tout le reste du
+      cycle et peut encore être modifiée.
+    memorization_justification: >-
+      Scénario fréquent en QCM, avec une liste d'événements à cocher où l'erreur
+      naturelle est de tout couper.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw, filterResponse"
+        verified_at: "2026-09-18"
+
+  - id: FLC-hd1pzx61k1yx
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur rend un tableau et aucun écouteur de `kernel.view` n'agit. Que se passe-t-il ?"
+    back: "`kernel.view` a bien lieu, puis `ControllerDoesNotReturnResponseException` est levée."
+    explanation: >-
+      L'événement est dispatché dès que la valeur retournée n'est pas une
+      `Response` ; l'exception ne vient qu'après, faute de réponse posée. Dire
+      que l'événement n'a pas eu lieu est faux.
+    memorization_justification: >-
+      Distingue « l'événement n'a rien donné » de « l'événement n'a pas eu
+      lieu », deux réponses différentes à une même question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw"
+        verified_at: "2026-09-18"
+
+  - id: FLC-r9f8qjt94ewq
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "On veut remplacer le contrôleur après que ses arguments ont été résolus. Possible ?"
+    back: "Oui, sur `kernel.controller_arguments` : le noyau relit le contrôleur **et** les arguments après le dispatch."
+    explanation: >-
+      Les deux sont réaffectés depuis l'événement avant l'appel. L'étape 5,
+      `kernel.controller`, n'est donc pas la dernière occasion de changer de
+      contrôleur.
+    memorization_justification: >-
+      Contredit la lecture usuelle de l'événement comme purement dédié aux
+      arguments ; la possibilité se teste en une question fermée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw, ControllerArgumentsEvent"
+        verified_at: "2026-09-18"
+
+  - id: FLC-necajg4mwx4z
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "`$catch` vaut `false` et le contrôleur lève une exception. Quel événement a lieu ?"
+    back: "`kernel.finish_request`, et lui seul. Puis l'exception remonte."
+    explanation: >-
+      `kernel.exception` n'est pas dispatché, `kernel.response` non plus,
+      puisqu'aucune réponse n'existe. Mais le noyau appelle `finishRequest()`
+      avant de relancer, pour que l'état global soit restauré.
+    memorization_justification: >-
+      Cas limite où presque tout est sauté sauf un événement ; la réponse
+      « aucun » est l'erreur attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handle"
+        verified_at: "2026-09-18"
+
+  - id: FLC-dzdtm0jk0dw3
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "Un écouteur de `kernel.exception` pose une réponse. Le cycle s'arrête-t-il là ?"
+    back: "Non : la réponse passe par le filtre, donc `kernel.response` puis `kernel.finish_request` ont lieu."
+    explanation: >-
+      Le noyau reprend le cycle au même endroit qu'après un court-circuit sur
+      `kernel.request`. Il ajuste au passage le code de statut si l'écouteur n'a
+      pas demandé à garder le sien.
+    memorization_justification: >-
+      Même mécanisme que le court-circuit, appliqué à une autre branche ; le
+      reconnaître évite d'apprendre deux règles.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleThrowable"
+        verified_at: "2026-09-18"
+
+  - id: FLC-n6mksp2758pq
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: TRAP
+    front: "Vrai ou faux : `kernel.terminate` est dispatché avant l'envoi de la réponse."
+    back: "Faux. Après l'envoi — c'est tout son intérêt."
+    explanation: >-
+      C'est le seul endroit du cycle où un traitement lent ne coûte rien à
+      l'utilisateur, puisque le client a déjà reçu la réponse. Le placer avant
+      l'envoi lui retirerait sa raison d'être.
+    memorization_justification: >-
+      Le nom suggère une fin de traitement plutôt qu'un après-envoi ; l'ordre
+      exact est la réponse attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "kernel.terminate"
+        verified_at: "2026-09-18"
+
+  - id: FLC-wzzx6met55dp
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: TRAP
+    front: "`kernel.finish_request` vient-il avant `kernel.response` ?"
+    back: "Non, après. C'est `filterResponse()` qui dispatche l'un puis appelle l'autre."
+    explanation: >-
+      L'ordre est lisible dans le code : `dispatch(ResponseEvent)` puis
+      `finishRequest()`. Un commentaire du noyau avertit que l'inverser
+      donnerait des résultats étranges sur `getParentRequest()`.
+    memorization_justification: >-
+      Deux événements adjacents dont les noms n'indiquent pas l'ordre ;
+      l'interversion est le piège standard.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "filterResponse, finishRequest"
+        verified_at: "2026-09-18"
+
+  - id: FLC-nrwdtk42t6yk
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: TRAP
+    front: "Un contrôleur doit-il être une méthode de classe ?"
+    back: "Non. Le noyau attend un appelable PHP, quel qu'il soit."
+    explanation: >-
+      `ControllerResolverInterface::getController()` rend un *callable*. Une
+      fonction anonyme ou un objet invocable conviennent ; la classe-contrôleur
+      est une convention, pas une contrainte du noyau.
+    memorization_justification: >-
+      L'usage quotidien ne montre qu'une forme, ce qui fait passer une
+      convention pour une règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw, getController"
+        verified_at: "2026-09-18"
+
+  - id: FLC-rfbc1zdyg3xr
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: TRAP
+    front: "Le noyau traite-t-il une sous-requête par un autre code que la requête principale ?"
+    back: "Non. Même code, même cycle ; seul l'argument `$type` diffère."
+    explanation: >-
+      Ce sont les écouteurs qui distinguent les deux quand la distinction
+      compte — le profileur, la sécurité. Le noyau, lui, ne branche nulle part
+      sur `$type` dans le trajet nominal.
+    memorization_justification: >-
+      L'existence de deux constantes suggère deux traitements ; il n'y en a
+      qu'un, et c'est la réponse attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw"
         verified_at: "2026-09-18"

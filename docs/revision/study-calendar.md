@@ -115,7 +115,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 9 octobre 2026
 
 - NOUVEAU (suite) · **Symfony Architecture : Code organization** (STANDARD) — 3 min · 848 mots · 4 questions, 16 flashcards
-- NOUVEAU · **Symfony Architecture : Request handling** (DEEP) — 16 min · 646 mots · 5 questions, 2 flashcards
+- NOUVEAU · **Symfony Architecture : Request handling** (DEEP) — 34 min · 1181 mots · 5 questions, 20 flashcards
 - NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 12 min · 532 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 15 min · 568 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 13 min · 517 mots · 5 questions, 1 flashcards
@@ -123,7 +123,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+3** (16 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 - Révision **J+7** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 107 / 140 min*
+*Budget du jour : 125 / 140 min*
 
 ### Samedi 10 octobre 2026
 
