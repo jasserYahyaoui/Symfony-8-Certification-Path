@@ -36,7 +36,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 | 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 4 | The request | MINIMAL | 684 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
 | 5 | The response | STANDARD | 812 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 6 | The cookies | MINIMAL | 339 / 700 | 1 | à faire |
+| 6 | The cookies | MINIMAL | 694 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
 | 7 | The session | STANDARD | 385 / 900 | 2 | à faire |
 | 8 | The flash messages | MINIMAL | 317 / 700 | 1 | à faire |
 | 9 | HTTP redirects | MINIMAL | 344 / 700 | 1 | à faire |
@@ -541,7 +541,86 @@ le nom réel du fichier sur disque.
 
 Le déploiement de la page 5 sera consigné après lecture du smoke test.
 
+### Le déploiement de la page 5, daté
+
+| Fait | Valeur |
+|---|---|
+| PR | #188, fusionnée en `8550c5a` |
+| CI de la PR | run 35741819329, **succès** |
+| Déploiement Pages | run 35770116524, job *Deploy* **succès** à 18:54:49 UTC |
+| Smoke test de production | **succès**, ligne émise à 18:55:04 UTC |
+
+```text
+ok  lot-04  the response page carries its levelled flashcards,
+            the three-condition 422 rule and the automatic form conversion
+```
+
+## Page 6 — The cookies, 2026-09-22
+
+**Fait**
+
+- 15 flashcards ajoutées ; la carte préexistante `FLC-b5k068qvbh5t` a reçu le
+  niveau `UNDERSTANDING`. L'item en porte **16** — 4 par niveau.
+- Corps : 339 → **694 mots** sur 700.
+
+**Une méthode absente de la page, et elle fait le contraire de celle qui y est**
+
+Le tableau des opérations ne citait que `clearCookie()` pour la suppression.
+`ResponseHeaderBag` en porte une seconde, `removeCookie()`, dont le commentaire
+dans le code dit exactement l'inverse :
+
+| Méthode | Commentaire du code |
+|---|---|
+| `removeCookie()` | *« Removes a cookie from the array, but does not unset it in the browser. »* |
+| `clearCookie()` | *« Clears a cookie in the browser. »* |
+
+Le mécanisme explique la différence. `removeCookie()` fait un `unset` dans le
+tableau interne : le cookie n'est **jamais envoyé**, donc aucun `Set-Cookie`
+n'est produit pour lui. `clearCookie()` **appelle `setCookie()`** avec un cookie
+de valeur nulle et d'expiration dans le passé : c'est une **écriture**, dont le
+seul rôle est de faire oublier le précédent.
+
+Autrement dit : `removeCookie()` annule un envoi qu'on s'apprêtait à faire ;
+`clearCookie()` agit sur un cookie que le client possède déjà. Se tromper dans
+un sens laisse le cookie en place chez le client, sans aucune erreur côté
+serveur — un échec entièrement silencieux.
+
+Le nom de `removeCookie()` dit le contraire de son effet. C'est la forme même
+d'une bonne question d'examen, et la page n'en portait pas la trace.
+
+**Les cookies sont indexés sur trois niveaux, pas par nom**
+
+`setCookie()` range chaque cookie sous `domaine → chemin → nom`. Deux cookies de
+même nom sur des chemins différents coexistent donc sans s'écraser — et c'est ce
+qui explique une signature autrement obscure : `removeCookie()` prend un chemin
+et un domaine parce que sans eux elle viserait la mauvaise entrée. Son chemin
+par défaut est `/`, donc un cookie posé sur `/admin` et retiré par son nom seul
+part quand même.
+
+`getCookies()` complète le tableau : format à plat par défaut, format
+arborescent en option, et un format inconnu lève une `InvalidArgumentException`
+plutôt que de retomber silencieusement sur le défaut.
+
+**Contrôles réellement exécutés le 2026-09-22**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant**, du premier coup |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, du premier coup |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 136 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0** |
+| `lot27_practice_audit.py --prove` | **exit 0** |
+| Aiguilles de smoke test | 8 ; `removeCookie` **écartée** — elle figure déjà dans le front matter de la version `master` de cette page |
+
+Le déploiement de la page 6 sera consigné après lecture du smoke test.
+
 ## Prochaine étape
 
-Page 6 — *The cookies* (`CRS-thmkagkjcvh3`, `OIT-pfrzrr0qcmh3`, MINIMAL,
-339 / 700, 1 carte).
+Page 7 — *The session* (`CRS-a51fqgqynr2d`, `OIT-e41m74xaqhy7`, STANDARD,
+385 / 900, 2 cartes).

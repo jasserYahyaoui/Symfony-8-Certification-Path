@@ -1084,6 +1084,37 @@ jobs:
             echo "ok  lot-04  the response page carries its levelled flashcards, the three-condition 422 rule and the automatic form conversion"
           fi
 
+          # Page 6 of lot 04. `removeCookie` was rejected as a needle: it
+          # already appears in master's version of this page, in the front
+          # matter's symbol_or_lines. The four kept needles are what this
+          # refinement added: the three-level cookie index, the clearCookie
+          # mechanism, the getCookies formats and their validation.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-cookies -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-cookies")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-cookies serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-cookies || missing="$missing l4cookies:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-cookies || missing="$missing l4cookies:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-cookies || missing="$missing l4cookies:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-cookies || missing="$missing l4cookies:no-trap-heading"
+          grep -aq 'trois niveaux' /tmp/l4r-cookies \
+            || missing="$missing l4cookies:no-three-level-index"
+          grep -aq 'expiration dans le passé' /tmp/l4r-cookies \
+            || missing="$missing l4cookies:no-clearcookie-mechanism"
+          grep -aq 'getCookies' /tmp/l4r-cookies \
+            || missing="$missing l4cookies:no-getcookies"
+          grep -aq 'InvalidArgumentException' /tmp/l4r-cookies \
+            || missing="$missing l4cookies:no-format-validation"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the cookies page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the cookies page carries its levelled flashcards, the removeCookie/clearCookie opposition and the three-level index"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
