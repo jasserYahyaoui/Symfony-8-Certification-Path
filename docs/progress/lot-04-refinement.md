@@ -32,7 +32,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | HttpKernel component and FrameworkBundle | STANDARD | 717 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 2 | Naming conventions | MINIMAL | 370 / 700 | 1 | à faire |
+| 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | **RAFFINÉE** (2026-09-22) |
 | 3 | The base AbstractController class | STANDARD | 490 / 900 | 1 | à faire |
 | 4 | The request | MINIMAL | 359 / 700 | 1 | à faire |
 | 5 | The response | STANDARD | 453 / 900 | 1 | à faire |
@@ -170,10 +170,117 @@ Le plan de révision a été régénéré avec
 Le déploiement et la lecture du smoke test de production sont consignés
 ci-dessous une fois la fusion faite — jamais avant.
 
+### Le déploiement de la page 1, daté
+
+Écrit après lecture du journal d'exécution, pas par anticipation.
+
+| Fait | Valeur |
+|---|---|
+| PR | #184, fusionnée en `10cc362` |
+| CI de la PR | run 35692717002, **succès**, 31 étapes |
+| Déploiement Pages | run 35693198194, job *Deploy* **succès** à 06:05:43 UTC |
+| Smoke test de production | **succès**, ligne émise à 06:06:03 UTC |
+
+```text
+ok  lot-04  the HttpKernel page carries its levelled flashcards,
+            the three-interface table and the MicroKernelTrait reflection
+```
+
+Le premier envoi avait été refusé par la CI (`study-calendar.md` non régénéré) ;
+c'est le second, `8de478e`, qui est vert et qui a été fusionné.
+
+## Page 2 — Naming conventions, 2026-09-22
+
+Ne pas confondre avec la page *Naming conventions* du lot 03
+(`CRS-9g4qrgfs7nm4`, `OIT-c9pjp03cv4bq`), déjà raffinée : celle du lot 03 porte
+sur les conventions de nommage du framework, celle-ci sur celles des
+contrôleurs.
+
+**Fait**
+
+- 14 flashcards ajoutées ; la carte préexistante `FLC-xhgvea5evak2` a reçu le
+  niveau `RECALL`. L'item en porte **15** : RECALL 4, UNDERSTANDING 3,
+  APPLICATION 4, TRAP 4.
+- Corps : 370 → **695 mots** sur 700.
+- Trois sources ajoutées : `AttributeClassLoader.php` (composant Routing),
+  `AttributeRouteControllerLoader.php` (FrameworkBundle), et `templates.rst`.
+
+**Une affirmation fausse : « la convention retenue par les générateurs officiels
+est `app_<contrôleur>_<action>`, en `snake_case` »**
+
+Deux erreurs dans une phrase.
+
+Ce n'est pas une convention de générateur : c'est ce que **Symfony lui-même**
+produit quand `name` est omis. `routing.rst` le dit — *« Symfony generates an
+automatic name based on the controller and action »* — et le code le montre.
+
+Et ce n'est **pas du `snake_case`**. `AttributeClassLoader::getDefaultRouteName()`
+fait trois choses, transcrites depuis la branche `8.0` :
+
+```php
+$name = str_replace('\\', '_', $class->name).'_'.$method->name;
+$name = mb_strtolower($name, 'UTF-8');
+if ($this->defaultRouteIndex > 0) { $name .= '_'.$this->defaultRouteIndex; }
+```
+
+Aucun découpage de casse. `LuckyController` devient `luckycontroller`, pas
+`lucky_controller`. Le nom court et lisible vient d'ailleurs : FrameworkBundle
+redéfinit la méthode dans `AttributeRouteControllerLoader` et **retire** les
+segments `bundle_` et `controller_`.
+
+C'est exactement le partage établi à la page 1 :
+
+| Méthode | Composant seul | Avec FrameworkBundle |
+|---|---|---|
+| `LuckyController::number` | `app_controller_luckycontroller_number` | `app_lucky_number` |
+| `BlogController::showAction` | `app_controller_blogcontroller_showaction` | `app_blog_show` |
+
+Les deux colonnes ont été obtenues en **exécutant** les deux algorithmes tels
+que transcrits, pas en les lisant ; la seconde colonne concorde avec
+l'exemple `app_lucky_number` que `debug:router` affiche dans `routing.rst`.
+
+**Deux faits que la page ne portait pas**
+
+`defaultRouteIndex` : une deuxième route sans `name` sur la même méthode reçoit
+un suffixe `_1`. Les noms générés ne collisionnent pas, ils s'indexent.
+
+Le suffixe `Action` : la page disait « n'est plus utilisé », ce qui est vrai de
+la convention. Le chargeur du bundle, lui, le **retire encore** du nom généré —
+ne plus être recommandé et ne plus être traité sont deux choses différentes.
+
+**Un doublon que `AUD-04` n'a pas vu**
+
+Ma carte neuve sur le suffixe `Controller` posait la même question que la carte
+préexistante `FLC-xhgvea5evak2`. `AUD-04` ne l'a pas signalée : les deux
+formulations ne se réduisent pas à la même chaîne normalisée
+(« symfony le suffixe sur une classe de contrôleur est-il » contre « le suffixe
+sur la classe est-il exigé par le framework »).
+
+La carte neuve a été **retirée** et l'ancienne nivelée `RECALL`. La règle
+attrape les quasi-doublons littéraux ; elle ne remplace pas la lecture de ce que
+l'item porte déjà. Aucun contrôle n'a été touché.
+
+**Contrôles réellement exécutés le 2026-09-22**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, **du premier coup** |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés, `study-calendar.md : 1022 lignes` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 076 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze ; `FINDINGS: 0` partout |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration byte-identique SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0**, `FINDINGS: 0` |
+| `lot27_practice_audit.py --prove` | `PROOF OK` — 12 cas |
+| Aiguilles de smoke test | 9 ; `snake_case` et `invocable` **écartées** (déjà présentes dans la version `master` de cette page) |
+
+Le déploiement de la page 2 sera consigné après lecture du smoke test, jamais
+avant.
+
 ## Prochaine étape
 
-Page 2 — *Naming conventions* (`CRS-9fz4erg0wmbq`, `OIT-ycc2c8tnv68h`,
-MINIMAL, 370 / 700). À ne pas confondre avec la page *Naming conventions* du
-lot 03 (`CRS-9g4qrgfs7nm4`, `OIT-c9pjp03cv4bq`), déjà raffinée : celle du lot 03
-porte sur les conventions de nommage du framework, celle du lot 04 sur celles
-des contrôleurs.
+Page 3 — *The base AbstractController class* (`CRS-h8s87edcx8ae`,
+`OIT-gqpj4rbt0hc7`, STANDARD, 490 / 900, 1 carte).
