@@ -857,7 +857,228 @@ code : « moving the string into a fence is gaming the check, not passing it ».
 | `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
 | Aiguilles de smoke test | 7 ; `nyholm` **écartée** (présente dans la version `master` de cette page) et `quinze` **écartée** (présente sur les cartes d'autres items) |
 
+## Page 15 — Naming conventions, 2026-09-21
+
+**Fait**
+
+- 14 flashcards ajoutées (`FLC-435p71j9g13k` … `FLC-n8wtgz598t9a`) ; la carte
+  préexistante `FLC-00w816qz6wh8` a reçu le niveau `RECALL`. L'item en porte
+  **15**.
+- Corps : 339 → **585 mots** sur 700 (`MINIMAL`).
+
+**Un second document, absent de la page**
+
+La page ne citait que `standards.rst`. La section « Naming a Method » de
+`conventions.rst` — repérée à la page 11 et réservée pour ici — normalise
+**douze** noms de méthodes quand un objet a une relation « principale » :
+`get`, `set`, `has`, `all`, `replace`, `remove`, `clear`, `isEmpty`, `add`,
+`register`, `count`, `keys`.
+
+La convention ne s'applique **que** si la relation principale est évidente. Le
+document oppose trois cas : un `CookieJar` (une seule relation, elle
+s'applique), un conteneur de services (deux relations mais les services
+dominent, elle s'applique) et un `Input` de console (arguments *et* options,
+aucune ne domine, elle ne s'applique pas).
+
+**Quatre lignes du tableau ne se déduisent pas**
+
+| Relation principale | Autre relation |
+|---|---|
+| `all()` | **`getXXXs()`** — pas `allXXX()` |
+| `replace()` | **`setXXXs()`** — pas `replaceXXXs()` |
+| `keys()` | **aucune** |
+| *aucune* | **`replaceXXX()`** |
+
+Et `setXXX()` peut **ajouter** un élément quand `replaceXXX()` ne le peut pas :
+ce dernier doit **lever une exception** sur une clé inconnue. Deux noms
+voisins, un droit différent.
+
+**Contrôles réellement exécutés le 2026-09-21**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** |
+| `php bin/cert coverage` | aucun écart |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 047 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour tous |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | exit 0, `FINDINGS: 0` |
+| Aiguilles de smoke test | 7 ; `TestCase` **écartée** — présente dans la version `master` de cette page |
+
+---
+
+# Rapport de fin de lot 03
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »).
+
+## Périmètre
+
+**15** items officiels atomiques portent `lot: lot-03` dans la matrice.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**, pas sur ce lot. Le
+sous-ensemble du lot 03 est **15 / 15**. Aucun des deux n'a bougé pendant la
+campagne : les quinze items étaient déjà `EXAM_READY`. **Ce lot n'a pas fait
+progresser la couverture** — il a approfondi des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 15 cours du lot 03 | 7 459 | **12 495** | **+5 036** |
+
+La base de comparaison est `c977490`, le commit précédant la première page
+refondue du lot. Les pages 1 et 2 (HttpFoundation, Symfony Flex) ont été
+livrées par la PR #169 avant l'ouverture de ce journal ; elles sont incluses
+dans le total ci-dessus.
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 3 | HttpFoundation, 694 |
+| `STANDARD` | 900 | 10 | Release management, 894 |
+| `DEEP` | 1200 | 2 | Request handling, 1181 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 03 | 18 | **245** | **+227** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 71 · `TRAP` 59 · `UNDERSTANDING` 58 · `APPLICATION` 57.
+**Zéro carte du lot sans niveau.**
+
+## Questions et pools
+
+**69** questions portent sur les items du lot 03 :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 50 | `lot-03-architecture.yml` |
+| `VALIDATION` | 12 | `validation-pool.yml` |
+| `HOLDOUT` | 7 | 5 dans `mock-04-holdout.yml`, 2 dans `lot-03-architecture.yml` |
+
+**`POOL-002` : 0 manquant.** Les douze items `STANDARD`/`DEEP` `EXAM_READY`
+portent chacun au moins une question `VALIDATION`.
+
+> Une première version de mon script de réconciliation ne lisait que
+> `lot-03-architecture.yml` et annonçait **12 items manquants**. C'était faux :
+> les questions `VALIDATION` vivent dans `validation-pool.yml`. Le chiffre
+> corrigé concorde avec `bin/cert validate`, qui ne signale rien sur `POOL-002`.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 7 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets
+servis. C'est une **isolation fonctionnelle**.
+
+Ce n'est **pas** de la confidentialité : `mock-4.json` est publié et porte les
+réponses correctes. Quiconque ouvre ce payload voit le holdout.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant sur le dernier état |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | 76 jours, 444 créneaux |
+| `composer gate-full` | **PASS** | 295 tests, 16 047 assertions, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **PASS** | `FINDINGS: 0` |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full`, 0 violation axe et structurelle |
+| Branche + PR par page (§15) | **PASS** | PR #169 à #182, une par page, CI verte avant chaque fusion |
+| Déploiement + smoke test de production | **PASS pour les pages 1 à 14** | lignes `ok lot-03 …` lues dans les journaux d'exécution |
+| Déploiement de la page 15 | **EN ATTENTE** | PR ouverte, non encore fusionnée au moment de ce rapport |
+
+## Défauts trouvés dans le corpus existant
+
+Neuf affirmations fausses, incomplètes ou non qualifiées, corrigées avec leur
+source :
+
+| Page | Défaut |
+|---|---|
+| 04 Components and Bridges | « cinq bridges » — aucune source ne l'établit ; `replace` en liste trois |
+| 05 Code organization | « la liste [des clés `extra`] est close » — il en existe une cinquième, imbriquée |
+| 05 (carte `FLC-82hpxh6bv6y3`) | rangeait `templates/`, `translations/` et `vendor/` sous `extra` |
+| 06 Request handling | `kernel.exception` n'était mentionné **nulle part** |
+| 07 Exception handling | « sinon, 500 » — vrai du noyau seul, faux d'une application |
+| 08 Event dispatcher | `stopPropagation()` énoncé sans sa condition (`StoppableEventInterface`) |
+| 09 Official best practices | « une trentaine » ; 8 recommandations couvertes sur 30 |
+| 12 Framework overloading | la condition « si le contrôleur est un service » était sautée |
+| 13 Release management | « minimum PHP par majeure » énoncé sans son exception |
+
+## Deux défauts introduits par moi, et attrapés par les contrôles
+
+- **`AUD-04` / `VOL-4`** a levé deux fois sur des quasi-doublons de flashcards
+  que j'avais écrits (pages 4 et 5). Fronts reformulés avant commit.
+- **`CRS-001`** a levé sur la page 14 : mon brouillon reproduisait la réponse
+  correcte d'une question rattachée à un **autre** item. La chaîne a été
+  **retirée**, pas masquée dans un bloc de code.
+
+## Un défaut latent révélé par la campagne
+
+`verify-reschedule.mjs` a échoué sur la page 5. Le port TypeScript du
+planificateur divergeait de `build_roadmap.py` sur le premier morceau partiel
+d'un item (`full: false` figé au lieu de `left === item.total`). La divergence
+n'apparaissait que si un item débordait de son créneau — ce que
+l'agrandissement de la page 5 a provoqué pour la première fois. **Le port a été
+corrigé, pas le contrôle.**
+
+Leçon opérationnelle, à ajouter à celle de `CLAUDE.md` sur les audits :
+`composer gate-full` **ne lance pas** `verify-reschedule.mjs`.
+
+## Cinq dépassements de budget, cinq résolutions
+
+Pages 7, 9, 10, 12 et 13 ont dépassé `REV-001` au premier jet (1000, 914, 1016,
+1003 et 953 mots). Chaque fois réglé par **resserrement de la prose**,
+**déduplication** de ce que les pièges reprenaient déjà, ou **fusion** d'une
+section dans une ligne de tableau. **Aucune promotion de niveau, aucun contenu
+vérifié supprimé.**
+
+## Résumé auditable
+
+> Le lot 03 compte **15** items officiels atomiques, tous `EXAM_READY` avant
+> comme après. La couverture du projet — `EXAM_READY / total`, la seule formule
+> admise — vaut **163/163 = 100,0 %** et **n'a pas bougé** : cette campagne
+> approfondit des pages déjà comptées, elle n'en ajoute pas.
+>
+> Les quinze cours passent de **7 459** à **12 495** mots de corps (+5 036),
+> aucun au-dessus de son budget. Les flashcards passent de **18** à **245**
+> (+227), toutes niveléees, réparties 71/59/58/57 — une **observation**, pas une
+> cible. **69** questions portent sur le lot (50 `LEARNING`, 12 `VALIDATION`,
+> 7 `HOLDOUT`) et `POOL-002` ne signale **aucun** manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce
+> que le smoke test de production revérifie ; il n'est **pas confidentiel**,
+> `mock-4.json` étant publié avec ses réponses.
+>
+> Neuf défauts du corpus existant ont été corrigés avec leur source. Trois
+> défauts introduits en cours de route ont été attrapés par `AUD-04` et
+> `CRS-001` avant commit. Un défaut latent du port navigateur du planificateur,
+> invisible jusque-là, a été révélé et corrigé — le contrôle n'a pas été touché.
+>
+> Quatorze pages sur quinze sont **déployées et vérifiées en production** par
+> un smoke test dont la ligne de sortie est citée dans ce journal. La quinzième
+> est en PR ouverte au moment de ce rapport : son déploiement n'est **pas**
+> encore prouvé et n'est donc **pas** déclaré.
+
 ## Prochaine étape
 
-Page 15 — **Naming conventions**, dernière du lot. La matière a été repérée à la
-page 11 : la section « Naming a Method » de `conventions.rst`.
+Fusionner la page 15, lire son smoke test de production, puis déterminer le lot
+suivant à refondre.
