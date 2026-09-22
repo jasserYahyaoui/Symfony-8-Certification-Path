@@ -112,6 +112,40 @@ en cause, pas le contenu enseigné. `AUD-04` retourne `FINDINGS: 0`.
 C'est la troisième occurrence de ce défaut depuis le lot 03, et toujours la
 même cause : une question dont toute la substance vit dans un `code span`.
 
+**Ce que la page 1 a fait tomber : `render_calendar.py` n'est dans aucune porte locale**
+
+La CI a refusé le premier envoi :
+
+```text
+git diff --exit-code docs/revision/plan.json docs/revision/study-calendar.md
+Process completed with exit code 1
+```
+
+J'avais régénéré `plan.json` et pas `study-calendar.md`. La cause n'est pas
+l'oubli d'une commande dans une liste : c'est que **rien en local ne les
+regénère ensemble**. `composer gate-full` ne lance ni `build_roadmap.py` ni
+`render_calendar.py` ; la marche de CI *Revision plan is deterministic and up to
+date* lance les deux, puis compare les deux fichiers.
+
+Et ces deux fichiers bougent à **chaque** page raffinée, pas seulement quand on
+touche au planificateur. `build_roadmap.py` lit le nombre de mots du corps de
+chaque cours et le nombre de flashcards de chaque item :
+
+```python
+if cid: words[cid.group(1)] = len(re.findall(r'\S+', s.split('---',2)[-1]))
+...
+w  = sum(words.get(c,0) for c in i['course_refs'])
+```
+
+428 → 717 mots et 1 → 16 cartes changent la charge de l'item, donc le découpage
+en créneaux, donc les 252 lignes du calendrier qui ont bougé. La régénération
+des **deux** fichiers fait désormais partie de la boucle par page, au même titre
+que `bin/cert coverage`.
+
+C'est la même forme que la leçon de la page 5 du lot 03 (`verify-reschedule.mjs`
+absent de `gate-full`) : une porte qui n'existe qu'en CI est une porte qu'on
+franchit par un aller-retour, pas par une vérification.
+
 **Contrôles réellement exécutés le 2026-09-22**
 
 | Contrôle | Résultat |
@@ -126,6 +160,7 @@ même cause : une question dont toute la substance vit dans un `code span`.
 | `prove_flashcard_coverage_fails.py` | `PROOF OK` — restauration byte-identique SHA-256 |
 | `aud10_answer_length_bias.py --prove` | **exit 0**, `FINDINGS: 0` |
 | `lot27_practice_audit.py --prove` | `PROOF OK` — 12 cas, fixtures synthétiques en mémoire |
+| `python3 tools/revision/render_calendar.py` | `study-calendar.md : 1022 lignes` ; 252 lignes modifiées, régénérées après coup (voir ci-dessus) |
 | Aiguilles de smoke test | 8 ; `RebootableInterface`, `câblage` et `extensibles` **écartées** (déjà présentes dans la version `master` de cette page) |
 
 Le plan de révision a été régénéré avec
