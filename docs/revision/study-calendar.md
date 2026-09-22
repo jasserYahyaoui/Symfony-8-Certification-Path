@@ -189,12 +189,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Controllers : HttpKernel component and FrameworkBundle** (STANDARD) — 25 min · 717 mots · 4 questions, 16 flashcards
 - NOUVEAU · **Controllers : Naming conventions** (MINIMAL) — 23 min · 695 mots · 3 questions, 15 flashcards
-- NOUVEAU · **Controllers : The base AbstractController class** (STANDARD) — 14 min · 490 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Controllers : The base AbstractController class** (STANDARD) — 27 min · 753 mots · 5 questions, 16 flashcards
 - NOUVEAU · **Controllers : The request** (MINIMAL) — 10 min · 359 mots · 4 questions, 1 flashcards
 - Révision **J+1** (22 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 - Révision **J+7** (14 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 108 / 140 min*
+*Budget du jour : 121 / 140 min*
 
 ### Jeudi 15 octobre 2026
 

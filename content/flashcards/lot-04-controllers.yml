@@ -244,6 +244,7 @@ flashcards:
   - id: FLC-w5kmrvzr7a3z
     official_item: OIT-gqpj4rbt0hc7
     language: fr
+    level: UNDERSTANDING
     front: 'Symfony : pourquoi `$this->render()` ne peut-il pas être appelé sur un contrôleur depuis
       l''extérieur de la classe ?'
     back: Parce que les raccourcis d'`AbstractController` sont `protected`.
@@ -912,4 +913,320 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Symfony declares route aliases based on the FQCN"
+        verified_at: "2026-09-22"
+
+  - id: FLC-56fkf1a7dxef
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: RECALL
+    front: "Combien d'entrées `getSubscribedServices()` déclare-t-elle sur `AbstractController` ?"
+    back: "Onze — et chacune est facultative."
+    explanation: >-
+      `router`, `request_stack`, `http_kernel`, `serializer`, `twig`,
+      `form.factory`, `parameter_bag`, les trois services de sécurité, et
+      `web_link.http_header_serializer`.
+    memorization_justification: >-
+      Un nombre exact que l'on remplace volontiers par « les services dont elle
+      a besoin » ; c'est ce que la question d'examen oppose au conteneur entier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedServices"
+        verified_at: "2026-09-22"
+
+  - id: FLC-gmrpfxgyszss
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: RECALL
+    front: "Quelles sont les deux seules méthodes publiques d'`AbstractController` ?"
+    back: "`setContainer()` et `getSubscribedServices()`. Aucun raccourci n'est public."
+    explanation: >-
+      Ce sont les deux points d'attache de l'infrastructure, pas des aides à
+      l'écriture d'un contrôleur.
+    memorization_justification: >-
+      « Tout est protected » est presque vrai ; les deux exceptions sont
+      exactement ce qui distingue l'infrastructure des raccourcis.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setContainer, getSubscribedServices"
+        verified_at: "2026-09-22"
+
+  - id: FLC-h7k7zmqeejhx
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: RECALL
+    front: "Quelle valeur `setContainer()` renvoie-t-elle ?"
+    back: "Le conteneur précédent, ou `null` s'il n'y en avait pas. Elle ne renvoie pas `void`."
+    explanation: >-
+      Le type de retour déclaré est nullable. Le conteneur qui vient d'être
+      remplacé est rendu à l'appelant.
+    memorization_justification: >-
+      Un mutateur qui renvoie quelque chose est contre-intuitif ; on suppose
+      `void` sans regarder la signature.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setContainer"
+        verified_at: "2026-09-22"
+
+  - id: FLC-cy3swwb28fpf
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: RECALL
+    front: "Avec quel code de statut `sendEarlyHints()` émet-elle ses en-têtes ?"
+    back: "103 — les en-têtes partent immédiatement, avant la réponse finale."
+    explanation: >-
+      C'est le seul raccourci de la classe qui écrit sur la sortie au moment où
+      on l'appelle.
+    memorization_justification: >-
+      Un code de statut rare, et le seul comportement immédiat de toute la
+      classe : deux raisons de le confondre avec un simple ajout d'en-tête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "sendEarlyHints"
+        verified_at: "2026-09-22"
+
+  - id: FLC-9m8aqbqef34y
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi chaque service déclaré est-il préfixé par un point d'interrogation ?"
+    back: "Il est facultatif : la classe s'utilise sans Twig ni Security, et le raccourci concerné lève alors une exception explicite."
+    explanation: >-
+      Sans ce préfixe, une application sans Twig échouerait à l'autowiring du
+      contrôleur au lieu d'échouer à l'appel de `render()`.
+    memorization_justification: >-
+      Un caractère porte tout le comportement de dégradation de la classe ;
+      l'ignorer fait croire que Twig est une dépendance dure.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedServices, getParameter"
+        verified_at: "2026-09-22"
+
+  - id: FLC-5p5veeecs385
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi dit-on qu'`AbstractController` n'est pas un conteneur déguisé ?"
+    back: "Elle implémente `ServiceSubscriberInterface` : elle reçoit un conteneur restreint aux onze entrées qu'elle déclare."
+    explanation: >-
+      Le conteneur injecté ne contient rien d'autre. Pour un service non
+      déclaré, la voie normale reste le type-hint d'un argument d'action.
+    memorization_justification: >-
+      La présence d'une propriété nommée « container » suggère l'accès total ;
+      c'est l'interface implémentée qui dit le contraire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "abstract class AbstractController implements ServiceSubscriberInterface"
+        verified_at: "2026-09-22"
+
+  - id: FLC-g9k2fpwpz5ct
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `setContainer()` porte-t-elle l'attribut `#[Required]` ?"
+    back: "Pour que le conteneur d'injection l'appelle automatiquement à l'instanciation du contrôleur comme service."
+    explanation: >-
+      Sans cet attribut il faudrait câbler l'appel à la main dans la définition
+      de service de chaque contrôleur.
+    memorization_justification: >-
+      L'injection par mutateur est invisible dans le code du contrôleur ;
+      l'attribut est le seul endroit où elle se lit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "Required attribute on setContainer"
+        verified_at: "2026-09-22"
+
+  - id: FLC-j0jx2hentgr6
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: APPLICATION
+    front: "Une application sans Twig étend `AbstractController` et appelle `render()` : que se passe-t-il ?"
+    back: "Une exception au message explicite à l'appel — pas une erreur d'autowiring au démarrage."
+    explanation: >-
+      Le service `twig` est déclaré facultatif, donc le contrôleur s'instancie
+      normalement ; l'échec est reporté au raccourci qui en a besoin.
+    memorization_justification: >-
+      Savoir OÙ la chaîne casse est ce qui distingue un diagnostic correct d'une
+      chasse au mauvais endroit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "optional services, container has checks"
+        verified_at: "2026-09-22"
+
+  - id: FLC-80ec9eaz03wq
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: APPLICATION
+    front: "Un test instancie le contrôleur puis appelle `$controleur->render(...)` : cela compile-t-il ?"
+    back: "Non. Le raccourci est `protected` : il ne s'appelle que depuis la sous-classe."
+    explanation: >-
+      Un contrôleur se teste par une requête, pas en traitant l'objet comme un
+      service ordinaire dont on appellerait les aides.
+    memorization_justification: >-
+      La visibilité `protected` dicte la façon de tester ; l'oublier conduit à
+      une stratégie de test qui ne peut pas fonctionner.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "protected function render"
+        verified_at: "2026-09-22"
+
+  - id: FLC-sm78bdv9w5v1
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: APPLICATION
+    front: "Le contrôleur a besoin d'un service qui n'est pas dans la liste déclarée : quelle est la voie normale ?"
+    back: "Le type-hint d'un argument de la méthode d'action — Symfony injecte le service correspondant."
+    explanation: >-
+      Il n'y a pas à étendre `getSubscribedServices()` : la liste couvre les
+      raccourcis de la classe, pas les besoins de l'application.
+    memorization_justification: >-
+      On cherche à enrichir la liste alors que le mécanisme prévu est ailleurs,
+      et beaucoup plus simple.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The Base Controller Class and Services"
+        verified_at: "2026-09-22"
+
+  - id: FLC-a335saf6gpx1
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: APPLICATION
+    front: "On appelle `addLink()` puis on inspecte les en-têtes de la réponse retournée : que trouve-t-on ?"
+    back: "Rien. Le lien est déposé dans l'attribut de requête `_links` ; l'en-tête est écrit plus tard par un écouteur."
+    explanation: >-
+      La méthode ne reçoit même pas la réponse en argument : elle prend la
+      requête.
+    memorization_justification: >-
+      Le nom et la documentation de la méthode annoncent un en-tête de réponse ;
+      son argument dit le contraire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addLink"
+        verified_at: "2026-09-22"
+
+  - id: FLC-kvkv52yjcyd8
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: TRAP
+    front: "Piège : « toutes les méthodes d'`AbstractController` sont `protected` »."
+    back: "Presque. Vingt-quatre le sont, deux sont `public` — `setContainer()` et `getSubscribedServices()` — et deux sont `private`."
+    explanation: >-
+      Les deux publiques ne sont pas des raccourcis : ce sont les points
+      d'attache de l'infrastructure.
+    memorization_justification: >-
+      L'affirmation est vraie de tous les raccourcis, donc crédible ; les deux
+      exceptions sont précisément ce qui est interrogé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "method visibility across the class"
+        verified_at: "2026-09-22"
+
+  - id: FLC-cs6nrz21190h
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: TRAP
+    front: "Piège : « `addLink()` ajoute l'en-tête `Link` à la réponse courante »."
+    back: "Non. Elle remplit l'attribut de requête `_links` ; un écouteur en fera l'en-tête."
+    explanation: >-
+      Sans le composant WebLink, elle lève une `LogicException` au lieu de
+      produire quoi que ce soit.
+    memorization_justification: >-
+      C'est ce que dit le commentaire de la méthode, et ce n'est pas ce que fait
+      son corps.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addLink body, request attributes"
+        verified_at: "2026-09-22"
+
+  - id: FLC-7r4rxc0vqj7z
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: TRAP
+    front: "Piège : « étendre `AbstractController` donne accès au conteneur de services »."
+    back: "Non. Elle est un abonné : le conteneur reçu est restreint aux onze entrées déclarées."
+    explanation: >-
+      La propriété s'appelle `container`, ce qui accrédite la confusion, mais
+      elle ne contient que ce que la classe a demandé.
+    memorization_justification: >-
+      Le nom de la propriété contredit le comportement réel ; c'est le cœur de
+      la question « conteneur ou abonné ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ServiceSubscriberInterface, container property"
+        verified_at: "2026-09-22"
+
+  - id: FLC-104xxpvpewcf
+    official_item: OIT-gqpj4rbt0hc7
+    language: fr
+    level: TRAP
+    front: "Piège : « `setContainer()` est un mutateur ordinaire qui ne renvoie rien »."
+    back: "Non. Elle renvoie le conteneur précédent, ou `null` s'il n'y en avait pas."
+    explanation: >-
+      Le type de retour est nullable, ce qui rend la méthode utilisable pour
+      restaurer un conteneur après l'avoir temporairement remplacé.
+    memorization_justification: >-
+      Un mutateur qui renvoie une valeur est assez rare pour qu'on ne lise pas
+      sa signature.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setContainer return type"
         verified_at: "2026-09-22"
