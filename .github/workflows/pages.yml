@@ -960,6 +960,38 @@ jobs:
             echo "ok  lot-04  the HttpKernel page carries its levelled flashcards, the three-interface table and the MicroKernelTrait reflection"
           fi
 
+          # Page 2 of lot 04. `snake_case` and `invocable` were rejected as
+          # needles: both already appear in master's version of this page. The
+          # five kept needles are what this refinement added: the two-layer
+          # route-name algorithm, the numeric index, and the template rule.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-naming -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/naming-conventions")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page naming-conventions serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-naming || missing="$missing l4naming:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-naming || missing="$missing l4naming:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-naming || missing="$missing l4naming:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-naming || missing="$missing l4naming:no-trap-heading"
+          grep -aq 'luckycontroller' /tmp/l4r-naming \
+            || missing="$missing l4naming:no-component-route-name"
+          grep -aq 'app_lucky_number' /tmp/l4r-naming \
+            || missing="$missing l4naming:no-bundle-route-name"
+          grep -aq 'AttributeRouteControllerLoader' /tmp/l4r-naming \
+            || missing="$missing l4naming:no-bundle-loader"
+          grep -aq 'defaultRouteIndex' /tmp/l4r-naming \
+            || missing="$missing l4naming:no-route-index"
+          grep -aq 'deux extensions' /tmp/l4r-naming \
+            || missing="$missing l4naming:no-template-rule"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the Naming conventions page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the Naming conventions page carries its levelled flashcards, the two-layer route-name algorithm and the template rule"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

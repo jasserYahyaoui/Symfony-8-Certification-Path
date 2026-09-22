@@ -226,6 +226,7 @@ flashcards:
   - id: FLC-xhgvea5evak2
     official_item: OIT-ycc2c8tnv68h
     language: fr
+    level: RECALL
     front: 'Symfony : le suffixe `Controller` sur une classe de contrôleur est-il imposé par le framework
       ?'
     back: Non, c'est une convention. Rien dans le framework ne l'impose.
@@ -616,4 +617,299 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Building your own Framework with the MicroKernelTrait"
+        verified_at: "2026-09-22"
+
+  - id: FLC-c58m35wqx7rr
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: RECALL
+    front: "Que fait le composant Routing du nom de classe pour fabriquer un nom de route ?"
+    back: "Il remplace les antislash par des tirets bas, ajoute un tiret bas et le nom de méthode, puis met tout en minuscules."
+    explanation: >-
+      `getDefaultRouteName()` ajoute ensuite un index numérique à partir de la
+      deuxième route rencontrée dans la même classe.
+    memorization_justification: >-
+      Trois opérations dans un ordre précis ; c'est l'étape que l'on saute en
+      supposant que le nom court vient directement du composant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getDefaultRouteName"
+        verified_at: "2026-09-22"
+
+  - id: FLC-da439gnmenpq
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: RECALL
+    front: "Quelle classe raccourcit le nom de route généré, et d'où vient-elle ?"
+    back: "`AttributeRouteControllerLoader`, de FrameworkBundle — pas du composant Routing."
+    explanation: >-
+      Elle étend `AttributeClassLoader` et redéfinit `getDefaultRouteName()`.
+      C'est le même partage composant / bundle que le chapitre précédent.
+    memorization_justification: >-
+      Le nom court est si familier qu'on l'attribue au composant ; savoir quelle
+      couche le produit est exactement ce que l'examen oppose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "class AttributeRouteControllerLoader extends AttributeClassLoader"
+        verified_at: "2026-09-22"
+
+  - id: FLC-skwbkxzty8xv
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: RECALL
+    front: "Parmi les conventions de contrôleur, laquelle est une obligation ?"
+    back: "L'unicité du nom de route dans l'application. Toutes les autres sont des conventions."
+    explanation: >-
+      Suffixe de classe, suffixe de méthode, classe de base, emplacement du
+      gabarit : rien de tout cela n'est imposé.
+    memorization_justification: >-
+      Une seule exception dans une liste d'items d'apparence homogène ; c'est le
+      format même de la question d'examen.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "each route has an internal name that must be unique in the application"
+        verified_at: "2026-09-22"
+
+  - id: FLC-y5fcddvz4y8z
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le nom généré est-il `app_lucky_number` et non `app_lucky_controller_number` ?"
+    back: "Le chargeur du bundle retire le segment `controller_`. La casse n'est pas découpée, elle est aplatie."
+    explanation: >-
+      Le composant produit `app_controller_luckycontroller_number` ; le bundle
+      remplace les segments `bundle_` et `controller_` par un tiret bas, puis
+      écrase les tirets bas doublés.
+    memorization_justification: >-
+      Le résultat ressemble à un découpage de casse alors qu'aucun n'a lieu ;
+      comprendre l'opération évite d'inventer un nom plausible et faux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getDefaultRouteName"
+        verified_at: "2026-09-22"
+
+  - id: FLC-566hcghhg9wj
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le nom de route généré dépend-il de la présence de FrameworkBundle ?"
+    back: "Parce qu'il est fabriqué en deux couches : le composant le compose, le bundle redéfinit la méthode pour le raccourcir."
+    explanation: >-
+      Sans le bundle, le nom reste celui du composant. C'est la même frontière
+      que pour `AbstractController` et l'arbre de configuration.
+    memorization_justification: >-
+      Le mécanisme en deux couches explique d'un coup le nom court, le retrait
+      du suffixe et la dépendance au bundle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "protected function getDefaultRouteName"
+        verified_at: "2026-09-22"
+
+  - id: FLC-xywma4yc7pja
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une classe invocable a-t-elle un `_controller` sans les deux-points ?"
+    back: "Parce que `configureRoute()` teste le nom de la méthode : si c'est `__invoke`, il écrit le nom de classe seul."
+    explanation: >-
+      Pour toute autre méthode, il écrit le nom de classe, les deux-points, puis
+      le nom de méthode.
+    memorization_justification: >-
+      La forme abrégée passe pour une tolérance du routeur alors que c'est une
+      branche explicite du code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configureRoute"
+        verified_at: "2026-09-22"
+
+  - id: FLC-yz8f3hjzp050
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: APPLICATION
+    front: "`AdminController::index` dans `App\\Controller`, sans option `name` : quel nom de route dans une application Symfony complète ?"
+    back: "`app_admin_index`."
+    explanation: >-
+      Le composant donne `app_controller_admincontroller_index` ; le bundle
+      retire les deux segments `controller_` puis écrase le tiret bas doublé.
+    memorization_justification: >-
+      Dérouler l'algorithme sur un cas neuf est la seule façon de vérifier qu'on
+      ne récite pas l'exemple de la documentation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getDefaultRouteName"
+        verified_at: "2026-09-22"
+
+  - id: FLC-mt06vea3jg1p
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: APPLICATION
+    front: "Deux attributs de route sans option `name` sur la même méthode : que deviennent les noms ?"
+    back: "Le second reçoit un suffixe numérique — `_1` — donc aucune collision."
+    explanation: >-
+      L'index est porté par `defaultRouteIndex`, incrémenté à chaque nom généré
+      dans la classe.
+    memorization_justification: >-
+      On suppose spontanément une erreur de nom dupliqué ; le suffixe
+      automatique est le comportement réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "defaultRouteIndex"
+        verified_at: "2026-09-22"
+
+  - id: FLC-13ahyx0yjpcw
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: APPLICATION
+    front: "Une méthode nommée `listAction` dans `BlogController`, sans option `name` : quel nom obtient-elle ?"
+    back: "`app_blog_list` — le suffixe `action` est retiré du nom généré."
+    explanation: >-
+      Le chargeur du bundle teste si le nom de méthode se termine par `Action`
+      ou par un tiret bas suivi de `action`, et retire le segment.
+    memorization_justification: >-
+      Le suffixe n'est plus utilisé dans le code moderne, ce qui fait oublier
+      que le chargeur le traite encore.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "str_ends_with, Action suffix removal"
+        verified_at: "2026-09-22"
+
+  - id: FLC-b0t1ahg25jfp
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: APPLICATION
+    front: "Un attribut de route porté par la classe déclare un `name` : quel effet sur les noms générés des méthodes ?"
+    back: "Il leur est préfixé. Le `name` de la classe est un préfixe global, appliqué aussi aux noms générés."
+    explanation: >-
+      Le chargeur lit d'abord les valeurs globales de la classe, puis compose le
+      nom final en concaténant le préfixe et le nom de la route.
+    memorization_justification: >-
+      On associe le préfixe aux seules routes nommées explicitement ; il
+      s'applique aussi à celles dont le nom est fabriqué.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "globals name, addRoute"
+        verified_at: "2026-09-22"
+
+  - id: FLC-djfxw2rrvv2v
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: TRAP
+    front: "Piège : « le nom de route généré est écrit en snake case »."
+    back: "Faux. Rien ne découpe la casse : `LuckyController` devient `luckycontroller`, pas `lucky_controller`."
+    explanation: >-
+      Le nom est mis en minuscules d'un bloc ; sa lisibilité vient du retrait
+      d'un segment, pas d'une conversion de casse.
+    memorization_justification: >-
+      Le résultat final ressemble à du snake case, ce qui rend la proposition
+      fausse parfaitement crédible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "mb_strtolower on the whole name"
+        verified_at: "2026-09-22"
+
+  - id: FLC-9f7dezgkk347
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: TRAP
+    front: "Piège : « le suffixe `Action` sur une méthode n'est plus reconnu du tout »."
+    back: "Faux. Il n'est plus utilisé par convention, mais le chargeur du bundle le retire encore du nom généré."
+    explanation: >-
+      Ne plus être recommandé et ne plus être traité sont deux choses
+      différentes ; le code du chargeur traite les deux formes du suffixe.
+    memorization_justification: >-
+      « Plus utilisé » se transforme facilement en « plus supporté », et la
+      différence se voit sur un nom de route généré.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "Action and _action suffix handling"
+        verified_at: "2026-09-22"
+
+  - id: FLC-7500ya08t279
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: TRAP
+    front: "Piège : « le snake case est la convention recommandée pour les noms de route »."
+    back: "Non. La documentation le recommande pour les gabarits — fichiers ET répertoires — avec deux extensions."
+    explanation: >-
+      La première extension est le format produit par le gabarit, pas le moteur
+      de rendu, ce qui permet de servir plusieurs formats.
+    memorization_justification: >-
+      Deux conventions de nommage voisines dans le même chapitre ; les
+      interchanger est l'erreur naturelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Template Naming"
+        verified_at: "2026-09-22"
+
+  - id: FLC-8v1w7t79rgjx
+    official_item: OIT-ycc2c8tnv68h
+    language: fr
+    level: TRAP
+    front: "Piège : « tout contrôleur reçoit un alias de route fondé sur son nom pleinement qualifié »."
+    back: "Non. Seulement une méthode qui ne déclare qu'une seule route, ou une classe invocable n'en ajoutant qu'une."
+    explanation: >-
+      La condition porte sur le nombre de routes ajoutées, pas sur la seule
+      existence de la méthode ou de la classe.
+    memorization_justification: >-
+      La condition « exactement une route » est facile à laisser tomber, et son
+      oubli fait générer une URL sur un alias inexistant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Symfony declares route aliases based on the FQCN"
         verified_at: "2026-09-22"
