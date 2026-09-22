@@ -48,14 +48,40 @@ Deux méthodes, une différence de type de retour qui se retient mal :
 `render()` accepte un troisième argument : une `Response` déjà construite, dont
 il remplit le contenu. C'est ainsi qu'on impose un statut autre que 200.
 
-Un cas n'a pas besoin de ce troisième argument : si l'un des paramètres passés
-au gabarit est un **formulaire invalide**, `render()` retourne d'elle-même un
-**422**. Le comportement est documenté sur la méthode et vaut aussi pour
-`renderBlock()`.
-
 `renderBlock()` et `renderBlockView()` font la même chose pour un seul bloc du
 gabarit. `stream()` retourne une `StreamedResponse` : le gabarit est envoyé au
 fur et à mesure, ce qui évite de construire une page entière en mémoire.
+
+Sans le bundle Twig, ces méthodes lèvent une `LogicException` qui **nomme la
+méthode appelée** et le paquet à installer. Elles ne retournent pas une réponse
+vide.
+
+### Un formulaire passé au gabarit est converti pour vous
+
+Avant le rendu, chaque paramètre qui est un `FormInterface` est remplacé par le
+résultat de son `createView()`. On peut donc passer le formulaire lui-même ;
+écrire `->createView()` à la main n'est pas une erreur, simplement redondant.
+
+### Le 422 automatique tient à trois conditions, pas une
+
+Le rendu sort en **422** sans qu'on l'ait demandé — mais seulement si les
+**trois** conditions suivantes sont réunies :
+
+1. la réponse en cours est encore en **200** ;
+2. un paramètre est un `FormInterface` ;
+3. ce formulaire est **soumis** *et* invalide.
+
+Deux conséquences que « un formulaire invalide donne un 422 » laisse de côté.
+
+**Un statut explicite l'emporte.** Si le troisième argument porte une `Response`
+dont le statut n'est pas 200, la promotion n'a pas lieu du tout : le code ne
+regarde les paramètres que tant que le statut vaut 200.
+
+**Non soumis n'est pas invalide.** Un formulaire fraîchement construit, jamais
+soumis, ne déclenche rien — la page d'affichage initiale sort donc bien en 200.
+
+Le comportement vaut aussi pour `renderBlock()`, les deux passant par le même
+code interne.
 
 ## JSON
 
@@ -63,12 +89,21 @@ fur et à mesure, ce qui évite de construire une page entière en mémoire.
 il est utilisé ; sinon la méthode retombe sur `json_encode`. Elle accepte le
 statut, des en-têtes et un contexte de sérialisation.
 
+Le contexte n'est pas décoratif : il est fusionné par-dessus les options
+d'encodage par défaut de `JsonResponse`, ce qui en fait le point d'entrée pour
+les changer. Et sans Serializer, une donnée `null` est traitée à part — la
+réponse porte la chaîne `null`, pas un corps vide.
+
 ## Servir un fichier
 
 `file()` retourne une `BinaryFileResponse`. Par défaut la disposition est
 `attachment` — le navigateur télécharge. Pour un affichage dans la page, il faut
 passer `ResponseHeaderBag::DISPOSITION_INLINE`. Le deuxième argument renomme le
-fichier vu par l'utilisateur sans toucher au fichier sur disque.
+fichier vu par l'utilisateur sans toucher au fichier sur disque ; omis, c'est le
+nom réel sur disque qui est annoncé.
+
+L'en-tête de disposition est écrit **dans tous les cas**, y compris pour la
+valeur par défaut : il n'y a pas de cas où le navigateur décide seul.
 
 ## Pièges d'examen
 
@@ -77,20 +112,34 @@ prête à être retournée par le contrôleur, l'autre une simple chaîne. Retou
 la chaîne depuis un contrôleur déclenche `kernel.view`, et sans écouteur pour
 la convertir, la requête échoue.
 
-**Un formulaire invalide passé au gabarit change le statut tout seul.** Le rendu
-sort en 422 sans qu'on l'ait demandé — inutile de construire une réponse pour
-cela, et surprenant si on l'ignore.
+**Le 422 n'est pas inconditionnel.** Il faut un statut encore à 200, un
+paramètre `FormInterface`, et un formulaire **soumis** *et* invalide. Un statut
+explicite l'emporte ; un formulaire non soumis ne déclenche rien.
 
 **Servir un fichier télécharge par défaut.** L'affichage dans la page demande de
 changer explicitement la disposition.
+
+**Sans Twig, le rendu lève.** La `LogicException` nomme la méthode et le paquet
+manquant ; ce n'est pas une réponse vide.
+
+## Tips d'examen
+
+**Pour trancher une question sur le 422** : chercher le statut de départ avant
+de chercher le formulaire. Si l'énoncé construit une `Response` avec un statut,
+la question est réglée sans regarder les paramètres.
+
+**Pour `render()` contre `renderView()`** : le suffixe `View` annonce ce qui est
+rendu, la vue seule — donc une chaîne, pas une réponse.
 
 ## Points clés
 
 - Retourner une `Response`, sinon `kernel.view` doit s'en charger.
 - `render()` → `Response`, `renderView()` → `string`.
-- Le troisième argument de `render()` impose un statut ; un formulaire
-  invalide dans les paramètres donne un 422 sans rien demander.
-- `json()` utilise le Serializer s'il est installé.
+- Les paramètres `FormInterface` sont convertis en vue automatiquement.
+- Le 422 demande **trois** conditions ; un statut explicite l'emporte, et un
+  formulaire non soumis ne compte pas.
+- `json()` utilise le Serializer s'il est installé ; le contexte porte les
+  options d'encodage.
 - `file()` télécharge par défaut ; `DISPOSITION_INLINE` pour afficher.
 
 ## Sources officielles
