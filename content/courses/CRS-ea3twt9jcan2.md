@@ -14,6 +14,18 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+    symbol_or_lines: "getCurrentRequest, getMainRequest, getParentRequest, getSession"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-22"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    symbol_or_lines: "getPayload"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-22"
 ---
 
 ## Objectif
@@ -51,12 +63,45 @@ arguments ne change rien ; les renommer casse tout.
 Le sac `attributes` contient aussi les clés internes que le framework y place,
 notamment `_route` et `_controller`.
 
+### `RequestStack` porte une pile, pas une requête
+
+Trois accesseurs, et ils diffèrent pendant une **sous-requête** :
+
+| Méthode | Rend |
+|---|---|
+| `getCurrentRequest()` | la requête en cours — la **sous-requête** si on est dedans |
+| `getMainRequest()` | celle qui est entrée par le serveur |
+| `getParentRequest()` | `null` quand la courante **est** la principale |
+
+`getSession()` est l'exception : elle ne rend pas `null`, elle **lève** une
+`SessionNotFoundException`.
+
 ## Corps et chaîne de requête
 
 `$request->query` porte la chaîne de requête. Pour le corps, `getPayload()` est
-la méthode à connaître : elle retourne les données envoyées, qu'elles arrivent
-en formulaire ou en JSON, là où `$request->request` ne couvre que le premier
-cas.
+la méthode à connaître — mais son comportement n'est pas symétrique, et c'est
+tout l'intérêt de la question.
+
+Elle procède **dans cet ordre** :
+
+| Situation | Ce qu'elle rend |
+|---|---|
+| `$request->request` n'est pas vide | un **clone** de ce sac — les données de formulaire l'emportent |
+| sinon, corps brut vide | un `InputBag` **vide** |
+| sinon | le corps décodé en JSON, dans un `InputBag` neuf |
+
+Trois conséquences que la formulation « elle lit le corps quel que soit son
+format » écrase :
+
+**Le formulaire est prioritaire.** Le JSON n'est lu que si le sac des paramètres
+de formulaire est vide ; ce n'est pas une union des deux.
+
+**C'est un clone.** Modifier l'objet rendu ne modifie pas `$request->request`.
+
+**Un JSON invalide lève.** Le décodage est fait avec l'option qui transforme
+l'erreur en exception : un corps mal formé donne une `JsonException`, il ne
+donne pas un sac vide. Et un JSON valide qui ne décode **pas en tableau** — un
+nombre, une chaîne, un booléen seuls — lève également.
 
 ## Pièges d'examen
 
@@ -68,9 +113,22 @@ tout.
 un contrôleur, mais un service est construit une fois pour toutes : il reçoit
 `RequestStack`.
 
-**Le corps d'une requête JSON n'est pas dans le même sac que celui d'un
-formulaire.** La méthode qui lit la charge utile couvre les deux ; le sac des
-paramètres de formulaire ne couvre que le second.
+**`getPayload()` ne fusionne pas formulaire et JSON.** Si le sac des paramètres
+de formulaire n'est pas vide, elle rend celui-là et ne regarde même pas le corps
+brut.
+
+**Un corps JSON invalide ne donne pas un sac vide** : il lève une exception. Le
+sac vide est réservé au cas où le corps est **vide**.
+
+**`getPayload()` rend un clone.** Écrire dans l'objet retourné ne change rien à
+la requête.
+
+## Tips d'examen
+
+**Deux questions pour choisir où lire.** La donnée est-elle dans l'URL après le
+point d'interrogation ? → `query`. Vient-elle du chemin de la route ? →
+`attributes`, et donc d'un argument nommé. Vient-elle du corps ? →
+`getPayload()`, en gardant en tête sa priorité au formulaire.
 
 ## Points clés
 
@@ -78,8 +136,11 @@ paramètres de formulaire ne couvre que le second.
 - Les paramètres de route passent par `attributes` puis par le **nom** de
   l'argument.
 - `_route` et `_controller` vivent dans `attributes`.
-- `getPayload()` lit le corps quel que soit son format.
+- `getPayload()` privilégie le formulaire, rend un **clone**, et **lève** sur un
+  JSON invalide ou qui ne décode pas en tableau.
 
 ## Sources officielles
 
 - [Controller, « The Request Object as a Controller Argument »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
+- [`Request::getPayload()`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php)
+- [`RequestStack`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php)

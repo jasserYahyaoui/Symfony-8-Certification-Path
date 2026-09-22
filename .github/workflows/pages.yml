@@ -1023,6 +1023,36 @@ jobs:
             echo "ok  lot-04  the AbstractController page carries its levelled flashcards, the visibility count and the eleven subscribed services"
           fi
 
+          # Page 4 of lot 04. `getPayload` was rejected as a needle: it already
+          # appears twice in master's version of this page. The four kept
+          # needles are what this refinement added: the RequestStack accessors,
+          # the session exception, the clone, and the JSON failure mode.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-request -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-request")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-request serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-request || missing="$missing l4request:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-request || missing="$missing l4request:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-request || missing="$missing l4request:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-request || missing="$missing l4request:no-trap-heading"
+          grep -aq 'getMainRequest' /tmp/l4r-request \
+            || missing="$missing l4request:no-stack-accessors"
+          grep -aq 'SessionNotFoundException' /tmp/l4r-request \
+            || missing="$missing l4request:no-session-exception"
+          grep -aq 'clone' /tmp/l4r-request \
+            || missing="$missing l4request:no-payload-clone"
+          grep -aq 'JsonException' /tmp/l4r-request \
+            || missing="$missing l4request:no-payload-failure"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the request page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the request page carries its levelled flashcards, the RequestStack accessors and the getPayload cascade"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

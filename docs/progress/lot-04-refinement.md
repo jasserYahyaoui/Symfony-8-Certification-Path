@@ -34,7 +34,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 | 1 | HttpKernel component and FrameworkBundle | STANDARD | 717 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | **RAFFINÉE** (2026-09-22) |
 | 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 4 | The request | MINIMAL | 359 / 700 | 1 | à faire |
+| 4 | The request | MINIMAL | 684 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
 | 5 | The response | STANDARD | 453 / 900 | 1 | à faire |
 | 6 | The cookies | MINIMAL | 339 / 700 | 1 | à faire |
 | 7 | The session | STANDARD | 385 / 900 | 2 | à faire |
@@ -369,7 +369,93 @@ l'appel.
 
 Le déploiement de la page 3 sera consigné après lecture du smoke test.
 
+### Le déploiement de la page 3, daté
+
+| Fait | Valeur |
+|---|---|
+| PR | #186, fusionnée en `03486d7` |
+| CI de la PR | run 35694988159, **succès**, 31 étapes |
+| Déploiement Pages | run 35726780422, job *Deploy* **succès** à 12:24:03 UTC |
+| Smoke test de production | **succès**, ligne émise à 12:24:34 UTC |
+
+```text
+ok  lot-04  the AbstractController page carries its levelled flashcards,
+            the visibility count and the eleven subscribed services
+```
+
+## Page 4 — The request, 2026-09-22
+
+**Fait**
+
+- 15 flashcards ajoutées ; la carte préexistante `FLC-jygxb3n5n15y` a reçu le
+  niveau `TRAP`. L'item en porte **16**.
+- Corps : 359 → **684 mots** sur 700.
+- Deux sources ajoutées : `Request.php` et `RequestStack.php`, branche `8.0`.
+
+**`getPayload()` : la page décrivait un comportement symétrique qui ne l'est pas**
+
+La page disait : « elle retourne les données envoyées, qu'elles arrivent en
+formulaire ou en JSON ». Le corps de la méthode, lu sur la branche `8.0`,
+procède **en cascade** :
+
+| Situation | Ce qu'elle rend |
+|---|---|
+| `$request->request` n'est pas vide | un **clone** de ce sac |
+| sinon, corps brut vide | un `InputBag` **vide** |
+| sinon | le corps décodé en JSON |
+
+Trois conséquences que la formulation écrasait :
+
+1. **Le formulaire est prioritaire.** Le JSON n'est lu que si le sac de
+   formulaire est vide. Ce n'est pas une union des deux sources.
+2. **C'est un clone.** Modifier l'objet rendu ne modifie pas la requête.
+3. **Un JSON invalide lève.** Le décodage utilise l'option qui transforme
+   l'erreur en exception : un corps mal formé donne une `JsonException`, pas un
+   sac vide. Et un JSON valide qui ne décode **pas en tableau** — `42`, `"x"`,
+   `true` — lève également.
+
+La différence entre « sac vide » et « exception » n'est pas cosmétique : elle
+décide du code de statut renvoyé au client. Traiter une erreur comme une absence
+répond par un succès à une requête que le serveur n'a pas comprise.
+
+**`RequestStack` n'était nommée que pour dire « injectez-la »**
+
+La page disait d'injecter `RequestStack` dans un service et d'appeler
+`getCurrentRequest()`. Elle ne disait pas que la classe porte une **pile** :
+
+| Méthode | Rend |
+|---|---|
+| `getCurrentRequest()` | la requête en cours — la **sous-requête** si on est dedans |
+| `getMainRequest()` | celle entrée par le serveur |
+| `getParentRequest()` | `null` quand la courante **est** la principale |
+
+Hors sous-requête, les deux premières rendent le même objet : la distinction est
+invisible jusqu'au premier `forward()`, qui est justement l'item 10 de ce lot.
+
+`getSession()` est l'exception du contrat : elle ne rend pas `null`, elle **lève**
+une `SessionNotFoundException`. Une méthode qui lève au milieu de trois méthodes
+nullables est exactement le genre d'asymétrie qu'une question d'examen isole.
+
+**Contrôles réellement exécutés le 2026-09-22**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant**, du premier coup |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, du premier coup |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 106 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0** |
+| `lot27_practice_audit.py --prove` | **exit 0** |
+| Aiguilles de smoke test | 8 ; `getPayload` **écartée** (présente deux fois dans la version `master` de cette page) |
+
+Le déploiement de la page 4 sera consigné après lecture du smoke test.
+
 ## Prochaine étape
 
-Page 4 — *The request* (`CRS-ea3twt9jcan2`, `OIT-6cr9b8ea8g32`, MINIMAL,
-359 / 700, 1 carte).
+Page 5 — *The response* (`CRS-a669jpap5zf2`, `OIT-2emwghgkkrdy`, STANDARD,
+453 / 900, 1 carte).
