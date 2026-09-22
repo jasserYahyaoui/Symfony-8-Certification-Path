@@ -992,6 +992,37 @@ jobs:
             echo "ok  lot-04  the Naming conventions page carries its levelled flashcards, the two-layer route-name algorithm and the template rule"
           fi
 
+          # Page 3 of lot 04. `sendEarlyHints` and `ServiceSubscriberInterface`
+          # were rejected as needles: both already appear in master's version of
+          # this page. The four kept needles are what this refinement added: the
+          # missing security helper, the visibility count, the eleventh
+          # subscribed service, and the request attribute addLink() really uses.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-abstract -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-base-abstractcontroller-class")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-base-abstractcontroller-class serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-abstract || missing="$missing l4abstract:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-abstract || missing="$missing l4abstract:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-abstract || missing="$missing l4abstract:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-abstract || missing="$missing l4abstract:no-trap-heading"
+          grep -aq 'getAccessDecision' /tmp/l4r-abstract \
+            || missing="$missing l4abstract:no-fifth-security-helper"
+          grep -aq 'vingt-quatre' /tmp/l4r-abstract \
+            || missing="$missing l4abstract:no-visibility-count"
+          grep -aq 'web_link.http_header_serializer' /tmp/l4r-abstract \
+            || missing="$missing l4abstract:no-eleventh-service"
+          grep -aq '_links' /tmp/l4r-abstract \
+            || missing="$missing l4abstract:no-addlink-attribute"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the AbstractController page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the AbstractController page carries its levelled flashcards, the visibility count and the eleven subscribed services"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

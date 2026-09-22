@@ -47,7 +47,10 @@ sous-classe**. On ne peut pas appeler `$controller->render(...)` depuis
 l'extérieur, ni depuis un test unitaire qui traiterait le contrôleur comme un
 service ordinaire.
 
-Par famille :
+La classe compte, sur la branche `8.0`, **vingt-quatre** méthodes `protected`,
+**deux** `public` et **deux** `private`. Les deux méthodes publiques ne sont pas
+des raccourcis : ce sont les deux points d'attache de l'infrastructure,
+`setContainer()` et `getSubscribedServices()`.
 
 | Famille | Méthodes |
 |---|---|
@@ -55,28 +58,45 @@ Par famille :
 | Rendu | `render()`, `renderView()`, `renderBlock()`, `renderBlockView()`, `stream()` |
 | Réponse | `json()`, `file()`, `sendEarlyHints()` |
 | Erreurs | `createNotFoundException()`, `createAccessDeniedException()` |
-| Sécurité | `isGranted()`, `denyAccessUnlessGranted()`, `getUser()`, `isCsrfTokenValid()` |
+| Sécurité | `isGranted()`, `getAccessDecision()`, `denyAccessUnlessGranted()`, `getUser()`, `isCsrfTokenValid()` |
 | Formulaires | `createForm()`, `createFormBuilder()` |
 | Divers | `addFlash()`, `getParameter()`, `addLink()` |
 
 ## Un abonné à des services, pas un conteneur
 
 `AbstractController` implémente `ServiceSubscriberInterface`. Elle ne reçoit
-donc **pas** le conteneur complet : elle déclare dans `getSubscribedServices()`
-la liste exacte de ce dont elle a besoin — `router`, `request_stack`,
-`http_kernel`, `serializer`, `twig`, `form.factory`, `parameter_bag`, les
-services de sécurité — et reçoit un conteneur restreint à cette liste.
+donc **pas** le conteneur complet : `getSubscribedServices()` déclare **onze**
+entrées, et elle reçoit un conteneur restreint à celles-là.
 
-Chaque entrée est préfixée par `?` : le service est **facultatif**. C'est ce qui
-permet d'utiliser la classe dans une application sans Twig ou sans le composant
-Security ; l'appel du raccourci correspondant échoue alors avec un message
-explicite plutôt que par une erreur d'autowiring.
+| Clé | Pour |
+|---|---|
+| `router`, `request_stack`, `http_kernel` | URL, requête courante, sous-requêtes |
+| `twig`, `form.factory`, `serializer` | rendu, formulaires, `json()` |
+| `security.authorization_checker`, `security.token_storage`, `security.csrf.token_manager` | les trois services de sécurité, distincts |
+| `parameter_bag` | `getParameter()` |
+| `web_link.http_header_serializer` | `sendEarlyHints()` |
+
+Chaque valeur est préfixée par `?` : le service est **facultatif**. C'est ce qui
+permet d'utiliser la classe sans Twig ou sans le composant Security ; le
+raccourci correspondant lève alors une exception au message explicite plutôt que
+d'échouer à l'autowiring.
 
 L'injection passe par `setContainer()`, marquée `#[Required]`, donc appelée
-automatiquement à l'instanciation du service.
+automatiquement. Détail de signature : elle **retourne le conteneur
+précédent** — `?ContainerInterface` — elle ne retourne pas `void`.
 
 Pour tout le reste, la voie normale reste le **type-hint** d'un argument
 d'action : Symfony injecte le service correspondant.
+
+## Deux raccourcis dont le nom trompe
+
+`addLink()` n'écrit **rien dans la réponse**. Elle dépose un fournisseur de
+liens dans l'attribut de requête `_links` ; c'est un écouteur qui en fera
+l'en-tête `Link`. Sans le composant WebLink, elle lève une `LogicException`.
+
+`sendEarlyHints()` envoie les en-têtes **immédiatement**, avec le statut
+**103**, avant que la réponse finale ne parte. C'est le seul raccourci de la
+classe qui écrit sur la sortie au moment où on l'appelle.
 
 ## Pièges d'examen
 
@@ -85,22 +105,37 @@ appelable PHP ; la classe de base fait gagner des raccourcis, pas des droits.
 
 **Ses raccourcis sont `protected`.** Ils ne s'appellent que depuis la
 sous-classe : un test qui traiterait le contrôleur comme un service ordinaire ne
-peut pas les invoquer de l'extérieur.
+peut pas les invoquer de l'extérieur. Les deux seules méthodes `public` sont
+`setContainer()` et `getSubscribedServices()`.
 
-**Ce n'est pas le conteneur.** La classe est un *abonné* à des services et
-déclare la liste exacte de ce qu'elle utilise ; elle ne donne accès à rien
-d'autre.
+**Ce n'est pas le conteneur.** La classe est un *abonné* : onze services
+déclarés, tous facultatifs, et rien d'autre n'est accessible.
 
 **Elle vient de FrameworkBundle**, pas du composant HttpKernel.
+
+**`addLink()` n'écrit pas dans la réponse.** Elle remplit l'attribut de requête
+`_links` ; l'en-tête est produit plus tard par un écouteur.
+
+## Tips d'examen
+
+**Le préfixe `?` est la clé de lecture de la liste.** Il ne dit pas « peut-être
+présent dans le conteneur » au hasard : il dit que la classe fonctionne sans, et
+que le raccourci concerné lèvera une exception explicite si on l'appelle quand
+même.
+
+**Pour situer un raccourci** : s'il produit une réponse, il est dans le lot 04 ;
+s'il touche à la sécurité, il en délègue tout à l'un des trois services de
+sécurité déclarés.
 
 ## Points clés
 
 - Optionnelle ; un contrôleur est un appelable, rien de plus.
 - Vient de FrameworkBundle.
-- Tous les raccourcis sont `protected`.
-- `ServiceSubscriberInterface` + `getSubscribedServices()` : conteneur restreint,
-  services déclarés facultatifs par le préfixe `?`.
-- `setContainer()` est `#[Required]`.
+- 24 méthodes `protected`, 2 `public` d'infrastructure, 2 `private`.
+- `ServiceSubscriberInterface` + `getSubscribedServices()` : **onze** entrées,
+  toutes facultatives par le préfixe `?`.
+- `setContainer()` est `#[Required]` et retourne le conteneur **précédent**.
+- `addLink()` passe par l'attribut `_links` ; `sendEarlyHints()` émet un **103**.
 
 ## Sources officielles
 

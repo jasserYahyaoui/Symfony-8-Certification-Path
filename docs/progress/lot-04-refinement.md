@@ -33,7 +33,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 |---|---|---|---|---|---|
 | 1 | HttpKernel component and FrameworkBundle | STANDARD | 717 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | **RAFFINÉE** (2026-09-22) |
-| 3 | The base AbstractController class | STANDARD | 490 / 900 | 1 | à faire |
+| 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 4 | The request | MINIMAL | 359 / 700 | 1 | à faire |
 | 5 | The response | STANDARD | 453 / 900 | 1 | à faire |
 | 6 | The cookies | MINIMAL | 339 / 700 | 1 | à faire |
@@ -280,7 +280,96 @@ l'item porte déjà. Aucun contrôle n'a été touché.
 Le déploiement de la page 2 sera consigné après lecture du smoke test, jamais
 avant.
 
+### Le déploiement de la page 2, daté
+
+| Fait | Valeur |
+|---|---|
+| PR | #185, fusionnée en `9a57a89` |
+| CI de la PR | run 35694064252, **succès**, 31 étapes |
+| Déploiement Pages | run 35694459484, job *Deploy* **succès** à 06:23:15 UTC |
+| Smoke test de production | **succès**, ligne émise à 06:23:27 UTC |
+
+```text
+ok  lot-04  the Naming conventions page carries its levelled flashcards,
+            the two-layer route-name algorithm and the template rule
+```
+
+## Page 3 — The base AbstractController class, 2026-09-22
+
+**Fait**
+
+- 15 flashcards ajoutées ; la carte préexistante `FLC-w5kmrvzr7a3z` a reçu son
+  niveau. L'item en porte **16**.
+- Corps : 490 → **753 mots** sur 900.
+
+**Le tableau des raccourcis oubliait une méthode**
+
+La famille *Sécurité* listait `isGranted()`, `denyAccessUnlessGranted()`,
+`getUser()` et `isCsrfTokenValid()`. La classe en porte une cinquième,
+`getAccessDecision()`, `protected` comme les autres. Un tableau qui se présente
+comme exhaustif et qui ne l'est pas est pire qu'une liste ouverte : le lecteur
+croit avoir tout vu.
+
+**« Toutes les méthodes utilitaires sont `protected` » : vrai, mais incomplet**
+
+L'affirmation est exacte pour les raccourcis. Elle laisse croire que rien n'est
+`public`. La classe compte en réalité, sur la branche `8.0` :
+
+| Visibilité | Nombre | Lesquelles |
+|---|---|---|
+| `protected` | 24 | tous les raccourcis |
+| `public` | 2 | `setContainer()`, `getSubscribedServices()` |
+| `private` | 2 | les deux aides internes de rendu |
+
+Les deux méthodes publiques ne sont pas des raccourcis : ce sont les points
+d'attache de l'infrastructure. C'est la distinction que la page ne faisait pas.
+
+**La liste des services déclarés : onze, pas « une liste »**
+
+La page énumérait « `router`, `request_stack`, `http_kernel`, `serializer`,
+`twig`, `form.factory`, `parameter_bag`, les services de sécurité ». Comptée
+dans le code, la liste fait **onze** entrées exactement, et deux précisions
+manquaient :
+
+- « les services de sécurité » en cache **trois**, distincts —
+  `security.authorization_checker`, `security.token_storage`,
+  `security.csrf.token_manager` ;
+- `web_link.http_header_serializer` n'était pas mentionné du tout.
+
+**Une signature et un comportement que la page donnait faux ou pas du tout**
+
+`setContainer()` **retourne le conteneur précédent** (`?ContainerInterface`).
+La page ne disait rien du retour, ce qui laisse supposer `void`.
+
+`addLink()` **n'écrit rien dans la réponse**, malgré son commentaire de méthode
+qui annonce le contraire. Elle dépose un fournisseur de liens dans l'attribut de
+requête `_links` ; l'en-tête est produit plus tard par un écouteur. Sa signature
+le dit : elle reçoit la **requête**, pas la réponse.
+
+`sendEarlyHints()` émet ses en-têtes **immédiatement**, avec le statut **103**.
+C'est le seul raccourci de la classe qui écrit sur la sortie au moment de
+l'appel.
+
+**Contrôles réellement exécutés le 2026-09-22**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant**, du premier coup ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, du premier coup |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés, `study-calendar.md : 1022 lignes` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 091 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration byte-identique SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0**, `FINDINGS: 0` |
+| `lot27_practice_audit.py --prove` | **exit 0** |
+| Aiguilles de smoke test | 8 ; `sendEarlyHints` et `ServiceSubscriberInterface` **écartées** (déjà présentes dans la version `master` de cette page) |
+
+Le déploiement de la page 3 sera consigné après lecture du smoke test.
+
 ## Prochaine étape
 
-Page 3 — *The base AbstractController class* (`CRS-h8s87edcx8ae`,
-`OIT-gqpj4rbt0hc7`, STANDARD, 490 / 900, 1 carte).
+Page 4 — *The request* (`CRS-ea3twt9jcan2`, `OIT-6cr9b8ea8g32`, MINIMAL,
+359 / 700, 1 carte).
