@@ -188,6 +188,7 @@ flashcards:
   - id: FLC-50qy4aqc9d2a
     official_item: OIT-2emwghgkkrdy
     language: fr
+    level: UNDERSTANDING
     front: "AbstractController : que retournent render() et renderView() ?"
     back: "render() retourne une Response, renderView() retourne une chaîne."
     explanation: >-
@@ -1545,4 +1546,319 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getCurrentRequest, getMainRequest"
+        verified_at: "2026-09-22"
+
+  - id: FLC-y161503a2e9s
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: RECALL
+    front: "Quelles sont les trois conditions du 422 automatique au rendu ?"
+    back: "Statut encore à 200, un paramètre `FormInterface`, et ce formulaire soumis ET invalide."
+    explanation: >-
+      Les trois sont nécessaires. Le code ne regarde les paramètres que tant que
+      le statut vaut 200.
+    memorization_justification: >-
+      La version courte « un formulaire invalide donne un 422 » est retenue à la
+      place, et elle est fausse dans deux cas sur trois.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRender, 422 promotion"
+        verified_at: "2026-09-22"
+
+  - id: FLC-146qm993869b
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: RECALL
+    front: "Que devient un paramètre `FormInterface` passé au gabarit ?"
+    back: "Il est remplacé par le résultat de son `createView()` avant le rendu."
+    explanation: >-
+      On peut donc passer le formulaire lui-même ; appeler `createView()` à la
+      main est redondant, pas erroné.
+    memorization_justification: >-
+      La conversion est invisible dans le code du contrôleur, et on la croit
+      obligatoire côté appelant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRenderView, createView"
+        verified_at: "2026-09-22"
+
+  - id: FLC-6kg0ap7j9pdp
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: RECALL
+    front: "Que se passe-t-il si le bundle Twig n'est pas installé et qu'on appelle une méthode de rendu ?"
+    back: "Une `LogicException` est levée ; elle nomme la méthode appelée et le paquet à installer."
+    explanation: >-
+      Ce n'est ni une réponse vide, ni un échec silencieux : la classe déclare
+      `twig` comme service facultatif et vérifie sa présence.
+    memorization_justification: >-
+      « Service facultatif » se lit comme « dégradation silencieuse » alors que
+      c'est un échec explicite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRenderView, LogicException"
+        verified_at: "2026-09-22"
+
+  - id: FLC-pswt1v7m4k18
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: RECALL
+    front: "Quel nom de fichier `file()` annonce-t-elle si le deuxième argument est omis ?"
+    back: "Le nom réel du fichier sur disque."
+    explanation: >-
+      L'en-tête de disposition est écrit dans tous les cas, y compris pour la
+      valeur par défaut `attachment`.
+    memorization_justification: >-
+      On suppose qu'omettre l'argument laisse le navigateur décider, alors que
+      l'en-tête est toujours posé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "file, setContentDisposition"
+        verified_at: "2026-09-22"
+
+  - id: FLC-e45ff59mktqe
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un statut explicite empêche-t-il la promotion en 422 ?"
+    back: "Parce que la promotion n'est tentée que si la réponse est encore en 200 : un statut choisi n'est jamais écrasé."
+    explanation: >-
+      Le test sur le statut vient avant la boucle sur les paramètres, donc les
+      formulaires ne sont même pas examinés.
+    memorization_justification: >-
+      Savoir lequel des deux mécanismes gagne est la seule façon de répondre à
+      une question qui les combine.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRender, status check before loop"
+        verified_at: "2026-09-22"
+
+  - id: FLC-p54c0zhkhxxf
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la condition du 422 exige-t-elle que le formulaire soit soumis, et pas seulement invalide ?"
+    back: "Pour que l'affichage initial du formulaire, qui n'a encore rien reçu, sorte en 200."
+    explanation: >-
+      Un formulaire non soumis n'a pas été validé : le promouvoir en 422 ferait
+      passer la première visite d'une page pour une erreur du client.
+    memorization_justification: >-
+      La distinction soumis / valide est le cœur du cycle de vie d'un
+      formulaire, et elle décide ici du code de statut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isSubmitted and not isValid"
+        verified_at: "2026-09-22"
+
+  - id: FLC-3x1g7yq2c9ah
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: UNDERSTANDING
+    front: "À quoi sert le contexte passé à `json()` quand le Serializer est installé ?"
+    back: "Il est fusionné par-dessus les options d'encodage par défaut de `JsonResponse` — c'est le point d'entrée pour les changer."
+    explanation: >-
+      Sans Serializer, la méthode construit directement la réponse et le
+      contexte ne s'applique pas.
+    memorization_justification: >-
+      Un quatrième argument d'apparence facultative porte en fait le seul levier
+      sur l'encodage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "json, json_encode_options merge"
+        verified_at: "2026-09-22"
+
+  - id: FLC-c1z5jvk6hacn
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur construit une réponse en 404 et la passe en troisième argument de `render()`, avec un formulaire soumis invalide. Quel statut sort ?"
+    back: "404. La promotion en 422 n'a lieu que si le statut est encore 200."
+    explanation: >-
+      Les paramètres ne sont même pas parcourus : le test du statut est fait
+      avant.
+    memorization_justification: >-
+      Le cas combine les deux mécanismes de statut de la page ; seul l'ordre du
+      code permet de trancher.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRender"
+        verified_at: "2026-09-22"
+
+  - id: FLC-j5w9v2ymver9
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: APPLICATION
+    front: "Premier affichage d'une page de formulaire : le formulaire est construit mais rien n'a été envoyé. Quel statut sort du rendu ?"
+    back: "200. Le formulaire n'est pas soumis, donc aucune promotion."
+    explanation: >-
+      L'invalidité seule ne suffit pas ; il faut que le formulaire ait reçu des
+      données.
+    memorization_justification: >-
+      C'est le cas le plus fréquent en production, et une lecture rapide de la
+      règle le ferait sortir en 422.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isSubmitted"
+        verified_at: "2026-09-22"
+
+  - id: FLC-mgsp68pn28ka
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: APPLICATION
+    front: "On veut afficher un PDF dans l'onglet plutôt que de le télécharger. Que faut-il changer ?"
+    back: "La disposition : passer `ResponseHeaderBag::DISPOSITION_INLINE` en troisième argument de `file()`."
+    explanation: >-
+      Le défaut est `attachment`, et l'en-tête est écrit dans tous les cas : le
+      navigateur ne choisit jamais seul.
+    memorization_justification: >-
+      Le comportement par défaut est l'inverse de celui attendu pour un document
+      consultable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "file, DISPOSITION_ATTACHMENT default"
+        verified_at: "2026-09-22"
+
+  - id: FLC-5etrwqqna5bs
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur retourne le résultat de `renderView()`. Que fait le noyau ?"
+    back: "Il dispatche `kernel.view` pour convertir la chaîne ; sans écouteur capable de le faire, la requête échoue."
+    explanation: >-
+      `render()` aurait retourné une `Response` directement ; le suffixe `View`
+      signale la vue seule.
+    memorization_justification: >-
+      Les deux noms se ressemblent et l'erreur ne se voit qu'à l'exécution, sous
+      la forme d'un message sur le retour du contrôleur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "a controller must return a Response object"
+        verified_at: "2026-09-22"
+
+  - id: FLC-dar90sb3mn34
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: TRAP
+    front: "Piège : « un formulaire invalide parmi les paramètres donne toujours un 422 »."
+    back: "Non. Il faut aussi que le statut soit encore 200 et que le formulaire ait été soumis."
+    explanation: >-
+      Deux cas courants échappent à la règle : une réponse au statut choisi, et
+      l'affichage initial d'un formulaire.
+    memorization_justification: >-
+      La formulation courte est celle que l'on retient, et elle est fausse
+      exactement dans les cas qu'un examen choisit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRender"
+        verified_at: "2026-09-22"
+
+  - id: FLC-gay72253jxs9
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: TRAP
+    front: "Piège : « il faut appeler `createView()` sur le formulaire avant de le passer au gabarit »."
+    back: "Ce n'est pas obligatoire : la conversion est faite pour vous sur chaque paramètre `FormInterface`."
+    explanation: >-
+      L'appeler soi-même reste correct et très répandu, ce qui masque la
+      conversion automatique.
+    memorization_justification: >-
+      L'usage universel d'une écriture redondante la fait passer pour une
+      obligation du framework.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRenderView parameter loop"
+        verified_at: "2026-09-22"
+
+  - id: FLC-v6xj4aeg3ec9
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: TRAP
+    front: "Piège : « sans le bundle Twig, le rendu retourne une réponse vide »."
+    back: "Non, il lève une `LogicException` qui nomme la méthode et le paquet manquant."
+    explanation: >-
+      Le service `twig` est déclaré facultatif pour que le contrôleur
+      s'instancie, pas pour que le rendu se dégrade en silence.
+    memorization_justification: >-
+      « Facultatif » suggère une absence tolérée ; ici c'est un échec reporté à
+      l'appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doRenderView, LogicException"
+        verified_at: "2026-09-22"
+
+  - id: FLC-bceytznzxxma
+    official_item: OIT-2emwghgkkrdy
+    language: fr
+    level: TRAP
+    front: "Piège : « `renderBlock()` échappe à la règle du 422, qui ne concerne que `render()` »."
+    back: "Non. Les deux passent par le même code interne, donc la même promotion s'applique."
+    explanation: >-
+      La seule différence entre les deux est le bloc rendu, pas le traitement de
+      la réponse.
+    memorization_justification: >-
+      Une méthode plus spécialisée semble échapper aux règles générales, alors
+      qu'elle partage tout le reste.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render and renderBlock both call doRender"
         verified_at: "2026-09-22"

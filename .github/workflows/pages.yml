@@ -1053,6 +1053,37 @@ jobs:
             echo "ok  lot-04  the request page carries its levelled flashcards, the RequestStack accessors and the getPayload cascade"
           fi
 
+          # Page 5 of lot 04. `DISPOSITION_INLINE` was rejected as a needle: it
+          # already appears twice in master's version of this page. The four
+          # kept needles are what this refinement added: the three-condition
+          # 422 rule, the automatic form-to-view conversion, the exception
+          # raised without Twig, and the json() encoding context.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-response -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-response")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-response serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-response || missing="$missing l4response:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-response || missing="$missing l4response:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-response || missing="$missing l4response:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-response || missing="$missing l4response:no-trap-heading"
+          grep -aq 'trois conditions' /tmp/l4r-response \
+            || missing="$missing l4response:no-422-conditions"
+          grep -aq 'createView' /tmp/l4r-response \
+            || missing="$missing l4response:no-form-conversion"
+          grep -aq 'LogicException' /tmp/l4r-response \
+            || missing="$missing l4response:no-missing-twig"
+          grep -aq 'options d' /tmp/l4r-response \
+            || missing="$missing l4response:no-json-context"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the response page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the response page carries its levelled flashcards, the three-condition 422 rule and the automatic form conversion"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What

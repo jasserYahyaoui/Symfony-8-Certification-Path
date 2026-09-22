@@ -35,7 +35,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 | 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | **RAFFINÉE** (2026-09-22) |
 | 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 4 | The request | MINIMAL | 684 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
-| 5 | The response | STANDARD | 453 / 900 | 1 | à faire |
+| 5 | The response | STANDARD | 812 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 6 | The cookies | MINIMAL | 339 / 700 | 1 | à faire |
 | 7 | The session | STANDARD | 385 / 900 | 2 | à faire |
 | 8 | The flash messages | MINIMAL | 317 / 700 | 1 | à faire |
@@ -455,7 +455,93 @@ nullables est exactement le genre d'asymétrie qu'une question d'examen isole.
 
 Le déploiement de la page 4 sera consigné après lecture du smoke test.
 
+### Le déploiement de la page 4, daté
+
+| Fait | Valeur |
+|---|---|
+| PR | #187, fusionnée en `39b3bd3` |
+| CI de la PR | run 35727681555, **succès** |
+| Déploiement Pages | run 35740509125, job *Deploy* **succès** à 14:31:18 UTC |
+| Smoke test de production | **succès**, ligne émise à 14:31:37 UTC |
+
+```text
+ok  lot-04  the request page carries its levelled flashcards,
+            the RequestStack accessors and the getPayload cascade
+```
+
+## Page 5 — The response, 2026-09-22
+
+**Fait**
+
+- 15 flashcards ajoutées ; la carte préexistante `FLC-50qy4aqc9d2a` a reçu le
+  niveau `UNDERSTANDING`. L'item en porte **16** — 4 par niveau.
+- Corps : 453 → **812 mots** sur 900.
+
+**Le 422 automatique : une condition annoncée, trois dans le code**
+
+La page disait : « si l'un des paramètres passés au gabarit est un formulaire
+invalide, `render()` retourne d'elle-même un 422 ». Le corps de `doRender()`,
+lu sur la branche `8.0`, exige **trois** conditions simultanées :
+
+1. la réponse en cours est encore en **200** ;
+2. un paramètre est un `FormInterface` ;
+3. ce formulaire est **soumis** *et* invalide.
+
+Deux cas courants échappent donc à la règle telle qu'elle était écrite.
+
+**Un statut explicite l'emporte.** Le test sur le statut précède la boucle sur
+les paramètres : si le troisième argument porte une `Response` dont le statut
+n'est pas 200, les formulaires ne sont même pas examinés. La page présentait les
+deux mécanismes — troisième argument et 422 automatique — sans dire lequel gagne.
+
+**Non soumis n'est pas invalide.** Un formulaire fraîchement construit ne
+déclenche rien, ce qui est précisément ce qui permet à la première visite d'une
+page de formulaire de sortir en 200. C'est le cas le plus fréquent en
+production, et la formulation courte le donnait faux.
+
+**Un formulaire passé au gabarit est converti pour vous**
+
+`doRenderView()` parcourt les paramètres et remplace chaque `FormInterface` par
+le résultat de son `createView()`. La page ne le disait pas. Appeler
+`createView()` soi-même reste correct — c'est l'usage le plus répandu — mais
+c'est redondant, et cet usage universel fait passer une commodité pour une
+obligation.
+
+**Trois précisions ajoutées**
+
+`render()`, `renderView()`, `renderBlock()` et `stream()` lèvent une
+`LogicException` **nommant la méthode appelée** et le paquet à installer quand
+le bundle Twig est absent. « Service facultatif » ne veut pas dire
+« dégradation silencieuse ».
+
+Le contexte de `json()` est **fusionné par-dessus** les options d'encodage par
+défaut de `JsonResponse` : c'est le levier prévu pour les changer. Et sans
+Serializer, une donnée `null` est traitée à part.
+
+`file()` écrit l'en-tête de disposition **dans tous les cas**, y compris pour le
+défaut `attachment` ; le nom annoncé, quand le deuxième argument est omis, est
+le nom réel du fichier sur disque.
+
+**Contrôles réellement exécutés le 2026-09-22**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant**, du premier coup |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, du premier coup |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 295 tests, 16 121 assertions ; `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `prove_framework_rules_fail.py` | `PROOF OK` — 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0** |
+| `lot27_practice_audit.py --prove` | **exit 0** |
+| Aiguilles de smoke test | 8 ; `DISPOSITION_INLINE` **écartée** (présente deux fois dans la version `master` de cette page) |
+
+Le déploiement de la page 5 sera consigné après lecture du smoke test.
+
 ## Prochaine étape
 
-Page 5 — *The response* (`CRS-a669jpap5zf2`, `OIT-2emwghgkkrdy`, STANDARD,
-453 / 900, 1 carte).
+Page 6 — *The cookies* (`CRS-thmkagkjcvh3`, `OIT-pfrzrr0qcmh3`, MINIMAL,
+339 / 700, 1 carte).
