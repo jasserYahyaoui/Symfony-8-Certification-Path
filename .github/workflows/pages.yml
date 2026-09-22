@@ -928,6 +928,38 @@ jobs:
             echo "ok  lot-03  the Naming conventions page carries its levelled flashcards, the twelve method names and the set/replace distinction"
           fi
 
+          # Page 1 of lot 04. `RebootableInterface`, `cablage` and
+          # `extensibles` were rejected as needles: all three already appear in
+          # master's version of this page, so they would pass against the old
+          # bytes. The four kept needles are new sections of this refinement:
+          # the three-interface table, the reflection call in MicroKernelTrait,
+          # and the sixteen methods of KernelInterface.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-httpkernel -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/httpkernel-component-and-frameworkbundle")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page httpkernel-component-and-frameworkbundle serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-trap-heading"
+          grep -aq 'seize méthodes' /tmp/l4r-httpkernel \
+            || missing="$missing httpkernel:no-interface-table"
+          grep -aq 'locateResource' /tmp/l4r-httpkernel \
+            || missing="$missing httpkernel:no-kernelinterface-methods"
+          grep -aq 'warmupDir' /tmp/l4r-httpkernel \
+            || missing="$missing httpkernel:no-reboot-signature"
+          grep -aq 'réflexion' /tmp/l4r-httpkernel \
+            || missing="$missing httpkernel:no-microkernel-reflection"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the HttpKernel page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the HttpKernel page carries its levelled flashcards, the three-interface table and the MicroKernelTrait reflection"
+          fi
+
           # Holdout isolation, proved against the deployed bytes (§7.3,
           # ADR-0006). The declared `pool` field was the whole check until
           # 2026-09-03, which only ever proved the payload's own label. What
