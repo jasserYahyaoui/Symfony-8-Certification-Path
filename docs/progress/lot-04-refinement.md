@@ -601,6 +601,49 @@ part quand même.
 arborescent en option, et un format inconnu lève une `InvalidArgumentException`
 plutôt que de retomber silencieusement sur le défaut.
 
+**Ce que la page 6 a fait tomber : un test dépendant de l'ordre du disque**
+
+La CI a refusé le premier envoi sur un test que `composer gate-full` passait
+localement :
+
+```text
+tests/Unit/FlashcardLevelTest.php:139
+Tests: 295, Assertions: 16134, Failures: 1.
+```
+
+La chaîne que l'assertion a inspectée était une **ligne de tableau d'index** :
+le nom de l'item, son niveau `STANDARD` et son statut `EXAM_READY`, séparés par
+des barres verticales. Le message est donc parlant — l'assertion cherchait le
+recto de la carte dans le tableau d'index du lot, pas dans la page de l'item.
+
+*(La ligne exacte du journal d'exécution n'est pas recopiée ici : elle contient
+un lien Markdown relatif que `LNK-001` compte comme un lien interne mort de ce
+rapport. Le contourner en le glissant dans une clôture serait précisément ce que
+`CLAUDE.md` interdit — une clôture n'est pas une cachette.)*
+
+La cause est dans l'assistant du test, `pageMentioning()` : il parcourt
+`website/docs/` et rend **le premier** fichier `.md` contenant la chaîne
+cherchée. Or l'index du lot énumère chaque item par son nom, donc il contient
+« Flashcard MDX fixture » lui aussi — et ne porte aucune flashcard. Lequel des
+deux fichiers arrive en premier dépend de l'ordre que
+`RecursiveDirectoryIterator` renvoie sur la machine qui exécute la suite.
+
+**Le produit n'était pas en cause.** Vérification faite sur l'arbre généré :
+
+| Fichier | contient `` `{motif}i` `` |
+|---|---|
+| `courses/lot-00/flashcard-mdx-fixture.md` | **oui** |
+| `courses/lot-00/index.md` | non |
+
+L'échappement MDX fonctionne exactement comme le test l'affirme ; c'est la
+sélection du fichier qui était fausse. L'assistant ignore désormais `index.md`,
+ce qui **resserre** la recherche sur la page que ces assertions visaient depuis
+toujours. Aucune assertion n'a été retirée, aucun seuil n'a été déplacé.
+
+C'est le deuxième défaut latent révélé par cette campagne, après la divergence
+du planificateur au lot 03 : un contrôle vert par chance n'est pas un contrôle
+vert.
+
 **Contrôles réellement exécutés le 2026-09-22**
 
 | Contrôle | Résultat |
