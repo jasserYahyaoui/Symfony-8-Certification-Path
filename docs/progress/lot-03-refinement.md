@@ -1004,7 +1004,7 @@ réponses correctes. Quiconque ouvre ce payload voit le holdout.
 | Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full`, 0 violation axe et structurelle |
 | Branche + PR par page (§15) | **PASS** | PR #169 à #182, une par page, CI verte avant chaque fusion |
 | Déploiement + smoke test de production | **PASS pour les pages 1 à 14** | lignes `ok lot-03 …` lues dans les journaux d'exécution |
-| Déploiement de la page 15 | **EN ATTENTE** | PR ouverte, non encore fusionnée au moment de ce rapport |
+| Déploiement de la page 15 | **PASS** | PR #182 fusionnée dans `master` (`e98604a`) ; smoke test de production le 2026-09-22 à 05:24:06 UTC |
 
 ## Défauts trouvés dans le corpus existant
 
@@ -1073,12 +1073,32 @@ vérifié supprimé.**
 > `CRS-001` avant commit. Un défaut latent du port navigateur du planificateur,
 > invisible jusque-là, a été révélé et corrigé — le contrôle n'a pas été touché.
 >
-> Quatorze pages sur quinze sont **déployées et vérifiées en production** par
-> un smoke test dont la ligne de sortie est citée dans ce journal. La quinzième
-> est en PR ouverte au moment de ce rapport : son déploiement n'est **pas**
-> encore prouvé et n'est donc **pas** déclaré.
+> **Les quinze pages** sont déployées et vérifiées en production par un smoke
+> test dont la ligne de sortie est citée dans ce journal. La dernière à l'avoir
+> été, le 2026-09-22 à 05:24:06 UTC :
+>
+> ```text
+> ok  lot-03  the Naming conventions page carries its levelled flashcards,
+>             the twelve method names and the set/replace distinction
+> ```
+
+### Le déploiement de la page 15, daté
+
+Ce rapport a d'abord été écrit alors que la page 15 était encore en pull
+request, et il portait deux mentions provisoires : `EN ATTENTE` dans le tableau
+des contrôles, et « quatorze pages sur quinze » dans le résumé. Les deux ont été
+corrigées **après** lecture de la ligne de sortie, pas par anticipation.
+
+| | |
+|---|---|
+| PR #182 fusionnée | `e98604a` |
+| Déploiement Pages | run `35690376739`, succès à 05:23:50 UTC |
+| Smoke test de production | succès, ligne émise à **05:24:06 UTC** |
+
+Les seize lignes `ok lot-03 …` du journal d'exécution couvrent les quinze pages
+du lot — HttpFoundation et Symfony Flex partagent un bloc, les treize autres ont
+le leur.
 
 ## Prochaine étape
 
-Fusionner la page 15, lire son smoke test de production, puis déterminer le lot
-suivant à refondre.
+Déterminer le lot suivant à refondre.
