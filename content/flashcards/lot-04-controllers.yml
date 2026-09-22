@@ -262,6 +262,7 @@ flashcards:
   - id: FLC-jygxb3n5n15y
     official_item: OIT-6cr9b8ea8g32
     language: fr
+    level: TRAP
     front: 'Symfony : les paramètres de route s''apparient-ils aux arguments du contrôleur par nom ou
       par position ?'
     back: Par nom, jamais par position.
@@ -1229,4 +1230,319 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "setContainer return type"
+        verified_at: "2026-09-22"
+
+  - id: FLC-wye0hqckweev
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: RECALL
+    front: "Que rend `getPayload()` quand le sac des paramètres de formulaire n'est pas vide ?"
+    back: "Un clone de ce sac. Le corps brut n'est même pas regardé."
+    explanation: >-
+      Le JSON n'est lu qu'en second recours, quand le sac de formulaire est
+      vide. Ce n'est pas une union des deux sources.
+    memorization_justification: >-
+      La priorité est invisible dans le nom de la méthode, et c'est elle qui
+      décide de ce qu'on lit réellement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload"
+        verified_at: "2026-09-22"
+
+  - id: FLC-aecta8devs2q
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: RECALL
+    front: "Dans quel sac atterrit un paramètre déclaré dans le chemin de la route ?"
+    back: "Dans `attributes`, d'où il est passé au contrôleur comme argument nommé."
+    explanation: >-
+      Le même sac porte les clés internes du framework, notamment `_route` et
+      `_controller`.
+    memorization_justification: >-
+      Trois sacs se ressemblent ; confondre `attributes` et `query` envoie
+      chercher la valeur au mauvais endroit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The Request Object as a Controller Argument"
+        verified_at: "2026-09-22"
+
+  - id: FLC-4m55f4fpvtnh
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: RECALL
+    front: "Quelles sont les trois méthodes d'accès de `RequestStack` à une requête ?"
+    back: "`getCurrentRequest()`, `getMainRequest()` et `getParentRequest()`."
+    explanation: >-
+      Les trois rendent `null` quand il n'y a rien à rendre ; `getParentRequest()`
+      rend `null` dès que la requête courante est la principale.
+    memorization_justification: >-
+      Trois noms voisins pour trois positions différentes dans la pile ; ils ne
+      diffèrent que pendant une sous-requête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest, getMainRequest, getParentRequest"
+        verified_at: "2026-09-22"
+
+  - id: FLC-mhpy7my37kaz
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: RECALL
+    front: "Comment un contrôleur obtient-il la requête, et qu'est-ce qui déclenche l'injection ?"
+    back: "En typant un argument avec la classe `Request`. C'est le type qui déclenche l'injection, pas le nom."
+    explanation: >-
+      Le nom de l'argument est libre. Dans un service, en revanche, la requête
+      ne s'injecte pas : on injecte `RequestStack`.
+    memorization_justification: >-
+      On suppose une convention de nommage là où il n'y a qu'un type à
+      respecter.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The Request Object as a Controller Argument"
+        verified_at: "2026-09-22"
+
+  - id: FLC-w56h8yk413dq
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la requête ne s'injecte-t-elle pas dans un service ordinaire ?"
+    back: "Un service est construit une fois pour toutes ; la requête change à chaque appel. Il reçoit donc `RequestStack`."
+    explanation: >-
+      La pile est un service stable qui donne accès à une valeur variable —
+      c'est le seul moyen de rester correct sur une sous-requête.
+    memorization_justification: >-
+      Le contrôleur donne l'habitude du type-hint, et l'habitude se transporte
+      à tort dans les services.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "Request stack that controls the lifecycle of requests"
+        verified_at: "2026-09-22"
+
+  - id: FLC-vwejcabxa7z5
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getPayload()` rend-elle un clone plutôt que le sac lui-même ?"
+    back: "Pour que le résultat soit une lecture isolée : écrire dedans ne modifie pas la requête."
+    explanation: >-
+      Dans la branche JSON, l'objet rendu est de toute façon neuf ; le clone
+      rend les deux branches cohérentes.
+    memorization_justification: >-
+      Un appel qui semble rendre le sac vivant donne l'illusion qu'on peut
+      modifier la requête par lui.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload, clone"
+        verified_at: "2026-09-22"
+
+  - id: FLC-z8y7dv3k5gqk
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `getCurrentRequest()` et `getMainRequest()` peuvent-elles différer ?"
+    back: "Pendant une sous-requête : la courante est la sous-requête, la principale reste celle entrée par le serveur."
+    explanation: >-
+      Hors sous-requête, les deux rendent le même objet, ce qui fait passer la
+      distinction inaperçue en développement.
+    memorization_justification: >-
+      L'égalité des deux dans le cas courant masque la différence jusqu'au jour
+      où un `forward()` la révèle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest, getMainRequest"
+        verified_at: "2026-09-22"
+
+  - id: FLC-5sck1baedk5d
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: APPLICATION
+    front: "Le client poste un JSON mal formé et le contrôleur appelle `getPayload()` : que se passe-t-il ?"
+    back: "Une `JsonException` est levée. Le sac vide est réservé au cas où le corps est vide."
+    explanation: >-
+      Le décodage est fait avec l'option qui transforme l'erreur en exception,
+      donc l'échec est bruyant.
+    memorization_justification: >-
+      On attend un sac vide par symétrie avec le corps vide ; la différence
+      décide du code de statut renvoyé au client.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload, JsonException"
+        verified_at: "2026-09-22"
+
+  - id: FLC-nrzrqrya0yap
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: APPLICATION
+    front: "Le corps de la requête est le JSON valide `42`, et rien d'autre. Que rend `getPayload()` ?"
+    back: "Rien : elle lève. Un JSON qui ne décode pas en tableau est refusé."
+    explanation: >-
+      Un nombre, une chaîne ou un booléen seuls sont du JSON valide, mais la
+      méthode exige un tableau pour construire son sac.
+    memorization_justification: >-
+      « JSON valide » et « acceptable par getPayload » ne sont pas la même
+      chose, et c'est un cas que l'on n'essaie jamais.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload, JSON content was expected to decode to an array"
+        verified_at: "2026-09-22"
+
+  - id: FLC-w924c4pch14q
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: APPLICATION
+    front: "On réordonne les arguments d'une méthode d'action liée à une route à deux paramètres : que se passe-t-il ?"
+    back: "Rien. L'appariement se fait sur le nom, jamais sur la position."
+    explanation: >-
+      En renommer un, en revanche, casse tout : le paramètre n'est plus trouvé
+      dans le sac `attributes`.
+    memorization_justification: >-
+      La forme d'un appel de fonction suggère un appariement positionnel, qui
+      n'a pas lieu ici.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "route wildcards matched by argument name"
+        verified_at: "2026-09-22"
+
+  - id: FLC-cqjwwbac7c60
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: APPLICATION
+    front: "Un service appelle `getSession()` sur `RequestStack` hors de toute requête : que reçoit-il ?"
+    back: "Une `SessionNotFoundException`. C'est le seul accesseur de la pile qui lève au lieu de rendre `null`."
+    explanation: >-
+      Les trois accesseurs de requête rendent `null` ; la session est
+      l'exception de la classe.
+    memorization_justification: >-
+      Une exception isolée au milieu de méthodes nullables : le contrat n'est
+      pas homogène, et on le suppose homogène.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSession, SessionNotFoundException"
+        verified_at: "2026-09-22"
+
+  - id: FLC-9k1zssrhm6zk
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: TRAP
+    front: "Piège : « `getPayload()` fusionne les données de formulaire et le corps JSON »."
+    back: "Non. Si le sac de formulaire n'est pas vide, elle le rend et ignore le corps brut."
+    explanation: >-
+      C'est un choix en cascade, pas une union : formulaire, puis corps vide,
+      puis JSON.
+    memorization_justification: >-
+      « Lit le corps quel que soit son format » est une paraphrase séduisante et
+      fausse du comportement réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload"
+        verified_at: "2026-09-22"
+
+  - id: FLC-5be6f1hbz8fg
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: TRAP
+    front: "Piège : « un corps JSON invalide donne un sac vide »."
+    back: "Non, il lève. Le sac vide correspond au cas où le corps est vide, pas au cas où il est illisible."
+    explanation: >-
+      Les deux situations se ressemblent côté appelant et se traitent
+      autrement : l'une est une absence, l'autre une erreur du client.
+    memorization_justification: >-
+      Traiter une erreur comme une absence renvoie un succès là où le client
+      attend un refus.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getPayload, empty content branch"
+        verified_at: "2026-09-22"
+
+  - id: FLC-k5rhfzcq75ys
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: TRAP
+    front: "Piège : « il suffit de typer un argument `Request` pour obtenir la requête, partout »."
+    back: "Dans un contrôleur, oui. Dans un service, non : un service est construit une fois, il reçoit `RequestStack`."
+    explanation: >-
+      La règle du contrôleur est si simple qu'on la généralise sans voir que la
+      durée de vie n'est pas la même.
+    memorization_justification: >-
+      L'erreur ne se voit pas à l'écriture : elle produit une requête figée ou
+      une injection refusée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The Request Object as a Controller Argument"
+        verified_at: "2026-09-22"
+
+  - id: FLC-tnx6vsq56721
+    official_item: OIT-6cr9b8ea8g32
+    language: fr
+    level: TRAP
+    front: "Piège : « `getCurrentRequest()` rend toujours la requête entrée par le serveur »."
+    back: "Non. Pendant une sous-requête, elle rend la sous-requête ; la requête d'entrée est rendue par `getMainRequest()`."
+    explanation: >-
+      Hors sous-requête les deux coïncident, ce qui rend le piège invisible
+      jusqu'au premier `forward()`.
+    memorization_justification: >-
+      Deux méthodes qui donnent le même résultat 99 % du temps, et un résultat
+      différent exactement dans le cas qu'on teste le moins.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCurrentRequest, getMainRequest"
         verified_at: "2026-09-22"
