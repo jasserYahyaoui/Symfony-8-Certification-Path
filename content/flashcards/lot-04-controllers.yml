@@ -207,6 +207,7 @@ flashcards:
   - id: FLC-4k8kx6a0rkg2
     official_item: OIT-qr7gnht5s847
     language: fr
+    level: RECALL
     front: 'Symfony : où se trouve l''arbre de configuration `framework:` — dans le composant HttpKernel
       ou dans FrameworkBundle ?'
     back: Dans FrameworkBundle. Le composant est autonome et ne porte aucune configuration.
@@ -289,3 +290,330 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: setCookie, removeCookie, clearCookie
       verified_at: '2026-09-11'
+
+  # Lot 04 page 1 — HttpKernel component and FrameworkBundle (OIT-qr7gnht5s847).
+  # Kernel.php, KernelInterface.php, RebootableInterface.php,
+  # TerminableInterface.php et MicroKernelTrait.php relus sur la branche 8.0 le
+  # 2026-09-22.
+  - id: FLC-x6n4fj9jjwhh
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: RECALL
+    front: "Quelles interfaces la classe abstraite `Kernel` implémente-t-elle ?"
+    back: "`KernelInterface`, `RebootableInterface` et `TerminableInterface`."
+    explanation: >-
+      Trois interfaces, mais deux d'entre elles n'apportent qu'une seule méthode :
+      `reboot()` et `terminate()`. Tout le reste vient de `KernelInterface`.
+    memorization_justification: >-
+      Liste close de trois noms, énoncée telle quelle dans la déclaration de
+      classe ; une question peut en ajouter ou en retirer une.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "abstract class Kernel implements ..."
+        verified_at: "2026-09-22"
+
+  - id: FLC-c00cp4t07pcz
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: RECALL
+    front: "Quelle interface `KernelInterface` étend-elle ?"
+    back: "`HttpKernelInterface`."
+    explanation: >-
+      C'est par cet héritage qu'un `Kernel` porte `handle()`. Chercher `handle()`
+      dans la liste des méthodes déclarées par `KernelInterface` ne le donne
+      donc pas.
+    memorization_justification: >-
+      Relation d'héritage qui explique la présence d'une méthode absente de la
+      déclaration ; elle ne se devine pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "interface KernelInterface extends HttpKernelInterface"
+        verified_at: "2026-09-22"
+
+  - id: FLC-yrdkk3y2mncr
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: RECALL
+    front: "Quel argument reçoit la méthode unique de `RebootableInterface`, et que renvoie-t-elle ?"
+    back: "`reboot(?string $warmupDir): void` — l'argument est nullable."
+    explanation: >-
+      C'est la seule méthode de l'interface. `TerminableInterface` est bâtie de
+      la même façon, avec `terminate(Request, Response): void` pour unique
+      méthode.
+    memorization_justification: >-
+      Signature exacte d'une interface à méthode unique ; l'argument nullable
+      est le détail qu'une proposition altère.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/RebootableInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/RebootableInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "reboot"
+        verified_at: "2026-09-22"
+
+  - id: FLC-tqy6vzx06wyb
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: RECALL
+    front: "Quelles deux méthodes `MicroKernelTrait` implémente-t-il à votre place ?"
+    back: "`registerBundles()` et `registerContainerConfiguration()` — les deux qu'exige `KernelInterface`."
+    explanation: >-
+      En échange, il appelle deux points d'extension que vous écrivez :
+      `configureContainer()` et `configureRoutes()`.
+    memorization_justification: >-
+      Le partage exact entre ce que le trait fournit et ce qu'il réclame ; les
+      quatre noms se confondent facilement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerBundles, registerContainerConfiguration"
+        verified_at: "2026-09-22"
+
+  - id: FLC-77v79574hbs0
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `configureContainer()` peut-elle être `private` dans votre `Kernel` ?"
+    back: "Parce que `MicroKernelTrait` l'appelle **par réflexion**, ce qui contourne la visibilité."
+    explanation: >-
+      Une méthode privée ne serait pas appelable normalement depuis le trait.
+      `ReflectionMethod::getClosure()` y accède, d'où le squelette Symfony qui
+      les déclare `private`.
+    memorization_justification: >-
+      Explique une bizarrerie visible dans tout projet Symfony et qu'on prend
+      pour une règle de PHP mal comprise.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ReflectionMethod, configureContainer, configureRoutes"
+        verified_at: "2026-09-22"
+
+  - id: FLC-e5g4j3jgmjrd
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: UNDERSTANDING
+    front: "Le composant HttpKernel fonctionne-t-il sans FrameworkBundle ?"
+    back: "Oui. L'inverse est faux : le bundle **câble** le composant, il ne le réécrit pas."
+    explanation: >-
+      Le contrat `handle()`, la classe `Kernel`, les huit événements, les
+      résolveurs et les exceptions HTTP sont dans le composant. On peut écrire
+      son propre framework avec cela seul.
+    memorization_justification: >-
+      Sens de la dépendance, qui commande toutes les questions « où se trouve
+      X ? » du sujet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Building your own Framework with the MicroKernelTrait"
+        verified_at: "2026-09-22"
+
+  - id: FLC-nnq1m6nqc4yn
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `Kernel` est-elle **abstraite** ?"
+    back: "Parce que `registerBundles()` et `registerContainerConfiguration()` restent à fournir — c'est l'application qui les écrit."
+    explanation: >-
+      `MicroKernelTrait` existe précisément pour les fournir toutes deux, ce qui
+      permet un noyau en une seule classe sans fichiers de configuration
+      séparés.
+    memorization_justification: >-
+      Relie l'abstraction de la classe au rôle du trait ; les deux notions
+      s'éclairent mutuellement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerBundles, registerContainerConfiguration"
+        verified_at: "2026-09-22"
+
+  - id: FLC-erdbww3gcdne
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: APPLICATION
+    front: "Vous cherchez l'arbre de configuration `framework:`. Composant ou bundle ?"
+    back: "**Bundle.** Un arbre de configuration suppose un conteneur de services, que le composant n'a pas."
+    explanation: >-
+      Le même critère classe les commandes `bin/console`, les écouteurs
+      enregistrés, les résolveurs tagués et les routes internes : tout cela
+      vient de FrameworkBundle.
+    memorization_justification: >-
+      Cas concret résolu par un critère réutilisable, plutôt que par une liste
+      à mémoriser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "configureContainer"
+        verified_at: "2026-09-22"
+
+  - id: FLC-nc3gmdvptymf
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: APPLICATION
+    front: "Vous voulez appeler `handle()` sur votre `Kernel`. Faut-il déclarer `HttpKernelInterface` ?"
+    back: "Non. `KernelInterface` l'étend déjà ; la méthode est là par héritage."
+    explanation: >-
+      C'est ce qui permet au composant Runtime d'appeler `handle()` sur le
+      noyau d'une application sans rien savoir de plus que le contrat HTTP.
+    memorization_justification: >-
+      Question pratique dont la réponse dépend d'une relation d'héritage qu'on
+      ne voit pas dans la déclaration de `Kernel`.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "interface KernelInterface extends HttpKernelInterface"
+        verified_at: "2026-09-22"
+
+  - id: FLC-hwr67wt5bg2r
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: APPLICATION
+    front: "Vous écrivez un framework maison sur HttpKernel seul. Que devez-vous fournir ?"
+    back: "Au minimum `registerBundles()` et `registerContainerConfiguration()` — `Kernel` est abstraite."
+    explanation: >-
+      Sans FrameworkBundle, il n'y a ni `MicroKernelTrait` pour les écrire à
+      votre place, ni écouteurs enregistrés, ni arbre `framework:`.
+    memorization_justification: >-
+      Transpose le partage composant / bundle en obligations concrètes, forme
+      sous laquelle la question se pose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerBundles, registerContainerConfiguration"
+        verified_at: "2026-09-22"
+
+  - id: FLC-aa4s849y5svd
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: APPLICATION
+    front: "`RouterListener` et `ErrorListener` : qui les enregistre ?"
+    back: "**FrameworkBundle.** Les classes viennent du composant, leur enregistrement vient du bundle."
+    explanation: >-
+      C'est la nuance du câblage : le composant fournit le code, le bundle le
+      branche sur le dispatcher avec ses priorités.
+    memorization_justification: >-
+      Distingue l'existence d'une classe de son enregistrement, deux choses que
+      la question « d'où vient X ? » confond.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Building your own Framework with the MicroKernelTrait"
+        verified_at: "2026-09-22"
+
+  - id: FLC-nwhnsg35rszb
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: TRAP
+    front: "`AbstractController` appartient-elle au composant HttpKernel ?"
+    back: "Non, au **bundle** : `src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php`."
+    explanation: >-
+      Le chemin équivalent sous `src/Symfony/Component/HttpKernel/` n'existe
+      pas. La classe suppose un conteneur, donc un bundle.
+    memorization_justification: >-
+      Classe omniprésente dans le code applicatif, qu'on rattache spontanément
+      au composant du même domaine.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "chemin du fichier"
+        verified_at: "2026-09-22"
+
+  - id: FLC-976vn3yppbxc
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: TRAP
+    front: "`MicroKernelTrait` vient-il du composant HttpKernel ?"
+    back: "Non, du **bundle** : `src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php`."
+    explanation: >-
+      C'est la frontière la plus utile du sujet : `Kernel` est au composant, le
+      trait au bundle. Le noyau d'une application étend la première et utilise
+      le second.
+    memorization_justification: >-
+      Deux classes voisines dans le code d'une application, de provenances
+      différentes ; la question porte exactement là-dessus.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "chemin du fichier"
+        verified_at: "2026-09-22"
+
+  - id: FLC-8ykjqy6rg7j9
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: TRAP
+    front: "Combien de méthodes `TerminableInterface` déclare-t-elle ?"
+    back: "**Une seule** : `terminate(Request, Response): void`."
+    explanation: >-
+      `RebootableInterface` est construite pareillement, avec `reboot()` pour
+      unique méthode. Le nombre d'interfaces implémentées ne dit rien du nombre
+      de méthodes apportées.
+    memorization_justification: >-
+      Trois interfaces suggèrent un apport équilibré ; deux d'entre elles
+      n'apportent qu'une méthode.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/TerminableInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/TerminableInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "terminate"
+        verified_at: "2026-09-22"
+
+  - id: FLC-j9ay345szwmw
+    official_item: OIT-qr7gnht5s847
+    language: fr
+    level: TRAP
+    front: "FrameworkBundle réécrit-il le comportement du composant HttpKernel ?"
+    back: "Non. Il **câble** : il enregistre des services, des écouteurs, une configuration et des commandes."
+    explanation: >-
+      Le cycle de la requête reste celui du composant. Croire à une
+      réimplémentation fait chercher dans le bundle du code qui n'y est pas.
+    memorization_justification: >-
+      Le mot « bundle » évoque une surcouche fonctionnelle ; ici il ne s'agit
+      que d'installation dans le conteneur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/micro_kernel_trait.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Building your own Framework with the MicroKernelTrait"
+        verified_at: "2026-09-22"

@@ -21,6 +21,18 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php"
+    symbol_or_lines: "interface KernelInterface extends HttpKernelInterface"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-22"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php"
+    symbol_or_lines: "registerBundles, registerContainerConfiguration, configureContainer, configureRoutes"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-22"
 ---
 
 ## Objectif
@@ -45,6 +57,25 @@ HttpKernel est autonome. Il contient :
 Avec cela seul, on peut écrire son propre framework : c'est le sens de la
 phrase « le composant est le cœur de n'importe quelle application ».
 
+## Trois interfaces, et ce que chacune apporte
+
+`Kernel` est déclarée ainsi :
+
+```php
+abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface
+```
+
+Le détail qui structure tout : **`KernelInterface` étend `HttpKernelInterface`**.
+Un `Kernel` **est** donc un `HttpKernelInterface` — il porte `handle()` sans
+qu'on ait à le déclarer. Les deux autres interfaces n'apportent **qu'une méthode
+chacune** :
+
+| Interface | Ce qu'elle ajoute |
+|---|---|
+| `KernelInterface` | seize méthodes — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accesseurs de répertoires… **et `handle()` par héritage** |
+| `RebootableInterface` | `reboot(?string $warmupDir): void` |
+| `TerminableInterface` | `terminate(Request, Response): void` |
+
 ## Ce que FrameworkBundle ajoute
 
 FrameworkBundle est le **câblage**. Il ne réécrit rien du composant ; il
@@ -65,6 +96,17 @@ La frontière la plus utile à retenir passe entre deux classes voisines :
 au **bundle**. Le `Kernel` d'une application Symfony étend la première et
 utilise le second.
 
+### Ce que `MicroKernelTrait` fait réellement
+
+Il **implémente** `registerBundles()` et `registerContainerConfiguration()` à
+votre place — les deux méthodes que `KernelInterface` exige. En échange, il
+appelle deux points d'extension : `configureContainer()` et `configureRoutes()`.
+
+Il les appelle **par réflexion**, et c'est ce qui explique une bizarrerie du
+squelette Symfony : ces deux méthodes peuvent être déclarées `private` dans
+votre `Kernel`. Une méthode privée ne serait pas appelable normalement ; la
+réflexion, elle, y accède.
+
 ## Pièges d'examen
 
 **Le composant fonctionne sans le bundle.** HttpKernel est autonome : le contrat
@@ -77,7 +119,23 @@ résolveurs tagués comme services, arbre de configuration `framework:`, command
 composant, c'est ne pas le trouver.
 
 **`AbstractController` vient du bundle**, pas du composant — c'est le même
-partage.
+partage. Le chemin le prouve :
+`src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php` existe,
+le chemin équivalent sous `src/Symfony/Component/HttpKernel/` **n'existe pas**.
+
+**`Kernel` porte `handle()` sans l'avoir déclaré.** `KernelInterface` étend
+`HttpKernelInterface` ; chercher `handle()` dans la liste des méthodes de
+`KernelInterface` ne le donne pas.
+
+## Tips d'examen
+
+**Deux questions pour trancher composant / bundle.** Cela fonctionne-t-il sans
+conteneur de services ? → composant. Cela apparaît-il dans
+`config/packages/framework.yaml` ou dans `bin/console` ? → bundle.
+
+**Trois interfaces, une méthode chacune sauf la première.** `reboot()` et
+`terminate()` sont à elles seules `RebootableInterface` et
+`TerminableInterface`.
 
 ## Points clés
 
@@ -87,8 +145,16 @@ partage.
 - `AbstractController`, `MicroKernelTrait` et l'arbre `framework:` viennent du
   bundle, pas du composant.
 - Sans FrameworkBundle, HttpKernel fonctionne toujours — l'inverse est faux.
+- `KernelInterface` **étend** `HttpKernelInterface` : un `Kernel` porte
+  `handle()` par héritage.
+- `MicroKernelTrait` implémente `registerBundles()` et
+  `registerContainerConfiguration()`, et appelle `configureContainer()` /
+  `configureRoutes()` **par réflexion** — d'où leur visibilité `private`
+  possible.
 
 ## Sources officielles
 
 - [Kernel, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
 - [Building your own Framework with the MicroKernelTrait](https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst)
+- [`KernelInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php)
+- [`MicroKernelTrait` (FrameworkBundle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php)
