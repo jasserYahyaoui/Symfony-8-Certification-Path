@@ -1113,6 +1113,53 @@ jobs:
             fail=1
           else
             echo "ok  lot-04  the cookies page carries its levelled flashcards, the removeCookie/clearCookie opposition and the three-level index"
+          # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
+          # from docs/whats-new/, deliberately NOT registered as matrix items,
+          # so neither the coverage report nor the readiness dashboard would
+          # notice if the whole section stopped being generated. These needles
+          # are the only thing that would.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/new-intro -w '%{http_code}' "$BASE_URL/docs/whats-new/ce-que-8-0-apporte")
+          if [ "$code" != "200" ]; then
+            echo "::error::Whats-new chapter opening page serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/new-intro || missing="$missing whatsnew:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/new-intro || missing="$missing whatsnew:no-understanding-heading"
+          grep -aq '>Application<' /tmp/new-intro || missing="$missing whatsnew:no-application-heading"
+          grep -aq '>Pièges<' /tmp/new-intro || missing="$missing whatsnew:no-trap-heading"
+          grep -aq 'PHP 8.4' /tmp/new-intro || missing="$missing whatsnew:no-php-floor"
+          grep -aq 'same features' /tmp/new-intro || missing="$missing whatsnew:no-release-quote"
+          if [ -n "$missing" ]; then
+            echo "::error::Whats-new chapter incomplete:$missing"
+            fail=1
+          fi
+
+          # One page per component, fetched for real: a chapter silently shrunk
+          # to its first page would pass everything above.
+          newpages=0
+          for page in ce-que-8-0-apporte httpfoundation httpkernel console \
+                      routing dependency-injection security \
+                      serializer-validator-form; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o /tmp/new-page -w '%{http_code}' "$BASE_URL/docs/whats-new/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Whats-new page $page serves $code"
+              fail=1
+              continue
+            fi
+            if ! grep -aq 'Flashcards' /tmp/new-page; then
+              echo "::error::Whats-new page $page carries no flashcards"
+              fail=1
+            fi
+            newpages=$((newpages + 1))
+          done
+          if [ "$newpages" -ne 8 ]; then
+            echo "::error::Whats-new chapter served $newpages pages, expected 8"
+            fail=1
+          else
+            echo "ok  whats-new  8 pages served, each carrying its flashcards"
           fi
 
           # Holdout isolation, proved against the deployed bytes (§7.3,

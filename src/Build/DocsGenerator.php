@@ -175,6 +175,10 @@ final readonly class DocsGenerator
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
         }
 
+        foreach ($this->whatsNewPages() as $path => $markdown) {
+            $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
+        }
+
         // The agenda grid reads the plan as events, not as prose. The payload
         // is a projection of docs/revision/plan.json, which stays the single
         // source of truth: no time is computed here that the generator did not
@@ -207,6 +211,7 @@ final readonly class DocsGenerator
     private const string CATEGORY_COURSES = '{"label":"Parcours de r\u00e9vision","position":2}';
     private const string CATEGORY_SYLLABUS = '{"label":"Syllabus officiel","position":3}';
     private const string CATEGORY_REVISION = '{"label":"Plan de r\u00e9vision","position":1}';
+    private const string CATEGORY_WHATS_NEW = '{"label":"Nouveaut\u00e9s de Symfony 8.0","position":4}';
 
     /**
      * The candidate roadmap, published rather than left in the repository.
@@ -317,6 +322,81 @@ final readonly class DocsGenerator
 
 
         MD;
+
+    /**
+     * The "Nouveautés de Symfony 8.0" chapter.
+     *
+     * Enrichment, not syllabus: it answers a question the official scope does
+     * not pose — *which version am I on, and what disappeared?* — and it is
+     * deliberately kept OUT of the matrix. Three consequences follow, and all
+     * three are the point:
+     *
+     *  - the coverage denominator is untouched (§3.5). 163 official items stay
+     *    163, because nothing was added to count;
+     *  - Certification Readiness is untouched, for the same reason;
+     *  - `wording.lock.yml` stays what it claims to be — the fingerprint of the
+     *    *verbatim official syllabus*. Registering this chapter as matrix items
+     *    would have required either putting project-written labels into that
+     *    lock, or narrowing SYL-002 to official items. The first corrupts the
+     *    artefact that guarantees the syllabus is verbatim; the second weakens
+     *    a mandatory rule to get a green build (§12). Neither is acceptable, so
+     *    the chapter is projected like `docs/revision/` instead: canonical
+     *    Markdown under `docs/whats-new/`, published beside the revision path
+     *    rather than inside it.
+     *
+     * The trade-off is stated rather than hidden: these flashcards are rendered
+     * in the page and do NOT reach Practice Mode. That costs nothing that was
+     * available anyway — §1.2 forbids scoring enrichment, so a card here could
+     * never have counted towards evidence.
+     *
+     * @return array<string, string>
+     */
+    private function whatsNewPages(): array
+    {
+        $dir = $this->project->path('docs/whats-new');
+
+        if (!is_dir($dir)) {
+            return [];
+        }
+
+        $files = glob($dir.'/*.md') ?: [];
+        sort($files);
+
+        if ([] === $files) {
+            return [];
+        }
+
+        $pages = ['whats-new/_category_.json' => self::CATEGORY_WHATS_NEW];
+
+        foreach ($files as $file) {
+            $slug = basename($file, '.md');
+
+            // "01-what-8-0-is.md" carries its own order: the number drives the
+            // sidebar and is stripped from the URL, so renumbering a chapter
+            // never rewrites a published link.
+            $position = 99;
+            if (preg_match('/^(\d+)-(.*)$/', $slug, $m)) {
+                $position = (int) $m[1];
+                $slug = $m[2];
+            }
+
+            $body = (string) file_get_contents($file);
+            $title = 'Nouveautés';
+            if (preg_match('/^#\s+(.+)$/m', $body, $m)) {
+                $title = trim($m[1]);
+            }
+
+            $front = \sprintf(
+                "---\ntitle: \"%s\"\nsidebar_position: %d\n---\n\n",
+                str_replace('"', '\\"', $title),
+                $position,
+            );
+
+            $pages['whats-new/'.$slug.'.md'] = $front.$this->mdxSafe($body);
+        }
+
+        return $pages;
+    }
 
     private function revisionPages(): array
     {
