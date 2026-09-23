@@ -49,6 +49,46 @@ jobs:
       - name: Lint YAML
         run: vendor/bin/yaml-lint docs/syllabus content --parse-tags
 
+      # A workflow whose YAML parses can still carry a `run:` script that the
+      # shell refuses. That is not hypothetical: on 2026-09-23 a merge conflict
+      # resolution in pages.yml swallowed the `fi` closing an `if`, the YAML
+      # stayed valid, CI stayed green, the site deployed — and the production
+      # smoke test died with `syntax error: unexpected end of file` without
+      # checking a single page. The deployment was live and unverified, which is
+      # the one state this project refuses to be in.
+      #
+      # `bash -n` parses without executing, so this costs milliseconds and
+      # catches the whole class before merge rather than after deploy.
+      - name: Workflow shell scripts parse
+        run: |
+          set -o pipefail
+          python3 - <<'PY'
+          import glob, io, os, yaml
+
+          os.makedirs('/tmp/wf', exist_ok=True)
+          n = 0
+          for path in sorted(glob.glob('.github/workflows/*.yml')):
+              doc = yaml.safe_load(io.open(path, encoding='utf-8'))
+              for job_name, job in (doc.get('jobs') or {}).items():
+                  for i, step in enumerate(job.get('steps') or []):
+                      if 'run' not in step:
+                          continue
+                      safe = '%s_%s_%d' % (os.path.basename(path), job_name, i)
+                      safe = ''.join(c if c.isalnum() else '_' for c in safe)
+                      io.open('/tmp/wf/%s.sh' % safe, 'w', encoding='utf-8').write(step['run'])
+                      n += 1
+          print('extracted %d run steps' % n)
+          PY
+          fail=0
+          for f in /tmp/wf/*.sh; do
+            if ! bash -n "$f" 2>/tmp/wf-err; then
+              echo "::error::Workflow shell script does not parse: $f"
+              cat /tmp/wf-err
+              fail=1
+            fi
+          done
+          exit $fail
+
       # Master Plan §12. CI fails on mandatory-rule violations, and §12 also
       # states: "Never weaken tests merely to obtain a green build."
       - name: Content rules
