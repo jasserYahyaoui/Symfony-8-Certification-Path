@@ -1115,6 +1115,35 @@ jobs:
             echo "ok  lot-04  the cookies page carries its levelled flashcards, the removeCookie/clearCookie opposition and the three-level index"
           fi
 
+          # Page 7 of lot 04. `fixation` was rejected as a needle: it already
+          # appears in master's version of this page. The four kept needles are
+          # what this refinement added: the shared attribute-bag access that
+          # proves testing starts the session, the method count, and the
+          # destroy argument that migrate() leaves false.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-session -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-session")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-session serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-session || missing="$missing l4session:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-session || missing="$missing l4session:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-session || missing="$missing l4session:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-session || missing="$missing l4session:no-trap-heading"
+          grep -aq 'getAttributeBag' /tmp/l4r-session \
+            || missing="$missing l4session:no-shared-bag-access"
+          grep -aq 'sept méthodes' /tmp/l4r-session \
+            || missing="$missing l4session:no-method-count"
+          grep -aq 'destroy' /tmp/l4r-session \
+            || missing="$missing l4session:no-destroy-argument"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the session page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the session page carries its levelled flashcards, the shared bag access and the destroy default"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

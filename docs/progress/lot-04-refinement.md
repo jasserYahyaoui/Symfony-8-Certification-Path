@@ -37,7 +37,7 @@ Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
 | 4 | The request | MINIMAL | 684 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
 | 5 | The response | STANDARD | 812 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
 | 6 | The cookies | MINIMAL | 694 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
-| 7 | The session | STANDARD | 385 / 900 | 2 | à faire |
+| 7 | The session | STANDARD | 733 / 900 | 16 | **RAFFINÉE** (2026-09-23) |
 | 8 | The flash messages | MINIMAL | 317 / 700 | 1 | à faire |
 | 9 | HTTP redirects | MINIMAL | 344 / 700 | 1 | à faire |
 | 10 | Internal redirects | STANDARD | 395 / 900 | 1 | à faire |
@@ -663,7 +663,137 @@ vert.
 
 Le déploiement de la page 6 sera consigné après lecture du smoke test.
 
+### Le déploiement de la page 6, daté
+
+| Fait | Valeur |
+|---|---|
+| PR | #189, fusionnée en `d9c22d6` |
+| Déploiement Pages | run 35830141311, job *Deploy* **succès** à 07:09:51 UTC |
+| Smoke test de production | **succès**, ligne émise à 07:10:04 UTC |
+
+```text
+ok  lot-04  the cookies page carries its levelled flashcards,
+            the removeCookie/clearCookie opposition and the three-level index
+```
+
+### Le chapitre « Nouveautés de Symfony 8.0 », déployé et vérifié
+
+Consigné ici parce que le chapitre a coûté deux tentatives de déploiement et un
+défaut de ma part.
+
+| Fait | Valeur |
+|---|---|
+| PR | #190, fusionnée en `1336e097` |
+| PR corrective | #191, fusionnée en `0834875` |
+| Déploiement Pages | run 35830141311, job *Deploy* **succès** à 07:09:51 UTC |
+| Smoke test de production | **succès**, ligne émise à 07:10:05 UTC |
+
+```text
+ok  whats-new  8 pages served, each carrying its flashcards
+```
+
+**Ce que le premier déploiement a révélé.** Le run précédent (35828155687) avait
+déployé le site correctement, puis son smoke test était mort sur :
+
+```text
+line 1137: syntax error: unexpected end of file
+```
+
+En résolvant le conflit de `pages.yml` entre la page 6 et le chapitre, j'avais
+gardé les deux blocs mais **avalé le `fi`** qui fermait le `if` du bloc cookies.
+Le YAML restait valide — donc ma vérification locale passait, et la CI aussi,
+car rien n'y regardait la syntaxe *shell* des workflows. Résultat : un
+déploiement **en ligne et non vérifié**, le seul état que ce projet refuse.
+
+La correction a restauré le `fi` et ajouté une étape de CI, *Workflow shell
+scripts parse*, qui extrait chaque bloc `run:` des workflows et le passe à
+`bash -n`. Elle a été **prouvée** avant d'être publiée : silencieuse sur le
+fichier corrigé, `exit 1` sur le fichier avec le `fi` retiré à nouveau,
+silencieuse après restauration.
+
+## Page 7 — The session, 2026-09-23
+
+**Fait**
+
+- 14 flashcards ajoutées ; les deux cartes préexistantes `FLC-5j16211q845x` et
+  `FLC-zm3kmyhm6szz` ont reçu le niveau `UNDERSTANDING`. L'item en porte **16**.
+- Corps : 385 → **733 mots** sur 900.
+- Source ajoutée : `Session.php`, branche `8.0`.
+
+**La page était plus juste que la documentation, mais ne le prouvait pas**
+
+La page affirmait que **lire, écrire ou tester** démarre la session. La
+documentation officielle est plus étroite : *« Sessions are only started if you
+read from or write to them »* — elle ne mentionne pas le test.
+
+La page avait raison, et c'est le code qui le montre. Dans `Session`, **sept
+méthodes** ont le même corps à la méthode appelée près :
+
+```php
+public function has(string $name): bool
+{
+    return $this->getAttributeBag()->has($name);
+}
+```
+
+`has()`, `get()`, `set()`, `all()`, `replace()`, `remove()` et `clear()` passent
+toutes par `getAttributeBag()`. Il n'existe donc aucune consultation neutre.
+
+Le cas mérite d'être noté pour lui-même : **une source officielle incomplète est
+plus dangereuse qu'une source absente**, parce qu'elle inspire confiance. Une
+affirmation correcte mais non étayée aurait été indistinguable d'une erreur au
+moment de la relire.
+
+**`invalidate()` n'est pas l'opposé de `migrate()` — elle l'appelle**
+
+La page opposait les deux méthodes dans un tableau à deux lignes. Le code montre
+une relation, pas une symétrie :
+
+```php
+public function invalidate(?int $lifetime = null): bool
+{
+    $this->storage->clear();
+
+    return $this->migrate(true, $lifetime);
+}
+
+public function migrate(bool $destroy = false, ?int $lifetime = null): bool
+```
+
+Trois faits que le tableau écrasait.
+
+**`invalidate()` fait deux gestes.** Elle vide le stockage, *puis* régénère.
+C'est le vidage qui supprime les données — pas la régénération. Une question qui
+demanderait « quelle opération efface les données ? » se tranche là.
+
+**`$destroy` vaut `false` par défaut.** Un `migrate()` nu change l'identifiant
+mais **laisse l'ancienne session sur le serveur**. On croit avoir nettoyé alors
+qu'une session exploitable subsiste. `invalidate()` passe `true`.
+
+**Les deux rendent un booléen** et acceptent une durée de vie ; la signature
+n'est pas `void`, ce que la page ne disait pas.
+
+**Contrôles réellement exécutés le 2026-09-23**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant**, du premier coup |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)`, aucun écart |
+| `python3 tools/audit/aud04_content_volume.py` | `FINDINGS: 0`, du premier coup |
+| `build_roadmap.py` puis `render_calendar.py` | les **deux** régénérés |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `composer gate-full` | **exit 0** — 299 tests, 16 408 assertions ; `TOTAL VIOLATIONS: 0` |
+| `bash -n` sur les blocs `run:` de `pages.yml` | tous parsent — la garde ajoutée par #191, utilisée ici pour la première fois |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `prove_framework_rules_fail.py` | `PROOF OK` |
+| `prove_flashcard_coverage_fails.py` | `PROOF OK` |
+| `aud10_answer_length_bias.py --prove` | **exit 0** |
+| `lot27_practice_audit.py --prove` | **exit 0** |
+| Aiguilles de smoke test | 7 ; `fixation` **écartée** (présente dans la version `master` de cette page) |
+
+Le déploiement de la page 7 sera consigné après lecture du smoke test.
+
 ## Prochaine étape
 
-Page 7 — *The session* (`CRS-a51fqgqynr2d`, `OIT-e41m74xaqhy7`, STANDARD,
-385 / 900, 2 cartes).
+Page 8 — *The flash messages* (`CRS-ak7sdgcdjb7e`, `OIT-65bev6t7wbna`, MINIMAL,
+317 / 700, 1 carte).
