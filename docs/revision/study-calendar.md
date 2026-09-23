@@ -199,7 +199,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 15 octobre 2026
 
 - NOUVEAU · **Controllers : The response** (STANDARD) — 28 min · 812 mots · 5 questions, 16 flashcards
-- NOUVEAU · **Controllers : The cookies** (MINIMAL) — 8 min · 339 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Controllers : The cookies** (MINIMAL) — 22 min · 694 mots · 2 questions, 16 flashcards
 - NOUVEAU · **Controllers : The session** (STANDARD) — 12 min · 385 mots · 4 questions, 2 flashcards
 - NOUVEAU · **Controllers : The flash messages** (MINIMAL) — 8 min · 317 mots · 3 questions, 1 flashcards
 - Révision **J+1** (20 min) — Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request
@@ -207,7 +207,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 - Révision **J+14** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 116 / 140 min*
+*Budget du jour : 130 / 140 min*
 
 ### Vendredi 16 octobre 2026
 
