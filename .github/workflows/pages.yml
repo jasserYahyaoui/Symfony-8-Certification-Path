@@ -1113,6 +1113,8 @@ jobs:
             fail=1
           else
             echo "ok  lot-04  the cookies page carries its levelled flashcards, the removeCookie/clearCookie opposition and the three-level index"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
