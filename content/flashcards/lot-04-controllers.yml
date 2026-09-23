@@ -32,6 +32,7 @@ flashcards:
   - id: FLC-5j16211q845x
     official_item: OIT-e41m74xaqhy7
     language: fr
+    level: UNDERSTANDING
     front: "Symfony : quand la session démarre-t-elle réellement ?"
     back: "Quand on lit, écrit ou teste une valeur — pas quand la configuration l'active."
     explanation: >-
@@ -51,6 +52,7 @@ flashcards:
   - id: FLC-zm3kmyhm6szz
     official_item: OIT-e41m74xaqhy7
     language: fr
+    level: UNDERSTANDING
     front: "Session : différence entre migrate() et invalidate() ?"
     back: "migrate() régénère l'identifiant en conservant les données ; invalidate() régénère et supprime tout."
     explanation: >-
@@ -2177,4 +2179,295 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getCookies format validation"
+        verified_at: "2026-09-22"
+
+  - id: FLC-f5csbpd2a0v6
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: RECALL
+    front: "Combien de méthodes de `Session` passent par le même accès au sac d'attributs ?"
+    back: "Sept : `has()`, `get()`, `set()`, `all()`, `replace()`, `remove()` et `clear()`."
+    explanation: >-
+      Toutes ont le même corps à la méthode appelée près, ce qui fait qu aucune
+      d entre elles n est une consultation neutre.
+    memorization_justification: >-
+      Le nombre exact montre que le démarrage paresseux ne distingue pas lecture
+      et test, ce que la documentation laisse croire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "has, get, set, all, replace, remove, clear"
+        verified_at: "2026-09-22"
+
+  - id: FLC-7t8mkktjbjqe
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: RECALL
+    front: "Que fait `invalidate()` avant de régénérer l'identifiant de session ?"
+    back: "Elle vide le stockage. C'est ce vidage qui supprime les données, pas la régénération."
+    explanation: >-
+      Son corps enchaîne un vidage du stockage puis un appel à la méthode de
+      régénération avec destruction demandée.
+    memorization_justification: >-
+      Attribuer la suppression à la régénération fait croire qu une
+      régénération seule efface aussi, ce qui est faux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "invalidate"
+        verified_at: "2026-09-22"
+
+  - id: FLC-p4vmct90gf2c
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: RECALL
+    front: "Quelle est la valeur par défaut de l'argument de destruction de `migrate()` ?"
+    back: "`false` — l'ancienne session reste sur le serveur."
+    explanation: >-
+      `invalidate()` passe explicitement `true`, ce qui est la seule différence
+      de destruction entre les deux appels.
+    memorization_justification: >-
+      Une valeur par défaut qui laisse des données derrière soi, dans une
+      méthode qu on appelle justement pour la sécurité.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "migrate signature"
+        verified_at: "2026-09-22"
+
+  - id: FLC-b0sv16vjadcn
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: RECALL
+    front: "Quels sont les trois chemins d'accès à la session depuis un contrôleur ou un service ?"
+    back: "La requête en main, un argument typé avec l'interface de session, ou la pile de requêtes dans un service."
+    explanation: >-
+      Le deuxième fonctionne grâce à un résolveur de valeur d argument dédié à
+      la session.
+    memorization_justification: >-
+      Trois chemins pour un même objet, et le bon dépend du contexte : un
+      service ne peut pas utiliser les deux premiers.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "getSession from request and from RequestStack"
+        verified_at: "2026-09-22"
+
+  - id: FLC-zjzk1wr4p0tc
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `has()` démarre-t-elle la session alors qu'elle ne fait que vérifier ?"
+    back: "Parce qu'elle passe par le sac d'attributs, exactement comme `get()`. Il n'existe pas d'accès en lecture seule qui éviterait le démarrage."
+    explanation: >-
+      Pour savoir si une clé existe, il faut avoir chargé les données ; le
+      démarrage est la condition du chargement.
+    memorization_justification: >-
+      « Vérifier » semble moins engageant que « lire », alors que
+      techniquement c est la même opération.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "has calls getAttributeBag"
+        verified_at: "2026-09-22"
+
+  - id: FLC-24afz5hynrda
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le démarrage paresseux de la session rend-il une page cachable ?"
+    back: "Parce qu'une page qui ne touche jamais à la session n'émet aucun cookie de session, donc rien n'identifie l'utilisateur dans la réponse."
+    explanation: >-
+      Activer la session dans la configuration ne coûte donc rien tant que
+      personne ne s en sert.
+    memorization_justification: >-
+      Le lien entre un cookie et la cachabilité par un proxy partagé est la
+      raison d être du mécanisme, pas un effet secondaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Sessions are only started if you read from or write to them"
+        verified_at: "2026-09-22"
+
+  - id: FLC-r4904kbkvtje
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi régénère-t-on l'identifiant de session après une authentification réussie ?"
+    back: "Contre la fixation de session : un identifiant obtenu par l'attaquant avant la connexion ne vaut plus rien après."
+    explanation: >-
+      On régénère sans détruire les données, pour conserver ce que
+      l utilisateur avait déjà en session.
+    memorization_justification: >-
+      C est la seule raison pour laquelle on régénère sans vouloir déconnecter,
+      et elle décide du choix de la méthode.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "migrate"
+        verified_at: "2026-09-22"
+
+  - id: FLC-7r316smhg8bj
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: APPLICATION
+    front: "Une page appelle uniquement `$session->has('panier')` et rien d'autre. Émet-elle un cookie de session ?"
+    back: "Oui. La vérification passe par le sac d'attributs et démarre la session."
+    explanation: >-
+      La page cesse donc d être cachable par un proxy partagé, sans qu aucune
+      donnée n ait été lue ni écrite.
+    memorization_justification: >-
+      Le cas paraît anodin et change le comportement de cache de toute la page.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "has"
+        verified_at: "2026-09-22"
+
+  - id: FLC-x72hqt7n8k2z
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: APPLICATION
+    front: "Après connexion, on appelle la régénération sans argument. Qu'advient-il de l'ancienne session côté serveur ?"
+    back: "Elle reste. L'argument de destruction vaut `false` par défaut."
+    explanation: >-
+      Pour la détruire, il faut passer `true` — ce que fait `invalidate()`.
+    memorization_justification: >-
+      On croit avoir nettoyé alors qu une session exploitable subsiste sur le
+      serveur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "migrate default destroy false"
+        verified_at: "2026-09-22"
+
+  - id: FLC-v7k5g0372q5g
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: APPLICATION
+    front: "Un service a besoin de la session. Que lui injecte-t-on ?"
+    back: "La pile de requêtes, et on lui demande la session. La session elle-même ne s'injecte pas dans un service."
+    explanation: >-
+      Un service est construit une fois pour toutes ; la session dépend de la
+      requête en cours.
+    memorization_justification: >-
+      L habitude du contrôleur, où un argument typé suffit, se transporte à
+      tort dans les services.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "RequestStack getSession in a service"
+        verified_at: "2026-09-22"
+
+  - id: FLC-8gka5qz9zb2j
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: APPLICATION
+    front: "On veut déconnecter un utilisateur en effaçant tout. Quelle méthode, et que fait-elle exactement ?"
+    back: "`invalidate()` : elle vide le stockage, puis régénère l'identifiant en demandant la destruction de l'ancienne session."
+    explanation: >-
+      Ce sont deux gestes en un appel, et c est le premier qui supprime les
+      données.
+    memorization_justification: >-
+      Connaître les deux gestes permet de répondre à une question qui
+      demanderait quel appel intervient en premier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "invalidate body"
+        verified_at: "2026-09-22"
+
+  - id: FLC-2cxgf6616spx
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: TRAP
+    front: "Piège : « la documentation dit que seule la lecture ou l'écriture démarre la session, donc tester ne la démarre pas »."
+    back: "Le texte est plus étroit que le code : le test passe par le même sac et démarre la session."
+    explanation: >-
+      Sur ce point précis, se fier au texte seul donne une réponse fausse ; le
+      corps des méthodes tranche.
+    memorization_justification: >-
+      Une source officielle incomplète est plus dangereuse qu une source
+      absente, parce qu elle inspire confiance.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "has, get, set share getAttributeBag"
+        verified_at: "2026-09-22"
+
+  - id: FLC-0rwae3a5ecak
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: TRAP
+    front: "Piège : « régénérer l'identifiant de session efface les données »."
+    back: "Non. La régénération seule les conserve ; c'est le vidage du stockage, fait par `invalidate()`, qui les efface."
+    explanation: >-
+      Les deux opérations sont distinctes et `invalidate()` les enchaîne dans
+      cet ordre.
+    memorization_justification: >-
+      Confondre les deux fait choisir la méthode qui déconnecte alors qu on
+      voulait seulement sécuriser l identifiant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "invalidate, migrate"
+        verified_at: "2026-09-22"
+
+  - id: FLC-0c57w1xzyetd
+    official_item: OIT-e41m74xaqhy7
+    language: fr
+    level: TRAP
+    front: "Piège : « activer la session dans la configuration suffit à la démarrer »."
+    back: "Non. Le démarrage est paresseux : sans accès au sac d'attributs, aucune session n'est démarrée et aucun cookie n'est émis."
+    explanation: >-
+      L activation rend la session disponible ; c est l usage qui la démarre.
+    memorization_justification: >-
+      « Activé » se lit comme « en marche », alors que les deux états sont
+      distincts.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Sessions are only started if you read from or write to them"
         verified_at: "2026-09-22"
