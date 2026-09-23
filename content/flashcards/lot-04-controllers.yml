@@ -281,6 +281,7 @@ flashcards:
   - id: FLC-b5k068qvbh5t
     official_item: OIT-pfrzrr0qcmh3
     language: fr
+    level: UNDERSTANDING
     front: 'Symfony : que produit la pose d''un cookie sur l''objet `Request` ?'
     back: Rien n'est envoyé. Un cookie se lit sur la requête et s'écrit sur la réponse.
     explanation: La requête est ce que le client a déjà envoyé ; la modifier n'a aucun effet sortant.
@@ -1861,4 +1862,319 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "render and renderBlock both call doRender"
+        verified_at: "2026-09-22"
+
+  - id: FLC-v50wq44xpa53
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: RECALL
+    front: "Que fait `removeCookie()` sur un `ResponseHeaderBag` ?"
+    back: "Elle retire le cookie du sac. Le commentaire du code précise : « ne le supprime pas dans le navigateur »."
+    explanation: >-
+      Le cookie n'est simplement jamais envoyé : aucun en-tête n'est produit
+      pour lui.
+    memorization_justification: >-
+      Le verbe « remove » évoque une suppression chez le client, qui est
+      exactement ce qu'elle ne fait pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie docblock"
+        verified_at: "2026-09-22"
+
+  - id: FLC-v6rqpetjt7k1
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: RECALL
+    front: "Par quel mécanisme `clearCookie()` supprime-t-elle un cookie chez le client ?"
+    back: "Elle appelle `setCookie()` avec un cookie de valeur nulle et une date d'expiration dans le passé."
+    explanation: >-
+      C'est donc une écriture : un en-tête part bien, et son seul rôle est de
+      faire oublier le précédent.
+    memorization_justification: >-
+      On suppose un effacement local alors que c'est une instruction envoyée au
+      navigateur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clearCookie calls setCookie"
+        verified_at: "2026-09-22"
+
+  - id: FLC-1vjnqkpprmhn
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: RECALL
+    front: "Sur combien de niveaux `setCookie()` indexe-t-elle les cookies, et lesquels ?"
+    back: "Trois : domaine, puis chemin, puis nom."
+    explanation: >-
+      Deux cookies de même nom sur des chemins différents coexistent donc sans
+      s'écraser.
+    memorization_justification: >-
+      On imagine une simple table nom vers cookie ; l'indexation réelle explique
+      les arguments des autres méthodes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setCookie indexing"
+        verified_at: "2026-09-22"
+
+  - id: FLC-6zn6gds8dcq1
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: RECALL
+    front: "Quel chemin `removeCookie()` vise-t-elle si on ne lui en donne pas ?"
+    back: "La racine, `/`."
+    explanation: >-
+      Sans chemin ni domaine corrects, elle ne trouve pas l'entrée à retirer :
+      l'indexation se fait sur les trois niveaux.
+    memorization_justification: >-
+      Une valeur par défaut silencieuse qui fait échouer l'appel sans message
+      quand le cookie vit sur un autre chemin.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie signature"
+        verified_at: "2026-09-22"
+
+  - id: FLC-yz9xwbv8rd61
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `removeCookie()` ne peut-elle pas supprimer un cookie chez le client ?"
+    back: "Parce qu'elle supprime une entrée avant l'envoi : ne rien envoyer ne dit rien au navigateur, qui garde ce qu'il a."
+    explanation: >-
+      Faire oublier un cookie existant demande au contraire d'envoyer quelque
+      chose — une expiration passée.
+    memorization_justification: >-
+      C'est la différence entre « ne pas écrire » et « écrire une annulation »,
+      et elle décide du résultat visible côté client.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie unset"
+        verified_at: "2026-09-22"
+
+  - id: FLC-vzb5rxk16y8v
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un cookie se lit-il sur la requête et s'écrit-il sur la réponse ?"
+    back: "Parce que la requête est ce que le client a déjà envoyé, et que l'écriture voyage dans l'en-tête `Set-Cookie` de la réponse."
+    explanation: >-
+      Poser un cookie sur l'objet requête ne l'envoie nulle part : rien ne
+      repart vers le client depuis cet objet.
+    memorization_justification: >-
+      Les deux objets exposent un accès aux cookies, ce qui donne l'illusion
+      d'une symétrie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setCookie, Set-Cookie header name"
+        verified_at: "2026-09-22"
+
+  - id: FLC-1w3jg2t8y2n9
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi `removeCookie()` prend-elle un chemin et un domaine, alors qu'un nom semblerait suffire ?"
+    back: "Parce que l'indexation est à trois niveaux : sans le bon chemin et le bon domaine, l'entrée visée n'est pas la bonne."
+    explanation: >-
+      Deux cookies de même nom peuvent coexister sur des chemins différents, et
+      seule la combinaison des trois les distingue.
+    memorization_justification: >-
+      Des arguments d'apparence facultative portent en fait la seule façon
+      d'atteindre la bonne entrée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie unset by domain, path, name"
+        verified_at: "2026-09-22"
+
+  - id: FLC-0wf45n1mrf8r
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: APPLICATION
+    front: "Le client possède déjà un cookie de session applicatif et on veut le lui faire oublier. Quelle méthode ?"
+    back: "`clearCookie()`. Elle envoie une expiration passée ; `removeCookie()` ne dirait rien au navigateur."
+    explanation: >-
+      Le cookie n'est pas dans la réponse en construction : il n'y a rien à
+      retirer du sac.
+    memorization_justification: >-
+      Se tromper ici laisse le cookie en place chez le client, sans aucune
+      erreur visible côté serveur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clearCookie"
+        verified_at: "2026-09-22"
+
+  - id: FLC-m2mjnfn9jtwp
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: APPLICATION
+    front: "On a posé un cookie sur la réponse plus haut dans le contrôleur et on décide finalement de ne pas l'envoyer. Quelle méthode ?"
+    back: "`removeCookie()`. Elle retire l'entrée du sac, donc aucun en-tête n'est produit."
+    explanation: >-
+      Utiliser `clearCookie()` enverrait au contraire un en-tête d'expiration,
+      inutile pour un cookie que le client n'a jamais eu.
+    memorization_justification: >-
+      C'est le cas symétrique du précédent, et les deux se distinguent
+      uniquement par l'état du client.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie"
+        verified_at: "2026-09-22"
+
+  - id: FLC-cjcnr8next96
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: APPLICATION
+    front: "Un cookie a été posé sur le chemin `/admin` et on appelle `removeCookie()` avec le nom seul. Que se passe-t-il ?"
+    back: "Rien. L'appel vise le chemin `/` par défaut, où l'entrée n'existe pas."
+    explanation: >-
+      Il faut passer le chemin utilisé à la pose pour atteindre la bonne entrée
+      dans l'index à trois niveaux.
+    memorization_justification: >-
+      Un échec entièrement silencieux : aucune exception, et le cookie part
+      quand même.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie default path"
+        verified_at: "2026-09-22"
+
+  - id: FLC-he5ay10r1yzk
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: APPLICATION
+    front: "Un test fonctionnel inspecte la réponse et ne voit pas le cookie que le contrôleur pose. Quelle cause chercher en premier ?"
+    back: "Un appel à la fonction native `setcookie()` de PHP, qui écrit l'en-tête hors de l'objet `Response`."
+    explanation: >-
+      Le cookie part bien au niveau du protocole, mais il échappe aussi aux
+      écouteurs de `kernel.response`.
+    memorization_justification: >-
+      Le code fonctionne en navigateur et échoue en test : le symptôme ne
+      désigne pas sa cause.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "cookies held by the response object"
+        verified_at: "2026-09-22"
+
+  - id: FLC-bes1vrcy3p5v
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: TRAP
+    front: "Piège : « `removeCookie()` supprime le cookie chez le client »."
+    back: "Non — le commentaire du code dit l'inverse : elle le retire du sac, elle ne le supprime pas dans le navigateur."
+    explanation: >-
+      Pour agir sur le client, il faut envoyer quelque chose ; ne rien envoyer
+      laisse le cookie en place.
+    memorization_justification: >-
+      Le nom de la méthode dit exactement le contraire de son effet, ce qui en
+      fait une proposition très crédible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "removeCookie docblock"
+        verified_at: "2026-09-22"
+
+  - id: FLC-4vpcgxqqy4x1
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: TRAP
+    front: "Piège : « `clearCookie()` n'envoie rien, elle nettoie la réponse »."
+    back: "Non. C'est une écriture : elle passe par `setCookie()` et produit bien un en-tête."
+    explanation: >-
+      Le cookie envoyé porte une valeur nulle et une expiration passée, ce qui
+      est l'instruction de suppression côté navigateur.
+    memorization_justification: >-
+      Le verbe « clear » suggère un nettoyage local ; la méthode fait
+      l'opération opposée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clearCookie body"
+        verified_at: "2026-09-22"
+
+  - id: FLC-c97zh7jza4ff
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: TRAP
+    front: "Piège : « deux cookies de même nom ne peuvent pas coexister dans une réponse »."
+    back: "Si : l'index est à trois niveaux, donc deux chemins ou deux domaines différents les séparent."
+    explanation: >-
+      C'est la raison d'être des arguments de chemin et de domaine sur les
+      méthodes de suppression.
+    memorization_justification: >-
+      L'unicité par nom paraît évidente et rend incompréhensibles les
+      signatures des autres méthodes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setCookie three-level index"
+        verified_at: "2026-09-22"
+
+  - id: FLC-fwx2c9f3jdre
+    official_item: OIT-pfrzrr0qcmh3
+    language: fr
+    level: TRAP
+    front: "Piège : « `getCookies()` accepte n'importe quelle chaîne de format et retombe sur le format à plat »."
+    back: "Non. Un format autre que les deux prévus lève une `InvalidArgumentException`."
+    explanation: >-
+      Le format par défaut est le format à plat ; l'autre conserve
+      l'arborescence domaine, chemin, nom.
+    memorization_justification: >-
+      Une valeur par défaut fait supposer une tolérance ; la méthode valide
+      strictement son argument.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getCookies format validation"
         verified_at: "2026-09-22"

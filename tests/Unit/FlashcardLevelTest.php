@@ -185,6 +185,18 @@ final class FlashcardLevelTest extends TestCase
             if (!$file instanceof \SplFileInfo || 'md' !== $file->getExtension()) {
                 continue;
             }
+
+            // The lot index lists every item by name, so it matches the needle
+            // too — and it carries no flashcard. Returning it made the outcome
+            // depend on the order `RecursiveDirectoryIterator` happens to yield
+            // on the machine running the suite: green locally, red on CI, with
+            // nothing wrong in the generated page the test is about. Skipping
+            // the listing narrows the lookup to the item page these assertions
+            // were always written against.
+            if ('index.md' === $file->getFilename()) {
+                continue;
+            }
+
             $body = (string) file_get_contents($file->getPathname());
             if (str_contains($body, $needle)) {
                 return $body;
