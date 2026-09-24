@@ -2144,6 +2144,32 @@ jobs:
           else
             echo "ok  lot-07  the forms handling page carries its four flashcard levels, the logic exception, the payload exception and the request handler"
           fi
+          # Lot 07 refinement, page 4 (Form types): the four flashcard levels, the
+          # finishView method, the derived block prefix and the resolved type
+          # class that orders parent, type and extensions.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-types -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/form-types-built-in-and-custom")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page form-types-built-in-and-custom serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-types || missing="$missing l7typ:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-types || missing="$missing l7typ:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-types || missing="$missing l7typ:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-types || missing="$missing l7typ:no-trap-heading"
+          grep -aq 'finishView' /tmp/l7r-types \
+            || missing="$missing l7typ:no-finish-view"
+          grep -aq 'delivery_address' /tmp/l7r-types \
+            || missing="$missing l7typ:no-block-prefix"
+          grep -aq 'ResolvedFormType' /tmp/l7r-types \
+            || missing="$missing l7typ:no-resolved-type"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the form types page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the form types page carries its four flashcard levels, the finish view method, the block prefix and the resolved type"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
