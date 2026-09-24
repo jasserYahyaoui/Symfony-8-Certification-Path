@@ -12,6 +12,7 @@ flashcards:
   - id: FLC-b3yz3wtpa5xx
     official_item: OIT-emymfwgesh99
     language: fr
+    level: RECALL
     front: "Symfony : createNotFoundException() lève-t-elle l'exception ?"
     back: "Non. Elle la construit et la retourne — il faut écrire throw devant."
     explanation: >-
@@ -3242,4 +3243,251 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "duplicate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-a26d7za0bc21
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: RECALL
+    front: "Quel message porte l exception retournée par createNotFoundException() appelée sans argument ?"
+    back: "Not Found."
+    explanation: >-
+      C est la valeur par défaut du premier paramètre ; le second, optionnel, est l exception précédente.
+    memorization_justification: >-
+      Le message par défaut est celui que verra exception.message dans le gabarit d erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createNotFoundException"
+        verified_at: "2026-09-24"
+
+  - id: FLC-w0czgc0x5are
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: RECALL
+    front: "Quel statut produit une exception qui implémente RequestExceptionInterface ?"
+    back: "400."
+    explanation: >-
+      createFromThrowable() teste cette interface juste après HttpExceptionInterface, avant le repli sur 500.
+    memorization_justification: >-
+      La documentation ne cite que le cas HTTP et le repli à 500 ; ce troisième cas est absent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createFromThrowable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3398ky0k4wx5
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: RECALL
+    front: "Dans quel ordre TwigErrorRenderer cherche-t-il le gabarit d une erreur 404 ?"
+    back: "error404.html.twig, puis error.html.twig, puis le rendu HTML intégré si aucun n existe."
+    explanation: >-
+      findTemplate() retourne null quand les deux gabarits manquent, et render() passe alors à HtmlErrorRenderer.
+    memorization_justification: >-
+      Le troisième niveau n est pas mentionné par la documentation, qui s arrête au gabarit générique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "findTemplate, render"
+        verified_at: "2026-09-24"
+
+  - id: FLC-6qddqhv1jcx1
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une BadRequestException donne-t-elle un 400 alors qu elle n est pas une exception HTTP ?"
+    back: "Parce qu elle implémente RequestExceptionInterface, que la conversion en réponse d erreur traduit en 400."
+    explanation: >-
+      Le statut ne dépend pas de la hiérarchie HttpException mais des interfaces implémentées.
+    memorization_justification: >-
+      Le nom BadRequest suggère un lien avec HttpException qui n existe pas dans la hiérarchie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createFromThrowable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kye3ntk555rq
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la variable exception d un gabarit d erreur n est-elle pas l exception levée ?"
+    back: "Parce que TwigErrorRenderer passe la FlattenException construite à partir d elle, pas l objet d origine."
+    explanation: >-
+      La documentation parle de l objet HttpException ; le code de la branche 8.0 transmet la version aplatie.
+    memorization_justification: >-
+      Une source officielle et le code divergent ; seul le code décide.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hz79mcb309v8
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le gabarit d erreur personnalisé ne s affiche-t-il pas en développement ?"
+    back: "Parce qu en mode debug TwigErrorRenderer passe directement au rendu intégré, qui affiche la page d exception."
+    explanation: >-
+      La condition de render() teste le debug avant même de chercher un gabarit.
+    memorization_justification: >-
+      Le symptôme fait croire à un gabarit mal placé alors que c est le mode qui décide.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render"
+        verified_at: "2026-09-24"
+
+  - id: FLC-n0hphp057kws
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi la route de prévisualisation /_error affiche-t-elle la page de production même en développement ?"
+    back: "Parce qu elle lance une sous-requête avec l attribut showException à false, qui désactive le debug pour ce rendu."
+    explanation: >-
+      isDebug() combine le mode debug et cet attribut de requête.
+    memorization_justification: >-
+      Le mécanisme explique comment voir la page de production sans changer d environnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ErrorController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ErrorController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "preview"
+        verified_at: "2026-09-24"
+
+  - id: FLC-39pj0qpk5tdz
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur écrit $this->createNotFoundException() sans throw devant. Que voit le visiteur ?"
+    back: "La réponse que le contrôleur retourne ensuite, comme si de rien n était : l exception est construite puis ignorée."
+    explanation: >-
+      Rien ne signale l oubli ; le contrôleur poursuit son exécution.
+    memorization_justification: >-
+      Le scénario transforme la règle en symptôme observable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createNotFoundException"
+        verified_at: "2026-09-24"
+
+  - id: FLC-fttkk4jevsk9
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: APPLICATION
+    front: "Un gabarit d erreur teste si exception est une instance de NotFoundHttpException. Que se passe-t-il ?"
+    back: "Le test échoue : la variable est une FlattenException, classe autonome qui n étend pas Exception."
+    explanation: >-
+      Pour connaître le cas, on lit status_code ou exception.class plutôt que de tester la classe de l objet.
+    memorization_justification: >-
+      Se fier à la documentation mène exactement à ce test erroné.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createFromThrowable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-0m2psvtyh5wa
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: APPLICATION
+    front: "Seul error.html.twig existe dans templates/bundles/TwigBundle/Exception/. Quel gabarit rend une 403 en production ?"
+    back: "error.html.twig : faute de error403.html.twig, le rendu retombe sur le gabarit générique."
+    explanation: >-
+      Aucun fichier par statut n est requis ; le générique couvre tous les statuts non surchargés.
+    memorization_justification: >-
+      Le cas vérifie que le repli est compris et non un gabarit par code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "error.html.twig"
+        verified_at: "2026-09-24"
+
+  - id: FLC-fedtdwekfm06
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: TRAP
+    front: "Piège : « une exception qui n est pas une exception HTTP donne toujours 500 »."
+    back: "Non. Celles qui implémentent RequestExceptionInterface donnent 400."
+    explanation: >-
+      La documentation dit « sinon 500 » ; le code intercale un cas avant ce repli.
+    memorization_justification: >-
+      La simplification de la documentation est précisément ce qu une question peut viser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "createFromThrowable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-91hyny6w2kr4
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: TRAP
+    front: "Piège : « dans un gabarit d erreur, exception est l objet HttpException levé »."
+    back: "Non. C est une FlattenException, sa version aplatie."
+    explanation: >-
+      exception.message fonctionne, ce qui entretient l illusion d avoir l objet d origine.
+    memorization_justification: >-
+      L affirmation vient de la documentation officielle elle-même.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8pbd6hh3cj13
+    official_item: OIT-emymfwgesh99
+    language: fr
+    level: TRAP
+    front: "Piège : « sans aucun gabarit d erreur dans le projet, une erreur de production n affiche rien »."
+    back: "Non. Le rendu HTML intégré prend le relais et affiche une page générique."
+    explanation: >-
+      render() retombe sur HtmlErrorRenderer quand findTemplate() ne trouve rien.
+    memorization_justification: >-
+      L absence de fichier laisse croire à une absence de rendu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "findTemplate, render"
         verified_at: "2026-09-24"
