@@ -1755,7 +1755,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - filters
   choices:
@@ -1774,8 +1774,8 @@ questions:
     text: '{% set x|upper %} … {% endset %}'
     correct: false
     explanation: set captures a block but takes no filter in that position.
-  explanation: 'Filters chain left to right, so the order changes the result: |trim|lower and |lower|trim differ
-    when whitespace is significant.'
+  explanation: 'Filters chain left to right, so the order changes the result whenever they do not commute:
+    on a string with leading spaces, |slice(0, 5)|trim and |trim|slice(0, 5) differ.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
     readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst

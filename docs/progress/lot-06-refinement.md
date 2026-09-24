@@ -23,8 +23,8 @@ page.
 | 2 | Twig syntax up to 3.22 version | DEEP | 755 / 1200 | 2 | **RAFFINÉE** (PR #217) |
 | 3 | Auto escaping | STANDARD | 440 / 900 | 1 | **RAFFINÉE** (PR #218) |
 | 4 | Template inheritance | STANDARD | 402 / 900 | 1 | **RAFFINÉE** (PR #219) |
-| 5 | Global variables | STANDARD | 392 / 900 | 1 | en cours |
-| 6 | Filters and functions | STANDARD | 449 / 900 | 1 | à faire |
+| 5 | Global variables | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #220) |
+| 6 | Filters and functions | STANDARD | 449 / 900 | 1 | en cours |
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | à faire |
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | à faire |
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | à faire |
@@ -391,6 +391,71 @@ corrigée, reçoit le niveau RECALL. L'item en porte **12** (4 RECALL,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 5, lu dans le journal d'exécution.** PR #220 fusionnée
+en squash (`8b03120`). Run Pages 36050940109 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the global variables page carries its four
+flashcard levels, the Twig global, the app variable class and the globals
+interface` est écrite à **19:53:29 UTC** le 2026-09-24.
+
+## Page 6 — Filters and functions, 2026-09-24
+
+`CRS-306ppg4454wj` · `OIT-sqekx9pkbe5v` · STANDARD · **449 → 673 mots** sur 900.
+Aucun niveau promu.
+
+### Deux affirmations fausses dans le même exemple
+
+- `{{ text|trim|lower|truncate(50) }}` : **aucun filtre `truncate`** dans le cœur
+  de Twig 3.22 — l'index des filtres n'en a pas, et `doc/filters/truncate.rst`
+  répond 404. On tronque avec `slice`, ou avec `|u.truncate(50)`, que fournit
+  `StringExtension` du paquet `twig/string-extra` (`doc/filters/u.rst`).
+- « `|trim|lower` et `|lower|trim` diffèrent dès que la chaîne contient des
+  espaces significatifs » : faux, ces deux filtres **commutent** — l'un ne touche
+  que les espaces, l'autre que la casse. La page donne désormais un vrai
+  contre-exemple : `|slice(0, 5)|trim` contre `|trim|slice(0, 5)` sur
+  `'  abcdef'`.
+
+L'explication de la question `VALIDATION` `QST-1tw52kh5s9sg` reprenait la
+seconde affirmation ; elle est corrigée, bonne réponse inchangée, `reviewed_at`
+au 2026-09-24. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans la documentation 3.22
+
+Les tests par `is`, troisième famille ; les arguments nommés
+(`number_format(decimal: 2)`) ; les filtres à fonction fléchée (`filter`, `map`,
+`reduce`, `sort`, `find`) ; les paquets `twig/*-extra` et `twig/extra-bundle` ;
+les attributs `#[AsTwigFilter]`, `#[AsTwigFunction]`, `#[AsTwigTest]` (Twig
+3.21, `Twig\Attribute`), autoconfigurés par TwigBundle 8.0.
+
+### `CONTEXT.md` remis à jour
+
+Le fichier de continuité (§23) datait du 2026-09-15. Il décrit désormais la
+campagne de raffinement, les décisions du propriétaire en vigueur — correction
+systématique, budgets 160/220, règles holdout — et la prochaine action ;
+l'état antérieur est conservé en historique.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-qhsttsmdnhx6` reçoit le
+niveau UNDERSTANDING. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING,
+2 APPLICATION, 2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `string-extra`,
+`AsTwigTest` et `commutent`, absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 651 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Filters and functions* (STANDARD, 449 / 900).
+Page 7 — *Template includes* (STANDARD, 435 / 900).

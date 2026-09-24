@@ -1,8 +1,44 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-15 (AUD-09 — audit final)
+**Last updated:** 2026-09-24 (raffinement pédagogique, lot 06 en cours)
 
 ---
+
+## En cours : raffinement pédagogique des pages de cours
+
+Mission du propriétaire : relire chaque page de cours contre le code 8.0 (le
+code l'emporte sur la documentation), corriger le faux et l'incomplet, ajouter
+des flashcards aux quatre niveaux, une branche → PR → CI → fusion → smoke test
+de production **lu** par page, rapport de fin de lot en PR séparée. Lot 01 hors
+périmètre sur instruction.
+
+| Lot | État | Journal |
+|---|---|---|
+| 02 à 05 | raffinés, déployés, rapport de fin de lot fusionné | `docs/progress/lot-0N-refinement.md` |
+| 06 (Twig) | **en cours** — pages 1 à 5 fusionnées ; page 6 en PR | `docs/progress/lot-06-refinement.md` |
+| 07 et suivants | à faire, dans l'ordre numérique | — |
+
+**Décisions du propriétaire en vigueur**
+
+- Corriger toujours les défauts trouvés, y compris dans la matrice et les
+  questions (2026-09-24).
+- Planning de révision : `--start 2026-10-01 --exam 2026-12-15 --max-new 4
+  --weekday 160 --weekend 220` depuis le 2026-09-24 (140/200 ne tenait plus ;
+  voir `docs/revision/study-roadmap.md`). Au-delà, `--max-new` devient la
+  seule marge.
+- Holdout : ne jamais lire, afficher ni identifier une question holdout ; les
+  recherches plein texte excluent le holdout. Signal ouvert : au moins une
+  question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
+
+**Prochaine action** : fusionner la PR de la page 6 du lot 06 après CI verte,
+lire son smoke test, puis page 7 (*Template includes*).
+
+**Tests réellement exécutés à la dernière page** : voir le tableau
+« Contrôles réellement exécutés » de la dernière entrée du journal du lot.
+
+---
+
+## Historique : état au 2026-09-15 (AUD-09 — audit final)
 
 ## Current lot
 
