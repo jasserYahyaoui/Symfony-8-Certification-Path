@@ -225,7 +225,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-68682qbtydht
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
   domain: symfony
@@ -246,17 +246,17 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - handling
   choices:
-  - id: CHO-r2hvq4qh7f0y
-    text: A form that was never submitted has nothing to validate
+  - id: CHO-978c27jygct4
+    text: isValid() throws on an unsubmitted form
     correct: true
-  - id: CHO-8gcbwmkgm1ah
-    text: isValid() throws when the form was not submitted
+  - id: CHO-dz36kv9t215z
+    text: isValid() returns true for a form never submitted
     correct: false
-    explanation: It does not throw; the guard exists for correctness of the flow, not to avoid an exception.
+    explanation: It never returns for an unsubmitted form; it throws a LogicException.
   - id: CHO-00e3qvtwwex5
     text: isSubmitted() populates the object
     correct: false
@@ -265,9 +265,21 @@ questions:
     text: isValid() only checks CSRF
     correct: false
     explanation: It runs the full validation.
-  explanation: The same action renders and processes, so on a GET the form is simply not submitted and the template
-    is rendered.
-  official_sources: *id001
+  explanation: 'Form::isValid() throws a LogicException, "Cannot check if an unsubmitted form is valid", when the form
+    was not submitted. The same action renders and processes, so on a GET the guard stops at isSubmitted() and the
+    template is rendered.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Forms documentation
+    verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::isValid()
+    verified_at: '2026-09-24'
 - id: QST-fy9ptsw9q7d7
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
