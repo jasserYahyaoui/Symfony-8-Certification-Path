@@ -273,13 +273,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **Controllers : Argument value resolvers** (DEEP) — 2 min · 929 mots · 6 questions, 16 flashcards
 - NOUVEAU · **Routing : Routing component and FrameworkBundle** (STANDARD) — 23 min · 668 mots · 3 questions, 15 flashcards
 - NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 25 min · 746 mots · 4 questions, 15 flashcards
-- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 11 min · 392 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 22 min · 578 mots · 4 questions, 13 flashcards
 - NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 13 min · 417 mots · 5 questions, 2 flashcards
 - Révision **J+1** (18 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+7** (15 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 - Révision **J+14** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 119 / 140 min*
+*Budget du jour : 130 / 140 min*
 
 ### Mercredi 21 octobre 2026
 

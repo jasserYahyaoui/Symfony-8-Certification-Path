@@ -18,8 +18,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Routing component and FrameworkBundle | STANDARD | 460 / 900 | 1 | **RAFFINÉE** (PR #201) |
-| 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | en cours |
-| 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | à faire |
+| 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | **RAFFINÉE** (PR #202) |
+| 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | en cours |
 | 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | à faire |
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | à faire |
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | à faire |
@@ -173,6 +173,69 @@ carte citant le symbole `priority` au lieu de `addRoute`.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 2, lu dans le journal d'exécution.** PR #202 fusionnée
+en squash (`3ec8690`). Run Pages 35982554060 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the configuration page carries its four
+flashcard levels, the YAML key list, the when@ block and the localized route
+names` est écrite à **09:41:42 UTC** le 2026-09-24.
+
+## Page 3 — Restrict URL parameters, 2026-09-24
+
+`CRS-wg3j0t5pm7w1` · `OIT-1cj08dhtp9hj` · STANDARD · **392 → 578 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « la contrainte ne vaut qu'à l'appariement »
+
+La page, dans ses pièges d'examen : « Elle ne valide pas ce que l'on passe au
+générateur d'URL. » `UrlGenerator::doGenerate()` (8.0) relit chaque contrainte :
+
+```php
+if (null !== $this->strictRequirements && !preg_match(/* la contrainte */)) {
+    if ($this->strictRequirements) {
+        throw new InvalidParameterException(/* … must match … */);
+    }
+    $this->logger?->error($message, /* … */);
+    return '';
+}
+```
+
+Et `framework.router.strict_requirements` a pour défaut `true`
+(`Configuration.php`, `->defaultTrue()`). Sans configuration, générer une route
+avec une valeur non conforme **lève**.
+
+**Un écart interne au framework.** Le texte d'aide de l'option annonce, pour
+`false`, « return null instead » ; le code retourne `''`. La page suit le code et
+signale l'écart.
+
+### Un complément : `DIGITS` n'est pas `POSITIVE_INT`
+
+`Requirement` est une énumération **sans cas**, qui ne porte que des constantes
+chaînes. `DIGITS` vaut `[0-9]+` et accepte `0` ; `POSITIVE_INT` vaut
+`[1-9][0-9]*` et l'exclut.
+
+**Flashcards.** 12 ajoutées ; la carte préexistante `FLC-s7es8e4pq9vf` reçoit le
+niveau RECALL. L'item en porte **13** (5 RECALL, 3 UNDERSTANDING, 3 APPLICATION,
+2 TRAP). Une carte retirée avant commit : elle doublait le piège sur le retour de
+`strict_requirements: false`.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`strict_requirements`, `InvalidParameterException` et `POSITIVE_INT`, absentes
+de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 541 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 3 — *Restrict URL parameters* (STANDARD, 392 / 900).
+Page 4 — *Set default values to URL parameters* (STANDARD, 417 / 900).

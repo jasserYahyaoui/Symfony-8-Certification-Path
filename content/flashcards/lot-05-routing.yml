@@ -93,6 +93,7 @@ flashcards:
   - id: FLC-s7es8e4pq9vf
     official_item: OIT-1cj08dhtp9hj
     language: fr
+    level: RECALL
     front: "Une valeur par défaut doit-elle satisfaire le requirement de son paramètre ?"
     back: "Non. La documentation l'autorise explicitement à ne pas le respecter."
     explanation: >-
@@ -764,4 +765,232 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "all"
+        verified_at: "2026-09-24"
+
+  - id: FLC-z5r92g4vkkxa
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: RECALL
+    front: 'Quelle est la valeur par défaut de framework.router.strict_requirements ?'
+    back: 'true : une valeur non conforme à la contrainte lève une exception à la génération.'
+    explanation: >-
+      L option est un nœud scalaire dont le défaut est true dans la configuration de FrameworkBundle.
+    memorization_justification: >-
+      Le défaut décide du comportement que rencontre un développeur sans configuration.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_requirements"
+        verified_at: "2026-09-24"
+
+  - id: FLC-a5zeamryn2dh
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: RECALL
+    front: 'Quelle exception le générateur lève-t-il pour un paramètre qui ne respecte pas sa contrainte ?'
+    back: 'InvalidParameterException, avec un message indiquant la valeur attendue et la valeur donnée.'
+    explanation: >-
+      Elle n est levée que si strict_requirements vaut true.
+    memorization_justification: >-
+      Le nom de l exception situe l erreur côté paramètre, pas côté route.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-m770s3h32erz
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: RECALL
+    front: 'Quelle expression porte la constante Requirement::POSITIVE_INT ?'
+    back: '[1-9][0-9]* : un entier sans zéro initial, qui exclut 0.'
+    explanation: >-
+      Requirement::DIGITS, elle, vaut [0-9]+ et accepte 0 comme 007.
+    memorization_justification: >-
+      Les deux constantes voisines ne filtrent pas les mêmes valeurs.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "POSITIVE_INT"
+        verified_at: "2026-09-24"
+
+  - id: FLC-5j15yhjpv3g2
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: RECALL
+    front: 'Quelle syntaxe permet d écrire une contrainte directement dans le chemin ?'
+    back: '{nom<expression>}, par exemple /blog/{page<[0-9]+>}.'
+    explanation: >-
+      La forme inline est plus concise mais devient illisible pour une expression complexe.
+    memorization_justification: >-
+      La syntaxe entre chevrons se reconnaît dans une question à trous.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "requirements can be inlined"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gv2cr5nc6j7v
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi Requirement est-elle une énumération sans cas ?'
+    back: 'Parce qu elle ne sert qu à regrouper des constantes de type chaîne, utilisées comme expressions régulières.'
+    explanation: >-
+      On écrit Requirement::DIGITS, qui est une chaîne, pas un cas d énumération.
+    memorization_justification: >-
+      Le mot-clé enum laisse attendre des cas qui n existent pas ici.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "DIGITS"
+        verified_at: "2026-09-24"
+
+  - id: FLC-vqf932cfza5d
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une contrainte rend-elle l ordre de déclaration indifférent entre /blog/{page} et /blog/{slug} ?'
+    back: 'Parce qu une URL qui ne vérifie pas la contrainte ne correspond plus à la première route, et passe à la suivante.'
+    explanation: >-
+      Sans contrainte, la première route déclarée capture toutes les valeurs.
+    memorization_justification: >-
+      Le vrai service rendu par la contrainte est de départager des chemins de même forme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Parameters Validation"
+        verified_at: "2026-09-24"
+
+  - id: FLC-y3gp2pq1v0z1
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une valeur par défaut peut-elle ne pas respecter la contrainte de son paramètre ?'
+    back: 'Parce que la contrainte filtre l URL entrante, et que la valeur par défaut n est pas dans l URL.'
+    explanation: >-
+      La documentation l autorise explicitement.
+    memorization_justification: >-
+      La règle surprend si l on pense la contrainte comme une validation du paramètre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "The default value is allowed to not match the requirement"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hd67kse1xz1g
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: APPLICATION
+    front: 'On génère blog_list avec page: abc alors que la contrainte est [0-9]+, sans configuration particulière. Résultat ?'
+    back: 'Une InvalidParameterException : la contrainte est vérifiée à la génération.'
+    explanation: >-
+      strict_requirements vaut true par défaut.
+    memorization_justification: >-
+      Le cas réfute l idée que la contrainte ne vaut qu à l appariement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-75vjt50csts0
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: APPLICATION
+    front: 'En production, strict_requirements vaut false et un paramètre est invalide. Que produit la génération ?'
+    back: 'Une chaîne vide, et une erreur est journalisée.'
+    explanation: >-
+      Le lien produit est vide au lieu de faire échouer la page.
+    memorization_justification: >-
+      Le symptôme d un lien vide se diagnostique mal sans connaître l option.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strictRequirements"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4nw57sjetcxa
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: APPLICATION
+    front: 'Une route de pagination utilise Requirement::DIGITS. L URL /blog/0 correspond-elle ?'
+    back: 'Oui : [0-9]+ accepte 0. Pour l exclure, utiliser Requirement::POSITIVE_INT.'
+    explanation: >-
+      Le choix de la constante décide des valeurs limites admises.
+    memorization_justification: >-
+      Les valeurs limites sont un angle classique de question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "DIGITS, POSITIVE_INT"
+        verified_at: "2026-09-24"
+
+  - id: FLC-p9y3y6rgwm1j
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: TRAP
+    front: 'Piège : « une contrainte de route ne s applique qu à l appariement, jamais à la génération ».'
+    back: 'Non. Le générateur la vérifie et lève une exception par défaut.'
+    explanation: >-
+      Seul strict_requirements à null désactive la vérification.
+    memorization_justification: >-
+      La contrainte est souvent présentée comme un filtre d entrée uniquement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kzrmsrrma1dv
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: TRAP
+    front: 'Piège : « strict_requirements à false fait retourner null au générateur ».'
+    back: 'Non, selon le code 8.0 : il retourne une chaîne vide et journalise l erreur.'
+    explanation: >-
+      Le texte d aide de l option dit null ; le code dit chaîne vide.
+    memorization_justification: >-
+      La formulation de l aide officielle induit l erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strictRequirements"
         verified_at: "2026-09-24"
