@@ -56,6 +56,7 @@ flashcards:
   - id: FLC-a64hqxfhfzpc
     official_item: OIT-ns36thqnh2jk
     language: fr
+    level: RECALL
     front: "Twig : quelle stratégie d'échappement pour data-x={{ v }}, sans guillemets ?"
     back: "html_attr. La stratégie html ne couvre que le corps HTML et les attributs entre guillemets."
     explanation: >-
@@ -709,4 +710,231 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "deprecated as of Twig 3.15"
+        verified_at: "2026-09-24"
+
+  - id: FLC-pba4j80nbef4
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: RECALL
+    front: "Symfony : sur quelle valeur TwigBundle règle-t-il l'option autoescape de Twig ?"
+    back: "'name' : la stratégie est choisie d'après l'extension du gabarit."
+    explanation: >-
+      Twig traduit 'name' en FileExtensionEscapingStrategy::guess(), qui lit l'extension après avoir retiré .twig.
+    memorization_justification: >-
+      Le défaut n'est pas une stratégie fixe, contrairement à ce que l'on suppose.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "autoescape name"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "guess"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hhmdxx2znc87
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: RECALL
+    front: "Twig : quelle stratégie d'échappement s'applique par défaut à un gabarit data.json.twig ?"
+    back: "js."
+    explanation: >-
+      Les extensions js et json donnent js, css donne css, txt n'échappe pas, toutes les autres donnent html.
+    memorization_justification: >-
+      Correspondance extension-stratégie à connaître par cœur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "guess"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qywsgrzep8y8
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: RECALL
+    front: "Twig : quelle méthode enregistre une stratégie d'échappement personnalisée ?"
+    back: "EscaperRuntime::setEscaper(), depuis Twig 3.10."
+    explanation: >-
+      Elle reçoit le nom de la stratégie et un callable qui prend la chaîne et le jeu de caractères.
+    memorization_justification: >-
+      Nom de classe précis, introduit récemment.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "caution double-escape, html_attr tip, Custom Escapers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-r0d89d7sp3ym
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi une variable affichée dans email.txt.twig n'est-elle pas échappée ?"
+    back: "L'extension txt désactive l'échappement automatique avec la stratégie 'name'."
+    explanation: >-
+      Un courriel texte n'est pas du HTML : échapper y ferait apparaître des entités comme &amp;.
+    memorization_justification: >-
+      Relier un comportement surprenant à la règle qui le produit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "guess"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "autoescape name"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ksx1q9pbxcer
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : {{ \u0022<strong>world</strong>\u0022 }} s'affiche-t-il échappé ?"
+    back: "Non : Twig n'échappe pas les expressions statiques."
+    explanation: >-
+      La documentation de la balise autoescape en donne l'exemple ; seules les valeurs dynamiques sont échappées.
+    memorization_justification: >-
+      On croit que tout ce qui passe par {{ }} est échappé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "static expressions, safe markup"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hsyzzepdbn0r
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi var|escape(strategy) est-il échappé deux fois dans un bloc autoescape html, alors que var|escape('html') ne l'est pas ?"
+    back: "Twig n'évite le double échappement que si la stratégie du filtre est écrite en dur et identique."
+    explanation: >-
+      Avec une variable, la stratégie n'est connue qu'à l'exécution ; la documentation conseille d'ajouter |raw.
+    memorization_justification: >-
+      Le cas limite que la documentation signale expressément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "caution double-escape, html_attr tip, Custom Escapers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ey0f79wsnp1s
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : {{ var|raw|upper }} affiche-t-il var sans l'échapper ?"
+    back: "Non : raw n'agit que s'il est le dernier filtre appliqué."
+    explanation: >-
+      Un filtre appliqué après raw produit une nouvelle valeur, de nouveau soumise à l'échappement.
+    memorization_justification: >-
+      L'ordre des filtres décide du résultat.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/raw.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/raw.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "raw is the last filter"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3mm2034xpyry
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: APPLICATION
+    front: "Twig : échappez en JavaScript tout le contenu d'un bloc."
+    back: "{% autoescape 'js' %} … {% endautoescape %}"
+    explanation: >-
+      Sans argument, la balise applique la stratégie html ; autoescape false coupe l'échappement.
+    memorization_justification: >-
+      Appliquer une stratégie à un bloc plutôt qu'à chaque variable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "static expressions, safe markup"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nhfx7xgkx06c
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: APPLICATION
+    front: "Twig : insérez content dans l'attribut data-content de la façon que recommande la documentation."
+    back: "<p data-content=\u0022{{ content|e('html') }}\u0022> — entre guillemets, stratégie html."
+    explanation: >-
+      html_attr sur une valeur sans guillemets fonctionne aussi, mais la documentation la dit moins performante.
+    memorization_justification: >-
+      Choisir la forme recommandée entre deux formes sûres.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "caution double-escape, html_attr tip, Custom Escapers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-w3yvsts2vzv6
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: TRAP
+    front: "Piège : « dans Symfony, l'échappement automatique utilise toujours la stratégie html »."
+    back: "Faux : elle dépend de l'extension du gabarit ; un .txt.twig n'est pas échappé."
+    explanation: >-
+      TwigBundle règle autoescape sur 'name'.
+    memorization_justification: >-
+      La formule simplifiée est la plus répandue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "autoescape name"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/FileExtensionEscapingStrategy.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "guess"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dcq0mrtyqeaa
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: TRAP
+    front: "Piège : « une macro qui retourne du HTML est échappée à l'affichage »."
+    back: "Faux : les macros et parent() retournent un contenu considéré comme sûr."
+    explanation: >-
+      La documentation de la balise autoescape l'énonce pour les fonctions qui retournent du gabarit.
+    memorization_justification: >-
+      On applique à une macro la règle des variables.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/autoescape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "static expressions, safe markup"
         verified_at: "2026-09-24"

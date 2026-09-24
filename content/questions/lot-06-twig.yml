@@ -345,7 +345,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - escaping
   choices:
@@ -364,7 +364,7 @@ questions:
     text: safe
     correct: false
     explanation: No such filter exists in Twig.
-  explanation: Auto-escaping is on by default with the html strategy, and it applies at output time, not at assignment.
+  explanation: Auto-escaping is on by default, with a strategy chosen from the template extension in Symfony (html for .html.twig, none for .txt.twig), and it applies at output time, not at assignment.
     raw opts a single value out of it.
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
