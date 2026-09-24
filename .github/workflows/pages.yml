@@ -2118,6 +2118,32 @@ jobs:
           else
             echo "ok  lot-07  the forms creation page carries its four flashcard levels, the can accessor, the enum guesser and the empty data option"
           fi
+          # Lot 07 refinement, page 3 (Forms handling): the four flashcard levels,
+          # the exception of isValid() on an unsubmitted form, the payload
+          # exception of the documented example and the request handler class.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-handling -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/forms-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page forms-handling serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-handling || missing="$missing l7hdl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-handling || missing="$missing l7hdl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-handling || missing="$missing l7hdl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-handling || missing="$missing l7hdl:no-trap-heading"
+          grep -aq 'LogicException' /tmp/l7r-handling \
+            || missing="$missing l7hdl:no-logic-exception"
+          grep -aq 'BadRequestException' /tmp/l7r-handling \
+            || missing="$missing l7hdl:no-payload-exception"
+          grep -aq 'HttpFoundationRequestHandler' /tmp/l7r-handling \
+            || missing="$missing l7hdl:no-request-handler"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the forms handling page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the forms handling page carries its four flashcard levels, the logic exception, the payload exception and the request handler"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

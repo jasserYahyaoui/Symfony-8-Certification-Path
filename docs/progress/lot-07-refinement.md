@@ -21,8 +21,8 @@ page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Form component | STANDARD | 500 / 900 | 1 | **RAFFINÉE** (PR #231) |
-| 2 | Forms creation | STANDARD | 422 / 900 | 1 | en cours |
-| 3 | Forms handling | STANDARD | 442 / 900 | 1 | à faire |
+| 2 | Forms creation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #232) |
+| 3 | Forms handling | STANDARD | 442 / 900 | 1 | en cours |
 | 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | à faire |
 | 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | à faire |
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | à faire |
@@ -191,6 +191,77 @@ page et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 2, lu dans le journal d'exécution.** PR #232 fusionnée
+en squash (`3d6de09`). Run Pages 36073676089 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the forms creation page carries its four
+flashcard levels, the can accessor, the enum guesser and the empty data option`
+est écrite à **23:39:57 UTC** le 2026-09-24.
+
+## Page 3 — Forms handling, 2026-09-24
+
+`CRS-nfkzx2s1n3r3` · `OIT-mgvdw7cfpwyz` · STANDARD · **442 → 589 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/form`, `validator` et
+`http-foundation` 8.0.15.
+
+### Une question dont un distracteur était vrai
+
+`QST-zkgdt4kc1h0g` (LEARNING) expliquait le garde `isSubmitted() && isValid()`
+par « rien à valider » et tenait pour faux « isValid() throws when the form was
+not submitted » (« It does not throw »). Or `Form::isValid()` **lève une
+`LogicException`** — « Cannot check if an unsubmitted form is valid » — sur un
+formulaire non soumis ; reproduit par exécution. Deux choix neufs
+(`CHO-978c27jygct4`, bonne réponse ; `CHO-dz36kv9t215z`), explication et source
+du code, **version 2**. La page le dit désormais.
+
+### Un exemple de la documentation qui échoue
+
+`forms.rst` (8.0) illustre `submit()` avec
+`$request->getPayload()->get($form->getName())`. Pour un formulaire composé, la
+valeur est un tableau et `InputBag::get()` lève une `BadRequestException`,
+« Input value "form" contains a non-scalar value » — reproduit avec
+HttpFoundation 8.0.15. La page emploie `all()` et signale l'écart. La seule
+autre occurrence de `getPayload()->get(` hors holdout (`QST-pg8rnbwrhn85`, lot
+04) lit un champ scalaire : correcte.
+
+### Compléments, exécutés
+
+- `handleRequest()` ne fait rien si la méthode de la requête diffère de
+  l'option `method` (formulaire `POST`, requête `GET` garnie : non soumis) ;
+  il passe `clearMissing = ('PATCH' !== $method)`.
+- Validation partielle : un `NotBlank` sur un champ vide absent passe avec
+  `clearMissing = false`, échoue quand la clé est ajoutée avec `null`.
+- `render()` : 422 seulement si la réponse est encore à 200 ; conversion des
+  formulaires en vue. Formulaire soumis et `disabled` : toujours valide.
+
+**Questions.** Les quatre autres questions non holdout ont été relues : exactes
+— la validation partielle et le comportement de `clearMissing` sont confirmés
+par exécution —, inchangées. Aucune question holdout n'a été lue.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-jsbfc1cnv01y` reçoit le
+niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `LogicException`,
+`BadRequestException` et `HttpFoundationRequestHandler`, absentes de la version
+`master` de la page et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form, Validator, HttpFoundation 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 788 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Forms handling* (STANDARD, 442 / 900).
+Page 4 — *Form types (built-in and custom)* (STANDARD, 427 / 900).

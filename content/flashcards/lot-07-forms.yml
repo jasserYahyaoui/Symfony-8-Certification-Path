@@ -11,6 +11,7 @@ flashcards:
 - id: FLC-jsbfc1cnv01y
   official_item: OIT-mgvdw7cfpwyz
   language: fr
+  level: RECALL
   front: 'Formulaires : que fait le second argument de submit(), et que vaut-il par défaut ?'
   back: 'C''est $clearMissing, vrai par défaut : les champs absents sont mis à null. À false — cas d''un
     PATCH — ils restent intacts.'
@@ -662,4 +663,188 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: DoctrineOrmTypeGuesser
+    verified_at: '2026-09-24'
+- id: FLC-723xy0kxz8mj
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : que se passe-t-il si l''on appelle isValid() sur un formulaire non soumis ?'
+  back: 'Une `LogicException` : « Cannot check if an unsubmitted form is valid ».'
+  explanation: C'est pourquoi le garde s'écrit `isSubmitted() && isValid()`. Vérifié par exécution avec symfony/form 8.0.15.
+  memorization_justification: L'ordre des deux tests est obligatoire, pas stylistique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::isValid(), Form::submit()
+    verified_at: '2026-09-24'
+- id: FLC-9r74s5gacmv8
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : sur quel critère handleRequest() décide-t-il qu''un formulaire est soumis ?'
+  back: 'D''abord la méthode : si celle de la requête diffère de l''option `method` du formulaire, `POST` par défaut, il ne fait rien.'
+  explanation: 'Ensuite il cherche les données sous le nom du formulaire. Exécuté : un formulaire POST recevant un GET garni reste non soumis.'
+  memorization_justification: Explique pourquoi une même action sert l'affichage et le traitement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: HttpFoundationRequestHandler::handleRequest()
+    verified_at: '2026-09-24'
+- id: FLC-c71r097y0jag
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelle valeur de clearMissing handleRequest() transmet-il à submit() ?'
+  back: '`''PATCH'' !== $method` : `false` pour un formulaire en `PATCH`, `true` sinon.'
+  explanation: Le choix se fait d'après l'option `method` du formulaire, que `handleRequest()` a déjà comparée à la requête.
+  memorization_justification: Lien direct entre méthode HTTP et vidage des champs absents.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: HttpFoundationRequestHandler::handleRequest()
+    verified_at: '2026-09-24'
+- id: FLC-hdx4gm5q983q
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: TRAP
+  front: 'Symfony : l''exemple submit($request->getPayload()->get($form->getName())) fonctionne-t-il pour un formulaire de type TaskType ?'
+  back: 'Non : la valeur est un tableau, et `InputBag::get()` lève une `BadRequestException`, « contains a non-scalar value ». Il faut `getPayload()->all($form->getName())`.'
+  explanation: L'exemple figure tel quel dans `forms.rst` (8.0) ; l'exception a été reproduite avec HttpFoundation 8.0.15.
+  memorization_justification: Exemple documenté qui échoue à l'exécution.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: InputBag::get()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+- id: FLC-zpk7hgmqgfgr
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : une API PATCH ne doit modifier que les champs envoyés, mais le champ email doit rester validé même absent. Comment soumettre ?'
+  back: '`$form->submit(array_merge([''email'' => null], $data), false)` : `false` préserve les absents, et la clé ajoutée avec `null` force la validation d''email.'
+  explanation: 'Avec `clearMissing` à `false`, seuls les champs soumis sont validés. Exécuté : sans la clé, un `NotBlank` sur un champ vide passe ; avec `null`, il échoue.'
+  memorization_justification: Parade documentée au piège de la validation partielle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::isValid(), Form::submit()
+    verified_at: '2026-09-24'
+- id: FLC-bdbbdk07s9bv
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: RECALL
+  front: 'Symfony : quand AbstractController::render() répond-il en 422 ?'
+  back: Quand un de ses paramètres est un formulaire soumis et invalide, et que la réponse est encore à 200.
+  explanation: '`doRender()` convertit aussi chaque formulaire passé en vue : `createView()` n''est pas nécessaire.'
+  memorization_justification: Statut HTTP d'un formulaire invalide, souvent ignoré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractController::doRender()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+- id: FLC-cmxj9t3fdng4
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : que vaut par défaut le second argument de submit() ?'
+  back: '`true` : `$clearMissing`, qui met à `null` les champs absents de la soumission.'
+  explanation: 'Exécuté : `submit([''task'' => ''new''])` sur `[''task'' => ''old'', ''other'' => ''keep'']` rend `other` à `null` ; avec `false`, `other` reste `keep`.'
+  memorization_justification: Valeur par défaut au cœur des mises à jour partielles.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::isValid(), Form::submit()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+- id: FLC-q5n8e06ktpy3
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi rediriger après une soumission valide plutôt que rendre le gabarit ?'
+  back: 'Pour qu''un rafraîchissement du navigateur ne renvoie pas le POST : après une redirection, la page affichée provient d''un GET.'
+  explanation: La documentation en fait une bonne pratique ; le rendu du gabarit reste réservé à la branche non soumise ou invalide.
+  memorization_justification: Motif POST-redirect-GET.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+- id: FLC-v0nf94j0re4x
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un formulaire désactivé (disabled) est soumis. Que rend isValid() ?'
+  back: '`true` : un formulaire soumis et désactivé est valide sans examen de ses erreurs.'
+  explanation: '`Form::isValid()` teste d''abord la soumission, puis `isDisabled()`, et seulement ensuite compte les erreurs.'
+  memorization_justification: Cas limite lu dans le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::isValid(), Form::submit()
+    verified_at: '2026-09-24'
+- id: FLC-s1f8zepj0a8h
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : après une soumission valide, faut-il recopier getData() dans l''objet passé à createForm() ?'
+  back: 'Non : c''est le même objet, déjà mis à jour par le formulaire.'
+  explanation: 'La documentation le précise : la variable d''origine a aussi été modifiée, et peut être persistée telle quelle.'
+  memorization_justification: Recopie inutile, souvent écrite par réflexe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Processing Forms, Using the submit() Method
     verified_at: '2026-09-24'
