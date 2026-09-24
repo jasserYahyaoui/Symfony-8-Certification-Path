@@ -1261,6 +1261,35 @@ jobs:
             echo "ok  lot-04  the 404 pages page carries its four flashcard levels, the FlattenException, the 400 interface and the built-in renderer"
           fi
 
+          # Page 12 of lot 04. The three content needles are what this
+          # refinement added and master's version of the page does not contain:
+          # the untrusted method whose name escapes the getClient rule, the
+          # class getSize() is really inherited from, and the attribute option
+          # that carries the 422.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-upload -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/file-upload")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page file-upload serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-upload || missing="$missing l4upload:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-upload || missing="$missing l4upload:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-upload || missing="$missing l4upload:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-upload || missing="$missing l4upload:no-trap-heading"
+          grep -aq 'guessClientExtension' /tmp/l4r-upload \
+            || missing="$missing l4upload:no-client-extension"
+          grep -aq 'SplFileInfo' /tmp/l4r-upload \
+            || missing="$missing l4upload:no-getsize-origin"
+          grep -aq 'validationFailedStatusCode' /tmp/l4r-upload \
+            || missing="$missing l4upload:no-422-option"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the file upload page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the file upload page carries its four flashcard levels, guessClientExtension, the SplFileInfo origin of getSize and the 422 option"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
