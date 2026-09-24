@@ -1057,6 +1057,33 @@ périmètre de ce raffinement : **signalé, non traité**.
 >             the match command, the traceable matcher and the path info
 > ```
 
+## Addendum — le doublon de questions, traité sur instruction (2026-09-24)
+
+Le rapport laissait ouvert un doublon : `QST-m5x0wprr2kvf` et
+`QST-f0k6jqb9twcj` testaient toutes deux l'exclusion de `_fragment` des
+imports. Le propriétaire a demandé de supprimer l'une des deux, selon l'option
+recommandée.
+
+**Une suppression pure aurait dégradé la preuve.** Chacune était la seule
+question `LEARNING` de son objectif : `f0k6` de `OUT-8f5nc3sevst2` (l'exclusion
+de `_fragment`), `m5x0` de `OUT-zsdbtcwh25g5` (« Nommer les cinq paramètres
+réservés et leur effet »), qu'elle ne testait pas. Et `m5x0` est l'une des deux
+questions citées dans les `question_refs` de l'item, pour un minimum de preuve
+`STANDARD` de deux questions.
+
+**Retenu : `m5x0` est réécrite, pas supprimée.** Même identifiant, `version` 1 → 2,
+quatre nouveaux identifiants de choix : elle demande quel paramètre réservé
+ajoute l'identifiant de fragment à l'URL générée, avec pour distracteurs les
+effets de `_query`, `_format` et `_controller`. Le fait « `_fragment` hors des
+imports » n'est plus testé qu'une fois, par `f0k6` ; chaque objectif garde sa
+question. La réponse correcte n'est pas le choix le plus long (`_controller`
+l'est). Aucune question holdout n'a été lue.
+
+**Constat signalé, non traité.** L'objectif `OUT-4k0zcm86nfkk` de la matrice
+s'intitule « Associer les options locale, format et query à leur paramètre
+réservé » ; `#[Route]` n'a pas d'argument `query` en 8.0 (page 7). Corriger le
+libellé d'un objectif touche la matrice : décision du propriétaire.
+
 ## Prochaine étape
 
 Lot 06, page 1, dans l'ordre officiel des items. Reste ouverte, sans lien avec

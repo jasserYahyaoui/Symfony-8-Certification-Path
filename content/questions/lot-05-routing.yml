@@ -553,22 +553,23 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-zsdbtcwh25g5
-    version: 1
+    version: 2
     official_topic: Routing
     official_item: OIT-4pgc74ctc3vc
     domain: symfony
     language: en
-    difficulty: hard
+    difficulty: medium
     cognitive_level: KNOW
     exam_skill: DISTINGUISH
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Which special routing parameter can be used in an individual route but NOT in a route import?
+    question: 'Which reserved routing parameter adds a fragment identifier, the part after #, to a generated
+      URL?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
-    estimated_time_seconds: 60
+    estimated_time_seconds: 45
     classification: OFFICIAL
     pool: LEARNING
     verification_status: VERIFIED
@@ -578,25 +579,24 @@ questions:
     tags:
       - special-parameters
     choices:
-      - id: CHO-494zrzqh4wjx
+      - id: CHO-46745eg2vcjd
         text: _fragment
         correct: true
-      - id: CHO-ckgv4emxxwxr
-        text: _locale
+      - id: CHO-21p48p6hae6a
+        text: _query
         correct: false
-        explanation: It works in both individual routes and imports.
-      - id: CHO-egcgnz36wynb
+        explanation: 'It adds query string parameters, the part after ?, to the generated URL.'
+      - id: CHO-10n5w1ew4qky
         text: _format
         correct: false
-        explanation: It works in both individual routes and imports.
-      - id: CHO-sde4d9yn9zpf
+        explanation: It sets the request format of the matched request.
+      - id: CHO-wjxbb6h3cbq5
         text: _controller
         correct: false
-        explanation: It works in both individual routes and imports.
-    explanation: 'The documentation names _fragment as the one exception. The rule is documentary: the 8.0
-      loaders copy an import''s defaults onto every route without checking their names. The attribute
-      also exposes short forms without the underscore — locale and format, plus stateless — which set
-      the default of the matching reserved parameter; it has no query argument.'
+        explanation: It names the controller executed when the route matches.
+    explanation: 'The documentation lists five reserved parameters: _controller names the controller, _format
+      sets the request format, _locale sets the request locale, _fragment adds the fragment identifier and
+      _query adds query string parameters to the generated URL.'
     official_sources: *id001
   - id: QST-c8g1bj0n5dqs
     question_archetype: API_SIGNATURE
