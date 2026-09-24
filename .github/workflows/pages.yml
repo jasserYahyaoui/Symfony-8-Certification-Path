@@ -1832,6 +1832,34 @@ jobs:
             echo "ok  lot-06  the global variables page carries its four flashcard levels, the Twig global, the app variable class and the globals interface"
           fi
 
+          # Lot 06, page 6. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the extra
+          # package that provides truncation, the test attribute of Twig 3.21,
+          # and the word stating that trim and lower commute.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-filters -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/filters-and-functions")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page filters-and-functions serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-filters || missing="$missing l6fil:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-filters || missing="$missing l6fil:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-filters || missing="$missing l6fil:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-filters || missing="$missing l6fil:no-trap-heading"
+          grep -aq 'string-extra' /tmp/l6r-filters \
+            || missing="$missing l6fil:no-extra-package"
+          grep -aq 'AsTwigTest' /tmp/l6r-filters \
+            || missing="$missing l6fil:no-test-attribute"
+          grep -aq 'commutent' /tmp/l6r-filters \
+            || missing="$missing l6fil:no-commute-statement"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the filters and functions page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the filters and functions page carries its four flashcard levels, the extra package, the test attribute and the commute statement"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

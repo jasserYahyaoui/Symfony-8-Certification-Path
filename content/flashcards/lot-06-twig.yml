@@ -223,6 +223,7 @@ flashcards:
   - id: FLC-qhsttsmdnhx6
     official_item: OIT-sqekx9pkbe5v
     language: fr
+    level: UNDERSTANDING
     front: 'Twig : qu''est-ce qui décide qu''un élément est un filtre plutôt qu''une fonction ?'
     back: 'La source de la valeur : on part d''une valeur existante, c''est un filtre ; on part de rien,
       c''est une fonction.'
@@ -1404,4 +1405,243 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "Global Variables"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ty9sd20z2f05
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : existe-t-il un filtre truncate dans le cœur de Twig ?"
+    back: "Non. On tronque avec slice, ou avec u.truncate() de twig/string-extra."
+    explanation: >-
+      Le filtre u fait partie de StringExtension, à installer ; dans Symfony, twig/extra-bundle l'active.
+    memorization_justification: >-
+      Un nom de filtre qu'on croit universel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/index.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/index.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Filters"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/u.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/u.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "u.truncate, twig/string-extra, twig/extra-bundle"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xa1gb9890qxr
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: RECALL
+    front: "Twig : depuis quelle version les attributs #[AsTwigFilter] et #[AsTwigFunction] existent-ils ?"
+    back: "Twig 3.21, dans l'espace de noms Twig\\Attribute, avec #[AsTwigTest]."
+    explanation: >-
+      TwigBundle 8.0 les enregistre par autoconfiguration sur les méthodes publiques d'un service.
+    memorization_justification: >-
+      Version et espace de noms précis.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/advanced.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/advanced.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "AsTwigFilter, AsTwigFunction, AsTwigTest (3.21)"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerAttributeForAutoconfiguration AsTwigFilter"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3f949fq0yk69
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: RECALL
+    front: "Twig : quels sont les noms des arguments du filtre number_format ?"
+    back: "decimal, decimal_point et thousand_sep."
+    explanation: >-
+      Ils permettent l'appel nommé : price|number_format(decimal: 2).
+    memorization_justification: >-
+      Noms exacts, utiles pour les arguments nommés.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/number_format.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/number_format.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "decimal, decimal_point, thousand_sep"
+        verified_at: "2026-09-24"
+
+  - id: FLC-mnectt2awjmx
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: RECALL
+    front: "Twig : comment s'appliquent les tests, par opposition aux filtres et aux fonctions ?"
+    back: "Par is : is defined, is empty, is iterable."
+    explanation: >-
+      Un filtre s'applique par |, une fonction s'appelle ; un test renvoie un booléen après is.
+    memorization_justification: >-
+      Troisième famille, souvent oubliée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Test Operator"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hr4eeqynrvhm
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : sur '  abcdef', pourquoi |slice(0, 5)|trim et |trim|slice(0, 5) diffèrent-ils ?"
+    back: "La coupe garde les espaces avant de les retirer : abc contre abcde."
+    explanation: >-
+      Les filtres s'enchaînent de gauche à droite ; l'ordre compte quand ils ne commutent pas.
+    memorization_justification: >-
+      Un exemple qui rend l'ordre visible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/slice.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/slice.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "slice"
+        verified_at: "2026-09-24"
+
+  - id: FLC-q0dpfvqxh089
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : |trim|lower et |lower|trim donnent-ils des résultats différents ?"
+    back: "Non : trim ne touche que les espaces, lower que la casse ; ils commutent."
+    explanation: >-
+      L'ordre ne compte que pour des filtres qui ne commutent pas, comme slice et trim.
+    memorization_justification: >-
+      Contre-exemple fréquemment cité à tort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/slice.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/slice.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "slice"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hcv2em8mgy1w
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi |u.truncate(50) lève-t-il une erreur dans une application qui n'a que TwigBundle ?"
+    back: "Le filtre u vient de StringExtension, du paquet twig/string-extra, non installé."
+    explanation: >-
+      La documentation de Twig liste aussi les filtres des paquets extra ; dans Symfony, twig/extra-bundle les active une fois installés.
+    memorization_justification: >-
+      La présence dans la documentation ne garantit pas la présence dans l'application.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/u.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/u.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "u.truncate, twig/string-extra, twig/extra-bundle"
+        verified_at: "2026-09-24"
+
+  - id: FLC-q6609f7vr3mx
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: APPLICATION
+    front: "Twig : n'affichez que les noms des utilisateurs actifs, séparés par des virgules."
+    back: "{{ users|filter(u => u.active)|map(u => u.name)|join(', ') }}"
+    explanation: >-
+      filter et map prennent une fonction fléchée ; join assemble le résultat.
+    memorization_justification: >-
+      Chaîner des filtres à fonctions fléchées.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/filter.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/filter.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "filter"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/map.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/map.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "map"
+        verified_at: "2026-09-24"
+
+  - id: FLC-epbm3ytazjcy
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: APPLICATION
+    front: "Twig : déclarez un filtre rot13 sans écrire de classe AbstractExtension."
+    back: "#[AsTwigFilter('rot13')] sur une méthode publique d'un service."
+    explanation: >-
+      L'attribut vient de Twig\\Attribute (Twig 3.21) ; TwigBundle l'autoconfigure.
+    memorization_justification: >-
+      Voie courte pour étendre Twig.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/advanced.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/advanced.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "AsTwigFilter, AsTwigFunction, AsTwigTest (3.21)"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerAttributeForAutoconfiguration AsTwigFilter"
+        verified_at: "2026-09-24"
+
+  - id: FLC-54tdv75a22q5
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: TRAP
+    front: "Piège : « text|truncate(50) tronque un texte avec Twig 3.22 »."
+    back: "Faux : aucun filtre truncate dans le cœur ; slice ou u.truncate()."
+    explanation: >-
+      u.truncate() exige twig/string-extra.
+    memorization_justification: >-
+      Un exemple répandu qui ne compile pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/index.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/index.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Filters"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/u.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/u.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "u.truncate, twig/string-extra, twig/extra-bundle"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2scrt3zatthj
+    official_item: OIT-sqekx9pkbe5v
+    language: fr
+    level: TRAP
+    front: "Piège : « path() et asset() sont des fonctions de Twig »."
+    back: "Faux : elles viennent du bridge Twig de Symfony."
+    explanation: >-
+      Un Twig installé seul ne les connaît pas ; debug:twig montre ce que l'application expose réellement.
+    memorization_justification: >-
+      On attribue au moteur ce qui vient de l'intégration.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Functions, Filters"
         verified_at: "2026-09-24"
