@@ -1034,6 +1034,93 @@ coloration syntaxique.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 10, lu dans le journal d'exécution.** PR #195 fusionnée
+en squash (`4780101`). Run Pages 35970989725 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the internal redirects page carries its four
+flashcard levels, the duplicate() mechanism and the dropped query string` est
+écrite à **07:43:12 UTC** le 2026-09-24.
+
+## Page 11 — Generate 404 pages
+
+`CRS-p57qsnnfpd2a` · `OIT-emymfwgesh99` · STANDARD · **423 → 594 mots** sur 900.
+Aucun niveau promu.
+
+### Une contradiction entre la documentation et le code
+
+`controller/error_pages.rst` (8.0) : « you have access to the `HttpException`
+object via the `exception` Twig variable ». `TwigErrorRenderer::render()` :
+
+```php
+return $flattenException->setAsString($this->twig->render($template, [
+    'exception' => $flattenException,
+    'status_code' => $flattenException->getStatusCode(),
+    'status_text' => $flattenException->getStatusText(),
+]));
+```
+
+La variable est une `FlattenException`, classe autonome (`class FlattenException`,
+sans `extends`). `exception.message` et `exception.traceAsString` fonctionnent
+parce qu'elle expose `getMessage()` et `getTraceAsString()` ; un test sur la classe
+d'origine échoue.
+
+**Résolution.** La hiérarchie des sources place le code au-dessus de la
+documentation, et le code est sans ambiguïté : la contradiction n'est pas
+irrésolue au sens du §15. La page énonce ce que fait le code **et** signale ce que
+dit la documentation, parce qu'une question d'examen pourrait reprendre la
+formulation documentaire. Aucune question non-holdout ne porte sur ce point ; le
+holdout n'a pas été ouvert.
+
+### Deux silences
+
+**400 avant 500.** La documentation : « Otherwise, the `status_code` will default
+to `500` ». `FlattenException::createFromThrowable()` intercale un cas :
+
+```php
+} elseif ($exception instanceof RequestExceptionInterface) {
+    $statusCode = 400;
+}
+$statusCode ??= 500;
+```
+
+`BadRequestException`, `SuspiciousOperationException` et
+`ConflictingHeadersException` implémentent l'interface — vérifié dans chacun des
+trois fichiers.
+
+**Un troisième niveau de repli.** `findTemplate()` retourne `null` quand ni
+`error404.html.twig` ni `error.html.twig` n'existent ; `render()` passe alors à
+`HtmlErrorRenderer`. Le même repli s'applique en mode debug — c'est pourquoi le
+gabarit ne s'affiche pas en développement. La prévisualisation `/_error/{code}`
+le contourne en lançant une sous-requête avec `showException` à `false`, que lit
+`isDebug()`.
+
+**Flashcards.** 13 ajoutées ; `FLC-b3yz3wtpa5xx` reçoit le niveau RECALL. L'item
+en porte **14** (4 RECALL, 4 UNDERSTANDING, 3 APPLICATION, 3 TRAP). Une
+affirmation retirée d'une carte avant commit : « statut 200 » pour un
+`createNotFoundException()` sans `throw` — le statut dépend de ce que le
+contrôleur retourne ensuite.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `FlattenException`,
+`RequestExceptionInterface` et `HtmlErrorRenderer`, absentes de la version
+`master` de la page, en prose ou en code en ligne.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 454 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 11 — *Generate 404 pages* (STANDARD, 423 / 900).
+Page 12 — *File upload* (STANDARD, 404 / 900). **Une erreur à corriger** : la page
+présente `getSize()` comme « la taille annoncée » par le client. Le code ne la
+définit ni dans `UploadedFile` ni dans `File` ; elle vient de `\SplFileInfo` et
+mesure le fichier référencé. La documentation (`upload_file.rst`, l. 184-188) la
+range pourtant parmi les valeurs « not safe » — même traitement que ci-dessus.
