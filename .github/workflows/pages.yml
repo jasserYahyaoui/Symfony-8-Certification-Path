@@ -1804,6 +1804,34 @@ jobs:
             echo "ok  lot-06  the template inheritance page carries its four flashcard levels, the parser method, the Twig fixture and the single-inheritance error"
           fi
 
+          # Lot 06, page 5. The three content needles are what this refinement
+          # added and master's version of the page does not contain: one of the
+          # three globals Twig itself provides, the bridge class behind app, and
+          # the extension interface that declares globals.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-globals -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/global-variables")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page global-variables serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-globals || missing="$missing l6glo:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-globals || missing="$missing l6glo:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-globals || missing="$missing l6glo:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-globals || missing="$missing l6glo:no-trap-heading"
+          grep -aq '_charset' /tmp/l6r-globals \
+            || missing="$missing l6glo:no-twig-global"
+          grep -aq 'AppVariable' /tmp/l6r-globals \
+            || missing="$missing l6glo:no-app-variable-class"
+          grep -aq 'GlobalsInterface' /tmp/l6r-globals \
+            || missing="$missing l6glo:no-globals-interface"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the global variables page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the global variables page carries its four flashcard levels, the Twig global, the app variable class and the globals interface"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
