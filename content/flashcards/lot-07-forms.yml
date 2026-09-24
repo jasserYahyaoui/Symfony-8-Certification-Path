@@ -159,6 +159,7 @@ flashcards:
 - id: FLC-jd951drcz26t
   official_item: OIT-tsxxgp3ppj1n
   language: fr
+  level: RECALL
   front: 'Symfony Forms : combien de couches de données un formulaire manipule-t-il, et lesquelles
     ?'
   back: 'Trois : modèle, normalisée, vue.'
@@ -272,3 +273,197 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: creating a form type extension
     verified_at: '2026-09-11'
+- id: FLC-g5safm0wr403
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelle méthode rend chaque couche de données d''un formulaire ?'
+  back: '`getData()` pour le modèle, `getNormData()` pour la couche normalisée, `getViewData()` pour la vue.'
+  explanation: La documentation présente `getNormData()` comme utile pour déboguer les transformateurs ; `getData()` est la méthode d'usage courant.
+  memorization_justification: Trois méthodes pour trois couches, souvent confondues.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-xsegkv0rygp5
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: TRAP
+  front: 'Symfony 8.0 : quelle est la donnée normalisée d''un DateType rendu en trois listes, avec l''input par défaut ?'
+  back: Un objet `DateTime` — pas le tableau d'entiers que montre l'exemple de la documentation.
+  explanation: '`DateType` n''ajoute de transformateur de modèle que pour les inputs autres que `datetime`, et son transformateur de vue part d''un `DateTime`. Vérifié par exécution avec symfony/form 8.0.15.'
+  memorization_justification: Écart entre un exemple documenté et le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateType::buildForm()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-6kz6nw4196kj
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi la donnée normalisée d''un DateType est-elle un DateTime quel que soit l''input ?'
+  back: 'Parce que c''est le format pivot : les transformateurs de modèle ramènent string, timestamp, array, DateTimeImmutable ou DatePoint vers un DateTime, et la vue part de lui.'
+  explanation: 'C''est la raison d''être de la couche normalisée : rendre le type indépendant du format de donnée que l''application choisit.'
+  memorization_justification: Explique à quoi sert la couche intermédiaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateType::buildForm()
+    verified_at: '2026-09-24'
+- id: FLC-cdcsn1340q2n
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quels transformateurs relient quelles couches ?'
+  back: Les transformateurs de modèle relient modèle et normalisée ; les transformateurs de vue relient normalisée et vue.
+  explanation: Au rendu, on applique les transformations dans l'ordre modèle, puis vue ; à la soumission, les inverses dans l'ordre vue, puis modèle.
+  memorization_justification: Vocabulaire indispensable pour l'item Data transformers.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-qqbsdx04cqqr
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un DateType a input: ''string'' et reçoit ''2026-10-18''. Que contiennent les trois couches ?'
+  back: 'Modèle : la chaîne `''2026-10-18''` ; normalisée : un `DateTime` ; vue : `[''year'' => ''2026'', ''month'' => ''10'', ''day'' => ''18'']`.'
+  explanation: Le transformateur de modèle inversé `DateTimeToStringTransformer` convertit la chaîne ; `DateTimeToArrayTransformer` produit la vue. Résultat observé par exécution.
+  memorization_justification: Mise en œuvre concrète des trois couches.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateType::buildForm()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataTransformer/DateTimeToArrayTransformer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/DataTransformer/DateTimeToArrayTransformer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateTimeToArrayTransformer::transform()
+    verified_at: '2026-09-24'
+- id: FLC-f8xn62mg6njd
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : dans quel ordre les couches sont-elles parcourues au rendu, puis à la soumission ?'
+  back: 'Rendu : modèle → normalisée → vue. Soumission : vue → normalisée → modèle.'
+  explanation: Les mêmes transformateurs servent dans les deux sens ; à la soumission, c'est leur méthode inverse qui est appelée.
+  memorization_justification: Le sens du flux est une question classique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-ay1md2g1h5ax
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : quelle méthode des transformateurs la soumission appelle-t-elle, et dans quel ordre ?'
+  back: '`reverseTransform()` : d''abord les transformateurs de vue, qui donnent la donnée normalisée, puis ceux de modèle, qui donnent la donnée du modèle.'
+  explanation: 'Au rendu, `transform()` est appelé dans l''ordre inverse : modèle puis vue.'
+  memorization_justification: Relie le sens du flux au nom de la méthode.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-qxgkz5wy6bya
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: TRAP
+  front: 'Symfony : le composant Form est-il une fonctionnalité de FrameworkBundle ?'
+  back: 'Non : c''est un composant autonome, utilisable hors du framework.'
+  explanation: FrameworkBundle l'intègre et le configure ; il ne le définit pas.
+  memorization_justification: Confusion fréquente entre composant et intégration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-12mg851eznzm
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un champ date se soumet mal. Quelles méthodes comparer pour savoir à quelle couche la conversion échoue ?'
+  back: '`getViewData()` puis `getNormData()` : la première montre ce qui est arrivé du navigateur, la seconde ce qu''en a fait le transformateur de vue.'
+  explanation: La documentation présente `getNormData()` comme utile pour déboguer les transformateurs.
+  memorization_justification: Usage de diagnostic, rarement pratiqué.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-wxqqnxjkv2te
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quel événement reçoit la donnée normalisée à la soumission ?'
+  back: '`FormEvents::SUBMIT`. `PRE_SUBMIT` reçoit les valeurs brutes, `POST_SUBMIT` la donnée entièrement transformée.'
+  explanation: Chaque événement de soumission se place à un niveau précis de la chaîne de transformation.
+  memorization_justification: Relie les couches aux événements.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form lifecycle phases
+    verified_at: '2026-09-24'
+- id: FLC-34km4f37b7zm
+  official_item: OIT-tsxxgp3ppj1n
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : dans la vue d''un DateType en trois listes, les valeurs year, month et day sont-elles des entiers ?'
+  back: 'Non : ce sont des chaînes, `''2026''`, `''10''`, `''18''`.'
+  explanation: '`DateTimeToArrayTransformer::transform()` produit des chaînes ; la couche vue est textuelle parce qu''un navigateur n''envoie que du texte.'
+  memorization_justification: Le type des valeurs de vue est souvent mal retenu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataTransformer/DateTimeToArrayTransformer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/DataTransformer/DateTimeToArrayTransformer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateTimeToArrayTransformer::transform()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
