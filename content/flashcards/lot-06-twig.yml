@@ -76,13 +76,15 @@ flashcards:
   - id: FLC-mype643dt889
     official_item: OIT-g3p8wdtww344
     language: fr
+    level: RECALL
     front: "Twig : que devient le contenu écrit hors d'un bloc dans un gabarit qui étend un parent ?"
-    back: "Il est ignoré. Un enfant n'affiche que ses blocs."
+    back: "Une Twig\\Error\\SyntaxError en Twig 3.22 : content outside Twig blocks. Seuls les blancs sont tolérés."
     explanation: >-
-      L'héritage est simple — un seul extends — et la balise extends doit être
-      la première du gabarit. {{ parent() }} reprend le contenu du bloc parent.
+      Parser::filterBodyNodes() rejette tout texte non blanc et tout {{ }} hors
+      bloc dans un gabarit enfant ; une balise qui n'affiche rien, comme set,
+      reste permise.
     memorization_justification: >-
-      Le contenu est écrit, valide, et disparaît sans erreur ni avertissement.
+      On croit le contenu silencieusement perdu ; Twig 3.22 refuse de compiler.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
@@ -937,4 +939,230 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "static expressions, safe markup"
+        verified_at: "2026-09-24"
+
+  - id: FLC-6hpwtfxdxdaf
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : que lève une seconde balise extends dans le même gabarit ?"
+    back: "Une SyntaxError : Multiple extends tags are forbidden."
+    explanation: >-
+      L'héritage est simple ; extends est aussi refusée dans un bloc ou une macro.
+    memorization_justification: >-
+      Message d'erreur exact, que le code fixe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Parser.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Parser.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "filterBodyNodes, Multiple extends tags are forbidden"
+        verified_at: "2026-09-24"
+
+  - id: FLC-cyqbsk786f6a
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: RECALL
+    front: "Twig : quelle fonction réaffiche un bloc déjà rendu par sa balise ?"
+    back: "block('nom') — par exemple {{ block('title') }} dans un h1."
+    explanation: >-
+      La balise block n'affiche qu'une fois ; la fonction peut aussi lire un bloc d'un autre gabarit, block('title', 'common.html.twig').
+    memorization_justification: >-
+      Balise et fonction portent le même nom, mais n'ont pas le même rôle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/block.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/block.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "block, is defined"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gfcgz4scqv1d
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: RECALL
+    front: "Twig : avec {% extends ['layout.html.twig', 'base.html.twig'] %}, quel parent est retenu ?"
+    back: "Le premier gabarit de la liste qui existe."
+    explanation: >-
+      C'est l'une des formes de l'héritage dynamique, avec la variable et le ternaire.
+    memorization_justification: >-
+      Une liste ne signifie pas plusieurs parents.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3y75n5trn2h9
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : un bloc est placé dans {% if posts is empty %}. Est-il défini seulement quand la condition est vraie ?"
+    back: "Non : le bloc est toujours défini ; seul son affichage suit la condition."
+    explanation: >-
+      La documentation recommande de mettre le if dans le bloc pour conditionner le contenu.
+    memorization_justification: >-
+      Le piège que la documentation illustre expressément.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+
+  - id: FLC-s5t9rqk95rgx
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi deux blocs de même nom sont-ils interdits dans un gabarit ?"
+    back: "Un bloc est à la fois le trou à remplir et son contenu ; deux blocs de même nom rendraient l'héritage ambigu."
+    explanation: >-
+      La documentation explique la limite par ce double rôle ; block() permet d'afficher plusieurs fois le même bloc.
+    memorization_justification: >-
+      Comprendre la raison donne la solution de contournement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jm1b28fhd199
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : que fait {% use 'blocks.html.twig' %} des blocs importés ?"
+    back: "Il les rend disponibles comme s'ils étaient définis dans le gabarit, sans les afficher."
+    explanation: >-
+      Un bloc du gabarit courant de même nom l'emporte ; with ... as renomme à l'import.
+    memorization_justification: >-
+      On confond use avec include, qui, lui, affiche.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/use.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "use ... with ... as"
+        verified_at: "2026-09-24"
+
+  - id: FLC-k1s07234vpc2
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : un {% set %} écrit hors bloc dans un gabarit enfant lève-t-il une erreur ?"
+    back: "Non : seules les sorties hors bloc sont refusées, texte non blanc ou {{ }}."
+    explanation: >-
+      Parser::filterBodyNodes() ne rejette que les nœuds d'affichage ; une affectation n'affiche rien.
+    memorization_justification: >-
+      Nuance de la règle hors bloc.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Parser.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Parser.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "filterBodyNodes, Multiple extends tags are forbidden"
+        verified_at: "2026-09-24"
+
+  - id: FLC-p35snb8e1fxf
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: APPLICATION
+    front: "Twig : faites hériter la page de minimum.html.twig quand standalone est vrai, sinon de base.html.twig."
+    back: "{% extends standalone ? 'minimum.html.twig' : 'base.html.twig' %}"
+    explanation: >-
+      Le parent est une expression, donc un ternaire convient.
+    memorization_justification: >-
+      Héritage conditionnel en une ligne.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qh5xyvhf786j
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: APPLICATION
+    front: "Twig : affichez le pied de page seulement si le bloc footer existe."
+    back: "{% if block('footer') is defined %} … {% endif %}"
+    explanation: >-
+      Le test defined appliqué à la fonction block() vérifie l'existence du bloc dans le gabarit courant.
+    memorization_justification: >-
+      Tester un bloc avant de l'afficher.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/block.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/block.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "block, is defined"
+        verified_at: "2026-09-24"
+
+  - id: FLC-mywdgq7vzh0q
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: TRAP
+    front: "Piège : « on peut placer {% extends %} dans un bloc pour changer de parent selon la section »."
+    back: "Faux : SyntaxError, Cannot use extend in a block."
+    explanation: >-
+      Pour choisir le parent selon une condition, extends accepte une expression : variable, liste ou ternaire.
+    memorization_justification: >-
+      L'envie de conditionner l'héritage mène au mauvais outil.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/TokenParser/ExtendsTokenParser.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/TokenParser/ExtendsTokenParser.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Cannot use extend in a block"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Conditional Inheritance"
+        verified_at: "2026-09-24"
+  - id: FLC-5y0387rjjf2d
+    official_item: OIT-g3p8wdtww344
+    language: fr
+    level: TRAP
+    front: "Piège : « {% extends ['a.html.twig', 'b.html.twig'] %} hérite des deux gabarits »."
+    back: "Faux : seul le premier gabarit existant devient le parent."
+    explanation: >-
+      Twig ne connaît pas l'héritage multiple ; use répond à ce besoin.
+    memorization_justification: >-
+      La syntaxe de liste suggère un héritage multiple.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Dynamic Inheritance, Conditional Inheritance, How do blocks work"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/use.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/use.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "use ... with ... as"
         verified_at: "2026-09-24"

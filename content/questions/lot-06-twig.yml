@@ -376,7 +376,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-0b65p7477ebz
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-g3p8wdtww344
   domain: symfony
@@ -387,7 +387,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A child template extends a parent and writes a paragraph outside any block. What is rendered?
+  question: A child template extends a parent and writes a paragraph outside any block. What happens when it is
+    rendered?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -397,33 +398,44 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - inheritance
   choices:
   - id: CHO-t80q6p186yg2
     text: Nothing — a child renders only its blocks
-    correct: true
+    correct: false
+    explanation: Only whitespace is tolerated outside blocks; other content makes the template invalid.
   - id: CHO-9sqz15havj6g
     text: The paragraph, before the parent's output
     correct: false
-    explanation: Content outside a block in a child is discarded, not repositioned.
+    explanation: The paragraph is not repositioned; the template does not compile.
   - id: CHO-qdxterbbd0kc
     text: The paragraph, after the parent's output
     correct: false
-    explanation: It is not appended either.
+    explanation: It is not appended either; the template does not compile.
   - id: CHO-jd9z38z4ectq
     text: A Twig syntax error
-    correct: false
-    explanation: The template is valid; the content is simply ignored.
-  explanation: Only blocks cross the inheritance boundary. This fails silently, which is what makes it a common
-    surprise.
+    correct: true
+  explanation: 'Twig 3.22 rejects it at compile time with a Twig\Error\SyntaxError: "A template that extends
+    another one cannot include content outside Twig blocks". Only whitespace, and tags that print nothing such
+    as set, are allowed outside blocks in a child template.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
     readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst
     branch: v3.22.0
-    symbol_or_lines: child templates render only blocks
+    symbol_or_lines: Child Template
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Parser.php
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Parser.php
+    branch: v3.22.0
+    symbol_or_lines: filterBodyNodes
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/tests/Fixtures/exceptions/child_contents_outside_blocks.test
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/tests/Fixtures/exceptions/child_contents_outside_blocks.test
+    branch: v3.22.0
+    symbol_or_lines: SyntaxError
+    verified_at: '2026-09-24'
 - id: QST-81q6m585fqxs
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
@@ -449,7 +461,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - inheritance
   choices:
@@ -468,8 +480,8 @@ questions:
     text: By using {% use %} on the parent
     correct: false
     explanation: use imports blocks horizontally; it does not append to one.
-  explanation: 'Inheritance is single: a template extends exactly one parent, and {% extends %} must be its first
-    tag. {% use %} is the separate horizontal-reuse mechanism.'
+  explanation: 'Inheritance is single: a template extends exactly one parent, and {% extends %} should be its
+    first tag, as the documentation puts it. {% use %} is the separate horizontal-reuse mechanism.'
   official_sources:
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst
     readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst
