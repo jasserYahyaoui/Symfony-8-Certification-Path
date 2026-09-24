@@ -2041,6 +2041,32 @@ jobs:
           else
             echo "ok  lot-06  the assets management page carries its four flashcard levels, the path package, the strict mode and the static strategy"
           fi
+          # Lot 06 refinement, page 14 (Debugging variables): the four flashcard
+          # levels, the dump node class, the lint deprecation option and the
+          # service identifier of the dump extension.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-debug -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/debugging-variables")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page debugging-variables serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-debug || missing="$missing l6dbg:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-debug || missing="$missing l6dbg:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-debug || missing="$missing l6dbg:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-debug || missing="$missing l6dbg:no-trap-heading"
+          grep -aq 'DumpNode' /tmp/l6r-debug \
+            || missing="$missing l6dbg:no-dump-node"
+          grep -aq 'show-deprecations' /tmp/l6r-debug \
+            || missing="$missing l6dbg:no-lint-option"
+          grep -aq 'twig.extension.dump' /tmp/l6r-debug \
+            || missing="$missing l6dbg:no-service-id"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the debugging variables page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the debugging variables page carries its four flashcard levels, the dump node, the lint option and the service id"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

@@ -177,6 +177,7 @@ flashcards:
   - id: FLC-f2fz5g5z16nj
     official_item: OIT-3r7rp470754w
     language: fr
+    level: RECALL
     front: "Twig : où s'affiche {% dump x %}, et où {{ dump(x) }} ?"
     back: "La balise envoie à la barre de débogage ; la fonction affiche dans la page."
     explanation: >-
@@ -3206,4 +3207,191 @@ flashcards:
       repository: symfony/symfony-docs
       branch: '8.0'
       symbol_or_lines: asset, asset_version
+      verified_at: '2026-09-24'
+
+  - id: FLC-fe3wkxfj8v05
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: RECALL
+    front: 'Twig : que sort dump() appelé sans argument, ou la balise dump seule ?'
+    back: Tout le contexte du gabarit, macros exclues.
+    explanation: '`DumpExtension::dump()` et `DumpNode` parcourent le contexte et écartent les objets `Template`, c''est-à-dire les macros importées.'
+    memorization_justification: Sortie volumineuse à reconnaître.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpExtension::getFunctions(), dump()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpNode::compile()
+      verified_at: '2026-09-24'
+  - id: FLC-e8g289vgszxs
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: TRAP
+    front: 'Twig 3.22 : dump(blog_posts: articles) fonctionne-t-il avec la DumpExtension de Symfony 8.0 ?'
+    back: 'Non : la compilation lève `SyntaxError: Unknown arguments`, bien que la documentation montre cet exemple. Les arguments positionnels passent.'
+    explanation: '`DumpExtension` déclare `dump(Environment $env, array $context)` sans argument variadique ; `CallableArgumentsExtractor` refuse alors tout nom inconnu. Vérifié en exécutant Twig 3.22 avec une fonction déclarée à l''identique.'
+    memorization_justification: Écart entre un exemple documenté et le code.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpExtension::getFunctions(), dump()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Util/CallableArgumentsExtractor.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Util/CallableArgumentsExtractor.php
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: CallableArgumentsExtractor::extractArguments()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: The Dump Twig Utilities
+      verified_at: '2026-09-24'
+  - id: FLC-ky6szftgftbt
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: APPLICATION
+    front: 'Twig : envoyer articles et user à la barre de débogage, chacun étiqueté par son nom.'
+    back: '`{% dump articles, user %}` : la balise compile un tableau `nom => valeur`.'
+    explanation: '`DumpNode` produit `VarDumper::dump(["articles" => …, "user" => …])` quand la balise reçoit plusieurs variables.'
+    memorization_justification: Étiquetage sans argument nommé.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpNode::compile()
+      verified_at: '2026-09-24'
+  - id: FLC-47jq26wgas8x
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: UNDERSTANDING
+    front: 'Symfony : pourquoi la balise dump ne modifie-t-elle pas la page, contrairement à la fonction ?'
+    back: La balise compile un appel à `VarDumper::dump()`, que DebugBundle collecte pour la barre ; la fonction rend du HTML inséré dans la page.
+    explanation: '`DumpExtension::dump()` écrit dans un flux mémoire et retourne son contenu, marqué sûr pour le HTML.'
+    memorization_justification: Explique la différence de destination au lieu de l'apprendre par cœur.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpNode::compile()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpExtension::getFunctions(), dump()
+      verified_at: '2026-09-24'
+  - id: FLC-bvkkyv9gvk04
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: TRAP
+    front: 'Symfony : un gabarit contenant dump() est déployé en prod, DebugBundle n''y étant pas activé. Que se passe-t-il ?'
+    back: 'La compilation échoue : `SyntaxError: Unknown "dump" function`. Ce n''est ni un avertissement ni une sortie vide.'
+    explanation: La fonction n'existe que si DebugBundle enregistre `twig.extension.dump`. La documentation parle d'une erreur PHP en `prod`.
+    memorization_justification: Un oubli qui casse la page en production.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/DebugBundle/Resources/config/services.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/DebugBundle/Resources/config/services.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: twig.extension.dump
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: The Dump Twig Utilities
+      verified_at: '2026-09-24'
+  - id: FLC-yak0t4j0n9je
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: UNDERSTANDING
+    front: 'Symfony : que font dump() et la balise dump si l''extension est chargée mais kernel.debug vaut false ?'
+    back: 'Rien : la fonction rend `null`, la balise n''exécute pas son corps. Les deux testent `isDebug()`.'
+    explanation: Cas distinct de l'extension absente, qui échoue à la compilation.
+    memorization_justification: Distingue deux causes d'absence de sortie.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/DumpExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpExtension::getFunctions(), dump()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/DumpNode.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DumpNode::compile()
+      verified_at: '2026-09-24'
+  - id: FLC-pbbvjtyxavh6
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: RECALL
+    front: 'Symfony : quel bundle enregistre l''extension Twig qui fournit dump() ?'
+    back: DebugBundle, sous l'identifiant `twig.extension.dump` (classe `DumpExtension`).
+    explanation: La documentation fait installer `symfony/debug-bundle` avant d'utiliser la fonction ou la balise.
+    memorization_justification: Relie la disponibilité de dump() à un bundle.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/DebugBundle/Resources/config/services.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/DebugBundle/Resources/config/services.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: twig.extension.dump
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: The Dump Twig Utilities
+      verified_at: '2026-09-24'
+  - id: FLC-k06t5tnrjegc
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: APPLICATION
+    front: 'Symfony : lister seulement les fonctions et filtres Twig dont le nom contient date.'
+    back: '`php bin/console debug:twig --filter=date`.'
+    explanation: Sans option, `debug:twig` liste fonctions, filtres, tests et globales ; avec un nom de gabarit, il montre le fichier réellement chargé.
+    memorization_justification: Usage ciblé de la commande d'inventaire.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Command/DebugCommand.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Command/DebugCommand.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: DebugCommand::configure()
+      verified_at: '2026-09-24'
+  - id: FLC-9pr2ty8bgde6
+    official_item: OIT-3r7rp470754w
+    language: fr
+    level: RECALL
+    front: 'Symfony : quelle option de lint:twig traite les dépréciations comme des erreurs ?'
+    back: '`--show-deprecations`.'
+    explanation: '`lint:twig` vérifie la syntaxe sans rendre ; il accepte aussi `--format` et `--excludes`.'
+    memorization_justification: Option utile en intégration continue.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Command/LintCommand.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Command/LintCommand.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: LintCommand::configure()
       verified_at: '2026-09-24'
