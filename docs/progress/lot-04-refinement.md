@@ -955,6 +955,85 @@ la page.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 9, lu dans le journal d'exécution.** PR #194 fusionnée
+en squash (`1f7f41d`). Run Pages 35969671248 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the HTTP redirects page carries its four
+flashcard levels, the closed status list and the path-only Location` est écrite
+à **07:29:01 UTC** le 2026-09-24.
+
+## Page 10 — Internal redirects
+
+`CRS-fd24qxy0x1s6` · `OIT-znm2tr61aw9p` · STANDARD · **395 → 664 mots** sur 900.
+Aucun niveau promu.
+
+La page reprenait fidèlement la documentation, y compris sa note : après un
+`forward()`, `_route` est vide. La documentation **constate** l'effet ; elle ne
+dit pas pourquoi. Le code le dit, en une ligne.
+
+**Le mécanisme**
+
+```php
+$path['_controller'] = $controller;
+$subRequest = $request->duplicate($query, null, $path);
+```
+
+Et dans `Request::duplicate()` :
+
+```php
+if (null !== $attributes) {
+    $dup->attributes = new ParameterBag($attributes);
+}
+```
+
+Un paramètre `null` garde la valeur d'origine ; un tableau la **remplace**. De là,
+quatre conséquences que la page ignorait :
+
+| Élément | Passé comme | Effet |
+|---|---|---|
+| Attributs | le tableau `$path` | **remplacés** — d'où `_route` vide ; seul `_format` est reporté |
+| Query string | `$query`, défaut `[]` | **remplacée par un tableau vide** — les paramètres GET d'origine disparaissent |
+| Corps POST | `null` | conservé |
+| Session | non clonée par `__clone()` | **partagée** avec la requête en cours |
+
+La deuxième ligne est la plus coûteuse en pratique : une cible qui lit
+`$request->query->get('page')` reçoit `null` sans erreur. Le remède est le
+troisième argument de `forward()`, absent de l'exemple documenté.
+
+**L'appariement par nom, expliqué plutôt qu'affirmé.** La page disait « comme
+pour une route ». `RequestAttributeValueResolver` le montre : il cherche dans les
+attributs une clé portant le nom de l'argument. Puisque le tableau de `forward()`
+*devient* les attributs, la règle s'ensuit.
+
+**Flashcards.** 13 ajoutées ; `FLC-zmzjmptaw0gd` reçoit le niveau RECALL. L'item
+en porte **14** (4 RECALL, 4 UNDERSTANDING, 3 APPLICATION, 3 TRAP).
+
+**Deux défauts de brouillon attrapés avant tout commit.** Un heredoc non protégé
+a exécuté des backticks comme commandes et vidé une ligne du brouillon ; relu et
+réparé. Des `\$` auraient été des échappements invalides dans les chaînes YAML
+entre guillemets ; remplacés. Et deux `symbol_or_lines` n'étaient pas des
+extraits littéraux de `forwarding.rst` — l'un chevauchait un retour à la ligne ;
+remplacés par des extraits vérifiés par `grep -c`.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `duplicate`,
+`RequestAttributeValueResolver` et `query string`, absentes de la version
+`master` de la page. Toutes trois sont en prose ou en code en ligne : une
+aiguille prise dans un bloc de code dépendrait du découpage en jetons de la
+coloration syntaxique.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 447 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 10 — *Internal redirects* (STANDARD, 395 / 900).
+Page 11 — *Generate 404 pages* (STANDARD, 423 / 900).
