@@ -297,6 +297,7 @@ flashcards:
   - id: FLC-1rh42q3b0njr
     official_item: OIT-tw3xaqbz8xjy
     language: fr
+    level: TRAP
     front: 'Twig : le chemin donné à `asset()` doit-il commencer par une barre ?'
     back: Non — il est relatif au répertoire public. Une barre en tête casse le préfixe de base.
     explanation: 'Le site cesse alors de fonctionner dès qu''il n''est pas servi à la racine du domaine.
@@ -3024,4 +3025,185 @@ flashcards:
       repository: twigphp/Twig
       branch: v3.22.0
       symbol_or_lines: Lexer::stripcslashes()
+      verified_at: '2026-09-24'
+
+  - id: FLC-vnwabbk8acaq
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: RECALL
+    front: 'Twig : quelle est la signature de la fonction asset() ?'
+    back: '`asset(path, packageName = null)` : le chemin relatif à `public/`, puis le nom du paquet, facultatif.'
+    explanation: Sans second argument, c'est le paquet par défaut de `framework.assets` qui répond.
+    memorization_justification: Base de toute question sur la fonction.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: AssetExtension::getAssetUrl(), getAssetVersion()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: asset, asset_version
+      verified_at: '2026-09-24'
+  - id: FLC-sfm83ptnz86c
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: UNDERSTANDING
+    front: 'Symfony : dans quel ordre PathPackage::getUrl() traite-t-il un chemin ?'
+    back: URL absolue rendue telle quelle ; sinon version appliquée ; résultat commençant par / rendu tel quel ; sinon préfixé par la base.
+    explanation: C'est cet ordre qui explique qu'une barre initiale garde la version mais perd le préfixe.
+    memorization_justification: Un mécanisme qui explique plusieurs pièges à la fois.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Asset/PathPackage.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Asset/PathPackage.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: PathPackage::getUrl()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Asset/Package.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Asset/Package.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: Package::getUrl(), isAbsoluteUrl()
+      verified_at: '2026-09-24'
+  - id: FLC-zeb3xcky877r
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: TRAP
+    front: 'Symfony : asset(''https://cdn.example.com/app.js'') reçoit-il la version configurée ?'
+    back: 'Non : une URL absolue, `://` ou `//` en tête, est rendue inchangée, sans préfixe ni version.'
+    explanation: '`Package::getUrl()` teste `isAbsoluteUrl()` avant d''appliquer la stratégie de version.'
+    memorization_justification: Le cache d'une ressource externe n'est pas cassé par la version de l'application.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Asset/Package.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Asset/Package.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: Package::getUrl(), isAbsoluteUrl()
+      verified_at: '2026-09-24'
+  - id: FLC-p9n581x3nq5g
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: RECALL
+    front: 'Symfony : avec framework.assets.version: ''v2'' et le format par défaut, que devient css/app.css ?'
+    back: '`css/app.css?v2` : `StaticVersionStrategy` applique le format `%s?%s`, modifiable par `version_format`.'
+    explanation: La base du paquet s'ajoute ensuite si le chemin ne commence pas par une barre.
+    memorization_justification: Forme exacte de la version statique.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Asset/VersionStrategy/StaticVersionStrategy.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Asset/VersionStrategy/StaticVersionStrategy.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: StaticVersionStrategy::applyVersion()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: addAssetsSection()
+      verified_at: '2026-09-24'
+  - id: FLC-bb7e8m3strnc
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: TRAP
+    front: 'Symfony : peut-on déclarer à la fois version et json_manifest_path sous framework.assets ?'
+    back: 'Non : `version`, `version_strategy` et `json_manifest_path` s''excluent deux à deux ; la configuration est refusée.'
+    explanation: '`Configuration::addAssetsSection()` porte une règle de validation pour chaque paire.'
+    memorization_justification: Contrainte de configuration explicitement codée.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: addAssetsSection()
+      verified_at: '2026-09-24'
+  - id: FLC-6hrf6qdyygp2
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: APPLICATION
+    front: 'Symfony : un chemin absent du manifeste JSON doit faire échouer le rendu au lieu de passer inaperçu. Quel réglage ?'
+    back: '`strict_mode: true` : le chemin manquant lève une `AssetNotFoundException`, avec des alternatives proposées.'
+    explanation: Sans mode strict, `JsonManifestVersionStrategy` rend le chemin inchangé quand il n'est pas dans le manifeste.
+    memorization_justification: Transforme une erreur silencieuse en erreur visible.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Asset/VersionStrategy/JsonManifestVersionStrategy.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Asset/VersionStrategy/JsonManifestVersionStrategy.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: JsonManifestVersionStrategy::getManifestPath()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: addAssetsSection()
+      verified_at: '2026-09-24'
+  - id: FLC-7p620184t6v7
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: APPLICATION
+    front: 'Twig : les images sont servies par un paquet nommé images. Comment l''appeler ?'
+    back: '`asset(''logo.png'', ''images'')` : le second argument choisit le paquet déclaré sous `framework.assets.packages`.'
+    explanation: Chaque paquet a sa propre base et sa propre version ; `asset_version('logo.png', 'images')` lit la sienne.
+    memorization_justification: Usage direct du second argument.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: AssetExtension::getAssetUrl(), getAssetVersion()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: asset, asset_version
+      verified_at: '2026-09-24'
+  - id: FLC-0v1x6qds4dtp
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: RECALL
+    front: 'Symfony : un paquet d''assets peut-il avoir à la fois base_path et base_urls ?'
+    back: 'Non : `FrameworkExtension` lève une `LogicException`. Avec `base_urls`, le paquet est un `UrlPackage` ; sinon un `PathPackage`.'
+    explanation: Un `UrlPackage` ajoute lui-même la barre initiale, donc une barre dans le chemin ne lui fait rien perdre.
+    memorization_justification: Relie la configuration à la classe de paquet utilisée.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: createPackageDefinition()
+      verified_at: '2026-09-24'
+  - id: FLC-xm0akfk173s6
+    official_item: OIT-tw3xaqbz8xjy
+    language: fr
+    level: RECALL
+    front: 'Twig : que retourne asset_version() ?'
+    back: 'La version que le paquet appliquerait au chemin donné : `asset_version(path, packageName = null)`.'
+    explanation: Le versionnement est configuré ; le gabarit se contente de le lire.
+    memorization_justification: Fonction voisine, souvent confondue avec un réglage.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: AssetExtension::getAssetUrl(), getAssetVersion()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: asset, asset_version
       verified_at: '2026-09-24'

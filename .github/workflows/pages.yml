@@ -2015,6 +2015,32 @@ jobs:
           else
             echo "ok  lot-06  the string interpolation page carries its four flashcard levels, the lexer function, the Windows path and the line break statement"
           fi
+          # Lot 06 refinement, page 13 (Assets management): the four flashcard
+          # levels, the path package class, the strict mode option and the
+          # static version strategy.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-assets -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/assets-management")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page assets-management serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-assets || missing="$missing l6ast:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-assets || missing="$missing l6ast:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-assets || missing="$missing l6ast:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-assets || missing="$missing l6ast:no-trap-heading"
+          grep -aq 'PathPackage' /tmp/l6r-assets \
+            || missing="$missing l6ast:no-path-package"
+          grep -aq 'strict_mode' /tmp/l6r-assets \
+            || missing="$missing l6ast:no-strict-mode"
+          grep -aq 'StaticVersionStrategy' /tmp/l6r-assets \
+            || missing="$missing l6ast:no-static-strategy"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the assets management page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the assets management page carries its four flashcard levels, the path package, the strict mode and the static strategy"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
