@@ -1885,6 +1885,32 @@ jobs:
           else
             echo "ok  lot-06  the template includes page carries its four flashcard levels, the function argument, the sandbox condition and the optional prefix"
           fi
+          # Lot 06 refinement, page 8 (Loops and conditions): the four flashcard
+          # levels, the empty test method, the for token parser and the true
+          # test the compiler puts on every if condition.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-loops -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/loops-and-conditions")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page loops-and-conditions serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-loops || missing="$missing l6loop:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-loops || missing="$missing l6loop:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-loops || missing="$missing l6loop:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-loops || missing="$missing l6loop:no-trap-heading"
+          grep -aq 'testEmpty' /tmp/l6r-loops \
+            || missing="$missing l6loop:no-empty-method"
+          grep -aq 'ForTokenParser' /tmp/l6r-loops \
+            || missing="$missing l6loop:no-token-parser"
+          grep -aq 'TrueTest' /tmp/l6r-loops \
+            || missing="$missing l6loop:no-true-test"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the loops and conditions page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the loops and conditions page carries its four flashcard levels, the empty method, the token parser and the true test"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

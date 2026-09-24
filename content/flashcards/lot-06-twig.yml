@@ -96,6 +96,7 @@ flashcards:
   - id: FLC-y4mtc33awnjy
     official_item: OIT-84j0qwkbcgq6
     language: fr
+    level: RECALL
     front: "Twig : loop.index commence à quelle valeur, et quelles variables de loop exigent un tableau ?"
     back: "loop.index commence à 1. length, revindex, revindex0 et last exigent un tableau ou un Countable."
     explanation: >-
@@ -116,6 +117,7 @@ flashcards:
   - id: FLC-n6w80mr1j8s1
     official_item: OIT-84j0qwkbcgq6
     language: fr
+    level: TRAP
     front: "Twig : comment sortir d'une boucle par anticipation ?"
     back: "On ne peut pas : il n'y a ni break ni continue. On restreint la séquence avec filter, slice ou sort."
     explanation: >-
@@ -1897,4 +1899,255 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Including Templates, underscore prefix"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dwsb3ms98g0p
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: RECALL
+    front: "Twig : quand la clause else d'une boucle for est-elle rendue ?"
+    back: "Quand aucune itération n'a eu lieu, c'est-à-dire quand la séquence était vide."
+    explanation: >-
+      Elle n'a pas d'équivalent en PHP et remplace le if englobant qui testerait la séquence avant la boucle.
+    memorization_justification: >-
+      Clause propre à Twig, facile à lire comme un épilogue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "for tag, loop variable, else clause"
+        verified_at: "2026-09-24"
+
+  - id: FLC-48ej2608de6n
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: RECALL
+    front: "Twig : que parcourt for i in 0..10, et comment changer le pas ?"
+    back: "Les entiers de 0 à 10 inclus ; pour un pas différent de 1, la fonction `range()`."
+    explanation: >-
+      L'opérateur `..` accepte toute expression de part et d'autre, lettres comprises : `'a'..'z'`.
+    memorization_justification: >-
+      Borne supérieure incluse : source classique d'erreur d'un rang.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "for tag, loop variable, else clause"
+        verified_at: "2026-09-24"
+
+  - id: FLC-5e48vqpr4j8q
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: APPLICATION
+    front: "Twig : une variable est créée par set dans le corps d'une boucle for. Existe-t-elle après endfor ?"
+    back: "Non : la boucle a sa propre portée. Pour la lire après, on la déclare avant la boucle."
+    explanation: >-
+      La documentation de `set` le note : « loops are scoped in Twig ». Déclarée avant, elle garde la dernière valeur reçue dans la boucle.
+    memorization_justification: >-
+      Piège de portée qui ne se voit qu'à l'exécution.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/set.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "loops are scoped"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/ForNode.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "ForNode::compile()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wkc52r0crgdr
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi une variable déclarée avant la boucle garde-t-elle la valeur reçue dedans, alors qu'une variable créée dedans disparaît ?"
+    back: "À la sortie, `ForNode` ne conserve que les clés du contexte d'avant la boucle, avec leurs valeurs courantes."
+    explanation: >-
+      Le code compilé fait `array_intersect_key($context, $_parent) + $_parent` : une clé nouvelle est écartée, une clé ancienne garde sa valeur modifiée.
+    memorization_justification: >-
+      Le mécanisme explique les deux comportements d'un coup.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/ForNode.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "ForNode::compile()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nyrrqxwtenk3
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: TRAP
+    front: "Twig : 0 is empty vaut-il true ?"
+    back: "Non. `0` n'est pas vide pour Twig 3.22, même s'il est faux dans un if ; `'0'` non plus."
+    explanation: >-
+      `CoreExtension::testEmpty()` rend vrai pour `''`, `[]`, `null`, `false`, un `Countable` de taille zéro, un `Traversable` sans élément et un objet dont la chaîne est vide — pas pour `0`.
+    memorization_justification: >-
+      Confusion fréquente entre « faux » et « vide ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::testEmpty()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/empty.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "empty test"
+        verified_at: "2026-09-24"
+
+  - id: FLC-s9sy69xekw71
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: TRAP
+    front: "Twig : une collection Countable vide est testée par un if nu, puis par is empty. Résultats ?"
+    back: "Le if nu la juge vraie (tout objet est vrai) ; is empty la juge vide."
+    explanation: >-
+      La condition nue suit les règles de PHP, où un objet est vrai ; `testEmpty()` compte les éléments d'un `Countable`. Pour tester une collection, `is empty` ou `|length`.
+    memorization_justification: >-
+      Divergence directe entre deux écritures qui semblent équivalentes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "boolean evaluation edge cases"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::testEmpty()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-bfrecmk6kb5j
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: RECALL
+    front: "Twig : comment écrire une comparaison stricte, l'équivalent de === en PHP ?"
+    back: "Avec le test `same as` : `x is same as(false)`. Twig 3.22 n'a pas d'opérateur `===`."
+    explanation: >-
+      Les comparaisons documentées sont `==`, `!=`, `<`, `>`, `>=`, `<=`, plus l'opérateur `<=>` ; `CoreExtension` n'enregistre aucun `===`.
+    memorization_justification: >-
+      Stricte identité : seulement par un test.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::getTests()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/sameas.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/sameas.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "same as test"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qd532hzxdazs
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi loop.last n'existe-t-il pas quand on parcourt un générateur ?"
+    back: "Twig ne peut pas connaître la taille sans consommer la séquence ; `ForNode` ne pose length, revindex, revindex0 et last que pour un tableau ou un `Countable`."
+    explanation: >-
+      `loop.index` et `loop.first` n'ont pas besoin de la taille et fonctionnent toujours.
+    memorization_justification: >-
+      Relie la limite au fonctionnement, ce qui évite de l'apprendre par cœur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "for tag, loop variable, else clause"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/ForNode.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "ForNode::compile()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-vcbva5ksvp2p
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: APPLICATION
+    front: "Twig : on saute les utilisateurs inactifs par un if dans le corps de la boucle. Quel effet sur loop.index et loop.last ?"
+    back: "loop.index compte aussi les éléments sautés, et loop.last peut tomber sur un élément non affiché. Filtrer la séquence avec filter évite les deux."
+    explanation: >-
+      Les variables de loop suivent la séquence parcourue, pas ce qui est affiché.
+    memorization_justification: >-
+      Raison concrète de préférer filter à un if intérieur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "for tag, loop variable, else clause"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/filter.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/filter.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "filter in a for loop"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ws66xamk82bw
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: RECALL
+    front: "Twig : dans un if, la chaîne '0' et une chaîne d'espaces sont-elles vraies ?"
+    back: "'0' est faux ; une chaîne d'espaces est vraie."
+    explanation: >-
+      Tableau des cas limites de la documentation de `if` : chaîne vide, zéro numérique, `'0'`, séquence et mapping vides, `null` sont faux ; `NAN`, `INF`, chaîne d'espaces et objet sont vrais.
+    memorization_justification: >-
+      Cas limites explicitement tabulés par la documentation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "boolean evaluation edge cases"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ghyp4ny98t38
+    official_item: OIT-84j0qwkbcgq6
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : quels tests le cœur enregistre-t-il en plus des neuf de l'index de la documentation ?"
+    back: "`none` (alias de `null`), `sequence`, `mapping`, et `true`, que le compilateur pose sur chaque condition d'un if."
+    explanation: >-
+      L'index liste constant, defined, divisible by, empty, even, iterable, null, odd, same as ; `CoreExtension::getTests()` en déclare treize.
+    memorization_justification: >-
+      Écart entre l'index et le code, repérable à l'examen.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::getTests()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/null.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/null.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "none alias"
         verified_at: "2026-09-24"
