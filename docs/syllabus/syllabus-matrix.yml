@@ -3282,7 +3282,7 @@ items:
       - id: OUT-zg0vs74c3yef
         outcome: "Expliquer ce que _format change sur la réponse"
       - id: OUT-4k0zcm86nfkk
-        outcome: "Associer les options locale, format et query à leur paramètre réservé"
+        outcome: "Associer les arguments locale, format et stateless de #[Route] à leur paramètre réservé"
       - id: OUT-8f5nc3sevst2
         outcome: "Énoncer que _fragment ne s'utilise pas dans un import"
     required_assessment_modes:

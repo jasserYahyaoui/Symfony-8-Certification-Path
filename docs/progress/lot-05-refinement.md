@@ -1079,10 +1079,14 @@ imports » n'est plus testé qu'une fois, par `f0k6` ; chaque objectif garde sa
 question. La réponse correcte n'est pas le choix le plus long (`_controller`
 l'est). Aucune question holdout n'a été lue.
 
-**Constat signalé, non traité.** L'objectif `OUT-4k0zcm86nfkk` de la matrice
-s'intitule « Associer les options locale, format et query à leur paramètre
-réservé » ; `#[Route]` n'a pas d'argument `query` en 8.0 (page 7). Corriger le
-libellé d'un objectif touche la matrice : décision du propriétaire.
+**Constat traité ensuite, sur instruction.** L'objectif `OUT-4k0zcm86nfkk` de la
+matrice s'intitulait « Associer les options locale, format et query à leur
+paramètre réservé » ; `#[Route]` n'a pas d'argument `query` en 8.0 (page 7). Le
+propriétaire a demandé la correction : le libellé devient « Associer les
+arguments locale, format et stateless de #[Route] à leur paramètre réservé »,
+ce que le constructeur de `Attribute\Route` (8.0) établit. Identifiant
+inchangé ; la question qui l'évalue, `QST-0negxbfbe972`, porte déjà sur
+`locale` et ne cite `query` que pour dire qu'il n'existe pas.
 
 ## Prochaine étape
 
