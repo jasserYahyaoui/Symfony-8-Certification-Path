@@ -178,10 +178,10 @@ flashcards:
 - id: FLC-18xdehm33xa9
   official_item: OIT-fhpttc4c5x0k
   language: fr
+  level: TRAP
   front: 'Symfony Forms : un champ peut-il fonctionner sans propriété publique du même nom ?'
-  back: Oui — l'accès essaie la propriété publique, puis les accesseurs usuels.
-  explanation: 'Symétriquement, un champ peut échouer alors qu''une propriété existe mais est privée
-    sans accesseur. Un champ sans propriété correspondante doit être déclaré `mapped: false`.'
+  back: "Oui — l'accès essaie d'abord les accesseurs `get`, `is`, `has`, `can`, puis une méthode du nom de la propriété, et seulement ensuite la propriété publique."
+  explanation: "Un getter l'emporte donc sur une propriété publique du même nom. Une propriété privée sans accesseur, elle, fait échouer la lecture (`NoSuchPropertyException`) ; un champ sans propriété correspondante doit être déclaré `mapped: false`."
   memorization_justification: 'Chaîne de résolution invisible : on suppose un accès direct à la propriété.'
   verification_status: VERIFIED
   official_sources:
@@ -466,4 +466,200 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: The Data Transformation Lifecycle, Accessing Form Data
+    verified_at: '2026-09-24'
+- id: FLC-pg9vkrp6wfht
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un objet a une propriété publique $dueDate et une méthode getDueDate() qui renvoient des valeurs différentes. Que lit le champ dueDate ?'
+  back: 'La valeur de `getDueDate()` : les accesseurs passent avant la propriété publique.'
+  explanation: '`ReflectionExtractor::getReadInfo()` essaie les préfixes `get`, `is`, `has`, `can` avant la propriété. Vérifié par exécution avec PropertyAccess 8.0.'
+  memorization_justification: L'ordre inverse est l'intuition courante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ReflectionExtractor::getReadInfo()
+    verified_at: '2026-09-24'
+- id: FLC-spqes9fbhd1t
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : dans quel ordre PropertyAccess cherche-t-il à lire le champ dueDate ?'
+  back: '`getDueDate()`, `isDueDate()`, `hasDueDate()`, `canDueDate()`, puis `dueDate()`, puis la propriété publique `$dueDate`.'
+  explanation: 'Entre la méthode du même nom et la propriété s''intercale `__get()`, activé par défaut. Pour écrire : `setDueDate()` ou la propriété publique.'
+  memorization_justification: Ordre exact, interrogeable tel quel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ReflectionExtractor::getReadInfo()
+    verified_at: '2026-09-24'
+- id: FLC-fa4m82jaz50q
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un objet n''a ni propriété dueDate ni getter, seulement une méthode publique dueDate(). Le champ dueDate peut-il la lire ?'
+  back: 'Oui : une méthode portant le nom de la propriété fait partie des candidats, après les préfixes `get`, `is`, `has`, `can`.'
+  explanation: '`PropertyAccessor` active `enable_getter_setter_extraction` ; résultat observé par exécution.'
+  memorization_justification: Candidat oublié de la liste des accesseurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ReflectionExtractor::getReadInfo()
+    verified_at: '2026-09-24'
+- id: FLC-201crxsq1sjk
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : que devient le type d''un champ ajouté par add(''task'') sans deuxième argument ?'
+  back: Il est deviné par les *type guessers* — contraintes de validation, métadonnées Doctrine, énumération — et vaut `TextType` à défaut.
+  explanation: 'Sans `data_class`, rien n''est deviné : `FormBuilder::add()` prend directement `TextType`.'
+  memorization_justification: Le type n'est pas lu dans le type PHP de la propriété.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormFactory::createBuilderForProperty()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormBuilder::add()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Building Forms, Form Type Guessing, Unmapped Fields
+    verified_at: '2026-09-24'
+- id: FLC-s6d1ap0dz3eh
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : si data_class se devine de l''objet passé à createForm(), pourquoi la déclarer ?'
+  back: Parce que sans objet passé, c'est elle qui fait instancier la classe à la soumission (`empty_data`) ; sinon `getData()` rend un tableau.
+  explanation: La documentation la recommande aussi pour les formulaires imbriqués, où la deviner ne suffit plus.
+  memorization_justification: Justifie une option que l'on croit redondante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FormType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FormType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormType::configureOptions(), data_class and empty_data
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Building Forms, Form Type Guessing, Unmapped Fields
+    verified_at: '2026-09-24'
+- id: FLC-apzar2vpx8k5
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un formulaire est créé sans objet ni data_class, avec un champ task, puis soumis avec task = x. Que rend getData() ?'
+  back: 'Un tableau : `[''task'' => ''x'']`.'
+  explanation: Avec `data_class` déclarée, le même scénario rend un objet neuf de cette classe. Observé par exécution avec symfony/form 8.0.15.
+  memorization_justification: Distingue formulaire tableau et formulaire objet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FormType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FormType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormType::configureOptions(), data_class and empty_data
+    verified_at: '2026-09-24'
+- id: FLC-9y9bja40hzxn
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : ajouter une case « j''accepte les conditions » sans propriété dans l''entité, puis lire sa valeur.'
+  back: '`add(''agreeTerms'', CheckboxType::class, [''mapped'' => false])`, puis `$form->get(''agreeTerms'')->getData()`.'
+  explanation: Un champ non mappé n'est ni lu ni écrit sur l'objet ; sa valeur reste dans le formulaire.
+  memorization_justification: Usage courant du champ non mappé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Building Forms, Form Type Guessing, Unmapped Fields
+    verified_at: '2026-09-24'
+- id: FLC-c83z7m99mcw3
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un champ sans propriété correspondante est ajouté sans mapped: false. Quand l''erreur apparaît-elle ?'
+  back: 'Dès `getForm()`, à la lecture des données initiales : `NoSuchPropertyException`, « Can''t get a way to read the property ».'
+  explanation: L'initialisation du formulaire lit chaque champ mappé sur l'objet ; observé par exécution.
+  memorization_justification: L'erreur survient avant toute soumission.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ReflectionExtractor::getReadInfo()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Building Forms, Form Type Guessing, Unmapped Fields
+    verified_at: '2026-09-24'
+- id: FLC-2rf80b2tqdz6
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelles options sont devinées en même temps que le type d''un champ ?'
+  back: '`required`, `maxlength` et `pattern` — les deux premiers selon la documentation, le troisième selon le code.'
+  explanation: '`FormFactory::createBuilderForProperty()` appelle `guessRequired()`, `guessMaxLength()` et `guessPattern()` ; les options passées explicitement l''emportent.'
+  memorization_justification: Effet de bord du guessing, souvent ignoré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormFactory::createBuilderForProperty()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Building Forms, Form Type Guessing, Unmapped Fields
+    verified_at: '2026-09-24'
+- id: FLC-2gqghjt3hskp
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : quels type guessers FrameworkBundle 8.0 enregistre-t-il ?'
+  back: '`ValidatorTypeGuesser` et `EnumFormTypeGuesser`, sous l''étiquette `form.type_guesser` ; le pont Doctrine fournit `DoctrineOrmTypeGuesser` pour les entités.'
+  explanation: D'autres se déclarent avec la même étiquette ; la chaîne retient la proposition de plus haute confiance (`Guess::getBestGuess()`).
+  memorization_justification: Situe l'origine des types devinés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: form.type_guesser services
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Doctrine/Form/DoctrineOrmTypeGuesser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Doctrine/Form/DoctrineOrmTypeGuesser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DoctrineOrmTypeGuesser
     verified_at: '2026-09-24'

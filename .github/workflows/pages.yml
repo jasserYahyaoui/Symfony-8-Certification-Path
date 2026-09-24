@@ -2093,6 +2093,31 @@ jobs:
           else
             echo "ok  lot-07  the form component page carries its four flashcard levels, the norm accessor, the view transformer and the pivot statement"
           fi
+          # Lot 07 refinement, page 2 (Forms creation): the four flashcard levels,
+          # the can accessor, the enum type guesser and the empty_data option.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-creation -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/forms-creation")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page forms-creation serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-creation || missing="$missing l7cre:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-creation || missing="$missing l7cre:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-creation || missing="$missing l7cre:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-creation || missing="$missing l7cre:no-trap-heading"
+          grep -aq 'canDueDate' /tmp/l7r-creation \
+            || missing="$missing l7cre:no-can-accessor"
+          grep -aq 'EnumFormTypeGuesser' /tmp/l7r-creation \
+            || missing="$missing l7cre:no-enum-guesser"
+          grep -aq 'empty_data' /tmp/l7r-creation \
+            || missing="$missing l7cre:no-empty-data"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the forms creation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the forms creation page carries its four flashcard levels, the can accessor, the enum guesser and the empty data option"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

@@ -199,7 +199,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - creation
   choices:
@@ -218,7 +218,8 @@ questions:
     text: mapped_class
     correct: false
     explanation: mapped is a per-field boolean, unrelated to naming a class.
-  explanation: It is set in configureOptions() and decides whether getData() returns an object or an array.
+  explanation: It is set in configureOptions(). When omitted, it is guessed from the object passed to createForm();
+    declaring it is what makes the form instantiate that class when no object is passed.
   official_sources: *id001
 - id: QST-zkgdt4kc1h0g
   question_archetype: BEHAVIOR_DIAGNOSIS
@@ -1454,7 +1455,7 @@ questions:
   question_archetype: SEQUENCE_ORDER
   assesses_outcomes:
   - OUT-75g8bz40n09y
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-fhpttc4c5x0k
   domain: symfony
@@ -1465,7 +1466,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A field is named dueDate. Which accessor does the form use to read it from the object?
+  question: An object has both a public $dueDate property and a getDueDate() method returning different values.
+    What does a field named dueDate read?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1475,28 +1477,40 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - creation
   choices:
-  - id: CHO-jmb1k246ccrk
-    text: A public $dueDate property, or getDueDate(), isDueDate() or hasDueDate()
+  - id: CHO-7h6abksz4s6q
+    text: The value returned by getDueDate()
     correct: true
-  - id: CHO-wvghzss4z729
-    text: Only a public $dueDate property, with no method fallback
+  - id: CHO-0wzcb5aj4hhm
+    text: The value of the public $dueDate property
     correct: false
-    explanation: PropertyAccess falls back to the accessor methods.
-  - id: CHO-jy5kdv7jgvzp
-    text: Only getDueDate()
+    explanation: Accessor methods, with the get, is, has and can prefixes, are tried before a public property.
+  - id: CHO-j0kv7qs1ctam
+    text: 'Nothing: the form raises an error on the ambiguity'
     correct: false
-    explanation: The public property is tried too, as are isser and hasser.
-  - id: CHO-2sr64vzch7mq
-    text: A method named dueDate()
+    explanation: There is no ambiguity check; the first way of reading that exists wins.
+  - id: CHO-atxfp95171ep
+    text: Whichever member is declared first in the class
     correct: false
-    explanation: A bare method of that name is not part of the accessor conventions.
-  explanation: PropertyAccess resolves the field name against the object, and a setter is used to write back after
-    submission.
-  official_sources: *id001
+    explanation: Declaration order plays no part; the candidates are tried in a fixed order.
+  explanation: PropertyAccess looks for a way to read the field name in a fixed order, accessor methods prefixed get,
+    is, has or can first, then a method named after the property itself, and only then a public property. A setter
+    writes the value back after submission.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Forms documentation
+    verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyInfo/Extractor/ReflectionExtractor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ReflectionExtractor::getReadInfo()
+    verified_at: '2026-09-24'
 - id: QST-rjcze5zym546
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
