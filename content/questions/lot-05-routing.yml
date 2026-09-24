@@ -672,7 +672,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-24'
     tags:
       - host
     choices:
@@ -693,8 +693,9 @@ questions:
         text: Avec l'option schemes
         correct: false
         explanation: schemes porte sur le protocole, pas sur l'hôte.
-    explanation: 'L''hôte se paramètre comme un chemin : host: ''{subdomain}.example.com'', puis defaults
-      et requirements sur subdomain. Il n''y a pas de mécanisme séparé.'
+    explanation: 'L''hôte se paramètre comme un chemin : host: ''{subdomain}.example.com'', puis requirements sur
+      subdomain pour le contraindre. Il n''y a pas de mécanisme séparé. La valeur par défaut, elle, ne
+      sert qu''à la génération : un paramètre d''hôte reste obligatoire à l''appariement.'
     official_sources: *id001
   - id: QST-wackwv87118n
     question_archetype: BEHAVIOR_DIAGNOSIS

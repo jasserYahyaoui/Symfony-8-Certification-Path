@@ -23,8 +23,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | **RAFFINÉE** (PR #204) |
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #205) |
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | **RAFFINÉE** (PR #206) |
-| 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | en cours |
-| 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | à faire |
+| 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | **RAFFINÉE** (PR #207) |
+| 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | en cours |
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | à faire |
 | 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | à faire |
 | 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | à faire |
@@ -532,6 +532,67 @@ en succès ; la ligne `ok  lot-05  the trigger redirects page carries its four
 flashcard levels, the bundle matcher, the redirectable interface and the
 fallback test` est écrite à **12:20:49 UTC** le 2026-09-24.
 
+## Page 8 — Domain name matching, 2026-09-24
+
+`CRS-2b1wzm3rwdrn` · `OIT-21m4pmtymygn` · MINIMAL · **268 → 518 mots** sur 700.
+Aucun niveau promu.
+
+### Une affirmation fausse : « exactement celles d'un paramètre de chemin »
+
+La page, dans ses pièges : « Valeurs par défaut et contraintes sont exactement
+celles d'un paramètre de chemin ». Les **clés** sont les mêmes ; l'**effet** de la
+valeur par défaut, non. `RouteCompiler::compilePattern()` (8.0) ne calcule le
+premier paramètre facultatif que pour le chemin (`if (!$isHost)`) : un paramètre
+d'hôte est toujours exigé à l'appariement. `host: '{subdomain}.example.com'`
+avec `defaults: ['subdomain' => 'm']` ne correspond pas à `example.com`. La
+documentation ne dit pas le contraire : elle justifie la valeur par défaut par
+la génération d'URL.
+
+**Corrections.** La page distingue les clés, identiques, de l'effet, propre au
+chemin. L'explication de la question `LEARNING` `QST-qq1rr2xpmn82` précise que
+`requirements` contraint et que `defaults` ne sert qu'à la génération ; sa bonne
+réponse ne change pas ; `reviewed_at` passe au 2026-09-24. Aucune question
+holdout n'a été lue.
+
+### Compléments, lus dans le code et les tests 8.0
+
+- **Casse ignorée.** Hôte mis en minuscules, expression régulière d'hôte avec
+  le drapeau `i` (`testHostIsCaseInsensitive`).
+- **Génération.** Un hôte différent de la requête courante fait passer `path()`
+  de `ABSOLUTE_PATH` à `NETWORK_PATH` : `//m.example.com/`
+  (`testWithHostDifferentFromContext`). La contrainte d'hôte est vérifiée à la
+  génération.
+- **Ordre.** La route sans `host` doit suivre celle qui en a un.
+
+**Flashcards.** 7 ajoutées ; la carte préexistante `FLC-x5tjtg0h3pm1` reçoit le
+niveau RECALL. L'item en porte **8** (3 RECALL, 2 UNDERSTANDING, 1 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`testHostIsCaseInsensitive`, `compilePattern` et `NETWORK_PATH`, absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 592 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 7, lu dans le journal d'exécution.** PR #207 fusionnée
+en squash (`99ae644`). Run Pages 35999732982 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the special parameters page carries its four
+flashcard levels, the stateless default, the locale listener and the prepare
+method` est écrite à **12:35:03 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 8 — *Domain name matching* (MINIMAL, 268 / 700).
+Page 9 — *Conditional request matching* (STANDARD, 392 / 900).
