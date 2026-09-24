@@ -22,8 +22,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #203) |
 | 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | **RAFFINÉE** (PR #204) |
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #205) |
-| 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | en cours |
-| 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | à faire |
+| 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | **RAFFINÉE** (PR #206) |
+| 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | en cours |
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | à faire |
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | à faire |
 | 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | à faire |
@@ -451,6 +451,87 @@ en succès ; la ligne `ok  lot-05  the URL generation page carries its four
 flashcard levels, the Stringable cast, the Uid class and the _query key` est
 écrite à **12:04:32 UTC** le 2026-09-24.
 
+## Page 7 — Special internal routing attributes, 2026-09-24
+
+`CRS-nhebf7arqvn4` · `OIT-4pgc74ctc3vc` · STANDARD · **391 → 758 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse, héritée de la documentation — et de trois questions
+
+La page montrait `#[Route(..., query: ['page' => 1])]` et listait `query` parmi
+les formes courtes de l'attribut. La documentation 8.0 fait de même, à
+l'attribut comme en YAML. Les explications des questions `LEARNING`
+`QST-m5x0wprr2kvf` et `QST-0negxbfbe972` aussi.
+
+Le code 8.0 le contredit à trois endroits :
+
+- le constructeur de `Attribute\Route` n'a **pas** d'argument `query` ; ses
+  arguments courts sont `locale`, `format`, `stateless` (valeurs par défaut) et
+  `utf8` (option). PHP rejette un argument nommé inconnu par une `Error` — test
+  php-src `Zend/tests/named_params/unknown_named_param.phpt` (PHP-8.4) ;
+- `query` ne figure pas dans `YamlFileLoader::AVAILABLE_KEYS` : clé refusée par
+  une `InvalidArgumentException` ;
+- `UrlGenerator::doGenerate()` ne lit `_query` que dans les paramètres passés à
+  `generate()` : une valeur par défaut `_query` n'a aucun effet sur l'URL.
+
+### Une justification inventée, dans une question
+
+L'explication de `QST-f0k6jqb9twcj` affirmait qu'un import « rejette »
+`_fragment`, parce qu'un fragment n'a de sens que pour une route. Aucune source
+ne donne cette raison, et le code 8.0 ne rejette rien : `RouteCollection::addDefaults()`
+recopie les valeurs par défaut d'un import sur chaque route sans examiner leur
+nom. L'exclusion de `_fragment` est une règle **documentaire** ; la bonne réponse
+des deux questions qui la testent reste `_fragment`, puisque c'est la règle que
+l'examen peut citer.
+
+**Corrections.** La page énonce le code, signale les deux écarts avec la
+documentation et garde la règle documentaire en la qualifiant. Les explications
+des trois questions sont corrigées ; leurs bonnes réponses ne changent pas ;
+`reviewed_at` passe au 2026-09-24. Aucune question holdout n'a été lue.
+
+**Constat laissé en l'état.** `QST-m5x0wprr2kvf` et `QST-f0k6jqb9twcj` testent
+le même fait, avec presque les mêmes choix. Supprimer l'une est une décision de
+banque de questions, hors du périmètre de ce raffinement : signalé, non traité.
+
+### Compléments, lus dans le code 8.0
+
+- `_format` : `Response::prepare()` ne pose le `Content-Type` déduit du format
+  que si la réponse n'en a pas.
+- `_locale` : appliqué par `LocaleListener` ; un `_locale` venu d'un import est
+  ignoré pour une route localisée (`Route::addDefaults()`).
+- `_fragment` : la valeur par défaut de la route, remplacée par un paramètre de
+  génération.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-z20216cjkhsp` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `_stateless`,
+`LocaleListener` et `Response::prepare()`, absentes de la version `master` de la
+page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 585 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 6, lu dans le journal d'exécution.** PR #206 fusionnée
+en squash (`e099d0f`). Run Pages 35998180671 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the trigger redirects page carries its four
+flashcard levels, the bundle matcher, the redirectable interface and the
+fallback test` est écrite à **12:20:49 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 7 — *Special internal routing attributes* (STANDARD, 391 / 900).
+Page 8 — *Domain name matching* (MINIMAL, 268 / 700).

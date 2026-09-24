@@ -574,7 +574,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-24'
     tags:
       - special-parameters
     choices:
@@ -593,9 +593,10 @@ questions:
         text: _controller
         correct: false
         explanation: It works in both individual routes and imports.
-    explanation: The documented exception is _fragment. The attribute also exposes short forms without
-      the underscore — locale, format and query — which simply set the default of the matching reserved
-      parameter.
+    explanation: 'The documentation names _fragment as the one exception. The rule is documentary: the 8.0
+      loaders copy an import''s defaults onto every route without checking their names. The attribute
+      also exposes short forms without the underscore — locale and format, plus stateless — which set
+      the default of the matching reserved parameter; it has no query argument.'
     official_sources: *id001
   - id: QST-c8g1bj0n5dqs
     question_archetype: API_SIGNATURE
@@ -1540,7 +1541,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-24'
     tags:
       - routing
       - special-parameters
@@ -1560,8 +1561,10 @@ questions:
         text: The option is the older form, kept for compatibility
         correct: false
         explanation: Both forms are current; one is simply written without the underscore.
-    explanation: locale, format and query are the attribute's short forms for _locale, _format and _query.
-      Writing the option sets the default value of the reserved parameter — one mechanism, two spellings.
+    explanation: 'locale and format are the attribute''s short forms for _locale and _format, as stateless is for
+      _stateless. Writing the option sets the default value of the reserved parameter — one mechanism,
+      two spellings. In Symfony 8.0 the attribute has no query argument, despite the documentation
+      example.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
@@ -1595,7 +1598,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-24'
     tags:
       - routing
       - special-parameters
@@ -1614,10 +1617,10 @@ questions:
       - id: CHO-chxnvwrnk6yb
         text: _query
         correct: false
-        explanation: Query defaults may be set on an import like any other reserved parameter.
-    explanation: 'The fragment identifier is the part after #, which addresses a position inside one document.
-      It is meaningful for a single route and not for a group, so it is the one reserved parameter an
-      import rejects.'
+        explanation: The documentation lists it among the parameters usable in an import.
+    explanation: 'The documentation names _fragment as the one reserved parameter not to use in an import.
+      The rule is documentary: the 8.0 loaders copy an import''s defaults onto every route without
+      checking their names.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst

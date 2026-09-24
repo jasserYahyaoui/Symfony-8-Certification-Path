@@ -192,6 +192,7 @@ flashcards:
   - id: FLC-z20216cjkhsp
     official_item: OIT-4pgc74ctc3vc
     language: fr
+    level: RECALL
     front: 'Symfony : lequel des paramètres de routage réservés ne s''emploie pas dans un import de
       routes ?'
     back: Celui qui pose l'identifiant de fragment (`_fragment`). Les quatre autres valent pour une
@@ -1654,4 +1655,225 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ce99kzxscxd4
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : quels arguments nommés de #[Route] posent un paramètre réservé, et lequel ?"
+    back: "locale, format et stateless, qui posent les valeurs par défaut _locale, _format et _stateless."
+    explanation: >-
+      Le constructeur de l'attribut les recopie dans ses valeurs par défaut. Il n'a pas d'argument query, malgré l'exemple de la documentation.
+    memorization_justification: >-
+      La liste exacte diffère de celle que la documentation montre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-b4jxrvtcfrem
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : que devient l'argument utf8: true de #[Route] ?"
+    back: "L'option utf8 de la route, pas une valeur par défaut."
+    explanation: >-
+      Le constructeur le range dans options, alors que locale, format et stateless vont dans defaults.
+    memorization_justification: >-
+      Même forme d'écriture, destination différente : un détail facile à confondre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-11t3hbfq4y2g
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: RECALL
+    front: "Symfony : quel écouteur applique à la requête la locale portée par _locale ?"
+    back: "LocaleListener, qui appelle Request::setLocale() avec l'attribut _locale."
+    explanation: >-
+      Il s'exécute après le routeur, puisqu'il lit un attribut que le routage vient de poser.
+    memorization_justification: >-
+      Relier un paramètre réservé à la classe qui le consomme fixe son effet.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-prd45s4jbakg
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi /search.json reçoit-il un Content-Type application/json sans que le contrôleur le fixe ?"
+    back: "_format devient le format de requête, et Response::prepare() en déduit le Content-Type quand la réponse n'en a pas."
+    explanation: >-
+      Si le contrôleur pose lui-même l'en-tête, prepare() n'y touche pas : le format ne s'applique qu'en son absence.
+    memorization_justification: >-
+      La condition « en l'absence d'en-tête » est ce que l'on oublie.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getRequestFormat"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "prepare"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nkpcteg2tsny
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony 8.0 : une valeur par défaut _query posée sur une route ajoute-t-elle une chaîne de requête à l'URL générée ?"
+    back: "Non. UrlGenerator ne lit _query que dans les paramètres passés à generate()."
+    explanation: >-
+      La documentation présente _query comme utilisable dans une route ou un import ; le code 8.0 ignore cette valeur par défaut à la génération.
+    memorization_justification: >-
+      L'écart entre la documentation et le code est la source du piège.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-x5vh0x1x3m8j
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une route a une valeur par défaut _fragment, et la génération reçoit aussi un _fragment. Lequel figure dans l'URL ?"
+    back: "Celui passé à la génération ; la valeur par défaut ne sert qu'en son absence."
+    explanation: >-
+      UrlGenerator part de la valeur par défaut, puis la remplace par le paramètre de génération s'il existe.
+    memorization_justification: >-
+      Distinguer _fragment, lu aux deux endroits, de _query, lu à un seul.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-et2j5rpex5sy
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : un import pose locale: 'fr' sur un groupe contenant une route localisée. Quelle locale garde cette route ?"
+    back: "La sienne : Route::addDefaults() ignore un _locale hérité pour une route localisée."
+    explanation: >-
+      Une route localisée porte déjà _locale, _canonical_route et une contrainte sur _locale ; la valeur de l'import ne l'écrase pas.
+    memorization_justification: >-
+      Exception silencieuse à la règle « l'import pose la valeur par défaut ».
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addDefaults"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qf5wpy6gx491
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: APPLICATION
+    front: "Symfony 8.0 : vous recopiez l'exemple officiel #[Route(..., query: ['page' => 1])]. Que se passe-t-il ?"
+    back: "Une Error « Unknown named parameter $query » à l'instanciation de l'attribut."
+    explanation: >-
+      Le constructeur de #[Route] n'a pas d'argument query, et PHP rejette un argument nommé inconnu. Passez _query à la génération.
+    memorization_justification: >-
+      Un exemple officiel qui échoue ne se devine pas : il faut l'avoir lu dans le code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/Zend/tests/named_params/unknown_named_param.phpt"
+        readable_url: "https://github.com/php/php-src/blob/PHP-8.4/Zend/tests/named_params/unknown_named_param.phpt"
+        repository: "php/php-src"
+        branch: "PHP-8.4"
+        symbol_or_lines: "Unknown named parameter"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jne8s99y6nyd
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: APPLICATION
+    front: "Symfony : en Twig, produisez /articles?page=2#top pour la route articles."
+    back: "path('articles', {_query: {page: 2}, _fragment: 'top'})"
+    explanation: >-
+      _query doit être un tableau ; _fragment est retiré des paramètres avant la chaîne de requête et ajouté après #.
+    memorization_justification: >-
+      Combiner les deux paramètres réservés de génération dans un seul appel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qd5knbay76ta
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: TRAP
+    front: "Piège : « en YAML, une route accepte la clé query:, comme dans l'exemple de la documentation »."
+    back: "Faux en 8.0 : le chargeur lève une InvalidArgumentException pour clé non supportée."
+    explanation: >-
+      query ne figure pas dans YamlFileLoader::AVAILABLE_KEYS ; locale, format et stateless, si.
+    memorization_justification: >-
+      L'exemple officiel induit précisément l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AVAILABLE_KEYS"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nbxrsd1bp94c
+    official_item: OIT-4pgc74ctc3vc
+    language: fr
+    level: TRAP
+    front: "Piège : « Symfony 8.0 lève une erreur si un import pose _fragment »."
+    back: "Faux : aucun contrôle. La règle qui exclut _fragment des imports est documentaire."
+    explanation: >-
+      RouteCollection::addDefaults() recopie les valeurs par défaut de l'import sur chaque route sans examiner leur nom. À l'examen, la règle documentée reste la réponse attendue.
+    memorization_justification: >-
+      Confondre une règle d'usage et une vérification du code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addDefaults"
         verified_at: "2026-09-24"
