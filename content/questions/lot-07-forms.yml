@@ -37,7 +37,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - form-component
   choices:
@@ -47,7 +47,8 @@ questions:
   - id: CHO-222j3pgqxeqe
     text: 'Two: model and view'
     correct: false
-    explanation: The normalized layer sits between them and differs for types such as DateType.
+    explanation: The normalized layer sits between them; it differs from the model whenever a model transformer
+      applies, as for a DateType whose input is a string.
   - id: CHO-6asec8y0e0n4
     text: Four, one per transformer
     correct: false
@@ -68,7 +69,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-xysy1a4vx444
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-tsxxgp3ppj1n
   domain: symfony
@@ -79,7 +80,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: For a DateType rendered as three select elements, what is the normalized data?
+  question: For a DateType rendered as three select elements, with the default input option, what is the normalized
+    data?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -89,18 +91,18 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - form-component
   - layers
   choices:
   - id: CHO-39gt658m5152
     text: An array of integers, keyed year, month and day
-    correct: true
+    correct: false
+    explanation: That shape is the model data when input is array; the normalized data is still a DateTime.
   - id: CHO-jd5c2cavaq5p
     text: A DateTime object
-    correct: false
-    explanation: That is the model data, before normalization.
+    correct: true
   - id: CHO-n1sjw0d1fm9f
     text: An array of strings
     correct: false
@@ -108,10 +110,22 @@ questions:
   - id: CHO-7nzybz0gcypq
     text: A formatted date string
     correct: false
-    explanation: No layer represents this field as a single string.
-  explanation: 'Model: a DateTime. Normalized: integers in an array. View: the same array with string values. The
-    layers become visible exactly when a field misbehaves.'
-  official_sources: *id001
+    explanation: A single string is the model data only when input is string.
+  explanation: 'DateType normalizes every input format to a DateTime: model transformers convert string, timestamp or
+    array inputs, and the view transformer turns the DateTime into an array of strings for the three selects. The
+    8.0 documentation shows an integer array as normalized data; the code does not produce one.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Forms documentation
+    verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/DateType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateType::buildForm(), model and view transformers
+    verified_at: '2026-09-24'
 - id: QST-b4y5mz01a7na
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

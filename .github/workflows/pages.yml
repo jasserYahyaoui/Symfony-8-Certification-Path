@@ -2067,6 +2067,32 @@ jobs:
           else
             echo "ok  lot-06  the debugging variables page carries its four flashcard levels, the dump node, the lint option and the service id"
           fi
+          # Lot 07 refinement, page 1 (Form component): the four flashcard levels,
+          # the normalized data accessor, the DateType view transformer and the
+          # words stating that the normalized data is a pivot format.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-component -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/form-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page form-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-component || missing="$missing l7cmp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-component || missing="$missing l7cmp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-component || missing="$missing l7cmp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-component || missing="$missing l7cmp:no-trap-heading"
+          grep -aq 'getNormData' /tmp/l7r-component \
+            || missing="$missing l7cmp:no-norm-accessor"
+          grep -aq 'DateTimeToArrayTransformer' /tmp/l7r-component \
+            || missing="$missing l7cmp:no-view-transformer"
+          grep -aq 'format pivot' /tmp/l7r-component \
+            || missing="$missing l7cmp:no-pivot-statement"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the form component page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the form component page carries its four flashcard levels, the norm accessor, the view transformer and the pivot statement"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
