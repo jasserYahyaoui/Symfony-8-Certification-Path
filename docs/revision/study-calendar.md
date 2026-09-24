@@ -296,7 +296,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 22 octobre 2026
 
 - NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 22 min · 613 mots · 5 questions, 12 flashcards
-- NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 7 min · 307 mots · 2 questions, 1 flashcards
+- NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 14 min · 474 mots · 2 questions, 8 flashcards
 - NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 11 min · 390 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Router debugging** (MINIMAL) — 8 min · 279 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
@@ -304,7 +304,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (11 min) — Controllers : The response · Controllers : The cookies · Controllers : The session
 - Révision **J+14** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
-*Budget du jour : 101 / 140 min*
+*Budget du jour : 108 / 140 min*
 
 ### Vendredi 23 octobre 2026
 

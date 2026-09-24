@@ -118,6 +118,7 @@ flashcards:
   - id: FLC-v2wg754jbxy7
     official_item: OIT-5g82spham3vm
     language: fr
+    level: RECALL
     front: "Sans option methods, quelles méthodes HTTP une route accepte-t-elle ?"
     back: "Toutes. La restriction n'existe que si methods est déclarée."
     explanation: >-
@@ -2292,4 +2293,161 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "doMatch"
+        verified_at: "2026-09-24"
+
+  - id: FLC-j1fxw4amtsmq
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : quelle est la valeur par défaut de framework.http_method_override ?"
+    back: "false : le paramètre _method est ignoré tant qu'on ne l'active pas."
+    explanation: >-
+      L'option ne concerne que le paramètre _method ; l'en-tête X-HTTP-METHOD-OVERRIDE n'en dépend pas.
+    memorization_justification: >-
+      Une valeur par défaut booléenne se confond facilement : à retenir pour 8.0.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "http_method_override, allowed_http_method_override"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1660hxkjf6qf
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: RECALL
+    front: "Symfony : vers quelles méthodes une requête ne peut-elle jamais être remplacée par _method ou l'en-tête d'override ?"
+    back: "GET, HEAD, CONNECT et TRACE."
+    explanation: >-
+      Request::getMethod() ignore ces valeurs, et la configuration refuse de les inscrire dans allowed_http_method_override.
+    memorization_justification: >-
+      Liste fermée de quatre noms, facile à tronquer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "http_method_override, allowed_http_method_override"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gbbs8xtgqd8k
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : http_method_override vaut false. Une requête POST avec l'en-tête X-HTTP-METHOD-OVERRIDE: PUT devient-elle un PUT ?"
+    back: "Oui, par défaut : l'en-tête est lu en premier et ne dépend pas de cette option."
+    explanation: >-
+      http_method_override ne gouverne que le paramètre _method. Seul allowed_http_method_override: [] désactive aussi l'en-tête.
+    memorization_justification: >-
+      Le nom de l'option laisse croire qu'elle couvre tout remplacement de méthode.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "http_method_override, allowed_http_method_override"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zwb2hk9f0v1q
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une route déclare methods: ['GET']. Une requête HEAD correspond-elle ?"
+    back: "Oui : le matcher traite HEAD comme GET quand il compare les méthodes."
+    explanation: >-
+      Écrire HEAD à côté de GET est donc superflu.
+    memorization_justification: >-
+      Le réflexe est de croire la liste exhaustive.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doMatch"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8mfppsx9t6ks
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : un formulaire est créé avec la méthode PUT. Que produit form_start() ?"
+    back: "Une balise form en POST et un champ caché _method valant PUT."
+    explanation: >-
+      Le thème ajoute ce champ dès que la méthode n'est ni GET ni POST, que http_method_override soit activée ou non.
+    memorization_justification: >-
+      Le champ apparaît même quand le serveur l'ignorera : source de diagnostic erroné.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "form_start"
+        verified_at: "2026-09-24"
+
+  - id: FLC-py8afy5792ex
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: APPLICATION
+    front: "Symfony : interdisez tout remplacement de méthode HTTP, en-tête compris."
+    back: "framework.allowed_http_method_override: []"
+    explanation: >-
+      Un tableau vide désactive tout remplacement ; null, le défaut, les autorise tous.
+    memorization_justification: >-
+      Distinguer tableau vide et null, qui ont des effets opposés.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "http_method_override, allowed_http_method_override"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1pcwnskje26w
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: TRAP
+    front: "Piège : « une requête GET portant _method=DELETE devient un DELETE si l'option est activée »."
+    back: "Faux : le remplacement ne part que d'un POST."
+    explanation: >-
+      Request::getMethod() rend la méthode réelle dès qu'elle n'est pas POST, avant de lire l'en-tête ou le paramètre.
+    memorization_justification: >-
+      On retient le paramètre et on oublie la méthode de départ.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getMethod"
         verified_at: "2026-09-24"

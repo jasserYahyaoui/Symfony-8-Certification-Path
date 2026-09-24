@@ -25,8 +25,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | **RAFFINÉE** (PR #206) |
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | **RAFFINÉE** (PR #207) |
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | **RAFFINÉE** (PR #208) |
-| 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | en cours |
-| 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | à faire |
+| 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #209) |
+| 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | en cours |
 | 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | à faire |
 | 12 | Router debugging | MINIMAL | 279 / 700 | 1 | à faire |
 
@@ -654,6 +654,68 @@ en succès ; la ligne `ok  lot-05  the domain name page carries its four
 flashcard levels, the case test, the compiler method and the network path` est
 écrite à **12:49:43 UTC** le 2026-09-24.
 
+## Page 10 — HTTP methods matching, 2026-09-24
+
+`CRS-h3q0qxnq8eq0` · `OIT-5g82spham3vm` · MINIMAL · **307 → 474 mots** sur 700.
+Aucun niveau promu.
+
+### Une affirmation incomplète : le remplacement de méthode et son option
+
+La page présentait `framework.http_method_override` comme la condition de tout
+remplacement de méthode. `Request::getMethod()` (8.0) lit d'abord l'en-tête
+`X-HTTP-METHOD-OVERRIDE`, **sans** consulter cette option : elle ne gouverne que
+le paramètre `_method`, comme le dit son texte d'aide dans `Configuration`. Seul
+`allowed_http_method_override: []` neutralise aussi l'en-tête.
+
+Une seconde imprécision : « Le composant Form pose le champ automatiquement
+quand c'est le cas ». Le thème `form_div_layout.html.twig` ajoute le champ caché
+dès que la méthode du formulaire n'est ni `GET` ni `POST`, **indépendamment** de
+l'option.
+
+**Corrections.** La page décrit l'algorithme de `getMethod()` et le rôle exact
+de chaque option. Les questions de l'item restent exactes ; aucune n'est
+modifiée. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code 8.0
+
+- Remplacement seulement depuis un `POST` ; jamais vers `GET`, `HEAD`, `CONNECT`
+  ou `TRACE` ; nom invalide → `SuspiciousOperationException`.
+- `_method` lu dans le corps puis dans la chaîne de requête.
+- `allowed_http_method_override` : `null` (défaut) tout, liste restreinte, `[]`
+  rien ; la configuration refuse les quatre méthodes interdites.
+- `methods: ['GET']` accepte `HEAD` (méthode canonique dans le matcher).
+
+**Flashcards.** 7 ajoutées ; la carte préexistante `FLC-v2wg754jbxy7` reçoit le
+niveau RECALL. L'item en porte **8** (3 RECALL, 3 UNDERSTANDING, 1 APPLICATION,
+1 TRAP). Une affirmation retirée d'une carte avant commit : une note
+historique non sourcée sur la valeur par défaut de l'option.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`X-HTTP-METHOD-OVERRIDE`, `SuspiciousOperationException` et `CONNECT`, absentes
+de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 610 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 9, lu dans le journal d'exécution.** PR #209 fusionnée
+en squash (`740348d`). Run Pages 36002797063 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the conditional matching page carries its four
+flashcard levels, the dumper, the compile call and the doMatch method` est
+écrite à **13:03:49 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 10 — *HTTP methods matching* (MINIMAL, 307 / 700).
+Page 11 — *User's locale guessing* (STANDARD, 390 / 900).

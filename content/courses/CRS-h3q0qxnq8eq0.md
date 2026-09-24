@@ -14,6 +14,30 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    symbol_or_lines: "getMethod"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+    symbol_or_lines: "http_method_override, allowed_http_method_override"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+    symbol_or_lines: "form_start"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+    symbol_or_lines: "doMatch"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
 ---
 
 ## Objectif
@@ -36,6 +60,10 @@ public function edit(int $id): Response {}
 Deux routes peuvent donc partager exactement le même chemin et ne se distinguer
 que par la méthode — c'est le motif REST habituel.
 
+Écrire `HEAD` est d'ailleurs superflu : le matcher traite une requête `HEAD`
+comme un `GET` quand il compare les méthodes, donc `methods: ['GET']` accepte
+aussi `HEAD`.
+
 ## La limite des formulaires HTML
 
 Un formulaire HTML ne sait envoyer que `GET` et `POST`. Pour atteindre une route
@@ -47,20 +75,40 @@ nommé `_method` :
 ```
 
 Symfony ne lit ce champ que si l'option `framework.http_method_override` vaut
-`true`. Le composant Form pose le champ automatiquement quand c'est le cas.
+`true` ; elle vaut `false` par défaut. Le thème de formulaire Twig ajoute le
+champ caché dès que la méthode du formulaire n'est ni `GET` ni `POST`, que
+l'option soit activée ou non.
 
-Par sécurité, `framework.allowed_http_method_override` restreint les méthodes
-qu'un client a le droit de simuler.
+## Ce que fait `Request::getMethod()` (8.0)
+
+- Rien n'est remplacé si la méthode réelle n'est pas `POST`.
+- L'en-tête `X-HTTP-METHOD-OVERRIDE` est lu **en premier**, et il ne dépend pas
+  de `http_method_override` : cette option ne gouverne que le paramètre
+  `_method`.
+- Le paramètre `_method` est cherché dans le corps, puis dans la chaîne de
+  requête.
+- Un remplacement vers `GET`, `HEAD`, `CONNECT` ou `TRACE` est ignoré.
+- Un nom qui contient autre chose que des lettres majuscules lève une
+  `SuspiciousOperationException`.
+
+`framework.allowed_http_method_override` restreint les méthodes simulables :
+`null` (le défaut) les autorise toutes, une liste les limite, et un tableau vide
+**désactive tout remplacement**, en-tête compris. La configuration refuse d'y
+inscrire `GET`, `HEAD`, `CONNECT` ou `TRACE`.
 
 ## Pièges d'examen
 
 **Sans restriction de méthode, une route accepte tous les verbes.** L'absence de
 l'option n'est pas un `GET` implicite.
 
-**Le champ caché ne suffit pas.** Simuler un verbe depuis un formulaire HTML
-exige que l'option correspondante soit activée dans la configuration du
-framework ; désactivée — ce qui est le cas par défaut — le champ est ignoré et
-la requête reste un `POST`.
+**Le champ caché ne suffit pas.** Simuler un verbe par `_method` exige
+`http_method_override: true` ; désactivée — ce qui est le cas par défaut — le
+champ est ignoré et la requête reste un `POST`.
+
+**L'en-tête, lui, n'attend pas cette option.** Seul
+`allowed_http_method_override: []` le neutralise.
+
+**`methods: ['GET']` accepte `HEAD`.**
 
 **Deux routes peuvent partager exactement le même chemin** et ne différer que
 par la méthode : c'est le motif REST, et il rend la lecture de la liste des
@@ -68,12 +116,17 @@ routes indispensable.
 
 ## Points clés
 
-- Sans `methods`, une route accepte **tous** les verbes.
-- Deux routes peuvent partager un chemin et différer par la méthode.
-- `_method` en champ caché contourne la limite des formulaires HTML.
-- Il faut `framework.http_method_override: true` ; la liste autorisée se
-  restreint par `framework.allowed_http_method_override`.
+- Sans `methods`, une route accepte **tous** les verbes ; `GET` inclut `HEAD`.
+- `_method` en champ caché contourne la limite des formulaires HTML, si
+  `framework.http_method_override: true`.
+- Remplacement seulement depuis un `POST`, jamais vers `GET`, `HEAD`,
+  `CONNECT` ou `TRACE`.
+- `allowed_http_method_override` : `null` tout, liste restreinte, `[]` rien.
 
 ## Sources officielles
 
 - [Routing, section « Matching HTTP Methods »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
+- [`Request::getMethod()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php)
+- [FrameworkBundle, `Configuration`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php)
+- [`form_div_layout.html.twig`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig)
+- [`CompiledUrlMatcherTrait::doMatch()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php)
