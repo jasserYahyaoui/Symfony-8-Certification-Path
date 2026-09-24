@@ -499,3 +499,269 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "onKernelRequest"
         verified_at: "2026-09-24"
+
+  - id: FLC-727d92jfh8xz
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: RECALL
+    front: 'Dans quel espace de noms vit l attribut de route en Symfony 8.0 ?'
+    back: 'Symfony\Component\Routing\Attribute\Route. L ancien espace Annotation n existe plus.'
+    explanation: >-
+      Le fichier Annotation/Route.php est absent de la branche 8.0 ; un import hérité échoue.
+    memorization_justification: >-
+      L import hérité des annotations Doctrine est l erreur la plus visible à la migration.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Attribute/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-rc2n8s7yq44v
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: RECALL
+    front: 'L option priority existe-t-elle dans la configuration YAML des routes ?'
+    back: 'Non. Elle n est pas dans la liste des clés admises par le chargeur YAML ; en YAML on déplace la route.'
+    explanation: >-
+      Une clé hors de AVAILABLE_KEYS fait lever une InvalidArgumentException.
+    memorization_justification: >-
+      La symétrie supposée entre attribut et YAML est exactement ce qui trompe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AVAILABLE_KEYS"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nxg661fy2reg
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: RECALL
+    front: 'Comment restreint-on des routes à un environnement en YAML ?'
+    back: 'Avec un bloc when@nom-de-l-environnement au premier niveau du fichier.'
+    explanation: >-
+      L attribut utilise l argument env ; le YAML n a pas de clé env par route.
+    memorization_justification: >-
+      La même intention s exprime sous deux formes selon le format.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "loadContent"
+        verified_at: "2026-09-24"
+
+  - id: FLC-f72dkja6fksf
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: RECALL
+    front: 'Quelle est la valeur par défaut de l argument priority dans l attribut Route ?'
+    back: 'null. La route prend alors la priorité posée au niveau de la classe, et à défaut 0.'
+    explanation: >-
+      AttributeClassLoader remplace un null par la priorité globale de la classe.
+    memorization_justification: >-
+      null et 0 ne sont pas équivalents quand la classe porte sa propre priorité.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "priority"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wny0n7gxzwhf
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi l option priority est-elle réservée aux attributs ?'
+    back: 'Parce qu en YAML l ordre du fichier suffit, alors qu en attributs l ordre de découverte est difficile à maîtriser.'
+    explanation: >-
+      La documentation le justifie ainsi, et le chargeur YAML ne connaît pas la clé.
+    memorization_justification: >-
+      Relier l option à son besoin explique pourquoi elle n existe que d un côté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AVAILABLE_KEYS"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xagnnfsn21es
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi deux routes de même priorité conservent-elles leur ordre de déclaration ?'
+    back: 'Parce que RouteCollection trie par priorité décroissante puis, à égalité, par ordre d insertion.'
+    explanation: >-
+      Le tri compare d abord les priorités, ensuite la position d origine.
+    memorization_justification: >-
+      La priorité ne remplace pas l ordre ; elle ne départage que ce qui diffère.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hqgn17dgjrh4
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un alias YAML ne peut-il pas porter de path ni de controller ?'
+    back: 'Parce qu une entrée qui contient alias n accepte que les clés alias et deprecated.'
+    explanation: >-
+      Le chargeur valide cette forme à part et lève pour toute autre clé.
+    memorization_justification: >-
+      L alias est une redirection de nom, pas une route à part entière.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "validateAlias"
+        verified_at: "2026-09-24"
+
+  - id: FLC-y3y1j4h20eaq
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un tableau passé à path dans l attribut produit-il plusieurs routes ?'
+    back: 'Parce que chaque entrée est un chemin localisé : une route par locale, nommée nom.locale.'
+    explanation: >-
+      AttributeClassLoader ajoute une route par locale en suffixant le nom.
+    memorization_justification: >-
+      Le type string ou array de path cache cette fonction de localisation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-0tyh7jyvhc6v
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: APPLICATION
+    front: 'Un fichier YAML déclare priority: 2 sur une route. Que se passe-t-il au chargement ?'
+    back: 'Une InvalidArgumentException signale une clé non supportée et liste les clés admises.'
+    explanation: >-
+      Pour faire passer la route avant, on la déplace plus haut dans le fichier.
+    memorization_justification: >-
+      Le scénario transforme la confusion attribut/YAML en erreur concrète.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "validate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-m7h4ywdcczv0
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: APPLICATION
+    front: 'Une route YAML porte à la fois controller et defaults._controller. Que se passe-t-il ?'
+    back: 'Le chargement lève une exception : les deux ne peuvent pas coexister.'
+    explanation: >-
+      La clé controller est un raccourci vers defaults._controller ; en fournir deux est ambigu.
+    memorization_justification: >-
+      Le cas se produit en fusionnant deux styles de configuration.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "validate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wf87rkgasx5c
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: APPLICATION
+    front: 'Une classe porte #[Route(priority: 5)] et une méthode #[Route(''/x'')] sans priorité. Quelle priorité a la route ?'
+    back: '5 : la route hérite de la priorité posée au niveau de la classe.'
+    explanation: >-
+      L argument de méthode vaut null, remplacé par la priorité globale.
+    memorization_justification: >-
+      Le cas distingue null et 0, qui ne se comportent pas pareil.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "priority"
+        verified_at: "2026-09-24"
+
+  - id: FLC-df74cxdz9rja
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: TRAP
+    front: 'Piège : « l attribut Route et le YAML acceptent exactement les mêmes options ».'
+    back: 'Non. priority n existe qu en attribut ; env et alias prennent une autre forme en YAML.'
+    explanation: >-
+      Le chargeur YAML a sa propre liste de clés admises.
+    memorization_justification: >-
+      La documentation montre souvent les formats côte à côte, ce qui suggère une équivalence totale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AVAILABLE_KEYS"
+        verified_at: "2026-09-24"
+
+  - id: FLC-94c0413trtb5
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: TRAP
+    front: 'Piège : « une clé inconnue dans un fichier de routes YAML est ignorée ».'
+    back: 'Non. Elle fait lever une InvalidArgumentException au chargement.'
+    explanation: >-
+      Le message d erreur énumère les clés admises.
+    memorization_justification: >-
+      Beaucoup de formats de configuration ignorent l inconnu ; celui-ci non.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "validate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-12yk90pxk0zk
+    official_item: OIT-egy2wn3z7gb7
+    language: fr
+    level: TRAP
+    front: 'Piège : « une priorité plus basse est évaluée en premier ».'
+    back: 'Non. La priorité la plus élevée passe en premier ; la valeur par défaut effective est 0.'
+    explanation: >-
+      Le tri de RouteCollection est décroissant.
+    memorization_justification: >-
+      L intuition d un rang, où 1 passe avant 2, inverse le sens.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "all"
+        verified_at: "2026-09-24"

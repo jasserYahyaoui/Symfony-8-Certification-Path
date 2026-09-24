@@ -1377,6 +1377,34 @@ jobs:
             echo "ok  lot-05  the routing component page carries its four flashcard levels, the bundle matcher, the listener service and the attribute loader"
           fi
 
+          # Lot 05, page 2. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the YAML
+          # loader's own key list, the environment block that replaces env, and
+          # the per-locale route name a path array produces.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-config -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/configuration-yaml-and-php-attributes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page configuration-yaml-and-php-attributes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-config || missing="$missing l5config:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-config || missing="$missing l5config:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-config || missing="$missing l5config:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-config || missing="$missing l5config:no-trap-heading"
+          grep -aq 'AVAILABLE_KEYS' /tmp/l5r-config \
+            || missing="$missing l5config:no-yaml-key-list"
+          grep -aq 'when@prod' /tmp/l5r-config \
+            || missing="$missing l5config:no-env-block"
+          grep -aq 'blog_list.fr' /tmp/l5r-config \
+            || missing="$missing l5config:no-localized-name"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the configuration page carries its four flashcard levels, the YAML key list, the when@ block and the localized route names"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
