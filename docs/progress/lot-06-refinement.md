@@ -24,8 +24,8 @@ page.
 | 3 | Auto escaping | STANDARD | 440 / 900 | 1 | **RAFFINÉE** (PR #218) |
 | 4 | Template inheritance | STANDARD | 402 / 900 | 1 | **RAFFINÉE** (PR #219) |
 | 5 | Global variables | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #220) |
-| 6 | Filters and functions | STANDARD | 449 / 900 | 1 | en cours |
-| 7 | Template includes | STANDARD | 435 / 900 | 1 | à faire |
+| 6 | Filters and functions | STANDARD | 449 / 900 | 1 | **RAFFINÉE** (PR #221) |
+| 7 | Template includes | STANDARD | 435 / 900 | 1 | en cours |
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | à faire |
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | à faire |
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | à faire |
@@ -456,6 +456,76 @@ niveau UNDERSTANDING. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 6, lu dans le journal d'exécution.** PR #221 fusionnée
+en squash (`088f43b`). Run Pages 36052708797 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the filters and functions page carries its
+four flashcard levels, the extra package, the test attribute and the commute
+statement` est écrite à **20:09:45 UTC** le 2026-09-24.
+
+## Page 7 — Template includes, 2026-09-24
+
+`CRS-w83y6pfa5edn` · `OIT-ds2p5d4eg0pq` · STANDARD · **435 → 642 mots** sur 900.
+Aucun niveau promu.
+
+### Rien de faux, deux affirmations incomplètes
+
+- « La fonction est recommandée, parce qu'elle s'utilise dans une expression » :
+  c'est une des trois raisons que donne la note de `doc/tags/include.rst` ; les
+  deux autres — une balise ne devrait rien afficher, et les arguments nommés
+  n'imposent aucun ordre — sont ajoutées.
+- Le préfixe `_` des fragments était présenté sans nuance ; `templates.rst`
+  (8.0) le dit **facultatif** — une convention.
+
+### Compléments, lus dans le code et la documentation 3.22
+
+- Arguments de la fonction : `with_context`, `ignore_missing` — qui rend `''`
+  (`CoreExtension::include()`) — et `sandboxed`, qui n'agit que si
+  `SandboxExtension` est enregistrée (même méthode).
+- Ordre des mots de la balise : `IncludeTokenParser::parseArguments()` lit
+  `ignore missing`, puis `with`, puis `only` ; `with {…} ignore missing` est
+  une erreur de syntaxe.
+- Nom dynamique, ternaire, liste dont le premier gabarit existant est inclus ;
+  liste sans aucun gabarit existant : exception, ou rien avec `ignore missing`.
+- `embed` prend exactement les arguments de `include` ; un gabarit embarqué n'a
+  pas de nom, d'où l'avertissement sur la stratégie d'échappement et la balise
+  `autoescape`.
+
+**Questions.** Les quatre questions non holdout de l'item ont été relues contre
+les mêmes sources : exactes, inchangées. Aucune question holdout n'a été lue.
+
+### Un test de build a arrêté deux cartes
+
+`BuildTest::testFlashcardMarkupEscapesBracesInsideTheJsxContext` a échoué : deux
+rectos portaient une accolade **dans un code span**, que le générateur laisse
+intacte et que MDX lit comme une expression dans `<summary>`. Le contenu a été
+corrigé — liste citée sans `{% %}` pour l'un, recto sans code span (échappé par
+le générateur, comme les rectos existants du lot) pour l'autre. Le test n'a pas
+été touché.
+
+**Flashcards.** 12 ajoutées ; la carte préexistante `FLC-hhtpt2r6ppfc` reçoit le
+niveau TRAP. L'item en porte **13** (5 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `ignore_missing`,
+`SandboxExtension` et `facultatif`, absentes de la version `master` de la page
+et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (après correction des deux rectos) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | 1er passage exit 1 (test JSX ci-dessus) ; après correction exit 0 — 299 tests, 16 663 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Template includes* (STANDARD, 435 / 900).
+Page 8 — *Loops and conditions* (STANDARD, 531 / 900).

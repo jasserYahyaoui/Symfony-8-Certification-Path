@@ -1859,6 +1859,32 @@ jobs:
           else
             echo "ok  lot-06  the filters and functions page carries its four flashcard levels, the extra package, the test attribute and the commute statement"
           fi
+          # Lot 06 refinement, page 7 (Template includes): the four flashcard
+          # levels, the ignore_missing function argument, the sandbox extension
+          # condition and the word stating that the underscore prefix is optional.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-includes -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/template-includes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page template-includes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-includes || missing="$missing l6inc:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-includes || missing="$missing l6inc:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-includes || missing="$missing l6inc:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-includes || missing="$missing l6inc:no-trap-heading"
+          grep -aq 'ignore_missing' /tmp/l6r-includes \
+            || missing="$missing l6inc:no-function-argument"
+          grep -aq 'SandboxExtension' /tmp/l6r-includes \
+            || missing="$missing l6inc:no-sandbox-condition"
+          grep -aq 'facultatif' /tmp/l6r-includes \
+            || missing="$missing l6inc:no-optional-prefix"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the template includes page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the template includes page carries its four flashcard levels, the function argument, the sandbox condition and the optional prefix"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
