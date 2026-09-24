@@ -1520,6 +1520,35 @@ jobs:
             echo "ok  lot-05  the trigger redirects page carries its four flashcard levels, the bundle matcher, the redirectable interface and the fallback test"
           fi
 
+          # Lot 05, page 7. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the
+          # stateless short form of the attribute, the listener that applies
+          # _locale, and the Response method that derives the Content-Type
+          # from the request format only when the header is absent.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-special -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/special-internal-routing-attributes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page special-internal-routing-attributes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-special || missing="$missing l5spe:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-special || missing="$missing l5spe:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-special || missing="$missing l5spe:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-special || missing="$missing l5spe:no-trap-heading"
+          grep -aq '_stateless' /tmp/l5r-special \
+            || missing="$missing l5spe:no-stateless-default"
+          grep -aq 'LocaleListener' /tmp/l5r-special \
+            || missing="$missing l5spe:no-locale-listener"
+          grep -aq 'Response::prepare()' /tmp/l5r-special \
+            || missing="$missing l5spe:no-prepare-method"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the special parameters page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the special parameters page carries its four flashcard levels, the stateless default, the locale listener and the prepare method"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
