@@ -396,14 +396,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 12 min · 465 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Forms : Form component** (STANDARD) — 23 min · 704 mots · 5 questions, 12 flashcards
-- NOUVEAU · **Forms : Forms creation** (STANDARD) — 11 min · 422 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Forms : Forms creation** (STANDARD) — 21 min · 577 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Forms : Forms handling** (STANDARD) — 14 min · 442 mots · 5 questions, 1 flashcards
 - Révision **J+1** (26 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+3** (18 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 - Révision **J+7** (14 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+14** (9 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
 
-*Budget du jour : 127 / 160 min*
+*Budget du jour : 137 / 160 min*
 
 ### Vendredi 30 octobre 2026
 
