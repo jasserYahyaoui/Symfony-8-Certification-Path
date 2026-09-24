@@ -30,8 +30,8 @@ page.
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | **RAFFINÉE** (PR #224) |
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | **RAFFINÉE** (PR #225) |
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | **RAFFINÉE** (PR #226) |
-| 12 | String interpolation | MINIMAL | 257 / 700 | 1 | en cours |
-| 13 | Assets management | MINIMAL | 355 / 700 | 1 | à faire |
+| 12 | String interpolation | MINIMAL | 257 / 700 | 1 | **RAFFINÉE** (PR #227) |
+| 13 | Assets management | MINIMAL | 355 / 700 | 1 | en cours |
 | 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | à faire |
 
 ## Page 1 — TwigBundle, 2026-09-24
@@ -857,6 +857,61 @@ et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 12, lu dans le journal d'exécution.** PR #227 fusionnée
+en squash (`1240a03`). Run Pages 36064420253 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the string interpolation page carries its four
+flashcard levels, the lexer function, the Windows path and the line break
+statement` est écrite à **21:56:50 UTC** le 2026-09-24.
+
+## Page 13 — Assets management, 2026-09-24
+
+`CRS-ym86ptkhfgap` · `OIT-tw3xaqbz8xjy` · MINIMAL · **355 → 508 mots** sur 700.
+Aucun niveau promu.
+
+### Rien de faux ; l'affirmation à vérifier l'est
+
+La carte `FLC-1rh42q3b0njr` et la page affirment qu'une barre initiale « casse
+le préfixe de base ». `PathPackage::getUrl()` (Asset 8.0) le confirme, et
+précise : la version est appliquée **avant**, puis un chemin commençant par `/`
+est rendu tel quel — le préfixe est perdu, la version gardée. La carte reçoit le
+niveau TRAP. Les deux questions non holdout de l'item ont été relues : exactes,
+inchangées. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code 8.0
+
+- Ordre de `PathPackage::getUrl()` ; une URL absolue (`://`, `//`) traverse sans
+  préfixe ni version (`Package::isAbsoluteUrl()`).
+- `base_path` et `base_urls` s'excluent (`LogicException`) ; `UrlPackage` ajoute
+  lui-même la barre.
+- `version`, `version_strategy`, `json_manifest_path` s'excluent deux à deux
+  (`Configuration::addAssetsSection()`) ; format statique `%s?%s`.
+- Manifeste : chemin absent rendu inchangé, sauf `strict_mode` →
+  `AssetNotFoundException` avec alternatives.
+- `absolute_url(asset(...))` pour une URL absolue.
+
+**Flashcards.** 9 ajoutées ; `FLC-1rh42q3b0njr` nivelée TRAP. L'item en porte
+**10** (4 RECALL, 1 UNDERSTANDING, 2 APPLICATION, 3 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `PathPackage`,
+`strict_mode` et `StaticVersionStrategy`, absentes de la version `master` de la
+page et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 748 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 13 — *Assets management* (MINIMAL, 355 / 700).
+Page 14 — *Debugging variables* (MINIMAL, 346 / 700), dernière page du lot.
