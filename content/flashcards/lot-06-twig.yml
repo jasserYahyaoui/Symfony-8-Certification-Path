@@ -242,6 +242,7 @@ flashcards:
   - id: FLC-hhtpt2r6ppfc
     official_item: OIT-ds2p5d4eg0pq
     language: fr
+    level: TRAP
     front: 'Twig : par défaut, un gabarit inclus voit-il le contexte de l''appelant ?'
     back: Oui, tout le contexte. Le mot `only` est ce qui le restreint.
     explanation: 'C''est un piège : le fragment marche par accident tant que l''appelant possède la
@@ -1644,4 +1645,256 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Functions, Filters"
+        verified_at: "2026-09-24"
+
+  - id: FLC-6aeqszv10sy0
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : quelle forme d'inclusion la documentation recommande-t-elle ?"
+    back: "La fonction `include()`, plutôt que la balise `{% include %}`."
+    explanation: >-
+      La note de la balise include renvoie vers la fonction, qui offre les mêmes possibilités avec plus de souplesse.
+    memorization_justification: >-
+      Choix de forme que la documentation tranche explicitement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ygv2evr9hn1x
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi la fonction `include()` est-elle préférée à la balise ?"
+    back: "Elle est sémantiquement plus juste (une balise ne devrait rien afficher), elle se compose (affectation, filtre) et ses arguments nommés n'imposent aucun ordre."
+    explanation: >-
+      Exemple de composition : `{% set content = include('x.html.twig') %}` ou `{{ include('x.html.twig')|upper }}` — la balise exige un `set` bloc ou un `apply`.
+    memorization_justification: >-
+      Les trois raisons données par la documentation, dans l'ordre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-r9f7m45kfgbz
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: RECALL
+    front: "Twig : quel argument de la fonction `include()` empêche le gabarit inclus de voir le contexte de l'appelant ?"
+    back: "`with_context: false`."
+    explanation: >-
+      C'est l'équivalent, en fonction, du mot-clé `only` de la balise. Les variables passées explicitement restent visibles.
+    memorization_justification: >-
+      Même idée, deux écritures : confusion classique entre les formes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include function arguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-aaaxzgmnx82z
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: RECALL
+    front: "Twig : quel argument de la fonction `include()` tolère un gabarit absent, et que rend-elle alors ?"
+    back: "`ignore_missing: true` ; la fonction rend une chaîne vide."
+    explanation: >-
+      `CoreExtension::include()` retourne `''` quand le chargement échoue et que `ignoreMissing` vaut vrai ; sinon l'erreur de chargement est relancée.
+    memorization_justification: >-
+      Pendant fonctionnel de `ignore missing`, avec un résultat précis.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include function arguments"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::include()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-cypnypx2t8hj
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: TRAP
+    front: "Twig : {% include 'x.html.twig' with {a: 1} ignore missing %} est-il valide ?"
+    back: "Non : `ignore missing` doit suivre immédiatement le nom du gabarit. Cet ordre est une erreur de syntaxe."
+    explanation: >-
+      `IncludeTokenParser::parseArguments()` lit, dans cet ordre, `ignore missing`, puis `with`, puis `only`, puis attend la fin de balise : un `ignore` après `with` n'est plus attendu.
+    memorization_justification: >-
+      Ordre imposé par l'analyseur, facile à inverser de mémoire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include tag"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/TokenParser/IncludeTokenParser.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/TokenParser/IncludeTokenParser.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "IncludeTokenParser::parseArguments()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wc0h7mtp1txf
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: APPLICATION
+    front: "Twig : la balise `include` reçoit la liste `['page_detailed.html.twig', 'page.html.twig']` et seul `page.html.twig` existe. Que se passe-t-il ?"
+    back: "`page.html.twig` est inclus : c'est le premier gabarit existant de la liste."
+    explanation: >-
+      Une liste de noms n'inclut qu'un seul gabarit, le premier qui existe ; l'ordre de la liste est donc un ordre de préférence.
+    memorization_justification: >-
+      Mécanisme de repli souvent confondu avec une inclusion multiple.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ps0tj3zen5wk
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: TRAP
+    front: "Twig : une liste de gabarits dont aucun n'existe est passée à `include`. Que se passe-t-il ?"
+    back: "Une exception, sauf avec `ignore missing` (ou `ignore_missing: true`) : rien n'est alors rendu."
+    explanation: >-
+      La documentation de la balise comme celle de la fonction le disent dans les mêmes termes.
+    memorization_justification: >-
+      La liste donne un repli, pas une tolérance à l'absence.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include tag"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include function arguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9gbrgzf83dn7
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: RECALL
+    front: "Twig : quel argument de `include()` la documentation conseille-t-elle pour un gabarit écrit par un utilisateur final ?"
+    back: "`sandboxed: true`, qui place le gabarit inclus dans le bac à sable."
+    explanation: >-
+      La fonction accepte quatre arguments après le nom : `variables`, `with_context`, `ignore_missing`, `sandboxed`. `CoreExtension::include()` n'active le bac à sable que si l'extension `SandboxExtension` est enregistrée.
+    memorization_justification: >-
+      Argument propre à la fonction, rarement vu mais documenté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/include.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "include function arguments"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "CoreExtension::include()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jqp9kbfen7jr
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : la balise `embed` accepte-t-elle `with`, `only` et `ignore missing` ?"
+    back: "Oui : elle prend exactement les mêmes arguments que la balise `include`."
+    explanation: >-
+      `embed` combine `include` et `extends` ; la partie inclusion garde toute sa syntaxe, la partie héritage ajoute la redéfinition de blocs.
+    memorization_justification: >-
+      Parité d'arguments que la documentation affirme explicitement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/embed.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "embed tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-e2kwrjzymqsx
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: TRAP
+    front: "Twig : pourquoi l'échappement par nom de fichier ne marche-t-il pas comme attendu avec `embed` ?"
+    back: "Un gabarit embarqué n'a pas de nom ; embarquer du CSS ou du JavaScript dans du HTML demande de fixer la stratégie avec la balise `autoescape`."
+    explanation: >-
+      Avertissement de la documentation d'`embed`. Dans Symfony, TwigBundle choisit la stratégie d'après l'extension du nom — précisément ce qui manque ici.
+    memorization_justification: >-
+      Interaction peu visible entre embed et l'échappement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/embed.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "embed tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wj8skyxke5yj
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: APPLICATION
+    front: "Twig : un encart est répété sur plusieurs pages, seul son titre change à chaque appel. `include` ou `embed` ?"
+    back: "`embed` : il insère le gabarit et permet de redéfinir son bloc de titre au point d'insertion."
+    explanation: >-
+      Critère : identique à chaque appel, `include` ; une partie à changer, `embed` — le « micro squelette de mise en page » de la documentation.
+    memorization_justification: >-
+      Choix de balise directement interrogeable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/embed.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "embed tag"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ewnvkzsp2aj4
+    official_item: OIT-ds2p5d4eg0pq
+    language: fr
+    level: RECALL
+    front: "Symfony : le préfixe `_` d'un fragment de gabarit (`_card.html.twig`) est-il obligatoire ?"
+    back: "Non : il est facultatif, c'est une convention qui distingue un fragment d'un gabarit complet."
+    explanation: >-
+      La documentation Symfony le dit en toutes lettres : « the `_` prefix is optional, but it's a convention ».
+    memorization_justification: >-
+      Convention souvent prise pour une règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Including Templates, underscore prefix"
         verified_at: "2026-09-24"
