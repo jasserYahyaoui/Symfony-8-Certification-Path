@@ -791,9 +791,91 @@ n'est pas `void`, ce que la page ne disait pas.
 | `lot27_practice_audit.py --prove` | **exit 0** |
 | Aiguilles de smoke test | 7 ; `fixation` **écartée** (présente dans la version `master` de cette page) |
 
-Le déploiement de la page 7 sera consigné après lecture du smoke test.
+**Déploiement, lu dans le journal d'exécution.** PR #192 fusionnée en squash
+(`7836855`). Run Pages 35832049472 : build, déploiement et smoke test en succès ;
+la ligne `ok  lot-04  the session page carries its levelled flashcards, the
+shared bag access and the destroy default` est écrite à **07:32:30 UTC** le
+2026-09-23.
+
+## Page 8 — The flash messages
+
+`CRS-ak7sdgcdjb7e` · `OIT-65bev6t7wbna` · MINIMAL · **317 → 648 mots** sur 700.
+Aucun niveau promu.
+
+La page était juste sur ce qu'elle disait. Elle se taisait sur quatre points que
+`FlashBag.php` (branche 8.0) tranche, et qu'une question peut viser.
+
+**`set()` remplace, `add()` empile**
+
+```php
+public function set(string $type, string|array $messages): void
+{
+    $this->flashes[$type] = (array) $messages;
+}
+```
+
+La page ne mentionnait pas `set()`. Deux `add()` suivis d'un `set()` ne laissent
+qu'un message.
+
+**`clear()` est un alias de `all()`**
+
+```php
+public function clear(): mixed
+{
+    return $this->all();
+}
+```
+
+Elle vide *et retourne*. Ce n'est pas une purge sans résultat.
+
+**`has()` exige une clé et un tableau non vide**
+
+```php
+return \array_key_exists($type, $this->flashes) && $this->flashes[$type];
+```
+
+Un type présent mais vidé compte pour absent — et `peek()`, qui décide par
+`has()`, rend alors la valeur par défaut.
+
+**`addFlash()` lève au lieu d'ignorer**
+
+Deux `LogicException` dans `AbstractController` : sessions désactivées (la
+`SessionNotFoundException` est retraduite), et session n'implémentant pas
+`FlashBagAwareSessionInterface`. La page présentait le raccourci comme un simple
+équivalent, sans dire qu'il échoue bruyamment.
+
+**Flashcards.** 14 ajoutées ; la carte préexistante `FLC-gdkt0hht9dce` reçoit le
+niveau RECALL. L'item en porte **15** (4 RECALL, 4 UNDERSTANDING, 4 APPLICATION,
+3 TRAP). La carte de plan « quelles méthodes consomment » a été **abandonnée
+avant écriture** : elle doublait sémantiquement `FLC-gdkt0hht9dce`, et `AUD-04`
+ne l'aurait pas vu — la leçon de la page 2.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`FlashBagAwareSessionInterface`, `remplace tout le type` et `alias de`. Les trois
+aiguilles de contenu sont **absentes** de la version `master` de la page,
+front matter compris — vérifié par `git show master:…` avant de les retenir.
+
+**Contrôles réellement exécutés le 2026-09-23**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| `vendor/bin/phpunit` | 299 tests, 16 422 assertions, OK |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 422 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
+Un écart de procédure, rattrapé avant tout commit : `build_roadmap.py` a d'abord
+été lancé **sans** les paramètres de la CI. Le plan produit était faux (dernier
+jour 2027-01-31, au-delà de l'examen). Relancé avec `--start 2026-10-01 --exam
+2026-12-15 --max-new 4 --weekday 140 --weekend 200`, comme l'étape de CI qui
+compare le résultat.
 
 ## Prochaine étape
 
-Page 8 — *The flash messages* (`CRS-ak7sdgcdjb7e`, `OIT-65bev6t7wbna`, MINIMAL,
-317 / 700, 1 carte).
+Page 9 — *HTTP redirects* (MINIMAL, 344 / 700).
