@@ -1549,6 +1549,35 @@ jobs:
             echo "ok  lot-05  the special parameters page carries its four flashcard levels, the stateless default, the locale listener and the prepare method"
           fi
 
+          # Lot 05, page 8. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the test
+          # proving host matching ignores case, the compiler method that makes
+          # host placeholders always mandatory, and the reference type path()
+          # falls back to when the route host differs from the current one.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-domain -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/domain-name-matching")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page domain-name-matching serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-domain || missing="$missing l5dom:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-domain || missing="$missing l5dom:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-domain || missing="$missing l5dom:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-domain || missing="$missing l5dom:no-trap-heading"
+          grep -aq 'testHostIsCaseInsensitive' /tmp/l5r-domain \
+            || missing="$missing l5dom:no-case-test"
+          grep -aq 'compilePattern' /tmp/l5r-domain \
+            || missing="$missing l5dom:no-compiler-method"
+          grep -aq 'NETWORK_PATH' /tmp/l5r-domain \
+            || missing="$missing l5dom:no-network-path"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the domain name page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the domain name page carries its four flashcard levels, the case test, the compiler method and the network path"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

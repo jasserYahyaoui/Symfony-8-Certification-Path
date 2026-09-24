@@ -211,6 +211,7 @@ flashcards:
   - id: FLC-x5tjtg0h3pm1
     official_item: OIT-21m4pmtymygn
     language: fr
+    level: RECALL
     front: 'Symfony : sans contrainte d''hôte, quels hôtes une route accepte-t-elle ?'
     back: N'importe lequel. L'absence de l'option n'est pas une restriction implicite au domaine principal.
     explanation: 'L''hôte n''a par ailleurs pas son propre mécanisme de paramètres : valeurs par défaut
@@ -1876,4 +1877,167 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "addDefaults"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gpyyfhz014cw
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: RECALL
+    front: "Symfony : la correspondance de l'option host tient-elle compte de la casse ?"
+    back: "Non. L'hôte est mis en minuscules et l'expression régulière de l'hôte porte le drapeau i."
+    explanation: >-
+      Une contrainte EN|FR|DE accepte en.example.com ; l'attribut apparié vaut en, la valeur de la requête.
+    memorization_justification: >-
+      Le chemin, lui, reste sensible à la casse : la différence se retient.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compilePattern"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Matcher/UrlMatcherTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Matcher/UrlMatcherTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testHostIsCaseInsensitive"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3fvr9hp6dgpv
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: RECALL
+    front: "Symfony : quel type de référence path() produit-il pour une route dont l'hôte diffère de la requête courante ?"
+    back: "NETWORK_PATH : une URL relative au schéma, comme //m.example.com/."
+    explanation: >-
+      UrlGenerator remplace ABSOLUTE_PATH par NETWORK_PATH dès que l'hôte de la route n'est pas celui du contexte.
+    memorization_justification: >-
+      On attend une URL absolue avec schéma ; le résultat n'en a pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Generator/UrlGeneratorTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Generator/UrlGeneratorTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testWithHostDifferentFromContext, testWithHostSameAsContext"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8zxmqnpmcc3k
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : host: '{subdomain}.example.com' avec defaults: ['subdomain' => 'm']. Une requête vers example.com correspond-elle ?"
+    back: "Non. Un paramètre d'hôte est toujours exigé à l'appariement ; la valeur par défaut ne sert qu'à la génération."
+    explanation: >-
+      RouteCompiler ne calcule le premier paramètre facultatif que pour le chemin. La documentation justifie la valeur par défaut par la génération d'URL.
+    memorization_justification: >-
+      Sur le chemin, une valeur par défaut rend le paramètre facultatif : le réflexe se transpose à tort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compilePattern"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Sub-Domain Routing"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xc30442ywxcy
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : à quoi sert une valeur par défaut sur un paramètre d'hôte ?"
+    back: "À ne pas devoir fournir ce paramètre à chaque génération d'URL."
+    explanation: >-
+      C'est la justification donnée par la documentation, et le code ne l'utilise pas à l'appariement.
+    memorization_justification: >-
+      Sans cette raison, la valeur par défaut paraît redondante avec la contrainte.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Sub-Domain Routing"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3zvv0c84pznk
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: APPLICATION
+    front: "Symfony : routes '/' avec host: 'm.example.com' et '/' sans host. Dans quel ordre les déclarer ?"
+    back: "Celle qui a un host d'abord. Sinon la route sans host capte toutes les requêtes vers /."
+    explanation: >-
+      Sans host, une route accepte tout hôte ; la première route qui correspond l'emporte.
+    memorization_justification: >-
+      L'ordre n'importe que parce que la seconde route est plus générale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Sub-Domain Routing"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zat18abtqrgm
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: TRAP
+    front: "Piège : « path() vers une route d'un autre sous-domaine retourne https://m.example.com/ »."
+    back: "Faux : il retourne //m.example.com/. Seul url() donne une URL absolue avec schéma."
+    explanation: >-
+      path() demande ABSOLUTE_PATH ; le changement d'hôte le fait passer à NETWORK_PATH, pas à ABSOLUTE_URL.
+    memorization_justification: >-
+      Le mot absolue est la source de la confusion.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Generator/UrlGeneratorTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Generator/UrlGeneratorTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testWithHostDifferentFromContext, testWithHostSameAsContext"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4f6np8dtmye2
+    official_item: OIT-21m4pmtymygn
+    language: fr
+    level: TRAP
+    front: "Piège : « une valeur par défaut rend le sous-domaine facultatif, comme pour un paramètre de chemin »."
+    back: "Faux : les paramètres d'hôte restent obligatoires à l'appariement."
+    explanation: >-
+      Même clé defaults, effet différent : seul le chemin connaît les paramètres facultatifs.
+    memorization_justification: >-
+      La symétrie apparente des options induit l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compilePattern"
         verified_at: "2026-09-24"
