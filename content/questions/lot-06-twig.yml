@@ -1463,7 +1463,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - debug
   choices:
@@ -1473,7 +1473,8 @@ questions:
   - id: CHO-kem7pvaww47e
     text: It renders nothing and is silently ignored
     correct: false
-    explanation: There is no silent fallback; the function is simply absent.
+    explanation: In prod the bundle that registers the function is not enabled, so the call fails at compile
+      time. An empty result only occurs where the extension is loaded with debug turned off.
   - id: CHO-ncdc8xr3w74j
     text: It writes to the log instead of the page
     correct: false
@@ -1482,8 +1483,9 @@ questions:
     text: It works, but only for the profiler
     correct: false
     explanation: The profiler is not enabled in prod either.
-  explanation: 'dump() is available in dev and test only. The hard failure is deliberate: a forgotten dump would
-    otherwise leak internal state.'
+  explanation: 'dump() is available in dev and test only. Where it is absent, Twig stops compiling the template
+    with Unknown "dump" function. The hard failure is deliberate: a forgotten dump would otherwise leak internal
+    state.'
   official_sources: *id001
 - id: QST-x9m083b1vy99
   question_archetype: SCENARIO_CHOICE

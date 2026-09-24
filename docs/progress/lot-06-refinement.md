@@ -31,8 +31,8 @@ page.
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | **RAFFINÉE** (PR #225) |
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | **RAFFINÉE** (PR #226) |
 | 12 | String interpolation | MINIMAL | 257 / 700 | 1 | **RAFFINÉE** (PR #227) |
-| 13 | Assets management | MINIMAL | 355 / 700 | 1 | en cours |
-| 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | à faire |
+| 13 | Assets management | MINIMAL | 355 / 700 | 1 | **RAFFINÉE** (PR #228) |
+| 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | en cours |
 
 ## Page 1 — TwigBundle, 2026-09-24
 
@@ -912,6 +912,80 @@ page et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 13, lu dans le journal d'exécution.** PR #228 fusionnée
+en squash (`b43c81e`). Run Pages 36065930480 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the assets management page carries its four
+flashcard levels, the path package, the strict mode and the static strategy`
+est écrite à **22:12:33 UTC** le 2026-09-24.
+
+## Page 14 — Debugging variables, 2026-09-24
+
+`CRS-vx5kvfhs0p0s` · `OIT-3r7rp470754w` · MINIMAL · **346 → 483 mots** sur 700.
+Aucun niveau promu.
+
+### Un exemple de la documentation que le code refuse
+
+La page reprenait `templates.rst` (8.0) : « `dump()` accepte des arguments
+nommés, qui deviennent des étiquettes » — `{{ dump(blog_posts: articles, user:
+app.user) }}`. Or `DumpExtension` (Twig Bridge 8.0) déclare
+`dump(Environment $env, array $context)` sans option `is_variadic`, et
+`CallableArgumentsExtractor` (Twig 3.22) rejette tout argument nommé inconnu.
+
+**Vérifié par exécution**, pas par lecture seule : Twig `v3.22.0` cloné
+(`4509984193026de413baf4ba80f68590a7f2c51d`), une fonction déclarée à
+l'identique de `DumpExtension::getFunctions()` ; `{{ dump(1, 2) }}` passe,
+`{{ dump(blog_posts: 1, user: 2) }}` lève `SyntaxError: Unknown arguments
+"blogposts", "user" for function "dump()"`. Limite honnête : c'est une
+réplique de la déclaration, pas la classe Symfony elle-même. La page expose
+désormais l'écart et donne la balise pour étiqueter.
+
+La balise, elle, étiquette par nom de variable : compilée avec les vrais
+`DumpTokenParser` et `DumpNode` 8.0, `{% dump articles, user %}` produit
+`VarDumper::dump(["articles" => …, "user" => …])`.
+
+### Une explication imprécise
+
+`QST-tk7sqrt8mcwa` (LEARNING) : l'explication du distracteur « rien n'est
+rendu » affirmait qu'il n'existe aucun repli silencieux. Le code en a un :
+extension chargée mais `kernel.debug` à `false`, `dump()` rend `null`. En `prod`
+standard, l'extension n'est pas chargée (DebugBundle) et la compilation échoue
+— `Unknown "dump" function`, vérifié par la même exécution. Explications
+précisées, bonne réponse inchangée. Les deux autres questions non holdout ont
+été relues : exactes, inchangées. Aucune question holdout n'a été lue.
+
+### Compléments
+
+- `DumpExtension` est enregistrée par DebugBundle (`twig.extension.dump`).
+- La fonction rend du HTML dans la page ; la balise appelle `VarDumper::dump()`,
+  collecté pour la barre ; sans argument, tout le contexte, macros exclues.
+- `debug:twig --filter` ; `lint:twig --show-deprecations`, sans rendu.
+
+**Flashcards.** 9 ajoutées ; la carte préexistante `FLC-f2fz5g5z16nj` reçoit le
+niveau RECALL. L'item en porte **10** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `DumpNode`,
+`show-deprecations` et `twig.extension.dump`, absentes de la version `master` de
+la page et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| exécution Twig 3.22 (arguments nommés, fonction absente) et compilation de la balise | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 757 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 14 — *Debugging variables* (MINIMAL, 346 / 700), dernière page du lot.
+Lire le déploiement de la page 14, puis le rapport de fin de lot 06 réconcilié
+par script, dans sa propre PR.
