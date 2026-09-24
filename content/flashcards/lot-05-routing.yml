@@ -139,6 +139,7 @@ flashcards:
   - id: FLC-hdwv8cdrrdwb
     official_item: OIT-xxcpx1qssp93
     language: fr
+    level: RECALL
     front: "Appeler $request->setLocale() dans un contrôleur configure-t-il le traducteur ?"
     back: "Non, c'est trop tard. Il faut l'URL, un écouteur prioritaire, ou setLocale() sur le service translator."
     explanation: >-
@@ -2450,4 +2451,243 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getMethod"
+        verified_at: "2026-09-24"
+
+  - id: FLC-tsw4enq8msd0
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: RECALL
+    front: "Symfony : quelle priorité LocaleListener a-t-il sur kernel.request pour appliquer _locale ?"
+    back: "16, après RouterListener (32), dont il lit l'attribut _locale."
+    explanation: >-
+      Il s'abonne aussi à 100 pour poser la locale par défaut. Un écouteur qui doit passer avant lui prend une priorité supérieure à 16.
+    memorization_justification: >-
+      Deux nombres à retenir, et leur ordre relatif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-be03ptgj4xbk
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: RECALL
+    front: "Symfony : quelle option fait choisir la locale d'après l'en-tête Accept-Language ?"
+    back: "framework.set_locale_from_accept_language, false par défaut."
+    explanation: >-
+      La langue est choisie parmi framework.enabled_locales, et seulement si aucun attribut _locale n'est posé.
+    memorization_justification: >-
+      Nom d'option long, dont la valeur par défaut surprend.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "default_locale, set_locale_from_accept_language, enabled_locales"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9mksrdb0t3m7
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: RECALL
+    front: "Symfony : quels noms de routes produit #[Route(path: ['en' => '/about-us', 'nl' => '/over-ons'], name: 'about_us')] ?"
+    back: "about_us.en et about_us.nl."
+    explanation: >-
+      Chacune porte la valeur par défaut _locale, une contrainte sur _locale et _canonical_route valant about_us. Une entrée sans clé deviendrait la route about_us.
+    memorization_justification: >-
+      Le suffixe .locale est ce que l'on voit dans debug:router.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-eqcvewaxc1kq
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une URL porte _locale=fr et l'en-tête Accept-Language préfère de ; set_locale_from_accept_language vaut true. Quelle locale ?"
+    back: "fr : l'attribut _locale passe avant l'en-tête."
+    explanation: >-
+      LocaleListener ne consulte Accept-Language que si l'attribut _locale est absent.
+    memorization_justification: >-
+      L'ordre des sources est l'objet même de la question.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-vq22dr48h43p
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que fait generate('about_us') pour une route localisée quand la locale courante est fr_CA et qu'il n'existe que about_us.fr ?"
+    back: "Il utilise about_us.fr : faute de fr_CA, il retire la partie après le souligné."
+    explanation: >-
+      À défaut de route pour la locale ni pour sa langue, il se rabat sur la route about_us sans suffixe.
+    memorization_justification: >-
+      Le repli sur la langue sans région ne se devine pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "generate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-a9at3w9atf5t
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi un lien généré depuis une page /fr/… reste-t-il en français sans passer _locale ?"
+    back: "LocaleListener recopie la locale de la requête dans le contexte du routeur, que generate() consulte."
+    explanation: >-
+      generate() prend _locale dans les paramètres, sinon dans le contexte, sinon la locale par défaut du générateur.
+    memorization_justification: >-
+      Relie l'écouteur et le générateur, deux composants distincts.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "generate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dhj8txe6nk5g
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : quel effet la locale choisie d'après Accept-Language a-t-elle sur la réponse ?"
+    back: "Un en-tête Vary: Accept-Language."
+    explanation: >-
+      LocaleListener marque la requête avec _vary_by_language, et ResponseListener ajoute l'en-tête pour que les caches distinguent les langues.
+    memorization_justification: >-
+      Conséquence HTTP d'une décision de routage, facile à oublier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ResponseListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ResponseListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "_vary_by_language"
+        verified_at: "2026-09-24"
+
+  - id: FLC-mjrrnd2qaack
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: APPLICATION
+    front: "Symfony : activez le choix de la locale d'après le navigateur, limité à fr et en."
+    back: "framework: { set_locale_from_accept_language: true, enabled_locales: [fr, en] }"
+    explanation: >-
+      enabled_locales borne les langues retenues ; la locale par défaut y est ajoutée par LocaleListener.
+    memorization_justification: >-
+      Deux options à combiner pour un seul comportement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "default_locale, set_locale_from_accept_language, enabled_locales"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-b9wz4qb1rjfy
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: APPLICATION
+    front: "Symfony : un écouteur lit la locale en session et la pose sur la requête. Quelle priorité lui donner sur kernel.request ?"
+    back: "Une priorité supérieure à 16, pour passer avant LocaleListener."
+    explanation: >-
+      La documentation renvoie à debug:event kernel.request pour lire la priorité réelle de LocaleListener.
+    memorization_justification: >-
+      Appliquer la règle « plus grand, plus tôt » à un cas concret.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-x2tqmwznksr5
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: TRAP
+    front: "Piège : « Symfony choisit la locale d'après Accept-Language par défaut »."
+    back: "Faux : set_locale_from_accept_language vaut false ; sans _locale, la locale est framework.default_locale."
+    explanation: >-
+      L'en-tête n'est consulté qu'une fois l'option activée.
+    memorization_justification: >-
+      Le comportement attendu d'un site multilingue n'est pas le défaut du framework.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "default_locale, set_locale_from_accept_language, enabled_locales"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-q3sbgwtkj43w
+    official_item: OIT-xxcpx1qssp93
+    language: fr
+    level: TRAP
+    front: "Piège : « un écouteur de priorité 10 pose la locale avant LocaleListener »."
+    back: "Faux : 10 est inférieur à 16, donc il passe après."
+    explanation: >-
+      Sur un même événement, la priorité la plus élevée s'exécute la première.
+    memorization_justification: >-
+      L'intuition « petit nombre, premier » inverse la règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents, setLocale"
         verified_at: "2026-09-24"

@@ -1635,6 +1635,34 @@ jobs:
             echo "ok  lot-05  the HTTP methods page carries its four flashcard levels, the override header, the suspicious exception and the CONNECT method"
           fi
 
+          # Lot 05, page 11. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the option
+          # that lets Accept-Language choose the locale, the default a localized
+          # route carries, and the loader that creates one route per locale.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-locale -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/user-s-locale-guessing")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page user-s-locale-guessing serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-locale || missing="$missing l5loc:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-locale || missing="$missing l5loc:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-locale || missing="$missing l5loc:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-locale || missing="$missing l5loc:no-trap-heading"
+          grep -aq 'set_locale_from_accept_language' /tmp/l5r-locale \
+            || missing="$missing l5loc:no-accept-language-option"
+          grep -aq '_canonical_route' /tmp/l5r-locale \
+            || missing="$missing l5loc:no-canonical-route"
+          grep -aq 'AttributeClassLoader' /tmp/l5r-locale \
+            || missing="$missing l5loc:no-attribute-loader"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the locale guessing page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the locale guessing page carries its four flashcard levels, the Accept-Language option, the canonical route and the attribute loader"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
