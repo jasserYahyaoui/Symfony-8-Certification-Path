@@ -1117,10 +1117,90 @@ contrôleur retourne ensuite.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 11, lu dans le journal d'exécution.** PR #196 fusionnée
+en squash (`c9b7b20`). Run Pages 35972293937 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the 404 pages page carries its four flashcard
+levels, the FlattenException, the 400 interface and the built-in renderer` est
+écrite à **07:57:55 UTC** le 2026-09-24.
+
+## Page 12 — File upload
+
+`CRS-5pns7nw7612s` · `OIT-tb3bnd6b0f01` · STANDARD · **404 → 593 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse, héritée de la documentation
+
+La page listait `getSize()` — « la taille annoncée » — parmi les données fournies
+par le client. `controller/upload_file.rst` (8.0, l. 184-188) dit la même chose :
+« the original file size (`UploadedFile::getSize`) … considered *not safe* ».
+
+Le code dit autre chose. `UploadedFile` ne définit pas `getSize()` ; `File` non plus,
+et `class File extends \SplFileInfo`. La méthode est donc
+`SplFileInfo::getSize()`, dont le manuel PHP (`php/doc-en`,
+`reference/spl/splfileinfo/getsize.xml`) dit : « Returns the filesize in bytes for
+the file referenced. » Le fichier référencé est le fichier temporaire reçu par le
+serveur — une mesure, pas une déclaration.
+
+**Résolution**, comme pour la page 11 : le code l'emporte ; la page énonce ce qu'il
+fait **et** signale la formulation documentaire, qu'une question pourrait
+reprendre. Aucune question non-holdout ne cite `getSize` ; le holdout n'a pas été
+ouvert.
+
+### Les vraies méthodes non fiables
+
+Le code les marque lui-même, par docblock : `getClientOriginalName()`,
+`getClientOriginalExtension()`, `getClientOriginalPath()`, **`getClientMimeType()`**
+— « should not be considered as a safe value », alternative `getMimeType()` — et
+**`guessClientExtension()`** — « cannot be trusted ». La dernière est un piège :
+elle échappe à la règle mnémotechnique « tout ce qui commence par `getClient` ».
+
+### `#[MapUploadedFile]`, lu dans le résolveur
+
+La page disait « une `HttpException` est levée ; pour rendre le fichier
+facultatif, il faut typer l'argument comme nullable ». Juste, et incomplet.
+`RequestPayloadValueResolver::mapUploadedFile()` et la suite montrent :
+
+| Fichier absent, argument… | Résultat |
+|---|---|
+| nullable **ou avec valeur par défaut** | `null` ou la valeur par défaut |
+| typé `array` | `[]`, sans exception |
+| autre | `HttpException` de statut **422** |
+
+Le 422 est la valeur par défaut de `validationFailedStatusCode`, qui sert aussi à
+l'échec des contraintes. La clé lue est l'option `name`, sinon le nom de
+l'argument. Sur un tableau, les contraintes sont enveloppées dans `All`.
+
+### `move()`
+
+Retourne un `File`. Vérifie `isValid()` — `UPLOAD_ERR_OK` **et**
+`is_uploaded_file()` — puis lève une exception propre à chaque code d'erreur
+(`IniSizeFileException`, `FormSizeFileException`, `NoFileException`…). Le sens
+des deux premières est tiré des messages du code (`upload_max_filesize` ;
+« the upload limit defined in your form »), pas de mémoire.
+
+**Flashcards.** 13 ajoutées ; `FLC-76q0tk8w87yb` reçoit le niveau UNDERSTANDING
+(c'est une question « pourquoi »). L'item en porte **14** (4 RECALL,
+4 UNDERSTANDING, 3 APPLICATION, 3 TRAP). Un backslash dans une chaîne YAML entre
+guillemets doubles a fait échouer le brouillon au parsing ; corrigé avant commit.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`guessClientExtension`, `SplFileInfo` et `validationFailedStatusCode`, absentes
+de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 467 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 12 — *File upload* (STANDARD, 404 / 900). **Une erreur à corriger** : la page
-présente `getSize()` comme « la taille annoncée » par le client. Le code ne la
-définit ni dans `UploadedFile` ni dans `File` ; elle vient de `\SplFileInfo` et
-mesure le fichier référencé. La documentation (`upload_file.rst`, l. 184-188) la
-range pourtant parmi les valeurs « not safe » — même traitement que ci-dessus.
+Page 13 — *Built-in internal controllers* (STANDARD, 402 / 900).

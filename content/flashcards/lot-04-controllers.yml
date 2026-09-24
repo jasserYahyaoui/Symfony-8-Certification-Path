@@ -137,6 +137,7 @@ flashcards:
   - id: FLC-76q0tk8w87yb
     official_item: OIT-tb3bnd6b0f01
     language: fr
+    level: UNDERSTANDING
     front: "Téléversement : pourquoi ne pas utiliser getClientOriginalExtension() ?"
     back: "Elle vient du navigateur, donc de l'utilisateur. Utiliser guessExtension(), qui déduit du type MIME réel."
     explanation: >-
@@ -3490,4 +3491,251 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "findTemplate, render"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4exbrewq89sy
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: RECALL
+    front: "Quel statut produit #[MapUploadedFile] quand aucun fichier n est envoyé pour un argument ni nullable ni doté d une valeur par défaut ?"
+    back: "422, la valeur par défaut de l option validationFailedStatusCode."
+    explanation: >-
+      Le résolveur lève une HttpException construite à partir de ce statut.
+    memorization_justification: >-
+      On attend spontanément un 400 pour une requête incomplète.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapUploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapUploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jmvjnt0gth48
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: RECALL
+    front: "Quelle méthode d UploadedFile donne un type MIME fiable ?"
+    back: "getMimeType(), qui le devine d après le contenu du fichier. getClientMimeType() n est que le type annoncé."
+    explanation: >-
+      Le docblock de getClientMimeType() renvoie explicitement vers getMimeType() pour une valeur de confiance.
+    memorization_justification: >-
+      Les deux noms ne diffèrent que par Client, et c est toute la différence de fiabilité.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getClientMimeType"
+        verified_at: "2026-09-24"
+
+  - id: FLC-t7d5gr3wzdwv
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: RECALL
+    front: "Que retourne UploadedFile::move() ?"
+    back: "Un objet File pointant vers le fichier à sa nouvelle place."
+    explanation: >-
+      La signature déclare File en retour ; la méthode ne se contente pas de déplacer.
+    memorization_justification: >-
+      Le retour est souvent ignoré alors qu il donne directement le fichier déplacé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "move"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4c8mvc6vtnyg
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: RECALL
+    front: "Sous quelle clé du sac files #[MapUploadedFile] cherche-t-il le fichier ?"
+    back: "Sous l option name de l attribut, et à défaut sous le nom de l argument."
+    explanation: >-
+      Le résolveur lit files avec name, puis retombe sur le nom de l argument.
+    memorization_justification: >-
+      La règle du nom d argument est connue ; l option qui la remplace l est moins.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "mapUploadedFile"
+        verified_at: "2026-09-24"
+
+  - id: FLC-c1x5pe3cy2yx
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi guessClientExtension() n est-elle pas fiable ?"
+    back: "Parce qu elle déduit l extension du type MIME annoncé par le client, et non du contenu."
+    explanation: >-
+      Son docblock le dit : la valeur ne peut pas être crue ; guessExtension() est l alternative.
+    memorization_justification: >-
+      Son nom ne commence pas par getClient, ce qui la fait échapper à la règle mnémotechnique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "guessClientExtension"
+        verified_at: "2026-09-24"
+
+  - id: FLC-snknsr11jvap
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une contrainte passée à #[MapUploadedFile] s applique-t-elle à chaque fichier d un tableau ?"
+    back: "Parce que le résolveur enveloppe les contraintes dans la contrainte All quand la charge est un tableau."
+    explanation: >-
+      Sans cet enveloppement, la contrainte viserait le tableau lui-même et non ses éléments.
+    memorization_justification: >-
+      Le comportement est implicite : rien dans l attribut ne l annonce.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "All"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4q0bhry0246j
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi move() vérifie-t-elle isValid() avant de déplacer ?"
+    back: "Pour s assurer que le téléversement s est terminé sans erreur et que le fichier est bien arrivé par HTTP."
+    explanation: >-
+      Sinon elle lève une exception propre au code d erreur de téléversement.
+    memorization_justification: >-
+      isValid() combine deux conditions, dont la seconde protège contre un chemin arbitraire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isValid, move"
+        verified_at: "2026-09-24"
+
+  - id: FLC-yvpxcjct6kms
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: APPLICATION
+    front: "Un argument array $photos porte #[MapUploadedFile] et aucun fichier n est envoyé. Que reçoit le contrôleur ?"
+    back: "Un tableau vide, sans exception."
+    explanation: >-
+      Le résolveur retourne [] pour un argument typé array quand le sac files est vide.
+    memorization_justification: >-
+      Le cas contredit l idée qu un fichier manquant lève toujours.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "mapUploadedFile"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4ex4dbz4g344
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: APPLICATION
+    front: "Le fichier envoyé dépasse upload_max_filesize. Quelle exception move() lève-t-elle ?"
+    back: "IniSizeFileException."
+    explanation: >-
+      move() choisit la classe d exception selon le code d erreur de téléversement ; celui-ci désigne la limite de php.ini.
+    memorization_justification: >-
+      Distinguer la limite de php.ini de celle du formulaire est une question classique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "move"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dg74dbewakvd
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: APPLICATION
+    front: "On veut répondre 400 plutôt que 422 quand un fichier requis manque. Que modifier ?"
+    back: "L option validationFailedStatusCode de l attribut, par exemple à 400."
+    explanation: >-
+      Le même statut sert au fichier manquant et à l échec des contraintes.
+    memorization_justification: >-
+      Le statut est un paramètre de l attribut, pas une configuration globale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapUploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapUploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gqqr90hc2any
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: TRAP
+    front: "Piège : « seules les méthodes commençant par getClient sont peu fiables »."
+    back: "Non. guessClientExtension() l est aussi, parce qu elle part du type MIME annoncé."
+    explanation: >-
+      La règle mnémotechnique couvre quatre méthodes sur cinq.
+    memorization_justification: >-
+      Une règle presque juste est plus dangereuse qu une règle absente.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "guessClientExtension"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ps3e8t60zdt0
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: TRAP
+    front: "Piège : « seul un argument nullable rend un fichier facultatif avec #[MapUploadedFile] »."
+    back: "Non. Une valeur par défaut le rend aussi facultatif, et un argument typé array reçoit un tableau vide."
+    explanation: >-
+      Trois cas évitent l exception, pas un seul.
+    memorization_justification: >-
+      La documentation met en avant le cas nullable, ce qui fait oublier les deux autres.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "mapUploadedFile"
+        verified_at: "2026-09-24"
+
+  - id: FLC-byeqqghnpfbx
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: TRAP
+    front: "Piège : « getSize() retourne la taille déclarée par le navigateur »."
+    back: "Non, selon le code : elle vient de SplFileInfo et mesure le fichier temporaire reçu. La documentation la liste pourtant parmi les valeurs non sûres."
+    explanation: >-
+      Ni UploadedFile ni File ne la redéfinissent.
+    memorization_justification: >-
+      La documentation officielle et le code divergent ; à l examen, connaître les deux.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/reference/spl/splfileinfo/getsize.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/reference/spl/splfileinfo/getsize.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Returns the filesize in bytes for the file referenced."
         verified_at: "2026-09-24"
