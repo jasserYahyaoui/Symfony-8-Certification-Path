@@ -1606,6 +1606,35 @@ jobs:
             echo "ok  lot-05  the conditional matching page carries its four flashcard levels, the dumper, the compile call and the doMatch method"
           fi
 
+          # Lot 05, page 10. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the header
+          # that overrides the method without the framework option, the
+          # exception raised on an invalid override, and the CONNECT method an
+          # override can never reach.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-methods -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/http-methods-matching")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page http-methods-matching serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-methods || missing="$missing l5met:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-methods || missing="$missing l5met:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-methods || missing="$missing l5met:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-methods || missing="$missing l5met:no-trap-heading"
+          grep -aq 'X-HTTP-METHOD-OVERRIDE' /tmp/l5r-methods \
+            || missing="$missing l5met:no-override-header"
+          grep -aq 'SuspiciousOperationException' /tmp/l5r-methods \
+            || missing="$missing l5met:no-suspicious-exception"
+          grep -aq 'CONNECT' /tmp/l5r-methods \
+            || missing="$missing l5met:no-connect-method"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the HTTP methods page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the HTTP methods page carries its four flashcard levels, the override header, the suspicious exception and the CONNECT method"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
