@@ -34,6 +34,7 @@ flashcards:
   - id: FLC-hyrr6qtdkfh9
     official_item: OIT-e2zrm9qkpx7j
     language: fr
+    level: RECALL
     front: "L'option condition d'une route est-elle évaluée lors de la génération d'URL ?"
     back: "Non. Les conditions sont ignorées à la génération ; elles ne filtrent que l'appariement."
     explanation: >-
@@ -2040,4 +2041,255 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "compilePattern"
+        verified_at: "2026-09-24"
+
+  - id: FLC-tw61byrpdnaz
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: RECALL
+    front: "Symfony : que devient l'expression d'une condition de route quand le matcher est mis en cache ?"
+    back: "Elle est compilée en PHP brut par CompiledUrlMatcherDumper."
+    explanation: >-
+      La documentation en conclut qu'une condition ne coûte que le temps d'exécution de ce PHP ; il s'exécute ensuite à chaque requête qui atteint la route.
+    memorization_justification: >-
+      L'idée reçue est celle d'une expression réinterprétée à chaque requête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compileRoute"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-w4v3yat9h9ph
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: RECALL
+    front: "Symfony : quel attribut rend un service appelable par service() dans une condition de route ?"
+    back: "#[AsRoutingConditionService], qui pose le tag routing.condition_service."
+    explanation: >-
+      Son argument alias donne le nom à passer à service() ; sans alias, on passe l'identifiant du service.
+    memorization_justification: >-
+      Nom d'attribut long et spécifique, à restituer exactement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AsRoutingConditionService"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-sqzp6yzevf43
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: RECALL
+    front: "Symfony : quelles fonctions une condition de route peut-elle appeler ?"
+    back: "env() et service(), fournies par FrameworkBundle."
+    explanation: >-
+      Elles sont déclarées comme services étiquetés routing.expression_language_function, avec les noms env et service.
+    memorization_justification: >-
+      Deux noms seulement, à ne pas confondre avec les fonctions d'autres expressions du framework.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "container.getenv, container.get_routing_condition_service"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gcyfrbb7dkjv
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une route methods: ['POST'] a une condition fausse pour la requête. Une requête GET sur son chemin reçoit-elle un 405 ?"
+    back: "Non : la condition est testée avant la méthode. La route est ignorée et n'ajoute rien à la liste des méthodes autorisées."
+    explanation: >-
+      Si aucune autre route ne correspond, la réponse est un 404.
+    memorization_justification: >-
+      L'ordre des contrôles dans le matcher décide du code d'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doMatch"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qa94edyrvvff
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi service() ne peut-il pas atteindre n'importe quel service du conteneur ?"
+    back: "Il passe par un localisateur des seuls services étiquetés routing.condition_service."
+    explanation: >-
+      FrameworkBundle construit ce localisateur avec tagged_locator ; un service non étiqueté n'y figure pas.
+    memorization_justification: >-
+      Comprendre le mécanisme explique pourquoi l'attribut est obligatoire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "container.getenv, container.get_routing_condition_service"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kft8bz6weyw0
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une condition qui n'utilise que context oblige-t-elle le matcher à construire un objet Request ?"
+    back: "Non. Le matcher ne le construit que si le PHP compilé de la condition mentionne $request."
+    explanation: >-
+      Le dumper numérote positivement les conditions qui utilisent la requête et négativement les autres.
+    memorization_justification: >-
+      Détail d'implémentation qui montre que context et request sont deux sources distinctes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compileRoute"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doMatch"
+        verified_at: "2026-09-24"
+
+  - id: FLC-42dcy4ps4cq2
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi une condition de route n'agit-elle pas à la génération d'URL ?"
+    back: "Le générateur n'évalue pas l'expression : il ignore l'option condition."
+    explanation: >-
+      Une route conditionnée reste générable, même vers un contexte où elle ne correspondrait pas ; requirements, lui, compte dans les deux sens.
+    memorization_justification: >-
+      La symétrie supposée avec requirements est la source de l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-y7n6z4e5hvs9
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: APPLICATION
+    front: "Symfony : écrivez la condition qui limite /posts/{id} aux identifiants inférieurs à 1000."
+    back: "condition: \u0022params['id'] < 1000\u0022"
+    explanation: >-
+      params contient les paramètres de route déjà appariés au moment où la condition s'exécute.
+    memorization_justification: >-
+      Seule variable qui donne accès aux valeurs de l'URL.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-bjn7dqmwhd39
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: APPLICATION
+    front: "Symfony : un service RouteChecker porte #[AsRoutingConditionService(alias: 'route_checker')] et une méthode check(Request). Écrivez la condition."
+    back: "condition: \u0022service('route_checker').check(request)\u0022"
+    explanation: >-
+      service() reçoit l'alias ; la variable request transmet la requête courante à la méthode.
+    memorization_justification: >-
+      Assembler attribut, alias et variable en une expression complète.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AsRoutingConditionService"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-f7fwm11e4szc
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: TRAP
+    front: "Piège : « une condition de route est réinterprétée à chaque requête, ce qui la rend coûteuse »."
+    back: "Faux : elle est compilée en PHP dans le cache du routeur."
+    explanation: >-
+      Seul le PHP compilé s'exécute à chaque requête ; la documentation précise qu'il n'y a pas d'autre surcoût.
+    memorization_justification: >-
+      L'intuition sur le coût d'un langage d'expression induit l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "compileRoute"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Matching Expressions"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3b70fk1sxx4h
+    official_item: OIT-e2zrm9qkpx7j
+    language: fr
+    level: TRAP
+    front: "Piège : « une condition fausse sur une route POST donne un 405 à une requête GET »."
+    back: "Faux : la route est écartée avant le contrôle de méthode ; sans autre route, c'est un 404."
+    explanation: >-
+      Le 405 ne naît que des routes dont chemin, hôte et condition correspondent.
+    memorization_justification: >-
+      On attribue au 405 une cause qui ne l'atteint jamais.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doMatch"
         verified_at: "2026-09-24"
