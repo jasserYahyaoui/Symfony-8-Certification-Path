@@ -261,24 +261,25 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 25 min · 594 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 24 min · 593 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 24 min · 665 mots · 4 questions, 14 flashcards
-- NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 17 min · 632 mots · 6 questions, 1 flashcards
+- NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 29 min · 929 mots · 6 questions, 16 flashcards
 - Révision **J+3** (10 min) — Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+7** (17 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+14** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 128 / 140 min*
+*Budget du jour : 140 / 140 min*
 
 ### Mardi 20 octobre 2026
 
+- NOUVEAU (suite) · **Controllers : Argument value resolvers** (DEEP) — 2 min · 929 mots · 6 questions, 16 flashcards
 - NOUVEAU · **Routing : Routing component and FrameworkBundle** (STANDARD) — 10 min · 460 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 13 min · 551 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 11 min · 392 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 13 min · 417 mots · 5 questions, 2 flashcards
-- Révision **J+1** (26 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
+- Révision **J+1** (18 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+7** (15 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 - Révision **J+14** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 100 / 140 min*
+*Budget du jour : 94 / 140 min*
 
 ### Mercredi 21 octobre 2026
 
@@ -286,11 +287,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 11 min · 432 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 12 min · 391 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 7 min · 268 mots · 2 questions, 1 flashcards
-- Révision **J+1** (24 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
+- Révision **J+1** (32 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+7** (14 min) — Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request
 - Révision **J+14** (10 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 89 / 140 min*
+*Budget du jour : 97 / 140 min*
 
 ### Jeudi 22 octobre 2026
 
@@ -299,11 +300,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 11 min · 390 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Router debugging** (MINIMAL) — 8 min · 279 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
-- Révision **J+3** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
+- Révision **J+3** (12 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+7** (11 min) — Controllers : The response · Controllers : The cookies · Controllers : The session
 - Révision **J+14** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
-*Budget du jour : 96 / 140 min*
+*Budget du jour : 91 / 140 min*
 
 ### Vendredi 23 octobre 2026
 
@@ -312,18 +313,19 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 8 min · 339 mots · 2 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 11 min · 384 mots · 4 questions, 1 flashcards
 - Révision **J+1** (20 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging
-- Révision **J+3** (16 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
+- Révision **J+3** (21 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+7** (10 min) — Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+14** (10 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling
 
-*Budget du jour : 96 / 140 min*
+*Budget du jour : 101 / 140 min*
 
 ### Samedi 24 octobre 2026
 
-- **Source tour et mise en pratique** sur les 20 items de la semaine :
+- **Source tour et mise en pratique** sur les 21 items de la semaine :
   - Controllers : Generate 404 pages
   - Controllers : File upload
   - Controllers : Built-in internal controllers
+  - Controllers : Argument value resolvers
   - Controllers : Argument value resolvers
   - Routing : Routing component and FrameworkBundle
   - Routing : Configuration (YAML and PHP attributes)
@@ -363,10 +365,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 11 min · 368 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
 - Révision **J+3** (15 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
-- Révision **J+7** (17 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
+- Révision **J+7** (12 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+14** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 91 / 140 min*
+*Budget du jour : 86 / 140 min*
 
 ### Mardi 27 octobre 2026
 
@@ -375,10 +377,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 13 min · 597 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 11 min · 354 mots · 4 questions, 1 flashcards
 - Révision **J+1** (24 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
-- Révision **J+7** (16 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
+- Révision **J+7** (21 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+14** (11 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 99 / 140 min*
+*Budget du jour : 104 / 140 min*
 
 ### Mercredi 28 octobre 2026
 
@@ -469,9 +471,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Forms : Handling file upload** (MINIMAL) — 7 min · 290 mots · 2 questions, 1 flashcards
 - Révision **J+3** (16 min) — Forms : Form component · Forms : Forms creation · Forms : Forms handling · Forms : Form types (built-in and custom)
 - Révision **J+7** (16 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration
-- Révision **J+14** (13 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
+- Révision **J+14** (9 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 
-*Budget du jour : 91 / 140 min*
+*Budget du jour : 87 / 140 min*
 
 ### Mardi 3 novembre 2026
 
@@ -481,9 +483,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Forms : Form type extensions** (MINIMAL) — 9 min · 328 mots · 4 questions, 1 flashcards
 - Révision **J+1** (22 min) — Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection · Forms : Handling file upload
 - Révision **J+7** (18 min) — Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring · Dependency Injection : Service locators
-- Révision **J+14** (12 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
+- Révision **J+14** (16 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 
-*Budget du jour : 100 / 140 min*
+*Budget du jour : 104 / 140 min*
 
 ### Mercredi 4 novembre 2026
 
@@ -705,9 +707,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (24 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 - Révision **J+7** (17 min) — Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping · Templating with Twig : Template inheritance
 - Révision **J+14** (12 min) — Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
-- Révision **J+30** (13 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
+- Révision **J+30** (9 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 
-*Budget du jour : 111 / 140 min*
+*Budget du jour : 107 / 140 min*
 
 ### Jeudi 19 novembre 2026
 
@@ -719,10 +721,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+3** (13 min) — Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands
 - Révision **J+7** (16 min) — Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes · Templating with Twig : Loops and conditions
 - Révision **J+14** (12 min) — Security : Configuration · Security : Providers · Security : Firewalls · Security : Users
-- Révision **J+30** (12 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
+- Révision **J+30** (16 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters · Routing : Set default values to URL parameters
 - Révision **J+45** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 121 / 140 min*
+*Budget du jour : 125 / 140 min*
 
 ### Vendredi 20 novembre 2026
 
@@ -930,9 +932,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (12 min) — Miscellaneous : Finder · Miscellaneous : Mailer · Miscellaneous : Mime
 - Révision **J+14** (11 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
 - Révision **J+30** (11 min) — Forms : Built-in form types · Forms : Data transformers · Forms : Form events · Forms : Form type extensions
-- Révision **J+45** (4 min) — Controllers : Argument value resolvers
 
-*Budget du jour : 128 / 140 min*
+*Budget du jour : 124 / 140 min*
 
 ### Vendredi 4 décembre 2026
 
@@ -942,9 +943,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (16 min) — Miscellaneous : Process · Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+14** (11 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+30** (12 min) — Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
+- Révision **J+45** (4 min) — Controllers : Argument value resolvers
 - Révision **J+60** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 136 / 140 min*
+*Budget du jour : 140 / 140 min*
 
 ### Samedi 5 décembre 2026
 

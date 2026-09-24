@@ -157,6 +157,7 @@ flashcards:
   - id: FLC-s0173seh75yz
     official_item: OIT-8hs6e05vq91g
     language: fr
+    level: RECALL
     front: "ValueResolverInterface::resolve() : que doit-elle retourner ?"
     back: "Toujours un tableau : vide si elle ne sait pas résoudre, un élément pour une valeur, plusieurs pour un variadique."
     explanation: >-
@@ -3986,4 +3987,289 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "redirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-r4f27cte1wqh
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: RECALL
+    front: 'Quelle priorité portent RequestValueResolver et SessionValueResolver dans FrameworkBundle ?'
+    back: '120, au-dessus des résolveurs à 100 dont RequestAttributeValueResolver.'
+    explanation: >-
+      DefaultValueResolver est à -100 et VariadicValueResolver à -150, en fin de chaîne.
+    memorization_justification: >-
+      Les valeurs exactes décident de qui gagne quand plusieurs résolveurs pourraient répondre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "controller.argument_value_resolver"
+        verified_at: "2026-09-24"
+
+  - id: FLC-59ts97z4vyjm
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: RECALL
+    front: 'Que lève ArgumentResolver quand aucun résolveur ne fournit de valeur pour un argument ?'
+    back: 'Une RuntimeException indiquant que le contrôleur requiert un argument qui n a pas pu être résolu.'
+    explanation: >-
+      Chaque résolveur peut passer la main ; c est l échec de toute la chaîne qui produit l erreur.
+    memorization_justification: >-
+      On confond facilement le refus d un résolveur et l échec de l ensemble.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getArguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-x2zbx95jng9z
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: RECALL
+    front: 'Quel statut produit #[MapQueryParameter] par défaut quand le paramètre manque ou est invalide ?'
+    back: '404, la valeur par défaut de son option validationFailedStatusCode.'
+    explanation: >-
+      #[MapQueryString] a le même défaut ; #[MapRequestPayload] et #[MapUploadedFile] utilisent 422.
+    memorization_justification: >-
+      La différence de statut entre attributs voisins est une question typique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapQueryParameter.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapQueryParameter.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-v2dcq2v3fpwj
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: RECALL
+    front: 'Quels résolveurs portent le tag controller.targeted_value_resolver dans FrameworkBundle ?'
+    back: 'RequestPayloadValueResolver et QueryParameterValueResolver.'
+    explanation: >-
+      Ils sont retirés de la chaîne ordinaire et ne s exécutent que si un attribut les désigne.
+    memorization_justification: >-
+      Connaître la liste explique pourquoi les attributs Map sont indispensables à ces résolveurs.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "controller.targeted_value_resolver"
+        verified_at: "2026-09-24"
+
+  - id: FLC-31sn4ekvskam
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un résolveur maison peut-il utiliser yield au lieu de retourner un tableau ?'
+    back: 'Parce que le type de retour est iterable et qu ArgumentResolver parcourt le résultat par foreach.'
+    explanation: >-
+      La documentation recommande un tableau ; le code accepte tout itérable.
+    memorization_justification: >-
+      La règle documentée est plus stricte que le contrat réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getArguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-evh0jpb0c42k
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi ?SessionInterface $session = null donne-t-il la session quand elle existe ?'
+    back: 'Parce que SessionValueResolver, à 120, passe avant DefaultValueResolver, à -100.'
+    explanation: >-
+      Si la session manque, le premier renvoie un tableau vide et le second fournit la valeur par défaut.
+    memorization_justification: >-
+      L exemple n a de sens qu une fois l ordre des priorités connu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "controller.argument_value_resolver"
+        verified_at: "2026-09-24"
+
+  - id: FLC-0vj14dnk16ms
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi #[ValueResolver] ne réduit-il pas la chaîne au seul résolveur épinglé ?'
+    back: 'Parce qu ArgumentResolver ajoute derrière lui RequestAttributeValueResolver puis DefaultValueResolver.'
+    explanation: >-
+      Un argument épinglé peut donc encore recevoir un attribut de requête ou sa valeur par défaut.
+    memorization_justification: >-
+      La documentation ne cite que le repli sur la valeur par défaut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getArguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7tcj673c27m3
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un attribut Map qui lit l URL échoue-t-il en 404 alors qu un attribut qui lit le corps échoue en 422 ?'
+    back: 'Parce que leurs options validationFailedStatusCode ont des valeurs par défaut différentes : 404 pour la query string, 422 pour le corps.'
+    explanation: >-
+      Une URL invalide désigne une ressource introuvable ; un corps invalide est une entité non traitable.
+    memorization_justification: >-
+      La distinction se retient mieux par la source des données que par attribut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapRequestPayload.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapRequestPayload.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "validationFailedStatusCode"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3ajn2v9rz61y
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: APPLICATION
+    front: 'Un argument est typé Symfony\Component\BrowserKit\Request par erreur d import. Que signale Symfony ?'
+    back: 'Un message indiquant qu un objet Request semble demandé avec le mauvais nom de classe.'
+    explanation: >-
+      RequestValueResolver repère un type qui se termine par Request sans être celui de HttpFoundation.
+    memorization_justification: >-
+      Le diagnostic pointe directement l import fautif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "resolve"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gdkjmspq1td1
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: APPLICATION
+    front: 'Un argument \DateTimeInterface $since reçoit la chaîne 2026-13-45 depuis la route. Que se passe-t-il ?'
+    back: 'Une erreur 404 : la date est invalide.'
+    explanation: >-
+      DateTimeValueResolver lève une NotFoundHttpException quand la chaîne ne donne pas de date.
+    memorization_justification: >-
+      Le statut 404 surprend pour une donnée mal formée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "resolve"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nq9k8ndhaxjk
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: APPLICATION
+    front: 'Un argument est typé \DateTimeInterface. Quelle classe concrète reçoit-il ?'
+    back: 'DateTimeImmutable.'
+    explanation: >-
+      Le résolveur choisit DateTimeImmutable quand le type déclaré est l interface elle-même.
+    memorization_justification: >-
+      L interface ne pouvant être instanciée, la classe choisie est une question naturelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "resolve"
+        verified_at: "2026-09-24"
+
+  - id: FLC-3m2p02ckpy9c
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: APPLICATION
+    front: 'On veut qu un paramètre de requête invalide donne null plutôt qu une erreur avec #[MapQueryParameter]. Que passer ?'
+    back: 'Le drapeau FILTER_NULL_ON_FAILURE dans flags.'
+    explanation: >-
+      Sans lui, une valeur invalide lève une HttpException de statut 404.
+    memorization_justification: >-
+      Le réglage change un échec en valeur nulle, ce qui modifie la logique du contrôleur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapQueryParameter.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapQueryParameter.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jzgj6r6sdtnb
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: TRAP
+    front: 'Piège : « resolve() doit impérativement retourner un tableau ».'
+    back: 'Non. La documentation le recommande, mais le type est iterable : un générateur fonctionne aussi.'
+    explanation: >-
+      Ce qui échoue, c est de retourner la valeur elle-même.
+    memorization_justification: >-
+      La formulation documentaire est plus stricte que le contrat.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getArguments"
+        verified_at: "2026-09-24"
+
+  - id: FLC-tfpakywaf45a
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: TRAP
+    front: 'Piège : « SessionInterface $session = null est la forme correcte en Symfony 8.0 ».'
+    back: 'Non. PHP 8.4, minimum de Symfony 8.0, déprécie ce nullable implicite : écrire ?SessionInterface.'
+    explanation: >-
+      La documentation Symfony 8.0 garde pourtant l ancienne forme dans son exemple.
+    memorization_justification: >-
+      Recopier l exemple officiel produit un avertissement de dépréciation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/appendices/migration84/deprecated.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/appendices/migration84/deprecated.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Implicitly nullable parameter"
+        verified_at: "2026-09-24"
+
+  - id: FLC-a8y6wrrzbjpz
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: TRAP
+    front: 'Piège : « une valeur invalide dans un paramètre de route typé énumération donne 400 ».'
+    back: 'Non. Elle donne 404, comme une date ou un identifiant Uid invalides.'
+    explanation: >-
+      Les résolveurs lèvent une NotFoundHttpException pour une valeur d URL qui ne correspond à rien.
+    memorization_justification: >-
+      Le réflexe « mauvaise requête » mène à 400.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "resolve"
         verified_at: "2026-09-24"

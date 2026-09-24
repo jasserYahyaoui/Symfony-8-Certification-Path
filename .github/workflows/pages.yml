@@ -1320,6 +1320,35 @@ jobs:
             echo "ok  lot-04  the built-in controllers page carries its four flashcard levels, the ambiguous-mode exception, the path-mode ports and the public cache default"
           fi
 
+          # Page 14 of lot 04, the last. The three content needles are what
+          # this refinement added and master's version of the page does not
+          # contain: the tag that takes a resolver out of the chain, the
+          # resolver the page's catalogue was missing, and the flag that turns
+          # an invalid query parameter into null instead of a 404.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-resolvers -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/argument-value-resolvers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page argument-value-resolvers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-resolvers || missing="$missing l4resolvers:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-resolvers || missing="$missing l4resolvers:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-resolvers || missing="$missing l4resolvers:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-resolvers || missing="$missing l4resolvers:no-trap-heading"
+          grep -aq 'targeted_value_resolver' /tmp/l4r-resolvers \
+            || missing="$missing l4resolvers:no-targeted-tag"
+          grep -aq 'QueryParameterValueResolver' /tmp/l4r-resolvers \
+            || missing="$missing l4resolvers:no-query-parameter-resolver"
+          grep -aq 'FILTER_NULL_ON_FAILURE' /tmp/l4r-resolvers \
+            || missing="$missing l4resolvers:no-null-on-failure"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the argument value resolvers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the argument value resolvers page carries its four flashcard levels, the targeted tag, the query parameter resolver and FILTER_NULL_ON_FAILURE"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

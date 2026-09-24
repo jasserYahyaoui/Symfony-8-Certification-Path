@@ -1209,7 +1209,9 @@ flashcard levels, guessClientExtension, the SplFileInfo origin of getSize and th
 
 ## Page 13 — Built-in internal controllers
 
-`CRS-zmg0wrxvqqdq` · `OIT-e93sa9rd4kd9` · STANDARD · **402 → 666 mots** sur 900.
+`CRS-zmg0wrxvqqdq` · `OIT-e93sa9rd4kd9` · STANDARD · **402 → 665 mots** sur 900
+(666 annoncés à la livraison, mesurés avant une dernière retouche ; corrigé à la
+réconciliation de fin de lot).
 Aucun niveau promu.
 
 Rien de faux sur la page. Elle décrivait les options ; le code de
@@ -1283,7 +1285,94 @@ aussi : le mot n'apparaît pas dans le texte de la page.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 13, lu dans le journal d'exécution.** PR #198 fusionnée
+en squash (`cede4ba`). Run Pages 35975162585 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the built-in controllers page carries its four
+flashcard levels, the ambiguous-mode exception, the path-mode ports and the public
+cache default` est écrite à **08:29:33 UTC** le 2026-09-24.
+
+## Page 14 — Argument value resolvers
+
+`CRS-d5ffd8b704zs` · `OIT-8hs6e05vq91g` · DEEP · **632 → 929 mots** sur 1200.
+Aucun niveau promu.
+
+La page suivait la documentation. Le code de `ArgumentResolver`, des résolveurs
+et de la configuration de FrameworkBundle (branche 8.0) la corrige sur trois
+points et la complète sur quatre.
+
+### Trois écarts entre la documentation et le code
+
+**« You must always return an array. »** (`value_resolver.rst`, l. 291-294). Le
+type déclaré par `ValueResolverInterface::resolve()` est `iterable`, et
+`ArgumentResolver` parcourt le résultat par `foreach` : un générateur fonctionne.
+Le message d'erreur du code dit d'ailleurs « must yield at most one value ».
+
+**L'exemple `SessionInterface $session = null`** (l. 217 et 242). Symfony 8.0
+exige PHP 8.4, dont le manuel (`appendices/migration84/deprecated.xml`, section
+« Implicitly nullable parameter ») déprécie cette forme. La page écrit
+`?SessionInterface $session = null`.
+
+**La chaîne épinglée.** La documentation : « The `DefaultValueResolver` will be
+called next ». Le code :
+
+```php
+$argumentValueResolvers = [
+    $this->namedResolvers->get($resolverName),
+    new RequestAttributeValueResolver(),
+    new DefaultValueResolver(),
+];
+```
+
+Trois résolveurs, pas deux.
+
+**Résolution**, comme pour les pages 11 et 12 : le code l'emporte ; la page énonce
+ce qu'il fait et signale la formulation documentaire. Aucune question non-holdout
+n'a été modifiée ; le holdout n'a pas été ouvert.
+
+### Quatre compléments
+
+| Point | Source |
+|---|---|
+| Priorités : 120 `Request`/`Session`, 100 attributs/enum/Uid/date, −50 service, −100 défaut, −150 variadique | `FrameworkBundle/Resources/config/web.php` |
+| `RequestPayloadValueResolver` et **`QueryParameterValueResolver`** portent `controller.targeted_value_resolver` et sont retirés de la chaîne | `web.php`, `ControllerArgumentValueResolverPass` |
+| Échec par défaut : **404** pour `MapQueryParameter` et `MapQueryString`, **422** pour `MapRequestPayload` et `MapUploadedFile` | les quatre attributs |
+| Aucune valeur → `RuntimeException` ; plus d'une pour un argument non variadique → `InvalidArgumentException` | `ArgumentResolver::getArguments()` |
+
+Le catalogue omettait `QueryParameterValueResolver`, et décrivait
+`ServiceValueResolver` comme lisant « un service du conteneur » : il lit le
+localisateur propre à l'action, par nom d'argument.
+
+**Un exemple faux attrapé avant commit.** Une carte illustrait le message
+« wrong class name » par `Psr\Http\Message\Request`. Vérification faite, la
+classe n'existe pas — PSR-7 ne définit que `RequestInterface`
+(`php-fig/http-message`, `src/Request.php` répond 404). Remplacée par
+`Symfony\Component\BrowserKit\Request`, dont l'existence en 8.0 a été vérifiée.
+
+**Flashcards.** 15 ajoutées ; `FLC-s0173seh75yz` reçoit le niveau RECALL. L'item
+en porte **16** (5 RECALL, 4 UNDERSTANDING, 4 APPLICATION, 3 TRAP). Les cartes
+contenant des namespaces PHP sont écrites en chaînes YAML entre apostrophes, où
+le backslash est littéral.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`targeted_value_resolver`, `QueryParameterValueResolver` et
+`FILTER_NULL_ON_FAILURE`, absentes de la version `master` de la page, en code en
+ligne dans la prose.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 501 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 14 — *Argument value resolvers* (DEEP, 632 / 1200) — la dernière du lot,
-puis le rapport de fin de lot 04.
+Les quatorze pages du lot sont affinées. Reste : lire le smoke test de la page 14
+après fusion, puis le **rapport de fin de lot 04**.
