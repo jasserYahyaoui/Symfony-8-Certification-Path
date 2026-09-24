@@ -1144,6 +1144,35 @@ jobs:
             echo "ok  lot-04  the session page carries its levelled flashcards, the shared bag access and the destroy default"
           fi
 
+          # Page 8 of lot 04. The three content needles are what this
+          # refinement added and master's version of the page does not contain:
+          # the interface named by the second LogicException, the verb that
+          # separates set() from add(), and the alias that makes clear() return
+          # what it erases.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-flash -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-flash-messages")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page the-flash-messages serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-flash || missing="$missing l4flash:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-flash || missing="$missing l4flash:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-flash || missing="$missing l4flash:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-flash || missing="$missing l4flash:no-trap-heading"
+          grep -aq 'FlashBagAwareSessionInterface' /tmp/l4r-flash \
+            || missing="$missing l4flash:no-flashbag-interface"
+          grep -aq 'remplace tout le type' /tmp/l4r-flash \
+            || missing="$missing l4flash:no-set-replaces"
+          grep -aq 'alias de' /tmp/l4r-flash \
+            || missing="$missing l4flash:no-clear-alias"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the flash messages page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the flash messages page carries its four flashcard levels, the interface, the replacing set() and the clear() alias"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

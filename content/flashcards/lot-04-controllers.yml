@@ -74,6 +74,7 @@ flashcards:
   - id: FLC-gdkt0hht9dce
     official_item: OIT-65bev6t7wbna
     language: fr
+    level: RECALL
     front: "FlashBag : quelles méthodes consomment les messages, et lesquelles non ?"
     back: "get() et all() consomment. peek() et peekAll() ne consomment pas."
     explanation: >-
@@ -2471,3 +2472,297 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "Sessions are only started if you read from or write to them"
         verified_at: "2026-09-22"
+
+  - id: FLC-m8n738ajyygj
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: RECALL
+    front: "FlashBag : que fait set() sur un type de message déjà rempli ?"
+    back: "Elle remplace tout le type par les messages passés. Seule add() empile."
+    explanation: >-
+      Le corps de set() affecte le tableau du type, il ne l ajoute pas :
+      les messages déjà posés sous ce type sont perdus.
+    memorization_justification: >-
+      Le couple add/set se lit spontanément comme « ajouter » et « poser », alors
+      que la seconde écrase la première.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "add, set"
+        verified_at: "2026-09-23"
+
+  - id: FLC-0c0vbff3ej4p
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: RECALL
+    front: "FlashBag : que contient le corps de la méthode clear() ?"
+    back: "Un appel à all(). Elle vide le sac et retourne ce qu elle a vidé."
+    explanation: >-
+      clear() est un alias de all() : la valeur de retour porte les messages
+      effacés, elle n est pas une purge sans résultat.
+    memorization_justification: >-
+      Un nom qui annonce une suppression laisse rarement attendre une valeur de
+      retour utile.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clear, all"
+        verified_at: "2026-09-23"
+
+  - id: FLC-498bwq3a3mwr
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: RECALL
+    front: "Que se passe-t-il si on appelle addFlash() alors que les sessions sont désactivées ?"
+    back: "Une LogicException est levée, nommant la configuration à changer."
+    explanation: >-
+      Le raccourci du contrôleur attrape la SessionNotFoundException et la
+      retraduit en LogicException ; il ne retourne pas silencieusement.
+    memorization_justification: >-
+      Beaucoup de raccourcis du contrôleur sont tolérants ; celui-ci ne l est
+      pas, et la différence ne se voit qu à l exécution.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addFlash"
+        verified_at: "2026-09-23"
+
+  - id: FLC-m8sf7xx093fg
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi lire les messages d un seul type ne vide-t-il pas le sac entier ?"
+    back: "Parce que get() ne supprime que la clé demandée ; c est all() qui réinitialise le tableau complet."
+    explanation: >-
+      Les deux méthodes consomment, mais pas à la même portée : l une retire un
+      type, l autre remet le tableau des flashs à vide.
+    memorization_justification: >-
+      « Consommer » est souvent compris comme « tout consommer », ce qui masque
+      la différence de portée entre les deux méthodes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get, all"
+        verified_at: "2026-09-23"
+
+  - id: FLC-8k62hr2cz39x
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: UNDERSTANDING
+    front: "Un type de flash existe dans le tableau mais son tableau est vide. Que répond has() ?"
+    back: "false : has() exige que la clé existe ET que son tableau ne soit pas vide."
+    explanation: >-
+      La condition combine array_key_exists et la valeur elle-même, donc un type
+      présent mais vidé est traité comme absent.
+    memorization_justification: >-
+      Un nom en « has » suggère un simple test de présence de clé, alors que la
+      valeur compte aussi.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "has"
+        verified_at: "2026-09-23"
+
+  - id: FLC-xw11e70s3g14
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi le raccourci du contrôleur échoue-t-il bruyamment quand la session manque ?"
+    back: "Parce qu un message posé mais jamais affichable est un bug silencieux : l exception le rend visible à l écriture."
+    explanation: >-
+      Deux cas distincts sont couverts : sessions désactivées, et session dont la
+      classe n implémente pas l interface porteuse du sac de flashs.
+    memorization_justification: >-
+      Le réflexe est d attendre un no-op ; comprendre le motif évite de chercher
+      l erreur du côté du gabarit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addFlash"
+        verified_at: "2026-09-23"
+
+  - id: FLC-5bh0nr5r3mb0
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: UNDERSTANDING
+    front: "La consultation sans consommation d un type déjà vidé retourne-t-elle un tableau vide ou le défaut ?"
+    back: "Le défaut, car peek() décide par has(), qui traite un type vidé comme absent."
+    explanation: >-
+      peek() retourne le tableau du type si has() répond true, sinon la valeur
+      par défaut passée en second argument.
+    memorization_justification: >-
+      La nuance ne se voit que si l on passe un défaut autre que le tableau vide,
+      cas rare en pratique mais testable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "peek, has"
+        verified_at: "2026-09-23"
+
+  - id: FLC-4whp54f3kxzn
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: APPLICATION
+    front: "Deux add('notice', ...) puis un set('notice', 'X'). Que reste-t-il sous ce type ?"
+    back: "Le seul message X : set() a remplacé le tableau du type."
+    explanation: >-
+      Les deux messages empilés sont perdus ; l ordre des appels décide, pas leur
+      nombre.
+    memorization_justification: >-
+      Le scénario est celui d une factorisation apparemment anodine qui supprime
+      des messages sans erreur visible.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "add, set"
+        verified_at: "2026-09-23"
+
+  - id: FLC-aqxdyasvjn53
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: APPLICATION
+    front: "Un gabarit affiche app.flashes en haut de page puis à nouveau en bas. Que voit l utilisateur ?"
+    back: "Les messages en haut seulement : la première lecture les a consommés."
+    explanation: >-
+      La seconde boucle ne trouve plus rien. Il faut passer par la variante qui
+      ne consomme pas si l on veut afficher deux fois.
+    memorization_justification: >-
+      Le bug se présente comme un problème d affichage alors qu il vient de la
+      lecture, ce qui oriente le diagnostic au mauvais endroit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Flash Messages"
+        verified_at: "2026-09-23"
+
+  - id: FLC-r5x1vd6kbbww
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: APPLICATION
+    front: "On appelle clear() sur le sac sans utiliser sa valeur de retour. Que perd-on ?"
+    back: "Les messages eux-mêmes : clear() les retourne au moment où elle les efface."
+    explanation: >-
+      Puisque son corps est un appel à all(), la seule copie des messages est la
+      valeur ignorée.
+    memorization_justification: >-
+      Ignorer une valeur de retour d une méthode nommée « clear » paraît normal,
+      et c est précisément là que les messages disparaissent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clear"
+        verified_at: "2026-09-23"
+
+  - id: FLC-279sk7qk3mz9
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: APPLICATION
+    front: "Le sac porte des notice et des warning. On lit les notice avec get(). Que deviennent les warning ?"
+    back: "Ils restent en place : seul le type lu est supprimé."
+    explanation: >-
+      Ils seront servis à la requête suivante, ce qui peut surprendre si l on
+      croyait le sac vidé.
+    memorization_justification: >-
+      Le scénario distingue concrètement la portée de get() de celle de all(),
+      là où la table des méthodes les présente ensemble.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "get"
+        verified_at: "2026-09-23"
+
+  - id: FLC-j97fxxbyn8m0
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: TRAP
+    front: "Piège : « set() ajoute un message de plus au type »."
+    back: "Non. Elle remplace le type entier ; seule add() ajoute."
+    explanation: >-
+      Le nom set évoque l affectation, et c est exactement ce qu il fait : une
+      affectation, pas un ajout.
+    memorization_justification: >-
+      Les deux méthodes vivent côte à côte sur le même objet, ce qui invite à les
+      croire interchangeables.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "set"
+        verified_at: "2026-09-23"
+
+  - id: FLC-fr3h38z2wxrj
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: TRAP
+    front: "Piège : « vider le sac de flashs ne rend rien, c est une purge »."
+    back: "Non. La méthode de purge retourne les messages qu elle efface."
+    explanation: >-
+      Son corps délègue à la méthode qui consomme tout et rend le tableau, donc
+      la purge et la lecture sont la même opération.
+    memorization_justification: >-
+      Une signature qui retourne une valeur sur une méthode de nettoyage est
+      contre-intuitive et rarement lue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "clear"
+        verified_at: "2026-09-23"
+
+  - id: FLC-gfgnzpzne301
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: TRAP
+    front: "Piège : « sans session configurée, poser un flash depuis le contrôleur ne fait rien »."
+    back: "Non. Le raccourci lève une LogicException plutôt que de ne rien faire."
+    explanation: >-
+      L absence de session est traitée comme une erreur de configuration, pas
+      comme un cas dégradé acceptable.
+    memorization_justification: >-
+      L intuition du no-op est forte pour une opération qui ne retourne rien, et
+      elle mène à un plantage en production plutôt qu à un message manquant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addFlash"
+        verified_at: "2026-09-23"
