@@ -212,14 +212,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Controllers : The flash messages** (MINIMAL) — 22 min · 648 mots · 3 questions, 15 flashcards
 - NOUVEAU · **Controllers : HTTP redirects** (MINIMAL) — 21 min · 567 mots · 3 questions, 13 flashcards
-- NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 11 min · 395 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 24 min · 664 mots · 4 questions, 14 flashcards
 - NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 13 min · 423 mots · 5 questions, 1 flashcards
 - Révision **J+1** (16 min) — Controllers : The response · Controllers : The cookies · Controllers : The session
 - Révision **J+3** (15 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 - Révision **J+7** (13 min) — Symfony Architecture : Code organization · Symfony Architecture : Request handling · Symfony Architecture : Exception handling
 - Révision **J+14** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 123 / 140 min*
+*Budget du jour : 136 / 140 min*
 
 ### Samedi 17 octobre 2026
 

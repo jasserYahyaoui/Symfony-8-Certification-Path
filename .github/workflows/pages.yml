@@ -1202,6 +1202,36 @@ jobs:
             echo "ok  lot-04  the HTTP redirects page carries its four flashcard levels, the closed status list and the path-only Location"
           fi
 
+          # Page 10 of lot 04. The three content needles are what this
+          # refinement added and master's version of the page does not contain:
+          # the Request method that builds the sub-request, the resolver that
+          # matches arguments by name, and the query string forward() drops by
+          # default. All three sit in prose or inline code, not in a fenced
+          # block whose highlighting could split the token.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-forward -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/internal-redirects")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page internal-redirects serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-forward || missing="$missing l4forward:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-forward || missing="$missing l4forward:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-forward || missing="$missing l4forward:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-forward || missing="$missing l4forward:no-trap-heading"
+          grep -aq 'duplicate' /tmp/l4r-forward \
+            || missing="$missing l4forward:no-duplicate-call"
+          grep -aq 'RequestAttributeValueResolver' /tmp/l4r-forward \
+            || missing="$missing l4forward:no-name-resolver"
+          grep -aq 'query string' /tmp/l4r-forward \
+            || missing="$missing l4forward:no-dropped-query"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the internal redirects page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the internal redirects page carries its four flashcard levels, the duplicate() mechanism and the dropped query string"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
