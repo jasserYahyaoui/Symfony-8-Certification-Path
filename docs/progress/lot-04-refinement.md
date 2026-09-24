@@ -26,25 +26,29 @@ flashcards est donc ici plus lourd que le travail de prose.
 
 ## État par page (ordre officiel de l'item)
 
-Chiffres relevés le 2026-09-22 par lecture des fichiers canoniques
-(`syllabus-matrix.yml`, `content/**`), pas repris d'un rapport antérieur.
+Chiffres réconciliés le 2026-09-24, en fin de lot, par script sur les fichiers
+canoniques (`syllabus-matrix.yml`, `content/**`) — mots comptés avec la
+tokenisation de `Course::wordCount()`, front matter exclu.
 
-| # | Page | Niveau | Mots / plafond | Flashcards | Statut |
+| # | Page | Niveau | Mots / plafond | Flashcards | PR |
 |---|---|---|---|---|---|
-| 1 | HttpKernel component and FrameworkBundle | STANDARD | 717 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | **RAFFINÉE** (2026-09-22) |
-| 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 4 | The request | MINIMAL | 684 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
-| 5 | The response | STANDARD | 812 / 900 | 16 | **RAFFINÉE** (2026-09-22) |
-| 6 | The cookies | MINIMAL | 694 / 700 | 16 | **RAFFINÉE** (2026-09-22) |
-| 7 | The session | STANDARD | 733 / 900 | 16 | **RAFFINÉE** (2026-09-23) |
-| 8 | The flash messages | MINIMAL | 317 / 700 | 1 | à faire |
-| 9 | HTTP redirects | MINIMAL | 344 / 700 | 1 | à faire |
-| 10 | Internal redirects | STANDARD | 395 / 900 | 1 | à faire |
-| 11 | Generate 404 pages | STANDARD | 423 / 900 | 1 | à faire |
-| 12 | File upload | STANDARD | 404 / 900 | 1 | à faire |
-| 13 | Built-in internal controllers | STANDARD | 402 / 900 | 1 | à faire |
-| 14 | Argument value resolvers | DEEP | 632 / 1200 | 1 | à faire |
+| 1 | HttpKernel component and FrameworkBundle | STANDARD | 717 / 900 | 16 | #184 |
+| 2 | Naming conventions | MINIMAL | 695 / 700 | 15 | #185 |
+| 3 | The base AbstractController class | STANDARD | 753 / 900 | 16 | #186 |
+| 4 | The request | MINIMAL | 684 / 700 | 16 | #187 |
+| 5 | The response | STANDARD | 812 / 900 | 16 | #188 |
+| 6 | The cookies | MINIMAL | 694 / 700 | 16 | #189 |
+| 7 | The session | STANDARD | 733 / 900 | 16 | #192 |
+| 8 | The flash messages | MINIMAL | 648 / 700 | 15 | #193 |
+| 9 | HTTP redirects | MINIMAL | 567 / 700 | 13 | #194 |
+| 10 | Internal redirects | STANDARD | 664 / 900 | 14 | #195 |
+| 11 | Generate 404 pages | STANDARD | 594 / 900 | 14 | #196 |
+| 12 | File upload | STANDARD | 593 / 900 | 14 | #197 |
+| 13 | Built-in internal controllers | STANDARD | 665 / 900 | 14 | #198 |
+| 14 | Argument value resolvers | DEEP | 929 / 1200 | 16 | #199 |
+
+Les quatorze pages sont raffinées. Leur déploiement vérifié est daté dans la
+section de chaque page, et dans le rapport de fin de lot ci-dessous.
 
 La colonne *Niveau* est une **observation**, pas une cible : elle est celle que
 la matrice porte déjà, avec sa justification. Aucun niveau n'est promu pour
