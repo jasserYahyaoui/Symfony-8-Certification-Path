@@ -28,7 +28,7 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #209) |
 | 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | **RAFFINÉE** (PR #210) |
 | 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | **RAFFINÉE** (PR #211) |
-| 12 | Router debugging | MINIMAL | 279 / 700 | 1 | en cours |
+| 12 | Router debugging | MINIMAL | 279 / 700 | 1 | **RAFFINÉE** (PR #212) |
 
 Base de comparaison pour le rapport de fin de lot : `3bb0479`, le commit qui
 précède la première page de ce lot.
@@ -844,6 +844,220 @@ en succès ; la ligne `ok  lot-05  the locale guessing page carries its four
 flashcard levels, the Accept-Language option, the canonical route and the
 attribute loader` est écrite à **13:34:41 UTC** le 2026-09-24.
 
+**Déploiement de la page 12, lu dans le journal d'exécution.** PR #212 fusionnée
+en squash (`75df3e9`). Run Pages 36008126517 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the router debugging page carries its four
+flashcard levels, the match command, the traceable matcher and the path info`
+est écrite à **13:50:29 UTC** le 2026-09-24.
+
+# Rapport de fin de lot 05
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`3bb0479`, le commit de `master` qui précède la première page refondue (PR #201).
+
+## Périmètre
+
+**12** items officiels atomiques portent `lot: lot-05` dans la matrice :
+3 `MINIMAL`, 9 `STANDARD`, aucun `DEEP` — niveaux inchangés pendant la campagne.
+L'absence de `DEEP` est une **observation** : aucune cible de répartition
+n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 05 est **12 / 12**. Aucun des deux n'a bougé : les douze items étaient déjà
+`EXAM_READY`. **Ce lot n'a pas fait progresser la couverture** — il a approfondi
+des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+Compté avec la tokenisation de `Course::wordCount()`, sur le fichier et sur son
+état à la base de comparaison :
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 12 cours du lot 05 | 4 701 | **7 547** | **+2 846** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 3 | Router debugging, 527 |
+| `STANDARD` | 900 | 9 | Trigger redirects, 823 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 05 | 13 | **140** | **+127** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 48 · `UNDERSTANDING` 42 · `APPLICATION` 25 · `TRAP` 25.
+**Zéro carte du lot sans niveau.** Les treize cartes préexistantes ont toutes
+reçu un niveau ; aucune n'a été supprimée. Une explication de carte
+préexistante a été corrigée (`FLC-5j4yp6wp9yzk`, page 4).
+
+## Questions et pools
+
+**51** questions portent sur les items du lot 05 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 36 | 34 dans `lot-05-routing.yml`, 2 dans `golden-slice.yml` |
+| `VALIDATION` | 9 | `validation-pool.yml` |
+| `HOLDOUT` | 6 | 4 dans `mock-04-holdout.yml`, 2 dans `lot-05-routing.yml` |
+
+**Sept questions `LEARNING` modifiées**, toutes à bonne réponse inchangée,
+`reviewed_at` au 2026-09-24 :
+
+| Question | Page | Champs modifiés |
+|---|---|---|
+| `QST-0y1zbrpb67fw` | 5 | explication |
+| `QST-np471a1fkmv6` | 6 | énoncé précisé (`GET`), `version` 1 → 2, explication |
+| `QST-m5x0wprr2kvf` | 7 | explication |
+| `QST-0negxbfbe972` | 7 | explication |
+| `QST-f0k6jqb9twcj` | 7 | explication, explication d'un choix |
+| `QST-qq1rr2xpmn82` | 8 | explication |
+| `QST-d3z5234k4p9k` | 12 | explication, explication d'un choix |
+
+La comparaison scriptée avec la base ne compte **aucune question `HOLDOUT`
+modifiée** ; le script n'en compare que l'égalité, sans en afficher le contenu.
+
+**`POOL-002` : 0 manquant.** Les neuf items `STANDARD` `EXAM_READY` portent
+chacun au moins une question `VALIDATION`.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 6 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets servis
+(« 516 questions, all LEARNING, no holdout id or choice »). C'est une
+**isolation fonctionnelle**.
+
+Ce n'est **pas** de la confidentialité : `mock-4.json` est publié et porte les
+réponses correctes. Aucun contenu holdout n'a été lu pour ce lot ni pour ce
+rapport.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant à chaque page ; 1 avertissement `PED-003` préexistant, hors lot |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | exit 0 à chaque page |
+| `composer gate-full` | **PASS** | 299 tests, 16 628 assertions sur la dernière page, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, `FINDINGS: 0`, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas ; empreinte SHA-256 de `content/` et `docs/` identique avant et après |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10 --prove`, `lot27_practice_audit.py --prove` | **PASS** | exit 0 |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full` ; étape « Accessibility audit » verte en CI à chaque PR |
+| Blocs `run:` des workflows | **PASS** | 34 blocs passent `bash -n` |
+| Branche + PR par page (§15) | **PASS** | #201 à #212, une par page, CI verte avant chaque fusion en squash |
+| Déploiement + smoke test de production | **PASS pour les pages 1 à 11** | lignes `ok lot-05 …` lues dans les journaux d'exécution, page par page |
+| Déploiement de la page 12 | **PASS** | PR #212 fusionnée (`75df3e9`) ; run Pages 36008126517 ; smoke test à 13:50:29 UTC |
+
+## Défauts trouvés dans le corpus existant
+
+Onze pages sur douze portaient une affirmation fausse, incomplète ou
+imprécise ; la douzième, une lacune. Toutes vérifiées contre le code de la
+branche 8.0 :
+
+| Page | Défaut corrigé |
+|---|---|
+| 01 Routing component | `RouterListener` attribué à FrameworkBundle ; il appartient à HttpKernel. Les routes d'attributs présentées comme lues dans un répertoire |
+| 02 Configuration | « le même jeu d'options » : YAML refuse `priority` (`AVAILABLE_KEYS`) |
+| 03 Restrict URL parameters | « la contrainte ne vaut qu'à l'appariement » : le générateur la vérifie, `strict_requirements` vaut `true` par défaut |
+| 04 Default values | « le `!` est une décision de génération » : il agit aussi à l'appariement (`RouteCompiler`) ; aussi dans une carte |
+| 05 URLs generation | un objet en paramètre supplémentaire serait laissé tel quel ; il est converti ; aussi dans une question |
+| 06 Trigger redirects | la redirection de schéma présentée sans condition ; elle ne vaut qu'en `GET`/`HEAD` ; aussi dans une question |
+| 07 Special attributes | `#[Route(..., query: …)]` : l'argument n'existe pas en 8.0 ; une justification inventée dans une question |
+| 08 Domain name matching | un défaut d'hôte rendrait le paramètre facultatif comme sur le chemin ; non |
+| 09 Conditions | « pas de configuration compilée » : l'expression est compilée en PHP |
+| 10 HTTP methods | `http_method_override` présentée comme condition de tout remplacement ; l'en-tête n'en dépend pas |
+| 11 Locale guessing | lacune : le choix d'après `Accept-Language` et l'ordre de `LocaleListener` |
+| 12 Router debugging | `router:match` « prend une URL » : il prend un *path info* ; aussi dans une question |
+
+## Écarts entre la documentation 8.0 et le code 8.0
+
+Tous tranchés par la hiérarchie des sources — le code l'emporte — et signalés
+sur la page, parce qu'une question d'examen peut reprendre la formulation
+documentaire :
+
+| Page | La documentation | Le code |
+|---|---|---|
+| 05 | un Uuid passé en paramètre supplémentaire n'est pas converti | converti (`Stringable`) |
+| 07 | exemple `#[Route(..., query: [...])]` et clé YAML `query:` | aucun argument `query` ; clé refusée par `YamlFileLoader` |
+| 07 | `_query` utilisable dans une route ou un import | une valeur par défaut `_query` n'est pas lue par le générateur |
+| 06 | une requête HTTP est redirigée vers HTTPS | seulement en `GET` et `HEAD` |
+
+Deux silences documentaires comblés par le code sans contradiction : le `!`
+à l'appariement (page 4) et l'exclusion de `_fragment` des imports, règle
+documentaire que le code ne fait pas respecter (page 7). Un écart **interne au
+framework** : le texte d'aide de `strict_requirements` annonce `null`, le code
+retourne `''` (page 3).
+
+## Défauts introduits par moi
+
+**Aucun n'a atteint la production ni la CI.** Tous ont été attrapés avant
+commit :
+
+| Défaut | Attrapé par |
+|---|---|
+| un nom de paquet qui reproduisait la bonne réponse d'une question du lot 03 (page 1) | `CRS-001` — reformulé, pas caché |
+| un résultat de gate périmé, lu avant d'être écrasé (page 4) | égalité suspecte des assertions, puis horodatages |
+| `composer gate-full` lancé en root sans `COMPOSER_ALLOW_SUPERUSER` (page 6) | exit 1 avant tout test ; relancé et consigné |
+| affirmations non prouvées retirées de cartes : une note historique (page 10), une priorité attribuée à la documentation (page 11), une fréquence « souvent » (page 12), un renvoi au profileur (page 6) | relecture |
+| une description inexacte des lignes « almost matches » (page 12) | relecture contre `TraceableUrlMatcher` |
+
+## Constat laissé ouvert
+
+`QST-m5x0wprr2kvf` et `QST-f0k6jqb9twcj` testent le même fait avec presque les
+mêmes choix. En supprimer une est une décision de banque de questions, hors du
+périmètre de ce raffinement : **signalé, non traité**.
+
+## Résumé auditable
+
+> Le lot 05 compte **12** items officiels atomiques, tous `EXAM_READY` avant
+> comme après. La couverture du projet — `EXAM_READY / total`, la seule formule
+> admise — vaut **163/163 = 100,0 %** et **n'a pas bougé** : cette campagne
+> approfondit des pages déjà comptées.
+>
+> Les douze cours passent de **4 701** à **7 547** mots de corps (+2 846),
+> aucun au-dessus de son budget, aucun niveau promu. Les flashcards passent de
+> **13** à **140** (+127), toutes nivelées, réparties 48/42/25/25 — une
+> **observation**, pas une cible. **51** questions portent sur le lot (36
+> `LEARNING`, 9 `VALIDATION`, 6 `HOLDOUT`), aucune ajoutée ni supprimée ; sept
+> `LEARNING` ont une explication ou un énoncé corrigé, bonne réponse
+> inchangée ; aucune `HOLDOUT` modifiée ; `POOL-002` ne signale aucun manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce que
+> le smoke test de production revérifie ; il n'est **pas confidentiel**,
+> `mock-4.json` étant publié avec ses réponses.
+>
+> Onze pages portaient une affirmation fausse, incomplète ou imprécise, la
+> douzième une lacune ; toutes corrigées contre le code 8.0. Quatre écarts entre
+> la documentation et le code ont été tranchés par la hiérarchie des sources et
+> signalés sur les pages.
+>
+> **Les douze pages** sont déployées et vérifiées en production. Le même
+> smoke test — run 36008126517, sur `75df3e9` — émet les douze lignes
+> `ok lot-05 …` entre 13:50:28 et 13:50:29 UTC le 2026-09-24. La dernière :
+>
+> ```text
+> ok  lot-05  the router debugging page carries its four flashcard levels,
+>             the match command, the traceable matcher and the path info
+> ```
+
 ## Prochaine étape
 
-Rapport de fin de lot 05, dans sa propre PR, après vérification du déploiement de la page 12.
+Lot 06, page 1, dans l'ordre officiel des items. Reste ouverte, sans lien avec
+ce lot : la PR #148 (ordre des événements de formulaires imbriqués).
