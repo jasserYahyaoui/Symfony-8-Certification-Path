@@ -55,6 +55,7 @@ flashcards:
   - id: FLC-x8ga0twzt6g1
     official_item: OIT-ff0kghjbzvpm
     language: fr
+    level: APPLICATION
     front: "Chemin /{page}/blog avec une valeur par défaut pour page : /blog correspond-il ?"
     back: "Non. Tout ce qui suit un paramètre facultatif doit être facultatif, donc page reste obligatoire."
     explanation: >-
@@ -74,14 +75,16 @@ flashcards:
   - id: FLC-5j4yp6wp9yzk
     official_item: OIT-ff0kghjbzvpm
     language: fr
+    level: RECALL
     front: "À quoi sert le préfixe ! dans un paramètre de route, comme /blog/{!page} ?"
     back: "À forcer l'inclusion de la valeur par défaut dans l'URL générée : /blog/1 au lieu de /blog."
     explanation: >-
-      C'est une décision de génération d'URL, pas d'appariement : sans le point
-      d'exclamation, une valeur égale au défaut disparaît de l'URL produite.
+      Sans le point d exclamation, une valeur égale au défaut disparaît de l URL
+      produite. Le compilateur de routes en tire un second effet : une variable
+      importante n est jamais facultative, donc /blog ne correspond plus.
     memorization_justification: >-
-      Syntaxe d'un seul caractère, sans mnémonique, et dont l'effet porte sur la
-      génération alors qu'elle s'écrit dans le chemin.
+      Syntaxe d un seul caractère dont la documentation ne décrit que l effet sur
+      la génération, alors qu elle change aussi l appariement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -993,4 +996,213 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "strictRequirements"
+        verified_at: "2026-09-24"
+
+  - id: FLC-a993m04dhr2h
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: RECALL
+    front: 'Quelle valeur par défaut donne la syntaxe inline {page?} sans rien après le point d interrogation ?'
+    back: 'null. L argument du contrôleur doit alors être nullable.'
+    explanation: >-
+      Route::extractInlineDefaultsAndRequirements() pose null quand le ? est seul.
+    memorization_justification: >-
+      Un ? nu se lit facilement comme une absence de défaut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Route.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Route.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "extractInlineDefaultsAndRequirements"
+        verified_at: "2026-09-24"
+
+  - id: FLC-e0a48261r2dk
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: RECALL
+    front: 'Quelle condition le compilateur exige-t-il pour qu une variable de route soit facultative ?'
+    back: 'Qu elle ait une valeur par défaut et ne soit pas marquée importante par un point d exclamation.'
+    explanation: >-
+      Le calcul part de la fin du chemin et s arrête à la première variable qui ne remplit pas ces conditions.
+    memorization_justification: >-
+      La règle unique explique à la fois le cas /{page}/blog et le cas {!page}.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "firstOptional"
+        verified_at: "2026-09-24"
+
+  - id: FLC-93tyksagvnhn
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: RECALL
+    front: 'En attributs, quelle valeur par défaut d argument le chargeur copie-t-il dans la route ?'
+    back: 'Une valeur scalaire ou null, ou la value d un cas d énumération adossée, si le chemin porte un paramètre du même nom.'
+    explanation: >-
+      Les autres valeurs par défaut sont ignorées.
+    memorization_justification: >-
+      Le lien entre signature du contrôleur et route n est pas automatique pour tout argument.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nb37w5x7rf6w
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi /blog/{!page} ne correspond-il pas à /blog, même avec une valeur par défaut pour page ?'
+    back: 'Parce qu une variable importante n est jamais facultative pour le compilateur de routes.'
+    explanation: >-
+      La documentation ne décrit que l effet du point d exclamation sur la génération ; le code montre aussi celui sur l appariement.
+    memorization_justification: >-
+      Un réglage présenté comme cosmétique change en réalité les URL acceptées.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "important"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jy8wpxecet72
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une valeur par défaut placée au milieu du chemin reste-t-elle dans l URL générée ?'
+    back: 'Parce que seules les variables finales, égales à leur défaut, sont omises ; tout segment requis qui suit les rend nécessaires.'
+    explanation: >-
+      Le générateur parcourt le chemin depuis la fin et cesse d omettre dès qu une valeur doit apparaître.
+    memorization_justification: >-
+      Dire que le défaut disparaît de l URL n est vrai qu en fin de chemin.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-5txhnfp2kc6e
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un argument avec valeur par défaut peut-il ne pas rendre un paramètre facultatif ?'
+    back: 'Parce que le chargeur ne le copie que si le chemin contient un paramètre du même nom et qu aucun défaut n est déjà posé.'
+    explanation: >-
+      Un argument sans paramètre homonyme dans le chemin n a aucun effet sur la route.
+    memorization_justification: >-
+      La confusion vient de l habitude de lire la signature comme la définition de la route.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-570rzztxs6ke
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: APPLICATION
+    front: 'Une route /blog/{page?} sert un contrôleur list(int $page). Que faut-il corriger ?'
+    back: 'Typer l argument en ?int : la valeur par défaut est null.'
+    explanation: >-
+      Un int non nullable ne peut pas recevoir la valeur null fournie par défaut.
+    memorization_justification: >-
+      Le défaut null implicite oblige à adapter la signature.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "To give a ``null`` default value"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xgwck7f5y5zq
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: APPLICATION
+    front: 'Un contrôleur déclare function show(string $slug = ''accueil'') sur la route /page/{id}. /page correspond-il ?'
+    back: 'Non : aucun paramètre du chemin ne s appelle slug, donc le défaut n est pas copié et id reste obligatoire.'
+    explanation: >-
+      Le lien se fait par nom entre argument et paramètre de chemin.
+    memorization_justification: >-
+      L erreur de nommage passe inaperçue tant que l URL complète est utilisée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-amtk9erxf5fr
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: TRAP
+    front: 'Piège : « le point d exclamation dans {!page} n agit que sur la génération d URL ».'
+    back: 'Non. Il rend aussi page obligatoire à l appariement.'
+    explanation: >-
+      La documentation ne décrit que la génération ; le compilateur de routes montre le second effet.
+    memorization_justification: >-
+      L affirmation reprend exactement la présentation documentaire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "important"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ktcqadrkdza1
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: TRAP
+    front: 'Piège : « une valeur égale au défaut n apparaît jamais dans l URL générée ».'
+    back: 'Non. Seules les variables en fin de chemin sont omises ; celles suivies d un segment requis restent.'
+    explanation: >-
+      L omission se propage depuis la fin et s arrête au premier élément requis.
+    memorization_justification: >-
+      La règle générale masque sa condition de position.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-c4cy05q2gj1x
+    official_item: OIT-ff0kghjbzvpm
+    language: fr
+    level: TRAP
+    front: 'Piège : « tout argument de contrôleur doté d une valeur par défaut rend le paramètre de route facultatif ».'
+    back: 'Non. Il faut un paramètre du même nom dans le chemin, et une valeur scalaire, null ou un cas d énumération adossée.'
+    explanation: >-
+      Le chargeur d attributs filtre par nom et par type de valeur.
+    memorization_justification: >-
+      La simplification courante omet les deux conditions.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addRoute"
         verified_at: "2026-09-24"

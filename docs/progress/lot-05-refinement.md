@@ -19,8 +19,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 |---|---|---|---|---|---|
 | 1 | Routing component and FrameworkBundle | STANDARD | 460 / 900 | 1 | **RAFFINÉE** (PR #201) |
 | 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | **RAFFINÉE** (PR #202) |
-| 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | en cours |
-| 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | à faire |
+| 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #203) |
+| 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | en cours |
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | à faire |
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | à faire |
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | à faire |
@@ -236,6 +236,81 @@ de la version `master` de la page.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 3, lu dans le journal d'exécution.** PR #203 fusionnée
+en squash (`94712e5`). Run Pages 35984210635 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the URL parameters page carries its four
+flashcard levels, strict_requirements, the generator exception and POSITIVE_INT`
+est écrite à **09:57:47 UTC** le 2026-09-24.
+
+## Page 4 — Set default values to URL parameters, 2026-09-24
+
+`CRS-vkgr06y3x72g` · `OIT-ff0kghjbzvpm` · STANDARD · **417 → 609 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « le `!` est une décision de génération, pas d'appariement »
+
+La page et l'explication de la carte `FLC-5j4yp6wp9yzk` le disaient, après la
+documentation, qui ne décrit du `!` que son effet sur l'URL générée.
+`RouteCompiler` (8.0) :
+
+```php
+// variable is optional when it is not important and has a default value
+if ('variable' === $token[0] && !($token[5] ?? false) && $route->hasDefault($token[3])) {
+```
+
+Le jeton d'une variable `{!page}` porte `important = true` en position 5 ; elle
+n'entre donc jamais dans la zone facultative. `/blog/{!page}` ne correspond plus
+à `/blog`. La page et l'explication de la carte sont corrigées ; la
+documentation n'est pas fausse, elle est incomplète.
+
+### Deux précisions
+
+- **D'où vient le défaut en attributs.** `AttributeClassLoader::addRoute()` ne
+  copie la valeur par défaut d'un argument que si le chemin porte un paramètre
+  **du même nom** et qu'aucun défaut n'est déjà posé, et seulement pour une
+  valeur scalaire, `null`, ou la `value` d'un cas d'énumération adossée.
+- **L'omission à la génération ne vaut qu'en fin de chemin.** `UrlGenerator`
+  parcourt les jetons depuis la fin et repasse `$optional` à `false` au premier
+  segment de texte ou à la première valeur différente du défaut.
+
+Et `{page?}` sans valeur donne `null` (`Route::extractInlineDefaultsAndRequirements()`),
+ce que la documentation accompagne du conseil de rendre l'argument nullable.
+
+**Flashcards.** 11 ajoutées ; les deux cartes préexistantes reçoivent un niveau —
+`FLC-5j4yp6wp9yzk` RECALL, `FLC-x8ga0twzt6g1` APPLICATION — et l'explication de
+la première est corrigée. L'item en porte **13** (4 RECALL, 3 UNDERSTANDING,
+3 APPLICATION, 3 TRAP). Une carte retirée avant commit : elle répétait, sous forme
+d'application, ce que la carte corrigée et le piège disent déjà.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `RouteCompiler`,
+`AttributeClassLoader` et `nullable`, absentes de la version `master` de la page.
+`important` a été **écartée** : trop courante pour prouver quoi que ce soit.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 552 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
+**Un résultat périmé, lu puis rejeté.** L'attente de la gate guettait la ligne
+`DONE` dans `/tmp/gatefull.log` ; le fichier de la page 3 la contenait encore, et
+l'attente a rendu la main avant que la nouvelle exécution ne l'écrase. Le
+tableau aurait porté les chiffres de la page précédente — 16 541 assertions,
+identiques à la page 3 malgré onze cartes de plus. C'est cette égalité qui a
+trahi la lecture. Les horodatages des fichiers (10:03-10:04, postérieurs aux
+modifications) et le nouveau compte, **16 552**, ont été vérifiés avant d'écrire
+ce tableau. Leçon : effacer le fichier de résultats avant de relancer, ou
+attendre la fin du processus, jamais un marqueur qu'une exécution antérieure a
+pu laisser.
+
 ## Prochaine étape
 
-Page 4 — *Set default values to URL parameters* (STANDARD, 417 / 900).
+Page 5 — *URLs generation* (STANDARD, 422 / 900).
