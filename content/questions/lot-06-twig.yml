@@ -2696,7 +2696,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-j1qtw6ccaxqg
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-84j0qwkbcgq6
   domain: symfony
@@ -2717,7 +2717,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-24'
   tags:
   - conditions
   - tests
@@ -2729,17 +2729,24 @@ questions:
     text: A type cast applied before the comparison
     correct: false
     explanation: Nothing is cast; the test decides on its own terms.
-  - id: CHO-786sn8rpxksf
-    text: A strict identity comparison, like === in PHP
+  - id: CHO-svycm5xf2syy
+    text: An assignment of the right-hand value to the variable
     correct: false
-    explanation: That is the same as operator, not a test.
+    explanation: Assignment is the set tag; a test only answers true or false.
   - id: CHO-fjnby9gh5y0e
     text: A call to a method named after the right-hand operand
     correct: false
     explanation: A test is registered by the engine or an extension, not resolved on the value.
   explanation: is and is not run a test. It is why "is defined" can answer for a variable that does
-    not exist, where a plain comparison could not even read it.
+    not exist, where a plain comparison could not even read it. Strict identity is itself a test,
+    same as, because Twig 3.22 registers no === operator.
   official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: CoreExtension::getTests() and the comparison operators
+    verified_at: '2026-09-24'
   - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst
     readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst
     repository: twigphp/Twig

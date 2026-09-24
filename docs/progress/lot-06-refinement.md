@@ -25,8 +25,8 @@ page.
 | 4 | Template inheritance | STANDARD | 402 / 900 | 1 | **RAFFINÉE** (PR #219) |
 | 5 | Global variables | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #220) |
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | **RAFFINÉE** (PR #221) |
-| 7 | Template includes | STANDARD | 435 / 900 | 1 | en cours |
-| 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | à faire |
+| 7 | Template includes | STANDARD | 435 / 900 | 1 | **RAFFINÉE** (PR #222) |
+| 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | en cours |
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | à faire |
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | à faire |
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | à faire |
@@ -526,6 +526,78 @@ et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 7, lu dans le journal d'exécution.** PR #222 fusionnée
+en squash (`7cb7f07`). Run Pages 36055918553 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the template includes page carries its four
+flashcard levels, the function argument, the sandbox condition and the optional
+prefix` est écrite à **20:38:29 UTC** le 2026-09-24.
+
+## Page 8 — Loops and conditions, 2026-09-24
+
+`CRS-zbnzvqkhjknh` · `OIT-84j0qwkbcgq6` · STANDARD · **531 → 864 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « `is empty` est vrai pour `0` »
+
+`CoreExtension::testEmpty()` (v3.22.0) rend vrai pour `''`, `[]`, `null`,
+`false`, un `Countable` de taille zéro, un `Traversable` sans élément et un
+objet dont la chaîne est vide — **pas pour `0`**, ni pour `'0'`. La page
+l'affirmait ; elle oppose désormais les trois questions distinctes : vrai dans
+un `if` (règles de PHP, tableau de `doc/tags/if.rst`), `empty`, `defined`. Cas
+croisé ajouté : une collection `Countable` vide est vraie dans un `if` nu, mais
+`empty`.
+
+### Une question à deux réponses défendables
+
+`QST-p2safjk7jebk` (LEARNING) — « que introduit `is` qu'un opérateur de
+comparaison n'introduit pas ? » — avait pour distracteur « une comparaison
+d'identité stricte, comme `===` », expliqué par « c'est l'opérateur `same as`,
+pas un test ». Faux : `same as` **est** un test (`CoreExtension::getTests()`),
+et Twig 3.22 n'enregistre aucun opérateur `===`. Le distracteur décrivait donc
+une chose que `is` introduit vraiment. Remplacé par un choix sans ambiguïté
+(nouvel identifiant `CHO-svycm5xf2syy`), explication complétée, **version 2**,
+`reviewed_at` au 2026-09-24. Les quatre autres questions non holdout de l'item
+ont été relues : exactes, inchangées. Aucune question holdout n'a été lue.
+
+L'inventaire `docs/audit/lot-27-practice-mode/*.csv` est l'instantané daté de
+l'audit du lot 27 ; il n'est pas régénéré ici.
+
+### Compléments, lus dans le code et la documentation 3.22
+
+- Portée : une variable créée dans la boucle n'en sort pas ; déclarée avant,
+  elle garde sa dernière valeur (`ForNode`, `array_intersect_key`).
+- `ForTokenParser` n'accepte aucune condition sur `for` ; un `if` intérieur
+  laisse `loop.index` compter les éléments sautés.
+- `..` (borne incluse) et `range()` pour un pas.
+- Les tests réellement enregistrés : treize dans `CoreExtension::getTests()`,
+  dont `none`, `sequence`, `mapping` et `true`, absents de l'index de la
+  documentation ; `IfNode` pose `TrueTest` sur chaque condition, et un `Markup`
+  y est jugé sur son texte.
+
+**Flashcards.** 11 ajoutées ; les cartes préexistantes `FLC-y4mtc33awnjy`
+(RECALL) et `FLC-n6w80mr1j8s1` (TRAP) reçoivent leur niveau. L'item en porte
+**13** (6 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `testEmpty`,
+`ForTokenParser` et `TrueTest`, absentes de la version `master` de la page et
+présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 674 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Loops and conditions* (STANDARD, 531 / 900).
+Page 9 — *URLs generation* (MINIMAL, 341 / 700).
