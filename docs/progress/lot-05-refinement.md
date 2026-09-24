@@ -24,8 +24,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #205) |
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | **RAFFINÉE** (PR #206) |
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | **RAFFINÉE** (PR #207) |
-| 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | en cours |
-| 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | à faire |
+| 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | **RAFFINÉE** (PR #208) |
+| 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | en cours |
 | 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | à faire |
 | 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | à faire |
 | 12 | Router debugging | MINIMAL | 279 / 700 | 1 | à faire |
@@ -593,6 +593,67 @@ en succès ; la ligne `ok  lot-05  the special parameters page carries its four
 flashcard levels, the stateless default, the locale listener and the prepare
 method` est écrite à **12:35:03 UTC** le 2026-09-24.
 
+## Page 9 — Conditional request matching, 2026-09-24
+
+`CRS-f92d09x14ggx` · `OIT-e2zrm9qkpx7j` · STANDARD · **392 → 613 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « ce n'est pas de la configuration compilée »
+
+La page, dans ses pièges : « L'expression est évaluée à l'appariement, à chaque
+requête — ce n'est pas de la configuration compilée une fois pour toutes ». La
+documentation 8.0 dit l'inverse : « Internally, expressions are compiled down to
+raw PHP ». Le code aussi : `CompiledUrlMatcherDumper::compileRoute()` appelle
+`ExpressionLanguage::compile()` avec `context`, `request` et `params`, et écrit
+le PHP obtenu dans le matcher en cache. Ce PHP s'exécute à chaque requête ;
+l'expression n'est pas réinterprétée.
+
+**Correction.** Le piège énonce désormais la compilation. Aucune question de
+l'item ne reprenait l'affirmation. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code 8.0
+
+- **Ordre des contrôles.** Dans `CompiledUrlMatcherTrait::doMatch()`, la
+  condition est testée avant la barre finale, le schéma et la méthode : une
+  condition fausse retire la route sans ajouter ses méthodes au 405 ni
+  déclencher de redirection.
+- **`Request` paresseux.** Le dumper numérote positivement les conditions dont
+  le PHP mentionne `$request` ; les autres s'évaluent sans construire d'objet
+  `Request`.
+- **`env()` et `service()`.** Déclarées dans `services.php` de FrameworkBundle
+  comme fonctions `routing.expression_language_function` ; `service()` lit un
+  localisateur des seuls services `routing.condition_service`.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-hyrr6qtdkfh9` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`CompiledUrlMatcherDumper`, `ExpressionLanguage::compile()` et
+`CompiledUrlMatcherTrait::doMatch()`, absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 603 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 8, lu dans le journal d'exécution.** PR #208 fusionnée
+en squash (`7b997b7`). Run Pages 36001250509 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the domain name page carries its four
+flashcard levels, the case test, the compiler method and the network path` est
+écrite à **12:49:43 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 9 — *Conditional request matching* (STANDARD, 392 / 900).
+Page 10 — *HTTP methods matching* (MINIMAL, 307 / 700).

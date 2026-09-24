@@ -1578,6 +1578,34 @@ jobs:
             echo "ok  lot-05  the domain name page carries its four flashcard levels, the case test, the compiler method and the network path"
           fi
 
+          # Lot 05, page 9. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the dumper
+          # that compiles a condition to PHP, the compile call itself, and the
+          # matcher method that tests the condition before the method check.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-condition -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/conditional-request-matching")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page conditional-request-matching serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-condition || missing="$missing l5con:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-condition || missing="$missing l5con:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-condition || missing="$missing l5con:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-condition || missing="$missing l5con:no-trap-heading"
+          grep -aq 'CompiledUrlMatcherDumper' /tmp/l5r-condition \
+            || missing="$missing l5con:no-dumper"
+          grep -aq 'ExpressionLanguage::compile()' /tmp/l5r-condition \
+            || missing="$missing l5con:no-compile-call"
+          grep -aq 'CompiledUrlMatcherTrait::doMatch()' /tmp/l5r-condition \
+            || missing="$missing l5con:no-domatch"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the conditional matching page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the conditional matching page carries its four flashcard levels, the dumper, the compile call and the doMatch method"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
