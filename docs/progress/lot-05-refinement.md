@@ -20,8 +20,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 1 | Routing component and FrameworkBundle | STANDARD | 460 / 900 | 1 | **RAFFINÉE** (PR #201) |
 | 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | **RAFFINÉE** (PR #202) |
 | 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #203) |
-| 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | en cours |
-| 5 | URLs generation | STANDARD | 422 / 900 | 1 | à faire |
+| 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | **RAFFINÉE** (PR #204) |
+| 5 | URLs generation | STANDARD | 422 / 900 | 1 | en cours |
 | 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | à faire |
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | à faire |
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | à faire |
@@ -311,6 +311,70 @@ ce tableau. Leçon : effacer le fichier de résultats avant de relancer, ou
 attendre la fin du processus, jamais un marqueur qu'une exécution antérieure a
 pu laisser.
 
+**Déploiement de la page 4, lu dans le journal d'exécution.** PR #204 fusionnée
+en squash (`b4872d1`). Run Pages 35986719198 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the default values page carries its four
+flashcard levels, the compiler rule, the attribute loader and the nullable
+argument` est écrite à **10:23:29 UTC** le 2026-09-24.
+
+## Page 5 — URLs generation, 2026-09-24
+
+`CRS-sx61as7r7p0d` · `OIT-81b2c0jmv2j3` · STANDARD · **422 → 642 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse, héritée de la documentation — et d'une question
+
+La page : « Un objet utilisé comme paramètre supplémentaire […] n'est **pas**
+[converti]. Il faut le convertir soi-même ». La documentation 8.0 dit la même
+chose (`routing.rst`, avertissement sur l'Uuid). Et l'explication de la question
+`LEARNING` `QST-0y1zbrpb67fw`, rattachée à cet item, aussi.
+
+`UrlGenerator::doGenerate()` (8.0) parcourt les paramètres en trop et, pour
+chaque objet, prend ses propriétés publiques s'il en a, sinon le convertit en
+chaîne s'il est `Stringable`, et lève une `InvalidParameterException` sur une
+référence circulaire. `AbstractUid` n'a qu'une propriété `protected` et
+implémente `Stringable` : l'Uuid de l'avertissement documentaire **est**
+converti.
+
+**Corrections.** La page énonce le comportement du code et signale l'écart avec
+la documentation. L'explication de `QST-0y1zbrpb67fw` est corrigée — sa bonne
+réponse, qui porte sur la chaîne de requête, ne change pas ; `reviewed_at` passe
+au 2026-09-24. Aucune question holdout n'a été lue.
+
+### Deux compléments
+
+- Un paramètre en trop **égal à la valeur par défaut** de même nom est retiré
+  (`array_udiff_assoc` contre `$defaults`).
+- La clé `_query` doit être un tableau — sinon `InvalidParameterException` — et
+  ses entrées l'emportent sur les paramètres en trop de même nom.
+
+Et les valeurs des constantes : `ABSOLUTE_URL` vaut `0`, le défaut `ABSOLUTE_PATH`
+vaut `1`.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-rrt3hj10ddp2` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP). Une carte retirée avant commit : elle reprenait mot pour mot le scénario
+de la question `LEARNING` de l'item.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `Stringable`,
+`AbstractUid` et `_query`, absentes de la version `master` de la page.
+`NETWORK_PATH` a été **écartée** : elle y figure déjà.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 563 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+
 ## Prochaine étape
 
-Page 5 — *URLs generation* (STANDARD, 422 / 900).
+Page 6 — *Trigger redirects* (STANDARD, 432 / 900).
