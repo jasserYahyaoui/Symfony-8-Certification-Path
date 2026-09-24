@@ -876,6 +876,85 @@ jour 2027-01-31, au-delà de l'examen). Relancé avec `--start 2026-10-01 --exam
 2026-12-15 --max-new 4 --weekday 140 --weekend 200`, comme l'étape de CI qui
 compare le résultat.
 
+**Déploiement de la page 8, lu dans le journal d'exécution.** PR #193 fusionnée
+en squash (`0ccc030`). Run Pages 35968280486 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the flash messages page carries its four
+flashcard levels, the interface, the replacing set() and the clear() alias` est
+écrite à **07:13:28 UTC** le 2026-09-24.
+
+## Page 9 — HTTP redirects
+
+`CRS-7zy5ndjgnpk1` · `OIT-bwfqarnn6s2f` · MINIMAL · **344 → 567 mots** sur 700.
+Aucun niveau promu.
+
+Rien de faux sur la page. Trois silences, tous tranchés par le code de la
+branche 8.0.
+
+**`redirectToRoute()` est bâtie sur `redirect()`, et produit un chemin**
+
+```php
+protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
+{
+    return $this->redirect($this->generateUrl($route, $parameters), $status);
+}
+```
+
+`generateUrl()` est appelée sans type de référence, donc avec
+`UrlGeneratorInterface::ABSOLUTE_PATH` — « an absolute path, e.g. "/dir/file" ».
+L'en-tête `Location` porte un chemin, pas une URL complète, et aucun quatrième
+argument ne change cela.
+
+**Tous les 3xx ne sont pas des redirections**
+
+Le constructeur de `RedirectResponse` lève une `InvalidArgumentException` si
+`isRedirect()` est faux :
+
+```php
+return \in_array($this->statusCode, [201, 301, 302, 303, 307, 308], true) && ...
+```
+
+La liste est fermée. **304** est dans la plage 3xx et lève ; **201** n'y est pas
+et passe. `isRedirection()`, au nom voisin, couvre 300 à 399 : ce n'est pas elle
+qui est appelée. Une URL vide lève aussi.
+
+**Le 301 et le cache**
+
+Sur un 301, si l'appelant n'a fourni aucun `Cache-Control`, le constructeur
+retire cet en-tête. La page disait qu'un 301 est mis en cache ; elle ne disait
+pas que la classe y contribue.
+
+**Et un usage documenté que la page omettait :** passer `$request->query->all()`
+à `redirectToRoute()` conserve la chaîne de requête, parce que le générateur
+encode en query string les paramètres qui ne sont pas des variables du chemin.
+
+**Une affirmation écartée faute de preuve.** J'ai envisagé d'écrire que rediriger
+vers `_route` sans ses paramètres lève si la route en exige. Le générateur fusionne
+aussi les paramètres du `RequestContext`, que d'autres écouteurs peuvent remplir.
+Je n'ai pas tracé ce chemin jusqu'au bout : l'affirmation n'est pas sur la page.
+
+**Flashcards.** 12 ajoutées ; `FLC-dkb30nnrfmqs` reçoit le niveau RECALL. L'item
+en porte **13** (4 RECALL, 2 UNDERSTANDING, 4 APPLICATION, 3 TRAP). Une carte
+rédigée a été **retirée avant commit** : elle disait la même chose que le piège
+du « quatrième argument », et `AUD-04` ne l'aurait pas vu.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `isRedirect`,
+`InvalidArgumentException` et `chemin absolu`, absentes de la version `master` de
+la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 434 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 9 — *HTTP redirects* (MINIMAL, 344 / 700).
+Page 10 — *Internal redirects* (STANDARD, 395 / 900).

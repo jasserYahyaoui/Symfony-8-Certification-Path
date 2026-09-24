@@ -95,6 +95,7 @@ flashcards:
   - id: FLC-dkb30nnrfmqs
     official_item: OIT-bwfqarnn6s2f
     language: fr
+    level: RECALL
     front: "redirectToRoute() : quel code de statut par défaut, et comment en changer ?"
     back: "302 par défaut. Le troisième argument porte le code : redirectToRoute('r', [], 301)."
     explanation: >-
@@ -2766,3 +2767,231 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "addFlash"
         verified_at: "2026-09-23"
+
+  - id: FLC-eyhsbdszpk22
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: RECALL
+    front: "redirectToRoute() : par quelle méthode du contrôleur passe-t-elle pour construire la réponse ?"
+    back: "Par redirect(), à qui elle transmet l URL générée par generateUrl() et le statut."
+    explanation: >-
+      Les deux raccourcis partagent donc le même constructeur de RedirectResponse et les mêmes contrôles de statut.
+    memorization_justification: >-
+      Savoir que l une est bâtie sur l autre évite de leur prêter des comportements différents.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect, redirectToRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7y56qns5mehg
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: RECALL
+    front: "Quels codes de statut le constructeur de RedirectResponse accepte-t-il ?"
+    back: "201, 301, 302, 303, 307 et 308. Tout autre code lève une InvalidArgumentException."
+    explanation: >-
+      La vérification passe par isRedirect(), qui compare le statut à cette liste fermée.
+    memorization_justification: >-
+      La liste n est pas la plage 3xx, et c est précisément l écart qui est testable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isRedirect"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jfwpkrv4wv2k
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: RECALL
+    front: "Que contient l en-tête Location produit par redirectToRoute('homepage') ?"
+    back: "Un chemin absolu comme /accueil, pas une URL complète avec schéma et hôte."
+    explanation: >-
+      generateUrl() est appelée sans type de référence, donc avec ABSOLUTE_PATH par défaut.
+    memorization_justification: >-
+      L intuition dit qu une redirection porte une URL complète ; ici ce n est pas le cas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectToRoute, generateUrl"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qncr957rrs7p
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi redirect($url, 304) lève-t-elle alors que 304 est un code 3xx ?"
+    back: "Parce que le constructeur ne teste pas la plage 3xx mais une liste fermée dont 304 est absent."
+    explanation: >-
+      isRedirection() couvre 300 à 399 ; isRedirect(), utilisée ici, ne retient que six codes.
+    memorization_justification: >-
+      Deux méthodes aux noms voisins avec deux périmètres différents : la confusion est naturelle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isRedirect, isRedirection"
+        verified_at: "2026-09-24"
+
+  - id: FLC-75ksjc1yfbzh
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi un 301 sans Cache-Control fourni est-il davantage exposé au cache du navigateur ?"
+    back: "Parce que le constructeur retire l en-tête Cache-Control dans ce cas précis."
+    explanation: >-
+      La condition est double : statut 301, et aucun en-tête cache-control passé par l appelant.
+    memorization_justification: >-
+      Le lien entre le code de statut et le comportement de cache ne se voit que dans le constructeur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jfm0shrf4dga
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: APPLICATION
+    front: "On passe $request->query->all() comme paramètres à redirectToRoute(). Que devient la query string ?"
+    back: "Elle est conservée : les paramètres qui ne sont pas des variables du chemin partent en chaîne de requête."
+    explanation: >-
+      Le générateur calcule les paramètres en trop et les encode avec http_build_query.
+    memorization_justification: >-
+      C est un usage documenté qui repose sur un comportement du générateur, pas du contrôleur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2wna8hfr78n7
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: APPLICATION
+    front: "On veut rediriger vers l ancre #result de la route app_lucky_number. Quel paramètre passer ?"
+    back: "La clé spéciale _fragment : ['_fragment' => 'result']."
+    explanation: >-
+      Le générateur retire _fragment des paramètres en trop et l ajoute comme ancre en fin d URL.
+    memorization_justification: >-
+      Une clé réservée préfixée d un tiret bas ne se devine pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Redirecting"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dyd4fjkzt1q5
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: APPLICATION
+    front: "Un contrôleur appelle redirect($url, 200). Que se passe-t-il ?"
+    back: "Une InvalidArgumentException est levée : 200 n est pas un statut de redirection."
+    explanation: >-
+      Le contrôle a lieu dans le constructeur de RedirectResponse, avant tout envoi.
+    memorization_justification: >-
+      Le cas révèle que le statut est validé, pas seulement transmis.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__construct"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7y6bzhe3ntwj
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: APPLICATION
+    front: "Un formulaire de recherche redirige vers l URL lue dans un paramètre next de la requête. Quel risque ?"
+    back: "Une redirection non validée : un attaquant fabrique un lien vers votre domaine qui aboutit chez lui."
+    explanation: >-
+      redirect() ne vérifie pas sa destination ; la valeur doit être validée ou provenir d une route.
+    memorization_justification: >-
+      Le motif du paramètre de retour est courant et paraît inoffensif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "danger"
+        verified_at: "2026-09-24"
+
+  - id: FLC-eq8n59q1kxw8
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: TRAP
+    front: "Piège : « tout code 3xx est accepté par une RedirectResponse »."
+    back: "Non. 300, 304 et 305 lèvent ; seuls 301, 302, 303, 307 et 308 passent, plus 201."
+    explanation: >-
+      La liste fermée de isRedirect() décide, pas la plage.
+    memorization_justification: >-
+      Le mot « redirection » évoque la famille 3xx entière.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "isRedirect"
+        verified_at: "2026-09-24"
+
+  - id: FLC-0zrdhbfrtte2
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: TRAP
+    front: "Piège : « redirectToRoute() accepte un quatrième argument pour produire une URL absolue »."
+    back: "Non. Sa signature s arrête au statut ; elle produit toujours un chemin absolu."
+    explanation: >-
+      Pour une URL complète, on génère l URL soi-même puis on appelle redirect().
+    memorization_justification: >-
+      generateUrl() a ce paramètre, ce qui invite à le supposer sur la méthode voisine.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectToRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9t5ee6t04xdv
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: TRAP
+    front: "Piège : « redirect() refuse une URL externe au domaine »."
+    back: "Non. Elle ne vérifie sa destination en aucune manière."
+    explanation: >-
+      C est la raison du danger documenté : toute URL venue de l utilisateur doit être validée avant.
+    memorization_justification: >-
+      Un framework réputé sûr laisse supposer une protection par défaut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "danger"
+        verified_at: "2026-09-24"
