@@ -297,14 +297,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 22 min · 613 mots · 5 questions, 12 flashcards
 - NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 14 min · 474 mots · 2 questions, 8 flashcards
-- NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 11 min · 390 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 21 min · 591 mots · 4 questions, 12 flashcards
 - NOUVEAU · **Routing : Router debugging** (MINIMAL) — 8 min · 279 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
 - Révision **J+3** (12 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+7** (11 min) — Controllers : The response · Controllers : The cookies · Controllers : The session
 - Révision **J+14** (8 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges
 
-*Budget du jour : 108 / 140 min*
+*Budget du jour : 118 / 140 min*
 
 ### Vendredi 23 octobre 2026
 

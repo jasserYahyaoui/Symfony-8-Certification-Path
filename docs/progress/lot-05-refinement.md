@@ -26,8 +26,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | **RAFFINÉE** (PR #207) |
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | **RAFFINÉE** (PR #208) |
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #209) |
-| 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | en cours |
-| 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | à faire |
+| 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | **RAFFINÉE** (PR #210) |
+| 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | en cours |
 | 12 | Router debugging | MINIMAL | 279 / 700 | 1 | à faire |
 
 Base de comparaison pour le rapport de fin de lot : `3bb0479`, le commit qui
@@ -716,6 +716,71 @@ en succès ; la ligne `ok  lot-05  the conditional matching page carries its fou
 flashcard levels, the dumper, the compile call and the doMatch method` est
 écrite à **13:03:49 UTC** le 2026-09-24.
 
+## Page 11 — User's locale guessing, 2026-09-24
+
+`CRS-evzcj63fgdb7` · `OIT-xxcpx1qssp93` · STANDARD · **390 → 591 mots** sur 900.
+Aucun niveau promu.
+
+### Une lacune, pas une erreur
+
+Les affirmations de la page se vérifient dans le code 8.0 et la documentation.
+Mais un item intitulé *locale guessing* laissait de côté la seule
+« divination » que fait `LocaleListener` : le choix d'après `Accept-Language`,
+renvoyé au lot HTTP. `LocaleListener::setLocale()` (8.0) décide dans cet ordre —
+attribut `_locale`, puis `Accept-Language` parmi `enabled_locales` **si**
+`framework.set_locale_from_accept_language` vaut `true` (défaut `false`, dans
+`Configuration`), sinon la locale par défaut. Le choix d'après l'en-tête pose
+aussi `_vary_by_language`, que `ResponseListener` traduit en
+`Vary: Accept-Language`.
+
+La page dit « priorité plus élevée » sans chiffre ; `getSubscribedEvents()` donne
+**16** pour `onKernelRequest` (après `RouterListener`, 32) et 100 pour
+`setDefaultLocale`.
+
+**Corrections.** Section « Quand l'URL ne dit rien » ajoutée, priorité chiffrée.
+Les questions de l'item restent exactes ; aucune n'est modifiée. Aucune
+question holdout n'a été lue.
+
+### Compléments, lus dans le code 8.0
+
+- `AttributeClassLoader::addRoute()` : une route `nom.locale` par locale, avec
+  `_locale`, une contrainte et `_canonical_route` ; l'entrée sans clé devient la
+  route `nom`.
+- `UrlGenerator::generate()` : `nom.locale`, puis la langue sans région
+  (`fr_CA` → `fr`), puis `nom`.
+- `LocaleListener` recopie la locale dans le contexte du routeur.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-hdwv8cdrrdwb` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP). Une affirmation retirée d'une carte avant commit : une valeur de
+priorité attribuée à la documentation, qui n'y figure pas.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`set_locale_from_accept_language`, `_canonical_route` et `AttributeClassLoader`,
+absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 621 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 10, lu dans le journal d'exécution.** PR #210 fusionnée
+en squash (`9195f95`). Run Pages 36004545160 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the HTTP methods page carries its four
+flashcard levels, the override header, the suspicious exception and the CONNECT
+method` est écrite à **13:18:45 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 11 — *User's locale guessing* (STANDARD, 390 / 900).
+Page 12 — *Router debugging* (MINIMAL, 279 / 700).
