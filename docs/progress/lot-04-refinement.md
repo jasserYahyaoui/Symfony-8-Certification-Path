@@ -1376,7 +1376,231 @@ ligne dans la prose.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 14, lu dans le journal d'exécution.** PR #199 fusionnée
+en squash (`c4149a0`). Run Pages 35976626479 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the argument value resolvers page carries its
+four flashcard levels, the targeted tag, the query parameter resolver and
+FILTER_NULL_ON_FAILURE` est écrite à **08:42:38 UTC** le 2026-09-24. Le même run
+émet les treize autres lignes `ok lot-04 …` : les quatorze pages sont vérifiées
+ensemble sur un seul déploiement.
+
+# Rapport de fin de lot 04
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`10cc362~1`, le commit qui précède la première page refondue (PR #184).
+
+## Périmètre
+
+**14** items officiels atomiques portent `lot: lot-04` dans la matrice :
+5 `MINIMAL`, 8 `STANDARD`, 1 `DEEP` — niveaux inchangés pendant la campagne.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 04 est **14 / 14**. Aucun des deux n'a bougé : les quatorze items étaient
+déjà `EXAM_READY`. **Ce lot n'a pas fait progresser la couverture** — il a
+approfondi des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+Compté avec la tokenisation de `Course::wordCount()`, sur le fichier et sur son
+état à la base de comparaison :
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 14 cours du lot 04 | 5 741 | **9 748** | **+4 007** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 5 | Naming conventions, 695 |
+| `STANDARD` | 900 | 8 | The response, 812 |
+| `DEEP` | 1200 | 1 | Argument value resolvers, 929 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 04 | 15 | **211** | **+196** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 58 · `UNDERSTANDING` 52 · `APPLICATION` 52 · `TRAP` 49.
+**Zéro carte du lot sans niveau.** Les quinze cartes préexistantes ont toutes
+reçu un niveau ; aucune n'a été supprimée.
+
+## Questions et pools
+
+**63** questions portent sur les items du lot 04 — chiffre inchangé par cette
+campagne, qui n'a touché aucune question :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 48 | `lot-04-controllers.yml` |
+| `VALIDATION` | 9 | `validation-pool.yml` |
+| `HOLDOUT` | 6 | 4 dans `mock-04-holdout.yml`, 2 dans `lot-04-controllers.yml` |
+
+**`POOL-002` : 0 manquant.** Les neuf items `STANDARD`/`DEEP` `EXAM_READY`
+portent chacun au moins une question `VALIDATION`.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 6 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets servis
+(« 516 questions, all LEARNING, no holdout id or choice »). C'est une
+**isolation fonctionnelle**.
+
+Ce n'est **pas** de la confidentialité : `mock-4.json` est publié et porte les
+réponses correctes. Le script de réconciliation ne compte que des effectifs par
+pool ; aucun contenu holdout n'a été lu pour ce rapport.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant ; 1 avertissement `PED-003` préexistant, hors lot |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | exit 0 à chaque page |
+| `composer gate-full` | **PASS** | 299 tests, 16 501 assertions sur la dernière page, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, `FINDINGS: 0`, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas, restauration SHA-256 |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10 --prove`, `lot27_practice_audit.py --prove` | **PASS** | exit 0 |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full`, 0 violation axe et structurelle |
+| Blocs `run:` des workflows | **PASS** | 34 blocs passent `bash -n`, garde de CI ajoutée par #191 |
+| Branche + PR par page (§15) | **PASS** | #184 à #189 et #192 à #199, une par page, CI verte avant chaque fusion |
+| Déploiement + smoke test de production | **PASS pour les pages 1 à 13** | lignes `ok lot-04 …` lues dans les journaux d'exécution, page par page |
+| Déploiement de la page 14 | **PASS** | PR #199 fusionnée (`c4149a0`) ; run Pages 35976626479 ; smoke test à 08:42:38 UTC |
+
+## Défauts trouvés dans le corpus existant
+
+La passe du framework v2 (2026-09-11) avait noté que les quatorze cours
+n'avaient pas été lus en entier, et que « rien trouvé » n'était pas « rien à
+trouver ». La lecture intégrale contre le code 8.0 le confirme :
+
+| Page | Défaut corrigé |
+|---|---|
+| 02 Naming conventions | le nom de route présenté comme une convention ; il est produit par Symfony, en deux couches, et n'est pas en snake_case |
+| 03 AbstractController | une table dite exhaustive omettait `getAccessDecision()` ; « toutes `protected` » taisait les deux méthodes `public` |
+| 04 The request | `getPayload()` décrite comme symétrique formulaire/JSON ; le code procède en cascade |
+| 05 The response | une condition annoncée pour le 422 automatique ; le code en exige trois |
+| 12 File upload | `getSize()` rangée parmi les données client ; elle vient de `SplFileInfo` et mesure le fichier reçu |
+| 14 Argument value resolvers | « toujours un tableau », exemple au nullable implicite déprécié en PHP 8.4, chaîne épinglée incomplète |
+
+Les autres pages étaient justes mais muettes sur ce qu'une question peut viser :
+les trois interfaces de `Kernel` (01), `removeCookie()` contre `clearCookie()` (06),
+`invalidate()` bâtie sur `migrate()` (07), `set()` qui remplace (08), 304 refusé
+et le chemin de `redirectToRoute()` (09), le remplacement des attributs par
+`forward()` (10), la `FlattenException` et le 400 (11), les limites de
+`RedirectController` (13).
+
+Un commentaire de méthode du code lui-même est trompeur : celui
+d'`AbstractController::addLink()` annonce une écriture dans la réponse, alors que
+la méthode dépose un fournisseur de liens dans l'attribut de requête `_links`
+(page 03). La page suit la signature, pas le commentaire.
+
+## Contradictions entre la documentation 8.0 et le code 8.0
+
+Cinq, toutes résolues par la hiérarchie des sources — le code l'emporte — et
+toutes signalées sur la page, parce qu'une question d'examen peut reprendre la
+formulation documentaire :
+
+| Page | La documentation | Le code |
+|---|---|---|
+| 11 | `exception` est l'objet `HttpException` | c'est une `FlattenException` |
+| 11 | sinon 500 | 400 pour `RequestExceptionInterface` d'abord |
+| 12 | `getSize()` non sûre | héritée de `SplFileInfo`, mesurée |
+| 14 | always return an array | `iterable` |
+| 14 | le repli épinglé est `DefaultValueResolver` | `RequestAttributeValueResolver` puis `DefaultValueResolver` |
+
+Une sixième concerne PHP, pas le code Symfony : la documentation 8.0 écrit
+`SessionInterface $session = null`, forme que PHP 8.4 déprécie. Aucune question
+non-holdout ne repose sur ces points ; le holdout n'a pas été ouvert.
+
+## Défauts introduits par moi
+
+**Un a atteint la production.** En résolvant un conflit de `pages.yml`, j'ai
+avalé le `fi` qui fermait un `if`. Le YAML restait valide, la CI est restée
+verte, le site s'est déployé, et le smoke test est mort sur une erreur de syntaxe
+**avant de vérifier une seule page** : un déploiement en ligne et non vérifié.
+Corrigé par #191, qui ajoute une étape de CI passant chaque bloc `run:` à
+`bash -n` — **prouvée** : silencieuse sur le fichier corrigé, en échec avec le
+`fi` retiré, silencieuse après restauration.
+
+**Un a fait échouer la CI.** Page 1 : `plan.json` régénéré sans
+`study-calendar.md`. `composer gate-full` ne lance aucun des deux générateurs ;
+les régénérer fait désormais partie de la boucle de chaque page.
+
+**Un chiffre publié était faux.** Le journal et le commit de la page 13
+annonçaient 666 mots ; la réconciliation en compte 665 — mesure prise avant une
+dernière retouche. Le journal est corrigé, l'historique n'est pas réécrit.
+
+**Les autres ont été attrapés avant commit** :
+
+| Défaut | Attrapé par |
+|---|---|
+| deux quasi-doublons de flashcards (pages 1 et 2) | `AUD-04`, puis relecture |
+| deux doublons sémantiques que `AUD-04` ne voit pas (pages 8 et 9) | relecture |
+| un lien interne cité dans le journal | `LNK-001` — reformulé, pas caché dans un bloc |
+| `build_roadmap.py` lancé sans les paramètres de la CI | relecture de la sortie (dernier jour après l'examen) |
+| backticks exécutés par un heredoc non protégé | relecture du brouillon |
+| `\$` et `\A` dans des chaînes YAML entre guillemets doubles | parsing YAML |
+| deux `symbol_or_lines` non littéraux | `grep -c` sur la source |
+| « statut 200 » non prouvé, « cache partagé » non vérifié | relecture |
+| `Psr\Http\Message\Request`, classe inexistante | vérification de la source (404) |
+
+## Un défaut latent révélé par la campagne
+
+`FlashcardLevelTest` passait en local et échouait en CI : la recherche de page
+retournait le premier `.md` contenant l'aiguille, et l'index du lot la contient
+aussi, sans flashcard. Le résultat dépendait de l'ordre de parcours du système
+de fichiers. Le produit a été vérifié correct, puis la recherche restreinte ;
+**aucune assertion retirée**.
+
+## Résumé auditable
+
+> Le lot 04 compte **14** items officiels atomiques, tous `EXAM_READY` avant
+> comme après. La couverture du projet — `EXAM_READY / total`, la seule formule
+> admise — vaut **163/163 = 100,0 %** et **n'a pas bougé** : cette campagne
+> approfondit des pages déjà comptées.
+>
+> Les quatorze cours passent de **5 741** à **9 748** mots de corps (+4 007),
+> aucun au-dessus de son budget, aucun niveau promu. Les flashcards passent de
+> **15** à **211** (+196), toutes nivelées, réparties 58/52/52/49 — une
+> **observation**, pas une cible. **63** questions portent sur le lot (48
+> `LEARNING`, 9 `VALIDATION`, 6 `HOLDOUT`), inchangées ; `POOL-002` ne signale
+> **aucun** manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce que
+> le smoke test de production revérifie ; il n'est **pas confidentiel**,
+> `mock-4.json` étant publié avec ses réponses.
+>
+> Six pages contenaient des affirmations fausses ou incomplètes, corrigées
+> contre le code 8.0 ; cinq contradictions entre la documentation et le code ont
+> été tranchées par la hiérarchie des sources et signalées sur les pages. Un
+> défaut introduit par moi a atteint la production sans vérification ; il est
+> corrigé et une garde de CI, prouvée, empêche sa répétition.
+>
+> **Les quatorze pages** sont déployées et vérifiées en production. Le même
+> smoke test — run 35976626479, sur `c4149a0` — émet les quatorze lignes
+> `ok lot-04 …` entre 08:42:37 et 08:42:38 UTC le 2026-09-24. La dernière :
+>
+> ```text
+> ok  lot-04  the argument value resolvers page carries its four flashcard
+>             levels, the targeted tag, the query parameter resolver and
+>             FILTER_NULL_ON_FAILURE
+> ```
+
 ## Prochaine étape
 
-Les quatorze pages du lot sont affinées. Reste : lire le smoke test de la page 14
-après fusion, puis le **rapport de fin de lot 04**.
+Déterminer le lot suivant à refondre. Reste ouverte, sans lien avec ce lot : la
+PR #148 (ordre des événements de formulaires imbriqués).
