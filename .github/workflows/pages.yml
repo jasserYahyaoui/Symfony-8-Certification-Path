@@ -1491,6 +1491,35 @@ jobs:
             echo "ok  lot-05  the URL generation page carries its four flashcard levels, the Stringable cast, the Uid class and the _query key"
           fi
 
+          # Lot 05, page 6. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the
+          # FrameworkBundle matcher that performs the redirect, the interface a
+          # matcher must implement to redirect at all, and the component test
+          # that proves a redirect wins over a later catch-all route.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-redirects -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/trigger-redirects")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page trigger-redirects serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-redirects || missing="$missing l5red:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-redirects || missing="$missing l5red:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-redirects || missing="$missing l5red:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-redirects || missing="$missing l5red:no-trap-heading"
+          grep -aq 'RedirectableCompiledUrlMatcher' /tmp/l5r-redirects \
+            || missing="$missing l5red:no-bundle-matcher"
+          grep -aq 'RedirectableUrlMatcherInterface' /tmp/l5r-redirects \
+            || missing="$missing l5red:no-redirectable-interface"
+          grep -aq 'testFallbackPage' /tmp/l5r-redirects \
+            || missing="$missing l5red:no-fallback-test"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the trigger redirects page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the trigger redirects page carries its four flashcard levels, the bundle matcher, the redirectable interface and the fallback test"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

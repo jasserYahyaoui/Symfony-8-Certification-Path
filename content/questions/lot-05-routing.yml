@@ -456,7 +456,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-615hjenzhh66
-    version: 1
+    version: 2
     official_topic: Routing
     official_item: OIT-d51jbkfs21pt
     domain: symfony
@@ -467,8 +467,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: 'A route declares schemes: [''https'']. What happens to an incoming HTTP request for that
-      path?'
+    question: 'A route declares schemes: [''https'']. What happens to an incoming GET request sent over
+      HTTP for that path?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -478,7 +478,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-24'
     tags:
       - schemes
     choices:
@@ -498,7 +498,9 @@ questions:
         correct: false
         explanation: No error is produced; the request is redirected.
     explanation: 'The option works in both directions: generation always uses HTTPS — which is why path()
-      may return an absolute URL when the current scheme differs — and incoming HTTP requests are redirected.'
+      may return an absolute URL when the current scheme differs — and incoming GET or HEAD requests
+      over HTTP are redirected with a 301. Other methods are never redirected: a POST over HTTP finds
+      no route and gets a 404.'
     official_sources: *id001
   - id: QST-af1e821vzx6r
     question_archetype: API_SIGNATURE
