@@ -282,7 +282,7 @@ Le calendrier est **généré**, pas écrit à la main :
 ```bash
 python3 tools/revision/build_roadmap.py \
     --start 2026-10-01 --exam 2026-12-15 \
-    --max-new 4 --weekday 140 --weekend 200
+    --max-new 4 --weekday 160 --weekend 220
 python3 tools/revision/render_calendar.py
 ```
 
@@ -296,6 +296,16 @@ générateur ne trouvait plus de week-ends pour les quatre mocks — il refusait
 produire un plan, ce qui est son travail. Les deux autres remèdes examinés —
 avancer le début au 2026-09-22, monter `--max-new` à 5 — fonctionnaient aussi ;
 celui-ci a été retenu.
+
+Ils sont passés de 140/200 à **160/220 minutes** le 2026-09-24, sur décision du
+propriétaire, pour la même cause : les flashcards du raffinement des lots 04 à
+06 repoussaient la fin des lots au 2026-11-30, et il ne restait que deux jours
+de week-end pour quatre mocks. Mesuré avant la décision : 150/200 tenait sans
+aucune marge (fin des lots le 2026-11-27, veille du premier mock) ; 160/220 la
+ramène au 2026-11-26 ; au-delà, rien ne change, parce que le plafond qui décide
+alors est `--max-new 4`, pas le budget. Les nouveaux budgets dépassent les
+disponibilités déclarées que rappelle `DAY_START` (1 h à 2 h en semaine, 2 h à
+3 h le week-end) : c'est un choix assumé du propriétaire, pas une mesure.
 
 Le générateur **refuse** de produire un plan où les cinq mocks ne tiennent pas
 après la fin des lots : il s'arrête en nommant le nombre de week-ends manquants,

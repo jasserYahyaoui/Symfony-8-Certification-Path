@@ -20,8 +20,8 @@ page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | TwigBundle | STANDARD | 446 / 900 | 1 | **RAFFINÉE** (PR #215) |
-| 2 | Twig syntax up to 3.22 version | DEEP | 755 / 1200 | 2 | en cours |
-| 3 | Auto escaping | STANDARD | 440 / 900 | 1 | à faire |
+| 2 | Twig syntax up to 3.22 version | DEEP | 755 / 1200 | 2 | **RAFFINÉE** (PR #217) |
+| 3 | Auto escaping | STANDARD | 440 / 900 | 1 | en cours |
 | 4 | Template inheritance | STANDARD | 402 / 900 | 1 | à faire |
 | 5 | Global variables | STANDARD | 392 / 900 | 1 | à faire |
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | à faire |
@@ -176,6 +176,83 @@ voit sa réponse corrigée. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 2, lu dans le journal d'exécution.** PR #217 fusionnée
+en squash (`71bb7a7`). Run Pages 36016337414 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the Twig syntax page carries its four flashcard
+levels, the call fallback, the php-src test and the iterable operator` est
+écrite à **14:57:10 UTC** le 2026-09-24.
+
+## Page 3 — Auto escaping, 2026-09-24
+
+`CRS-w82wtddwhexg` · `OIT-ns36thqnh2jk` · STANDARD · **440 → 660 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « actif, avec la stratégie `html` »
+
+La page — et l'explication de la question `LEARNING` `QST-hqqnvh8n266m` —
+donnaient `html` comme stratégie par défaut dans une application Symfony.
+`TwigExtension` (TwigBundle 8.0) règle l'option `autoescape` de Twig sur
+`'name'` ; `EscaperExtension` (v3.22.0) la traduit en
+`FileExtensionEscapingStrategy::guess()`, qui lit l'extension du gabarit, `.twig`
+retiré : `js` et `json` → `js`, `css` → `css`, `txt` → **aucun échappement**,
+tout le reste → `html`. Un courriel `email.txt.twig` n'est donc pas échappé.
+
+**Corrections.** La page énonce la règle par extension ; l'explication de
+`QST-hqqnvh8n266m` aussi. Bonne réponse inchangée ; `reviewed_at` passe au
+2026-09-24. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans la documentation 3.22
+
+- Twig n'échappe pas les **expressions statiques** ; macros et `parent()`
+  retournent un contenu sûr (`doc/tags/autoescape.rst`).
+- `raw` n'agit que s'il est le **dernier** filtre (`doc/filters/raw.rst`).
+- Le double échappement n'est évité que si la stratégie du filtre est écrite en
+  dur ; `html_attr` sur une valeur sans guillemets est moins performant que
+  `html` entre guillemets ; `EscaperRuntime::setEscaper()` (3.10) enregistre une
+  stratégie (`doc/filters/escape.rst`).
+- `{% autoescape %}` sans argument applique `html`.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-a64hqxfhfzpc` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`FileExtensionEscapingStrategy`, `txt.twig` et `setEscaper`, absentes de la
+version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | **exit 1 avec 140/200** (« Pas de place : 4 mocks… 2 jours de week-end ») ; exit 0 avec 160/220, régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 618 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Le planning ne tenait plus, et la décision revient au propriétaire.** Avec
+les paramètres fixés — `--max-new 4 --weekday 140 --weekend 200` —,
+`build_roadmap.py` refusait de produire un plan : les cartes du raffinement
+repoussaient la fin des lots au 2026-11-30, laissant deux jours de week-end pour
+quatre mocks. Mesures présentées avant toute modification : 150/200 tenait sans
+marge, 160/220 ramène la fin des lots au 2026-11-26, au-delà rien ne change
+(`--max-new 4` décide alors). Le propriétaire a retenu la hausse des budgets ;
+**160/220** est appliqué à l'étape de CI, à `study-roadmap.md` — qui trace la
+décision — et à `exam-readiness.md`. Ces budgets dépassent les disponibilités
+déclarées dans `DAY_START` : c'est écrit.
+
+**Une baisse d'assertions, expliquée.** Le premier `gate-full` de la page
+comptait 16 660 assertions ; celui-ci, 16 618. `RevisionPlanTest` vérifie chaque
+événement du plan, et le plan régénéré en compte 437 au lieu de 444 : sept
+événements de moins, six assertions chacun. Aucun test ni aucun code source n'a
+changé (`git diff` vide sur `tests/` et `src/`).
+
 ## Prochaine étape
 
-Page 3 — *Auto escaping* (STANDARD, 440 / 900).
+Page 4 — *Template inheritance* (STANDARD, 402 / 900).
