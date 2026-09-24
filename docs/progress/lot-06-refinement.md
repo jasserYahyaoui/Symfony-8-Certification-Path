@@ -32,7 +32,7 @@ page.
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | **RAFFINÉE** (PR #226) |
 | 12 | String interpolation | MINIMAL | 257 / 700 | 1 | **RAFFINÉE** (PR #227) |
 | 13 | Assets management | MINIMAL | 355 / 700 | 1 | **RAFFINÉE** (PR #228) |
-| 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | en cours |
+| 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | **RAFFINÉE** (PR #229) |
 
 ## Page 1 — TwigBundle, 2026-09-24
 
@@ -985,7 +985,210 @@ la page et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 14, lu dans le journal d'exécution.** PR #229 fusionnée
+en squash (`8395cd3`). Run Pages 36067397406 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the debugging variables page carries its four
+flashcard levels, the dump node, the lint option and the service id` est écrite
+à **22:28:26 UTC** le 2026-09-24.
+
+# Rapport de fin de lot 06
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`b1b6284`, le commit de `master` qui précède la première page refondue (PR #215).
+État mesuré : `master` à `8395cd3`, plus le correctif de cette PR.
+
+## Périmètre
+
+**14** items officiels atomiques portent `lot: lot-06` dans la matrice :
+4 `MINIMAL`, 9 `STANDARD`, 1 `DEEP` — niveaux inchangés pendant la campagne.
+Cette répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 06 est **14 / 14**. Aucun des deux n'a bougé : les quatorze items étaient
+déjà `EXAM_READY`. **Ce lot n'a pas fait progresser la couverture** — il a
+approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 14 cours du lot 06 | 5 915 | **9 051** | **+3 136** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 4 | URLs generation, 531 |
+| `STANDARD` | 900 | 9 | Loops and conditions, 864 |
+| `DEEP` | 1200 | 1 | Twig syntax up to 3.22 version, 980 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 06 | 16 | **163** | **+147** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 60 · `UNDERSTANDING` 39 · `APPLICATION` 28 · `TRAP` 36.
+**Zéro carte du lot sans niveau.** Les seize cartes préexistantes ont reçu un
+niveau ; aucune n'a été supprimée ; plusieurs ont été corrigées (pages 2, 4, 5,
+9).
+
+## Questions et pools
+
+**64** questions portent sur les items du lot 06 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 48 | `lot-06-twig.yml` |
+| `VALIDATION` | 10 | `lot-06-twig.yml` |
+| `HOLDOUT` | 6 | 2 dans `lot-06-twig.yml`, 4 dans `mock-04-holdout.yml` |
+
+**Treize questions modifiées** — onze `LEARNING`, deux `VALIDATION` —,
+`reviewed_at` au 2026-09-24. La comparaison scriptée vérifie aussi que, là où la
+version n'a pas bougé, l'énoncé, le texte des choix et la bonne réponse sont
+identiques à la base :
+
+| Question | Pool | Page | Modification |
+|---|---|---|---|
+| `QST-k1qgrrevaw40` | LEARNING | 1 | explications |
+| `QST-2xamk5ahfyyn` | LEARNING | 2 | explications |
+| `QST-hqqnvh8n266m` | LEARNING | 3 | explication |
+| `QST-f9dbbk5scdxt` | LEARNING | 4 | **bonne réponse changée**, énoncé, sources, v1 → 2 |
+| `QST-81q6m585fqxs` | LEARNING | 4 | explication |
+| `QST-3q73gtbejzs9` | LEARNING | 5 | explication |
+| `QST-1tw52kh5s9sg` | VALIDATION | 6 | explication |
+| `QST-p2safjk7jebk` | LEARNING | 8 | distracteur défendable remplacé, v1 → 2 |
+| `QST-n45xyv1gqstp` | LEARNING | 9 | explication |
+| `QST-sqqd8k2j3whr` | LEARNING | 9 | explications de choix, source |
+| `QST-t2dpk8eb1x43` | VALIDATION | 11 | seconde bonne réponse éliminée, sources, v1 → 2 |
+| `QST-q8q1ra28925h` | LEARNING | 11 | explication |
+| `QST-tk7sqrt8mcwa` | LEARNING | 14 | explications |
+
+La comparaison compte **zéro question `HOLDOUT` modifiée** ; le script n'en
+teste que l'égalité, sans en afficher le contenu.
+
+**`POOL-002` : 0 manquant.** Les dix items `STANDARD` ou `DEEP` `EXAM_READY`
+portent chacun au moins une question `VALIDATION`.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 6 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets servis
+(« 516 questions, all LEARNING, no holdout id or choice »). C'est une
+**isolation fonctionnelle**. Ce n'est **pas** de la confidentialité :
+`mock-4.json` est publié et porte les réponses correctes.
+
+Aucun contenu holdout n'a été lu. Un signal reste ouvert pour le propriétaire
+(page 2) : une recherche plein texte a touché une ligne holdout, sans l'ouvrir ;
+**au moins une question holdout du lot mérite sa revue**.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant à chaque page ; 1 avertissement `PED-003` préexistant, hors lot |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | exit 0 à chaque page |
+| `composer gate-full` | **PASS** | 299 tests, 16 757 assertions sur la page 14, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, `FINDINGS: 0`, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas ; empreinte SHA-256 de `content/` et `docs/` identique avant et après |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10 --prove`, `lot27_practice_audit.py --prove` | **PASS** | exit 0 |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full` ; verte en CI à chaque PR |
+| Branche + PR par page (§15) | **PASS** | #215 et #217 à #229, une par page, CI verte avant chaque fusion en squash |
+| Déploiement + smoke test de production | **PASS pour les 14 pages** | lignes `ok lot-06 …` lues dans les journaux d'exécution, page par page ; la dernière à 22:28:26 UTC |
+
+## Défauts trouvés dans le corpus existant
+
+Vérifiés contre le code de Symfony 8.0 et de Twig `v3.22.0` :
+
+| Page | Défaut corrigé |
+|---|---|
+| 01 TwigBundle | valeur par défaut de `strict_variables` (`%kernel.debug%`) omise ; espace de noms présenté comme obligatoire dans `twig.paths` |
+| 02 Twig syntax | `attribute()` et `spaceless` présentés sans leur dépréciation (3.15, 3.12) ; `__call()` absent de l'ordre de résolution, rang faux dans une question |
+| 03 Auto escaping | stratégie par défaut donnée pour `html` ; Symfony devine d'après l'extension, `.txt` n'est pas échappé |
+| 04 Template inheritance | contenu hors bloc « ignoré » : c'est une `SyntaxError` — **bonne réponse d'une question changée** |
+| 05 Global variables | l'erreur sur `app.user.email` donnée comme certaine ; elle n'existe qu'en mode strict, inversée dans une carte |
+| 06 Filters and functions | filtre `truncate` inexistant dans le cœur ; `trim` et `lower` donnés pour non commutatifs |
+| 07 Template includes | deux affirmations incomplètes (raisons de la fonction, préfixe `_` facultatif) |
+| 08 Loops and conditions | `0 is empty` donné vrai ; une question à distracteur défendable (`same as` est un test) |
+| 09 URLs generation | `path()` et `url()` « mêmes arguments » : le troisième diffère ; deux explications fausses dans une question |
+| 10 Controller rendering | `framework.fragments` présenté comme nécessaire ; il est désactivé par défaut et inutile en `inline` |
+| 11 Translations | une question `VALIDATION` à deux bonnes réponses (arguments nommés) ; « ICU recommandé » non sourcé |
+| 12 String interpolation | rien de faux ; une affirmation juste désormais attribuée |
+| 13 Assets management | rien de faux ; l'affirmation sur la barre initiale confirmée par le code |
+| 14 Debugging variables | arguments nommés de `dump()` présentés comme valides ; une explication imprécise |
+
+## Écarts entre la documentation et le code
+
+Tranchés par la hiérarchie des sources — le code l'emporte — et signalés sur les
+pages, parce qu'une question d'examen peut reprendre la formulation
+documentaire :
+
+| Page | La documentation | Le code |
+|---|---|---|
+| 14 | `{{ dump(blog_posts: articles, user: app.user) }}` | `SyntaxError: Unknown arguments` avec Twig 3.22 — **vérifié par exécution** d'une fonction déclarée à l'identique |
+| 09 | `path()` « rend l'URL relative, sans schéma ni hôte » | `UrlGenerator` peut élargir en URL absolue ou en `//hôte/…` |
+| 11 | `trans(arguments, domain, locale)` | un quatrième argument, `count` |
+| 08 | l'index des tests en liste neuf | `CoreExtension::getTests()` en enregistre treize |
+
+Un écart **interne au framework** : le docblock de
+`HttpFoundationExtension::generateAbsoluteUrl()` annonce un chemin inchangé sans
+requête, `UrlHelper` se replie sur le contexte du routeur (page 9).
+
+## Défauts introduits par moi
+
+**Aucun n'a atteint la production.** Un seul a atteint `master` :
+
+| Défaut | Attrapé par |
+|---|---|
+| journal de la page 5 affirmant `reviewed_at` mis à jour pour `QST-3q73gtbejzs9`, alors que le fichier gardait 2026-09-11 | **cette réconciliation** — corrigé dans cette PR ; l'affirmation du journal était fausse |
+| une recherche plein texte ayant touché une ligne holdout (page 2) | constat immédiat ; ligne non ouverte ; recherches ensuite limitées hors holdout |
+| une source insérée avant une clé existante, clé `verified_at` en double (page 4) | `validate` |
+| une correction de question visant le mauvais fichier (page 6) | assertion du script de correction |
+| deux rectos de cartes avec une accolade dans un code span, lue comme JSX (page 7) | `BuildTest` — contenu corrigé, test inchangé |
+| deux valeurs YAML non quotées contenant `: ` (page 11) | `validate` et l'ensemble des gates |
+| des apostrophes perdues dans deux cartes générées (page 12) | relecture de la sortie avant commit |
+
+## Résumé auditable
+
+> Le lot 06 compte **14** items officiels atomiques (4 `MINIMAL`, 9 `STANDARD`,
+> 1 `DEEP`), tous `EXAM_READY` avant comme après. La couverture du projet —
+> `EXAM_READY / total`, la seule formule admise — vaut **163/163 = 100,0 %** et
+> **n'a pas bougé**.
+>
+> Les quatorze cours passent de **5 915** à **9 051** mots de corps (+3 136),
+> aucun au-dessus de son budget, aucun niveau promu. Les flashcards passent de
+> **16** à **163** (+147), toutes nivelées, réparties 60/39/28/36 — une
+> **observation**, pas une cible. **64** questions portent sur le lot (48
+> `LEARNING`, 10 `VALIDATION`, 6 `HOLDOUT`), aucune ajoutée ni supprimée ;
+> treize corrigées, dont trois en version 2 — une bonne réponse changée, une
+> seconde bonne réponse éliminée en `VALIDATION`, un distracteur défendable
+> remplacé ; aucune `HOLDOUT` modifiée ; `POOL-002` sans manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce que
+> le smoke test de production revérifie ; il n'est **pas confidentiel**.
+>
+> Douze pages sur quatorze portaient une affirmation fausse, incomplète ou
+> trompeuse ; toutes corrigées contre le code. Quatre écarts entre documentation
+> et code ont été tranchés en faveur du code. Les 14 pages sont en production,
+> smoke test lu pour chacune.
+
 ## Prochaine étape
 
-Lire le déploiement de la page 14, puis le rapport de fin de lot 06 réconcilié
-par script, dans sa propre PR.
+Lot 07, page 1, dans l'ordre officiel des items. Restent ouverts : le signal
+holdout du lot 06 (revue par le propriétaire) et la PR #148, sans lien avec ce
+lot.
