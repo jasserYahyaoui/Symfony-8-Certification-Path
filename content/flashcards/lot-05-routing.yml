@@ -231,6 +231,7 @@ flashcards:
   - id: FLC-jjgd2xj2w7y4
     official_item: OIT-8sr74a2wnb3r
     language: fr
+    level: RECALL
     front: 'Symfony : dans quel ordre `debug:router` liste-t-il les routes ?'
     back: Dans l'ordre d'évaluation, pas alphabétique.
     explanation: 'C''est ce qui en fait un outil de diagnostic : la première correspondance gagne, donc
@@ -2690,4 +2691,143 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getSubscribedEvents, setLocale"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kyppy6h0sbr4
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: RECALL
+    front: "Symfony : quel argument router:match attend-il ?"
+    back: "Un path info — le chemin, pas une URL complète."
+    explanation: >-
+      L'hôte, le schéma et la méthode se passent par --host, --scheme et --method, qui modifient le contexte du routeur.
+    memorization_justification: >-
+      La documentation parle d'URL ; le code nomme l'argument path_info.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-41y8f4vjv5aa
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: RECALL
+    front: "Symfony : quel code de sortie router:match renvoie-t-il si aucune route ne correspond ?"
+    back: "1, après un message d'erreur."
+    explanation: >-
+      En cas de succès, il renvoie 0 et affiche le détail de la route trouvée en relançant debug:router.
+    memorization_justification: >-
+      Utile pour un script qui vérifie une route.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-n9kw1qmhn8b5
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : debug:router blog alors qu'aucune route ne s'appelle exactement blog. Que se passe-t-il ?"
+    back: "La commande cherche les routes dont le nom contient blog, sans tenir compte de la casse."
+    explanation: >-
+      Un seul résultat est proposé par défaut ; plusieurs se choisissent en mode interactif et s'affichent en liste sinon ; aucun lève The route does not exist.
+    memorization_justification: >-
+      Le comportement varie selon le nombre de résultats et le mode interactif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute, findRouteNameContaining"
+        verified_at: "2026-09-24"
+
+  - id: FLC-08tdnh3mgyy6
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : debug:router --method=POST affiche-t-il une route sans contrainte de méthode ?"
+    back: "Oui : une route sans methods accepte tout verbe, elle reste dans la liste filtrée."
+    explanation: >-
+      Le filtre ne retire que les routes dont la liste de méthodes ne contient pas celle demandée.
+    memorization_justification: >-
+      On attend un filtre strict sur la colonne affichée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute, findRouteNameContaining"
+        verified_at: "2026-09-24"
+
+  - id: FLC-azt7yf0s7hnr
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que signale router:match par « almost matches » ?"
+    back: "Une route presque appariée, écartée par une contrainte de paramètre, l'hôte, la condition, le schéma ou la méthode."
+    explanation: >-
+      Ces lignes s'affichent toujours ; les routes qui ne correspondent pas du tout n'apparaissent qu'en mode verbeux.
+    memorization_justification: >-
+      Ces lignes disent pourquoi une route attendue n'a pas répondu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/TraceableUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/TraceableUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ROUTE_ALMOST_MATCHES"
+        verified_at: "2026-09-24"
+
+  - id: FLC-rzegz41n4m5b
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: APPLICATION
+    front: "Symfony : vérifiez quelle route répond à un PUT sur /api/posts/1 pour l'hôte api.example.com en HTTPS."
+    back: "php bin/console router:match /api/posts/1 --method=PUT --host=api.example.com --scheme=https"
+    explanation: >-
+      Le chemin est l'argument ; les trois options fixent le contexte avant l'appariement.
+    memorization_justification: >-
+      Assembler l'argument et les options dans la bonne forme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zm07gsesrmvj
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: TRAP
+    front: "Piège : « router:match https://api.example.com/posts/1 teste l'hôte et le schéma de l'URL »."
+    back: "Faux : l'argument est un path info. Hôte et schéma passent par --host et --scheme."
+    explanation: >-
+      La commande n'analyse pas une URL : elle apparie le chemin fourni dans le contexte du routeur.
+    memorization_justification: >-
+      La formulation « prend une URL » induit l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "configure, execute"
         verified_at: "2026-09-24"

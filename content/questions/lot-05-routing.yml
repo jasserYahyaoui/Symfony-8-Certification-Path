@@ -1059,7 +1059,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-24'
     tags:
       - debug
     choices:
@@ -1077,9 +1077,10 @@ questions:
       - id: CHO-r7r9j7ee3y44
         text: router:debug
         correct: false
-        explanation: The command was renamed to debug:router long ago, and it lists rather than matches.
-    explanation: router:match takes a URL and names the route that would respond, which is the direct
-      answer when a URL does not reach the expected controller.
+        explanation: The 8.0 listing command is named debug:router, and it lists routes rather than matching one.
+    explanation: router:match takes the path of the URL — its path info — and names the route that would
+      respond, which is the direct answer when a URL does not reach the expected controller. Host,
+      scheme and method are passed as options.
     official_sources: *id001
   - id: QST-y5290j4js1md
     question_archetype: BEHAVIOR_DIAGNOSIS
