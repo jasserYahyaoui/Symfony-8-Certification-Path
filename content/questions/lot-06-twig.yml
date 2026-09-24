@@ -2461,8 +2461,8 @@ questions:
     text: The token, from which the user has to be read
     correct: false
     explanation: The token is exposed separately as app.token.
-  explanation: app.user is the current user object or null. Printing a property on it without a null
-    guard is the usual cause of the error on a public page.
+  explanation: app.user is the current user object or null. Reading a property on it without a null guard raises
+    a RuntimeError under strict_variables, which TwigBundle enables in dev by default, and yields null otherwise.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst

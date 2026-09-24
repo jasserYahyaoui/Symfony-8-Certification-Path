@@ -22,8 +22,8 @@ page.
 | 1 | TwigBundle | STANDARD | 446 / 900 | 1 | **RAFFINÉE** (PR #215) |
 | 2 | Twig syntax up to 3.22 version | DEEP | 755 / 1200 | 2 | **RAFFINÉE** (PR #217) |
 | 3 | Auto escaping | STANDARD | 440 / 900 | 1 | **RAFFINÉE** (PR #218) |
-| 4 | Template inheritance | STANDARD | 402 / 900 | 1 | en cours |
-| 5 | Global variables | STANDARD | 392 / 900 | 1 | à faire |
+| 4 | Template inheritance | STANDARD | 402 / 900 | 1 | **RAFFINÉE** (PR #219) |
+| 5 | Global variables | STANDARD | 392 / 900 | 1 | en cours |
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | à faire |
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | à faire |
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | à faire |
@@ -327,6 +327,70 @@ de `QST-f9dbbk5scdxt` s'est placé avant le `verified_at` de la source d'origine
 avant commit ; le libellé de cette source, qui décrivait l'affirmation fausse,
 pointe désormais la section *Child Template*.
 
+**Déploiement de la page 4, lu dans le journal d'exécution.** PR #219 fusionnée
+en squash (`2a865f0`). Run Pages 36049149012 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the template inheritance page carries its four
+flashcard levels, the parser method, the Twig fixture and the single-inheritance
+error` est écrite à **19:37:30 UTC** le 2026-09-24.
+
+## Page 5 — Global variables, 2026-09-24
+
+`CRS-r56yzzb4pye2` · `OIT-dp7w7s85wxjg` · STANDARD · **392 → 664 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse, inversée dans une carte
+
+La page — « Y accéder sans test produit une erreur sur une page publique » —,
+la carte `FLC-6952dw009qzf` et l'explication de la question `LEARNING`
+`QST-3q73gtbejzs9` présentaient l'erreur comme certaine. `CoreExtension::getAttribute()`
+(v3.22.0) ne lève « Impossible to access an attribute on a null variable »
+**qu'en mode strict** ; sinon il rend `null`. Et `strict_variables` vaut
+`%kernel.debug%` (page 1) : l'erreur apparaît en `dev`, pas en `prod`. La
+justification de la carte disait l'inverse — « casse une page publique en
+production seulement ».
+
+**Corrections.** Page, carte (réponse et justification) et explication de la
+question énoncent le mode strict ; bonne réponse inchangée ; `reviewed_at` au
+2026-09-24. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code et la documentation
+
+- **Globales de Twig** : `_self`, `_context`, `_charset` (`doc/templates.rst`,
+  v3.22.0).
+- **`AppVariable`** (bridge Twig 8.0) : `current_route` et
+  `current_route_parameters` lisent `_route` et `_route_params` ;
+  `app.flashes` accepte une liste de types ; un service absent lève une
+  `RuntimeException` — `app.user` sans Security, car `twig.php` n'appelle
+  `setTokenStorage()` que si le service existe —, sauf `app.flashes`, qui rend
+  `[]`.
+- **Déclarer** : `twig.globals` (avec `@id` pour un service),
+  `GlobalsInterface::getGlobals()`, `Environment::addGlobal()` ; les globales
+  sont visibles dans les macros, qui ne voient pas les variables du gabarit
+  (`doc/tags/macro.rst`).
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-6952dw009qzf`,
+corrigée, reçoit le niveau RECALL. L'item en porte **12** (4 RECALL,
+4 UNDERSTANDING, 2 APPLICATION, 2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `_charset`,
+`AppVariable` et `GlobalsInterface`, absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 640 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Global variables* (STANDARD, 392 / 900).
+Page 6 — *Filters and functions* (STANDARD, 449 / 900).

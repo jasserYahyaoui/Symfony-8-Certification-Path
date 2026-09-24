@@ -207,12 +207,12 @@ flashcards:
   - id: FLC-6952dw009qzf
     official_item: OIT-dp7w7s85wxjg
     language: fr
+    level: RECALL
     front: 'Twig : que vaut `app.user` sur une page publique sans authentification ?'
-    back: '`null` — y accéder sans test produit une erreur.'
+    back: '`null`. Lire une de ses propriétés lève une RuntimeError en mode strict — dev par défaut — et rend null sinon.'
     explanation: '`app.session` peut de même valoir `null`, et la lire démarre la session, avec l''effet
       que cela a sur la cachabilité de la page.'
-    memorization_justification: Valeur nulle non signalée par la syntaxe, et qui casse une page publique
-      en production seulement.
+    memorization_justification: La même ligne de gabarit échoue en dev et passe en silence en prod, selon strict_variables.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
@@ -1165,4 +1165,243 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "use ... with ... as"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gccv373j2wmd
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: RECALL
+    front: "Twig : quelles sont les trois variables globales fournies par Twig lui-même ?"
+    back: "_self (nom du gabarit), _context (le contexte courant) et _charset (le jeu de caractères)."
+    explanation: >-
+      Elles existent sans Symfony ; app est la globale ajoutée par TwigBundle.
+    memorization_justification: >-
+      Trois noms à souligné, faciles à confondre avec app.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Global Variables"
+        verified_at: "2026-09-24"
+
+  - id: FLC-80gwzh09pn8k
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: RECALL
+    front: "Symfony : quel attribut de requête app.current_route_parameters lit-il ?"
+    back: "_route_params — et rend un tableau vide s'il manque."
+    explanation: >-
+      app.current_route lit de même l'attribut _route de la requête courante.
+    memorization_justification: >-
+      Nom d'attribut exact, distinct de _route.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+
+  - id: FLC-drpnxzdtqxe2
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: RECALL
+    front: "Symfony : quelle classe se cache derrière la variable Twig app ?"
+    back: "Symfony\\Bridge\\Twig\\AppVariable, enregistrée comme globale app par TwigBundle."
+    explanation: >-
+      Chaque propriété de app est une méthode get de cette classe : getUser(), getFlashes(), getCurrent_route()…
+    memorization_justification: >-
+      Savoir où lire le comportement réel de app.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/Resources/config/twig.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/Resources/config/twig.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "twig.app_variable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8sj847wvsbn2
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que produit {{ app.user }} dans une application sans le composant Security ?"
+    back: "Une RuntimeException : The app.user variable is not available."
+    explanation: >-
+      TwigBundle n'appelle setTokenStorage() que si le service existe ; sans lui, AppVariable lève une exception au lieu de rendre null.
+    memorization_justification: >-
+      On attend null, comme pour un visiteur anonyme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/Resources/config/twig.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/Resources/config/twig.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "twig.app_variable"
+        verified_at: "2026-09-24"
+
+  - id: FLC-svtr3a18wnga
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : {{ app.user.email }} sur une page publique, sans utilisateur connecté. Que se passe-t-il ?"
+    back: "RuntimeError en mode strict — dev par défaut — et null sinon."
+    explanation: >-
+      app.user vaut null ; lire un attribut sur null est refusé par getAttribute() seulement quand strict_variables est actif.
+    memorization_justification: >-
+      Le comportement change d'un environnement à l'autre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "getAttribute"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8x396k58jg91
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : une macro voit-elle une globale déclarée dans twig.globals ?"
+    back: "Oui : les globales sont visibles dans les macros, contrairement aux variables du gabarit appelant."
+    explanation: >-
+      Une macro ne reçoit que ses arguments et les globales ; pour lui passer tout le contexte, on transmet _context.
+    memorization_justification: >-
+      La portée des macros est la source de la confusion.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/macro.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/macro.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "macros do not have access to the current template variables"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/advanced.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/advanced.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Globals, GlobalsInterface"
+        verified_at: "2026-09-24"
+
+  - id: FLC-txnyb6et6kf5
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que renvoie app.flashes(['notice', 'error']) ?"
+    back: "Un tableau type => messages, et les messages lus sont consommés."
+    explanation: >-
+      Sans argument, tous les types ; avec une chaîne, la liste d'un seul type ; sans session compatible, un tableau vide.
+    memorization_justification: >-
+      Trois formes d'appel, trois formes de retour.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+
+  - id: FLC-0hz9r41xtzq6
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: APPLICATION
+    front: "Symfony : rendez le service app.mailer disponible dans tous les gabarits sous le nom mailer."
+    back: "twig: { globals: { mailer: '@app.mailer' } }"
+    explanation: >-
+      Un @ en tête désigne un service ; @@ produirait une chaîne commençant par @.
+    memorization_justification: >-
+      Déclarer une globale de service, pas une chaîne.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "globals"
+        verified_at: "2026-09-24"
+
+  - id: FLC-539tqrvfznch
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: APPLICATION
+    front: "Twig : transmettez tout le contexte courant à une macro."
+    back: "{{ forms.row(_context) }} — la variable _context contient toutes les variables visibles."
+    explanation: >-
+      La documentation de la balise macro le recommande, puisqu'une macro ne voit pas les variables du gabarit.
+    memorization_justification: >-
+      Utiliser une globale de Twig pour contourner la portée des macros.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/macro.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/macro.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "macros do not have access to the current template variables"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Global Variables"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jre624h0r4fh
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: TRAP
+    front: "Piège : « app.user vaut null quand le composant Security n'est pas installé »."
+    back: "Faux : app.user lève une RuntimeException ; null signifie qu'aucun utilisateur n'est authentifié."
+    explanation: >-
+      Seul app.flashes retombe sur un tableau vide quand son service manque.
+    memorization_justification: >-
+      Deux absences différentes, deux résultats différents.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getUser, getSession, getFlashes, getCurrent_route"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jxw3kve1asjq
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: TRAP
+    front: "Piège : « _self, _context et _charset sont fournies par Symfony »."
+    back: "Faux : ce sont les globales de Twig lui-même ; Symfony ajoute app."
+    explanation: >-
+      La documentation de Twig les liste comme toujours disponibles dans les gabarits.
+    memorization_justification: >-
+      On attribue tout ce qui est global au framework.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Global Variables"
         verified_at: "2026-09-24"
