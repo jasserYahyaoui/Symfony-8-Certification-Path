@@ -137,6 +137,7 @@ flashcards:
   - id: FLC-2qe2jetwm5pq
     official_item: OIT-sd08j04k60m0
     language: fr
+    level: RECALL
     front: "Twig : quel est l'ordre des arguments du filtre trans ?"
     back: "trans(paramètres, domaine, locale). Domaine par défaut : messages."
     explanation: >-
@@ -2642,4 +2643,237 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Embedding Controllers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xp26a4s436b6
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: APPLICATION
+    front: "Twig : comment passer seulement le domaine store au filtre trans, sans écrire de tableau vide ?"
+    back: "Avec un argument nommé : `'checkout.total'|trans(domain: 'store')`."
+    explanation: >-
+      Twig 3.22 accepte `:` et `=` comme séparateurs d'argument nommé ; la forme positionnelle équivalente est `trans({}, 'store')`.
+    memorization_justification: >-
+      Évite l'erreur d'ordre la plus fréquente sur ce filtre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/ExpressionParser/Infix/ArgumentsTrait.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/ExpressionParser/Infix/ArgumentsTrait.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "named arguments"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TranslationExtension::trans()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-e1kx846me0jb
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: TRAP
+    front: "Twig : que produit 'checkout.total'|trans('fr') ?"
+    back: "Une `TypeError` : sur une chaîne, le deuxième argument doit être un tableau de paramètres."
+    explanation: >-
+      Une chaîne n'y est admise que si le message est un objet traduisible ; elle est alors prise comme locale : `t('x')|trans('fr')`.
+    memorization_justification: >-
+      Même écriture, valide ou fatale selon le type du message.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TranslationExtension::trans()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-p1t0q3dw1wxx
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: RECALL
+    front: "Twig : quel est le cinquième argument du filtre trans dans Symfony 8.0 ?"
+    back: "`count` : s'il est fourni, il renseigne le paramètre `%count%`."
+    explanation: >-
+      Signature de `TranslationExtension::trans()` : message, arguments, domain, locale, count.
+    memorization_justification: >-
+      Argument absent de la référence Twig de la documentation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TranslationExtension::trans()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7v0nhjhqwajs
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: TRAP
+    front: "Symfony : la sortie de la balise trans est-elle échappée comme celle du filtre ?"
+    back: "Non : le filtre échappe, la balise n'échappe pas."
+    explanation: >-
+      Avertissement de `translation.rst` (8.0). Pour afficher du HTML traduit par le filtre, on ajoute `|raw` après `|trans`.
+    memorization_justification: >-
+      Différence de sécurité entre deux écritures présentées comme équivalentes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
+        verified_at: "2026-09-24"
+
+  - id: FLC-v0xp666nj56a
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : dans {% trans %}Hello %name%{% endtrans %} sans with, d'où vient la valeur de %name% ?"
+    back: "De la variable `name` du contexte : `TransNode` ajoute chaque emplacement non fourni en le lisant dans le contexte."
+    explanation: >-
+      C'est pourquoi la balise exige la notation `%var%` : le nom entre pourcents est aussi le nom de la variable.
+    memorization_justification: >-
+      Comportement implicite de la balise, absent du filtre.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/TransNode.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/TransNode.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TransNode::compileString()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gdaz8rmany8z
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: TRAP
+    front: "Twig : {% trans from 'app' with vars %}…{% endtrans %} est-il valide ?"
+    back: "Non : les mots se lisent dans l'ordre `count`, `with`, `from`, `into` ; un mot hors de place est une erreur de syntaxe."
+    explanation: >-
+      `TransTokenParser::parse()` teste les mots dans cet ordre, puis attend la fin de balise.
+    memorization_justification: >-
+      Ordre imposé par l'analyseur, facile à inverser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/TokenParser/TransTokenParser.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/TokenParser/TransTokenParser.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TransTokenParser::parse()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ad20madrxsrt
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: RECALL
+    front: "Symfony : les pourcents de %name% sont-ils obligatoires dans un message traduit par le filtre ?"
+    back: "Non : c'est une convention. `strtr()` remplace n'importe quel emplacement, `#name#` ou `{name}`, si la clé correspond exactement."
+    explanation: >-
+      Dans la balise, en revanche, la notation `%var%` est obligatoire.
+    memorization_justification: >-
+      Distingue convention et règle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kkzj2fxnseaw
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : qu'apporte le suffixe +intl-icu d'un fichier de catalogue ?"
+    back: "Tous les messages du fichier passent par `MessageFormatter` : emplacements `{name}`, pluriel, genre, règles propres à la locale."
+    explanation: >-
+      Sans le suffixe, `{name}` n'est qu'un emplacement ordinaire remplacé par `strtr()` : rien n'est pluralisé.
+    memorization_justification: >-
+      Le suffixe est ce qui active ICU, pas la forme des accolades.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "intl-icu suffix, legacy ranges"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
+        verified_at: "2026-09-24"
+
+  - id: FLC-328v17mv2zte
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: RECALL
+    front: "Symfony : que la syntaxe de pluriel à barres permet-elle qu'ICU ne permet pas ?"
+    back: "Les intervalles personnalisés, comme `]0,1000]` ; la documentation qualifie cette syntaxe de *legacy*."
+    explanation: >-
+      Avec ICU, la logique de plage se déplace dans le code PHP, qui choisit la clé du message.
+    memorization_justification: >-
+      Seul avantage documenté de l'ancienne syntaxe.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "intl-icu suffix, legacy ranges"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9rd1zrrvkwcq
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: APPLICATION
+    front: "Twig : un gabarit fixe trans_default_domain 'admin' puis inclut _menu.html.twig. Quel domaine le menu utilise-t-il ?"
+    back: "`messages` : la balise n'influe que sur le gabarit courant, pas sur les gabarits inclus."
+    explanation: >-
+      La documentation le justifie par l'absence d'effets de bord ; le menu doit poser son propre `trans_default_domain`.
+    memorization_justification: >-
+      Portée contre-intuitive, fréquente à l'examen.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
+        verified_at: "2026-09-24"
+
+  - id: FLC-cj06ktxdbzfh
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: RECALL
+    front: "Twig : que construit la fonction t() ?"
+    back: "Un `TranslatableMessage` avec son message, ses paramètres et son domaine, traduit plus tard par `|trans`."
+    explanation: >-
+      `TranslationExtension::createTranslatable()` ; une clé brute, elle, perd paramètres et domaine et échappe à `translation:extract`.
+    memorization_justification: >-
+      Base des messages traduisibles transmis entre couches.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "TranslationExtension::trans()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Translations in Templates, Message Format"
         verified_at: "2026-09-24"

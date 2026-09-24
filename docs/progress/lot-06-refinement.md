@@ -28,8 +28,8 @@ page.
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | **RAFFINÉE** (PR #222) |
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | **RAFFINÉE** (PR #223) |
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | **RAFFINÉE** (PR #224) |
-| 10 | Controller rendering | STANDARD | 316 / 900 | 1 | en cours |
-| 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | à faire |
+| 10 | Controller rendering | STANDARD | 316 / 900 | 1 | **RAFFINÉE** (PR #225) |
+| 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | en cours |
 | 12 | String interpolation | MINIMAL | 257 / 700 | 1 | à faire |
 | 13 | Assets management | MINIMAL | 355 / 700 | 1 | à faire |
 | 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | à faire |
@@ -734,6 +734,76 @@ présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 10, lu dans le journal d'exécution.** PR #225 fusionnée
+en squash (`3844d84`). Run Pages 36060772713 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the controller rendering page carries its four
+flashcard levels, the ignore errors option, the ESI function and the fragment
+handler` est écrite à **21:22:12 UTC** le 2026-09-24.
+
+## Page 11 — Translations and pluralization, 2026-09-24
+
+`CRS-q18xc1k4yvb9` · `OIT-sd08j04k60m0` · STANDARD · **450 → 642 mots** sur 900.
+Aucun niveau promu.
+
+### Une question VALIDATION à deux bonnes réponses
+
+`QST-t2dpk8eb1x43` demandait l'appel correct pour le domaine `store` et tenait
+`'checkout.total'|trans(domain='store')` pour faux (« pas sa forme
+documentée »). Or Twig 3.22 accepte les arguments nommés avec `=` comme avec
+`:` (`ArgumentsTrait`), et le filtre a bien un paramètre `domain` : cet appel
+produit le même résultat que la bonne réponse. Distracteur remplacé par
+`trans({domain: 'store'})` — un tableau de paramètres, donc domaine inchangé —
+(nouvel identifiant `CHO-5ednd0rc1axn`), **version 2**. L'explication du
+distracteur `trans('store')` était fausse aussi (« lu comme paramètres ») :
+`TranslationExtension::trans()` lève une `TypeError`. Les sources de la
+question, un alias YAML partagé, sont écrites en clair pour y ajouter les deux
+fichiers de code ; l'ancre reste définie là où elle l'était.
+
+### Une affirmation non sourcée
+
+« ICU est la voie recommandée ; la syntaxe à barres ne l'est plus » — dans la
+page et dans l'explication de `QST-q8q1ra28925h`. La documentation 8.0 traite le
+pluriel par ICU et qualifie la syntaxe à barres de *legacy*, sans le mot
+« recommandé ». Les deux textes disent désormais cela. Les quatre autres
+questions non holdout de l'item ont été relues : exactes, inchangées. Aucune
+question holdout n'a été lue.
+
+### Compléments, lus dans le code et la documentation 8.0
+
+- Signature réelle : `trans(arguments, domain, locale, count)` ; arguments
+  nommés ; une chaîne en deuxième argument n'est une locale que pour un objet
+  traduisible.
+- Les pourcents sont une convention (`strtr()`), obligatoires dans la balise.
+- Balise : `count`, `with`, `from`, `into` dans cet ordre (`TransTokenParser`) ;
+  emplacement non fourni lu dans le contexte (`TransNode`) ; corps en texte
+  simple.
+- Le filtre échappe, la balise non.
+- ICU n'a pas les intervalles personnalisés de la syntaxe *legacy*.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-2qe2jetwm5pq` reçoit le
+niveau RECALL. L'item en porte **12** (5 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `TypeError`,
+`TransNode` et `strtr`, absentes de la version `master` de la page et présentes
+dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 1er passage : YAML invalide (deux-points dans deux valeurs non quotées) ; corrigé, puis 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés (441 créneaux) ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (après correction) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 731 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 11 — *Translations and pluralization* (STANDARD, 450 / 900).
+Page 12 — *String interpolation* (MINIMAL, 257 / 700).

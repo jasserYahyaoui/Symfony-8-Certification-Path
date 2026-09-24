@@ -1163,7 +1163,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - translation
   - icu
@@ -1183,8 +1183,9 @@ questions:
     text: The template must declare trans_default_domain
     correct: false
     explanation: The default domain is unrelated to ICU.
-  explanation: ICU is the recommended approach and covers gender and locale-specific rules as well as counts. The
-    legacy pipe syntax still works but is no longer recommended.
+  explanation: The 8.0 documentation handles counts, gender and locale-specific rules through ICU MessageFormat,
+    which applies to every message of a catalogue whose name carries +intl-icu. It calls the pipe syntax legacy;
+    that syntax still works.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
@@ -1937,7 +1938,7 @@ questions:
   question_archetype: API_SIGNATURE
   assesses_outcomes:
   - OUT-p436jre6f29p
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-sd08j04k60m0
   domain: symfony
@@ -1959,7 +1960,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - translation
   choices:
@@ -1969,18 +1970,37 @@ questions:
   - id: CHO-f5ymx5k16n8s
     text: '{{ ''checkout.total''|trans(''store'') }}'
     correct: false
-    explanation: The first argument is the parameter array, so 'store' would be read as parameters.
+    explanation: The second argument must be a parameter array; a string there is accepted only as the locale
+      of a translatable object, so on a plain string it raises a TypeError.
   - id: CHO-51sq942m9pyt
     text: '{{ ''checkout.total''|trans({}, null, ''store'') }}'
     correct: false
     explanation: The third argument is the locale, not the domain.
-  - id: CHO-y8kbch9vmsd3
-    text: '{{ ''checkout.total''|trans(domain=''store'') }}'
+  - id: CHO-5ednd0rc1axn
+    text: '{{ ''checkout.total''|trans({domain: ''store''}) }}'
     correct: false
-    explanation: The filter takes positional arguments here; this is not its documented form.
-  explanation: The signature is trans(arguments, domain, locale). An empty array keeps the parameter slot while
-    reaching the domain.
-  official_sources: *id002
+    explanation: That array is the parameter list, so domain becomes a placeholder key and the domain stays
+      messages.
+  explanation: 'The signature is trans(arguments, domain, locale, count). An empty array keeps the parameter slot
+    while reaching the domain; the named form trans(domain: ''store'') is equivalent.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Twig reference
+    verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: TranslationExtension::trans()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/ExpressionParser/Infix/ArgumentsTrait.php
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/ExpressionParser/Infix/ArgumentsTrait.php
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: named arguments and their separators
+    verified_at: '2026-09-24'
 - id: QST-070cvzmzmcsm
   question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1

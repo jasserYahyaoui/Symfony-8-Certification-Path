@@ -15,7 +15,7 @@ périmètre sur instruction.
 | Lot | État | Journal |
 |---|---|---|
 | 02 à 05 | raffinés, déployés, rapport de fin de lot fusionné | `docs/progress/lot-0N-refinement.md` |
-| 06 (Twig) | **en cours** — pages 1 à 9 fusionnées et déployées ; page 10 en PR | `docs/progress/lot-06-refinement.md` |
+| 06 (Twig) | **en cours** — pages 1 à 10 fusionnées et déployées ; page 11 en PR | `docs/progress/lot-06-refinement.md` |
 | 07 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -30,8 +30,8 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 10 du lot 06 après CI verte,
-lire son smoke test, puis page 11 (*Translations and pluralization*).
+**Prochaine action** : fusionner la PR de la page 11 du lot 06 après CI verte,
+lire son smoke test, puis page 12 (*String interpolation*).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
