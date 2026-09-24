@@ -14,8 +14,9 @@ flashcards:
   - id: FLC-2e8x0yx9hbbp
     official_item: OIT-vhd83fn6w9wy
     language: fr
+    level: RECALL
     front: "Twig : dans quel ordre {{ foo.bar }} est-il résolu ?"
-    back: "foo['bar'], puis foo->bar, foo->bar(), foo->getBar(), foo->isBar(), foo->hasBar(), sinon null."
+    back: "foo['bar'], puis foo->bar, la constante Foo::bar, foo->bar(), getBar(), isBar(), hasBar(), __call(), sinon null."
     explanation: >-
       Le tableau est essayé en premier, avant la propriété : un objet qui
       implémente ArrayAccess verra donc l'accès tableau gagner. La dernière
@@ -35,6 +36,7 @@ flashcards:
   - id: FLC-zv7yngs0n7zm
     official_item: OIT-vhd83fn6w9wy
     language: fr
+    level: TRAP
     front: "Twig : que produit {{ 'a' + 'b' }} ?"
     back: "Une TypeError. Le + est l'addition ; la concaténation s'écrit ~."
     explanation: >-
@@ -511,4 +513,200 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"
+
+  - id: FLC-22pbezbs59yw
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : comment lire un attribut dont le nom est dans une variable, sans la fonction attribute() ?"
+    back: "{{ user.(name) }} — une expression entre parenthèses après le point, depuis Twig 3.15."
+    explanation: >-
+      attribute() est dépréciée depuis 3.15 ; la même syntaxe sert pour un nom à tiret : user.('first-name').
+    memorization_justification: >-
+      Syntaxe récente, facile à ignorer si l'on a appris Twig avant 3.15.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/attribute.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/attribute.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "deprecated as of Twig 3.15"
+        verified_at: "2026-09-24"
+
+  - id: FLC-dy6t1wcvsy92
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: RECALL
+    front: "Twig 3.22 : depuis quelle version le filtre spaceless est-il déprécié ?"
+    back: "Twig 3.12."
+    explanation: >-
+      La documentation renvoie aux modificateurs de blanc - et ~ des balises.
+    memorization_justification: >-
+      Un filtre encore très présent dans les exemples anciens.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/spaceless.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/spaceless.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "deprecated as of Twig 3.12"
+        verified_at: "2026-09-24"
+
+  - id: FLC-w2y4ncqrw4mk
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: RECALL
+    front: "Twig : quels opérateurs testent une chaîne par son début, sa fin, ou une expression régulière ?"
+    back: "starts with, ends with et matches."
+    explanation: >-
+      Ils s'écrivent en mots, comme and, or et not.
+    memorization_justification: >-
+      Trois opérateurs en mots qu'on remplace à tort par des fonctions.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zdnnmrcszhzf
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : que fait {{ foo.bar }} sur un objet sans propriété, constante ni méthode bar, mais qui déclare __call() ?"
+    back: "Il appelle __call('bar') au lieu de retourner null."
+    explanation: >-
+      CoreExtension::getAttribute() se rabat sur __call() après les get, is et has, avant l'échec final.
+    memorization_justification: >-
+      Étape absente des listes abrégées de l'ordre de résolution.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "getAttribute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1jg54m4h73hg
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : une classe a isActive() et hasActive(). Laquelle {{ user.active }} appelle-t-il ?"
+    back: "isActive() : un hasser est écarté quand un isser du même nom existe."
+    explanation: >-
+      La précédence du moteur est get, puis is, puis has.
+    memorization_justification: >-
+      Deux méthodes candidates, un seul gagnant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "getAttribute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-q9t6fvma29v8
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : quelle différence entre les modificateurs - et ~ d'une balise ?"
+    back: "- supprime tout le blanc, sauts de ligne compris ; ~ garde les sauts de ligne."
+    explanation: >-
+      Placé à droite, ~ désactive aussi le retrait automatique du premier saut de ligne qui suit une balise.
+    memorization_justification: >-
+      Deux caractères voisins, deux portées différentes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zcc907ncfx57
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : que valent has every et has some sur une séquence vide ?"
+    back: "has every vaut true ; has some vaut false."
+    explanation: >-
+      C'est la convention logique du quantificateur universel et existentiel, que la documentation énonce.
+    memorization_justification: >-
+      Le cas vide est celui qu'une question choisit.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qagq3g0hv227
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: APPLICATION
+    front: "Twig : testez si une des tailles de sizes dépasse 38."
+    back: "{% if sizes has some v => v > 38 %}"
+    explanation: >-
+      has some prend une fonction fléchée qui reçoit chaque valeur.
+    memorization_justification: >-
+      Combiner opérateur d'itérable et fonction fléchée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+
+  - id: FLC-weyvdp72vd5e
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: APPLICATION
+    front: "Twig : fusionnez la séquence more à la fin de [1, 2]."
+    back: "{% set numbers = [1, 2, ...more] %}"
+    explanation: >-
+      L'opérateur ... étend une séquence ou un tableau associatif ; il existe depuis Twig 3.15.
+    memorization_justification: >-
+      Syntaxe récente, empruntée à PHP.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "Other Operators, Whitespace Control"
+        verified_at: "2026-09-24"
+
+  - id: FLC-12635kscyps3
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: TRAP
+    front: "Piège : « en Twig 3.22, attribute(object, name) est la façon recommandée de lire un attribut dynamique »."
+    back: "Faux : attribute() est dépréciée depuis 3.15, au profit de object.(name)."
+    explanation: >-
+      La fonction restera disponible en Twig 4.0 pour faciliter la migration, mais la documentation 3.22 la marque dépréciée.
+    memorization_justification: >-
+      Les ressources anciennes la présentent encore comme la solution.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/attribute.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/attribute.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "deprecated as of Twig 3.15"
         verified_at: "2026-09-24"

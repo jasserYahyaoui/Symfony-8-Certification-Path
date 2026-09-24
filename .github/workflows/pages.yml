@@ -1720,6 +1720,34 @@ jobs:
             echo "ok  lot-06  the TwigBundle page carries its four flashcard levels, the extension, the bang namespace and the override directory"
           fi
 
+          # Lot 06, page 2. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the magic
+          # method the attribute resolution falls back to, the php-src test that
+          # proves string addition throws, and the iterable operator.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-syntax -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/twig-syntax-up-to-3-22-version")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page twig-syntax-up-to-3-22-version serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-syntax || missing="$missing l6syn:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-syntax || missing="$missing l6syn:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-syntax || missing="$missing l6syn:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-syntax || missing="$missing l6syn:no-trap-heading"
+          grep -aq '__call' /tmp/l6r-syntax \
+            || missing="$missing l6syn:no-call-fallback"
+          grep -aq 'add_006.phpt' /tmp/l6r-syntax \
+            || missing="$missing l6syn:no-php-src-test"
+          grep -aq 'has every' /tmp/l6r-syntax \
+            || missing="$missing l6syn:no-iterable-operator"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the Twig syntax page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the Twig syntax page carries its four flashcard levels, the call fallback, the php-src test and the iterable operator"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

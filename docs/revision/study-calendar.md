@@ -594,7 +594,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mercredi 11 novembre 2026
 
 - NOUVEAU · **Templating with Twig : TwigBundle** (STANDARD) — 22 min · 652 mots · 5 questions, 12 flashcards
-- NOUVEAU · **Templating with Twig : Twig syntax up to 3.22 version** (DEEP) — 17 min · 755 mots · 6 questions, 2 flashcards
+- NOUVEAU · **Templating with Twig : Twig syntax up to 3.22 version** (DEEP) — 26 min · 980 mots · 6 questions, 12 flashcards
 - NOUVEAU · **Templating with Twig : Auto escaping** (STANDARD) — 11 min · 440 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Templating with Twig : Template inheritance** (STANDARD) — 11 min · 402 mots · 4 questions, 1 flashcards
 - Révision **J+1** (26 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware · Messenger : Events
@@ -602,7 +602,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints · Data Validation : Validation scopes
 - Révision **J+30** (13 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 128 / 140 min*
+*Budget du jour : 137 / 140 min*
 
 ### Jeudi 12 novembre 2026
 
