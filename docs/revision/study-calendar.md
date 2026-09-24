@@ -592,7 +592,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 11 novembre 2026
 
-- NOUVEAU · **Templating with Twig : Template inheritance** (STANDARD) — 11 min · 402 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Templating with Twig : Template inheritance** (STANDARD) — 22 min · 720 mots · 4 questions, 12 flashcards
 - NOUVEAU · **Templating with Twig : Global variables** (STANDARD) — 11 min · 392 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Templating with Twig : Filters and functions** (STANDARD) — 12 min · 449 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Templating with Twig : Template includes** (STANDARD) — 11 min · 435 mots · 4 questions, 1 flashcards
@@ -601,7 +601,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+30** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 112 / 160 min*
+*Budget du jour : 123 / 160 min*
 
 ### Jeudi 12 novembre 2026
 

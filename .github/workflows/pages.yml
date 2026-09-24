@@ -1776,6 +1776,34 @@ jobs:
             echo "ok  lot-06  the auto escaping page carries its four flashcard levels, the strategy class, the text extension and the custom escaper"
           fi
 
+          # Lot 06, page 4. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the parser
+          # method that rejects content outside blocks, the Twig fixture that
+          # proves it, and the single-inheritance error message.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-inherit -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/template-inheritance")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page template-inheritance serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-inherit || missing="$missing l6inh:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-inherit || missing="$missing l6inh:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-inherit || missing="$missing l6inh:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-inherit || missing="$missing l6inh:no-trap-heading"
+          grep -aq 'filterBodyNodes' /tmp/l6r-inherit \
+            || missing="$missing l6inh:no-parser-method"
+          grep -aq 'child_contents_outside_blocks' /tmp/l6r-inherit \
+            || missing="$missing l6inh:no-twig-fixture"
+          grep -aq 'Multiple extends' /tmp/l6r-inherit \
+            || missing="$missing l6inh:no-single-inheritance-error"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the template inheritance page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the template inheritance page carries its four flashcard levels, the parser method, the Twig fixture and the single-inheritance error"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

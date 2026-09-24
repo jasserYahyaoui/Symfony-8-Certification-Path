@@ -21,8 +21,8 @@ page.
 |---|---|---|---|---|---|
 | 1 | TwigBundle | STANDARD | 446 / 900 | 1 | **RAFFINÉE** (PR #215) |
 | 2 | Twig syntax up to 3.22 version | DEEP | 755 / 1200 | 2 | **RAFFINÉE** (PR #217) |
-| 3 | Auto escaping | STANDARD | 440 / 900 | 1 | en cours |
-| 4 | Template inheritance | STANDARD | 402 / 900 | 1 | à faire |
+| 3 | Auto escaping | STANDARD | 440 / 900 | 1 | **RAFFINÉE** (PR #218) |
+| 4 | Template inheritance | STANDARD | 402 / 900 | 1 | en cours |
 | 5 | Global variables | STANDARD | 392 / 900 | 1 | à faire |
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | à faire |
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | à faire |
@@ -253,6 +253,80 @@ comptait 16 660 assertions ; celui-ci, 16 618. `RevisionPlanTest` vérifie chaqu
 événements de moins, six assertions chacun. Aucun test ni aucun code source n'a
 changé (`git diff` vide sur `tests/` et `src/`).
 
+**Déploiement de la page 3, lu dans le journal d'exécution.** PR #218 fusionnée
+en squash (`371426e`). Run Pages 36046977873 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the auto escaping page carries its four
+flashcard levels, the strategy class, the text extension and the custom escaper`
+est écrite à **19:18:32 UTC** le 2026-09-24.
+
+## Page 4 — Template inheritance, 2026-09-24
+
+`CRS-k3v3wrt0hmtx` · `OIT-g3p8wdtww344` · STANDARD · **402 → 720 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse, jusque dans la bonne réponse d'une question
+
+La page, la carte `FLC-mype643dt889` et la question `LEARNING`
+`QST-f9dbbk5scdxt` affirmaient qu'un gabarit enfant **ignore silencieusement**
+le contenu écrit hors d'un bloc. Twig 3.22 le **refuse à la compilation** :
+`Parser::filterBodyNodes()` lève une `SyntaxError` — « A template that extends
+another one cannot include content outside Twig blocks » — pour tout texte non
+blanc ou toute sortie hors bloc, et la fixture de test de Twig
+`child_contents_outside_blocks.test` en fait la preuve. Seuls les blancs et les
+balises qui n'affichent rien, comme `set`, sont tolérés.
+
+**Corrections.** La page et la carte énoncent l'erreur. Dans `QST-f9dbbk5scdxt`,
+la **bonne réponse change** : « A Twig syntax error », que la question donnait
+pour fausse, devient correcte ; « Nothing — a child renders only its blocks »
+devient un distracteur. L'énoncé demande désormais ce qui se passe au rendu, et
+non ce qui est rendu ; `version` 1 → 2 ; sources du code ajoutées ;
+`reviewed_at` au 2026-09-24. La question `QST-81q6m585fqxs` disait qu'`extends`
+**doit** être la première balise : la documentation écrit *should*, et le code
+ne l'impose pas ; l'explication le dit. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code et la documentation 3.22
+
+- `Multiple extends tags are forbidden.` ; `extends` refusée dans un bloc ou une
+  macro (`ExtendsTokenParser`).
+- Un nom de bloc une seule fois par gabarit ; `block()` réaffiche,
+  `block('nom', 'autre.html.twig')` lit ailleurs, `is defined` teste.
+- Héritage dynamique : variable, liste (le premier existant), ternaire.
+- Un bloc dans un `if` reste défini ; dans un enfant, il lève « A block
+  definition cannot be nested under non-capturing nodes ».
+- `use` : blocs importés non affichés, priorité au gabarit courant, `with … as`,
+  cible jamais dynamique.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-mype643dt889`,
+corrigée, reçoit le niveau RECALL. L'item en porte **12** (4 RECALL,
+4 UNDERSTANDING, 2 APPLICATION, 2 TRAP). Une carte-piège remplacée avant commit :
+elle répétait la carte corrigée.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`filterBodyNodes`, `child_contents_outside_blocks` et `Multiple extends`,
+absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`, après le changement de bonne réponse) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 629 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Un défaut introduit puis attrapé.** Le premier essai d'insertion des sources
+de `QST-f9dbbk5scdxt` s'est placé avant le `verified_at` de la source d'origine :
+`validate` a refusé le YAML (« Duplicate key "verified_at" »). Ordre corrigé
+avant commit ; le libellé de cette source, qui décrivait l'affirmation fausse,
+pointe désormais la section *Child Template*.
+
 ## Prochaine étape
 
-Page 4 — *Template inheritance* (STANDARD, 402 / 900).
+Page 5 — *Global variables* (STANDARD, 392 / 900).
