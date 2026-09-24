@@ -1290,6 +1290,36 @@ jobs:
             echo "ok  lot-04  the file upload page carries its four flashcard levels, guessClientExtension, the SplFileInfo origin of getSize and the 422 option"
           fi
 
+          # Page 13 of lot 04. The three content needles are what this
+          # refinement added and master's version of the page does not contain:
+          # the exception raised when route and path are both set, the port
+          # option of the path mode, and the public cache TemplateController
+          # applies when maxAge is set without private. The bare status 410 was
+          # rejected as a needle: three digits can match an asset hash.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l4r-builtin -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/built-in-internal-controllers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 04 refined page built-in-internal-controllers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l4r-builtin || missing="$missing l4builtin:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l4r-builtin || missing="$missing l4builtin:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l4r-builtin || missing="$missing l4builtin:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l4r-builtin || missing="$missing l4builtin:no-trap-heading"
+          grep -aq 'Ambiguous' /tmp/l4r-builtin \
+            || missing="$missing l4builtin:no-ambiguous-modes"
+          grep -aq 'httpsPort' /tmp/l4r-builtin \
+            || missing="$missing l4builtin:no-path-mode-port"
+          grep -aq 'publique' /tmp/l4r-builtin \
+            || missing="$missing l4builtin:no-public-cache"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 04 refinement missing from the built-in controllers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-04  the built-in controllers page carries its four flashcard levels, the ambiguous-mode exception, the path-mode ports and the public cache default"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

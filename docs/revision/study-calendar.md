@@ -260,13 +260,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 25 min · 594 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 24 min · 593 mots · 5 questions, 14 flashcards
-- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 11 min · 402 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 24 min · 665 mots · 4 questions, 14 flashcards
 - NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 17 min · 632 mots · 6 questions, 1 flashcards
 - Révision **J+3** (10 min) — Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+7** (17 min) — Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+14** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 115 / 140 min*
+*Budget du jour : 128 / 140 min*
 
 ### Mardi 20 octobre 2026
 

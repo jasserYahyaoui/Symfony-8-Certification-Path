@@ -176,6 +176,7 @@ flashcards:
   - id: FLC-wvcgqvv01k3x
     official_item: OIT-e93sa9rd4kd9
     language: fr
+    level: RECALL
     front: "RedirectController avec keepRequestMethod: true — quels codes de statut ?"
     back: "307 pour une redirection temporaire, 308 pour une permanente."
     explanation: >-
@@ -3738,4 +3739,251 @@ flashcards:
         repository: "php/doc-en"
         branch: "master"
         symbol_or_lines: "Returns the filesize in bytes for the file referenced."
+        verified_at: "2026-09-24"
+
+  - id: FLC-f50h4g7y54p9
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: RECALL
+    front: "Quelle option de TemplateController est la seule obligatoire ?"
+    back: "template. Les autres ont une valeur par défaut, dont statusCode à 200."
+    explanation: >-
+      La signature de l action ne donne pas de défaut au seul paramètre template.
+    memorization_justification: >-
+      Les nombreuses options de l exemple documenté masquent qu une seule est requise.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "templateAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ep71avb5fkmg
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: RECALL
+    front: "Que lève RedirectController quand une route configure à la fois route et path ?"
+    back: "Une RuntimeException signalant des réglages de redirection ambigus."
+    explanation: >-
+      __invoke vérifie la présence des deux clés dans _route_params avant de choisir un mode.
+    memorization_justification: >-
+      L exclusivité des deux modes n est pas une convention : le code la fait respecter.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "__invoke"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ds28jtv8sfeh
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: RECALL
+    front: "Quel statut produit RedirectController quand la cible route ou path est vide ?"
+    back: "404, ou 410 si permanent est vrai."
+    explanation: >-
+      Une cible vide ne redirige pas : le contrôleur lève une HttpException avec l un de ces deux statuts.
+    memorization_justification: >-
+      410 Gone est rarement cité, et c est précisément le cas permanent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectAction, urlRedirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-c85wmcw8a9wf
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi une page servie par TemplateController avec seulement maxAge devient-elle publique ?"
+    back: "Parce que, sans option private, poser maxAge ou sharedAge déclenche setPublic()."
+    explanation: >-
+      Pour garder une réponse privée, il faut private: true explicitement.
+    memorization_justification: >-
+      Un réglage de durée qui change la visibilité du cache est contre-intuitif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "templateAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-5grf9r45w2x4
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi maxAge: 0 ne pose-t-il aucun en-tête avec TemplateController ?"
+    back: "Parce que maxAge n est appliqué que s il est non nul, alors que sharedAge l est dès qu il n est pas null."
+    explanation: >-
+      Les deux options ne suivent pas le même test : l une teste la valeur, l autre la présence.
+    memorization_justification: >-
+      L asymétrie ne se voit qu en lisant le code.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "templateAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4y2wqq8gd49v
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi RedirectController en mode route transmet-il les paramètres de la route courante ?"
+    back: "Parce qu il part de _route_params pour générer la cible, sauf si ignoreAttributes les retire."
+    explanation: >-
+      ignoreAttributes à true n en transmet aucun ; un tableau retire seulement ceux qui y figurent.
+    memorization_justification: >-
+      Le comportement par défaut est une transmission, ce qui surprend quand la cible a des paramètres homonymes.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-yam8gah606wg
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi l URL produite par RedirectController en mode route est-elle absolue, contrairement à redirectToRoute() ?"
+    back: "Parce qu il génère la cible avec UrlGeneratorInterface::ABSOLUTE_URL, schéma et hôte compris."
+    explanation: >-
+      redirectToRoute() passe par generateUrl() avec le chemin absolu par défaut.
+    memorization_justification: >-
+      Les deux redirigent vers une route, mais l en-tête Location n a pas la même forme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-422dng3d9mpz
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: APPLICATION
+    front: "Une route RedirectController en mode path reçoit ?page=2. La redirection garde-t-elle ce paramètre ?"
+    back: "Oui : en mode path, la chaîne de requête est toujours recopiée, sans option pour s en passer."
+    explanation: >-
+      keepQueryParams n existe que pour le mode route.
+    memorization_justification: >-
+      Le cas inverse la règle apprise sur keepQueryParams.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "urlRedirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-h3y38sv0ygbb
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: APPLICATION
+    front: "Une redirection permanente configurée par route doit préserver un POST. Quelles options, et quel statut ?"
+    back: "permanent: true et keepRequestMethod: true, ce qui donne 308."
+    explanation: >-
+      Sans keepRequestMethod, la même redirection sortirait en 301.
+    memorization_justification: >-
+      Le scénario combine deux options dont chacune change le statut.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-g922y7tywkqw
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: APPLICATION
+    front: "Une route RedirectController porte permanent: true et un path vide. Que reçoit le client ?"
+    back: "Une erreur 410 Gone, pas une redirection."
+    explanation: >-
+      Le contrôleur lève une HttpException dont le statut dépend de permanent.
+    memorization_justification: >-
+      Le cas sert à retirer définitivement une URL sans contrôleur applicatif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "urlRedirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-q651qspyt2g7
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: TRAP
+    front: "Piège : « keepQueryParams conserve la query string dans les deux modes de RedirectController »."
+    back: "Non. L option n existe qu en mode route ; en mode path la query string suit toujours."
+    explanation: >-
+      Les deux actions n ont pas la même signature.
+    memorization_justification: >-
+      Une option documentée pour un mode se généralise facilement à tort.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "urlRedirectAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-4xme1syf6wkm
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: TRAP
+    front: "Piège : « sans l option private, TemplateController produit une réponse privée »."
+    back: "Non. Dès que maxAge ou sharedAge est posé, la réponse devient publique."
+    explanation: >-
+      Le défaut conservateur de Symfony ne s applique pas ici.
+    memorization_justification: >-
+      L habitude du cache privé par défaut induit en erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "templateAction"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zavvnq4fs6dj
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: TRAP
+    front: "Piège : « une cible de redirection vide est ignorée et la page d origine s affiche »."
+    back: "Non. Elle produit une HttpException 404, ou 410 si la redirection est permanente."
+    explanation: >-
+      Le contrôleur traite la cible vide comme une ressource absente.
+    memorization_justification: >-
+      Une configuration vide semble inoffensive alors qu elle change le statut de la page.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirectAction"
         verified_at: "2026-09-24"

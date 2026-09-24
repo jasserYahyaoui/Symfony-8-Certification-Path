@@ -1201,6 +1201,89 @@ de la version `master` de la page.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 12, lu dans le journal d'exécution.** PR #197 fusionnée
+en squash (`c3e1d50`). Run Pages 35973665894 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-04  the file upload page carries its four
+flashcard levels, guessClientExtension, the SplFileInfo origin of getSize and the
+422 option` est écrite à **08:12:25 UTC** le 2026-09-24.
+
+## Page 13 — Built-in internal controllers
+
+`CRS-zmg0wrxvqqdq` · `OIT-e93sa9rd4kd9` · STANDARD · **402 → 666 mots** sur 900.
+Aucun niveau promu.
+
+Rien de faux sur la page. Elle décrivait les options ; le code de
+`RedirectController` et `TemplateController` (branche 8.0) montre ce qu'elles
+font aux limites.
+
+### `RedirectController`
+
+| Cas | Ce que fait le code |
+|---|---|
+| `route` **et** `path` | `RuntimeException` « Ambiguous redirection settings » |
+| ni l'un ni l'autre | `RuntimeException` aussi |
+| cible vide | `HttpException` **404**, ou **410** si `permanent` |
+| mode `route` | génère avec `ABSOLUTE_URL` et transmet `_route_params` |
+| mode `path` | recopie **toujours** la query string ; `keepQueryParams` n'y existe pas |
+
+La page disait « deux modes exclusifs » : c'était une convention apparente, c'est
+une exception levée. Elle disait « `path` pour une URL absolue » : un chemin
+relatif est accepté et complété par schéma, hôte et port (`scheme`, `httpPort`,
+`httpsPort`). Et l'URL absolue du mode `route` fait contraste avec
+`redirectToRoute()`, qui produit un chemin (page 9).
+
+### `TemplateController`
+
+```php
+if ($maxAge) {
+    $response->setMaxAge($maxAge);
+}
+if (null !== $sharedAge) {
+    $response->setSharedMaxAge($sharedAge);
+}
+if ($private) {
+    $response->setPrivate();
+} elseif (false === $private || (null === $private && (null !== $maxAge || null !== $sharedAge))) {
+    $response->setPublic();
+}
+```
+
+Deux conséquences : poser `maxAge` ou `sharedAge` sans `private` rend la réponse
+**publique** ; `maxAge: 0` ne pose rien, alors que `sharedAge: 0` pose bien un
+`s-maxage`. Sans TwigBundle, `LogicException`.
+
+Que les `defaults` d'une route deviennent des arguments du contrôleur est
+vérifié, pas supposé : `RouterListener` ajoute les paramètres de route aux
+attributs, et `RequestAttributeValueResolver` apparie par nom (page 10).
+
+**Une phrase retirée du brouillon** : « le cache partagé peut alors la servir ».
+Elle relève de la sémantique HTTP de `public`, que je n'ai pas vérifiée ici ; la
+page s'en tient à ce que fait le code.
+
+**Flashcards.** 13 ajoutées ; `FLC-wvcgqvv01k3x` reçoit le niveau RECALL. L'item
+en porte **14** (4 RECALL, 4 UNDERSTANDING, 3 APPLICATION, 3 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `Ambiguous`,
+`httpsPort` et `publique`, absentes de la version `master` de la page. `410` a
+été **écartée** : trois chiffres peuvent se trouver dans un hachage d'asset et
+feraient passer l'aiguille sans que la page contienne la phrase. `ABSOLUTE_URL`
+aussi : le mot n'apparaît pas dans le texte de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 480 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 443 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 13 — *Built-in internal controllers* (STANDARD, 402 / 900).
+Page 14 — *Argument value resolvers* (DEEP, 632 / 1200) — la dernière du lot,
+puis le rapport de fin de lot 04.
