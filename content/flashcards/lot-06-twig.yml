@@ -261,11 +261,12 @@ flashcards:
   - id: FLC-gmr3e6ms0rw6
     official_item: OIT-yh6zx9shv9vs
     language: fr
+    level: TRAP
     front: 'Twig : la fonction `path()` peut-elle retourner une URL absolue ?'
     back: Oui — si la route exige un schéma différent de celui de la requête courante, la sortie devient
       absolue.
-    explanation: En dehors de ce cas, `path()` et `url()` ne diffèrent que par la forme du résultat
-      et prennent exactement les mêmes arguments.
+    explanation: >-
+      `UrlGenerator` force une URL absolue quand le schéma exigé diffère, et une référence `//hôte/…` quand l'hôte de la route diffère. Les deux fonctions partagent le nom de route et les paramètres, mais pas le sens de leur troisième argument.
     memorization_justification: Exception au comportement que le nom de la fonction annonce.
     verification_status: VERIFIED
     official_sources:
@@ -2150,4 +2151,236 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "none alias"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xgc6rzvvk851
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: RECALL
+    front: "Twig : que rend path() par défaut ?"
+    back: "Un chemin absolu, sans schéma ni hôte : `/blog/mon-article` (type `ABSOLUTE_PATH`)."
+    explanation: >-
+      `RoutingExtension::getPath()` passe `ABSOLUTE_PATH` au générateur quand son troisième argument vaut `false`, sa valeur par défaut.
+    memorization_justification: >-
+      Forme la plus utilisée ; base de toutes les comparaisons.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RoutingExtension::getPath(), getUrl()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "path, url, absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8q5ka4ykmc9x
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: RECALL
+    front: "Twig : que rend url() par défaut ?"
+    back: "Une URL absolue, avec schéma et hôte : `https://example.com/blog/mon-article` (type `ABSOLUTE_URL`)."
+    explanation: >-
+      À réserver aux liens qui quittent la page : e-mails, flux, balises de partage.
+    memorization_justification: >-
+      Pendant direct de path().
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RoutingExtension::getPath(), getUrl()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "path, url, absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zmzkvnnnmpk8
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: TRAP
+    front: "Twig : que change le troisième argument true dans path(), puis dans url() ?"
+    back: "path(…, true) rend un chemin relatif à la page courante ; url(…, true) rend une URL sans schéma, `//example.com/…`."
+    explanation: >-
+      Les paramètres s'appellent `relative` et `schemeRelative` : `RELATIVE_PATH` d'un côté, `NETWORK_PATH` de l'autre.
+    memorization_justification: >-
+      Même position, même booléen, deux sens différents.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RoutingExtension::getPath(), getUrl()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "path, url, absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-84yz4shf8s75
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi path() peut-il rendre une référence commençant par // ?"
+    back: "Quand la route est liée à un autre hôte que celui de la requête : un chemin seul pointerait vers le mauvais hôte, le générateur passe donc en `NETWORK_PATH`."
+    explanation: >-
+      `UrlGenerator::doGenerate()` élargit le type demandé ; si le schéma exigé diffère, il va jusqu'à l'URL absolue.
+    memorization_justification: >-
+      Le générateur privilégie un lien juste sur la forme demandée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "UrlGenerator::doGenerate()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2qvw02ybm87b
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: APPLICATION
+    front: "Twig : il faut l'URL absolue d'une image publique pour une balise de partage. Quelle écriture ?"
+    back: "`absolute_url(asset('images/logo.png'))`."
+    explanation: >-
+      `asset()` produit le chemin public, `absolute_url()` y ajoute schéma et hôte. La documentation de `absolute_url` recommande cette combinaison.
+    memorization_justification: >-
+      Combinaison documentée, fréquente dans les gabarits d'e-mail.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "path, url, absolute_url, relative_path"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7ehtmajtpjr8
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: TRAP
+    front: "Twig : absolute_url('blog_show') rend-il l'URL de la route blog_show ?"
+    back: "Non : `absolute_url()` prend un chemin, pas un nom de route. `blog_show` est traité comme un chemin relatif à la page courante."
+    explanation: >-
+      `UrlHelper::getAbsoluteUrl()` ne consulte aucune route ; pour une route, c'est `url('blog_show')`.
+    memorization_justification: >-
+      Nom trompeur : il évoque le routage, il n'y touche pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absolute_url, relative_path"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "UrlHelper::getAbsoluteUrl()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nj22h67r0w1s
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: RECALL
+    front: "Twig : que fait relative_path() ?"
+    back: "Il transforme une URL absolue en chemin relatif à la page courante : `../human.txt` depuis `/products/hover-board`."
+    explanation: >-
+      Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge.
+    memorization_justification: >-
+      Fonction peu vue, facile à confondre avec le troisième argument de path().
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "path, url, absolute_url, relative_path"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-px4eg1dagj7z
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : la sortie de path() est-elle échappée comme une variable ?"
+    back: "Elle en est dispensée seulement sans paramètres, ou avec un seul paramètre à valeur littérale ; sinon elle est échappée, et le `&` d'une chaîne de requête devient `&amp;`."
+    explanation: >-
+      C'est le rôle de `RoutingExtension::isUrlGenerationSafe()`, déclaré comme `is_safe_callback` des deux fonctions.
+    memorization_justification: >-
+      Explique un `&amp;` inattendu dans le HTML rendu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RoutingExtension::isUrlGenerationSafe()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ta32kxmaxc7e
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: APPLICATION
+    front: "Twig : une page servie en http appelle path() vers une route qui exige https. Que rend l'appel ?"
+    back: "Une URL absolue en `https://…` : le générateur change de schéma, donc il ne peut plus rendre un simple chemin."
+    explanation: >-
+      `UrlGenerator::doGenerate()` force `ABSOLUTE_URL` quand le schéma courant n'est pas dans les schémas exigés.
+    memorization_justification: >-
+      Cas où la sortie de path() change de forme sans qu'on l'ait demandé.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "UrlGenerator::doGenerate()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1dp592wxp748
+    official_item: OIT-yh6zx9shv9vs
+    language: fr
+    level: RECALL
+    front: "Symfony : quelles extensions du Twig Bridge fournissent path(), url(), absolute_url() et relative_path() ?"
+    back: "`RoutingExtension` pour path() et url() ; `HttpFoundationExtension` pour absolute_url() et relative_path()."
+    explanation: >-
+      Les deux premières dépendent du générateur d'URL, les deux autres de `UrlHelper`, qui part de la requête courante.
+    memorization_justification: >-
+      Situe chaque fonction dans le composant qui la sert.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RoutingExtension::getPath(), getUrl()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpFoundationExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "absolute_url, relative_path"
         verified_at: "2026-09-24"
