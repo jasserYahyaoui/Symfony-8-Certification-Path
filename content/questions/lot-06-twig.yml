@@ -136,7 +136,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - syntax
   - resolution
@@ -151,13 +151,13 @@ questions:
   - id: CHO-epcfdct0bs5a
     text: $foo->getBar()
     correct: false
-    explanation: The getter comes fourth in the order.
+    explanation: The getter comes fifth, after the class constant and bar().
   - id: CHO-cjr0d789jagw
     text: $foo->bar()
     correct: false
-    explanation: The public method comes third.
+    explanation: The public method comes fourth, after the class constant.
   explanation: The engine tries the array element first, then the public property, then a class
-    constant of the same name, then bar(), getBar(), isBar() and hasBar(), and finally null — or a
+    constant of the same name, then bar(), getBar(), isBar() and hasBar(), then __call() if the class declares it, and finally null — or a
     RuntimeError under strict_variables. An object implementing ArrayAccess therefore sees the array
     access win. The Symfony 8.0 page lists the same order without the class-constant step; the Twig
     v3.22.0 engine performs it.
