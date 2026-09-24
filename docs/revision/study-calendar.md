@@ -607,7 +607,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Templating with Twig : Loops and conditions** (STANDARD) — 26 min · 864 mots · 5 questions, 13 flashcards
 - NOUVEAU · **Templating with Twig : URLs generation** (MINIMAL) — 18 min · 531 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Templating with Twig : Controller rendering** (STANDARD) — 10 min · 316 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Templating with Twig : Controller rendering** (STANDARD) — 22 min · 597 mots · 4 questions, 13 flashcards
 - NOUVEAU · **Templating with Twig : Translations and pluralization** (STANDARD) — 14 min · 450 mots · 6 questions, 1 flashcards
 - Révision **J+1** (24 min) — Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes
 - Révision **J+3** (17 min) — Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
@@ -615,7 +615,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation · Forms : Forms handling
 - Révision **J+30** (11 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 
-*Budget du jour : 147 / 160 min*
+*Budget du jour : 159 / 160 min*
 
 ### Vendredi 13 novembre 2026
 

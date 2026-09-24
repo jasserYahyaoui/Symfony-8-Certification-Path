@@ -27,8 +27,8 @@ page.
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | **RAFFINÉE** (PR #221) |
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | **RAFFINÉE** (PR #222) |
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | **RAFFINÉE** (PR #223) |
-| 9 | URLs generation | MINIMAL | 341 / 700 | 1 | en cours |
-| 10 | Controller rendering | STANDARD | 316 / 900 | 1 | à faire |
+| 9 | URLs generation | MINIMAL | 341 / 700 | 1 | **RAFFINÉE** (PR #224) |
+| 10 | Controller rendering | STANDARD | 316 / 900 | 1 | en cours |
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | à faire |
 | 12 | String interpolation | MINIMAL | 257 / 700 | 1 | à faire |
 | 13 | Assets management | MINIMAL | 355 / 700 | 1 | à faire |
@@ -671,6 +671,69 @@ page et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 9, lu dans le journal d'exécution.** PR #224 fusionnée
+en squash (`713c6a5`). Run Pages 36059154483 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the URLs generation page carries its four
+flashcard levels, the network path, the relative path function and the safe
+callback` est écrite à **21:08:12 UTC** le 2026-09-24.
+
+## Page 10 — Controller rendering, 2026-09-24
+
+`CRS-yw6c5hq2mbax` · `OIT-c34hn4px3czj` · STANDARD · **316 → 597 mots** sur 900.
+Aucun niveau promu.
+
+### Rien de faux, un silence qui induisait en erreur
+
+La page présentait `framework.fragments.path` comme le passage obligé des
+contrôleurs appelés par `controller()`. Le code 8.0 est plus précis :
+`Configuration::addFragmentsSection()` déclare `fragments` **désactivé par
+défaut** (`canBeEnabled()`, chemin `/_fragment`) ; l'activer charge le
+`FragmentListener`, qui sert `/_fragment` aux requêtes venues de l'extérieur
+(ESI, hinclude) et y vérifie la signature. En `inline`, la sous-requête porte
+déjà `_controller` et le `RouterListener` ne la route pas.
+
+### Compléments, lus dans le code et la documentation 8.0
+
+- `controller()` construit une `ControllerReference` et n'exécute rien ; ses
+  attributs vont sur la sous-requête, objets compris en `inline`.
+- Sous-requête `GET` (`SUB_REQUEST`) : cookies, variables serveur, session,
+  `_format`, locale ; sans `If-Modified-Since` ni `If-None-Match`.
+- Stratégie `inline` par défaut ; `strategy`, `render_esi()`, `render_ssi()`,
+  `render_hinclude()` ; `fragment_uri()`.
+- Échecs : `ignore_errors` vaut `!kernel.debug` (exception relancée en `dev`,
+  avalée en `prod`), option `alt` ; une réponse non 2xx — redirection comprise
+  — lève une `RuntimeException` dans `FragmentHandler::deliver()`.
+- La note de `templates.rst` (8.0) qui préfère les Twig Components pour une
+  simple unité d'interface.
+
+**Questions.** Les quatre questions non holdout de l'item ont été relues :
+exactes, inchangées. Aucune question holdout n'a été lue.
+
+**Flashcards.** 12 ajoutées ; la carte préexistante `FLC-ynhbpp2dtxs4` reçoit le
+niveau TRAP. L'item en porte **13** (4 RECALL, 3 UNDERSTANDING, 2 APPLICATION,
+4 TRAP). L'exemple de la carte RECALL garde les doubles barres obliques de la
+documentation (`App\\Controller`), vérifiées dans le rendu.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `ignore_errors`,
+`render_esi` et `FragmentHandler`, absentes de la version `master` de la page et
+présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 696 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 10 — *Controller rendering* (STANDARD, 316 / 900).
+Page 11 — *Translations and pluralization* (STANDARD, 450 / 900).
