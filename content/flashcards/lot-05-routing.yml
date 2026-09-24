@@ -151,6 +151,7 @@ flashcards:
   - id: FLC-6dw96ps91ywe
     official_item: OIT-ceaw3ewfsw85
     language: fr
+    level: RECALL
     front: 'Symfony : le composant Routing dépend-il d''autres composants Symfony ?'
     back: Non — PHP et un paquet de contrats, c'est tout. Il s'installe seul hors du framework.
     explanation: 'Apparier et générer sont par ailleurs deux classes distinctes du composant : c''est
@@ -232,3 +233,269 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: section Debugging Routes
       verified_at: '2026-09-11'
+
+  - id: FLC-y0m158aezzfa
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: RECALL
+    front: 'Dans quel composant se trouve la classe RouterListener ?'
+    back: 'Dans HttpKernel, espace de noms Symfony\Component\HttpKernel\EventListener. FrameworkBundle ne fait que l enregistrer comme service.'
+    explanation: >-
+      Le bundle déclare le service router_listener en lui passant la classe du composant HttpKernel.
+    memorization_justification: >-
+      On attribue spontanément au bundle tout ce qui touche au routage applicatif.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-837hngawj1sn
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: RECALL
+    front: 'À quelle priorité RouterListener écoute-t-il kernel.request ?'
+    back: '32.'
+    explanation: >-
+      La même classe écoute aussi kernel.finish_request et kernel.exception.
+    memorization_justification: >-
+      La priorité situe le routage par rapport aux autres écouteurs de la requête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getSubscribedEvents"
+        verified_at: "2026-09-24"
+
+  - id: FLC-msmwy6npsyqr
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: RECALL
+    front: 'Quelle classe de matcher FrameworkBundle déclare-t-il pour le routeur par défaut ?'
+    back: 'RedirectableCompiledUrlMatcher, un matcher compilé capable de rediriger.'
+    explanation: >-
+      Le service router.default reçoit aussi CompiledUrlGenerator comme générateur, les deux étant compilés dans le cache.
+    memorization_justification: >-
+      Le nom de la classe réelle n apparaît pas dans la configuration de l application.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/routing.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/routing.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "router.default, router_listener"
+        verified_at: "2026-09-24"
+
+  - id: FLC-rccp4f643qpg
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: RECALL
+    front: 'Quelle phrase décrit officiellement le composant Routing ?'
+    back: 'Maps an HTTP request to a set of configuration variables.'
+    explanation: >-
+      La description parle de variables, pas de contrôleur : _controller n est qu une variable parmi d autres.
+    memorization_justification: >-
+      La formule officielle fixe la bonne représentation du rôle du composant.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/composer.json"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "description"
+        verified_at: "2026-09-24"
+
+  - id: FLC-kd8bjcga0ty0
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une sous-requête produite par forward() n est-elle pas routée à nouveau ?'
+    back: 'Parce que RouterListener saute le routage quand la requête porte déjà l attribut _controller.'
+    explanation: >-
+      forward() pose _controller dans les attributs de la sous-requête avant de la confier au noyau.
+    memorization_justification: >-
+      Le lien entre deux mécanismes éloignés se retient mieux qu une règle isolée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-c0rzj41myn6h
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une URL inexistante donne-t-elle un 404 et une mauvaise méthode un 405 ?'
+    back: 'Parce que RouterListener traduit ResourceNotFoundException en NotFoundHttpException et MethodNotAllowedException en MethodNotAllowedHttpException.'
+    explanation: >-
+      Le 405 porte les méthodes admises dans l en-tête Allow.
+    memorization_justification: >-
+      Le composant lève ses propres exceptions ; c est l écouteur qui les rend HTTP.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ppe48hfsmg28
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi une classe de contrôleur hors de src/Controller peut-elle fournir des routes d attributs ?'
+    back: 'Parce que routing.controllers charge les classes étiquetées routing.controller, et que toute classe portant #[Route] reçoit cette étiquette par autoconfiguration.'
+    explanation: >-
+      C est l enregistrement comme service qui compte, pas l emplacement dans l arborescence.
+    memorization_justification: >-
+      L habitude du répertoire src/Controller masque le mécanisme réel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "registerAttributeForAutoconfiguration(Route::class"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8c8d1d09vx3k
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi le générateur d URL ne peut-il pas tenir compte d une condition portant sur la requête ?'
+    back: 'Parce qu apparier et générer sont deux classes distinctes, et que le générateur ne reçoit pas la requête.'
+    explanation: >-
+      Il travaille à partir du nom de route, des paramètres et du contexte.
+    memorization_justification: >-
+      La séparation des deux sens explique plusieurs asymétries entre matching et génération.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "generate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gqbmyt3aqx51
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: APPLICATION
+    front: 'Une requête arrive déjà munie de l attribut _controller. Que fait RouterListener ?'
+    back: 'Rien : il considère que le routage est fait et rend la main.'
+    explanation: >-
+      Le commentaire du code l indique : routing is already done.
+    memorization_justification: >-
+      Le scénario sert à diagnostiquer une route qui semble ignorée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-gma1052jcdsj
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: APPLICATION
+    front: 'Le routeur de FrameworkBundle doit rediriger une URL au lieu de répondre 404. Vers quel contrôleur, et avec quelle permanence ?'
+    back: 'RedirectController::urlRedirectAction, en redirection permanente.'
+    explanation: >-
+      La méthode redirect() du matcher renvoie ce contrôleur avec permanent à true.
+    memorization_justification: >-
+      Le détail de la permanence a un effet de cache côté navigateur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect"
+        verified_at: "2026-09-24"
+
+  - id: FLC-s3ebkn1bd1yc
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: APPLICATION
+    front: 'Après un appariement, que contient l attribut _route_params de la requête ?'
+    back: 'Les variables trouvées, sans _route ni _controller.'
+    explanation: >-
+      RouterListener retire ces deux clés avant de poser _route_params.
+    memorization_justification: >-
+      Savoir ce que contient cet attribut évite de le reconstruire à la main.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-07zmbesy2j39
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: TRAP
+    front: 'Piège : « RouterListener est une classe de FrameworkBundle ».'
+    back: 'Non. Elle appartient au composant HttpKernel ; le bundle l enregistre seulement comme service.'
+    explanation: >-
+      Son espace de noms le montre directement.
+    memorization_justification: >-
+      L association spontanée au bundle est l erreur attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1jjqrpn2yvds
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: TRAP
+    front: 'Piège : « les routes d attributs sont trouvées en parcourant le répertoire src/Controller ».'
+    back: 'Non. La ressource routing.controllers charge les classes étiquetées routing.controller par autoconfiguration.'
+    explanation: >-
+      Un contrôleur déclaré comme service ailleurs fournit aussi ses routes.
+    memorization_justification: >-
+      La structure du squelette d application suggère un parcours de répertoire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeServicesLoader.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeServicesLoader.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "supports, load"
+        verified_at: "2026-09-24"
+
+  - id: FLC-v6xyvt2wyjw8
+    official_item: OIT-ceaw3ewfsw85
+    language: fr
+    level: TRAP
+    front: 'Piège : « une mauvaise méthode HTTP sur une route existante donne un 404 ».'
+    back: 'Non. RouterListener produit un 405 avec l en-tête Allow.'
+    explanation: >-
+      Seule l absence totale de route produit le 404.
+    memorization_justification: >-
+      Les deux échecs se confondent facilement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelRequest"
+        verified_at: "2026-09-24"
