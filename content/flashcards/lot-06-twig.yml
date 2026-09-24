@@ -186,6 +186,7 @@ flashcards:
   - id: FLC-aj7ff8fdwg48
     official_item: OIT-b9x8az2bx4t8
     language: fr
+    level: RECALL
     front: 'Twig dans Symfony : lequel des trois paquets rend Twig configurable ?'
     back: TwigBundle — c'est lui qui tire le moteur et le pont, et lui seul qui apporte la configuration.
     explanation: Le moteur (`twig/twig`), le pont et le bundle sont distincts. Chercher la configuration
@@ -296,3 +297,218 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: asset and asset_version
       verified_at: '2026-09-11'
+
+  - id: FLC-qthbpr7whnmj
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: RECALL
+    front: "Symfony 8.0 : quelle est la valeur par défaut de twig.strict_variables ?"
+    back: "%kernel.debug% : stricte en dev, permissive en prod."
+    explanation: >-
+      Une variable absente lève une RuntimeError en développement et rend null en production si l'option n'est pas fixée.
+    memorization_justification: >-
+      Une valeur par défaut qui change d'un environnement à l'autre se retient à part.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_variables, default_path, paths, globals, form_themes"
+        verified_at: "2026-09-24"
+
+  - id: FLC-zwcpa6rw09yy
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: RECALL
+    front: "Symfony : dans quel répertoire surcharger le gabarit user/profile.html.twig d'AcmeBlogBundle ?"
+    back: "templates/bundles/AcmeBlogBundle/user/profile.html.twig"
+    explanation: >-
+      Le répertoire de surcharge garde le suffixe Bundle, contrairement à l'espace de noms @AcmeBlog.
+    memorization_justification: >-
+      Deux conventions de nommage voisines, faciles à croiser.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2zn2kq10b7x5
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: RECALL
+    front: "Symfony : sous quel espace de noms atteindre le gabarit d'origine d'un bundle dont on a surchargé un fichier ?"
+    back: "@!AcmeBlog — le point d'exclamation désigne le répertoire du bundle seul."
+    explanation: >-
+      TwigExtension enregistre le répertoire du bundle une seconde fois sous !Nom, ce qui permet à la surcharge d'étendre l'original.
+    memorization_justification: >-
+      Syntaxe rare, qu'aucun autre mécanisme n'utilise.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"
+
+  - id: FLC-r2wsckvngvtb
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : une variable mal orthographiée lève une erreur en dev mais rend une chaîne vide en prod. Pourquoi ?"
+    back: "strict_variables vaut %kernel.debug% par défaut : vraie en dev, fausse en prod."
+    explanation: >-
+      Sans mode strict, Twig retourne null pour une variable absente, et null s'affiche vide.
+    memorization_justification: >-
+      Relier un symptôme d'environnement à la valeur par défaut qui l'explique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_variables, default_path, paths, globals, form_themes"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2v4xp9xgzvx2
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : comment Twig choisit-il entre templates/bundles/AcmeBlogBundle/ et le répertoire du bundle ?"
+    back: "Le premier, s'il existe, est enregistré avant le second pour l'espace @AcmeBlog : il gagne."
+    explanation: >-
+      Le répertoire du bundle reste consulté pour les fichiers non surchargés, et seul sous @!AcmeBlog.
+    memorization_justification: >-
+      L'ordre d'enregistrement explique la surcharge sans toucher au bundle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"
+
+  - id: FLC-f27y3b5p87k1
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que fait une entrée de twig.paths sans espace de noms ?"
+    back: "Elle ajoute le répertoire à l'espace principal, à côté de templates/."
+    explanation: >-
+      La clé est le chemin, la valeur l'espace de noms ; une valeur absente laisse le gabarit accessible sans préfixe @.
+    memorization_justification: >-
+      On croit l'espace de noms obligatoire parce que les exemples en montrent toujours un.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_variables, default_path, paths, globals, form_themes"
+        verified_at: "2026-09-24"
+
+  - id: FLC-2znxkf50cst4
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : que signifie twig.globals: { mailer: '@app.mailer' } ?"
+    back: "La globale mailer est le service app.mailer, pas la chaîne @app.mailer."
+    explanation: >-
+      Un @ en tête désigne un service ; @@ l'échappe et produit une chaîne qui commence par @.
+    memorization_justification: >-
+      La même valeur change de nature selon son premier caractère.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_variables, default_path, paths, globals, form_themes"
+        verified_at: "2026-09-24"
+
+  - id: FLC-es50nkmt4mev
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: APPLICATION
+    front: "Symfony : dans la surcharge d'un gabarit de bundle, écrivez l'héritage de l'original."
+    back: "{% extends '@!AcmeBlog/user/profile.html.twig' %}"
+    explanation: >-
+      Sans le point d'exclamation, @AcmeBlog désignerait la surcharge elle-même, qui s'étendrait en boucle.
+    memorization_justification: >-
+      Réutiliser l'original au lieu de le recopier.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"
+
+  - id: FLC-k9av0d2sm83m
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: APPLICATION
+    front: "Symfony : quel fichier fournit réellement le gabarit @AcmeBlog/user/profile.html.twig ?"
+    back: "php bin/console debug:twig @AcmeBlog/user/profile.html.twig"
+    explanation: >-
+      Avec un nom de gabarit en argument, debug:twig indique le fichier qui le fournit parmi les chemins enregistrés.
+    memorization_justification: >-
+      Diagnostiquer une surcharge qui ne prend pas.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Command/DebugCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Command/DebugCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "debug:twig"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xy059awxgbgx
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: TRAP
+    front: "Piège : « strict_variables est désactivée par défaut dans Symfony »."
+    back: "Faux : elle vaut %kernel.debug%, donc activée en dev."
+    explanation: >-
+      C'est Twig seul qui la désactive par défaut ; TwigBundle la lie au mode debug du noyau.
+    memorization_justification: >-
+      La valeur par défaut du moteur et celle du bundle diffèrent.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "strict_variables, default_path, paths, globals, form_themes"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Environment.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Environment.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "strict_variables"
+        verified_at: "2026-09-24"
+
+  - id: FLC-8288ey1be7jw
+    official_item: OIT-b9x8az2bx4t8
+    language: fr
+    level: TRAP
+    front: "Piège : « le répertoire de surcharge d'un bundle s'écrit comme son espace de noms, templates/bundles/AcmeBlog/ »."
+    back: "Faux : il garde le suffixe, templates/bundles/AcmeBlogBundle/."
+    explanation: >-
+      L'espace de noms retire Bundle ; le répertoire de surcharge prend le nom complet du bundle.
+    memorization_justification: >-
+      La proximité des deux formes induit l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "getBundleTemplatePaths, normalizeBundleName"
+        verified_at: "2026-09-24"

@@ -1691,6 +1691,35 @@ jobs:
             echo "ok  lot-05  the router debugging page carries its four flashcard levels, the match command, the traceable matcher and the path info"
           fi
 
+          # Lot 06, page 1. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the
+          # extension that registers bundle template paths, the bang namespace
+          # that reaches an overridden bundle's original, and the override
+          # directory that keeps the Bundle suffix.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-bundle -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/twigbundle")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page twigbundle serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-bundle || missing="$missing l6bun:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-bundle || missing="$missing l6bun:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-bundle || missing="$missing l6bun:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-bundle || missing="$missing l6bun:no-trap-heading"
+          grep -aq 'TwigExtension' /tmp/l6r-bundle \
+            || missing="$missing l6bun:no-twig-extension"
+          grep -aq '@!AcmeBlog' /tmp/l6r-bundle \
+            || missing="$missing l6bun:no-bang-namespace"
+          grep -aq 'templates/bundles/AcmeBlogBundle' /tmp/l6r-bundle \
+            || missing="$missing l6bun:no-override-directory"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the TwigBundle page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the TwigBundle page carries its four flashcard levels, the extension, the bang namespace and the override directory"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
