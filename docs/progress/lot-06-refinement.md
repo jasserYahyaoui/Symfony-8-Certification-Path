@@ -29,8 +29,8 @@ page.
 | 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | **RAFFINÉE** (PR #223) |
 | 9 | URLs generation | MINIMAL | 341 / 700 | 1 | **RAFFINÉE** (PR #224) |
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | **RAFFINÉE** (PR #225) |
-| 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | en cours |
-| 12 | String interpolation | MINIMAL | 257 / 700 | 1 | à faire |
+| 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | **RAFFINÉE** (PR #226) |
+| 12 | String interpolation | MINIMAL | 257 / 700 | 1 | en cours |
 | 13 | Assets management | MINIMAL | 355 / 700 | 1 | à faire |
 | 14 | Debugging variables | MINIMAL | 346 / 700 | 1 | à faire |
 
@@ -804,6 +804,59 @@ dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 11, lu dans le journal d'exécution.** PR #226 fusionnée
+en squash (`a129657`). Run Pages 36062859096 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the translations page carries its four
+flashcard levels, the type error, the trans node and the strtr replacement` est
+écrite à **21:41:57 UTC** le 2026-09-24.
+
+## Page 12 — String interpolation, 2026-09-24
+
+`CRS-dfyab4kpcapw` · `OIT-30gnb617ksex` · MINIMAL · **257 → 435 mots** sur 700.
+Aucun niveau promu.
+
+### Rien de faux
+
+L'affirmation « le choix des guillemets n'a aucun effet sur les performances »,
+que la page donnait sans source, est bien dans `templates.rst` (3.22) ; elle y
+est désormais attribuée. Les trois questions non holdout de l'item ont été
+relues : exactes, inchangées. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le `Lexer` de Twig 3.22
+
+- Les séquences d'échappement sont traitées **aussi entre guillemets simples**
+  (`stripcslashes()` sur toute chaîne littérale) : `'a\nb'` contient un vrai
+  saut de ligne, à l'inverse de PHP.
+- Séquences reconnues : `\n`, `\t`, `\r`, `\v`, `\f`, `\\`, hexadécimal,
+  octal, guillemet de la chaîne ; toute autre est dépréciée depuis 3.12 (barre
+  ignorée), d'où `'c:\\Program Files'`.
+- Un `#` non suivi de `{` reste du texte.
+
+**Flashcards.** 8 ajoutées, sérialisées par `yaml.dump` pour préserver les
+barres obliques inverses ; la carte préexistante `FLC-he6t8kt6dpva` reçoit le
+niveau RECALL. L'item en porte **9** (4 RECALL, 1 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `stripcslashes`,
+`Program Files` et `saut de ligne`, absentes de la version `master` de la page
+et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 739 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 12 — *String interpolation* (MINIMAL, 257 / 700).
+Page 13 — *Assets management* (MINIMAL, 355 / 700).

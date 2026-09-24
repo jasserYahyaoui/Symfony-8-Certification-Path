@@ -1989,6 +1989,32 @@ jobs:
           else
             echo "ok  lot-06  the translations page carries its four flashcard levels, the type error, the trans node and the strtr replacement"
           fi
+          # Lot 06 refinement, page 12 (String interpolation): the four flashcard
+          # levels, the lexer function, the Windows path example and the words
+          # stating that a single-quoted \n is a line break.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-interp -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/string-interpolation")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page string-interpolation serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-interp || missing="$missing l6int:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-interp || missing="$missing l6int:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-interp || missing="$missing l6int:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-interp || missing="$missing l6int:no-trap-heading"
+          grep -aq 'stripcslashes' /tmp/l6r-interp \
+            || missing="$missing l6int:no-lexer-function"
+          grep -aq 'Program Files' /tmp/l6r-interp \
+            || missing="$missing l6int:no-windows-path"
+          grep -aq 'saut de ligne' /tmp/l6r-interp \
+            || missing="$missing l6int:no-line-break-statement"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the string interpolation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the string interpolation page carries its four flashcard levels, the lexer function, the Windows path and the line break statement"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
