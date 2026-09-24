@@ -1911,6 +1911,32 @@ jobs:
           else
             echo "ok  lot-06  the loops and conditions page carries its four flashcard levels, the empty method, the token parser and the true test"
           fi
+          # Lot 06 refinement, page 9 (URLs generation): the four flashcard
+          # levels, the network path reference type, the relative_path function
+          # and the safe callback that decides escaping.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-urls -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/urls-generation")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page urls-generation serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-urls || missing="$missing l6url:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-urls || missing="$missing l6url:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-urls || missing="$missing l6url:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-urls || missing="$missing l6url:no-trap-heading"
+          grep -aq 'NETWORK_PATH' /tmp/l6r-urls \
+            || missing="$missing l6url:no-network-path"
+          grep -aq 'relative_path' /tmp/l6r-urls \
+            || missing="$missing l6url:no-relative-path-function"
+          grep -aq 'is_safe_callback' /tmp/l6r-urls \
+            || missing="$missing l6url:no-safe-callback"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the URLs generation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the URLs generation page carries its four flashcard levels, the network path, the relative path function and the safe callback"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

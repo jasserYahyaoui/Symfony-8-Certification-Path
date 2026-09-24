@@ -920,7 +920,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - urls
   choices:
@@ -939,8 +939,9 @@ questions:
     text: They are aliases of each other
     correct: false
     explanation: They differ precisely in the reference type produced.
-  explanation: 'Both take the same arguments: a route name and a parameter array. A parameter absent from the route
-    becomes a query string.'
+  explanation: 'Both take a route name and a parameter array; their optional third argument differs: path(..., true)
+    gives a path relative to the current page, url(..., true) a scheme-relative URL. A parameter absent from the
+    route becomes a query string.'
   official_sources: &id002
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst
@@ -2785,7 +2786,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-24'
   tags:
   - urls
   choices:
@@ -2799,15 +2800,22 @@ questions:
   - id: CHO-zmjfjzgngsjw
     text: The links are escaped, which a literal is not
     correct: false
-    explanation: Auto-escaping applies to the literal too.
+    explanation: Escaping is not the gain. Literal template text is output as written, and the generated
+      URL is itself exempted from escaping when its parameters are provably safe.
   - id: CHO-7p6t2nsmvv5c
     text: The links become absolute, which a literal cannot be
     correct: false
-    explanation: A literal can be written absolute, and the path generator produces a relative path
-      anyway.
+    explanation: A literal can be written absolute, and path() produces an absolute path, not an absolute
+      URL, anyway.
   explanation: 'The point is a single source of truth: the route. A hard-coded path silently survives
     a route change and starts producing 404s.'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: RoutingExtension::isUrlGenerationSafe()
+    verified_at: '2026-09-24'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
     repository: symfony/symfony-docs

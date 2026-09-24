@@ -26,8 +26,8 @@ page.
 | 5 | Global variables | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #220) |
 | 6 | Filters and functions | STANDARD | 449 / 900 | 1 | **RAFFINÉE** (PR #221) |
 | 7 | Template includes | STANDARD | 435 / 900 | 1 | **RAFFINÉE** (PR #222) |
-| 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | en cours |
-| 9 | URLs generation | MINIMAL | 341 / 700 | 1 | à faire |
+| 8 | Loops and conditions | STANDARD | 531 / 900 | 2 | **RAFFINÉE** (PR #223) |
+| 9 | URLs generation | MINIMAL | 341 / 700 | 1 | en cours |
 | 10 | Controller rendering | STANDARD | 316 / 900 | 1 | à faire |
 | 11 | Translations and pluralization | STANDARD | 450 / 900 | 1 | à faire |
 | 12 | String interpolation | MINIMAL | 257 / 700 | 1 | à faire |
@@ -598,6 +598,79 @@ présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 8, lu dans le journal d'exécution.** PR #223 fusionnée
+en squash (`2fcc5bf`). Run Pages 36057562153 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-06  the loops and conditions page carries its four
+flashcard levels, the empty method, the token parser and the true test` est
+écrite à **20:52:29 UTC** le 2026-09-24.
+
+## Page 9 — URLs generation, 2026-09-24
+
+`CRS-dpbpbgwjey5c` · `OIT-yh6zx9shv9vs` · MINIMAL · **341 → 531 mots** sur 700.
+Aucun niveau promu.
+
+### Une affirmation fausse, répétée en trois endroits
+
+« `path()` et `url()` prennent exactement les mêmes arguments ; c'est la seule
+différence. » `RoutingExtension` (Twig Bridge 8.0) déclare
+`getPath($name, $parameters, bool $relative)` et
+`getUrl($name, $parameters, bool $schemeRelative)` : le troisième argument rend
+un chemin **relatif** (`RELATIVE_PATH`) d'un côté, une URL **sans schéma**
+(`NETWORK_PATH`, `//example.com/…`) de l'autre. La référence Twig de Symfony 8.0
+le documente avec ses deux sorties.
+
+L'erreur était reprise par la carte `FLC-gmr3e6ms0rw6` (explication corrigée,
+niveau TRAP) et par l'explication de `QST-n45xyv1gqstp` (LEARNING, explication
+seule, bonne réponse inchangée ; ses sources sont une ancre YAML partagée,
+laissée intacte).
+
+### Deux explications fausses dans une même question
+
+`QST-sqqd8k2j3whr` (LEARNING), explications de distracteurs seules, bonne
+réponse inchangée :
+
+- « Auto-escaping applies to the literal too » : faux — l'échappement porte sur
+  les expressions affichées, pas sur le texte littéral du gabarit ;
+- « the path generator produces a relative path anyway » : faux — `path()` rend
+  un chemin **absolu** (`/blog/x`), pas une URL absolue.
+
+Source ajoutée : `RoutingExtension::isUrlGenerationSafe()`. La troisième
+question de l'item a été relue : exacte, inchangée. Aucune question holdout n'a
+été lue.
+
+### Compléments, lus dans le code 8.0
+
+- `UrlGenerator::doGenerate()` élargit la référence : schéma exigé différent →
+  `ABSOLUTE_URL` ; hôte de route différent → `NETWORK_PATH`, même par `path()`.
+- `absolute_url()` et `relative_path()` (`HttpFoundationExtension`) prennent un
+  chemin, pas une route ; sans requête, `UrlHelper` se replie sur le contexte du
+  routeur.
+- `is_safe_callback` : sortie non échappée seulement sans paramètres ou avec un
+  seul paramètre littéral.
+
+**Flashcards.** 10 ajoutées ; `FLC-gmr3e6ms0rw6` corrigée et nivelée TRAP.
+L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `NETWORK_PATH`,
+`relative_path` et `is_safe_callback`, absentes de la version `master` de la
+page et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 684 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 437 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *URLs generation* (MINIMAL, 341 / 700).
+Page 10 — *Controller rendering* (STANDARD, 316 / 900).
