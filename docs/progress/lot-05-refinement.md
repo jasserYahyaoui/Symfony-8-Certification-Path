@@ -27,8 +27,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | **RAFFINÉE** (PR #208) |
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #209) |
 | 10 | HTTP methods matching | MINIMAL | 307 / 700 | 1 | **RAFFINÉE** (PR #210) |
-| 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | en cours |
-| 12 | Router debugging | MINIMAL | 279 / 700 | 1 | à faire |
+| 11 | User's locale guessing | STANDARD | 390 / 900 | 1 | **RAFFINÉE** (PR #211) |
+| 12 | Router debugging | MINIMAL | 279 / 700 | 1 | en cours |
 
 Base de comparaison pour le rapport de fin de lot : `3bb0479`, le commit qui
 précède la première page de ce lot.
@@ -781,6 +781,69 @@ en succès ; la ligne `ok  lot-05  the HTTP methods page carries its four
 flashcard levels, the override header, the suspicious exception and the CONNECT
 method` est écrite à **13:18:45 UTC** le 2026-09-24.
 
+## Page 12 — Router debugging, 2026-09-24
+
+`CRS-8dgxs89hrah0` · `OIT-8sr74a2wnb3r` · MINIMAL · **279 → 527 mots** sur 700.
+Aucun niveau promu.
+
+### Une imprécision : `router:match` ne prend pas une URL
+
+La page — et l'explication de la question `LEARNING` `QST-d3z5234k4p9k` — disait
+que `router:match` « prend une URL ». `RouterMatchCommand` (8.0) déclare un
+argument `path_info`, décrit « A path info » ; l'hôte, le schéma et la méthode
+passent par `--host`, `--scheme` et `--method`, qui modifient le contexte du
+routeur. Une URL complète en argument ne teste ni l'hôte ni le schéma.
+
+Dans la même question, le distracteur `router:debug` s'expliquait par un
+renommage « il y a longtemps » : affirmation historique sans source dans ce
+projet. Retirée ; l'explication dit seulement que la commande de liste de 8.0
+s'appelle `debug:router`.
+
+**Corrections.** La page et l'explication disent *path info*. La bonne réponse
+ne change pas ; `reviewed_at` passe au 2026-09-24. Aucune question holdout n'a
+été lue.
+
+### Compléments, lus dans le code 8.0
+
+- `debug:router <nom>` : nom exact, sinon recherche des noms qui **contiennent**
+  l'argument, casse ignorée ; choix interactif ou liste ; sinon « The route …
+  does not exist ». `--method` garde les routes sans contrainte de méthode ;
+  `--format` : `txt` (défaut), `xml`, `json`, `md`.
+- `router:match` : lignes « almost matches » toujours affichées, avec la raison
+  donnée par `TraceableUrlMatcher` ; routes non appariées seulement en `-v` ;
+  succès → détail via `debug:router` ; échec → code de sortie 1.
+
+**Flashcards.** 7 ajoutées ; la carte préexistante `FLC-jjgd2xj2w7y4` reçoit le
+niveau RECALL. L'item en porte **8** (3 RECALL, 3 UNDERSTANDING, 1 APPLICATION,
+1 TRAP). Deux formulations retirées avant commit : une fréquence non prouvée
+(« souvent »), et une description inexacte des lignes « almost matches ».
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`RouterMatchCommand`, `TraceableUrlMatcher` et `path info`, absentes de la
+version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 628 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Déploiement de la page 11, lu dans le journal d'exécution.** PR #211 fusionnée
+en squash (`07bb9cf`). Run Pages 36006271232 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the locale guessing page carries its four
+flashcard levels, the Accept-Language option, the canonical route and the
+attribute loader` est écrite à **13:34:41 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 12 — *Router debugging* (MINIMAL, 279 / 700).
+Rapport de fin de lot 05, dans sa propre PR, après vérification du déploiement de la page 12.
