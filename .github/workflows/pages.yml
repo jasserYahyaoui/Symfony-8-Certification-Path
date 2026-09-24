@@ -1937,6 +1937,32 @@ jobs:
           else
             echo "ok  lot-06  the URLs generation page carries its four flashcard levels, the network path, the relative path function and the safe callback"
           fi
+          # Lot 06 refinement, page 10 (Controller rendering): the four flashcard
+          # levels, the ignore_errors option, the ESI rendering function and the
+          # fragment handler class.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-ctrl -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/controller-rendering")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page controller-rendering serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-ctrl || missing="$missing l6ctl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-ctrl || missing="$missing l6ctl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-ctrl || missing="$missing l6ctl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-ctrl || missing="$missing l6ctl:no-trap-heading"
+          grep -aq 'ignore_errors' /tmp/l6r-ctrl \
+            || missing="$missing l6ctl:no-ignore-errors"
+          grep -aq 'render_esi' /tmp/l6r-ctrl \
+            || missing="$missing l6ctl:no-esi-function"
+          grep -aq 'FragmentHandler' /tmp/l6r-ctrl \
+            || missing="$missing l6ctl:no-fragment-handler"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the controller rendering page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the controller rendering page carries its four flashcard levels, the ignore errors option, the ESI function and the fragment handler"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

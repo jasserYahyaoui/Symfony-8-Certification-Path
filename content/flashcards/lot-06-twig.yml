@@ -278,6 +278,7 @@ flashcards:
   - id: FLC-ynhbpp2dtxs4
     official_item: OIT-c34hn4px3czj
     language: fr
+    level: TRAP
     front: 'Twig : rendre un contrôleur depuis un gabarit, est-ce un appel de fonction ?'
     back: 'Non — cela déclenche une sous-requête : le noyau retraverse son cycle pour chaque fragment.'
     explanation: En semer partout se paie. Les fragments passent par une URL interne réservée, configurable,
@@ -2383,4 +2384,262 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "absolute_url, relative_path"
+        verified_at: "2026-09-24"
+
+  - id: FLC-g54vcr68tq7v
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: RECALL
+    front: "Twig : comment exécuter depuis un gabarit un contrôleur qui n'a pas de route ?"
+    back: "`render(controller('App\\\\Controller\\\\BlogController::recentArticles', {max: 3}))`."
+    explanation: >-
+      Pour un contrôleur routé, `render(path(...))` ou `render(url(...))` suffisent ; `controller()` évite d'exposer une URL publique.
+    memorization_justification: >-
+      Les deux modes d'adressage de render().
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Embedding Controllers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7de3x0at9tq0
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: TRAP
+    front: "Twig : que fait controller() à lui seul, sans render() ?"
+    back: "Il construit une `ControllerReference` (contrôleur, attributs, query) et n'exécute rien."
+    explanation: >-
+      `HttpKernelExtension::controller()` se contente de `new ControllerReference(...)` ; l'exécution appartient à `render()`.
+    memorization_justification: >-
+      Le nom suggère une exécution qui n'a pas lieu.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render, render_*, fragment_uri, controller"
+        verified_at: "2026-09-24"
+
+  - id: FLC-s0wvhey6eane
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : pourquoi render(controller(...)) coûte-t-il plus cher qu'un include ?"
+    back: "Chaque appel lance une sous-requête GET complète dans le noyau (`SUB_REQUEST`) : écouteurs, contrôleur, rendu."
+    explanation: >-
+      Un include rend un gabarit avec le contexte courant ; un fragment refait le cycle requête-réponse. La documentation avertit de l'impact sur les performances.
+    memorization_justification: >-
+      Fonde le choix entre include et fragment.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Embedding Controllers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-nqz9g7v6y3g9
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: RECALL
+    front: "Twig : quelle stratégie render() utilise-t-il par défaut, et comment en choisir une autre ?"
+    back: "`inline` ; l'option `strategy`, ou les fonctions `render_esi()`, `render_ssi()`, `render_hinclude()`."
+    explanation: >-
+      `HttpKernelRuntime::renderFragment()` lit `$options['strategy'] ?? 'inline'` ; la fonction dynamique `render_*` passe le suffixe comme stratégie.
+    memorization_justification: >-
+      Nomenclature directement interrogeable.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelRuntime.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelRuntime.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "HttpKernelRuntime::renderFragment()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelExtension.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/HttpKernelExtension.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "render, render_*, fragment_uri, controller"
+        verified_at: "2026-09-24"
+
+  - id: FLC-89nw0jy80qd0
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: TRAP
+    front: "Symfony : le contrôleur d'un fragment rendu par render() lève une exception. Que se passe-t-il en dev, puis en prod ?"
+    back: "En dev, l'exception remonte ; en prod, elle est ignorée et le fragment est vide. `ignore_errors` vaut par défaut `!kernel.debug`."
+    explanation: >-
+      `FragmentHandler::render()` fixe l'option quand l'appel ne la donne pas ; l'exception ignorée passe quand même par l'événement `kernel.exception`, pour la journalisation.
+    memorization_justification: >-
+      Même code, deux comportements selon l'environnement.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "FragmentHandler::render(), deliver()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-mp2fp95a9ddz
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: TRAP
+    front: "Symfony : le contrôleur d'un fragment retourne une redirection. Que produit render() ?"
+    back: "Une `RuntimeException` : toute réponse non 2xx, redirection comprise, fait échouer le fragment, même avec `ignore_errors`."
+    explanation: >-
+      `FragmentHandler::deliver()` teste `isSuccessful()` sur la réponse ; `ignore_errors` ne couvre que les exceptions levées.
+    memorization_justification: >-
+      Un contrôleur de fragment ne peut pas rediriger.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "FragmentHandler::render(), deliver()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ecb49n26hcaq
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: RECALL
+    front: "Symfony : framework.fragments est-il activé par défaut, et quel est son chemin ?"
+    back: "Non, l'option est désactivée par défaut ; son chemin par défaut est `/_fragment`."
+    explanation: >-
+      `Configuration::addFragmentsSection()` la déclare `canBeEnabled()` avec `path` à `/_fragment`. L'activer charge le `FragmentListener`.
+    memorization_justification: >-
+      Défaut contre-intuitif pour une fonctionnalité documentée.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "addFragmentsSection()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Embedding Controllers"
+        verified_at: "2026-09-24"
+
+  - id: FLC-pw3wpt6wdcnp
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi render(controller(...)) en inline fonctionne-t-il sans activer framework.fragments ?"
+    back: "La sous-requête porte déjà l'attribut `_controller`, et le `RouterListener` ne route pas une requête qui en a un."
+    explanation: >-
+      Le `FragmentListener` sert `/_fragment` aux requêtes venues de l'extérieur (ESI, hinclude) et y vérifie la signature ; l'inline n'en a pas besoin.
+    memorization_justification: >-
+      Sépare deux mécanismes que la documentation présente ensemble.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "RouterListener::onKernelRequest()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-d3j2c0jaxq2e
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: APPLICATION
+    front: "Symfony : il faut passer un objet, et non un identifiant, au contrôleur d'un fragment rendu en inline. Est-ce possible ?"
+    back: "Oui : les attributs de `controller()` sont posés directement sur la sous-requête, objets compris."
+    explanation: >-
+      `InlineFragmentRenderer` retire les attributs de l'URI générée et les ajoute ensuite à la sous-requête, précisément parce qu'ils peuvent être des objets.
+    memorization_justification: >-
+      Particularité de l'inline, absente des stratégies qui passent par une URL.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9n4zb977aa0w
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: APPLICATION
+    front: "Twig : comment prévoir un contenu de repli si le fragment échoue ?"
+    back: "Avec l'option `alt` : `render(controller('...'), {alt: controller('...')})` rend le repli quand le premier lève une exception."
+    explanation: >-
+      `InlineFragmentRenderer::render()` essaie `alt` avant de relancer l'exception ou de l'ignorer.
+    memorization_justification: >-
+      Option peu connue, utile pour une barre latérale non critique.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-jny37dgh0cm8
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: RECALL
+    front: "Symfony : que la sous-requête d'un fragment inline reprend-elle de la requête courante ?"
+    back: "Les cookies, les variables serveur et la session, plus `_format` et la locale ; pas les en-têtes `If-Modified-Since` ni `If-None-Match`."
+    explanation: >-
+      `InlineFragmentRenderer::createSubRequest()` crée une requête GET avec ces éléments et retire les deux en-têtes conditionnels.
+    memorization_justification: >-
+      Explique pourquoi un fragment voit l'utilisateur connecté.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "InlineFragmentRenderer::render(), createSubRequest()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-637d97fn2x6c
+    official_item: OIT-c34hn4px3czj
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony 8.0 : quand la documentation préfère-t-elle les Twig Components à render(controller(...)) ?"
+    back: "Pour une unité d'interface réutilisable ; intégrer un contrôleur se justifie quand il faut vraiment une sous-requête, par exemple pour un cache ESI séparé."
+    explanation: >-
+      Note en tête de la section « Embedding Controllers » de `templates.rst` (8.0).
+    memorization_justification: >-
+      Critère de choix explicitement posé par la documentation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Embedding Controllers"
         verified_at: "2026-09-24"
