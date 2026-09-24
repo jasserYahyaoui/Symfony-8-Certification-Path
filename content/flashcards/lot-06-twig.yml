@@ -157,6 +157,7 @@ flashcards:
   - id: FLC-he6t8kt6dpva
     official_item: OIT-30gnb617ksex
     language: fr
+    level: RECALL
     front: "Twig : dans quel type de chaîne l'interpolation #{…} fonctionne-t-elle ?"
     back: "Uniquement dans une chaîne à guillemets doubles. En guillemets simples, c'est du texte littéral."
     explanation: >-
@@ -2877,3 +2878,150 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "Translations in Templates, Message Format"
         verified_at: "2026-09-24"
+
+  - id: FLC-7bf6ggan4d4x
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: RECALL
+    front: 'Twig : que peut contenir le marqueur d''interpolation #{…} ?'
+    back: 'N''importe quelle expression valide : variable, calcul, appel de filtre. Son résultat est inséré dans la chaîne.'
+    explanation: 'Exemple de la documentation : `"first #{1 + 2} last"`.'
+    memorization_justification: Lève la fausse restriction aux seuls noms de variables.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-mmt864pgsvc0
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: TRAP
+    front: 'Twig : que contient la chaîne ''a\nb'', écrite entre guillemets simples ?'
+    back: 'Un vrai saut de ligne entre a et b : Twig traite les séquences d''échappement dans les deux sortes de guillemets, à l''inverse de PHP.'
+    explanation: Le `Lexer` passe toute chaîne littérale par sa fonction `stripcslashes()`, qui reconnaît `\n`, `\t`, `\r`, `\v`, `\f`, les formes hexadécimale et octale.
+    memorization_justification: Réflexe PHP qui trompe dans un gabarit.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Lexer.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Lexer.php
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: Lexer::stripcslashes()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-2qbnbzx6hwbz
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: RECALL
+    front: 'Twig : comment afficher littéralement le marqueur d''interpolation dans une chaîne à guillemets doubles ?'
+    back: 'En le précédant d''une barre oblique inverse : `"premier \#{1 + 2} dernier"`.'
+    explanation: Passer en guillemets simples marche aussi, mais supprime l'interpolation dans toute la chaîne.
+    memorization_justification: Échappement propre à l'interpolation.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-2qm9e1xc0nds
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: UNDERSTANDING
+    front: 'Twig : le choix entre guillemets simples et doubles a-t-il un coût en performance ?'
+    back: 'Non : la documentation le dit explicitement. La seule différence est que l''interpolation n''existe qu''entre guillemets doubles.'
+    explanation: Sans interpolation, les deux formes produisent le même jeton de chaîne dans le `Lexer`.
+    memorization_justification: Contredit un argument de performance souvent avancé.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Lexer.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Lexer.php
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: Lexer::stripcslashes()
+      verified_at: '2026-09-24'
+  - id: FLC-zq0sanwtgypj
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: TRAP
+    front: 'Twig 3.22 : que produit la chaîne ''c:\Program Files'' ?'
+    back: 'Une dépréciation : `\P` n''est pas une séquence reconnue ; la barre est ignorée en Twig 3 et ne le sera plus en Twig 4. On écrit `''c:\\Program Files''`.'
+    explanation: Depuis Twig 3.12, une barre oblique inverse devant un caractère non reconnu déclenche une dépréciation dans le `Lexer`.
+    memorization_justification: Piège de migration explicitement annoncé.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Lexer.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Lexer.php
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: Lexer::stripcslashes()
+      verified_at: '2026-09-24'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-4afmk1sy1m2j
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: APPLICATION
+    front: 'Twig : écrire en une chaîne le total d''un article, prix fois quantité, suivi du mot euros.'
+    back: '`{{ "Total : #{price * qty} euros" }}` — l''expression calculée est interpolée.'
+    explanation: Entre guillemets simples, la même chaîne s'afficherait telle quelle, marqueur compris.
+    memorization_justification: Mise en pratique directe de l'interpolation d'une expression.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-eq83kvv550kj
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: APPLICATION
+    front: 'Twig : afficher Bonjour suivi du nom de l''utilisateur, sans interpolation.'
+    back: 'Par concaténation : `{{ ''Bonjour '' ~ user.name }}`. L''opérateur `+` additionne des nombres, il ne concatène pas.'
+    explanation: '`~` convertit ses opérandes en chaînes ; il fonctionne quels que soient les guillemets.'
+    memorization_justification: Alternative à l'interpolation, et piège de l'opérateur d'addition.
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: String Interpolation, Literals
+      verified_at: '2026-09-24'
+  - id: FLC-s45km4sg76q1
+    official_item: OIT-30gnb617ksex
+    language: fr
+    level: RECALL
+    front: 'Twig : un caractère # seul, entre guillemets doubles, déclenche-t-il quelque chose ?'
+    back: 'Non : seul `#` suivi de `{` ouvre une interpolation ; un `#` isolé reste du texte.'
+    explanation: L'expression régulière du `Lexer` pour les parties de chaîne double exclut précisément `#` suivi de `{`.
+    memorization_justification: 'Évite d''échapper un # inutilement.'
+    verification_status: VERIFIED
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Lexer.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Lexer.php
+      repository: twigphp/Twig
+      branch: v3.22.0
+      symbol_or_lines: Lexer::stripcslashes()
+      verified_at: '2026-09-24'

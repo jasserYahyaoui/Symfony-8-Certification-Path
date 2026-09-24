@@ -619,7 +619,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 13 novembre 2026
 
 - NOUVEAU · **Templating with Twig : Translations and pluralization** (STANDARD) — 23 min · 642 mots · 6 questions, 12 flashcards
-- NOUVEAU · **Templating with Twig : String interpolation** (MINIMAL) — 8 min · 257 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Templating with Twig : String interpolation** (MINIMAL) — 15 min · 435 mots · 3 questions, 9 flashcards
 - NOUVEAU · **Templating with Twig : Assets management** (MINIMAL) — 8 min · 355 mots · 2 questions, 1 flashcards
 - NOUVEAU · **Templating with Twig : Debugging variables** (MINIMAL) — 9 min · 346 mots · 3 questions, 1 flashcards
 - Révision **J+1** (16 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering
@@ -628,7 +628,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection
 - Révision **J+30** (10 min) — Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request · Controllers : The response
 
-*Budget du jour : 121 / 160 min*
+*Budget du jour : 128 / 160 min*
 
 ### Samedi 14 novembre 2026
 
