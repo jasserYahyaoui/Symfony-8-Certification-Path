@@ -17,8 +17,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Routing component and FrameworkBundle | STANDARD | 460 / 900 | 1 | en cours |
-| 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | à faire |
+| 1 | Routing component and FrameworkBundle | STANDARD | 460 / 900 | 1 | **RAFFINÉE** (PR #201) |
+| 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | en cours |
 | 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | à faire |
 | 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | à faire |
 | 5 | URLs generation | STANDARD | 422 / 900 | 1 | à faire |
@@ -103,6 +103,76 @@ absentes de la version `master` de la page.
 | `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
 | `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
 
+**Déploiement de la page 1, lu dans le journal d'exécution.** PR #201 fusionnée
+en squash (`c1be3cf`). Run Pages 35980787003 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the routing component page carries its four
+flashcard levels, the bundle matcher, the listener service and the attribute
+loader` est écrite à **09:24:26 UTC** le 2026-09-24.
+
+## Page 2 — Configuration (YAML and PHP attributes), 2026-09-24
+
+`CRS-kqq96z5y9r2f` · `OIT-egy2wn3z7gb7` · STANDARD · **551 → 746 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation fausse : « le même jeu d'options »
+
+La page disait : « L'attribut `#[Route]` et la clé YAML acceptent le même jeu
+d'options », puis listait `priority`, `env` et `alias` parmi elles. Elle
+conseillait même de ne pas « utiliser `priority` en YAML pour réordonner ».
+
+`YamlFileLoader` (8.0) déclare sa propre liste :
+
+```php
+private const AVAILABLE_KEYS = [
+    'resource', 'type', 'prefix', 'path', 'host', 'schemes', 'methods', 'defaults', 'requirements', 'options', 'condition', 'controller', 'name_prefix', 'trailing_slash_on_root', 'locale', 'format', 'utf8', 'exclude', 'stateless',
+];
+```
+
+`priority` n'y figure pas, et une clé hors liste fait **lever** une
+`InvalidArgumentException` : écrire `priority:` en YAML ne réordonne rien, cela
+casse le chargement. `env` s'exprime par un bloc `when@<env>:` au premier niveau
+(`loadContent()`), `alias` par une entrée qui ne porte que `alias` et
+`deprecated` (`validateAlias()`). La documentation (« Priority Parameter ») est
+cohérente avec le code : « In YAML or PHP config files you can move the route
+definitions up or down […]. In routes defined as PHP attributes this is much
+harder to do, so you can set the optional `priority` parameter ».
+
+### Deux précisions sur la priorité
+
+- `RouteCollection::all()` trie par priorité décroissante puis, à égalité, par
+  ordre d'insertion : la priorité départage, elle ne remplace pas l'ordre.
+- Dans l'attribut, l'argument vaut `null`, pas `0` : `AttributeClassLoader`
+  le remplace par la priorité posée au niveau de la classe, et à défaut par `0`.
+
+### Un complément
+
+`path` est typé `string|array|null` : un tableau indexé par locale produit une
+route par locale, nommée `nom.locale` (`AttributeClassLoader::addRoute()`).
+
+**Flashcards.** 14 ajoutées ; la carte préexistante `FLC-t45m07frz2sv`
+(`golden-slice.yml`) reçoit le niveau RECALL. L'item en porte **15** (5 RECALL,
+4 UNDERSTANDING, 3 APPLICATION, 3 TRAP). Deux défauts de brouillon corrigés avant
+commit : un exemple `#[Route(path: /x)]` qui n'était pas du PHP valide, et une
+carte citant le symbole `priority` au lieu de `addRoute`.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `AVAILABLE_KEYS`,
+`when@prod` et `blog_list.fr`, absentes de la version `master` de la page.
+`stateless` a été **écartée** : elle y figure déjà.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | **0 bloquant** ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | `100% (163/163 EXAM_READY)` |
+| `build_roadmap.py` (paramètres de la CI) puis `render_calendar.py` | les **deux** régénérés |
+| Jeu d'audits de CI (11 scripts) | **exit 0** pour les onze, `FINDINGS: 0` partout |
+| `bash -n` sur les 34 blocs `run:` des workflows | tous parsent |
+| `composer gate-full` | **exit 0** — 299 tests, 16 529 assertions ; `TOTAL VIOLATIONS: 0` |
+| `node website/tools/verify-reschedule.mjs` | **exit 0** — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` / `prove_flashcard_coverage_fails.py` | `PROOF OK` / `PROOF OK` |
+| `aud10 --prove` / `lot27_practice_audit.py --prove` | **exit 0** / **exit 0** |
+
 ## Prochaine étape
 
-Page 2 — *Configuration (YAML and PHP attributes)* (STANDARD, 551 / 900).
+Page 3 — *Restrict URL parameters* (STANDARD, 392 / 900).

@@ -59,6 +59,7 @@ flashcards:
   - id: FLC-t45m07frz2sv
     official_item: OIT-egy2wn3z7gb7
     language: fr
+    level: RECALL
     front: "Routing : deux routes correspondent à une URL. Laquelle Symfony retient-il ?"
     back: "La première déclarée — jamais la plus spécifique."
     explanation: >-

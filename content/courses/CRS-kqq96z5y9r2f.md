@@ -21,6 +21,24 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "Route::__construct"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
+    symbol_or_lines: "AVAILABLE_KEYS, validate, validateAlias, loadContent"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCollection.php"
+    symbol_or_lines: "add, all"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
+    symbol_or_lines: "priority"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
 ---
 
 ## Objectif
@@ -72,12 +90,26 @@ use Symfony\Component\Routing\Attribute\Route;   // correct
 hérité de l'époque des annotations Doctrine, a été supprimé. Un import
 `Annotation\Route` échoue en Symfony 8.0.
 
-## Options communes
+## Deux jeux d'options, pas un seul
 
-L'attribut `#[Route]` et la clé YAML acceptent le même jeu d'options :
-`path`, `name`, `requirements`, `defaults`, `options`, `host`, `methods`,
-`schemes`, `condition`, `priority`, `locale`, `format`, `utf8`, `stateless`,
-`env`, `alias`.
+L'attribut `#[Route]` accepte seize arguments : `path`, `name`, `requirements`,
+`options`, `defaults`, `host`, `methods`, `schemes`, `condition`, `priority`,
+`locale`, `format`, `utf8`, `stateless`, `env`, `alias`.
+
+Le chargeur YAML a **sa propre liste**, `AVAILABLE_KEYS`, et elle n'est pas la
+même :
+
+| Besoin | Attribut | YAML |
+|---|---|---|
+| réordonner | `priority` | **absent** — on déplace la route dans le fichier |
+| restreindre à un environnement | `env` | un bloc `when@prod:` au premier niveau |
+| déclarer un alias | `alias` | une entrée qui ne porte **que** `alias` (et `deprecated`) |
+| désigner le contrôleur | déduit de la méthode | `controller` |
+
+Une clé hors de la liste fait **lever** une `InvalidArgumentException` qui
+énumère les clés admises : écrire `priority:` en YAML ne réordonne rien, cela
+casse le chargement. Deux autres combinaisons lèvent aussi : `controller` avec
+`defaults._controller`, et `stateless` avec `defaults._stateless`.
 
 ```php
 #[Route(
@@ -99,6 +131,9 @@ blog_list:
         page: 1
     methods: [GET, HEAD]
 ```
+
+`path` accepte aussi un **tableau** indexé par locale : l'attribut produit alors
+une route par locale, nommée `blog_list.fr`, `blog_list.en`…
 
 ## Le piège : l'ordre d'évaluation
 
@@ -131,14 +166,17 @@ public function list(): Response { /* ... */ }
 public function show(string $slug): Response { /* ... */ }
 ```
 
-Une `priority` plus élevée est évaluée en premier. La valeur par défaut est `0`.
+Une `priority` plus élevée est évaluée en premier ; à priorité égale, l'ordre
+de déclaration départage. Dans l'attribut, l'argument vaut `null` : la route
+hérite alors de la priorité posée par un `#[Route]` au niveau de la classe, et à
+défaut de `0`.
 
 ## Erreurs fréquentes
 
 - Croire que la route la **plus spécifique** l'emporte. Non : c'est la
   **première déclarée** qui correspond.
-- Utiliser `priority` en YAML pour réordonner alors qu'il suffit de déplacer la
-  route dans le fichier.
+- Écrire `priority` en YAML : la clé n'existe pas, le chargement lève une
+  exception. En YAML, on déplace la route.
 - Importer `Annotation\Route` au lieu de `Attribute\Route`.
 
 ## Pièges d'examen
@@ -147,9 +185,11 @@ Une `priority` plus élevée est évaluée en premier. La valeur par défaut est
 essayées.** Une route générale placée avant une route spécifique masque
 définitivement la seconde.
 
-**En attributs, vous ne contrôlez pas l'ordre de découverte.** C'est la raison
-d'être de l'option de priorité : en YAML il suffit de déplacer une ligne, en
-attributs il faut l'écrire.
+**La priorité est une option d'attribut, pas de YAML.** En YAML on déplace une
+ligne ; écrire la clé fait échouer le chargement.
+
+**Les deux formats n'ont pas le même jeu d'options.** L'environnement et l'alias
+existent des deux côtés, mais sous deux formes différentes.
 
 **L'ancien espace de noms d'annotation n'existe plus.** Un import hérité de
 l'époque Doctrine échoue en Symfony 8.0 — l'attribut vit désormais dans
@@ -157,8 +197,9 @@ l'époque Doctrine échoue en Symfony 8.0 — l'attribut vit désormais dans
 
 ## Points clés
 
-- Les deux formats sont équivalents en capacité ; ils diffèrent par la
-  localisation de la configuration et par la maîtrise de l'ordre.
+- Deux jeux d'options : `priority` n'existe qu'en attribut, `env` et `alias`
+  prennent une autre forme en YAML.
+- Une clé YAML inconnue lève une `InvalidArgumentException`.
 - Première correspondance gagnante, jamais la plus spécifique.
 - `priority` existe pour les attributs, dont l'ordre n'est pas contrôlable.
 - L'attribut vit dans `Routing\Attribute`, plus dans `Routing\Annotation`.
@@ -167,3 +208,4 @@ l'époque Doctrine échoue en Symfony 8.0 — l'attribut vit désormais dans
 
 - `routing.rst` (symfony-docs, branche 8.0, `eea05cb`)
 - `Symfony\Component\Routing\Attribute\Route` (symfony, branche 8.0, `6f841c0`)
+- `YamlFileLoader`, `RouteCollection`, `AttributeClassLoader` (symfony, branche 8.0)
