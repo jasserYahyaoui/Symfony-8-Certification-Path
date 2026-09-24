@@ -1963,6 +1963,32 @@ jobs:
           else
             echo "ok  lot-06  the controller rendering page carries its four flashcard levels, the ignore errors option, the ESI function and the fragment handler"
           fi
+          # Lot 06 refinement, page 11 (Translations and pluralization): the four
+          # flashcard levels, the type error of a string second argument, the
+          # trans node and the strtr replacement.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l6r-trans -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/translations-and-pluralization")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 06 refined page translations-and-pluralization serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l6r-trans || missing="$missing l6tr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l6r-trans || missing="$missing l6tr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l6r-trans || missing="$missing l6tr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l6r-trans || missing="$missing l6tr:no-trap-heading"
+          grep -aq 'TypeError' /tmp/l6r-trans \
+            || missing="$missing l6tr:no-type-error"
+          grep -aq 'TransNode' /tmp/l6r-trans \
+            || missing="$missing l6tr:no-trans-node"
+          grep -aq 'strtr' /tmp/l6r-trans \
+            || missing="$missing l6tr:no-strtr"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 06 refinement missing from the translations page:$missing"
+            fail=1
+          else
+            echo "ok  lot-06  the translations page carries its four flashcard levels, the type error, the trans node and the strtr replacement"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
