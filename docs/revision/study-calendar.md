@@ -283,7 +283,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 21 octobre 2026
 
-- NOUVEAU · **Routing : URLs generation** (STANDARD) — 11 min · 422 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Routing : URLs generation** (STANDARD) — 21 min · 642 mots · 4 questions, 12 flashcards
 - NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 11 min · 432 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 12 min · 391 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 7 min · 268 mots · 2 questions, 1 flashcards
@@ -291,7 +291,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (14 min) — Controllers : HttpKernel component and FrameworkBundle · Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request
 - Révision **J+14** (10 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 97 / 140 min*
+*Budget du jour : 107 / 140 min*
 
 ### Jeudi 22 octobre 2026
 

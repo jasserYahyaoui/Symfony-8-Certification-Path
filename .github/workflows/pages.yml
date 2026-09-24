@@ -1462,6 +1462,35 @@ jobs:
             echo "ok  lot-05  the default values page carries its four flashcard levels, the compiler rule, the attribute loader and the nullable argument"
           fi
 
+          # Lot 05, page 5. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the
+          # interface an extra-parameter object is cast through, the Uid base
+          # class the documentation still warns about, and the reserved _query
+          # key. NETWORK_PATH was rejected as a needle: master already has it.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-generation -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/urls-generation")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page urls-generation serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-generation || missing="$missing l5gen:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-generation || missing="$missing l5gen:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-generation || missing="$missing l5gen:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-generation || missing="$missing l5gen:no-trap-heading"
+          grep -aq 'Stringable' /tmp/l5r-generation \
+            || missing="$missing l5gen:no-stringable-cast"
+          grep -aq 'AbstractUid' /tmp/l5r-generation \
+            || missing="$missing l5gen:no-uid-class"
+          grep -aq '_query' /tmp/l5r-generation \
+            || missing="$missing l5gen:no-query-key"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the URL generation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the URL generation page carries its four flashcard levels, the Stringable cast, the Uid class and the _query key"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

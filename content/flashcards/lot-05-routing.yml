@@ -173,6 +173,7 @@ flashcards:
   - id: FLC-rrt3hj10ddp2
     official_item: OIT-81b2c0jmv2j3
     language: fr
+    level: RECALL
     front: 'Symfony : que devient un paramètre passé à la génération d''URL et absent de la route ?'
     back: Il part en chaîne de requête — aucune erreur n'est levée.
     explanation: 'Une faute de frappe dans un nom de paramètre ne produit donc aucun message : juste
@@ -1205,4 +1206,213 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "addRoute"
+        verified_at: "2026-09-24"
+
+  - id: FLC-s4c7d0pj4pwp
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: RECALL
+    front: 'Quelle valeur entière porte la constante UrlGeneratorInterface::ABSOLUTE_URL ?'
+    back: '0. La valeur par défaut, ABSOLUTE_PATH, vaut 1.'
+    explanation: >-
+      RELATIVE_PATH vaut 2 et NETWORK_PATH 3.
+    memorization_justification: >-
+      La constante de valeur 0 n est pas celle par défaut, ce qui piège la mémoire.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ABSOLUTE_URL"
+        verified_at: "2026-09-24"
+
+  - id: FLC-10yx2svxrm3a
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: RECALL
+    front: 'Quel type de référence produit une URL de la forme //example.com/blog/2 ?'
+    back: 'NETWORK_PATH, qui reprend le schéma courant et précise l hôte.'
+    explanation: >-
+      Le docblock de la constante le décrit ainsi.
+    memorization_justification: >-
+      Le chemin réseau est le moins connu des quatre types.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "NETWORK_PATH"
+        verified_at: "2026-09-24"
+
+  - id: FLC-wwt3xqk2j09h
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: RECALL
+    front: 'À quoi sert la clé réservée _query passée au générateur ?'
+    back: 'À fournir un tableau de paramètres de chaîne de requête, prioritaires sur les paramètres en trop de même nom.'
+    explanation: >-
+      Une valeur qui n est pas un tableau lève une InvalidParameterException.
+    memorization_justification: >-
+      La clé permet de distinguer explicitement ce qui va dans la chaîne de requête.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-vcq9rryz1s58
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un paramètre en trop égal à la valeur par défaut de même nom n apparaît-il pas dans l URL ?'
+    back: 'Parce que le générateur retire des paramètres en trop ceux qui égalent la valeur par défaut correspondante.'
+    explanation: >-
+      Le filtrage compare chaque paramètre en trop au défaut de même clé.
+    memorization_justification: >-
+      L URL produite peut différer de ce qu on a passé, sans erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-1dym93pecknj
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un Uuid passé comme paramètre en trop est-il converti en chaîne en Symfony 8.0 ?'
+    back: 'Parce qu il n a pas de propriété publique et qu il implémente Stringable ; le générateur le convertit donc en chaîne.'
+    explanation: >-
+      AbstractUid n a qu une propriété protected et implémente Stringable.
+    memorization_justification: >-
+      La documentation affirme encore le contraire ; le code tranche.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Uid/AbstractUid.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Uid/AbstractUid.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "AbstractUid"
+        verified_at: "2026-09-24"
+
+  - id: FLC-16r48gs127vr
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi un objet à propriétés publiques passé en trop ne donne-t-il pas sa représentation textuelle ?'
+    back: 'Parce que le générateur prend d abord ses propriétés publiques et en fait un tableau ; __toString n est essayé qu en l absence de telles propriétés.'
+    explanation: >-
+      L ordre des deux traitements décide du résultat.
+    memorization_justification: >-
+      Un objet Stringable peut produire un résultat inattendu s il expose des propriétés.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-5bmd4dmq1exk
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: UNDERSTANDING
+    front: 'Pourquoi ne pas appeler getRouteCollection() pour savoir si une route existe ?'
+    back: 'Parce que cela régénère le cache de routage et ralentit l application ; il faut tenter la génération et rattraper RouteNotFoundException.'
+    explanation: >-
+      La documentation le recommande explicitement.
+    memorization_justification: >-
+      L appel semble anodin alors qu il a un coût caché.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "getRouteCollection"
+        verified_at: "2026-09-24"
+
+  - id: FLC-avhk0n3b3s19
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: APPLICATION
+    front: 'On veut un lien absolu dans un courriel généré depuis un contrôleur. Que passer à generateUrl() ?'
+    back: 'UrlGeneratorInterface::ABSOLUTE_URL en troisième argument.'
+    explanation: >-
+      Sans lui, on obtient un chemin absolu sans schéma ni hôte, inutilisable hors du site.
+    memorization_justification: >-
+      Le défaut convient aux pages mais pas aux courriels.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "ABSOLUTE_URL"
+        verified_at: "2026-09-24"
+
+  - id: FLC-twes8ggccz5x
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: APPLICATION
+    front: 'On passe _query avec la valeur page=2 au lieu d un tableau. Que se passe-t-il ?'
+    back: 'Une InvalidParameterException : _query doit être un tableau.'
+    explanation: >-
+      Le générateur vérifie le type avant de construire l URL.
+    memorization_justification: >-
+      L erreur de forme est facile à commettre en passant une chaîne toute faite.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-pxcyrqhbt7eq
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: TRAP
+    front: 'Piège : « en Symfony 8.0, un objet passé comme paramètre en trop n est jamais converti en chaîne ».'
+    back: 'Non. Le code le convertit : propriétés publiques en tableau, sinon Stringable en chaîne.'
+    explanation: >-
+      La documentation 8.0 reprend encore l ancienne mise en garde.
+    memorization_justification: >-
+      L avertissement officiel est précisément ce qui induit l erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-mt0cdrrrmvsb
+    official_item: OIT-81b2c0jmv2j3
+    language: fr
+    level: TRAP
+    front: 'Piège : « tout paramètre en trop apparaît toujours dans la chaîne de requête ».'
+    back: 'Non. Celui qui égale la valeur par défaut de même nom est retiré.'
+    explanation: >-
+      Le filtrage s applique avant la construction de la chaîne.
+    memorization_justification: >-
+      La règle générale masque une exception silencieuse.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "doGenerate"
         verified_at: "2026-09-24"

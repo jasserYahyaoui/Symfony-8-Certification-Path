@@ -380,7 +380,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-24'
     tags:
       - url-generation
     choices:
@@ -399,9 +399,9 @@ questions:
         text: A RouteNotFoundException, because category is unknown
         correct: false
         explanation: Unknown parameters are accepted and become a query string.
-    explanation: Parameters that are not part of the route definition are added as a query string. Note
-      that an object passed as an extra parameter is not cast to string automatically, unlike one used
-      as a placeholder.
+    explanation: Parameters that are not part of the route definition are added as a query string. In
+      Symfony 8.0 the generator also converts an object passed as an extra parameter, its public
+      properties becoming an array, otherwise a Stringable object being cast to string.
     official_sources: *id001
   - id: QST-d0mf49sax6yj
     question_archetype: BEHAVIOR_DIAGNOSIS
