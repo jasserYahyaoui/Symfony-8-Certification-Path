@@ -1405,6 +1405,34 @@ jobs:
             echo "ok  lot-05  the configuration page carries its four flashcard levels, the YAML key list, the when@ block and the localized route names"
           fi
 
+          # Lot 05, page 3. The three content needles are what this refinement
+          # added and master's version of the page does not contain: the option
+          # that makes the generator check requirements, the exception it throws
+          # by default, and the constant that excludes zero.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l5r-requirements -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/restrict-url-parameters")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 05 refined page restrict-url-parameters serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l5r-requirements || missing="$missing l5req:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l5r-requirements || missing="$missing l5req:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l5r-requirements || missing="$missing l5req:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l5r-requirements || missing="$missing l5req:no-trap-heading"
+          grep -aq 'strict_requirements' /tmp/l5r-requirements \
+            || missing="$missing l5req:no-strict-option"
+          grep -aq 'InvalidParameterException' /tmp/l5r-requirements \
+            || missing="$missing l5req:no-generator-exception"
+          grep -aq 'POSITIVE_INT' /tmp/l5r-requirements \
+            || missing="$missing l5req:no-positive-int"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 05 refinement missing from the URL parameters page:$missing"
+            fail=1
+          else
+            echo "ok  lot-05  the URL parameters page carries its four flashcard levels, strict_requirements, the generator exception and POSITIVE_INT"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

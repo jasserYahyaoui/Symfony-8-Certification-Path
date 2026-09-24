@@ -14,6 +14,24 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
+    symbol_or_lines: "strictRequirements, doGenerate"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
+    symbol_or_lines: "strict_requirements"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php"
+    symbol_or_lines: "DIGITS, POSITIVE_INT"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-09-24"
 ---
 
 ## Objectif
@@ -49,6 +67,16 @@ L'énumération `Symfony\Component\Routing\Requirement\Requirement` rassemble le
 expressions courantes — chiffres, dates, UUID — et évite de réécrire des
 expressions régulières fragiles. En YAML elle s'utilise avec `!php/const`.
 
+C'est une énumération **sans aucun cas** : elle ne sert qu'à porter des
+constantes, qui sont de simples chaînes. Deux d'entre elles se confondent :
+
+| Constante | Expression | Accepte `0` ? |
+|---|---|---|
+| `Requirement::DIGITS` | `[0-9]+` | oui, et `007` aussi |
+| `Requirement::POSITIVE_INT` | `[1-9][0-9]*` | non |
+
+Pour un numéro de page, `DIGITS` laisse passer `/blog/0`.
+
 La forme inline est plus concise mais devient illisible dès que l'expression est
 complexe ; c'est un arbitrage, pas une règle.
 
@@ -59,11 +87,26 @@ définir une expression compliquée une fois et de la réutiliser. Elle accepte
 aussi les **propriétés Unicode PCRE** : `\p{Lu}` correspond à toute majuscule,
 dans n'importe quelle langue.
 
-## Le piège
+## Deux pièges
 
 Une valeur par défaut **n'est pas tenue** de satisfaire la contrainte. La
 documentation le dit explicitement. La contrainte filtre l'URL entrante ; la
 valeur par défaut, elle, n'est pas dans l'URL.
+
+### La contrainte s'applique aussi en génération
+
+Le générateur relit chaque contrainte avant de produire l'URL. Ce qu'il fait
+d'une valeur non conforme dépend de l'option `framework.router.strict_requirements` :
+
+| Valeur | Effet d'une valeur non conforme |
+|---|---|
+| `true` — **défaut** | `InvalidParameterException` : « Parameter "page" for route "blog_list" must match… » |
+| `false` | erreur journalisée, et le générateur rend une **chaîne vide** |
+| `null` | aucune vérification |
+
+Le texte d'aide de l'option annonce `null` pour le cas `false` ; le code de la
+branche 8.0 retourne `''`. La même aide suggère `true` en développement,
+`false` ou `null` en production.
 
 ## Pièges d'examen
 
@@ -75,8 +118,8 @@ rend l'ordre indifférent — c'est le vrai service rendu.
 les propriétés Unicode fonctionnent, et une expression fragile passe sans que
 rien ne prévienne.
 
-**La contrainte ne vaut qu'à l'appariement.** Elle ne valide pas ce que l'on
-passe au générateur d'URL.
+**La contrainte vaut aussi à la génération.** Générer `blog_list` avec
+`page: 'abc'` lève une exception par défaut.
 
 ## Points clés
 
@@ -85,6 +128,9 @@ passe au générateur d'URL.
 - Trois écritures : option, inline `{p<regex>}`, énumération `Requirement`.
 - Une contrainte peut contenir un paramètre de configuration.
 - La valeur par défaut peut ne pas respecter la contrainte.
+- Le générateur vérifie la contrainte : exception par défaut
+  (`strict_requirements: true`).
+- `DIGITS` accepte `0` ; `POSITIVE_INT` non.
 
 ## Sources officielles
 
