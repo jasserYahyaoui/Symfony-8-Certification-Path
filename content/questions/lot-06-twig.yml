@@ -87,7 +87,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-24'
   tags:
   - twigbundle
   - strict-variables
@@ -98,7 +98,7 @@ questions:
   - id: CHO-972chvheezs2
     text: twig.debug
     correct: false
-    explanation: Debug affects caching and error pages, not undefined-variable behaviour.
+    explanation: Debug is the default of auto_reload; it does not change undefined-variable behaviour.
   - id: CHO-ekmma97qa9dq
     text: twig.autoescape
     correct: false
@@ -108,7 +108,8 @@ questions:
     correct: false
     explanation: The option belongs to the twig configuration tree, not the framework one.
   explanation: Without strict_variables an unresolved name yields null. With it, Twig throws Twig\Error\RuntimeError
-    instead.
+    instead. TwigBundle defaults the option to %kernel.debug%, so a typo fails in dev but renders nothing in
+    prod.
   official_sources: *id001
 - id: QST-2xamk5ahfyyn
   question_archetype: SEQUENCE_ORDER
