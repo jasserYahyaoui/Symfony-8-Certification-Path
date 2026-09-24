@@ -13,6 +13,7 @@ flashcards:
   - id: FLC-qtcf6sp62jpq
     official_item: OIT-d51jbkfs21pt
     language: fr
+    level: RECALL
     front: "Symfony route /foo : que se passe-t-il si l'URL demandée est /foo/ ?"
     back: "Redirection 301 vers /foo — mais seulement pour GET et HEAD."
     explanation: >-
@@ -1415,4 +1416,242 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "doGenerate"
+        verified_at: "2026-09-24"
+
+  - id: FLC-m52xe5qycgns
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: RECALL
+    front: "Symfony : quelle classe de FrameworkBundle permet au routage de rediriger une requête ?"
+    back: "RedirectableCompiledUrlMatcher, qui implémente RedirectableUrlMatcherInterface."
+    explanation: >-
+      Sa méthode redirect() ne construit pas de réponse : elle retourne des attributs de requête qui désignent RedirectController comme contrôleur.
+    memorization_justification: >-
+      Le nom relie deux notions que l'on sépare d'ordinaire : le matcher compilé et la redirection.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-qmqf60fent9w
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: RECALL
+    front: "Symfony : une route liste plusieurs schémas et la requête n'en utilise aucun. Vers lequel est-elle redirigée ?"
+    back: "Vers le premier schéma listé."
+    explanation: >-
+      Si l'un des schémas listés correspond déjà, aucune redirection n'a lieu. Les schémas sont par ailleurs mis en minuscules par Route::setSchemes().
+    memorization_justification: >-
+      Règle d'ordre arbitraire, sans équivalent dans la documentation.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testSchemeRedirectRedirectsToFirstScheme, testNoSchemaRedirectIfOneOfMultipleSchemesMatches"
+        verified_at: "2026-09-24"
+
+  - id: FLC-7x6exen2zp29
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: RECALL
+    front: "Symfony : quel statut porte la redirection de schéma déclenchée par le routage ?"
+    back: "301, comme la redirection de barre finale."
+    explanation: >-
+      Le matcher transmet permanent à true et ne demande pas de conserver la méthode : urlRedirectAction() choisit donc 301, pas 308.
+    memorization_justification: >-
+      La documentation parle de redirection sans donner le statut pour le schéma.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "urlRedirectAction()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-m0hsxjn3889s
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : pourquoi le routage ne redirige-t-il pas un POST vers la forme de l'URL avec ou sans barre finale ?"
+    back: "Un 301 autorise le client à rejouer la requête en GET : le corps du POST serait perdu."
+    explanation: >-
+      RFC 9110, section 15.4.2 : pour des raisons historiques, un client peut changer POST en GET après un 301. Le routage limite donc ses redirections à GET et HEAD.
+    memorization_justification: >-
+      Comprendre la raison évite de réciter la restriction sans pouvoir l'appliquer au schéma.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "status.301"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-rsz1m0n5fwht
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : le UrlMatcher du composant Routing, utilisé seul, redirige-t-il /foo/ vers une route /foo ?"
+    back: "Non. Il lève ResourceNotFoundException, soit un 404."
+    explanation: >-
+      La redirection exige un matcher qui implémente RedirectableUrlMatcherInterface. Le composant n'en fournit qu'une classe abstraite ; l'implémentation concrète vient de FrameworkBundle.
+    memorization_justification: >-
+      On attribue au composant un comportement qui appartient au bundle.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-ksem3jr21w7d
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : après une redirection décidée par le routage, que valent les attributs _route et _controller ?"
+    back: "_route porte le nom de la route trouvée ; _controller désigne RedirectController."
+    explanation: >-
+      Seul le contrôleur est remplacé : _route reste le nom de la route vers laquelle on redirige.
+    memorization_justification: >-
+      Voir le nom de la route cible alors que son contrôleur ne s'exécute pas surprend au débogage.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "redirect()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-xwv80tfrpfvm
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: UNDERSTANDING
+    front: "Symfony : route /foo/ avec schemes: ['https'] ; requête GET http://example.com/foo. Combien de redirections ?"
+    back: "Une seule, directement vers https://example.com/foo/."
+    explanation: >-
+      Quand la forme sans barre ne correspond que dans un autre schéma, le matcher corrige la barre et le schéma dans la même redirection.
+    memorization_justification: >-
+      L'intuition prévoit deux redirections successives.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testMissingTrailingSlashAndScheme"
+        verified_at: "2026-09-24"
+
+  - id: FLC-p156fap64fq4
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: APPLICATION
+    front: "Symfony : route /search/ ; un formulaire envoie GET /search?q=php. Quelle URL le navigateur charge-t-il ensuite ?"
+    back: "/search/?q=php, après un 301 : la chaîne de requête est recopiée."
+    explanation: >-
+      urlRedirectAction() ajoute la chaîne de requête d'origine à l'URL cible.
+    memorization_justification: >-
+      Sans cette règle, on croirait la recherche perdue par la redirection.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "urlRedirectAction()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-9ykj8e9zr44s
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: APPLICATION
+    front: "Symfony : routes /foo/ puis /{name}, dans cet ordre. Que produit GET /foo ?"
+    back: "Un 301 vers /foo/. La requête ne tombe pas sur /{name}."
+    explanation: >-
+      La correspondance à une barre près avec une route déclarée plus tôt l'emporte sur une route générique déclarée plus loin.
+    memorization_justification: >-
+      L'ordre des routes laisse attendre que /{name} capture /foo.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "testFallbackPage"
+        verified_at: "2026-09-24"
+
+  - id: FLC-hjxfcgwjjhkf
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: TRAP
+    front: "Piège : « un POST en HTTP vers une route schemes: ['https'] est redirigé vers HTTPS »."
+    back: "Faux : seuls GET et HEAD sont redirigés. Le POST reçoit un 404."
+    explanation: >-
+      La documentation écrit que la requête est redirigée sans mentionner cette restriction ; le code l'applique au schéma comme à la barre finale.
+    memorization_justification: >-
+      La formulation officielle induit précisément l'erreur.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
+        verified_at: "2026-09-24"
+
+  - id: FLC-vgsxgsn17ppf
+    official_item: OIT-d51jbkfs21pt
+    language: fr
+    level: TRAP
+    front: "Piège : « une route /foo limitée à methods: ['POST'] redirige GET /foo/ vers /foo »."
+    back: "Faux : la route doit accepter GET. Aucune redirection, et la réponse est un 404, pas un 405."
+    explanation: >-
+      Le matcher ne redirige vers une route que si elle n'a pas de contrainte de méthode ou si GET en fait partie.
+    memorization_justification: >-
+      On attend un 405, puisque le chemin existe sous une autre forme.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "match(), doMatch()"
         verified_at: "2026-09-24"

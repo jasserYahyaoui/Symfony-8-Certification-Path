@@ -21,8 +21,8 @@ Chiffres relevés le 2026-09-24 par script sur les fichiers canoniques
 | 2 | Configuration (YAML and PHP attributes) | STANDARD | 551 / 900 | 1 | **RAFFINÉE** (PR #202) |
 | 3 | Restrict URL parameters | STANDARD | 392 / 900 | 1 | **RAFFINÉE** (PR #203) |
 | 4 | Set default values to URL parameters | STANDARD | 417 / 900 | 2 | **RAFFINÉE** (PR #204) |
-| 5 | URLs generation | STANDARD | 422 / 900 | 1 | en cours |
-| 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | à faire |
+| 5 | URLs generation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #205) |
+| 6 | Trigger redirects | STANDARD | 432 / 900 | 1 | en cours |
 | 7 | Special internal routing attributes | STANDARD | 391 / 900 | 1 | à faire |
 | 8 | Domain name matching | MINIMAL | 268 / 700 | 1 | à faire |
 | 9 | Conditional request matching | STANDARD | 392 / 900 | 1 | à faire |
@@ -375,6 +375,82 @@ de la question `LEARNING` de l'item.
 | `prove_flashcard` | PROOF OK |
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 
+## Page 6 — Trigger redirects, 2026-09-24
+
+`CRS-tgbv3wp66rcc` · `OIT-d51jbkfs21pt` · STANDARD · **432 → 823 mots** sur 900.
+Aucun niveau promu.
+
+### Une affirmation incomplète, héritée de la documentation — et d'une question
+
+La page : « une requête en HTTP vers `/login` est **automatiquement redirigée**
+vers la même URL en HTTPS ». La documentation 8.0 dit la même chose, sans
+condition. La question `LEARNING` `QST-np471a1fkmv6` aussi : son énoncé parle
+d'« une requête HTTP » sans en donner la méthode.
+
+`CompiledUrlMatcherTrait::match()` (8.0) ne tente **aucune** redirection — ni de
+schéma ni de barre finale — si la méthode n'est pas `GET` ou `HEAD` : un `POST`
+en HTTP vers une route `schemes: ['https']` finit en
+`ResourceNotFoundException`, donc en 404. Le distracteur « 404 » de la question
+devenait correct pour un `POST`.
+
+**Corrections.** La page énonce la restriction et signale le silence de la
+documentation. L'énoncé de `QST-np471a1fkmv6` précise désormais une requête
+`GET` ; son explication mentionne le 404 d'un `POST`. Sa bonne réponse ne change
+pas ; `reviewed_at` passe au 2026-09-24. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code et les tests 8.0
+
+- **Qui redirige.** Le `UrlMatcher` du composant ne redirige jamais. Il faut un
+  matcher `RedirectableUrlMatcherInterface` ; le composant n'en fournit qu'une
+  classe abstraite, FrameworkBundle l'implémente
+  (`RedirectableCompiledUrlMatcher`). Sa méthode `redirect()` désigne
+  `RedirectController::urlRedirectAction` avec `permanent: true` : statut 301,
+  chaîne de requête recopiée, `_route` conservé.
+- **Barre finale.** La route doit accepter `GET` ; la racine n'est pas
+  concernée ; la redirection l'emporte sur une route générique déclarée plus
+  loin (`testFallbackPage`).
+- **Schéma.** Cible = premier schéma listé ; aucune redirection si l'un d'eux
+  correspond ; barre et schéma corrigés en une seule redirection
+  (`testMissingTrailingSlashAndScheme`).
+- **Raison de la restriction.** RFC 9110, section 15.4.2 : un client peut
+  rejouer en `GET` un `POST` redirigé par un 301. La page s'appuyait sur cette
+  raison sans la sourcer ; elle la cite désormais.
+
+**Flashcards.** 11 ajoutées ; la carte préexistante `FLC-qtcf6sp62jpq` reçoit le
+niveau RECALL. L'item en porte **12** (4 RECALL, 4 UNDERSTANDING, 2 APPLICATION,
+2 TRAP).
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`RedirectableCompiledUrlMatcher`, `RedirectableUrlMatcherInterface` et
+`testFallbackPage`, absentes de la version `master` de la page.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 574 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 444 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+**Un échec de lancement, relancé.** Le premier `composer gate-full` s'est arrêté
+avant toute vérification (Composer refuse l'utilisateur root sans
+`COMPOSER_ALLOW_SUPERUSER=1`) : exit 1, aucun test exécuté. Relancé avec la
+variable ; le résultat ci-dessus est celui de la relance.
+
+**Déploiement de la page 5, lu dans le journal d'exécution.** PR #205 fusionnée
+en squash (`116a6a0`). Run Pages 35996557717 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-05  the URL generation page carries its four
+flashcard levels, the Stringable cast, the Uid class and the _query key` est
+écrite à **12:04:32 UTC** le 2026-09-24.
+
 ## Prochaine étape
 
-Page 6 — *Trigger redirects* (STANDARD, 432 / 900).
+Page 7 — *Special internal routing attributes* (STANDARD, 391 / 900).
