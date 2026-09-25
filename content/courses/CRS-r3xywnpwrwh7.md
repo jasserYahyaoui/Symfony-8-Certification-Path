@@ -5,7 +5,7 @@ title: "Forms theming"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-25"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst"
@@ -14,6 +14,18 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "block email_widget, form_widget_simple"
+    verified_at: "2026-09-25"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "FormRenderer::searchAndRenderBlock()"
+    verified_at: "2026-09-25"
 ---
 
 ## Objectif
@@ -29,26 +41,34 @@ par défaut.
 
 ## La chaîne de recherche
 
-À chaque champ, Symfony calcule un nom de bloc et le cherche du **plus
-spécifique au plus général**. Pour un champ `contact` de type `EmailType` dans un
-formulaire nommé `user` :
+Chaque champ porte la liste `block_prefixes` de sa lignée de types, plus un
+préfixe unique. Pour un champ `contact` de type `EmailType` dans un formulaire
+nommé `user`, exécuté avec `symfony/form` 8.0.15 :
 
 ```text
-_user_contact_widget   →  absent ? on remonte
-email_widget           →  absent ? on remonte
-text_widget            →  trouvé dans form_div_layout.html.twig
+["form", "text", "email", "_user_contact"]
 ```
 
-C'est cette chaîne qui permet de personnaliser à n'importe quel niveau : un seul
-champ d'un seul formulaire, tous les champs d'un type, ou tous les champs tout
-court.
+Le rendu cherche du **plus spécifique au plus général**, dans tous les thèmes
+à chaque niveau avant de descendre :
+
+```text
+_user_contact_widget   →  absent ? on descend
+email_widget           →  trouvé dans form_div_layout.html.twig
+text_widget            →  (jamais atteint ici)
+form_widget
+```
+
+Le thème par défaut **définit `email_widget`**, et **aucun** thème livré ne
+définit `text_widget`. Conséquence vérifiée par rendu réel : un `text_widget`
+personnalisé change les champs `TextType`, mais **pas** les champs `EmailType`,
+dont le bloc plus spécifique est trouvé d'abord. Chaque champ remonte ainsi sa
+propre lignée jusqu'à `form_`.
 
 Le bloc le plus spécifique commence par un **souligné** et porte le nom du
 formulaire puis celui du champ.
 
 ## Les parties d'un champ
-
-Chaque champ se décompose, et chaque partie a son bloc :
 
 | Suffixe | Partie |
 |---|---|
@@ -60,55 +80,58 @@ Chaque champ se décompose, et chaque partie a son bloc :
 
 ## Où appliquer un thème
 
-**Globalement**, par `twig.form_themes` :
+**Globalement**, par `twig.form_themes`. La liste est parcourue **de la fin vers
+le début** : le dernier thème listé est consulté en premier. Exécuté avec deux
+thèmes définissant le même bloc : c'est toujours le dernier qui gagne.
 
-```yaml
-twig:
-    form_themes: ['bootstrap_5_layout.html.twig']
-```
+**Pour un gabarit**, par la balise `{% form_theme form 'form/fields.html.twig' %}`.
 
-L'ordre compte : la liste est parcourue **de la fin vers le début**, si bien que
-le dernier thème listé est consulté en premier et le premier sert de dernier
-recours.
+**Dans le gabarit courant**, avec `_self` — à une condition que la documentation
+signale : le gabarit doit **étendre** un autre gabarit. Rendu seul, ses blocs
+sont affichés comme du contenu ordinaire ; exécuté, le bloc apparaît tel quel en
+tête de page et le champ garde son rendu par défaut.
 
-**Pour un gabarit**, par la balise `{% form_theme %}` :
+## Trois exemples documentés qui échouent
 
-```html
-{% form_theme form 'form/fields.html.twig' %}
-```
+La page `form_themes.rst` (8.0) s'appuie sur un bloc `text_widget` que le code
+ne fournit pas. Rendu réel avec twig-bridge 8.0.15 :
 
-**Dans le gabarit courant**, avec le mot-clé `_self` :
+| Exemple documenté | Résultat |
+|---|---|
+| `email_widget` qui enveloppe `{{ form_widget(form) }}` | le champ devient `<input type="text">` : le type `email` est perdu |
+| `{% use 'form_div_layout.html.twig' %}` puis `text_widget` avec `parent()` | `RuntimeError` : aucun trait ne définit `text_widget` |
+| `use … with text_widget as base_text_widget` | `RuntimeError` : bloc non défini dans le trait |
 
-```html
-{% form_theme form _self %}
-{% block _user_email_widget %}
-    <div class="email-field">{{ block('form_widget_simple') }}</div>
-{% endblock %}
-```
+Le premier s'explique par la chaîne : l'appel imbriqué descend à `text_widget`,
+absent, puis à `form_widget`, dont `form_widget_simple` prend `text` par défaut.
+Pour envelopper un champ e-mail sans perdre son type, on importe le thème par
+défaut avec `{% use 'form_div_layout.html.twig' %}` et on appelle `parent()`
+dans `email_widget`, qui, lui, existe : exécuté, la sortie garde
+`type="email"`.
 
 ## Pièges d'examen
 
-**La liste des thèmes est parcourue de la fin vers le début.** Le dernier thème
-déclaré est celui qui gagne — l'ordre paraît inversé et c'est la cause classique
-d'un thème « qui ne s'applique pas ».
+**La liste des thèmes est parcourue de la fin vers le début.**
 
-**Le bloc le plus spécifique porte le nom du formulaire et celui du champ**, et
-commence par un souligné. Personnaliser un type entier et personnaliser un champ
-d'un formulaire ne s'écrivent donc pas de la même façon.
+**`text_widget` n'existe dans aucun thème livré** ; `email_widget`, si.
 
-**Un champ se décompose en parties, chacune avec son bloc.** Redéfinir le
-conteneur complet quand on ne voulait changer que le widget efface aussi le
-libellé, l'aide et les erreurs.
+**Un champ remonte sa propre lignée** : un bloc de type parent ne s'applique
+pas quand un bloc plus spécifique existe.
+
+**`_self` exige un gabarit qui en étend un autre.**
+
+**Redéfinir `_row` quand on voulait `_widget` efface libellé, aide et erreurs.**
 
 ## Points clés
 
-- Un thème est un gabarit de blocs ; le défaut est `form_div_layout.html.twig`.
-- Recherche du plus spécifique au plus général :
-  `_form_champ_partie` → `type_partie` → `text_partie`.
+- Thème = gabarit de blocs ; défaut `form_div_layout.html.twig`.
+- Recherche : préfixe unique, type, types parents, `form_`.
 - Cinq parties : `_row`, `_label`, `_widget`, `_help`, `_errors`.
-- `twig.form_themes` globalement, `{% form_theme %}` par gabarit, `_self` pour
-  définir les blocs sur place.
+- `twig.form_themes` : le dernier gagne ; `{% form_theme %}` ; `_self` avec
+  `extends`.
 
 ## Sources officielles
 
 - [How to Work with Form Themes](https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst)
+- [Twig Bridge 8.0, `form_div_layout.html.twig`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig)
+- [Form 8.0, `FormRenderer`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php)

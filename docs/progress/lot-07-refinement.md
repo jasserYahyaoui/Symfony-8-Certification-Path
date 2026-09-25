@@ -24,8 +24,8 @@ page.
 | 2 | Forms creation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #232) |
 | 3 | Forms handling | STANDARD | 442 / 900 | 1 | **RAFFINÉE** (PR #233) |
 | 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | **RAFFINÉE** (PR #234) |
-| 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | en cours |
-| 6 | Forms theming | STANDARD | 465 / 900 | 2 | à faire |
+| 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #235) |
+| 6 | Forms theming | STANDARD | 465 / 900 | 2 | en cours |
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | à faire |
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | à faire |
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | à faire |
@@ -388,6 +388,78 @@ produire elle-même.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 5, lu dans le journal d'exécution.** PR #235 fusionnée
+en squash (`6b6fc4a`). Run Pages 36077343562 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the forms rendering page carries its four
+flashcard levels, the twice exception, the theme file and the renderer` est
+écrite à **00:25:39 UTC** le 2026-09-25.
+
+## Page 6 — Forms theming, 2026-09-25
+
+`CRS-r3xywnpwrwh7` · `OIT-j2vjdxcer4ft` · STANDARD · **465 → 618 mots** sur 900.
+Aucun niveau promu. Rendu réel avec twig-bridge 8.0.15 et Twig 3.22.2.
+
+### Une affirmation fausse sur la chaîne de recherche
+
+Pour un champ `EmailType`, la page donnait `_user_contact_widget` → `email_widget`
+(« absent, on remonte ») → `text_widget` (« trouvé dans form_div_layout »). Or
+`form_div_layout.html.twig` **définit `email_widget`** (ligne 218) et **aucun**
+des douze thèmes de twig-bridge 8.0 ne définit `text_widget` (0 occurrence).
+Exécuté : un `text_widget` personnalisé change un champ `TextType` et laisse un
+champ `EmailType` en `<input type="email">`. La carte `FLC-8yczcp0s4a1c` et les
+explications de `QST-6tbd9rk49r20` et `QST-9wnradgcgyvz` (LEARNING) reprenaient
+« … puis text_partie » : corrigées, bonnes réponses inchangées.
+
+### Trois exemples de la documentation qui échouent
+
+`form_themes.rst` (8.0) s'appuie sur `text_widget`. Rendu réel :
+
+- l'enveloppe `email_widget` → `{{ form_widget(form) }}` rend
+  `<input type="text">` : le type `email` est perdu ;
+- `{% use 'form_div_layout.html.twig' %}` + `text_widget` + `parent()` :
+  `RuntimeError`, « no parent and no traits defining the "text_widget" block » ;
+- `use … with text_widget as base_text_widget` : `RuntimeError`, « Block
+  "text_widget" is not defined in trait ».
+
+Parade vérifiée : `use` puis `parent()` dans `email_widget` garde
+`type="email"`.
+
+### Confirmé par exécution
+
+- `twig.form_themes` parcouru de la fin vers le début : deux thèmes définissant
+  le même bloc, le dernier gagne dans les deux ordres.
+- `_self` sans `extends` : le bloc s'affiche en tête de page et le champ garde
+  son rendu par défaut — l'avertissement de la documentation.
+
+**Questions.** Les deux autres questions non holdout ont été relues : exactes,
+inchangées. Aucune question holdout n'a été lue.
+
+**Flashcards.** 10 ajoutées ; les deux cartes préexistantes reçoivent un niveau
+— `FLC-8yczcp0s4a1c` RECALL (réponse corrigée), `FLC-5g65x0xtgdn7` TRAP.
+L'item en porte **12** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 5 TRAP),
+décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `RuntimeError`,
+`block_prefixes` et `exemples documentés qui échouent`, absentes de la version
+`master` de la page et de ses cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| rendus twig-bridge 8.0.15 (chaîne, ordre des thèmes, `_self`, trois exemples) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 818 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Forms theming* (STANDARD, 465 / 900).
+Page 7 — *CSRF protection* (STANDARD, 455 / 900).

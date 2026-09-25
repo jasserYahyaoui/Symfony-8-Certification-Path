@@ -94,8 +94,9 @@ flashcards:
 - id: FLC-8yczcp0s4a1c
   official_item: OIT-j2vjdxcer4ft
   language: fr
+  level: RECALL
   front: 'Thèmes de formulaire : dans quel ordre les blocs sont-ils cherchés ?'
-  back: 'Du plus spécifique au plus général : _formulaire_champ_partie, puis type_partie, puis text_partie.'
+  back: "Du plus spécifique au plus général : le bloc unique _formulaire_champ_partie, puis celui du type, puis ceux des types parents, jusqu'à form_partie."
   explanation: Le bloc le plus spécifique commence par un souligné et porte le nom du formulaire puis
     celui du champ. C'est cette chaîne qui permet de personnaliser à n'importe quel niveau.
   memorization_justification: Chaîne de repli à trois niveaux dont la syntaxe du bloc le plus spécifique
@@ -110,6 +111,7 @@ flashcards:
 - id: FLC-5g65x0xtgdn7
   official_item: OIT-j2vjdxcer4ft
   language: fr
+  level: TRAP
   front: 'twig.form_themes : dans quel ordre la liste est-elle consultée ?'
   back: De la fin vers le début. Le dernier thème listé est consulté en premier, le premier sert de dernier
     recours.
@@ -1211,4 +1213,188 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+- id: FLC-9jm3snza2rkh
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : quel thème livré définit un bloc text_widget ?'
+  back: 'Aucun : ni `form_div_layout.html.twig` ni les thèmes Bootstrap, Foundation ou Tailwind de twig-bridge 8.0.'
+  explanation: La documentation des thèmes cite pourtant ce bloc dans plusieurs exemples ; un `text_widget` n'existe que si l'on l'écrit soi-même.
+  memorization_justification: Bloc supposé par la documentation, absent du code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: block email_widget, form_widget_simple
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-rnhbqjwxzege
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un thème personnalisé définit text_widget. Les champs EmailType changent-ils ?'
+  back: 'Non : le thème par défaut définit `email_widget`, plus spécifique, trouvé avant `text_widget`.'
+  explanation: 'Vérifié par rendu réel : le champ texte prend le bloc personnalisé, le champ e-mail garde `<input type="email">`.'
+  memorization_justification: L'héritage de types ne garantit pas l'héritage du rendu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: block email_widget, form_widget_simple
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-25'
+- id: FLC-x5rxh79pfayc
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quels block_prefixes porte un champ contact de type EmailType dans le formulaire user ?'
+  back: '`["form", "text", "email", "_user_contact"]`.'
+  explanation: La lignée des types, de la racine au type du champ, puis le préfixe unique ; observé avec symfony/form 8.0.15.
+  memorization_justification: Liste qui détermine les noms de blocs cherchés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-25'
+- id: FLC-fgz3xs9gbat4
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi un bloc du thème par défaut peut-il l''emporter sur un bloc d''un thème personnalisé ?'
+  back: 'Parce que la recherche essaie tous les thèmes à un niveau de spécificité avant de descendre au suivant : un bloc plus spécifique, où qu''il soit, gagne.'
+  explanation: L'ordre des thèmes ne départage que des blocs de même nom.
+  memorization_justification: Explique des surcharges qui semblent ignorées.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-25'
+- id: FLC-vaec236bwzn6
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un thème redéfinit email_widget comme <div>{{ form_widget(form) }}</div>. Que devient la saisie ?'
+  back: 'Un `<input type="text">` : l''appel imbriqué descend à `text_widget`, absent, puis à `form_widget`, dont le bloc simple prend `text` par défaut.'
+  explanation: C'est l'exemple de la documentation 8.0 ; résultat observé par rendu réel avec twig-bridge 8.0.15.
+  memorization_justification: Exemple documenté qui dégrade le champ.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: block email_widget, form_widget_simple
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-9trbh5wmtjzc
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : envelopper les champs e-mail dans une div sans perdre type="email".'
+  back: '`{% use ''form_div_layout.html.twig'' %}` puis, dans `email_widget`, `<div>{{ parent() }}</div>`.'
+  explanation: '`parent()` appelle l''`email_widget` importé, qui fixe `type` à `email` ; vérifié par rendu réel.'
+  memorization_justification: Parade à l'exemple documenté.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: block email_widget, form_widget_simple
+    verified_at: '2026-09-25'
+- id: FLC-5x1d6h0qhemb
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : à quelle condition {% form_theme form _self %} fonctionne-t-il ?'
+  back: Le gabarit doit étendre un autre gabarit ; sinon ses blocs sont rendus comme du contenu ordinaire.
+  explanation: 'Avertissement de `form_themes.rst` ; observé sans `extends` : le bloc s''affiche en tête de page et le champ garde son rendu par défaut.'
+  memorization_justification: Condition d'usage souvent oubliée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-gcf6a3mfmp32
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : twig.form_themes liste theme_a puis theme_b, qui définissent tous deux le même bloc. Lequel s''applique ?'
+  back: '`theme_b`, le dernier de la liste.'
+  explanation: La liste est parcourue de la fin vers le début ; vérifié par rendu réel en inversant l'ordre.
+  memorization_justification: Mise en pratique de l'ordre inversé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-zs50q6d8kssq
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : {% use ''form_div_layout.html.twig'' %} puis un bloc text_widget contenant parent(). Que se passe-t-il ?'
+  back: 'Une `RuntimeError` : aucun parent ni trait ne définit `text_widget`.'
+  explanation: Exemple de la documentation 8.0 ; l'erreur a été reproduite. `parent()` n'a de sens que pour un bloc qui existe dans le trait importé, comme `email_widget`.
+  memorization_justification: Deuxième exemple documenté qui échoue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: block email_widget, form_widget_simple
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-9fvbdnzmf62w
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi redéfinir _user_email_row plutôt que _user_email_widget change-t-il bien plus que la saisie ?'
+  back: 'Parce que le bloc `_row` assemble libellé, saisie, aide et erreurs : le redéfinir remplace tout ce conteneur.'
+  explanation: Pour ne toucher qu'à la saisie, on vise le suffixe `_widget`.
+  memorization_justification: Choix du suffixe selon l'étendue voulue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Themes
     verified_at: '2026-09-25'
