@@ -5,7 +5,7 @@ title: "Built-in form types"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-25"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst"
@@ -14,24 +14,48 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "ChoiceType::configureOptions(), choices, multiple, expanded"
+    verified_at: "2026-09-25"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "RepeatedType::buildForm(), first_name, second_name, invalid_message"
+    verified_at: "2026-09-25"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "ButtonType::getParent() returns null"
+    verified_at: "2026-09-25"
 ---
 
 ## Objectif
 
-Reconnaître les familles de types fournies par Symfony et choisir le bon.
+Reconnaître les types fournis par Symfony, choisir le bon, et savoir de qui
+chacun hérite.
 
-## Les familles
+## Le catalogue
 
-| Famille | Types |
+| Famille (documentation) | Types |
 |---|---|
 | **Texte** | `TextType`, `TextareaType`, `EmailType`, `IntegerType`, `MoneyType`, `NumberType`, `PasswordType`, `PercentType`, `SearchType`, `UrlType`, `RangeType`, `TelType`, `ColorType` |
 | **Choix** | `ChoiceType`, `EnumType`, `CountryType`, `LanguageType`, `LocaleType`, `TimezoneType`, `CurrencyType` |
 | **Date et heure** | `DateType`, `DateTimeType`, `TimeType`, `DateIntervalType`, `BirthdayType`, `WeekType` |
 | **Autres** | `CheckboxType`, `RadioType`, `FileType` |
+| **UID** | `UuidType`, `UlidType` |
+| **Groupes** | `CollectionType`, `RepeatedType` |
+| **Caché** | `HiddenType` |
+| **Boutons** | `ButtonType`, `ResetType`, `SubmitType` |
+| **Base** | `FormType` |
 
-À quoi s'ajoutent les types de groupement — `FormType`, `CollectionType`,
-`RepeatedType` — les champs cachés, et les boutons `SubmitType`, `ResetType`,
-`ButtonType`.
+Les types UID exigent le composant Uid. Exécuté sans lui : le formulaire se
+construit et se rend, puis la soumission lève une `Error`, classe `Uuid`
+introuvable.
 
 ## Limites de périmètre
 
@@ -39,45 +63,86 @@ Deux entrées du catalogue officiel sortent du périmètre de l'examen
 (`docs/syllabus/exclusions.yml`) : `EntityType`, qui relève de l'intégration
 avec une base de données, et les champs Symfony UX.
 
-## Ce qui distingue les familles
+## Une famille n'est pas une lignée
 
-`ChoiceType` est le socle de toute la famille des choix : `CountryType`,
-`LanguageType` et les autres en héritent en pré-remplissant la liste. Ses trois
-options structurantes sont `choices`, `multiple` et `expanded` — c'est leur
-combinaison qui décide du rendu :
+Les familles rangent la documentation ; `getParent()` décide de l'héritage.
+Relevé sur les 38 types de `symfony/form` 8.0.15 :
+
+| Parent | Types |
+|---|---|
+| `TextType` | `EmailType`, `PasswordType`, `TextareaType`, `SearchType`, `UrlType`, `TelType`, `ColorType`, `RangeType` |
+| `FormType` | `IntegerType`, `NumberType`, `MoneyType`, `PercentType`, `DateType`, `CheckboxType`, `ChoiceType`… |
+| `ChoiceType` | `CountryType`, `LanguageType`, `LocaleType`, `TimezoneType`, `CurrencyType`, `EnumType` |
+| `DateType` | `BirthdayType` |
+| `CheckboxType` | `RadioType` |
+| aucun | `FormType`, `ButtonType` |
+
+Les quatre types numériques sont rangés sous « texte » mais n'héritent **pas**
+de `TextType`. Exécuté : un bloc `text_widget` personnalisé change le rendu d'un
+`TextType`, et laisse intact un `IntegerType`, rendu en
+`<input type="number">`.
+
+## La famille des choix
+
+`ChoiceType` est le parent des six autres : leurs options sont les siennes. Ses
+trois options structurantes sont `choices`, `multiple` et `expanded`. Rendu
+réel :
 
 | `multiple` | `expanded` | Rendu |
 |---|---|---|
-| `false` | `false` | liste déroulante simple |
+| `false` | `false` | `<select>` |
 | `false` | `true` | boutons radio |
-| `true` | `false` | liste déroulante multiple |
+| `true` | `false` | `<select multiple>` |
 | `true` | `true` | cases à cocher |
 
-`RepeatedType` rend **deux champs** dont les valeurs doivent coïncider : c'est le
-motif du mot de passe confirmé.
+Dans `choices`, la **clé est le libellé**, la **valeur est la donnée**. Exécuté
+avec `['France' => 'fr']` : soumettre `fr` donne la donnée `'fr'` ; soumettre
+`France` rend le formulaire invalide, « The selected choice is invalid. ».
+
+`EnumType` exige l'option `class` : sans elle, `MissingOptionsException`.
+
+## `RepeatedType`
+
+Il crée **deux enfants**, `first` et `second` par défaut, du type donné par
+l'option `type`. Exécuté : si les valeurs coïncident, la donnée est **une seule
+valeur** ; sinon le formulaire est invalide, avec « The values do not match. »
+porté par le champ répété lui-même, et la donnée est `null`.
+
+## Les boutons
+
+`ButtonType` n'a **pas de parent** : les boutons ne descendent pas de
+`FormType`. Exécuté, avec une extension de type visant `FormType` : elle
+s'applique au champ texte, **pas** au `SubmitType`, dont les préfixes de bloc
+sont `["button", "submit", …]`.
+
+Un bouton s'ajoute comme un champ, mais c'est un `SubmitButton` : il ne porte
+pas de donnée — absent de `getData()` — et `isClicked()` dit s'il a servi à
+soumettre.
 
 ## Pièges d'examen
 
-**Toute la famille des choix hérite d'un même type socle.** Pays, langue,
-locale, devise et fuseau ne sont pas des types indépendants : ce sont le même
-mécanisme avec une liste pré-remplie, et les options du socle valent pour eux.
+**La famille « texte » n'est pas la lignée de `TextType`** : les types
+numériques héritent directement de `FormType`.
 
-**Deux entrées du catalogue officiel sont hors périmètre** : le type lié à une
-base de données et les champs Symfony UX. Les reconnaître est utile, les réviser
-ne l'est pas.
+**Toute la famille des choix hérite de `ChoiceType`.**
 
-**Les boutons sont des types comme les autres**, ajoutés au formulaire de la
-même façon que les champs.
+**Les clés de `choices` sont les libellés.**
+
+**Un bouton n'est pas un `FormType`** : une extension de `FormType` ne le
+touche pas.
+
+**`RepeatedType` rend deux champs mais une seule donnée.**
 
 ## Points clés
 
-- Quatre familles : texte, choix, date et heure, autres ; plus groupement et
-  boutons.
-- `ChoiceType` est le parent de la famille des choix.
-- `multiple` et `expanded` décident du rendu d'un `ChoiceType`.
-- `RepeatedType` produit deux champs à valeurs identiques.
-- `EntityType` et les champs Symfony UX sont hors périmètre.
+- Catalogue : texte, choix, date et heure, autres, UID, groupes, caché,
+  boutons, base.
+- Famille documentaire ≠ parent ; `IntegerType` hérite de `FormType`.
+- `multiple` × `expanded` : quatre rendus ; `choices` : libellé ⇒ valeur.
+- `RepeatedType` : `first`, `second`, une donnée, erreur sur le champ répété.
+- `ButtonType` sans parent ; `EntityType` et Symfony UX hors périmètre.
 
 ## Sources officielles
 
 - [Form Types Reference](https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types.rst)
+- [Form 8.0, `ChoiceType`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php), [`RepeatedType`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php) et [`ButtonType`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php)

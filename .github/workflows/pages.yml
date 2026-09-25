@@ -2274,6 +2274,32 @@ jobs:
           else
             echo "ok  lot-07  the file upload page carries its four flashcard levels, the file validator, the request handler and the temporary path"
           fi
+          # Lot 07 refinement, page 9 (Built-in form types): the four flashcard
+          # levels, the exception of a missing required option, the button
+          # class and the heading separating documentation family from lineage.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-builtin -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/built-in-form-types")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page built-in-form-types serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-builtin || missing="$missing l7bit:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-builtin || missing="$missing l7bit:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-builtin || missing="$missing l7bit:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-builtin || missing="$missing l7bit:no-trap-heading"
+          grep -aq 'MissingOptionsException' /tmp/l7r-builtin \
+            || missing="$missing l7bit:no-missing-options"
+          grep -aq 'SubmitButton' /tmp/l7r-builtin \
+            || missing="$missing l7bit:no-submit-button"
+          grep -aq 'est pas une lignée' /tmp/l7r-builtin \
+            || missing="$missing l7bit:no-lineage-heading"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the built-in form types page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the built-in form types page carries its four flashcard levels, the missing options exception, the submit button and the lineage heading"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
