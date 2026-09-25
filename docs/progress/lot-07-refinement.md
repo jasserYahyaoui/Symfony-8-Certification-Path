@@ -26,8 +26,8 @@ page.
 | 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | **RAFFINÉE** (PR #234) |
 | 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #235) |
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | **RAFFINÉE** (PR #236) |
-| 7 | CSRF protection | STANDARD | 455 / 900 | 1 | en cours |
-| 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | à faire |
+| 7 | CSRF protection | STANDARD | 455 / 900 | 1 | **RAFFINÉE** (PR #237) |
+| 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | en cours |
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | à faire |
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | à faire |
 | 11 | Form events | DEEP | 584 / 1200 | 3 | à faire |
@@ -526,6 +526,69 @@ version `master` de la page et de sa carte, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 7, lu dans le journal d'exécution.** PR #237 fusionnée
+en squash (`8315011`). Run Pages 36079684044 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the CSRF protection page carries its four
+flashcard levels, the extension, the Referer check and the stateless ids` est
+écrite à **00:56:40 UTC** le 2026-09-25.
+
+## Page 8 — Handling file upload, 2026-09-25
+
+`CRS-cpvcczhj7bzx` · `OIT-j6tqs8s8f54f` · MINIMAL · **290 → 435 mots** sur 700.
+Aucun niveau promu. Exécutions avec `symfony/form` 8.0.15,
+`HttpFoundationExtension` (http-foundation 8.0.15) et `symfony/validator`
+8.0.15.
+
+### Une erreur annoncée qui n'arrive pas
+
+La page et l'explication de `QST-5vpn3hptj28b` (LEARNING) disaient qu'un champ
+de fichier mappé écrit un `UploadedFile` dans une propriété qui attend une
+chaîne, ce qui laissait entendre une erreur de type. Exécuté sur
+`public string $brochure` : le formulaire est **valide** et la propriété reçoit
+le **chemin temporaire** du fichier — PHP convertit l'objet en chaîne. La page
+le dit ; l'explication de la question est précisée, bonne réponse et choix
+inchangés, `reviewed_at` mis à jour.
+
+### Compléments, exécutés et lus dans le code
+
+- Écouteur `PRE_SUBMIT` de `FileType` : une **chaîne** postée à la place du
+  fichier devient `null`, sans erreur ; avec `multiple: true`, la valeur est un
+  **tableau** de fichiers.
+- Le gestionnaire compte : `HttpFoundationRequestHandler` reconnaît un
+  `UploadedFile` ; le gestionnaire natif attend le tableau de `$_FILES`.
+- Contrainte `File(maxSize: '1024k', extensions: ['pdf'])` posée sur le champ :
+  `b.pdf` passe, `b.txt` échoue avec le message d'extension.
+- Sans le composant Mime, l'option `extensions` fait lever une `LogicException`
+  par `FileValidator`.
+
+**Questions.** La seconde question non holdout de l'item (`QST-h3r0j23kcfbe`) a
+été relue : exacte, inchangée. Aucune question holdout n'a été lue.
+
+**Flashcards.** 8 ajoutées ; la carte préexistante `FLC-k5cmghfvqk7h` reçoit le
+niveau TRAP. L'item en porte **9** (3 RECALL, 1 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `FileValidator`,
+`HttpFoundationRequestHandler` et `chemin temporaire`, absentes de la version
+`master` de la page et de sa carte, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form, HttpFoundation et Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 836 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Handling file upload* (MINIMAL, 290 / 700).
+Page 9 — *Built-in form types* (MINIMAL, 383 / 700).
