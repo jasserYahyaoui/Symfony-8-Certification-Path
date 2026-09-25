@@ -2676,7 +2676,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-25'
   tags:
   - csrf
   choices:
@@ -2686,7 +2686,8 @@ questions:
   - id: CHO-46ctqsmdcezv
     text: It checks a header the browser sends automatically
     correct: false
-    explanation: No such header is part of the mechanism.
+    explanation: Not with nothing configured. Only token ids declared stateless rely on the Origin and Referer
+      headers; the default stateful token is a hidden field.
   - id: CHO-a5dpmseg092h
     text: It refuses any request that carries no referrer
     correct: false
