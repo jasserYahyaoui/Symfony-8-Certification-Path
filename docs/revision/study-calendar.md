@@ -464,14 +464,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 2 novembre 2026
 
 - NOUVEAU · **Forms : Handling file upload** (MINIMAL) — 14 min · 435 mots · 2 questions, 9 flashcards
-- NOUVEAU · **Forms : Built-in form types** (MINIMAL) — 10 min · 383 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Forms : Built-in form types** (MINIMAL) — 19 min · 656 mots · 4 questions, 10 flashcards
 - NOUVEAU · **Forms : Data transformers** (STANDARD) — 12 min · 452 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Forms : Form events** (DEEP) — 17 min · 584 mots · 5 questions, 3 flashcards
 - Révision **J+3** (16 min) — Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection
 - Révision **J+7** (18 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 - Révision **J+14** (13 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 
-*Budget du jour : 100 / 160 min*
+*Budget du jour : 109 / 160 min*
 
 ### Mardi 3 novembre 2026
 
