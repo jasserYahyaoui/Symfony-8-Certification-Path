@@ -127,6 +127,7 @@ flashcards:
 - id: FLC-yvey5gkx1zhd
   official_item: OIT-gxew257vwhm8
   language: fr
+  level: RECALL
   front: 'Formulaires : que rend form_end() en plus de la balise fermante ?'
   back: Tous les champs non encore rendus, dont le jeton CSRF.
   explanation: 'Passer render_rest à false supprime ce filet, et fait disparaître le jeton : le formulaire
@@ -1027,3 +1028,187 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Creating Form Types
     verified_at: '2026-09-24'
+- id: FLC-pqbvxpmjsf3v
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: TRAP
+  front: 'Twig : form_row(form.task) puis form_widget(form.task) dans le même gabarit. Que se passe-t-il ?'
+  back: 'Une `BadMethodCallException` : « Field "task" has already been rendered ».'
+  explanation: '`FormRenderer` retient les champs déjà rendus ; pour réutiliser un rendu, on le stocke dans une variable. Observé par exécution avec twig-bridge 8.0.15.'
+  memorization_justification: Réflexe de mélanger ligne et widget pour un même champ.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-25'
+- id: FLC-v32kwemxjxbn
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: TRAP
+  front: 'Twig : form(form, {''action'': path(''cible''), ''method'': ''GET''}) règle-t-il l''action et la méthode ?'
+  back: 'Oui : le bloc `form` appelle `form_start(form)`, qui reçoit ces variables.'
+  explanation: 'Exécuté : la sortie commence par `<form name="task_form" method="get" action="/target">`. `form_start()` reste la forme documentée quand on rend les champs un par un.'
+  memorization_justification: Idée reçue que seul form_start() porte ces options.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-y7sat6xe4nen
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: RECALL
+  front: 'Twig : que fait form_end(form) avant d''écrire la balise fermante ?'
+  back: Il appelle `form_rest(form)`, qui rend les champs non encore rendus, sauf si `render_rest` vaut `false`.
+  explanation: C'est ce qui émet le champ caché du jeton CSRF quand les champs sont rendus un par un.
+  memorization_justification: Filet de sécurité invisible dans le gabarit.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+- id: FLC-ztv3eksqkkr2
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: APPLICATION
+  front: 'Twig : un formulaire rendu champ par champ perd son jeton CSRF. Quel appel est en cause ?'
+  back: '`form_end(form, {''render_rest'': false})` : il n''émet plus les champs restants, jeton compris.'
+  explanation: 'Exécuté avec un champ caché de test : présent avec `form_end(form)`, absent avec `render_rest: false`.'
+  memorization_justification: Diagnostic d'une soumission refusée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-109c9fbbpnxf
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: RECALL
+  front: 'Twig : quelles fonctions rendent chaque partie d''un champ, et laquelle les regroupe ?'
+  back: '`form_label()`, `form_widget()`, `form_help()`, `form_errors()` ; `form_row()` les regroupe dans son conteneur.'
+  explanation: Dans le thème par défaut, la ligne place libellé, saisie, aide et erreurs dans une `div`.
+  memorization_justification: Granularité du rendu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-7q603b1bgfmx
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: UNDERSTANDING
+  front: 'Twig : pourquoi form_widget(form.task) seul ne porte-t-il pas d''attribut aria-describedby vers l''aide ?'
+  back: 'Parce que l''aide n''est pas rendue avec lui : c''est `form_row()` qui assemble saisie et aide et relie les deux.'
+  explanation: 'Observé par exécution : la ligne produit `aria-describedby="task_form_task_help"`, le widget seul non.'
+  memorization_justification: Conséquence d'accessibilité du rendu partiel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
+- id: FLC-jq763xgaqag3
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: RECALL
+  front: 'Twig : comment désactiver la validation HTML5 du navigateur pour un formulaire ?'
+  back: '`form_start(form, {''attr'': {''novalidate'': ''novalidate''}})`.'
+  explanation: Utile pour observer la validation côté serveur.
+  memorization_justification: Option d'attribut documentée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-ttfzs5pdv9vm
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: APPLICATION
+  front: 'Twig : ajouter la classe input-lg à la seule zone de saisie du champ username.'
+  back: '`form_widget(form.username, {''attr'': {''class'': ''input-lg''}})`.'
+  explanation: Les variables passées à une fonction de rendu ne valent que pour cet appel ; elles ne modifient pas la configuration du champ.
+  memorization_justification: Personnalisation ponctuelle sans thème.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-tfvemzsekjqy
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: UNDERSTANDING
+  front: 'Twig : pourquoi les fonctions de rendu prennent-elles form.task plutôt que la chaîne ''task'' ?'
+  back: 'Parce qu''elles travaillent sur une `FormView` : l''objet de vue du champ porte ses variables et l''état « déjà rendu ».'
+  explanation: Le contrôleur passe le formulaire ; `render()` le convertit en vue, et chaque enfant est une `FormView`.
+  memorization_justification: Explique le type d'argument attendu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Rendering Forms
+    verified_at: '2026-09-25'
+- id: FLC-dpd32xt9b3zt
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: RECALL
+  front: 'Twig : que rend form_rest(form) ?'
+  back: Tous les champs du formulaire qui n'ont pas encore été rendus.
+  explanation: '`form_end()` l''appelle lui-même, sauf avec `render_rest: false`.'
+  memorization_justification: Fonction rarement écrite, toujours exécutée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end, form_row
+    verified_at: '2026-09-25'
