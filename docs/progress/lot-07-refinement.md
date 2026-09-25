@@ -25,8 +25,8 @@ page.
 | 3 | Forms handling | STANDARD | 442 / 900 | 1 | **RAFFINÉE** (PR #233) |
 | 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | **RAFFINÉE** (PR #234) |
 | 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #235) |
-| 6 | Forms theming | STANDARD | 465 / 900 | 2 | en cours |
-| 7 | CSRF protection | STANDARD | 455 / 900 | 1 | à faire |
+| 6 | Forms theming | STANDARD | 465 / 900 | 2 | **RAFFINÉE** (PR #236) |
+| 7 | CSRF protection | STANDARD | 455 / 900 | 1 | en cours |
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | à faire |
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | à faire |
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | à faire |
@@ -460,6 +460,72 @@ décompte relevé par script avant rédaction.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 6, lu dans le journal d'exécution.** PR #236 fusionnée
+en squash (`0d6c70b`). Run Pages 36078540163 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the forms theming page carries its four
+flashcard levels, the runtime error, the block prefixes and the failing
+examples` est écrite à **00:41:25 UTC** le 2026-09-25.
+
+## Page 7 — CSRF protection, 2026-09-25
+
+`CRS-0yhqc0b1q7hz` · `OIT-dmkbj2x94rks` · STANDARD · **455 → 595 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/form` 8.0.15 et
+`symfony/security-csrf` 8.0.8.
+
+### Un défaut présenté sans sa condition
+
+« Le mode par défaut est avec état. » C'est vrai de FrameworkBundle sans
+configuration ; mais `security/csrf.rst` (8.0) indique que les jetons **sans
+état** sont **activés par défaut dans une application Flex** — la
+configuration fournie déclare `stateless_token_ids: ['submit', 'authenticate',
+'logout']` et donne `submit` comme identifiant aux types autoconfigurés — et
+qu'ils sont validés par les en-têtes **`Origin` et `Referer`**. La page expose
+les deux cas.
+
+L'explication d'un distracteur de `QST-5ynp5c9e17qw` (LEARNING) affirmait
+qu'aucun en-tête ne participe au mécanisme : faux pour les jetons sans état.
+Précisée (« pas sans configuration »), bonne réponse inchangée.
+
+### Compléments, exécutés et lus dans le code
+
+- Formulaire `task` : enfants `title` et `_token` ; sans jeton, invalide avec
+  « The CSRF token is invalid. Please try to resubmit the form. » ; avec, valide.
+- Identifiant par défaut (`FormTypeCsrfExtension::buildForm()`) : défaut du
+  type, sinon **nom du formulaire**, sinon classe ; le jeton de `task` est
+  refusé par `other`.
+- Champ ajouté au seul formulaire racine (`finishView()`) ; vérification au seul
+  formulaire racine (`CsrfValidationListener`, `isRoot()`).
+- Option `csrf_message` ; configuration `framework.form.csrf_protection`
+  (`token_id`, `field_name`).
+
+**Questions.** Les quatre autres questions non holdout ont été relues : exactes,
+inchangées. Aucune question holdout n'a été lue.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-4476zezkxadx` reçoit le
+niveau TRAP. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`FormTypeCsrfExtension`, `Referer` et `stateless_token_ids`, absentes de la
+version `master` de la page et de sa carte, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form 8.0.15 + security-csrf 8.0.8 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 828 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *CSRF protection* (STANDARD, 455 / 900).
+Page 8 — *Handling file upload* (MINIMAL, 290 / 700).

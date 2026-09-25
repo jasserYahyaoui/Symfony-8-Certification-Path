@@ -2222,6 +2222,32 @@ jobs:
           else
             echo "ok  lot-07  the forms theming page carries its four flashcard levels, the runtime error, the block prefixes and the failing examples"
           fi
+          # Lot 07 refinement, page 7 (CSRF protection): the four flashcard levels,
+          # the CSRF form type extension, the Referer header check of stateless
+          # tokens and the stateless token ids option.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-csrf -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/csrf-protection")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page csrf-protection serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-csrf || missing="$missing l7csr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-csrf || missing="$missing l7csr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-csrf || missing="$missing l7csr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-csrf || missing="$missing l7csr:no-trap-heading"
+          grep -aq 'FormTypeCsrfExtension' /tmp/l7r-csrf \
+            || missing="$missing l7csr:no-extension"
+          grep -aq 'Referer' /tmp/l7r-csrf \
+            || missing="$missing l7csr:no-referer-check"
+          grep -aq 'stateless_token_ids' /tmp/l7r-csrf \
+            || missing="$missing l7csr:no-stateless-ids"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the CSRF protection page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the CSRF protection page carries its four flashcard levels, the extension, the Referer check and the stateless ids"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

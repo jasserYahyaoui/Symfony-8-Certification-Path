@@ -214,6 +214,7 @@ flashcards:
 - id: FLC-4476zezkxadx
   official_item: OIT-dmkbj2x94rks
   language: fr
+  level: TRAP
   front: 'Symfony : un formulaire soumis sans jeton CSRF valide est-il invalide, ou valide avec une
     erreur en plus ?'
   back: 'Invalide. Aucun code applicatif ne teste quoi que ce soit : c''est le composant qui refuse.'
@@ -1397,4 +1398,188 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Form Themes
+    verified_at: '2026-09-25'
+- id: FLC-bdce2jn08pry
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quel identifiant de jeton CSRF un formulaire utilise-t-il si csrf_token_id n''est pas défini ?'
+  back: Le défaut configuré pour son type, sinon le nom du formulaire, sinon la classe du type.
+  explanation: '`FormTypeCsrfExtension::buildForm()` ; exécuté : le formulaire `task` a pour identifiant `task`, et son jeton est refusé par un formulaire `other`.'
+  memorization_justification: Défaut rarement connu, qui isole déjà les formulaires de noms différents.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormTypeCsrfExtension::buildForm(), finishView(), configureOptions()
+    verified_at: '2026-09-25'
+- id: FLC-vvatpxv41hg1
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quel message d''erreur produit un jeton CSRF absent ou invalide ?'
+  back: « The CSRF token is invalid. Please try to resubmit the form. », valeur par défaut de l'option `csrf_message`.
+  explanation: Le formulaire devient invalide ; observé par exécution avec security-csrf 8.0.
+  memorization_justification: Message reconnaissable lors d'un diagnostic.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormTypeCsrfExtension::buildForm(), finishView(), configureOptions()
+    verified_at: '2026-09-25'
+- id: FLC-fk4yczw23aat
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : comment un jeton CSRF sans état est-il validé ?'
+  back: 'Par les en-têtes `Origin` et `Referer` : si l''un correspond à l''origine de l''application, le jeton est accepté.'
+  explanation: Aucune session n'est nécessaire, ce qui garde la page cachable ; derrière un proxy inverse, l'application doit pouvoir déterminer sa propre origine.
+  memorization_justification: Sans état ne veut pas dire sans contrôle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+- id: FLC-qg8khzrk8j5r
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: TRAP
+  front: 'Symfony 8.0 : dans une application Flex, les formulaires utilisent-ils par défaut des jetons CSRF avec état ?'
+  back: 'Non : la configuration fournie déclare `stateless_token_ids: [''submit'', ''authenticate'', ''logout'']` et donne `submit` comme identifiant par défaut aux types autoconfigurés.'
+  explanation: Selon la documentation 8.0, les jetons sans état sont activés par défaut avec Flex ; sans configuration, FrameworkBundle reste en mode avec état.
+  memorization_justification: Défaut qui dépend de la configuration fournie, pas du framework seul.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addCsrfSection(), addFormSection()
+    verified_at: '2026-09-25'
+- id: FLC-f52ndd4wfh17
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : déclarer que l''identifiant de jeton submit est validé sans session.'
+  back: '`framework.csrf_protection.stateless_token_ids: [''submit'']`.'
+  explanation: Tout formulaire dont l'identifiant de jeton est `submit` passe alors en protection sans état.
+  memorization_justification: Configuration directe du mode sans état.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addCsrfSection(), addFormSection()
+    verified_at: '2026-09-25'
+- id: FLC-qba9h06b965s
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : à quel formulaire le champ caché du jeton CSRF est-il ajouté ?'
+  back: 'Au formulaire racine seulement, et s''il est composé : `FormTypeCsrfExtension::finishView()` teste l''absence de parent.'
+  explanation: Un sous-formulaire imbriqué ne reçoit pas son propre jeton ; celui de la racine protège l'ensemble.
+  memorization_justification: Précise où vit le jeton dans une arborescence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormTypeCsrfExtension::buildForm(), finishView(), configureOptions()
+    verified_at: '2026-09-25'
+- id: FLC-azj6qh6gkvf4
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : renommer le champ caché du jeton en _csrf pour tous les formulaires.'
+  back: '`framework.form.csrf_protection.field_name: ''_csrf''` ; pour un seul formulaire, l''option `csrf_field_name`.'
+  explanation: Le défaut est `_token`.
+  memorization_justification: Configuration globale et locale d'une même option.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addCsrfSection(), addFormSection()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+- id: FLC-xd1wxncg7d38
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un jeton CSRF avec état empêche-t-il de mettre la page en cache public ?'
+  back: 'Parce qu''il est stocké en session : l''utiliser démarre une session et émet son cookie.'
+  explanation: C'est la raison d'être des jetons sans état pour les formulaires publics.
+  memorization_justification: Relie CSRF et cachabilité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+- id: FLC-0qbk7dthxwka
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : désactiver csrf_protection sur un sous-formulaire imbriqué désactive-t-il la protection du formulaire principal ?'
+  back: 'Non : le jeton est porté et vérifié par le formulaire racine ; c''est son option à lui qui compte.'
+  explanation: '`finishView()` n''ajoute le champ qu''à la vue racine, et `CsrfValidationListener` ne vérifie que si le formulaire est racine (`isRoot()`).'
+  memorization_justification: Évite une fausse inquiétude sur les formulaires composés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormTypeCsrfExtension::buildForm(), finishView(), configureOptions()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/EventListener/CsrfValidationListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/EventListener/CsrfValidationListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CsrfValidationListener::preSubmit()
+    verified_at: '2026-09-25'
+- id: FLC-0n5wsgj6278p
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: RECALL
+  front: 'Twig : comment produire un jeton CSRF pour un formulaire écrit à la main ?'
+  back: '`{{ csrf_token(''delete-item'') }}` dans un champ caché ; l''argument est l''identifiant à vérifier côté contrôleur.'
+  explanation: La vérification manuelle appartient au lot Controllers.
+  memorization_justification: Pont entre gabarit et contrôleur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
     verified_at: '2026-09-25'
