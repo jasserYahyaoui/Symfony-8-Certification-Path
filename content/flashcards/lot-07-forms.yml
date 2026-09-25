@@ -194,6 +194,7 @@ flashcards:
 - id: FLC-cafrwa53g55w
   official_item: OIT-5xvjqa4203xe
   language: fr
+  level: TRAP
   front: 'Symfony Forms : quel est le parent d''un type de formulaire qui n''en déclare aucun ?'
   back: '`FormType`, la racine de tous les types — pas « aucun parent ».'
   explanation: Hériter est la règle, pas l'exception. C'est aussi pourquoi un formulaire est un type
@@ -847,4 +848,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Processing Forms, Using the submit() Method
+    verified_at: '2026-09-24'
+- id: FLC-e78gzmcdnqf6
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelles sont les six méthodes d''un type, et lesquelles sont obligatoires ?'
+  back: '`buildForm()`, `configureOptions()`, `getParent()`, `getBlockPrefix()`, `buildView()`, `finishView()` ; aucune n''est obligatoire.'
+  explanation: '`AbstractType` donne à chacune un défaut : vide, sauf `getParent()` qui rend `FormType::class` et `getBlockPrefix()` dérivé du nom de classe.'
+  memorization_justification: Liste complète, souvent réduite à quatre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/AbstractType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/AbstractType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractType
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Form Types
+    verified_at: '2026-09-24'
+- id: FLC-hwksd6xa2jsf
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : dans quel ordre buildForm() est-il appelé pour un type, son parent et ses extensions ?'
+  back: Parent d'abord, puis le type, puis ses extensions de type.
+  explanation: '`ResolvedFormType::buildForm()` appelle le parent, puis le type interne, puis chaque extension ; `buildView()` suit le même ordre.'
+  memorization_justification: Explique qu'un type enfant peut modifier ce que son parent a ajouté.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ResolvedFormType::buildForm(), getOptionsResolver()
+    verified_at: '2026-09-24'
+- id: FLC-tdsx59pt364b
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : comment un type hérite-t-il des options de son parent ?'
+  back: '`ResolvedFormType` clone le résolveur d''options du parent avant d''appeler le `configureOptions()` du type : options et défauts du parent sont repris, et modifiables.'
+  explanation: C'est ainsi que `ShippingType` fixe `expanded` à `true` sans redéclarer l'option de `ChoiceType`.
+  memorization_justification: Mécanisme de l'héritage d'options.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ResolvedFormType::buildForm(), getOptionsResolver()
+    verified_at: '2026-09-24'
+- id: FLC-deqw2czed9ns
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quel préfixe de bloc getBlockPrefix() donne-t-il par défaut à DeliveryAddressType ?'
+  back: '`delivery_address` : le nom de classe sans le suffixe `Type`, en *snake case*.'
+  explanation: '`StringUtil::fqcnToBlockPrefix()` ; observé par exécution avec symfony/form 8.0.15.'
+  memorization_justification: Nom des blocs Twig à écrire pour thématiser le type.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Util/StringUtil.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Util/StringUtil.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: StringUtil::fqcnToBlockPrefix()
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/AbstractType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/AbstractType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractType
+    verified_at: '2026-09-24'
+- id: FLC-s5a1rkcg4ess
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un champ shipping de type ShippingType (parent ChoiceType) est ajouté au formulaire order. Quels block_prefixes porte sa vue ?'
+  back: '`["form", "choice", "shipping", "_order_shipping"]`.'
+  explanation: Toute la lignée, de la racine au type, puis un préfixe unique tiré du chemin du champ. Observé par exécution.
+  memorization_justification: Base de la surcharge ciblée des thèmes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/AbstractType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/AbstractType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractType
+    verified_at: '2026-09-24'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-24'
+- id: FLC-22vp2tnng1wc
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : dans quel ordre le rendu cherche-t-il les blocs d''un champ ?'
+  back: 'Du plus spécifique au plus général : le préfixe unique du champ, puis le type, puis ses ancêtres jusqu''à `form`.'
+  explanation: '`FormRenderer` part du dernier élément de `block_prefixes` et redescend tant qu''aucun thème ne définit le bloc.'
+  memorization_justification: Explique qu'un thème ne réécrit que ce qui change.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormRenderer::searchAndRenderBlock()
+    verified_at: '2026-09-24'
+- id: FLC-wj30p71g03w8
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : quel est le parent de FormType lui-même ?'
+  back: 'Aucun : `FormType::getParent()` rend `null`. C''est la racine de tous les types.'
+  explanation: Un type qui ne redéfinit pas `getParent()` hérite, lui, de `FormType`, via le défaut d'`AbstractType`.
+  memorization_justification: Distingue la racine des types sans parent déclaré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/AbstractType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/AbstractType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractType
+    verified_at: '2026-09-24'
+- id: FLC-rr1tm2evx9ve
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un type doit seulement imposer une liste de choix et un rendu en boutons radio. Quelles méthodes écrire ?'
+  back: '`getParent()`, qui rend `ChoiceType::class`, et `configureOptions()`, qui fixe `choices` et `expanded: true`.'
+  explanation: 'Aucune autre méthode n''est nécessaire : le parent fournit champs, options et rendu.'
+  memorization_justification: Cas type de spécialisation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Form Types
+    verified_at: '2026-09-24'
+- id: FLC-yde99ys1cf9w
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : pour imbriquer AddressType dans OrderType, faut-il que getParent() d''OrderType rende AddressType ?'
+  back: 'Non : on ajoute le type comme champ, `->add(''address'', AddressType::class)`. `getParent()` spécialise un type, il n''imbrique pas.'
+  explanation: Hériter donne au type le comportement du parent ; ajouter crée un sous-formulaire avec sa propre donnée.
+  memorization_justification: Confusion classique entre héritage et composition.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Form Types
+    verified_at: '2026-09-24'
+- id: FLC-39eaqa48w4st
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: RECALL
+  front: 'Symfony : un type de formulaire placé dans src/ doit-il être déclaré comme service à la main ?'
+  back: 'Non : l''autoconfiguration le détecte et l''étiquette ; il peut recevoir des dépendances par son constructeur.'
+  explanation: Un type est un service ordinaire du conteneur.
+  memorization_justification: Évite une configuration inutile.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_custom_field_type.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Form Types
     verified_at: '2026-09-24'

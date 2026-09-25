@@ -22,8 +22,8 @@ page.
 |---|---|---|---|---|---|
 | 1 | Form component | STANDARD | 500 / 900 | 1 | **RAFFINÉE** (PR #231) |
 | 2 | Forms creation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #232) |
-| 3 | Forms handling | STANDARD | 442 / 900 | 1 | en cours |
-| 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | à faire |
+| 3 | Forms handling | STANDARD | 442 / 900 | 1 | **RAFFINÉE** (PR #233) |
+| 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | en cours |
 | 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | à faire |
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | à faire |
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | à faire |
@@ -262,6 +262,65 @@ niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 3, lu dans le journal d'exécution.** PR #233 fusionnée
+en squash (`38385e5`). Run Pages 36074918821 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the forms handling page carries its four
+flashcard levels, the logic exception, the payload exception and the request
+handler` est écrite à **23:55:04 UTC** le 2026-09-24.
+
+## Page 4 — Form types (built-in and custom), 2026-09-24
+
+`CRS-f9pen0bdyrr9` · `OIT-5xvjqa4203xe` · STANDARD · **427 → 579 mots** sur 900.
+Aucun niveau promu.
+
+### Rien de faux, une liste incomplète
+
+La page présentait « les quatre méthodes » d'un type. `AbstractType` (8.0) en
+définit **six** — `buildView()` et `finishView()` manquaient —, toutes avec un
+défaut ; l'affirmation « aucune n'est obligatoire » reste juste. L'explication
+de `QST-yyzehfrg9w4n` (LEARNING), qui parlait aussi de « the four methods », est
+précisée ; bonne réponse inchangée. Les quatre autres questions non holdout ont
+été relues : exactes, inchangées. Aucune question holdout n'a été lue.
+
+### Compléments, lus dans le code et exécutés
+
+- `ResolvedFormType` : parent, puis type, puis extensions, pour `buildForm()`
+  comme pour `buildView()` ; résolveur d'options **cloné** du parent.
+- `getBlockPrefix()` : `StringUtil::fqcnToBlockPrefix()`, `DeliveryAddressType`
+  → `delivery_address`.
+- Exécuté avec `symfony/form` 8.0.15 : un champ `shipping` (`ShippingType`,
+  parent `ChoiceType`) du formulaire `order` porte
+  `["form", "choice", "shipping", "_order_shipping"]` ; `expanded` hérité puis
+  surchargé à `true`.
+- `FormRenderer` cherche du préfixe le plus spécifique au plus général.
+- `FormType::getParent()` rend `null` ; `AbstractType::getParent()` rend
+  `FormType::class`.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-cafrwa53g55w` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `finishView`,
+`delivery_address` et `ResolvedFormType`, absentes de la version `master` de la
+page et présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-24**
+
+| Contrôle | Résultat |
+|---|---|
+| exécution `symfony/form` 8.0.15 (préfixes, héritage d'options) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 798 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Form types (built-in and custom)* (STANDARD, 427 / 900).
+Page 5 — *Forms rendering with Twig* (STANDARD, 410 / 900).
