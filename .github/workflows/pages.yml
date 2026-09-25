@@ -2196,6 +2196,32 @@ jobs:
           else
             echo "ok  lot-07  the forms rendering page carries its four flashcard levels, the twice exception, the theme file and the renderer"
           fi
+          # Lot 07 refinement, page 6 (Forms theming): the four flashcard levels,
+          # the runtime error of a documented example, the block prefixes list
+          # and the heading on documented examples that fail.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-theming -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/forms-theming")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page forms-theming serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-theming || missing="$missing l7thm:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-theming || missing="$missing l7thm:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-theming || missing="$missing l7thm:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-theming || missing="$missing l7thm:no-trap-heading"
+          grep -aq 'RuntimeError' /tmp/l7r-theming \
+            || missing="$missing l7thm:no-runtime-error"
+          grep -aq 'block_prefixes' /tmp/l7r-theming \
+            || missing="$missing l7thm:no-block-prefixes"
+          grep -aq 'exemples documentés qui échouent' /tmp/l7r-theming \
+            || missing="$missing l7thm:no-failing-examples"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the forms theming page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the forms theming page carries its four flashcard levels, the runtime error, the block prefixes and the failing examples"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

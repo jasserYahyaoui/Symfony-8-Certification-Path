@@ -552,7 +552,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - theming
   choices:
@@ -570,9 +570,10 @@ questions:
   - id: CHO-t5qc2gwbvakv
     text: text_widget
     correct: false
-    explanation: That customises every text-based field.
-  explanation: 'The lookup goes from the most specific to the most general: _form_field_part, then type_part, then
-    text_part.'
+    explanation: No shipped theme defines text_widget; a custom one reaches TextType fields but not e-mail fields,
+      whose email_widget block is found first.
+  explanation: 'The lookup goes from the most specific to the most general: the unique block _form_field_part, then
+    the block of the field type, then those of its parent types, down to form_part.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
@@ -2567,7 +2568,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-25'
   tags:
   - theming
   - lookup
@@ -2587,8 +2588,8 @@ questions:
     text: Only the block for the exact type, with no fallback
     correct: false
     explanation: The fallback up the type chain is what lets one theme define a single block.
-  explanation: The chain ends at the block the default theme defines for the root of that family, which
-    is why overriding one block is enough.
+  explanation: The chain follows the block_prefixes of the field, from its unique prefix through its type and parent
+    types down to form, which is why overriding one block is enough.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
