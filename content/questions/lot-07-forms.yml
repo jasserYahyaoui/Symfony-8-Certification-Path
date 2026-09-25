@@ -1627,7 +1627,7 @@ questions:
   question_archetype: API_SIGNATURE
   assesses_outcomes:
   - OUT-gm5mj2qf5q98
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-gxew257vwhm8
   domain: symfony
@@ -1638,7 +1638,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which call sets the form's action URL and HTTP method in a template?
+  question: A template renders the fields one by one between form_start() and form_end(). Which call sets the form's
+    action URL and HTTP method?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1648,17 +1649,17 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - rendering
   choices:
   - id: CHO-s80hfrrdv607
     text: 'form_start(form, {''action'': path(''target''), ''method'': ''GET''})'
     correct: true
-  - id: CHO-mzzsqep768aw
-    text: 'form(form, {''action'': path(''target'')})'
+  - id: CHO-z3axn6924asr
+    text: 'form_row(form.task, {''action'': path(''target''), ''method'': ''GET''})'
     correct: false
-    explanation: form() renders everything at once and is not where those are set in the documented example.
+    explanation: form_row() renders one field; the form tag has already been opened by then.
   - id: CHO-5qykv05sxk3y
     text: 'form_end(form, {''action'': path(''target'')})'
     correct: false
@@ -1667,9 +1668,21 @@ questions:
     text: 'form_widget(form, {''method'': ''GET''})'
     correct: false
     explanation: form_widget renders inputs, not the form tag.
-  explanation: form_start() also takes attr for arbitrary attributes, such as novalidate to disable the browser's
-    own validation.
-  official_sources: *id001
+  explanation: form_start() opens the tag and reads action and method. form() accepts the same variables, because
+    its block calls form_start(), but here the tag is opened by form_start() itself. It also takes attr, such as
+    novalidate to disable the browser's own validation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony Forms documentation
+    verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: blocks form, form_start, form_end
+    verified_at: '2026-09-25'
 - id: QST-f67fd9fny984
   question_archetype: API_SIGNATURE
   assesses_outcomes:

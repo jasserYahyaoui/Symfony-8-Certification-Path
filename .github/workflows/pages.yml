@@ -2170,6 +2170,32 @@ jobs:
           else
             echo "ok  lot-07  the form types page carries its four flashcard levels, the finish view method, the block prefix and the resolved type"
           fi
+          # Lot 07 refinement, page 5 (Forms rendering with Twig): the four
+          # flashcard levels, the exception on a field rendered twice, the default
+          # form theme file and the renderer class.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-rendering -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/forms-rendering-with-twig")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page forms-rendering-with-twig serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-rendering || missing="$missing l7rnd:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-rendering || missing="$missing l7rnd:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-rendering || missing="$missing l7rnd:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-rendering || missing="$missing l7rnd:no-trap-heading"
+          grep -aq 'BadMethodCallException' /tmp/l7r-rendering \
+            || missing="$missing l7rnd:no-twice-exception"
+          grep -aq 'form_div_layout' /tmp/l7r-rendering \
+            || missing="$missing l7rnd:no-theme-file"
+          grep -aq 'FormRenderer' /tmp/l7r-rendering \
+            || missing="$missing l7rnd:no-renderer"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the forms rendering page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the forms rendering page carries its four flashcard levels, the twice exception, the theme file and the renderer"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

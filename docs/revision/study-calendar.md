@@ -408,7 +408,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 30 octobre 2026
 
 - NOUVEAU · **Forms : Form types (built-in and custom)** (STANDARD) — 21 min · 579 mots · 5 questions, 11 flashcards
-- NOUVEAU · **Forms : Forms rendering with Twig** (STANDARD) — 11 min · 410 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Forms : Forms rendering with Twig** (STANDARD) — 20 min · 516 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Forms : Forms theming** (STANDARD) — 15 min · 465 mots · 5 questions, 2 flashcards
 - NOUVEAU · **Forms : CSRF protection** (STANDARD) — 13 min · 455 mots · 5 questions, 1 flashcards
 - Révision **J+1** (24 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation · Forms : Forms handling
@@ -416,7 +416,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (16 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags
 - Révision **J+14** (12 min) — Controllers : Internal redirects · Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 
-*Budget du jour : 128 / 160 min*
+*Budget du jour : 137 / 160 min*
 
 ### Samedi 31 octobre 2026
 

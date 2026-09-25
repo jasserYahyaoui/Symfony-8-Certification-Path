@@ -23,8 +23,8 @@ page.
 | 1 | Form component | STANDARD | 500 / 900 | 1 | **RAFFINÉE** (PR #231) |
 | 2 | Forms creation | STANDARD | 422 / 900 | 1 | **RAFFINÉE** (PR #232) |
 | 3 | Forms handling | STANDARD | 442 / 900 | 1 | **RAFFINÉE** (PR #233) |
-| 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | en cours |
-| 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | à faire |
+| 4 | Form types (built-in and custom) | STANDARD | 427 / 900 | 1 | **RAFFINÉE** (PR #234) |
+| 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | en cours |
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | à faire |
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | à faire |
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | à faire |
@@ -321,6 +321,73 @@ page et présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 4, lu dans le journal d'exécution.** PR #234 fusionnée
+en squash (`9241921`). Run Pages 36076144072 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the form types page carries its four flashcard
+levels, the finish view method, the block prefix and the resolved type` est
+écrite à **00:10:40 UTC** le 2026-09-25.
+
+## Page 5 — Forms rendering with Twig, 2026-09-25
+
+`CRS-b5nj93xzz10b` · `OIT-gxew257vwhm8` · STANDARD · **410 → 516 mots** sur 900.
+Aucun niveau promu. Rendu réel exécuté avec `symfony/twig-bridge` 8.0.15, Twig
+3.22.2 et le thème `form_div_layout.html.twig`.
+
+### Une question VALIDATION à deux bonnes réponses
+
+`QST-m9pvk08gts1f` demandait quel appel règle l'action et la méthode, et tenait
+`form(form, {'action': …})` pour faux. Exécuté :
+`form(form, {'action': '/target', 'method': 'GET'})` produit
+`<form name="task_form" method="get" action="/target">` — le bloc `form` appelle
+`form_start(form)`, qui reçoit ces variables. L'énoncé précise désormais que les
+champs sont rendus un par un entre `form_start()` et `form_end()` ; le
+distracteur devenu vrai est remplacé par un appel `form_row()`
+(`CHO-z3axn6924asr`), explication et source du thème, **version 2**.
+
+### Une affirmation fausse
+
+« Mélanger ligne et widget donne des libellés en double ou absents » : pour un
+même champ, c'est une **exception**. `FormRenderer` retient les champs rendus, et
+`form_row(form.task)` suivi de `form_widget(form.task)` lève une
+`BadMethodCallException`, « Field "task" has already been rendered ». Exécuté.
+
+### Compléments, exécutés
+
+- Sortie réelle de `form_row()` (libellé, saisie, aide, `aria-describedby`) et
+  de `form_widget()` (saisie seule, sans lien vers l'aide).
+- `form_end()` appelle `form_rest()` sauf `render_rest: false` : un champ caché
+  non rendu apparaît, puis disparaît avec l'option.
+
+**Questions.** Les trois autres questions non holdout ont été relues : exactes,
+inchangées. Aucune question holdout n'a été lue.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-yvey5gkx1zhd` reçoit le
+niveau RECALL. L'item en porte **11** (5 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+2 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`BadMethodCallException`, `form_div_layout` et `FormRenderer`, absentes de la
+version `master` de la page et présentes dans le build local.
+`aria-describedby` a été écarté comme aiguille : l'interface du site peut le
+produire elle-même.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| rendu twig-bridge 8.0.15 / Twig 3.22.2 (cinq gabarits) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 808 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Forms rendering with Twig* (STANDARD, 410 / 900).
+Page 6 — *Forms theming* (STANDARD, 465 / 900).
