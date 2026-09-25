@@ -816,7 +816,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - upload
   choices:
@@ -835,8 +835,8 @@ questions:
     text: Mapped file fields are a security risk
     correct: false
     explanation: The reason is a type mismatch, not a vulnerability.
-  explanation: Mapping it would write an UploadedFile into a property that expects a string. The file is moved and
-    its name stored separately.
+  explanation: Mapping it would write an UploadedFile into a property that expects a string; on a typed string
+    property PHP even converts it silently to the temporary path. The file is moved and its name stored separately.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst

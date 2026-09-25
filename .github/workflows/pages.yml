@@ -2248,6 +2248,32 @@ jobs:
           else
             echo "ok  lot-07  the CSRF protection page carries its four flashcard levels, the extension, the Referer check and the stateless ids"
           fi
+          # Lot 07 refinement, page 8 (Handling file upload): the four flashcard
+          # levels, the file validator, the request handler that recognises an
+          # uploaded file and the words on the silently stored temporary path.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-upload -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/handling-file-upload")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page handling-file-upload serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-upload || missing="$missing l7upl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-upload || missing="$missing l7upl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-upload || missing="$missing l7upl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-upload || missing="$missing l7upl:no-trap-heading"
+          grep -aq 'FileValidator' /tmp/l7r-upload \
+            || missing="$missing l7upl:no-file-validator"
+          grep -aq 'HttpFoundationRequestHandler' /tmp/l7r-upload \
+            || missing="$missing l7upl:no-request-handler"
+          grep -aq 'chemin temporaire' /tmp/l7r-upload \
+            || missing="$missing l7upl:no-temporary-path"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the file upload page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the file upload page carries its four flashcard levels, the file validator, the request handler and the temporary path"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

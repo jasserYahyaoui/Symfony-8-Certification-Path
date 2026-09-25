@@ -232,6 +232,7 @@ flashcards:
 - id: FLC-k5cmghfvqk7h
   official_item: OIT-j6tqs8s8f54f
   language: fr
+  level: TRAP
   front: 'Symfony Forms : un champ de fichier doit-il être mappé à la propriété de l''entité ?'
   back: 'Non, presque jamais : l''entité stocke un nom de fichier, pas un fichier.'
   explanation: Laisser le champ mappé fait écrire un objet dans une propriété qui attend une chaîne.
@@ -1582,4 +1583,144 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: CSRF Protection in Symfony Forms, Stateless CSRF Tokens
+    verified_at: '2026-09-25'
+- id: FLC-2n2exead315n
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un FileType mappé sur une propriété public string $brochure reçoit un fichier. Que se passe-t-il ?'
+  back: 'Aucune erreur : le formulaire est valide et la propriété reçoit le chemin temporaire du fichier, l''objet ayant été converti en chaîne.'
+  explanation: 'Observé par exécution avec symfony/form 8.0.15 et HttpFoundationExtension. C''est pourquoi le champ se déclare `mapped: false`.'
+  memorization_justification: Corruption silencieuse plutôt qu'exception.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileType::buildForm(), PRE_SUBMIT listener
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Upload Files
+    verified_at: '2026-09-25'
+- id: FLC-vxjn2kn36x8d
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : où déclarer les contraintes d''un champ de fichier non mappé ?'
+  back: 'Dans l''option `constraints` du champ, par exemple `new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])`.'
+  explanation: Un champ non mappé ne profite pas des contraintes déclarées sur l'entité.
+  memorization_justification: Exemple documenté de la page d'upload.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Upload Files
+    verified_at: '2026-09-25'
+- id: FLC-rhc8pkmc678z
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: TRAP
+  front: 'Symfony : que se passe-t-il si la contrainte File utilise extensions sans que le composant Mime soit installé ?'
+  back: 'Une `LogicException` : « You cannot validate the mime-type of files as the Mime component is not installed ».'
+  explanation: '`FileValidator` vérifie le type MIME correspondant aux extensions, ce qui exige `symfony/mime` ; reproduit par exécution.'
+  memorization_justification: Dépendance implicite d'une option courante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/FileValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/FileValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-xrwjcxsjgrsc
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi une chaîne postée dans un champ FileType devient-elle null ?'
+  back: Un écouteur `PRE_SUBMIT` de `FileType` ne garde que de vrais fichiers téléversés, reconnus par le gestionnaire de requête ; le reste est remplacé par `null`.
+  explanation: 'Exécuté : `submit([''brochure'' => ''evil.php''])` laisse le champ à `null`, et le formulaire reste valide.'
+  memorization_justification: Protection intégrée contre une valeur forgée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileType::buildForm(), PRE_SUBMIT listener
+    verified_at: '2026-09-25'
+- id: FLC-qjbzzxjq9x7x
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : que renvoie getData() d''un FileType avec multiple: true ?'
+  back: Un tableau de fichiers téléversés.
+  explanation: Sans fichier reçu, c'est la donnée vide configurée qui s'applique.
+  memorization_justification: Forme de la donnée selon l'option.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileType::buildForm(), PRE_SUBMIT listener
+    verified_at: '2026-09-25'
+- id: FLC-pd6y0d5ts52s
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : sur un formulaire de modification, un nouveau fichier ne doit être traité que s''il a été envoyé. Quel code ?'
+  back: '`$file = $form->get(''brochure'')->getData(); if ($file) { … }`, avec le champ déclaré `required: false`.'
+  explanation: Sans envoi, `getData()` renvoie `null` ; l'absence signifie « garder l'existant ».
+  memorization_justification: Motif du téléversement facultatif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Upload Files
+    verified_at: '2026-09-25'
+- id: FLC-evwcbm22ny4t
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quel gestionnaire de requête reconnaît un objet UploadedFile comme fichier téléversé ?'
+  back: '`HttpFoundationRequestHandler`, celui du framework ; le gestionnaire natif attend le tableau de `$_FILES`.'
+  explanation: 'Observé : avec le gestionnaire natif, un `UploadedFile` passé à `submit()` n''est pas reconnu et le champ devient `null`.'
+  memorization_justification: Explique des tests de formulaire qui perdent leurs fichiers.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileType::buildForm(), PRE_SUBMIT listener
+    verified_at: '2026-09-25'
+- id: FLC-xxyr8bchtt2w
+  official_item: OIT-j6tqs8s8f54f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : n''accepter que des PDF d''au plus 1 Mo dans le champ brochure.'
+  back: '`''constraints'' => [new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])]` sur le champ, composant Mime installé.'
+  explanation: 'Exécuté : `b.pdf` passe, `b.txt` échoue avec le message d''extension.'
+  memorization_justification: Mise en pratique de la contrainte File.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/upload_file.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Upload Files
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/FileValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/FileValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FileValidator::validate()
     verified_at: '2026-09-25'
