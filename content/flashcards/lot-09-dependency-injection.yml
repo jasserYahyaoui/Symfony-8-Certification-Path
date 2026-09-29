@@ -3,6 +3,7 @@ flashcards:
 - id: FLC-1y9kmkwvmjg7
   official_item: OIT-92ctf3sy3ddk
   language: fr
+  level: TRAP
   front: Recevoir le conteneur en argument, est-ce de l'injection de dépendances ?
   back: 'Non. C''est de la récupération de services : les dépendances réelles disparaissent de la signature.'
   explanation: L'injection nomme ce dont la classe a besoin ; le conteneur permet de demander n'importe
@@ -190,3 +191,169 @@ flashcards:
     symbol_or_lines: '"public static function getSubscribedServices(): array"; and the inheritance example "return array_merge(parent::getSubscribedServices(), [ ... ])"'
     branch: '8.0'
     verified_at: '2026-09-01'
+- id: FLC-g83rfk7rmkf5
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : après compile(), $container->get(''mailer'') lève une ServiceNotFoundException alors que le service est défini. Pourquoi ?'
+  back: 'Parce qu''une définition créée par `register()` est **privée** par défaut : la compilation l''a retirée ou inlinée. Il faut `setPublic(true)`.'
+  explanation: 'Exécuté avec dependency-injection 8.0.15 : « removed or inlined when the container was compiled… make it public, or stop using the container directly and use dependency injection ».'
+  memorization_justification: Le conseil du message est la leçon de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Definition::isPublic(), setShared(), setProperty()
+    verified_at: '2026-09-25'
+- id: FLC-d2zy76cabspv
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : get() fonctionne-t-il sur un ContainerBuilder non compilé ?'
+  back: 'Oui : le service est construit et les paramètres `%…%` sont même résolus ; mais aucune passe de compilation ne s''exécute et rien n''est figé.'
+  explanation: 'Exécuté : `get(''mailer'')` avant `compile()` rend un `Mailer` dont le transport a reçu `smtp.acme.test`.'
+  memorization_justification: On croit compile() indispensable pour obtenir un service.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-j71chhwhsvk2
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: RECALL
+  front: 'DependencyInjection : que se passe-t-il si l''on appelle register() après compile() ?'
+  back: 'Une `BadMethodCallException` : « Adding definition to a compiled container is not allowed. »'
+  explanation: Le conteneur compilé est figé ; `setParameter()` lève aussi, une `LogicException` sur un ParameterBag figé.
+  memorization_justification: Effet concret du gel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-3603033a85gj
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: RECALL
+  front: 'DependencyInjection : quelles sont les trois formes d''injection, et laquelle est la voie normale ?'
+  back: Constructeur (voie normale, dépendance obligatoire), mutateur (facultatif ou cycle), propriété (déconseillée).
+  explanation: La propriété se déclare par `Definition::setProperty()` ; exécuté.
+  memorization_justification: Classement des formes d'injection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Service Container
+    verified_at: '2026-09-25'
+- id: FLC-xsv5jbt9xk86
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: RECALL
+  front: 'DependencyInjection : deux get(''mailer'') successifs rendent-ils la même instance ?'
+  back: 'Oui, par défaut : le service est partagé. `setShared(false)` donne une instance neuve à chaque appel.'
+  explanation: 'Exécuté : `===` vrai par défaut, faux avec `setShared(false)`.'
+  memorization_justification: Cycle de vie par défaut d'un service.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Definition::isPublic(), setShared(), setProperty()
+    verified_at: '2026-09-25'
+- id: FLC-5vmf08nqy10s
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: UNDERSTANDING
+  front: 'DependencyInjection : pourquoi recevoir le conteneur entier masque-t-il les dépendances ?'
+  back: 'Parce que la classe peut demander n''importe quel service : ses besoins réels ne figurent plus dans sa signature et ne sont plus vérifiables à la compilation.'
+  explanation: C'est de la récupération de services, pas de l'injection.
+  memorization_justification: Distinction de fond de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Service Container
+    verified_at: '2026-09-25'
+- id: FLC-1ttg3fp5fmxw
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: UNDERSTANDING
+  front: 'DependencyInjection : que fait compile() de plus qu''un simple get() ?'
+  back: Il exécute les passes de compilation, résout le conteneur et le fige ; les services privés inutilisés sont retirés ou inlinés.
+  explanation: 'Exécuté : après `compile()`, `has(''transport'')` vaut `false` pour un service privé inliné.'
+  memorization_justification: Rôle de la compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-yqf0wrxqtkgn
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: APPLICATION
+  front: 'DependencyInjection hors framework : déclarer un service mailer récupérable après compilation, avec un transport en argument.'
+  back: '`$c->register(''mailer'', Mailer::class)->addArgument(new Reference(''transport''))->setPublic(true); $c->compile();`'
+  explanation: Sans `setPublic(true)`, `get('mailer')` échoue après compilation.
+  memorization_justification: Assemblage minimal correct.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-bj248q73awk4
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: APPLICATION
+  front: 'DependencyInjection : passer un paramètre smtp_host au constructeur d''un service.'
+  back: '`$c->setParameter(''smtp_host'', ''smtp.acme.test''); $c->register(''transport'', SmtpTransport::class)->addArgument(''%smtp_host%'');`'
+  explanation: La valeur `%smtp_host%` est remplacée par le paramètre ; exécuté.
+  memorization_justification: Syntaxe des paramètres.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-52t4mqa7vj24
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : peut-on ajouter un paramètre au conteneur après compile() ?'
+  back: 'Non : `setParameter()` lève une `LogicException`, « Impossible to call set() on a frozen ParameterBag. »'
+  explanation: Exécuté avec dependency-injection 8.0.15.
+  memorization_justification: Le gel porte aussi sur les paramètres.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
