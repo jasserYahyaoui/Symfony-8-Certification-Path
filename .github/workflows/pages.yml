@@ -2300,6 +2300,33 @@ jobs:
           else
             echo "ok  lot-07  the built-in form types page carries its four flashcard levels, the missing options exception, the submit button and the lineage heading"
           fi
+          # Lot 07 refinement, page 10 (Data transformers): the four flashcard
+          # levels, the builder class whose two methods order the chain, the
+          # public message setter and the heading on the documented example
+          # that ignores empty values.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-transformers -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/data-transformers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page data-transformers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-transformers || missing="$missing l7dtr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-transformers || missing="$missing l7dtr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-transformers || missing="$missing l7dtr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-transformers || missing="$missing l7dtr:no-trap-heading"
+          grep -aq 'FormConfigBuilder' /tmp/l7r-transformers \
+            || missing="$missing l7dtr:no-config-builder"
+          grep -aq 'setInvalidMessage' /tmp/l7r-transformers \
+            || missing="$missing l7dtr:no-invalid-message-setter"
+          grep -aq 'qui ignore le vide' /tmp/l7r-transformers \
+            || missing="$missing l7dtr:no-empty-example"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the data transformers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the data transformers page carries its four flashcard levels, the config builder, the invalid message setter and the empty example"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

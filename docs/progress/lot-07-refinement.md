@@ -28,8 +28,8 @@ page.
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | **RAFFINÉE** (PR #236) |
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | **RAFFINÉE** (PR #237) |
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | **RAFFINÉE** (PR #238) |
-| 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | en cours |
-| 10 | Data transformers | STANDARD | 452 / 900 | 1 | à faire |
+| 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | **RAFFINÉE** (PR #239) |
+| 10 | Data transformers | STANDARD | 452 / 900 | 1 | en cours |
 | 11 | Form events | DEEP | 584 / 1200 | 3 | à faire |
 | 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | à faire |
 | 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | à faire |
@@ -661,6 +661,89 @@ la version `master` de la page et des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 9, lu dans le journal d'exécution.** PR #239 fusionnée
+en squash (`d1a9253`) le 2026-09-29. Run Pages 36556869018 : build, déploiement
+et smoke test en succès ; la ligne `ok  lot-07  the built-in form types page
+carries its four flashcard levels, the missing options exception, the submit
+button and the lineage heading` est écrite à **10:41:20 UTC** le 2026-09-29.
+
+## Page 10 — Data transformers, 2026-09-25
+
+`CRS-cj36gys6vatx` · `OIT-58r9dadx916v` · STANDARD · **452 → 760 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/form` et `symfony/validator`
+8.0.15, PHP 8.4 ; `DataTransformerInterface` identique entre le paquet exécuté et
+la branche 8.0 (`diff -q`).
+
+### Une question publiée avec une mauvaise réponse
+
+`QST-rcbeqstzndek` (LEARNING) : « un transformateur convertit un flottant en la
+chaîne qu'affiche le champ ; `transform()` reçoit `null` ; que demande la règle
+documentée ? » La réponse marquée juste était `0.0`. La note de
+`data_transformers.rst` (8.0) demande l'équivalent vide du **type cible** — ici
+une chaîne, donc une **chaîne vide** ; l'explication de la question le disait
+elle-même. Corrigée en **v2** : bonne réponse « An empty string »
+(`CHO-j400nyd1geny`), `0.0` devient un distracteur (`CHO-g653hjc1kvaq`), le
+distracteur `NaN` est retiré pour garder quatre choix, l'explication du
+distracteur `null` est rectifiée (exécuté : un champ texte rend `null` comme une
+valeur vide). Son tag `null`, non quoté, était lu comme une valeur nulle : il est
+quoté.
+
+### Une affirmation inexacte et un exemple documenté qui échoue
+
+**« `transform()` est appelée au rendu. »** Exécuté avec des transformateurs qui
+journalisent : `getForm()` sur des données initiales les appelle,
+`createView()` n'appelle rien. Après une soumission réussie, les `transform()` des
+transformateurs de vue sont rappelées.
+
+**L'exemple `CallbackTransformer` des tags** (`implode()` / `explode()`) ne traite
+pas le vide : tags `null` posés, `TypeError` ; champ soumis vide, dépréciation
+d'`explode()` et donnée `['']`. La page le signale et donne la correction.
+
+### Compléments, exécutés et lus dans le code
+
+- Ordre d'une chaîne (`FormConfigBuilder`) : `addModelTransformer()` insère en
+  tête, `addViewTransformer()` ajoute à la fin ; `M1`, `M2`, `V1`, `V2` donnent
+  `M2 → M1 → V1 → V2` puis, à la soumission, `V2 → V1 → M1 → M2`.
+- `TransformationFailedException` : champ non synchronisé, donnée `null`, donnée
+  de vue `'42'` conservée, erreur « This value is not valid. » tirée de
+  `invalid_message` ; le message de l'exception n'apparaît pas.
+- `setInvalidMessage()` n'agit qu'avec l'extension Validator (`FormValidator`) ;
+  sans elle, `TransformationFailureListener` applique `invalid_message`.
+- Toute autre exception sort de `submit()` (`InvalidArgumentException`).
+- Soumission vide : un transformateur de vue reçoit `''`, un transformateur de
+  modèle `null`.
+
+**Questions.** `QST-xa0hazmsb5mc` (LEARNING) : l'explication d'un distracteur
+laissait entendre que le contrôleur ne s'exécute pas ; précisée, bonne réponse
+inchangée, `reviewed_at` mis à jour. `QST-bj8py053ynmp` et `QST-6rpjqqwv1qg9`
+(VALIDATION) relues : exactes, inchangées. L'item ne porte pas de question
+holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-tta4ns1abpfy` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`FormConfigBuilder`, `setInvalidMessage` et `qui ignore le vide`, absentes de la
+version `master` de la page et des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form + Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 855 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 10 — *Data transformers* (STANDARD, 452 / 900).
+Page 11 — *Form events* (DEEP, 584 / 1200).
