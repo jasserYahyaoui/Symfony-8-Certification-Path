@@ -2691,6 +2691,32 @@ jobs:
           else
             echo "ok  lot-09  the built-in services page carries its four flashcard levels, the unaliased service, the autowiring command and the type-hint suggestion"
           fi
+          # Lot 09 refinement, page 4 (Configuration parameters): the four
+          # flashcard levels, the missing-variable exception, the unused-binding
+          # pass and the error of a percent pair read as a reference.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-params -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/configuration-parameters")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page configuration-parameters serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-params || missing="$missing l9par:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-params || missing="$missing l9par:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-params || missing="$missing l9par:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-params || missing="$missing l9par:no-trap-heading"
+          grep -aq 'EnvNotFoundException' /tmp/l9r-params \
+            || missing="$missing l9par:no-env-not-found"
+          grep -aq 'ResolveBindingsPass' /tmp/l9r-params \
+            || missing="$missing l9par:no-bindings-pass"
+          grep -aq 'non-existent parameter' /tmp/l9r-params \
+            || missing="$missing l9par:no-missing-parameter"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the configuration parameters page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the configuration parameters page carries its four flashcard levels, the missing variable, the bindings pass and the percent reference"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
