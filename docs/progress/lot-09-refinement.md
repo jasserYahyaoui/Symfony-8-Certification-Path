@@ -318,6 +318,87 @@ absentes de la version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 5 — *Services registration* — RAFFINÉE
+
+`CRS-g8fteyd38nrt` · `OIT-stze9x4aydp3` · STANDARD · **395 → 637 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle 8.0.15, aux
+composants fixés en `8.0.*`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 4 du lot 09 (PR #257, `32cd29f`) | 36620997465, success | `ok  lot-09  the configuration parameters page carries its four flashcard levels, the missing variable, the bindings pass and the percent reference` |
+
+### Une configuration « par défaut » qui n'est pas celle de la documentation
+
+La page présentait la section `services` « d'une application neuve » avec un
+`exclude` de `DependencyInjection/`, `Entity/` et `Kernel.php`. La configuration
+par défaut que montre `service_container.rst` (8.0) n'en a pas : `_defaults`,
+puis `App\: { resource: '../src/' }`, et `exclude` n'apparaît que comme option.
+La page reprend la version documentée. Exécuté : une classe placée dans `src/`
+avec un argument `string` non résolu, jamais injectée, n'empêche pas le
+démarrage — `exclude` est une option, pas une obligation.
+
+L'explication de `QST-8e8zfpay4pj4` (VALIDATION) reposait sur le même défaut
+supposé (« Entities and the Kernel are excluded… ») ; elle est corrigée, version
+conservée.
+
+### Un énoncé que l'exécution rend ambigu
+
+`QST-smjza039q4hw` (LEARNING) demandait quel attribut « garde une classe hors
+de la découverte ». Exécuté : `#[When(env: 'prod')]` le fait aussi, hors de son
+environnement — en `dev`, l'injecter lève « needs an instance of … but this type
+has been excluded ». L'explication du distracteur `#[When]` affirmait au
+contraire que la classe « is still discovered ». La question passe en **v2** :
+l'énoncé précise « **in every environment** », bonne réponse `#[Exclude]`,
+choix inchangés, explications corrigées.
+
+### Confirmé par l'exécution
+
+- `_defaults` ne traverse pas `when@dev` : sans `_defaults` dans le bloc, le
+  service n'est pas autowiré, et l'erreur n'arrive qu'à l'instanciation —
+  `ArgumentCountError`, « Too few arguments … 0 passed ». Avec un `_defaults`
+  local, il reçoit le logger. La carte `FLC-6a9ngbsfteyg`, qui parlait d'une
+  omission « sans message », est précisée et reçoit le niveau TRAP.
+- Une classe exclue puis déclarée explicitement est enregistrée, avec la
+  visibilité demandée.
+- `#[AsAlias('app.sms')]` crée un alias **privé** ; `#[AutoconfigureTag]` sur une
+  interface tague ses implémentations ; `#[Exclude]` fait échouer toute
+  injection, dans tous les environnements, avec le même message.
+- `#[Autoconfigure]` : arguments relus dans le constructeur 8.0.15 (`tags`,
+  `calls`, `bind`, `lazy`, `public`, `shared`, `autowire`, `properties`,
+  `configurator`, `constructor`, `resourceTags`).
+
+**Questions.** `QST-gfqb0xrb7tbx`, `QST-q2p4t3hjc5x0`, `QST-c12z17ez0ss5` et
+`QST-r73ye7dqg80n` (LEARNING) relues : exactes, inchangées. L'item ne porte pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-6a9ngbsfteyg` précisée, niveau TRAP.
+L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP),
+décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`container.excluded`, `ArgumentCountError` et `private alias`, absentes de la
+version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 011 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Services registration* (STANDARD, 395 / 900).
+Page 6 — *Service decoration* (STANDARD, 450 / 900).

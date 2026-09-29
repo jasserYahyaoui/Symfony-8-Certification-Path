@@ -76,11 +76,13 @@ flashcards:
 - id: FLC-6a9ngbsfteyg
   official_item: OIT-stze9x4aydp3
   language: fr
+  level: TRAP
   front: _defaults s'applique-t-il aux blocs when@dev du même fichier ?
   back: Non. Chaque bloc when@ doit redéfinir son propre _defaults, sinon ni autowire ni autoconfigure.
-  explanation: Un service déclaré dans un bloc d'environnement sans _defaults n'est donc pas câblé, sans
-    message explicite.
-  memorization_justification: 'Rien ne signale l''omission : le service existe mais n''est pas autowire.'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : le service n''est pas autowiré, et l''erreur n''arrive
+    qu''à l''instanciation — ArgumentCountError, « Too few arguments … 0 passed » — sans nommer _defaults.'
+  memorization_justification: 'Rien ne signale l''omission à la compilation : le service existe mais n''est
+    pas autowiré.'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
@@ -881,4 +883,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: EnvVarProcessor::getProvidedTypes()
+    verified_at: '2026-09-29'
+- id: FLC-s0a4hmee1xza
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: RECALL
+  front: 'Symfony : que contient la section services de la configuration par défaut d''un projet neuf ?'
+  back: '`_defaults` avec `autowire: true` et `autoconfigure: true`, puis `App\: { resource: ''../src/'' }`.'
+  explanation: C'est la configuration montrée par `service_container.rst` (8.0) ; `exclude` s'ajoute au besoin.
+  memorization_justification: Point de départ de tout projet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
+    verified_at: '2026-09-29'
+- id: FLC-axeg15tqsa78
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut, posé sur une interface, tague toutes ses implémentations ?'
+  back: '`#[AutoconfigureTag(''app.notifier'')]`.'
+  explanation: 'Exécuté : la classe qui implémente l''interface porte le tag `app.notifier`.'
+  memorization_justification: Tag depuis le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutoconfigureTag
+    verified_at: '2026-09-29'
+- id: FLC-s9g7r1meqbk4
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle est la visibilité d''un alias créé par #[AsAlias(''app.sms'')] ?'
+  back: 'Privé : exécuté, `debug:container app.sms` affiche « a private alias for the service … ».'
+  explanation: Comme toute définition, l'alias est privé par défaut.
+  memorization_justification: Visibilité supposée publique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsAlias.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsAlias.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AsAlias
+    verified_at: '2026-09-29'
+- id: FLC-bem67hg3wr04
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi écrire une classe dans src/ suffit-il, sans configuration ?'
+  back: La découverte en fait un service, `autowire` résout ses arguments par type, `autoconfigure` lui pose les tags de ses interfaces.
+  explanation: Trois mécanismes superposés par la configuration par défaut.
+  memorization_justification: Mécanique de l'enregistrement automatique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
+    verified_at: '2026-09-29'
+- id: FLC-cg9rn3d35f7h
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une entité découverte dans src/ n''empêche-t-elle pas le démarrage ?'
+  back: Parce qu'un service privé que rien n'utilise est retiré avant que ses arguments ne posent problème.
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : une classe avec un argument `string` non résolu, jamais injectée, laisse le noyau démarrer.'
+  memorization_justification: exclude n'est pas une obligation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
+    verified_at: '2026-09-29'
+- id: FLC-cztv1b2cn5r6
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi les arguments explicites se nomment-ils $nom plutôt que par position ?'
+  back: 'Pour qu''une déclaration survive à un réordonnancement du constructeur : `$directory` vise l''argument de ce nom, où qu''il soit.'
+  explanation: '`@id` référence un service, `%param%` un paramètre, `$nom` un argument.'
+  memorization_justification: Trois préfixes à ne pas confondre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
+    verified_at: '2026-09-29'
+- id: FLC-6th1d5ntwz94
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : réserver un service à l''environnement prod depuis sa classe.'
+  back: '`#[When(env: ''prod'')]` sur la classe.'
+  explanation: 'Exécuté : injecté en prod ; en dev, « needs an instance of … but this type has been excluded ».'
+  memorization_justification: Service par environnement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: When
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: needs an instance of "%s" but this type has been excluded %s
+    verified_at: '2026-09-29'
+- id: FLC-xqgvznnd3q72
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre un service public et lazy sans toucher au YAML.'
+  back: '`#[Autoconfigure(public: true, lazy: true)]` sur la classe.'
+  explanation: '`Autoconfigure` accepte aussi `tags`, `calls`, `bind`, `shared`, `constructor`…'
+  memorization_justification: Options de définition depuis le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autoconfigure.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autoconfigure.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Autoconfigure::__construct(tags, calls, bind, lazy, public, shared, autowire, properties, configurator, constructor, resourceTags)
+    verified_at: '2026-09-29'
+- id: FLC-acycqbex8x54
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: TRAP
+  front: 'Symfony : #[When(env: ''prod'')] supprime-t-il la classe du conteneur en dev ?'
+  back: 'Non : la définition existe, marquée `container.excluded` ; l''injecter échoue avec « this type has been excluded ».'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: Exclusion confondue avec absence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: When
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: needs an instance of "%s" but this type has been excluded %s
+    verified_at: '2026-09-29'
+- id: FLC-1sh0svd623qd
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: TRAP
+  front: 'Symfony : une classe listée dans exclude peut-elle devenir un service ?'
+  back: 'Oui, si elle est **déclarée** explicitement : exécuté, elle est enregistrée avec la visibilité demandée.'
+  explanation: '`exclude` retire la classe de la découverte, rien de plus.'
+  memorization_justification: exclude pris pour une interdiction.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
     verified_at: '2026-09-29'
