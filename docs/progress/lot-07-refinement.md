@@ -27,8 +27,8 @@ page.
 | 5 | Forms rendering with Twig | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #235) |
 | 6 | Forms theming | STANDARD | 465 / 900 | 2 | **RAFFINÉE** (PR #236) |
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | **RAFFINÉE** (PR #237) |
-| 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | en cours |
-| 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | à faire |
+| 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | **RAFFINÉE** (PR #238) |
+| 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | en cours |
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | à faire |
 | 11 | Form events | DEEP | 584 / 1200 | 3 | à faire |
 | 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | à faire |
@@ -589,6 +589,78 @@ niveau TRAP. L'item en porte **9** (3 RECALL, 1 UNDERSTANDING, 2 APPLICATION,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 8, lu dans le journal d'exécution.** PR #238 fusionnée
+en squash (`89a031e`). Run Pages 36080908502 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the file upload page carries its four
+flashcard levels, the file validator, the request handler and the temporary
+path` est écrite à **01:13:25 UTC** le 2026-09-25.
+
+## Page 9 — Built-in form types, 2026-09-25
+
+`CRS-zsgx3tvpy1kn` · `OIT-p810t98zedem` · MINIMAL · **383 → 656 mots** sur 700.
+Aucun niveau promu. Exécutions avec `symfony/form` 8.0.15 et twig-bridge 8.0.15 ;
+`ButtonType`, `ChoiceType`, `EnumType`, `IntegerType` et `RepeatedType`
+identiques entre le paquet exécuté et la branche 8.0 de `symfony/symfony`
+(`diff -q`).
+
+### Deux affirmations inexactes
+
+**« Les boutons sont des types comme les autres. »** Ils s'ajoutent comme des
+champs, mais `ButtonType::getParent()` retourne `null` : les boutons ne
+descendent pas de `FormType`. Exécuté : une extension de type visant `FormType`
+atteint le champ texte, pas le `SubmitType`, dont les préfixes de bloc sont
+`["button", "submit", "_x_save"]`. La page le dit ; l'explication de la carte
+`FLC-e6rmxrw6vdbt`, qui reprenait la formule, est corrigée.
+
+**Le catalogue omettait une famille.** `map.rst.inc` (8.0) liste les types UID,
+`UuidType` et `UlidType`, absents de la page ; et range `FormType` sous « Base »,
+pas parmi les groupes. Tableau aligné sur la documentation.
+
+### Compléments, exécutés et lus dans le code
+
+- Parents relevés par `getParent()` sur les 38 types concrets : `IntegerType`,
+  `NumberType`, `MoneyType` et `PercentType`, rangés sous « texte » par la
+  documentation, héritent **directement de `FormType`** ; un bloc `text_widget`
+  personnalisé laisse un `IntegerType` rendu en `<input type="number">`.
+- `ChoiceType` parent de six types, dont `EnumType` ; les quatre rendus de
+  `multiple` × `expanded`, observés.
+- `choices` : `['France' => 'fr']`, `fr` accepté, `France` refusé avec « The
+  selected choice is invalid. ».
+- `EnumType` sans `class` : `MissingOptionsException`.
+- `RepeatedType` : enfants `first` et `second`, une seule donnée, « The values do
+  not match. » porté par le champ répété.
+- Bouton : objet `SubmitButton`, absent de `getData()`, `isClicked()` à `true`.
+- `UuidType` sans le composant Uid : construction et rendu, puis `Error` à la
+  soumission (classe `Uuid` introuvable).
+
+**Questions.** Les quatre questions non holdout de l'item (toutes LEARNING) ont
+été relues : exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 9 ajoutées ; la carte préexistante `FLC-e6rmxrw6vdbt` reçoit le
+niveau TRAP. L'item en porte **10** (2 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`MissingOptionsException`, `SubmitButton` et `est pas une lignée`, absentes de
+la version `master` de la page et des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-25**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form 8.0.15 + twig-bridge 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 845 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *Built-in form types* (MINIMAL, 383 / 700).
+Page 10 — *Data transformers* (STANDARD, 452 / 900).

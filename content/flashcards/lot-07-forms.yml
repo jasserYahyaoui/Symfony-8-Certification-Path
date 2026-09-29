@@ -249,11 +249,11 @@ flashcards:
 - id: FLC-e6rmxrw6vdbt
   official_item: OIT-p810t98zedem
   language: fr
+  level: TRAP
   front: 'Symfony Forms : `CountryType`, `LanguageType`, `LocaleType`, `CurrencyType` et `TimezoneType`
     sont-ils des types indépendants ?'
   back: Non — ce sont le même type socle, `ChoiceType`, avec une liste pré-remplie.
-  explanation: Les options du socle valent donc pour eux tous. Les boutons sont eux aussi des types
-    comme les autres, ajoutés au formulaire de la même façon que les champs.
+  explanation: "Les options du socle valent donc pour eux tous. Les boutons, eux, s'ajoutent comme des champs mais ne descendent pas de `FormType` : `ButtonType` n'a pas de parent."
   memorization_justification: Factorisation invisible depuis le catalogue, où les cinq apparaissent
     comme des entrées séparées.
   verification_status: VERIFIED
@@ -1723,4 +1723,160 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: FileValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-95mce7vx432d
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : IntegerType est rangé parmi les champs texte de la documentation. Hérite-t-il de TextType ?'
+  back: 'Non : il hérite directement de `FormType`, comme `NumberType`, `MoneyType` et `PercentType`.'
+  explanation: 'Les familles rangent la documentation, `getParent()` décide de l''héritage. Exécuté : un bloc `text_widget` personnalisé ne change pas le rendu d''un `IntegerType`, qui reste `<input type="number">`.'
+  memorization_justification: Confusion naturelle entre classement documentaire et lignée de types.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/IntegerType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/IntegerType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: IntegerType, no getParent() override
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Supported field types
+    verified_at: '2026-09-25'
+- id: FLC-apfbj9fxhfj9
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quels types héritent directement de ChoiceType ?'
+  back: '`CountryType`, `LanguageType`, `LocaleType`, `TimezoneType`, `CurrencyType` et `EnumType`.'
+  explanation: 'Relevé par `getParent()` sur les types de `symfony/form` 8.0.15 : leurs options sont celles de `ChoiceType`.'
+  memorization_justification: Liste fermée de la famille des choix.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ChoiceType::configureOptions(), choices, multiple, expanded
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Supported field types
+    verified_at: '2026-09-25'
+- id: FLC-j1shpg5w908k
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : une liste de choix doit s''afficher en cases à cocher. Quelles valeurs donner à multiple et expanded ?'
+  back: '`multiple: true` et `expanded: true`.'
+  explanation: 'Rendu réel : `false`/`false` donne un `<select>`, `false`/`true` des boutons radio, `true`/`false` un `<select multiple>`, `true`/`true` des cases à cocher.'
+  memorization_justification: Combinaison la plus demandée des deux booléens.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ChoiceType::configureOptions(), choices, multiple, expanded
+    verified_at: '2026-09-25'
+- id: FLC-b9hh9h135ne0
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : avec choices égal à [''France'' => ''fr''], quelle valeur soumise est acceptée ?'
+  back: '`fr`. La clé est le libellé affiché, la valeur est la donnée.'
+  explanation: 'Exécuté : soumettre `fr` donne la donnée `''fr''` ; soumettre `France` rend le formulaire invalide, « The selected choice is invalid. ».'
+  memorization_justification: Sens de la table inversé par intuition.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ChoiceType::configureOptions(), choices, multiple, expanded
+    verified_at: '2026-09-25'
+- id: FLC-jm0yz44xrdrs
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : RepeatedType rend deux champs. Combien de valeurs sa donnée contient-elle ?'
+  back: 'Une seule : la valeur commune, quand les deux champs coïncident.'
+  explanation: 'Exécuté : `first` et `second` valant `a` donnent la donnée `''a''` ; des valeurs différentes donnent `null` et un formulaire invalide.'
+  memorization_justification: 'Deux saisies, une donnée : la confirmation est absorbée par le type.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: RepeatedType::buildForm(), first_name, second_name, invalid_message
+    verified_at: '2026-09-25'
+- id: FLC-v5528877c9dm
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quels sont les noms par défaut des deux enfants d''un RepeatedType, et son message d''erreur ?'
+  back: '`first` et `second` ; « The values do not match. », porté par le champ répété lui-même.'
+  explanation: Options `first_name`, `second_name` et `invalid_message` de `RepeatedType::configureOptions()` ; l'erreur n'est pas attachée à `second`, vérifié par exécution.
+  memorization_justification: Noms à connaître pour les options par enfant et le rendu manuel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: RepeatedType::buildForm(), first_name, second_name, invalid_message
+    verified_at: '2026-09-25'
+- id: FLC-afrv326hae6d
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : une extension de type vise FormType. S''applique-t-elle aussi à un SubmitType ?'
+  back: 'Non. `ButtonType` n''a pas de parent : les boutons ne descendent pas de `FormType`.'
+  explanation: 'Exécuté : l''extension atteint le champ texte, pas le `SubmitType`, dont les préfixes de bloc sont `button`, `submit` puis le préfixe unique.'
+  memorization_justification: Les boutons s'ajoutent comme des champs, ce qui masque leur lignée à part.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ButtonType::getParent() returns null
+    verified_at: '2026-09-25'
+- id: FLC-5v303kcv3msq
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : le bouton save apparaît-il dans getData() du formulaire soumis ?'
+  back: 'Non : un bouton ne porte pas de donnée. On lit `$form->get(''save'')->isClicked()` pour savoir s''il a servi.'
+  explanation: 'Exécuté : après soumission, la donnée ne contient que les champs ; `isClicked()` vaut `true` pour le bouton envoyé. L''objet est un `SubmitButton`.'
+  memorization_justification: Distingue un bouton d'un champ ordinaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ButtonType::getParent() returns null
+    verified_at: '2026-09-25'
+- id: FLC-qvtnakw7btws
+  official_item: OIT-p810t98zedem
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : ajouter un champ EnumType pour l''énumération Suit. Quelle option est obligatoire ?'
+  back: L'option `class`, par exemple `['class' => Suit::class]`.
+  explanation: 'Exécuté sans elle : `MissingOptionsException`, « The required option "class" is missing. ».'
+  memorization_justification: Seule option requise d'un type de choix courant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/EnumType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/EnumType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EnumType::configureOptions(), required class option
     verified_at: '2026-09-25'
