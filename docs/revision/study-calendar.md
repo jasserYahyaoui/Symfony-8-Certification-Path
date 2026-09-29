@@ -384,13 +384,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 19 min · 564 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Data Validation : Validation groups** (STANDARD) — 20 min · 567 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Data Validation : Group sequence** (DEEP) — 13 min · 545 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Group sequence** (DEEP) — 23 min · 846 mots · 4 questions, 10 flashcards
 - NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
 - Révision **J+1** (24 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+7** (14 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 - Révision **J+14** (10 min) — Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request · Controllers : The response
 
-*Budget du jour : 111 / 160 min*
+*Budget du jour : 121 / 160 min*
 
 ### Jeudi 29 octobre 2026
 

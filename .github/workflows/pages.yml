@@ -2535,6 +2535,32 @@ jobs:
           else
             echo "ok  lot-08  the validation groups page carries its four flashcard levels, the implicit group method, the documentation gap and the cascaded street"
           fi
+          # Lot 08 refinement, page 6 (Group sequence): the four flashcard
+          # levels, the exception refusing Default, the metadata class that
+          # raises it and the heading comparing documentation and code.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-sequence -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/group-sequence")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page group-sequence serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-sequence || missing="$missing l8seq:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-sequence || missing="$missing l8seq:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-sequence || missing="$missing l8seq:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-sequence || missing="$missing l8seq:no-trap-heading"
+          grep -aq 'GroupDefinitionException' /tmp/l8r-sequence \
+            || missing="$missing l8seq:no-group-definition"
+          grep -aq 'ClassMetadata' /tmp/l8r-sequence \
+            || missing="$missing l8seq:no-class-metadata"
+          grep -aq 'ce que fait le code' /tmp/l8r-sequence \
+            || missing="$missing l8seq:no-doc-code-heading"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the group sequence page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the group sequence page carries its four flashcard levels, the group definition exception, the class metadata and the documentation heading"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

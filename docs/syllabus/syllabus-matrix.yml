@@ -5469,7 +5469,7 @@ items:
     content_level: DEEP
     content_level_justification: >-
       Un ordre d'exécution avec arrêt au premier échec, plus trois effets de bord structurels :
-      Default change de sens et provoque une récursion infinie s'il est inclus, valider un groupe de
+      Default change de sens et, inclus dans une séquence de classe, lève une exception, valider un groupe de
       la séquence la contourne, et la forme du tableau rendu par le provider — plate ou imbriquée —
       change les groupes réellement valides. Chaque étage modifie la réponse.
     learning_outcomes:

@@ -24,8 +24,8 @@ première page.
 | 2 | PHP object validation | STANDARD | 420 / 900 | 1 | **RAFFINÉE** (PR #246) |
 | 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | **RAFFINÉE** (PR #247) |
 | 4 | Validation scopes | STANDARD | 400 / 900 | 1 | **RAFFINÉE** (PR #248) |
-| 5 | Validation groups | STANDARD | 399 / 900 | 1 | en cours |
-| 6 | Group sequence | DEEP | 545 / 1200 | 1 | à faire |
+| 5 | Validation groups | STANDARD | 399 / 900 | 1 | **RAFFINÉE** (PR #249) |
+| 6 | Group sequence | DEEP | 545 / 1200 | 1 | en cours |
 | 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | à faire |
 | 8 | Violations builder | STANDARD | 465 / 900 | 1 | à faire |
 
@@ -383,6 +383,88 @@ build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 5, lu dans le journal d'exécution.** PR #249 fusionnée
+en squash (`95b3fe1`). Run Pages 36569727497 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the validation groups page carries its four
+flashcard levels, the implicit group method, the documentation gap and the
+cascaded street` est écrite à **12:43:13 UTC** le 2026-09-29.
+
+## Page 6 — Group sequence, 2026-09-29
+
+`CRS-bthv5xmh5wea` · `OIT-rwavvsx2d7nq` · DEEP · **545 → 846 mots** sur 1 200.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15 ;
+`ClassMetadata.php` identique entre le paquet exécuté et la branche 8.0
+(`diff -q`).
+
+### Une question publiée avec une mauvaise réponse, reprise de la documentation
+
+`sequence_provider.rst` (8.0) dit qu'inclure `Default` dans une séquence produit
+une **récursion infinie** ; la page, la carte `FLC-rstx3zwpz28w`,
+`QST-467dyvf9ht74` (LEARNING, bonne réponse « Infinite recursion ») et la
+justification de niveau de la matrice le reprenaient. Le code refuse la séquence
+avant : `ClassMetadata::setGroupSequence()` lève une `GroupDefinitionException`.
+Exécuté :
+
+| Séquence de classe | Résultat |
+|---|---|
+| `['Default', 'Strict']` | « The group "Default" is not allowed in group sequences. » |
+| `['Strict']` | « The group "MissingClass" is missing in the group sequence. » |
+
+Corrections :
+
+- `QST-467dyvf9ht74` passe en **v2** : bonne réponse « An exception refusing
+  Default in the sequence » (`CHO-64fmhjevsea9`), « Infinite recursion » devient
+  un distracteur (`CHO-wpg21mszpb8m`), le distracteur « Only Default is
+  validated… » est retiré pour garder quatre choix, source du code ajoutée.
+- La carte `FLC-rstx3zwpz28w` est corrigée et nivelée TRAP. Sa justification
+  prétendait aussi que la séquence est « l'unique cas » où `Default` et le nom de
+  la classe divergent ; la page 5 a montré qu'ils divergent aussi sur les objets
+  imbriqués.
+- La justification de niveau de `OIT-rwavvsx2d7nq` dans la matrice parle
+  désormais d'une exception. Le niveau `DEEP` est inchangé.
+
+### Compléments, exécutés
+
+- Arrêt au premier groupe en échec : `username` vide, une seule violation ;
+  rempli, la violation de `Strict`.
+- `['Strict']` valide `Strict` seul ; le nom de la classe (`['Seq']`) n'applique
+  que ses contraintes ; seul `Default` déroule la séquence.
+- Provider : à plat, seules les violations de `User` ; imbriqué, celles de
+  `User` et de `Premium`. Un provider sans le nom de la classe ne lève rien.
+- Une `GroupSequence` passée à `validate()` accepte `Default` et s'arrête de même.
+
+**Questions.** `QST-h9d44gg643q8`, `QST-0hcwz5ma0vpr` (LEARNING) et
+`QST-z99j5z8mk6cf` (VALIDATION) relues : exactes, inchangées — l'exécution
+confirme la question sur le tableau imbriqué. Une question holdout porte sur
+l'item ; elle n'a pas été lue. **Signal pour le propriétaire, sans lecture** :
+une question holdout qui donnerait la récursion infinie pour réponse serait
+fausse au regard du code.
+
+**Flashcards.** 9 ajoutées ; la carte préexistante reçoit le niveau TRAP. L'item
+en porte **10** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`GroupDefinitionException`, `ClassMetadata` et `ce que fait le code`, absentes de
+la version `master` de la page et de ses cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 941 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Group sequence* (DEEP, 545 / 1200).
+Page 7 — *Custom callback validators* (STANDARD, 404 / 900).
