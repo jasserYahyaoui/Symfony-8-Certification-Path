@@ -27,7 +27,7 @@ première page.
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | **RAFFINÉE** (PR #249) |
 | 6 | Group sequence | DEEP | 545 / 1200 | 1 | **RAFFINÉE** (PR #250) |
 | 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | **RAFFINÉE** (PR #251) |
-| 8 | Violations builder | STANDARD | 465 / 900 | 1 | en cours |
+| 8 | Violations builder | STANDARD | 465 / 900 | 1 | **RAFFINÉE** (PR #252) |
 
 ## Page 1 — Validator component, 2026-09-29
 
@@ -591,7 +591,203 @@ build local. `setInvalidValue`, envisagée, figurait déjà sur la page : écart
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 8, lu dans le journal d'exécution.** PR #252 fusionnée
+en squash (`de6e940`). Run Pages 36574321210 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the violations builder page carries its four
+flashcard levels, the message template, the invalid value heading and the ten
+methods` est écrite à **13:22:32 UTC** le 2026-09-29.
+
+# Rapport de fin de lot 08
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`109dfd0`, le commit de `master` qui précède la première page refondue (PR #245).
+État mesuré : `master` à `de6e940`. Le même script a vérifié que les huit
+décomptes de mots et de niveaux écrits dans les entrées de page correspondent
+aux fichiers.
+
+## Périmètre
+
+**8** items officiels atomiques portent `lot: lot-08` dans la matrice :
+7 `STANDARD`, 1 `DEEP` — niveaux inchangés pendant la campagne. Cette
+répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 08 est **8 / 8**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 8 cours du lot 08 | 3 363 | **5 057** | **+1 694** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `STANDARD` | 900 | 7 | PHP object validation, 671 |
+| `DEEP` | 1200 | 1 | Group sequence, 846 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 08 | 8 | **87** | **+79** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 27 · `UNDERSTANDING` 18 · `APPLICATION` 16 · `TRAP` 26.
+**Zéro carte du lot sans niveau.** Les huit cartes préexistantes ont reçu un
+niveau ; aucune n'a été supprimée ; quatre ont été corrigées (pages 2, 3, 4, 6),
+décompte relevé par script.
+
+## Questions et pools
+
+**33** questions portent sur les items du lot 08 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 21 | `lot-08-data-validation.yml` |
+| `VALIDATION` | 8 | `lot-08-data-validation.yml` |
+| `HOLDOUT` | 4 | 2 dans `lot-08-data-validation.yml`, 2 dans `mock-04-holdout.yml` |
+
+**Huit questions modifiées** — sept `LEARNING`, une `VALIDATION`. Là où la
+version n'a pas bougé, l'énoncé, le texte des choix et la bonne réponse sont
+identiques à la base (**0 écart**, vérifié par script) :
+
+| Question | Pool | Page | Modification |
+|---|---|---|---|
+| `QST-m5f3k7za0tpt` | LEARNING | 1 | explication d'un choix (`validate()` sans contrainte lève) |
+| `QST-g22z7fmy0cg3` | LEARNING | 2 | explications (`Cascade`) |
+| `QST-5jrexz5sjxkf` | VALIDATION | 2 | explication d'un choix (`MappingException`) |
+| `QST-9zsx244xw271` | LEARNING | 3 | **deux bonnes réponses** : énoncé réécrit, un choix neuf, v1 → 2 |
+| `QST-56renepg88tq` | LEARNING | 3 | explication d'un choix |
+| `QST-5ryp5r5qg631` | LEARNING | 4 | énoncé aligné sur le code (`MappingException`), v1 → 2 |
+| `QST-467dyvf9ht74` | LEARNING | 6 | **bonne réponse changée** (exception, pas récursion), v1 → 2 |
+| `QST-m2hsqcvcwrej` | LEARNING | 8 | explication d'un choix |
+
+La comparaison compte **zéro question `HOLDOUT` modifiée** ; le script n'en
+teste que l'égalité, sans en afficher le contenu.
+
+**`POOL-002` : 0 manquant.** Les huit items `STANDARD` ou `DEEP` `EXAM_READY`
+portent chacun au moins une question `VALIDATION`.
+
+### Matrice
+
+Deux textes de la matrice reposaient sur une prémisse fausse et ont été
+corrigés, sans toucher aux niveaux : l'objectif `OUT-wkzdab0t8y8n` (« … sur une
+valeur zéro » devient « … sur une valeur vide ou nulle », page 3) et la
+justification de niveau de `OIT-rwavvsx2d7nq` (la récursion infinie devient une
+exception, page 6). Le rapport de couverture est inchangé.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 4 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets servis
+(« 516 questions, all LEARNING, no holdout id or choice »). C'est une
+**isolation fonctionnelle**. Ce n'est **pas** de la confidentialité :
+`mock-4.json` est publié et porte les réponses correctes.
+
+Aucun contenu holdout n'a été lu ; les recherches ont exclu le pool `HOLDOUT` et
+`mock-04-holdout.yml`. Deux signaux restent ouverts pour le propriétaire, sans
+identifiant : une question holdout qui affirmerait que `NotBlank` refuse
+l'entier `0` (page 3), ou qui donnerait la récursion infinie comme sanction de
+`Default` dans une séquence (page 6), serait fausse au regard du code.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant à chaque page ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | exit 0 à chaque page |
+| `composer gate-full` | **PASS** | 299 tests, 16 961 assertions sur la page 8, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, `FINDINGS: 0`, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas ; empreinte SHA-256 de `content/` et `docs/` identique avant et après |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10 --prove`, `lot27_practice_audit.py --prove` | **PASS** | exit 0 |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full` ; verte en CI à chaque PR |
+| Branche + PR par page (§15) | **PASS** | #245 à #252, une par page, CI verte avant chaque fusion en squash |
+| Déploiement + smoke test de production | **PASS pour les 8 pages** | lignes `ok lot-08 …` lues dans les journaux d'exécution, page par page ; la dernière à 13:22:32 UTC le 2026-09-29 |
+
+## Défauts trouvés dans le corpus existant
+
+Vérifiés contre le code de Symfony 8.0, **par exécution** (`symfony/validator`
+8.0.15, et `dependency-injection` 8.0.15 pour les extensions) :
+
+| Page | Défaut corrigé |
+|---|---|
+| 01 Validator component | « `validate()` ne lève jamais » : un scalaire sans contrainte lève ; `createValidator()` ignore les attributs |
+| 02 PHP object validation | `loadValidatorMetadata()` non statique lève une `MappingException` ; `Cascade` absent |
+| 03 Built-in constraints | `NotBlank` accepte l'entier `0` — **une question à deux bonnes réponses** ; familles décalées de la référence |
+| 04 Validation scopes | un mauvais nom d'accesseur lève, il n'est pas ignoré en silence |
+| 05 Validation groups | une contrainte du seul nom de classe n'est pas dans `Default` |
+| 06 Group sequence | `Default` dans une séquence lève, pas de récursion — **bonne réponse d'une question changée** |
+| 07 Callback validators | rien de faux ; comportements confirmés et complétés |
+| 08 Violations builder | `addViolation()` du contexte accepte des paramètres ; `atPath()` ne change pas la valeur fautive |
+
+## Écarts entre la documentation et le code
+
+Tranchés par la hiérarchie des sources — le code l'emporte — et signalés sur les
+pages :
+
+| Page | La documentation (8.0) | Le code, exécuté |
+|---|---|---|
+| 05 | `groups.rst` : une contrainte configurée avec le nom de la classe est dans `Default` | groupes `["User"]` seulement ; ne s'exécute pas en `Default` |
+| 06 | `sequence_provider.rst` : `Default` dans une séquence produit une récursion infinie | `GroupDefinitionException` levée par `ClassMetadata::setGroupSequence()` |
+| 02 | `validation.rst` : propriété absente de la cible d'`#[ExtendsValidationFor]` → `MappingException` | au niveau du composant, `ValidatorException` ; chemin du framework non exécuté, écart signalé sans être tranché |
+
+Une règle documentée a au contraire été confirmée : `Validation::createValidator()`
+ne lit pas les attributs sans `enableAttributeMapping()`
+(`components/validator/resources.rst`).
+
+## Défauts introduits par moi
+
+**Aucun n'a atteint la production.**
+
+| Défaut | Attrapé par |
+|---|---|
+| aiguille de smoke test `Assert\\Cascade` au motif fragile (page 2) | relecture du bloc avant contrôle ; remplacée par `Cascade` |
+| aiguille `setInvalidValue` déjà présente sur la page en production (page 8) | contrôle scripté d'absence sur `master` ; remplacée |
+| message cité avec des barres obliques inverses parasites dans une explication préparée (page 6) | relecture du script avant application ; message reformulé |
+
+## Résumé auditable
+
+> Le lot 08 compte **8** items officiels atomiques (7 `STANDARD`, 1 `DEEP`),
+> tous `EXAM_READY` avant comme après. La couverture du projet —
+> `EXAM_READY / total`, la seule formule admise — vaut **163/163 = 100,0 %** et
+> **n'a pas bougé**.
+>
+> Les huit cours passent de **3 363** à **5 057** mots de corps (+1 694), aucun
+> au-dessus de son budget, aucun niveau promu. Les flashcards passent de **8** à
+> **87** (+79), toutes nivelées, réparties 27/18/16/26 — une **observation**, pas
+> une cible. **33** questions portent sur le lot (21 `LEARNING`, 8 `VALIDATION`,
+> 4 `HOLDOUT`), aucune ajoutée ni supprimée ; huit corrigées, dont trois en
+> version 2 — une bonne réponse fausse changée, une question à deux bonnes
+> réponses réécrite, un énoncé aligné sur le code ; aucune `HOLDOUT` modifiée ;
+> `POOL-002` sans manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce que
+> le smoke test de production revérifie ; il n'est **pas confidentiel**.
+>
+> Sept pages sur huit portaient une affirmation fausse ou incomplète ; toutes
+> corrigées contre le code, par exécution. Deux écarts entre documentation et
+> code ont été tranchés en faveur du code, un troisième signalé. Les 8 pages sont
+> en production, smoke test lu pour chacune.
+
 ## Prochaine étape
 
-Fusionner et déployer la page 8, lire son smoke test, puis rédiger le rapport
-de fin de lot 08, réconcilié par script, dans sa propre PR.
+Lot 09, page 1, dans l'ordre officiel des items. Restent ouverts : les signaux
+holdout des lots 06, 07 et 08 (revue par le propriétaire), l'avertissement
+`PED-003` et la PR #148, sans lien avec ce lot.
