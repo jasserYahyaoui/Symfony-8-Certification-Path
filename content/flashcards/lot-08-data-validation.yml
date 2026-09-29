@@ -3,6 +3,7 @@ flashcards:
 - id: FLC-3sceej8y8a54
   official_item: OIT-6wd8860brzfy
   language: fr
+  level: TRAP
   front: 'Validator : que retourne validate() quand tout est valide ?'
   back: Une ConstraintViolationListInterface vide — jamais true, jamais null.
   explanation: 'Une liste vide reste un objet, donc une valeur vraie : le test doit porter sur count(),
@@ -128,3 +129,175 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: addViolation
     verified_at: '2026-09-01'
+- id: FLC-gs9qaxhpg8rd
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: TRAP
+  front: 'Validator hors framework : Validation::createValidator() valide un objet portant des contraintes en attributs, aux valeurs invalides. Combien de violations ?'
+  back: 'Zéro. Ce validateur ne lit pas les attributs : il faut `Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator()`.'
+  explanation: '`ValidatorBuilder` démarre avec la lecture des attributs désactivée. Exécuté avec symfony/validator 8.0.15 : 0 violation, puis 2 avec `enableAttributeMapping()`.'
+  memorization_justification: 'Un oubli silencieux : l''objet paraît valide.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/ValidatorBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/ValidatorBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ValidatorBuilder::enableAttributeMapping(), default false
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/validator/resources.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/validator/resources.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Loading Resources, attribute mapping
+    verified_at: '2026-09-25'
+- id: FLC-b7w8xvx56b7e
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: TRAP
+  front: 'Validator : que fait $validator->validate(''x'') sans contrainte ?'
+  back: 'Il lève une `RuntimeException` : « Cannot validate values of type "string" automatically. Please provide a constraint. »'
+  explanation: 'Exécuté : même chose pour un entier ou `null`. Un objet ou un tableau sans contrainte donne une liste vide.'
+  memorization_justification: Contredit l'idée que validate() ne lève jamais.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validate(), no constraint for a scalar
+    verified_at: '2026-09-25'
+- id: FLC-wpygfvfw8h61
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : un tableau est validé contre Email. Exception ou violation ?'
+  back: 'Une violation : « This value should be of type string. »'
+  explanation: Exécuté ; de même pour un objet contre `Length`. Une donnée invalide, même mal typée, produit une violation.
+  memorization_justification: Distingue donnée invalide et usage invalide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'
+- id: FLC-b13mpdyc01bc
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: RECALL
+  front: 'Validator : quand new Assert\Length() sans option lève-t-il une exception, et laquelle ?'
+  back: 'À la construction de la contrainte : `MissingOptionsException`, « Either option "min" or "max" must be given… ».'
+  explanation: Une contrainte mal configurée échoue avant toute validation. Exécuté.
+  memorization_justification: L'erreur de configuration n'attend pas la donnée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'
+- id: FLC-qe3skkbjamzw
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: RECALL
+  front: 'Validator : quelles sont les trois méthodes d''entrée de ValidatorInterface ?'
+  back: '`validate()`, `validateProperty()` et `validatePropertyValue()`, chacune avec les groupes en dernier argument.'
+  explanation: Toutes retournent une `ConstraintViolationListInterface`.
+  memorization_justification: Surface de l'API.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ValidatorInterface
+    verified_at: '2026-09-25'
+- id: FLC-3varyj6x10n9
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi if ($violations) ne dit-il pas si la validation a échoué ?'
+  back: 'Parce qu''une liste vide reste un objet : convertie en booléen, elle vaut `true`. Il faut tester `count($violations)`.'
+  explanation: 'Exécuté : `(bool)` d''une liste vide donne `true`.'
+  memorization_justification: Erreur de test la plus fréquente.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'
+- id: FLC-xv34tzgygdz8
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: APPLICATION
+  front: 'Validator : tester un e-mail candidat contre les contraintes de User::$email, sans instance de User.'
+  back: '`$validator->validatePropertyValue(User::class, ''email'', $candidate)`.'
+  explanation: 'La méthode accepte un nom de classe et ne touche à aucun objet. Exécuté : une violation pour `''nope''`.'
+  memorization_justification: Cas d'usage typique d'un formulaire en plusieurs étapes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ValidatorInterface
+    verified_at: '2026-09-25'
+- id: FLC-qre4mg5mh9mn
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: APPLICATION
+  front: 'OptionsResolver : restreindre l''option email aux adresses valides avec une contrainte du Validator.'
+  back: '`$resolver->setAllowedValues(''email'', Validation::createIsValidCallable(new Assert\Email()))`.'
+  explanation: La fonction produite retourne `false` pour une valeur invalide. Exemple documenté dans `validation.rst` et `options_resolver.rst`.
+  memorization_justification: Pont entre deux composants.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validation.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validation.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Validation::createCallable(), createIsValidCallable()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'
+- id: FLC-a2xta0a9pj0m
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: RECALL
+  front: 'Validator : que fait la fonction produite par Validation::createCallable() pour une valeur invalide ?'
+  back: Elle lève `ValidationFailedException`, alors que `createIsValidCallable()` retourne `false`.
+  explanation: Exécuté avec `Email` sur `'x'`.
+  memorization_justification: Deux raccourcis voisins aux comportements opposés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validation.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validation.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Validation::createCallable(), createIsValidCallable()
+    verified_at: '2026-09-25'
+- id: FLC-0hbby0sfkqj4
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : que retourne getPropertyPath() pour une violation sur la ville d''une adresse imbriquée par #[Assert\Valid] ?'
+  back: '`address.city`.'
+  explanation: 'Exécuté : le chemin suit la propriété de l''objet parent puis celle de l''objet imbriqué.'
+  memorization_justification: Lecture des violations d'un objet composé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'

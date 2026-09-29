@@ -91,7 +91,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - validator
   - api
@@ -106,7 +106,7 @@ questions:
   - id: CHO-sy158azmqxdg
     text: $validator->validate($candidate)
     correct: false
-    explanation: With no constraints passed, this validates the string against nothing and always succeeds.
+    explanation: With no constraint, a string cannot be validated at all; the validator throws a RuntimeException asking for a constraint.
   - id: CHO-tmg3d37r3r1w
     text: $validator->validate($candidate, User::class)
     correct: false
