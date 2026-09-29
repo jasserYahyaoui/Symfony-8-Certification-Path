@@ -342,7 +342,7 @@ questions:
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-wkzdab0t8y8n
-  version: 1
+  version: 2
   official_topic: Data Validation
   official_item: OIT-9x3strrjdng7
   domain: symfony
@@ -354,8 +354,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A quantity field must always be supplied but is legitimately allowed to be 0. Which constraint
-    expresses that?
+  question: "A comment field must always be sent, but an empty string is a legitimate value. Which constraint expresses that?"
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -365,7 +364,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - constraints
   - notblank
@@ -376,17 +375,16 @@ questions:
   - id: CHO-mk8vmxhpjft7
     text: NotBlank
     correct: false
-    explanation: NotBlank rejects falsy values, so it would reject an integer zero as well.
-  - id: CHO-w26e87thy8wn
-    text: Positive
+    explanation: NotBlank rejects the empty string, which the requirement allows.
+  - id: CHO-9tryz70snn5c
+    text: 'Length(min: 1)'
     correct: false
-    explanation: Positive rejects zero outright, which the requirement allows.
+    explanation: A minimum length of one character rejects the empty string.
   - id: CHO-312exserpkjx
     text: IsTrue
     correct: false
     explanation: IsTrue asserts the value is boolean true, which is unrelated.
-  explanation: NotNull rejects only null. NotBlank is broader and rejects empty and falsy values, which
-    is wrong when zero is a legitimate value.
+  explanation: "NotNull rejects only null. NotBlank also rejects '', false and [] (while accepting 0, '0' and a string of spaces), so it is wrong when an empty string is a legitimate value."
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
@@ -1566,7 +1564,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-29'
   tags:
   - constraints
   - families
@@ -1577,7 +1575,7 @@ questions:
   - id: CHO-2wbm6rzppxzb
     text: The component that has to be installed for it
     correct: false
-    explanation: They all ship with the same component.
+    explanation: Families do not map to packages; most constraints ship with the Validator component, a few with bridges.
   - id: CHO-ahjt8q7v3cj2
     text: Whether it can be used on a class rather than a property
     correct: false

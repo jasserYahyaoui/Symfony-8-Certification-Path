@@ -21,8 +21,8 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Validator component | STANDARD | 332 / 900 | 1 | **RAFFINÉE** (PR #245) |
-| 2 | PHP object validation | STANDARD | 420 / 900 | 1 | en cours |
-| 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | à faire |
+| 2 | PHP object validation | STANDARD | 420 / 900 | 1 | **RAFFINÉE** (PR #246) |
+| 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | en cours |
 | 4 | Validation scopes | STANDARD | 400 / 900 | 1 | à faire |
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | à faire |
 | 6 | Group sequence | DEEP | 545 / 1200 | 1 | à faire |
@@ -177,6 +177,87 @@ de la page et des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 2, lu dans le journal d'exécution.** PR #246 fusionnée
+en squash (`a537dca`). Run Pages 36565703782 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the PHP object validation page carries its
+four flashcard levels, the cascade constraint, the extension attribute and the
+static loader` est écrite à **12:06:23 UTC** le 2026-09-29.
+
+## Page 3 — Built-in validation constraints, 2026-09-29
+
+`CRS-569y6hb7fwj5` · `OIT-9x3strrjdng7` · STANDARD · **398 → 551 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15.
+
+### Une question à deux bonnes réponses, et sa prémisse dans la matrice
+
+`QST-9zsx244xw271` (LEARNING) demandait la contrainte d'une quantité
+« obligatoire mais pouvant valoir 0 » : bonne réponse `NotNull`, `NotBlank` donné
+faux au motif qu'il « rejetterait l'entier zéro ». Or `NotBlankValidator` teste
+`false === $value || (!$value && '0' != $value)`, et en PHP 8 `'0' != 0` est
+faux. Exécuté :
+
+| Valeur | `NotBlank` | `NotNull` |
+|---|---|---|
+| `null` | refusée | refusée |
+| `''`, `false`, `[]` | refusées | acceptées |
+| `0`, `0.0`, `'0'`, `' '` | acceptées | acceptées |
+
+Pour un entier `0`, **les deux** contraintes conviennent. La question passe en
+**v2** sur un cas sans ambiguïté — un commentaire obligatoire dont la chaîne
+vide est légitime : `NotNull` reste la bonne réponse, `NotBlank` est faux car il
+refuse `''`, et le distracteur `Positive` devient `Length(min: 1)`
+(`CHO-9tryz70snn5c`), qui refuse aussi `''`. L'objectif d'apprentissage
+`OUT-wkzdab0t8y8n` de la matrice, « … sur une valeur zéro », reposait sur la même
+prémisse : il devient « … sur une valeur vide ou nulle ». La page et la carte
+`FLC-7p2ygq8ft3x4` disent désormais que `0`, `0.0` et `' '` passent `NotBlank`.
+
+### Un tableau décalé de la référence
+
+Le tableau des familles plaçait `DivisibleBy` parmi les nombres : `map.rst.inc`
+(8.0) la range en **comparaison**. Il omettait `Week`, `Video`, `WordCount` et la
+famille **financière** (`Iban`, `Bic`, `CardScheme`…). Aligné sur la référence.
+L'explication d'un distracteur de `QST-56renepg88tq` (LEARNING) affirmait que
+toutes les contraintes viennent du même composant : la contrainte `Twig` vit
+dans le bridge Twig ; explication précisée, bonne réponse inchangée.
+
+### Compléments, exécutés
+
+- `normalizer: 'trim'` fait refuser `' '` à `NotBlank`.
+- `'1'` satisfait `EqualTo(1)`, pas `IdenticalTo(1)`.
+- `Sequentially` : une violation au lieu de deux ; `AtLeastOneOf` : une seule
+  violation quand tout échoue.
+- `Length` compte les caractères : `'été'` en fait 3.
+
+**Questions.** `QST-fh0eh8ct9m8r` (LEARNING) et `QST-q91f8w8t909e` (VALIDATION)
+relues : exactes, inchangées. Une question holdout porte sur l'item ; elle n'a
+pas été lue. **Signal pour le propriétaire, sans lecture** : une question
+holdout qui affirmerait que `NotBlank` refuse l'entier `0` serait fausse.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-7p2ygq8ft3x4` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `CardScheme`,
+`Week` et `entier <code>0</code> passe`, absentes de la version `master` de la
+page et des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 912 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Built-in validation constraints* (STANDARD, 398 / 900).
+Page 4 — *Validation scopes* (STANDARD, 400 / 900).

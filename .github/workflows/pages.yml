@@ -2457,6 +2457,32 @@ jobs:
           else
             echo "ok  lot-08  the PHP object validation page carries its four flashcard levels, the cascade constraint, the extension attribute and the static loader"
           fi
+          # Lot 08 refinement, page 3 (Built-in validation constraints): the four
+          # flashcard levels, the financial family, the Week constraint and the
+          # words on the integer zero that NotBlank accepts.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-constraints -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/built-in-validation-constraints")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page built-in-validation-constraints serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-constraints || missing="$missing l8con:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-constraints || missing="$missing l8con:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-constraints || missing="$missing l8con:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-constraints || missing="$missing l8con:no-trap-heading"
+          grep -aq 'CardScheme' /tmp/l8r-constraints \
+            || missing="$missing l8con:no-financial-family"
+          grep -aq 'Week' /tmp/l8r-constraints \
+            || missing="$missing l8con:no-week"
+          grep -aq 'entier <code>0</code> passe' /tmp/l8r-constraints \
+            || missing="$missing l8con:no-integer-zero"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the built-in constraints page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the built-in constraints page carries its four flashcard levels, the financial family, the Week constraint and the integer zero"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
