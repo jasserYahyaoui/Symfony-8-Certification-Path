@@ -5,7 +5,7 @@ title: "Form events"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-29"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst"
@@ -14,6 +14,18 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "Form::submit(), add(), remove(), getData()"
+    verified_at: "2026-09-25"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "ValidationListener::validateForm(), isRoot()"
+    verified_at: "2026-09-25"
 ---
 
 ## Objectif
@@ -44,33 +56,71 @@ sont pas des événements : ce sont les transformations que le composant effectu
 
 2. **`POST_SET_DATA`** — les trois représentations existent. Bon endroit pour
    décider en connaissant l'état complet, par exemple « l'objet est-il neuf ou
-   existant ? ».
+   existant ? ». On peut encore y ajouter ou retirer des champs, même si la
+   documentation préfère `PRE_SET_DATA`.
 
 ### Soumission
 
-3. **`PRE_SUBMIT`** — la donnée **brute de la requête**, chaînes et tableaux, non
-   transformée. C'est le moment pour assainir une valeur, ou pour ajouter des
-   champs d'après ce que l'utilisateur a envoyé — le cas des listes dépendantes.
+3. **`PRE_SUBMIT`** — la donnée **brute de la requête**, non transformée :
+   chaînes et tableaux, plus les objets `UploadedFile` d'un champ de fichier.
+   C'est le moment pour assainir une valeur, ou pour ajouter des champs d'après
+   ce que l'utilisateur a envoyé — le cas des listes dépendantes.
 
-   *→ le composant transforme la vue en normalisée*
+   *→ les enfants sont soumis, puis la vue est transformée en normalisée*
 
 4. **`SUBMIT`** — la donnée **normalisée**. On peut encore changer les valeurs,
-   mais **la structure est verrouillée** : à partir d'ici, plus aucun champ ne
-   peut être ajouté ni retiré.
+   mais les enfants ont **déjà été soumis** : la documentation dit qu'on ne peut
+   plus ajouter ni retirer de champ.
 
    *→ le composant transforme la normalisée en modèle*
 
-5. **`POST_SUBMIT`** — la donnée entièrement transformée. La structure de *ce*
-   formulaire est figée. **La validation s'exécute par un écouteur sur cet
+5. **`POST_SUBMIT`** — `$event->getData()` rend la donnée de **vue** ; la
+   donnée du modèle se lit par `$event->getForm()->getData()`. La structure de
+   *ce* formulaire est figée. **La validation s'exécute par un écouteur sur cet
    événement**, ce qui explique qu'un objet peuplé et validé soit disponible une
    fois la soumission terminée.
+
+## Ce que dit le code sur le verrouillage
+
+`Form::add()` et `Form::remove()` ne testent qu'une chose : le formulaire est-il
+marqué soumis ? Or `Form::submit()` pose ce marqueur **après** l'événement
+`SUBMIT` et **avant** `POST_SUBMIT`. Exécuté avec `symfony/form` 8.0.15, un
+écouteur du formulaire racine qui ajoute un champ `extra` :
+
+| Événement | `add()` | Le champ ajouté |
+|---|---|---|
+| `PRE_SET_DATA`, `POST_SET_DATA`, `PRE_SUBMIT` | accepté | soumis, donnée envoyée |
+| `SUBMIT` | accepté, **sans erreur** | **jamais soumis**, garde sa donnée initiale |
+| `POST_SUBMIT` | `AlreadySubmittedException` | — |
+
+Le verrou de `SUBMIT` est donc fonctionnel, pas une exception : un champ ajouté
+là est silencieusement ignoré par la soumission. L'exception n'arrive qu'à
+`POST_SUBMIT`, avec « You cannot add children to a submitted form. ».
+
+## Ce que porte chaque événement
+
+Exécuté sur un champ texte muni d'un transformateur de modèle entre l'entier
+`5` et la chaîne `'n:5'`, puis soumis avec `'n:7'` :
+
+| Événement | `$event->getData()` | `$event->getForm()->getData()` |
+|---|---|---|
+| `PRE_SET_DATA` | `5` | interdit : `RuntimeException` |
+| `POST_SET_DATA` | `5` | `5` |
+| `PRE_SUBMIT` | `'n:7'` | `5` |
+| `SUBMIT` | `'n:7'` | `5` |
+| `POST_SUBMIT` | `'n:7'` | `7` |
+
+Dans un écouteur `PRE_SET_DATA`, appeler `getData()` sur le formulaire lève
+une `RuntimeException` : « A cycle was detected. Listeners to the PRE_SET_DATA
+event must not call getData() if the form data has not already been set. » On
+lit la donnée sur l'événement.
 
 ## Le tableau de décision
 
 | Besoin | Événement |
 |---|---|
 | modifier la donnée initiale | `PRE_SET_DATA` |
-| adapter la structure à la donnée initiale | `POST_SET_DATA` |
+| adapter la structure à la donnée initiale | `PRE_SET_DATA`, ou `POST_SET_DATA` |
 | assainir la donnée brute soumise | `PRE_SUBMIT` |
 | ajouter des champs d'après la valeur soumise | `PRE_SUBMIT` sur le **parent**, ou `POST_SUBMIT` sur l'**enfant** |
 | modifier la donnée normalisée | `SUBMIT` |
@@ -87,6 +137,12 @@ Un champ dépendant d'un autre ne peut pas s'ajouter depuis son propre
 **formulaire parent**, depuis l'événement de l'enfant. C'est ce qui rend le motif
 des listes dépendantes contre-intuitif à écrire.
 
+La validation, elle, ne part que du formulaire **racine** : `ValidationListener`
+écoute le `POST_SUBMIT` de chaque formulaire, mais n'agit que si
+`isRoot()` est vrai, et valide alors tout l'arbre. Exécuté : dans le `POST_SUBMIT` d'un enfant, aucune
+erreur de validation n'existe encore ; dans un écouteur `POST_SUBMIT` de la
+racine, de même priorité mais enregistré après, l'erreur `NotBlank` est déjà là.
+
 ## Comment s'abonner
 
 Sur le constructeur, pour un cas local :
@@ -101,21 +157,31 @@ $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)
 Ou par une classe implémentant `EventSubscriberInterface`, réutilisable et
 injectable.
 
+Les écouteurs se déclarent pendant `buildForm()` : une fois le formulaire
+construit, son dispatcher est un `ImmutableEventDispatcher`.
+
 ## Pièges d'examen
 
-- `PRE_SUBMIT` reçoit des **chaînes**, pas des objets.
-- La structure est verrouillée **à partir de `SUBMIT`**, pas de `POST_SUBMIT`.
-- La validation s'exécute sur `POST_SUBMIT` — elle n'est pas antérieure.
+- `PRE_SUBMIT` reçoit la donnée **brute** : chaînes, tableaux, fichiers
+  téléversés — pas d'objet du modèle.
+- **À `SUBMIT`, `add()` ne lève rien**, mais le champ ajouté n'est jamais
+  soumis ; l'exception n'arrive qu'à `POST_SUBMIT`.
+- **`POST_SUBMIT` porte la donnée de vue** ; le modèle est sur le formulaire.
+- Dans `PRE_SET_DATA`, **`$form->getData()` lève une exception** : lire
+  `$event->getData()`.
+- La validation s'exécute sur le `POST_SUBMIT` de la **racine**, pas avant.
 - Un champ dépendant s'ajoute au **parent**.
-- `PRE_SET_DATA` porte la donnée du modèle, `PRE_SUBMIT` celle de la requête.
 
 ## Points clés
 
 - Cinq événements, deux phases, un ordre fixe.
-- Ajout et retrait de champs : `PRE_SET_DATA` ou `PRE_SUBMIT` uniquement.
-- `SUBMIT` verrouille la structure ; `POST_SUBMIT` porte la validation.
+- Structure modifiable à `PRE_SET_DATA`, `POST_SET_DATA` et `PRE_SUBMIT`.
+- `SUBMIT` : champ ajouté ignoré ; `POST_SUBMIT` : `AlreadySubmittedException`.
+- Données : modèle, modèle, requête, normalisée, vue.
 - Le choix se fait sur l'origine de la donnée : objet ou requête.
 
 ## Sources officielles
 
 - [Form Events](https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst)
+- [Form 8.0, `Form`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php) : `submit()`, `add()`, `remove()`, `getData()`
+- [Form 8.0, `ValidationListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php)

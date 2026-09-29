@@ -29,12 +29,11 @@ flashcards:
 - id: FLC-e83vsz7hvkpp
   official_item: OIT-v7zyhcm44m88
   language: fr
+  level: TRAP
   front: 'Formulaires : à partir de quel événement la structure du formulaire est-elle verrouillée ?'
-  back: À partir de SUBMIT. On ne peut plus ajouter ni retirer de champ dès cet événement.
-  explanation: Les ajouts de champs se font donc sur PRE_SET_DATA, d'après la donnée initiale, ou sur
-    PRE_SUBMIT, d'après la donnée brute soumise.
-  memorization_justification: Cinq événements dont deux seulement autorisent une modification de structure
-    ; se tromper produit un champ absent sans erreur explicite.
+  back: "À partir de SUBMIT, selon la documentation : un champ ajouté là n'est jamais soumis. Le code ne lève `AlreadySubmittedException` qu'à POST_SUBMIT."
+  explanation: "Exécuté avec symfony/form 8.0.15 : à SUBMIT, `add()` réussit sans erreur, mais le champ garde sa donnée initiale. Les ajouts se font sur PRE_SET_DATA ou POST_SET_DATA, d'après la donnée initiale, ou sur PRE_SUBMIT, d'après la donnée brute soumise."
+  memorization_justification: "Cinq événements dont trois seulement autorisent une modification de structure ; se tromper produit un champ ignoré sans erreur explicite."
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
@@ -45,10 +44,10 @@ flashcards:
 - id: FLC-7904k5rak62c
   official_item: OIT-v7zyhcm44m88
   language: fr
+  level: RECALL
   front: 'Formulaires : sur quel événement la validation s''exécute-t-elle ?'
   back: POST_SUBMIT, par un écouteur.
-  explanation: C'est pour cela qu'un objet peuple et valide est disponible une fois la soumission terminée,
-    et que la validation ne peut pas être observée plus tôt dans le cycle.
+  explanation: "C'est pour cela qu'un objet peuplé et validé est disponible une fois la soumission terminée, et que la validation ne peut pas être observée plus tôt dans le cycle."
   memorization_justification: On suppose spontanément que la validation précède la soumission ; l'ordre
     réel explique ce qui est disponible et quand.
   verification_status: VERIFIED
@@ -61,8 +60,9 @@ flashcards:
 - id: FLC-gg8d18g1cqqv
   official_item: OIT-v7zyhcm44m88
   language: fr
+  level: UNDERSTANDING
   front: 'Formulaires : PRE_SUBMIT reçoit quelle forme de donnée ?'
-  back: 'La donnée brute de la requête : des chaînes et des tableaux, non transformées.'
+  back: "La donnée brute de la requête, non transformée : chaînes et tableaux, plus les objets `UploadedFile` d'un champ de fichier."
   explanation: 'PRE_SET_DATA reçoit au contraire la donnée du modèle, qui vient de l''objet. La question
     qui tranche : réagit-on à la donnée initiale ou à la donnée soumise ?'
   memorization_justification: Deux événements aux noms voisins portant des couches de données opposées
@@ -2070,4 +2070,160 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: How to Use Data Transformers
+    verified_at: '2026-09-25'
+- id: FLC-edb6sqckb700
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : dans un écouteur PRE_SET_DATA, on appelle $event->getForm()->getData(). Que se passe-t-il ?'
+  back: 'Une `RuntimeException` : « A cycle was detected. Listeners to the PRE_SET_DATA event must not call getData() if the form data has not already been set. »'
+  explanation: Exécuté avec symfony/form 8.0.15. La donnée se lit sur l'événement, par `$event->getData()`.
+  memorization_justification: Réflexe naturel qui casse le formulaire à sa création.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), add(), remove(), getData()
+    verified_at: '2026-09-25'
+- id: FLC-9km1c93000fw
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : que retourne $event->getData() dans un écouteur POST_SUBMIT ?'
+  back: La donnée de **vue**. La donnée du modèle se lit par `$event->getForm()->getData()`.
+  explanation: 'Exécuté sur un champ muni d''un transformateur de modèle entre `7` et `''n:7''` : l''événement porte `''n:7''`, le formulaire `7`. Le tableau de `events.rst` le confirme.'
+  memorization_justification: On attend la donnée « entièrement transformée », donc le modèle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), add(), remove(), getData()
+    verified_at: '2026-09-25'
+- id: FLC-req9bxgm2jfx
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelle donnée porte chacun des cinq événements, dans l''ordre ?'
+  back: 'PRE_SET_DATA : modèle ; POST_SET_DATA : modèle ; PRE_SUBMIT : requête ; SUBMIT : normalisée ; POST_SUBMIT : vue.'
+  explanation: Tableau de `events.rst` (8.0), vérifié par exécution.
+  memorization_justification: Grille de lecture de tout le cycle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+- id: FLC-gckac7fw3wfa
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi add() lève-t-elle une exception à POST_SUBMIT mais pas à SUBMIT ?'
+  back: '`Form::add()` ne teste que le marqueur « soumis », que `Form::submit()` pose après SUBMIT et avant POST_SUBMIT.'
+  explanation: 'À SUBMIT, les enfants sont déjà soumis : un champ ajouté est accepté mais jamais soumis. À POST_SUBMIT : `AlreadySubmittedException`, « You cannot add children to a submitted form. ».'
+  memorization_justification: Explique le verrou silencieux puis bruyant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), add(), remove(), getData()
+    verified_at: '2026-09-25'
+- id: FLC-jm6tf752qz1a
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : dans l''écouteur POST_SUBMIT d''un champ enfant, les erreurs de validation existent-elles déjà ?'
+  back: Non. `ValidationListener` n'agit que sur le formulaire racine, dont le POST_SUBMIT vient après celui des enfants.
+  explanation: 'Exécuté : aucune erreur vue dans le POST_SUBMIT de l''enfant ; l''erreur `NotBlank` est là dans un écouteur POST_SUBMIT de la racine enregistré après `ValidationListener`.'
+  memorization_justification: Situe la validation dans l'arbre, pas seulement dans le temps.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ValidationListener::validateForm(), isRoot()
+    verified_at: '2026-09-25'
+- id: FLC-avvs1cr4hk1q
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : peut-on ajouter un écouteur d''événement à un formulaire déjà construit ?'
+  back: 'Non : son dispatcher est un `ImmutableEventDispatcher`. Les écouteurs se déclarent pendant `buildForm()`.'
+  explanation: Constaté par exécution sur `getConfig()->getEventDispatcher()`, et dit par `events.rst`.
+  memorization_justification: Borne le moment où un écouteur peut s'enregistrer.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+- id: FLC-5tqzex25r886
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : afficher un champ « raison du changement » seulement quand l''objet édité existe déjà. Quel événement ?'
+  back: PRE_SET_DATA, en testant `$event->getData()` ; POST_SET_DATA convient aussi, la documentation préfère PRE_SET_DATA.
+  explanation: La décision porte sur la donnée initiale, qui vient de l'objet.
+  memorization_justification: Cas type d'ajout de champ selon l'état de l'entité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+- id: FLC-pfstkm1h82hm
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : retirer les espaces autour d''une valeur envoyée avant toute transformation. Quel événement, et comment ?'
+  back: 'PRE_SUBMIT : lire `$event->getData()`, modifier le tableau brut, puis `$event->setData()`.'
+  explanation: La donnée y est encore brute ; un transformateur de données est l'autre voie pour une conversion systématique.
+  memorization_justification: Assainissement de la donnée soumise.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+- id: FLC-6zft820psr5y
+  official_item: OIT-v7zyhcm44m88
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : une liste de villes dépend du pays choisi. Depuis quel écouteur ajouter le champ ville ?'
+  back: Depuis le POST_SUBMIT du champ pays, en ajoutant `ville` au **parent**, `$event->getForm()->getParent()`.
+  explanation: 'Le formulaire du champ pays est déjà soumis : `add()` y lèverait `AlreadySubmittedException`. PRE_SUBMIT sur le parent est l''autre voie documentée.'
+  memorization_justification: Motif des listes dépendantes, contre-intuitif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Form Events, lifecycle and event data table
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), add(), remove(), getData()
     verified_at: '2026-09-25'
