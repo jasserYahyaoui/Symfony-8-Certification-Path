@@ -830,7 +830,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-b5t21ax5y3aq
-  version: 1
+  version: 2
   official_topic: Data Validation
   official_item: OIT-rwavvsx2d7nq
   domain: symfony
@@ -853,34 +853,39 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - sequence
   - default
   choices:
-  - id: CHO-vtv9msf0sjj3
-    text: Infinite recursion
+  - id: CHO-64fmhjevsea9
+    text: An exception refusing Default in the sequence
     correct: true
+  - id: CHO-wpg21mszpb8m
+    text: Infinite recursion
+    correct: false
+    explanation: That is what the documentation announces; the code refuses the sequence before any recursion can start.
   - id: CHO-ahwhz6699vkq
     text: The Strict group is silently ignored
     correct: false
-    explanation: The problem is not a skipped group; the reference is circular.
+    explanation: Nothing is skipped silently; the sequence is rejected with an exception.
   - id: CHO-3z2k9s2wvnnp
     text: A compile-time error, because Default is a reserved word
     correct: false
-    explanation: Default is usable as a group name; the failure happens at validation time.
-  - id: CHO-wp25pwa3hj9s
-    text: Only Default is validated and Strict never runs
-    correct: false
-    explanation: 'Nothing completes: the sequence refers back to itself.'
-  explanation: Once a sequence exists, Default designates the sequence. Putting Default inside it makes
-    the sequence contain itself. The class name must be used instead.
+    explanation: Default is usable as a group name; the failure happens when the class metadata is loaded, at validation time.
+  explanation: "ClassMetadata::setGroupSequence() throws a GroupDefinitionException stating that the group Default is not allowed in group sequences. It also requires the class name in the sequence, which is the group to use instead. The documentation describes an infinite recursion; the 8.0 code refuses the sequence first."
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
     branch: '8.0'
     symbol_or_lines: group sequence
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ClassMetadata::setGroupSequence(), Default not allowed
+    verified_at: '2026-09-29'
 - id: QST-h9d44gg643q8
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:

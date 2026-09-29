@@ -87,13 +87,11 @@ flashcards:
 - id: FLC-rstx3zwpz28w
   official_item: OIT-rwavvsx2d7nq
   language: fr
+  level: TRAP
   front: Avec quel groupe déclare-t-on une séquence, et pourquoi pas Default ?
-  back: 'Avec le nom de la classe. Sous séquence, Default désigne la séquence : l''y inclure produit une
-    récursion infinie.'
-  explanation: Hors séquence, Default et le nom de la classe sont identiques ; la séquence est précisément
-    ce qui les sépare.
-  memorization_justification: C'est l'unique cas où les deux groupes divergent, et l'erreur ne se voit
-    qu'à l'exécution.
+  back: "Avec le nom de la classe, obligatoire. Sous séquence, Default désigne la séquence : l'y inclure lève une GroupDefinitionException, « The group \"Default\" is not allowed in group sequences. »"
+  explanation: "La documentation parle de récursion infinie ; le code 8.0 refuse la séquence avant. Hors séquence, Default et le nom de la classe ne diffèrent que sur les objets imbriqués."
+  memorization_justification: "La règle d'écriture est connue, sa sanction réelle l'est moins : l'exécution contredit la documentation."
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
@@ -101,6 +99,12 @@ flashcards:
     symbol_or_lines: '"you have to use the {ClassName} (e.g. User) group when specifying a group sequence. When using Default, you get an infinite recursion (as the Default group references the group sequence, which will contain the Default group which references the same group sequence, ...)"'
     branch: '8.0'
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ClassMetadata::setGroupSequence(), Default not allowed
+    verified_at: '2026-09-29'
 - id: FLC-6n0qg98nptxe
   official_item: OIT-hcdrp2y7kbct
   language: fr
@@ -966,4 +970,154 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-a10tg8tvsma5
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: TRAP
+  front: 'Validator : une séquence de classe omet le nom de la classe, par exemple [''Strict'']. Que se passe-t-il ?'
+  back: 'Une `GroupDefinitionException` : « The group "…" is missing in the group sequence. » Le nom de la classe est obligatoire.'
+  explanation: Contrôle de `ClassMetadata::setGroupSequence()`, exécuté avec symfony/validator 8.0.15.
+  memorization_justification: Règle d'écriture sanctionnée par une exception.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ClassMetadata::setGroupSequence()
+    verified_at: '2026-09-25'
+- id: FLC-h55rz80mbnvr
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: TRAP
+  front: 'Validator : valider explicitement le groupe portant le nom de la classe déroule-t-il la séquence ?'
+  back: 'Non : seul `Default`, ou l''absence de groupe, déroule la séquence ; le nom de la classe n''applique que ses propres contraintes.'
+  explanation: 'Exécuté : `[''Seq'']` donne la seule violation de ce groupe, sans passer à `Strict`.'
+  memorization_justification: On croirait le nom de classe équivalent à Default.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-c77de4fdxhm5
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: RECALL
+  front: 'Validator : qu''arrête une séquence de groupes ?'
+  back: Le premier groupe — ou la première étape — qui produit au moins une violation ; les suivants ne sont pas validés.
+  explanation: 'Exécuté : `username` vide, seule sa violation ; rempli, la violation du groupe `Strict` apparaît.'
+  memorization_justification: Condition d'arrêt de la séquence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-mq9enc84ccpq
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: RECALL
+  front: 'Validator : quelle interface et quel attribut rendent une séquence dépendante de l''objet ?'
+  back: '`GroupSequenceProviderInterface`, avec sa méthode `getGroupSequence()`, et l''attribut `#[Assert\GroupSequenceProvider]` sur la classe.'
+  explanation: La méthode retourne un tableau ou un objet `GroupSequence`.
+  memorization_justification: Séquence dynamique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-kj2rr5x8r57k
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi un provider qui retourne [[''User'', ''Premium''], ''Api''] rapporte-t-il aussi les violations de Premium quand User échoue ?'
+  back: 'Parce qu''un sous-tableau est une seule étape : ses groupes sont validés ensemble. La séquence s''arrête ensuite, `Api` n''est pas validé.'
+  explanation: 'Exécuté : à plat, seules les violations de `User` ; imbriqué, celles de `User` et de `Premium`.'
+  memorization_justification: Forme du tableau et comportement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-jna4j0c18q4p
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi une séquence de classe ne peut-elle pas contenir Default ?'
+  back: Parce que `Default` y désigne la séquence elle-même ; le code refuse donc ce groupe par une `GroupDefinitionException`.
+  explanation: La documentation décrit la récursion que cela provoquerait ; `ClassMetadata` l'empêche avant qu'elle commence.
+  memorization_justification: Sens de Default sous séquence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ClassMetadata::setGroupSequence()
+    verified_at: '2026-09-25'
+- id: FLC-mkhtc16n1xaw
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: APPLICATION
+  front: 'Validator : n''exécuter la vérification coûteuse du groupe Strict que si les contraintes ordinaires de User passent.'
+  back: '`#[Assert\GroupSequence([''User'', ''Strict''])]` sur la classe `User`.'
+  explanation: Le nom de la classe ouvre la séquence ; `Strict` n'est atteint que si `User` ne produit aucune violation.
+  memorization_justification: Usage type de la séquence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-k0q6dkthftx2
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: APPLICATION
+  front: 'Validator : appliquer une séquence ponctuelle sans la déclarer sur la classe.'
+  back: '`$validator->validate($user, null, new GroupSequence([''Default'', ''Strict'']))`.'
+  explanation: 'Exécuté : même arrêt au premier groupe en échec ; `Default` est accepté dans une séquence passée ainsi.'
+  memorization_justification: Séquence à l'appel plutôt qu'à la classe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Sequentially Apply Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-v07mtnd93kbc
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: RECALL
+  front: 'Validator : un provider retourne [''Premium'', ''Api''], sans le nom de la classe. Exception ?'
+  back: 'Non : le contrôle du nom de la classe ne porte que sur la séquence statique ; le provider est appliqué tel quel.'
+  explanation: 'Exécuté : les violations de `Premium` seules, sans erreur.'
+  memorization_justification: Différence entre séquence statique et dynamique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ClassMetadata::setGroupSequence()
     verified_at: '2026-09-25'
