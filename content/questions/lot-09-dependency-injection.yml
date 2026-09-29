@@ -115,7 +115,7 @@ questions:
     question_archetype: API_SIGNATURE
     assesses_outcomes:
       - OUT-dvs57dgffn57
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-92ctf3sy3ddk
     domain: symfony
@@ -127,7 +127,7 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Outside the framework, what finishes building a ContainerBuilder before it can be used?
+    question: "Outside the framework, which ContainerBuilder call runs the compiler passes and freezes the container?"
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -137,7 +137,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - component
     choices:
@@ -155,7 +155,7 @@ questions:
       - id: CHO-5txyek6rrs6m
         text: get() on the first service
         correct: false
-        explanation: Fetching a service does not resolve parameters or run compiler passes.
+        explanation: On an uncompiled builder, get() does build the service and even resolves parameters, but no compiler pass runs and nothing is frozen.
     explanation: compile() resolves the definitions, runs the compiler passes and freezes the container.
       In a Symfony application it happens once and is cached.
     official_sources:

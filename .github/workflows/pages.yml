@@ -2613,6 +2613,32 @@ jobs:
           else
             echo "ok  lot-08  the violations builder page carries its four flashcard levels, the message template, the invalid value heading and the ten methods"
           fi
+          # Lot 09 refinement, page 1 (Dependency Injection component): the four
+          # flashcard levels, the exception on a private service after
+          # compilation, the frozen parameter bag and the shared setting.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-component -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/dependency-injection-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page dependency-injection-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-component || missing="$missing l9cmp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-component || missing="$missing l9cmp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-component || missing="$missing l9cmp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-component || missing="$missing l9cmp:no-trap-heading"
+          grep -aq 'ServiceNotFoundException' /tmp/l9r-component \
+            || missing="$missing l9cmp:no-not-found"
+          grep -aq 'frozen ParameterBag' /tmp/l9r-component \
+            || missing="$missing l9cmp:no-frozen-bag"
+          grep -aq 'setShared' /tmp/l9r-component \
+            || missing="$missing l9cmp:no-shared"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the DI component page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the DI component page carries its four flashcard levels, the not-found exception, the frozen bag and the shared setting"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
