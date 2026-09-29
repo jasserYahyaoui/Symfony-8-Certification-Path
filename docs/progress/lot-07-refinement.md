@@ -31,8 +31,8 @@ page.
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | **RAFFINÉE** (PR #239) |
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | **RAFFINÉE** (PR #240) |
 | 11 | Form events | DEEP | 584 / 1200 | 3 | **RAFFINÉE** (PR #241) |
-| 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | en cours |
-| 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | à faire |
+| 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | **RAFFINÉE** (PR #242) |
+| 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | en cours |
 
 ## Page 1 — Form component, 2026-09-24
 
@@ -900,6 +900,73 @@ des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 12, lu dans le journal d'exécution.** PR #242 fusionnée
+en squash (`3130816`). Run Pages 36560592050 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the form type extensions page carries its four
+flashcard levels, the tagged item attribute, the debug command and the buttons
+exclusion` est écrite à **11:17:10 UTC** le 2026-09-29.
+
+## Page 13 — Form options (OptionsResolver component), 2026-09-29
+
+`CRS-pchb259hnbh3` · `OIT-rj9web4whgmz` · STANDARD · **424 → 706 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/options-resolver` 8.0.8 ;
+`OptionsResolver.php` identique entre le paquet exécuté et la branche 8.0
+(`diff -q`).
+
+### Une affirmation fausse
+
+**« Une option requise n'a pas de valeur par défaut ; les deux ne se combinent
+pas. »** Exécuté : `setRequired('a')` puis `setDefault('a', 1)` résout
+`['a' => 1]`, `isRequired('a')` reste vrai et `isMissing('a')` devient faux —
+exactement le cas que `options_resolver.rst` (8.0) documente pour une
+sous-classe. La page est corrigée.
+
+### Compléments, exécutés
+
+- Défaut paresseux : une fermeture **non typée** `Options` devient elle-même la
+  valeur (objet `Closure`), comme l'avertit la documentation ; déclarée avant sa
+  dépendance, une option paresseuse se résout correctement ; un second paramètre
+  reçoit le défaut précédent.
+- Validation avant normalisation : `'5'` refusée sur une option `int` malgré un
+  normalisateur qui convertit ; `'post'` refusée malgré un `strtoupper()`.
+- `setDefined()` sans valeur : option absente du tableau résolu.
+- Messages : `UndefinedOptionsException` liste les options définies ;
+  `MissingOptionsException` pour une option requise sans défaut.
+- `'DateTime[]'` contrôle chaque élément.
+- Options imbriquées en 8.0 : `setOptions()` ; une fermeture typée
+  `OptionsResolver` passée à `setDefault()` n'est pas interprétée et devient la
+  valeur.
+
+**Questions.** Les cinq questions non holdout de l'item (quatre LEARNING, une
+VALIDATION) ont été relues : exactes, inchangées. L'item ne porte pas de
+question holdout.
+
+**Flashcards.** 9 ajoutées ; la carte préexistante `FLC-rpr50wc4n7f6` reçoit le
+niveau RECALL. L'item en porte **10** (3 RECALL, 2 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `setOptions`,
+`isMissing` et `Options imbriquées`, absentes de la version `master` de la page
+et des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions OptionsResolver 8.0.8 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 882 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 13 — *Form options (OptionsResolver component)* (STANDARD, 424 / 900).
+Fusionner et déployer la page 13, lire son smoke test, puis rédiger le rapport
+de fin de lot 07, réconcilié par script, dans sa propre PR.

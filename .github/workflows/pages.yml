@@ -2379,6 +2379,32 @@ jobs:
           else
             echo "ok  lot-07  the form type extensions page carries its four flashcard levels, the tagged item attribute, the debug command and the buttons exclusion"
           fi
+          # Lot 07 refinement, page 13 (Form options): the four flashcard levels,
+          # the nested options method, the missing-option accessor and the
+          # nested options heading.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-options -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/form-options-optionsresolver-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page form-options-optionsresolver-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-options || missing="$missing l7opt:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-options || missing="$missing l7opt:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-options || missing="$missing l7opt:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-options || missing="$missing l7opt:no-trap-heading"
+          grep -aq 'setOptions' /tmp/l7r-options \
+            || missing="$missing l7opt:no-set-options"
+          grep -aq 'isMissing' /tmp/l7r-options \
+            || missing="$missing l7opt:no-is-missing"
+          grep -aq 'Options imbriquées' /tmp/l7r-options \
+            || missing="$missing l7opt:no-nested-heading"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the form options page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the form options page carries its four flashcard levels, the nested options method, the missing accessor and the nested heading"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
