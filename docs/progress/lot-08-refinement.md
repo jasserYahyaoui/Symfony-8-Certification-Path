@@ -23,8 +23,8 @@ première page.
 | 1 | Validator component | STANDARD | 332 / 900 | 1 | **RAFFINÉE** (PR #245) |
 | 2 | PHP object validation | STANDARD | 420 / 900 | 1 | **RAFFINÉE** (PR #246) |
 | 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | **RAFFINÉE** (PR #247) |
-| 4 | Validation scopes | STANDARD | 400 / 900 | 1 | en cours |
-| 5 | Validation groups | STANDARD | 399 / 900 | 1 | à faire |
+| 4 | Validation scopes | STANDARD | 400 / 900 | 1 | **RAFFINÉE** (PR #248) |
+| 5 | Validation groups | STANDARD | 399 / 900 | 1 | en cours |
 | 6 | Group sequence | DEEP | 545 / 1200 | 1 | à faire |
 | 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | à faire |
 | 8 | Violations builder | STANDARD | 465 / 900 | 1 | à faire |
@@ -321,6 +321,68 @@ rédaction.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 4, lu dans le journal d'exécution.** PR #248 fusionnée
+en squash (`7d9ecc1`). Run Pages 36568175861 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the validation scopes page carries its four
+flashcard levels, the attribute loader, the argument error and the getter path`
+est écrite à **12:30:00 UTC** le 2026-09-29.
+
+## Page 5 — Validation groups, 2026-09-29
+
+`CRS-vskyr5zdwr2t` · `OIT-kkhb3wd341ex` · STANDARD · **399 → 567 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15 ;
+`Constraint.php` identique entre le paquet exécuté et la branche 8.0
+(`diff -q`).
+
+### Une affirmation fausse, reprise de la documentation
+
+La page disait, comme `groups.rst` (8.0), qu'une contrainte appartient à
+`Default` si elle déclare « `Default` **ou le nom de la classe** ». Le code ne
+va que dans un sens : `Constraint::addImplicitGroupName()` ajoute le nom de la
+classe aux contraintes qui sont dans `Default`, jamais l'inverse. Exécuté : une
+contrainte sans groupe ou déclarée `groups: ['Default']` reçoit
+`["Default", "User"]` ; déclarée `groups: ['User']`, elle ne reçoit que
+`["User"]` et **ne s'exécute pas** quand on valide `Default`. La page expose
+l'écart ; le code l'emporte.
+
+### Confirmé par exécution
+
+- Sans groupe, seul `Default` : les contraintes `registration` restent inertes.
+- Cascade par `#[Assert\Valid]` : `Default` atteint `address.zip`, `User` ne
+  l'atteint pas ; un groupe nommé traverse la cascade (`address.street` pour
+  `registration`).
+- Le troisième argument de `validate()` accepte une chaîne seule.
+
+**Questions.** `QST-1c6zphv3dzgc`, `QST-znrf5tj46jjt` (LEARNING) et
+`QST-vzpzmqn8tz5q` (VALIDATION) relues : exactes, inchangées. L'item ne porte
+pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-mvq0exxwwfxa` reçoit le
+niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`addImplicitGroupName`, `entre la documentation et le code` et `address.street`,
+absentes de la version `master` de la page et de ses cartes, présentes dans le
+build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 932 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Validation groups* (STANDARD, 399 / 900).
+Page 6 — *Group sequence* (DEEP, 545 / 1200).

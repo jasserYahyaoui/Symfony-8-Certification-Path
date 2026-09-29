@@ -2509,6 +2509,32 @@ jobs:
           else
             echo "ok  lot-08  the validation scopes page carries its four flashcard levels, the attribute loader, the argument error and the getter path"
           fi
+          # Lot 08 refinement, page 5 (Validation groups): the four flashcard
+          # levels, the implicit group method, the heading on the documentation
+          # gap and the street violation reached through the cascade.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-groups -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/validation-groups")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page validation-groups serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-groups || missing="$missing l8grp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-groups || missing="$missing l8grp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-groups || missing="$missing l8grp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-groups || missing="$missing l8grp:no-trap-heading"
+          grep -aq 'addImplicitGroupName' /tmp/l8r-groups \
+            || missing="$missing l8grp:no-implicit-group"
+          grep -aq 'entre la documentation et le code' /tmp/l8r-groups \
+            || missing="$missing l8grp:no-gap-heading"
+          grep -aq 'address.street' /tmp/l8r-groups \
+            || missing="$missing l8grp:no-cascade-street"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the validation groups page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the validation groups page carries its four flashcard levels, the implicit group method, the documentation gap and the cascaded street"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

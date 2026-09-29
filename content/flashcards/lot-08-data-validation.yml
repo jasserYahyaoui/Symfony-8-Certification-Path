@@ -70,6 +70,7 @@ flashcards:
 - id: FLC-mvq0exxwwfxa
   official_item: OIT-kkhb3wd341ex
   language: fr
+  level: RECALL
   front: Sans groupe passé à validate(), quelles contraintes s'appliquent ?
   back: Celles du groupe Default uniquement — pas toutes les contraintes de la classe.
   explanation: Une contrainte étiquetée dans un groupe personnalisé reste donc inerte tant que personne
@@ -793,4 +794,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: AttributeLoader, get|is|has method constraints
+    verified_at: '2026-09-25'
+- id: FLC-qtztdhmmqsg2
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: TRAP
+  front: 'Validator : une contrainte déclarée groups: [''User''] dans la classe User s''exécute-t-elle quand on valide le groupe Default ?'
+  back: Non. Ses seuls groupes sont `["User"]` ; la documentation dit le contraire, le code l'emporte.
+  explanation: '`addImplicitGroupName()` ajoute le nom de la classe aux contraintes de `Default`, jamais l''inverse. Exécuté avec symfony/validator 8.0.15.'
+  memorization_justification: Écart entre `groups.rst` (8.0) et le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Constraint::addImplicitGroupName()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-11vbya1jem4q
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: TRAP
+  front: 'Validator : User cascade vers Address par #[Assert\Valid]. Valider User dans le groupe User applique-t-il les contraintes Default de Address ?'
+  back: 'Non : seul le groupe `Default` les atteint ; avec `User`, le groupe transmis à `Address` reste `User`.'
+  explanation: 'Exécuté : `Default` donne `address.zip`, `User` ne le donne pas.'
+  memorization_justification: Seule différence entre Default et le nom de la classe hors séquence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-ecb988cmqxdn
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: TRAP
+  front: 'Validator : sans groupe passé à validate(), une contrainte groups: [''registration''] s''exécute-t-elle ?'
+  back: 'Non : sans argument, seul `Default` est validé.'
+  explanation: Une contrainte d'un groupe personnalisé reste inerte tant que ce groupe n'est pas demandé.
+  memorization_justification: 'Idée reçue : « toutes les contraintes par défaut ».'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-qr7cdddb6pz4
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: RECALL
+  front: 'Validator : quels groupes reçoit une contrainte sans groupe explicite de la classe User ?'
+  back: '`Default` et `User`.'
+  explanation: 'Exécuté : `["Default", "User"]`, comme pour une contrainte déclarée `groups: [''Default'']`.'
+  memorization_justification: Groupes implicites.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Constraint::addImplicitGroupName()
+    verified_at: '2026-09-25'
+- id: FLC-kw227s2tr9gj
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: RECALL
+  front: 'Validator : combien de groupes existent pour une classe User avec une contrainte sans groupe et une contrainte groups: [''registration''] ?'
+  back: 'Trois : `Default`, `User` et `registration`.'
+  explanation: Le nom de la classe est toujours un groupe ; un groupe nommé existe dès qu'une contrainte le cite.
+  memorization_justification: Groupes implicites et explicites.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-v5k270b5tmj4
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : un groupe nommé traverse-t-il la cascade vers un objet imbriqué ?'
+  back: 'Oui : validé dans `registration`, `User` atteint aussi les contraintes `registration` de son `Address`.'
+  explanation: 'Exécuté : `email` et `address.street` pour le groupe `registration`.'
+  memorization_justification: La cascade transmet le groupe demandé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-fs3fw8pm5dam
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi dit-on que Default et le nom de la classe sont identiques pour la classe elle-même ?'
+  back: Parce que toute contrainte de `Default` reçoit aussi le nom de la classe ; ils ne diffèrent que sur les objets imbriqués et dans une séquence de groupes.
+  explanation: 'Exécuté : pour la classe seule, les deux groupes donnent les mêmes violations de premier niveau.'
+  memorization_justification: Nuance centrale de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Constraint::addImplicitGroupName()
+    verified_at: '2026-09-25'
+- id: FLC-3hsjm452bmaf
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: APPLICATION
+  front: 'Validator : valider à la fois les contraintes par défaut et celles de l''inscription.'
+  back: '`$validator->validate($user, null, [''Default'', ''registration''])`.'
+  explanation: 'Exécuté : `email`, `city` et les contraintes des deux groupes dans l''adresse.'
+  memorization_justification: Combinaison de groupes courante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-n9fmcngr4vpe
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: APPLICATION
+  front: 'Formulaire Symfony : n''appliquer que le groupe registration à la validation d''un formulaire.'
+  back: 'L''option `validation_groups` du type : `''validation_groups'' => [''registration'']`.'
+  explanation: C'est l'équivalent, dans un formulaire, du troisième argument de `validate()`.
+  memorization_justification: Pont entre formulaire et validateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
+    verified_at: '2026-09-25'
+- id: FLC-aezmzxp4mp4a
+  official_item: OIT-kkhb3wd341ex
+  language: fr
+  level: RECALL
+  front: 'Validator : le troisième argument de validate() accepte-t-il une chaîne seule ?'
+  back: 'Oui : `validate($user, null, ''registration'')` équivaut au tableau `[''registration'']`.'
+  explanation: 'Exécuté : mêmes violations dans les deux écritures.'
+  memorization_justification: Forme courte à reconnaître.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation Groups
     verified_at: '2026-09-25'
