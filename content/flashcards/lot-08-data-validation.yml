@@ -20,8 +20,9 @@ flashcards:
 - id: FLC-qb5nx97jkjav
   official_item: OIT-d3yp0sq36xrx
   language: fr
+  level: TRAP
   front: Valider un objet valide-t-il les objets qu'il contient ?
-  back: 'Non. Il faut poser #[Assert\Valid] sur la propriété pour cascader.'
+  back: "Non. Il faut poser `#[Assert\\Valid]` sur la propriété, ou `#[Assert\\Cascade]` sur la classe, pour cascader."
   explanation: 'Sans la contrainte de cascade, l''objet imbriqué est ignoré en silence : aucune erreur,
     aucune violation.'
   memorization_justification: L'absence de cascade ne produit aucun signal ; le défaut se manifeste par
@@ -300,4 +301,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Validation, Using the Validator
+    verified_at: '2026-09-25'
+- id: FLC-j1f566z33gwx
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: TRAP
+  front: 'Validator : loadValidatorMetadata() est écrite comme méthode d''instance. Que se passe-t-il ?'
+  back: 'Une `MappingException` : « The method "…::loadValidatorMetadata()" should be static. »'
+  explanation: Levée par `StaticMethodLoader`, exécuté avec symfony/validator 8.0.15 ; la méthode n'est pas ignorée en silence.
+  memorization_justification: On croit souvent qu'elle serait simplement ignorée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: StaticMethodLoader::loadClassMetadata(), should be static
+    verified_at: '2026-09-25'
+- id: FLC-qp6v48ndhqtq
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: TRAP
+  front: 'Validator : une propriété porte #[Assert\Valid] et vaut null. Y a-t-il une violation ?'
+  back: Non. `Valid` cascade dans l'objet présent ; il n'impose pas sa présence — `NotNull` s'en charge.
+  explanation: 'Exécuté : aucune violation pour une propriété à `null`.'
+  memorization_justification: Cascade et présence sont deux contraintes distinctes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Valid constraint
+    verified_at: '2026-09-25'
+- id: FLC-9gwdynzn9n19
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: TRAP
+  front: 'Validator : la même contrainte NotBlank est déclarée sur une propriété du parent et redéclarée sur l''enfant. Combien de violations pour une valeur vide ?'
+  back: 'Deux, identiques : les contraintes du parent sont fusionnées avec celles de l''enfant, jamais remplacées.'
+  explanation: Exécuté. Le seul contournement documenté passe par des groupes de validation différents.
+  memorization_justification: Redéclarer ne remplace pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validating Object With Inheritance, Extending Validation for a Class
+    verified_at: '2026-09-25'
+- id: FLC-h8qtg78b9t1g
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: RECALL
+  front: 'Validator : quelle contrainte de classe cascade dans toutes les propriétés qui portent un objet ?'
+  back: '`#[Assert\Cascade]`, posée sur la classe.'
+  explanation: Elle évite d'écrire `#[Assert\Valid]` sur chaque propriété ; exécuté, elle produit la violation `address.zipCode`.
+  memorization_justification: Alternative à Valid propriété par propriété.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Cascade.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Cascade.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cascade constraint
+    verified_at: '2026-09-25'
+- id: FLC-pxaer1r0v9wc
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: RECALL
+  front: 'Validator : quel chemin de propriété porte la violation d''une adresse d''un tableau validé par #[Assert\Valid] ?'
+  back: '`addresses[0].zipCode` — l''indice entre crochets, puis la propriété.'
+  explanation: 'Exécuté : `Valid` parcourt les tableaux d''objets.'
+  memorization_justification: Lecture des violations d'une collection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Valid constraint
+    verified_at: '2026-09-25'
+- id: FLC-h9x29brxksgd
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: RECALL
+  front: 'Symfony 8.0 : quel attribut permet d''ajouter des contraintes à une classe tierce qu''on ne peut pas modifier ?'
+  back: '`#[ExtendsValidationFor(Product::class)]`, posé sur une classe séparée, souvent abstraite.'
+  explanation: Ses contraintes s'appliquent à `Product` comme si elles y étaient déclarées. Section « Extending Validation for a Class » de `validation.rst` (8.0).
+  memorization_justification: Nouveauté documentée en 8.0.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validating Object With Inheritance, Extending Validation for a Class
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, mapped classes
+    verified_at: '2026-09-25'
+- id: FLC-cy846z54y072
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi valider un Author ne signale-t-il rien sur son Address invalide ?'
+  back: Parce que la validation ne descend pas dans un objet imbriqué sans qu'on le demande, par `Valid` ou `Cascade`.
+  explanation: 'Exécuté : aucune violation sans cascade, `address.zipCode` avec.'
+  memorization_justification: Point central de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Valid constraint
+    verified_at: '2026-09-25'
+- id: FLC-ezjv4qqwncy1
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator hors framework : #[ExtendsValidationFor] suffit-il à étendre la validation d''une classe ?'
+  back: 'Non : le composant seul a besoin de la correspondance, `addAttributeMappings([Product::class => [MyProductValidation::class]])`.'
+  explanation: 'Exécuté : l''attribut seul ne produit aucune violation ; avec la correspondance, la contrainte ajoutée s''applique.'
+  memorization_justification: Ce que le framework fait à la place du développeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, mapped classes
+    verified_at: '2026-09-25'
+- id: FLC-q5hre9fc83xg
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: APPLICATION
+  front: 'Validator : faire échouer la validation d''un Author sans adresse, et valider l''adresse quand elle existe.'
+  back: '`#[Assert\NotNull]` et `#[Assert\Valid]` sur la propriété `address`.'
+  explanation: '`NotNull` impose la présence, `Valid` cascade ; l''une ne remplace pas l''autre.'
+  memorization_justification: Combinaison courante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Valid constraint
+    verified_at: '2026-09-25'
+- id: FLC-9nmmnnwp1pkt
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: APPLICATION
+  front: 'Validator : déclarer en PHP, sans attribut, que Author::$name ne doit pas être vide.'
+  back: '`public static function loadValidatorMetadata(ClassMetadata $metadata): void { $metadata->addPropertyConstraint(''name'', new Assert\NotBlank()); }`'
+  explanation: Hors framework, le validateur doit être construit avec `addMethodMapping('loadValidatorMetadata')` ; exécuté.
+  memorization_justification: Format PHP, reconnu à l'examen.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: StaticMethodLoader::loadClassMetadata(), should be static
     verified_at: '2026-09-25'
