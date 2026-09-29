@@ -35,6 +35,7 @@ flashcards:
 - id: FLC-7xkwp2t1hefj
   official_item: OIT-dy7108w6bf4z
   language: fr
+  level: RECALL
   front: Quelle commande répond à « quel type puis-je type-hinter ? »
   back: debug:autowiring. debug:container liste les identifiants, pas les types câblables.
   explanation: Les deux commandes répondent à deux questions différentes ; c'est la première que l'on
@@ -518,3 +519,181 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: ContainerBuilder::get(), compile()
     verified_at: '2026-09-25'
+- id: FLC-2mx6asb4nrxj
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: RECALL
+  front: 'Symfony : d''où viennent le routeur, le validateur ou le sérialiseur que l''on n''a jamais déclarés ?'
+  back: 'Des bundles installés, FrameworkBundle en tête : chaque bundle enregistre ses services dans le conteneur.'
+  explanation: TwigBundle ajoute Twig, SecurityBundle la sécurité ; la recette Flex active le bundle dans `config/bundles.php`.
+  memorization_justification: Origine des services intégrés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Fetching and using Services; debug:autowiring; debug:container
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: In addition to automatically enabling the feature in config/bundles.php
+    verified_at: '2026-09-29'
+- id: FLC-cv0e92nacbvw
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle option de debug:autowiring ajoute les services non aliasés ?'
+  back: '`--all` : « Show also services that are not aliased », par exemple `RedirectController`.'
+  explanation: Sans `--all`, la commande ne liste que les types aliasés.
+  memorization_justification: Option peu connue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/DebugAutowiringCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/DebugAutowiringCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: argument search; option all; No autowirable classes or interfaces found matching
+    verified_at: '2026-09-29'
+- id: FLC-xc38grsf93jj
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: RECALL
+  front: 'Symfony : que fait l''argument de debug:autowiring, comme dans debug:autowiring log ?'
+  back: Il filtre par recherche partielle ; sans résultat, la commande répond « No autowirable classes or interfaces found matching … ».
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : `log` rend `Psr\Log\LoggerInterface - alias:logger`.'
+  memorization_justification: Usage de la commande.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/DebugAutowiringCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/DebugAutowiringCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: argument search; option all; No autowirable classes or interfaces found matching
+    verified_at: '2026-09-29'
+- id: FLC-ce2cr2ndxj9h
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi composer require suffit-il à rendre un service injectable ?'
+  back: La recette Flex active le bundle dans `config/bundles.php`, et le bundle enregistre ses services avec leurs alias de type.
+  explanation: Composer installe du code ; c'est le bundle qui peuple le conteneur.
+  memorization_justification: Chaîne paquet → bundle → service.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/quick_tour/flex_recipes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: In addition to automatically enabling the feature in config/bundles.php
+    verified_at: '2026-09-29'
+- id: FLC-j30bfaftfpnm
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un service listé par debug:container n''est-il pas forcément injectable par type ?'
+  back: Parce que l'autowiring cherche un service ou un alias portant le **nom du type** ; `debug:container` liste les identifiants, pas les types aliasés.
+  explanation: '`logger` figure dans `debug:container`, sa classe concrète ne s''injecte pas.'
+  memorization_justification: Distinction des deux commandes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Fetching and using Services; debug:autowiring; debug:container
+    verified_at: '2026-09-29'
+- id: FLC-p1v7pwwvx1rm
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : quel type écrire pour recevoir le logger dans un constructeur ?'
+  back: '`Psr\Log\LoggerInterface` : c''est l''alias vers `logger`.'
+  explanation: '`LoggerPass` l''ajoute si aucun service ne porte déjà ce nom.'
+  memorization_justification: Type-hint le plus courant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/LoggerPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/LoggerPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setAlias(LoggerInterface::class, logger)
+    verified_at: '2026-09-29'
+- id: FLC-mz1atkjgmwge
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un service doit lire la requête courante. Quel type injecter ?'
+  back: '`Symfony\Component\HttpFoundation\RequestStack` — une classe, aliasée vers `request_stack`.'
+  explanation: 'Exécuté : injecté sans configuration dans une application FrameworkBundle 8.0.15.'
+  memorization_justification: Accès à la requête hors contrôleur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: alias(RequestStack::class), alias(Filesystem::class)
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Fetching and using Services; debug:autowiring; debug:container
+    verified_at: '2026-09-29'
+- id: FLC-sxmwshbs1a58
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: TRAP
+  front: 'Symfony : type-hinter Symfony\Component\HttpKernel\Log\Logger, la classe de logger, fonctionne-t-il ?'
+  back: 'Non : « no such service exists. Try changing the type-hint to "Psr\Log\LoggerInterface" instead. »'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : la classe concrète n''a pas d''alias ; l''erreur suggère le type aliasé.'
+  memorization_justification: Classe concrète au lieu du type aliasé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Try changing the type-hint to "%s" instead.
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/LoggerPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/LoggerPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setAlias(LoggerInterface::class, logger)
+    verified_at: '2026-09-29'
+- id: FLC-t9zmv2x9vahc
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: TRAP
+  front: 'Symfony : un service intégré s''injecte-t-il toujours par une interface ?'
+  back: 'Non : `RequestStack`, `Filesystem` et `Twig\Environment` sont des classes, aliasées telles quelles par leur bundle.'
+  explanation: '`services.php` de FrameworkBundle déclare `alias(Filesystem::class, ''filesystem'')`.'
+  memorization_justification: Règle trop générale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: alias(RequestStack::class), alias(Filesystem::class)
+    verified_at: '2026-09-29'
+- id: FLC-vpb05exshkwx
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans TwigBundle, peut-on injecter Twig\Environment parce que twig/twig est installé ?'
+  back: 'Non : « no such service exists ». Le service `twig` et son alias viennent du bundle, pas du paquet.'
+  explanation: 'Exécuté : le même constructeur s''injecte avec TwigBundle, échoue sans.'
+  memorization_justification: Paquet installé ≠ service enregistré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Fetching and using Services; debug:autowiring; debug:container
+    verified_at: '2026-09-29'

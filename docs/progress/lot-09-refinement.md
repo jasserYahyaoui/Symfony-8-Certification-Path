@@ -164,6 +164,79 @@ version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Built-in services* — RAFFINÉE
+
+`CRS-jtkmpfp3nwzk` · `OIT-dy7108w6bf4z` · MINIMAL · **339 → 560 mots** sur 700.
+Aucun niveau promu. Exécutions sur une application minimale FrameworkBundle +
+TwigBundle 8.0.15 (`MicroKernelTrait`, autowiring activé).
+
+**Correction de méthode, avant fusion.** La première exécution a tourné avec
+`dependency-injection` **8.1.8** : Composer avait contraint FrameworkBundle à
+`8.0.*` mais pas ses dépendances. Tous les composants `symfony/*` du bac à sable
+ont été fixés à `8.0.*` (`dependency-injection`, `http-kernel`, `config` en
+v8.0.15 par `git describe`), et chaque exécution de cette page a été **refaite** :
+sorties identiques. Même vérification pour le bac à sable des lots 07–08, qui
+embarquait `security-core` 8.1.6 par transitivité : les exécutions CSRF du lot
+07 (page 7), relancées après le passage en 8.0, rendent une sortie identique.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 09 (PR #255, `e7e7764`) | 36616450038, success | `ok  lot-09  the service container page carries its four flashcard levels, the hidden option, the test services file and the debug command` |
+
+### Une règle trop générale
+
+La page posait « **on injecte une interface**, pas une implémentation », puis
+citait dans la même liste `RequestStack`, `Filesystem` et `Environment`, trois
+classes. Exécuté : les trois s'injectent par leur classe, parce que le bundle les
+a aliasées telles quelles (`->alias(Filesystem::class, 'filesystem')` dans
+`services.php` de FrameworkBundle). La règle devient : on injecte **le type que
+le bundle a aliasé** — le plus souvent une interface, parfois une classe. Un
+piège d'examen est ajouté.
+
+### Confirmé par l'exécution
+
+- Les treize types cités figurent dans la sortie de `debug:autowiring`.
+- Typer `Symfony\Component\HttpKernel\Log\Logger`, la classe de `logger`,
+  échoue : « no such service exists. Try changing the type-hint to
+  "Psr\Log\LoggerInterface" instead. »
+- Sans TwigBundle, `Twig\Environment` échoue alors que `twig/twig` est installé.
+- `debug:autowiring` : un argument `search` (filtre partiel, erreur « No
+  autowirable classes or interfaces found matching … » sans résultat) et une
+  option `--all`, qui ajoute les services non aliasés comme `RedirectController`.
+- « La recette active le bundle » : cité depuis `quick_tour/flex_recipes.rst`
+  (« automatically enabling the feature in `config/bundles.php` »).
+
+**Questions.** `QST-0mgw5r64r7pf` et `QST-8ejeqdapg6aq` (LEARNING) relues :
+exactes, inchangées. L'item ne porte ni question VALIDATION ni question
+holdout ; il est MINIMAL, donc `POOL-002` ne s'applique pas.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-7xkwp2t1hefj` reçoit le
+niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`RedirectController`, `DebugAutowiringCommand` et `Try changing the type-hint`,
+absentes de la version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + TwigBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 991 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Built-in services* (MINIMAL, 339 / 700).
+Page 4 — *Configuration parameters* (STANDARD, 384 / 900).
