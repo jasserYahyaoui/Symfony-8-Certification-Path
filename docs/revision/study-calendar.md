@@ -394,7 +394,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 29 octobre 2026
 
-- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 12 min · 465 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 21 min · 623 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Forms : Form component** (STANDARD) — 23 min · 704 mots · 5 questions, 12 flashcards
 - NOUVEAU · **Forms : Forms creation** (STANDARD) — 21 min · 577 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Forms : Forms handling** (STANDARD) — 23 min · 589 mots · 5 questions, 11 flashcards
@@ -403,7 +403,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (14 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+14** (9 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
 
-*Budget du jour : 146 / 160 min*
+*Budget du jour : 155 / 160 min*
 
 ### Vendredi 30 octobre 2026
 

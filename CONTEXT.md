@@ -17,7 +17,7 @@ périmètre sur instruction.
 | 02 à 05 | raffinés, déployés, rapport de fin de lot fusionné | `docs/progress/lot-0N-refinement.md` |
 | 06 (Twig) | **terminé** — 14 pages fusionnées et déployées ; rapport PR #230 | `docs/progress/lot-06-refinement.md` |
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
-| 08 (Data Validation) | **en cours** — pages 1 à 6 déployées ; page 7 en PR | `docs/progress/lot-08-refinement.md` |
+| 08 (Data Validation) | **en cours** — pages 1 à 7 déployées ; page 8 en PR | `docs/progress/lot-08-refinement.md` |
 | 09 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -32,8 +32,8 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 7 du lot 08 après CI verte,
-lire son smoke test, puis page 8 (*Violations builder*).
+**Prochaine action** : fusionner la PR de la page 8 du lot 08 après CI verte,
+lire son smoke test, puis rapport de fin de lot 08 dans sa propre PR.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

@@ -1678,7 +1678,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-29'
   tags:
   - violations
   - context
@@ -1689,7 +1689,7 @@ questions:
   - id: CHO-pvnxy8n6xmv0
     text: One reports on a property, the other on the class
     correct: false
-    explanation: Either can be aimed at a property; that is what the path setting is for.
+    explanation: Both report at the current path by default; only the builder can move the violation to another property, with atPath().
   - id: CHO-cxqfv56ae7ky
     text: One is for custom constraints, the other for built-in ones
     correct: false

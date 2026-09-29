@@ -124,6 +124,7 @@ flashcards:
 - id: FLC-crtrxfbtxbrw
   official_item: OIT-0wnxbapegqhv
   language: fr
+  level: TRAP
   front: Que produit une chaîne buildViolation() qui ne finit pas par addViolation() ?
   back: Rien. Le constructeur prépare la violation ; seule addViolation() l'enregistre.
   explanation: La validation passe alors sans erreur alors que la règle est violée, ce qui en fait un
@@ -1287,4 +1288,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: CallbackValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-0xewpetw99ks
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: TRAP
+  front: 'Validator : dans un Callback de classe, atPath(''email'') change-t-il la valeur fautive de la violation ?'
+  back: 'Non : seul le chemin change ; la valeur fautive reste l''objet entier. Il faut `setInvalidValue()` pour la corriger.'
+  explanation: 'Exécuté avec symfony/validator 8.0.15 : chemin `email`, valeur fautive = l''objet validé.'
+  memorization_justification: On suppose que le chemin entraîne la valeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+- id: FLC-4qgtvf2t0y44
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: TRAP
+  front: 'Validator : $context->addViolation() accepte-t-il des paramètres de message ?'
+  back: 'Oui : `addViolation(string $message, array $params = [])`. Seuls le chemin, le code et la valeur fautive exigent le constructeur.'
+  explanation: 'Signature de `ExecutionContextInterface` (8.0) ; exécuté : `''direct {{ v }}''` devient `''direct p''`.'
+  memorization_justification: On croit la forme directe sans réglage possible.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ExecutionContextInterface::addViolation(), buildViolation()
+    verified_at: '2026-09-25'
+- id: FLC-8d1xkk5xcrys
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: RECALL
+  front: 'Validator : quelles méthodes offre ConstraintViolationBuilderInterface ?'
+  back: '`atPath`, `setParameter`, `setParameters`, `setTranslationDomain`, `disableTranslation`, `setInvalidValue`, `setPlural`, `setCode`, `setCause`, et `addViolation` pour terminer.'
+  explanation: Dix méthodes dans l'interface 8.0.
+  memorization_justification: Surface du constructeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+- id: FLC-js9312yx10p4
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: RECALL
+  front: 'Validator : que retournent getMessageTemplate() et getMessage() pour ''built {{ v }}'' avec {{ v }} = x ?'
+  back: '`getMessageTemplate()` : `''built {{ v }}''` ; `getMessage()` : `''built x''`.'
+  explanation: 'Exécuté : la violation garde le gabarit et le texte rempli.'
+  memorization_justification: Deux formes du message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+- id: FLC-8rmb0nmhap46
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: RECALL
+  front: 'Validator : quel chemin porte une violation créée par buildViolation()->atPath(''address.city'') depuis un Callback de classe ?'
+  back: '`address.city` : le chemin s''ajoute au chemin courant, vide pour une contrainte de classe.'
+  explanation: Exécuté.
+  memorization_justification: Composition des chemins.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+- id: FLC-hnzbpsb5q3ae
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi préférer setCode() au texte du message pour reconnaître une erreur dans le code ?'
+  back: Parce que le code est stable, alors que le message change avec la traduction ; `getCode()` le relit sur la violation.
+  explanation: 'Exécuté : `setCode(''MY_CODE'')` donne `getCode() === ''MY_CODE''`.'
+  memorization_justification: Identifiant machine contre texte humain.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+- id: FLC-mt50snrhdcsm
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi une chaîne buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
+  back: Parce que `buildViolation()` ne fait que préparer un constructeur ; seul son `addViolation()` enregistre la violation.
+  explanation: 'Exécuté : aucune violation pour une chaîne non terminée.'
+  memorization_justification: Défaut silencieux central de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ExecutionContextInterface::addViolation(), buildViolation()
+    verified_at: '2026-09-25'
+- id: FLC-b8sqj862m829
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: APPLICATION
+  front: 'Validator : depuis un Callback de classe, signaler une adresse e-mail refusée sur le champ email, avec un code stable et la valeur du champ.'
+  back: '`$context->buildViolation(''La valeur {{ value }} est refusée.'')->setParameter(''{{ value }}'', $this->email)->atPath(''email'')->setInvalidValue($this->email)->setCode(''EMAIL_REFUSED'')->addViolation();`'
+  explanation: '`atPath()` place l''erreur, `setInvalidValue()` corrige la valeur fautive, `setCode()` l''identifie.'
+  memorization_justification: Chaîne complète typique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint, buildViolation example
+    verified_at: '2026-09-25'
+- id: FLC-6kmeprjce9st
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: APPLICATION
+  front: 'Validator : signaler une violation simple, sans chemin ni code, avec un paramètre.'
+  back: '`$context->addViolation(''Valeur {{ v }} refusée.'', [''{{ v }}'' => $value]);`'
+  explanation: La forme directe suffit quand le chemin courant convient.
+  memorization_justification: Choisir la forme la plus courte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ExecutionContextInterface::addViolation(), buildViolation()
+    verified_at: '2026-09-25'
+- id: FLC-nsc0hmkkctg6
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : que fait setPlural(2) sur une violation ?'
+  back: Il fixe le nombre qui sert à choisir la forme plurielle du message à la traduction ; la violation le rend par `getPlural()`.
+  explanation: 'Exécuté : `getPlural()` vaut `2`.'
+  memorization_justification: Rôle d'une méthode rarement utilisée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-25'
