@@ -110,11 +110,13 @@ flashcards:
 - id: FLC-tv2t8a6yt50g
   official_item: OIT-83sac57rw0xn
   language: fr
+  level: TRAP
   front: Que produit un tag qu'aucune passe ni aucun itérateur ne lit ?
   back: Rien, et sans erreur. Un tag est une étiquette inerte tant que quelque chose ne la collecte pas.
   explanation: 'C''est la même logique que pour un attribut PHP : la donnée ne produit un effet que par
     son lecteur.'
-  memorization_justification: L'absence totale de signal rend le défaut difficile à diagnostiquer.
+  memorization_justification: 'Aucune erreur : en debug, seule une ligne du journal de compilation le signale
+    (UnusedTagsPass, « was never used »).'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
@@ -1240,4 +1242,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: AutowireDecorated
+    verified_at: '2026-09-29'
+- id: FLC-t3b4mjw1fe3p
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut injecte tous les services portant un tag ?'
+  back: '`#[AutowireIterator(''app.handler'')]` ; en YAML, `!tagged_iterator app.handler`.'
+  explanation: '`#[AutowireLocator]` et `!tagged_locator` injectent un localisateur indexé.'
+  memorization_justification: Forme attribut de l'itérateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireIterator::__construct(tag, indexAttribute, defaultIndexMethod, defaultPriorityMethod, exclude, excludeSelf)
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: tagged_iterator, AutoconfigureTag, AsTaggedItem, AutowireIterator
+    verified_at: '2026-09-29'
+- id: FLC-1w1q3b8wfwzz
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle option d''un itérateur tagué retire certains services ?'
+  back: '`exclude` : exécuté, `exclude: [FaxHandler::class]` rend les autres.'
+  explanation: '`exclude_self` (vrai par défaut) retire aussi le service qui reçoit l''itérateur.'
+  memorization_justification: Option de filtrage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireIterator::__construct(tag, indexAttribute, defaultIndexMethod, defaultPriorityMethod, exclude, excludeSelf)
+    verified_at: '2026-09-29'
+- id: FLC-28943m2c17zk
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode statique fournit la priorité par défaut d''un service tagué ?'
+  back: '`getDefaultPriority()`, tant qu''aucun `index_by` n''est donné.'
+  explanation: 'Exécuté : 5 place le service juste après celui de priorité 10.'
+  memorization_justification: Méthode conventionnelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findAndSortTaggedServices()
+    verified_at: '2026-09-29'
+- id: FLC-535fv5hf9amt
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un itérateur tagué ne construit-il pas ses services à l''injection ?'
+  back: 'Parce qu''il s''agit d''un générateur réembobinable : chaque service est construit quand l''itération l''atteint.'
+  explanation: 'Exécuté : après construction du consommateur, aucun gestionnaire n''est construit.'
+  memorization_justification: Paresse de l'itérateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: tagged_iterator, AutoconfigureTag, AsTaggedItem, AutowireIterator
+    verified_at: '2026-09-29'
+- id: FLC-f8105hgm3b2s
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi implémenter EventSubscriberInterface suffit-il pour devenir abonné ?'
+  back: Parce que FrameworkExtension appelle `registerForAutoconfiguration(EventSubscriberInterface::class)` et ajoute le tag `kernel.event_subscriber`.
+  explanation: 'Relu en 8.0.15 : l''interface ne porte pas `#[AutoconfigureTag]` ; l''effet est le même, le moyen diffère.'
+  memorization_justification: Mécanisme réel de l'autoconfiguration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerForAutoconfiguration(EventSubscriberInterface::class)
+    verified_at: '2026-09-29'
+- id: FLC-83enwj15h1yd
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : injecter des gestionnaires tagués sous forme de table indexée par leur clé.'
+  back: '`#[AutowireIterator(''app.handler'', indexAttribute: ''key'')]` — ou `#[AutowireLocator(''app.handler'')]` pour un accès à la demande.'
+  explanation: 'Exécuté : `sms` puis les noms de classe comme clés.'
+  memorization_justification: Transformer la liste en table.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireIterator::__construct(tag, indexAttribute, defaultIndexMethod, defaultPriorityMethod, exclude, excludeSelf)
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findAndSortTaggedServices()
+    verified_at: '2026-09-29'
+- id: FLC-3bcteajzqyp3
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : sous index_by: key, quelle méthode statique fournit la clé par défaut ?'
+  back: '`getDefaultKeyName()` — le nom dérive de l''attribut ; `default_index_method` en impose un autre.'
+  explanation: 'Exécuté : `getDefaultIndexName()` n''est appelée que si on la nomme.'
+  memorization_justification: Nom dérivé de la méthode.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Argument/TaggedIteratorArgument.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Argument/TaggedIteratorArgument.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: TaggedIteratorArgument::__construct() — default index and priority method names
+    verified_at: '2026-09-29'
+- id: FLC-87kstrsxp1we
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: TRAP
+  front: 'Symfony : #[AsTaggedItem(index: ''sms'')] donne-t-il la clé sms dans #[AutowireIterator(''app.handler'')] ?'
+  back: 'Non : sans `indexAttribute`, l''itérateur a des clés entières `0, 1, 2…`. La clé `sms` n''apparaît qu''avec `index_by` ou dans un localisateur.'
+  explanation: Exécuté avec dependency-injection 8.0.15.
+  memorization_justification: Index supposé toujours appliqué.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findAndSortTaggedServices()
+    verified_at: '2026-09-29'
+- id: FLC-xymbztczmaxe
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: TRAP
+  front: 'Symfony : getDefaultPriority() reste-t-il lu sous index_by: key ?'
+  back: 'Non : la méthode attendue devient `getDefaultKeyPriority()` ; exécuté, le service perd sa place.'
+  explanation: '`TaggedIteratorArgument` dérive les deux noms de l''attribut d''index.'
+  memorization_justification: Dérivation méconnue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Argument/TaggedIteratorArgument.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Argument/TaggedIteratorArgument.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: TaggedIteratorArgument::__construct() — default index and priority method names
+    verified_at: '2026-09-29'
+- id: FLC-t237f1x76pt3
+  official_item: OIT-83sac57rw0xn
+  language: fr
+  level: TRAP
+  front: 'Symfony : une faute de frappe dans un nom de tag lève-t-elle une erreur ?'
+  back: 'Non. En debug, `UnusedTagsPass` écrit seulement dans le journal de compilation : « … was never used. Did you mean "app.handler"? ».'
+  explanation: Exécuté avec FrameworkBundle 8.0.15, service public pour qu'il survive à la compilation.
+  memorization_justification: Erreur silencieuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Compiler/UnusedTagsPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Compiler/UnusedTagsPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Tag "%s" was defined on service(s) "%s", but was never used.
     verified_at: '2026-09-29'

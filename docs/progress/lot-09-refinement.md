@@ -471,6 +471,93 @@ envisagée, figurait déjà sur la page : écartée.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 7 — *Tags* — RAFFINÉE
+
+`CRS-b4g5s2asb9ye` · `OIT-83sac57rw0xn` · STANDARD · **368 → 637 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/dependency-injection` 8.0.15, seul
+et dans l'application FrameworkBundle 8.0.15.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 6 du lot 09 (PR #259, `b5271d1`) | 36623819276, success | `ok  lot-09  the service decoration page carries its four flashcard levels, the decorated-argument attribute, the type error and the missing target` |
+
+### Une méthode qui n'est jamais appelée
+
+La page affirmait : « sans `index`, une méthode statique `getDefaultIndexName()`
+peut fournir la clé ». Exécuté, avec une classe portant `getDefaultName()`,
+`getDefaultIndexName()` et `getDefaultKeyName()` :
+
+| Injection | Clé obtenue |
+|---|---|
+| itérateur simple | `0` — aucune méthode lue |
+| `index_by: key` | `by-getDefaultKeyName` |
+| `index_by: key` + `default_index_method: getDefaultIndexName` | `by-getDefaultIndexName` |
+| localisateur | l'identifiant du service |
+
+Le nom de la méthode **dérive de l'attribut d'index** (`TaggedIteratorArgument`),
+et la méthode de priorité aussi : sous `index_by: key`, `getDefaultPriority()`
+est ignorée au profit de `getDefaultKeyPriority()` — exécuté, le service perd sa
+place. La page est corrigée.
+
+### Un index qui ne transforme pas l'itérateur
+
+La page disait que `index` « transforme l'itérateur en table de
+correspondance ». Exécuté : `#[AsTaggedItem(index: 'sms')]` injecté par
+`#[AutowireIterator('app.handler')]` donne les clés `0, 1, 2, 3` ; `sms`
+n'apparaît qu'avec `indexAttribute` ou dans `#[AutowireLocator]`.
+
+### Un mécanisme attribué au mauvais outil
+
+La page et l'explication de `QST-a1avrk2v0k2t` (LEARNING) disaient que
+`#[AutoconfigureTag]` est « ce que fait le framework pour ses propres
+interfaces », d'où l'abonné par simple implémentation. Relu en 8.0.15 :
+`EventSubscriberInterface` ne porte pas l'attribut ; `FrameworkExtension` appelle
+`registerForAutoconfiguration(EventSubscriberInterface::class)`. Même effet,
+autre moyen. L'explication est corrigée, version conservée.
+
+### Confirmé ou ajouté par l'exécution
+
+- Itérateur paresseux : aucun gestionnaire construit après construction du
+  consommateur.
+- Priorité haute d'abord (10, puis 5 par `getDefaultPriority()`, puis 0) ;
+  `exclude: [FaxHandler::class]` rend les trois autres.
+- Un tag que rien ne lit ne lève aucune erreur ; en debug, `UnusedTagsPass` écrit
+  dans le journal de compilation « Tag "app.handlr" was defined on service(s) …,
+  but was never used. Did you mean "app.handler"? » — à condition que le service
+  ait survécu à la compilation (il a fallu le rendre public). La carte
+  `FLC-tv2t8a6yt50g`, qui parlait d'« absence totale de signal », est précisée
+  et reçoit le niveau TRAP.
+
+**Questions.** `QST-t4bgmrx3q0cg`, `QST-wdn59cym1fv8` (LEARNING) et
+`QST-ephbe0rvk2zx` (VALIDATION) relues : exactes, inchangées. L'item ne porte
+pas de question holdout.
+
+**Flashcards.** 10 ajoutées. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING,
+2 APPLICATION, 4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `was never used`,
+`getDefaultKeyName` et `registerForAutoconfiguration`, absentes de la version
+`master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions DependencyInjection et FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 031 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Tags* (STANDARD, 368 / 900).
+Page 8 — *Semantic configuration* (STANDARD, 404 / 900).
