@@ -2665,6 +2665,32 @@ jobs:
           else
             echo "ok  lot-09  the service container page carries its four flashcard levels, the hidden option, the test services file and the debug command"
           fi
+          # Lot 09 refinement, page 3 (Built-in services): the four flashcard
+          # levels, the class-named service the --all option adds, the command
+          # class cited for it and the autowiring error that suggests a type.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-builtin -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/built-in-services")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page built-in-services serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-builtin || missing="$missing l9bis:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-builtin || missing="$missing l9bis:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-builtin || missing="$missing l9bis:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-builtin || missing="$missing l9bis:no-trap-heading"
+          grep -aq 'RedirectController' /tmp/l9r-builtin \
+            || missing="$missing l9bis:no-redirect-controller"
+          grep -aq 'DebugAutowiringCommand' /tmp/l9r-builtin \
+            || missing="$missing l9bis:no-autowiring-command"
+          grep -aq 'Try changing the type-hint' /tmp/l9r-builtin \
+            || missing="$missing l9bis:no-type-hint-suggestion"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the built-in services page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the built-in services page carries its four flashcard levels, the unaliased service, the autowiring command and the type-hint suggestion"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
