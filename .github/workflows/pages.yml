@@ -2717,6 +2717,32 @@ jobs:
           else
             echo "ok  lot-09  the configuration parameters page carries its four flashcard levels, the missing variable, the bindings pass and the percent reference"
           fi
+          # Lot 09 refinement, page 5 (Services registration): the four
+          # flashcard levels, the tag an environment-restricted class carries,
+          # the error an unscoped _defaults produces and the private alias.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-registration -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/services-registration-yaml-and-php-attributes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page services-registration-yaml-and-php-attributes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-registration || missing="$missing l9reg:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-registration || missing="$missing l9reg:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-registration || missing="$missing l9reg:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-registration || missing="$missing l9reg:no-trap-heading"
+          grep -aq 'container.excluded' /tmp/l9r-registration \
+            || missing="$missing l9reg:no-excluded-tag"
+          grep -aq 'ArgumentCountError' /tmp/l9r-registration \
+            || missing="$missing l9reg:no-argument-count"
+          grep -aq 'private alias' /tmp/l9r-registration \
+            || missing="$missing l9reg:no-private-alias"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the services registration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the services registration page carries its four flashcard levels, the excluded tag, the argument count error and the private alias"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

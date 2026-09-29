@@ -731,7 +731,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - registration
     choices:
@@ -750,8 +750,8 @@ questions:
         text: Its classes being autowired into other services
         correct: false
         explanation: If registered explicitly, such a class is autowired like any other.
-    explanation: exclude removes classes from automatic discovery only. Entities and the Kernel are excluded
-      because they are not services, not because they are forbidden.
+    explanation: exclude removes classes from automatic discovery only. It suits a directory of classes that
+      are not services, such as entities; it forbids nothing, and a class declared explicitly is registered.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
@@ -2339,7 +2339,7 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-112hac96j8hg
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-stze9x4aydp3
     domain: symfony
@@ -2350,8 +2350,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Which attribute keeps a class out of automatic discovery, as the exclude key does from the
-      other side?
+    question: Which attribute keeps a class out of automatic discovery in every environment, as the exclude
+      key does from the configuration?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -2361,7 +2361,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-29'
     tags:
       - registration
       - attributes
@@ -2372,8 +2372,8 @@ questions:
       - id: CHO-6e8jbvfc01e3
         text: '#[When]'
         correct: false
-        explanation: '#[When] restricts the environment in which the service is declared; outside it the
-          class is still discovered.'
+        explanation: '#[When] excludes the class only outside the named environment; inside it, the class is
+          discovered normally.'
       - id: CHO-1ymv3mjm8tfs
         text: '#[AsAlias]'
         correct: false
@@ -2382,9 +2382,9 @@ questions:
         text: '#[Autoconfigure]'
         correct: false
         explanation: '#[Autoconfigure] sets options such as public, lazy or tags on the definition.'
-    explanation: 'exclude removes paths from discovery in the configuration; #[Exclude] does the same
-      decision from the class itself. Neither deletes the class: an excluded class referenced explicitly
-      is still registered.'
+    explanation: 'exclude removes paths from discovery in the configuration; #[Exclude] makes the same
+      decision from the class itself, in every environment. Neither deletes the class: injecting it fails
+      with a message saying the type has been excluded.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
