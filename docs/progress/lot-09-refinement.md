@@ -170,6 +170,15 @@ version `master` de la page et de ses cartes.
 Aucun niveau promu. Exécutions sur une application minimale FrameworkBundle +
 TwigBundle 8.0.15 (`MicroKernelTrait`, autowiring activé).
 
+**Correction de méthode, avant fusion.** La première exécution a tourné avec
+`dependency-injection` **8.1.8** : Composer avait contraint FrameworkBundle à
+`8.0.*` mais pas ses dépendances. Tous les composants `symfony/*` du bac à sable
+ont été fixés à `8.0.*` (`dependency-injection`, `http-kernel`, `config` en
+v8.0.15 par `git describe`), et chaque exécution de cette page a été **refaite** :
+sorties identiques. Même vérification pour le bac à sable des lots 07–08, qui
+embarquait `security-core` 8.1.6 par transitivité : les exécutions CSRF du lot
+07 (page 7), relancées après le passage en 8.0, rendent une sortie identique.
+
 ### Déploiement précédent, lu en production
 
 | Fusion | Run Pages | Ligne de smoke test |
