@@ -77,6 +77,7 @@ flashcards:
 - id: FLC-tta4ns1abpfy
   official_item: OIT-58r9dadx916v
   language: fr
+  level: RECALL
   front: 'DataTransformer : que fait reverseTransform() ?'
   back: Elle convertit la donnée soumise vers le modèle. transform() fait le trajet modèle vers vue, au
     rendu.
@@ -1879,4 +1880,194 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: EnumType::configureOptions(), required class option
+    verified_at: '2026-09-25'
+- id: FLC-ks1g8r7f9jtk
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : transform() d''un transformateur est-elle appelée par createView() ?'
+  back: Non. Elle est appelée quand les données sont posées sur le formulaire, par exemple à sa création avec des données initiales.
+  explanation: 'Exécuté avec des transformateurs qui journalisent : `getForm()` les appelle, `createView()` n''appelle rien. Après une soumission réussie, les `transform()` des transformateurs de vue sont rappelées pour resynchroniser la vue.'
+  memorization_justification: « Au rendu » est l'approximation courante, et elle est fausse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DataTransformerInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/DataTransformerInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DataTransformerInterface::transform(), reverseTransform()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), transformationFailure, normToView()
+    verified_at: '2026-09-25'
+- id: FLC-hknj332kn7e0
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : M1 puis M2 sont ajoutés par addModelTransformer(). Lequel transforme la donnée du modèle en premier ?'
+  back: '`M2`, le dernier ajouté : `addModelTransformer()` insère en tête de la chaîne.'
+  explanation: 'Exécuté avec `M1`, `M2`, `V1`, `V2` : données posées `M2 → M1 → V1 → V2`, soumission `V2 → V1 → M1 → M2`. `addViewTransformer()`, lui, ajoute à la fin.'
+  memorization_justification: Asymétrie de `FormConfigBuilder` entre les deux méthodes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormConfigBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/FormConfigBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addModelTransformer() array_unshift, addViewTransformer() append
+    verified_at: '2026-09-25'
+- id: FLC-8e58v95t215t
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : quelle exception un transformateur lève-t-il pour une valeur soumise qu''il ne peut pas convertir ?'
+  back: '`TransformationFailedException`.'
+  explanation: Le formulaire la convertit en erreur sur le champ ; toute autre exception sort de `submit()`, vérifié avec une `InvalidArgumentException`.
+  memorization_justification: Seul type d'exception absorbé par le composant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Data Transformers
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), transformationFailure, normToView()
+    verified_at: '2026-09-25'
+- id: FLC-dnptz84w3cd8
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : après une TransformationFailedException sur le champ n, que valent isSynchronized(), getData() et getViewData() ?'
+  back: '`false`, `null`, et la saisie d''origine, par exemple `''42''`.'
+  explanation: 'Exécuté : le champ garde la saisie en donnée de vue, pour que l''utilisateur la retrouve, et le formulaire est invalide.'
+  memorization_justification: Relie l'échec de conversion à l'état observable du champ.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), transformationFailure, normToView()
+    verified_at: '2026-09-25'
+- id: FLC-mz4jgevqcjx6
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : le message passé au constructeur de TransformationFailedException est-il affiché à l''utilisateur ?'
+  back: Non. L'erreur affichée vient de l'option `invalid_message` du champ, « This value is not valid. » par défaut.
+  explanation: La documentation le précise ; exécuté, le message privé n'apparaît nulle part dans les erreurs du formulaire.
+  memorization_justification: Message d'exception et message d'erreur confondus.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Data Transformers
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/TransformationFailureListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/TransformationFailureListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: convertTransformationFailureToFormError(), invalid_message
+    verified_at: '2026-09-25'
+- id: FLC-j4tssfbd0rem
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : setInvalidMessage() sur TransformationFailedException change-t-il toujours le message affiché ?'
+  back: 'Non : seulement quand l''extension Validator est active, car c''est `FormValidator` qui le lit.'
+  explanation: 'Exécuté : sans l''extension, `TransformationFailureListener` applique l''option `invalid_message` ; avec elle, le message fixé par `setInvalidMessage()` s''affiche.'
+  memorization_justification: Dépendance non évidente entre deux extensions.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormValidator::validate(), getInvalidMessage()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/TransformationFailureListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/TransformationFailureListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: convertTransformationFailureToFormError(), invalid_message
+    verified_at: '2026-09-25'
+- id: FLC-wzbgmr6tbh3q
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : un transformateur rend un numéro de ticket en chaîne. Que doit retourner sa méthode transform() quand elle reçoit null ?'
+  back: Une chaîne vide.
+  explanation: 'La documentation demande l''équivalent vide du type cible : `''''` pour une chaîne, `0` pour un entier, `0.0` pour un flottant.'
+  memorization_justification: Application directe de la règle documentée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Data Transformers
+    verified_at: '2026-09-25'
+- id: FLC-bc1x5acrbrds
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : un champ texte est soumis vide. Que reçoit reverseTransform() d''un transformateur de vue, et d''un transformateur de modèle ?'
+  back: Le transformateur de vue reçoit `''` ; le transformateur de modèle reçoit déjà `null`.
+  explanation: Exécuté avec `symfony/form` 8.0.15. La convention de l'interface est que `reverseTransform()` retourne `null` pour une chaîne vide.
+  memorization_justification: La valeur vide change de forme d'une couche à l'autre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DataTransformerInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/DataTransformerInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DataTransformerInterface::transform(), reverseTransform()
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Form::submit(), transformationFailure, normToView()
+    verified_at: '2026-09-25'
+- id: FLC-96hzp49wqbrs
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : convertir en une ligne une liste de tags entre tableau et chaîne séparée par des virgules, sans écrire de classe.'
+  back: Un `CallbackTransformer`, dont le constructeur prend la fonction `transform` puis la fonction `reverseTransform`, attaché par `addModelTransformer()`.
+  explanation: 'Exemple documenté : `implode('', '', …)` dans un sens, `explode('', '', …)` dans l''autre. Exécuté tel quel, il lève une `TypeError` quand les tags valent `null` : traiter le vide, `''''` dans un sens, `[]` dans l''autre.'
+  memorization_justification: Raccourci standard pour une conversion simple.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Data Transformers
+    verified_at: '2026-09-25'
+- id: FLC-xhjgpbzhpb3f
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: RECALL
+  front: 'Symfony Forms : entre quelles données se place un transformateur ajouté par addViewTransformer() ?'
+  back: Entre la donnée normalisée et la donnée de vue.
+  explanation: '`addModelTransformer()` se place entre la donnée du modèle et la donnée normalisée.'
+  memorization_justification: Les deux niveaux d'attachement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Data Transformers
     verified_at: '2026-09-25'

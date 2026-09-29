@@ -1023,7 +1023,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - transformers
   choices:
@@ -1033,7 +1033,7 @@ questions:
   - id: CHO-sb0nynw15d25
     text: It re-throws it, so the controller never runs and a 500 is produced
     correct: false
-    explanation: That is what any other exception type would cause.
+    explanation: Any other exception type escapes submit() and interrupts the controller, which yields a 500; this one is absorbed into a form error.
   - id: CHO-zjw4p36ex4kf
     text: It silently substitutes null for the field
     correct: false
@@ -2874,7 +2874,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-gecgdnzrpa06
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-58r9dadx916v
   domain: symfony
@@ -2895,29 +2895,28 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-25'
   tags:
   - transformers
-  - null
+  - 'null'
   choices:
-  - id: CHO-hfqeykygsjpv
-    text: '0.0'
+  - id: CHO-j400nyd1geny
+    text: An empty string
     correct: true
+  - id: CHO-g653hjc1kvaq
+    text: '0.0'
+    correct: false
+    explanation: That is the empty value for a float target; this transformer produces a string.
   - id: CHO-at6ndpwyrp3v
     text: null, unchanged
     correct: false
-    explanation: The field then holds a value of a type it cannot render.
-  - id: CHO-6htx3jeybxjh
-    text: 'NaN'
-    correct: false
-    explanation: Nothing in the component produces that token; it would render literally.
+    explanation: A text field would still render it as an empty value, but the documented note asks for the empty value of the target type.
   - id: CHO-yc42g6js45v6
     text: A transformation failure
     correct: false
     explanation: That exception reports an unconvertible submitted value, not an absent one.
-  explanation: 'The rule is per target type: an empty string for a string, 0 for an integer,
-    0.0 for a float. A transformer that forwards null instead leaves the view layer holding
-    something it was not built to display.'
+  explanation: 'The documented note is per target type: an empty string for a string, 0 for an integer, 0.0 for
+    a float. Here the value is transformed into a string, so the answer is an empty string.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst
