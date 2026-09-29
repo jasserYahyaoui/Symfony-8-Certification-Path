@@ -25,8 +25,8 @@ première page.
 | 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | **RAFFINÉE** (PR #247) |
 | 4 | Validation scopes | STANDARD | 400 / 900 | 1 | **RAFFINÉE** (PR #248) |
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | **RAFFINÉE** (PR #249) |
-| 6 | Group sequence | DEEP | 545 / 1200 | 1 | en cours |
-| 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | à faire |
+| 6 | Group sequence | DEEP | 545 / 1200 | 1 | **RAFFINÉE** (PR #250) |
+| 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | en cours |
 | 8 | Violations builder | STANDARD | 465 / 900 | 1 | à faire |
 
 ## Page 1 — Validator component, 2026-09-29
@@ -465,6 +465,68 @@ la version `master` de la page et de ses cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 6, lu dans le journal d'exécution.** PR #250 fusionnée
+en squash (`c5639f5`). Run Pages 36571303519 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the group sequence page carries its four
+flashcard levels, the group definition exception, the class metadata and the
+documentation heading` est écrite à **12:56:36 UTC** le 2026-09-29.
+
+## Page 7 — Custom callback validators, 2026-09-29
+
+`CRS-96w05v20b8w1` · `OIT-hcdrp2y7kbct` · STANDARD · **404 → 582 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15.
+
+### Rien de faux, confirmé par exécution
+
+Chaque affirmation de la page tient au regard de `CallbackValidator` (8.0), qui
+teste `isStatic()` et appelle `invoke(null, $object, $context, $payload)` ou
+`invoke($object, $context, $payload)`. Exécuté :
+
+- une méthode statique écrite avec la signature d'instance lève une `TypeError`
+  — « Argument #1 ($c) must be of type … ExecutionContextInterface, StaticWrong
+  given » ;
+- retourner `false` ne produit aucune violation ;
+- un appelable externe `[Ext::class, 'validate']` est appelé.
+
+### Compléments, exécutés
+
+- Un callback `private` est appelé.
+- Un nom de méthode absent lève une `ConstraintDefinitionException` : « Method
+  "nope" targeted by Callback constraint does not exist in class "Missing". ».
+- Une fermeture passée à `new Assert\Callback(...)` sur une valeur nue reçoit la
+  valeur et le contexte.
+- `payload: ['severity' => 'warning']` arrive tel quel dans la méthode.
+
+**Questions.** Les quatre questions non holdout de l'item (trois LEARNING, une
+VALIDATION) relues : exactes, inchangées. Une question holdout porte sur
+l'item ; elle n'a pas été lue.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-6n0qg98nptxe` reçoit le
+niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`CallbackValidator`, `ConstraintDefinitionException` et `Les formes du`,
+absentes de la version `master` de la page et de ses cartes, présentes dans le
+build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 951 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Custom callback validators* (STANDARD, 404 / 900).
+Page 8 — *Violations builder* (STANDARD, 465 / 900).

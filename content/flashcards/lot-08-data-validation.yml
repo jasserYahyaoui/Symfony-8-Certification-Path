@@ -108,6 +108,7 @@ flashcards:
 - id: FLC-6n0qg98nptxe
   official_item: OIT-hcdrp2y7kbct
   language: fr
+  level: RECALL
   front: 'Callback : quel est l''ordre des arguments, en instance et en statique ?'
   back: 'Instance : (context, payload). Statique : (value, context, payload) — la valeur passe devant.'
   explanation: Une méthode statique n'a pas $this, donc l'objet valide lui est passé en premier argument.
@@ -1120,4 +1121,170 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: ClassMetadata::setGroupSequence()
+    verified_at: '2026-09-25'
+- id: FLC-0df5q8rsy59s
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: TRAP
+  front: 'Validator : une méthode Callback statique est écrite avec la signature d''instance (context, payload). Que se passe-t-il ?'
+  back: 'Une `TypeError` : le validateur lui passe l''objet en premier argument, là où elle attend le contexte.'
+  explanation: '`CallbackValidator` appelle `invoke(null, $object, $context, $payload)` pour une méthode statique. Exécuté avec symfony/validator 8.0.15.'
+  memorization_justification: Inversion des deux premiers arguments.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CallbackValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-0xjd7fmay6cj
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: TRAP
+  front: 'Validator : un callback détecte l''erreur et retourne false. La validation échoue-t-elle ?'
+  back: 'Non : le retour est ignoré. Seule une violation ajoutée au contexte signale l''erreur.'
+  explanation: 'Exécuté : aucune violation pour une méthode qui retourne `false`.'
+  memorization_justification: Réflexe booléen hérité d'autres API.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+- id: FLC-cn73m0kfr7xy
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: TRAP
+  front: 'Validator : #[Assert\Callback(''nope'')] vise une méthode inexistante. Que se passe-t-il ?'
+  back: 'Une `ConstraintDefinitionException` : « Method "nope" targeted by Callback constraint does not exist in class … ».'
+  explanation: Levée par `CallbackValidator` à la validation, exécuté.
+  memorization_justification: Erreur de configuration, pas violation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CallbackValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-d1gre0j8r72w
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: RECALL
+  front: 'Validator : quelle est la signature d''une méthode Callback d''instance, puis statique ?'
+  back: 'Instance : `(ExecutionContextInterface $context, mixed $payload)`. Statique : `(mixed $value, ExecutionContextInterface $context, mixed $payload)`.'
+  explanation: Référence de la contrainte `Callback`.
+  memorization_justification: Signatures à restituer.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+- id: FLC-53pz9zp44prb
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: RECALL
+  front: 'Validator : où est cherchée la méthode d''un Callback déclaré par un simple nom ?'
+  back: 'Sur la classe de l''objet validé : `method_exists($object, $method)`.'
+  explanation: Pour une méthode ailleurs, on passe un tableau `[Classe::class, 'méthode']`.
+  memorization_justification: Résolution du nom.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CallbackValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-hy62n20ft5fb
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: RECALL
+  front: 'Validator : que reçoit le troisième argument d''une méthode Callback ?'
+  back: La valeur de l'option `payload` de la contrainte, que le validateur ne lit pas lui-même.
+  explanation: 'Exécuté : `payload: [''severity'' => ''warning'']` arrive tel quel.'
+  memorization_justification: Rôle du payload.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+- id: FLC-xfwsqc5sm28c
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi une méthode Callback statique reçoit-elle l''objet en premier argument ?'
+  back: 'Parce qu''elle n''a pas `$this` : sans cet argument, elle n''aurait aucun accès à l''objet validé.'
+  explanation: La forme d'instance, qui dispose de `$this`, commence directement par le contexte.
+  memorization_justification: Raison de la différence de signature.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+- id: FLC-38wz4rh5cy0n
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi un Callback de classe utilise-t-il souvent atPath() ?'
+  back: Parce qu'une contrainte de classe rattache sa violation à l'objet ; `atPath('firstName')` l'attribue au champ concerné.
+  explanation: Utile pour qu'un formulaire affiche l'erreur sous le bon champ.
+  memorization_justification: Attribution de l'erreur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+- id: FLC-e2r2v4vgb277
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: APPLICATION
+  front: 'Validator : placer la règle de validation dans une classe utilitaire statique Ext::validate().'
+  back: '`#[Assert\Callback([Ext::class, ''validate''])]` sur la classe, avec `public static function validate(mixed $value, ExecutionContextInterface $context, mixed $payload)`.'
+  explanation: 'Exécuté : la violation de l''appelable externe remonte.'
+  memorization_justification: Callback hors de la classe validée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Callback constraint
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CallbackValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-5yqp6pzvk83g
+  official_item: OIT-hcdrp2y7kbct
+  language: fr
+  level: APPLICATION
+  front: 'Validator : valider une valeur nue avec une règle écrite à la volée.'
+  back: '`$validator->validate($value, new Assert\Callback(function (mixed $value, ExecutionContextInterface $context) { … }))`.'
+  explanation: 'Exécuté : la fermeture reçoit la valeur et le contexte ; une violation ajoutée remonte.'
+  memorization_justification: Forme fermeture, hors attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CallbackValidator::validate()
     verified_at: '2026-09-25'
