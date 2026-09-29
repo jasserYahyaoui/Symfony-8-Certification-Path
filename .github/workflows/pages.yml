@@ -2431,6 +2431,32 @@ jobs:
           else
             echo "ok  lot-08  the validator component page carries its four flashcard levels, the attribute mapping, the callable helper and the scalar exception"
           fi
+          # Lot 08 refinement, page 2 (PHP object validation): the four flashcard
+          # levels, the class-level cascade constraint, the attribute that
+          # extends a third-party class and the static method loader.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-object -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/php-object-validation")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page php-object-validation serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-object || missing="$missing l8obj:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-object || missing="$missing l8obj:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-object || missing="$missing l8obj:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-object || missing="$missing l8obj:no-trap-heading"
+          grep -aq 'Cascade' /tmp/l8r-object \
+            || missing="$missing l8obj:no-cascade"
+          grep -aq 'ExtendsValidationFor' /tmp/l8r-object \
+            || missing="$missing l8obj:no-extends-validation"
+          grep -aq 'StaticMethodLoader' /tmp/l8r-object \
+            || missing="$missing l8obj:no-static-loader"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the PHP object validation page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the PHP object validation page carries its four flashcard levels, the cascade constraint, the extension attribute and the static loader"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

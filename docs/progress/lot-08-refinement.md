@@ -20,8 +20,8 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Validator component | STANDARD | 332 / 900 | 1 | en cours |
-| 2 | PHP object validation | STANDARD | 420 / 900 | 1 | à faire |
+| 1 | Validator component | STANDARD | 332 / 900 | 1 | **RAFFINÉE** (PR #245) |
+| 2 | PHP object validation | STANDARD | 420 / 900 | 1 | en cours |
 | 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | à faire |
 | 4 | Validation scopes | STANDARD | 400 / 900 | 1 | à faire |
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | à faire |
@@ -100,6 +100,83 @@ build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+Le rapport de fin de lot 07 (PR #244, `109dfd0`) a été déployé par le run Pages
+36563497225, conclu en succès, smoke test compris.
+
+**Déploiement de la page 1, lu dans le journal d'exécution.** PR #245 fusionnée
+en squash (`c0b8e36`). Run Pages 36564545568 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the validator component page carries its four
+flashcard levels, the attribute mapping, the callable helper and the scalar
+exception` est écrite à **11:55:27 UTC** le 2026-09-29.
+
+## Page 2 — PHP object validation, 2026-09-29
+
+`CRS-ax2v94pgbk0g` · `OIT-d3yp0sq36xrx` · STANDARD · **420 → 671 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15 ;
+`StaticMethodLoader.php` et `Cascade.php` identiques entre le paquet exécuté et
+la branche 8.0 (`diff -q`).
+
+### Une affirmation fausse
+
+**« `loadValidatorMetadata()` écrite comme méthode d'instance n'est jamais
+appelée. »** Elle n'est pas ignorée : exécuté, `StaticMethodLoader` lève une
+`MappingException`, « The method "NonStatic::loadValidatorMetadata()" should be
+static. ». La page le dit ; l'explication du distracteur correspondant de
+`QST-5jrexz5sjxkf` (VALIDATION) est précisée, bonne réponse et version
+inchangées.
+
+### Une affirmation incomplète
+
+**« Il faut le demander : `#[Assert\Valid]`. »** La référence 8.0 documente
+aussi `#[Assert\Cascade]`, posée sur la **classe**, qui valide en profondeur
+toutes les propriétés portant un objet. Exécuté : aucune violation sans
+cascade ; `address.zipCode` avec `Valid` sur la propriété comme avec `Cascade`
+sur la classe. La page, l'explication de `QST-g22z7fmy0cg3` (LEARNING, bonne
+réponse inchangée) et la carte `FLC-qb5nx97jkjav` le précisent.
+
+### Compléments, exécutés
+
+- `Valid` sur une propriété à `null` : aucune violation ; sur un tableau
+  d'objets : chemins `addresses[0].zipCode`, `addresses[1].zipCode`.
+- Héritage : parent `NotBlank`, enfant `Length(min: 5)` — `'abc'` échoue sur
+  `Length` ; la même `NotBlank` redéclarée dans l'enfant produit deux violations.
+- Propriété privée lue sans accesseur.
+- `#[ExtendsValidationFor]`, documenté en 8.0 : hors framework, l'attribut seul
+  ne produit rien ; avec `addAttributeMappings()`, la contrainte ajoutée
+  s'applique. Une propriété absente de la cible lève, au niveau du composant,
+  une `ValidatorException` là où la documentation annonce une
+  `MappingException` ; le chemin du framework n'a pas été exécuté, la page le
+  dit sans trancher davantage.
+
+**Questions.** `QST-6snh12yz2gz2` (LEARNING) relue : exacte, inchangée —
+l'exécution confirme que deux contraintes identiques s'additionnent. L'item ne
+porte pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-qb5nx97jkjav` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `Cascade`,
+`ExtendsValidationFor` et `StaticMethodLoader`, absentes de la version `master`
+de la page et des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 902 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *PHP object validation* (STANDARD, 420 / 900).
+Page 3 — *Built-in validation constraints* (STANDARD, 398 / 900).

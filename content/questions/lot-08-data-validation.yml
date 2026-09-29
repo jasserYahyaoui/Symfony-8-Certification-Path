@@ -201,7 +201,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - cascade
   - valid
@@ -220,9 +220,8 @@ questions:
   - id: CHO-1cq9b2f8s88x
     text: Address must implement a validation interface
     correct: false
-    explanation: No interface is required; the cascade is requested by a constraint on the holding property.
-  explanation: Validation does not descend into embedded objects by itself. The Valid constraint requests
-    the cascade; without it the nested object is skipped silently.
+    explanation: No interface is required; the cascade is requested by a constraint, Valid on the holding property or Cascade on the holding class.
+  explanation: "Validation does not descend into embedded objects by itself. The Valid constraint on the property, or Cascade on the class, requests the cascade; without either, the nested object is skipped silently."
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
@@ -311,7 +310,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - mapping
   - metadata
@@ -322,7 +321,7 @@ questions:
   - id: CHO-50f33s3nv1pt
     text: public function loadValidatorMetadata(ClassMetadata $metadata)
     correct: false
-    explanation: The method must be static; the validator calls it on the class, not on an instance.
+    explanation: The method must be static; the loader calls it on the class, and a non-static one raises a MappingException.
   - id: CHO-jcc42mava7mj
     text: public static function configureValidation(OptionsResolver $resolver)
     correct: false
