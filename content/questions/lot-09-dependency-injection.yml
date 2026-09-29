@@ -2420,7 +2420,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-29'
     tags:
       - tags
       - autoconfigure
@@ -2441,8 +2441,8 @@ questions:
         correct: false
         explanation: The attribute is repeatable, so several tags can be declared side by side.
     explanation: AutoconfigureTag targets a class-like declaration and is repeatable. Put on an interface,
-      it tags every implementation — which is why implementing EventSubscriberInterface is enough to become
-      a subscriber.
+      it tags every implementation. The framework reaches the same effect for its own interfaces, such as
+      EventSubscriberInterface, through registerForAutoconfiguration() rather than this attribute.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutoconfigureTag.php

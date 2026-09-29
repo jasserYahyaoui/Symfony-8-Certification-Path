@@ -310,13 +310,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 22 min · 667 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 23 min · 637 mots · 6 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Service decoration** (STANDARD) — 20 min · 654 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 11 min · 368 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 21 min · 637 mots · 4 questions, 11 flashcards
 - Révision **J+1** (20 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+3** (16 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 - Révision **J+7** (16 min) — Controllers : Internal redirects · Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+14** (11 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
 
-*Budget du jour : 139 / 160 min*
+*Budget du jour : 149 / 160 min*
 
 ### Samedi 24 octobre 2026
 

@@ -2769,6 +2769,32 @@ jobs:
           else
             echo "ok  lot-09  the service decoration page carries its four flashcard levels, the decorated-argument attribute, the type error and the missing target"
           fi
+          # Lot 09 refinement, page 7 (Tags): the four flashcard levels, the
+          # unused-tag log line, the index method derived from index_by and the
+          # autoconfiguration call the framework uses for its interfaces.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-tags -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/tags")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page tags serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-tags || missing="$missing l9tag:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-tags || missing="$missing l9tag:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-tags || missing="$missing l9tag:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-tags || missing="$missing l9tag:no-trap-heading"
+          grep -aq 'was never used' /tmp/l9r-tags \
+            || missing="$missing l9tag:no-unused-log"
+          grep -aq 'getDefaultKeyName' /tmp/l9r-tags \
+            || missing="$missing l9tag:no-derived-method"
+          grep -aq 'registerForAutoconfiguration' /tmp/l9r-tags \
+            || missing="$missing l9tag:no-autoconfiguration"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the tags page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the tags page carries its four flashcard levels, the unused-tag log, the derived index method and the autoconfiguration call"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
