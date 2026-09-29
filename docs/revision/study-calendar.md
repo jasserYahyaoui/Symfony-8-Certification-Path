@@ -296,14 +296,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Routing : Router debugging** (MINIMAL) — 15 min · 527 mots · 3 questions, 8 flashcards
 - NOUVEAU · **Dependency Injection : Dependency Injection component** (STANDARD) — 19 min · 600 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 12 min · 484 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 21 min · 621 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 8 min · 339 mots · 2 questions, 1 flashcards
 - Révision **J+1** (20 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 - Révision **J+3** (17 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 - Révision **J+7** (13 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
 - Révision **J+14** (11 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
-*Budget du jour : 115 / 160 min*
+*Budget du jour : 124 / 160 min*
 
 ### Vendredi 23 octobre 2026
 

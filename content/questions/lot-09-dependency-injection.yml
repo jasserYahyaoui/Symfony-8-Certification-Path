@@ -276,7 +276,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-8hr9dpyd6r1k
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-79f4n087b66c
     domain: symfony
@@ -299,7 +299,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - compilation
     choices:
@@ -310,10 +310,10 @@ questions:
         text: YAML files are only parsed in the dev environment
         correct: false
         explanation: They are parsed in every environment — but at compile time.
-      - id: CHO-h02t4b5msshe
-        text: In production, services.yaml is read once at build time and then ignored
+      - id: CHO-bkzc037h0mh1
+        text: The production environment reads a separate services_prod.yaml and ignores services.yaml entirely
         correct: false
-        explanation: It is used; it is simply compiled ahead of time.
+        explanation: services.yaml is loaded in every environment; an environment file such as services_prod.yaml is added to it, not substituted.
       - id: CHO-c2tdgt7mjx9y
         text: The opcode cache keeps the old YAML
         correct: false

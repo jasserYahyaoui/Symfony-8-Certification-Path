@@ -19,6 +19,7 @@ flashcards:
 - id: FLC-cv9s7bswxrh8
   official_item: OIT-79f4n087b66c
   language: fr
+  level: RECALL
   front: 'Un service privé : injectable ? récupérable par get() ?'
   back: Injectable oui, récupérable non. Privé est le défaut, et il autorise la suppression s'il n'est
     référencé nulle part.
@@ -356,4 +357,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: ContainerBuilder::register(), compile(), get()
+    verified_at: '2026-09-25'
+- id: FLC-asdnwk77st9y
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : php bin/console debug:container --show-private affiche-t-il les services privés ?'
+  back: 'Non : l''option `--show-private` n''existe pas en 8.0. Les services privés sont listés par défaut ; `--show-hidden` ajoute les services internes, dont l''identifiant commence par un point.'
+  explanation: 'Options relues dans `ContainerDebugCommand` (8.0) : `--show-hidden`, `--tag`, `--tags`, `--parameter`, `--types`, `--env-var`…'
+  memorization_justification: Option imaginaire souvent citée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerDebugCommand options
+    verified_at: '2026-09-25'
+- id: FLC-72frre218kgf
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : static::getContainer() dans un test donne-t-il accès à tous les services privés ?'
+  back: 'Non : aux services publics et aux services privés **non retirés**. Un service privé que rien n''utilise a été retiré à la compilation.'
+  explanation: La documentation de test conseille de le déclarer public dans `config/services_test.yaml`.
+  memorization_justification: Nuance fréquemment oubliée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static::getContainer(), non-removed private services
+    verified_at: '2026-09-25'
+- id: FLC-z1v8wzvfh31g
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les deux façons de rendre un service public ?'
+  back: '`public: true` dans sa configuration, ou `#[Autoconfigure(public: true)]` sur sa classe.'
+  explanation: Documentées dans `alias_private.rst` (8.0).
+  memorization_justification: Déclaration de la visibilité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create Service Aliases and Mark Services as Public
+    verified_at: '2026-09-25'
+- id: FLC-jnas5bh4mcaz
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle exception lève get() sur un service privé d''un conteneur compilé ?'
+  back: '`ServiceNotFoundException` : « … has been removed or inlined when the container was compiled ».'
+  explanation: Exécuté avec dependency-injection 8.0.15.
+  memorization_justification: Symptôme d'un service privé récupéré à la volée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::get(), compile()
+    verified_at: '2026-09-25'
+- id: FLC-r92qyfqdn73f
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels fichiers de services le noyau charge-t-il pour l''environnement prod ?'
+  back: '`config/services.yaml`, puis `config/services_prod.yaml` s''il existe : le fichier d''environnement s''ajoute, il ne remplace pas.'
+  explanation: '`MicroKernelTrait::configureContainer()` importe `services.yaml` puis `{services}_<env>.yaml`.'
+  memorization_justification: Chargement par environnement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: MicroKernelTrait::configureContainer()
+    verified_at: '2026-09-25'
+- id: FLC-hqwkvscpsg9c
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi rendre un service privé améliore-t-il les erreurs ?'
+  back: 'Parce que le compilateur connaît tous ses usages : une référence vers un service inexistant échoue dès la compilation, sur n''importe quelle page.'
+  explanation: Argument donné par `alias_private.rst`, avec l'optimisation de l'instanciation.
+  memorization_justification: Intérêt réel de la visibilité privée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create Service Aliases and Mark Services as Public
+    verified_at: '2026-09-25'
+- id: FLC-t5pfn7c9jr2t
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi modifier services.yaml en production est-il sans effet tant que le cache n''est pas vidé ?'
+  back: Parce que l'exécution lit la classe PHP compilée dans `var/cache/`, jamais la configuration.
+  explanation: La compilation résout les paramètres, exécute les passes et retire les services inutilisés.
+  memorization_justification: Conséquence de la compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::get(), compile()
+    verified_at: '2026-09-25'
+- id: FLC-b391z92gbpc6
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lister les services taggés kernel.event_listener.'
+  back: '`php bin/console debug:container --tag=kernel.event_listener`.'
+  explanation: Option `--tag` de `ContainerDebugCommand`.
+  memorization_justification: Inspection ciblée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerDebugCommand options
+    verified_at: '2026-09-25'
+- id: FLC-6jts6wjrxht0
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : trouver quel service répond au type LoggerInterface.'
+  back: '`php bin/console debug:autowiring Logger`, recherche partielle sur les types autowirables.'
+  explanation: '`debug:container --types` liste aussi les types disponibles.'
+  memorization_justification: Diagnostic d'autowiring.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerDebugCommand options
+    verified_at: '2026-09-25'
+- id: FLC-evpsvekb3ra0
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : un service partagé est-il reconstruit à chaque injection ?'
+  back: 'Non : il est construit au premier usage puis réutilisé ; `shared: false` en fait une nouvelle instance à chaque fois.'
+  explanation: 'Exécuté : deux `get()` rendent le même objet, deux objets distincts avec `setShared(false)`.'
+  memorization_justification: Cycle de vie par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ContainerBuilder::get(), compile()
     verified_at: '2026-09-25'

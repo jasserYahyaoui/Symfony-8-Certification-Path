@@ -2639,6 +2639,32 @@ jobs:
           else
             echo "ok  lot-09  the DI component page carries its four flashcard levels, the not-found exception, the frozen bag and the shared setting"
           fi
+          # Lot 09 refinement, page 2 (Service container): the four flashcard
+          # levels, the hidden-services option, the test services file and the
+          # debug command class cited as the source of the option list.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-container -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/service-container")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page service-container serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-container || missing="$missing l9ctr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-container || missing="$missing l9ctr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-container || missing="$missing l9ctr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-container || missing="$missing l9ctr:no-trap-heading"
+          grep -aq 'show-hidden' /tmp/l9r-container \
+            || missing="$missing l9ctr:no-show-hidden"
+          grep -aq 'services_test.yaml' /tmp/l9r-container \
+            || missing="$missing l9ctr:no-test-services"
+          grep -aq 'ContainerDebugCommand' /tmp/l9r-container \
+            || missing="$missing l9ctr:no-debug-command"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the service container page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the service container page carries its four flashcard levels, the hidden option, the test services file and the debug command"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
