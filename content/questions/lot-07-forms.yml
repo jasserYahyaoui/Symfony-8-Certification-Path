@@ -1054,7 +1054,7 @@ questions:
   question_archetype: SEQUENCE_ORDER
   assesses_outcomes:
   - OUT-jz8pzthzk661
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-v7zyhcm44m88
   domain: symfony
@@ -1065,7 +1065,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: From which form event onward can fields no longer be added or removed?
+  question: "From which form event onward is a field added to the form itself left out of the submission?"
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1075,7 +1075,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - events
   choices:
@@ -1085,7 +1085,7 @@ questions:
   - id: CHO-f06jke2cwpge
     text: POST_SUBMIT
     correct: false
-    explanation: The structure is already locked one event earlier.
+    explanation: From there add() even throws AlreadySubmittedException; a field added one event earlier is already left out.
   - id: CHO-jq76twb6badn
     text: PRE_SUBMIT
     correct: false
@@ -1094,8 +1094,7 @@ questions:
     text: POST_SET_DATA
     correct: false
     explanation: Structure may still change during submission, at PRE_SUBMIT.
-  explanation: Structure changes happen at PRE_SET_DATA, from the initial data, or at PRE_SUBMIT, from the raw request
-    data.
+  explanation: "At SUBMIT the children have already been submitted: add() does not throw yet, but the new field is never submitted. Structure changes belong to PRE_SET_DATA or POST_SET_DATA, from the initial data, or to PRE_SUBMIT, from the raw request data."
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
@@ -1181,7 +1180,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - events
   - data
@@ -1200,7 +1199,7 @@ questions:
   - id: CHO-xfds2y4tjpak
     text: Both get view data
     correct: false
-    explanation: Neither event carries view data.
+    explanation: Neither does; view data is what POST_SUBMIT carries.
   explanation: 'The question that decides between them: are you reacting to initial data, which comes from the object,
     or to submitted data, which comes from the request?'
   official_sources:
@@ -1865,7 +1864,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-25'
   tags:
   - events
   - nested
@@ -1880,7 +1879,7 @@ questions:
   - id: CHO-wpeyyqw2ec4e
     text: To the child form, from SUBMIT
     correct: false
-    explanation: Structure is locked from SUBMIT onward.
+    explanation: A field added from SUBMIT is never submitted, and the child is the wrong form anyway.
   - id: CHO-fjzm24x4rwb5
     text: To the parent form, from POST_SET_DATA
     correct: false

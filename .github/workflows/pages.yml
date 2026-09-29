@@ -2327,6 +2327,32 @@ jobs:
           else
             echo "ok  lot-07  the data transformers page carries its four flashcard levels, the config builder, the invalid message setter and the empty example"
           fi
+          # Lot 07 refinement, page 11 (Form events): the four flashcard levels,
+          # the exception add() throws once a form is submitted, the cycle
+          # message of a PRE_SET_DATA listener and the immutable dispatcher.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-events -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/form-events")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page form-events serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-events || missing="$missing l7evt:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-events || missing="$missing l7evt:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-events || missing="$missing l7evt:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-events || missing="$missing l7evt:no-trap-heading"
+          grep -aq 'AlreadySubmittedException' /tmp/l7r-events \
+            || missing="$missing l7evt:no-already-submitted"
+          grep -aq 'A cycle was detected' /tmp/l7r-events \
+            || missing="$missing l7evt:no-cycle-message"
+          grep -aq 'ImmutableEventDispatcher' /tmp/l7r-events \
+            || missing="$missing l7evt:no-immutable-dispatcher"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the form events page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the form events page carries its four flashcard levels, the already submitted exception, the cycle message and the immutable dispatcher"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

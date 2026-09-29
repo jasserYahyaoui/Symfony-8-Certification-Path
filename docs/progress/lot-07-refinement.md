@@ -29,8 +29,8 @@ page.
 | 7 | CSRF protection | STANDARD | 455 / 900 | 1 | **RAFFINÉE** (PR #237) |
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | **RAFFINÉE** (PR #238) |
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | **RAFFINÉE** (PR #239) |
-| 10 | Data transformers | STANDARD | 452 / 900 | 1 | en cours |
-| 11 | Form events | DEEP | 584 / 1200 | 3 | à faire |
+| 10 | Data transformers | STANDARD | 452 / 900 | 1 | **RAFFINÉE** (PR #240) |
+| 11 | Form events | DEEP | 584 / 1200 | 3 | en cours |
 | 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | à faire |
 | 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | à faire |
 
@@ -744,6 +744,91 @@ version `master` de la page et des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 10, lu dans le journal d'exécution.** PR #240 fusionnée
+en squash (`b984163`). Run Pages 36558118218 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the data transformers page carries its four
+flashcard levels, the config builder, the invalid message setter and the empty
+example` est écrite à **10:53:40 UTC** le 2026-09-29.
+
+## Page 11 — Form events, 2026-09-25 / 2026-09-29
+
+`CRS-b2pn9zz55e4n` · `OIT-v7zyhcm44m88` · DEEP · **584 → 994 mots** sur 1 200.
+Aucun niveau promu. Exécutions le 2026-09-25 avec `symfony/form`, `validator` et
+`http-foundation` 8.0.15 ; page appliquée et contrôlée le 2026-09-29.
+
+### Un verrou décrit comme une exception, qui n'en est pas une
+
+La page, la carte `FLC-e83vsz7hvkpp` et la question `QST-ra9z9d42ddqa` disaient
+qu'à partir de `SUBMIT` on ne **peut** plus ajouter ni retirer de champ — ce que
+dit aussi `events.rst` (8.0). Le code est plus fin : `Form::add()` et
+`remove()` ne testent que le marqueur « soumis », que `Form::submit()` pose
+**après** `SUBMIT` et avant `POST_SUBMIT`. Exécuté, un écouteur de la racine qui
+ajoute un champ `extra` :
+
+| Événement | `add()` | Le champ ajouté |
+|---|---|---|
+| `PRE_SET_DATA`, `POST_SET_DATA`, `PRE_SUBMIT` | accepté | soumis |
+| `SUBMIT` | accepté, sans erreur | jamais soumis, garde sa donnée initiale |
+| `POST_SUBMIT` | `AlreadySubmittedException` | — |
+
+`QST-ra9z9d42ddqa` (LEARNING) passe en **v2** : l'énoncé demande désormais à
+partir de quand un champ ajouté **reste hors de la soumission** — bonne réponse
+`SUBMIT` inchangée, choix inchangés, explications alignées sur le code.
+
+### Trois autres inexactitudes
+
+- **« Ajout et retrait : `PRE_SET_DATA` ou `PRE_SUBMIT` uniquement. »**
+  `POST_SET_DATA` les permet aussi (`events.rst` le dit, l'exécution le
+  confirme). Corrigé sur la page et dans la carte, dont la justification
+  comptait « deux » événements sur cinq : il y en a trois.
+- **« `POST_SUBMIT` porte la donnée entièrement transformée. »**
+  `$event->getData()` rend la donnée de **vue** ; exécuté avec un transformateur
+  entre `7` et `'n:7'`, l'événement porte `'n:7'` et le formulaire `7`.
+- **« `PRE_SUBMIT` reçoit des chaînes et des tableaux. »** Aussi les objets
+  `UploadedFile` d'un champ de fichier (exécuté).
+
+### Compléments, exécutés et lus dans le code
+
+- `$form->getData()` dans un écouteur `PRE_SET_DATA` : `RuntimeException`, « A
+  cycle was detected… ».
+- `ValidationListener` écoute le `POST_SUBMIT` de chaque formulaire mais n'agit
+  que sur la racine : aucune erreur dans le `POST_SUBMIT` d'un enfant, erreur
+  `NotBlank` présente dans un écouteur de la racine enregistré après lui.
+- Dispatcher d'un formulaire construit : `ImmutableEventDispatcher`.
+
+**Questions.** `QST-5x6x0fgxqk43` (LEARNING) et `QST-cneae0nf93c6` (VALIDATION) :
+explication d'un distracteur précisée, bonne réponse et version inchangées,
+`reviewed_at` mis à jour. `QST-tv47j0hjexr0` et `QST-bn1rbrz3c7pr` relues :
+exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 9 ajoutées ; les trois préexistantes reçoivent leur niveau
+(`FLC-e83vsz7hvkpp` TRAP, corrigée ; `FLC-7904k5rak62c` RECALL, accents
+rétablis ; `FLC-gg8d18g1cqqv` UNDERSTANDING, complétée). L'item en porte **12**
+(3 RECALL, 3 UNDERSTANDING, 3 APPLICATION, 3 TRAP), décompte relevé par script
+avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`AlreadySubmittedException`, `A cycle was detected` et
+`ImmutableEventDispatcher`, absentes de la version `master` de la page et des
+cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form, Validator, HttpFoundation 8.0.15 (2026-09-25) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 864 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 11 — *Form events* (DEEP, 584 / 1200).
+Page 12 — *Form type extensions* (MINIMAL, 328 / 700).
