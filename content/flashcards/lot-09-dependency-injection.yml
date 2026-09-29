@@ -93,6 +93,7 @@ flashcards:
 - id: FLC-xj1bfncctk1r
   official_item: OIT-adhs2ny9hc5f
   language: fr
+  level: TRAP
   front: 'decoration_priority : la priorité la plus haute finit-elle à l''extérieur ?'
   back: 'Non, à l''intérieur. Appliquée en premier, elle enveloppe la cible directement : priorités 5
     puis 1 donnent Baz(Bar(Foo)).'
@@ -1055,4 +1056,188 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Automatic Service Loading; _defaults warning for when@ blocks
+    verified_at: '2026-09-29'
+- id: FLC-0tvacrj8jzd2
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: RECALL
+  front: 'Symfony : sous quel identifiant le service décoré reste-t-il disponible ?'
+  back: '`<id du décorateur>.inner` ; `@.inner` en est le raccourci depuis la définition du décorateur.'
+  explanation: 'Exécuté avec dependency-injection 8.0.15 : `App\P6\LoggingMailer.inner` a la classe `Mailer`.'
+  memorization_justification: Nom réel de l'original.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DecoratorServicePass::process()
+    verified_at: '2026-09-29'
+- id: FLC-m07ef1ggt65f
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels arguments accepte #[AsDecorator] ?'
+  back: '`decorates`, `priority` (0 par défaut) et `onInvalid`.'
+  explanation: Équivalents de `decorates`, `decoration_priority` et `decoration_on_invalid` en YAML.
+  memorization_justification: Forme attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsDecorator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsDecorator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AsDecorator::__construct(decorates, priority, onInvalid)
+    verified_at: '2026-09-29'
+- id: FLC-6339y3rf5cv3
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle option renomme l''original d''un décorateur ?'
+  back: '`decoration_inner_name` : exécuté, `foo.original` désigne l''original.'
+  explanation: Le décorateur doit alors référencer ce nom au lieu de `@.inner`.
+  memorization_justification: Option de nommage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+- id: FLC-0rgxcc70e9mc
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi les consommateurs d''un service décoré n''ont-ils rien à changer ?'
+  back: 'Parce que le décorateur prend l''identifiant de la cible : toute référence à cet identifiant reçoit désormais le décorateur.'
+  explanation: L'original est renommé ; c'est ce qui rend la décoration transparente.
+  memorization_justification: Transparence de la décoration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+- id: FLC-dtcajwv7x0yb
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un décorateur doit-il implémenter la même interface que sa cible ?'
+  back: 'Parce qu''il est injecté partout à sa place : un consommateur qui attend l''interface doit la recevoir.'
+  explanation: 'Décorer est une composition, pas un héritage : le décorateur n''étend pas la cible.'
+  memorization_justification: Contrat du décorateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+- id: FLC-rhw168yfxvg4
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : décorer un service optionnel d''un bundle sans erreur s''il est absent, depuis la classe.'
+  back: '`#[AsDecorator(decorates: ''x'', onInvalid: ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]`.'
+  explanation: 'Exécuté : avec `ignore` et une cible absente, le décorateur est retiré, sans exception.'
+  memorization_justification: Décoration conditionnelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsDecorator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AsDecorator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AsDecorator::__construct(decorates, priority, onInvalid)
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DecoratorServicePass::process()
+    verified_at: '2026-09-29'
+- id: FLC-rqa9nv7mhbxn
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : deux décorateurs de priorité 0 sur la même cible. Lequel est le plus interne ?'
+  back: 'Le premier déclaré : exécuté, `bar` puis `baz` donnent `baz(bar(Foo))`.'
+  explanation: À priorité égale, l'ordre de déclaration départage.
+  memorization_justification: Égalité de priorité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DecoratorServicePass::process()
+    verified_at: '2026-09-29'
+- id: FLC-7014wcwgmtfk
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: TRAP
+  front: 'Symfony : un consommateur typé avec la classe décorée Mailer reçoit-il encore Mailer ?'
+  back: 'Non : il reçoit le décorateur et échoue — `TypeError`, « must be of type App\P6\Mailer, App\P6\LoggingMailer given ».'
+  explanation: Exécuté avec FrameworkBundle 8.0.15 ; typé avec l'interface, il reçoit `Logging(Mailer)`.
+  memorization_justification: Transparence supposée absolue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+- id: FLC-x340h5cy8w78
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: TRAP
+  front: 'Symfony : decoration_on_invalid: ignore sur une cible absente laisse-t-il le décorateur en place ?'
+  back: 'Non : le décorateur est **retiré**. Exécuté, ni `bar` ni la cible n''existent après compilation.'
+  explanation: '`null`, lui, garde le décorateur sous l''identifiant de la cible, avec `null` en guise d''original.'
+  memorization_justification: ignore compris comme « décorer à vide ».
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DecoratorServicePass::process()
+    verified_at: '2026-09-29'
+- id: FLC-911s6aftkkgz
+  official_item: OIT-adhs2ny9hc5f
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il toujours écrire @.inner pour qu''un décorateur reçoive l''original ?'
+  back: 'Non : en autowiring, un argument typé comme la cible est câblé sur `.inner` automatiquement ; `#[AutowireDecorated]` le rend explicite.'
+  explanation: 'Exécuté : le décorateur `#[AsDecorator]` sans configuration reçoit l''original.'
+  memorization_justification: Configuration supposée obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: decorates, .inner, decoration_priority, decoration_on_invalid, AsDecorator
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireDecorated.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireDecorated.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireDecorated
     verified_at: '2026-09-29'

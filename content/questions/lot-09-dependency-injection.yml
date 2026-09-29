@@ -784,7 +784,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - decoration
     choices:
@@ -803,8 +803,9 @@ questions:
         text: Through $container->get() on the original id
         correct: false
         explanation: That id now resolves to the decorator, which would recurse.
-    explanation: The decorated service is renamed and stays available as .inner. That renaming is what
-      lets the decorator keep the original behaviour.
+    explanation: The decorated service is renamed to the decorator's id followed by .inner, and @.inner is
+      the shortcut to it from the decorator's definition. That renaming is what lets the decorator keep the
+      original behaviour.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst
@@ -892,7 +893,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - decoration
     choices:
@@ -911,8 +912,9 @@ questions:
         text: They fail to compile until they declare the decorator explicitly
         correct: false
         explanation: No change is required anywhere else.
-    explanation: Decoration replaces the service behind its id, so consumers are untouched. That transparency
-      is the point of the mechanism.
+    explanation: Decoration replaces the service behind its id, so consumers are untouched as long as they
+      type-hint the shared interface. One typed with the concrete decorated class receives the decorator and
+      fails with a TypeError.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_decoration.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_decoration.rst

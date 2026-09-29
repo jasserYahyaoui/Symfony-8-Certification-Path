@@ -399,6 +399,78 @@ version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 6 — *Service decoration* — RAFFINÉE
+
+`CRS-fkebqqqke5y5` · `OIT-adhs2ny9hc5f` · STANDARD · **450 → 654 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/dependency-injection` 8.0.15, seul
+et dans l'application FrameworkBundle 8.0.15.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 5 du lot 09 (PR #258, `03881f6`) | 36622484017, success | `ok  lot-09  the services registration page carries its four flashcard levels, the excluded tag, the argument count error and the private alias` |
+
+### Un exemple qui ne compilait pas, un nom imprécis
+
+L'exemple `LoggingMailer` appelait `$this->logger` sans l'injecter ; il reçoit
+désormais un `LoggerInterface`. La page disait l'original « disponible sous
+`.inner` » : exécuté, il est **renommé** `<id du décorateur>.inner`
+(`App\P6\LoggingMailer.inner`, classe `Mailer`) ; `@.inner` n'est que le
+raccourci depuis la définition du décorateur. L'explication de
+`QST-3zf09tnf1rkj` (LEARNING) est précisée de même, version conservée.
+
+### Une transparence qui a une condition
+
+`QST-cg1wnyzmwgqg` (VALIDATION) dit que les consommateurs n'ont rien à changer
+— exact pour l'identifiant. Exécuté : un consommateur typé avec la **classe**
+décorée reçoit le décorateur et échoue, `TypeError` « must be of type
+App\P6\Mailer, App\P6\LoggingMailer given » ; typé avec l'interface, il reçoit
+`Logging(Mailer)`. L'explication ajoute la condition ; énoncé, choix et réponse
+inchangés, version conservée.
+
+### Confirmé ou ajouté par l'exécution
+
+- Priorités 5 et 1 : `Baz(Bar(Foo))`, comme la page l'affirmait. À priorité
+  égale, le premier déclaré est le plus interne (`baz(bar(Foo))`, puis
+  l'inverse) — ce qui confirme le distracteur de `QST-zbx19jnjr7gz`.
+- `decoration_on_invalid` : `exception` lève « has a dependency on a
+  non-existent service "nope" » ; `ignore` **retire** le décorateur ; `null`
+  garde le décorateur sous l'identifiant de la cible, avec `null` en original.
+- `decoration_inner_name: foo.original` désigne bien l'original.
+- `#[AsDecorator(decorates, priority, onInvalid)]` relu ; autowiring d'un
+  argument typé comme la cible sur `.inner` confirmé ; `#[AutowireDecorated]`
+  existe en 8.0.15.
+
+**Questions.** `QST-zbx19jnjr7gz` (LEARNING) relue : exacte, inchangée. La
+question holdout de l'item n'a été ni lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-xj1bfncctk1r` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`AutowireDecorated`, `LoggingMailer given` et `non-existent service`, absentes de
+la version `master` de la page et de ses cartes. `decoration_inner_name`,
+envisagée, figurait déjà sur la page : écartée.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions DependencyInjection et FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 021 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Service decoration* (STANDARD, 450 / 900).
+Page 7 — *Tags* (STANDARD, 368 / 900).

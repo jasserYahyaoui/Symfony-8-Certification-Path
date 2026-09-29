@@ -2743,6 +2743,32 @@ jobs:
           else
             echo "ok  lot-09  the services registration page carries its four flashcard levels, the excluded tag, the argument count error and the private alias"
           fi
+          # Lot 09 refinement, page 6 (Service decoration): the four flashcard
+          # levels, the explicit inner-argument attribute, the type error of a
+          # consumer typed with the decorated class and the missing target.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-decoration -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/service-decoration")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page service-decoration serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-decoration || missing="$missing l9dec:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-decoration || missing="$missing l9dec:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-decoration || missing="$missing l9dec:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-decoration || missing="$missing l9dec:no-trap-heading"
+          grep -aq 'AutowireDecorated' /tmp/l9r-decoration \
+            || missing="$missing l9dec:no-autowire-decorated"
+          grep -aq 'LoggingMailer given' /tmp/l9r-decoration \
+            || missing="$missing l9dec:no-type-error"
+          grep -aq 'non-existent service' /tmp/l9r-decoration \
+            || missing="$missing l9dec:no-missing-target"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the service decoration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the service decoration page carries its four flashcard levels, the decorated-argument attribute, the type error and the missing target"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
