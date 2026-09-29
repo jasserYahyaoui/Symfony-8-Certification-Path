@@ -37,9 +37,9 @@ flashcards:
 - id: FLC-7p2ygq8ft3x4
   official_item: OIT-9x3strrjdng7
   language: fr
+  level: TRAP
   front: Quelle est la différence entre NotBlank et NotNull ?
-  back: NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la chaîne
-    '0'.
+  back: "NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la chaîne '0', l'entier 0, 0.0 et une chaîne d'espaces."
   explanation: Le validateur teste false === $value ou (!$value && '0' != $value), d'où le cas particulier
     de la chaîne '0'.
   memorization_justification: Les deux noms se ressemblent et le choix change le comportement sur une
@@ -467,4 +467,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: StaticMethodLoader::loadClassMetadata(), should be static
+    verified_at: '2026-09-25'
+- id: FLC-c1zmcnbbsw4p
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: TRAP
+  front: 'Validator : l''entier 0 passe-t-il la contrainte NotBlank ?'
+  back: Oui. Le validateur teste `false === $value || (!$value && '0' != $value)`, et en PHP 8 `'0' != 0` est faux.
+  explanation: 'Exécuté avec symfony/validator 8.0.15 : `0`, `0.0` et `''0''` passent `NotBlank`.'
+  memorization_justification: 'Idée reçue : NotBlank refuserait toute valeur « falsy ».'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotBlankValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-cx845yagta9y
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: TRAP
+  front: 'Validator : une chaîne d''espaces passe-t-elle NotBlank ?'
+  back: 'Oui, sauf avec `normalizer: ''trim''`, qui la ramène à `''''` avant le test.'
+  explanation: 'Exécuté : `'' ''` passe ; avec le normaliseur `trim`, une violation.'
+  memorization_justification: Le vide visuel n'est pas le vide de PHP.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotBlankValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-48czzty7gf0n
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: TRAP
+  front: 'Validator : dans quelle famille de la référence la contrainte DivisibleBy est-elle rangée ?'
+  back: Dans les contraintes de **comparaison**, pas dans les contraintes de nombres.
+  explanation: '`map.rst.inc` (8.0) : comparaison `DivisibleBy`, `EqualTo`, `Range`, `Unique`… ; nombres `Positive`, `Negative` et leurs variantes « OrZero ».'
+  memorization_justification: Rangement contre-intuitif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation constraints reference, families
+    verified_at: '2026-09-25'
+- id: FLC-f977pkvv1p91
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: RECALL
+  front: 'Validator : quelles valeurs NotBlank refuse-t-il ?'
+  back: '`null`, `''''`, `false` et `[]` ; avec `allowNull: true`, `null` est accepté.'
+  explanation: Exécuté sur chaque valeur. `NotNull` ne refuse que `null`.
+  memorization_justification: Tableau de décision NotBlank / NotNull.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotBlankValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-m793v112136y
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: RECALL
+  front: 'Validator : quelle différence entre EqualTo et IdenticalTo ?'
+  back: '`EqualTo` compare avec `==`, `IdenticalTo` avec `===`.'
+  explanation: 'Exécuté : `''1''` satisfait `EqualTo(1)` et échoue à `IdenticalTo(1)`.'
+  memorization_justification: Paire de comparaison classique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/IdenticalTo.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/IdenticalTo.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: IdenticalTo constraint
+    verified_at: '2026-09-25'
+- id: FLC-qrwhn5nfefj7
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: RECALL
+  front: 'Validator : citer trois contraintes de la famille financière.'
+  back: Par exemple `Iban`, `Bic` et `CardScheme` ; aussi `Currency`, `Isbn`, `Isin`, `Issn`, `Luhn`.
+  explanation: Famille « Financial and other Number Constraints » de la référence 8.0.
+  memorization_justification: Famille souvent oubliée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation constraints reference, families
+    verified_at: '2026-09-25'
+- id: FLC-a8nj0yz701k3
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi Sequentially réduit-il le nombre de violations ?'
+  back: Parce qu'il s'arrête à la première contrainte violée ; sans lui, toutes s'exécutent et cumulent leurs violations.
+  explanation: 'Exécuté : `''ab''` contre `Length(min: 5)` puis `Email` donne une violation avec `Sequentially`, deux sans.'
+  memorization_justification: Ordre et arrêt, pas simple regroupement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Sequentially.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Sequentially.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Sequentially constraint
+    verified_at: '2026-09-25'
+- id: FLC-at8hwhznf6hf
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : combien de violations AtLeastOneOf produit-il quand toutes ses contraintes échouent ?'
+  back: Une seule, qui résume les contraintes non satisfaites.
+  explanation: 'Exécuté avec `Length(min: 5)` et `Email` sur `''ab''`.'
+  memorization_justification: Lecture du résultat d'une contrainte composite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/AtLeastOneOf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/AtLeastOneOf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AtLeastOneOf constraint
+    verified_at: '2026-09-25'
+- id: FLC-49x6catxf8px
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: APPLICATION
+  front: 'Validator : un champ commentaire doit être envoyé, mais la chaîne vide y est légitime. Quelle contrainte ?'
+  back: '`NotNull` : elle ne refuse que `null`, alors que `NotBlank` refuserait `''''`.'
+  explanation: 'Exécuté : `''''` passe `NotNull` et échoue à `NotBlank`.'
+  memorization_justification: Choix entre les deux contraintes basiques.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotBlankValidator::validate()
+    verified_at: '2026-09-25'
+- id: FLC-2wzc2e9a972w
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: APPLICATION
+  front: 'Validator : chaque adresse d''un tableau d''e-mails doit être valide. Comment l''écrire ?'
+  back: '`new Assert\All([new Assert\Email()])` : `All` applique la contrainte à chaque élément.'
+  explanation: '`Collection` servirait à décrire un tableau clé par clé.'
+  memorization_justification: Contrainte de structure la plus courante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Validation constraints reference, families
     verified_at: '2026-09-25'
