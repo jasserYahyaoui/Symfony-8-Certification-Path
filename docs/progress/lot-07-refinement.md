@@ -32,7 +32,7 @@ page.
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | **RAFFINÉE** (PR #240) |
 | 11 | Form events | DEEP | 584 / 1200 | 3 | **RAFFINÉE** (PR #241) |
 | 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | **RAFFINÉE** (PR #242) |
-| 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | en cours |
+| 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | **RAFFINÉE** (PR #243) |
 
 ## Page 1 — Form component, 2026-09-24
 
@@ -966,7 +966,228 @@ et des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 13, lu dans le journal d'exécution.** PR #243 fusionnée
+en squash (`4fe82ba`). Run Pages 36561932250 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the form options page carries its four
+flashcard levels, the nested options method, the missing accessor and the
+nested heading` est écrite à **11:30:21 UTC** le 2026-09-29.
+
+# Rapport de fin de lot 07
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`9d6d9ae`, le commit de `master` qui précède la première page refondue (PR #231).
+État mesuré : `master` à `4fe82ba`. Le même script a vérifié que les treize
+décomptes de mots et de niveaux écrits dans les entrées de page ci-dessus
+correspondent aux fichiers.
+
+## Périmètre
+
+**13** items officiels atomiques portent `lot: lot-07` dans la matrice :
+3 `MINIMAL`, 9 `STANDARD`, 1 `DEEP` — niveaux inchangés pendant la campagne.
+Cette répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 07 est **13 / 13**. Aucun des deux n'a bougé : les treize items étaient déjà
+`EXAM_READY`. **Ce lot n'a pas fait progresser la couverture** — il a approfondi
+et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 13 cours du lot 07 | 5 582 | **8 306** | **+2 724** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 3 | Built-in form types, 656 |
+| `STANDARD` | 900 | 9 | Data transformers, 760 |
+| `DEEP` | 1200 | 1 | Form events, 994 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 07 | 16 | **141** | **+125** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 44 · `UNDERSTANDING` 28 · `APPLICATION` 27 · `TRAP` 42.
+**Zéro carte du lot sans niveau.** Les seize cartes préexistantes ont reçu un
+niveau ; aucune n'a été supprimée ; sept ont été corrigées (pages 2, 6, 9,
+11 — trois cartes —, 12), décompte relevé par script.
+
+## Questions et pools
+
+**64** questions portent sur les items du lot 07 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 48 | `lot-07-forms.yml` |
+| `VALIDATION` | 10 | `lot-07-forms.yml` |
+| `HOLDOUT` | 6 | 2 dans `lot-07-forms.yml`, 4 dans `mock-04-holdout.yml` |
+
+**Dix-sept questions modifiées** — quatorze `LEARNING`, trois `VALIDATION`. La
+comparaison scriptée vérifie aussi que, là où la version n'a pas bougé,
+l'énoncé, le texte des choix et la bonne réponse sont identiques à la base
+(**0 écart**) :
+
+| Question | Pool | Page | Modification |
+|---|---|---|---|
+| `QST-174t76nj5hh1` | LEARNING | 1 | **bonne réponse changée** (`DateTime`), énoncé, sources, v1 → 2 |
+| `QST-a4xhs81g86kj` | LEARNING | 1 | explication d'un choix |
+| `QST-3pfgr2whbm74` | VALIDATION | 2 | **deux bonnes réponses** : réécrite, quatre choix neufs, v1 → 2 |
+| `QST-6ygjf6k55wpk` | LEARNING | 2 | explication |
+| `QST-zkgdt4kc1h0g` | LEARNING | 3 | **distracteur vrai** devenu la bonne réponse, v1 → 2 |
+| `QST-yyzehfrg9w4n` | LEARNING | 4 | explication |
+| `QST-m9pvk08gts1f` | VALIDATION | 5 | **seconde bonne réponse** remplacée, v1 → 2 |
+| `QST-6tbd9rk49r20` | LEARNING | 6 | explications |
+| `QST-9wnradgcgyvz` | LEARNING | 6 | explication |
+| `QST-5ynp5c9e17qw` | LEARNING | 7 | explication d'un choix |
+| `QST-5vpn3hptj28b` | LEARNING | 8 | explication |
+| `QST-rcbeqstzndek` | LEARNING | 10 | **bonne réponse changée** (chaîne vide), un choix retiré, tag, v1 → 2 |
+| `QST-xa0hazmsb5mc` | LEARNING | 10 | explication d'un choix |
+| `QST-ra9z9d42ddqa` | LEARNING | 11 | énoncé aligné sur le code, explications, v1 → 2 |
+| `QST-5x6x0fgxqk43` | LEARNING | 11 | explication d'un choix |
+| `QST-cneae0nf93c6` | VALIDATION | 11 | explication d'un choix |
+| `QST-gbb1dez9gmt4` | LEARNING | 12 | explication d'un choix |
+
+La comparaison compte **zéro question `HOLDOUT` modifiée** ; le script n'en
+teste que l'égalité, sans en afficher le contenu.
+
+**`POOL-002` : 0 manquant.** Les dix items `STANDARD` ou `DEEP` `EXAM_READY`
+portent chacun au moins une question `VALIDATION`.
+
+**`PED-003`, avertissement préexistant.** Sur les 8 items qu'il signale dans le
+projet, un appartient au lot 07 : *Handling file upload* porte 2 questions pour
+3 résultats d'apprentissage déclarés. Ni la matrice ni les questions de cet
+item n'ont changé de nombre pendant la campagne ; l'avertissement n'est ni
+causé ni résolu par ce lot.
+
+### Holdout — isolation fonctionnelle, pas confidentialité
+
+Les 6 questions `HOLDOUT` du lot sont **absentes de `practice.json` et de
+`exam.json`** — `PayloadBuilder::assertNoHoldoutLeak()` l'assure à la
+construction, et le smoke test de production le revérifie sur les octets servis
+(« 516 questions, all LEARNING, no holdout id or choice »). C'est une
+**isolation fonctionnelle**. Ce n'est **pas** de la confidentialité :
+`mock-4.json` est publié et porte les réponses correctes.
+
+Aucun contenu holdout n'a été lu ; les recherches plein texte ont exclu le pool
+`HOLDOUT` et `mock-04-holdout.yml`. Un signal reste ouvert pour le propriétaire
+(page 1) : **toute question holdout qui reprendrait l'exemple `DateType` de la
+documentation serait fausse** au regard du code ; aucune n'a été ouverte pour le
+vérifier.
+
+## Contrôles — état réel
+
+| Contrôle | Résultat | Preuve |
+|---|---|---|
+| `php bin/cert validate` | **PASS** | 0 bloquant à chaque page ; 1 avertissement `PED-003` préexistant |
+| `php bin/cert coverage` | **PASS** | aucun écart, à chaque page |
+| `node website/tools/verify-reschedule.mjs` | **PASS** | exit 0 à chaque page |
+| `composer gate-full` | **PASS** | 299 tests, 16 882 assertions sur la page 13, `TOTAL VIOLATIONS: 0` |
+| Jeu d'audits de CI (11 scripts) | **PASS** | exit 0, `FINDINGS: 0`, à chaque page |
+| `prove_framework_rules_fail.py` | **PASS** | `PROOF OK`, 11 cas ; empreinte SHA-256 de `content/` et `docs/` identique avant et après |
+| `prove_flashcard_coverage_fails.py` | **PASS** | `PROOF OK` |
+| `aud10 --prove`, `lot27_practice_audit.py --prove` | **PASS** | exit 0 |
+| Accessibilité (§13, §17) | **PASS** | incluse dans `gate-full` ; verte en CI à chaque PR |
+| Branche + PR par page (§15) | **PASS** | #231 à #243, une par page, CI verte avant chaque fusion en squash |
+| Déploiement + smoke test de production | **PASS pour les 13 pages** | lignes `ok lot-07 …` lues dans les journaux d'exécution, page par page ; la dernière à 11:30:21 UTC le 2026-09-29 |
+
+## Défauts trouvés dans le corpus existant
+
+Vérifiés contre le code de Symfony 8.0, **par exécution** pour la plupart
+(`symfony/form` 8.0.15 et les composants voisins en 8.0) :
+
+| Page | Défaut corrigé |
+|---|---|
+| 01 Form component | donnée normalisée d'un `DateType` donnée pour un tableau d'entiers ; c'est un `DateTime` — **bonne réponse d'une question changée** |
+| 02 Forms creation | ordre de lecture inversé (le getter passe avant la propriété publique) ; type « deviné d'après la propriété » ; une question `VALIDATION` à deux bonnes réponses |
+| 03 Forms handling | `isValid()` sur un formulaire non soumis lève une `LogicException` ; une question tenait l'inverse |
+| 04 Form types | « quatre méthodes » : `AbstractType` en définit six |
+| 05 Forms rendering | un champ rendu deux fois lève une exception ; une question `VALIDATION` à deux bonnes réponses (`form()` accepte action et méthode) |
+| 06 Forms theming | chaîne de recherche fausse : `email_widget` existe, `text_widget` n'existe dans aucun thème livré |
+| 07 CSRF protection | un défaut présenté sans sa condition (jetons sans état par défaut sous Flex) |
+| 08 Handling file upload | un champ de fichier mappé ne lève rien : il stocke le chemin temporaire |
+| 09 Built-in form types | les boutons ne descendent pas de `FormType` ; famille UID absente du catalogue |
+| 10 Data transformers | **bonne réponse d'une question fausse** (`0.0` pour une cible chaîne) ; `transform()` « au rendu » |
+| 11 Form events | verrou de `SUBMIT` présenté comme une impossibilité ; `POST_SET_DATA` exclu à tort ; donnée de `POST_SUBMIT` |
+| 12 Form type extensions | « tous les champs » pour une extension de `FormType` : pas les boutons |
+| 13 Form options | « requise et défaut ne se combinent pas » : ils se combinent |
+
+## Écarts entre la documentation et le code
+
+Tranchés par la hiérarchie des sources — le code l'emporte — et signalés sur les
+pages, parce qu'une question d'examen peut reprendre la formulation
+documentaire :
+
+| Page | La documentation (8.0) | Le code, exécuté |
+|---|---|---|
+| 01 | `forms.rst` : donnée normalisée d'un `DateType` = tableau d'entiers | `DateTime` |
+| 03 | `forms.rst` : `getPayload()->get($form->getName())` | `BadRequestException` pour un formulaire composé |
+| 06 | `form_themes.rst` : trois exemples fondés sur `text_widget` | un type `email` perdu, deux `RuntimeError` |
+| 10 | `data_transformers.rst` : `CallbackTransformer` des tags | `TypeError` sur `null`, `['']` et une dépréciation sur un envoi vide |
+| 11 | `events.rst` : « you cannot add or remove fields » dès `SUBMIT` | `add()` accepté sans erreur, champ jamais soumis ; exception seulement à `POST_SUBMIT` |
+| 11 | `events.rst`, cycle : `POST_SUBMIT` « with the fully transformed data » | donnée de **vue** — ce que dit aussi le tableau de la même page |
+
+Une règle documentée a au contraire été **confirmée** par le code : la priorité
+d'une extension exige la déclaration explicite du service ; `FormPass` ignore
+`#[AsTaggedItem]` (page 12).
+
+## Défauts introduits par moi
+
+**Aucun n'a atteint la production** — aucune page ni aucune question publiée n'en
+porte trace. La réconciliation de ce rapport trouve exacts les treize décomptes
+du journal :
+
+| Défaut | Attrapé par |
+|---|---|
+| première installation du bac à sable tirant des paquets 8.1 | constat avant toute conclusion ; `composer.json` épinglé en 8.0, exécutions refaites |
+| une valeur YAML non quotée contenant `: ` dans une carte (page 2) | `validate` |
+| deux décomptes de niveaux mal écrits dans le journal (pages 3 et 5) | contrôle scripté ; depuis, décompte relevé par script avant rédaction |
+| tests de téléversement menés avec le gestionnaire natif (page 8) | résultat incohérent ; refaits avec `HttpFoundationExtension` |
+| une question laissée à cinq choix par mon correctif (page 10) | relecture de la sortie avant commit ; un choix retiré |
+| un intertitre « deux » inexactitudes au-dessus de trois (page 11) | relecture avant commit |
+
+## Résumé auditable
+
+> Le lot 07 compte **13** items officiels atomiques (3 `MINIMAL`, 9 `STANDARD`,
+> 1 `DEEP`), tous `EXAM_READY` avant comme après. La couverture du projet —
+> `EXAM_READY / total`, la seule formule admise — vaut **163/163 = 100,0 %** et
+> **n'a pas bougé**.
+>
+> Les treize cours passent de **5 582** à **8 306** mots de corps (+2 724),
+> aucun au-dessus de son budget, aucun niveau promu. Les flashcards passent de
+> **16** à **141** (+125), toutes nivelées, réparties 44/28/27/42 — une
+> **observation**, pas une cible. **64** questions portent sur le lot (48
+> `LEARNING`, 10 `VALIDATION`, 6 `HOLDOUT`), aucune ajoutée ni supprimée ;
+> dix-sept corrigées, dont six en version 2 — deux bonnes réponses fausses
+> changées, deux `VALIDATION` à deux bonnes réponses réécrites, un distracteur
+> vrai devenu la réponse, un énoncé aligné sur le code ; aucune `HOLDOUT`
+> modifiée ; `POOL-002` sans manquant.
+>
+> Le holdout est **fonctionnellement isolé** des payloads d'apprentissage, ce que
+> le smoke test de production revérifie ; il n'est **pas confidentiel**.
+>
+> Les treize pages portaient une affirmation fausse, incomplète ou trompeuse ;
+> toutes corrigées contre le code, la plupart par exécution. Six écarts entre
+> documentation et code ont été tranchés en faveur du code. Les 13 pages sont en
+> production, smoke test lu pour chacune.
+
 ## Prochaine étape
 
-Fusionner et déployer la page 13, lire son smoke test, puis rédiger le rapport
-de fin de lot 07, réconcilié par script, dans sa propre PR.
+Lot 08, page 1, dans l'ordre officiel des items. Restent ouverts : les signaux
+holdout des lots 06 et 07 (revue par le propriétaire), l'avertissement
+`PED-003` et la PR #148, sans lien avec ce lot.
