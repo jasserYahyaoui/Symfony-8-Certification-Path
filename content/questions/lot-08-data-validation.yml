@@ -505,7 +505,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-wdhsjrrpmggk
-  version: 1
+  version: 2
   official_topic: Data Validation
   official_item: OIT-ttwpe00f32q9
   domain: symfony
@@ -517,8 +517,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: 'A private method checkPasswordSafety() carries #[Assert\IsTrue] but the rule never fires.
-    What explains it?'
+  question: "A private method checkPasswordSafety() carries #[Assert\\IsTrue]. Validating the object throws a MappingException. What explains it?"
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -528,7 +527,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-09-29'
   tags:
   - scopes
   - getter
@@ -548,8 +547,7 @@ questions:
     text: IsTrue only applies to properties, never to methods
     correct: false
     explanation: IsTrue applies to properties and to getters alike.
-  explanation: 'The validator recognises a getter by its name: it must begin with get, is or has and take
-    no argument. Visibility does not matter.'
+  explanation: "The attribute loader recognises a getter by its name, which must begin with get, is or has (case-insensitively); any other name raises a MappingException. Visibility does not matter."
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst

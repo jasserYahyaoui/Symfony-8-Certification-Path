@@ -2483,6 +2483,32 @@ jobs:
           else
             echo "ok  lot-08  the built-in constraints page carries its four flashcard levels, the financial family, the Week constraint and the integer zero"
           fi
+          # Lot 08 refinement, page 4 (Validation scopes): the four flashcard
+          # levels, the attribute loader, the error of a getter that expects an
+          # argument and the property path that drops the prefix.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-scopes -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/validation-scopes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page validation-scopes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-scopes || missing="$missing l8scp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-scopes || missing="$missing l8scp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-scopes || missing="$missing l8scp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-scopes || missing="$missing l8scp:no-trap-heading"
+          grep -aq 'AttributeLoader' /tmp/l8r-scopes \
+            || missing="$missing l8scp:no-attribute-loader"
+          grep -aq 'ArgumentCountError' /tmp/l8r-scopes \
+            || missing="$missing l8scp:no-argument-error"
+          grep -aq 'passwordSafe' /tmp/l8r-scopes \
+            || missing="$missing l8scp:no-getter-path"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the validation scopes page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the validation scopes page carries its four flashcard levels, the attribute loader, the argument error and the getter path"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

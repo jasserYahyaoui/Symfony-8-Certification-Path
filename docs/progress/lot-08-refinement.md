@@ -22,8 +22,8 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Validator component | STANDARD | 332 / 900 | 1 | **RAFFINÉE** (PR #245) |
 | 2 | PHP object validation | STANDARD | 420 / 900 | 1 | **RAFFINÉE** (PR #246) |
-| 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | en cours |
-| 4 | Validation scopes | STANDARD | 400 / 900 | 1 | à faire |
+| 3 | Built-in validation constraints | STANDARD | 398 / 900 | 1 | **RAFFINÉE** (PR #247) |
+| 4 | Validation scopes | STANDARD | 400 / 900 | 1 | en cours |
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | à faire |
 | 6 | Group sequence | DEEP | 545 / 1200 | 1 | à faire |
 | 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | à faire |
@@ -258,6 +258,69 @@ page et des cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 3, lu dans le journal d'exécution.** PR #247 fusionnée
+en squash (`daf298f`). Run Pages 36567003136 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the built-in constraints page carries its four
+flashcard levels, the financial family, the Week constraint and the integer
+zero` est écrite à **12:18:35 UTC** le 2026-09-29.
+
+## Page 4 — Validation scopes, 2026-09-29
+
+`CRS-wzmrks85zyh1` · `OIT-ttwpe00f32q9` · STANDARD · **400 → 564 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15 ;
+`AttributeLoader.php` identique entre le paquet exécuté et la branche 8.0
+(`diff -q`).
+
+### Un échec présenté comme silencieux
+
+La page disait qu'une méthode « nommée autrement ne peut pas porter de
+contrainte », et `QST-5ryp5r5qg631` (LEARNING) partait d'une règle qui « ne se
+déclenche jamais ». Le code lève : `AttributeLoader` teste
+`/^(get|is|has)(.+)$/i` et, sinon, lève une `MappingException`, « Constraints can
+only be added on methods beginning with "get", "is" or "has". » — reproduit sur
+`checkPasswordSafety()`. La question passe en **v2** : l'énoncé décrit
+l'exception ; bonne réponse et choix inchangés, explication alignée.
+
+### Compléments, exécutés
+
+- Accesseur `private` et accesseur `static` : acceptés.
+- Accesseur attendant un argument : `ArgumentCountError` à la validation —
+  l'absence d'argument n'est pas vérifiée au chargement.
+- Préfixe insensible à la casse : `ISOK()` accepté, chemin `oK`.
+- Chemin d'une violation d'accesseur : le nom sans préfixe, première lettre en
+  minuscule — `isPasswordSafe` donne `passwordSafe`, `getFullName` `fullName`.
+- `getTargets()` : `'property'` pour `NotBlank`, les deux cibles pour
+  `Callback` ; règle croisée exécutée par un `Callback` de classe et `atPath()`.
+
+**Questions.** `QST-6sxdmsbatps8` (LEARNING) et `QST-pa6gzs0cmgg0` (VALIDATION)
+relues : exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-swztaetynk4y` reçoit le
+niveau RECALL et mentionne l'exception. L'item en porte **11** (4 RECALL,
+2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte relevé par script avant
+rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`AttributeLoader`, `ArgumentCountError` et `passwordSafe`, absentes de la version
+`master` de la page et de ses cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 922 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Validation scopes* (STANDARD, 400 / 900).
+Page 5 — *Validation groups* (STANDARD, 399 / 900).
