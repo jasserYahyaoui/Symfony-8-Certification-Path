@@ -147,6 +147,7 @@ flashcards:
 - id: FLC-rpr50wc4n7f6
   official_item: OIT-rj9web4whgmz
   language: fr
+  level: RECALL
   front: 'OptionsResolver : quelle différence entre setDefined() et setDefaults() ?'
   back: setDefined déclare qu'une option est acceptée, sans valeur ; setDefaults lui donne une valeur
     par défaut.
@@ -2382,4 +2383,178 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+- id: FLC-9w8egpqd3hb5
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: TRAP
+  front: 'OptionsResolver : une option peut-elle être à la fois requise et pourvue d''une valeur par défaut ?'
+  back: 'Oui. Elle reste requise (`isRequired()` vrai) mais n''est plus manquante (`isMissing()` faux) : le défaut la satisfait.'
+  explanation: 'Exécuté : `setRequired(''a'')` puis `setDefault(''a'', 1)` résout `[''a'' => 1]`. La documentation montre le cas d''une sous-classe qui fournit l''option exigée par son parent.'
+  memorization_justification: On croit les deux incompatibles.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-n650tphmbrc7
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: TRAP
+  front: 'OptionsResolver : un défaut est une fermeture dont le paramètre n''est pas typé. Que vaut l''option résolue ?'
+  back: 'La fermeture elle-même, un objet `Closure` : seul un paramètre typé `Options` rend l''option paresseuse.'
+  explanation: Avertissement de la documentation, confirmé par exécution.
+  memorization_justification: Oubli de type qui change silencieusement la valeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-wnjbar981ptm
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: TRAP
+  front: 'OptionsResolver 8.0 : une fermeture typée OptionsResolver passée à setDefault() déclare-t-elle des options imbriquées ?'
+  back: 'Non : l''option vaut l''objet `Closure`. Les options imbriquées se déclarent par `setOptions()`.'
+  explanation: Exécuté avec options-resolver 8.0.8 ; `setOptions('db', …)` complète les clés manquantes et refuse une clé inconnue, « The option "db[nope]" does not exist. ».
+  memorization_justification: Syntaxe d'imbrication changée en 8.0.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-k0xpqfzfxzb3
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: RECALL
+  front: 'OptionsResolver : quelle exception lève une option inconnue, et que dit son message ?'
+  back: '`UndefinedOptionsException`, dont le message liste les options définies.'
+  explanation: 'Exécuté : « The option "b" does not exist. Defined options are: "a", "c". ».'
+  memorization_justification: Intérêt même du composant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-czd3r7n4qgc7
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: RECALL
+  front: 'OptionsResolver : quelle exception lève une option requise ni fournie ni pourvue d''un défaut ?'
+  back: '`MissingOptionsException` : « The required option "a" is missing. »'
+  explanation: Exécuté avec options-resolver 8.0.8. `getMissingOptions()` liste les options dans ce cas.
+  memorization_justification: Distingue option manquante et option inconnue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-ws2hnsz2tjp0
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: UNDERSTANDING
+  front: 'OptionsResolver : une option déclarée par setDefined() et non fournie apparaît-elle dans le tableau résolu ?'
+  back: 'Non : elle est absente. `setDefined()` rend l''option acceptée, sans lui donner de valeur.'
+  explanation: 'Exécuté : `setDefined(''a'')` puis `resolve([])` donne un tableau vide ; `isDefined(''a'')` est vrai.'
+  memorization_justification: Conséquence concrète de la distinction avec setDefaults().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-bezx7jb329wt
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: UNDERSTANDING
+  front: 'OptionsResolver : un normalisateur convertit une chaîne en entier sur une option restreinte au type int. La chaîne ''5'' passe-t-elle ?'
+  back: 'Non : la validation du type passe avant le normalisateur, et `''5''` est refusée par `InvalidOptionsException`.'
+  explanation: Exécuté ; même résultat avec `setAllowedValues(['GET', 'POST'])` et un normalisateur `strtoupper()` sur `'post'`.
+  memorization_justification: Le normalisateur ne répare pas une valeur refusée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
+    verified_at: '2026-09-25'
+- id: FLC-bwqpqjedknfe
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: APPLICATION
+  front: 'OptionsResolver : le port vaut 465 si l''option encryption vaut ssl, 25 sinon. Comment l''écrire ?'
+  back: '`setDefault(''port'', function (Options $options): int { return ''ssl'' === $options[''encryption''] ? 465 : 25; })`.'
+  explanation: Exemple de la documentation ; la fermeture n'est exécutée que si `port` n'est pas fourni.
+  memorization_justification: Défaut paresseux dépendant d'une autre option.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+- id: FLC-gd8dm3md93pv
+  official_item: OIT-rj9web4whgmz
+  language: fr
+  level: APPLICATION
+  front: 'OptionsResolver : restreindre une option à un tableau d''objets DateTime.'
+  back: '`setAllowedTypes(''dates'', ''DateTime[]'')`.'
+  explanation: 'Chaque élément est contrôlé : exécuté, un tableau contenant une chaîne est refusé.'
+  memorization_justification: Syntaxe des types de tableau.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/options_resolver.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The OptionsResolver Component
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
     verified_at: '2026-09-25'
