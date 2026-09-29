@@ -3055,7 +3055,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-09-29'
   tags:
   - form-extensions
   - tag
@@ -3066,7 +3066,7 @@ questions:
   - id: CHO-xbazvq7wmsxa
     text: form.extension
     correct: false
-    explanation: No such tag; that name belongs to the component-level extensions.
+    explanation: No such tag; form.extension is the id of the service that collects the tagged types and extensions.
   - id: CHO-zmj5zvgc2rq9
     text: form.type
     correct: false

@@ -475,7 +475,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 3 novembre 2026
 
-- NOUVEAU · **Forms : Form type extensions** (MINIMAL) — 9 min · 328 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Forms : Form type extensions** (MINIMAL) — 19 min · 577 mots · 4 questions, 10 flashcards
 - NOUVEAU · **Forms : Form options (OptionsResolver component)** (STANDARD) — 12 min · 424 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Security : Security Core, CSRF and PasswordHasher components** (STANDARD) — 8 min · 313 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Security : Authentication** (STANDARD) — 10 min · 325 mots · 4 questions, 1 flashcards
@@ -483,7 +483,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (16 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+14** (12 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 
-*Budget du jour : 89 / 160 min*
+*Budget du jour : 99 / 160 min*
 
 ### Mercredi 4 novembre 2026
 

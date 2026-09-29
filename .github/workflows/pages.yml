@@ -2353,6 +2353,32 @@ jobs:
           else
             echo "ok  lot-07  the form events page carries its four flashcard levels, the already submitted exception, the cycle message and the immutable dispatcher"
           fi
+          # Lot 07 refinement, page 12 (Form type extensions): the four flashcard
+          # levels, the tagged-item attribute the form pass ignores, the debug
+          # command and the words excluding buttons from root-type extensions.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l7r-extensions -w '%{http_code}' "$BASE_URL/docs/courses/lot-07/form-type-extensions")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 07 refined page form-type-extensions serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l7r-extensions || missing="$missing l7ext:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l7r-extensions || missing="$missing l7ext:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l7r-extensions || missing="$missing l7ext:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l7r-extensions || missing="$missing l7ext:no-trap-heading"
+          grep -aq 'AsTaggedItem' /tmp/l7r-extensions \
+            || missing="$missing l7ext:no-tagged-item"
+          grep -aq 'debug:form' /tmp/l7r-extensions \
+            || missing="$missing l7ext:no-debug-command"
+          grep -aq 'pas les boutons' /tmp/l7r-extensions \
+            || missing="$missing l7ext:no-buttons"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 07 refinement missing from the form type extensions page:$missing"
+            fail=1
+          else
+            echo "ok  lot-07  the form type extensions page carries its four flashcard levels, the tagged item attribute, the debug command and the buttons exclusion"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
