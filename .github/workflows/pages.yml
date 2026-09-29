@@ -2587,6 +2587,32 @@ jobs:
           else
             echo "ok  lot-08  the callback validators page carries its four flashcard levels, the validator class, the definition exception and the callback forms"
           fi
+          # Lot 08 refinement, page 8 (Violations builder): the four flashcard
+          # levels, the message template accessor, the heading on the invalid
+          # value that atPath() leaves unchanged and the count of builder methods.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l8r-builder -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/violations-builder")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 08 refined page violations-builder serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l8r-builder || missing="$missing l8vbd:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l8r-builder || missing="$missing l8vbd:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l8r-builder || missing="$missing l8vbd:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l8r-builder || missing="$missing l8vbd:no-trap-heading"
+          grep -aq 'getMessageTemplate' /tmp/l8r-builder \
+            || missing="$missing l8vbd:no-message-template"
+          grep -aq 'change pas la valeur fautive' /tmp/l8r-builder \
+            || missing="$missing l8vbd:no-invalid-value-heading"
+          grep -aq 'Les dix méthodes' /tmp/l8r-builder \
+            || missing="$missing l8vbd:no-ten-methods"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 08 refinement missing from the violations builder page:$missing"
+            fail=1
+          else
+            echo "ok  lot-08  the violations builder page carries its four flashcard levels, the message template, the invalid value heading and the ten methods"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

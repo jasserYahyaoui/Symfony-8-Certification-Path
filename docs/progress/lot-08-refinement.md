@@ -26,8 +26,8 @@ première page.
 | 4 | Validation scopes | STANDARD | 400 / 900 | 1 | **RAFFINÉE** (PR #248) |
 | 5 | Validation groups | STANDARD | 399 / 900 | 1 | **RAFFINÉE** (PR #249) |
 | 6 | Group sequence | DEEP | 545 / 1200 | 1 | **RAFFINÉE** (PR #250) |
-| 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | en cours |
-| 8 | Violations builder | STANDARD | 465 / 900 | 1 | à faire |
+| 7 | Custom callback validators | STANDARD | 404 / 900 | 1 | **RAFFINÉE** (PR #251) |
+| 8 | Violations builder | STANDARD | 465 / 900 | 1 | en cours |
 
 ## Page 1 — Validator component, 2026-09-29
 
@@ -527,6 +527,71 @@ build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 7, lu dans le journal d'exécution.** PR #251 fusionnée
+en squash (`d4c907a`). Run Pages 36572924671 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-08  the callback validators page carries its four
+flashcard levels, the validator class, the definition exception and the callback
+forms` est écrite à **13:11:11 UTC** le 2026-09-29.
+
+## Page 8 — Violations builder, 2026-09-29
+
+`CRS-d235sja3h7y2` · `OIT-0wnxbapegqhv` · STANDARD · **465 → 623 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/validator` 8.0.15, depuis un
+`Callback` de classe.
+
+### Une affirmation incomplète
+
+« `addViolation()` ajoute la violation avec les valeurs par défaut, rien à
+régler. » `ExecutionContextInterface::addViolation(string $message, array
+$params = [])` accepte déjà les paramètres du message ; exécuté, `'direct {{ v }}'`
+devient `'direct p'`. `buildViolation()` les accepte aussi en second argument.
+Ce que seule la forme constructeur permet : le chemin, le code, la valeur
+fautive, le pluriel, le domaine de traduction. L'explication d'un distracteur de
+`QST-m2hsqcvcwrej` (LEARNING), qui disait que les deux formes peuvent viser une
+propriété, est corrigée : seul le constructeur déplace le chemin ; bonne réponse
+inchangée.
+
+### Compléments, exécutés
+
+- Chaîne `buildViolation()->setParameter()` non terminée : aucune violation.
+- `atPath('email')` : chemin `email`, mais valeur fautive = **l'objet entier** ;
+  `setInvalidValue()` la corrige. `atPath('address.city')` compose le chemin.
+- `setCode('MY_CODE')` relu par `getCode()` ; `setPlural(2)` par `getPlural()` ;
+  `getMessageTemplate()` rend le gabarit, `getMessage()` le texte rempli.
+- `ConstraintViolationBuilderInterface` (8.0) compte dix méthodes, listées sur la
+  page.
+
+**Questions.** `QST-egqjqhe0s1vv`, `QST-r3bv4np3ttcs` (LEARNING) et
+`QST-vp3ys4f6xypm` (VALIDATION) relues : exactes, inchangées. L'item ne porte pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-crtrxfbtxbrw` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`getMessageTemplate`, `change pas la valeur fautive` et `Les dix méthodes`,
+absentes de la version `master` de la page et de ses cartes, présentes dans le
+build local. `setInvalidValue`, envisagée, figurait déjà sur la page : écartée.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Validator 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 961 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Violations builder* (STANDARD, 465 / 900).
+Fusionner et déployer la page 8, lire son smoke test, puis rédiger le rapport
+de fin de lot 08, réconcilié par script, dans sa propre PR.
