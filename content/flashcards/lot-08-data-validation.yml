@@ -54,10 +54,10 @@ flashcards:
 - id: FLC-swztaetynk4y
   official_item: OIT-ttwpe00f32q9
   language: fr
+  level: RECALL
   front: Quelles méthodes peuvent porter une contrainte de validation ?
   back: Celles dont le nom commence par get, is ou has, sans argument — quelle que soit la visibilité.
-  explanation: La portée accesseur valide la valeur retournée, ce qui permet une règle calculée au moment
-    de la validation.
+  explanation: "La portée accesseur valide la valeur retournée, ce qui permet une règle calculée au moment de la validation. Un autre nom lève une MappingException."
   memorization_justification: La règle de nommage est arbitraire et ne se déduit pas ; la liberté de visibilité
     surprend.
   verification_status: VERIFIED
@@ -627,4 +627,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Validation constraints reference, families
+    verified_at: '2026-09-25'
+- id: FLC-c32hym0f67qw
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: TRAP
+  front: 'Validator : #[Assert\IsTrue] est posé sur une méthode checkPasswordSafety(). Que se passe-t-il à la validation ?'
+  back: 'Une `MappingException` : « Constraints can only be added on methods beginning with "get", "is" or "has". »'
+  explanation: Levée par `AttributeLoader`, exécuté avec symfony/validator 8.0.15 ; la contrainte n'est pas ignorée en silence.
+  memorization_justification: On imagine un oubli silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, get|is|has method constraints
+    verified_at: '2026-09-25'
+- id: FLC-gp1ryjsaa8ar
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: TRAP
+  front: 'Validator : un accesseur contraint isOk(int $x) attend un argument. Que se passe-t-il ?'
+  back: 'Une `ArgumentCountError` à la validation : le chargement ne vérifie pas l''absence d''argument, l''appel échoue.'
+  explanation: Exécuté. La règle « sans argument » n'est donc pas contrôlée à la lecture des métadonnées.
+  memorization_justification: Deux conditions de l'accesseur, deux échecs différents.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, get|is|has method constraints
+    verified_at: '2026-09-25'
+- id: FLC-jp7xdv9wx0pd
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: TRAP
+  front: 'Validator : quel chemin de propriété porte la violation d''une contrainte posée sur isPasswordSafe() ?'
+  back: '`passwordSafe` : le préfixe est retiré et la première lettre passe en minuscule.'
+  explanation: Exécuté ; `getFullName()` donne `fullName`.
+  memorization_justification: Le chemin ne reprend pas le nom de la méthode.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, get|is|has method constraints
+    verified_at: '2026-09-25'
+- id: FLC-vetgdb2g2qp4
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: RECALL
+  front: 'Validator : sur quelles trois cibles une contrainte peut-elle être posée ?'
+  back: Une propriété, un accesseur (`get`, `is`, `has`), ou la classe entière.
+  explanation: Section « Constraint Targets » de `validation.rst` (8.0).
+  memorization_justification: Les trois portées de l'item.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Constraint Targets
+    verified_at: '2026-09-25'
+- id: FLC-tw92px250jnk
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: RECALL
+  front: 'Validator : que retourne getTargets() par défaut, et que couvre cette valeur ?'
+  back: '`Constraint::PROPERTY_CONSTRAINT` (`''property''`), qui couvre les propriétés et les accesseurs.'
+  explanation: 'Exécuté : `NotBlank` retourne `''property''` ; `Callback` retourne les deux cibles.'
+  memorization_justification: Cible déclarée par la contrainte elle-même.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Constraint::getTargets(), PROPERTY_CONSTRAINT, CLASS_CONSTRAINT
+    verified_at: '2026-09-25'
+- id: FLC-8j4dh8ez15k0
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : pourquoi une règle « la date de fin suit la date de début » exige-t-elle la portée classe ?'
+  back: Parce qu'une contrainte de propriété ne reçoit que la valeur de sa propriété ; seule la portée classe voit l'objet entier.
+  explanation: Exécuté avec un `Callback` de classe qui rattache la violation à `end` par `atPath('end')`.
+  memorization_justification: Choix de portée pour une règle croisée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Constraint Targets
+    verified_at: '2026-09-25'
+- id: FLC-n0bjrcwq91qy
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: UNDERSTANDING
+  front: 'Validator : une contrainte peut-elle être posée sur un accesseur privé ou statique ?'
+  back: 'Oui : la visibilité est libre, et un accesseur statique est accepté.'
+  explanation: 'Exécuté : `private function isPasswordSafe()` et `public static function isOk()` produisent leur violation.'
+  memorization_justification: Ni la visibilité ni le mot-clé static ne bloquent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, get|is|has method constraints
+    verified_at: '2026-09-25'
+- id: FLC-q9gjeqc3n1gq
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: APPLICATION
+  front: 'Validator : valider que le mot de passe ne reprend pas le prénom, sans propriété dédiée.'
+  back: '`#[Assert\IsTrue(message: ''…'')]` sur une méthode `isPasswordSafe(): bool` qui compare les deux valeurs.'
+  explanation: Exemple documenté de la portée accesseur ; la violation porte le chemin `passwordSafe`.
+  memorization_justification: Règle calculée au moment de la validation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Constraint Targets
+    verified_at: '2026-09-25'
+- id: FLC-zyyzp34z45yj
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: APPLICATION
+  front: 'Validator : rendre une contrainte personnalisée applicable à la classe entière.'
+  back: Redéfinir `getTargets()` pour retourner `self::CLASS_CONSTRAINT`.
+  explanation: Section « Class Constraint Validator » de `custom_constraint.rst`.
+  memorization_justification: Déclaration de la portée classe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Class Constraint Validator
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Constraint::getTargets(), PROPERTY_CONSTRAINT, CLASS_CONSTRAINT
+    verified_at: '2026-09-25'
+- id: FLC-edef4kepwye2
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: RECALL
+  front: 'Validator : le préfixe get, is ou has d''un accesseur contraint est-il sensible à la casse ?'
+  back: 'Non : `AttributeLoader` teste `/^(get|is|has)(.+)$/i`.'
+  explanation: 'Exécuté : une méthode `ISOK()` est acceptée, violation au chemin `oK`.'
+  memorization_justification: Détail du motif de reconnaissance.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AttributeLoader, get|is|has method constraints
     verified_at: '2026-09-25'

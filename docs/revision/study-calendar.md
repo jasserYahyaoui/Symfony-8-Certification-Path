@@ -382,7 +382,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 28 octobre 2026
 
-- NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 9 min · 400 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 19 min · 564 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Data Validation : Validation groups** (STANDARD) — 10 min · 399 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Data Validation : Group sequence** (DEEP) — 13 min · 545 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
@@ -390,7 +390,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (14 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 - Révision **J+14** (10 min) — Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request · Controllers : The response
 
-*Budget du jour : 91 / 160 min*
+*Budget du jour : 101 / 160 min*
 
 ### Jeudi 29 octobre 2026
 
