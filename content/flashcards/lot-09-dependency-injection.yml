@@ -51,6 +51,7 @@ flashcards:
 - id: FLC-kbnpt2sv2dss
   official_item: OIT-ar4h3zfskjsp
   language: fr
+  level: RECALL
   front: '%param% et %env(VAR)% : à quel moment chacun est-il résolu ?'
   back: '%param% à la compilation, %env(VAR)% à l''exécution. Un pourcent littéral s''écrit %%.'
   explanation: C'est pourquoi changer une variable d'environnement ne demande pas de recompiler le conteneur.
@@ -696,4 +697,188 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Fetching and using Services; debug:autowiring; debug:container
+    verified_at: '2026-09-29'
+- id: FLC-4h9jd8tgppfv
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: RECALL
+  front: 'Symfony 8.0 : combien de processeurs de variables d''environnement EnvVarProcessor fournit-il ?'
+  back: '21 : `EnvVarProcessor::getProvidedTypes()` en est la liste autoritative.'
+  explanation: 'Exécuté avec dependency-injection 8.0.15 : `count(getProvidedTypes())` vaut 21, de `base64` à `urlencode`.'
+  memorization_justification: Chiffre repris par la page.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes()
+    verified_at: '2026-09-29'
+- id: FLC-43fpjcctv4x5
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rend %env(default::UNSET_VAR)%, sans nom de paramètre, quand la variable manque ?'
+  back: '`null`. Avec `default:app.fallback:UNSET_VAR`, c''est le paramètre `app.fallback` qui est rendu.'
+  explanation: 'Exécuté : `default:app.fallback:` rend `''fb''`, `default::` rend `NULL`.'
+  memorization_justification: Forme du repli.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Environment Variable Processors
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes()
+    verified_at: '2026-09-29'
+- id: FLC-m924z56ht5jp
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi changer une variable d''environnement ne demande-t-il pas de recompiler le conteneur ?'
+  back: Parce que `%env(...)%` est lu à l'exécution, alors qu'un `%param%` est écrit en dur dans le conteneur généré.
+  explanation: 'Exécuté : un même conteneur généré, instancié avec deux valeurs de `DSN`, rend les deux valeurs.'
+  memorization_justification: Moment de résolution.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Dumper/PhpDumper.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Dumper/PhpDumper.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PhpDumper::dump()
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Environment Variable Processors
+    verified_at: '2026-09-29'
+- id: FLC-twt69f9g23r2
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi %env(json:base64:SECRETS)% fonctionne-t-il et pas %env(base64:json:SECRETS)% ?'
+  back: 'Les processeurs s''appliquent de droite à gauche : le plus proche de la variable d''abord. Il faut décoder le base64 avant de lire le JSON.'
+  explanation: 'Exécuté : l''ordre inverse lève « Invalid JSON in env var "SECRETS" ».'
+  memorization_justification: Composition des processeurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Environment Variable Processors
+    verified_at: '2026-09-29'
+- id: FLC-t3gdj1kt03qr
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un argument string ne peut-il pas être autowiré sans bind ni #[Autowire] ?'
+  back: Parce que l'autowiring résout par type, et qu'un scalaire ne désigne aucun service.
+  explanation: '`bind` associe un nom ou un type à une valeur ; `#[Autowire]` le fait sur un seul argument.'
+  memorization_justification: Raison d'être de bind.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/ResolveBindingsPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/ResolveBindingsPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: A binding is configured for an argument %s, but no corresponding argument has been found
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Autowire::__construct(value, service, expression, env, param, lazy)
+    verified_at: '2026-09-29'
+- id: FLC-7a842z6wx9k1
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : injecter l''environnement du noyau dans un argument, depuis la classe.'
+  back: '`#[Autowire(param: ''kernel.environment'')] string $env` — ou `#[Autowire(''%kernel.environment%'')]`.'
+  explanation: 'Exécuté dans une application FrameworkBundle 8.0.15 : l''argument reçoit `dev`.'
+  memorization_justification: Forme attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Autowire::__construct(value, service, expression, env, param, lazy)
+    verified_at: '2026-09-29'
+- id: FLC-5v70p2vyw5k3
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : injecter REDIS_PORT comme entier depuis la classe.'
+  back: '`#[Autowire(env: ''int:REDIS_PORT'')] int $port`.'
+  explanation: L'argument `env` accepte les processeurs ; exécuté, il reçoit `6379` en entier.
+  memorization_justification: Variable typée par attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autowire.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Autowire::__construct(value, service, expression, env, param, lazy)
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes()
+    verified_at: '2026-09-29'
+- id: FLC-ha61xvb8r3w0
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: TRAP
+  front: 'Symfony : un pourcent seul, comme dans ''50% off'', casse-t-il la valeur d''un paramètre ?'
+  back: 'Non : il reste tel quel. Seuls deux pourcents encadrant un texte **sans espace** forment une référence ; `''5%off%now''` cherche le paramètre `off`.'
+  explanation: '`ParameterBag::resolveString()` applique `%%|%([^%\s]+)%`. Doubler reste la règle sûre.'
+  memorization_justification: Échappement mal compris.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ParameterBag::resolveString()
+    verified_at: '2026-09-29'
+- id: FLC-mrc5mc410b56
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: TRAP
+  front: 'Symfony : un bind déclaré sous _defaults mais qu''aucun service n''utilise est-il ignoré ?'
+  back: 'Non : il lève une `InvalidArgumentException` — « … no corresponding argument has been found. It may be unused and should be removed, or it may have a typo. »'
+  explanation: Exécuté dans une application FrameworkBundle 8.0.15.
+  memorization_justification: Réglage supposé sans effet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/ResolveBindingsPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/ResolveBindingsPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: A binding is configured for an argument %s, but no corresponding argument has been found
+    verified_at: '2026-09-29'
+- id: FLC-katy3z0029br
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: TRAP
+  front: 'Symfony : que rend %env(PORT)% sans processeur quand PORT vaut 6379 ?'
+  back: 'La **chaîne** `''6379''` : une variable d''environnement est toujours une chaîne avant processeur ; `int:` la convertit.'
+  explanation: 'Exécuté : `gettype()` rend `string` sans processeur, `6379` entier avec `int:`.'
+  memorization_justification: Type supposé automatique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EnvVarProcessor::getProvidedTypes()
     verified_at: '2026-09-29'

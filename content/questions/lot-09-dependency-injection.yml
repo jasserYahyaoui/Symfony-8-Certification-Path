@@ -568,7 +568,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - parameters
     choices:
@@ -587,14 +587,15 @@ questions:
         text: By using %percent%
         correct: false
         explanation: No such built-in parameter exists.
-    explanation: A single percent starts a parameter reference. Doubling it produces a literal one; forgetting
-      that makes the container look for a parameter that does not exist.
+    explanation: Two percent signs around text without whitespace form a parameter reference, so 5%off%now
+      makes the container look for a parameter named off. Doubling a percent always produces a literal one,
+      which is the safe rule; a lone percent is left as it is.
     official_sources:
-      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
-        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
         branch: '8.0'
-        symbol_or_lines: EnvVarProcessor::getProvidedTypes
-        verified_at: '2026-09-01'
+        symbol_or_lines: ParameterBag::resolveString() — '/%%|%([^%\s]+)%/'
+        verified_at: '2026-09-29'
   - id: QST-gfqb0xrb7tbx
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
@@ -2191,7 +2192,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-29'
     tags:
       - parameters
       - autowire
@@ -2202,7 +2203,7 @@ questions:
       - id: CHO-dch086xqp2wb
         text: A parameter, which autowiring resolves by name
         correct: false
-        explanation: Autowiring resolves by type, never by argument name; a scalar parameter is not autowired.
+        explanation: Autowiring resolves by type — a named autowiring alias still pairs a type with a name; a scalar parameter is never autowired.
       - id: CHO-f4dyet44vw5h
         text: '#[AutowireLocator] on each constructor'
         correct: false

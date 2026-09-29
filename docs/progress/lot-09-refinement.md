@@ -237,6 +237,87 @@ absentes de la version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 4 — *Configuration parameters* — RAFFINÉE
+
+`CRS-8zmj5ntgdhjv` · `OIT-ar4h3zfskjsp` · STANDARD · **384 → 667 mots** sur 900.
+Aucun niveau promu. Exécutions avec `symfony/dependency-injection` 8.0.15 seul,
+et sur l'application FrameworkBundle 8.0.15 aux composants fixés en `8.0.*`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 3 du lot 09 (PR #256, `cdaa5f7`) | 36619553085, success | `ok  lot-09  the built-in services page carries its four flashcard levels, the unaliased service, the autowiring command and the type-hint suggestion` |
+
+### Une règle d'échappement mal énoncée
+
+La page et l'explication de `QST-sxw56zsgz0we` (VALIDATION) affirmaient qu'un
+pourcent seul « commence une référence de paramètre ». Lu dans
+`ParameterBag::resolveString()` : une référence est `%([^%\s]+)%`, un texte
+**sans espace** entre deux pourcents. Exécuté :
+
+| Valeur | Résultat |
+|---|---|
+| `'100%%'` | `100%` |
+| `'50% off'` | inchangée |
+| `'from 5% to 10% off'` | inchangée |
+| `'5%off%now'` | `ParameterNotFoundException`, paramètre « off » |
+
+La page montre les quatre cas ; doubler reste la règle sûre. L'explication de la
+question est corrigée et sa source passe d'`EnvVarProcessor.php`, qui ne traite
+pas de l'échappement, à `ParameterBag.php`. Énoncé, choix et bonne réponse
+inchangés : version conservée.
+
+### Une explication de distracteur trop absolue
+
+`QST-1zvtze0w6a5p` (LEARNING) : « autowiring resolves by type, **never** by
+argument name ». Un alias nommé (`ContainerBuilder::registerAliasForArgument()`,
+présent en 8.0.15) associe un type **et** un nom d'argument. L'explication dit
+désormais qu'un tel alias reste indexé par un type, et qu'un scalaire n'est
+jamais autowiré. Version conservée.
+
+### Confirmé ou ajouté par l'exécution
+
+- `getProvidedTypes()` compte **21** processeurs.
+- Le conteneur PHP généré écrit la valeur d'un paramètre en dur ; instancié deux
+  fois avec deux valeurs de `DSN`, il rend les deux : `%env()%` est lu à
+  l'exécution.
+- `%env(PORT)%` rend la chaîne `'6379'` ; `int:` l'entier.
+- `json:base64:` rend le tableau ; `base64:json:` lève « Invalid JSON ».
+- `default:app.fallback:` rend le paramètre, `default::` rend `null`, une
+  variable absente sans défaut lève `EnvNotFoundException`.
+- `bind` et les trois formes de `#[Autowire]` (`'%…%'`, `param:`, `env:`)
+  injectent leur valeur ; un `bind` inutilisé lève une `InvalidArgumentException`
+  (`ResolveBindingsPass`).
+
+**Questions.** `QST-p6eftemqgsfx` et `QST-cb9sywaj1nde` (LEARNING) relues :
+exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-kbnpt2sv2dss` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`EnvNotFoundException`, `ResolveBindingsPass` et `non-existent parameter`,
+absentes de la version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions DependencyInjection et FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 001 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Configuration parameters* (STANDARD, 384 / 900).
+Page 5 — *Services registration* (STANDARD, 395 / 900).
