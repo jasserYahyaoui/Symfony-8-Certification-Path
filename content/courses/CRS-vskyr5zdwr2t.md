@@ -5,13 +5,19 @@ title: "Validation groups"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-29"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst"
     symbol_or_lines: '"How to Apply only a Subset of all Your Validation Constraints (Validation Groups)"; and "Constraints in the Default group of a class are the constraints that have either no explicit group configured or that are configured to a group equal to the class name or the string Default"'
     branch: "8.0"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "Constraint::addImplicitGroupName()"
+    verified_at: "2026-09-29"
 ---
 
 ## Objectif
@@ -47,8 +53,19 @@ personne n'a écrits :
 | `User` | **le nom de la classe** ; les contraintes de `User` dans `Default` |
 | `registration` | les contraintes explicitement étiquetées — ici `email` |
 
-Une contrainte appartient à `Default` si elle ne déclare aucun groupe, **ou** si
-elle déclare `Default` ou le nom de la classe.
+Exécuté avec `symfony/validator` 8.0.15 : une contrainte **sans groupe** reçoit
+les groupes `["Default", "User"]` ; déclarée `groups: ['Default']`, elle reçoit
+aussi `["Default", "User"]`.
+
+## Un écart entre la documentation et le code
+
+`groups.rst` (8.0) range dans `Default` les contraintes « sans groupe, ou
+configurées avec le nom de la classe ou la chaîne `Default` ». Pour le nom de la
+classe, le code dit autre chose. Exécuté : une contrainte déclarée
+`groups: ['User']` a pour seuls groupes `["User"]`, et **ne s'exécute pas**
+quand on valide `Default` ; elle s'exécute avec le groupe `User`. La relation ne
+vaut que dans un sens : ce qui est dans `Default` est dans `User`, pas
+l'inverse.
 
 ## Valider avec un groupe
 
@@ -60,16 +77,26 @@ $validator->validate($user, null, ['Default', 'registration']);
 
 Sans argument, **seul `Default` s'applique** — pas « toutes les contraintes ».
 Une contrainte rangée dans un groupe personnalisé est donc invisible par défaut.
+Le troisième argument accepte aussi une chaîne seule.
 
 Dans un formulaire, la même chose s'écrit avec l'option `validation_groups` du
 type.
 
 ## `Default` contre le nom de la classe
 
-Les deux sont identiques… sauf sur les objets **imbriqués**. Valider un `User`
-dans le groupe `Default` applique aussi les contraintes `Default` des classes
-référencées et cascadées. Valider dans le groupe `User` n'applique que celles de
-`User` lui-même.
+Les deux sont identiques… sauf sur les objets **imbriqués**. Exécuté avec un
+`User` dont la propriété `address` porte `#[Assert\Valid]` :
+
+| Groupe demandé | Violations |
+|---|---|
+| `Default` | `city`, `address.zip` |
+| `User` | `city`, sans `address.zip` |
+| `registration` | `email`, `address.street` |
+
+Valider dans `Default` descend dans les contraintes `Default` de l'`Address` ;
+valider dans `User` ne le fait pas, car le groupe transmis à l'`Address` reste
+`User`. Un groupe nommé, lui, traverse la cascade : `address.street`, étiquetée
+`registration`, est atteinte.
 
 La deuxième différence apparaît avec une séquence de groupes ; elle est traitée
 dans l'item *Group sequence*.
@@ -81,6 +108,9 @@ dans l'item *Group sequence*.
 
 **`Default` et le nom de la classe ne sont pas interchangeables** dès qu'il y a
 un objet imbriqué.
+
+**Une contrainte étiquetée du seul nom de la classe n'est pas dans `Default`**,
+quoi qu'en dise la documentation.
 
 **Un groupe ne se déclare nulle part** : il existe dès qu'une contrainte le
 nomme.
@@ -96,3 +126,4 @@ nomme.
 ## Sources officielles
 
 - [Validation Groups](https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst)
+- [Validator 8.0, `Constraint::addImplicitGroupName()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php)
