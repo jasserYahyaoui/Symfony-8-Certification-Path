@@ -30,8 +30,8 @@ page.
 | 8 | Handling file upload | MINIMAL | 290 / 700 | 1 | **RAFFINÉE** (PR #238) |
 | 9 | Built-in form types | MINIMAL | 383 / 700 | 1 | **RAFFINÉE** (PR #239) |
 | 10 | Data transformers | STANDARD | 452 / 900 | 1 | **RAFFINÉE** (PR #240) |
-| 11 | Form events | DEEP | 584 / 1200 | 3 | en cours |
-| 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | à faire |
+| 11 | Form events | DEEP | 584 / 1200 | 3 | **RAFFINÉE** (PR #241) |
+| 12 | Form type extensions | MINIMAL | 328 / 700 | 1 | en cours |
 | 13 | Form options (OptionsResolver component) | STANDARD | 424 / 900 | 1 | à faire |
 
 ## Page 1 — Form component, 2026-09-24
@@ -829,6 +829,77 @@ cartes, présentes dans le build local.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+**Déploiement de la page 11, lu dans le journal d'exécution.** PR #241 fusionnée
+en squash (`0320f0c`). Run Pages 36559325540 : build, déploiement et smoke test
+en succès ; la ligne `ok  lot-07  the form events page carries its four
+flashcard levels, the already submitted exception, the cycle message and the
+immutable dispatcher` est écrite à **11:05:12 UTC** le 2026-09-29.
+
+## Page 12 — Form type extensions, 2026-09-29
+
+`CRS-k4ejsd624d1p` · `OIT-gcs0jathkv9b` · MINIMAL · **328 → 577 mots** sur 700.
+Aucun niveau promu. Exécutions avec `symfony/form` 8.0.15 et
+`symfony/dependency-injection` 8.0.15 ; `FormPass` et
+`PriorityTaggedServiceTrait` identiques entre les paquets exécutés et la branche
+8.0 (`diff -q`).
+
+### Une affirmation trop large
+
+**« Étendre `FormType::class` touche tous les champs. »** Pas les boutons :
+`ButtonType::getParent()` retourne `null` (constaté à la page 9). La page et
+l'explication de la carte `FLC-be3pranpsvn1` le précisent.
+
+### Une règle documentée, confirmée par le code
+
+`create_form_type_extension.rst` (8.0) dit que l'attribut `priority` du tag exige
+une déclaration explicite du service. Exécuté avec `FormPass` : un attribut PHP
+`#[AsTaggedItem(priority: 10)]` sur une extension autoconfigurée est **ignoré**,
+l'ordre reste celui de l'enregistrement ; `PriorityTaggedServiceTrait` ne lit la
+priorité de l'attribut que lorsqu'une méthode de priorité par défaut est
+fournie, ce que `FormPass` ne fait pas. Des priorités de tag -5, 0 et 20 donnent
+l'ordre 20, 0, -5.
+
+### Compléments, exécutés
+
+- `getExtendedTypes()` vide : `InvalidArgumentException` levée par `FormPass` à
+  la compilation du conteneur.
+- Une extension de `TextType` déclarant une option : acceptée par `TextType` et
+  `EmailType` (variable de vue transmise), refusée par `IntegerType`
+  (`UndefinedOptionsException`), qui hérite de `FormType`.
+- Pour un `EmailType`, `buildForm()` de l'extension de `FormType` passe avant
+  celui de l'extension de `TextType`.
+
+**Questions.** `QST-gbb1dez9gmt4` (LEARNING) : l'explication du distracteur
+`form.extension` est précisée — c'est l'identifiant du service qui collecte
+types et extensions ; bonne réponse et version inchangées, `reviewed_at` mis à
+jour. `QST-mc97gbqdk57v`, `QST-vp34fa6btm3y` et `QST-ffbr017rjbwd` relues :
+exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 9 ajoutées ; la carte préexistante `FLC-be3pranpsvn1` reçoit le
+niveau RECALL. L'item en porte **10** (3 RECALL, 2 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script avant rédaction.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `AsTaggedItem`,
+`debug:form` et `pas les boutons`, absentes de la version `master` de la page et
+des cartes, présentes dans le build local.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Form + DependencyInjection 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 16 873 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 — 76 jours, 441 créneaux |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 12 — *Form type extensions* (MINIMAL, 328 / 700).
+Page 13 — *Form options (OptionsResolver component)* (STANDARD, 424 / 900).

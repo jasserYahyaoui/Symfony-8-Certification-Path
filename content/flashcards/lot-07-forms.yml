@@ -267,11 +267,11 @@ flashcards:
 - id: FLC-be3pranpsvn1
   official_item: OIT-gcs0jathkv9b
   language: fr
+  level: RECALL
   front: 'Symfony : pour ajouter une option à un type de formulaire fourni par Symfony, écrit-on un
     nouveau type ou une extension ?'
   back: 'Une extension de type : un type crée un champ, une extension modifie ceux qui existent.'
-  explanation: La méthode qui désigne les types étendus est statique et retourne un itérable. Étendre
-    le type racine touche tous les champs de l'application, puisque tous en héritent.
+  explanation: "La méthode qui désigne les types étendus est statique et retourne un itérable. Étendre le type racine touche tous les champs de l'application, puisque tous en héritent — mais pas les boutons, dont le type n'a pas de parent."
   memorization_justification: Distinction que l'examen pose directement, et où écrire un nouveau type
     est l'erreur naturelle.
   verification_status: VERIFIED
@@ -2226,4 +2226,160 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: Form::submit(), add(), remove(), getData()
+    verified_at: '2026-09-25'
+- id: FLC-bqtzpa4gwgkk
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : une extension vise TextType et déclare une option. Un IntegerType l''accepte-t-il ?'
+  back: 'Non : `UndefinedOptionsException`. `IntegerType` hérite de `FormType`, pas de `TextType`.'
+  explanation: Exécuté avec symfony/form 8.0.15. Un `EmailType`, qui hérite de `TextType`, accepte l'option et reçoit la variable de vue.
+  memorization_justification: Une extension suit la lignée des types, pas le classement documentaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+- id: FLC-n4ze2n68raqp
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : une extension de FormType s''applique-t-elle aux boutons ?'
+  back: 'Non : `ButtonType::getParent()` retourne `null`, les boutons ne descendent pas de `FormType`.'
+  explanation: 'Exécuté : l''extension atteint le champ texte, pas le `SubmitType`.'
+  memorization_justification: « Tous les champs » ne veut pas dire « tout le formulaire ».
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ButtonType::getParent() returns null
+    verified_at: '2026-09-25'
+- id: FLC-9hwcm7k0zam5
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: TRAP
+  front: 'Symfony : un attribut #[AsTaggedItem(priority: 10)] sur une extension autoconfigurée change-t-il son ordre ?'
+  back: Non. `FormPass` l'ignore ; la priorité se règle par l'attribut `priority` du tag, dans une déclaration explicite du service.
+  explanation: 'Exécuté avec `FormPass` et DependencyInjection 8.0.15 : l''ordre reste celui de l''enregistrement. La documentation l''annonce : l''attribut de tag exige la configuration explicite du service.'
+  memorization_justification: Réflexe moderne qui ne fonctionne pas ici.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findAndSortTaggedServices(), AsTaggedItem
+    verified_at: '2026-09-25'
+- id: FLC-r36r017e5n7f
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: RECALL
+  front: 'Symfony : dans quel ordre trois extensions d''un même type, de priorités -5, 0 et 20, sont-elles chargées ?'
+  back: '20, puis 0, puis -5 : la plus haute priorité passe la première.'
+  explanation: Exécuté avec `FormPass`. La priorité par défaut vaut 0.
+  memorization_justification: Sens de la priorité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DependencyInjection/FormPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/DependencyInjection/FormPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormPass::processFormTypeExtensions()
+    verified_at: '2026-09-25'
+- id: FLC-j6mn7pg99wky
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: RECALL
+  front: 'Symfony : que se passe-t-il si getExtendedTypes() d''une extension ne retourne aucun type ?'
+  back: 'Une `InvalidArgumentException` à la compilation du conteneur : « The getExtendedTypes() method for service … does not return any extended types. »'
+  explanation: Levée par `FormPass`, reproduite par exécution.
+  memorization_justification: L'erreur survient au build, pas au rendu du formulaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DependencyInjection/FormPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/DependencyInjection/FormPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FormPass::processFormTypeExtensions()
+    verified_at: '2026-09-25'
+- id: FLC-jjtefny67wpd
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pour un champ EmailType, l''extension de FormType et celle de TextType : laquelle exécute buildForm() la première ?'
+  back: 'Celle de `FormType` : chaque extension s''exécute juste après le type qu''elle étend, en descendant la lignée.'
+  explanation: 'Exécuté : `FormType-ext` puis `TextType-ext` pour le champ e-mail. `ResolvedFormType` appelle le parent, puis le type, puis ses extensions.'
+  memorization_justification: Ordre utile quand deux extensions touchent la même chose.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/ResolvedFormType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ResolvedFormType::buildForm(), parent then type then extensions
+    verified_at: '2026-09-25'
+- id: FLC-2j61e4zt1qh7
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : pourquoi écrire une extension plutôt qu''un type pour ajouter une option à FileType ?'
+  back: Une extension modifie le type existant partout où il sert ; un nouveau type ne toucherait que les formulaires qui l'utilisent.
+  explanation: 'C''est la distinction de la documentation : un type crée un champ, une extension modifie ceux qui existent.'
+  memorization_justification: Critère de choix posé à l'examen.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+- id: FLC-4e609zfq4x50
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Forms : exposer au gabarit une variable image_url pour tous les FileType. Quelles méthodes redéfinir ?'
+  back: '`getExtendedTypes()` retournant `[FileType::class]`, `configureOptions()` rendant l''option `image_property` légale par `setDefined()`, et `buildView()` écrivant `$view->vars[''image_url'']`.'
+  explanation: C'est l'exemple de la documentation ; l'extension est autoconfigurée.
+  memorization_justification: Assemblage minimal d'une extension utile.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
+    verified_at: '2026-09-25'
+- id: FLC-jyw8zhewy1sd
+  official_item: OIT-gcs0jathkv9b
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vérifier qu''une extension de type est bien enregistrée. Quelle commande ?'
+  back: '`php bin/console debug:form`.'
+  explanation: Astuce de la documentation.
+  memorization_justification: Diagnostic rapide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_form_type_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/create_form_type_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Create a Form Type Extension
     verified_at: '2026-09-25'
