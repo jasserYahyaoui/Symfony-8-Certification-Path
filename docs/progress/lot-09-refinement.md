@@ -759,6 +759,87 @@ cartes. `removed or inlined`, envisagée, figurait déjà dans les cartes du lot
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 11 — *Services autowiring* — RAFFINÉE
+
+`CRS-w6yfxm6ad4zy` · `OIT-wm3qdqemtap9` · DEEP · **597 → 873 mots** sur 1 200.
+Aucun niveau promu. Exécutions dans l'application FrameworkBundle 8.0.15,
+composants fixés en `8.0.*`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 10 du lot 09 (PR #263, `36fd274`) | 36681861823, success | `ok  lot-09  the compiler passes page carries its four flashcard levels, the kernel priority, the uninitialized definition and the sort` |
+
+### Ce que dit la documentation, ce que fait le code
+
+`autowiring.rst` (8.0) avertit que `#[Target]` « **does not** accept service ids
+or service aliases », et `QST-gscp8fh16xed` (LEARNING) en tirait un distracteur :
+« The service id of the implementation to inject » — « The attribute explicitly
+does not accept service ids ». Exécuté :
+
+| `#[Target(…)]` | Résultat |
+|---|---|
+| `'App\P11\UppercaseTransformer'`, cible d'un alias nommé du même type | injecté |
+| `'App\P11\Rot13Transformer'`, cible du seul alias par défaut | « no such target exists » |
+
+`AutowirePass::getAutowiredReference()` accepte un identifiant **déjà visé par un
+alias nommé du type**. Le distracteur devenait défendable : la question passe en
+**v2**, ce choix est remplacé par `CHO-wvpdch891hrk` (« The name of a container
+parameter holding the implementation's class »). Énoncé et bonne réponse
+inchangés. Divergence **décidée pour le code** ; la règle d'écriture de la page
+reste celle de la documentation — viser le nom de l'alias nommé.
+
+### Un message cité de mémoire
+
+La page citait « *argument type-hinted with interface … but no such service
+exists* ». Le message réel, exécuté : « … references interface
+"App\P11\TransformerInterface" but no such service exists. You should maybe
+alias this interface to one of these existing services: … » — il nomme les
+candidats. La page cite le message exact.
+
+### Confirmé ou ajouté par l'exécution
+
+- Alias par défaut, alias nommé et `#[Target]` : `rot13`, `upper`, `upper`.
+- Une faute de frappe dans le **nom d'argument** retombe en silence sur l'alias
+  par défaut ; la même dans `#[Target]` lève « … no such target exists. Did you
+  mean to target "shoutyTransformer" instead? ».
+- `#[Target('shouty.transformer')]` : le nom est normalisé en camelCase.
+- `debug:autowiring Transformer` liste l'alias ordinaire et l'alias nommé.
+- Un `?App\Missing\Nope $opt = null` reçoit `null`.
+- Scalaire : « is type-hinted "string", you should configure its value
+  explicitly » — mais seulement pour un service conservé : privé et inutilisé,
+  il est retiré sans erreur. La page nuance « l'erreur apparaît au build ».
+
+**Questions.** `QST-mg33edgvxqrc`, `QST-egkw6pqr1hvq` (LEARNING) et
+`QST-959s75p98aqk` (VALIDATION) relues : exactes, inchangées. La question holdout
+de l'item n'a été ni lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-yze03t40rkqr` reçoit le
+niveau UNDERSTANDING. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING,
+2 APPLICATION, 4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`no such target exists`, `shouty.transformer` et `configure its value
+explicitly`, absentes de la version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 071 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 11 — *Services autowiring* (DEEP, 597 / 1200).
+Page 12 — *Service locators* (STANDARD, 354 / 900).
