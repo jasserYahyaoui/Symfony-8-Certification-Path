@@ -840,6 +840,71 @@ explicitly`, absentes de la version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 12 — *Service locators* — RAFFINÉE
+
+`CRS-0a0d5bp6769e` · `OIT-gkhcbtygef69` · STANDARD · **354 → 571 mots** sur 900.
+Aucun niveau promu. Exécutions dans l'application FrameworkBundle 8.0.15,
+composants fixés en `8.0.*`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 11 du lot 09 (PR #264, `c520772`) | 36747487825, success | `ok  lot-09  the services autowiring page carries its four flashcard levels, the Target typo, the normalised name and the scalar error` |
+
+### Rien de faux, beaucoup d'implicite
+
+Aucune affirmation de la page n'a été infirmée par l'exécution. Elles étaient
+en revanche énoncées sans preuve ; elles sont désormais montrées :
+
+| Situation | Résultat exécuté |
+|---|---|
+| après construction du bus | aucun gestionnaire construit |
+| `get(FooHandler::class)` | construit à ce moment, **même instance** que celle du conteneur |
+| `?App\P12\Missing` absent | `has()` rend `false` |
+| le même, sans `?` | la compilation échoue : « has a dependency on a non-existent service » |
+| `get()` d'un service non déclaré | « … is a smaller service locator that only knows about … » |
+| `ChildBus` sans `parent::` | `has(FooHandler::class)` vaut `false`, aucune erreur avant l'usage |
+
+`getSubscribedServices()` est bien `public static` dans
+`ServiceSubscriberInterface` (8.0).
+
+### Une explication trop courte
+
+`QST-dbs1pm3v1np1` (LEARNING) disait que la forme tag de `#[AutowireLocator]`
+donne une table « keyed by the tag's index attribute ». Exécuté à la page 7 :
+l'`index` quand le service en a un, **son identifiant sinon**. Explication
+complétée, version conservée.
+
+**Questions.** `QST-gkhpzxneegbr`, `QST-qh1cbg5wp55k` (LEARNING) et
+`QST-zq72eg2anghn` (VALIDATION) relues : exactes, inchangées. L'item ne porte pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-zn7hhaddbzd2` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`smaller service locator`, `non-existent service` et `ChildBus`, absentes de la
+version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 081 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 12 — *Service locators* (STANDARD, 354 / 900).
+Rapport de fin de lot 09, dans sa propre PR.

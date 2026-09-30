@@ -370,7 +370,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 27 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 11 min · 354 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 21 min · 571 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Data Validation : Validator component** (STANDARD) — 21 min · 653 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Data Validation : PHP object validation** (STANDARD) — 21 min · 671 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 21 min · 551 mots · 4 questions, 11 flashcards
@@ -378,7 +378,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (16 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 - Révision **J+14** (11 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 
-*Budget du jour : 129 / 160 min*
+*Budget du jour : 139 / 160 min*
 
 ### Mercredi 28 octobre 2026
 
