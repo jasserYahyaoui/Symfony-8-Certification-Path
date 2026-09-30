@@ -19,6 +19,7 @@ flashcards:
 - id: FLC-y9jp85bpbh2v
   official_item: OIT-z9c24d68et6w
   language: fr
+  level: RECALL
   front: Où vit l'utilisateur courant pendant la requête ?
   back: Dans le TokenStorage, sous forme de jeton. getUser() n'est qu'un raccourci vers lui.
   explanation: 'C''est aussi ce que stateless: true empêche de conserver d''une requête à l''autre.'
@@ -355,4 +356,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: composer require symfony/security-csrf
+    verified_at: '2026-09-30'
+- id: FLC-wmwwsfzhfn85
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rend getToken() pour une requête anonyme ?'
+  back: '`null` : il n''existe plus de jeton anonyme. Exécuté avec SecurityBundle 8.0.15, `/public` sans identifiants.'
+  explanation: '`getUser()` rend `null` aussi.'
+  memorization_justification: Disparition du jeton anonyme.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Security::getUser(), getToken()
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-p30ndw5tcf03
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle est la valeur par défaut de session_fixation_strategy ?'
+  back: '`migrate` : l''identifiant de session change à la connexion.'
+  explanation: 'Exécuté : une connexion portant un cookie de session existant en reçoit un nouveau.'
+  memorization_justification: Protection contre la fixation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: session_fixation_strategy, default migrate
+    verified_at: '2026-09-30'
+- id: FLC-p4h0y8hepmaw
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: RECALL
+  front: 'Symfony : que renvoie une route exigeant ROLE_USER à une requête sans identifiants, sous http_basic ?'
+  back: '**401** : le pare-feu appelle son point d''entrée, « the user is not fully authenticated ».'
+  explanation: Exécuté avec SecurityBundle 8.0.15.
+  memorization_justification: Comportement du point d'entrée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-6xnwnjg0fb3n
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un utilisateur mémorisé en session voit-il ses rôles modifiés sans se reconnecter ?'
+  back: 'Parce que le jeton lu en session est **rafraîchi** : exécuté, « User was reloaded from a user provider » à chaque requête.'
+  explanation: La session garde le jeton, le fournisseur redonne l'utilisateur à jour.
+  memorization_justification: Rafraîchissement de l'utilisateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Read existing security token from the session; User was reloaded from a user provider
+    verified_at: '2026-09-30'
+- id: FLC-djzzwsvjg9fq
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi getUser() à null ne signifie-t-il pas « accès refusé » ?'
+  back: Parce qu'il répond à l'authentification ; le refus est une décision d'autorisation, rendue par `isGranted()` ou `access_control`.
+  explanation: 'Exécuté : `alice`, authentifiée, a `isGranted(''ROLE_ADMIN'')` faux.'
+  memorization_justification: Deux questions distinctes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-01zz93r9r4r5
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une API authentifie chaque requête par un en-tête. Que déclarer sur son pare-feu ?'
+  back: '`stateless: true` : le jeton n''est jamais écrit en session.'
+  explanation: 'Exécuté : aucun cookie après une connexion réussie ; la requête suivante sans identifiants reçoit 401.'
+  memorization_justification: Pare-feu d'API.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-h3pk7fdnnqay
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire l''utilisateur courant dans un service, hors contrôleur.'
+  back: Injecter `Symfony\Bundle\SecurityBundle\Security` et appeler `getUser()`.
+  explanation: C'est un raccourci vers le `TokenStorage`.
+  memorization_justification: Accès à l'utilisateur hors contrôleur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Security::getUser(), getToken()
+    verified_at: '2026-09-30'
+- id: FLC-4cvmb4hycy76
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: TRAP
+  front: 'Symfony : un jeton existe-t-il pour une requête anonyme sur un pare-feu ?'
+  back: 'Non : `getToken()` rend `null`. Le jeton n''apparaît qu''après une authentification réussie.'
+  explanation: 'Exécuté : `/public` sans identifiants, jeton `null`.'
+  memorization_justification: Souvenir du jeton anonyme d'avant Symfony 6.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Security::getUser(), getToken()
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-pcawy4crnpng
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: TRAP
+  front: 'Symfony : stateless: true supprime-t-il la session ?'
+  back: 'Non : il empêche seulement d''y stocker le jeton de sécurité ; d''autres usages de la session restent possibles.'
+  explanation: 'Exécuté sur un pare-feu sans état : aucun cookie de session posé par l''authentification.'
+  memorization_justification: Portée exacte de stateless.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Authenticating Users; stateless firewalls; session fixation
+    verified_at: '2026-09-30'
+- id: FLC-n3pxdj3n10g5
+  official_item: OIT-z9c24d68et6w
+  language: fr
+  level: TRAP
+  front: 'Symfony : le jeton lu en session fige-t-il l''utilisateur de la connexion ?'
+  back: 'Non : l''utilisateur est rechargé par le fournisseur à chaque requête.'
+  explanation: 'Exécuté : « Read existing security token from the session » puis « User was reloaded from a user provider ».'
+  memorization_justification: Session supposée figer l'utilisateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Read existing security token from the session; User was reloaded from a user provider
     verified_at: '2026-09-30'

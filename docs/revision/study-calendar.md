@@ -478,12 +478,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Forms : Form type extensions** (MINIMAL) — 19 min · 577 mots · 4 questions, 10 flashcards
 - NOUVEAU · **Forms : Form options (OptionsResolver component)** (STANDARD) — 22 min · 706 mots · 5 questions, 10 flashcards
 - NOUVEAU · **Security : Security Core, CSRF and PasswordHasher components** (STANDARD) — 18 min · 523 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Security : Authentication** (STANDARD) — 10 min · 325 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Security : Authentication** (STANDARD) — 21 min · 573 mots · 4 questions, 11 flashcards
 - Révision **J+1** (22 min) — Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers · Forms : Form events
 - Révision **J+7** (16 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+14** (12 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 
-*Budget du jour : 119 / 160 min*
+*Budget du jour : 130 / 160 min*
 
 ### Mercredi 4 novembre 2026
 

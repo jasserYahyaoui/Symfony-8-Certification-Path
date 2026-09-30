@@ -2951,6 +2951,32 @@ jobs:
           else
             echo "ok  lot-10  the security components page carries its four flashcard levels, the dev-only HTTP dependency, the tracking storage and the hasher factory"
           fi
+          # Lot 10 refinement, page 2 (Authentication): the four flashcard
+          # levels, the entry-point log line, the user reload from the provider
+          # and the session fixation option.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-authn -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/authentication")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page authentication serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-authn || missing="$missing l10aun:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-authn || missing="$missing l10aun:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-authn || missing="$missing l10aun:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-authn || missing="$missing l10aun:no-trap-heading"
+          grep -aq 'not fully authenticated' /tmp/l10r-authn \
+            || missing="$missing l10aun:no-entry-point"
+          grep -aq 'reloaded from a user provider' /tmp/l10r-authn \
+            || missing="$missing l10aun:no-user-reload"
+          grep -aq 'session_fixation_strategy' /tmp/l10r-authn \
+            || missing="$missing l10aun:no-fixation"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the authentication page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the authentication page carries its four flashcard levels, the entry point, the user reload and the fixation strategy"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

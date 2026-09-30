@@ -22,7 +22,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Security Core, CSRF and PasswordHasher components | STANDARD | 313 / 900 | 1 | en cours |
+| 1 | Security Core, CSRF and PasswordHasher components | STANDARD | 313 / 900 | 1 | **RAFFINÉE** (PR #267) |
 | 2 | Authentication | STANDARD | 325 / 900 | 1 | à faire |
 | 3 | Authorization | STANDARD | 370 / 900 | 1 | à faire |
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | à faire |
@@ -116,6 +116,77 @@ corrigée et reçoit le niveau TRAP. L'item en porte **11** (3 RECALL,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Authentication* — RAFFINÉE
+
+`CRS-rdzx4ka72saj` · `OIT-z9c24d68et6w` · STANDARD · **325 → 573 mots** sur 900.
+Aucun niveau promu. Exécutions sur une application FrameworkBundle +
+SecurityBundle 8.0.15 (composants `symfony/*` fixés en `8.0.*`) : pare-feu `main`
+en `http_basic`, pare-feu `api` sans état, utilisateurs en mémoire.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 10 (PR #267, `e9a3241`) | 36753994976, success | `ok  lot-10  the security components page carries its four flashcard levels, the dev-only HTTP dependency, the tracking storage and the hasher factory` |
+
+### Une affirmation d'avant Symfony 6
+
+La page posait en piège d'examen : « Un jeton existe même sans utilisateur
+connecté sur un pare-feu qui l'exige ; c'est son contenu qui change. » C'est la
+description du jeton anonyme, supprimé depuis. Exécuté : `/public` sans
+identifiants — `getToken()` `null`, `getUser()` `null`, 200 ; `/whoami`
+(`ROLE_USER` exigé) sans identifiants — 401 via le point d'entrée, « Access
+denied, the user is not fully authenticated ». Le piège est retourné : **pas
+d'utilisateur, pas de jeton**.
+
+### Une portée exagérée
+
+« `stateless: true` supprime la session » : exécuté, le pare-feu sans état
+n'écrit pas le jeton en session — aucun cookie posé par l'authentification, 401
+à la requête suivante sans identifiants —, mais il ne supprime pas la session.
+Formulation corrigée.
+
+### Ajouté par l'exécution
+
+- Pare-feu avec état : « Stored the security token in the session », puis, à la
+  requête suivante, « Read existing security token from the session » et « User
+  was reloaded from a user provider » — l'utilisateur est rechargé à chaque
+  requête (`ContextListener`).
+- Fixation de session : `session_fixation_strategy` vaut `migrate` par défaut
+  (`MainConfiguration`) ; exécuté, une connexion portant un cookie de session en
+  reçoit un nouveau, d'identifiant différent.
+- `alice`, authentifiée avec `ROLE_USER`, a `isGranted('ROLE_ADMIN')` faux.
+
+**Questions.** `QST-472n92c01v8z`, `QST-eazddxd7m5ht`, `QST-380hndjwn2t0`
+(LEARNING) et `QST-dm95708qd8nc` (VALIDATION) relues : exactes, inchangées.
+L'item ne porte pas de question holdout dans le fichier du lot.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-y9jp85bpbh2v` reçoit le
+niveau RECALL. L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`not fully authenticated`, `reloaded from a user provider` et
+`session_fixation_strategy`, absentes de la version `master` de la page et de
+ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 101 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Authentication* (STANDARD, 325 / 900).
+Page 3 — *Authorization* (STANDARD, 370 / 900).
