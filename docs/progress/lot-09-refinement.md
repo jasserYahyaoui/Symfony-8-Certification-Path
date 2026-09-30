@@ -558,6 +558,73 @@ pas de question holdout.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 8 — *Semantic configuration* — RAFFINÉE
+
+`CRS-exs5dvtqa1as` · `OIT-qj4xfkhwdrx7` · STANDARD · **404 → 657 mots** sur 900.
+Aucun niveau promu. Exécutions sur un `AcmeSocialBundle` (`AbstractBundle`)
+chargé dans l'application FrameworkBundle 8.0.15, composants fixés en `8.0.*`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 7 du lot 09 (PR #260, `94ea859`) | 36625019002, success | `ok  lot-09  the tags page carries its four flashcard levels, the unused-tag log, the derived index method and the autoconfiguration call` |
+
+### Un exemple de prepend qui n'en est pas un
+
+La page et l'explication de `QST-qzgxkh2b2pa5` (LEARNING) donnaient le prepend
+comme « la façon dont un bundle enregistre son chemin de gabarits dans Twig ».
+Lu dans `TwigExtension::getBundleTemplatePaths()` (8.0.15) : TwigBundle enregistre
+de lui-même `templates/` ou `Resources/views/` de chaque bundle, sous l'espace de
+son nom privé du suffixe `Bundle` (`normalizeBundleName()`). L'exemple est
+remplacé par celui de `prepend_extension.rst` (`framework.cache.prefix_seed`) ;
+l'explication est corrigée, version conservée.
+
+### Confirmé ou ajouté par l'exécution
+
+| Configuration de l'application | Résultat |
+|---|---|
+| `timout: 5` | « Unrecognized option "timout" under "acme_social". Did you mean "timeout"? » |
+| `timeout: 0` | « The value 0 is too small for path "acme_social.timeout". Should be greater than or equal to 1 » |
+| aucune, `client_id` non fourni | « The child config "client_id" under "acme_social" must be configured. » |
+| `label` défini par l'application et par prepend | la valeur de l'application l'emporte |
+| deux bundles prepend `label` | le **premier enregistré** l'emporte (`from-first`) |
+
+- `getContainerExtension()->getAlias()` rend `acme_social`.
+- `configure()` et `loadExtension()` sont appelées au premier démarrage, jamais au
+  second, cache chaud.
+- La troisième ligne ajoute un piège : un nœud `isRequired()` fait échouer la
+  compilation même si l'application ne configure pas le bundle.
+
+**Questions.** `QST-2q21a2srg5hr`, `QST-996gnybse1ve` (LEARNING) et
+`QST-5jr8w7tcqm2n` (VALIDATION) relues : exactes, inchangées. L'item ne porte pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-dmvk9r2pqhsg` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`Unrecognized option`, `from-first` et `getBundleTemplatePaths`, absentes de la
+version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-29**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 041 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Semantic configuration* (STANDARD, 404 / 900).
+Page 9 — *Factories* (STANDARD, 343 / 900).

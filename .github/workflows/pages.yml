@@ -2795,6 +2795,32 @@ jobs:
           else
             echo "ok  lot-09  the tags page carries its four flashcard levels, the unused-tag log, the derived index method and the autoconfiguration call"
           fi
+          # Lot 09 refinement, page 8 (Semantic configuration): the four
+          # flashcard levels, the unknown-key error, the first-registered
+          # prepend and the automatic bundle template paths.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-semantic -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/semantic-configuration")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page semantic-configuration serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-semantic || missing="$missing l9sem:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-semantic || missing="$missing l9sem:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-semantic || missing="$missing l9sem:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-semantic || missing="$missing l9sem:no-trap-heading"
+          grep -aq 'Unrecognized option' /tmp/l9r-semantic \
+            || missing="$missing l9sem:no-unknown-key"
+          grep -aq 'from-first' /tmp/l9r-semantic \
+            || missing="$missing l9sem:no-first-prepend"
+          grep -aq 'getBundleTemplatePaths' /tmp/l9r-semantic \
+            || missing="$missing l9sem:no-template-paths"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the semantic configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the semantic configuration page carries its four flashcard levels, the unknown key, the first prepend and the template paths"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
