@@ -654,7 +654,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-km3tbkkw36s3
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-45p7535dk4s2
     domain: symfony
@@ -677,12 +677,12 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - providers
     choices:
-      - id: CHO-cphc1k9tbg4y
-        text: Refreshing the user fails and the session is invalidated
+      - id: CHO-sp46qkhktamm
+        text: The refresh fails and the user is no longer authenticated
         correct: true
       - id: CHO-kkc4kascce58
         text: Nothing, because the user object is kept in the session
@@ -696,14 +696,21 @@ questions:
         text: A 500 error, since the provider throws an unhandled exception
         correct: false
         explanation: The failure is handled by logging the user out.
-    explanation: refreshUser() runs on every request, which is what makes deletions and role changes take
-      effect immediately.
+    explanation: refreshUser() runs on every request of a stateful firewall. When it throws
+      UserNotFoundException, the ContextListener drops the token from the session - the session itself
+      survives - and the visitor is anonymous again.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
         branch: '8.0'
         symbol_or_lines: user providers
         verified_at: '2026-09-01'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+        repository: symfony/symfony
+        branch: '8.0'
+        symbol_or_lines: refreshUser() — UserNotFoundException; session->remove(sessionKey)
+        verified_at: '2026-09-30'
   - id: QST-b10yfhxnfhh6
     question_archetype: API_SIGNATURE
     assesses_outcomes:
@@ -1997,7 +2004,7 @@ questions:
     question_archetype: DEFINITION_RECALL
     assesses_outcomes:
       - OUT-18068akbjm47
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-45p7535dk4s2
     domain: symfony
@@ -2008,7 +2015,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Which four user provider keys does Symfony 8.0 accept under security.providers?
+    question: Which user provider keys does SecurityBundle 8.0 define on its own under security.providers,
+      with no other bundle adding one?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -2018,30 +2026,30 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-30'
     tags:
       - security
       - providers
     choices:
-      - id: CHO-jvk8mpk8axjr
-        text: entity, memory, ldap, chain
+      - id: CHO-58t5pm92pgea
+        text: chain, id, ldap, memory
         correct: true
-      - id: CHO-fa67tmg5g43q
-        text: entity, memory, ldap, oauth
+      - id: CHO-d6zqq8rmytq9
+        text: entity, memory, ldap, chain
         correct: false
-        explanation: No oauth provider ships with the framework; external identity is an authenticator
-          concern.
-      - id: CHO-h0ar47yzsg04
-        text: entity, array, ldap, chain
+        explanation: entity is not defined by SecurityBundle; another bundle registers it, and without that
+          bundle the key is rejected as an unrecognized option.
+      - id: CHO-76c9f5tzvja2
+        text: memory, ldap, chain, oauth
+        correct: false
+        explanation: No oauth provider ships with the framework; external identity is an authenticator concern.
+      - id: CHO-x95prbbmhgq4
+        text: array, id, ldap, chain
         correct: false
         explanation: The in-configuration provider is named memory, not array.
-      - id: CHO-213t5hcs9f7d
-        text: entity, memory, file, chain
-        correct: false
-        explanation: There is no file-backed provider; users written in configuration use memory.
-    explanation: entity loads a persisted user by one property, memory holds users written straight into
-      the configuration, ldap queries a directory, and chain tries several in order. Anything else is
-      a custom provider implementing the interface yourself.
+    explanation: Executed with SecurityBundle 8.0.15 alone, an entity provider is rejected with "Available
+      options are chain, id, ldap, memory". SecurityBundle::build() registers memory and ldap, and chain
+      and id are part of its own configuration tree.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
