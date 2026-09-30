@@ -625,6 +625,73 @@ version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 9 — *Factories* — RAFFINÉE
+
+`CRS-1bkg7pkf78c7` · `OIT-h2n7d7dbr56p` · STANDARD · **343 → 541 mots** sur 900.
+Aucun niveau promu. Exécutions dans l'application FrameworkBundle 8.0.15,
+composants fixés en `8.0.*`, le 2026-09-29.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 8 du lot 09 (PR #261, `ea6eec4`) | 36679606411, success | `ok  lot-09  the semantic configuration page carries its four flashcard levels, the unknown key, the first prepend and the template paths` |
+
+### Un exemple qui ne produit pas de service
+
+Le tableau des écritures illustrait la fonction PHP par `factory: 'strtoupper'`.
+Exécuté : le mécanisme appelle bien la fonction, mais `get()` échoue —
+`TypeError`, « Container::make(): Return value must be of type ?object, string
+returned ». Un service est un objet ; l'exemple devient une fonction qui rend un
+objet.
+
+### Une écriture manquante
+
+La page annonçait « quatre écritures ». `YamlFileLoader` transforme aussi
+`factory: '@app.factory'` en appel de `__invoke()` — la fabrique invocable,
+documentée dans `factories.rst` (8.0). Exécuté : les **cinq** écritures
+produisent le service. La page est corrigée.
+
+### Confirmé ou ajouté par l'exécution
+
+- Avec `factory: [null, 'create']` : constructeur appelé 0 fois, `create()` une
+  fois, deux `get()` rendent le même objet.
+- `#[Autoconfigure(constructor: 'make')]` : le service vient de la méthode, le
+  constructeur n'est pas appelé.
+- Le conteneur ne vérifie pas le type retourné : une fabrique déclarée pour
+  `Liar` qui rend un `stdClass` compile ; `get()` rend le `stdClass` et le
+  consommateur typé `Liar` échoue, « must be of type App\P9\Liar, stdClass
+  given ».
+
+**Questions.** `QST-xw4d2n9a8hz5`, `QST-1ss1gkatj0te` (LEARNING) et
+`QST-arfb4vy3eesd` (VALIDATION) relues : exactes, inchangées. L'item ne porte pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-j8n3qsftrmm5` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`string returned`, `stdClass given` et `__invoke`, absentes de la version
+`master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle 8.0.15 (2026-09-29) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 051 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *Factories* (STANDARD, 343 / 900).
+Page 10 — *Compiler passes* (DEEP, 548 / 1200).

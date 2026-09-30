@@ -2821,6 +2821,32 @@ jobs:
           else
             echo "ok  lot-09  the semantic configuration page carries its four flashcard levels, the unknown key, the first prepend and the template paths"
           fi
+          # Lot 09 refinement, page 9 (Factories): the four flashcard levels,
+          # the error of a factory returning a string, the type error of a
+          # factory returning the wrong class and the invokable factory.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-factories -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/factories")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page factories serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-factories || missing="$missing l9fac:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-factories || missing="$missing l9fac:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-factories || missing="$missing l9fac:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-factories || missing="$missing l9fac:no-trap-heading"
+          grep -aq 'string returned' /tmp/l9r-factories \
+            || missing="$missing l9fac:no-string-returned"
+          grep -aq 'stdClass given' /tmp/l9r-factories \
+            || missing="$missing l9fac:no-wrong-class"
+          grep -aq '__invoke' /tmp/l9r-factories \
+            || missing="$missing l9fac:no-invokable"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the factories page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the factories page carries its four flashcard levels, the string return, the wrong class and the invokable factory"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

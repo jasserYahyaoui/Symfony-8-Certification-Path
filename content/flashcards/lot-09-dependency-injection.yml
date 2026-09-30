@@ -143,6 +143,7 @@ flashcards:
 - id: FLC-j8n3qsftrmm5
   official_item: OIT-h2n7d7dbr56p
   language: fr
+  level: RECALL
   front: Avec une fabrique, à qui arguments est-il passé ?
   back: À la fabrique. Le constructeur du service n'est pas appelé du tout.
   explanation: Le conteneur enregistre la valeur retournée par la fabrique ; le constructeur est hors
@@ -1587,4 +1588,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
+    verified_at: '2026-09-29'
+- id: FLC-tgwxwfrf75bb
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: RECALL
+  front: 'Symfony : que signifie factory: ''@app.factory'', sans nom de méthode ?'
+  back: 'Le service `app.factory` est **invocable** : le conteneur appelle son `__invoke()`.'
+  explanation: '`YamlFileLoader` transforme `''@id''` en `[Reference, ''__invoke'']` ; exécuté, le service est produit.'
+  memorization_justification: Cinquième écriture, souvent oubliée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Loader/YamlFileLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Loader/YamlFileLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: parseCallable() — "@service" becomes [Reference, "__invoke"]
+    verified_at: '2026-09-29'
+- id: FLC-qbmadhqw0wqp
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut désigne une méthode statique de la classe comme fabrique ?'
+  back: '`#[Autoconfigure(constructor: ''create'')]`.'
+  explanation: 'Exécuté : le service vient de la méthode, le constructeur n''est pas appelé.'
+  memorization_justification: Fabrique déclarée depuis la classe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autoconfigure.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Autoconfigure.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Autoconfigure constructor option
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-znaqp8qejrk9
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi arguments alimente-t-il la fabrique et pas le constructeur ?'
+  back: 'Parce que le constructeur n''est pas appelé : exécuté, 0 appel au constructeur, 1 appel à `create()`.'
+  explanation: Le conteneur enregistre la valeur retournée par la fabrique.
+  memorization_justification: Chemin de construction.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-2pce5f928tzr
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : un service construit par une fabrique est-il partagé ?'
+  back: 'Oui, comme tout service : la fabrique est appelée une fois, deux `get()` rendent le même objet.'
+  explanation: Exécuté avec dependency-injection 8.0.15.
+  memorization_justification: Cycle de vie inchangé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-zfw5vjvskne1
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : déclarer un service construit par la méthode build() du service App\Factory.'
+  back: '`factory: [''@App\Factory'', ''build'']` ; les `arguments` sont passés à `build()`.'
+  explanation: Le `@` fait appeler la méthode sur le service, non statiquement.
+  memorization_justification: Fabrique non statique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-ps333a3yr7hk
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : la fabrique est une méthode statique create() de la classe du service. Écriture YAML la plus courte ?'
+  back: '`factory: [null, ''create'']` — `null` désigne la classe du service.'
+  explanation: 'L''option `constructor: create` est l''alternative documentée.'
+  memorization_justification: Fabrique sur soi-même.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-7b4dcc3qa42g
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : factory: ''strtoupper'' avec un argument produit-il un service ?'
+  back: 'Non : exécuté, `get()` lève `TypeError` — « Return value must be of type ?object, string returned ».'
+  explanation: Le mécanisme accepte tout appelable, mais un service doit être un objet.
+  memorization_justification: Appelable valide, service invalide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Container.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Container.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'Container::make(): ?object'
+    verified_at: '2026-09-29'
+- id: FLC-nkx2tz1wn3cq
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : le conteneur vérifie-t-il que la fabrique retourne la classe déclarée ?'
+  back: 'Non : exécuté, une fabrique déclarée pour `Liar` qui rend un `stdClass` compile ; le consommateur typé `Liar` échoue en `TypeError`.'
+  explanation: L'autowiring se fie à la classe déclarée ; l'erreur apparaît chez le consommateur.
+  memorization_justification: Contrôle de type supposé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-01t2qqerjqx9
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : [null, ''create''] appelle-t-il une fonction globale create() ?'
+  back: 'Non : `null` désigne la classe du service ; une fonction s''écrit en chaîne seule.'
+  explanation: '`factory: ''make_newsletter''` appelle la fonction.'
+  memorization_justification: Rôle du null.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
+    verified_at: '2026-09-29'
+- id: FLC-n6p6xh6m408n
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il une clé factory_arguments pour passer des arguments à une fabrique ?'
+  back: 'Non : cette clé n''existe pas ; `arguments` va à la fabrique.'
+  explanation: Le constructeur n'étant pas appelé, rien n'est passé ailleurs.
+  memorization_justification: Clé inventée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: static and non-static factories, invokable factories, constructor option
     verified_at: '2026-09-29'
