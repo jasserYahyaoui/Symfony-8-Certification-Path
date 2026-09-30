@@ -49,6 +49,7 @@ flashcards:
 - id: FLC-paer6jdxzr95
   official_item: OIT-xh63g15rz6n3
   language: fr
+  level: RECALL
   front: Quelles deux sections de security.yaml appliquent la première correspondance ?
   back: 'firewalls et access_control — mais elles décident de deux choses différentes : comment on s''authentifie,
     et ce qu''il faut pour entrer.'
@@ -695,4 +696,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: Voter::vote() — ACCESS_ABSTAIN when supports() is false
+    verified_at: '2026-09-30'
+- id: FLC-mqj4570c2wn3
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les quatre sections principales de security.yaml ?'
+  back: '`password_hashers`, `providers`, `firewalls`, `access_control` — plus `role_hierarchy`.'
+  explanation: Hachage, origine des utilisateurs, manière de s'authentifier, conditions d'accès.
+  memorization_justification: Plan du fichier.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-pkhs0gah7wye
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande liste les pare-feux et détaille l''un d''eux ?'
+  back: '`php bin/console debug:firewall` ; avec un nom, `debug:firewall main`.'
+  explanation: 'Exécuté : sans argument, la commande liste `main` et `api`.'
+  memorization_justification: Outil de diagnostic.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-d5m12ekr5tn4
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi access_control ne s''applique-t-il pas sous un pare-feu security: false ?'
+  back: 'Parce que c''est l''`AccessListener` du pare-feu qui l''applique, et qu''un pare-feu `security: false` n''a aucun écouteur.'
+  explanation: '`SecurityExtension` rend une liste d''écouteurs vide pour `security: false`.'
+  memorization_justification: Où vit access_control.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFirewall() — security false returns no listeners; security.access_listener
+    verified_at: '2026-09-30'
+- id: FLC-yttqary3e0dc
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi l''erreur d''un pare-feu fourre-tout déclaré en premier est-elle difficile à voir ?'
+  back: 'Parce qu''elle est silencieuse : la configuration est acceptée, et le pare-feu suivant n''est jamais atteint.'
+  explanation: 'Exécuté : `main` sans motif avant `api` — `/api/fw` pris par `main`, cookie de session posé.'
+  memorization_justification: Erreur d'ordre silencieuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-4swcbchvb35j
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : deux fournisseurs sont déclarés. Que faut-il ajouter à chaque pare-feu ?'
+  back: 'La clé `provider: nom_du_fournisseur`.'
+  explanation: 'Exécuté, sans elle : « … is ambiguous as there is more than one registered provider ».'
+  memorization_justification: Choix explicite du fournisseur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-7s2h2pekdjvt
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : laisser passer /_profiler et /_wdt sans aucune sécurité.'
+  back: 'Un pare-feu `dev` en premier : `pattern: ^/(_profiler|_wdt)/` et `security: false`.'
+  explanation: C'est la configuration par défaut documentée.
+  memorization_justification: Pare-feu de développement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-ws43vz89zwqr
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : voir la configuration de sécurité réellement appliquée, valeurs par défaut comprises.'
+  back: '`php bin/console debug:config security`.'
+  explanation: Le fichier seul ne montre pas les valeurs remplies par défaut.
+  memorization_justification: Configuration résolue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-kqnf85j1mhfw
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: TRAP
+  front: 'Symfony : un pare-feu security: false laisse-t-il access_control en vigueur ?'
+  back: 'Non : aucun écouteur, donc aucune règle. Exécuté, `/free/page` sous `ROLE_ADMIN` répond 200 à un anonyme.'
+  explanation: 'Lu dans `SecurityExtension` : retour anticipé avec une liste d''écouteurs vide.'
+  memorization_justification: Croyance en deux mécanismes indépendants.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFirewall() — security false returns no listeners; security.access_listener
+    verified_at: '2026-09-30'
+- id: FLC-2b1wxq78epfc
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: TRAP
+  front: 'Symfony : ^/rules en PUBLIC_ACCESS avant ^/rules/a en ROLE_ADMIN protège-t-il /rules/a ?'
+  back: 'Non : la première règle correspondante s''applique ; exécuté, `/rules/a` répond 200 à un anonyme.'
+  explanation: La règle la plus spécifique doit venir avant la plus générale.
+  memorization_justification: Spécificité supposée prioritaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-sjxnyjr7rajb
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: TRAP
+  front: 'Symfony : un pare-feu sans pattern déclaré en premier provoque-t-il une erreur de configuration ?'
+  back: 'Non : il capte toutes les requêtes et les pare-feux suivants ne sont jamais utilisés, sans message.'
+  explanation: Exécuté avec SecurityBundle 8.0.15.
+  memorization_justification: Erreur supposée détectée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
     verified_at: '2026-09-30'

@@ -19,7 +19,7 @@ périmètre sur instruction.
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
-| 10 (Security) | **en cours** — pages 1–2 déployées (PR #267, #268) ; page 3 en PR | `docs/progress/lot-10-refinement.md` |
+| 10 (Security) | **en cours** — pages 1–3 déployées (PR #267 à #269) ; page 4 en PR | `docs/progress/lot-10-refinement.md` |
 | 11 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -34,8 +34,8 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 3 du lot 10 après CI verte,
-lire son smoke test, puis page 4 (*Configuration*).
+**Prochaine action** : fusionner la PR de la page 4 du lot 10 après CI verte,
+lire son smoke test, puis page 5 (*Providers*).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
