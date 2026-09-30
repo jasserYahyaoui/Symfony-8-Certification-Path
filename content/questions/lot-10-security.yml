@@ -926,7 +926,7 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-psq7sd74p14g
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-rwa6m06crs1h
     domain: symfony
@@ -948,17 +948,17 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - firewalls
     choices:
-      - id: CHO-pb0h6c8ghdjy
-        text: The security system does not authenticate there
+      - id: CHO-qkb426j3943q
+        text: Nothing runs there, access_control included
         correct: true
-      - id: CHO-2txajzwc3n7a
-        text: Every visitor is granted access to those URLs
+      - id: CHO-7z4dvejd34jh
+        text: Its URLs are still checked against access_control rules
         correct: false
-        explanation: It is not an authorization decision; access_control still applies separately.
+        explanation: access_control is enforced by the firewall's access listener, and a security-false firewall has no listener at all.
       - id: CHO-6mxy2k2yhvm3
         text: Only anonymous visitors may use those URLs
         correct: false
@@ -966,15 +966,22 @@ questions:
       - id: CHO-nyk99bhnaqt2
         text: The firewall is disabled and the next one takes over
         correct: false
-        explanation: The firewall still matches; it simply performs no authentication.
-    explanation: It switches the firewall off as an authentication mechanism for the matched URLs, typically
-      the profiler and static assets.
+        explanation: The firewall still matches and takes the request; it just runs no listener.
+    explanation: A firewall declared with security set to false gets no listeners, so neither
+      authentication nor the access listener that enforces access_control runs on the matched URLs. It
+      suits the profiler and static assets.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
         branch: '8.0'
         symbol_or_lines: security
         verified_at: '2026-09-01'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+        repository: symfony/symfony
+        branch: '8.0'
+        symbol_or_lines: createFirewall() — security false returns an empty listener list
+        verified_at: '2026-09-30'
   - id: QST-62t90ghtbqzj
     question_archetype: API_SIGNATURE
     assesses_outcomes:

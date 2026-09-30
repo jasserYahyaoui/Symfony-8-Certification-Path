@@ -85,6 +85,7 @@ flashcards:
 - id: FLC-9j0hj0sv3c6j
   official_item: OIT-rwa6m06crs1h
   language: fr
+  level: RECALL
   front: Combien de pare-feux traitent une requête donnée ?
   back: 'Un seul : le premier dont le pattern correspond. Les suivants ne sont jamais consultés.'
   explanation: Un pare-feu sans pattern attrape tout et doit donc être déclaré en dernier.
@@ -1035,4 +1036,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: EntityFactory — getKey()
+    verified_at: '2026-09-30'
+- id: FLC-14z8tj46mxps
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle clé partage l''authentification entre deux pare-feux ?'
+  back: '`context`, avec la même valeur sur les deux pare-feux.'
+  explanation: 'Exécuté : sans `context`, `alice` connectée sur `main` est `null` sur `admin` ; avec `context: shared`, elle y est connue.'
+  memorization_justification: Partage du contexte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFirewall() — security false returns no listeners; context key
+    verified_at: '2026-09-30'
+- id: FLC-cg1xen5m61ee
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: RECALL
+  front: 'Symfony : que désactive security: false sur un pare-feu ?'
+  back: 'Tous ses écouteurs : l''authentification **et** l''`AccessListener`, donc `access_control`.'
+  explanation: '`SecurityExtension` rend une liste d''écouteurs vide.'
+  memorization_justification: 'Portée de security: false.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFirewall() — security false returns no listeners; context key
+    verified_at: '2026-09-30'
+- id: FLC-q3np73b4yht2
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : que gagne-t-on à déclarer un pare-feu lazy ?'
+  back: Le jeton et l'utilisateur ne sont chargés que si la page les demande ; sinon, aucun appel au fournisseur.
+  explanation: 'Exécuté : sur `/plain` avec cookie, aucun appel en `lazy`, `refreshUser()` à chaque requête sans `lazy`.'
+  memorization_justification: Effet mesurable de lazy.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser()
+    verified_at: '2026-09-30'
+- id: FLC-j5qmb923bq8y
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un pare-feu dev mal placé désactiverait-il la sécurité de l''application ?'
+  back: 'Parce que le premier pare-feu correspondant prend la requête : un `security: false` trop large capte les URL et n''applique rien.'
+  explanation: Ni authentification ni `access_control` n'y tournent.
+  memorization_justification: Ordre et désactivation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+- id: FLC-tmmgfptpc68v
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une API à jetons et un site à formulaire dans la même application. Comment ordonner les pare-feux ?'
+  back: '`dev` (`security: false`), puis `api` (`pattern: ^/api`, `stateless: true`), puis `main` sans pattern, en dernier.'
+  explanation: Le fourre-tout se déclare en dernier.
+  memorization_justification: Configuration type.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+- id: FLC-rn8yz8c6wd9w
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un back-office sur ^/admin doit reconnaître l''utilisateur connecté sur main. Que configurer ?'
+  back: '`context: shared` (même valeur) sur `admin` et sur `main`.'
+  explanation: Exécuté avec SecurityBundle 8.0.15.
+  memorization_justification: Authentification partagée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+- id: FLC-xn66nhp6dwy7
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: TRAP
+  front: 'Symfony : security: false laisse-t-il access_control protéger ces URL ?'
+  back: 'Non : aucun écouteur ne tourne. Exécuté, une règle `ROLE_ADMIN` sur ces URL laisse un anonyme obtenir 200.'
+  explanation: C'est bien « tout le monde passe ».
+  memorization_justification: Croyance en une autorisation indépendante.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFirewall() — security false returns no listeners; context key
+    verified_at: '2026-09-30'
+- id: FLC-5499cdhqv8q2
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: TRAP
+  front: 'Symfony : se connecter sur le pare-feu main connecte-t-il sur le pare-feu admin ?'
+  back: 'Non, par défaut chaque pare-feu a son propre contexte de session : l''utilisateur y est anonyme.'
+  explanation: Il faut une clé `context` commune.
+  memorization_justification: Authentification supposée globale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+- id: FLC-q8j9eyczr7yf
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: TRAP
+  front: 'Symfony : un pare-feu sans pattern déclaré en premier est-il refusé par la configuration ?'
+  back: 'Non : il est accepté et capte toutes les requêtes ; les pare-feux suivants ne servent plus.'
+  explanation: 'Exécuté : `/api/...` pris par `main`, qui pose un cookie de session.'
+  memorization_justification: Erreur supposée détectée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Firewall; lazy anonymous mode; context
+    verified_at: '2026-09-30'
+- id: FLC-p7mcq1vpqndn
+  official_item: OIT-rwa6m06crs1h
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans lazy, une page qui n''utilise pas l''utilisateur recharge-t-elle celui-ci ?'
+  back: 'Oui, si la requête porte un cookie de session : `refreshUser()` est appelé à chaque requête.'
+  explanation: Exécuté avec un fournisseur qui compte ses appels.
+  memorization_justification: Coût caché d'un pare-feu non paresseux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser()
     verified_at: '2026-09-30'
