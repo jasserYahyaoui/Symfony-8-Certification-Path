@@ -116,11 +116,11 @@ flashcards:
 - id: FLC-y8dwv3bw5s2b
   official_item: OIT-ta627mbwfz7m
   language: fr
+  level: TRAP
   front: Changer algorithm en cours de route casse-t-il les mots de passe existants ?
-  back: 'Non : le hachage stocké porte son propre algorithme. migrate_from accepte l''ancien et réencode
-    à la connexion.'
-  explanation: Le réencodage n'est sauvegardé que si le fournisseur implémente PasswordUpgraderInterface.
-  memorization_justification: La crainte de tout casser fait éviter une migration pourtant transparente.
+  back: 'Pas s''ils sont en bcrypt, argon2 ou pbkdf2 par défaut : `auto` sait les vérifier. Un condensat maison, `sha256` par exemple, est refusé sans `migrate_from`.'
+  explanation: 'Exécuté avec SecurityBundle 8.0.15 : condensat `sha256` hexadécimal, `auto` sans `migrate_from`, connexion refusée en 401 ; avec `migrate_from`, 200.'
+  memorization_justification: Limite du hachage auto-descriptif.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
@@ -1375,4 +1375,188 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: 8.0 — Remove UserInterface::eraseCredentials(); erase credentials e.g. using __serialize()
+    verified_at: '2026-09-30'
+- id: FLC-6v76sdck4316
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel algorithme algorithm: auto utilise-t-il pour hacher en 8.0 ?'
+  back: '**bcrypt**, coût 13 par défaut (`$2y$13$…`).'
+  explanation: 'Exécuté avec password-hasher 8.0.8, sodium disponible ; la documentation : « currently Bcrypt ».'
+  memorization_justification: Algorithme réel d'auto.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The "auto" Hasher — currently Bcrypt; Password Migration; migrate_from
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/NativePasswordHasher.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/NativePasswordHasher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PASSWORD_BCRYPT default; cost 13
+    verified_at: '2026-09-30'
+- id: FLC-nw4sgmehf8se
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles méthodes UserPasswordHasherInterface déclare-t-elle ?'
+  back: '`hashPassword()`, `isPasswordValid()` et `needsRehash()`, chacune recevant l''utilisateur.'
+  explanation: L'utilisateur détermine le hacheur configuré.
+  memorization_justification: Contrat du service de hachage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/UserPasswordHasherInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/UserPasswordHasherInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hashPassword(), isPasswordValid(), needsRehash()
+    verified_at: '2026-09-30'
+- id: FLC-777jttv3bgm1
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels authentificateurs fournis ajoutent un PasswordUpgradeBadge ?'
+  back: '`form_login`, `json_login` et `http_basic`.'
+  explanation: Sans ce badge, `PasswordMigratingListener` ne fait rien.
+  memorization_justification: Condition de la migration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onLoginSuccess() — PasswordUpgradeBadge; PasswordUpgraderInterface
+    verified_at: '2026-09-30'
+- id: FLC-mrzazdafvqn7
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi auto vérifie-t-il un hachage argon2id sans le produire lui-même ?'
+  back: 'Parce qu''`auto` est une **chaîne** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
+  explanation: 'Exécuté : argon2id accepté, `needsRehash()` vrai, puis rehaché en `$2y$13$` à la connexion.'
+  memorization_justification: Chaîne de hacheurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getHasherConfigFromAlgorithm() — auto: native, sodium, pbkdf2'
+    verified_at: '2026-09-30'
+- id: FLC-2gh62cc28177
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un condensat sha256 maison n''est-il plus vérifié après passage à auto ?'
+  back: 'Parce qu''il ne **porte pas son algorithme** : une suite hexadécimale ne dit pas comment la relire, contrairement à `$2y$` ou `$argon2id$`.'
+  explanation: 'Exécuté : 401 sans `migrate_from`.'
+  memorization_justification: Limite de l'auto-description.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getHasherConfigFromAlgorithm() — auto: native, sodium, pbkdf2'
+    verified_at: '2026-09-30'
+- id: FLC-encfmq0qbrad
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : migrer des mots de passe stockés en sha256 hexadécimal (une itération) vers auto.'
+  back: 'Déclarer `legacy: { algorithm: sha256, encode_as_base64: false, iterations: 1 }`, puis `algorithm: auto` et `migrate_from: [legacy]` sur la classe utilisateur ; un fournisseur `PasswordUpgraderInterface` enregistre le nouveau hachage.'
+  explanation: 'Exécuté : 200, `upgradePassword()` reçoit un `$2y$13$…`.'
+  memorization_justification: Configuration de migration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The "auto" Hasher — currently Bcrypt; Password Migration; migrate_from
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onLoginSuccess() — PasswordUpgradeBadge; PasswordUpgraderInterface
+    verified_at: '2026-09-30'
+- id: FLC-1g946y01n2ft
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : accélérer les tests qui hachent des mots de passe.'
+  back: 'Sous `when@test`, `cost: 4` sur le hacheur — « lowest possible value for bcrypt ».'
+  explanation: 'Exécuté : préfixe `$2y$04$`.'
+  memorization_justification: Configuration de test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The "auto" Hasher — currently Bcrypt; Password Migration; migrate_from
+    verified_at: '2026-09-30'
+- id: FLC-4xn8q0hzt0ym
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: TRAP
+  front: 'Symfony : auto choisit-il argon2 quand sodium est installé ?'
+  back: 'Non : `auto` hache en bcrypt ; sodium ne sert qu''à vérifier les hachages argon2 existants.'
+  explanation: 'Exécuté avec sodium disponible : `$2y$13$`.'
+  memorization_justification: Croyance en un choix selon l'installation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getHasherConfigFromAlgorithm() — auto: native, sodium, pbkdf2'
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/NativePasswordHasher.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/NativePasswordHasher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PASSWORD_BCRYPT default; cost 13
+    verified_at: '2026-09-30'
+- id: FLC-zk0m2j23s8er
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: TRAP
+  front: 'Symfony : migrate_from sans PasswordUpgraderInterface échoue-t-il bruyamment ?'
+  back: 'Non : la connexion réussit (200) et le hachage reste l''ancien, sans message.'
+  explanation: Exécuté avec un fournisseur qui n'implémente pas l'interface.
+  memorization_justification: Échec silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/PasswordMigratingListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onLoginSuccess() — PasswordUpgradeBadge; PasswordUpgraderInterface
+    verified_at: '2026-09-30'
+- id: FLC-6w46pvsj9z5m
+  official_item: OIT-ta627mbwfz7m
+  language: fr
+  level: TRAP
+  front: 'Symfony : migrate_from ne sert-il qu''à réencoder, pas à vérifier ?'
+  back: 'Non : il fournit aussi les hacheurs capables de **vérifier** l''ancien format ; sans lui, un condensat maison est refusé.'
+  explanation: 'Exécuté : 401 sans `migrate_from`, 200 avec.'
+  memorization_justification: Rôle de migrate_from.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The "auto" Hasher — currently Bcrypt; Password Migration; migrate_from
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getHasherConfigFromAlgorithm() — auto: native, sodium, pbkdf2'
     verified_at: '2026-09-30'

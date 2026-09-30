@@ -19,7 +19,7 @@ périmètre sur instruction.
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
-| 10 (Security) | **en cours** — pages 1–6 déployées (PR #267 à #272) ; page 7 en PR | `docs/progress/lot-10-refinement.md` |
+| 10 (Security) | **en cours** — pages 1–7 déployées (PR #267 à #273) ; page 8 en PR | `docs/progress/lot-10-refinement.md` |
 | 11 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -34,11 +34,11 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 7 du lot 10 après CI verte,
-lire son smoke test, puis page 8 (*Password hashers*) : `auto` hache en bcrypt
-(`$2y$13$`), et un hachage `sha256` maison n'est plus vérifié sans
-`migrate_from` — « changer d'algorithme ne casse rien » est faux dans la page,
-`QST-cqx6wvrkts6w`, `FLC-y8dwv3bw5s2b` et `OUT-0vbk74q4f9dg`.
+**Prochaine action** : fusionner la PR de la page 8 du lot 10 après CI verte,
+lire son smoke test, puis page 9 (*Roles*) : `QST-1cerp5ba1czy` pénalise une
+réponse exacte — décorer `security.role_hierarchy` calcule bien une hiérarchie
+à l'exécution (exécuté) ; seules les *valeurs* de `role_hierarchy` sont
+statiques.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

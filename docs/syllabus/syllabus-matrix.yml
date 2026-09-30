@@ -6742,14 +6742,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une signature contre-intuitive, un hachage auto-descriptif qui rend un changement d'algorithme
-      inoffensif, et une migration transparente dont l'échec est silencieux si le fournisseur ne
-      l'implémente pas.
+      Une signature contre-intuitive, un changement d'algorithme inoffensif pour un hachage
+      auto-descriptif mais pas pour un condensat maison, et une migration transparente dont l'échec
+      est silencieux si le fournisseur ne l'implémente pas.
     learning_outcomes:
       - id: OUT-tct5sch3yndb
         outcome: Appeler hashPassword() avec les bons arguments
       - id: OUT-0vbk74q4f9dg
-        outcome: Énoncer pourquoi changer d'algorithme ne casse rien
+        outcome: Prévoir quels hachages existants restent vérifiables après un changement d'algorithme
       - id: OUT-3h4gmgbt579q
         outcome: Configurer migrate_from et nommer sa dépendance
     required_assessment_modes:
