@@ -1155,7 +1155,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-0vbk74q4f9dg
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-ta627mbwfz7m
     domain: symfony
@@ -1167,7 +1167,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: The hashing algorithm is changed in security.yaml. What happens to passwords already stored?
+    question: Stored passwords were hashed by a custom sha256 hasher (hex output, one iteration). The user
+      class now uses algorithm auto, without migrate_from. What happens when those users log in?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1177,33 +1178,42 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - hashers
     choices:
-      - id: CHO-r15mrhhnjbhc
-        text: 'They keep working: each hash carries its algorithm'
+      - id: CHO-se5e1tsbhze0
+        text: 'Login fails: auto cannot verify those hashes'
         correct: true
-      - id: CHO-kzgqgckmg0ks
-        text: They all become invalid and must be reset
+      - id: CHO-bvgdy7f5ph81
+        text: 'It works: every stored hash carries its algorithm'
         correct: false
-        explanation: Nothing is re-hashed or invalidated by a configuration change.
-      - id: CHO-gjb2w6e4qfxj
-        text: They are re-hashed the next time the container compiles
+        explanation: bcrypt and argon2 hashes name their algorithm; a bare hex digest names none, so nothing
+          tells auto how to read it.
+      - id: CHO-2x28smef62ex
+        text: It works, and the hashes are upgraded at login
         correct: false
-        explanation: Re-hashing needs the plaintext password, which is only available at login.
-      - id: CHO-1mg5sfsc2gbk
-        text: They keep working only if migrate_from lists the old algorithm
+        explanation: Verification fails first, so there is nothing to upgrade. migrate_from would have to name
+          the legacy hasher.
+      - id: CHO-edrghbm8n8c2
+        text: The container fails to compile
         correct: false
-        explanation: The stored hash is self-describing; migrate_from governs upgrading, not verification.
-    explanation: A stored hash records the algorithm that produced it, so verification still works. migrate_from
-      is what re-encodes it at the next successful login.
+        explanation: The configuration is valid; the failure only appears when a login is attempted.
+    explanation: Executed with SecurityBundle 8.0.15, auto verifies bcrypt, argon2 and default pbkdf2 hashes,
+      but a custom sha256 digest is refused with 401 unless migrate_from names a hasher configured like
+      the legacy one.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
         branch: '8.0'
         symbol_or_lines: password hashing
         verified_at: '2026-09-01'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
+        repository: symfony/symfony
+        branch: '8.0'
+        symbol_or_lines: getHasherConfigFromAlgorithm() — auto chain native, sodium, pbkdf2; migrate_from
+        verified_at: '2026-09-30'
   - id: QST-k73jk5cstrtv
     question_archetype: API_SIGNATURE
     assesses_outcomes:

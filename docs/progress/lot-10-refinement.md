@@ -28,7 +28,7 @@ première page.
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | **RAFFINÉE** (PR #270) |
 | 5 | Providers | STANDARD | 347 / 900 | 1 | **RAFFINÉE** (PR #271) |
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | **RAFFINÉE** (PR #272) |
-| 7 | Users | STANDARD | 354 / 900 | 1 | à faire |
+| 7 | Users | STANDARD | 354 / 900 | 1 | **RAFFINÉE** (PR #273) |
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | à faire |
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | à faire |
 | 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | à faire |
@@ -599,6 +599,96 @@ les cartes : écartée.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 8 — *Password hashers* — RAFFINÉE
+
+`CRS-g4sth72ww979` · `OIT-ta627mbwfz7m` · STANDARD · **333 → 611 mots** sur 900.
+Aucun niveau promu. Exécutions avec password-hasher 8.0.8 (sodium disponible)
+en direct sur `PasswordHasherFactory`, puis de bout en bout sur l'application
+FrameworkBundle + SecurityBundle 8.0.15, `http_basic`, avec un fournisseur
+`PasswordUpgraderInterface` qui journalise `upgradePassword()`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 7 du lot 10 (PR #273, `f8b46e0`) | 36765388073, success | `ok  lot-10  the users page carries its four flashcard levels, the serialize hint, the checker event and the roleless user` |
+
+### Deux erreurs de fond
+
+**1. `auto` ne choisit pas selon l'installation.** La page écrivait « aujourd'hui
+bcrypt ou sodium/argon2 selon l'installation ». Lu dans
+`PasswordHasherFactory::getHasherConfigFromAlgorithm()` : `auto` construit la
+chaîne `native`, `sodium` (si disponible), `pbkdf2`, dont le premier maillon
+hache ; `NativePasswordHasher` utilise `PASSWORD_BCRYPT`, coût 13. La
+documentation 8.0 dit « currently Bcrypt ». Exécuté avec sodium disponible :
+`$2y$13$`. Un hachage argon2id existant est vérifié, marqué `needsRehash()`, et
+rehaché en `$2y$13$` à la connexion (exécuté de bout en bout).
+
+**2. Changer d'algorithme peut casser.** La page, le piège d'examen,
+`QST-cqx6wvrkts6w` (LEARNING), la carte `FLC-y8dwv3bw5s2b` et le résultat
+d'apprentissage `OUT-0vbk74q4f9dg` affirmaient que changer d'algorithme « ne
+casse rien » parce que le hachage stocké porte son algorithme, et que
+`migrate_from` « governs upgrading, not verification ». C'est vrai pour bcrypt,
+argon2 et pbkdf2 par défaut, faux pour un condensat maison. Exécuté : condensat
+`sha256` hexadécimal à une itération, `auto` sans `migrate_from` → **401** ;
+avec `migrate_from: [legacy]` → 200. `migrate_from` sert donc aussi à
+**vérifier**.
+
+Corrections : `QST-cqx6wvrkts6w` passe en **v2**, énoncé concret (« Stored
+passwords were hashed by a custom sha256 hasher … without migrate_from. What
+happens when those users log in? »), **quatre nouveaux choix**
+(`CHO-se5e1tsbhze0` correct, `CHO-bvgdy7f5ph81`, `CHO-2x28smef62ex`,
+`CHO-edrghbm8n8c2`), source `PasswordHasherFactory` ajoutée. La carte est
+réécrite et reçoit le niveau TRAP. Dans la matrice, `OUT-0vbk74q4f9dg` devient
+« Prévoir quels hachages existants restent vérifiables après un changement
+d'algorithme », et la justification du niveau est corrigée dans le même sens
+(niveau inchangé).
+
+### Confirmé par l'exécution
+
+| Fournisseur | `migrate_from` | Résultat |
+|---|---|---|
+| implémente `PasswordUpgraderInterface` | oui | 200, `upgradePassword()` reçoit un `$2y$13$…` |
+| ne l'implémente pas | oui | 200, hachage inchangé |
+| l'un ou l'autre | non | 401 |
+
+- `PasswordMigratingListener` exige un `PasswordUpgradeBadge` ;
+  `FormLoginAuthenticator`, `JsonLoginAuthenticator` et `HttpBasicAuthenticator`
+  en ajoutent un.
+- `cost: 4` : préfixe `$2y$04$`.
+- La configuration `bcrypt` vérifie aussi un pbkdf2 et un condensat sha512 par
+  défaut (hacheurs de secours ajoutés par la fabrique) ; non retenu dans la
+  page, faute de place utile à l'examen.
+
+**Questions.** `QST-k73jk5cstrtv` (LEARNING) et `QST-vz4hmhw240zg` (VALIDATION)
+relues : exactes, inchangées — la seconde est confirmée par la ligne « ne
+l'implémente pas » ci-dessus. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-y8dwv3bw5s2b` réécrite, niveau TRAP. L'item
+en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP), décompte
+relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`currently Bcrypt`, `PasswordMigratingListener` et `encode_as_base64`, absentes
+de la version `master` de la page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions password-hasher 8.0.8 et SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 161 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Password hashers* (STANDARD, 333 / 900).
+Page 9 — *Roles* (MINIMAL, 281 / 700).

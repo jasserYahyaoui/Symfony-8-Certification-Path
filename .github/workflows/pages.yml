@@ -3107,6 +3107,32 @@ jobs:
           else
             echo "ok  lot-10  the users page carries its four flashcard levels, the serialize hint, the checker event and the roleless user"
           fi
+          # Lot 10 refinement, page 8 (Password hashers): the four flashcard
+          # levels, what auto hashes with today, the listener that performs the
+          # migration and the legacy hasher it was executed against.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-hash -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/password-hashers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page password-hashers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-hash || missing="$missing l10hash:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-hash || missing="$missing l10hash:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-hash || missing="$missing l10hash:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-hash || missing="$missing l10hash:no-trap-heading"
+          grep -aq 'currently Bcrypt' /tmp/l10r-hash \
+            || missing="$missing l10hash:no-auto-algorithm"
+          grep -aq 'PasswordMigratingListener' /tmp/l10r-hash \
+            || missing="$missing l10hash:no-migrating-listener"
+          grep -aq 'encode_as_base64' /tmp/l10r-hash \
+            || missing="$missing l10hash:no-legacy-hasher"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the password hashers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the password hashers page carries its four flashcard levels, the auto algorithm, the migrating listener and the legacy hasher"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
