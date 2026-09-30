@@ -2925,6 +2925,32 @@ jobs:
           else
             echo "ok  lot-09  the service locators page carries its four flashcard levels, the restricted locator, the compile failure and the child bus"
           fi
+          # Lot 10 refinement, page 1 (Security Core, CSRF and PasswordHasher
+          # components): the four flashcard levels, the dev-only HTTP
+          # dependency, the optional session-aware storage and the factory.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-components -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/security-core-csrf-and-passwordhasher-components")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page security-core-csrf-and-passwordhasher-components serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-components || missing="$missing l10cmp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-components || missing="$missing l10cmp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-components || missing="$missing l10cmp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-components || missing="$missing l10cmp:no-trap-heading"
+          grep -aq 'require-dev' /tmp/l10r-components \
+            || missing="$missing l10cmp:no-require-dev"
+          grep -aq 'UsageTrackingTokenStorage' /tmp/l10r-components \
+            || missing="$missing l10cmp:no-tracking-storage"
+          grep -aq 'PasswordHasherFactory' /tmp/l10r-components \
+            || missing="$missing l10cmp:no-hasher-factory"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the security components page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the security components page carries its four flashcard levels, the dev-only HTTP dependency, the tracking storage and the hasher factory"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
