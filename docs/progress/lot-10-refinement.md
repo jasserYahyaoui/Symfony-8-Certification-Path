@@ -23,7 +23,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Security Core, CSRF and PasswordHasher components | STANDARD | 313 / 900 | 1 | **RAFFINÉE** (PR #267) |
-| 2 | Authentication | STANDARD | 325 / 900 | 1 | à faire |
+| 2 | Authentication | STANDARD | 325 / 900 | 1 | **RAFFINÉE** (PR #268) |
 | 3 | Authorization | STANDARD | 370 / 900 | 1 | à faire |
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | à faire |
 | 5 | Providers | STANDARD | 347 / 900 | 1 | à faire |
@@ -187,6 +187,67 @@ ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Authorization* — RAFFINÉE
+
+`CRS-8hwpzyk1hrq9` · `OIT-3qgn13f7zvqx` · STANDARD · **370 → 529 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15 : deux votants de test, pare-feux `http_basic` et
+`form_login`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 10 (PR #268, `5d738b1`) | 36755255509, success | `ok  lot-10  the authentication page carries its four flashcard levels, the entry point, the user reload and the fixation strategy` |
+
+### « Tous les votants » ne votent pas tous
+
+La page disait que l'`AccessDecisionManager` « interroge **tous les votants** ».
+Lu en 8.0.15 : `collectResults()` rend les votes **un par un** (générateur), et
+`AffirmativeStrategy::decide()` rend `true` au premier `ACCESS_GRANTED`. Exécuté,
+stratégie par défaut, deux votants supportant `EDIT` : le journal ne contient
+que `A.supports(EDIT)`, `A.vote` — le second votant n'est pas consulté. La page
+est corrigée ; la règle « un rôle passe par un votant » reste exacte.
+
+### Une question qui supposait un point d'entrée
+
+`QST-71pfa2rprjj4` (LEARNING) demandait ce qu'obtient un anonyme sur une page
+protégée, réponse « une redirection vers la connexion ». Exécuté, sur la même
+action : **401** avec `WWW-Authenticate: Basic realm="Secured Area"` sous
+`http_basic`, **302** vers la connexion sous `form_login`, **403** pour `alice`
+connue sans `ROLE_ADMIN`. La question passe en **v2** : l'énoncé précise « on a
+firewall that uses form_login » ; choix et bonne réponse inchangés, explication
+du distracteur 401 corrigée. La page montre les trois cas.
+
+**Questions.** `QST-ty80h8rawm9h` (LEARNING) et `QST-f698yhb20693` (VALIDATION)
+relues : exactes, inchangées. L'item ne porte pas de question holdout dans le
+fichier du lot.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-qtz62rzb36q3` reçoit le
+niveau TRAP. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`A.supports(EDIT)`, `Secured Area` et `AffirmativeStrategy`, absentes de la
+version `master` de la page et de ses cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 111 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Authorization* (STANDARD, 370 / 900).
+Page 4 — *Configuration* (STANDARD, 357 / 900).

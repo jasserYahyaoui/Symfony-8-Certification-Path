@@ -487,7 +487,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 4 novembre 2026
 
-- NOUVEAU · **Security : Authorization** (STANDARD) — 10 min · 370 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Security : Authorization** (STANDARD) — 19 min · 529 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Security : Configuration** (STANDARD) — 11 min · 357 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Security : Providers** (STANDARD) — 11 min · 347 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Security : Firewalls** (STANDARD) — 11 min · 350 mots · 4 questions, 1 flashcards
@@ -496,7 +496,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (10 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 - Révision **J+30** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 103 / 160 min*
+*Budget du jour : 112 / 160 min*
 
 ### Jeudi 5 novembre 2026
 

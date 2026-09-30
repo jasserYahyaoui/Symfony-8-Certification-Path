@@ -2977,6 +2977,32 @@ jobs:
           else
             echo "ok  lot-10  the authentication page carries its four flashcard levels, the entry point, the user reload and the fixation strategy"
           fi
+          # Lot 10 refinement, page 3 (Authorization): the four flashcard
+          # levels, the vote log that stops at the first grant, the HTTP Basic
+          # realm of the entry point and the affirmative strategy class.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-authz -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/authorization")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page authorization serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-authz || missing="$missing l10azn:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-authz || missing="$missing l10azn:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-authz || missing="$missing l10azn:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-authz || missing="$missing l10azn:no-trap-heading"
+          grep -aqF 'A.supports(EDIT)' /tmp/l10r-authz \
+            || missing="$missing l10azn:no-vote-log"
+          grep -aq 'Secured Area' /tmp/l10r-authz \
+            || missing="$missing l10azn:no-basic-realm"
+          grep -aq 'AffirmativeStrategy' /tmp/l10r-authz \
+            || missing="$missing l10azn:no-affirmative"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the authorization page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the authorization page carries its four flashcard levels, the short-circuited vote, the Basic realm and the affirmative strategy"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

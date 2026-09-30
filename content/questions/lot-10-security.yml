@@ -332,7 +332,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-rf2bzpb84d4y
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-3qgn13f7zvqx
     domain: symfony
@@ -344,8 +344,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: An anonymous visitor hits a page protected by denyAccessUnlessGranted(). What does the visitor
-      get?
+    question: On a firewall that uses form_login, an anonymous visitor hits a page protected by
+      denyAccessUnlessGranted(). What does the visitor get?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -355,7 +355,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - authorization
     choices:
@@ -369,7 +369,7 @@ questions:
       - id: CHO-999ehv890tye
         text: A 401 response with a WWW-Authenticate header
         correct: false
-        explanation: That is the HTTP-Basic behaviour, not the general case.
+        explanation: That is what an http_basic firewall's entry point sends; a form_login one redirects.
       - id: CHO-923p90rerv70
         text: A 404, to avoid disclosing the page's existence
         correct: false

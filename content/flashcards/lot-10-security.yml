@@ -34,6 +34,7 @@ flashcards:
 - id: FLC-qtz62rzb36q3
   official_item: OIT-3qgn13f7zvqx
   language: fr
+  level: TRAP
   front: Un accès refusé produit-il toujours un 403 ?
   back: Non. 403 si l'utilisateur est connu ; s'il est anonyme, le pare-feu déclenche l'entrée en authentification.
   explanation: Le code de statut dépend donc de l'authentification, pas de l'autorisation.
@@ -528,4 +529,170 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: Read existing security token from the session; User was reloaded from a user provider
+    verified_at: '2026-09-30'
+- id: FLC-j6me1f91v36f
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les trois valeurs qu''un votant peut rendre ?'
+  back: '`ACCESS_GRANTED`, `ACCESS_DENIED`, `ACCESS_ABSTAIN`.'
+  explanation: Constantes de `VoterInterface` ; la stratégie transforme ces votes en décision.
+  memorization_justification: Vocabulaire des votes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ACCESS_GRANTED, ACCESS_ABSTAIN, ACCESS_DENIED
+    verified_at: '2026-09-30'
+- id: FLC-5erc2wtv9xf6
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle exception lève denyAccessUnlessGranted() ?'
+  back: '`AccessDeniedException`, que le pare-feu transforme selon que l''utilisateur est connu ou non.'
+  explanation: 'Exécuté : 403 pour un utilisateur connu, réponse du point d''entrée pour un anonyme.'
+  memorization_justification: Mécanisme du refus.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-7k3jz5sfk4es
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle fonction Twig teste un attribut d''autorisation ?'
+  back: '`is_granted(''ROLE_ADMIN'')`, éventuellement avec un sujet.'
+  explanation: 'Même chemin que `isGranted()` : l''`AccessDecisionManager`.'
+  memorization_justification: Autorisation dans les gabarits.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-5aybzgzm6053
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi ROLE_ADMIN n''est-il pas comparé directement aux rôles de l''utilisateur ?'
+  back: 'Parce que l''`AccessDecisionManager` ne connaît aucun attribut : un rôle est jugé par un votant, comme `EDIT`.'
+  explanation: Seul le votant qui répond change d'un attribut à l'autre.
+  memorization_justification: Uniformité du mécanisme.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/AccessDecisionManager.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/AccessDecisionManager.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() — collectResults() yields one vote at a time
+    verified_at: '2026-09-30'
+- id: FLC-rqhsrsgjmsyv
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un anonyme et un utilisateur connu n''obtiennent-ils pas le même code sur la même page ?'
+  back: Parce que le refus d'un anonyme passe par le **point d'entrée** du pare-feu, celui d'un utilisateur connu donne 403.
+  explanation: 'Exécuté : 401 en `http_basic`, 302 en `form_login`, 403 pour `alice` sans `ROLE_ADMIN`.'
+  memorization_justification: Statut lié à l'authentification.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-jy478z9vy00s
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : n''autoriser la modification d''un article qu''à son auteur. Quel appel dans le contrôleur ?'
+  back: '`$this->denyAccessUnlessGranted(''POST_EDIT'', $post)` — le sujet permet au votant de comparer l''auteur.'
+  explanation: Un rôle ne peut pas exprimer une règle qui dépend de l'objet.
+  memorization_justification: Verbe métier et sujet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-t54en1ra3e5j
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un anonyme doit être redirigé vers /login quand l''accès lui est refusé. Que doit porter le pare-feu ?'
+  back: Un point d'entrée qui redirige, par exemple `form_login` avec `login_path`.
+  explanation: 'Exécuté : `form_login` donne 302 vers la connexion ; `http_basic` donnerait 401.'
+  memorization_justification: Choix du point d'entrée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-72333txg4f7c
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: TRAP
+  front: 'Symfony : sous la stratégie affirmative, tous les votants sont-ils consultés ?'
+  back: 'Non : le premier vote favorable arrête la consultation. Exécuté, le second votant n''est même pas interrogé sur `supports()`.'
+  explanation: L'`AccessDecisionManager` rend les votes un par un ; `AffirmativeStrategy` rend `true` au premier `ACCESS_GRANTED`.
+  memorization_justification: Consultation supposée exhaustive.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/AccessDecisionManager.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/AccessDecisionManager.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() — collectResults() yields one vote at a time
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/AffirmativeStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/AffirmativeStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() returns true on the first ACCESS_GRANTED
+    verified_at: '2026-09-30'
+- id: FLC-c5s8ragw0q9g
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: TRAP
+  front: 'Symfony : un accès refusé à un anonyme donne-t-il toujours une redirection vers la connexion ?'
+  back: 'Non : cela dépend du point d''entrée — 302 pour `form_login`, 401 avec `WWW-Authenticate` pour `http_basic`.'
+  explanation: Exécuté avec SecurityBundle 8.0.15.
+  memorization_justification: Généralisation du cas formulaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization); denyAccessUnlessGranted; is_granted
+    verified_at: '2026-09-30'
+- id: FLC-ggmqsjt5xpg5
+  official_item: OIT-3qgn13f7zvqx
+  language: fr
+  level: TRAP
+  front: 'Symfony : un votant d''objet appelé sans sujet refuse-t-il l''accès ?'
+  back: 'Non : s''il ne supporte pas l''attribut et le sujet, il **s''abstient** ; la décision revient à la stratégie.'
+  explanation: '`Voter::vote()` rend `ACCESS_ABSTAIN` quand `supports()` est faux.'
+  memorization_justification: Abstention confondue avec refus.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Voter::vote() — ACCESS_ABSTAIN when supports() is false
     verified_at: '2026-09-30'
