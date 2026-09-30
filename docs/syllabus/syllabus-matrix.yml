@@ -6576,7 +6576,7 @@ items:
       - id: OUT-km3tbkkw36s3
         outcome: Énoncer l'effet du rechargement à chaque requête
       - id: OUT-18068akbjm47
-        outcome: Nommer les quatre types fournis
+        outcome: Nommer les clés de fournisseur reconnues, entity comprise avec Doctrine
       - id: OUT-sy6g8zgjqqpj
         outcome: Énoncer la contrainte à plusieurs fournisseurs
     required_assessment_modes:

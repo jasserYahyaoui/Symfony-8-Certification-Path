@@ -25,7 +25,7 @@ première page.
 | 1 | Security Core, CSRF and PasswordHasher components | STANDARD | 313 / 900 | 1 | **RAFFINÉE** (PR #267) |
 | 2 | Authentication | STANDARD | 325 / 900 | 1 | **RAFFINÉE** (PR #268) |
 | 3 | Authorization | STANDARD | 370 / 900 | 1 | **RAFFINÉE** (PR #269) |
-| 4 | Configuration | STANDARD | 357 / 900 | 1 | à faire |
+| 4 | Configuration | STANDARD | 357 / 900 | 1 | **RAFFINÉE** (PR #270) |
 | 5 | Providers | STANDARD | 347 / 900 | 1 | à faire |
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | à faire |
 | 7 | Users | STANDARD | 354 / 900 | 1 | à faire |
@@ -316,6 +316,123 @@ figurait déjà sur la page : écartée.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 5 — *Providers* — RAFFINÉE
+
+`CRS-enbbsykx22xe` · `OIT-45p7535dk4s2` · STANDARD · **347 → 659 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15 (security-http 8.0.14), fournisseur maison
+`App\P13\FileUserProvider` qui journalise ses appels.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 4 du lot 10 (PR #270, `f8a4745`) | 36758266008, success | `ok  lot-10  the configuration page carries its four flashcard levels, the security-false page, the ambiguous provider and the extension` |
+
+### Trois erreurs de fond
+
+**1. Un rechargement raté n'invalide pas la session.** `QST-f49jfgm58qr0`
+(LEARNING) avait pour bonne réponse « Refreshing the user fails and the session
+is invalidated ». Lu dans `ContextListener` : le jeton est retiré par
+`$session->remove($this->sessionKey)` ; la session et ses autres données
+restent. Exécuté : utilisateur supprimé entre deux requêtes → `refreshUser`
+lève `UserNotFoundException`, journal « Username could not be found in the
+selected user provider », **401**. La question passe en **v2** : bonne réponse
+réécrite (`CHO-sp46qkhktamm`, « The refresh fails and the user is no longer
+authenticated »), explication corrigée, source `ContextListener` ajoutée.
+
+**2. Un rôle modifié en base déconnecte.** L'ancienne explication de la même
+question disait que le rechargement fait « prendre effet immédiatement » les
+changements de rôle ; la carte `FLC-6xnwnjg0fb3n` de la **page 2** (déjà
+déployée) demandait « pourquoi un utilisateur … voit-il ses rôles modifiés sans
+se reconnecter ? ». Les deux sont faux. Lu dans `ContextListener::hasUserChanged()` :
+rôles, mot de passe ou identifiant différents de ceux du jeton → jeton
+abandonné (ou `isEqualTo()` si la classe implémente `EquatableInterface`).
+Exécuté : `ROLE_EDITOR` ajouté à `alice` entre deux requêtes → `refreshUser(alice)`
+puis jeton `null`, `alice` anonyme ; rôles inchangés → jeton conservé. La carte
+de la page 2 est réécrite (« que devient un utilisateur connecté dont on modifie
+les rôles en base ? » → déconnecté). Le corps de la page 2 disait seulement
+« rechargé à chaque requête » : exact, inchangé.
+
+**3. `entity` n'est pas une clé de SecurityBundle.** `QST-f5z345sfdga7`
+(LEARNING) donnait « entity, memory, ldap, chain » comme les quatre clés de
+Symfony 8.0. Exécuté avec SecurityBundle seul : « Unrecognized option "entity"
+under "security.providers.users". Available options are "chain", "id", "ldap",
+"memory". » `SecurityBundle::build()` enregistre `memory` et `ldap` ; `entity`
+est ajouté par un autre bundle (`EntityFactory` du pont Doctrine). La question
+passe en **v2**, énoncé « … define on its own … with no other bundle adding
+one? », **quatre nouveaux choix** (`CHO-58t5pm92pgea` correct,
+`CHO-d6zqq8rmytq9`, `CHO-76c9f5tzvja2`, `CHO-x95prbbmhgq4`). Une première
+rédaction nommait Doctrine dans l'énoncé : `SCOPE-001` l'a refusée (terme exclu,
+§1.5). L'énoncé a été reformulé sans le terme ; l'étiquette `exclusion-note`
+n'a **pas** été utilisée, puisque les points dépendent de la réponse.
+Le résultat d'apprentissage `OUT-18068akbjm47` « Nommer les quatre types
+fournis » devient « Nommer les clés de fournisseur reconnues, entity comprise
+avec Doctrine ».
+
+### Confirmé par l'exécution
+
+- Connexion : `loadUserByIdentifier(alice)` ; requête suivante avec cookie :
+  `refreshUser(alice)`.
+- Pare-feu sans état : `loadUserByIdentifier` à chaque requête, jamais
+  `refreshUser`.
+- Fournisseur `memory` : `alice` et `bob` s'authentifient ; `roles` accepte une
+  chaîne séparée par des virgules (`InMemoryFactory::addConfiguration()`).
+- Fournisseur `chain` sur `a` et `b`, désigné par `provider: both` : `bob`,
+  connu du seul `b`, s'authentifie.
+
+### Erreur détectée hors de cette page
+
+La page 7 (*Users*, `CRS-n9ngfssrq1bt`) écrit « Par défaut la comparaison porte
+sur l'identifiant et le mot de passe » et présente `EquatableInterface` comme le
+moyen de déconnecter sur changement de rôle. Faux d'après `hasUserChanged()` :
+les rôles sont déjà comparés par défaut. Corrigé à la page 7.
+
+### Écart de méthode
+
+Une commande de nettoyage du cache du bac à sable a été refusée par le contrôle
+de sécurité de l'outil (chemin relatif non résolu). Elle n'a pas été
+contournée : les exécutions suivantes utilisent un environnement de noyau
+distinct (`p5c`), donc un cache neuf, vérifié par la présence d'un conteneur
+compilé `App_KernelP5cContainer.php`.
+
+**Questions.** `QST-b10yfhxnfhh6` (LEARNING) et `QST-qr5kt3yxsge7` (VALIDATION)
+relues : exactes, inchangées. L'item ne porte pas de question holdout dans le
+fichier du lot.
+
+**Flashcards.** 10 ajoutées ; `FLC-zpyvxwvf1x8a` reçoit le niveau RECALL et
+précise « d'un pare-feu avec état ». L'item en porte **11** (4 RECALL,
+2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte relevé par script. Une carte
+UNDERSTANDING du brouillon (« pourquoi un changement de rôle est-il vu sans
+reconnexion ») reprenait l'erreur 2 : remplacée avant publication. Une carte
+APPLICATION du brouillon, sur l'entité Doctrine, a été remplacée par le
+fournisseur `memory`, exécuté.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `hasUserChanged`,
+`ROLE_EDITOR` et `Available options are`, absentes de la version `master` de la
+page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant (après correction du `SCOPE-001` décrit plus haut) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 131 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+Une première exécution de la suite a été lancée avec sa sortie redirigée vers
+`/dev/null` : ses résultats sont perdus et ne sont pas comptés. Les chiffres
+ci-dessus viennent de la seconde exécution, complète.
+
 ## Prochaine étape
 
-Page 5 — *Providers* (STANDARD, 347 / 900).
+Page 6 — *Firewalls* (STANDARD, 350 / 900).

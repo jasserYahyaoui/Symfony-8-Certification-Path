@@ -70,7 +70,8 @@ flashcards:
 - id: FLC-zpyvxwvf1x8a
   official_item: OIT-45p7535dk4s2
   language: fr
-  front: Quelle méthode du fournisseur s'exécute à chaque requête ?
+  level: RECALL
+  front: Quelle méthode du fournisseur s'exécute à chaque requête d'un pare-feu avec état ?
   back: refreshUser(). loadUserByIdentifier() ne sert qu'à la connexion.
   explanation: C'est pourquoi un utilisateur supprimé en base est déconnecté dès la requête suivante.
   memorization_justification: On croit l'utilisateur conservé tel quel entre deux requêtes.
@@ -417,17 +418,17 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un utilisateur mémorisé en session voit-il ses rôles modifiés sans se reconnecter ?'
-  back: 'Parce que le jeton lu en session est **rafraîchi** : exécuté, « User was reloaded from a user provider » à chaque requête.'
-  explanation: La session garde le jeton, le fournisseur redonne l'utilisateur à jour.
-  memorization_justification: Rafraîchissement de l'utilisateur.
+  front: 'Symfony : que devient un utilisateur connecté dont on modifie les rôles en base ?'
+  back: 'Il est **déconnecté** : rechargé puis comparé, il n''a plus les rôles du jeton, et le jeton est abandonné.'
+  explanation: 'Exécuté avec SecurityBundle 8.0.15 : `ROLE_EDITOR` ajouté à `alice` en cours de session, la requête suivante a un jeton `null`. Le nouveau rôle ne s''obtient qu''en se reconnectant.'
+  memorization_justification: Effet du rechargement sur un utilisateur modifié.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
     repository: symfony/symfony
     branch: '8.0'
-    symbol_or_lines: Read existing security token from the session; User was reloaded from a user provider
+    symbol_or_lines: refreshUser(); hasUserChanged() — roles compared with the token
     verified_at: '2026-09-30'
 - id: FLC-djzzwsvjg9fq
   official_item: OIT-z9c24d68et6w
@@ -856,4 +857,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: security.yaml configuration tree; Only one firewall is active on each request
+    verified_at: '2026-09-30'
+- id: FLC-r5sve6fzjb7f
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles clés de fournisseur SecurityBundle 8.0 définit-il à lui seul ?'
+  back: '`chain`, `id`, `ldap`, `memory`.'
+  explanation: 'Exécuté avec SecurityBundle seul : un fournisseur `entity` est refusé avec cette liste d''options.'
+  memorization_justification: Liste exacte des clés.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: build() — addUserProviderFactory(InMemoryFactory, LdapFactory)
+    verified_at: '2026-09-30'
+- id: FLC-79sxyh8d2pw4
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: RECALL
+  front: 'Symfony : à quoi sert la clé id sous security.providers ?'
+  back: À brancher un **service** maison qui implémente `UserProviderInterface`.
+  explanation: 'Exécuté avec `id: App\P13\FileUserProvider`.'
+  memorization_justification: Fournisseur sur mesure.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadUserByIdentifier, refreshUser, supportsClass
+    verified_at: '2026-09-30'
+- id: FLC-e6zj1z231vx8
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle interface permet à un fournisseur de recevoir un mot de passe réencodé ?'
+  back: '`PasswordUpgraderInterface`, méthode `upgradePassword()`.'
+  explanation: C'est ce qui rend la migration de hachage transparente.
+  memorization_justification: Migration du hachage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/PasswordUpgraderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/PasswordUpgraderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: upgradePassword()
+    verified_at: '2026-09-30'
+- id: FLC-n3ekaj5bjzh2
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi l''utilisateur est-il rechargé à chaque requête avec état plutôt que repris du jeton ?'
+  back: 'Pour le **comparer** à la source : supprimé, ou avec un mot de passe, des rôles ou un identifiant différents, il perd son jeton.'
+  explanation: Lu dans `ContextListener::refreshUser()` et `hasUserChanged()` ; exécuté avec `refreshUser(alice)` à chaque requête.
+  memorization_justification: Utilité du rechargement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadUserByIdentifier, refreshUser, supportsClass
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser() — UserNotFoundException, hasUserChanged(); session->remove(sessionKey)
+    verified_at: '2026-09-30'
+- id: FLC-srj4sntb76db
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi refreshUser() n''est-il jamais appelé sur un pare-feu sans état ?'
+  back: 'Parce qu''aucun jeton n''est conservé en session : chaque requête s''authentifie par `loadUserByIdentifier()`.'
+  explanation: 'Exécuté : deux requêtes sans état, deux `loadUserByIdentifier`, aucun `refreshUser`.'
+  memorization_justification: Lien état / rechargement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser() — UserNotFoundException, hasUserChanged(); session->remove(sessionKey)
+    verified_at: '2026-09-30'
+- id: FLC-bvbbbfqt7qma
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : déclarer deux utilisateurs de test directement dans la configuration.'
+  back: '`providers: { test_users: { memory: { users: { alice: { password: pw, roles: [''ROLE_USER''] }, bob: { password: pw2, roles: ''ROLE_USER, ROLE_ADMIN'' } } } } }`'
+  explanation: 'Exécuté : `alice` et `bob` s''authentifient ; `roles` accepte aussi une chaîne séparée par des virgules (`InMemoryFactory`).'
+  memorization_justification: Fournisseur memory.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: User Providers
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/UserProvider/InMemoryFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/UserProvider/InMemoryFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addConfiguration() — users, password, roles
+    verified_at: '2026-09-30'
+- id: FLC-v02bh7mbaj81
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : essayer deux fournisseurs l''un après l''autre.'
+  back: 'Un fournisseur `chain` qui les liste, désigné par le pare-feu : `both: { chain: { providers: [a, b] } }` puis `provider: both`.'
+  explanation: 'Exécuté : `bob`, connu du seul fournisseur `b`, s''authentifie par la chaîne.'
+  memorization_justification: Chaîne de fournisseurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_providers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: User Providers
+    verified_at: '2026-09-30'
+- id: FLC-e17hpn6p25dk
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: TRAP
+  front: 'Symfony : un utilisateur supprimé en cours de session provoque-t-il une erreur 500 ?'
+  back: 'Non : `refreshUser()` lève `UserNotFoundException`, le `ContextListener` retire le jeton, la requête suivante reçoit 401.'
+  explanation: 'Exécuté ; journal : « Username could not be found in the selected user provider ».'
+  memorization_justification: Erreur supposée non gérée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser() — UserNotFoundException, hasUserChanged(); session->remove(sessionKey)
+    verified_at: '2026-09-30'
+- id: FLC-aa5tp3nh69fn
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: TRAP
+  front: 'Symfony : un rechargement raté invalide-t-il la session ?'
+  back: 'Non : seule la clé du jeton est retirée (`$session->remove($this->sessionKey)`) ; les autres données restent.'
+  explanation: Lu dans `ContextListener` (8.0.15).
+  memorization_justification: Session confondue avec jeton.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: refreshUser() — UserNotFoundException, hasUserChanged(); session->remove(sessionKey)
+    verified_at: '2026-09-30'
+- id: FLC-506hnbept0ra
+  official_item: OIT-45p7535dk4s2
+  language: fr
+  level: TRAP
+  front: 'Symfony : le fournisseur entity fait-il partie de SecurityBundle ?'
+  back: 'Non : un autre bundle l''enregistre ; sans lui, `entity` est une option inconnue.'
+  explanation: 'Exécuté : « Unrecognized option "entity" … Available options are "chain", "id", "ldap", "memory" ».'
+  memorization_justification: Origine du fournisseur entity.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: build() — addUserProviderFactory(InMemoryFactory, LdapFactory)
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Doctrine/DependencyInjection/Security/UserProvider/EntityFactory.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Doctrine/DependencyInjection/Security/UserProvider/EntityFactory.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: EntityFactory — getKey()
     verified_at: '2026-09-30'
