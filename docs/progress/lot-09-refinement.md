@@ -20,18 +20,18 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Dependency Injection component | STANDARD | 411 / 900 | 1 | en cours |
-| 2 | Service container | STANDARD | 484 / 900 | 1 | à faire |
-| 3 | Built-in services | MINIMAL | 339 / 700 | 1 | à faire |
-| 4 | Configuration parameters | STANDARD | 384 / 900 | 1 | à faire |
-| 5 | Services registration (YAML and PHP attributes) | STANDARD | 395 / 900 | 1 | à faire |
-| 6 | Service decoration | STANDARD | 450 / 900 | 1 | à faire |
-| 7 | Tags | STANDARD | 368 / 900 | 1 | à faire |
-| 8 | Semantic configuration | STANDARD | 404 / 900 | 1 | à faire |
-| 9 | Factories | STANDARD | 343 / 900 | 1 | à faire |
-| 10 | Compiler passes | DEEP | 548 / 1200 | 1 | à faire |
-| 11 | Services autowiring | DEEP | 597 / 1200 | 1 | à faire |
-| 12 | Service locators | STANDARD | 354 / 900 | 1 | à faire |
+| 1 | Dependency Injection component | STANDARD | 411 / 900 | 1 | **RAFFINÉE** (PR #254) |
+| 2 | Service container | STANDARD | 484 / 900 | 1 | **RAFFINÉE** (PR #255) |
+| 3 | Built-in services | MINIMAL | 339 / 700 | 1 | **RAFFINÉE** (PR #256) |
+| 4 | Configuration parameters | STANDARD | 384 / 900 | 1 | **RAFFINÉE** (PR #257) |
+| 5 | Services registration (YAML and PHP attributes) | STANDARD | 395 / 900 | 1 | **RAFFINÉE** (PR #258) |
+| 6 | Service decoration | STANDARD | 450 / 900 | 1 | **RAFFINÉE** (PR #259) |
+| 7 | Tags | STANDARD | 368 / 900 | 1 | **RAFFINÉE** (PR #260) |
+| 8 | Semantic configuration | STANDARD | 404 / 900 | 1 | **RAFFINÉE** (PR #261) |
+| 9 | Factories | STANDARD | 343 / 900 | 1 | **RAFFINÉE** (PR #262) |
+| 10 | Compiler passes | DEEP | 548 / 1200 | 1 | **RAFFINÉE** (PR #263) |
+| 11 | Services autowiring | DEEP | 597 / 1200 | 1 | **RAFFINÉE** (PR #264) |
+| 12 | Service locators | STANDARD | 354 / 900 | 1 | **RAFFINÉE** (PR #265) |
 
 ## Page 1 — Dependency Injection component, 2026-09-29
 
@@ -907,4 +907,148 @@ version `master` de la page et de ses cartes.
 
 ## Prochaine étape
 
-Rapport de fin de lot 09, dans sa propre PR.
+Rapport de fin de lot 09 ci-dessous ; ensuite lot 10.
+
+# Rapport de fin de lot 09
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire (`CLAUDE.md`, « Reporting a lot »). Base de comparaison :
+`a91c2ba`, le commit de `master` qui précède la première page refondue (PR #254).
+État mesuré : `master` à `d561017`. Le même script a vérifié que les douze
+décomptes de mots et de niveaux écrits dans les entrées de page correspondent
+aux fichiers.
+
+## Périmètre
+
+**12** items officiels atomiques portent `lot: lot-09` dans la matrice :
+1 `MINIMAL`, 9 `STANDARD`, 2 `DEEP` — niveaux inchangés pendant la campagne.
+Cette répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 09 est **12 / 12**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 12 cours du lot 09 | 5 077 | **7 815** | **+2 738** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 1 | Built-in services, 560 |
+| `STANDARD` | 900 | 9 | Configuration parameters, 667 |
+| `DEEP` | 1200 | 2 | Services autowiring, 873 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 09 | 12 | **132** | **+120** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 38 · `UNDERSTANDING` 26 · `APPLICATION` 24 · `TRAP` 44.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les douze cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; deux ont été
+corrigées au-delà du niveau (`FLC-6a9ngbsfteyg`, page 5 ; `FLC-tv2t8a6yt50g`,
+page 7), décompte relevé par script.
+
+## Questions et pools
+
+**53** questions portent sur les items du lot 09 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 36 | `lot-09-dependency-injection.yml` |
+| `VALIDATION` | 11 | `lot-09-dependency-injection.yml` |
+| `HOLDOUT` | 6 | 2 dans `lot-09-dependency-injection.yml`, 4 dans `mock-04-holdout.yml` |
+
+**13** questions non holdout corrigées, dont **5** passées en v2 :
+
+| Question | Pool | Version | Correction |
+|---|---|---|---|
+| `QST-0qda3mr144nt` | VALIDATION | 1 → 2 | énoncé aligné sur le code ; explication de distracteur fausse |
+| `QST-hp7d9gbzhfk0` | VALIDATION | 1 → 2 | distracteur défendable remplacé |
+| `QST-smjza039q4hw` | LEARNING | 1 → 2 | énoncé ambigu avec `#[When]` |
+| `QST-4nq445j72q7w` | LEARNING | 1 → 2 | l'échec survient à l'instanciation, pas à la compilation |
+| `QST-gscp8fh16xed` | LEARNING | 1 → 2 | distracteur devenu défendable (`#[Target]` et identifiants) |
+| `QST-sxw56zsgz0we` | VALIDATION | 1 | explication et source de l'échappement `%` |
+| `QST-8e8zfpay4pj4` | VALIDATION | 1 | explication fondée sur un défaut supposé |
+| `QST-cg1wnyzmwgqg` | VALIDATION | 1 | condition de transparence de la décoration |
+| `QST-1zvtze0w6a5p` | LEARNING | 1 | explication de distracteur trop absolue |
+| `QST-3zf09tnf1rkj` | LEARNING | 1 | nom réel de l'original décoré |
+| `QST-qzgxkh2b2pa5` | LEARNING | 1 | exemple de prepend faux (gabarits Twig) |
+| `QST-a1avrk2v0k2t` | LEARNING | 1 | mécanisme d'autoconfiguration du framework |
+| `QST-dbs1pm3v1np1` | LEARNING | 1 | clés d'un locator par tag |
+
+**0 question holdout modifiée** (comparaison par script, sans lecture du
+contenu). `POOL-002` : 11 items `STANDARD`/`DEEP` `EXAM_READY`, **0** sans
+question `VALIDATION`.
+
+## Ce que dit la documentation, ce que fait le code
+
+| Page | Documentation 8.0 | Code 8.0.15, exécuté | Décision |
+|---|---|---|---|
+| 11 | `autowiring.rst` : `#[Target]` « does not accept service ids » | un identifiant passe s'il est déjà la cible d'un alias nommé du type | code ; la règle d'écriture reste celle de la doc |
+
+## Erreur de méthode, corrigée pendant la campagne
+
+La première exécution de la page 3 a tourné avec `dependency-injection` **8.1.8**,
+Composer n'ayant contraint que FrameworkBundle. Tous les composants `symfony/*`
+du bac à sable ont été fixés à `8.0.*` et chaque exécution refaite, avec des
+sorties identiques ; les exécutions CSRF du lot 07 ont été revérifiées de même.
+Consigné à la page 3.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Six questions holdout portent sur des items du lot : 2 dans
+`lot-09-dependency-injection.yml`, 4 dans `mock-04-holdout.yml`. Aucune n'a été
+lue. Deux faits établis pendant la campagne pourraient en concerner certaines,
+sans que cela soit vérifié :
+
+- `#[Target]` accepte un identifiant de service déjà visé par un alias nommé,
+  contrairement à la documentation.
+- Une référence posée en `TYPE_AFTER_REMOVING` vers un service supprimé échoue à
+  l'instanciation, pas à la compilation.
+
+## Déploiements
+
+Les douze pages ont été fusionnées par PR (#254 à #265), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 12 : run 36749204957, success — `ok  lot-09  the service locators page carries its four flashcard levels, the restricted locator, the compile failure and the child bus`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-09-30 sur la branche du rapport, au-dessus de `d561017` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant, lot 07) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 081 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes des douze entrées de page contre les fichiers | 12 / 12 concordants |
+
+## Résumé autonome
+
+Lot 09 (*Dependency Injection*), 12 items (1 MINIMAL, 9 STANDARD, 2 DEEP) :
+couverture projet 163/163 inchangée ; cours 5 077 → 7 815 mots (+2 738), aucun
+dépassement de budget ; flashcards 12 → 132 (+120), toutes niveau posé ;
+53 questions, 13 corrigées dont 5 en v2, 0 holdout modifiée ; une divergence
+documentation/code décidée pour le code ; douze pages déployées, smoke tests lus.
