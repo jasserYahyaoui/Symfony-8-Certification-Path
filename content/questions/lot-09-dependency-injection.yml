@@ -2649,7 +2649,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-30'
     tags:
       - locators
       - tags
@@ -2670,8 +2670,8 @@ questions:
         correct: false
         explanation: The signature documents a tag name as an alternative to the list.
     explanation: The first parameter is typed string|array and documented as a tag name or an explicit
-      list of service ids. The tag form gives a lazy map keyed by the tag's index attribute, without naming
-      each service.
+      list of service ids. The tag form gives a lazy map keyed by each service's index when it has one, and
+      by its id otherwise, without naming each service.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php

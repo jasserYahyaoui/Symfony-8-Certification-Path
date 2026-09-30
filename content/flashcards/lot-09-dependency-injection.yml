@@ -192,6 +192,7 @@ flashcards:
 - id: FLC-zn7hhaddbzd2
   official_item: OIT-gkhcbtygef69
   language: fr
+  level: RECALL
   front: 'getSubscribedServices() : statique ? et en héritage ?'
   back: 'Statique. En héritage, il faut fusionner : array_merge(parent::getSubscribedServices(), [...]).'
   explanation: 'Oublier parent:: retire silencieusement les services déclarés par la classe parente.'
@@ -2100,4 +2101,170 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+- id: FLC-07qvbs53t0hr
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: RECALL
+  front: 'Symfony : que signifie le préfixe ? dans getSubscribedServices() ?'
+  back: 'Le service est **facultatif** : absent, `has()` rend `false` au lieu de faire échouer la compilation.'
+  explanation: 'Exécuté : sans `?`, « has a dependency on a non-existent service ».'
+  memorization_justification: Dépendance optionnelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-7ktzz321yvvz
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les deux formes de premier argument de #[AutowireLocator] ?'
+  back: Une liste d'identifiants de services, ou un nom de tag.
+  explanation: Le paramètre est typé `string|array`.
+  memorization_justification: Forme attribut du locator.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireLocator::__construct(string|array $services, ...)
+    verified_at: '2026-09-30'
+- id: FLC-6kxhgfz2m24m
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un locator n''est-il pas de la récupération de services ?'
+  back: 'Parce qu''il ne contient que les services déclarés : les dépendances restent lisibles et vérifiées à la compilation.'
+  explanation: 'Exécuté : un `get()` hors liste lève « … is a smaller service locator that only knows about … ».'
+  memorization_justification: Distinction de fond.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ServiceLocator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ServiceLocator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ServiceLocator::createNotFoundException() — "is a smaller service locator that"
+    verified_at: '2026-09-30'
+- id: FLC-6gn9bhy5jns8
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : un locator construit-il ses services à l''injection ?'
+  back: 'Non : exécuté, aucun gestionnaire n''est construit avec le bus ; chacun l''est au premier `get()`.'
+  explanation: 'C''est l''intérêt du locator : beaucoup de dépendances, une seule utilisée.'
+  memorization_justification: Paresse du locator.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-p8qwnz1mhys2
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : exposer le logger sous le nom local logger dans un abonné.'
+  back: 'Dans `getSubscribedServices()` : `''logger'' => LoggerInterface::class`.'
+  explanation: 'Exécuté : `$locator->get(''logger'')` rend le service du type demandé.'
+  memorization_justification: Clé locale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-tj2hkq8a4r22
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : construire un locator de tous les services tagués app.handler.'
+  back: '`#[AutowireLocator(''app.handler'')] ContainerInterface $locator`.'
+  explanation: 'Clés : l''`index` de chaque service s''il en a un, son identifiant sinon.'
+  memorization_justification: Locator par tag.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireLocator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AutowireLocator::__construct(string|array $services, ...)
+    verified_at: '2026-09-30'
+- id: FLC-az4ejtgwbxzw
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: TRAP
+  front: 'Symfony : le locator rend-il une nouvelle instance à chaque get() ?'
+  back: 'Non : exécuté, l''objet rendu est **le même** que celui du conteneur ; le service reste partagé.'
+  explanation: Le locator donne accès au service, il ne le duplique pas.
+  memorization_justification: Instance supposée neuve.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-qv0crj3g4w9c
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: TRAP
+  front: 'Symfony : une sous-classe qui redéfinit getSubscribedServices() sans parent:: garde-t-elle les services du parent ?'
+  back: 'Non : exécuté, `has(FooHandler::class)` vaut `false` dans le locator de l''enfant, sans erreur avant l''usage.'
+  explanation: Il faut `array_merge(parent::getSubscribedServices(), [...])`.
+  memorization_justification: Héritage silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-1c6rq218tpzf
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: TRAP
+  front: 'Symfony : un service déclaré sans ? et absent du conteneur échoue-t-il au premier get() ?'
+  back: 'Non : **à la compilation** — « The service … has a dependency on a non-existent service … ».'
+  explanation: Seul le préfixe `?` reporte le problème à l'exécution, via `has()`.
+  memorization_justification: Moment de l'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: ServiceSubscriberInterface, getSubscribedServices, AutowireLocator
+    verified_at: '2026-09-30'
+- id: FLC-0edfg80mngwv
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: TRAP
+  front: 'Symfony : getSubscribedServices() peut-elle être une méthode d''instance ?'
+  back: 'Non : `ServiceSubscriberInterface` la déclare `public static` — le conteneur la lit sur la classe, à la compilation.'
+  explanation: Relu dans l'interface, branche 8.0.
+  memorization_justification: Signature imposée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Service/ServiceSubscriberInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Service/ServiceSubscriberInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'public static function getSubscribedServices(): array'
     verified_at: '2026-09-30'
