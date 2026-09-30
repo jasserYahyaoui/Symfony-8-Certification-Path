@@ -490,13 +490,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Security : Authorization** (STANDARD) — 19 min · 529 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Security : Configuration** (STANDARD) — 21 min · 588 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Security : Providers** (STANDARD) — 21 min · 659 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Security : Firewalls** (STANDARD) — 11 min · 350 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Security : Firewalls** (STANDARD) — 21 min · 554 mots · 4 questions, 11 flashcards
 - Révision **J+1** (22 min) — Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
 - Révision **J+7** (17 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+14** (10 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 - Révision **J+30** (11 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 
-*Budget du jour : 132 / 160 min*
+*Budget du jour : 142 / 160 min*
 
 ### Jeudi 5 novembre 2026
 

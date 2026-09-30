@@ -3055,6 +3055,32 @@ jobs:
           else
             echo "ok  lot-10  the providers page carries its four flashcard levels, the user comparison, the role change and the option list"
           fi
+          # Lot 10 refinement, page 6 (Firewalls): the four flashcard levels,
+          # the shared context key, the second firewall it was measured on and
+          # the cache header compared in lazy and eager mode.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-fw -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/firewalls")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page firewalls serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-fw || missing="$missing l10fw:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-fw || missing="$missing l10fw:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-fw || missing="$missing l10fw:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-fw || missing="$missing l10fw:no-trap-heading"
+          grep -aq 'context: shared' /tmp/l10r-fw \
+            || missing="$missing l10fw:no-shared-context"
+          grep -aq 'admin/whoami' /tmp/l10r-fw \
+            || missing="$missing l10fw:no-second-firewall"
+          grep -aq 'Cache-Control' /tmp/l10r-fw \
+            || missing="$missing l10fw:no-cache-header"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the firewalls page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the firewalls page carries its four flashcard levels, the shared context, the second firewall and the cache header"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

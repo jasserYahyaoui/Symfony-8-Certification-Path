@@ -26,7 +26,7 @@ première page.
 | 2 | Authentication | STANDARD | 325 / 900 | 1 | **RAFFINÉE** (PR #268) |
 | 3 | Authorization | STANDARD | 370 / 900 | 1 | **RAFFINÉE** (PR #269) |
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | **RAFFINÉE** (PR #270) |
-| 5 | Providers | STANDARD | 347 / 900 | 1 | à faire |
+| 5 | Providers | STANDARD | 347 / 900 | 1 | **RAFFINÉE** (PR #271) |
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | à faire |
 | 7 | Users | STANDARD | 354 / 900 | 1 | à faire |
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | à faire |
@@ -433,6 +433,87 @@ Une première exécution de la suite a été lancée avec sa sortie redirigée v
 `/dev/null` : ses résultats sont perdus et ne sont pas comptés. Les chiffres
 ci-dessus viennent de la seconde exécution, complète.
 
+## Page 6 — *Firewalls* — RAFFINÉE
+
+`CRS-x5frtpg07mmd` · `OIT-rwa6m06crs1h` · STANDARD · **350 → 554 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15, deux pare-feux `main` et `admin` (`^/admin`), fournisseur
+qui compte ses appels.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 5 du lot 10 (PR #271, `87088f7`) | 36761496766, success | `ok  lot-10  the providers page carries its four flashcard levels, the user comparison, the role change and the option list` |
+
+### Une erreur de fond : `security: false` dans la question de validation
+
+`QST-0qfww09cp9hf` (VALIDATION) donnait pour bonne réponse « The security system
+does not authenticate there » et, en explication d'un distracteur,
+« access_control still applies separately ». La seconde affirmation est fausse,
+et la bonne réponse ne disait que la moitié. C'est la même erreur que celle
+corrigée à la page 4 : `SecurityExtension::createFirewall()` rend une liste
+d'écouteurs vide pour `security: false`, et c'est l'`AccessListener` du pare-feu
+qui applique `access_control`. Exécuté à la page 4 : une règle `ROLE_ADMIN` sur
+un tel pare-feu laisse un anonyme obtenir 200.
+
+La question passe en **v2** : bonne réponse réécrite (`CHO-qkb426j3943q`,
+« Nothing runs there, access_control included »), le distracteur devient
+l'affirmation fausse elle-même (`CHO-7z4dvejd34jh`, « Its URLs are still checked
+against access_control rules »), explications corrigées, source
+`SecurityExtension` ajoutée. L'énoncé ne change pas.
+
+### Confirmé par l'exécution
+
+| Configuration | `alice` connectée sur `main`, puis `/admin/whoami` avec le même cookie |
+|---|---|
+| deux pare-feux, sans `context` | utilisateur `null` |
+| `context: shared` sur les deux | `alice` |
+
+Lu dans `SecurityExtension` : sans `context`, la clé de contexte est le nom du
+pare-feu lui-même (`$firewall['context'] ?? $id`).
+
+| Pare-feu | Appels au fournisseur sur `/plain` avec cookie |
+|---|---|
+| `lazy: true` | aucun |
+| sans `lazy` | `refreshUser(alice)` à chaque requête |
+
+L'en-tête `Cache-Control` de `/plain` est identique dans les deux modes ; la
+page le dit, plutôt que de reprendre l'effet de cache annoncé par la
+documentation (`security.rst`, conseil sur le mode `lazy`) sans l'avoir
+observé ici.
+
+**Questions.** `QST-qyh60jqm5etd`, `QST-rpz1syn7rpsv` et `QST-tmpjmx8yr7j0`
+(LEARNING) relues : exactes, inchangées. Aucune question holdout lue ni
+modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-9j0hj0sv3c6j` reçoit le niveau RECALL.
+L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP),
+décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `context: shared`,
+`admin/whoami` et `Cache-Control`, absentes de la version `master` de la page et
+du fichier de cartes. `refreshUser(alice)` et `aucun écouteur`, envisagées,
+figuraient déjà dans les cartes : écartées.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 141 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Firewalls* (STANDARD, 350 / 900).
+Page 7 — *Users* (STANDARD, 354 / 900). Y corriger « par défaut la comparaison
+porte sur l'identifiant et le mot de passe » (les rôles sont aussi comparés).
