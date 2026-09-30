@@ -1468,7 +1468,7 @@ questions:
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
       - OUT-5d052fcbnf0g
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-3y0b9gxyandm
     domain: symfony
@@ -1480,8 +1480,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: A pass registered at TYPE_AFTER_REMOVING adds a reference to a private service, and compilation
-      fails saying the service does not exist. Why?
+    question: A pass registered at TYPE_AFTER_REMOVING adds a reference to a private service. The container
+      compiles, but instantiating the consumer throws a ServiceNotFoundException for that service. Why?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1491,7 +1491,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - compiler-pass
       - passconfig

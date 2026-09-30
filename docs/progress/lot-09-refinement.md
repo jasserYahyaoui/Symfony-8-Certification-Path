@@ -692,6 +692,73 @@ niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 10 — *Compiler passes* — RAFFINÉE
+
+`CRS-d25bvr0097py` · `OIT-3y0b9gxyandm` · DEEP · **548 → 797 mots** sur 1 200.
+Aucun niveau promu. Exécutions avec `symfony/dependency-injection` 8.0.15.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 9 du lot 09 (PR #262, `efdfbe6`) | 36680758843, success | `ok  lot-09  the factories page carries its four flashcard levels, the string return, the wrong class and the invokable factory` |
+
+### Une question dont l'énoncé décrivait le mauvais moment
+
+`QST-4nq445j72q7w` (LEARNING) disait qu'une passe `TYPE_AFTER_REMOVING` qui
+référence un service privé fait « échouer la compilation ». Exécuté : `compile()`
+**passe**, le vidage en PHP aussi ; c'est l'instanciation du consommateur qui lève
+`ServiceNotFoundException` — « The "priv" service or alias has been removed or
+inlined when the container was compiled ». La question passe en **v2** : l'énoncé
+dit que le conteneur compile et que l'instanciation échoue. Bonne réponse et
+choix inchangés. La page précise le moment de l'échec.
+
+### Ajouté par l'exécution et la lecture du code
+
+- Sept passes enregistrées dans le désordre s'exécutent dans l'ordre des cinq
+  étapes, et dans l'étape par défaut par priorité décroissante (10, 0, -5) ;
+  `PassConfig::sortPasses()` trie par `krsort`.
+- Les passes du composant dans `TYPE_BEFORE_OPTIMIZATION` (autoconfiguration,
+  `instanceof`) tournent à la priorité **100** : exécuté, une passe à 0 voit un
+  tag posé par `registerForAutoconfiguration()`, une passe à 200 ne le voit pas.
+- `HttpKernel\Kernel` enregistre un noyau-passe à la priorité **-10000**.
+- `findTaggedServiceIds()` sur un service tagué deux fois :
+  `{"x":[{"a":1},{"a":2}]}`.
+- Dans une passe, `getDefinition()` rend une `Definition` et `initialized()`
+  vaut `false`.
+- Le tableau des étapes nomme désormais les passes du composant qui s'y
+  exécutent, relues dans `PassConfig::__construct()`.
+
+**Questions.** `QST-7ns2ad8j7z7a`, `QST-q1jqvtzhr8ga`, `QST-mkmarkb3w738`,
+`QST-3wrz6qafpv3y` (LEARNING) et `QST-qcs153cscpem` (VALIDATION) relues :
+exactes, inchangées. L'item ne porte pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-3f3jxjqynjmj` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION,
+4 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `10000`,
+`initialized` et `krsort`, absentes de la version `master` de la page et de ses
+cartes. `removed or inlined`, envisagée, figurait déjà dans les cartes du lot :
+écartée.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions DependencyInjection 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 061 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 10 — *Compiler passes* (DEEP, 548 / 1200).
+Page 11 — *Services autowiring* (DEEP, 597 / 1200).

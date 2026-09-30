@@ -159,6 +159,7 @@ flashcards:
 - id: FLC-3f3jxjqynjmj
   official_item: OIT-3y0b9gxyandm
   language: fr
+  level: RECALL
   front: Quel est le type par défaut d'une passe, et que se passe-t-il après TYPE_REMOVE ?
   back: 'TYPE_BEFORE_OPTIMIZATION. Après TYPE_REMOVE, un service privé non référencé a déjà été supprimé
     : le câbler échoue.'
@@ -1761,3 +1762,163 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: static and non-static factories, invokable factories, constructor option
     verified_at: '2026-09-29'
+- id: FLC-m53y4t0sgcba
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: RECALL
+  front: 'Symfony : dans quel ordre s''exécutent les cinq étapes de PassConfig ?'
+  back: '`TYPE_BEFORE_OPTIMIZATION`, `TYPE_OPTIMIZE`, `TYPE_BEFORE_REMOVING`, `TYPE_REMOVE`, `TYPE_AFTER_REMOVING`.'
+  explanation: 'Exécuté : sept passes enregistrées dans le désordre s''exécutent dans cet ordre.'
+  memorization_justification: Ordre des étapes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PassConfig::__construct() default passes; sortPasses() krsort
+    verified_at: '2026-09-30'
+- id: FLC-knjkvq5y9zbc
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: RECALL
+  front: 'Symfony : à quelle étape et quelle priorité un Kernel qui implémente CompilerPassInterface est-il enregistré ?'
+  back: '`TYPE_BEFORE_OPTIMIZATION`, priorité **-10000** : après les passes de bundle de la même étape.'
+  explanation: Relu dans `HttpKernel\Kernel` (8.0.15).
+  memorization_justification: Place de la passe applicative.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addCompilerPass($this, PassConfig::TYPE_BEFORE_OPTIMIZATION, -10000)
+    verified_at: '2026-09-30'
+- id: FLC-jppqgfxy1mdf
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une passe peut-elle ajouter des arguments sans rien instancier ?'
+  back: 'Parce qu''elle manipule des `Definition` : exécuté, `getDefinition()` rend une description et `initialized()` vaut `false`.'
+  explanation: Rien n'existe encore comme objet pendant la compilation.
+  memorization_justification: Nature de ce que voit une passe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CompilerPassInterface, addCompilerPass, findTaggedServiceIds
+    verified_at: '2026-09-30'
+- id: FLC-aqpq5dwm1hhf
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une passe de priorité 200 en TYPE_BEFORE_OPTIMIZATION ne voit-elle pas les tags d''autoconfiguration ?'
+  back: 'Parce que l''autoconfiguration s''exécute dans cette étape à la priorité 100 : à 200, elle n''a pas encore eu lieu.'
+  explanation: 'Exécuté : à la priorité 0, le service tagué est vu ; à 200, la liste est vide.'
+  memorization_justification: Priorité et visibilité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PassConfig::__construct() default passes; sortPasses() krsort
+    verified_at: '2026-09-30'
+- id: FLC-z02k6s2z77w2
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : enregistrer une passe depuis un bundle.'
+  back: 'Dans `build(ContainerBuilder $container)` : `parent::build($container); $container->addCompilerPass(new HandlerPass());`.'
+  explanation: 'Convention : `DependencyInjection/Compiler/`, suffixe `Pass`.'
+  memorization_justification: Enregistrement côté bundle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CompilerPassInterface, addCompilerPass, findTaggedServiceIds
+    verified_at: '2026-09-30'
+- id: FLC-36j2wt54wf1x
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une passe doit observer le conteneur final, après nettoyage. Quel type ?'
+  back: '`PassConfig::TYPE_AFTER_REMOVING`.'
+  explanation: 'Les services privés inutilisés y ont déjà disparu : c''est l''étape pour observer, pas pour câbler.'
+  memorization_justification: Choix de l'étape.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PassConfig::__construct() default passes; sortPasses() krsort
+    verified_at: '2026-09-30'
+- id: FLC-mztvjb4y6nmc
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : que rend findTaggedServiceIds() pour un service tagué deux fois ?'
+  back: 'Une **liste** d''attributs : exécuté, `{"x":[{"a":1},{"a":2}]}`.'
+  explanation: Un service peut porter le même tag plusieurs fois.
+  memorization_justification: Forme du retour.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTaggedServiceIds(), addCompilerPass()
+    verified_at: '2026-09-30'
+- id: FLC-6pt8500bshxv
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : une passe TYPE_AFTER_REMOVING qui référence un service privé supprimé fait-elle échouer la compilation ?'
+  back: 'Non : `compile()` et le vidage passent ; l''instanciation du consommateur lève `ServiceNotFoundException` — « … has been removed or inlined when the container was compiled ».'
+  explanation: 'Exécuté avec dependency-injection 8.0.15 : l''erreur arrive à l''exécution.'
+  memorization_justification: Moment de l'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PassConfig::__construct() default passes; sortPasses() krsort
+    verified_at: '2026-09-30'
+- id: FLC-6vn8cefgyjpj
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : à étape égale, une passe de priorité 0 passe-t-elle avant une passe de priorité 10 ?'
+  back: 'Non : priorité haute d''abord. Exécuté : 10, puis 0, puis -5.'
+  explanation: '`PassConfig::sortPasses()` trie par `krsort`.'
+  memorization_justification: Sens de la priorité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: PassConfig::__construct() default passes; sortPasses() krsort
+    verified_at: '2026-09-30'
+- id: FLC-jdbx2683a0a7
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : une passe s''exécute-t-elle à chaque requête ?'
+  back: 'Non : une fois, à la compilation du conteneur ; le conteneur mis en cache ne la rejoue pas.'
+  explanation: Comme `loadExtension()`, elle appartient à la phase de compilation.
+  memorization_justification: Confusion compilation / exécution.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CompilerPassInterface, addCompilerPass, findTaggedServiceIds
+    verified_at: '2026-09-30'
