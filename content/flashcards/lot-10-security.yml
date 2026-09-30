@@ -100,6 +100,7 @@ flashcards:
 - id: FLC-ygn9w70dncp1
   official_item: OIT-gkh08ztwdme1
   language: fr
+  level: RECALL
   front: Combien de méthodes UserInterface déclare-t-elle en Symfony 8.0 ?
   back: 'Deux : getRoles() et getUserIdentifier(). eraseCredentials() a été retirée.'
   explanation: Le mot de passe relève de PasswordAuthenticatedUserInterface, pas de UserInterface.
@@ -1208,4 +1209,170 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: refreshUser()
+    verified_at: '2026-09-30'
+- id: FLC-0x21vaf0e0zf
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: RECALL
+  front: 'Symfony : que recommande le CHANGELOG 8.0 pour effacer les données sensibles, à la place d''eraseCredentials() ?'
+  back: Les effacer lors de la sérialisation, « e.g. using `__serialize()` ».
+  explanation: '`eraseCredentials()` est retirée de `UserInterface` et de `TokenInterface` en 8.0.'
+  memorization_justification: Remplaçant d'une méthode retirée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 8.0 — Remove UserInterface::eraseCredentials(); erase credentials e.g. using __serialize()
+    verified_at: '2026-09-30'
+- id: FLC-tkkjs7atp5jv
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: RECALL
+  front: 'Symfony : sur quels critères hasUserChanged() compare-t-il l''utilisateur rechargé, sans EquatableInterface ?'
+  back: Le **mot de passe**, les **rôles** et l'**identifiant**.
+  explanation: Lu dans `ContextListener::hasUserChanged()` (8.0).
+  memorization_justification: Règle de comparaison par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasUserChanged() — password, roles, identifier; EquatableInterface::isEqualTo()
+    verified_at: '2026-09-30'
+- id: FLC-v4986hf0yvas
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un rôle ajouté n''est-il pas accordé, même quand isEqualTo() garde l''utilisateur connecté ?'
+  back: Parce que le **jeton** garde les rôles de la connexion, et que ce sont eux que les votants lisent.
+  explanation: 'Exécuté : `getUser()->getRoles()` contient `ROLE_EDITOR`, `isGranted(''ROLE_EDITOR'')` est faux.'
+  memorization_justification: Rôles figés dans le jeton.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasUserChanged() — password, roles, identifier; EquatableInterface::isEqualTo()
+    verified_at: '2026-09-30'
+- id: FLC-gym0azkzmx5z
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi checkPreAuth() est-il appelé même quand le mot de passe est faux ?'
+  back: Parce qu'il écoute `CheckPassportEvent` en priorité 256, avant la vérification des identifiants.
+  explanation: 'Exécuté : `alice` avec un mauvais mot de passe passe par `checkPreAuth()`, puis reçoit 401.'
+  memorization_justification: Ordre des écouteurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CheckPassportEvent priority 256; AuthenticationSuccessEvent
+    verified_at: '2026-09-30'
+- id: FLC-hbdm0jvkcsrd
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : garder l''utilisateur connecté quand seuls ses rôles changent en base.'
+  back: Implémenter `EquatableInterface` et un `isEqualTo()` qui ignore les rôles — sachant que les nouveaux rôles n'entreront en vigueur qu'à la prochaine connexion.
+  explanation: 'Exécuté : l''utilisateur reste connecté, le jeton garde `ROLE_USER` seul.'
+  memorization_justification: Usage d'EquatableInterface.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasUserChanged() — password, roles, identifier; EquatableInterface::isEqualTo()
+    verified_at: '2026-09-30'
+- id: FLC-xqkz48gj0kgw
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : refuser la connexion d''un compte désactivé, avec un message dédié.'
+  back: Un user checker déclaré par `user_checker:` sur le pare-feu, dont `checkPreAuth()` lève `CustomUserMessageAccountStatusException`.
+  explanation: 'Exécuté : le compte refusé reçoit 401.'
+  memorization_justification: User checker.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_checkers.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/user_checkers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: User Checkers
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CheckPassportEvent priority 256; AuthenticationSuccessEvent
+    verified_at: '2026-09-30'
+- id: FLC-1eab4s4adgzp
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: TRAP
+  front: 'Symfony : getRoles() doit-il obligatoirement retourner au moins un rôle ?'
+  back: 'Non : un utilisateur sans rôle est authentifié. `ROLE_USER` est une convention de la classe.'
+  explanation: 'Exécuté : `getRoles()` rend `[]`, `IS_AUTHENTICATED_FULLY` vrai, `ROLE_USER` faux.'
+  memorization_justification: Convention prise pour une règle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: guarantee every user at least has ROLE_USER
+    verified_at: '2026-09-30'
+- id: FLC-4egzzxjt0qcz
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il EquatableInterface pour déconnecter un utilisateur dont les rôles changent ?'
+  back: 'Non : c''est le comportement **par défaut** ; `EquatableInterface` sert à changer la règle.'
+  explanation: 'Exécuté sans `EquatableInterface` : `ROLE_EDITOR` ajouté, l''utilisateur est déconnecté.'
+  memorization_justification: Rôle inversé d'EquatableInterface.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasUserChanged() — password, roles, identifier; EquatableInterface::isEqualTo()
+    verified_at: '2026-09-30'
+- id: FLC-vzy3w190vvs6
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: TRAP
+  front: 'Symfony : le user checker est-il appelé à chaque requête d''une session ?'
+  back: 'Non : à la connexion seulement. Les requêtes suivantes portant le cookie ne l''appellent pas.'
+  explanation: Exécuté avec un checker qui journalise ses appels.
+  memorization_justification: Portée du user checker.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: CheckPassportEvent priority 256; AuthenticationSuccessEvent
+    verified_at: '2026-09-30'
+- id: FLC-2xdwsscs3a9g
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: TRAP
+  front: 'Symfony : une classe utilisateur qui déclare encore eraseCredentials() casse-t-elle en 8.0 ?'
+  back: 'Non : aucune erreur, mais plus rien ne l''appelle.'
+  explanation: Aucun appel dans Security Core, Security HTTP ni SecurityBundle 8.0.
+  memorization_justification: Méthode morte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 8.0 — Remove UserInterface::eraseCredentials(); erase credentials e.g. using __serialize()
     verified_at: '2026-09-30'

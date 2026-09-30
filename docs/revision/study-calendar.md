@@ -500,7 +500,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 5 novembre 2026
 
-- NOUVEAU · **Security : Users** (STANDARD) — 12 min · 354 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Security : Users** (STANDARD) — 23 min · 693 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Security : Password hashers** (STANDARD) — 10 min · 333 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Security : Roles** (MINIMAL) — 8 min · 281 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Security : Access Control Rules** (STANDARD) — 9 min · 359 mots · 3 questions, 1 flashcards
@@ -510,7 +510,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (10 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+30** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 116 / 160 min*
+*Budget du jour : 127 / 160 min*
 
 ### Vendredi 6 novembre 2026
 

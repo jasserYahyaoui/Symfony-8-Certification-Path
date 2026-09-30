@@ -27,7 +27,7 @@ première page.
 | 3 | Authorization | STANDARD | 370 / 900 | 1 | **RAFFINÉE** (PR #269) |
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | **RAFFINÉE** (PR #270) |
 | 5 | Providers | STANDARD | 347 / 900 | 1 | **RAFFINÉE** (PR #271) |
-| 6 | Firewalls | STANDARD | 350 / 900 | 1 | à faire |
+| 6 | Firewalls | STANDARD | 350 / 900 | 1 | **RAFFINÉE** (PR #272) |
 | 7 | Users | STANDARD | 354 / 900 | 1 | à faire |
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | à faire |
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | à faire |
@@ -513,7 +513,92 @@ figuraient déjà dans les cartes : écartées.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 7 — *Users* — RAFFINÉE
+
+`CRS-n9ngfssrq1bt` · `OIT-gkh08ztwdme1` · STANDARD · **354 → 693 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15 (security-core 8.0.15, security-http 8.0.14), deux classes
+utilisateur de sonde — l'une simple, l'autre implémentant `EquatableInterface`
+avec un `isEqualTo()` qui ne compare que l'identifiant — et un user checker qui
+journalise ses appels.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 6 du lot 10 (PR #272, `4417530`) | 36763346667, success | `ok  lot-10  the firewalls page carries its four flashcard levels, the shared context, the second firewall and the cache header` |
+
+### Deux erreurs de fond
+
+**1. La comparaison par défaut inclut les rôles.** La page écrivait « Par défaut
+la comparaison porte sur l'identifiant et le mot de passe. Pour changer la
+règle — déconnecter l'utilisateur si ses rôles changent, par exemple — la classe
+implémente `EquatableInterface` ». C'est l'inverse. Lu dans
+`ContextListener::hasUserChanged()` : sans `EquatableInterface`, mot de passe,
+**rôles** et identifiant sont comparés. Exécuté avec la classe simple : rôle
+ajouté → déconnectée ; mot de passe changé → déconnectée ; rien → connectée.
+Avec l'`isEqualTo()` réduit à l'identifiant : rôle ajouté → connectée, mais le
+jeton garde `ROLE_USER` seul et `isGranted('ROLE_EDITOR')` est faux, alors que
+`getUser()->getRoles()` contient le nouveau rôle. Erreur signalée dès la page 5.
+
+**2. `getRoles()` n'a pas de minimum.** La page écrivait « `getRoles()` doit
+toujours retourner au moins un rôle ». La documentation (`security.rst`) montre
+une classe qui ajoute `ROLE_USER` — « guarantee every user at least has
+ROLE_USER » — : c'est une convention de cette classe. Exécuté, `getRoles()`
+rendant `[]` : connexion **200**, `IS_AUTHENTICATED_FULLY` vrai, `ROLE_USER`
+faux.
+
+### Précisions vérifiées
+
+- `eraseCredentials()` : dépréciée en **7.3**, retirée en **8.0** avec
+  `TokenInterface::eraseCredentials()` (CHANGELOG de Security Core, sections 7.3
+  et 8.0) ; le CHANGELOG 8.0 propose « e.g. using `__serialize()` ». Recherche
+  dans les paquets installés : plus aucun appel, seul un paramètre de
+  constructeur `$eraseCredentials` subsiste dans `AuthenticatorManager`, sans
+  usage.
+- User checker (`UserCheckerListener`) : `checkPreAuth()` sur
+  `CheckPassportEvent` en priorité 256, avant la vérification du mot de passe ;
+  `checkPostAuth()` sur `AuthenticationSuccessEvent`, avec le jeton en second
+  argument depuis 8.0 (CHANGELOG). Exécuté : compte refusé → 401 après `pre`
+  seul ; mauvais mot de passe → `pre` appelé puis 401 ; connexion réussie →
+  `pre` puis `post` ; requêtes suivantes avec cookie → aucun appel.
+
+**Questions.** `QST-qzmh0dtgpccg` (VALIDATION) passe en **v2** : l'énoncé demande
+« what replaced its role? » et la bonne réponse n'en nommait aucun. Nouveau
+choix correct `CHO-x06beaxd2755` (« eraseCredentials(); erase secrets in
+__serialize() instead »), explication fondée sur le CHANGELOG, source ajoutée.
+`QST-62t90ghtbqzj`, `QST-fy4096tmhna5`, `QST-sftrxannmn21` et
+`QST-jwxp5dskf6ed` (LEARNING) relues : exactes, inchangées — le distracteur
+« getRoles() returning an empty array … would still leave the user
+authenticated » est confirmé par l'exécution. Aucune question holdout lue ni
+modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-ygn9w70dncp1` reçoit le niveau RECALL.
+L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP),
+décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `__serialize`,
+`CheckPassportEvent` et `aucun minimum`, absentes de la version `master` de la
+page et du fichier de cartes. `hasUserChanged`, envisagée, figurait déjà dans
+les cartes : écartée.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 151 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Users* (STANDARD, 354 / 900). Y corriger « par défaut la comparaison
-porte sur l'identifiant et le mot de passe » (les rôles sont aussi comparés).
+Page 8 — *Password hashers* (STANDARD, 333 / 900).
