@@ -3003,6 +3003,32 @@ jobs:
           else
             echo "ok  lot-10  the authorization page carries its four flashcard levels, the short-circuited vote, the Basic realm and the affirmative strategy"
           fi
+          # Lot 10 refinement, page 4 (Configuration): the four flashcard levels,
+          # the unprotected page under a security-false firewall, the ambiguous
+          # provider error and the extension class that explains both.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-config -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/configuration")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page configuration serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-config || missing="$missing l10cfg:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-config || missing="$missing l10cfg:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-config || missing="$missing l10cfg:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-config || missing="$missing l10cfg:no-trap-heading"
+          grep -aq 'free/page' /tmp/l10r-config \
+            || missing="$missing l10cfg:no-free-page"
+          grep -aq 'more than one registered provider' /tmp/l10r-config \
+            || missing="$missing l10cfg:no-ambiguous-provider"
+          grep -aq 'SecurityExtension' /tmp/l10r-config \
+            || missing="$missing l10cfg:no-extension"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the configuration page carries its four flashcard levels, the security-false page, the ambiguous provider and the extension"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

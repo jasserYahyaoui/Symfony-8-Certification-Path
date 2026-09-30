@@ -1941,7 +1941,7 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-d69mg4gn25dt
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-xh63g15rz6n3
     domain: symfony
@@ -1952,7 +1952,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: 'A firewall declares security: false for a set of URLs. What does that leave untouched?'
+    question: 'A firewall declares security: false for ^/free, and access_control requires ROLE_ADMIN on
+      ^/free. What does an anonymous visitor get on /free/page?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1962,30 +1963,29 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-09-30'
     tags:
       - security
       - configuration
     choices:
-      - id: CHO-9zyd4d26r34k
-        text: access_control, which still applies to those URLs
+      - id: CHO-vnpfy5kfwswh
+        text: The page itself, since access_control is not enforced there either
         correct: true
-      - id: CHO-mse0y8706k2d
-        text: 'Nothing: the whole security system ignores them'
+      - id: CHO-8h3a974rcxvd
+        text: A login challenge, because access_control still requires ROLE_ADMIN
         correct: false
-        explanation: Only authentication is switched off for that firewall; the access rules are a separate
-          section.
-      - id: CHO-fwm4m6h5jgrm
-        text: The user provider, which still loads a user
+        explanation: The rules are applied by the firewall's access listener, and a security-false firewall has none.
+      - id: CHO-ggxfrefk4zxe
+        text: A 403, because the visitor is anonymous and lacks the role
         correct: false
-        explanation: With no authentication there is nothing to load a user for.
-      - id: CHO-7m0t7mn14tv6
-        text: Nothing, because a firewall without security matches no request
+        explanation: No access listener runs on that firewall, so no access decision is ever taken.
+      - id: CHO-xqkp79x1scv1
+        text: An error when the container compiles, as the two settings contradict each other
         correct: false
-        explanation: It matches its pattern normally; it simply performs no authentication.
-    explanation: 'security: false says the security system does not authenticate on these URLs. It does
-      not say the rules that decide what is required to reach a URL stop applying — those live in access_control,
-      a different section.'
+        explanation: The configuration is accepted; the access_control rule is simply never applied there.
+    explanation: 'security: false gives the firewall no listeners at all. access_control is enforced by the
+      firewall''s access listener, so on those URLs the rule is dead: executed with SecurityBundle 8.0.15,
+      the page answers 200 to an anonymous visitor.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst

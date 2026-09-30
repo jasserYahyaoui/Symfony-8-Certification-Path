@@ -24,7 +24,7 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Security Core, CSRF and PasswordHasher components | STANDARD | 313 / 900 | 1 | **RAFFINÉE** (PR #267) |
 | 2 | Authentication | STANDARD | 325 / 900 | 1 | **RAFFINÉE** (PR #268) |
-| 3 | Authorization | STANDARD | 370 / 900 | 1 | à faire |
+| 3 | Authorization | STANDARD | 370 / 900 | 1 | **RAFFINÉE** (PR #269) |
 | 4 | Configuration | STANDARD | 357 / 900 | 1 | à faire |
 | 5 | Providers | STANDARD | 347 / 900 | 1 | à faire |
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | à faire |
@@ -248,6 +248,74 @@ version `master` de la page et de ses cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 4 — *Configuration* — RAFFINÉE
+
+`CRS-yvhg325ax38y` · `OIT-xh63g15rz6n3` · STANDARD · **357 → 588 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15, configurations de sécurité variées.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 3 du lot 10 (PR #269, `a3860e8`) | 36756807039, success | `ok  lot-10  the authorization page carries its four flashcard levels, the short-circuited vote, the Basic realm and the affirmative strategy` |
+
+### Une erreur de fond : `security: false` et `access_control`
+
+La page posait en piège d'examen : « Un pare-feu `security: false` ne désactive
+pas `access_control` ». `QST-0xvabx1zmvhh` (LEARNING) avait pour bonne réponse
+« access_control, which still applies to those URLs ». C'est faux. Lu dans
+`SecurityExtension::createFirewall()` (8.0.15) : pour `security: false`, retour
+anticipé avec une **liste d'écouteurs vide** — or c'est l'`AccessListener` du
+pare-feu qui applique `access_control`. Exécuté : pare-feu `free` (`^/free`,
+`security: false`) et règle `ROLE_ADMIN` sur `^/free` ; `/free/page` répond
+**200** à un anonyme, sans jeton.
+
+La page est corrigée. La question passe en **v2** avec un nouvel énoncé
+concret (« … What does an anonymous visitor get on /free/page? ») et **quatre
+nouveaux choix** (`CHO-vnpfy5kfwswh` correct, `CHO-8h3a974rcxvd`,
+`CHO-ggxfrefk4zxe`, `CHO-xqkp79x1scv1`) ; la bonne réponse change de sens.
+
+### Confirmé par l'exécution
+
+- Pare-feu sans motif déclaré avant `api` : aucune erreur, `/api/fw` pris par
+  `main`, qui pose un cookie de session.
+- `^/rules` en `PUBLIC_ACCESS` avant `^/rules/a` en `ROLE_ADMIN` : `/rules/a`
+  répond 200 à un anonyme.
+- Deux fournisseurs sans clé `provider` : « … is ambiguous as there is more than
+  one registered provider ».
+- `debug:firewall` liste les pare-feux (`main`, `api`).
+
+**Questions.** `QST-xpq3ys8psrac`, `QST-2eztey3aja7g` (LEARNING) et
+`QST-h788rvr0rp3d` (VALIDATION) relues : exactes, inchangées. L'item ne porte pas
+de question holdout dans le fichier du lot.
+
+**Flashcards.** 10 ajoutées ; la carte préexistante `FLC-paer6jdxzr95` reçoit le
+niveau RECALL. L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 3 APPLICATION,
+3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `free/page`,
+`more than one registered provider` et `SecurityExtension`, absentes de la
+version `master` de la page et de ses cartes. `debug:firewall`, envisagée,
+figurait déjà sur la page : écartée.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 121 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Configuration* (STANDARD, 357 / 900).
+Page 5 — *Providers* (STANDARD, 347 / 900).
