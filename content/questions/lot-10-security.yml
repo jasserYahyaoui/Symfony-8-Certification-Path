@@ -1093,7 +1093,7 @@ questions:
     question_archetype: API_SIGNATURE
     assesses_outcomes:
       - OUT-q8e80pz7kv3c
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-gkh08ztwdme1
     domain: symfony
@@ -1116,12 +1116,12 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - users
     choices:
-      - id: CHO-zyqrd53x48zh
-        text: eraseCredentials(), removed and called by nothing
+      - id: CHO-x06beaxd2755
+        text: eraseCredentials(); erase secrets in __serialize() instead
         correct: true
       - id: CHO-fwgzmtygrxmx
         text: getUsername(), whose role moved to getPassword()
@@ -1136,14 +1136,21 @@ questions:
         text: getRoles(), whose role moved to role_hierarchy
         correct: false
         explanation: getRoles() is still part of the contract; the hierarchy only expands what it returns.
-    explanation: The 8.0 contract is getRoles() and getUserIdentifier(). eraseCredentials() was deprecated
-      and then removed; a class that still declares it is simply never called.
+    explanation: The 8.0 CHANGELOG of Security Core removes eraseCredentials() from UserInterface and
+      TokenInterface and suggests erasing credentials e.g. using __serialize(). A class that still
+      declares the method raises no error, but nothing calls it.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
         branch: '8.0'
         symbol_or_lines: UserInterface
         verified_at: '2026-09-01'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+        repository: symfony/symfony
+        branch: '8.0'
+        symbol_or_lines: 8.0 — Remove UserInterface::eraseCredentials(); erase credentials e.g. using __serialize()
+        verified_at: '2026-09-30'
   - id: QST-cqx6wvrkts6w
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:

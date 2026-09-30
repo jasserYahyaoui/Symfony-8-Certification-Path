@@ -3081,6 +3081,32 @@ jobs:
           else
             echo "ok  lot-10  the firewalls page carries its four flashcard levels, the shared context, the second firewall and the cache header"
           fi
+          # Lot 10 refinement, page 7 (Users): the four flashcard levels, the
+          # replacement the 8.0 changelog names for eraseCredentials(), the
+          # event the user checker listens to and the roleless user.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-users -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/users")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page users serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-users || missing="$missing l10usr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-users || missing="$missing l10usr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-users || missing="$missing l10usr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-users || missing="$missing l10usr:no-trap-heading"
+          grep -aq '__serialize' /tmp/l10r-users \
+            || missing="$missing l10usr:no-serialize"
+          grep -aq 'CheckPassportEvent' /tmp/l10r-users \
+            || missing="$missing l10usr:no-checker-event"
+          grep -aq 'aucun minimum' /tmp/l10r-users \
+            || missing="$missing l10usr:no-roleless-user"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the users page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the users page carries its four flashcard levels, the serialize hint, the checker event and the roleless user"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
