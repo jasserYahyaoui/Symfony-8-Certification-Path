@@ -361,12 +361,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 21 min · 657 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Factories** (STANDARD) — 19 min · 541 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 25 min · 797 mots · 6 questions, 11 flashcards
-- NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 13 min · 597 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 23 min · 873 mots · 4 questions, 11 flashcards
 - Révision **J+3** (16 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags
 - Révision **J+7** (17 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 - Révision **J+14** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 123 / 160 min*
+*Budget du jour : 133 / 160 min*
 
 ### Mardi 27 octobre 2026
 

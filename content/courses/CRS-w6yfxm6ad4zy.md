@@ -5,13 +5,23 @@ title: "Services autowiring"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-30"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst"
     branch: "8.0"
     symbol_or_lines: "type-based resolution, aliases, named autowiring aliases, Target, Autowire"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php"
+    symbol_or_lines: "getAutowiredReference() — a Target naming a service id already aimed at by a named alias of the type"
+    branch: "8.0"
+    verified_at: "2026-09-30"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Target.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Target.php"
+    symbol_or_lines: "Target::getParsedName() — camelCase normalization"
+    branch: "8.0"
+    verified_at: "2026-09-30"
 ---
 
 ## Objectif
@@ -55,10 +65,18 @@ services:
     App\Mail\TransportInterface: '@App\Mail\SmtpTransport'
 ```
 
-Quand une interface n'a qu'**une seule** implémentation dans `src/`, Symfony crée
-cet alias tout seul. Dès qu'il y en a deux, il ne devine plus, et le message est
-« *Cannot autowire … : argument type-hinted with interface … but no such service
-exists* » — la cause n'est pas l'absence de classe, mais l'absence de choix.
+Quand une interface n'a qu'**une seule** implémentation parmi les classes
+découvertes, Symfony crée cet alias tout seul. Dès qu'il y en a deux, il ne
+devine plus. Exécuté avec FrameworkBundle 8.0.15, deux implémentations de
+`TransformerInterface` :
+
+> Cannot autowire service "App\P11\Consumer": argument "$transformer" of method
+> "__construct()" references interface "App\P11\TransformerInterface" but no
+> such service exists. You should maybe alias this interface to one of these
+> existing services: "App\P11\Rot13Transformer", "App\P11\UppercaseTransformer".
+
+La cause n'est pas l'absence de classe, mais l'absence de choix — et le message
+propose lui-même les candidats.
 
 ## Trois façons de départager
 
@@ -86,10 +104,40 @@ public function __construct(
 ) {}
 ```
 
-`#[Target]` prend le **nom employé dans l'alias nommé**, pas un identifiant de
-service ni un alias ordinaire. Son avantage sur la solution 2 : le nom de
-l'argument redevient libre, et une faute de frappe lève une exception au lieu de
-retomber silencieusement sur l'implémentation par défaut.
+`#[Target]` prend le **nom employé dans l'alias nommé**. Son avantage sur la
+solution 2 : le nom de l'argument redevient libre, et une faute de frappe lève
+une exception au lieu de retomber silencieusement sur l'implémentation par
+défaut.
+
+## Ce que l'exécution montre
+
+Les deux alias ci-dessus déclarés, un consommateur à quatre arguments :
+
+| Argument | Reçoit |
+|---|---|
+| `TransformerInterface $transformer` | `rot13` — l'alias par défaut |
+| `TransformerInterface $shoutyTransformer` | `upper` — l'alias nommé |
+| `TransformerInterface $shoutyTransfomer` (faute de frappe) | `rot13`, **sans erreur** |
+| `#[Target('shoutyTransfomer')]` (même faute) | « has "#[Target('shoutyTransfomer')]" but no such target exists. Did you mean to target "shoutyTransformer" instead? » |
+| `#[Target('shouty.transformer')]` | `upper` — le nom est normalisé en camelCase |
+
+`debug:autowiring Transformer` liste les deux : `App\P11\TransformerInterface`
+et `App\P11\TransformerInterface $shoutyTransformer`.
+
+## Ce que dit la documentation, ce que fait le code
+
+`autowiring.rst` (8.0) avertit que `#[Target]` « **does not** accept service ids
+or service aliases ». Exécuté, c'est plus nuancé :
+
+| `#[Target(…)]` | Résultat |
+|---|---|
+| `'App\P11\UppercaseTransformer'`, cible d'un alias nommé du même type | injecté |
+| `'App\P11\Rot13Transformer'`, cible du seul alias par défaut | « no such target exists » |
+
+`AutowirePass::getAutowiredReference()` accepte un identifiant de service
+**lorsqu'un alias nommé de ce type le vise déjà**. La règle d'écriture reste celle
+de la documentation — viser le nom de l'alias nommé —, mais l'affirmation absolue
+est fausse.
 
 ## Câbler ce qui n'est pas un service
 
@@ -104,21 +152,27 @@ retomber silencieusement sur l'implémentation par défaut.
 
 ## Les limites
 
-L'autowiring ne devine **que par le type**. Un argument scalaire — `string`,
-`int` — n'a aucun service correspondant : il faut `bind`, `#[Autowire]` ou un
-argument explicite. Un argument avec une valeur par défaut est laissé tel quel
-si rien ne correspond.
+L'autowiring ne devine **que par le type**. Un argument scalaire n'a aucun
+service correspondant — exécuté : « argument "$dir" of method "__construct()"
+is type-hinted "string", you should configure its value explicitly. » Il faut
+`bind`, `#[Autowire]` ou un argument explicite.
 
-`php bin/console debug:autowiring` liste les types câblables **et** les alias
-nommés existants ; c'est la réponse à « pourquoi ça ne se câble pas ».
+Un argument nullable avec une valeur par défaut est laissé tel quel si rien ne
+correspond : exécuté, un `?App\Missing\Nope $opt = null` reçoit `null`.
+
+L'erreur apparaît à la compilation — **pour les services conservés**. Exécuté :
+la même classe au `string` non résolu, privée et jamais utilisée, est retirée et
+ne lève rien.
 
 ## Pièges d'examen
 
 - L'autowiring passe par le **type**, pas par le nom — sauf alias nommé et `#[Target]`.
 - Deux implémentations d'une interface **suppriment** l'alias automatique.
-- `#[Target]` attend le nom de l'**alias nommé**, pas un identifiant de service.
+- Une faute dans le nom d'argument retombe **en silence** sur l'alias par
+  défaut ; la même faute dans `#[Target]` lève une exception.
+- `#[Target]` vise le nom de l'**alias nommé** ; un identifiant ne passe que s'il
+  est déjà la cible d'un alias nommé du même type.
 - Un scalaire ne s'autowire jamais.
-- L'autowiring est résolu **à la compilation** : l'erreur apparaît au build, pas à la requête.
 
 ## Points clés
 
@@ -131,3 +185,5 @@ nommés existants ; c'est la réponse à « pourquoi ça ne se câble pas ».
 ## Sources officielles
 
 - [Defining Services Dependencies Automatically (Autowiring)](https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst)
+- [DependencyInjection 8.0, `Compiler\AutowirePass`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php)
+- [DependencyInjection 8.0, `Attribute\Target`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Target.php)

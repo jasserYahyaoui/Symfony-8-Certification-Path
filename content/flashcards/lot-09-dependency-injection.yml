@@ -175,6 +175,7 @@ flashcards:
 - id: FLC-yze03t40rkqr
   official_item: OIT-wm3qdqemtap9
   language: fr
+  level: UNDERSTANDING
   front: 'Deux classes implémentent la même interface : que devient l''autowiring ?'
   back: 'L''alias automatique disparaît. Il faut un alias par défaut, un alias nommé « Interface $argument
     », ou #[Target].'
@@ -1921,4 +1922,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: CompilerPassInterface, addCompilerPass, findTaggedServiceIds
+    verified_at: '2026-09-30'
+- id: FLC-wtyfcm6w8dzf
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: RECALL
+  front: 'Symfony : comment déclarer en YAML un alias d''autowiring nommé ?'
+  back: '`App\Util\TransformerInterface $shoutyTransformer: ''@App\Util\UppercaseTransformer''` — le type, un espace, le nom d''argument.'
+  explanation: '`debug:autowiring` liste les alias nommés à côté des alias ordinaires.'
+  memorization_justification: Syntaxe de l'alias nommé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+- id: FLC-hntww5zsn5h4
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode PHP enregistre un alias d''autowiring nommé, depuis une passe ou une extension ?'
+  back: '`ContainerBuilder::registerAliasForArgument($id, $type, $name)` ; un quatrième argument donne un nom de `#[Target]` distinct.'
+  explanation: Forme documentée dans `autowiring.rst` (8.0).
+  memorization_justification: Forme programmatique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+- id: FLC-dc9ayeb3b4d3
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: RECALL
+  front: 'Symfony : #[Target(''shouty.transformer'')] trouve-t-il l''alias $shoutyTransformer ?'
+  back: 'Oui : le nom est normalisé en camelCase. Exécuté, l''argument reçoit l''implémentation criarde.'
+  explanation: '`Target` convertit les séparateurs avant de chercher l''alias.'
+  memorization_justification: Normalisation du nom.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Target.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Target.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Target::getParsedName() — camelCase normalization
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+- id: FLC-pkjrh67b5bbs
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi le message d''échec parle-t-il d''un service inexistant quand deux classes implémentent l''interface ?'
+  back: 'Parce qu''aucun service ne porte le nom de l''interface : l''alias automatique n''existe que pour une implémentation unique. Le message propose d''ailleurs les deux candidats.'
+  explanation: 'Exécuté : « You should maybe alias this interface to one of these existing services: … ».'
+  memorization_justification: Lecture du message d'erreur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+- id: FLC-zwbwpynpgpf3
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un argument typé LoggerInterface doit recevoir monolog.logger.request.'
+  back: '`#[Autowire(service: ''monolog.logger.request'')] LoggerInterface $logger`.'
+  explanation: '`#[Autowire]` couvre aussi `param:`, `env:` et les expressions.'
+  memorization_justification: Service précis sans alias.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+- id: FLC-r4wq17j0qrnw
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un argument ?Cache $cache = null dont aucun service ne correspond. Que reçoit-il ?'
+  back: '`null` : un argument nullable avec valeur par défaut est laissé tel quel. Exécuté avec un type inexistant.'
+  explanation: Sans valeur par défaut ni nullabilité, l'autowiring échouerait.
+  memorization_justification: Repli par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+- id: FLC-8exbtqgre1g2
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : un argument nommé $shoutyTransfomer (faute de frappe) lève-t-il une erreur ?'
+  back: 'Non : il retombe **en silence** sur l''alias par défaut. Exécuté, il reçoit `rot13`.'
+  explanation: 'C''est l''avantage de `#[Target]` : la même faute y lève « no such target exists ».'
+  memorization_justification: Faute de frappe silencieuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+- id: FLC-a0hf1fp79fjh
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : #[Target] refuse-t-il toujours un identifiant de service ?'
+  back: 'Non, contrairement à `autowiring.rst` : un identifiant passe s''il est déjà la cible d''un alias nommé du même type. Exécuté : `UppercaseTransformer` injecté, `Rot13Transformer` refusé.'
+  explanation: '`AutowirePass::getAutowiredReference()` ; la règle d''écriture reste de viser le nom de l''alias.'
+  memorization_justification: Doc absolue, code nuancé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: named autowiring aliases, Target, registerAliasForArgument, Autowire
+    verified_at: '2026-09-30'
+- id: FLC-rat1m2bcb0wj
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : une classe au string non résolu, privée et jamais utilisée, fait-elle échouer la compilation ?'
+  back: 'Non : exécuté, elle est retirée et ne lève rien. L''erreur ne concerne que les services conservés.'
+  explanation: Rendue publique, la même classe lève « is type-hinted "string", you should configure its value explicitly ».
+  memorization_justification: Erreur supposée systématique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
+    verified_at: '2026-09-30'
+- id: FLC-8mmhmby2gv1f
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : que dit l''erreur d''un argument string $dir non configuré ?'
+  back: « argument "$dir" of method "__construct()" is type-hinted "string", you should configure its value explicitly. »
+  explanation: 'Exécuté : un scalaire ne désigne aucun service ; `bind`, `#[Autowire]` ou un argument explicite.'
+  memorization_justification: Scalaire non autowirable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAutowiredReference(), createTypeNotFoundMessage()
     verified_at: '2026-09-30'

@@ -2873,6 +2873,32 @@ jobs:
           else
             echo "ok  lot-09  the compiler passes page carries its four flashcard levels, the kernel priority, the uninitialized definition and the sort"
           fi
+          # Lot 09 refinement, page 11 (Services autowiring): the four flashcard
+          # levels, the Target typo error, the normalised Target name and the
+          # scalar argument error.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l9r-autowiring -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/services-autowiring")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 09 refined page services-autowiring serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l9r-autowiring || missing="$missing l9awr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l9r-autowiring || missing="$missing l9awr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l9r-autowiring || missing="$missing l9awr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l9r-autowiring || missing="$missing l9awr:no-trap-heading"
+          grep -aq 'no such target exists' /tmp/l9r-autowiring \
+            || missing="$missing l9awr:no-target-typo"
+          grep -aq 'shouty.transformer' /tmp/l9r-autowiring \
+            || missing="$missing l9awr:no-normalised-target"
+          grep -aq 'configure its value explicitly' /tmp/l9r-autowiring \
+            || missing="$missing l9awr:no-scalar-error"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 09 refinement missing from the services autowiring page:$missing"
+            fail=1
+          else
+            echo "ok  lot-09  the services autowiring page carries its four flashcard levels, the Target typo, the normalised name and the scalar error"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

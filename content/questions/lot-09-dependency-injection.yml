@@ -1743,7 +1743,7 @@ questions:
     question_archetype: API_SIGNATURE
     assesses_outcomes:
       - OUT-06wrfq0kv0v0
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-wm3qdqemtap9
     domain: symfony
@@ -1765,7 +1765,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - autowiring
       - target
@@ -1773,10 +1773,10 @@ questions:
       - id: CHO-5pcr8wwr4shd
         text: The name used in the named autowiring alias
         correct: true
-      - id: CHO-21n4wfa6ypav
-        text: The service id of the implementation to inject
+      - id: CHO-wvpdch891hrk
+        text: The name of a container parameter holding the implementation's class
         correct: false
-        explanation: The attribute explicitly does not accept service ids.
+        explanation: Target never reads parameters; it resolves against the named autowiring aliases of the type.
       - id: CHO-rqb1f2n8r5jn
         text: The fully-qualified class name of the implementation
         correct: false
