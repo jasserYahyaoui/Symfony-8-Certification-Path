@@ -6350,9 +6350,9 @@ items:
       - id: OUT-tw22dh0mnngy
         outcome: Attribuer une responsabilité au bon composant
       - id: OUT-3xr6hfb46rq2
-        outcome: Énoncer que password-hasher et security-csrf s'utilisent seuls
+        outcome: Énoncer que password-hasher s'utilise seul et que security-csrf se passe de pare-feu
       - id: OUT-sk1ndg394haz
-        outcome: Situer security-core comme ignorant HTTP
+        outcome: Situer security-core hors de toute dépendance à HttpFoundation
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"

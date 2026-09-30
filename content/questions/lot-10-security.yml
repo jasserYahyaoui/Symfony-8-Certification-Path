@@ -28,7 +28,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - components
     choices:
@@ -47,8 +47,9 @@ questions:
         text: Nothing — hashing is part of the PHP standard library
         correct: false
         explanation: PHP provides password_hash, but the Symfony abstraction lives in its own component.
-    explanation: The three security packages are independent. password-hasher installs and works alone,
-      which is why hashing requires no authentication system.
+    explanation: password-hasher requires nothing but PHP, so it installs and works alone and hashing needs
+      no authentication system. The other packages depend on it instead - security-core requires it, and
+      security-csrf requires security-core.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
@@ -59,7 +60,7 @@ questions:
     question_archetype: DEFINITION_RECALL
     assesses_outcomes:
       - OUT-sk1ndg394haz
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-942znmbjwvad
     domain: symfony
@@ -71,7 +72,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Which package knows nothing about HTTP?
+    question: Which package holds the user model, tokens and voters without requiring the HttpFoundation
+      component?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -81,7 +83,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - components
     choices:
@@ -91,7 +93,7 @@ questions:
       - id: CHO-fnsyct742d2n
         text: security-http
         correct: false
-        explanation: Its whole purpose is to connect the model to the request.
+        explanation: It requires http-foundation and http-kernel, since its purpose is to connect the model to the request.
       - id: CHO-mcy8em825b5m
         text: SecurityBundle
         correct: false
@@ -99,9 +101,10 @@ questions:
       - id: CHO-ws8rg3exajvd
         text: security-csrf
         correct: false
-        explanation: CSRF tokens are verified against request data.
-    explanation: security-core holds the user model, tokens, voters and role hierarchy. Turning a request
-      into an authentication attempt is security-http's job.
+        explanation: It does not require HttpFoundation either, but it generates CSRF tokens and holds neither users nor voters.
+    explanation: security-core holds the user model, tokens, voters and role hierarchy, and lists
+      http-foundation only as a development dependency. Turning a request into an authentication attempt is
+      security-http's job.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
@@ -135,7 +138,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - components
       - csrf
@@ -155,8 +158,9 @@ questions:
         text: Only if the session is disabled
         correct: false
         explanation: Stateful CSRF tokens use the session; that is not a restriction on firewalls.
-    explanation: security-csrf is a standalone component, which is exactly how the Form component protects
-      forms in applications with no security configured.
+    explanation: security-csrf needs no firewall and no security configuration - as a package it only pulls
+      in security-core - which is exactly how the Form component protects forms in applications with no
+      security configured.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst

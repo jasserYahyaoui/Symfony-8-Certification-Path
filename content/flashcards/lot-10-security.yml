@@ -3,9 +3,11 @@ flashcards:
 - id: FLC-pd0dmdcagt1k
   official_item: OIT-942znmbjwvad
   language: fr
+  level: TRAP
   front: Hacher un mot de passe exige-t-il le système de sécurité complet ?
-  back: Non. symfony/password-hasher s'installe et s'utilise seul, comme security-csrf.
-  explanation: Les trois paquets sont indépendants ; security-core ignore même HTTP.
+  back: Non. symfony/password-hasher s'installe et s'utilise seul ; il ne dépend de rien.
+  explanation: 'Les responsabilités sont séparées, pas les paquets : security-core dépend de password-hasher,
+    et security-csrf de security-core.'
   memorization_justification: Le nom « Security » laisse croire à un bloc indivisible.
   verification_status: VERIFIED
   official_sources:
@@ -164,3 +166,193 @@ flashcards:
     symbol_or_lines: 'Changing the Access Decision Strategy — "affirmative (default) This grants access as soon as there is one voter granting access"; "unanimous This only grants access if there is no voter denying access"'
     branch: '8.0'
     verified_at: '2026-09-01'
+- id: FLC-neg6wfd890qf
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel paquet de sécurité ne dépend d''aucun autre ?'
+  back: '`symfony/password-hasher` : son `require` ne contient que PHP.'
+  explanation: 'Exécuté : `composer require symfony/password-hasher` n''installe que lui.'
+  memorization_justification: Seul paquet réellement isolé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: php only'
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Password Hashing and Verification — composer require symfony/password-hasher
+    verified_at: '2026-09-30'
+- id: FLC-537wt25tk1x1
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel paquet fournit UserInterface, les jetons, les votants et la hiérarchie des rôles ?'
+  back: '`symfony/security-core`.'
+  explanation: Le hachage est dans `password-hasher`, les pare-feux dans `security-http`.
+  memorization_justification: Contenu de security-core.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: password-hasher; http-foundation in require-dev only'
+    verified_at: '2026-09-30'
+- id: FLC-h41qav4cmz45
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel paquet contient les pare-feux et les authenticators ?'
+  back: '`symfony/security-http`, qui dépend de `security-core`, `http-foundation` et `http-kernel`.'
+  explanation: C'est lui qui traduit une requête en tentative d'authentification.
+  memorization_justification: Frontière modèle / HTTP.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: security-core, http-foundation, http-kernel, property-access'
+    verified_at: '2026-09-30'
+- id: FLC-yr53key5azr0
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi security-csrf installe-t-il security-core ?'
+  back: 'Parce qu''il lève les exceptions de `security-core` (`RuntimeException`, `InvalidArgumentException`) : c''est son seul `require`.'
+  explanation: 'Exécuté : `composer require symfony/security-csrf` tire `security-core` et `password-hasher`.'
+  memorization_justification: Dépendance modeste mais réelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: security-core'
+    verified_at: '2026-09-30'
+- id: FLC-w9fhy2zz6fqy
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi dit-on que security-core ne dépend pas de HTTP alors que certaines de ses classes citent HttpFoundation ?'
+  back: 'Parce que `http-foundation` n''est qu''en `require-dev` : quelques classes optionnelles (`UsageTrackingTokenStorage`, `ExpressionVoter`) s''en servent quand il est présent.'
+  explanation: La traduction requête → authentification appartient à `security-http`.
+  memorization_justification: Nuance dépendance / usage optionnel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: password-hasher; http-foundation in require-dev only'
+    verified_at: '2026-09-30'
+- id: FLC-8hfqmf2rdfay
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un script CLI doit hacher des mots de passe, sans utilisateurs ni pare-feu. Que requérir ?'
+  back: '`composer require symfony/password-hasher`, puis `PasswordHasherFactory` avec l''algorithme `auto`.'
+  explanation: 'Exécuté : hachage `$2y$13$…`, `verify()` vrai pour le bon mot de passe, faux sinon.'
+  memorization_justification: Usage autonome.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Password Hashing and Verification — composer require symfony/password-hasher
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: php only'
+    verified_at: '2026-09-30'
+- id: FLC-0ftsn2cka1ym
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : protéger un formulaire par CSRF dans une application sans sécurité configurée. De quoi a-t-on besoin ?'
+  back: '`symfony/security-csrf` — aucun pare-feu, aucune clé `security:` ; le paquet installe `security-core` au passage.'
+  explanation: C'est ainsi que le composant Form protège ses formulaires.
+  memorization_justification: CSRF sans authentification.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: composer require symfony/security-csrf
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: security-core'
+    verified_at: '2026-09-30'
+- id: FLC-qqssn7t9m6qg
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: TRAP
+  front: 'Symfony : security-csrf s''installe-t-il seul ?'
+  back: 'Non : il requiert `security-core`, qui requiert `password-hasher`. Seul `password-hasher` s''installe seul.'
+  explanation: Lu dans les `composer.json` 8.0 et confirmé par une résolution Composer.
+  memorization_justification: Indépendance fonctionnelle confondue avec indépendance des paquets.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: security-core'
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: password-hasher; http-foundation in require-dev only'
+    verified_at: '2026-09-30'
+- id: FLC-4gw9y2mthcz4
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: TRAP
+  front: 'Symfony : le hachage vit-il dans security-core ?'
+  back: 'Non : dans `password-hasher` — mais `security-core` en **dépend**.'
+  explanation: Deux paquets distincts, reliés par un `require`.
+  memorization_justification: Paquet confondu avec dépendance.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: password-hasher; http-foundation in require-dev only'
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PasswordHasher/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: php only'
+    verified_at: '2026-09-30'
+- id: FLC-1zsamgd3aga4
+  official_item: OIT-942znmbjwvad
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il un pare-feu pour utiliser un jeton CSRF ?'
+  back: 'Non : `security-csrf` ne demande ni pare-feu ni authentification.'
+  explanation: Le composant Form s'en sert dans des applications sans aucune configuration de sécurité.
+  memorization_justification: CSRF lié à tort à l'authentification.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: composer require symfony/security-csrf
+    verified_at: '2026-09-30'
