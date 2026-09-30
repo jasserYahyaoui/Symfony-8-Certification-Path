@@ -5,7 +5,7 @@ title: "Compiler passes"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-09-30"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst"
@@ -17,6 +17,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "PassConfig::TYPE_*, addPass"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+    symbol_or_lines: "addCompilerPass($this, PassConfig::TYPE_BEFORE_OPTIMIZATION, -10000)"
+    branch: "8.0"
+    verified_at: "2026-09-29"
 ---
 
 ## Objectif
@@ -55,10 +60,13 @@ class HandlerPass implements CompilerPassInterface
 ```
 
 Elle reçoit le `ContainerBuilder` — les **définitions**, pas les objets. Rien
-n'est instancié : on manipule des descriptions.
+n'est instancié : on manipule des descriptions. Exécuté avec
+`symfony/dependency-injection` 8.0.15 : dans une passe, `getDefinition('priv')`
+rend un objet `Definition`, et `initialized('priv')` vaut `false`.
 
 `findTaggedServiceIds()` retourne un tableau `identifiant => liste d'attributs
 de tag`, la liste parce qu'un service peut porter le même tag plusieurs fois.
+Exécuté, un service tagué deux fois : `{"x":[{"a":1},{"a":2}]}`.
 
 ## Où l'enregistrer
 
@@ -81,6 +89,10 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 }
 ```
 
+Le noyau n'est pas enregistré à la priorité par défaut : `Kernel` l'ajoute en
+`TYPE_BEFORE_OPTIMIZATION` avec la priorité **-10000** (relu dans
+`HttpKernel\Kernel`, 8.0.15), donc après les passes des bundles de la même étape.
+
 La convention est de placer les passes d'un bundle dans
 `DependencyInjection/Compiler/` et de les suffixer `Pass`.
 
@@ -89,21 +101,34 @@ La convention est de placer les passes d'un bundle dans
 `addCompilerPass()` prend un **type** et une **priorité**. Les types sont les
 constantes de `PassConfig`, dans cet ordre d'exécution :
 
-| Constante | Moment |
-|---|---|
-| `TYPE_BEFORE_OPTIMIZATION` | **le défaut** — tout est encore là |
-| `TYPE_OPTIMIZE` | résolution : alias, paramètres, autowiring |
-| `TYPE_BEFORE_REMOVING` | juste avant le nettoyage |
-| `TYPE_REMOVE` | suppression des services privés inutilisés |
-| `TYPE_AFTER_REMOVING` | après le nettoyage |
+| Constante | Moment | Passes du composant, relues en 8.0.15 |
+|---|---|---|
+| `TYPE_BEFORE_OPTIMIZATION` | **le défaut** — tout est encore là | autoconfiguration, `instanceof`, à la priorité 100 |
+| `TYPE_OPTIMIZE` | résolution | `AutowirePass`, paramètres, bindings, alias, décorateurs |
+| `TYPE_BEFORE_REMOVING` | juste avant le nettoyage | aucune par défaut |
+| `TYPE_REMOVE` | suppression | `RemoveUnusedDefinitionsPass`, inlining |
+| `TYPE_AFTER_REMOVING` | après le nettoyage | chemins chauds, préchargement |
 
-Le choix n'est pas décoratif. Une passe qui **ajoute** une référence à un service
-privé doit s'exécuter **avant** `TYPE_REMOVE`, sinon le service qu'elle vient de
-câbler aura déjà été supprimé comme inutilisé. Inversement, une passe qui veut
-observer le conteneur final doit se placer en `TYPE_AFTER_REMOVING`.
-
-À type égal, la **priorité la plus haute s'exécute en premier** ; elle vaut `0`
+Exécuté, sept passes enregistrées dans le désordre s'exécutent dans cet ordre :
+priorité 10, 0 puis -5 de l'étape par défaut, puis `optimize`, `beforeRemoving`,
+`remove`, `after`. **La priorité la plus haute passe en premier** ; elle vaut `0`
 par défaut.
+
+## Ce que l'étape rend visible
+
+Le choix n'est pas décoratif. Trois exécutions le montrent :
+
+| Passe | Résultat |
+|---|---|
+| ajoute une référence à un service privé en `TYPE_BEFORE_REMOVING` | le service est conservé et injecté |
+| la même en `TYPE_AFTER_REMOVING` | `compile()` et le vidage en PHP **passent** ; l'instanciation du consommateur lève `ServiceNotFoundException` — « The "priv" service or alias has been removed or inlined when the container was compiled » |
+| lit un tag posé par `registerForAutoconfiguration()`, priorité 0 | le service tagué est vu |
+| la même, priorité 200 | **rien** : l'autoconfiguration, à 100, n'a pas encore eu lieu |
+
+Une passe qui **ajoute** une référence à un service privé doit donc s'exécuter
+avant `TYPE_REMOVE` ; une passe qui veut observer le conteneur final se place en
+`TYPE_AFTER_REMOVING` ; et une priorité élevée dans l'étape par défaut ne voit
+pas encore les tags d'autoconfiguration.
 
 ## Passe ou configuration
 
@@ -116,9 +141,12 @@ s'exécute pas à la compilation.
 ## Pièges d'examen
 
 - Une passe manipule des **définitions**, jamais des instances.
-- Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`.
-- Câbler un service privé **après** `TYPE_REMOVE` échoue : il a déjà disparu.
-- Priorité haute = **plus tôt**, à type égal.
+- Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`, priorité `0`.
+- Câbler un service privé **après** `TYPE_REMOVE` échoue : il a déjà disparu —
+  et l'erreur n'arrive qu'à l'exécution, pas à la compilation.
+- Priorité haute = **plus tôt**, à type égal — au-delà de 100, avant
+  l'autoconfiguration.
+- Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
 - Une passe s'exécute **une fois**, à la compilation — jamais par requête.
 - `findTaggedServiceIds()` retourne une **liste** d'attributs par service, pas un
   seul jeu.
@@ -136,3 +164,4 @@ s'exécute pas à la compilation.
 
 - [How to Work with Compiler Passes](https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst)
 - [`PassConfig`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php)
+- [HttpKernel 8.0, `Kernel`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
