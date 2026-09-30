@@ -1165,7 +1165,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-29'
     tags:
       - semantic-config
       - prepend
@@ -1186,7 +1186,8 @@ questions:
         correct: false
         explanation: That is a recipe's job, and it would not let the application override cleanly.
     explanation: Prepended configuration is placed before the application's, so the application keeps
-      the last word. It is how a bundle registers its template path in Twig.
+      the last word. A bundle's own templates need no prepend, since TwigBundle registers each bundle's
+      templates directory by itself.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst

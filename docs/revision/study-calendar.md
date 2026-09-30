@@ -358,7 +358,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 26 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 11 min · 404 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 21 min · 657 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Dependency Injection : Factories** (STANDARD) — 10 min · 343 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 14 min · 548 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 13 min · 597 mots · 4 questions, 1 flashcards
@@ -366,7 +366,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (17 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 - Révision **J+14** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 93 / 160 min*
+*Budget du jour : 103 / 160 min*
 
 ### Mardi 27 octobre 2026
 

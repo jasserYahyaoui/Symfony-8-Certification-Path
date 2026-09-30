@@ -127,6 +127,7 @@ flashcards:
 - id: FLC-dmvk9r2pqhsg
   official_item: OIT-qj4xfkhwdrx7
   language: fr
+  level: RECALL
   front: 'Une clé inconnue dans la configuration d''un bundle : ignorée ou erreur ?'
   back: Erreur au chargement. L'arbre déclaré par ConfigurationInterface valide la configuration avant
     qu'elle serve.
@@ -1414,4 +1415,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: Tag "%s" was defined on service(s) "%s", but was never used.
+    verified_at: '2026-09-29'
+- id: FLC-xf4xveacmqb5
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle clé racine donne un bundle nommé AcmeSocialBundle ?'
+  back: '`acme_social` : exécuté, `getContainerExtension()->getAlias()` le rend.'
+  explanation: Le nom du bundle, privé de `Bundle`, passé en snake_case.
+  memorization_justification: Nom de la clé de configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Bundle/AbstractBundle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Bundle/AbstractBundle.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure(), prependExtension(), loadExtension()
+    verified_at: '2026-09-29'
+- id: FLC-ze7jcm3nwq8t
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles méthodes d''AbstractBundle portent l''arbre et le chargement des services ?'
+  back: '`configure(DefinitionConfigurator)` pour l''arbre, `loadExtension(array, ContainerConfigurator, ContainerBuilder)` pour les services.'
+  explanation: '`prependExtension()` configure d''autres bundles avant leur chargement.'
+  memorization_justification: Forme moderne du bundle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Bundle/AbstractBundle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Bundle/AbstractBundle.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure(), prependExtension(), loadExtension()
+    verified_at: '2026-09-29'
+- id: FLC-avqp3vbg6k93
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi loadExtension() ne peut-elle pas lire la requête ?'
+  back: 'Parce qu''elle s''exécute à la compilation du conteneur : exécuté, au second démarrage, cache chaud, elle n''est plus appelée.'
+  explanation: Aucun état d'exécution n'existe à ce moment.
+  memorization_justification: Phase de compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
+    verified_at: '2026-09-29'
+- id: FLC-yfg44w0289q5
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi l''application garde-t-elle le dernier mot sur une configuration prepend ?'
+  back: 'Parce que le prepend est placé avant `config/packages/*`, fusionné ensuite : exécuté, le `label` de l''application remplace celui du bundle.'
+  explanation: '`prepend_extension.rst` : « any other settings done explicitly inside the config/* files would override these prepended settings ».'
+  memorization_justification: Ordre de fusion.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/prepend_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/prepend_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: prependExtensionConfig; config/* overrides prepended settings; the bundle registered first takes priority
+    verified_at: '2026-09-29'
+- id: FLC-yak81rs2by3f
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : depuis un AbstractBundle, fixer framework.cache.prefix_seed pour l''application.'
+  back: 'Dans `prependExtension()` : `$container->extension(''framework'', [''cache'' => [''prefix_seed'' => ''foo/bar'']], prepend: true)`.'
+  explanation: Forme donnée par `prepend_extension.rst` (8.0).
+  memorization_justification: Prepend depuis la forme moderne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/prepend_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/prepend_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: prependExtensionConfig; config/* overrides prepended settings; the bundle registered first takes priority
+    verified_at: '2026-09-29'
+- id: FLC-m81hzshn4vpk
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un bundle doit exiger client_id. Comment l''écrire dans l''arbre ?'
+  back: '`->scalarNode(''client_id'')->isRequired()->end()`.'
+  explanation: 'Exécuté : absent, « The child config "client_id" under "acme_social" must be configured. »'
+  memorization_justification: Clé obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
+    verified_at: '2026-09-29'
+- id: FLC-hg5vh8tm581v
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: TRAP
+  front: 'Symfony : un bundle ajouté mais jamais configuré par l''application échappe-t-il à isRequired() ?'
+  back: 'Non : l''extension traite une configuration vide, et le nœud requis fait échouer la compilation.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15, sans fichier `acme_social.yaml`.
+  memorization_justification: Bundle supposé inactif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
+    verified_at: '2026-09-29'
+- id: FLC-rbpr66rbttds
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: TRAP
+  front: 'Symfony : deux bundles prepend la même clé d''un troisième. Lequel l''emporte ?'
+  back: 'Le **premier enregistré** : exécuté, `FirstBundle` puis `SecondBundle` donnent `from-first`.'
+  explanation: '`prepend_extension.rst` : « the bundle that is registered first will take priority ».'
+  memorization_justification: Ordre contre-intuitif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/prepend_extension.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/prepend_extension.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: prependExtensionConfig; config/* overrides prepended settings; the bundle registered first takes priority
+    verified_at: '2026-09-29'
+- id: FLC-z9sb90wdbwxk
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il un prepend pour que Twig trouve les gabarits d''un bundle ?'
+  back: 'Non : TwigBundle enregistre de lui-même `templates/` ou `Resources/views/` de chaque bundle, sous `@AcmeSocial`.'
+  explanation: '`TwigExtension::getBundleTemplatePaths()`, et `normalizeBundleName()` retire le suffixe `Bundle`.'
+  memorization_justification: Exemple de prepend mal choisi.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/TwigExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getBundleTemplatePaths(), normalizeBundleName()
+    verified_at: '2026-09-29'
+- id: FLC-t06cnhax520f
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: TRAP
+  front: 'Symfony : que dit l''erreur d''une faute de frappe timout dans acme_social ?'
+  back: « Unrecognized option "timout" under "acme_social". Did you mean "timeout"? »
+  explanation: 'Exécuté : `InvalidConfigurationException` à la compilation ; la clé n''est jamais ignorée.'
+  memorization_justification: Validation de l'arbre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/ArrayNode.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Config/Definition/ArrayNode.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Unrecognized option "%s" under "%s"
+    verified_at: '2026-09-29'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/bundles/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AbstractBundle::configure, loadExtension, ConfigurationInterface
     verified_at: '2026-09-29'
