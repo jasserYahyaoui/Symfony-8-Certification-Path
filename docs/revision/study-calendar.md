@@ -514,7 +514,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 6 novembre 2026
 
-- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 17 min · 677 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 27 min · 949 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Security : Voters and voting strategies** (DEEP) — 15 min · 538 mots · 6 questions, 1 flashcards
 - NOUVEAU · **Messenger : Messenger component** (STANDARD) — 9 min · 382 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Messenger : Transports** (STANDARD) — 12 min · 386 mots · 5 questions, 1 flashcards
@@ -524,7 +524,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags
 - Révision **J+30** (10 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 128 / 160 min*
+*Budget du jour : 138 / 160 min*
 
 ### Samedi 7 novembre 2026
 
