@@ -19,7 +19,7 @@ périmètre sur instruction.
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
-| 10 (Security) | **en cours** — pages 1–8 déployées (PR #267 à #274) ; page 9 en PR | `docs/progress/lot-10-refinement.md` |
+| 10 (Security) | **en cours** — pages 1–9 déployées (PR #267 à #275) ; page 10 en PR | `docs/progress/lot-10-refinement.md` |
 | 11 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -34,12 +34,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 9 du lot 10 après CI verte,
-lire son smoke test, puis page 10 (*Access Control Rules*) : plusieurs rôles
-valent « ou » ; `roles` + `allow_if` valent « ou » en `affirmative`, « et » en
-`unanimous` (exécuté) ; `request_matcher` manque au tableau de la page. Le
-conteneur a été recyclé le 2026-10-01 : bac à sable Symfony à reconstruire
-avant les pages 11 et 12.
+**Prochaine action** : fusionner la PR de la page 10 du lot 10 après CI verte,
+lire son smoke test, puis page 11 (*Authenticators, Passports and Badges*,
+DEEP) : `supports()` = `null` signifie authentification **paresseuse**, pas
+« redemande-moi » ; `RememberMeBadge` est désactivé par défaut ; `lazy` est
+ignoré sur un pare-feu `stateless` (`SecurityExtension`, exécuté) — à reporter
+aussi sur la page 6 ; sources à SHA court à remplacer.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
