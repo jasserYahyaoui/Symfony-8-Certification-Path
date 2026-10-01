@@ -83,6 +83,7 @@ flashcards:
   - id: FLC-d0cpf8zrpcbj
     official_item: OIT-s3jh7wg5km19
     language: fr
+    level: RECALL
     front: "Security : quel passport construire lorsqu'il n'y a aucun identifiant à vérifier ?"
     back: "SelfValidatingPassport — le constructeur de Passport exige des credentials."
     explanation: >-
