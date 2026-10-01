@@ -162,6 +162,7 @@ flashcards:
 - id: FLC-kmf16st6cbrg
   official_item: OIT-kqm5mxq4jnkj
   language: fr
+  level: RECALL
   front: 'Un votant accorde, un autre refuse : quelle est la décision ?'
   back: 'Avec affirmative, la stratégie par défaut : accorde. Avec unanimous : refuse.'
   explanation: 'unanimous signifie « aucun refus », pas « tous accordent » : les abstentions n''empêchent
@@ -2077,4 +2078,194 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: executeCustomChecker() — true !== result
+    verified_at: '2026-10-01'
+- id: FLC-5tj0fz6przec
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle est la signature de voteOnAttribute() en 8.0 ?'
+  back: '`voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool`.'
+  explanation: Le paramètre `$vote` est ajouté en 8.0 (CHANGELOG de Security Core).
+  memorization_justification: Signature 8.0.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: voteOnAttribute(string, mixed, TokenInterface, ?Vote $vote = null)
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 8.0 — Add argument $vote to VoterInterface::vote() and Voter::voteOnAttribute()
+    verified_at: '2026-10-01'
+- id: FLC-jqc3055fc40x
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles valeurs accepte access_decision_manager.strategy ?'
+  back: '`affirmative` (défaut), `consensus`, `unanimous`, `priority` ; une stratégie maison passe par `strategy_service`.'
+  explanation: Lu dans `MainConfiguration`.
+  memorization_justification: Liste des stratégies.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: access_decision_manager — strategy, strategy_service, allow_if_*
+    verified_at: '2026-10-01'
+- id: FLC-dx8kfc8r2g03
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un votant qui garde l''ancienne signature de voteOnAttribute() casse-t-il en 8.0 ?'
+  back: 'Parce qu''une méthode redéfinie ne peut pas retirer un paramètre de la méthode parente : PHP lève une erreur fatale de compatibilité.'
+  explanation: 'Exécuté : « Declaration of PostVoter::voteOnAttribute(...) must be compatible with Voter::voteOnAttribute(..., ?Vote $vote = null) ».'
+  memorization_justification: Compatibilité des signatures.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: voteOnAttribute(string, mixed, TokenInterface, ?Vote $vote = null)
+    verified_at: '2026-10-01'
+- id: FLC-rzn3wyqcdpek
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi seule la stratégie consensus interroge-t-elle tous les votants ?'
+  back: Parce qu'elle compte les voix ; `affirmative` s'arrête au premier accord, `unanimous` au premier refus, `priority` au premier vote non abstenu.
+  explanation: Exécuté avec un journal des votants interrogés.
+  memorization_justification: Consultation paresseuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'decide() — first denial; all abstain: allowIfAllAbstainDecisions'
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() — first non-abstaining voter
+    verified_at: '2026-10-01'
+- id: FLC-b8seeqbmgjam
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : expliquer pourquoi un votant refuse l''édition d''un article.'
+  back: Dans `voteOnAttribute()`, appeler `$vote?->addReason('Only the author may edit this post.')` avant de rendre `false`.
+  explanation: 'Exécuté : 403, « Access Denied. Only the author may edit this post. ».'
+  memorization_justification: Raison de refus.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Vote.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Vote.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addReason()
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/Voter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: voteOnAttribute(string, mixed, TokenInterface, ?Vote $vote = null)
+    verified_at: '2026-10-01'
+- id: FLC-f74rr2ygvpbx
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : exiger qu''aucun votant ne refuse, avec au moins un accord.'
+  back: '`security.access_decision_manager.strategy: unanimous`.'
+  explanation: 'Tous abstenus : `allow_if_all_abstain` décide, `false` par défaut.'
+  memorization_justification: Choix de stratégie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: access_decision_manager — strategy, strategy_service, allow_if_*
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'decide() — first denial; all abstain: allowIfAllAbstainDecisions'
+    verified_at: '2026-10-01'
+- id: FLC-04gkbssqmsy2
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: TRAP
+  front: 'Symfony : en unanimous, trois votants s''abstiennent et aucun ne refuse. L''accès est-il accordé ?'
+  back: 'Non : sans aucun accord, `allow_if_all_abstain` décide, et il vaut `false` par défaut.'
+  explanation: 'Exécuté sur `AccessDecisionManager` 8.0.15 : refusé.'
+  memorization_justification: unanimous mal lu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'decide() — first denial; all abstain: allowIfAllAbstainDecisions'
+    verified_at: '2026-10-01'
+- id: FLC-aepj17vj9rq2
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: TRAP
+  front: 'Symfony : tous les votants sont-ils toujours interrogés ?'
+  back: 'Non : ils le sont un par un, et la stratégie s''arrête dès que sa décision est acquise ; seul `consensus` les interroge tous.'
+  explanation: 'Exécuté : en `affirmative`, un premier accord laisse les suivants sans être interrogés.'
+  memorization_justification: Consultation supposée totale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'decide() — first denial; all abstain: allowIfAllAbstainDecisions'
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() — first non-abstaining voter
+    verified_at: '2026-10-01'
+- id: FLC-fnvn0qgfavra
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: TRAP
+  front: 'Symfony : priority et affirmative donnent-elles toujours le même résultat ?'
+  back: 'Non : votes « refusé puis accordé » — `affirmative` accorde, `priority` refuse, car le premier votant non abstenu tranche.'
+  explanation: Exécuté sur `AccessDecisionManager` 8.0.15.
+  memorization_justification: Dépendance à l'ordre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide() — first non-abstaining voter
+    verified_at: '2026-10-01'
+- id: FLC-46e8f4hp4jta
+  official_item: OIT-kqm5mxq4jnkj
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il déclarer un votant dans services.yaml ?'
+  back: 'Non : l''autoconfiguration lui donne le tag `security.voter`.'
+  explanation: 'Exécuté : le votant a voté sans configuration de service.'
+  memorization_justification: Déclaration supposée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Use Voters to Check User Permissions
     verified_at: '2026-10-01'

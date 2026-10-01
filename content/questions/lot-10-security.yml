@@ -1703,7 +1703,7 @@ questions:
     question_archetype: DEFINITION_RECALL
     assesses_outcomes:
       - OUT-bb75dy1j7zcq
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-kqm5mxq4jnkj
     domain: symfony
@@ -1725,28 +1725,30 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-10-01'
     tags:
       - voters
       - strategies
     choices:
-      - id: CHO-zedk6kxvfa7k
-        text: Granted, because unanimous means no voter denies
+      - id: CHO-phhn9bxjc24r
+        text: Denied, by the allow_if_all_abstain default
         correct: true
-      - id: CHO-dpj226b56pv7
-        text: Denied, because no voter granted
+      - id: CHO-xkf656884pfe
+        text: Granted, because unanimous means no voter denies
         correct: false
-        explanation: unanimous does not require a grant; it requires the absence of a denial.
+        explanation: unanimous also needs at least one grant; when every voter abstains, allow_if_all_abstain
+          decides instead.
       - id: CHO-84a451h01yjj
         text: Denied, because abstentions count as denials
         correct: false
-        explanation: An abstention is neither a grant nor a denial.
+        explanation: An abstention is neither a grant nor a denial; the denial comes from allow_if_all_abstain.
       - id: CHO-xmj4zkqg8802
         text: Undefined, so allow_if_equal_granted_denied applies
         correct: false
         explanation: That option belongs to the consensus strategy.
-    explanation: unanimous is often misread as 'all must grant'. It grants unless someone denies, so abstentions
-      do not block it.
+    explanation: unanimous grants when no voter denies and at least one grants. When every voter abstains there
+      is nothing to aggregate, so allow_if_all_abstain decides, and it defaults to false. Executed on
+      AccessDecisionManager 8.0.15, three abstentions under unanimous are denied.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
