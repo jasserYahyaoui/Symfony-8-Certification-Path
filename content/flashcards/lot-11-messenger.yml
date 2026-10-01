@@ -3,6 +3,7 @@ flashcards:
 - id: FLC-7wbtaz9pzty2
   official_item: OIT-hs1297vvhr89
   language: fr
+  level: TRAP
   front: dispatch() signifie-t-il que le message est traité ?
   back: Non. En asynchrone, dispatch() rend la main avant tout traitement ; le résultat ne se lit que
     sur l'enveloppe retournée, en synchrone.
@@ -104,3 +105,169 @@ flashcards:
     symbol_or_lines: 'WorkerRunningEvent — "Dispatched after the worker processed a message or didn''t receive a message at all"; isWorkerIdle() "Returns true when no message has been received by the worker"'
     branch: '8.0'
     verified_at: '2026-09-01'
+- id: FLC-6pxrjzb7gd9p
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels sont les six concepts que la documentation de Messenger 8.0 présente ?'
+  back: Sender, Receiver, Handler, Middleware, Envelope, Envelope Stamps.
+  explanation: Section « Concepts » de `messenger.rst` ; le message et le bus n'y figurent pas.
+  memorization_justification: Vocabulaire officiel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Concepts — Sender, Receiver, Handler, Middleware, Envelope, Envelope Stamps
+    verified_at: '2026-10-01'
+- id: FLC-xzyrnrayrw6x
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel stamp porte le résultat d''un handler ?'
+  back: '`HandledStamp`, lu par `$envelope->last(HandledStamp::class)->getResult()`.'
+  explanation: Posé par `HandleMessageMiddleware`, seulement en traitement synchrone.
+  memorization_justification: Lecture d'un résultat.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — HandledStamp; NoHandlerForMessageException
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Envelope.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Envelope.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: last(), all()
+    verified_at: '2026-10-01'
+- id: FLC-cf4h6aq2ft8n
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels stamps porte l''enveloppe d''un message envoyé vers un transport ?'
+  back: '`SentStamp` et `TransportMessageIdStamp`, en plus de `BusNameStamp` — mais aucun `HandledStamp`.'
+  explanation: Exécuté avec un transport `in-memory://`.
+  memorization_justification: Signature d'un envoi.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — HandledStamp; NoHandlerForMessageException
+    verified_at: '2026-10-01'
+- id: FLC-pcafe57gwn5q
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un DelayStamp n''a-t-il aucun effet sur un message non routé ?'
+  back: Parce que le délai est une consigne pour le **transport** ; sans transport, les handlers tournent pendant `dispatch()`.
+  explanation: 'Exécuté : `DelayStamp(5000)`, handlers exécutés immédiatement.'
+  memorization_justification: Portée d'un stamp.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Concepts — Sender, Receiver, Handler, Middleware, Envelope, Envelope Stamps
+    verified_at: '2026-10-01'
+- id: FLC-qe2fekrh7tsn
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un middleware peut-il voir passer deux fois le même message asynchrone ?'
+  back: Parce que les middleware sont appelés à l'envoi, puis de nouveau quand le message est reçu du transport.
+  explanation: Section « Concepts », définition de Middleware.
+  memorization_justification: Double passage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Concepts — Sender, Receiver, Handler, Middleware, Envelope, Envelope Stamps
+    verified_at: '2026-10-01'
+- id: FLC-6c96hwjnbffg
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : récupérer de façon concise le résultat de l''unique handler d''une requête synchrone.'
+  back: Utiliser `HandleTrait` et `$this->handle($query)`, qui lit le `HandledStamp`.
+  explanation: Le trait exige exactement un handler.
+  memorization_justification: Bus de requêtes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/HandleTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/HandleTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — exactly one HandledStamp expected
+    verified_at: '2026-10-01'
+- id: FLC-f1hk5g5j2f2k
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire les résultats de deux handlers d''un même message synchrone.'
+  back: '`$envelope->all(HandledStamp::class)` ; `last()` ne rend que le dernier.'
+  explanation: 'Exécuté : `last()` rend le résultat du second handler.'
+  memorization_justification: Plusieurs résultats.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Envelope.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Envelope.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: last(), all()
+    verified_at: '2026-10-01'
+- id: FLC-rw0fscrydbag
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: TRAP
+  front: 'Symfony : un message non routé et sans handler est-il ignoré silencieusement ?'
+  back: 'Non : `dispatch()` lève `NoHandlerForMessageException`.'
+  explanation: 'Exécuté : « No handler for message » suivi de la classe du message.'
+  memorization_justification: Absence de handler.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — HandledStamp; NoHandlerForMessageException
+    verified_at: '2026-10-01'
+- id: FLC-3wt30gz9kfj9
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: TRAP
+  front: 'Symfony : HandleTrait::handle() accepte-t-il un message traité par deux handlers ?'
+  back: 'Non : `LogicException`, « was handled multiple times. Only one handler is expected ».'
+  explanation: Exécuté avec deux handlers du même message.
+  memorization_justification: Contrainte de HandleTrait.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/HandleTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/HandleTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — exactly one HandledStamp expected
+    verified_at: '2026-10-01'
+- id: FLC-gvxrwza1xtmf
+  official_item: OIT-hs1297vvhr89
+  language: fr
+  level: TRAP
+  front: 'Symfony : en synchrone, le message est-il traité quand dispatch() rend la main ?'
+  back: 'Oui : les handlers ont déjà tourné ; c''est en asynchrone que `dispatch()` rend la main avant tout traitement.'
+  explanation: 'Exécuté : deux handlers journalisés avant le retour de `dispatch()`.'
+  memorization_justification: dispatch() mal lu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — HandledStamp; NoHandlerForMessageException
+    verified_at: '2026-10-01'

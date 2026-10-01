@@ -19,8 +19,9 @@ périmètre sur instruction.
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
-| 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot en PR | `docs/progress/lot-10-refinement.md` |
-| 11 et suivants | à faire, dans l'ordre numérique | — |
+| 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
+| 11 (Messenger) | **en cours** — page 1 en PR | `docs/progress/lot-11-refinement.md` |
+| 12 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
 
@@ -34,10 +35,13 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR du rapport de fin de lot 10 après CI
-verte, lire son smoke test, puis lot 11, page 1, dans l'ordre numérique. Reprise
-à prévoir sur la page 6 du lot 10 : `lazy` est ignoré sur un pare-feu
-`stateless`. Signaux holdout du lot 10 pour le propriétaire : voir le rapport.
+**Prochaine action** : fusionner la PR de la page 1 du lot 11 après CI verte,
+lire son smoke test, puis page 2 (*Transports*) : `QST-tvzx2c0cqeh8` est fausse —
+une classe mal orthographiée dans `routing` fait échouer la compilation du
+conteneur (« Invalid Messenger routing configuration: class or interface … not
+found », exécuté) ; seul un joker d'espace de noms qui ne correspond à rien est
+silencieux. Reprise à prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un
+pare-feu `stateless`). Signaux holdout du lot 10 : voir son rapport.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
