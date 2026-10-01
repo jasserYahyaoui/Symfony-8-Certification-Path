@@ -19,10 +19,10 @@ flashcards:
 - id: FLC-g0g67y6cwvv1
   official_item: OIT-ckr67pq9npyb
   language: fr
+  level: TRAP
   front: Que devient un message qui n'est routé vers aucun transport ?
-  back: Il est traité immédiatement, de façon synchrone — sans erreur ni avertissement.
-  explanation: 'C''est ce qui rend une clé de routage erronée silencieuse : le message continue d''être
-    traité, mais dans la requête.'
+  back: 'Il est traité immédiatement, de façon synchrone — et s''il n''a aucun handler, `dispatch()` lève `NoHandlerForMessageException`.'
+  explanation: 'Une classe mal orthographiée dans `routing` n''est pas silencieuse : le conteneur ne se construit pas. Seul un espace de noms avec `*` qui ne correspond à rien l''est.'
   memorization_justification: On attend une mise en attente ou une erreur ; il n'y a ni l'une ni l'autre.
   verification_status: VERIFIED
   official_sources:
@@ -270,4 +270,182 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: handle() — HandledStamp; NoHandlerForMessageException
+    verified_at: '2026-10-01'
+- id: FLC-v2cegnfffjxa
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels transports particuliers Messenger fournit-il pour le synchrone et les tests ?'
+  back: '`sync://` traite sur place ; `in-memory://` garde les messages sans les traiter.'
+  explanation: Les ponts fournis couvrent AMQP, Doctrine, Redis, Amazon SQS et Beanstalkd.
+  memorization_justification: Transports particuliers.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+- id: FLC-76k6rakef8f2
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut route une classe de message vers un transport ?'
+  back: '`#[AsMessage(''async'')]`, ou `#[AsMessage([''async'', ''audit''])]` pour plusieurs transports.'
+  explanation: Équivalent de la clé `routing` de la configuration.
+  memorization_justification: Routage par attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AsMessage(transport)
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+- id: FLC-9xwfvcpprka2
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles formes peut prendre une clé de routage Messenger ?'
+  back: Une classe, une classe parente, une interface, un espace de noms terminé par `*`, ou `*` seul.
+  explanation: 'Exécuté : la classe exacte, `App\…\*` et `*` envoient tous le message au transport.'
+  memorization_justification: Granularité du routage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — Invalid Messenger routing configuration
+    verified_at: '2026-10-01'
+- id: FLC-s5t74pef441y
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une classe mal orthographiée dans routing n''est-elle pas silencieuse ?'
+  back: 'Parce que FrameworkBundle vérifie chaque clé en construisant le conteneur : classe ou interface introuvable, `LogicException`.'
+  explanation: 'Exécuté : « Invalid Messenger routing configuration: class or interface … not found ».'
+  memorization_justification: Contrôle au build.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — Invalid Messenger routing configuration
+    verified_at: '2026-10-01'
+- id: FLC-xv33efxv573a
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi la configuration l''emporte-t-elle sur #[AsMessage] ?'
+  back: Pour pouvoir changer le routage par environnement sans toucher à la classe.
+  explanation: 'Exécuté : attribut vers `async` et `audit`, configuration vers un `sync://` — seul ce dernier reçoit le message.'
+  memorization_justification: Priorité de la configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+- id: FLC-c76376d40xpa
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : envoyer un message à la fois vers le transport async et vers un transport d''audit.'
+  back: '`routing: { ''App\Message\X'': [async, audit] }`, ou `#[AsMessage([''async'', ''audit''])]`.'
+  explanation: 'Exécuté : deux `SentStamp`, un message dans chaque transport.'
+  memorization_justification: Plusieurs transports.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AsMessage(transport)
+    verified_at: '2026-10-01'
+- id: FLC-cbt7h4b9zqq1
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre un seul type de message synchrone quand les autres partent en file.'
+  back: Le router vers un transport `sync://`.
+  explanation: 'Exécuté : traité pendant `dispatch()`, avec un `SentStamp`.'
+  memorization_justification: Transport synchrone explicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+- id: FLC-0erpw2e78ydy
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: TRAP
+  front: 'Symfony : un espace de noms avec * qui ne correspond à aucun message provoque-t-il une erreur ?'
+  back: 'Non : aucune erreur, et les messages qu''on croyait router sont traités en synchrone, dans la requête.'
+  explanation: 'Exécuté : `App\Other\*`, message traité par ses handlers.'
+  memorization_justification: Joker silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — Invalid Messenger routing configuration
+    verified_at: '2026-10-01'
+- id: FLC-6jfcxpzqfhqq
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: TRAP
+  front: 'Symfony : router une classe vers un transport qui n''existe pas échoue-t-il au dispatch ?'
+  back: 'Non, plus tôt : à la construction du conteneur, « This is not a valid transport or service id ».'
+  explanation: Exécuté avec un transport `asyncc` inexistant.
+  memorization_justification: Moment de l'erreur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — Invalid Messenger routing configuration
+    verified_at: '2026-10-01'
+- id: FLC-m9ez22nnssyj
+  official_item: OIT-ckr67pq9npyb
+  language: fr
+  level: TRAP
+  front: 'Symfony : un message routé vers sync:// est-il identique à un message non routé ?'
+  back: 'Il est traité de même pendant `dispatch()`, mais son enveloppe porte un `SentStamp` : c''est un vrai transport.'
+  explanation: Exécuté avec Messenger 8.0.15.
+  memorization_justification: sync:// contre absence de routage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
     verified_at: '2026-10-01'

@@ -7105,7 +7105,7 @@ items:
       - id: OUT-d34tvv7rydk9
         outcome: Router un message vers un transport
       - id: OUT-sz3q1tm5smja
-        outcome: Énoncer ce qui arrive à un message non route
+        outcome: Énoncer ce qui arrive à un message non routé
       - id: OUT-961gweegp990
         outcome: Distinguer sync:// de in-memory://
       - id: OUT-25tacm3ebgk7
