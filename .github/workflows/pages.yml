@@ -3133,6 +3133,32 @@ jobs:
           else
             echo "ok  lot-10  the password hashers page carries its four flashcard levels, the auto algorithm, the migrating listener and the legacy hasher"
           fi
+          # Lot 10 refinement, page 9 (Roles): the four flashcard levels, the
+          # hierarchy dump command, the full list of state attributes and the
+          # service interface a runtime hierarchy was executed through.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-roles -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/roles")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page roles serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-roles || missing="$missing l10roles:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-roles || missing="$missing l10roles:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-roles || missing="$missing l10roles:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-roles || missing="$missing l10roles:no-trap-heading"
+          grep -aq 'role-hierarchy' /tmp/l10r-roles \
+            || missing="$missing l10roles:no-dump-command"
+          grep -aq 'IS_IMPERSONATOR' /tmp/l10r-roles \
+            || missing="$missing l10roles:no-state-attributes"
+          grep -aq 'RoleHierarchyInterface' /tmp/l10r-roles \
+            || missing="$missing l10roles:no-hierarchy-service"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the roles page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the roles page carries its four flashcard levels, the dump command, the state attributes and the hierarchy service"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

@@ -1378,7 +1378,7 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-se3aqxhdbf9t
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-fw6db7ryrk4q
     domain: symfony
@@ -1390,7 +1390,7 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Can role_hierarchy be computed from the database at runtime?
+    question: Can the values of the role_hierarchy configuration key be read from a database at runtime?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1400,17 +1400,17 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-09-30'
     tags:
       - roles
     choices:
       - id: CHO-2ptzs0fhh8kd
         text: No — the hierarchy is static configuration
         correct: true
-      - id: CHO-qbfkbr53kgwv
-        text: Yes, by implementing a custom role hierarchy service
+      - id: CHO-391kdfwb79gc
+        text: Yes, by giving a service id as the value of a role
         correct: false
-        explanation: The documentation states the values are static; this is not the documented behaviour.
+        explanation: The values are role names; a service id there is read as one more role name.
       - id: CHO-kn85zq00kff3
         text: Yes, if the roles are stored as entities
         correct: false
@@ -1419,8 +1419,10 @@ questions:
         text: Only in the dev environment
         correct: false
         explanation: The environment makes no difference.
-    explanation: role_hierarchy is resolved from configuration, which is why a data-driven hierarchy is
-      not expressible there.
+    explanation: The documentation calls the role_hierarchy values static and recommends a custom voter
+      for a hierarchy stored in a database. Code can still compute one — decorating the
+      security.role_hierarchy service with a RoleHierarchyInterface was executed and granted a role
+      computed at runtime — but that is a service, not the configuration key.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst

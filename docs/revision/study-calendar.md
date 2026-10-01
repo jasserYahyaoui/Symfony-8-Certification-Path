@@ -502,7 +502,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Security : Users** (STANDARD) — 23 min · 693 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Security : Password hashers** (STANDARD) — 20 min · 611 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Security : Roles** (MINIMAL) — 8 min · 281 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Security : Roles** (MINIMAL) — 17 min · 415 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Security : Access Control Rules** (STANDARD) — 9 min · 359 mots · 3 questions, 1 flashcards
 - Révision **J+1** (24 min) — Security : Authorization · Security : Configuration · Security : Providers · Security : Firewalls
 - Révision **J+3** (15 min) — Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers · Forms : Form events
@@ -510,7 +510,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (10 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+30** (12 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 
-*Budget du jour : 137 / 160 min*
+*Budget du jour : 146 / 160 min*
 
 ### Vendredi 6 novembre 2026
 
