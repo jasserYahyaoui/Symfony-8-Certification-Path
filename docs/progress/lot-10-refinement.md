@@ -30,7 +30,7 @@ première page.
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | **RAFFINÉE** (PR #272) |
 | 7 | Users | STANDARD | 354 / 900 | 1 | **RAFFINÉE** (PR #273) |
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | **RAFFINÉE** (PR #274) |
-| 9 | Roles | MINIMAL | 281 / 700 | 1 | à faire |
+| 9 | Roles | MINIMAL | 281 / 700 | 1 | **RAFFINÉE** (PR #275) |
 | 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | à faire |
 | 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | à faire |
 | 12 | Voters and voting strategies | DEEP | 538 / 1200 | 1 | à faire |
@@ -803,6 +803,93 @@ de la version `master` de la page et du fichier de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 10 — *Access Control Rules* — RAFFINÉE
+
+`CRS-2ec5yksjfm9s` · `OIT-cwfr5t1ngj23` · STANDARD · **359 → 645 mots** sur 900.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15 (expression-language 8.0.14 ajouté au bac à sable pour
+`allow_if`), `http_basic`, stratégies `affirmative` puis `unanimous`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 9 du lot 10 (PR #275, `caa9e25`) | 36891736194, success | `ok  lot-10  the roles page carries its four flashcard levels, the dump command, the state attributes and the hierarchy service` |
+
+### Ce qui manquait
+
+La page n'était pas fausse sur la règle d'ordre, mais muette sur la question
+qu'un examen pose le plus volontiers : **comment se combinent plusieurs
+exigences** dans une même règle. Exécuté :
+
+| Règle | `affirmative` | `unanimous` |
+|---|---|---|
+| `roles: [ROLE_ADMIN, ROLE_EDITOR]`, utilisateur `ROLE_EDITOR` | 200 | 200 |
+| `roles: ROLE_ADMIN` + `allow_if` vrai, utilisateur sans `ROLE_ADMIN` | 200 | 403 |
+| même règle, anonyme | 200 | 401 |
+| `roles: [ROLE_USER, IS_AUTHENTICATED_FULLY]`, utilisateur sans `ROLE_USER` | 200 | 403 |
+
+Lu dans `SecurityExtension::createAuthorization()` : `allow_if` est **ajouté**
+à la liste des rôles, et `AccessListener` appelle
+`decide($token, $attributes, $request)`. Deux rôles relèvent d'un seul votant,
+d'où « ou » quelle que soit la stratégie ; un rôle et une expression relèvent de
+deux votants, que la stratégie départage. La documentation 8.0 l'avertit pour
+`roles` + `allow_if`.
+
+Le tableau des critères omettait `request_matcher`, et classait
+`requires_channel` et `allow_if` parmi les critères de correspondance alors que
+la documentation les range dans l'**exigence**. Corrigé.
+
+### Confirmé par l'exécution
+
+- `requires_channel: https` sur une requête `http` : **301** vers `https://…`.
+- URL hors de toute règle : 200 pour un anonyme.
+- `request_matcher` avec `path` : « The "request_matcher" option should not be
+  specified alongside other options. »
+- Correspondance sans la chaîne de requête : avertissement de la documentation,
+  non exécuté.
+
+### Bac à sable reconstruit
+
+Le bac à sable perdu au redémarrage du conteneur a été reconstruit (squelette,
+classes de sonde). La résolution a d'abord tiré quatorze paquets Symfony en
+8.1 (`error-handler` 8.1.8…) — la dérive déjà rencontrée au lot 09 ; tous ont
+été épinglés en `8.0.*`, puis vérifiés : aucun paquet `symfony/*` hors 8.0, et
+les mêmes versions qu'avant (SecurityBundle 8.0.15, security-http 8.0.14).
+Validation : la sonde de cette page, rejouée dans le bac neuf, redonne les
+seize résultats à l'identique.
+
+**Questions.** `QST-np172gaybtec`, `QST-8grwagdms0k7` (LEARNING) et
+`QST-rqcrbt7zx180` (VALIDATION) relues : exactes, inchangées. Aucune question
+holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-1vc4j2vszk96` reçoit le niveau RECALL.
+L'item en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP),
+décompte relevé par script. Une carte du brouillon proposait de « mettre les
+deux conditions dans l'expression `allow_if` » : non exécuté, retiré.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `request_matcher`,
+`should not be specified` et `chaîne de requête`,
+absentes de la version `master` de la page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-10-01**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 181 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 10 — *Access Control Rules* (STANDARD, 359 / 900).
+Page 11 — *Authenticators, Passports and Badges* (DEEP, 677 / 1200).

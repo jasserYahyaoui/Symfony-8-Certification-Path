@@ -3159,6 +3159,32 @@ jobs:
           else
             echo "ok  lot-10  the roles page carries its four flashcard levels, the dump command, the state attributes and the hierarchy service"
           fi
+          # Lot 10 refinement, page 10 (Access Control Rules): the four
+          # flashcard levels, the request matcher key, the error it raises when
+          # combined, and the query string that path never sees.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-acl -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/access-control-rules")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page access-control-rules serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-acl || missing="$missing l10acl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-acl || missing="$missing l10acl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-acl || missing="$missing l10acl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-acl || missing="$missing l10acl:no-trap-heading"
+          grep -aq 'request_matcher' /tmp/l10r-acl \
+            || missing="$missing l10acl:no-request-matcher"
+          grep -aq 'should not be specified' /tmp/l10r-acl \
+            || missing="$missing l10acl:no-matcher-error"
+          grep -aq 'chaîne de requête' /tmp/l10r-acl \
+            || missing="$missing l10acl:no-query-string"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the access control rules page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the access control rules page carries its four flashcard levels, the request matcher, its error and the query string"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

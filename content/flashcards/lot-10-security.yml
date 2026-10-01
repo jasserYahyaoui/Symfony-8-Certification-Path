@@ -147,6 +147,7 @@ flashcards:
 - id: FLC-1vc4j2vszk96
   official_item: OIT-cwfr5t1ngj23
   language: fr
+  level: RECALL
   front: 'Plusieurs règles access_control correspondent : lesquelles s''appliquent ?'
   back: Seulement la première. Les suivantes sont ignorées, même si elles correspondent aussi.
   explanation: 'D''où l''ordre à respecter : du plus spécifique au plus général.'
@@ -1733,3 +1734,175 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: createRoleHierarchy() — role_hierarchy_voter or simple_role_voter
     verified_at: '2026-09-30'
+- id: FLC-nfv54xgpv6v0
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options d''une règle access_control imposent l''accès, une fois la règle choisie ?'
+  back: '`roles`, `allow_if` et `requires_channel`.'
+  explanation: Les autres clés — `path`, `host`, `ips`, `port`, `methods`, `route`, `attributes`, `request_matcher` — servent à choisir la règle.
+  memorization_justification: Correspondance contre exigence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-jx6n9nnj6egb
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: RECALL
+  front: 'Symfony : que fait requires_channel: https sur une requête http ?'
+  back: Une redirection **301** vers la même URL en `https`.
+  explanation: Exécuté avec SecurityBundle 8.0.15.
+  memorization_justification: Effet de requires_channel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-368xcwb0d0zv
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel sujet les votants reçoivent-ils pour une règle access_control ?'
+  back: La **requête** (`Request`), les `roles` servant d'attributs.
+  explanation: 'Lu dans `AccessListener` : `decide($token, $attributes, $request)`.'
+  memorization_justification: Sujet d'access_control.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/AccessListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/AccessListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide($token, $attributes, $request)
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-jhy6wde8yg0b
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi roles: [ROLE_ADMIN, ROLE_EDITOR] vaut-il « l''un ou l''autre » même en stratégie unanimous ?'
+  back: Parce qu'un seul votant, celui des rôles, examine les deux attributs et accorde dès que l'utilisateur en a un.
+  explanation: 'Exécuté : `ROLE_EDITOR` seul obtient 200 en `affirmative` comme en `unanimous`.'
+  memorization_justification: Un votant, plusieurs attributs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/AccessListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Firewall/AccessListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide($token, $attributes, $request)
+    verified_at: '2026-10-01'
+- id: FLC-1ptfnjn4pde6
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi roles + allow_if accorde-t-il l''accès dès qu''une seule condition est vraie ?'
+  back: Parce que `allow_if` est ajouté aux attributs et jugé par un autre votant ; la stratégie `affirmative` accorde au premier vote favorable.
+  explanation: 'Exécuté : expression vraie, sans `ROLE_ADMIN`, 200 ; en `unanimous`, 403.'
+  memorization_justification: Combinaison par la stratégie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createAuthorization() — allow_if appended to roles; request_matcher alone
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-tjb9496fc7x8
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : protéger /admin/users plus strictement que /admin.'
+  back: Déclarer `^/admin/users` (`ROLE_SUPER_ADMIN`) **avant** `^/admin` (`ROLE_ADMIN`).
+  explanation: Seule la première règle qui correspond est appliquée.
+  memorization_justification: Ordre des règles.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-djw59r3snt9a
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : exiger à la fois ROLE_ADMIN et une condition allow_if.'
+  back: Changer la stratégie de décision, en `unanimous` par exemple — comme le conseille la documentation ; elle vaut alors pour toute l'application.
+  explanation: 'Exécuté : en `unanimous`, la même règle refuse (403) l''utilisateur qui n''a que l''expression vraie.'
+  memorization_justification: Obtenir un « et ».
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-60cvn0h2vkwh
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: TRAP
+  front: 'Symfony : une URL qu''aucune règle access_control ne couvre est-elle refusée par défaut ?'
+  back: 'Non : `access_control` ne la restreint pas.'
+  explanation: 'Exécuté : `/whoami`, hors de toute règle, 200 pour un anonyme.'
+  memorization_justification: Refus supposé par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-jefas56k6j9j
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: TRAP
+  front: 'Symfony : un paramètre de requête comme ?admin=1 peut-il servir dans path ?'
+  back: 'Non : la correspondance se fait sans la chaîne de requête ; il faut refuser dans le code PHP.'
+  explanation: Avertissement de la documentation 8.0.
+  memorization_justification: Portée de path.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Options; Access Enforcement — roles and allow_if under affirmative; URI matched without $_GET
+    verified_at: '2026-10-01'
+- id: FLC-5hce58bj3pb4
+  official_item: OIT-cwfr5t1ngj23
+  language: fr
+  level: TRAP
+  front: 'Symfony : request_matcher peut-il compléter un path dans la même règle ?'
+  back: 'Non : SecurityBundle refuse la configuration ; le service doit contenir toute la logique de correspondance.'
+  explanation: Lu dans `SecurityExtension::createAuthorization()`.
+  memorization_justification: Exclusivité de request_matcher.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createAuthorization() — allow_if appended to roles; request_matcher alone
+    verified_at: '2026-10-01'
