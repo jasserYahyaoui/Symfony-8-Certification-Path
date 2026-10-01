@@ -29,7 +29,7 @@ première page.
 | 5 | Providers | STANDARD | 347 / 900 | 1 | **RAFFINÉE** (PR #271) |
 | 6 | Firewalls | STANDARD | 350 / 900 | 1 | **RAFFINÉE** (PR #272) |
 | 7 | Users | STANDARD | 354 / 900 | 1 | **RAFFINÉE** (PR #273) |
-| 8 | Password hashers | STANDARD | 333 / 900 | 1 | à faire |
+| 8 | Password hashers | STANDARD | 333 / 900 | 1 | **RAFFINÉE** (PR #274) |
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | à faire |
 | 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | à faire |
 | 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | à faire |
@@ -689,6 +689,120 @@ de la version `master` de la page et du fichier de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 9 — *Roles* — RAFFINÉE
+
+`CRS-2s6e4qgkcqza` · `OIT-fw6db7ryrk4q` · MINIMAL · **281 → 415 mots** sur 700.
+Aucun niveau promu. Exécutions sur l'application FrameworkBundle +
+SecurityBundle 8.0.15, `http_basic`, une route qui rend `isGranted($a)` et
+`in_array($a, getRoles())`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 8 du lot 10 (PR #274, `904d02a`) | 36767156202, success | `ok  lot-10  the password hashers page carries its four flashcard levels, the auto algorithm, the migrating listener and the legacy hasher` |
+
+### Une question qui pénalisait une réponse exacte
+
+`QST-1cerp5ba1czy` (LEARNING) demandait « Can role_hierarchy be computed from
+the database at runtime? » ; le distracteur « Yes, by implementing a custom role
+hierarchy service » était écarté par « this is not the documented behaviour ».
+Exécuté : un service qui décore `security.role_hierarchy` et implémente
+`RoleHierarchyInterface` ajoute `ROLE_WRITER` à un `ROLE_EDITOR`, et
+`isGranted('ROLE_WRITER')` devient vrai. Le distracteur décrivait donc quelque
+chose qui fonctionne. Ce que la documentation dit est plus étroit : les
+**valeurs** de `role_hierarchy` sont statiques, et une hiérarchie en base
+relève d'un voter.
+
+La question passe en **v2** : l'énoncé porte sur les valeurs de la clé de
+configuration, et le distracteur devient « Yes, by giving a service id as the
+value of a role » (`CHO-391kdfwb79gc`). Exécuté : `ROLE_ADMIN: '@app.db_role_hierarchy'`
+compile, et le conteneur stocke la chaîne telle quelle comme nom de rôle, sans
+appeler de service. L'explication cite les deux faits. Bonne réponse inchangée.
+Dans la matrice, `OUT-se3aqxhdbf9t` « Reconnaître rôle_hierarchy comme
+statique » devient « Reconnaître les valeurs de la hiérarchie des rôles comme
+statiques ». La page est corrigée dans le même sens.
+
+**Incident de contrôle.** Une première formulation, « … les valeurs de
+role_hierarchy … », a fait lever `fr2_second_audit` (FR2-1 : `role` non
+accentué, le découpage en mots coupant `role_hierarchy`). L'audit n'a pas été
+modifié : le texte a été reformulé en français sans l'identifiant.
+
+### Redémarrage du conteneur
+
+Le conteneur a été recyclé entre la préparation de cette page et sa
+publication : clone neuf, `vendor/` et `node_modules/` absents, répertoire de
+travail vidé — bac à sable Symfony, scripts d'outillage, brouillons. Rien
+n'était encore commité pour cette page ; `master` (jusqu'à `904d02a`) était
+intact.
+
+- Brouillons, script de correction, définitions des cartes et sondes :
+  **restaurés depuis le journal de session**, en rejouant les appels d'écriture
+  dans leur ordre ; corps de page identique (281 → 415 mots, comme avant).
+- Générateur de cartes : **reconstruit**, puis validé en régénérant les dix
+  cartes de la page 8 avec leurs identifiants — sortie **identique octet pour
+  octet** au fichier de `master`.
+- Compteur de mots : reconstruit sur la règle de `Course::wordCount()`, validé
+  sur les pages 7 (354 → 693) et 8 (333 → 611).
+- `gates.sh` : reconstruit ; mêmes commandes.
+- `CHO-391kdfwb79gc`, frappé avant le redémarrage et jamais commité, est
+  réutilisé (absent du dépôt, vérifié) ; les dix identifiants de cartes ont été
+  frappés à nouveau.
+- Les exécutions citées ci-dessus ont eu lieu avant le redémarrage, sur le bac
+  à sable perdu ; leurs sorties sont dans le journal de session. Une seconde
+  exécution de la suite de contrôles, lancée avant le redémarrage, s'est
+  terminée sans que sa sortie soit conservée : elle n'est pas comptée.
+- Première exécution après restauration : `aud08_technical_production` lève
+  deux constats (TECH-2, TECH-3 : « run `php bin/cert build` first ») — l'arbre
+  généré, ignoré par git, n'existait pas dans le clone neuf ; l'ancien
+  conteneur le gardait d'une construction antérieure. L'audit n'a pas été
+  touché : `php bin/cert build` est désormais lancé avant les audits, et toute
+  la suite relancée. Seule cette dernière exécution est retenue ci-dessous.
+
+### Confirmé par l'exécution
+
+| Utilisateur | Attribut | `isGranted` | `in_array(getRoles())` |
+|---|---|---|---|
+| `ROLE_ADMIN`, hiérarchie `ROLE_ADMIN: ROLE_USER` | `ROLE_USER` | vrai | **faux** |
+| `ADMIN` sans préfixe | `ADMIN` | **faux** | vrai |
+
+- `RoleVoter` : préfixe `ROLE_`, abstention sur les autres attributs.
+- `SecurityExtension::createRoleHierarchy()` : sans `role_hierarchy`, le votant
+  de hiérarchie est retiré et le simple `RoleVoter` reste ; avec, l'inverse.
+- `AuthenticatedVoter` 8.0 : six attributs, dont `IS_AUTHENTICATED`,
+  `IS_REMEMBERED` et `IS_IMPERSONATOR` que la page ne nommait pas.
+- `debug:security:role-hierarchy` : sortie Mermaid
+  (`SecurityRoleHierarchyDumpCommand`), citée par la documentation 8.0.
+
+**Questions.** `QST-n2z3zbszfmvt` et `QST-d1c0few45tt7` (LEARNING) relues :
+exactes, inchangées. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-dxqgyh6g3w9z` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP), décompte
+relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `role-hierarchy`,
+`IS_IMPERSONATOR` et `RoleHierarchyInterface`, absentes
+de la version `master` de la page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-09-30**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions SecurityBundle 8.0.15 (avant le redémarrage) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 171 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *Roles* (MINIMAL, 281 / 700).
+Page 10 — *Access Control Rules* (STANDARD, 359 / 900).

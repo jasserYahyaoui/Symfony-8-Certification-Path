@@ -6802,7 +6802,7 @@ items:
       - id: OUT-nb8grypjavr8
         outcome: Énoncer la contrainte de nommage d'un rôle
       - id: OUT-se3aqxhdbf9t
-        outcome: Reconnaître rôle_hierarchy comme statique
+        outcome: Reconnaître les valeurs de la hiérarchie des rôles comme statiques
       - id: OUT-mh5phj2ea2p7
         outcome: Distinguer IS_AUTHENTICATED_* d'un rôle
     required_assessment_modes:

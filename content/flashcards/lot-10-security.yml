@@ -131,6 +131,7 @@ flashcards:
 - id: FLC-dxqgyh6g3w9z
   official_item: OIT-fw6db7ryrk4q
   language: fr
+  level: RECALL
   front: Quelle est la seule contrainte sur le nom d'un rôle ?
   back: Il doit commencer par ROLE_. Le reste est libre.
   explanation: IS_AUTHENTICATED_FULLY et PUBLIC_ACCESS s'emploient comme des rôles mais décrivent l'état
@@ -1559,4 +1560,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: 'getHasherConfigFromAlgorithm() — auto: native, sodium, pbkdf2'
+    verified_at: '2026-09-30'
+- id: FLC-mczm7e05c3kx
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande affiche la hiérarchie des rôles configurée ?'
+  back: '`php bin/console debug:security:role-hierarchy`, au format Mermaid.'
+  explanation: Lu dans `SecurityRoleHierarchyDumpCommand` (SecurityBundle 8.0).
+  memorization_justification: Outil de diagnostic.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Command/SecurityRoleHierarchyDumpCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/Command/SecurityRoleHierarchyDumpCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: debug:security:role-hierarchy — Mermaid flowchart
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+- id: FLC-sh7z03snqe8e
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels attributs AuthenticatedVoter traite-t-il en 8.0 ?'
+  back: '`IS_AUTHENTICATED_FULLY`, `IS_AUTHENTICATED_REMEMBERED`, `IS_AUTHENTICATED`, `IS_REMEMBERED`, `IS_IMPERSONATOR`, `PUBLIC_ACCESS`.'
+  explanation: Constantes de `AuthenticatedVoter`.
+  memorization_justification: Attributs d'état.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED, IS_IMPERSONATOR, IS_REMEMBERED, PUBLIC_ACCESS
+    verified_at: '2026-09-30'
+- id: FLC-gg4vkjf3jp2x
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un rôle sans préfixe ROLE_ n''est-il jamais accordé ?'
+  back: Parce que `RoleVoter` ne vote que sur les attributs commençant par `ROLE_` ; sur les autres il s'abstient, et l'abstention générale vaut refus.
+  explanation: 'Exécuté : `getRoles()` rend `[''ADMIN'']`, `isGranted(''ADMIN'')` est faux.'
+  memorization_justification: Raison du préfixe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/RoleVoter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/RoleVoter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: prefix ROLE_; supportsAttribute()
+    verified_at: '2026-09-30'
+- id: FLC-md8t0pnxyt7g
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi in_array(''ROLE_USER'', $user->getRoles()) peut-il être faux pour un ROLE_ADMIN ?'
+  back: Parce que `getRoles()` ne rend que les rôles écrits sur l'utilisateur ; la hiérarchie est appliquée par le votant.
+  explanation: 'Exécuté : `isGranted(''ROLE_USER'')` vrai, `in_array` faux.'
+  memorization_justification: Hiérarchie hors de l'utilisateur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+- id: FLC-mdcmkppaf63p
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : donner ROLE_USER à tout ROLE_ADMIN sans l''écrire sur l''utilisateur.'
+  back: '`role_hierarchy: { ROLE_ADMIN: ROLE_USER }` dans `security.yaml`.'
+  explanation: Vérifier ensuite avec `isGranted()`, jamais avec `getRoles()`.
+  memorization_justification: Configuration de hiérarchie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+- id: FLC-r4kqpmksraq5
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une hiérarchie des rôles stockée en base de données. Quelle solution la documentation recommande-t-elle ?'
+  back: Un **voter** personnalisé qui lit les rôles en base ; les valeurs de `role_hierarchy` sont statiques.
+  explanation: 'Exécuté : décorer `security.role_hierarchy` avec un `RoleHierarchyInterface` fonctionne aussi.'
+  memorization_justification: Hiérarchie dynamique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+- id: FLC-jkx5ff7pt1gv
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: TRAP
+  front: 'Symfony : role_hierarchy est-il toujours actif, même vide ?'
+  back: 'Non : sans `role_hierarchy`, SecurityBundle retire `RoleHierarchyVoter` et garde le simple `RoleVoter`.'
+  explanation: Lu dans `SecurityExtension::createRoleHierarchy()`.
+  memorization_justification: Votant réellement enregistré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createRoleHierarchy() — role_hierarchy_voter or simple_role_voter
+    verified_at: '2026-09-30'
+- id: FLC-jgnch196t09n
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: TRAP
+  front: 'Symfony : un rôle doit-il être déclaré quelque part dans security.yaml ?'
+  back: 'Non : il vient de `getRoles()` ; seule la hiérarchie se déclare, et elle est facultative.'
+  explanation: La seule contrainte est le préfixe `ROLE_`.
+  memorization_justification: Déclaration supposée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+- id: FLC-wyand61p3qhq
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il mettre IS_AUTHENTICATED_FULLY dans getRoles() pour l''utiliser dans isGranted() ?'
+  back: 'Non : c''est un attribut traité par `AuthenticatedVoter`, qui décrit l''état de l''authentification, pas un rôle.'
+  explanation: Il s'emploie seulement comme attribut.
+  memorization_justification: Attribut pris pour un rôle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED, IS_IMPERSONATOR, IS_REMEMBERED, PUBLIC_ACCESS
+    verified_at: '2026-09-30'
+- id: FLC-htynxqxxyv4b
+  official_item: OIT-fw6db7ryrk4q
+  language: fr
+  level: TRAP
+  front: 'Symfony : un rôle calculé à l''exécution est-il impossible dans Symfony ?'
+  back: 'Non : seules les **valeurs** de `role_hierarchy` sont statiques ; un voter, ou un service `RoleHierarchyInterface` décorant `security.role_hierarchy`, peut le faire.'
+  explanation: 'Exécuté : le rôle ajouté par le service décoré est accordé par `isGranted()`.'
+  memorization_justification: Portée de « statique ».
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Roles; Hierarchical Roles — BAD in_array; role_hierarchy values are static
+    verified_at: '2026-09-30'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createRoleHierarchy() — role_hierarchy_voter or simple_role_voter
     verified_at: '2026-09-30'
