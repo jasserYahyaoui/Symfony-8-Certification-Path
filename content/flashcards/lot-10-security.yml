@@ -1943,23 +1943,17 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: RECALL
-  front: 'Symfony : quel passport construire quand il n''y a aucun identifiant à vérifier ?'
-  back: '`SelfValidatingPassport`, qui ne prend qu''un `UserBadge` et des badges.'
-  explanation: Le constructeur de `Passport` exige un `CredentialsInterface`.
-  memorization_justification: Choix du passport.
+  front: 'Symfony : quelle exception UserBadge lève-t-il quand son user loader rend null ?'
+  back: '`UserNotFoundException`, avec l''identifiant renseigné.'
+  explanation: Lu dans `UserBadge::getUser()` (security-http 8.0).
+  memorization_justification: Échec du chargement de l'utilisateur.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php
-    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Badge/UserBadge.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Badge/UserBadge.php
     repository: symfony/symfony
     branch: '8.0'
-    symbol_or_lines: __construct(UserBadge, CredentialsInterface, array)
-    verified_at: '2026-10-01'
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst
-    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst
-    repository: symfony/symfony-docs
-    branch: '8.0'
-    symbol_or_lines: Custom Authenticators; Passport; badges
+    symbol_or_lines: getUser() — null from the loader throws UserNotFoundException
     verified_at: '2026-10-01'
 - id: FLC-8h5rmwqyaq22
   official_item: OIT-s3jh7wg5km19

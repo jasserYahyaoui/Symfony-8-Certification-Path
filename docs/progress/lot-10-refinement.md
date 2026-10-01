@@ -33,7 +33,7 @@ première page.
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | **RAFFINÉE** (PR #275) |
 | 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | **RAFFINÉE** (PR #276) |
 | 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | **RAFFINÉE** (PR #277) |
-| 12 | Voters and voting strategies | DEEP | 538 / 1200 | 1 | à faire |
+| 12 | Voters and voting strategies | DEEP | 538 / 1200 | 1 | **RAFFINÉE** (PR #278) |
 
 ## Page 1 — Security Core, CSRF and PasswordHasher components, 2026-09-30
 
@@ -982,6 +982,16 @@ question holdout lue ni modifiée.
 **Flashcards.** L'item n'en portait aucune. 10 ajoutées (3 RECALL,
 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte relevé par script.
 
+> **Erratum (rapport de fin de lot).** Faux : l'item portait déjà une carte,
+> `FLC-d0cpf8zrpcbj`, dans `content/flashcards/golden-slice.yml` — le décompte
+> de cette page n'avait lu que `lot-10-security.yml`. L'item portait donc **11**
+> cartes, dont une sans niveau, et l'une des dix nouvelles (`FLC-x5wxxwnd5f14`)
+> doublait sa question. Corrigé dans la PR du rapport : `FLC-d0cpf8zrpcbj` reçoit
+> le niveau RECALL, `FLC-x5wxxwnd5f14` est remplacée par une carte distincte
+> (exception levée par `UserBadge` quand son loader rend `null`, lue dans
+> `UserBadge::getUser()`). Décompte final : 11 cartes, 4 RECALL, 2 UNDERSTANDING,
+> 2 APPLICATION, 3 TRAP.
+
 **Aiguilles de smoke test.** Les quatre titres de niveau, plus `lazily`,
 `is not resolved` et `always_remember_me`, absentes de la version `master` de la
 page et du fichier de cartes.
@@ -1096,4 +1106,175 @@ absentes de la version `master` de la page et du fichier de cartes.
 
 ## Prochaine étape
 
-Rapport de fin de lot 10, réconcilié par script, dans sa propre PR.
+Rapport de fin de lot 10 ci-dessous ; ensuite lot 11.
+
+# Rapport de fin de lot 10
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `dba35da`, le commit de `master`
+qui précède la première page refondue (PR #267). État mesuré : `1dfcd63` (fusion
+de la page 12) plus les deux corrections de cartes de ce rapport. Le script de
+réconciliation, perdu au redémarrage du conteneur, a été reconstruit ; avant
+usage, il a redonné **à l'identique** tous les chiffres publiés du lot 09
+(`a91c2ba` → `d561017`). Un second script a confronté les décomptes de cartes
+écrits dans les douze entrées de page aux fichiers : **11 / 12** concordaient ;
+l'écart (page 11) est corrigé ci-dessus.
+
+## Périmètre
+
+**12** items officiels atomiques portent `lot: lot-10` dans la matrice :
+1 `MINIMAL`, 9 `STANDARD`, 2 `DEEP` — niveaux inchangés pendant la campagne.
+Cette répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 10 est **12 / 12**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 12 cours du lot 10 | 4 604 | **7 549** | **+2 945** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 1 | Roles, 415 |
+| `STANDARD` | 900 | 9 | Users, 693 |
+| `DEEP` | 1200 | 2 | Authenticators, Passports and Badges, 949 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 10 | 12 | **132** | **+120** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 40 · `UNDERSTANDING` 24 · `APPLICATION` 25 · `TRAP` 43.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les douze cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; trois ont été
+corrigées au-delà du niveau (`FLC-pd0dmdcagt1k`, page 1 ; `FLC-zpyvxwvf1x8a`,
+page 5 ; `FLC-y8dwv3bw5s2b`, page 8). Une carte ajoutée pendant la campagne a
+été corrigée par une page suivante (`FLC-6xnwnjg0fb3n`, page 2, réécrite à la
+page 5), une autre remplacée dans ce rapport (`FLC-x5wxxwnd5f14`).
+
+## Questions et pools
+
+**52** questions portent sur les items du lot 10 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 36 | `lot-10-security.yml` |
+| `VALIDATION` | 11 | `lot-10-security.yml` |
+| `HOLDOUT` | 5 | 2 dans `lot-10-security.yml`, 2 dans `mock-04-holdout.yml`, 1 dans `golden-slice.yml` |
+
+**13** questions non holdout corrigées, dont **10** passées en v2 :
+
+| Question | Pool | Version | Page | Correction |
+|---|---|---|---|---|
+| `QST-wfkk6ayjt3qb` | LEARNING | 1 → 2 | 1 | dépendances des paquets de sécurité |
+| `QST-71pfa2rprjj4` | LEARNING | 1 → 2 | 3 | réponse d'un anonyme : point d'entrée, pas 403 |
+| `QST-0xvabx1zmvhh` | LEARNING | 1 → 2 | 4 | `security: false` désactive `access_control` — réponse inversée |
+| `QST-f49jfgm58qr0` | LEARNING | 1 → 2 | 5 | rechargement raté : jeton retiré, session conservée |
+| `QST-f5z345sfdga7` | LEARNING | 1 → 2 | 5 | `entity` n'est pas une clé de SecurityBundle |
+| `QST-0qfww09cp9hf` | VALIDATION | 1 → 2 | 6 | `security: false` : rien ne tourne, `access_control` compris |
+| `QST-qzmh0dtgpccg` | VALIDATION | 1 → 2 | 7 | remplaçant d'`eraseCredentials()` : `__serialize()` |
+| `QST-cqx6wvrkts6w` | LEARNING | 1 → 2 | 8 | un condensat maison n'est plus vérifié sans `migrate_from` |
+| `QST-1cerp5ba1czy` | LEARNING | 1 → 2 | 9 | un distracteur décrivait une solution qui fonctionne |
+| `QST-c8gpyvw5shmy` | LEARNING | 1 → 2 | 12 | `unanimous`, toutes abstentions : refus |
+| `QST-xe6gkw0420ba` | LEARNING | 1 | 1 | explication sur l'indépendance des paquets |
+| `QST-g2w9we1mx2we` | VALIDATION | 1 | 1 | explication sur `security-csrf` |
+| `QST-pxen3npvfhq2` | LEARNING | 1 | 11 | activation de `RememberMeBadge` ajoutée à l'explication |
+
+**0 question holdout modifiée** (comparaison par empreinte SHA-256, sans lecture
+du contenu). `POOL-002` : 11 items `STANDARD`/`DEEP` `EXAM_READY`, **0** sans
+question `VALIDATION`.
+
+## Ce que dit la documentation, ce que fait le code
+
+| Page | Documentation 8.0 | Code 8.0, exécuté | Décision |
+|---|---|---|---|
+| 9 | `security.rst` : les valeurs de `role_hierarchy` sont statiques, « create a custom security voter » | décorer `security.role_hierarchy` calcule aussi une hiérarchie à l'exécution | les deux sont vrais ; la question porte désormais sur la clé de configuration |
+
+## Erreurs de méthode, corrigées pendant la campagne
+
+- **Redémarrage du conteneur** (page 9) : brouillons restaurés depuis le journal
+  de session, outillage reconstruit puis validé (générateur de cartes identique
+  octet pour octet sur la page 8, compteur de mots, script de réconciliation sur
+  le lot 09), bac à sable Symfony reconstruit et validé par la reproduction des
+  seize résultats de la page 10.
+- **Dérive de version** du bac à sable reconstruit : quatorze paquets tirés en
+  8.1, tous épinglés en `8.0.*` avant toute exécution retenue (page 10).
+- **Contrôles relancés** : une édition de la matrice pendant une exécution des
+  portes (page 9), et l'arbre généré absent d'un clone neuf (`aud08`, page 9) ;
+  chaque fois, la suite entière a été relancée et seule la dernière exécution
+  est retenue.
+- **Décompte de cartes incomplet** (page 11) : corrigé par l'erratum ci-dessus.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Cinq questions holdout portent sur des items du lot : 2 dans
+`lot-10-security.yml`, 2 dans `mock-04-holdout.yml`, 1 dans `golden-slice.yml`.
+Aucune n'a été lue. Des faits établis pendant la campagne pourraient en
+concerner certaines, sans que cela soit vérifié :
+
+- l'ancienne signature de `voteOnAttribute()`, sans `?Vote $vote = null`, est
+  une erreur fatale en 8.0 ;
+- `unanimous` avec toutes les abstentions refuse ;
+- `security: false` désactive aussi `access_control` ;
+- `supports()` = `null` signifie authentification paresseuse ;
+- `algorithm: auto` hache en bcrypt, et un condensat maison exige
+  `migrate_from` ;
+- un rôle modifié en base déconnecte l'utilisateur.
+
+## Reprise identifiée hors du lot courant
+
+La page 6 (*Firewalls*) n'indique pas que `lazy` est ignoré sur un pare-feu
+`stateless` (`SecurityExtension`, exécuté à la page 11). Elle n'est pas fausse,
+mais incomplète ; à reprendre.
+
+## Déploiements
+
+Les douze pages ont été fusionnées par PR (#267 à #278), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+CI de la PR #276 a été relancée une fois après un blocage de treize minutes au
+téléchargement de Chromium, avant tout test. La page 12 :
+run 36899098458, success — `ok  lot-10  the voters page carries its four flashcard levels, the vote reason, the signature error and the custom strategy key`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-01 sur la branche du rapport, au-dessus de `1dfcd63` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant, lot 07) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 201 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des douze entrées de page contre les fichiers | 11 / 12 concordants, l'écart corrigé (erratum page 11) |
+
+## Résumé autonome
+
+Lot 10 (*Security*), 12 items (1 MINIMAL, 9 STANDARD, 2 DEEP) : couverture projet
+163/163 inchangée ; cours 4 604 → 7 549 mots (+2 945), aucun dépassement de
+budget ; flashcards 12 → 132 (+120), toutes niveau posé ; 52 questions,
+13 corrigées dont 10 en v2, 0 holdout modifiée ; douze pages déployées, smoke
+tests lus ; une divergence documentation/code tranchée par la précision de
+l'énoncé ; un conteneur recyclé en cours de lot, outillage reconstruit et
+validé.
