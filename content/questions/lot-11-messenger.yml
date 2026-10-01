@@ -173,7 +173,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-sz3q1tm5smja
-  version: 1
+  version: 2
   official_topic: Messenger
   official_item: OIT-ckr67pq9npyb
   domain: symfony
@@ -195,34 +195,43 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-01'
   tags:
   - transports
   - routing
   choices:
-  - id: CHO-6sktbz7xf72v
-    text: It is handled synchronously, with no warning
+  - id: CHO-20ntydthrjak
+    text: The container fails to build
     correct: true
-  - id: CHO-rwv2vyg6r277
-    text: The container fails to compile
+  - id: CHO-vyjpemkd7xn0
+    text: It is handled synchronously, with no warning
     correct: false
-    explanation: An unrouted class name is not an error; routing simply does not match it.
+    explanation: That is what a namespace wildcard matching no message does; an exact class name is checked
+      when the container is built.
   - id: CHO-9zh5pvjebesp
     text: The message is queued but never consumed
     correct: false
-    explanation: 'Nothing is queued: without a matching route it is handled at once.'
+    explanation: 'Nothing is dispatched at all: the application does not boot.'
   - id: CHO-xwnc7ranhanf
     text: A RuntimeException is thrown at dispatch
     correct: false
-    explanation: Dispatching an unrouted message is a supported, silent case.
-  explanation: 'Unrouted means handled immediately. That is what makes a routing typo silent: the feature
-    still works, but in the request instead of a worker.'
+    explanation: The check happens earlier, while the container is compiled, and raises a LogicException.
+  explanation: 'FrameworkBundle checks every routing key when it builds the container. An unknown class or
+    interface throws "Invalid Messenger routing configuration: class or interface ... not found" (executed on
+    Messenger 8.0.15). Only a namespace wildcard that matches no message stays silent, and the message is then
+    handled synchronously.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — Invalid Messenger routing configuration
+    verified_at: '2026-10-01'
 - id: QST-7ay2hp5jexwb
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

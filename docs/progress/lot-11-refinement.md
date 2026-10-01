@@ -25,7 +25,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Messenger component | STANDARD | 382 / 900 | 1 | à faire |
+| 1 | Messenger component | STANDARD | 382 / 900 | 1 | **RAFFINÉE** (PR #280) |
 | 2 | Transports | STANDARD | 386 / 900 | 1 | à faire |
 | 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | à faire |
 | 4 | Workers | STANDARD | 408 / 900 | 1 | à faire |
@@ -110,6 +110,89 @@ la version `master` de la page et du fichier de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Transports* — RAFFINÉE
+
+`CRS-se1jr6cxh2n7` · `OIT-ckr67pq9npyb` · STANDARD · **386 → 679 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15, transports
+`in-memory://` et `sync://`, configurations de `routing` variées, conteneur
+reconstruit à chaque cas.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 11 (PR #280, `5085da4`) | 36908658099, success | `ok  lot-11  the messenger component page carries its four flashcard levels, the concept list, the sent stamps and the HandleTrait refusal` |
+
+### Une question fausse : la faute de frappe « silencieuse »
+
+`QST-tvzx2c0cqeh8` (LEARNING) demandait l'effet d'une classe mal orthographiée
+dans `routing`, avec pour bonne réponse « It is handled synchronously, with no
+warning » et, en explication d'un distracteur, « An unrouted class name is not
+an error ». La page disait de même : « une mauvaise clé de routage
+silencieuse ». Lu dans `FrameworkExtension::registerMessengerConfiguration()`,
+puis exécuté :
+
+| Clé de `routing` | Résultat |
+|---|---|
+| classe mal orthographiée | `LogicException` au build : « Invalid Messenger routing configuration: class or interface "App\P13\M\Welcom" not found. » |
+| bonne classe vers un transport inexistant | `LogicException` : « … is being routed to a sender called "asyncc". This is not a valid transport or service id. » |
+| classe exacte, `App\P13\M\*`, `*` | message envoyé au transport |
+| `App\Other\*` (espace de noms sans message) | aucune erreur ; traité en synchrone |
+
+La question passe en **v2** : bonne réponse `CHO-20ntydthrjak` (« The container fails to
+build »), l'ancienne bonne réponse devient un distracteur sous un nouvel
+identifiant (`CHO-vyjpemkd7xn0`) — sa correction change —, explications des deux autres
+distracteurs corrigées, source `FrameworkExtension` ajoutée ; énoncé inchangé.
+La carte `FLC-g0g67y6cwvv1` disait « sans erreur ni avertissement » : faux sans
+handler (`NoHandlerForMessageException`, page 1) ; corrigée, niveau TRAP, et son
+explication ne reprend plus la faute de frappe silencieuse.
+
+### Ajouté par l'exécution ou la lecture
+
+- `#[AsMessage(['async', 'audit'])]` : deux `SentStamp`, un message dans chaque
+  transport.
+- Attribut **et** clé `routing` sur la même classe : la configuration gagne
+  (seul le transport `sync://` de la configuration reçoit le message) — ce que
+  la documentation 8.0 annonce.
+- Message routé vers `sync://` : traité pendant `dispatch()`, avec un
+  `SentStamp`, contrairement au message non routé.
+- Ponts Messenger présents sur la branche 8.0 : AmazonSqs, Amqp, Beanstalkd,
+  Doctrine, Redis (le `composer.json` de chacun répond 200 ; la liste complète
+  du répertoire n'a pas été lue). Ces transports, hors
+  périmètre pour Doctrine, Redis et SQS, ne sont que nommés.
+
+**Matrice.** `OUT-sz3q1tm5smja` : « non route » → « non routé » (accent).
+
+**Questions.** `QST-7ay2hp5jexwb`, `QST-bp6mp496mm7m`, `QST-v4wkcq3cmm37`
+(LEARNING) et `QST-t248g7r5b5y8` (VALIDATION) relues : exactes, inchangées.
+Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-g0g67y6cwvv1` corrigée, niveau TRAP. L'item en
+porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP), décompte relevé
+par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`class or interface`, `not a valid transport` et `joker`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-01**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 221 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Transports* (STANDARD, 386 / 900).
+Page 3 — *Messages and handlers* (STANDARD, 381 / 900).

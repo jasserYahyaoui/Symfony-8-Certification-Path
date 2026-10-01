@@ -3263,6 +3263,32 @@ jobs:
           else
             echo "ok  lot-11  the messenger component page carries its four flashcard levels, the concept list, the sent stamps and the HandleTrait refusal"
           fi
+          # Lot 11 refinement, page 2 (Transports): the four flashcard levels,
+          # the class check at container build, the unknown transport error and
+          # the silent namespace wildcard.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-transp -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/transports")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page transports serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-transp || missing="$missing l11transp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-transp || missing="$missing l11transp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-transp || missing="$missing l11transp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-transp || missing="$missing l11transp:no-trap-heading"
+          grep -aq 'class or interface' /tmp/l11r-transp \
+            || missing="$missing l11transp:no-class-check"
+          grep -aq 'not a valid transport' /tmp/l11r-transp \
+            || missing="$missing l11transp:no-unknown-transport"
+          grep -aq 'joker' /tmp/l11r-transp \
+            || missing="$missing l11transp:no-silent-wildcard"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the transports page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the transports page carries its four flashcard levels, the class check, the unknown transport and the silent wildcard"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
