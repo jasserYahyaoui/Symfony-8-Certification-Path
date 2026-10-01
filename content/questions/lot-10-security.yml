@@ -2391,7 +2391,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-10-01'
     tags:
       - security
       - badges
@@ -2411,8 +2411,10 @@ questions:
         text: The badge must be listed before UserBadge in the passport
         correct: false
         explanation: Badges carry no ordering requirement.
-    explanation: A badge expresses a request, not a guarantee. RememberMeBadge marks the request as eligible
-      for the cookie; without remember_me configured on the firewall there is nothing to issue it.
+    explanation: A badge expresses a request, not a guarantee. Without remember_me configured on the firewall
+      there is nothing to issue the cookie. Even when it is configured, the badge starts disabled and must
+      be enabled — by the _remember_me request parameter, always_remember_me or enable() — otherwise the
+      cookie is cleared rather than set (executed on SecurityBundle 8.0.15).
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst

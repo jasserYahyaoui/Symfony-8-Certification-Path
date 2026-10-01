@@ -31,7 +31,7 @@ première page.
 | 7 | Users | STANDARD | 354 / 900 | 1 | **RAFFINÉE** (PR #273) |
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | **RAFFINÉE** (PR #274) |
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | **RAFFINÉE** (PR #275) |
-| 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | à faire |
+| 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | **RAFFINÉE** (PR #276) |
 | 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | à faire |
 | 12 | Voters and voting strategies | DEEP | 538 / 1200 | 1 | à faire |
 
@@ -890,6 +890,120 @@ absentes de la version `master` de la page et du fichier de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 11 — *Authenticators, Passports and Badges* — RAFFINÉE
+
+`CRS-6gc45etcssfb` · `OIT-s3jh7wg5km19` · DEEP · **677 → 949 mots** sur 1200.
+Aucun niveau promu. Exécutions sur le bac à sable reconstruit
+(FrameworkBundle + SecurityBundle 8.0.15, security-http 8.0.14), avec un
+authenticator maison qui journalise ses appels.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 10 du lot 10 (PR #276, `b7ccaec`) | 36895706500, success | `ok  lot-10  the access control rules page carries its four flashcard levels, the request matcher, its error and the query string` |
+
+La CI de la PR #276 est restée bloquée treize minutes sur l'étape « Install
+Chromium for the accessibility audit » (téléchargement, avant tout test) ; le
+run a été annulé puis relancé **une fois**, et le second passage est vert. Aucun
+test n'avait échoué.
+
+### Deux erreurs de fond
+
+**1. `supports()` = `null` n'est pas « redemande-moi ».** La page écrivait :
+« `null` — il *pourrait*, mais Symfony doit le rappeler à chaque requête plutôt
+que de mémoriser sa décision ». Le docblock de
+`AuthenticatorInterface::supports()` dit : « Returning null means
+authenticate() can be called lazily when accessing the token storage. » Lu dans
+`LazyFirewallContext` : si tous les écouteurs rendent `null`, l'authentification
+est confiée à l'initialiseur du stockage du jeton. Exécuté, `/plain` ne lisant
+pas l'utilisateur :
+
+| Pare-feu | `supports()` | `/plain` | `/whoami` |
+|---|---|---|---|
+| `lazy`, avec état | `null` | `authenticate()` jamais appelé | appelé |
+| `lazy`, avec état | `true` | appelé | appelé |
+| sans `lazy` | `null` | appelé | appelé |
+| `lazy` + `stateless` | `null` | appelé | appelé |
+
+La dernière ligne a d'abord fait douter de la lecture du code : une trace
+d'appel a montré `Firewall::callListeners` au lieu de `LazyFirewallContext`, et
+`SecurityExtension` donne la raison — `$isLazy = !$firewall['stateless'] &&
+$firewall['lazy']`. **`lazy` est ignoré sur un pare-feu sans état.** Ce fait
+manque aussi à la page 6 (*Firewalls*) ; il est noté pour une reprise, la page 6
+n'étant pas fausse mais incomplète.
+
+**2. `RememberMeBadge` naît désactivé.** La page disait seulement que le badge
+rend la requête « éligible » et que, sans `remember_me`, aucun cookie n'est
+émis. Lu dans `RememberMeBadge` (`$enabled = false`) et
+`CheckRememberMeConditionsListener` : il faut aussi l'activer — paramètre
+`_remember_me`, `always_remember_me`, ou `enable()`. Exécuté :
+
+| Pare-feu | Badge | `_remember_me` | Cookie `REMEMBERME` |
+|---|---|---|---|
+| sans `remember_me` | `enable()` | — | aucun |
+| `remember_me` | non activé | absent | **effacé** |
+| `remember_me` | non activé | `on` | posé |
+| `remember_me` | `enable()` | absent | posé |
+| `always_remember_me: true` | non activé | absent | posé |
+
+Un premier relevé ne regardait que le nom des cookies : `REMEMBERME` apparaissait
+dans la deuxième ligne. La valeur et l'expiration, relevées ensuite, montrent un
+cookie **effacé**, pas posé.
+
+`QST-pxen3npvfhq2` (LEARNING) : sa bonne réponse — « the badge only makes the
+request eligible; remember_me must be configured » — reste la meilleure des
+quatre, mais son explication omettait l'activation. Explication complétée ;
+énoncé et choix inchangés, donc version inchangée.
+
+### Confirmé par l'exécution ou la lecture
+
+- Badge maison non résolu : 401, « Authentication failed: Security badge … is
+  not resolved, did you forget to register the correct listeners? ».
+- Ordre dans `AuthenticatorManager::executeAuthenticator()` : `authenticate()`,
+  `CheckPassportEvent`, contrôle des badges, `createToken()`,
+  `AuthenticationTokenCreatedEvent`, `AuthenticationSuccessEvent`, puis
+  `onAuthenticationSuccess()` et enfin `LoginSuccessEvent` — remember-me et
+  rehachage viennent après la réponse de l'authenticator.
+- `UserBadge` : loader rendant `null` → `UserNotFoundException` ; identifiant
+  vide ou de plus de 4096 octets → `BadCredentialsException` dès le
+  constructeur.
+- `CustomCredentials` : `true !== $checker(...)` → `BadCredentialsException`.
+- `PreAuthenticatedUserBadge` : `UserCheckerListener` saute `checkPreAuth()`.
+
+**Sources.** La section « Sources officielles » du corps citait deux SHA courts
+(`eea05cb`, `6f841c0`). Ils ne sont pas reconstruits en SHA complets ; la
+section pointe désormais vers les fichiers sur la branche 8.0. Le front matter
+conserve ses deux `commit_sha` complets, relevés au lot d'origine.
+
+**Questions.** `QST-4zb71et3q70n` (LEARNING) relue : exacte, inchangée. Aucune
+question holdout lue ni modifiée.
+
+**Flashcards.** L'item n'en portait aucune. 10 ajoutées (3 RECALL,
+2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `lazily`,
+`is not resolved` et `always_remember_me`, absentes de la version `master` de la
+page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-10-01**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 191 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 11 — *Authenticators, Passports and Badges* (DEEP, 677 / 1200).
+Page 12 — *Voters and voting strategies* (DEEP, 538 / 1200).

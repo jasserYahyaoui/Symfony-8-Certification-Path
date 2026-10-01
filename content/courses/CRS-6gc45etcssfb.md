@@ -5,7 +5,7 @@ title: "Authenticators, Passports and Badges"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-01"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst"
@@ -28,13 +28,31 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "Passport::__construct, line 40"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "executeAuthenticator() — CheckPassportEvent, unresolved badge, createToken(), LoginSuccessEvent"
+    verified_at: "2026-10-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/CheckRememberMeConditionsListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/CheckRememberMeConditionsListener.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "onSuccessfulLogin() — _remember_me, always_remember_me, enable()"
+    verified_at: "2026-10-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "$isLazy = !stateless && lazy"
+    verified_at: "2026-10-01"
 ---
 
 ## Objectif
 
 Décrire le flux d'authentification de Symfony 8.0 en nommant correctement
-chaque objet, et savoir lequel construire selon qu'il y a ou non des
-identifiants à vérifier.
+chaque objet, savoir lequel construire selon qu'il y a ou non des identifiants
+à vérifier, et diagnostiquer un badge qui n'a pas l'effet attendu.
 
 ## Prérequis
 
@@ -52,8 +70,8 @@ Trois objets, trois rôles distincts :
 - **Badge** — une *pièce* de ce dossier. Chaque badge porte une information ou
   déclenche une vérification.
 
-L'authenticator ne valide rien lui-même. Il remplit un dossier ; le système de
-sécurité vérifie ensuite chaque pièce.
+L'authenticator ne valide rien lui-même. Il remplit un dossier ; des écouteurs
+vérifient ensuite chaque pièce.
 
 ## Explication technique
 
@@ -67,42 +85,63 @@ public function onAuthenticationSuccess(Request $request, TokenInterface $token,
 public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response;
 ```
 
-`supports()` renvoie un `?bool` à trois états, ce qui n'est pas un détail :
-
-- `true` — cet authenticator prend la requête en charge ;
-- `false` — il ne la prend pas en charge ;
-- `null` — il *pourrait*, mais Symfony doit le rappeler à chaque requête plutôt
-  que de mémoriser sa décision.
-
 `authenticate()` ne renvoie pas un utilisateur ni un booléen : il renvoie un
-**Passport**. C'est là que se joue la distinction la plus examinée.
+**Passport**. `AbstractAuthenticator` fournit `createToken()` ; l'ancien nom
+`createAuthenticatedToken()` n'existe plus.
+
+## `supports()` : trois réponses
+
+- `true` — l'authenticator prend la requête, `authenticate()` est appelé ;
+- `false` — il est ignoré ;
+- `null` — la documentation de l'interface : « authenticate() can be called
+  **lazily** when accessing the token storage ».
+
+`null` ne veut donc pas dire « redemande-moi » : il veut dire « authentifie
+seulement si quelqu'un lit le jeton ». Exécuté avec SecurityBundle 8.0.15, un
+authenticator qui journalise ses appels, et `/plain`, une page qui ne lit pas
+l'utilisateur :
+
+| Pare-feu | `supports()` | `/plain` | `/whoami` (lit le jeton) |
+|---|---|---|---|
+| `lazy: true`, avec état | `null` | **`authenticate()` jamais appelé** | appelé |
+| `lazy: true`, avec état | `true` | appelé | appelé |
+| sans `lazy` | `null` | appelé | appelé |
+| `lazy: true`, **`stateless: true`** | `null` | **appelé** | appelé |
+
+La dernière ligne s'explique dans `SecurityExtension` :
+`$isLazy = !$firewall['stateless'] && $firewall['lazy']`. Sur un pare-feu sans
+état, `lazy` est ignoré sans avertissement.
 
 ## Le flux
 
+Lu dans `AuthenticatorManager::executeAuthenticator()` :
+
 ```text
-Request
-  → supports()          l'authenticator prend-il la main ?
-  → authenticate()      construit le Passport (UserBadge + credentials + badges)
-  → résolution          chaque badge est vérifié ; le user provider charge l'utilisateur
-  → createToken()       le Passport résolu devient un TokenInterface
-  → onAuthenticationSuccess() / onAuthenticationFailure()
+supports()                     l'authenticator prend-il la main ?
+authenticate()                 construit le Passport
+CheckPassportEvent             les écouteurs résolvent les badges : utilisateur
+                               chargé, mot de passe vérifié, CSRF, user checker
+badge non résolu ?             → échec
+createToken()                  le Passport devient un TokenInterface
+AuthenticationSuccessEvent     user checker, après authentification
+onAuthenticationSuccess()      la réponse de l'authenticator
+LoginSuccessEvent              remember-me, migration du mot de passe
 ```
+
+Remember-me et rehachage arrivent donc **après** `onAuthenticationSuccess()`.
 
 ## Passport ou SelfValidatingPassport
 
 Le constructeur de `Passport` **exige** des identifiants :
 
 ```php
-public function __construct(
-    UserBadge $userBadge,
-    CredentialsInterface $credentials,
-    array $badges = [],
-)
+public function __construct(UserBadge $userBadge, CredentialsInterface $credentials, array $badges = [])
 ```
 
 Il n'existe donc pas de `Passport` sans credentials. Quand il n'y a rien à
 vérifier — jeton d'API déjà digne de confiance, en-tête signé en amont — c'est
-`SelfValidatingPassport` qu'il faut construire :
+`SelfValidatingPassport` qu'il faut construire ; son constructeur ne prend que
+`UserBadge` et les badges.
 
 ```php
 // Mot de passe à vérifier
@@ -121,47 +160,64 @@ return new SelfValidatingPassport(new UserBadge($apiToken));
 |---|---|
 | `UserBadge` | Porte l'identifiant utilisateur. **Obligatoire.** |
 | `PasswordCredentials` | Mot de passe en clair, à vérifier par le hasher |
-| `CustomCredentials` | Vérification arbitraire fournie par un callable |
-| `PasswordUpgradeBadge` | Autorise le réencodage du mot de passe si l'algorithme a changé |
-| `RememberMeBadge` | Rend la requête éligible au cookie « se souvenir de moi » |
+| `CustomCredentials` | Vérification par un callable, qui doit rendre exactement `true` |
+| `PasswordUpgradeBadge` | Autorise le réencodage du mot de passe |
+| `RememberMeBadge` | Demande le cookie « se souvenir de moi » |
 | `CsrfTokenBadge` | Fait vérifier un jeton CSRF |
-| `PreAuthenticatedUserBadge` | Marque l'utilisateur comme déjà authentifié en amont |
+| `PreAuthenticatedUserBadge` | Utilisateur déjà authentifié en amont : `checkPreAuth()` n'est pas appelé |
 
-`UserBadge` accepte un *user loader* en second argument, lorsque le chargement
-ne doit pas passer par le provider configuré :
+`UserBadge` accepte un *user loader* en second argument, quand le chargement ne
+doit pas passer par le fournisseur configuré. S'il rend `null`, `UserBadge`
+lève `UserNotFoundException`. Un identifiant vide, ou de plus de 4096 octets,
+est refusé dès la construction (`BadCredentialsException`).
 
-```php
-new UserBadge($email, fn (string $identifier): ?UserInterface
-    => $this->repository->findOneByEmail($identifier));
-```
+## Diagnostiquer un badge
+
+**Un badge non résolu fait échouer l'authentification.** Exécuté, un badge
+maison dont `isResolved()` rend `false` : **401**, « Authentication failed:
+Security badge "App\…\UnresolvedBadge" is not resolved, did you forget to
+register the correct listeners? ».
+
+**`RememberMeBadge` est désactivé à sa création.** Il faut à la fois le badge,
+la clé `remember_me` sur le pare-feu, et son activation : paramètre
+`_remember_me` dans la requête, `always_remember_me`, ou `enable()`. Exécuté :
+
+| Pare-feu | Badge | `_remember_me` | Cookie `REMEMBERME` |
+|---|---|---|---|
+| sans `remember_me` | `enable()` | — | aucun |
+| `remember_me` | non activé | absent | **effacé** |
+| `remember_me` | non activé | `on` | posé |
+| `remember_me` | `enable()` | absent | posé |
+| `always_remember_me: true` | non activé | absent | posé |
 
 ## Pièges d'examen
 
-**`RememberMeBadge` n'active rien à lui seul.** Il rend la requête *éligible*.
-Sans `remember_me` configuré sur le firewall, aucun cookie n'est émis. Un badge
-est une demande, pas une garantie.
+**`supports()` = `null` n'est pas « redemande-moi »** : c'est l'authentification
+paresseuse, et seulement sur un pare-feu `lazy` avec état.
 
-**Un badge non résolu fait échouer l'authentification.** Ajouter un
-`CsrfTokenBadge` sans que le jeton soit valide interrompt le flux — un badge
-oublié dans un refactor est une panne, pas une permission silencieuse.
+**`RememberMeBadge` n'active rien à lui seul** : sans `remember_me` ni
+activation, aucun cookie.
 
-**`getUser()` lève une `LogicException`**, pas une exception d'authentification,
-si le passport n'a pas de `UserBadge`. C'est une erreur de programmation, pas un
-échec de connexion.
+**Un badge non résolu est une panne**, pas une permission silencieuse.
 
-**`createToken()`, pas `createAuthenticatedToken()`.** L'ancien nom appartient
-aux versions antérieures.
+**`getUser()` sur un passport sans `UserBadge` lève une `LogicException`** :
+erreur de programmation, pas échec de connexion.
+
+**`createToken()`, pas `createAuthenticatedToken()`.**
 
 ## Points clés
 
-- `supports()` renvoie `?bool` ; `null` signifie « redemande-moi ».
 - `authenticate()` renvoie un `Passport`, jamais un utilisateur.
-- `Passport` exige des credentials ; sans credentials, c'est
-  `SelfValidatingPassport`.
+- `supports()` : `true`, `false`, ou `null` pour l'authentification paresseuse.
+- `Passport` exige des credentials ; sans credentials, `SelfValidatingPassport`.
 - `UserBadge` est le seul badge obligatoire.
-- Un badge exprime une demande de vérification ; il ne l'accorde pas.
+- Un badge exprime une demande ; un badge non résolu fait échouer.
 
 ## Sources officielles
 
-- `security/custom_authenticator.rst` (symfony-docs, branche 8.0, `eea05cb`)
-- `AuthenticatorInterface`, `Passport` (symfony, branche 8.0, `6f841c0`)
+- [Custom Authenticators](https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst)
+- [Security HTTP 8.0, `AuthenticatorInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php)
+- [Security HTTP 8.0, `AuthenticatorManager`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php)
+- [Security HTTP 8.0, `Passport`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Passport.php)
+- [Security HTTP 8.0, `CheckRememberMeConditionsListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/EventListener/CheckRememberMeConditionsListener.php)
+- [SecurityBundle 8.0, `SecurityExtension`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php)

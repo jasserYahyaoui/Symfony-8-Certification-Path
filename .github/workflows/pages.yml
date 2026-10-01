@@ -3185,6 +3185,32 @@ jobs:
           else
             echo "ok  lot-10  the access control rules page carries its four flashcard levels, the request matcher, its error and the query string"
           fi
+          # Lot 10 refinement, page 11 (Authenticators, Passports and Badges):
+          # the four flashcard levels, the lazy reading of a null supports(),
+          # the unresolved-badge failure and the remember-me activation.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l10r-auth -w '%{http_code}' "$BASE_URL/docs/courses/lot-10/authenticators-passports-and-badges")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 10 refined page authenticators-passports-and-badges serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l10r-auth || missing="$missing l10auth:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l10r-auth || missing="$missing l10auth:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l10r-auth || missing="$missing l10auth:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l10r-auth || missing="$missing l10auth:no-trap-heading"
+          grep -aq 'lazily' /tmp/l10r-auth \
+            || missing="$missing l10auth:no-lazy-supports"
+          grep -aq 'is not resolved' /tmp/l10r-auth \
+            || missing="$missing l10auth:no-unresolved-badge"
+          grep -aq 'always_remember_me' /tmp/l10r-auth \
+            || missing="$missing l10auth:no-remember-me-activation"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 10 refinement missing from the authenticators page:$missing"
+            fail=1
+          else
+            echo "ok  lot-10  the authenticators page carries its four flashcard levels, the lazy supports, the unresolved badge and the remember-me activation"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
