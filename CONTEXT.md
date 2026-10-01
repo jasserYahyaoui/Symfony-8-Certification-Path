@@ -19,7 +19,7 @@ périmètre sur instruction.
 | 07 (Forms) | **terminé** — 13 pages déployées ; rapport de fin de lot fusionné (PR #244) | `docs/progress/lot-07-refinement.md` |
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
-| 10 (Security) | **en cours** — pages 1–10 déployées (PR #267 à #276) ; page 11 en PR | `docs/progress/lot-10-refinement.md` |
+| 10 (Security) | **en cours** — pages 1–11 déployées (PR #267 à #277) ; page 12 en PR | `docs/progress/lot-10-refinement.md` |
 | 11 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -34,14 +34,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 11 du lot 10 après CI verte,
-lire son smoke test, puis page 12 (*Voters and voting strategies*, DEEP) :
-l'exemple `voteOnAttribute()` sans `?Vote $vote = null` est une **erreur fatale**
-en 8.0 (exécuté) ; `QST-c8gpyvw5shmy` est fausse (`unanimous` + toutes
-abstentions = refus) ; les votants ne sont pas tous consultés. Reprise à prévoir
-sur la page 6 : `lazy` est ignoré sur un pare-feu `stateless`. Signal holdout
-pour le propriétaire : vérifier qu'aucune question holdout n'utilise l'ancienne
-signature de `voteOnAttribute()`.
+**Prochaine action** : fusionner la PR de la page 12 du lot 10 après CI verte,
+lire son smoke test, puis le rapport de fin de lot 10 (base `dba35da`), dans sa
+propre PR, réconcilié par `reconcile_lot.py` (reconstruit le 2026-10-01 et
+validé sur les chiffres du lot 09). Reprise à prévoir sur la page 6 : `lazy` est
+ignoré sur un pare-feu `stateless`. Signal holdout pour le propriétaire :
+ancienne signature de `voteOnAttribute()`.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

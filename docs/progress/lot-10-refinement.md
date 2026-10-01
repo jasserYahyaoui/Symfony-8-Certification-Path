@@ -32,7 +32,7 @@ première page.
 | 8 | Password hashers | STANDARD | 333 / 900 | 1 | **RAFFINÉE** (PR #274) |
 | 9 | Roles | MINIMAL | 281 / 700 | 1 | **RAFFINÉE** (PR #275) |
 | 10 | Access Control Rules | STANDARD | 359 / 900 | 1 | **RAFFINÉE** (PR #276) |
-| 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | à faire |
+| 11 | Authenticators, Passports and Badges | DEEP | 677 / 1200 | 0 | **RAFFINÉE** (PR #277) |
 | 12 | Voters and voting strategies | DEEP | 538 / 1200 | 1 | à faire |
 
 ## Page 1 — Security Core, CSRF and PasswordHasher components, 2026-09-30
@@ -1004,6 +1004,96 @@ page et du fichier de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 12 — *Voters and voting strategies* — RAFFINÉE
+
+`CRS-y3g0v9nmne3t` · `OIT-kqm5mxq4jnkj` · DEEP · **538 → 810 mots** sur 1200.
+Aucun niveau promu. Exécutions sur le bac à sable reconstruit
+(security-core 8.0.15, SecurityBundle 8.0.15) : chargement de classes de
+votants, `AccessDecisionManager` avec des votants à vote fixe qui journalisent
+leurs appels, et une application `http_basic` avec un votant autoconfiguré.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 11 du lot 10 (PR #277, `3be31e2`) | 36897414327, success | `ok  lot-10  the authenticators page carries its four flashcard levels, the lazy supports, the unresolved badge and the remember-me activation` |
+
+### Trois erreurs de fond
+
+**1. L'exemple de code est une erreur fatale en 8.0.** La page montrait
+`voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool`.
+Le CHANGELOG de Security Core 8.0 : « Add argument `$vote` to
+`VoterInterface::vote()` and `Voter::voteOnAttribute()` » ; `Voter` 8.0.15
+déclare `?Vote $vote = null`. Exécuté, la classe à trois paramètres ne se
+charge pas : « Declaration of PostVoter::voteOnAttribute(…) must be compatible
+with Voter::voteOnAttribute(…, ?Vote $vote = null) ». L'exemple est réécrit
+avec la signature 8.0 et `addReason()`, puis exécuté avec des classes `Post` et
+`User` de substitution : 1, -1 (avec la raison), -1, 1, et 0 pour un attribut
+inconnu. Dans l'application, le refus répond 403 « Access Denied. Only the
+author may edit this post. ».
+
+Recherche de l'ancienne signature dans les cours, les cartes et les questions
+non holdout : seule cette page la portait. **Signal pour le propriétaire** : le
+pool holdout n'a pas été lu, par règle ; il reste à vérifier qu'aucune question
+holdout ne la montre.
+
+**2. « Tous les votants votent » est faux.** Déjà établi à la page 3 pour
+`affirmative`. Exécuté sur `AccessDecisionManager`, 8 combinaisons de votes ×
+4 stratégies (6 reprises dans la page), avec le journal des votants interrogés : `affirmative` s'arrête au
+premier accord, `unanimous` au premier refus, `priority` au premier vote non
+abstenu ; seule `consensus` interroge tout le monde.
+
+**3. `unanimous` avec toutes les abstentions refuse.** `QST-c8gpyvw5shmy`
+(LEARNING) donnait « Granted, because unanimous means no voter denies » pour
+trois abstentions ; la page disait « des abstentions n'empêchent donc rien ».
+Lu dans `UnanimousStrategy` : sans aucun accord, `allow_if_all_abstain` décide,
+`false` par défaut. Exécuté : refusé. La question passe en **v2** : bonne
+réponse `CHO-phhn9bxjc24r` (« Denied, by the allow_if_all_abstain default »), l'ancienne
+bonne réponse devient un distracteur sous un nouvel identifiant (`CHO-xkf656884pfe`) —
+sa correction change —, le distracteur « Denied, because no voter granted »,
+devenu ambigu, est retiré ; énoncé inchangé.
+
+### Confirmé par l'exécution ou la lecture
+
+- Configuration (`MainConfiguration`) : `strategy` parmi `affirmative`,
+  `consensus`, `unanimous`, `priority` ; `service` et `strategy_service`
+  exclusifs de `strategy` ; `allow_if_all_abstain` `false`,
+  `allow_if_equal_granted_denied` `true`.
+- `consensus` à égalité : accordé.
+- `priority` dépend de l'ordre : « refusé puis accordé » est refusé, quand
+  `affirmative` l'accorde.
+- Votant autoconfiguré : aucun `services.yaml` nécessaire.
+
+**Questions.** `QST-bff9s30tjw46`, `QST-qmjm8vzvrzh9`, `QST-7v4wmrtpv7wa`,
+`QST-5exn2rx427qm` (LEARNING) et `QST-2yyvqea9bx5j` (VALIDATION) relues :
+exactes, inchangées. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-kmf16st6cbrg` reçoit le niveau RECALL.
+L'item en porte **11** (3 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 4 TRAP),
+décompte relevé par script.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `addReason`,
+`must be compatible` et `strategy_service`,
+absentes de la version `master` de la page et du fichier de cartes.
+
+**Contrôles réellement exécutés le 2026-10-01**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions security-core et SecurityBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 201 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 12 — *Voters and voting strategies* (DEEP, 538 / 1200).
+Rapport de fin de lot 10, réconcilié par script, dans sa propre PR.
