@@ -25,7 +25,7 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Console component | STANDARD | 454 / 900 | 1 | **RAFFINÉE** (PR #288) |
 | 2 | Built-in commands | MINIMAL | 302 / 700 | 1 | **RAFFINÉE** (PR #289) |
-| 3 | Custom commands | STANDARD | 443 / 900 | 1 | à faire |
+| 3 | Custom commands | STANDARD | 443 / 900 | 1 | **RAFFINÉE** (PR #290) |
 | 4 | Configuration | STANDARD | 519 / 900 | 1 | à faire |
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | à faire |
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | à faire |
@@ -272,6 +272,80 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 4 — *Configuration* — RAFFINÉE
+
+`CRS-sf3701ncg2va` · `OIT-1hdmw4gm819r` · STANDARD · **519 → 693 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Console 8.0.15 : des
+commandes dont le constructeur se signale, lancées par `list` ; une commande
+cachée par son nom ; les usages lus par `getUsages()` sous FrameworkBundle et
+dans une `Application` autonome.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 3 du lot 12 (PR #290, `f9b37f8`) | 37000292405, success | `ok  lot-12  the custom commands page carries its four flashcard levels, the subclass autoconfiguration, the hidden command and the ask run` |
+
+### La documentation et le code divergent : les `usages`
+
+La documentation 8.0 montre `usages` dans `#[AsCommand]`. Lu dans
+`FrameworkExtension` (8.0, version installée et branche amont) :
+l'autoconfiguration ne transmet que `name`, `description` et `help` au tag
+`console.command`. Exécuté :
+
+| Commande | `getUsages()` |
+|---|---|
+| invocable, application FrameworkBundle | `[]` |
+| invocable, `Application` autonome | `["app:usage bob", "app:usage alice --x"]` |
+| sous-classe de `Command`, application FrameworkBundle | `["app:usage-sub carol"]` |
+
+Le code l'emporte ; l'écart est signalé sur la page.
+
+### Une affirmation retirée
+
+« C'est l'unique cas de la documentation Symfony où l'on est invité à ne pas
+appeler le constructeur parent en premier » : superlatif invérifiable, retiré.
+La règle elle-même — propriétés avant `parent::__construct()` — reste,
+confirmée par l'ordre exécuté `ctor-start`, `configure`, `ctor-end`.
+
+### Confirmé par l'exécution ou la lecture
+
+- Description dans l'attribut : la classe n'est **pas** construite par `list` ;
+  description dans `configure()` : elle l'est.
+- `name: '|app:secret'` : premier segment vide, commande cachée — absente de
+  `list`, exécutable (code 0) ; lu dans `AddConsoleCommandPass`.
+- `Command::addUsage()` préfixe le nom à tout usage qui ne commence pas par lui.
+
+**Questions.** `QST-bw6j8k17fx9c`, `QST-y48awnf4nfnx`, `QST-mra5j6bq70sr`
+(LEARNING) et `QST-8rb0j5e7v90a` (VALIDATION) relues : exactes, inchangées.
+L'item n'a pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-c51027n1sspw` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`|app:secret`, `getUsages()` et `construite par`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 311 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Configuration* (STANDARD, 519 / 900).
+Page 5 — *Options and arguments (using PHP attributes)* (STANDARD, 711 / 900).

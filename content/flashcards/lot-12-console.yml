@@ -59,6 +59,7 @@ flashcards:
 - id: FLC-c51027n1sspw
   official_item: OIT-1hdmw4gm819r
   language: fr
+  level: RECALL
   front: À quel moment configure() est-elle appelée ?
   back: 'À la fin du constructeur de Command, pas au lancement de la commande. D''où la règle : affecter ses propriétés
     avant parent::__construct() si configure() en dépend.'
@@ -667,4 +668,188 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'
+- id: FLC-y2aaej5gv1s0
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: RECALL
+  front: 'Symfony : comment cacher une commande par son seul nom dans #[AsCommand] ?'
+  back: 'En commençant le nom par un segment vide : `name: ''|app:secret''`.'
+  explanation: 'Équivaut à `hidden: true` ; exécuté : absente de `list`, exécutable.'
+  memorization_justification: Commande cachée par le nom.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: process() — empty first segment means hidden; description from the tag makes a LazyCommand
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — aliases and hidden merged into the name with |
+    verified_at: '2026-10-02'
+- id: FLC-mg7y9e33wra2
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels paramètres de #[AsCommand] FrameworkBundle 8.0 transmet-il au tag console.command ?'
+  back: '`name`, `description` et `help`.'
+  explanation: Lu dans `FrameworkExtension` (8.0) ; `usages` n'y figure pas.
+  memorization_justification: Contenu du tag.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) — tag carries command, description, help
+    verified_at: '2026-10-02'
+- id: FLC-98pd5j30st7b
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi poser la description dans #[AsCommand] plutôt que dans configure() ?'
+  back: Parce que `list` la lit alors sans construire la classe ; dans `configure()`, il doit instancier la commande.
+  explanation: 'Exécuté : seule la commande décrite dans `configure()` a été construite par `list`.'
+  memorization_justification: Chargement paresseux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: process() — empty first segment means hidden; description from the tag makes a LazyCommand
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring the Command; Command aliases; hidden commands
+    verified_at: '2026-10-02'
+- id: FLC-fqgk25qs01hr
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi les usages d''une commande invocable n''apparaissent-ils pas dans --help d''une application Symfony ?'
+  back: Parce que FrameworkBundle ne transmet pas `usages` au tag `console.command` ; une sous-classe de `Command` les lit dans son propre constructeur.
+  explanation: 'Exécuté : `[]` pour l''invocable, `["app:usage-sub carol"]` pour la sous-classe.'
+  memorization_justification: Divergence documentation / code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) — tag carries command, description, help
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); addUsage() prefixes the command name
+    verified_at: '2026-10-02'
+- id: FLC-ak7ashzw4zvd
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi affecter ses propriétés avant parent::__construct() quand configure() les lit ?'
+  back: Parce que `configure()` est appelée à la fin du constructeur de `Command`.
+  explanation: 'Exécuté : `ctor-start`, `configure`, `ctor-end`.'
+  memorization_justification: Ordre de construction.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); addUsage() prefixes the command name
+    verified_at: '2026-10-02'
+- id: FLC-5qn83493755r
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : donner deux alias à app:create-user dans l''attribut.'
+  back: '`#[AsCommand(name: ''app:create-user|app:add-user|app:new-user'')]`, ou le paramètre `aliases`.'
+  explanation: Le constructeur de l'attribut fusionne les deux formes.
+  memorization_justification: Alias.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — aliases and hidden merged into the name with |
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring the Command; Command aliases; hidden commands
+    verified_at: '2026-10-02'
+- id: FLC-7v29zv501rpp
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : garder une commande de maintenance exécutable mais absente de list.'
+  back: '`#[AsCommand(name: ''app:purge'', hidden: true)]`.'
+  explanation: Elle reste exécutable par son nom et ses alias.
+  memorization_justification: Commande interne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — aliases and hidden merged into the name with |
+    verified_at: '2026-10-02'
+- id: FLC-036xnp3hrtb5
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: TRAP
+  front: 'Symfony : hidden: true désactive-t-il une commande ?'
+  back: 'Non : elle disparaît de `list`, mais s''exécute toujours.'
+  explanation: 'Exécuté : code 0.'
+  memorization_justification: Cachée n'est pas désactivée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring the Command; Command aliases; hidden commands
+    verified_at: '2026-10-02'
+- id: FLC-h3h2j74ay124
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: TRAP
+  front: 'Symfony : un usage doit-il répéter le nom de la commande ?'
+  back: 'Non : `addUsage()` le préfixe à tout usage qui ne commence pas par lui.'
+  explanation: 'Exécuté : `bob` devient `app:usage bob`.'
+  memorization_justification: Préfixe des usages.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); addUsage() prefixes the command name
+    verified_at: '2026-10-02'
+- id: FLC-xcgmkzm2gqan
+  official_item: OIT-1hdmw4gm819r
+  language: fr
+  level: TRAP
+  front: 'Symfony : configure() voit-elle l''entrée tapée par l''utilisateur ?'
+  back: 'Non : elle s''exécute à la construction de la commande, avant tout lancement.'
+  explanation: C'est `initialize()` qui reçoit l'entrée en premier.
+  memorization_justification: Moment de configure().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); addUsage() prefixes the command name
     verified_at: '2026-10-02'
