@@ -5,7 +5,7 @@ title: "Web Profiler, Web Debug Toolbar and Data collectors"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst"
@@ -13,6 +13,21 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php"
+    branch: "8.0"
+    symbol_or_lines: "onKernelResponse(); onKernelTerminate()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php"
+    branch: "8.0"
+    symbol_or_lines: "random_int(1, 10); removeExpiredProfiles()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php"
+    branch: "8.0"
+    symbol_or_lines: "injectToolbar()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -48,7 +63,19 @@ composer require --dev symfony/profiler-pack
 ## La barre n'apparaît pas toujours
 
 Elle n'est injectée que dans les réponses **HTML**. Pour une réponse JSON — le
-cas d'une API — rien ne s'affiche, et c'est normal.
+cas d'une API — rien ne s'affiche, et c'est normal. Exécuté sur
+WebProfilerBundle 8.0.15, profileur actif :
+
+| Réponse | Barre injectée | `X-Debug-Token-Link` |
+|---|---|---|
+| HTML avec `</body>` | oui | présent |
+| JSON | non | présent |
+| redirection 302 | non | présent |
+| HTML sans balise `</body>` | non | présent |
+| HTML demandé en XHR | non | présent |
+
+L'injection se fait juste avant `</body>` : sans cette balise, il n'y a pas
+d'endroit où l'insérer. **Le profil, lui, existe dans tous les cas.**
 
 L'accès passe alors par deux en-têtes de réponse :
 
@@ -65,6 +92,11 @@ barre, comment je vois le profil ? ».
 Pour limiter la place occupée, les profils sont supprimés
 **probabilistiquement après 2 jours**. On ne s'appuie donc pas sur un profil
 ancien.
+
+Lu dans `FileProfilerStorage` (8.0) : à chaque écriture d'un nouveau profil, une
+chance sur dix (`random_int(1, 10)`) déclenche la purge des profils de plus de
+`2 * 86400` secondes. Un profil ancien peut donc survivre tant que peu de
+requêtes sont profilées.
 
 ## Y accéder par le code
 
@@ -113,6 +145,11 @@ Pour une donnée qui n'existe qu'après la réponse, on implémente
 `LateDataCollectorInterface` et sa méthode `lateCollect()`, appelée juste avant
 la sérialisation, pendant **`kernel.terminate`**.
 
+Lu dans `ProfilerListener` (8.0) : `onKernelResponse()` appelle
+`Profiler::collect()`, donc chaque `collect()` ; `onKernelTerminate()` appelle
+`Profiler::saveProfile()`, qui appelle chaque `lateCollect()` puis écrit le
+profil.
+
 Avec `autoconfigure`, le collecteur est pris en compte sans configuration ;
 sinon il faut poser l'étiquette `data_collector`.
 
@@ -120,12 +157,14 @@ sinon il faut poser l'étiquette `data_collector`.
 
 **Le profileur est un outil de développement** — jamais activé en production.
 
-**La barre n'est injectée que dans du HTML** ; sinon, `X-Debug-Token-Link`.
+**La barre n'est injectée que dans du HTML qui a un `</body>`**, hors
+redirection et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
 
 **`collect()` est appelée une fois, sur `kernel.response`** ;
 `lateCollect()` sur `kernel.terminate`.
 
-**Les profils disparaissent après environ 2 jours.**
+**Les profils disparaissent après environ 2 jours** — purge déclenchée une
+fois sur dix, à l'écriture d'un profil.
 
 **`getName()` doit être unique** : c'est la clé d'accès au collecteur.
 
@@ -141,3 +180,6 @@ sinon il faut poser l'étiquette `data_collector`.
 ## Sources officielles
 
 - [Profiler](https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst)
+- [`ProfilerListener`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php)
+- [`FileProfilerStorage`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php)
+- [`WebDebugToolbarListener`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php)

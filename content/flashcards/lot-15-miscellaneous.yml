@@ -27,6 +27,7 @@ flashcards:
 - id: FLC-q9dj4gjhz31d
   official_item: OIT-d1qsxrtv25kk
   language: fr
+  level: APPLICATION
   front: Une réponse JSON n'affiche aucune barre de débogage. Comment atteindre son profil ?
   back: Par l'en-tête X-Debug-Token-Link, qui porte l'URL du profil — ou X-Debug-Token puis /_profiler. La barre
     n'est injectée que dans les réponses HTML.
@@ -204,4 +205,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-9r2wdr0e787s
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels en-têtes de réponse donnent accès au profil d''une requête ?'
+  back: '`X-Debug-Token`, le jeton, et `X-Debug-Token-Link`, l''URL du profil.'
+  explanation: 'Exécuté : présents sur HTML, JSON, redirection et XHR.'
+  memorization_justification: En-têtes du profil.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: injectToolbar(); strripos($content, '</body>')
+    verified_at: '2026-10-02'
+- id: FLC-7rf2f1e0ark9
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande liste les collecteurs de données actifs ?'
+  back: '`php bin/console debug:container --tag=data_collector`.'
+  explanation: Documentation *Profiler*, branche 8.0.
+  memorization_justification: Lister les collecteurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
+    verified_at: '2026-10-02'
+- id: FLC-n1txacsqkexq
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: RECALL
+  front: 'Symfony : sur quel événement collect() est-il appelé, et lateCollect() ?'
+  back: '`collect()` sur `kernel.response` ; `lateCollect()` sur `kernel.terminate`, avant l''écriture du profil.'
+  explanation: Lu dans `ProfilerListener` (8.0).
+  memorization_justification: Moment de la collecte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelResponse(); onKernelTerminate()
+    verified_at: '2026-10-02'
+- id: FLC-phj51jdkr8y6
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi la barre n''apparaît-elle pas sur une page HTML sans balise </body> ?'
+  back: 'Parce qu''elle est insérée juste avant `</body>` : sans cette balise, il n''y a pas d''endroit où l''injecter.'
+  explanation: Exécuté ; lu dans `WebDebugToolbarListener::injectToolbar()`.
+  memorization_justification: Point d'injection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: injectToolbar(); strripos($content, '</body>')
+    verified_at: '2026-10-02'
+- id: FLC-sqzp7jq9h3ws
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un profil vieux de trois jours peut-il encore exister ?'
+  back: Parce que la purge n'a lieu qu'une fois sur dix, à l'écriture d'un nouveau profil.
+  explanation: 'Lu dans `FileProfilerStorage` (8.0) : `random_int(1, 10)`, seuil `2 * 86400`.'
+  memorization_justification: Purge probabiliste.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: random_int(1, 10); removeExpiredProfiles()
+    verified_at: '2026-10-02'
+- id: FLC-3m6gjxr18rf4
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi mesurer dans collect() ne marche-t-il pas ?'
+  back: 'Parce que `collect()` est appelée une fois, sur `kernel.response` : elle ramasse ce qu''un service a mesuré pendant la requête.'
+  explanation: Documentation *Creating a Data Collector*, branche 8.0.
+  memorization_justification: Rôle de collect().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelResponse(); onKernelTerminate()
+    verified_at: '2026-10-02'
+- id: FLC-d1ty8w2j9y0b
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : charger dans un test le profil d''une réponse.'
+  back: '`$profiler->loadProfileFromResponse($response)`, ou `loadProfile()` avec le jeton `X-Debug-Token`.'
+  explanation: Documentation *Accessing Profiling Data Programmatically*.
+  memorization_justification: Profil par le code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
+    verified_at: '2026-10-02'
+- id: FLC-r3eer08q0qc2
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: TRAP
+  front: 'Symfony : une redirection 302 reçoit-elle la barre de débogage ?'
+  back: Non ; elle a pourtant un profil et l'en-tête `X-Debug-Token-Link`.
+  explanation: Exécuté sur WebProfilerBundle 8.0.15.
+  memorization_justification: Pas de barre sur une redirection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: injectToolbar(); strripos($content, '</body>')
+    verified_at: '2026-10-02'
+- id: FLC-s5jrttg9qj4e
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: TRAP
+  front: 'Symfony : une page HTML demandée en XHR reçoit-elle la barre ?'
+  back: 'Non : les requêtes XHR sont exclues de l''injection.'
+  explanation: Exécuté ; lu dans `WebDebugToolbarListener`.
+  memorization_justification: Pas de barre en XHR.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: injectToolbar(); strripos($content, '</body>')
+    verified_at: '2026-10-02'
+- id: FLC-6j816hk8afkj
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: TRAP
+  front: 'Symfony : un objet non sérialisable peut-il être stocké tel quel dans $this->data ?'
+  back: 'Non : les données d''un collecteur sont sérialisées avec le profil ; il faut alors fournir sa propre sérialisation.'
+  explanation: Documentation *Creating a Data Collector*, branche 8.0.
+  memorization_justification: Sérialisation des données.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
     verified_at: '2026-10-02'
