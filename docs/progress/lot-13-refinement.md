@@ -26,7 +26,7 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | **RAFFINÉE** (PR #298) |
 | 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #299) |
-| 3 | Client object | STANDARD | 524 / 900 | 1 | à faire |
+| 3 | Client object | STANDARD | 524 / 900 | 1 | **RAFFINÉE** (PR #300) |
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | à faire |
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | à faire |
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | à faire |
@@ -249,6 +249,88 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 4 — *Crawler object (CssSelector and DomCrawler components)* — RAFFINÉE
+
+`CRS-zg5jg6hqp2mj` · `OIT-se21g2xv6h4r` · STANDARD · **538 → 786 mots** sur 900.
+Aucun niveau promu. Exécutions sur DomCrawler et CssSelector 8.0.15 : un
+document de test parcouru, extrait, puis un formulaire à deux boutons
+transformé en `Form` de trois façons.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 3 du lot 13 (PR #300, `923ae44`) | 37041787873, success | `ok  lot-13  the client page carries its four flashcard levels, the redirect default, the stateless login and the container reboot` |
+
+### La documentation se contredit, le code tranche : sélectionner un bouton
+
+`testing.rst` (8.0) : « you select form buttons and not forms… you must look
+for a button ». `components/dom_crawler.rst` (8.0) montre pourtant
+`$crawler->filter('.form-vertical')->form()`. Lu dans `Form::setNode()` : un
+`<button>`, un `<input type="submit">` **ou** un `<form>` sont acceptés.
+Exécuté :
+
+| Origine du `Form` | Valeurs envoyées |
+|---|---|
+| `selectButton('Delete')->form()` | `b=B`, `q=1` |
+| le `<form>` | `q=1` |
+| un `<input>` ordinaire | `LogicException` « Unable to submit on a "input" tag. » |
+
+La page présente les deux, et dit ce que le `<form>` seul perd.
+
+**`QST-7v7dsbmdfdgt` (LEARNING) → v2.** Sa bonne réponse — « a button » — se
+heurtait à un distracteur valide, « the form element itself ». Réécrite sur
+le cas où seul le bouton convient : deux boutons, soumettre comme si Delete
+était cliqué. Bonne réponse nouvelle (`CHOID`), ni la plus longue ni la plus
+courte ; explications des distracteurs réécrites avec l'exécution.
+
+### Une ligne de code trompeuse : `text(null, true)`
+
+Commentée « en normalisant les espaces », elle laissait croire que la
+normalisation est optionnelle. Lu dans `Crawler::text()` :
+`bool $normalizeWhitespace = true`. Exécuté : `"Hello World"` par défaut,
+texte brut avec `text(null, false)`. Ligne remplacée.
+
+### Confirmé par l'exécution
+
+- `text()` et `attr()` sur une sélection vide : `InvalidArgumentException`
+  « The current node list is empty. » ; avec une valeur par défaut, la valeur.
+- `text()` sur trois `<li>` : le premier ; `siblings()` exclut le nœud
+  courant ; `ancestors()` : `ul`, `body`, `html` ; la sélection d'origine reste
+  à 3 nœuds après `first()`.
+- `selectButton()` trouve un bouton par son texte, son `id`, son `name`, ou la
+  valeur d'un `<input type="submit">`.
+
+**Questions.** `QST-k2pbvcnet7mh` (LEARNING) et `QST-aany4cpa165m`
+(VALIDATION) relues : exactes, inchangées. Aucune question holdout lue ni
+modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-0cvzxn60pazy` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`Unable to submit on a`, `The current node list is empty` et `text(null, false)`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 401 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Crawler object (CssSelector and DomCrawler components)* (STANDARD, 538 / 900).
+Page 5 — *Profiler object (WebProfiler bundle)* (MINIMAL, 285 / 700).

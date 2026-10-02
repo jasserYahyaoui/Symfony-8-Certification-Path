@@ -3732,6 +3732,32 @@ jobs:
           else
             echo "ok  lot-13  the client page carries its four flashcard levels, the redirect default, the stateless login and the container reboot"
           fi
+          # Lot 13 refinement, page 4 (Crawler object): the four flashcard levels,
+          # the Form built from the form node, the empty node list and the raw
+          # text kept by text(null, false).
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l13r-crawler-object-cssselector-and-domcrawler-components -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/crawler-object-cssselector-and-domcrawler-components")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 13 refined page crawler-object-cssselector-and-domcrawler-components serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components || missing="$missing l13cr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components || missing="$missing l13cr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components || missing="$missing l13cr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components || missing="$missing l13cr:no-trap-heading"
+          grep -aqF -- 'Unable to submit on a' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components \
+            || missing="$missing l13cr:no-form-node"
+          grep -aqF -- 'The current node list is empty' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components \
+            || missing="$missing l13cr:no-empty-list"
+          grep -aqF -- 'text(null, false)' /tmp/l13r-crawler-object-cssselector-and-domcrawler-components \
+            || missing="$missing l13cr:no-raw-text"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 13 refinement missing from the crawler page:$missing"
+            fail=1
+          else
+            echo "ok  lot-13  the crawler page carries its four flashcard levels, the form node, the empty list and the raw text"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
