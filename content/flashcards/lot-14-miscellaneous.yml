@@ -53,18 +53,26 @@ flashcards:
 - id: FLC-1f4raf4m8wng
   official_item: OIT-xgrbftkj67ds
   language: fr
+  level: TRAP
   front: Que se passe-t-il si un dump() reste dans du code déployé en production ?
-  back: 'Une Error fatale : symfony/var-dumper est une dépendance --dev, donc la fonction n''existe pas.'
-  explanation: Ce n'est ni un affichage indésirable ni une exception applicative rattrapable — la page tombe.
-  memorization_justification: On imagine un oubli cosmétique, alors que l'absence de la dépendance rend l'appel
-    impossible.
+  back: 'Pas d''erreur : la fonction existe, car ErrorHandler exige VarDumper. Le dump est écrit avant la réponse,
+    qui perd ses en-têtes.'
+  explanation: 'Exécuté en prod sans DebugBundle : 200, le dump HTML avant le contenu, Cache-Control de Symfony
+    absent. La documentation installe VarDumper en --dev, mais FrameworkBundle le tire quand même.'
+  memorization_justification: L'installation en --dev fait croire la fonction absente en production ; la chaîne
+    de dépendances la rend présente.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
-    symbol_or_lines: '"composer require --dev symfony/var-dumper" — installed as a development dependency'
+    symbol_or_lines: 'On other SAPIs, dumps are written as HTML in the regular output.'
     branch: '8.0'
-    verified_at: '2026-09-02'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    symbol_or_lines: '"symfony/var-dumper": "^7.4|^8.0" under require'
+    branch: '8.0'
+    verified_at: '2026-10-02'
 - id: FLC-jjcxm1yjtmgr
   official_item: OIT-tvc5rjv6qvse
   language: fr
@@ -432,4 +440,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'exceptions; php_errors: throw'
+    verified_at: '2026-10-02'
+- id: FLC-8qpxejdzj499
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rend dump($x) ?'
+  back: 'La valeur reçue, `$x` : on peut l''insérer dans une chaîne d''appels.'
+  explanation: 'Exécuté : `$v = dump([''k'' => 1])` rend le tableau.'
+  memorization_justification: Valeur de retour de dump().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-phn93e7w7q1w
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande envoie les dumps hors de la réponse ?'
+  back: '`php bin/console server:dump`, éventuellement avec `--format=html`.'
+  explanation: Documentation VarDumper 8.0.
+  memorization_justification: Serveur de dump.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-2td6a104rtx2
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande dit quelle route répond à une URL ?'
+  back: '`router:match /chemin`.'
+  explanation: Elle montre les routes essayées et la raison de leur échec.
+  memorization_justification: Diagnostic d'un 404.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Debugging Routes
+    verified_at: '2026-10-02'
+- id: FLC-sp06xaw9add7
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi dump() existe-t-il en production malgré un VarDumper installé en --dev ?'
+  back: Parce que FrameworkBundle exige ErrorHandler, qui exige VarDumper en dépendance ordinaire.
+  explanation: 'Lu dans les `composer.json` 8.0 ; exécuté : `function_exists(''dump'')` vaut `true`.'
+  memorization_justification: Chaîne de dépendances.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '"symfony/var-dumper": "^7.4|^8.0" under require'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '"symfony/error-handler": "^7.4|^8.0" under require'
+    verified_at: '2026-10-02'
+- id: FLC-gqf1g59h7jbz
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un dump() en prod fait-il perdre les en-têtes de la réponse ?'
+  back: 'Parce que le dump sort avant la réponse : PHP envoie ses propres en-têtes, et Symfony ne peut plus envoyer les siens.'
+  explanation: 'Exécuté : `Cache-Control` de Symfony absent, `Content-type` de PHP présent.'
+  memorization_justification: Sortie avant en-têtes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-rv7x2gdhzfw6
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi DebugBundle envoie-t-il les dumps vers la barre de débogage ?'
+  back: Pour ne pas écrire du HTML au milieu de la réponse ; si la barre ne peut pas s'afficher, le dump repart sur la sortie.
+  explanation: Documentation VarDumper 8.0.
+  memorization_justification: Destination des dumps.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-9dqzb7rmw9p6
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : déboguer une API JSON sans casser ses réponses.'
+  back: 'Lancer `server:dump` : les dumps lui sont envoyés au lieu d''être imprimés.'
+  explanation: Documentation VarDumper 8.0.
+  memorization_justification: Dump et API.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-rtgbvygf8kg5
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vérifier la configuration réellement retenue pour twig, après fusion.'
+  back: '`php bin/console debug:config twig`.'
+  explanation: 'Exécuté : les clés non écrites apparaissent avec leur valeur par défaut.'
+  memorization_justification: Configuration fusionnée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ConfigDebugCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ConfigDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '#[AsCommand(name: ''debug:config'', description: ''Dump the current configuration for an extension'')]'
+    verified_at: '2026-10-02'
+- id: FLC-7sgsz852h5qw
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans DebugBundle, en prod, un dump() provoque-t-il une erreur fatale ?'
+  back: 'Non : 200, et le dump HTML est écrit avant le contenu de la réponse.'
+  explanation: Exécuté sur un serveur web PHP, noyau en `prod`.
+  memorization_justification: Pas d'erreur, une réponse corrompue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '"symfony/var-dumper": "^7.4|^8.0" under require'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The dump() Function; The Dump Server; DebugBundle and Twig Integration
+    verified_at: '2026-10-02'
+- id: FLC-yehaxqfkn7fz
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: TRAP
+  front: 'Symfony : router:match liste-t-il les routes essayées et leur raison d''échec ?'
+  back: Seulement avec `-v` ; sans, il dit qu'aucune route ne correspond.
+  explanation: Exécuté sur FrameworkBundle 8.0.15.
+  memorization_justification: Verbosité de router:match.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '#[AsCommand(name: ''router:match'', description: ''Help debug routes by simulating a path info match'')]'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Debugging Routes
     verified_at: '2026-10-02'

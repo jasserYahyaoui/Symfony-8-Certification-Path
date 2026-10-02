@@ -362,7 +362,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - dump
   choices:
@@ -376,7 +376,8 @@ questions:
   - id: CHO-hb08ezns2mdn
     text: dd() works in production, dump() does not
     correct: false
-    explanation: Both come from the same development-only package.
+    explanation: Both exist in production. symfony/error-handler, which FrameworkBundle requires, requires
+      symfony/var-dumper; executed, function_exists('dump') is true in a prod kernel without DebugBundle.
   - id: CHO-4wrwmrx941zt
     text: dd() dumps several variables, dump() only one
     correct: false
@@ -388,6 +389,11 @@ questions:
     branch: '8.0'
     symbol_or_lines: components-var-dumper-dump
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    branch: '8.0'
+    symbol_or_lines: '"symfony/var-dumper": "^7.4|^8.0" under require'
+    verified_at: '2026-10-02'
 - id: QST-1er6x1ts9xk4
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

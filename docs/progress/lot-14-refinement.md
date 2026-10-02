@@ -23,7 +23,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Configuration (including DotEnv and ExpressionLanguage components) | STANDARD | 598 / 900 | 1 | **RAFFINÉE** (PR #308) |
-| 2 | Error handling | STANDARD | 534 / 900 | 1 | à faire |
+| 2 | Error handling | STANDARD | 534 / 900 | 1 | **RAFFINÉE** (PR #309) |
 | 3 | Code debugging | STANDARD | 589 / 900 | 1 | à faire |
 
 ## Page 1 — *Configuration (including DotEnv and ExpressionLanguage components)* — RAFFINÉE
@@ -173,6 +173,76 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Code debugging* — RAFFINÉE
+
+`CRS-wf523wdsg2xp` · `OIT-xgrbftkj67ds` · STANDARD · **589 → 765 mots** sur 900.
+Aucun niveau promu. Exécutions sur Symfony 8.0.15 : un noyau `prod` servi par le
+serveur web intégré de PHP, sans DebugBundle ; `router:match` et `debug:config`
+lancés sur le même noyau.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 14 (PR #309, `b5c9f8c`) | 37062784234, success | `ok  lot-14  the error handling page carries its four flashcard levels, the status attribute, the exception mapping and the debug-only warning` |
+
+### Une affirmation fausse : `dump()` en production
+
+La page disait qu'un `dump()` oublié appelle en production une fonction absente,
+d'où une `Error` fatale, puisque `symfony/var-dumper` s'installe en `--dev`. Lu
+dans les `composer.json` de la branche 8.0 : FrameworkBundle exige
+`symfony/error-handler`, qui exige `symfony/var-dumper` en dépendance ordinaire.
+Exécuté :
+
+| Observation | Résultat |
+|---|---|
+| `function_exists('dump')`, noyau `prod` | `true` |
+| route qui appelle `dump()` | 200, dump HTML avant le contenu |
+| en-têtes, comparés à une route sans dump | `Cache-Control` de Symfony absent ; `Content-type` de PHP |
+
+**Corrigé** : la page, la carte `FLC-1f4raf4m8wng` (son verso affirmait l'erreur
+fatale ; sa source citait l'installation `--dev` comme preuve), et l'explication
+du distracteur « dd() works in production, dump() does not » de
+`QST-btrt51f6nnnv` (LEARNING), qui disait les deux fonctions issues d'un paquet
+de développement ; version inchangée.
+
+### Une affirmation imprécise : `router:match`
+
+« Elle montre les routes essayées et la raison de leur échec » : seulement avec
+`-v`. Exécuté sur un chemin inconnu : sans `-v`, *None of the routes match* ;
+avec, chaque route et sa raison.
+
+**Questions.** `QST-1er6x1ts9xk4` (LEARNING) et `QST-qay1zj2m10me`
+(VALIDATION) relues : exactes, inchangées. L'item a une question holdout : non
+lue, non modifiée — **signal pour l'owner** : si elle repose sur l'erreur fatale
+d'un `dump()` en production, elle est fausse.
+
+**Flashcards.** 10 ajoutées ; `FLC-1f4raf4m8wng` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`function_exists`, `Cache-Control` et `réponse corrompue`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Symfony 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 481 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Code debugging* (STANDARD, 589 / 900).
+Rapport de fin de lot 14, réconcilié par script, dans sa propre PR.

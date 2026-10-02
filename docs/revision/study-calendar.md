@@ -780,7 +780,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 23 novembre 2026
 
 - NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 22 min · 807 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 11 min · 589 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 20 min · 765 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Deployment best practices** (STANDARD) — 12 min · 493 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 14 min · 593 mots · 4 questions, 1 flashcards
 - Révision **J+3** (15 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
@@ -788,7 +788,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (13 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures
 - Révision **J+45** (11 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
 
-*Budget du jour : 112 / 160 min*
+*Budget du jour : 121 / 160 min*
 
 ### Mardi 24 novembre 2026
 
