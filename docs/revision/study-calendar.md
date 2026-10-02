@@ -682,7 +682,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 17 novembre 2026
 
-- NOUVEAU · **Console : Configuration** (STANDARD) — 12 min · 519 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Console : Configuration** (STANDARD) — 22 min · 693 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 14 min · 711 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Console : Input and Output objects** (STANDARD) — 12 min · 543 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Console : Built-in helpers** (STANDARD) — 12 min · 550 mots · 4 questions, 1 flashcards
@@ -690,7 +690,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+7** (17 min) — Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
 - Révision **J+14** (11 min) — Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
 
-*Budget du jour : 98 / 160 min*
+*Budget du jour : 108 / 160 min*
 
 ### Mercredi 18 novembre 2026
 

@@ -3498,6 +3498,32 @@ jobs:
           else
             echo "ok  lot-12  the custom commands page carries its four flashcard levels, the subclass autoconfiguration, the hidden command and the ask run"
           fi
+          # Lot 12 refinement, page 4 (Configuration): the four flashcard
+          # levels, the name that hides a command, the usages the framework
+          # drops and the lazy listing that builds no attribute command.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-config -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/configuration")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page configuration serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-config || missing="$missing l12cf:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-config || missing="$missing l12cf:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-config || missing="$missing l12cf:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-config || missing="$missing l12cf:no-trap-heading"
+          grep -aqF '|app:secret' /tmp/l12r-config \
+            || missing="$missing l12cf:no-hidden-name"
+          grep -aq 'getUsages()' /tmp/l12r-config \
+            || missing="$missing l12cf:no-usages-divergence"
+          grep -aq 'construite par' /tmp/l12r-config \
+            || missing="$missing l12cf:no-lazy-listing"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the configuration page carries its four flashcard levels, the hidden name, the usages divergence and the lazy listing"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

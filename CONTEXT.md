@@ -21,7 +21,7 @@ périmètre sur instruction.
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
-| 12 (Console) | **en cours** — pages 1–2 déployées (PR #288, #289) ; page 3 en PR |
+| 12 (Console) | **en cours** — pages 1–3 déployées (PR #288 à #290) ; page 4 en PR |
 | 13 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -36,13 +36,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 3 du lot 12 après CI verte,
-lire son smoke test, puis page 4 (*Configuration*) : brouillon et cartes prêts —
-usages de `#[AsCommand]` perdus pour une commande invocable sous FrameworkBundle
-(divergence documentation / code, exécutée). Pages 5 et 6 en brouillon
-(`QST-wt0f9p2tmmnm` à passer en v2 ; `OUTPUT_PLAIN` garde les couleurs). Reprise
-à prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`).
-Signaux holdout des lots 06 à 11 à revoir par l'owner.
+**Prochaine action** : fusionner la PR de la page 4 du lot 12 après CI verte,
+lire son smoke test, puis page 5 (*Options and arguments*) : brouillon prêt —
+`QST-wt0f9p2tmmnm` à passer en v2 (option tableau `VALUE_REQUIRED` +
+`VALUE_IS_ARRAY`, exécuté). Pages 6 à 9 en brouillon. Reprise à prévoir sur la
+page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout
+des lots 06 à 11 à revoir par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
