@@ -3914,6 +3914,32 @@ jobs:
           else
             echo "ok  lot-14  the configuration page carries its four flashcard levels, the variables order, the last loaded file and the processor order"
           fi
+          # Lot 14 refinement, page 2 (Error handling): the four flashcard levels,
+          # the WithHttpStatus attribute, the framework.exceptions mapping and the
+          # PHP warning thrown in debug only.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l14r-error-handling -w '%{http_code}' "$BASE_URL/docs/courses/lot-14/error-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 14 refined page error-handling serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l14r-error-handling || missing="$missing l14eh:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l14r-error-handling || missing="$missing l14eh:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l14r-error-handling || missing="$missing l14eh:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l14r-error-handling || missing="$missing l14eh:no-trap-heading"
+          grep -aqF -- 'WithHttpStatus' /tmp/l14r-error-handling \
+            || missing="$missing l14eh:no-status-attribute"
+          grep -aqF -- 'framework.exceptions' /tmp/l14r-error-handling \
+            || missing="$missing l14eh:no-exceptions-mapping"
+          grep -aqF -- 'php_errors.throw' /tmp/l14r-error-handling \
+            || missing="$missing l14eh:no-php-errors-throw"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 14 refinement missing from the error handling page:$missing"
+            fail=1
+          else
+            echo "ok  lot-14  the error handling page carries its four flashcard levels, the status attribute, the exception mapping and the debug-only warning"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

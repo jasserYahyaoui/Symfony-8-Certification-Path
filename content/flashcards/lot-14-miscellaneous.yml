@@ -31,11 +31,12 @@ flashcards:
 - id: FLC-63tca08n26r1
   official_item: OIT-kv7mbksn7m8v
   language: fr
+  level: RECALL
   front: D'où vient le code de statut HTTP d'une page d'erreur ?
-  back: De l'exception, si elle implémente HttpExceptionInterface et donc getStatusCode(). Toute autre exception
-    donne 500.
+  back: De l'exception — HttpExceptionInterface, attribut WithHttpStatus, RequestExceptionInterface (400) — ou de
+    la configuration framework.exceptions. Une exception ordinaire donne 500.
   explanation: 'C''est pourquoi createNotFoundException() existe : lever une RuntimeException ordinaire donnerait
-    un 500.'
+    un 500. Exécuté sur Symfony 8.0.15 ; la documentation ne cite que l''interface, le code connaît les quatre.'
   memorization_justification: On suppose que le sens métier de l'exception suffit à choisir le statut.
   verification_status: VERIFIED
   official_sources:
@@ -44,6 +45,11 @@ flashcards:
     symbol_or_lines: '"You can customize the status code of an exception by implementing HttpExceptionInterface and its required getStatusCode() method. Otherwise, the status_code will default to 500"'
     branch: '8.0'
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    symbol_or_lines: logKernelException(); WithHttpStatus
+    branch: '8.0'
+    verified_at: '2026-10-02'
 - id: FLC-1f4raf4m8wng
   official_item: OIT-xgrbftkj67ds
   language: fr
@@ -248,4 +254,182 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: 'lint(Expression|string $expression, array $names, int $flags = 0): void'
+    verified_at: '2026-10-02'
+- id: FLC-skh87ddbky18
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut donne un code HTTP à une classe d''exception ?'
+  back: '`#[WithHttpStatus(404)]`, de HttpKernel.'
+  explanation: 'Exécuté : une exception ainsi marquée produit un 404.'
+  memorization_justification: Attribut de statut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: logKernelException(); WithHttpStatus
+    verified_at: '2026-10-02'
+- id: FLC-9c99mjj8hk8s
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle valeur par défaut a framework.php_errors.throw ?'
+  back: '`%kernel.debug%` : les erreurs PHP deviennent des `ErrorException` en debug seulement.'
+  explanation: Référence de configuration, branche 8.0.
+  memorization_justification: Défaut de php_errors.throw.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'exceptions; php_errors: throw'
+    verified_at: '2026-10-02'
+- id: FLC-b3bvr8w3dg2h
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une BadRequestException de HttpFoundation donne-t-elle 400 sans HttpExceptionInterface ?'
+  back: Parce qu'elle implémente `RequestExceptionInterface`, que `FlattenException` traduit en 400.
+  explanation: 'Lu dans `FlattenException::createFromThrowable()` ; exécuté : 400.'
+  memorization_justification: Deuxième source de statut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFromThrowable(); RequestExceptionInterface
+    verified_at: '2026-10-02'
+- id: FLC-s94fzfw2e4v6
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi sa page error.html.twig ne s''affiche-t-elle pas en dev ?'
+  back: Parce qu'en debug, `TwigErrorRenderer` rend la page d'exception et ignore les gabarits ; on prévisualise par les routes `/_error`.
+  explanation: 'Exécuté : les gabarits ne s''appliquent que sans debug.'
+  memorization_justification: Debug contre gabarits.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTemplate()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Customize Error Pages; Security & 404 Pages
+    verified_at: '2026-10-02'
+- id: FLC-r313z0b2nnp8
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un utilisateur connecté paraît-il déconnecté sur une page 404 ?'
+  back: Parce que, vu l'ordre de chargement du routage et de la sécurité, l'information de sécurité n'est pas disponible sur une 404.
+  explanation: '*Security & 404 Pages*, documentation 8.0.'
+  memorization_justification: Ordre routage-sécurité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Customize Error Pages; Security & 404 Pages
+    verified_at: '2026-10-02'
+- id: FLC-jk48tpmbyd6p
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : faire répondre 418 à App\TeapotException sans modifier la classe.'
+  back: 'Sous `framework.exceptions`, déclarer la classe avec `status_code: 418`.'
+  explanation: 'Exécuté : 418.'
+  memorization_justification: Statut par configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'exceptions; php_errors: throw'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: logKernelException(); WithHttpStatus
+    verified_at: '2026-10-02'
+- id: FLC-hb558d4ex288
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une page dédiée aux 404, une générique pour le reste.'
+  back: '`templates/bundles/TwigBundle/Exception/error404.html.twig` et `error.html.twig`.'
+  explanation: 'Exécuté sans debug : 404 sur la première, 500, 400 et 418 sur la seconde.'
+  memorization_justification: Gabarits d'erreur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTemplate()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Customize Error Pages; Security & 404 Pages
+    verified_at: '2026-10-02'
+- id: FLC-kcm4v746m0y2
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: TRAP
+  front: 'Symfony : une RuntimeException dont le message dit « not found » donne-t-elle 404 ?'
+  back: 'Non : 500. Le message n''est jamais lu.'
+  explanation: Exécuté sur Symfony 8.0.15.
+  memorization_justification: Le message ne décide pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createFromThrowable(); RequestExceptionInterface
+    verified_at: '2026-10-02'
+- id: FLC-3sf14y1kbcte
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: TRAP
+  front: 'Symfony : #[WithHttpStatus(404)] s''applique-t-il à une exception qui implémente déjà HttpExceptionInterface ?'
+  back: 'Non : l''attribut est ignoré, c''est `getStatusCode()` qui compte.'
+  explanation: Lu dans `ErrorListener::logKernelException()`.
+  memorization_justification: Priorité de l'interface sur l'attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: logKernelException(); WithHttpStatus
+    verified_at: '2026-10-02'
+- id: FLC-7k7y8j23zk0k
+  official_item: OIT-kv7mbksn7m8v
+  language: fr
+  level: TRAP
+  front: 'Symfony : un avertissement PHP en prod donne-t-il une page 500 ?'
+  back: 'Non par défaut : sans debug, il est journalisé et le code continue.'
+  explanation: 'Exécuté : 200 sans debug, 500 `ErrorException` en debug.'
+  memorization_justification: php_errors.throw suit le debug.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'exceptions; php_errors: throw'
     verified_at: '2026-10-02'

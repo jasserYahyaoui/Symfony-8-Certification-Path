@@ -197,7 +197,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - exception
   choices:
@@ -216,14 +216,20 @@ questions:
     text: 'No status: the response is empty'
     correct: false
     explanation: A response is always produced, with a status.
-  explanation: Only an exception implementing HttpExceptionInterface supplies its own status through getStatusCode();
-    everything else is 500.
+  explanation: A plain RuntimeException carries no status, and its message is never read, so the page is a 500.
+    A status comes only from HttpExceptionInterface, a WithHttpStatus attribute, a framework.exceptions
+    status_code, or a RequestExceptionInterface (400); executed on Symfony 8.0.15, none applying gave 500.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
     branch: '8.0'
     symbol_or_lines: how-to-customize-error-pages
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    branch: '8.0'
+    symbol_or_lines: logKernelException(); WithHttpStatus
+    verified_at: '2026-10-02'
 - id: QST-cs8r5jz7rb07
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
