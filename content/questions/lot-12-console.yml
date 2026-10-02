@@ -1133,7 +1133,8 @@ questions:
     text: CONFIGURE, COMMAND, ERROR and TERMINATE
     correct: false
     explanation: There is no event around command configuration.
-  explanation: The class declares exactly four constants.
+  explanation: The class declares four events, and a fifth constant, ALIASES, which maps each event class to
+    its event name so that listeners can subscribe by class.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php

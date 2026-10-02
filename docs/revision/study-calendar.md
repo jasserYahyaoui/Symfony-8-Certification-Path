@@ -694,7 +694,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 18 novembre 2026
 
-- NOUVEAU · **Console : Console events** (STANDARD) — 15 min · 578 mots · 5 questions, 1 flashcards
+- NOUVEAU · **Console : Console events** (STANDARD) — 24 min · 728 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 8 min · 295 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 10 min · 421 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 10 min · 410 mots · 3 questions, 1 flashcards
@@ -703,7 +703,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Security : Authorization · Security : Configuration · Security : Providers · Security : Firewalls
 - Révision **J+30** (13 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 
-*Budget du jour : 108 / 160 min*
+*Budget du jour : 117 / 160 min*
 
 ### Jeudi 19 novembre 2026
 
