@@ -3940,6 +3940,32 @@ jobs:
           else
             echo "ok  lot-14  the error handling page carries its four flashcard levels, the status attribute, the exception mapping and the debug-only warning"
           fi
+          # Lot 14 refinement, page 3 (Code debugging): the four flashcard levels,
+          # dump() existing in production, the lost Cache-Control header and the
+          # verbose router:match.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l14r-code-debugging -w '%{http_code}' "$BASE_URL/docs/courses/lot-14/code-debugging")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 14 refined page code-debugging serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l14r-code-debugging || missing="$missing l14cd:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l14r-code-debugging || missing="$missing l14cd:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l14r-code-debugging || missing="$missing l14cd:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l14r-code-debugging || missing="$missing l14cd:no-trap-heading"
+          grep -aqF -- 'function_exists' /tmp/l14r-code-debugging \
+            || missing="$missing l14cd:no-function-exists"
+          grep -aqF -- 'Cache-Control' /tmp/l14r-code-debugging \
+            || missing="$missing l14cd:no-lost-header"
+          grep -aqF -- 'réponse corrompue' /tmp/l14r-code-debugging \
+            || missing="$missing l14cd:no-corrupted-response"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 14 refinement missing from the code debugging page:$missing"
+            fail=1
+          else
+            echo "ok  lot-14  the code debugging page carries its four flashcard levels, the dump in production, the lost header and the corrupted response"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

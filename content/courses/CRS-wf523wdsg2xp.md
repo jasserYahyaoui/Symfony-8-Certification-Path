@@ -5,7 +5,7 @@ title: "Code debugging"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst"
@@ -13,6 +13,26 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json"
+    branch: "8.0"
+    symbol_or_lines: "\"symfony/var-dumper\": \"^7.4|^8.0\" under require"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/composer.json"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/composer.json"
+    branch: "8.0"
+    symbol_or_lines: "\"symfony/error-handler\": \"^7.4|^8.0\" under require"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+    branch: "8.0"
+    symbol_or_lines: "RouterMatchCommand"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ConfigDebugCommand.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ConfigDebugCommand.php"
+    branch: "8.0"
+    symbol_or_lines: "ConfigDebugCommand"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -67,13 +87,28 @@ Une fois lancé, `dump()` ne s'affiche plus dans la réponse : les données lui
 sont envoyées. C'est la réponse au cas d'une API JSON, où tout octet imprimé
 casse la réponse.
 
-## Une dépendance de développement
+## Un `dump()` oublié en production
 
-`symfony/var-dumper` s'installe avec `--dev`, et DebugBundle également. C'est
-voulu, et la conséquence est brutale : un `dump()` oublié dans du code déployé
-appelle une fonction **qui n'existe pas** en production, ce que PHP 8 signale
-par une `Error` fatale — pas une exception applicative rattrapable par une règle
-métier, et pas un simple affichage indésirable.
+La documentation installe `symfony/var-dumper` et DebugBundle avec `--dev`. On
+en déduit souvent qu'un `dump()` oublié appelle une fonction absente en
+production. **C'est faux dans une application Symfony 8.0.** Lu dans les
+`composer.json` de la branche 8.0 : FrameworkBundle exige
+`symfony/error-handler`, qui exige `symfony/var-dumper` — en dépendance
+ordinaire, pas `--dev`. Le composant est donc installé même avec
+`composer install --no-dev`.
+
+Seul DebugBundle est vraiment absent. Exécuté sur un serveur web PHP, noyau en
+`prod`, sans DebugBundle :
+
+| Appel | Résultat |
+|---|---|
+| `function_exists('dump')` | `true` |
+| route qui appelle `dump()` | 200 ; le dump HTML part **avant** le contenu |
+| en-têtes de cette réponse | ceux de PHP : `Cache-Control` de Symfony a disparu |
+
+Le dump est écrit sur la sortie avant que Symfony n'envoie sa réponse : PHP
+envoie alors ses propres en-têtes, et ceux de la réponse sont perdus. Pas
+d'erreur fatale, donc, mais une réponse corrompue — fatale pour une API JSON.
 
 ## Interroger l'application
 
@@ -91,8 +126,17 @@ configuration résulte d'une fusion :
 | `debug:config` | la configuration d'une extension, après fusion |
 | `debug:twig` | les fonctions, filtres et chemins connus de Twig |
 
-`router:match` mérite d'être retenue : elle explique un 404 en montrant les
-routes essayées et la raison de leur échec.
+`router:match` mérite d'être retenue : elle explique un 404. Exécuté sur
+FrameworkBundle 8.0.15, sur un chemin inconnu :
+
+| Appel | Sortie |
+|---|---|
+| `router:match /e/rtx` | *None of the routes match the path "/e/rtx"* |
+| même appel avec `-v` | chaque route essayée, et la raison : *Path "/public" does not match* |
+
+`debug:config framework exceptions` affiche aussi les clés jamais écrites, avec
+leur valeur par défaut (`log_level: null`) : c'est la configuration **après
+fusion**.
 
 ## Pièges d'examen
 
@@ -101,8 +145,8 @@ routes essayées et la raison de leur échec.
 **`dump()` va dans la barre de débogage** quand DebugBundle est installé, pas
 dans la réponse.
 
-**VarDumper est une dépendance `--dev`** : un `dump()` déployé provoque une
-erreur fatale de fonction indéfinie.
+**Un `dump()` déployé ne provoque pas d'erreur** : VarDumper est requis par
+ErrorHandler. Il corrompt la réponse — contenu et en-têtes.
 
 **`debug:config` montre la configuration fusionnée**, pas le contenu d'un
 fichier.
@@ -111,12 +155,13 @@ fichier.
 
 - `dump()` sur `var_dump()` ; `dd()` ajoute l'arrêt.
 - DebugBundle envoie les dumps vers la barre ; `server:dump` vers un serveur.
-- Installé en **dépendance de développement** (`composer require --dev`) : en
-  production le composant est absent, et l'appel échoue parce que la fonction
-  n'y existe pas.
+- La documentation l'installe en `--dev`, mais FrameworkBundle le tire via
+  ErrorHandler : en production, `dump()` existe et écrit dans la réponse.
 - Les commandes `debug:*` et `router:match` révèlent ce que Symfony a compris.
 
 ## Sources officielles
 
 - [The VarDumper Component](https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst)
 - [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)
+- [`composer.json` d'ErrorHandler, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json)
+- [`composer.json` de FrameworkBundle, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/composer.json)
