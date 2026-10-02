@@ -24,7 +24,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Deployment best practices | STANDARD | 493 / 900 | 1 | **RAFFINÉE** (PR #313) |
-| 2 | Web Profiler, Web Debug Toolbar and Data collectors | STANDARD | 593 / 900 | 1 | à faire |
+| 2 | Web Profiler, Web Debug Toolbar and Data collectors | STANDARD | 593 / 900 | 1 | **RAFFINÉE** (PR #314) |
 
 ## Page 1 — *Deployment best practices* — RAFFINÉE
 
@@ -154,6 +154,114 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 15
 
-Rapport de fin de lot 15, réconcilié par script, dans sa propre PR.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `a82e9fa`, le commit de `master`
+qui précède la première page refondue (PR #313). État mesuré : `7429ec1`
+(fusion de la page 2). Un second script a confronté les décomptes de cartes
+écrits dans les deux entrées de page aux fichiers : **2 / 2** concordent.
+
+## Périmètre
+
+**2** items officiels atomiques portent `lot: lot-15` dans la matrice, tous
+`STANDARD` — niveaux inchangés. Cette répartition est une **observation** :
+aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 15 est **2 / 2**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture**.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 2 cours du lot 15 | 1 086 | **1 462** | **+376** |
+
+Aucune page ne dépasse son budget `REV-001` (`STANDARD`, 900). La plus proche :
+*Web Profiler, Web Debug Toolbar and Data collectors*, 777.
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 15 | 2 | **22** | **+20** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 6 · `UNDERSTANDING` 6 · `APPLICATION` 4 · `TRAP` 6. **Zéro carte du
+lot sans niveau** ; chaque item en porte 11. Les deux cartes préexistantes ont
+reçu un niveau ; aucune n'a été supprimée ni corrigée au-delà.
+
+## Questions et pools
+
+**9** questions portent sur les items du lot 15 — aucune ajoutée, aucune
+supprimée, **aucune modifiée** :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 6 | `lot-15-miscellaneous.yml` |
+| `VALIDATION` | 2 | `lot-15-miscellaneous.yml` |
+| `HOLDOUT` | 1 | `mock-04-holdout.yml` |
+
+Les huit questions non holdout ont été relues contre `deployment.rst` et le code
+8.0 : exactes. **0 question holdout modifiée** (comparaison par empreinte
+SHA-256, sans lecture du contenu). `POOL-002` : 2 items `STANDARD` `EXAM_READY`,
+**0** sans question `VALIDATION`. **Matrice** : aucun texte modifié.
+
+## Affirmations corrigées sur les pages
+
+| Page | Affirmation | Décision |
+|---|---|---|
+| 1 | `--no-dev` rend fatal un `dump()` oublié | fausse en 8.0 — VarDumper arrive par ErrorHandler ; corrigée, renvoi au lot 14 |
+| 2 | la barre n'est injectée que dans du HTML | incomplète — exécuté : ni JSON, ni redirection, ni HTML sans `</body>`, ni XHR |
+
+Aucune divergence documentation / code nouvelle : l'erreur de la page 1 était
+celle de la page, pas de la documentation.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Une question holdout porte sur l'item *Web Profiler*, dans `mock-04-holdout.yml`.
+Elle n'a pas été lue. Faits établis qui pourraient la concerner : la barre n'est
+injectée ni dans une redirection, ni sans `</body>`, ni en XHR ; `X-Debug-Token-Link`
+est toujours présent ; la purge des profils n'a lieu qu'une écriture sur dix.
+
+## Déploiements
+
+Les deux pages ont été fusionnées par PR (#313, #314), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 2 : run 37070042619, success — `ok  lot-15  the web profiler page carries its four flashcard levels, the body tag, the purge threshold and the terminate save`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `7429ec1` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 501 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des deux entrées de page contre les fichiers | 2 / 2 concordants |
+
+## Résumé autonome
+
+Lot 15 (*Miscellaneous*), 2 items STANDARD : couverture projet 163/163
+inchangée ; cours 1 086 → 1 462 mots (+376), aucun dépassement de budget ;
+flashcards 2 → 22 (+20), toutes niveau posé ; 9 questions, aucune modifiée,
+0 holdout modifiée ; deux pages déployées, smoke tests lus ; une affirmation
+fausse (`dump()` et `--no-dev`) et une incomplète (injection de la barre)
+corrigées.
