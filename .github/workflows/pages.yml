@@ -3075,11 +3075,13 @@ jobs:
             || missing="$missing l10fw:no-second-firewall"
           grep -aq 'Cache-Control' /tmp/l10r-fw \
             || missing="$missing l10fw:no-cache-header"
+          grep -aqF -- 'LazyFirewallContext' /tmp/l10r-fw \
+            || missing="$missing l10fw:no-stateless-lazy"
           if [ -n "$missing" ]; then
             echo "::error::Lot 10 refinement missing from the firewalls page:$missing"
             fail=1
           else
-            echo "ok  lot-10  the firewalls page carries its four flashcard levels, the shared context, the second firewall and the cache header"
+            echo "ok  lot-10  the firewalls page carries its four flashcard levels, the shared context, the second firewall, the cache header and the stateless lazy"
           fi
           # Lot 10 refinement, page 7 (Users): the four flashcard levels, the
           # replacement the 8.0 changelog names for eraseCredentials(), the

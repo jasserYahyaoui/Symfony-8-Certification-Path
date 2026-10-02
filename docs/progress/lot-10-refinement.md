@@ -1278,3 +1278,19 @@ budget ; flashcards 12 → 132 (+120), toutes niveau posé ; 52 questions,
 tests lus ; une divergence documentation/code tranchée par la précision de
 l'énoncé ; un conteneur recyclé en cours de lot, outillage reconstruit et
 validé.
+
+# Reprise du 2026-10-02 — page 6 (*Firewalls*)
+
+Signalée dans les rapports des lots 10 à 13 : la page ne disait pas que `lazy`
+est ignoré sur un pare-feu `stateless`. Lu dans `SecurityExtension` (8.0) :
+`$isLazy = !$firewall['stateless'] && $firewall['lazy']`. Exécuté sur
+SecurityBundle 8.0.15, un même pare-feu `lazy: true` :
+
+| `stateless` | Contexte du pare-feu |
+|---|---|
+| faux | `LazyFirewallContext` |
+| vrai | `FirewallContext` |
+
+La section `lazy` et le piège correspondant le disent désormais ; le smoke test
+de la page cherche `LazyFirewallContext`. Aucune question ni carte modifiée ;
+aucune question holdout lue.
