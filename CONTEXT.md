@@ -21,7 +21,7 @@ périmètre sur instruction.
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
-| 12 (Console) | **en cours** — pages 1–8 déployées (PR #288 à #295) ; page 9 en PR |
+| 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport de fin de lot en PR |
 | 13 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -36,11 +36,11 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 9 du lot 12 après CI verte,
-lire son smoke test, puis le rapport de fin de lot 12 (base `2435827`),
-réconcilié par script, dans sa propre PR. Ensuite lot 13. Reprise à prévoir sur la
-page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout
-des lots 06 à 11 à revoir par l'owner.
+**Prochaine action** : fusionner la PR du rapport de fin de lot 12 après CI
+verte, puis lot 13 (*Automated tests*), page 1, depuis `master`. Reprise à
+prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`).
+Signaux holdout des lots 06 à 12 à revoir par l'owner (listés dans chaque
+rapport).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
