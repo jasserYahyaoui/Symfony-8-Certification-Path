@@ -21,7 +21,7 @@ périmètre sur instruction.
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
-| 12 (Console) | **en cours** — pages 1–4 déployées (PR #288 à #291) ; page 5 en PR |
+| 12 (Console) | **en cours** — pages 1–5 déployées (PR #288 à #292) ; page 6 en PR |
 | 13 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -36,10 +36,10 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 5 du lot 12 après CI verte,
-lire son smoke test, puis page 6 (*Input and Output objects*) : brouillon prêt —
-`OUTPUT_PLAIN` garde les couleurs d'une sortie décorée (exécuté). Pages 7 à 9
-en brouillon. Reprise à prévoir sur la
+**Prochaine action** : fusionner la PR de la page 6 du lot 12 après CI verte,
+lire son smoke test, puis page 7 (*Built-in helpers*) : brouillon prêt —
+`QST-h22aea8btw90` à passer en v2 (`ProgressBar` sans total, exécuté). Pages
+8 et 9 en brouillon. Reprise à prévoir sur la
 page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout
 des lots 06 à 11 à revoir par l'owner.
 

@@ -3550,6 +3550,32 @@ jobs:
           else
             echo "ok  lot-12  the options and arguments page carries its four flashcard levels, the false default rule, the array ordering and the negatable flag"
           fi
+          # Lot 12 refinement, page 6 (Input and Output objects): the four
+          # flashcard levels, the plain mode, the raw option read without a
+          # definition and the colours kept on decorated output.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-input-and-output-objects -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/input-and-output-objects")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page input-and-output-objects serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-input-and-output-objects || missing="$missing l12io:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-input-and-output-objects || missing="$missing l12io:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-input-and-output-objects || missing="$missing l12io:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-input-and-output-objects || missing="$missing l12io:no-trap-heading"
+          grep -aqF -- 'strip_tags' /tmp/l12r-input-and-output-objects \
+            || missing="$missing l12io:no-plain-mode"
+          grep -aqF -- 'getParameterOption' /tmp/l12r-input-and-output-objects \
+            || missing="$missing l12io:no-raw-option"
+          grep -aqF -- 'toujours en vert' /tmp/l12r-input-and-output-objects \
+            || missing="$missing l12io:no-kept-colours"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the input and output page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the input and output page carries its four flashcard levels, the plain mode, the raw option and the kept colours"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
