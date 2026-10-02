@@ -866,7 +866,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-r3m449dn77cm
-  version: 1
+  version: 2
   official_topic: Automated Tests
   official_item: OIT-mtbcyaax2xsk
   domain: symfony
@@ -878,8 +878,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A test replaces a dependency with a double and the tested service still receives the real one. What
-    went wrong?
+  question: A test calls $container->set() to replace a dependency with a double, and gets an error saying the
+    service "is already initialized, you cannot replace it". What went wrong?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -889,7 +889,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - mocking
   choices:
@@ -909,7 +909,9 @@ questions:
     correct: false
     explanation: There is no per-request scoping here; the container returns what it holds when asked.
   explanation: container->set() has to come before container->get() of the consumer, since the consumer is built
-    with whatever the container holds at that moment.
+    with whatever the container holds at that moment, and the test container refuses to replace a service
+    that already exists. Executed on FrameworkBundle 8.0.15, set() before get() gave the consumer the double,
+    and set() after get() threw InvalidArgumentException with that message.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
