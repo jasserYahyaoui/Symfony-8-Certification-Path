@@ -139,6 +139,7 @@ flashcards:
 - id: FLC-sgp3dnzw3et3
   official_item: OIT-dv5400dtksfg
   language: fr
+  level: UNDERSTANDING
   front: Quelle différence entre --quiet et --silent ?
   back: --quiet supprime la sortie normale mais laisse passer les erreurs ; --silent supprime tout, erreurs comprises.
     --silent est le niveau le plus bas.
@@ -1520,4 +1521,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+- id: FLC-w2yca7jq7hjf
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle valeur de SHELL_VERBOSITY correspond à --silent ?'
+  back: '`-2` ; `-1` pour `--quiet`, puis `0`, `1`, `2`, `3`.'
+  explanation: Documentation 8.0, « Verbosity Levels ».
+  memorization_justification: Valeurs de la variable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Verbosity Levels; SHELL_VERBOSITY; silent errors still logged
+    verified_at: '2026-10-02'
+- id: FLC-ppbs28zwndt1
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode d''OutputInterface teste le niveau --silent ?'
+  back: '`isSilent()`, à côté de `isQuiet()`, `isVerbose()`, `isVeryVerbose()`, `isDebug()`.'
+  explanation: Lu dans `OutputInterface` (8.0).
+  memorization_justification: Méthodes de test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: writeln(string|iterable $messages, int $options = 0); isSilent(), isQuiet(), isVerbose(), isVeryVerbose(), isDebug()
+    verified_at: '2026-10-02'
+- id: FLC-y0y74j6z6yg1
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: RECALL
+  front: 'Symfony : à quelle position writeln() reçoit-il le niveau de verbosité ?'
+  back: En second argument, `$options` ; c'est le troisième de `write()`.
+  explanation: '`writeln()` n''a que deux paramètres.'
+  memorization_justification: Signature de writeln().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: writeln(string|iterable $messages, int $options = 0); isSilent(), isQuiet(), isVerbose(), isVeryVerbose(), isDebug()
+    verified_at: '2026-10-02'
+- id: FLC-hf7cqfsmbv03
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un message marqué VERBOSITY_QUIET s''affiche-t-il sous -q ?'
+  back: 'Parce que le niveau passé est un seuil : `QUIET` est le plus bas qu''un message visible puisse porter, seul `--silent` le masque.'
+  explanation: 'Exécuté : `quiet-level` affiché sous `-q`, absent sous `--silent`.'
+  memorization_justification: Seuil de verbosité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: writeln(string|iterable $messages, int $options = 0); isSilent(), isQuiet(), isVerbose(), isVeryVerbose(), isDebug()
+    verified_at: '2026-10-02'
+- id: FLC-19x0pk158s75
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi -q l''emporte-t-il sur SHELL_VERBOSITY=1 ?'
+  back: Parce que `configureIO()` lit les options d'abord et ne recourt à la variable qu'à défaut.
+  explanation: 'Exécuté : avec `-q`, seul le message `QUIET` reste.'
+  memorization_justification: Priorité des options.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configureIO() — options before SHELL_VERBOSITY; -q and --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-h91e8byv45sa
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : n''afficher un résumé coûteux qu''en mode verbeux.'
+  back: '`if ($output->isVerbose()) { $output->writeln($this->expensiveSummary()); }`.'
+  explanation: Le test évite de calculer le message pour rien.
+  memorization_justification: Message coûteux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: writeln(string|iterable $messages, int $options = 0); isSilent(), isQuiet(), isVerbose(), isVeryVerbose(), isDebug()
+    verified_at: '2026-10-02'
+- id: FLC-9rtbgqhh7e1f
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : écrire une ligne visible seulement à partir de -v.'
+  back: '`$output->writeln(''détail'', OutputInterface::VERBOSITY_VERBOSE)`.'
+  explanation: 'Exécuté : visible à `-v` et `-vvv`, absent par défaut.'
+  memorization_justification: Ligne verbeuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: writeln(string|iterable $messages, int $options = 0); isSilent(), isQuiet(), isVerbose(), isVeryVerbose(), isDebug()
+    verified_at: '2026-10-02'
+- id: FLC-drgvf1605ybt
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: TRAP
+  front: 'Symfony : -q masque-t-il le message d''erreur d''une commande qui échoue ?'
+  back: 'Non : l''erreur reste affichée sur STDERR ; seul `--silent` la masque.'
+  explanation: Exécuté dans un vrai processus.
+  memorization_justification: Quiet et erreurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Verbosity Levels; SHELL_VERBOSITY; silent errors still logged
+    verified_at: '2026-10-02'
+- id: FLC-78pvemekmtgn
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: TRAP
+  front: 'Symfony : --silent perd-il les erreurs ?'
+  back: 'Non : elles ne s''affichent pas, mais restent journalisées par le logger Symfony.'
+  explanation: Documentation 8.0, note sur `silent`.
+  memorization_justification: Silence et journalisation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Verbosity Levels; SHELL_VERBOSITY; silent errors still logged
+    verified_at: '2026-10-02'
+- id: FLC-t5ttsp9ak1ht
+  official_item: OIT-dv5400dtksfg
+  language: fr
+  level: TRAP
+  front: 'Symfony : -q ne touche-t-il qu''à la sortie ?'
+  back: 'Non : il rend aussi l''entrée non interactive ; `interact()` est sautée.'
+  explanation: Lu dans `configureIO()` ; exécuté à la page *Console component*.
+  memorization_justification: Effet de -q sur l'entrée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configureIO() — options before SHELL_VERBOSITY; -q and --silent set the input non-interactive
     verified_at: '2026-10-02'
