@@ -27,7 +27,7 @@ première page.
 | 2 | Built-in commands | MINIMAL | 302 / 700 | 1 | **RAFFINÉE** (PR #289) |
 | 3 | Custom commands | STANDARD | 443 / 900 | 1 | **RAFFINÉE** (PR #290) |
 | 4 | Configuration | STANDARD | 519 / 900 | 1 | **RAFFINÉE** (PR #291) |
-| 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | à faire |
+| 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | **RAFFINÉE** (PR #292) |
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | à faire |
 | 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | à faire |
 | 8 | Console events | STANDARD | 578 / 900 | 1 | à faire |
@@ -427,6 +427,75 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 6 — *Input and Output objects* — RAFFINÉE
+
+`CRS-0ab7kpexq9w9` · `OIT-65sswf0qhw6c` · STANDARD · **543 → 727 mots** sur 900.
+Aucun niveau promu. Exécutions sur Console 8.0.15 : `ArgvInput` avec et sans
+définition, `BufferedOutput` décorée et non décorée sous les trois modes de
+rendu, échappement.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 5 du lot 12 (PR #292, `ec7d902`) | 37002788607, success | `ok  lot-12  the options and arguments page carries its four flashcard levels, the false default rule, the array ordering and the negatable flag` |
+
+### Une affirmation imprécise : `OUTPUT_PLAIN` « retire les balises »
+
+Lu dans `Output::write()` : `strip_tags($this->formatter->format($message))`.
+Le message est **formaté d'abord**. Exécuté, `'<info>ok</info> <script>x</script>'` :
+
+| Mode | Décorée | Non décorée |
+|---|---|---|
+| `OUTPUT_NORMAL` | `ok` en vert, `<script>x</script>` intact | `ok <script>x</script>` |
+| `OUTPUT_PLAIN` | `ok` **toujours en vert**, `x` | `ok x` |
+
+### Une erreur reprise de la page 1
+
+Le commentaire de `isInteractive()` — « un terminal répondra-t-il ? » —
+reprenait l'erreur corrigée à la page 1 : l'entrée n'est non interactive
+qu'avec `-n`, `-q` ou `--silent`.
+
+### Confirmé par l'exécution ou la lecture
+
+- `--dry-run` déclarée et non passée : `hasOption()` `true`, `getOption()`
+  `false`.
+- `ArgvInput(['bin', '--env=prod'])` sans définition :
+  `hasParameterOption('--env')` `true`, `getParameterOption('--env')` `'prod'`.
+- Sans échappement, `<info>x</info>` venu de l'utilisateur s'affiche `x` ;
+  `OutputFormatter::escape()` le garde tel quel.
+- Quatre styles par défaut lus dans le constructeur d'`OutputFormatter`.
+
+**Questions.** `QST-tp80nqtxvarw`, `QST-5wrcd9ahhth2`, `QST-m7ywj8fyrd5z`
+(LEARNING) et `QST-ngh8w461wr91` (VALIDATION) relues : exactes, inchangées.
+L'item n'a pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-vrr7nk2vcdkk` reçoit le niveau APPLICATION.
+L'item en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP),
+décompte relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`strip_tags`, `getParameterOption` et `toujours en vert`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 331 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Input and Output objects* (STANDARD, 543 / 900).
+Page 7 — *Built-in helpers* (STANDARD, 550 / 900).

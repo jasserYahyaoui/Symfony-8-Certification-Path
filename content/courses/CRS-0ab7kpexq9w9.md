@@ -5,7 +5,7 @@ title: "Input and Output objects"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
@@ -17,6 +17,16 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "OutputInterface"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/Output.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/Output.php"
+    branch: "8.0"
+    symbol_or_lines: "write() — OUTPUT_PLAIN is strip_tags(format())"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/ArgvInput.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/ArgvInput.php"
+    branch: "8.0"
+    symbol_or_lines: "hasParameterOption(), getParameterOption() — raw tokens"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -36,7 +46,7 @@ $input->getArgument('username');   // une valeur positionnelle
 $input->getOption('iterations');   // une valeur nommée
 $input->hasOption('dry-run');      // l'option est-elle définie ?
 $input->getArguments();            // toutes, en tableau
-$input->isInteractive();           // un terminal répondra-t-il ?
+$input->isInteractive();           // faux avec -n, -q ou --silent
 ```
 
 `setArgument()` et `setOption()` existent aussi : c'est ainsi qu'`interact()`
@@ -49,6 +59,20 @@ Deux distinctions à ne pas confondre :
 - `hasParameterOption('--x')` regarde la **ligne de commande brute**, avant
   toute analyse. C'est ce qu'il faut quand l'option n'est pas encore déclarée —
   le cas de `--env` lu avant la construction du noyau.
+
+Exécuté avec Console 8.0.15, une option `--dry-run` déclarée :
+
+| Entrée | `hasOption('dry-run')` | `getOption('dry-run')` |
+|---|---|---|
+| `--dry-run` | `true` | `true` |
+| rien | **`true`** | `false` |
+
+Et `ArgvInput(['bin', '--env=prod'])` **sans définition** :
+`hasParameterOption('--env')` vaut `true`, `getParameterOption('--env')` vaut
+`'prod'`.
+
+`isInteractive()` ne teste pas le terminal : l'entrée n'est non interactive
+qu'avec `-n`, `-q` ou `--silent` (voir *Console component*).
 
 ## Les implémentations
 
@@ -71,7 +95,17 @@ $output->writeln(['plusieurs', 'lignes']);
 
 Trois modes de rendu contrôlent l'interprétation des balises :
 `OUTPUT_NORMAL` les interprète, `OUTPUT_RAW` les laisse telles quelles,
-`OUTPUT_PLAIN` les retire.
+`OUTPUT_PLAIN` les interprète **puis** applique `strip_tags()` au résultat.
+Exécuté, `'<info>ok</info> <script>x</script>'` :
+
+| Mode | Sortie décorée | Sortie non décorée |
+|---|---|---|
+| `OUTPUT_NORMAL` | `ok` en vert, `<script>x</script>` intact | `ok <script>x</script>` |
+| `OUTPUT_PLAIN` | `ok` **toujours en vert**, puis `x` | `ok x` |
+| `OUTPUT_RAW` | `<info>ok</info>` tel quel | — |
+
+`OUTPUT_PLAIN` ne retire donc pas les couleurs d'une sortie décorée : il
+retire les balises qui restent après le formatage.
 
 ## Les balises de style
 
@@ -89,7 +123,9 @@ $output->writeln('<info>terminé</info>');
 ```
 
 Une chaîne venant de l'utilisateur ou d'une base doit passer par
-`OutputFormatter::escape()` : un `<` non échappé serait pris pour une balise.
+`OutputFormatter::escape()`. Exécuté : sans échappement, `<info>x</info>` venu
+de l'utilisateur s'affiche `x`, la balise interprétée ; échappé, il s'affiche
+tel quel. Une balise inconnue — `<script>` — passe intacte dans les deux cas.
 
 ## La sortie d'erreur
 
@@ -129,8 +165,11 @@ formateur et aux tests.
 **`getErrorOutput()` n'appartient pas à `OutputInterface`** mais à
 `ConsoleOutputInterface` — d'où le test de type.
 
-**`hasOption()` interroge la définition**, pas la ligne de commande ; c'est
-`hasParameterOption()` qui lit la ligne brute.
+**`hasOption()` interroge la définition**, pas la ligne de commande : il vaut
+`true` même quand l'option n'a pas été passée. C'est `hasParameterOption()`
+qui lit la ligne brute.
+
+**`OUTPUT_PLAIN` garde les couleurs** d'une sortie décorée.
 
 **Le nom passé à `getArgument()` est le nom kebab-case** déclaré, pas celui du
 paramètre PHP.
@@ -147,4 +186,6 @@ paramètre PHP.
 
 - [`InputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php)
 - [`OutputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
+- [`Output`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/Output.php)
+- [`OutputFormatter`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php)
 - [How to Style a Console Command](https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst)

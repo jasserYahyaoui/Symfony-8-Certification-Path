@@ -92,6 +92,7 @@ flashcards:
 - id: FLC-vrr7nk2vcdkk
   official_item: OIT-65sswf0qhw6c
   language: fr
+  level: APPLICATION
   front: Comment écrire sur STDERR depuis une commande ?
   back: Par getErrorOutput(), qui appartient à ConsoleOutputInterface et non à OutputInterface — d'où le test de
     type préalable sur $output.
@@ -1025,4 +1026,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-crt3mxvw56s0
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les quatre balises de style définies par défaut ?'
+  back: '`info` (vert), `comment` (jaune), `question` (noir sur cyan), `error` (blanc sur rouge).'
+  explanation: Lu dans le constructeur d'`OutputFormatter` (8.0).
+  memorization_justification: Styles par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — error, info, comment, question; escape()
+    verified_at: '2026-10-02'
+- id: FLC-sc7te4t0vhke
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les trois implémentations courantes d''InputInterface ?'
+  back: '`ArgvInput` (la ligne de commande), `ArrayInput` (un tableau), `StringInput` (une chaîne).'
+  explanation: 'Même contrat : une commande écrite contre l''interface fonctionne avec les trois.'
+  memorization_justification: Sources d'entrée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/ArgvInput.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/ArgvInput.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasParameterOption(), getParameterOption() — raw tokens, no definition needed
+    verified_at: '2026-10-02'
+- id: FLC-p16rckvgb0vz
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode de SymfonyStyle écrit sur STDERR ?'
+  back: '`getErrorStyle()`, qui rend la même API branchée sur la sortie d''erreur.'
+  explanation: Documentation 8.0, « How to Style a Console Command ».
+  memorization_justification: Sortie d'erreur stylée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/style.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: SymfonyStyle; getErrorStyle()
+    verified_at: '2026-10-02'
+- id: FLC-s5btfw1686bb
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi hasOption(''dry-run'') vaut-il true même sans --dry-run sur la ligne de commande ?'
+  back: 'Parce qu''il interroge la définition : l''option est déclarée. La valeur se lit avec `getOption()`.'
+  explanation: 'Exécuté : `hasOption` `true`, `getOption` `false` sans l''option.'
+  memorization_justification: Définition ou ligne de commande.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/Input.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/Input.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasOption() — the definition; getOption() — value or default
+    verified_at: '2026-10-02'
+- id: FLC-82ct7kq35dt2
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi OUTPUT_PLAIN laisse-t-il des couleurs sur une sortie décorée ?'
+  back: 'Parce qu''il formate d''abord le message, puis applique `strip_tags()` : les codes de couleur ne sont pas des balises.'
+  explanation: 'Exécuté : `ok` toujours en vert, `<script>x</script>` réduit à `x`.'
+  memorization_justification: Mode de rendu PLAIN.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/Output.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/Output.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: write() — OUTPUT_NORMAL format(), OUTPUT_RAW as is, OUTPUT_PLAIN strip_tags(format())
+    verified_at: '2026-10-02'
+- id: FLC-8cx2bqs4n9ke
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi échapper une chaîne venue de l''utilisateur avant de l''écrire ?'
+  back: 'Parce qu''une balise connue qu''elle contiendrait serait interprétée : `<info>x</info>` s''afficherait `x`.'
+  explanation: Exécuté ; `OutputFormatter::escape()` l'affiche telle quelle.
+  memorization_justification: Échappement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — error, info, comment, question; escape()
+    verified_at: '2026-10-02'
+- id: FLC-qdq3n0ggq9f6
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire --env avant que l''option soit déclarée dans une définition.'
+  back: '`$input->hasParameterOption(''--env'')` puis `getParameterOption(''--env'')` sur un `ArgvInput`.'
+  explanation: 'Exécuté sans définition : `true`, puis `''prod''`.'
+  memorization_justification: Ligne de commande brute.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/ArgvInput.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/ArgvInput.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasParameterOption(), getParameterOption() — raw tokens, no definition needed
+    verified_at: '2026-10-02'
+- id: FLC-264jcr0fwf79
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: TRAP
+  front: 'Symfony : isInteractive() teste-t-il la présence d''un terminal ?'
+  back: 'Non : l''entrée n''est non interactive qu''avec `-n`, `-q` ou `--silent`.'
+  explanation: Sans terminal et sans ces options, `interact()` est appelée.
+  memorization_justification: Interactivité supposée liée au terminal.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/Input.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/Input.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: hasOption() — the definition; getOption() — value or default
+    verified_at: '2026-10-02'
+- id: FLC-22d2m925vb5x
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: TRAP
+  front: 'Symfony : getErrorOutput() fait-il partie d''OutputInterface ?'
+  back: 'Non : de `ConsoleOutputInterface` ; d''où le test `instanceof` avant l''appel.'
+  explanation: '`ConsoleOutput` l''implémente ; une sortie de test peut ne pas l''implémenter.'
+  memorization_justification: Interface supposée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/style.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: SymfonyStyle; getErrorStyle()
+    verified_at: '2026-10-02'
+- id: FLC-8sqvdqf9t0zx
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: TRAP
+  front: 'Symfony : une balise inconnue comme <script> disparaît-elle de la sortie normale ?'
+  back: 'Non : le formateur ne touche qu''aux balises qu''il connaît ; `<script>` passe intacte.'
+  explanation: Exécuté en `OUTPUT_NORMAL`.
+  memorization_justification: Balise inconnue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — error, info, comment, question; escape()
     verified_at: '2026-10-02'
