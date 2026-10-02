@@ -1145,7 +1145,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-y0bea85rjt47
-  version: 1
+  version: 2
   official_topic: Messenger
   official_item: OIT-16at9vwzww43
   domain: symfony
@@ -1157,7 +1157,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: You need to add a stamp to every outgoing message. Event listener or middleware?
+  question: Some code must run for every message dispatched on the bus, unrouted ones included. Event
+    listener or middleware?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1167,34 +1168,43 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-02'
   tags:
   - events
   - middleware
   choices:
-  - id: CHO-k3xm09fej4s8
-    text: Middleware, because only it can modify the envelope in the chain
+  - id: CHO-cg9m65qrxnpz
+    text: Middleware — an unrouted message emits no Messenger event
     correct: true
-  - id: CHO-agkprvra4859
-    text: An event listener on SendMessageToTransportsEvent, which can replace the envelope
+  - id: CHO-9d5a5e37nzd7
+    text: A listener on SendMessageToTransportsEvent, emitted on every dispatch
     correct: false
-    explanation: Events notify; modifying the envelope in the dispatch path is the middleware's role.
-  - id: CHO-15yxmza9s22z
-    text: Either — they are interchangeable
+    explanation: It is emitted only when the message has senders, so never for an unrouted message.
+  - id: CHO-7gawwpr1jegq
+    text: A listener on WorkerMessageReceivedEvent, emitted for every message
     correct: false
-    explanation: They differ precisely in whether they sit in the message's path.
-  - id: CHO-2mpa982bfnpy
-    text: Neither — stamps can only be added at dispatch by the caller
+    explanation: Worker events are emitted only inside a worker, never during a synchronous dispatch.
+  - id: CHO-ne06mk1gfwav
+    text: Either, since both run for every message
     correct: false
-    explanation: Middleware adds stamps routinely.
-  explanation: An event observes; a middleware is in the path and can alter the envelope or interrupt
-    the chain.
+    explanation: Only the middleware chain runs on every dispatch.
+  explanation: The middleware chain runs on every dispatch, synchronous messages included.
+    SendMessageToTransportsEvent is emitted only when the message has senders, and the Worker events
+    only inside a worker, so an unrouted message handled during dispatch() meets neither. Executed on
+    Messenger 8.0.15, an unrouted message ran the middleware and its handler and emitted no Messenger
+    event. Listeners can still modify the envelope (setEnvelope, addStamps) or skip handling
+    (shouldHandle), so the boundary is coverage, not observe versus modify.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
     branch: '8.0'
     symbol_or_lines: messenger
     verified_at: '2026-09-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    branch: '8.0'
+    symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
+    verified_at: '2026-10-02'
 - id: QST-s3zd9exve0a5
   question_archetype: BEHAVIOR_DIAGNOSIS
   version: 1

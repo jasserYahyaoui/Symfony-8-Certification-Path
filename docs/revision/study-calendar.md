@@ -579,14 +579,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 10 novembre 2026
 
 - NOUVEAU · **Messenger : Middleware** (STANDARD) — 21 min · 619 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Messenger : Events** (STANDARD) — 11 min · 427 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Messenger : Events** (STANDARD) — 22 min · 675 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Templating with Twig : TwigBundle** (STANDARD) — 22 min · 652 mots · 5 questions, 12 flashcards
 - NOUVEAU · **Templating with Twig : Twig syntax up to 3.22 version** (DEEP) — 26 min · 980 mots · 6 questions, 12 flashcards
 - Révision **J+1** (26 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures
 - Révision **J+7** (15 min) — Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
 - Révision **J+14** (12 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 
-*Budget du jour : 133 / 160 min*
+*Budget du jour : 144 / 160 min*
 
 ### Mercredi 11 novembre 2026
 

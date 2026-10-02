@@ -7385,7 +7385,8 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Un catalogue dont la forme se retient mieux que le compte, un événement émis même à vide, et
-      une frontière à tenir avec le middleware : observer ou modifier.
+      une frontière à tenir avec le middleware : les événements ne couvrent que l'envoi vers un
+      transport et le worker.
     learning_outcomes:
       - id: OUT-32c5zqv7br2d
         outcome: Situer les événements dans le cycle de vie
