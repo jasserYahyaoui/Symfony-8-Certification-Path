@@ -3341,6 +3341,33 @@ jobs:
           else
             echo "ok  lot-11  the workers page carries its four flashcard levels, the consume options, the reset listener and the priority run"
           fi
+          # Lot 11 refinement, page 5 (Retries and failures): the four
+          # flashcard levels, the synchronous failure that is never retried,
+          # the recoverable exception read before max_retries and the counter
+          # reset on the way to the failure transport.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-retries -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/retries-and-failures")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page retries-and-failures serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-retries || missing="$missing l11ret:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-retries || missing="$missing l11ret:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-retries || missing="$missing l11ret:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-retries || missing="$missing l11ret:no-trap-heading"
+          grep -aq 'HandlerFailedException' /tmp/l11r-retries \
+            || missing="$missing l11ret:no-sync-failure"
+          grep -aq 'shouldRetry' /tmp/l11r-retries \
+            || missing="$missing l11ret:no-recoverable-order"
+          grep -aq 'RedeliveryStamp(0)' /tmp/l11r-retries \
+            || missing="$missing l11ret:no-failure-counter"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the retries and failures page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the retries and failures page carries its four flashcard levels, the synchronous failure, the recoverable order and the failure counter"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

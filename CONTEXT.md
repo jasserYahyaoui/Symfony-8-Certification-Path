@@ -20,7 +20,7 @@ périmètre sur instruction.
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
-| 11 (Messenger) | **en cours** — pages 1–3 déployées (PR #280 à #282) ; page 4 en PR | `docs/progress/lot-11-refinement.md` |
+| 11 (Messenger) | **en cours** — pages 1–4 déployées (PR #280 à #283) ; page 5 en PR | `docs/progress/lot-11-refinement.md` |
 | 12 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -35,12 +35,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 4 du lot 11 après CI verte,
-lire son smoke test, puis page 5 (*Retries and failures*, DEEP) : brouillon prêt
-— pas de réessai en synchrone, `Recoverable` ignore `max_retries`,
-`failed:retry` traite depuis la file d'échec (exécuté). Page 6 (*Middleware*)
-aussi en brouillon. Reprise à prévoir sur la page 6 du lot 10 (`lazy` ignoré
-sur un pare-feu `stateless`).
+**Prochaine action** : fusionner la PR de la page 5 du lot 11 après CI verte,
+lire son smoke test, puis page 6 (*Middleware*) : brouillon et cartes prêts —
+pile par défaut relevée sur le bus construit, `default_middleware: false` vide
+toute la pile sans erreur (exécuté). Puis page 7 (*Events*) et le rapport de
+fin de lot 11 (base `dd3b0c1`). Reprise à prévoir sur la page 6 du lot 10
+(`lazy` ignoré sur un pare-feu `stateless`).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

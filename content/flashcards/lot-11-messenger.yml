@@ -66,6 +66,7 @@ flashcards:
 - id: FLC-7hfxx70j2rhg
   official_item: OIT-76x1t7z916f4
   language: fr
+  level: RECALL
   front: 'max_retries: 3 — combien de tentatives au total ?'
   back: 'Quatre : la tentative initiale plus trois réessais, avec un délai croissant.'
   explanation: Sans failure_transport, le message est définitivement perdu une fois les tentatives épuisées.
@@ -801,3 +802,175 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
     verified_at: '2026-10-01'
+- id: FLC-400gxh2h3qwy
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les valeurs par défaut de retry_strategy en 8.0 ?'
+  back: '`max_retries: 3`, `delay: 1000`, `multiplier: 2`, `max_delay: 0` (sans plafond), `jitter: 0.1`.'
+  explanation: Lu dans la configuration de FrameworkBundle 8.0.
+  memorization_justification: Défauts du réessai.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries & Failures; Saving & Retrying Failed Messages
+    verified_at: '2026-10-02'
+- id: FLC-c55pk9x1dexf
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles commandes gèrent les messages de la file d''échec ?'
+  back: '`messenger:failed:show` (avec `--stats`), `messenger:failed:retry`, `messenger:failed:remove`.'
+  explanation: Elles lisent le `failure_transport`.
+  memorization_justification: Commandes d'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries & Failures; Saving & Retrying Failed Messages
+    verified_at: '2026-10-02'
+- id: FLC-8e03wyvq7328
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels délais donne retry_strategy avec delay 1000 et multiplier 2, sans jitter ?'
+  back: '1000, 2000, puis 4000 ms : `delay × multiplier^n`.'
+  explanation: Calculé avec `MultiplierRetryStrategy` ; un jitter de 0,1 donne par exemple 1096, 2109, 4298 ms.
+  memorization_justification: Croissance exponentielle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Retry/MultiplierRetryStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Retry/MultiplierRetryStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getWaitingTime() — delay * multiplier^retries, jitter
+    verified_at: '2026-10-02'
+- id: FLC-tc0mvhq7hc8r
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une RecoverableMessageHandlingException peut-elle boucler indéfiniment ?'
+  back: Parce que `shouldRetry()` répond « oui » pour elle **avant** de consulter `max_retries`.
+  explanation: 'Exécuté : 12 tentatives sur un worker limité à 12 messages, jamais en échec.'
+  memorization_justification: Réessai forcé sans limite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: shouldRetry() — RecoverableExceptionInterface returns true first
+    verified_at: '2026-10-02'
+- id: FLC-rca0b76cpgwn
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une exception dans un handler synchrone n''est-elle jamais réessayée ?'
+  back: Parce que le réessai est déclenché par le worker ; un message non routé est traité pendant `dispatch()`, et l'exception remonte à l'appelant.
+  explanation: 'Exécuté : `HandlerFailedException`, une seule tentative.'
+  memorization_justification: Portée du réessai.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: shouldRetry() — RecoverableExceptionInterface returns true first
+    verified_at: '2026-10-02'
+- id: FLC-ssdp28zayfj5
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : un handler sait que le message ne pourra jamais aboutir. Que lever ?'
+  back: '`UnrecoverableMessageHandlingException` : aucun réessai, passage direct en file d''échec.'
+  explanation: 'Exécuté : une tentative, puis file d''échec.'
+  memorization_justification: Échec permanent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries & Failures; Saving & Retrying Failed Messages
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: shouldRetry() — RecoverableExceptionInterface returns true first
+    verified_at: '2026-10-02'
+- id: FLC-e85sc88kcsdz
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : mettre de côté les messages épuisés au lieu de les perdre.'
+  back: '`framework.messenger.failure_transport: failed` et un transport `failed` déclaré.'
+  explanation: 'Exécuté : sans lui, le message est perdu après 4 tentatives ; avec lui, il est en file d''échec.'
+  memorization_justification: Transport d'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries & Failures; Saving & Retrying Failed Messages
+    verified_at: '2026-10-02'
+- id: FLC-k6xyzs27a8wp
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: TRAP
+  front: 'Symfony : messenger:failed:retry renvoie-t-il le message vers son transport d''origine ?'
+  back: 'Non : la commande le traite elle-même depuis la file d''échec ; s''il échoue encore, il y retourne.'
+  explanation: 'Exécuté : rien envoyé vers `async`, message revenu en file d''échec avec un compteur à 1.'
+  memorization_justification: Rejeu mal compris.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/FailedMessagesRetryCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Command/FailedMessagesRetryCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: runWorker() on the failure receiver
+    verified_at: '2026-10-02'
+- id: FLC-a9tahjktd0zt
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: TRAP
+  front: 'Symfony : une UnrecoverableMessageHandlingException contourne-t-elle aussi le transport d''échec ?'
+  back: 'Non : elle saute les réessais, pas la file d''échec.'
+  explanation: 'Exécuté : une tentative, message en file d''échec.'
+  memorization_justification: Portée d'Unrecoverable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: shouldRetry() — RecoverableExceptionInterface returns true first
+    verified_at: '2026-10-02'
+- id: FLC-y6261jgkz6e9
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: TRAP
+  front: 'Symfony : max_delay vaut-il 10 000 ms par défaut ?'
+  back: 'Non : 0, c''est-à-dire sans plafond.'
+  explanation: Valeur par défaut de FrameworkBundle 8.0.
+  memorization_justification: Défaut mal retenu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Retries & Failures; Saving & Retrying Failed Messages
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Retry/MultiplierRetryStrategy.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Retry/MultiplierRetryStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getWaitingTime() — delay * multiplier^retries, jitter
+    verified_at: '2026-10-02'
