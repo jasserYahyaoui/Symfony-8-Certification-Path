@@ -24,7 +24,7 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Configuration (including DotEnv and ExpressionLanguage components) | STANDARD | 598 / 900 | 1 | **RAFFINÉE** (PR #308) |
 | 2 | Error handling | STANDARD | 534 / 900 | 1 | **RAFFINÉE** (PR #309) |
-| 3 | Code debugging | STANDARD | 589 / 900 | 1 | à faire |
+| 3 | Code debugging | STANDARD | 589 / 900 | 1 | **RAFFINÉE** (PR #310) |
 
 ## Page 1 — *Configuration (including DotEnv and ExpressionLanguage components)* — RAFFINÉE
 
@@ -243,6 +243,141 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 14
 
-Rapport de fin de lot 14, réconcilié par script, dans sa propre PR.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `4a2a2c4`, le commit de `master`
+qui précède la première page refondue (PR #308). État mesuré : `12e6bab`
+(fusion de la page 3). Le script de réconciliation est celui des lots 10 à 13.
+Un second script a confronté les décomptes de cartes écrits dans les trois
+entrées de page aux fichiers : **3 / 3** concordent.
+
+## Périmètre
+
+**3** items officiels atomiques portent `lot: lot-14` dans la matrice, tous
+`STANDARD` — niveaux inchangés pendant la campagne. Cette répartition est une
+**observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 14 est **3 / 3**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 3 cours du lot 14 | 1 721 | **2 469** | **+748** |
+
+Aucune page ne dépasse son budget `REV-001` (`STANDARD`, 900). La plus proche du
+plafond : *Configuration (including DotEnv and ExpressionLanguage components)*,
+897.
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 14 | 3 | **33** | **+30** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 9 · `UNDERSTANDING` 9 · `APPLICATION` 6 · `TRAP` 9.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les trois cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; deux ont été
+corrigées au-delà du niveau, toutes deux parce qu'elles portaient une
+affirmation fausse : `FLC-63tca08n26r1` (page 2, statut HTTP) et
+`FLC-1f4raf4m8wng` (page 3, `dump()` en production).
+
+## Questions et pools
+
+**13** questions portent sur les items du lot 14 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 7 | `lot-14-miscellaneous.yml` |
+| `VALIDATION` | 3 | `lot-14-miscellaneous.yml` |
+| `HOLDOUT` | 3 | `mock-04-holdout.yml` |
+
+**3** questions non holdout corrigées, dont **1** passée en v2 :
+
+| Question | Pool | Version | Page | Correction |
+|---|---|---|---|---|
+| `QST-hs62x7n8hq15` | VALIDATION | 1 → 2 | 1 | distracteur « paramètre typé, variable non » en partie vrai ; remplacé |
+| `QST-3bbtms3dk9ca` | LEARNING | 1 | 2 | explication « seule l'interface donne un statut » — fausse en 8.0 |
+| `QST-btrt51f6nnnv` | LEARNING | 1 | 3 | explication « paquet de développement seulement » — fausse en 8.0 |
+
+**0 question holdout modifiée** (comparaison par empreinte SHA-256, sans lecture
+du contenu). `POOL-002` : 3 items `STANDARD` `EXAM_READY`, **0** sans question
+`VALIDATION`. **Matrice** : aucun texte modifié dans ce lot.
+
+## Ce que dit la documentation, ce que fait le code
+
+| Page | Documentation 8.0 | Code 8.0, exécuté | Décision |
+|---|---|---|---|
+| 2 | `error_pages.rst` : le statut vient de `HttpExceptionInterface`, sinon 500 | aussi `#[WithHttpStatus]`, `framework.exceptions`, `RequestExceptionInterface` (400) — lu dans `ErrorListener`, `FlattenException` | le code l'emporte, l'écart est signalé sur la page |
+| 3 | `var_dumper.rst` installe VarDumper en `--dev` | FrameworkBundle → ErrorHandler → VarDumper, dépendance ordinaire : `dump()` existe en production | l'installation documentée n'est pas niée ; la conséquence qu'en tirait la page est corrigée |
+
+## Erreurs de méthode, corrigées pendant la campagne
+
+- **Sonde d'avertissement PHP** (page 2) : sous le client de test, aucun
+  gestionnaire d'erreurs n'était enregistré, et la première mesure ne prouvait
+  rien ; refaite sous `Debug::enable()` puis `ErrorHandler::register()`.
+- **Sonde `dump()`** (page 3) : en CLI, le dump part sur la sortie standard et
+  non dans la réponse ; refaite sous le serveur web intégré de PHP.
+- **Référence de version** (page 1) : une carte nommait « 7.4 » ; reformulée
+  avant application, pour ne citer que la branche 8.0.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Trois questions holdout portent sur les items du lot, toutes dans
+`mock-04-holdout.yml`, une par item. Aucune n'a été lue. Des faits établis
+pendant la campagne pourraient en concerner certaines, sans que cela soit
+vérifié :
+
+- en `dev`, `.env.dev` l'emporte sur `.env.local` ; un `.env.local.php` coupe
+  la lecture des fichiers `.env` ;
+- le statut HTTP d'une exception vient aussi de `#[WithHttpStatus]`, de
+  `framework.exceptions` et de `RequestExceptionInterface` ;
+- un avertissement PHP n'est une exception qu'en debug, par défaut ;
+- `dump()` existe en production dans une application FrameworkBundle : pas
+  d'erreur fatale, une réponse corrompue.
+
+## Déploiements
+
+Les trois pages ont été fusionnées par PR (#308 à #310), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 3 : run 37064126582, success — `ok  lot-14  the code debugging page carries its four flashcard levels, the dump in production, the lost header and the corrupted response`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `12e6bab` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 481 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des trois entrées de page contre les fichiers | 3 / 3 concordants |
+
+## Résumé autonome
+
+Lot 14 (*Miscellaneous*), 3 items STANDARD : couverture projet 163/163
+inchangée ; cours 1 721 → 2 469 mots (+748), aucun dépassement de budget ;
+flashcards 3 → 33 (+30), toutes niveau posé ; 13 questions, 3 corrigées dont
+1 VALIDATION en v2, 0 holdout modifiée ; trois pages déployées, smoke tests
+lus ; deux divergences documentation/code (statut HTTP, `dump()` en production)
+signalées sur les pages.
