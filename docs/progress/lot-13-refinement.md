@@ -32,7 +32,7 @@ première page.
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | **RAFFINÉE** (PR #303) |
 | 7 | Client configuration | STANDARD | 406 / 900 | 1 | **RAFFINÉE** (PR #304) |
 | 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | **RAFFINÉE** (PR #305) |
-| 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | à faire |
+| 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | **RAFFINÉE** (PR #306) |
 
 ## Page 1 — *Unit tests with PHPUnit* — RAFFINÉE
 
@@ -665,6 +665,161 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 13
 
-Rapport de fin de lot 13, réconcilié par script, dans sa propre PR.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `f2d8281`, le commit de `master`
+qui précède la première page refondue (PR #298). État mesuré : `f12885f`
+(fusion de la page 9). Le script de réconciliation est celui des lots 10 à 12.
+Un second script a confronté les décomptes de cartes écrits dans les neuf
+entrées de page aux fichiers : **9 / 9** concordent.
+
+## Périmètre
+
+**9** items officiels atomiques portent `lot: lot-13` dans la matrice :
+2 `MINIMAL`, 7 `STANDARD` — niveaux inchangés pendant la campagne. Cette
+répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 13 est **9 / 9**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 9 cours du lot 13 | 3 835 | **5 706** | **+1 871** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 2 | Handling legacy deprecated code, 688 |
+| `STANDARD` | 900 | 7 | Crawler object (CssSelector and DomCrawler components), 786 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 13 | 9 | **99** | **+90** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 27 · `UNDERSTANDING` 27 · `APPLICATION` 18 · `TRAP` 27.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les neuf cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; une a été
+corrigée au-delà du niveau (`FLC-1qhdkw1e4nfy`, page 9 : « rien ne s'affiche »,
+et une source qui citait une phrase absente de `upgrade_minor.rst`).
+
+## Questions et pools
+
+**31** questions portent sur les items du lot 13 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 20 | `lot-13-automated-tests.yml` |
+| `VALIDATION` | 7 | `lot-13-automated-tests.yml` |
+| `HOLDOUT` | 4 | 2 dans `lot-13-automated-tests.yml`, 2 dans `mock-04-holdout.yml` |
+
+**4** questions non holdout corrigées, toutes passées en v2 :
+
+| Question | Pool | Version | Page | Correction |
+|---|---|---|---|---|
+| `QST-kyyb7h7x6z2b` | VALIDATION | 1 → 2 | 3 | la connexion perdue dépend d'un pare-feu `stateless` ; l'énoncé ne le disait pas |
+| `QST-7v7dsbmdfdgt` | LEARNING | 1 → 2 | 4 | un `Form` construit depuis le nœud `<form>` est valide ; réécrite sur deux boutons |
+| `QST-kyaxpk3c138c` | VALIDATION | 1 → 2 | 6 | une doublure posée trop tard lève « already initialized », elle ne passe pas en silence |
+| `QST-qspg3f4b1epq` | LEARNING | 1 → 2 | 9 | « Nothing visible » — la barre de débogage les montre en dev |
+
+**0 question holdout modifiée** (comparaison par empreinte SHA-256, sans lecture
+du contenu). `POOL-002` : 7 items `STANDARD` `EXAM_READY`, **0** sans question
+`VALIDATION`. **Matrice** : aucun texte modifié dans ce lot.
+
+## Affirmations retirées ou corrigées sur les pages
+
+| Page | Affirmation | Décision |
+|---|---|---|
+| 1 | « Flex installe `bin/phpunit` » | retirée : la recette Flex n'est pas une source admise |
+| 9 | une dépréciation ne s'affiche pas « même en développement » | corrigée : `upgrade_major.rst` (8.0) dit l'inverse |
+| 9 | la page renvoyait ses deux objectifs à une autre page | rappel ajouté, relu dans `conventions.rst` (8.0) |
+
+Aucune divergence documentation / code n'a été relevée dans ce lot : les écarts
+trouvés opposaient la page à la documentation, pas la documentation au code.
+
+## Erreurs de méthode, corrigées pendant la campagne
+
+- **Script d'application** (page 1) : il a écrit les cartes avant qu'une
+  assertion sur le cours n'échoue ; le fichier de cartes a été restauré, le
+  contrôle avancé avant toute écriture.
+- **Sondes** (page 3) : une première sonde de `back()`, sans suivre les
+  redirections, ne prouvait rien ; une sonde XHR appelait une méthode
+  inexistante. Les deux ont été refaites avant d'en citer le résultat.
+- **Message de commit** (page 5) : il citait WebProfilerBundle, absent de
+  l'exécution ; corrigé sur la branche avant l'ouverture de la PR.
+- **`CRS-001`** (page 8) : une ligne de tableau reproduisait la bonne réponse
+  d'une question VALIDATION d'un autre item ; reformulée, sans recours à un bloc
+  de code. Depuis, les brouillons sont vérifiés par un script qui reprend la
+  logique de la règle avant application.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Quatre questions holdout portent sur des items du lot : 2 dans
+`lot-13-automated-tests.yml`, 2 dans `mock-04-holdout.yml`. Aucune n'a été lue.
+Des faits établis pendant la campagne pourraient en concerner certaines, sans
+que cela soit vérifié :
+
+- une connexion survit à la requête suivante sur un pare-feu avec état, pas sur
+  un pare-feu `stateless` ;
+- `KernelBrowser` ne suit pas les redirections (`HttpKernelBrowser` les
+  désactive ; `AbstractBrowser` les active) ;
+- un `Form` construit depuis le nœud `<form>` n'envoie aucun bouton ;
+- `set()` après `get()` sur le conteneur de test lève « already initialized » ;
+- un en-tête se passe au client sous la forme `HTTP_…` ; `CONTENT_TYPE` sans
+  préfixe ;
+- avant toute requête, les accesseurs de requête, de réponse et le crawler lèvent
+  `BadMethodCallException`.
+
+## Reprise identifiée hors du lot courant
+
+Toujours ouverte, venue du lot 10 : la page 6 (*Firewalls*) n'indique pas que
+`lazy` est ignoré sur un pare-feu `stateless`.
+
+## Déploiements
+
+Les neuf pages ont été fusionnées par PR (#298 à #306), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 9 : run 37057912148, success — `ok  lot-13  the deprecated code page carries its four flashcard levels, the markers recap, the debug toolbar and the silenced notice`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `f12885f` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 451 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des neuf entrées de page contre les fichiers | 9 / 9 concordants |
+
+## Résumé autonome
+
+Lot 13 (*Automated tests*), 9 items (2 MINIMAL, 7 STANDARD) : couverture projet
+163/163 inchangée ; cours 3 835 → 5 706 mots (+1 871), aucun dépassement de
+budget ; flashcards 9 → 99 (+90), toutes niveau posé ; 31 questions, 4 corrigées
+et passées en v2 (dont 2 VALIDATION), 0 holdout modifiée ; neuf pages déployées,
+smoke tests lus ; aucune divergence documentation/code, deux affirmations de
+page fausses ou sans source admise corrigées.

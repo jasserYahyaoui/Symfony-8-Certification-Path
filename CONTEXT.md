@@ -22,7 +22,7 @@ périmètre sur instruction.
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
 | 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport fusionné (PR #297) |
-| 13 (Automated tests) | **en cours** — pages 1–8 déployées (PR #298 à #305) ; page 9 en PR |
+| 13 (Automated tests) | **terminé** — 9 pages déployées (PR #298 à #306) ; rapport en PR |
 | 14 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -37,10 +37,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 9 du lot 13 après CI verte,
-lire son smoke test, puis rapport de fin de lot 13 et lot 14. Reprise à prévoir
-sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux
-holdout des lots 06 à 13 à revoir par l'owner.
+**Prochaine action** : fusionner la PR du rapport de fin de lot 13 après CI
+verte, puis lot 14 (*Miscellaneous*, 3 pages), dont les brouillons sont prêts :
+trois affirmations fausses à corriger (statut HTTP d'une exception, `dump()` en
+production, distracteur VALIDATION à moitié vrai). Reprise à prévoir sur la page
+6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout des
+lots 06 à 13 à revoir par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
