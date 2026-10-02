@@ -28,7 +28,7 @@ première page.
 | 3 | Custom commands | STANDARD | 443 / 900 | 1 | **RAFFINÉE** (PR #290) |
 | 4 | Configuration | STANDARD | 519 / 900 | 1 | **RAFFINÉE** (PR #291) |
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | **RAFFINÉE** (PR #292) |
-| 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | à faire |
+| 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | **RAFFINÉE** (PR #293) |
 | 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | à faire |
 | 8 | Console events | STANDARD | 578 / 900 | 1 | à faire |
 | 9 | Verbosity levels | MINIMAL | 295 / 700 | 1 | à faire |
@@ -496,6 +496,72 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 7 — *Built-in helpers* — RAFFINÉE
+
+`CRS-3p9jdkw1nd3g` · `OIT-v6wxp78gk42c` · STANDARD · **550 → 714 mots** sur 900.
+Aucun niveau promu. Exécutions sur Console 8.0.15 : `ProgressBar` avec et sans
+total, `QuestionHelper::ask()` sur une entrée en mémoire, interactive ou non.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 6 du lot 12 (PR #293, `e5662f7`) | 37004119926, success | `ok  lot-12  the input and output page carries its four flashcard levels, the plain mode, the raw option and the kept colours` |
+
+### Une affirmation fausse, et une question bâtie dessus : « `ProgressBar` exige un total »
+
+La documentation 8.0 (*Progress Bar*) montre l'inverse : sans total, la barre
+s'affiche en *throbber*. Exécuté : `0 [>---…]` sans total, `0/3 [>---…]   0%`
+avec. `ProgressIndicator` reste l'outil d'une attente sans rien à compter.
+
+**`QST-h22aea8btw90` (LEARNING) → v2.** Bonne réponse juste
+(`ProgressIndicator`), mais l'explication et celle du distracteur
+« ProgressBar, started with a total of zero » posaient qu'une barre exige un
+total. Énoncé précisé (« there is nothing to count ») pour que le distracteur
+soit faux pour la bonne raison ; explications réécrites ; aucun choix modifié.
+
+### Confirmé par l'exécution
+
+| Situation | Résultat |
+|---|---|
+| `ConfirmationQuestion('?', false)`, `yeti` ou `Yes` | `true` |
+| `ConfirmationQuestion('?')`, réponse vide | `true` |
+| non interactive, `ChoiceQuestion(…, ['dev', 'prod'], 0)` | `'dev'` |
+| non interactive, `Question('?')` sans défaut | `null` |
+| interactive, sans défaut, fin de l'entrée | `MissingInputException` « Aborted. » |
+
+- Catalogue : neuf helpers dans `map.rst.inc` (8.0), relu.
+
+**Questions.** `QST-8z5qhxdbyjf8`, `QST-32gxwn2q6pkf` (LEARNING) et
+`QST-qcgrr0jydf3t` (VALIDATION) relues : exactes, inchangées. L'item n'a pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-48na02d14yce` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`throbber`, `setMaxSteps` et `MissingInputException`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 341 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Built-in helpers* (STANDARD, 550 / 900).
+Page 8 — *Console events* (STANDARD, 578 / 900).

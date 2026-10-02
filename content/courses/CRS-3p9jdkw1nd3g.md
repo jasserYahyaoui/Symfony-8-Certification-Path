@@ -5,7 +5,7 @@ title: "Built-in helpers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc"
@@ -18,6 +18,16 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "SymfonyStyle"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/progressbar.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst"
+    branch: "8.0"
+    symbol_or_lines: "omit the steps argument — throbber; setMaxSteps()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php"
+    branch: "8.0"
+    symbol_or_lines: "ask() — default when not interactive; MissingInputException on end of input"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -68,6 +78,19 @@ Le point structurant : une question n'a de sens que si l'entrée est
 rien demander. C'est pourquoi la documentation place les questions dans
 `interact()`, et pourquoi une valeur obtenue ainsi doit toujours avoir un repli.
 
+Exécuté avec Console 8.0.15 :
+
+| Situation | Résultat |
+|---|---|
+| `ConfirmationQuestion('?', false)`, réponse `yeti` ou `Yes` | `true` |
+| `ConfirmationQuestion('?')`, réponse vide | `true` |
+| non interactive, `ChoiceQuestion(…, ['dev', 'prod'], 0)` | `'dev'` — la valeur, pas l'index |
+| non interactive, `Question('?')` sans défaut | `null` |
+| interactive, `Question('?')` sans défaut, fin de l'entrée | `MissingInputException` : « Aborted. » |
+
+La dernière ligne est le cas d'un `cron` lancé sans `-n` : la question est
+posée, l'entrée standard est vide, et la commande s'arrête.
+
 ## La progression
 
 ```php
@@ -77,8 +100,11 @@ $bar->advance();
 $bar->finish();
 ```
 
-`ProgressBar` suppose un total connu. Quand il ne l'est pas — attendre une
-réponse réseau — `ProgressIndicator` affiche une animation sans pourcentage.
+Le total est **facultatif**. Sans lui, la barre s'affiche en mode
+*throbber* — un compteur sans pourcentage ; exécuté : `0 [>---…]` au lieu de
+`0/3 [>---…]   0%`. `setMaxSteps()` fixe ou corrige le total en cours de
+route. `ProgressIndicator`, lui, n'a pas de compteur du tout : il anime une
+attente — une réponse réseau — sans unité de progression.
 
 ## Le tableau
 
@@ -127,7 +153,11 @@ s'applique silencieusement.
 
 **`ConfirmationQuestion` vaut `true` par défaut** si le second argument est omis.
 
-**`ProgressBar` exige un total connu** ; sinon c'est `ProgressIndicator`.
+**`ProgressBar` n'exige pas de total** : sans lui, elle compte sans
+pourcentage. `ProgressIndicator` sert quand il n'y a rien à compter.
+
+**Une question sans défaut, en interactif, sur une entrée vide** lève
+`MissingInputException`.
 
 **`getHelper()` vient de `Command`** — indisponible dans une commande invocable
 qui ne l'étend pas.
@@ -136,11 +166,14 @@ qui ne l'étend pas.
 
 - Neuf helpers documentés ; les connaître par leur usage, pas par leur API.
 - Questions : `Question`, `ConfirmationQuestion`, `ChoiceQuestion`.
-- `ProgressBar` pour un total connu, `ProgressIndicator` sinon.
+- `ProgressBar` compte, avec ou sans total ; `ProgressIndicator` anime une
+  attente.
 - `SymfonyStyle` est la façade recommandée sur l'ensemble.
 
 ## Sources officielles
 
 - [The Console Helpers](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc)
 - [Question Helper](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/questionhelper.rst)
+- [Progress Bar](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst)
+- [`QuestionHelper`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php)
 - [`SymfonyStyle`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php)

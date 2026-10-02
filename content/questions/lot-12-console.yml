@@ -984,7 +984,7 @@ questions:
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-ynfwxjqpxy07
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-v6wxp78gk42c
   domain: symfony
@@ -996,8 +996,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A command waits for a remote response of unpredictable duration and wants to show that it is still working.
-    Which helper fits?
+  question: A command waits for a remote response of unpredictable duration. There is nothing to count, it only wants
+    to show that it is still working. Which helper is designed for that?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1007,7 +1007,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-02'
   tags:
   - progress
   choices:
@@ -1017,7 +1017,8 @@ questions:
   - id: CHO-y91n3xevhcbp
     text: ProgressBar, started with a total of zero
     correct: false
-    explanation: A progress bar is meant for a known total; without one it cannot show progression.
+    explanation: Without a total a progress bar still counts the steps it is advanced by, shown as a throbber;
+      with nothing to count, it is the wrong tool.
   - id: CHO-6qkqm85q9g93
     text: Table, refreshed on each attempt
     correct: false
@@ -1026,7 +1027,9 @@ questions:
     text: Cursor, moved back and forth
     correct: false
     explanation: Cursor manipulates position; it does not provide an activity display of its own.
-  explanation: ProgressBar needs a known total; ProgressIndicator covers the case where there is none.
+  explanation: ProgressIndicator animates a wait with no unit of progress. ProgressBar does not need a total,
+    executed on Console 8.0.15 it counts without a percentage when none is given, but it counts steps, and
+    here there is nothing to count.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc

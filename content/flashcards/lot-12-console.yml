@@ -108,6 +108,7 @@ flashcards:
 - id: FLC-48na02d14yce
   official_item: OIT-v6wxp78gk42c
   language: fr
+  level: RECALL
   front: Que rend une question interactive lancée avec --no-interaction ?
   back: Sa valeur par défaut, sans rien demander et sans avertissement.
   explanation: C'est pourquoi une valeur obtenue par question doit toujours avoir un repli utilisable.
@@ -1186,4 +1187,164 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: __construct() — error, info, comment, question; escape()
+    verified_at: '2026-10-02'
+- id: FLC-8ebhactq9177
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles sont les trois classes de question du composant Console ?'
+  back: '`Question`, `ConfirmationQuestion`, `ChoiceQuestion`.'
+  explanation: '`QuestionHelper::ask()` les pose toutes.'
+  memorization_justification: Types de question.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/questionhelper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Asking the User for Confirmation; Let the User Choose from a List of Answers
+    verified_at: '2026-10-02'
+- id: FLC-8np2pjvbf1pg
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode change le total d''une ProgressBar en cours de route ?'
+  back: '`setMaxSteps()`.'
+  explanation: La documentation 8.0 la montre pour un total découvert en cours de tâche.
+  memorization_justification: Total ajustable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/progressbar.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: omit the steps argument — displayed as a throbber; setMaxSteps()
+    verified_at: '2026-10-02'
+- id: FLC-9pjtx59bzzn5
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi « yeti » confirme-t-il une ConfirmationQuestion ?'
+  back: 'Parce que l''expression par défaut est `/^y/i` : toute réponse commençant par y, quelle que soit la casse.'
+  explanation: 'Exécuté : `yeti` et `Yes` donnent `true`.'
+  memorization_justification: Expression de confirmation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Question/ConfirmationQuestion.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Question/ConfirmationQuestion.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(string $question, bool $default = true, string $trueAnswerRegex = /^y/i)
+    verified_at: '2026-10-02'
+- id: FLC-d715pybeyhft
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une question sans défaut peut-elle arrêter une commande lancée par cron sans -n ?'
+  back: Parce que l'entrée reste interactive, la question est posée, et la fin de l'entrée vide lève `MissingInputException` (« Aborted. »).
+  explanation: Exécuté avec Console 8.0.15.
+  memorization_justification: Entrée vide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ask() — default when not interactive; MissingInputException Aborted. on end of input
+    verified_at: '2026-10-02'
+- id: FLC-n47ny04zf9zq
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi SymfonyStyle est-elle la porte d''entrée recommandée ?'
+  back: Parce qu'elle enveloppe les helpers derrière une API courte et une présentation homogène.
+  explanation: '`confirm()`, `choice()`, `table()`, `progressStart()`, `progressIterate()`.'
+  memorization_justification: Façade.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: confirm(), choice(), table(), progressStart(), progressIterate()
+    verified_at: '2026-10-02'
+- id: FLC-wddp96a07qs4
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : afficher une progression quand le nombre d''étapes n''est pas connu.'
+  back: '`new ProgressBar($output)` sans total : elle compte les étapes sans pourcentage.'
+  explanation: 'Exécuté : `0 [>---…]` au lieu de `0/3 [>---…]   0%`.'
+  memorization_justification: Barre sans total.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/progressbar.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: omit the steps argument — displayed as a throbber; setMaxSteps()
+    verified_at: '2026-10-02'
+- id: FLC-05mcjfa79qm9
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : demander un environnement parmi dev et prod, dev par défaut.'
+  back: '`new ChoiceQuestion(''Environnement ?'', [''dev'', ''prod''], 0)`.'
+  explanation: 'Exécuté en non interactif : `''dev''`, la valeur et non l''index.'
+  memorization_justification: Choix avec défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/questionhelper.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/questionhelper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Asking the User for Confirmation; Let the User Choose from a List of Answers
+    verified_at: '2026-10-02'
+- id: FLC-m2vt69dts1c2
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: TRAP
+  front: 'Symfony : ProgressBar exige-t-elle un total connu ?'
+  back: 'Non : sans total, elle s''affiche comme un compteur sans pourcentage.'
+  explanation: '`ProgressIndicator` sert quand il n''y a rien à compter.'
+  memorization_justification: Total supposé obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/progressbar.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: omit the steps argument — displayed as a throbber; setMaxSteps()
+    verified_at: '2026-10-02'
+- id: FLC-q51kmfpbywek
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: TRAP
+  front: 'Symfony : ConfirmationQuestion(''Continuer ?'') vaut-elle false sur une réponse vide ?'
+  back: 'Non : `true`, son défaut quand le second argument est omis.'
+  explanation: Exécuté avec Console 8.0.15.
+  memorization_justification: Défaut de confirmation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Question/ConfirmationQuestion.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Question/ConfirmationQuestion.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(string $question, bool $default = true, string $trueAnswerRegex = /^y/i)
+    verified_at: '2026-10-02'
+- id: FLC-8bv9pev4n3td
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: TRAP
+  front: 'Symfony : en non interactif, une ChoiceQuestion de défaut 0 rend-elle 0 ?'
+  back: 'Non : elle rend la valeur du choix d''index 0, par exemple `''dev''`.'
+  explanation: Exécuté.
+  memorization_justification: Index ou valeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ask() — default when not interactive; MissingInputException Aborted. on end of input
     verified_at: '2026-10-02'
