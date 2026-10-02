@@ -3394,6 +3394,32 @@ jobs:
           else
             echo "ok  lot-11  the middleware page carries its four flashcard levels, the default stack, the no-handler option and the empty stack"
           fi
+          # Lot 11 refinement, page 7 (Events): the four flashcard levels, the
+          # listener that refuses handling, the eleventh event found in the
+          # code and the priority at which willRetry() is still false.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-events -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/events")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page events serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-events || missing="$missing l11ev:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-events || missing="$missing l11ev:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-events || missing="$missing l11ev:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-events || missing="$missing l11ev:no-trap-heading"
+          grep -aq 'shouldHandle(false)' /tmp/l11r-events \
+            || missing="$missing l11ev:no-refused-handling"
+          grep -aq 'WorkerMessageSkipEvent' /tmp/l11r-events \
+            || missing="$missing l11ev:no-eleventh-event"
+          grep -aq 'priorité 150' /tmp/l11r-events \
+            || missing="$missing l11ev:no-retry-priority"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the events page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the events page carries its four flashcard levels, the refused handling, the eleventh event and the retry priority"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

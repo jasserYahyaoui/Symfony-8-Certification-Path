@@ -98,6 +98,7 @@ flashcards:
 - id: FLC-69qezsfk9bcg
   official_item: OIT-16at9vwzww43
   language: fr
+  level: TRAP
   front: WorkerRunningEvent est-il émis quand la file est vide ?
   back: Oui, à chaque itération de la boucle. isWorkerIdle() le signale.
   explanation: Y placer un traitement coûteux le fait donc tourner en permanence.
@@ -1140,4 +1141,188 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: 'handle(Envelope $envelope, StackInterface $stack): Envelope'
+    verified_at: '2026-10-02'
+- id: FLC-qka63ezp6t2g
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode de WorkerMessageFailedEvent dit si le message sera rejoué ?'
+  back: '`willRetry()`.'
+  explanation: Elle distingue un échec transitoire d'un échec définitif.
+  memorization_justification: Échec transitoire ou définitif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Messenger Events
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents() — WorkerMessageFailedEvent at priority 100, setForRetry()
+    verified_at: '2026-10-02'
+- id: FLC-qebhw7y5navx
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode de WorkerMessageReceivedEvent empêche le traitement du message ?'
+  back: '`shouldHandle(false)`.'
+  explanation: 'Exécuté : handler jamais appelé, aucun événement de succès ni d''échec.'
+  memorization_justification: Traitement refusé par un listener.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Worker.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Worker.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleMessage() — WorkerMessageReceivedEvent::shouldHandle() checked before dispatch
+    verified_at: '2026-10-02'
+- id: FLC-xz2my58ept62
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel événement Messenger le code 8.0 contient-il en plus des dix documentés ?'
+  back: '`WorkerMessageSkipEvent`, émis par `messenger:failed:retry` quand on choisit de ne pas rejouer un message.'
+  explanation: La documentation 8.0 en liste dix.
+  memorization_justification: Catalogue complet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Event/WorkerMessageSkipEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Event/WorkerMessageSkipEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: final class WorkerMessageSkipEvent extends AbstractWorkerMessageEvent
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Messenger Events
+    verified_at: '2026-10-02'
+- id: FLC-vedqf8qqz8nd
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un message non routé n''émet-il aucun événement Messenger ?'
+  back: Parce que `SendMessageToTransportsEvent` n'est émis que s'il y a des *senders*, et les événements `Worker*` seulement dans un worker.
+  explanation: 'Exécuté : middleware et handler appelés, aucun événement.'
+  memorization_justification: Portée des événements.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
+    verified_at: '2026-10-02'
+- id: FLC-j3zpssr48e7m
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un listener de WorkerMessageFailedEvent à la priorité 150 lit-il willRetry() à false ?'
+  back: Parce que `willRetry()` est positionné par `SendFailedMessageForRetryListener`, à la priorité 100, qui ne s'est pas encore exécuté.
+  explanation: 'Exécuté : `false` à 150, `true` à 0, pour un message réessayé.'
+  memorization_justification: Ordre des listeners.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents() — WorkerMessageFailedEvent at priority 100, setForRetry()
+    verified_at: '2026-10-02'
+- id: FLC-xanht40a3sgm
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un traitement lourd ne doit-il pas écouter WorkerRunningEvent ?'
+  back: Parce qu'il est émis à chaque itération, même file vide ; le traitement tourne en permanence.
+  explanation: 'Exécuté : 4 émissions à vide en 2 s avec `--sleep=0.5`.'
+  memorization_justification: Événement de boucle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Messenger Events
+    verified_at: '2026-10-02'
+- id: FLC-vcqgwzfmfq2c
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : alerter seulement quand un message échoue définitivement.'
+  back: Écouter `WorkerMessageFailedEvent` à la priorité par défaut et notifier si `!$event->willRetry()`.
+  explanation: La priorité 0 passe après la décision de réessai (100).
+  memorization_justification: Alerte d'échec définitif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Messenger Events
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents() — WorkerMessageFailedEvent at priority 100, setForRetry()
+    verified_at: '2026-10-02'
+- id: FLC-skjx8k7dpxc9
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : ajouter un stamp à chaque message envoyé vers un transport sans middleware.'
+  back: Écouter `SendMessageToTransportsEvent` et appeler `setEnvelope($event->getEnvelope()->with($stamp))`.
+  explanation: 'Exécuté : le stamp est lu par le worker à la réception.'
+  memorization_justification: Enveloppe modifiée à l'envoi.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
+    verified_at: '2026-10-02'
+- id: FLC-rzmknw70amp6
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: TRAP
+  front: 'Symfony : seul un middleware peut-il modifier l''enveloppe ou empêcher le traitement ?'
+  back: 'Non : `setEnvelope()` à l''envoi, `addStamps()` et `shouldHandle(false)` dans le worker.'
+  explanation: 'La vraie frontière : les événements ne couvrent que l''envoi vers un transport et le worker.'
+  memorization_justification: Frontière mal placée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Worker.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Worker.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleMessage() — WorkerMessageReceivedEvent::shouldHandle() checked before dispatch
+    verified_at: '2026-10-02'
+- id: FLC-shtg292r2s3n
+  official_item: OIT-16at9vwzww43
+  language: fr
+  level: TRAP
+  front: 'Symfony : un listener de SendMessageToTransportsEvent voit-il tous les messages dispatchés ?'
+  back: 'Non : seulement ceux qui ont un transport ; un message non routé ne l''émet pas.'
+  explanation: Exécuté avec Messenger 8.0.15.
+  memorization_justification: Couverture supposée totale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
     verified_at: '2026-10-02'

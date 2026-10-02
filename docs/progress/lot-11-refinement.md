@@ -30,7 +30,7 @@ première page.
 | 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | **RAFFINÉE** (PR #282) |
 | 4 | Workers | STANDARD | 408 / 900 | 1 | **RAFFINÉE** (PR #283) |
 | 5 | Retries and failures | DEEP | 542 / 1200 | 1 | **RAFFINÉE** (PR #284) |
-| 6 | Middleware | STANDARD | 376 / 900 | 1 | à faire |
+| 6 | Middleware | STANDARD | 376 / 900 | 1 | **RAFFINÉE** (PR #285) |
 | 7 | Events | STANDARD | 427 / 900 | 1 | à faire |
 
 ## Page 1 — *Messenger component* — RAFFINÉE
@@ -527,6 +527,90 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 7 — *Events* — RAFFINÉE
+
+`CRS-3pbkhqmw83b2` · `OIT-16at9vwzww43` · STANDARD · **427 → 675 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15 : un
+listener qui écoute les dix événements documentés, trois messages routés
+vers le transport à file statique (traité, refusé par `shouldHandle(false)`,
+en échec avec un réessai), un message non routé, puis un worker sur file vide.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 6 du lot 11 (PR #285, `bb77902`) | 36993640028, success | `ok  lot-11  the middleware page carries its four flashcard levels, the default stack, the no-handler option and the empty stack` |
+
+### Deux erreurs de fond, et une question VALIDATION fausse
+
+**1. « Un événement ne bloque pas le traitement. »** Faux. Lu dans
+`Worker::handleMessage()`, puis exécuté : un listener de
+`WorkerMessageReceivedEvent` qui appelle `shouldHandle(false)` empêche l'appel
+du handler — ni `WorkerMessageHandledEvent` ni `WorkerMessageFailedEvent`
+ensuite.
+
+**2. « Pour ajouter un stamp, il faut un middleware. »** Faux. Exécuté : un
+listener de `SendMessageToTransportsEvent` qui appelle `setEnvelope()` ajoute un
+stamp que le worker lit à la réception ; `addStamps()` sur
+`WorkerMessageReceivedEvent` ajoute un stamp vu par l'enveloppe traitée.
+
+La vraie frontière est la **couverture** : exécuté, un message non routé passe
+par le middleware et par son handler sans émettre **aucun** événement
+Messenger. Lu dans `SendMessageMiddleware` : `SendMessageToTransportsEvent`
+n'est émis que si le message a des *senders*.
+
+**`QST-6waqrfvtwdc7` (VALIDATION) → v2.** Sa bonne réponse — « Middleware,
+because only it can modify the envelope » — reposait sur l'erreur 2, et son
+distracteur « a listener on SendMessageToTransportsEvent, which can replace the
+envelope » était vrai. Réécrite sur la frontière exécutée : du code qui doit
+s'exécuter pour **tout** message, non routés compris. Quatre choix nouveaux
+(`CHO-cg9m65qrxnpz`, `CHO-9d5a5e37nzd7`, `CHO-7gawwpr1jegq`, `CHO-ne06mk1gfwav`, la bonne réponse en premier), la bonne réponse n'est pas la plus longue. Le
+texte de justification de niveau de la matrice (« observer ou modifier ») est
+corrigé dans le même sens.
+
+### Confirmé par l'exécution ou la lecture
+
+- `willRetry()` est positionné par `SendFailedMessageForRetryListener` à la
+  priorité 100. Exécuté sur un message réessayé : `false` lu à la priorité
+  150, `true` à la priorité 0. `WorkerMessageRetriedEvent` est émis entre les
+  deux.
+- `WorkerRunningEvent` sur file vide, `--time-limit=2 --sleep=0.5` : 4
+  émissions, toutes avec `isWorkerIdle()` vrai.
+- Catalogue : la documentation 8.0 liste dix événements ; le code 8.0.15 en
+  contient onze — `WorkerMessageSkipEvent`, émis par `messenger:failed:retry`
+  (lu, non exécuté).
+
+**Questions.** `QST-kwdxjwjwg4j4`, `QST-1wqesyz1sknh`, `QST-pxhjqmq3j5yk`
+(LEARNING) relues : exactes, inchangées. `QST-6waqrfvtwdc7` (VALIDATION)
+passe en v2, ci-dessus. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-69qezsfk9bcg` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`shouldHandle(false)`, `WorkerMessageSkipEvent` et `priorité 150`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15 | résultats cités ci-dessus |
+| sources du code relues (8.0.15 installé et branche 8.0) | le 2026-10-02 |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 271 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Events* (STANDARD, 427 / 900).
+Rapport de fin de lot 11, puis lot 12.
