@@ -4046,6 +4046,32 @@ jobs:
           else
             echo "ok  lot-16  the internationalization page carries its four flashcard levels, the literal strtr, the unescaped tag and its parameters"
           fi
+          # Lot 17 refinement, page 1 (HTTP Caching): the four flashcard levels,
+          # the QUERY method among cacheable ones, the camelCase attribute
+          # arguments and the POST passed through.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included -w '%{http_code}' "$BASE_URL/docs/courses/lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 17 refined page http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included || missing="$missing l17hc:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included || missing="$missing l17hc:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included || missing="$missing l17hc:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included || missing="$missing l17hc:no-trap-heading"
+          grep -aqF -- 'isMethodCacheable' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included \
+            || missing="$missing l17hc:no-cacheable-methods"
+          grep -aqF -- 'camelCase' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included \
+            || missing="$missing l17hc:no-attribute-naming"
+          grep -aqF -- 'pass, invalidate' /tmp/l17r-http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included \
+            || missing="$missing l17hc:no-post-pass"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 17 refinement missing from the HTTP caching page:$missing"
+            fail=1
+          else
+            echo "ok  lot-17  the HTTP caching page carries its four flashcard levels, the cacheable methods, the attribute naming and the passed POST"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
