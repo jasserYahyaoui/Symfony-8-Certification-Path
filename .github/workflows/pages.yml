@@ -3368,6 +3368,32 @@ jobs:
           else
             echo "ok  lot-11  the retries and failures page carries its four flashcard levels, the synchronous failure, the recoverable order and the failure counter"
           fi
+          # Lot 11 refinement, page 6 (Middleware): the four flashcard levels,
+          # the default stack read on the built bus, the no-handler option and
+          # the disabled default stack that handles nothing.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-middleware -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/middleware")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page middleware serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-middleware || missing="$missing l11mw:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-middleware || missing="$missing l11mw:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-middleware || missing="$missing l11mw:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-middleware || missing="$missing l11mw:no-trap-heading"
+          grep -aq 'add_bus_name_stamp_middleware' /tmp/l11r-middleware \
+            || missing="$missing l11mw:no-default-stack"
+          grep -aq 'allow_no_handlers' /tmp/l11r-middleware \
+            || missing="$missing l11mw:no-handler-option"
+          grep -aq 'default_middleware: false' /tmp/l11r-middleware \
+            || missing="$missing l11mw:no-empty-stack"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the middleware page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the middleware page carries its four flashcard levels, the default stack, the no-handler option and the empty stack"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

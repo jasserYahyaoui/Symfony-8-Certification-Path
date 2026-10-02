@@ -29,7 +29,7 @@ première page.
 | 2 | Transports | STANDARD | 386 / 900 | 1 | **RAFFINÉE** (PR #281) |
 | 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | **RAFFINÉE** (PR #282) |
 | 4 | Workers | STANDARD | 408 / 900 | 1 | **RAFFINÉE** (PR #283) |
-| 5 | Retries and failures | DEEP | 542 / 1200 | 1 | à faire |
+| 5 | Retries and failures | DEEP | 542 / 1200 | 1 | **RAFFINÉE** (PR #284) |
 | 6 | Middleware | STANDARD | 376 / 900 | 1 | à faire |
 | 7 | Events | STANDARD | 427 / 900 | 1 | à faire |
 
@@ -450,6 +450,83 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 6 — *Middleware* — RAFFINÉE
+
+`CRS-h9bfar3cxyet` · `OIT-amnpjdprky6z` · STANDARD · **376 → 619 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15 : deux
+middleware maison `A` et `B` qui journalisent leur passage, un message routé
+vers le transport à file statique, un message sans handler, puis la pile du
+bus relevée par réflexion sous quatre configurations.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 5 du lot 11 (PR #284, `65aa6b4`) | 36992202822, success | `ok  lot-11  the retries and failures page carries its four flashcard levels, the synchronous failure, the recoverable order and the failure counter` |
+
+### Ce que la page ne disait pas
+
+La page était exacte sur le fond — `$stack->next()`, les deux passages en
+asynchrone, l'enveloppe plutôt que le message — mais elle ne disait ni **où**
+se place un middleware maison, ni ce que fait `default_middleware`. Exécuté :
+
+| `default_middleware` | Pile relevée | Sans handler | Avec handler |
+|---|---|---|---|
+| (défaut) | 5 middleware, `A`, `send_message`, `handle_message` | `NoHandlerForMessageException` | traité |
+| `allow_no_handlers` | complète | accepté, aucun `HandledStamp` | traité |
+| `false` | **vide** | accepté | **non traité**, sans erreur |
+
+Le troisième cas est le piège : `false` retire `handle_message` avec le reste,
+et un `dispatch()` ne fait plus rien sans le signaler.
+
+### Confirmé par l'exécution ou la lecture
+
+- Ordre de la pile, relevé sur le bus construit : `add_default_stamps_middleware`,
+  `add_bus_name_stamp_middleware`, `reject_redelivered_message_middleware`,
+  `dispatch_after_current_bus`, `failed_message_processing_middleware`, les
+  middleware maison, `send_message`, `handle_message`. Lu dans
+  `FrameworkExtension` : `deduplicate_middleware` s'ajoute au premier groupe
+  quand Lock est activé (non exécuté : Lock désactivé dans le bac à sable).
+- Deux passages : `A:dispatched`, `B` après `dispatch()` ; `A:received`, `B`
+  et le handler pendant `messenger:consume`.
+- Chaîne interrompue sur un message sans handler : aucun handler, aucun
+  `HandledStamp`, aucune exception.
+- Défauts lus dans `Configuration` : `allow_no_handlers` `false`,
+  `allow_no_senders` `true`.
+
+**Questions.** `QST-863psghen6px`, `QST-rpw04mwksvg4`, `QST-sx23khxjhrrg`
+(LEARNING) et `QST-ap1bw4et0s4j` (VALIDATION) relues : exactes, inchangées —
+l'interruption, les deux passages et la position de `handle_message` sont
+confirmés par l'exécution. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-c1cqrva0by96` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`add_bus_name_stamp_middleware`, `allow_no_handlers` et
+`default_middleware: false`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15 | résultats cités ci-dessus |
+| sources du code relues en amont (branche 8.0) | le 2026-10-02 |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 261 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Middleware* (STANDARD, 376 / 900).
+Page 7 — *Events* (STANDARD, 427 / 900).
