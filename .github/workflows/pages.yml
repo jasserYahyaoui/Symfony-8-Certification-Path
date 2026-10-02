@@ -3994,6 +3994,32 @@ jobs:
           else
             echo "ok  lot-15  the deployment page carries its four flashcard levels, the post-install scripts, the project dir fallback and the surviving dump"
           fi
+          # Lot 15 refinement, page 2 (Web Profiler): the four flashcard levels,
+          # the toolbar missing without a closing body tag, the purge threshold
+          # and the terminate listener that saves the profile.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors -w '%{http_code}' "$BASE_URL/docs/courses/lot-15/web-profiler-web-debug-toolbar-and-data-collectors")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 15 refined page web-profiler-web-debug-toolbar-and-data-collectors serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-trap-heading"
+          grep -aqF -- 'HTML sans balise' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
+            || missing="$missing l15wp:no-body-tag"
+          grep -aqF -- '2 * 86400' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
+            || missing="$missing l15wp:no-purge-threshold"
+          grep -aqF -- 'onKernelTerminate' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
+            || missing="$missing l15wp:no-terminate-save"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 15 refinement missing from the web profiler page:$missing"
+            fail=1
+          else
+            echo "ok  lot-15  the web profiler page carries its four flashcard levels, the body tag, the purge threshold and the terminate save"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

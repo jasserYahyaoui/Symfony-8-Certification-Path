@@ -24,7 +24,7 @@ périmètre sur instruction.
 | 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport fusionné (PR #297) |
 | 13 (Automated tests) | **terminé** — 9 pages déployées (PR #298 à #306) ; rapport fusionné (PR #307) |
 | 14 (Miscellaneous) | **terminé** — 3 pages déployées (PR #308 à #310) ; rapport fusionné (PR #311) |
-| 15 (Miscellaneous) | **en cours** — page 1 en PR |
+| 15 (Miscellaneous) | **en cours** — page 1 déployée (PR #313) ; page 2 en PR |
 | 16 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -39,8 +39,8 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 1 du lot 15 après CI verte,
-lire son smoke test, puis page 2 (*Web Profiler*). Signaux holdout des lots 06 à 15 à revoir
+**Prochaine action** : fusionner la PR de la page 2 du lot 15 après CI verte,
+lire son smoke test, puis rapport de fin de lot 15, puis lot 16. Signaux holdout des lots 06 à 15 à revoir
 par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
