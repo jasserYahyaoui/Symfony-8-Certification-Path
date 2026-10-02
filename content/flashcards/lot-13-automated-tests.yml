@@ -57,6 +57,7 @@ flashcards:
 - id: FLC-0cvzxn60pazy
   official_item: OIT-se21g2xv6h4r
   language: fr
+  level: RECALL
   front: Que fait exactement le composant CssSelector ?
   back: 'Il traduit un sélecteur CSS en expression XPath. Il ne parcourt aucun document : c''est DomCrawler qui
     parcourt.'
@@ -673,4 +674,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
+    verified_at: '2026-10-02'
+- id: FLC-8zxz7qv3hbny
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode du Crawler filtre par expression XPath sans CssSelector ?'
+  back: '`filterXpath()` ; `filter()` exige CssSelector.'
+  explanation: Sans CssSelector, `filter()` lève une `LogicException` qui propose `filterXpath`.
+  memorization_justification: XPath ou CSS.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); createCssSelectorConverter()
+    verified_at: '2026-10-02'
+- id: FLC-c98hdc44j7ye
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle clé d''extract() désigne le texte d''un nœud ?'
+  back: '`_text` : `extract([''_text'', ''href''])`.'
+  explanation: 'Exécuté : `[["Link X","/x"],["Link Y","/y"]]`.'
+  memorization_justification: Extraction multiple.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Node Traversing; Accessing Node Values; Forms — filter(...)->form()
+    verified_at: '2026-10-02'
+- id: FLC-5ksk3aww2rvk
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi sélectionner le bouton plutôt que le formulaire quand deux boutons existent ?'
+  back: Parce que le bouton utilisé fait partie de ce qui est envoyé ; depuis le `<form>`, aucun bouton n'est envoyé.
+  explanation: 'Exécuté : `b=B`, `q=1` par le bouton Delete ; `q=1` seulement par le `<form>`.'
+  memorization_justification: Bouton et données envoyées.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Submitting Forms — select form buttons and not forms
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setNode() — button, submit input or form node; LogicException otherwise
+    verified_at: '2026-10-02'
+- id: FLC-bwnp2m1384a4
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi text() lève-t-il une exception sur une sélection vide ?'
+  back: 'Parce qu''il lit le premier nœud et qu''il n''y en a pas : « The current node list is empty. », sauf avec une valeur par défaut.'
+  explanation: Exécuté avec DomCrawler 8.0.15.
+  memorization_justification: Sélection vide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); createCssSelectorConverter()
+    verified_at: '2026-10-02'
+- id: FLC-1d9an6bca7nd
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi filter(''li'')->first() ne modifie-t-il pas la sélection d''origine ?'
+  back: Parce que chaque méthode de parcours rend un nouveau `Crawler`.
+  explanation: 'Exécuté : la sélection d''origine compte toujours 3 nœuds.'
+  memorization_justification: Parcours immuable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Node Traversing; Accessing Node Values; Forms — filter(...)->form()
+    verified_at: '2026-10-02'
+- id: FLC-q83p5sfdmcb8
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire le texte brut d''un nœud, retours à la ligne compris.'
+  back: '`$crawler->text(null, false)`.'
+  explanation: Par défaut, `text()` normalise les espaces.
+  memorization_justification: Texte brut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); createCssSelectorConverter()
+    verified_at: '2026-10-02'
+- id: FLC-dckc0q2p5jt6
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : obtenir un attribut d''un nœud qui peut ne pas exister, sans exception.'
+  back: '`$crawler->attr(''class'', ''none'')` : la valeur par défaut si la sélection est vide.'
+  explanation: 'Exécuté : `none` sur une sélection vide.'
+  memorization_justification: Attribut facultatif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); createCssSelectorConverter()
+    verified_at: '2026-10-02'
+- id: FLC-h4qbe8kdy7eh
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: TRAP
+  front: 'Symfony : text() rend-il les espaces tels quels par défaut ?'
+  back: 'Non : il les normalise ; `text(null, false)` garde le texte brut.'
+  explanation: 'Exécuté : `"Hello World"` contre `"  Hello\n   World  "`.'
+  memorization_justification: Normalisation par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); createCssSelectorConverter()
+    verified_at: '2026-10-02'
+- id: FLC-yfzcvkgftewf
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: TRAP
+  front: 'Symfony : est-il impossible d''obtenir un Form depuis l''élément <form> ?'
+  back: 'Non : `filter(''#f'')->form()` fonctionne, mais aucun bouton n''est alors envoyé.'
+  explanation: La documentation du composant le montre ; exécuté.
+  memorization_justification: Formulaire sans bouton.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Node Traversing; Accessing Node Values; Forms — filter(...)->form()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Form.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setNode() — button, submit input or form node; LogicException otherwise
+    verified_at: '2026-10-02'
+- id: FLC-87r764vz6peq
+  official_item: OIT-se21g2xv6h4r
+  language: fr
+  level: TRAP
+  front: 'Symfony : siblings() inclut-il le nœud courant ?'
+  back: 'Non : seulement ses frères.'
+  explanation: 'Exécuté : les deux autres `<li>`.'
+  memorization_justification: Frères.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Node Traversing; Accessing Node Values; Forms — filter(...)->form()
     verified_at: '2026-10-02'

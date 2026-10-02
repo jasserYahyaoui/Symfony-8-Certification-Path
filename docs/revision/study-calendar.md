@@ -708,7 +708,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 19 novembre 2026
 
 - NOUVEAU · **Automated Tests : Client object** (STANDARD) — 21 min · 762 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 11 min · 538 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 22 min · 786 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 7 min · 285 mots · 2 questions, 1 flashcards
 - NOUVEAU · **Automated Tests : Framework objects access** (STANDARD) — 10 min · 431 mots · 3 questions, 1 flashcards
 - Révision **J+1** (22 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
@@ -718,7 +718,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (12 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 - Révision **J+45** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 126 / 160 min*
+*Budget du jour : 137 / 160 min*
 
 ### Vendredi 20 novembre 2026
 

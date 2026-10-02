@@ -5,7 +5,7 @@ title: "Crawler object (CssSelector and DomCrawler components)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst"
@@ -13,6 +13,21 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php"
+    branch: "8.0"
+    symbol_or_lines: "text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default)"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Form.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Form.php"
+    branch: "8.0"
+    symbol_or_lines: "setNode() — button, submit input or form node"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst"
+    branch: "8.0"
+    symbol_or_lines: "Forms — filter(...)->form()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -41,7 +56,9 @@ $crawler->filter('h1.title');        // sélecteur CSS
 $crawler->filterXpath('//h1');       // expression XPath
 ```
 
-`filter()` exige le composant CssSelector ; `filterXpath()` non.
+`filter()` exige le composant CssSelector ; `filterXpath()` non. Lu dans
+`Crawler` (8.0) : sans lui, `LogicException` « To filter with a CSS selector,
+install the CssSelector component… Or use filterXpath instead. »
 
 ## Parcourir
 
@@ -71,7 +88,7 @@ $crawler->filter('input[type=submit]')
 ```php
 $crawler->text();                     // le texte du premier nœud
 $crawler->text('Défaut');             // ce texte si le nœud n'existe pas
-$crawler->text(null, true);           // en normalisant les espaces
+$crawler->text(null, false);          // sans normaliser les espaces
 $crawler->attr('class');              // un attribut du premier nœud
 $crawler->extract(['_text', 'href']); // un tableau, pour tous les nœuds
 $crawler->each(fn ($node, $i) => $node->attr('href'));
@@ -80,6 +97,18 @@ $crawler->each(fn ($node, $i) => $node->attr('href'));
 Le point à retenir : **`text()` et `attr()` ne portent que sur le premier
 nœud** ; `extract()` et `each()` portent sur tous. La clé `_text` d'`extract()`
 désigne le texte plutôt qu'un attribut.
+
+Exécuté avec DomCrawler 8.0.15 :
+
+| Appel | Résultat |
+|---|---|
+| `text()` sur `<h1>  Hello⏎   World  </h1>` | `"Hello World"` — espaces normalisés **par défaut** |
+| `text(null, false)` | le texte brut, retours à la ligne compris |
+| `text()` sur une sélection vide | `InvalidArgumentException` : « The current node list is empty. » |
+| `text('Défaut')`, `attr('class', 'none')` sur une sélection vide | la valeur par défaut |
+| `text()` sur trois `<li>` | le premier seulement |
+| `siblings()` de `li.me` | les deux autres `<li>` |
+| `ancestors()` de `li.me` | `ul`, `body`, `html` |
 
 ## Cliquer et soumettre
 
@@ -101,10 +130,23 @@ $form['my_form[name]'] = 'Fabien';
 $client->submit($form);
 ```
 
-Le point contre-intuitif : **on sélectionne un bouton, pas un formulaire**. Un
-formulaire peut en porter plusieurs, et c'est le bouton qui détermine ce qui est
-envoyé. Le premier argument de `submitForm()` est le texte, l'`id` ou le `name`
-d'un `<button>` ou d'un `<input type="submit">`.
+Le point contre-intuitif : **on sélectionne un bouton**, comme le recommande
+`testing.rst`. Un formulaire peut en porter plusieurs, et c'est le bouton qui
+détermine ce qui est envoyé. Le premier argument de `submitForm()` est le
+texte, l'`id` ou le `name` d'un `<button>` ou d'un `<input type="submit">`.
+
+Le code accepte pourtant aussi le `<form>` lui-même — la documentation du
+composant le montre : `$crawler->filter('.form-vertical')->form()`. Exécuté,
+un formulaire à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
+
+| Origine du `Form` | Valeurs envoyées |
+|---|---|
+| `selectButton('Delete')->form()` | `b=B`, `q=1` |
+| `filter('#f')->form()` — le `<form>` | `q=1` seulement |
+| `filter('input[name=q]')->form()` | `LogicException` « Unable to submit on a "input" tag. » |
+
+Depuis le `<form>`, aucun bouton n'est envoyé, et les attributs `formaction` et
+`formmethod` d'un bouton ne s'appliquent pas.
 
 Sur les champs : `select()` pour une liste ou un bouton radio, `tick()` pour une
 case, `upload()` pour un fichier.
@@ -117,7 +159,11 @@ case, `upload()` pour un fichier.
 
 **`siblings()` exclut le nœud courant.**
 
-**On sélectionne un bouton pour obtenir un formulaire**, pas le formulaire.
+**On sélectionne un bouton pour obtenir un formulaire** quand le bouton compte ;
+le `<form>` seul marche aussi, mais n'envoie aucun bouton.
+
+**`text()` normalise les espaces par défaut**, et lève une exception sur une
+sélection vide sans valeur par défaut.
 
 **Chaque méthode de parcours rend un nouveau `Crawler`** ; l'objet d'origine
 n'est pas modifié.
@@ -134,4 +180,6 @@ n'est pas modifié.
 
 - [The DOM Crawler](https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst)
 - [The CssSelector Component](https://github.com/symfony/symfony-docs/blob/8.0/components/css_selector.rst)
+- [The DomCrawler Component](https://github.com/symfony/symfony-docs/blob/8.0/components/dom_crawler.rst)
+- [DomCrawler 8.0, `Form`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Form.php)
 - [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)

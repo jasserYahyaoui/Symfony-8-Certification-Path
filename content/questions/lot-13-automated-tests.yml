@@ -545,7 +545,7 @@ questions:
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-3vvzqtq2z234
-  version: 1
+  version: 2
   official_topic: Automated Tests
   official_item: OIT-se21g2xv6h4r
   domain: symfony
@@ -557,7 +557,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: To get a Form object from a page in order to set values before submitting, what is selected?
+  question: A form has two submit buttons, Save and Delete. The test must submit it as if Delete had been
+    clicked. What does it select to obtain the Form object?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -567,26 +568,30 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - forms
   choices:
-  - id: CHO-k9kyasq2eshq
-    text: A button, since it decides what is sent
+  - id: CHO-2pjqbtz9dsge
+    text: The Delete button, by its label
     correct: true
   - id: CHO-fz08vkczzgkt
     text: The form element itself, by its id
     correct: false
-    explanation: The traversing API expects a button; selecting the form is not how the object is obtained.
+    explanation: That yields a Form too, but without any button, so the name and value of Delete are not sent
+      and the server cannot tell which button was used.
   - id: CHO-gp2e562a808c
     text: The first input of the form
     correct: false
-    explanation: An ordinary input does not yield the form object.
+    explanation: An ordinary input cannot be submitted; form() throws a LogicException.
   - id: CHO-v7kkkw50kyjt
     text: The action URL of the form
     correct: false
     explanation: The URL is a property of the form, not a way to select it.
-  explanation: selectButton()->form() is the documented path, precisely because one form can carry several buttons.
+  explanation: A form can carry several buttons, and the one used is part of what is sent. Executed on
+    DomCrawler 8.0.15, selectButton('Delete')->form() carried b=B and q=1, the form node alone only q=1,
+    and form() on a plain input threw LogicException. Building the Form from the form node is valid, the
+    component documentation shows it, but it submits as if no button had been pressed.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
