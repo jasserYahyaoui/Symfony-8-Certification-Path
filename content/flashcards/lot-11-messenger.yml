@@ -81,6 +81,7 @@ flashcards:
 - id: FLC-c1cqrva0by96
   official_item: OIT-amnpjdprky6z
   language: fr
+  level: RECALL
   front: Combien de fois la chaîne de middleware s'exécute-t-elle pour un message asynchrone ?
   back: 'Deux fois : à l''envoi, puis à la réception par le worker.'
   explanation: Un middleware qui journalise écrit donc deux lignes ; le ReceivedStamp distingue les deux
@@ -973,4 +974,170 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: getWaitingTime() — delay * multiplier^retries, jitter
+    verified_at: '2026-10-02'
+- id: FLC-k0mnbexjd72g
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode un middleware Messenger implémente-t-il ?'
+  back: '`handle(Envelope $envelope, StackInterface $stack): Envelope`, de `MiddlewareInterface`.'
+  explanation: La suite de la chaîne s'appelle par `$stack->next()->handle($envelope, $stack)`.
+  memorization_justification: Signature du middleware.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/MiddlewareInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/MiddlewareInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'handle(Envelope $envelope, StackInterface $stack): Envelope'
+    verified_at: '2026-10-02'
+- id: FLC-1vv8tg8rer1v
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels sont les deux derniers middleware de la pile par défaut d''un bus ?'
+  back: '`send_message`, puis `handle_message`.'
+  explanation: Relevé sur le bus construit avec FrameworkBundle 8.0.15.
+  memorization_justification: Fin de la pile.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — default middleware before / after the bus middleware
+    verified_at: '2026-10-02'
+- id: FLC-spq017yc9wap
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un middleware qui ne rappelle pas la suite évite-t-il même la NoHandlerForMessageException ?'
+  back: Parce que cette exception est levée par `HandleMessageMiddleware`, en fin de chaîne, qui n'est alors jamais atteint.
+  explanation: 'Exécuté : message sans handler, chaîne interrompue, aucune exception.'
+  memorization_justification: Interruption silencieuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — NoHandlerForMessageException unless allowNoHandlers
+    verified_at: '2026-10-02'
+- id: FLC-ajqnnxdhwexx
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un middleware maison peut-il empêcher l''envoi d''un message au transport ?'
+  back: Parce que la pile par défaut l'insère avant `send_message`.
+  explanation: 'Relevé sur le bus construit : premier groupe, middleware maison, `send_message`, `handle_message`.'
+  memorization_justification: Position du middleware maison.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — default middleware before / after the bus middleware
+    verified_at: '2026-10-02'
+- id: FLC-8bz4g5t6b74w
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : comment un middleware distingue-t-il l''envoi de la réception d''un message asynchrone ?'
+  back: Par la présence d'un `ReceivedStamp` sur l'enveloppe, posé quand le worker reçoit le message.
+  explanation: 'Exécuté : `A:dispatched` après `dispatch()`, `A:received` pendant `messenger:consume`.'
+  memorization_justification: Deux passages.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Middleware
+    verified_at: '2026-10-02'
+- id: FLC-13spdr5r87g0
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : ajouter un middleware maison au bus par défaut.'
+  back: Le lister sous `framework.messenger.buses.messenger.bus.default.middleware`.
+  explanation: L'ordre de la liste est l'ordre d'exécution.
+  memorization_justification: Déclaration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Middleware
+    verified_at: '2026-10-02'
+- id: FLC-f36fx37bxvsb
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : accepter sans erreur un message qui n''a aucun handler.'
+  back: '`default_middleware: allow_no_handlers` sur le bus.'
+  explanation: 'Exécuté : message accepté, aucun `HandledStamp`.'
+  memorization_justification: Message sans handler.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — default middleware before / after the bus middleware
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle() — NoHandlerForMessageException unless allowNoHandlers
+    verified_at: '2026-10-02'
+- id: FLC-sa6j4czc36qf
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: TRAP
+  front: 'Symfony : default_middleware: false retire-t-il seulement les middleware qui posent des stamps ?'
+  back: 'Non : toute la pile par défaut disparaît, `handle_message` compris ; un `dispatch()` n''appelle alors aucun handler, sans erreur.'
+  explanation: 'Exécuté : pile vide, message avec handler non traité, aucune exception.'
+  memorization_justification: Portée de false.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — default middleware before / after the bus middleware
+    verified_at: '2026-10-02'
+- id: FLC-bnafnqz8kvj2
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: TRAP
+  front: 'Symfony : un middleware maison s''exécute-t-il après handle_message ?'
+  back: 'Non : il est inséré avant ; pour agir après le handler, il travaille au retour de `$stack->next()->handle()`.'
+  explanation: Relevé sur le bus construit avec FrameworkBundle 8.0.15.
+  memorization_justification: Ordre supposé inverse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerMessengerConfiguration() — default middleware before / after the bus middleware
+    verified_at: '2026-10-02'
+- id: FLC-4kmjn1566y1n
+  official_item: OIT-amnpjdprky6z
+  language: fr
+  level: TRAP
+  front: 'Symfony : un middleware reçoit-il le message nu ?'
+  back: 'Non : il reçoit l''`Envelope`, donc les stamps ; le message se lit avec `getMessage()`.'
+  explanation: C'est ce qui lui permet de tester un `ReceivedStamp`.
+  memorization_justification: Enveloppe ou message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/MiddlewareInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/MiddlewareInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'handle(Envelope $envelope, StackInterface $stack): Envelope'
     verified_at: '2026-10-02'
