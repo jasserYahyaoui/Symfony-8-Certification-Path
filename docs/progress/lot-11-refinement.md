@@ -31,7 +31,7 @@ première page.
 | 4 | Workers | STANDARD | 408 / 900 | 1 | **RAFFINÉE** (PR #283) |
 | 5 | Retries and failures | DEEP | 542 / 1200 | 1 | **RAFFINÉE** (PR #284) |
 | 6 | Middleware | STANDARD | 376 / 900 | 1 | **RAFFINÉE** (PR #285) |
-| 7 | Events | STANDARD | 427 / 900 | 1 | à faire |
+| 7 | Events | STANDARD | 427 / 900 | 1 | **RAFFINÉE** (PR #286) |
 
 ## Page 1 — *Messenger component* — RAFFINÉE
 
@@ -611,6 +611,158 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 11
 
-Rapport de fin de lot 11, puis lot 12.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `dd3b0c1`, le commit de `master`
+qui précède la première page refondue (PR #280). État mesuré : `52382d0`
+(fusion de la page 7). Le script de réconciliation est celui du lot 10. Un second
+script a confronté les décomptes de cartes écrits dans les sept entrées de page
+aux fichiers : **7 / 7** concordent.
+
+## Périmètre
+
+**7** items officiels atomiques portent `lot: lot-11` dans la matrice :
+6 `STANDARD`, 1 `DEEP` — niveaux inchangés pendant la campagne. Cette
+répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 11 est **7 / 7**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 7 cours du lot 11 | 2 902 | **4 769** | **+1 867** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `STANDARD` | 900 | 6 | Messages and handlers, 686 |
+| `DEEP` | 1200 | 1 | Retries and failures, 852 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 11 | 7 | **77** | **+70** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 23 · `UNDERSTANDING` 17 · `APPLICATION` 14 · `TRAP` 23.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les sept cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; une a été
+corrigée au-delà du niveau (`FLC-g0g67y6cwvv1`, page 2).
+
+## Questions et pools
+
+**33** questions portent sur les items du lot 11 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 23 | `lot-11-messenger.yml` |
+| `VALIDATION` | 7 | `lot-11-messenger.yml` |
+| `HOLDOUT` | 3 | 2 dans `lot-11-messenger.yml`, 1 dans `mock-04-holdout.yml` |
+
+**2** questions non holdout corrigées, toutes deux passées en v2 :
+
+| Question | Pool | Version | Page | Correction |
+|---|---|---|---|---|
+| `QST-tvzx2c0cqeh8` | LEARNING | 1 → 2 | 2 | une classe mal orthographiée dans `routing` fait échouer la compilation du conteneur — la bonne réponse disait « silencieux » |
+| `QST-6waqrfvtwdc7` | VALIDATION | 1 → 2 | 7 | un listener peut modifier l'enveloppe — la bonne réponse disait que seul un middleware le peut ; réécrite sur la couverture des événements |
+
+**0 question holdout modifiée** (comparaison par empreinte SHA-256, sans lecture
+du contenu). `POOL-002` : 7 items `STANDARD`/`DEEP` `EXAM_READY`, **0** sans
+question `VALIDATION`.
+
+**Matrice** : deux textes corrigés, aucun statut ni niveau — l'accent de
+`OUT-sz3q1tm5smja` (page 2) et la justification de niveau de l'item *Events*
+(page 7), qui reprenait la frontière fausse « observer ou modifier ».
+
+## Ce que dit la documentation, ce que fait le code
+
+| Page | Documentation 8.0 | Code 8.0, exécuté ou lu | Décision |
+|---|---|---|---|
+| 7 | `messenger.rst` liste dix événements | `Event/` en contient onze : `WorkerMessageSkipEvent`, émis par `messenger:failed:retry` | les dix documentés gardés, le onzième signalé sur la page |
+
+## Erreurs de méthode, corrigées pendant la campagne
+
+- **Transport de test vidé** (page 4) : `in-memory://` implémente
+  `ResetInterface` et la remise à zéro des services le vide après le premier
+  message ; un transport maison minimal, à file statique, l'a remplacé pour les
+  exécutions de worker des pages 4 à 7. L'en-tête de ce journal, qui annonçait
+  `sync://` et `in-memory://` seulement, est donc incomplet à partir de la
+  page 4.
+- **Phrase retirée avant publication** (page 5) : « une seule exception
+  *recoverable* suffit » n'est pas vraie dans tous les ordres, la boucle de
+  `shouldRetry()` s'arrêtant à la première exception ordinaire.
+- **Lecture de la pile de middleware** (page 6) : le paramètre de conteneur qui
+  la porte est retiré à la compilation ; la pile a été relevée par réflexion sur
+  le bus construit.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Trois questions holdout portent sur des items du lot : 2 dans
+`lot-11-messenger.yml`, 1 dans `mock-04-holdout.yml`. Aucune n'a été lue. Des
+faits établis pendant la campagne pourraient en concerner certaines, sans que
+cela soit vérifié :
+
+- une classe inconnue ou un transport inconnu dans `routing` fait échouer la
+  compilation ;
+- une propriété promue ajoutée avec une valeur par défaut casse les messages
+  déjà en file ;
+- `RecoverableMessageHandlingException` ignore `max_retries` ;
+- `messenger:failed:retry` traite le message lui-même, sans le renvoyer vers
+  son transport d'origine ;
+- `default_middleware: false` vide toute la pile, traitement compris ;
+- un listener peut empêcher le traitement (`shouldHandle(false)`) ou modifier
+  l'enveloppe (`setEnvelope()`), et `willRetry()` vaut `false` avant la
+  priorité 100.
+
+## Reprise identifiée hors du lot courant
+
+Toujours ouverte, venue du lot 10 : la page 6 (*Firewalls*) n'indique pas que
+`lazy` est ignoré sur un pare-feu `stateless`.
+
+## Déploiements
+
+Les sept pages ont été fusionnées par PR (#280 à #286), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 7 : run 36995042109, success — `ok  lot-11  the events page carries its four flashcard levels, the refused handling, the eleventh event and the retry priority`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `52382d0` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 271 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des sept entrées de page contre les fichiers | 7 / 7 concordants |
+
+## Résumé autonome
+
+Lot 11 (*Messenger*), 7 items (6 STANDARD, 1 DEEP) : couverture projet 163/163
+inchangée ; cours 2 902 → 4 769 mots (+1 867), aucun dépassement de budget ;
+flashcards 7 → 77 (+70), toutes niveau posé ; 33 questions, 2 corrigées et
+passées en v2 (dont 1 VALIDATION), 0 holdout modifiée ; sept pages déployées,
+smoke tests lus ; une divergence documentation/code (dix événements documentés,
+onze dans le code) signalée sur la page.
