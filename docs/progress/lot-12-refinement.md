@@ -31,7 +31,7 @@ première page.
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | **RAFFINÉE** (PR #293) |
 | 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | **RAFFINÉE** (PR #294) |
 | 8 | Console events | STANDARD | 578 / 900 | 1 | **RAFFINÉE** (PR #295) |
-| 9 | Verbosity levels | MINIMAL | 295 / 700 | 1 | à faire |
+| 9 | Verbosity levels | MINIMAL | 295 / 700 | 1 | **RAFFINÉE** (PR #296) |
 
 ## Page 1 — *Console component* — RAFFINÉE
 
@@ -695,6 +695,159 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 12
 
-Rapport de fin de lot 12, puis lot 13.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `2435827`, le commit de `master`
+qui précède la première page refondue (PR #288). État mesuré : `77fa7c2`
+(fusion de la page 9). Le script de réconciliation est celui des lots 10 et 11.
+Un second script a confronté les décomptes de cartes écrits dans les neuf
+entrées de page aux fichiers : **9 / 9** concordent.
+
+## Périmètre
+
+**9** items officiels atomiques portent `lot: lot-12` dans la matrice :
+2 `MINIMAL`, 7 `STANDARD` — niveaux inchangés pendant la campagne. Cette
+répartition est une **observation** : aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 12 est **9 / 9**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture** — il a approfondi et corrigé des pages déjà comptées.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 9 cours du lot 12 | 4 395 | **6 102** | **+1 707** |
+
+Aucune page ne dépasse son budget `REV-001` :
+
+| Niveau | Budget | Pages | Plus proche du plafond |
+|---|---|---|---|
+| `MINIMAL` | 700 | 2 | Built-in commands, 491 |
+| `STANDARD` | 900 | 7 | Options and arguments (using PHP attributes), 834 |
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 12 | 9 | **99** | **+90** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 26 · `UNDERSTANDING` 27 · `APPLICATION` 18 · `TRAP` 28.
+**Zéro carte du lot sans niveau** ; chaque item en porte 11. Les neuf cartes
+préexistantes ont reçu un niveau ; aucune n'a été supprimée ; une a été
+corrigée au-delà du niveau (`FLC-czhm5c0vv1sv`, page 3).
+
+## Questions et pools
+
+**38** questions portent sur les items du lot 12 — aucune ajoutée, aucune
+supprimée :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 27 | `lot-12-console.yml` |
+| `VALIDATION` | 7 | `lot-12-console.yml` |
+| `HOLDOUT` | 4 | 2 dans `lot-12-console.yml`, 2 dans `mock-04-holdout.yml` |
+
+**6** questions non holdout corrigées, dont **5** passées en v2 :
+
+| Question | Pool | Version | Page | Correction |
+|---|---|---|---|---|
+| `QST-zh43s7yzg7nr` | LEARNING | 1 → 2 | 1 | l'énoncé « run from cron » décrivait une situation qui ne se produit pas |
+| `QST-tvce4echjywq` | LEARNING | 1 → 2 | 3 | explications fausses sur l'autoconfiguration ; distracteur défendable remplacé |
+| `QST-sp2y1cwdz94v` | VALIDATION | 1 → 2 | 3 | « interagir exige `Command` » — faux ; réécrite sur `initialize()` |
+| `QST-wt0f9p2tmmnm` | LEARNING | 1 → 2 | 5 | `VALUE_REQUIRED` distracteur alors que posé avec `VALUE_IS_ARRAY` |
+| `QST-h22aea8btw90` | LEARNING | 1 → 2 | 7 | « ProgressBar needs a known total » — faux ; énoncé précisé |
+| `QST-ycpqw0ygx9cd` | LEARNING | 1 | 8 | explication « exactly four constants » — `ALIASES` oublié |
+
+**0 question holdout modifiée** (comparaison par empreinte SHA-256, sans lecture
+du contenu). `POOL-002` : 7 items `STANDARD` `EXAM_READY`, **0** sans question
+`VALIDATION`. **Matrice** : aucun texte modifié dans ce lot.
+
+## Ce que dit la documentation, ce que fait le code
+
+| Page | Documentation 8.0 | Code 8.0, exécuté | Décision |
+|---|---|---|---|
+| 4 | `console.rst` place `usages` dans `#[AsCommand]` | `FrameworkExtension` ne transmet que `name`, `description`, `help` au tag : usages perdus pour une commande invocable, gardés pour une sous-classe de `Command` | le code l'emporte, l'écart est signalé sur la page |
+
+## Erreurs de méthode, corrigées pendant la campagne
+
+- **Sonde de code de sortie** (page 1) : une variable lue après réécriture de
+  `argv` donnait 255 pour une exception de code 3 ; la sonde corrigée a donné
+  les résultats retenus (3, 1, 255).
+- **Explications YAML contenant `#`** (page 3) : écrites d'abord sans
+  guillemets, elles auraient été tronquées comme des commentaires ; corrigées
+  avant application, et chaque question relue par le chargeur YAML après
+  écriture.
+- **Scripts de correction** (page 3) : deux remplacements n'ont pas trouvé
+  leur texte (guillemets et retour à la ligne du fichier) ; le script a échoué
+  avant toute écriture, puis a été corrigé et relancé.
+- **Aiguille de smoke test déjà présente** (page 8) : `ALIASES` figurait sur
+  `master` dans un fichier de cartes ; remplacée avant le commit par une
+  aiguille absente.
+
+## Signaux pour le holdout — à revoir par l'owner
+
+Quatre questions holdout portent sur des items du lot : 2 dans
+`lot-12-console.yml`, 2 dans `mock-04-holdout.yml`. Aucune n'a été lue. Des
+faits établis pendant la campagne pourraient en concerner certaines, sans que
+cela soit vérifié :
+
+- sous `cron`, sans `-n`, `interact()` est appelée ; seules `-n`, `-q` et
+  `--silent` rendent l'entrée non interactive ;
+- une sous-classe de `Command` est enregistrée sans `#[AsCommand]` ;
+  `#[Ask]` et `#[Interact]` interagissent sans héritage ;
+- `usages` de l'attribut perdus pour une commande invocable sous FrameworkBundle ;
+- tout argument est refusé après un argument tableau ; une option tableau est
+  `VALUE_REQUIRED` + `VALUE_IS_ARRAY` ;
+- `ProgressBar` fonctionne sans total ;
+- `ConsoleEvents` a une constante `ALIASES` ; `TERMINATE` suit
+  `disableCommand()` avec 113 ;
+- `writeln()` n'a que deux paramètres ; `-q` laisse passer les erreurs.
+
+## Reprise identifiée hors du lot courant
+
+Toujours ouverte, venue du lot 10 : la page 6 (*Firewalls*) n'indique pas que
+`lazy` est ignoré sur un pare-feu `stateless`.
+
+## Déploiements
+
+Les neuf pages ont été fusionnées par PR (#288 à #296), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 9 : run 37021058537, success — `ok  lot-12  the verbosity page carries its four flashcard levels, the silent test, the quiet threshold and the variable precedence`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `77fa7c2` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 361 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des neuf entrées de page contre les fichiers | 9 / 9 concordants |
+
+## Résumé autonome
+
+Lot 12 (*Console*), 9 items (2 MINIMAL, 7 STANDARD) : couverture projet 163/163
+inchangée ; cours 4 395 → 6 102 mots (+1 707), aucun dépassement de budget ;
+flashcards 9 → 99 (+90), toutes niveau posé ; 38 questions, 6 corrigées dont 5
+en v2 (dont 1 VALIDATION), 0 holdout modifiée ; neuf pages déployées, smoke
+tests lus ; une divergence documentation/code (usages de `#[AsCommand]`)
+signalée sur la page.
