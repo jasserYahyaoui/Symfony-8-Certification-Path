@@ -27,7 +27,7 @@ première page.
 | 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | **RAFFINÉE** (PR #298) |
 | 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #299) |
 | 3 | Client object | STANDARD | 524 / 900 | 1 | **RAFFINÉE** (PR #300) |
-| 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | à faire |
+| 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | **RAFFINÉE** (PR #301) |
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | à faire |
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | à faire |
 | 7 | Client configuration | STANDARD | 406 / 900 | 1 | à faire |
@@ -331,6 +331,67 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 5 — *Profiler object (WebProfiler bundle)* — RAFFINÉE
+
+`CRS-0x4v9jaz4cnq` · `OIT-t0qx5z264tyf` · MINIMAL · **285 → 424 mots** sur 700.
+Aucun niveau promu. Exécutions sur FrameworkBundle 8.0.15 et PHPUnit 11.5.56 :
+un `WebTestCase` sous trois configurations du profileur, sans
+WebProfilerBundle — le service `profiler` vient de FrameworkBundle.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 4 du lot 13 (PR #301, `c3cec05`) | 37043497027, success | `ok  lot-13  the crawler page carries its four flashcard levels, the form node, the empty list and the raw text` |
+
+### Ce que la page affirmait sans le montrer
+
+La page était exacte. Exécuté :
+
+| Configuration | Requête | `getProfile()` |
+|---|---|---|
+| aucune clé `profiler` | après `enableProfiler()` | `false` |
+| `enabled: true, collect: false` | sans `enableProfiler()` | `null` |
+| idem | juste après `enableProfiler()` | un `Profile` |
+| idem | la requête suivante | `null` |
+| `enabled: true, collect: true` | chacune | un `Profile` |
+
+Lu dans `KernelBrowser` : `enableProfiler()` ne fait rien sans service
+`profiler` ; `getProfile()` rend `false` dans ce cas, sinon ce que rend
+`loadProfileFromResponse()` — `null` quand rien n'a été collecté. Le profil
+exécuté porte les collecteurs `request`, `command`, `time`, `memory`… ;
+`getCollector('request')->getRoute()` rend `hello`.
+
+**Questions.** `QST-vnr67m55bz2h` et `QST-dc8hsmx14h1s` (LEARNING) relues :
+exactes, inchangées. L'item n'a ni question VALIDATION (MINIMAL) ni question
+holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-57vzb0a87say` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`pas de profileur`, `rien collecté` et `collect: true`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 411 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Profiler object (WebProfiler bundle)* (MINIMAL, 285 / 700).
+Page 6 — *Framework objects access* (STANDARD, 431 / 900).

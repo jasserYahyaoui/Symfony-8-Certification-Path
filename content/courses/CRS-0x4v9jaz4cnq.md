@@ -5,7 +5,7 @@ title: "Profiler object (WebProfiler bundle)"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+    branch: "8.0"
+    symbol_or_lines: "enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -45,7 +50,21 @@ $profile = $client->getProfile();
 Le point que l'examen teste : **`enableProfiler()` n'active pas le profileur**,
 qui doit déjà l'être par configuration. Elle active seulement la **collecte**,
 et seulement **pour la requête suivante** — une deuxième requête exige un
-nouvel appel.
+nouvel appel. Lu dans `KernelBrowser::enableProfiler()` : sans service
+`profiler`, l'appel ne fait rien.
+
+Exécuté avec FrameworkBundle 8.0.15, `GET /hello` sous trois configurations :
+
+| Configuration | Requête | `getProfile()` |
+|---|---|---|
+| aucune clé `profiler` | après `enableProfiler()` | `false` |
+| `enabled: true, collect: false` | sans `enableProfiler()` | `null` |
+| idem | juste après `enableProfiler()` | un `Profile` |
+| idem | la requête suivante | `null` |
+| `enabled: true, collect: true` | chacune | un `Profile` |
+
+`false` signifie « pas de profileur » ; `null`, « profileur présent, rien
+collecté pour cette réponse ». Lu dans `KernelBrowser::getProfile()`.
 
 ## Lire un collecteur
 
@@ -53,6 +72,9 @@ nouvel appel.
 $profile->getCollector('time')->getDuration();
 $profile->getToken();
 ```
+
+Exécuté : le profil liste notamment les collecteurs `request`, `command`,
+`time`, `memory` ; `getCollector('request')->getRoute()` rend `hello`.
 
 `getProfile()` rend `false` ou `null` si le profileur n'est pas disponible, d'où
 l'idiome de la documentation :
@@ -78,7 +100,10 @@ requêtes, un temps passé dans le framework.
 
 **Elle ne vaut que pour la requête suivante.**
 
-**`getProfile()` peut rendre `false` ou `null`** — le tester.
+**`getProfile()` peut rendre `false` ou `null`** — le tester. `false` : pas
+de profileur ; `null` : rien collecté.
+
+**`collect: true` collecte à chaque requête**, sans `enableProfiler()`.
 
 ## Points clés
 
@@ -89,3 +114,4 @@ requêtes, un temps passé dans le framework.
 ## Sources officielles
 
 - [How to Use the Profiler in a Functional Test](https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst)
+- [`KernelBrowser`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php)
