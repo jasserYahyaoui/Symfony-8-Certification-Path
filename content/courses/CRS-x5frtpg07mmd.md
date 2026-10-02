@@ -5,7 +5,7 @@ title: "Firewalls"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security.rst"
@@ -95,6 +95,11 @@ aucune autorisation n'est demandée, ce qui garde la requête cachable. Dans cet
 exécution, l'en-tête `Cache-Control` de `/plain` est le même dans les deux
 modes ; l'effet mesuré est l'appel au fournisseur évité.
 
+**`lazy` est ignoré sur un pare-feu `stateless`.** Lu dans `SecurityExtension`
+(8.0) : `$isLazy = !$firewall['stateless'] && $firewall['lazy']`. Exécuté avec
+`lazy: true` : le contexte du pare-feu est un `LazyFirewallContext` avec état,
+un `FirewallContext` ordinaire une fois `stateless: true` ajouté.
+
 ## `security: false`
 
 Ce pare-feu n'a **aucun écouteur** : ni authentification, ni `AccessListener`.
@@ -114,7 +119,7 @@ ignorés.
 **`security: false` désactive aussi `access_control`** pour ses URL.
 
 **`lazy` épargne le rechargement de l'utilisateur** sur les pages qui ne s'en
-servent pas.
+servent pas — et n'a aucun effet sur un pare-feu `stateless`.
 
 ## Points clés
 
