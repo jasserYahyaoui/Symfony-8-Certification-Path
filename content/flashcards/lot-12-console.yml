@@ -41,9 +41,11 @@ flashcards:
 - id: FLC-czhm5c0vv1sv
   official_item: OIT-kbg00jqxxwhq
   language: fr
+  level: TRAP
   front: Une commande Symfony 8.0 doit-elle étendre Command ?
   back: 'Non. La forme recommandée est une classe ordinaire portant #[AsCommand] avec une méthode __invoke(): int.
-    Étendre Command reste supporté, et reste nécessaire pour initialize() et interact().'
+    Étendre Command reste supporté, et nécessaire pour initialize() ; l''interaction passe aussi par #[Ask] et
+    #[Interact].'
   explanation: 'L''attribut suffit à l''autoconfiguration : le conteneur pose le tag console.command.'
   memorization_justification: L'héritage était obligatoire dans les versions antérieures ; le réflexe survit à la
     version.
@@ -493,4 +495,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: APP_ENV defaults to dev; --env|-e and --no-debug
+    verified_at: '2026-10-02'
+- id: FLC-9vr6c0s8t70h
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel est le seul paramètre obligatoire de #[AsCommand] ?'
+  back: '`name` ; `description`, `aliases`, `hidden`, `help` et `usages` sont facultatifs.'
+  explanation: Lu dans le constructeur de `AsCommand` (8.0).
+  memorization_justification: Paramètres de l'attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(string $name, ?string $description, array $aliases, bool $hidden, ?string $help, array $usages)
+    verified_at: '2026-10-02'
+- id: FLC-htn69kemvehg
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel tag fait d''un service une commande de console ?'
+  back: '`console.command`.'
+  explanation: L'autoconfiguration le pose pour `#[AsCommand]` et pour toute sous-classe de `Command`.
+  memorization_justification: Tag des commandes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command
+    verified_at: '2026-10-02'
+- id: FLC-vd3vjejy3rw2
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une classe qui étend Command, sans #[AsCommand], apparaît-elle quand même dans la liste ?'
+  back: Parce que l'autoconfiguration pose `console.command` sur toute sous-classe de `Command`.
+  explanation: 'Exécuté : enregistrée et exécutable, nom posé dans `configure()`.'
+  memorization_justification: Autoconfiguration par héritage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command
+    verified_at: '2026-10-02'
+- id: FLC-p0ecrac2c715
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une classe invocable sans #[AsCommand] n''est-elle pas une commande ?'
+  back: 'Parce que rien ne lui pose le tag `console.command` : elle n''étend pas `Command` et ne porte pas l''attribut.'
+  explanation: 'Exécuté : absente de l''application.'
+  memorization_justification: Invocable sans attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command
+    verified_at: '2026-10-02'
+- id: FLC-cbnhr4nqj1c9
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi étendre Command reste-t-il utile en 8.0 ?'
+  back: Pour `initialize()`, qui n'a pas d'équivalent par attribut ; l'interaction, elle, a `#[Ask]` et `#[Interact]`.
+  explanation: 'Lu dans les attributs de Console 8.0 : `Argument`, `AsCommand`, `Ask`, `Interact`, `MapInput`, `Option`.'
+  memorization_justification: Ce que l'héritage apporte encore.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — an invokable subclass that does not override execute() runs __invoke()
+    verified_at: '2026-10-02'
+- id: FLC-h289zt7knktx
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : demander un argument manquant dans une commande invocable.'
+  back: '`#[Argument, Ask(''Name?'')] string $name` sur le paramètre de `__invoke()`.'
+  explanation: 'Exécuté : question posée si l''argument manque, sautée s''il est fourni ; avec `-n`, « Not enough arguments ».'
+  memorization_justification: Question sans héritage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'
+- id: FLC-254msdjg86g0
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre disponible une commande invocable venue d''une bibliothèque, sans attribut.'
+  back: La déclarer comme service avec le tag `console.command`.
+  explanation: La ressource `src/` ne la charge pas, et rien ne lui pose le tag.
+  memorization_justification: Commande de bibliothèque.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating a Command; Registering the Command
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command
+    verified_at: '2026-10-02'
+- id: FLC-r9qa06j1g5db
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans #[AsCommand], faut-il toujours poser le tag console.command à la main ?'
+  back: 'Non : une sous-classe de `Command` l''obtient par autoconfiguration ; seule une classe invocable en a besoin.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: Attribut supposé indispensable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command
+    verified_at: '2026-10-02'
+- id: FLC-6s9k6n1xxm23
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: TRAP
+  front: 'Symfony : hidden: true retire-t-il la commande de l''application ?'
+  back: 'Non : seulement de `list` ; elle s''exécute par son nom et par ses alias.'
+  explanation: 'Exécuté : `app:hidden` et `app:h` répondent, absents de `list`.'
+  memorization_justification: Commande cachée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(string $name, ?string $description, array $aliases, bool $hidden, ?string $help, array $usages)
+    verified_at: '2026-10-02'
+- id: FLC-s4ggysk12n90
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: TRAP
+  front: 'Symfony : poser une question à l''utilisateur oblige-t-il à étendre Command ?'
+  back: 'Non : `#[Ask]` et `#[Interact]` le font sur une commande invocable.'
+  explanation: Seul `initialize()` reste propre à `Command`.
+  memorization_justification: Interaction réservée à l'héritage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
     verified_at: '2026-10-02'

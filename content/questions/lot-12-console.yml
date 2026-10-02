@@ -333,7 +333,7 @@ questions:
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
   - OUT-g23jwhyz5189
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-kbg00jqxxwhq
   domain: symfony
@@ -356,18 +356,17 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-02'
   tags:
   - autoconfiguration
   choices:
   - id: CHO-08cvad7x1raa
     text: Registering it as a service tagged console.command
     correct: true
-  - id: CHO-pbsydxfpegwk
-    text: Placing a copy of the class in src/Command/
+  - id: CHO-tzzapj63ax5k
+    text: Running cache:clear so the listing is rebuilt
     correct: false
-    explanation: Location is irrelevant; discovery works through the service tag, which autoconfiguration adds only
-      when the attribute is present.
+    explanation: The class is not a service at all, so no rebuild can discover it; it has to be declared.
   - id: CHO-mv1x96wfdynq
     text: Calling it once so the application caches its name
     correct: false
@@ -376,8 +375,11 @@ questions:
     text: Declaring it in the bundle's routing configuration
     correct: false
     explanation: Routing concerns HTTP requests and has no bearing on the console.
-  explanation: '#[AsCommand] is an autoconfiguration marker for the console.command tag; without it the tag is added
-    by hand.'
+  explanation: 'Discovery works through the console.command tag. Autoconfiguration adds it for a class
+    carrying #[AsCommand] and for any subclass of Command, but only on classes registered as services, and
+    a library class is not loaded by the src/ resource. Declaring it as a service, tagged by hand when it
+    is a plain invokable class, makes it available. Executed on FrameworkBundle 8.0.15, a subclass of
+    Command without the attribute was registered and a plain invokable class without it was not.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
@@ -388,7 +390,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-npjsrz7new8m
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-kbg00jqxxwhq
   domain: symfony
@@ -400,7 +402,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A command needs to prompt for a missing argument before it runs. What does that require?
+  question: In Symfony 8.0, which need still requires a command class to extend Command?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -410,27 +412,31 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-02'
   tags:
   - lifecycle
   - inheritance
   choices:
-  - id: CHO-wadavqq74twc
-    text: Extending Command, because interact() is one of its methods
+  - id: CHO-2tjfe21d00ad
+    text: Overriding initialize()
     correct: true
-  - id: CHO-1rvtqwy24dn5
-    text: 'Adding an #[Interactive] parameter to __invoke()'
+  - id: CHO-p38a0cbjxcaz
+    text: Prompting the user for a missing argument
     correct: false
-    explanation: There is no such requirement; the hook is a method of the base class.
-  - id: CHO-4nxpqff7hs9d
-    text: 'Nothing: an invokable command already has interact()'
+    explanation: '#[Ask] on an __invoke() parameter, or a public method marked #[Interact], does that without
+      any parent class.'
+  - id: CHO-m5c74q89ff2x
+    text: Injecting services through the constructor
     correct: false
-    explanation: An invokable command that extends nothing has no inherited methods at all.
-  - id: CHO-czp0a32fhyjz
-    text: Declaring the argument as nullable so Symfony asks for it
+    explanation: An invokable command is a service like any other and receives its dependencies the same way.
+  - id: CHO-20ss7w9dq9k8
+    text: Returning Command::FAILURE as the exit code
     correct: false
-    explanation: A nullable parameter makes the argument optional; it does not trigger a prompt.
-  explanation: initialize() and interact() belong to Command, so a class that needs them extends it.
+    explanation: The constant is only an integer; an invokable command returns it without extending anything.
+  explanation: 'initialize() is a method of Command with no attribute equivalent, so a command that needs
+    it extends Command. Interaction no longer does, since #[Ask] and #[Interact] serve invokable commands.
+    Executed on Console 8.0.15, an invokable command with #[Argument, Ask] asked for the missing value,
+    skipped the question when the argument was given, and failed with Not enough arguments under -n.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
