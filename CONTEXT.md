@@ -20,8 +20,9 @@ périmètre sur instruction.
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
-| 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport de fin de lot en PR | `docs/progress/lot-11-refinement.md` |
-| 12 et suivants | à faire, dans l'ordre numérique | — |
+| 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
+| 12 (Console) | **en cours** — journal `docs/progress/lot-12-refinement.md` ; page 1 en PR |
+| 13 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
 
@@ -35,10 +36,12 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR du rapport de fin de lot 11 après CI
-verte, puis lot 12, page 1, depuis `master`. Reprise à prévoir sur la page 6
-du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout des
-lots 06 à 11 à revoir par l'owner (listés dans chaque rapport).
+**Prochaine action** : fusionner la PR de la page 1 du lot 12 après CI verte,
+lire son smoke test, puis page 2 (*Built-in commands*, MINIMAL) : brouillon et
+cartes prêts — le préfixe nomme le domaine, pas le bundle ; liste relevée sur
+FrameworkBundle 8.0.15 (exécuté). Reprise à prévoir sur la page 6 du lot 10
+(`lazy` ignoré sur un pare-feu `stateless`). Signaux holdout des lots 06 à 11
+à revoir par l'owner (listés dans chaque rapport).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
