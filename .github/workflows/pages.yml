@@ -3968,6 +3968,32 @@ jobs:
           else
             echo "ok  lot-14  the code debugging page carries its four flashcard levels, the dump in production, the lost header and the corrupted response"
           fi
+          # Lot 15 refinement, page 1 (Deployment best practices): the four
+          # flashcard levels, the post-install scripts environment, the silent
+          # project directory fallback and dump() surviving --no-dev.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l15r-deployment-best-practices -w '%{http_code}' "$BASE_URL/docs/courses/lot-15/deployment-best-practices")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 15 refined page deployment-best-practices serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l15r-deployment-best-practices || missing="$missing l15dp:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l15r-deployment-best-practices || missing="$missing l15dp:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l15r-deployment-best-practices || missing="$missing l15dp:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l15r-deployment-best-practices || missing="$missing l15dp:no-trap-heading"
+          grep -aqF -- 'post-install-cmd' /tmp/l15r-deployment-best-practices \
+            || missing="$missing l15dp:no-post-install"
+          grep -aqF -- 'silencieusement faux' /tmp/l15r-deployment-best-practices \
+            || missing="$missing l15dp:no-project-dir-fallback"
+          grep -aqF -- 'VarDumper arrive par ErrorHandler' /tmp/l15r-deployment-best-practices \
+            || missing="$missing l15dp:no-dump-survives"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 15 refinement missing from the deployment page:$missing"
+            fail=1
+          else
+            echo "ok  lot-15  the deployment page carries its four flashcard levels, the post-install scripts, the project dir fallback and the surviving dump"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

@@ -5,7 +5,7 @@ title: "Deployment best practices"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst"
@@ -13,6 +13,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
+    branch: "8.0"
+    symbol_or_lines: "getProjectDir()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json"
+    branch: "8.0"
+    symbol_or_lines: "\"symfony/var-dumper\": \"^7.4|^8.0\" under require"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -45,9 +55,7 @@ composer install --no-dev --optimize-autoloader
 
 Deux drapeaux, deux effets distincts :
 
-- **`--no-dev`** n'installe pas les paquets de développement. C'est ce qui rend
-  fatale la présence d'un `dump()` oublié : la dépendance qui le fournit n'est
-  pas là ;
+- **`--no-dev`** n'installe pas les paquets de développement ;
 - **`--optimize-autoloader`** construit une *class map*, ce qui améliore
   nettement les performances de l'autochargeur.
 
@@ -57,6 +65,20 @@ APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
 
 Les variables sont posées **sur la commande** : le cache dépend de
 l'environnement, et vider celui de `dev` ne sert à rien en production.
+
+Même logique pour `composer install` : si cette étape échoue sur une erreur
+*class not found*, la documentation indique d'exporter `APP_ENV=prod` avant de
+la relancer, pour que les scripts `post-install-cmd` s'exécutent en `prod`.
+
+### `--no-dev` et un `dump()` oublié
+
+On lit souvent que `--no-dev` rend fatal un `dump()` oublié, la fonction
+n'étant plus installée. **C'est faux dans une application Symfony 8.0.** Lu dans
+les `composer.json` de la branche 8.0 : FrameworkBundle exige
+`symfony/error-handler`, qui exige `symfony/var-dumper` en dépendance ordinaire.
+Le composant reste donc installé avec `--no-dev` : `dump()` existe en
+production, et écrit son HTML dans la réponse au lieu de lever une erreur. Le
+détail exécuté est sur la page *Code debugging*.
 
 ## Les variables d'environnement en production
 
@@ -94,6 +116,16 @@ composer require symfony/requirements-checker
 donc redéfinir `Kernel::getProjectDir()` — sans quoi les chemins de
 l'application sont faux.
 
+Lu dans `Kernel::getProjectDir()` (8.0) : la méthode part du répertoire du
+fichier de la classe noyau et remonte jusqu'au premier `composer.json`. Si elle
+n'en trouve aucun, elle **ne lève pas d'erreur** : elle rend le répertoire du
+noyau. Exécuté, noyau dans `app/src/` :
+
+| `composer.json` présent | `getProjectDir()` |
+|---|---|
+| dans `app/` | `app` |
+| nulle part | `app/src` — silencieusement faux |
+
 ## Pièges d'examen
 
 **`--no-dev` et `--optimize-autoloader` répondent à deux besoins différents** :
@@ -104,7 +136,11 @@ courant.
 
 **`.env.local.php` l'emporte** sur les autres fichiers de configuration.
 
-**`kernel.project_dir` vient de l'emplacement du `composer.json`.**
+**`kernel.project_dir` vient de l'emplacement du `composer.json`** ; sans lui,
+le répertoire du noyau est rendu sans erreur.
+
+**`--no-dev` ne retire pas `dump()`** d'une application FrameworkBundle :
+VarDumper arrive par ErrorHandler.
 
 **Aucun outil n'est prescrit** : FTP, dépôt versionné, PaaS ou script de
 déploiement sont tous cités.
@@ -121,3 +157,5 @@ déploiement sont tous cités.
 ## Sources officielles
 
 - [How to Deploy a Symfony Application](https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst)
+- [`Kernel::getProjectDir()`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
+- [`composer.json` d'ErrorHandler, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json)

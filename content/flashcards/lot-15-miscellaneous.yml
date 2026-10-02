@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-k4xbtfdew9m4
   official_item: OIT-6xqn9ybksrbr
   language: fr
+  level: RECALL
   front: Que font --no-dev et --optimize-autoloader dans composer install ?
   back: --no-dev n'installe pas les paquets de développement ; --optimize-autoloader construit une class map qui
     accélère nettement l'autochargeur.
@@ -38,3 +39,169 @@ flashcards:
     symbol_or_lines: '"in the X-Debug-Token-Link HTTP response header. Browse the /_profiler ..."; and "this token is available in the X-Debug-Token HTTP header of the response"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-yqtabrwsk33e
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande vide le cache de production ?'
+  back: '`APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear`.'
+  explanation: 'Le cache dépend de l''environnement : les variables sont posées sur la commande.'
+  memorization_justification: Commande exacte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-f8t6bzv4twhh
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: RECALL
+  front: 'Symfony : que génère composer dump-env prod --empty ?'
+  back: Un `.env.local.php` de même structure, sans valeurs, pour ne dépendre que des vraies variables d'environnement.
+  explanation: '*How to Deploy a Symfony Application*, branche 8.0.'
+  memorization_justification: Option --empty.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-p90betbvqv1q
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un dump() oublié ne devient-il pas fatal avec --no-dev ?'
+  back: 'Parce que VarDumper est exigé par ErrorHandler, lui-même exigé par FrameworkBundle : il reste installé.'
+  explanation: Lu dans les `composer.json` 8.0 ; exécuté sur la page *Code debugging*.
+  memorization_justification: Dépendance transitive.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '"symfony/var-dumper": "^7.4|^8.0" under require'
+    verified_at: '2026-10-02'
+- id: FLC-ahm99nz50t4k
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi exporter APP_ENV=prod quand composer install échoue sur « class not found » ?'
+  back: Pour que les scripts `post-install-cmd` s'exécutent en `prod`, sans les classes de développement absentes.
+  explanation: Avertissement de `deployment.rst`, branche 8.0.
+  memorization_justification: Environnement des scripts Composer.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-7rwqd0my9v4w
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi les migrations précèdent-elles le vidage du cache ?'
+  back: Pour que le cache soit reconstruit contre le code, les dépendances et les données déjà à jour.
+  explanation: Ordre des quatre étapes de la documentation.
+  memorization_justification: Ordre de déploiement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-anqjzf774mzg
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : installer les dépendances en production.'
+  back: '`composer install --no-dev --optimize-autoloader`.'
+  explanation: '*Install/Update your Vendors*, branche 8.0.'
+  memorization_justification: Commande d'installation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-10nnxc9a65c4
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : déployer sans composer.json sur le serveur.'
+  back: Redéfinir `Kernel::getProjectDir()` pour rendre la racine du projet.
+  explanation: Sans cela, le répertoire du noyau est rendu.
+  memorization_justification: Racine du projet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getProjectDir()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-6ms8mfn8w1dw
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: TRAP
+  front: 'Symfony : getProjectDir() lève-t-il une erreur quand aucun composer.json n''est trouvé ?'
+  back: 'Non : il rend silencieusement le répertoire de la classe noyau, par exemple `src/`.'
+  explanation: 'Exécuté : `app/src` sans `composer.json`, `app` avec.'
+  memorization_justification: Repli silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getProjectDir()
+    verified_at: '2026-10-02'
+- id: FLC-5h8ttf1xfrs8
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: TRAP
+  front: 'Symfony : vider le cache sans APP_ENV dans un script de déploiement suffit-il ?'
+  back: 'Non : la commande vide le cache de l''environnement courant, pas celui de `prod`.'
+  explanation: La documentation pose `APP_ENV=prod APP_DEBUG=0` sur la commande.
+  memorization_justification: Cache par environnement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
+- id: FLC-x4g4nnxmfe23
+  official_item: OIT-6xqn9ybksrbr
+  language: fr
+  level: TRAP
+  front: 'Symfony : la documentation prescrit-elle un outil de déploiement ?'
+  back: 'Non : elle énumère les étapes ; FTP, dépôt, PaaS ou script sont cités.'
+  explanation: '*How to Deploy a Symfony Application*, branche 8.0.'
+  memorization_justification: Aucun outil imposé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks; Install/Update your Vendors; Clear your Symfony Cache; Deployments not Using the composer.json File
+    verified_at: '2026-10-02'
