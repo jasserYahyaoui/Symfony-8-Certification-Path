@@ -26,7 +26,7 @@ première page.
 | 1 | Console component | STANDARD | 454 / 900 | 1 | **RAFFINÉE** (PR #288) |
 | 2 | Built-in commands | MINIMAL | 302 / 700 | 1 | **RAFFINÉE** (PR #289) |
 | 3 | Custom commands | STANDARD | 443 / 900 | 1 | **RAFFINÉE** (PR #290) |
-| 4 | Configuration | STANDARD | 519 / 900 | 1 | à faire |
+| 4 | Configuration | STANDARD | 519 / 900 | 1 | **RAFFINÉE** (PR #291) |
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | à faire |
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | à faire |
 | 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | à faire |
@@ -346,6 +346,87 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 5 — *Options and arguments (using PHP attributes)* — RAFFINÉE
+
+`CRS-q2dxjhx6d35k` · `OIT-nr9m883d15qq` · STANDARD · **711 → 834 mots** sur 900.
+Aucun niveau promu. Exécutions sur Console 8.0.15 : une commande invocable à
+treize paramètres dont la définition est relue mode par mode, sept
+déclarations fautives, et des lancements réels pour lire les valeurs reçues.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 4 du lot 12 (PR #291, `43c804c`) | 37001609812, success | `ok  lot-12  the configuration page carries its four flashcard levels, the hidden name, the usages divergence and the lazy listing` |
+
+### Une règle incomplète : l'ordre des arguments
+
+La page écrivait qu'un argument **requis** est refusé après un argument
+tableau. Lu dans `InputDefinition::addArgument()` : **tout** argument l'est.
+Exécuté, `array $a = [], string $b = ''` : `LogicException` « Cannot add a
+required argument "b" after an array argument "a". » — `$b` est pourtant
+optionnel ; le message trompe.
+
+### Une ligne de tableau inexacte : l'option tableau
+
+`array $roles = []` était donné pour `VALUE_IS_ARRAY` seul, utilisé avec
+`--role=…`. Exécuté : mode `VALUE_REQUIRED` + `VALUE_IS_ARRAY`, et l'option
+s'appelle `--roles` (nom du paramètre). Ligne corrigée.
+
+**`QST-wt0f9p2tmmnm` (LEARNING) → v2.** Elle demandait « la » constante
+correspondant à une option tableau, avec `VALUE_REQUIRED` comme distracteur —
+alors que les deux drapeaux sont posés. Énoncé recentré sur le drapeau
+qu'**ajoute** le type tableau ; `VALUE_REQUIRED` remplacé par `VALUE_NEGATABLE`
+(`CHO-vnd4s2ngkd2z`) ; la bonne réponse n'est pas la plus longue.
+
+### Confirmé par l'exécution
+
+| Déclaration | Résultat |
+|---|---|
+| `string $name` / `string $lastName = ''` / `?string $nick = null` | requis / optionnel `last-name` / optionnel |
+| `bool $yell = false` | `VALUE_NONE` |
+| `bool $loud = true`, `?bool $quiet2 = null` | négociables ; `--no-loud` donne `false` |
+| `string\|bool $output = false` | `VALUE_OPTIONAL` ; `--output` → `true`, `--output=f.txt` → la chaîne |
+| `?int $maxRetries = null` | `--max-retries`, `VALUE_REQUIRED` |
+| `#[Option] string $x` sans défaut | « must declare a default value » |
+| `int\|string $x = 1` | union refusée |
+| `bool\|string $x = 'x'` | « must have a default value of false » |
+| `?\DateTimeImmutable $x = null` | type refusé |
+| `Fmt $fmt`, `--fmt=xml` | « The value "xml" is not valid for the "fmt" option », code 1 |
+
+Lu : une énumération sans `suggestedValues` reçoit ses cas comme suggestions
+(`Option::tryFrom()`).
+
+**Questions.** `QST-svybdxxreygm`, `QST-agnyym2anznf` (LEARNING) et
+`QST-p0v30fknd59q` (VALIDATION) relues : exactes, inchangées. Aucune question
+holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-bdrpkzcqw1ww` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`must have a default value of false`, `Cannot add a required argument` et `--no-loud`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 321 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Options and arguments (using PHP attributes)* (STANDARD, 711 / 900).
+Page 6 — *Input and Output objects* (STANDARD, 543 / 900).

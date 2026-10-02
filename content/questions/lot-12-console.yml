@@ -1622,7 +1622,7 @@ questions:
   question_archetype: API_SIGNATURE
   assesses_outcomes:
   - OUT-2tyae0a8545m
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-nr9m883d15qq
   domain: symfony
@@ -1634,7 +1634,7 @@ questions:
   answer_mode: single
   required_answer_count: 1
   question: An option is declared as an array parameter with an empty array as its default. Which InputOption
-    constant does that correspond to?
+    flag does the array type add to its mode?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1644,7 +1644,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-10-02'
   tags:
   - options
   - constants
@@ -1652,10 +1652,10 @@ questions:
   - id: CHO-5x6wvdmnca0y
     text: VALUE_IS_ARRAY
     correct: true
-  - id: CHO-52bhyf1za8cd
-    text: VALUE_REQUIRED
+  - id: CHO-vnd4s2ngkd2z
+    text: VALUE_NEGATABLE
     correct: false
-    explanation: That is what a string, int or float parameter maps to.
+    explanation: That flag comes from a bool parameter whose default is not false, which adds the --no- form.
   - id: CHO-567zr94j958e
     text: VALUE_NONE
     correct: false
@@ -1665,8 +1665,9 @@ questions:
     correct: false
     explanation: That mode is reached by a different declaration, not by an array parameter.
   explanation: The attribute does not name the mode; the mode is inferred from the parameter type and
-    default. An array parameter means the option may be repeated, which is exactly what VALUE_IS_ARRAY
-    denotes.
+    default. Executed on Console 8.0.15, an array option gets VALUE_REQUIRED combined with VALUE_IS_ARRAY,
+    a value must follow each occurrence and the option may be repeated. The array type is what adds
+    VALUE_IS_ARRAY; VALUE_REQUIRED alone is what a string, int or float option gets.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
