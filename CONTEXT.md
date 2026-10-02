@@ -20,7 +20,7 @@ périmètre sur instruction.
 | 08 (Data Validation) | **terminé** — 8 pages déployées ; rapport de fin de lot fusionné (PR #253) | `docs/progress/lot-08-refinement.md` |
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
-| 11 (Messenger) | **en cours** — page 1 déployée (PR #280) ; page 2 en PR | `docs/progress/lot-11-refinement.md` |
+| 11 (Messenger) | **en cours** — pages 1–2 déployées (PR #280, #281) ; page 3 en PR | `docs/progress/lot-11-refinement.md` |
 | 12 et suivants | à faire, dans l'ordre numérique | — |
 
 **Décisions du propriétaire en vigueur**
@@ -35,12 +35,11 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 2 du lot 11 après CI verte,
-lire son smoke test, puis page 3 (*Messages and handlers*) : « ajouter une
-propriété avec défaut est sûr » est faux pour une propriété **promue** (Error à
-la lecture d'un ancien message, exécuté via `PhpSerializer`) ; handlers par
-union, interface, méthode, `priority` exécutés. Reprise à prévoir sur la page 6
-du lot 10 (`lazy` ignoré sur un pare-feu `stateless`).
+**Prochaine action** : fusionner la PR de la page 3 du lot 11 après CI verte,
+lire son smoke test, puis page 4 (*Workers*) : brouillon prêt — remise à zéro
+des services `ResetInterface` entre deux messages, priorité stricte des
+récepteurs, `in-memory://` vidé par la remise à zéro (exécuté). Reprise à
+prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`).
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

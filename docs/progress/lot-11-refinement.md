@@ -26,7 +26,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Messenger component | STANDARD | 382 / 900 | 1 | **RAFFINÉE** (PR #280) |
-| 2 | Transports | STANDARD | 386 / 900 | 1 | à faire |
+| 2 | Transports | STANDARD | 386 / 900 | 1 | **RAFFINÉE** (PR #281) |
 | 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | à faire |
 | 4 | Workers | STANDARD | 408 / 900 | 1 | à faire |
 | 5 | Retries and failures | DEEP | 542 / 1200 | 1 | à faire |
@@ -193,6 +193,86 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Messages and handlers* — RAFFINÉE
+
+`CRS-ckdp50w2dmy4` · `OIT-9a8aa389vk48` · STANDARD · **381 → 686 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15 (PHP 8.4) :
+handlers par union, par interface, par méthode, avec priorité, sans type ; et un
+message encodé par `PhpSerializer` avec une version de classe, décodé avec la
+suivante.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 11 (PR #281, `3ab5549`) | 36910435936, success | `ok  lot-11  the transports page carries its four flashcard levels, the class check, the unknown transport and the silent wildcard` |
+
+### Une règle de versionnage fausse pour la forme que la page enseigne
+
+La page écrivait : « Ajouter une propriété **avec une valeur par défaut** est
+sûr ». Or la page elle-même écrit ses messages avec des propriétés **promues**
+(`public function __construct(public readonly int $userId)`). Lu : le
+sérialiseur par défaut est `PhpSerializer`
+(`framework.messenger.serializer.default_serializer`), dont `decode()` passe par
+`unserialize()`, qui n'appelle pas le constructeur. Exécuté, message encodé avec
+la version 1 :
+
+| Version 2 de la classe | Lecture de l'ancien message |
+|---|---|
+| propriété promue ajoutée, défaut `'fr'` | `Error` : « Typed property SendWelcomeEmail::$lang must not be accessed before initialization » |
+| propriété déclarée ajoutée, défaut `'fr'` | `lang='fr'` |
+| propriété retirée | décodé ; « Creation of dynamic property SendWelcomeEmail::$tag is deprecated » |
+
+La règle est corrigée : sûre pour une propriété **déclarée**, pas pour une
+propriété promue. Aucune question ne portait sur ce point.
+
+### Ajouté par l'exécution ou la lecture
+
+| Handler | Messages reçus |
+|---|---|
+| méthode `onUnion(Ping\|Pong $m)` | `Ping` et `Pong` |
+| méthode `onNotice(Notice $m)`, `Notice` interface | `Ping`, qui l'implémente |
+| `__invoke($m)` sans type | échec au build : « argument "$m" … must have a type-hint corresponding to the message class it handles » (`MessengerPass`) |
+
+- `priority: 10` sur le second de deux handlers : il passe avant le premier ;
+  les deux s'exécutent.
+- Options de `#[AsMessageHandler]` en 8.0.15 : `bus`, `fromTransport`,
+  `handles`, `method`, `priority`, `sign`.
+- La page parlait d'entité Doctrine et d'`EntityManager` pour justifier
+  l'identifiant ; Doctrine étant hors périmètre (`exclusions.yml`), la
+  justification est désormais générale (copie figée, périmée à la lecture).
+
+**Questions.** `QST-mzsqzvya53dc`, `QST-sra8bgw85a7j`, `QST-45tm3rfbkjyw`
+(LEARNING) et `QST-b070jhpm2vjt` (VALIDATION) relues : exactes, inchangées —
+l'explication « Priority orders handlers; it does not exclude them » est
+confirmée par l'exécution. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-c1z191gbhw72` reçoit le niveau RECALL. L'item
+en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`must not be accessed`, `fromTransport` et `type-hint corresponding`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-01**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15, PHP 8.4 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 231 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Messages and handlers* (STANDARD, 381 / 900).
+Page 4 — *Workers* (STANDARD, 408 / 900).

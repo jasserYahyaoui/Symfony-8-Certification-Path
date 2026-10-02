@@ -34,6 +34,7 @@ flashcards:
 - id: FLC-c1z191gbhw72
   official_item: OIT-9a8aa389vk48
   language: fr
+  level: RECALL
   front: Qu'est-ce qui associe un handler à son message ?
   back: 'Le type de l''argument de __invoke(), plus l''attribut #[AsMessageHandler]. Aucune interface,
     aucune table de correspondance.'
@@ -448,4 +449,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Routing Messages to a Transport — configuration takes precedence over the class attribute
+    verified_at: '2026-10-01'
+- id: FLC-bwfh89bm7d6n
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options l''attribut #[AsMessageHandler] accepte-t-il en 8.0 ?'
+  back: '`bus`, `fromTransport`, `handles`, `method`, `priority`, `sign`.'
+  explanation: Lu dans `AsMessageHandler` (Messenger 8.0.15).
+  memorization_justification: Options de l'attribut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: bus, fromTransport, handles, method, priority, sign
+    verified_at: '2026-10-01'
+- id: FLC-jc4avyj2e1pc
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel sérialiseur Messenger utilise-t-il par défaut pour les transports ?'
+  back: '`PhpSerializer` (service `messenger.transport.native_php_serializer`), qui décode par `unserialize()`.'
+  explanation: Valeur par défaut de `framework.messenger.serializer.default_serializer`.
+  memorization_justification: Sérialiseur par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decode() — unserialize()
+    verified_at: '2026-10-01'
+- id: FLC-44x76pyymarh
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: RECALL
+  front: 'Symfony : un handler typé sur une interface reçoit-il les messages qui l''implémentent ?'
+  back: 'Oui : exécuté, un handler `Notice $m` reçoit `Ping`, qui implémente `Notice`.'
+  explanation: Un handler typé par union reçoit chacun des types listés.
+  memorization_justification: Appariement par type.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/DependencyInjection/MessengerPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/DependencyInjection/MessengerPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: guessHandledClasses() — type-hint required
+    verified_at: '2026-10-01'
+- id: FLC-vce03328afkk
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une propriété promue ajoutée à un message casse-t-elle les messages déjà en file ?'
+  back: 'Parce que `unserialize()` n''appelle pas le constructeur : le défaut du paramètre promu ne s''applique pas, la propriété reste non initialisée.'
+  explanation: 'Exécuté : « must not be accessed before initialization » à la lecture d''un ancien message.'
+  memorization_justification: Évolution d'un message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decode() — unserialize()
+    verified_at: '2026-10-01'
+- id: FLC-jbj6kppmktaw
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi transporter un identifiant plutôt qu''un objet chargé ?'
+  back: 'Parce que le message est sérialisé au dispatch : l''objet voyagerait comme une copie figée, périmée à la lecture.'
+  explanation: Le handler recharge l'état courant à partir de l'identifiant.
+  memorization_justification: Contenu d'un message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating a Message & Handler
+    verified_at: '2026-10-01'
+- id: FLC-cx7f15jn244q
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : traiter deux types de messages dans une seule classe de handler.'
+  back: Poser `#[AsMessageHandler]` sur deux méthodes, chacune typée sur son message — ou une méthode typée par union `A|B`.
+  explanation: Exécuté avec Messenger 8.0.15.
+  memorization_justification: Handler multi-messages.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating a Message & Handler
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: bus, fromTransport, handles, method, priority, sign
+    verified_at: '2026-10-01'
+- id: FLC-bqc219wnmqjb
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : faire passer un handler avant les autres sur le même message.'
+  back: '`#[AsMessageHandler(priority: 10)]` : la priorité la plus haute passe en premier.'
+  explanation: 'Exécuté : avec `priority: 10`, le second handler s''exécute avant le premier.'
+  memorization_justification: Ordre des handlers.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: bus, fromTransport, handles, method, priority, sign
+    verified_at: '2026-10-01'
+- id: FLC-q92tmn51afjs
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: TRAP
+  front: 'Symfony : une propriété promue avec valeur par défaut, ajoutée à un message, est-elle sans risque pour la file ?'
+  back: 'Non : les anciens messages décodés lèvent une `Error` à l''accès. Il faut une propriété **déclarée** avec défaut.'
+  explanation: 'Exécuté : propriété déclarée lue avec son défaut, propriété promue non initialisée.'
+  memorization_justification: Faux ami du versionnage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decode() — unserialize()
+    verified_at: '2026-10-01'
+- id: FLC-jjm1bjaq5tsx
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: TRAP
+  front: 'Symfony : un handler dont l''argument n''est pas typé est-il simplement ignoré ?'
+  back: 'Non : le conteneur refuse de se construire — « must have a type-hint corresponding to the message class it handles ».'
+  explanation: Exécuté ; l'option `handles` permet de nommer le message à la place du type.
+  memorization_justification: Erreur au build.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/DependencyInjection/MessengerPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/DependencyInjection/MessengerPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: guessHandledClasses() — type-hint required
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: bus, fromTransport, handles, method, priority, sign
+    verified_at: '2026-10-01'
+- id: FLC-95kez22k1bhm
+  official_item: OIT-9a8aa389vk48
+  language: fr
+  level: TRAP
+  front: 'Symfony : la priorité d''un handler exclut-elle les handlers de priorité plus basse ?'
+  back: 'Non : elle ordonne seulement ; tous les handlers du message s''exécutent.'
+  explanation: 'Exécuté : les deux handlers tournent, dans l''ordre des priorités.'
+  memorization_justification: Priorité mal lue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: bus, fromTransport, handles, method, priority, sign
     verified_at: '2026-10-01'

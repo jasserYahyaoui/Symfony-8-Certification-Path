@@ -567,14 +567,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 9 novembre 2026
 
 - NOUVEAU · **Messenger : Transports** (STANDARD) — 23 min · 679 mots · 5 questions, 11 flashcards
-- NOUVEAU · **Messenger : Messages and handlers** (STANDARD) — 11 min · 381 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Messenger : Messages and handlers** (STANDARD) — 22 min · 686 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Messenger : Workers** (STANDARD) — 11 min · 408 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Messenger : Retries and failures** (DEEP) — 15 min · 542 mots · 6 questions, 1 flashcards
 - Révision **J+3** (14 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+7** (15 min) — Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers · Forms : Form events
 - Révision **J+14** (14 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 
-*Budget du jour : 103 / 160 min*
+*Budget du jour : 114 / 160 min*
 
 ### Mardi 10 novembre 2026
 
