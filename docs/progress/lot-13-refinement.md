@@ -24,7 +24,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | à faire |
+| 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | **RAFFINÉE** (PR #298) |
 | 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | à faire |
 | 3 | Client object | STANDARD | 524 / 900 | 1 | à faire |
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | à faire |
@@ -105,6 +105,74 @@ des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Functional tests with PHPUnit* — RAFFINÉE
+
+`CRS-1en96h22twv7` · `OIT-favt42nvgdqh` · STANDARD · **410 → 571 mots** sur 900.
+Aucun niveau promu. Exécutions sur PHPUnit 11.5.56 avec FrameworkBundle
+8.0.15 : un `WebTestCase` réel contre deux routes du bac à sable, puis Dotenv
+8.0.15 sur quatre fichiers `.env*` et une variable du shell.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 13 (PR #298, `b4494b4`) | 37038950760, success | `ok  lot-13  the unit tests page carries its four flashcard levels, the kernel class, the file suffix and the config precedence` |
+
+### Ce que la page affirmait sans le montrer
+
+La page était exacte ; elle ne donnait aucune des conséquences observables.
+Exécuté :
+
+| Cas | Résultat |
+|---|---|
+| `GET /hello`, `assertResponseIsSuccessful()`, `assertRouteSame('hello')` | succès |
+| réponse 201, `assertResponseIsSuccessful()` | succès — tout le 2xx |
+| `bootKernel()` puis `createClient()` | `LogicException` « Booting the kernel before calling … is not supported » |
+| 404, assertion par défaut | en-têtes **et** corps dans le message d'échec |
+| 404, après `setBrowserKitAssertionsAsVerbose(false)` | en-têtes seulement |
+
+Dotenv, lu dans `Dotenv::loadEnv()` puis exécuté :
+
+| Situation | Valeur de `A` |
+|---|---|
+| `APP_ENV=test`, les quatre fichiers | `.env.test.local` |
+| `APP_ENV=test`, sans `.env.test.local` | `.env.test` |
+| `APP_ENV=dev` | `.env.local` |
+| `APP_ENV=test`, `A` dans le shell | le shell |
+
+Une variable présente seulement dans `.env.local` est absente en `test`.
+Le conseil « URL en dur » est relu dans `testing.rst` (8.0).
+
+**Questions.** `QST-b4g2ascr897e`, `QST-9d4z5adb9sez` (LEARNING) et
+`QST-cppkfczac4h1` (VALIDATION) relues : exactes, inchangées. L'item n'a pas
+de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-2g536z94cx54` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`should only be`, `setBrowserKitAssertionsAsVerbose` et `celle du shell`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 381 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Functional tests with PHPUnit* (STANDARD, 410 / 900).
+Page 3 — *Client object* (STANDARD, 524 / 900).
