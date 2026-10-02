@@ -5,7 +5,7 @@ title: "Console events"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
@@ -17,6 +17,16 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "doRunCommand"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php"
+    branch: "8.0"
+    symbol_or_lines: "setExitCode() — also sets the error code by reflection"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php"
+    branch: "8.0"
+    symbol_or_lines: "disableCommand(); RETURN_CODE_DISABLED = 113"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -30,7 +40,9 @@ Le cycle d'une commande, et le dispatcher d'événements.
 
 ## Les quatre événements
 
-`ConsoleEvents` déclare **quatre** constantes — pas davantage :
+`ConsoleEvents` déclare **quatre** événements — et une cinquième constante,
+`ALIASES`, qui associe chaque classe d'événement à son nom pour que l'on puisse
+s'abonner par la classe :
 
 | Constante | Valeur | Quand |
 |---|---|---|
@@ -54,6 +66,18 @@ COMMAND  →  exécution  →  TERMINATE
 Le point que l'examen teste : **`TERMINATE` est toujours atteint**, y compris
 après une erreur. C'est donc le seul endroit fiable pour libérer une ressource
 ou mesurer une durée d'exécution.
+
+Exécuté avec Console 8.0.15, une `Application` munie d'un dispatcher :
+
+| Cas | Événements | Code |
+|---|---|---|
+| succès | `COMMAND`, exécution, `TERMINATE:0` | 0 |
+| `disableCommand()` | `COMMAND`, **`TERMINATE:113`** — pas d'exécution | 113 |
+| exception | `COMMAND`, exécution, `ERROR`, `TERMINATE:1` | 1 |
+| exception, `setExitCode(0)` sur `ERROR` | … `ERROR`, `TERMINATE:0` | 0 |
+| succès, `setExitCode(1)` sur `TERMINATE` | … `TERMINATE:0` | **1** |
+| `__invoke(): void` | … `ERROR` (`TypeError`), `TERMINATE:1` | `TypeError` relancée |
+| exception, **sans** dispatcher | exécution seule | 1 |
 
 ## `COMMAND` — avant
 
@@ -84,6 +108,9 @@ plus d'erreur à propager, et l'exception est abandonnée. C'est le mécanisme q
 permet de traiter une erreur attendue sans faire échouer le processus.
 
 `ERROR` couvre tout `Throwable` — les erreurs PHP autant que les exceptions.
+Exécuté : une `TypeError` déclenche `ERROR` puis `TERMINATE`, et n'est relancée
+qu'ensuite ; c'est `Application::run()`, qui n'attrape pas les `Error` par
+défaut, qui la laisse remonter.
 
 ## `TERMINATE` — après
 
@@ -129,7 +156,8 @@ class CommandLogger implements EventSubscriberInterface
 
 **`TERMINATE` est dispatché même après une erreur** — c'est sa raison d'être.
 
-**`disableCommand()` produit le code 113**, pas 0 ni 1.
+**`disableCommand()` produit le code 113**, pas 0 ni 1 — et `TERMINATE` est
+quand même dispatché.
 
 **`setExitCode(0)` sur `ERROR` avale l'exception** au lieu de la laisser remonter.
 
@@ -137,7 +165,8 @@ class CommandLogger implements EventSubscriberInterface
 
 ## Points clés
 
-- `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre, déclarés par `ConsoleEvents`.
+- `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre événements déclarés par
+  `ConsoleEvents`, plus la table `ALIASES`.
 - Ordre : `COMMAND` → exécution → (`ERROR`) → `TERMINATE`, toujours.
 - `disableCommand()` empêche l'exécution et sort avec 113.
 - `ERROR` peut remplacer l'erreur ou l'annuler par `setExitCode(0)`.

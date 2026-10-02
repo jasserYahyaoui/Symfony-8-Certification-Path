@@ -123,6 +123,7 @@ flashcards:
 - id: FLC-hk7rkbxfq90j
   official_item: OIT-cqs3m73y3rpy
   language: fr
+  level: RECALL
   front: Combien d'événements ConsoleEvents déclare-t-il, et lesquels ?
   back: 'Quatre : COMMAND, SIGNAL, ERROR, TERMINATE.'
   explanation: 'TERMINATE est atteint dans tous les cas, y compris après une erreur : c''est le seul point de sortie
@@ -1347,4 +1348,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: ask() — default when not interactive; MissingInputException Aborted. on end of input
+    verified_at: '2026-10-02'
+- id: FLC-461r336hzdrz
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel code de sortie donne une commande désactivée par disableCommand() ?'
+  back: 113, `ConsoleCommandEvent::RETURN_CODE_DISABLED`.
+  explanation: 'Exécuté : 113, et `TERMINATE` dispatché avec ce code.'
+  memorization_justification: Code de désactivation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableCommand(); RETURN_CODE_DISABLED = 113
+    verified_at: '2026-10-02'
+- id: FLC-zd0wcybde7w8
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle constante de ConsoleEvents n''est pas un événement ?'
+  back: '`ALIASES`, qui associe chaque classe d''événement à son nom.'
+  explanation: Lu dans `ConsoleEvents` (8.0).
+  memorization_justification: Constante annexe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: COMMAND, SIGNAL, TERMINATE, ERROR; ALIASES
+    verified_at: '2026-10-02'
+- id: FLC-kzm6qbe66rmk
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi mesurer la durée d''une commande sur TERMINATE plutôt que sur ERROR ?'
+  back: Parce que `TERMINATE` est dispatché dans tous les cas — succès, erreur, commande désactivée.
+  explanation: 'Exécuté : `TERMINATE` après succès, après exception et après `disableCommand()`.'
+  memorization_justification: Événement final.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+- id: FLC-fzy07xhjbqth
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une Application construite à la main n''émet-elle aucun événement de console ?'
+  back: Parce qu'elle n'a pas de dispatcher tant qu'on n'a pas appelé `setDispatcher()` ; FrameworkBundle le lui donne.
+  explanation: 'Exécuté : sans dispatcher, l''exception sort avec 1, sans `ERROR` ni `TERMINATE`.'
+  memorization_justification: Dispatcher absent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+- id: FLC-7t9bmge9nt2b
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi setExitCode(3) sur ERROR change-t-il aussi le code de l''exception ?'
+  back: Parce que `ConsoleErrorEvent::setExitCode()` écrit ce code dans l'erreur par réflexion.
+  explanation: 'Exécuté : exception de code 7, sortie 3, `getCode()` vaut 3 ensuite.'
+  memorization_justification: Effet de bord.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setExitCode() — also sets the error code by reflection
+    verified_at: '2026-10-02'
+- id: FLC-n3q35ybfdme0
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : transformer une erreur attendue en succès du processus.'
+  back: Écouter `ConsoleEvents::ERROR` et appeler `$event->setExitCode(0)`.
+  explanation: 'Exécuté : `TERMINATE:0`, sortie 0, l''exception n''est pas relancée.'
+  memorization_justification: Erreur absorbée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleErrorEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setExitCode() — also sets the error code by reflection
+    verified_at: '2026-10-02'
+- id: FLC-rmq31af0vbxs
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : empêcher l''exécution d''une commande depuis un écouteur.'
+  back: Sur `ConsoleEvents::COMMAND`, appeler `$event->disableCommand()`.
+  explanation: La commande ne tourne pas ; sortie 113.
+  memorization_justification: Commande refusée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableCommand(); RETURN_CODE_DISABLED = 113
+    verified_at: '2026-10-02'
+- id: FLC-q90yktszetc6
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: TRAP
+  front: 'Symfony : le code retourné par la commande est-il forcément le code de sortie final ?'
+  back: 'Non : un écouteur de `TERMINATE` peut le remplacer par `setExitCode()`.'
+  explanation: 'Exécuté : commande à 0, `setExitCode(1)` sur `TERMINATE`, sortie 1.'
+  memorization_justification: Code final.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+- id: FLC-xyqq7y95s9n8
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: TRAP
+  front: 'Symfony : disableCommand() empêche-t-il le dispatch de TERMINATE ?'
+  back: 'Non : `TERMINATE` est dispatché avec le code 113.'
+  explanation: Exécuté avec Console 8.0.15.
+  memorization_justification: Désactivation et terminaison.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableCommand(); RETURN_CODE_DISABLED = 113
+    verified_at: '2026-10-02'
+- id: FLC-973swmzkndq5
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: TRAP
+  front: 'Symfony : une TypeError dans une commande saute-t-elle les événements ERROR et TERMINATE ?'
+  back: 'Non : les deux sont dispatchés, puis l''erreur est relancée.'
+  explanation: 'Exécuté : `ERROR` (`TypeError`), `TERMINATE:1`, puis `TypeError` remontée.'
+  memorization_justification: Erreurs PHP.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
     verified_at: '2026-10-02'

@@ -29,7 +29,7 @@ première page.
 | 4 | Configuration | STANDARD | 519 / 900 | 1 | **RAFFINÉE** (PR #291) |
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | **RAFFINÉE** (PR #292) |
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | **RAFFINÉE** (PR #293) |
-| 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | à faire |
+| 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | **RAFFINÉE** (PR #294) |
 | 8 | Console events | STANDARD | 578 / 900 | 1 | à faire |
 | 9 | Verbosity levels | MINIMAL | 295 / 700 | 1 | à faire |
 
@@ -562,6 +562,74 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 8 — *Console events* — RAFFINÉE
+
+`CRS-y0zc67f3e5zk` · `OIT-cqs3m73y3rpy` · STANDARD · **578 → 728 mots** sur 900.
+Aucun niveau promu. Exécutions sur Console 8.0.15 : une `Application` munie
+d'un `EventDispatcher` et de trois écouteurs, sept scénarios, puis la même
+application sans dispatcher.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 7 du lot 12 (PR #294, `c5b3f2b`) | 37005342797, success | `ok  lot-12  the helpers page carries its four flashcard levels, the throbber, the max steps and the aborted question` |
+
+### Une affirmation fausse : « quatre constantes, pas davantage »
+
+Lu dans `ConsoleEvents` (8.0) : quatre événements **et** une cinquième
+constante, `ALIASES`, qui associe chaque classe d'événement à son nom. La page
+dit désormais « quatre événements » ; l'explication de `QST-ycpqw0ygx9cd`
+(« exactly four constants ») est corrigée — choix inchangés, version inchangée.
+
+### Confirmé par l'exécution
+
+| Cas | Événements | Code |
+|---|---|---|
+| succès | `COMMAND`, exécution, `TERMINATE:0` | 0 |
+| `disableCommand()` | `COMMAND`, `TERMINATE:113` | 113 |
+| exception | `COMMAND`, exécution, `ERROR`, `TERMINATE:1` | 1 |
+| exception, `setExitCode(0)` sur `ERROR` | … `TERMINATE:0` | 0 |
+| succès, `setExitCode(1)` sur `TERMINATE` | … `TERMINATE:0` | 1 |
+| `__invoke(): void` | … `ERROR` (`TypeError`), `TERMINATE:1` | `TypeError` relancée |
+| exception, sans dispatcher | exécution seule | 1 |
+
+Ajouté à la page : `TERMINATE` est dispatché même après `disableCommand()`.
+`ConsoleErrorEvent::setExitCode(3)` écrit aussi ce code dans l'exception, par
+réflexion — exécuté : code 7 devenu 3 —, ce que `QST-pb7yzzbda7w0` affirmait
+déjà.
+
+**Questions.** `QST-tmz33c01yx7r`, `QST-z4mtkneppy34`, `QST-pb7yzzbda7w0`
+(LEARNING) et `QST-11513wwwhf63` (VALIDATION) relues : exactes, inchangées ;
+`QST-ycpqw0ygx9cd` : explication corrigée. Aucune question holdout lue ni
+modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-hk7rkbxfq90j` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`cinquième constante`, `TERMINATE:113` et `relancée`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 351 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Console events* (STANDARD, 578 / 900).
+Page 9 — *Verbosity levels* (MINIMAL, 295 / 700).
