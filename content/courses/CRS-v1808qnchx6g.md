@@ -5,7 +5,7 @@ title: "Internationalization and localization (Note: Intl component utilities to
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php"
+    branch: "8.0"
+    symbol_or_lines: "computeFallbackLocales(); INTL_DOMAIN_SUFFIX"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -91,7 +96,10 @@ C'est la distinction la plus testable de l'item.
 | Écriture | `Hello %name%!` | `Hello {name}!` |
 
 Le suffixe **`+intl-icu`** dans le nom du domaine est ce qui déclenche le
-traitement par `MessageFormatter`. Sans lui, `{name}` reste littéral.
+traitement par `MessageFormatter`. Sans lui, le remplacement est un `strtr`
+littéral des clés passées. Exécuté sur `Hello {name}!`, sans `+intl-icu` :
+`['name' => 'Ann']` donne `Hello {Ann}!` ; `['{name}' => 'Ann']` donne
+`Hello Ann!`.
 
 ICU apporte ce que le format classique ne sait pas faire — le pluriel :
 
@@ -119,7 +127,9 @@ l'anglais n'a que `one` et `other`, le russe en a quatre.
 
 Le filtre traduit une **expression** ; la balise, un **bloc statique**. La
 notation `%var%` est **obligatoire** avec la balise. Les messages traduits sont
-échappés par défaut ; `|raw` après `|trans` lève l'échappement.
+échappés par défaut ; `|raw` après `|trans` lève l'échappement. **La balise,
+elle, n'échappe rien** — paramètres compris. Exécuté avec `<i>x</i>` en
+paramètre : `&lt;i&gt;` par le filtre, `<i>x</i>` brut par la balise.
 
 `trans_default_domain` ne vaut que pour le gabarit courant, jamais pour les
 gabarits inclus.
@@ -155,6 +165,8 @@ par clé.
 
 **`trans_default_domain` ne franchit pas un `include`.**
 
+**La balise `{% trans %}` n'échappe pas** ; le filtre, si.
+
 ## Points clés
 
 - `domaine.locale.chargeur` : le nom du fichier décide de tout.
@@ -167,3 +179,4 @@ par clé.
 
 - [Translations](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst)
 - [ICU MessageFormat](https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst)
+- [`Translator`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php)

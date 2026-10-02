@@ -4020,6 +4020,32 @@ jobs:
           else
             echo "ok  lot-15  the web profiler page carries its four flashcard levels, the body tag, the purge threshold and the terminate save"
           fi
+          # Lot 16 refinement, page 1 (Internationalization and localization): the
+          # four flashcard levels, the literal strtr of the classic format, the
+          # unescaped trans tag and its unescaped parameters.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included -w '%{http_code}' "$BASE_URL/docs/courses/lot-16/internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 16 refined page internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included || missing="$missing l16in:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included || missing="$missing l16in:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included || missing="$missing l16in:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included || missing="$missing l16in:no-trap-heading"
+          grep -aqF -- 'strtr' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
+            || missing="$missing l16in:no-classic-strtr"
+          grep -aqF -- 'échappe rien' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
+            || missing="$missing l16in:no-unescaped-tag"
+          grep -aqF -- 'paramètres compris' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
+            || missing="$missing l16in:no-unescaped-parameters"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 16 refinement missing from the internationalization page:$missing"
+            fail=1
+          else
+            echo "ok  lot-16  the internationalization page carries its four flashcard levels, the literal strtr, the unescaped tag and its parameters"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

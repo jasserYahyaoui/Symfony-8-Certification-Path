@@ -10,8 +10,10 @@ flashcards:
 - id: FLC-7ar3ewagp1y0
   official_item: OIT-3dd7821h069b
   language: fr
+  level: RECALL
   front: Qu'est-ce qui déclenche le traitement ICU MessageFormat d'un catalogue ?
-  back: 'Le suffixe +intl-icu dans le nom du fichier : messages+intl-icu.en.yaml. Sans lui, {name} reste littéral.'
+  back: 'Le suffixe +intl-icu dans le nom du fichier : messages+intl-icu.en.yaml. Sans lui, strtr remplace les clés
+    passées telles quelles : avec name, Hello {name}! devient Hello {Ann}!.'
   explanation: 'C''est aussi ce qui sépare les deux syntaxes : %name% en format classique, {name} en ICU.'
   memorization_justification: On cherche une option de configuration, alors que le déclencheur est le nom du fichier.
   verification_status: VERIFIED
@@ -21,3 +23,169 @@ flashcards:
     symbol_or_lines: '"suffixed with +intl-icu", with the table pairing messages.en.yaml against messages+intl-icu.en.yaml'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-bhpwspqa16h9
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rend trans() pour une clé absente de tous les catalogues ?'
+  back: La clé elle-même, sans erreur.
+  explanation: 'Exécuté : `missing.key` rendu tel quel.'
+  memorization_justification: Traduction manquante silencieuse.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-abc319rde1bh
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: RECALL
+  front: 'Symfony : dans quel ordre le traducteur cherche-t-il une clé pour es_AR ?'
+  back: '`es_AR`, puis la locale parente `es_419`, puis `es`, puis l''option `fallbacks`.'
+  explanation: Exécuté sur Translation 8.0.14.
+  memorization_justification: Cascade de repli.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: computeFallbackLocales(); INTL_DOMAIN_SUFFIX
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-rjw9k3v453hd
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi Hello {name}! devient-il Hello {Ann}! sans +intl-icu ?'
+  back: 'Parce que le format classique fait un `strtr` littéral des clés passées : la clé `name` est remplacée, les accolades restent.'
+  explanation: 'Exécuté : `[''{name}'' => ''Ann'']` donne `Hello Ann!`.'
+  memorization_justification: Remplacement littéral.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: computeFallbackLocales(); INTL_DOMAIN_SUFFIX
+    verified_at: '2026-10-02'
+- id: FLC-m8ddzz6hcqvq
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi la balise {% trans %} est-elle risquée avec un paramètre utilisateur ?'
+  back: Parce qu'elle n'échappe pas sa sortie, paramètres compris, contrairement au filtre.
+  explanation: 'Exécuté : `<i>x</i>` brut par la balise, échappé par le filtre.'
+  memorization_justification: Échappement balise contre filtre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-649mmrcx2afa
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un catalogue +intl-icu échoue-t-il sans l''extension intl ?'
+  back: Parce que le formateur ICU exige `MessageFormatter` et lève une `LogicException` sinon.
+  explanation: Lu dans `IntlFormatter` (8.0).
+  memorization_justification: Dépendance ICU.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'formatIntl(): LogicException without MessageFormatter'
+    verified_at: '2026-10-02'
+- id: FLC-qgqztnwteg9n
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : écrire un pluriel anglais pour un nombre de pommes.'
+  back: '`{n, plural, =0 {no apples} one {one apple} other {# apples}}` dans un catalogue `+intl-icu`.'
+  explanation: 'Exécuté : 0, 1 et 5 donnent les trois formes.'
+  memorization_justification: Pluriel ICU.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-4pcxvk6dwme7
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : traduire un message HTML de confiance avec le filtre sans l''échapper.'
+  back: '`{{ message|trans|raw }}`.'
+  explanation: Documentation *Translations in Templates*, branche 8.0.
+  memorization_justification: Lever l'échappement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-t6p1c829q5r4
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: TRAP
+  front: 'Symfony : trans_default_domain s''applique-t-il aux gabarits inclus ?'
+  back: 'Non : seulement au gabarit courant.'
+  explanation: 'Exécuté : `admin` dans le parent, `messages` dans l''inclus.'
+  memorization_justification: Portée du domaine par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-jashy9jhgs0h
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: TRAP
+  front: 'Symfony : le filtre |trans et la balise {% trans %} échappent-ils tous deux ?'
+  back: 'Non : seul le filtre échappe.'
+  explanation: Documentation 8.0 et exécution.
+  memorization_justification: Différence d'échappement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates; Using Twig Tags; Fallback Translation Locales
+    verified_at: '2026-10-02'
+- id: FLC-6prxt27twf8x
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: TRAP
+  front: 'Symfony : après la locale es_AR, le traducteur passe-t-il directement à es ?'
+  back: 'Non : il essaie d''abord la locale parente `es_419`.'
+  explanation: Exécuté ; la parenté n'est définie que pour certaines locales.
+  memorization_justification: Locale parente.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: computeFallbackLocales(); INTL_DOMAIN_SUFFIX
+    verified_at: '2026-10-02'
