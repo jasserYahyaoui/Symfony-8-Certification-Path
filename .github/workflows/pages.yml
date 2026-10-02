@@ -3628,6 +3628,32 @@ jobs:
           else
             echo "ok  lot-12  the console events page carries its four flashcard levels, the aliases constant, the disabled terminate and the rethrown error"
           fi
+          # Lot 12 refinement, page 9 (Verbosity levels): the four flashcard
+          # levels, isSilent(), the quiet threshold that lets a quiet message
+          # through and the options that override SHELL_VERBOSITY.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-verbosity-levels -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/verbosity-levels")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page verbosity-levels serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-verbosity-levels || missing="$missing l12vb:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-verbosity-levels || missing="$missing l12vb:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-verbosity-levels || missing="$missing l12vb:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-verbosity-levels || missing="$missing l12vb:no-trap-heading"
+          grep -aqF -- 'isSilent' /tmp/l12r-verbosity-levels \
+            || missing="$missing l12vb:no-silent-test"
+          grep -aqF -- 'quiet-level' /tmp/l12r-verbosity-levels \
+            || missing="$missing l12vb:no-quiet-threshold"
+          grep -aqF -- 'SHELL_VERBOSITY=1' /tmp/l12r-verbosity-levels \
+            || missing="$missing l12vb:no-variable-precedence"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the verbosity levels page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the verbosity page carries its four flashcard levels, the silent test, the quiet threshold and the variable precedence"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

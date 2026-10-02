@@ -5,13 +5,23 @@ title: "Verbosity levels"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
     branch: "8.0"
     symbol_or_lines: "VERBOSITY_* constants"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
+    branch: "8.0"
+    symbol_or_lines: "writeln(string|iterable $messages, int $options = 0); isSilent()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php"
+    branch: "8.0"
+    symbol_or_lines: "configureIO() — options before SHELL_VERBOSITY"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -31,11 +41,23 @@ six niveaux de Symfony 8.0.
 | `-vvv` | `VERBOSITY_DEBUG` | tout, traces d'exception comprises |
 
 `--silent` est le niveau le plus bas et il est **plus radical que `--quiet`** :
-il supprime aussi les messages d'erreur.
+il supprime aussi les messages d'erreur. Exécuté avec Console 8.0.15, dans un
+vrai processus, une commande qui écrit trois lignes puis lève une exception :
+
+| Option | `normal` | `verbose-only` | `quiet-level` | erreur sur STDERR |
+|---|---|---|---|---|
+| aucune | oui | non | oui | oui |
+| `-q` | non | non | **oui** | **oui** |
+| `--silent` | non | non | non | **non** |
+| `-v`, `-vvv` | oui | oui | oui | oui |
+
+Un message marqué `VERBOSITY_QUIET` passe donc sous `-q` : c'est le seuil le
+plus bas qu'un message puisse porter pour rester visible.
 
 ## S'en servir
 
-Le troisième argument de `writeln()` porte le niveau minimal :
+Le **second** argument de `writeln()` — `$options`, le troisième de
+`write()` — porte le niveau minimal :
 
 ```php
 $output->writeln('détail utile au diagnostic', OutputInterface::VERBOSITY_VERBOSE);
@@ -49,8 +71,8 @@ if ($output->isVerbose()) {
 }
 ```
 
-`isQuiet()`, `isVerbose()`, `isVeryVerbose()`, `isDebug()` couvrent les autres
-niveaux.
+`isSilent()`, `isQuiet()`, `isVerbose()`, `isVeryVerbose()`, `isDebug()`
+couvrent les autres niveaux.
 
 L'intérêt est qu'une seule commande sert au quotidien et au diagnostic : on ne
 crée pas d'option `--debug` maison.
@@ -62,18 +84,25 @@ le logger Symfony ; seule la console se tait.
 
 **`SHELL_VERBOSITY` fixe le niveau globalement, mais `-q` et `-v` l'emportent
 sur lui.** La variable vaut `-2` pour `--silent`, `-1` pour `--quiet`, `0`, `1`,
-`2`, `3` pour les suivants.
+`2`, `3` pour les suivants. Exécuté : `SHELL_VERBOSITY=1` seul affiche le
+message verbeux ; avec `-q`, plus rien d'autre que `quiet-level`.
 
-**Le troisième argument de `writeln()` est un seuil, pas un filtre exact.** Un
+**`-q` et `--silent` rendent aussi l'entrée non interactive** : `interact()`
+n'est pas appelée (voir *Console component*).
+
+**Le niveau passé à `writeln()` est un seuil, pas un filtre exact.** Un
 message marqué `VERBOSITY_VERBOSE` s'affiche à `-v`, `-vv` **et** `-vvv`.
+
+**`writeln()` n'a que deux paramètres** : le niveau est le second.
 
 ## Points clés
 
 - Six niveaux ; `--silent` supprime même les erreurs, `-q` la sortie normale.
 - `-v`, `-vv`, `-vvv` montent progressivement.
-- Troisième argument de `writeln()`, ou `isVerbose()` et ses variantes.
+- Second argument de `writeln()`, ou `isVerbose()` et ses variantes.
 
 ## Sources officielles
 
 - [`OutputInterface`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php)
 - [Console Verbosity](https://github.com/symfony/symfony-docs/blob/8.0/console/verbosity.rst)
+- [`Application::configureIO`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php)

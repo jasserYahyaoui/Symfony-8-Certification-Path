@@ -30,7 +30,7 @@ première page.
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | **RAFFINÉE** (PR #292) |
 | 6 | Input and Output objects | STANDARD | 543 / 900 | 1 | **RAFFINÉE** (PR #293) |
 | 7 | Built-in helpers | STANDARD | 550 / 900 | 1 | **RAFFINÉE** (PR #294) |
-| 8 | Console events | STANDARD | 578 / 900 | 1 | à faire |
+| 8 | Console events | STANDARD | 578 / 900 | 1 | **RAFFINÉE** (PR #295) |
 | 9 | Verbosity levels | MINIMAL | 295 / 700 | 1 | à faire |
 
 ## Page 1 — *Console component* — RAFFINÉE
@@ -630,6 +630,71 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 9 — *Verbosity levels* — RAFFINÉE
+
+`CRS-96c85hjezj1r` · `OIT-dv5400dtksfg` · MINIMAL · **295 → 450 mots** sur 700.
+Aucun niveau promu. Exécutions sur Console 8.0.15, dans un vrai processus :
+une commande qui écrit une ligne normale, une ligne verbeuse et une ligne
+`VERBOSITY_QUIET`, puis échoue, lancée sous six réglages.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 8 du lot 12 (PR #295, `5a6e03e`) | 37006632898, success | `ok  lot-12  the console events page carries its four flashcard levels, the aliases constant, the disabled terminate and the rethrown error` |
+
+### Une erreur de signature : « le troisième argument de `writeln()` »
+
+Lu dans `OutputInterface` (8.0) : `writeln(string|iterable $messages, int
+$options = 0)` — **deux** paramètres. Le niveau est le second ; c'est le
+troisième de `write()`. Corrigé aux trois endroits de la page.
+
+### Confirmé par l'exécution ou la lecture
+
+| Option | `normal` | `verbose-only` | `quiet-level` | erreur sur STDERR |
+|---|---|---|---|---|
+| aucune | oui | non | oui | oui |
+| `-q` | non | non | oui | oui |
+| `--silent` | non | non | non | non |
+| `-v`, `-vvv` | oui | oui | oui | oui |
+
+- `SHELL_VERBOSITY=1` seul affiche la ligne verbeuse ; avec `-q`, seule
+  `quiet-level` reste — les options l'emportent.
+- `isSilent()` existe en 8.0 ; ajouté à la liste.
+- Erreurs sous `--silent` journalisées par le logger : documentation 8.0, non
+  exécuté (pas de logger dans le bac à sable).
+
+**Questions.** `QST-c01dkpwkp6qw`, `QST-fjgxe7fjzc8y` et `QST-66qde236gsjb`
+(LEARNING) relues : exactes, inchangées. Aucune question holdout lue ni
+modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-sgp3dnzw3et3` reçoit le niveau
+UNDERSTANDING. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script sur tous les fichiers de
+cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`isSilent`, `quiet-level` et `SHELL_VERBOSITY=1`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Console 8.0.15 (et FrameworkBundle quand cité) | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 361 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *Verbosity levels* (MINIMAL, 295 / 700).
+Rapport de fin de lot 12, puis lot 13.
