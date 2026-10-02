@@ -24,6 +24,7 @@ flashcards:
 - id: FLC-p7xbhq67h80a
   official_item: OIT-zgq6w4jqamvb
   language: fr
+  level: RECALL
   front: Jusqu'où un nom de commande peut-il être abrégé ?
   back: 'Jusqu''à ce qu''il reste non ambigu : c:c suffit pour cache:clear. Une abréviation ambiguë provoque une
     erreur listant les candidats.'
@@ -326,4 +327,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'
+- id: FLC-ga3htj2578ef
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande bin/console exécute-t-il sans argument ?'
+  back: '`list`, la commande par défaut de l''`Application`.'
+  explanation: 'Exécuté : la sortie commence par la version et la liste des commandes.'
+  memorization_justification: Commande par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: find() — abbreviations per segment, ambiguity; default command list
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Console Commands — list, help
+    verified_at: '2026-10-02'
+- id: FLC-shw3pc54ka8t
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options globales changent l''environnement d''un lancement de commande ?'
+  back: '`--env` (`-e`) et `--no-debug`.'
+  explanation: Sans elles, `APP_ENV`, et `dev` par défaut.
+  memorization_justification: Environnement d'une commande.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: APP_ENV defaults to dev; --env|-e and --no-debug
+    verified_at: '2026-10-02'
+- id: FLC-4vxrmftt3tzk
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi deb:c échoue-t-il alors que c:c fonctionne ?'
+  back: Parce que `deb:c` correspond à deux commandes (`debug:config`, `debug:container`) ; `c:c` à une seule (`cache:clear`).
+  explanation: 'Exécuté : « Command "deb:c" is ambiguous. »'
+  memorization_justification: Abréviation ambiguë.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: find() — abbreviations per segment, ambiguity; default command list
+    verified_at: '2026-10-02'
+- id: FLC-xnagntehk663
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi lint:xliff peut-il manquer dans bin/console list ?'
+  back: Parce que FrameworkBundle retire la commande quand le composant Translation n'est pas installé.
+  explanation: 'Exécuté : `lint:container`, `lint:twig`, `lint:yaml` seulement, sans Translation.'
+  memorization_justification: Liste dépendante des composants.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: console.command.xliff_lint removed without the Translation component
+    verified_at: '2026-10-02'
+- id: FLC-9a2cfa1bbdmb
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi debug:container renseigne-t-il mieux qu''une relecture des fichiers de configuration ?'
+  back: 'Parce qu''il lit le conteneur compilé : ce que Symfony a retenu, pas ce qu''on croit avoir écrit.'
+  explanation: C'est l'intérêt de toute la famille `debug:*`.
+  memorization_justification: Rôle des commandes debug.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Console Commands — list, help
+    verified_at: '2026-10-02'
+- id: FLC-s4eswek295ec
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vider le cache de prod depuis un poste où APP_ENV vaut dev.'
+  back: '`php bin/console cache:clear --env=prod`.'
+  explanation: Sans `--env`, la commande vise `dev`.
+  memorization_justification: Cible d'environnement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: APP_ENV defaults to dev; --env|-e and --no-debug
+    verified_at: '2026-10-02'
+- id: FLC-gy4kmbx82sqk
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lister seulement les commandes d''inspection.'
+  back: '`php bin/console list debug`.'
+  explanation: '`list` accepte un espace de noms en argument.'
+  memorization_justification: Filtrer la liste.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Console Commands — list, help
+    verified_at: '2026-10-02'
+- id: FLC-5ch4cx1dvrxd
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: TRAP
+  front: 'Symfony : le préfixe d''une commande indique-t-il le bundle qui l''a enregistrée ?'
+  back: 'Non : il nomme le domaine sur lequel elle agit — `cache`, `debug`, `lint`.'
+  explanation: '`debug:firewall` vient de SecurityBundle, `debug:router` de FrameworkBundle.'
+  memorization_justification: Préfixe mal lu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Console Commands — list, help
+    verified_at: '2026-10-02'
+- id: FLC-j538tvam4rm5
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: TRAP
+  front: 'Symfony : bin/console sans argument affiche-t-il une erreur ou une aide ?'
+  back: 'Ni l''un ni l''autre : il exécute `list`.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: Lancement nu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: find() — abbreviations per segment, ambiguity; default command list
+    verified_at: '2026-10-02'
+- id: FLC-5txke9m0eayx
+  official_item: OIT-zgq6w4jqamvb
+  language: fr
+  level: TRAP
+  front: 'Symfony : un cache:clear lancé sans option vide-t-il le cache de prod ?'
+  back: 'Non, pas si `APP_ENV` vaut `dev` ou n''est pas défini : il vise `dev`.'
+  explanation: '`SymfonyRuntime` retient `dev` par défaut.'
+  memorization_justification: Environnement implicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: APP_ENV defaults to dev; --env|-e and --no-debug
     verified_at: '2026-10-02'

@@ -671,14 +671,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Templating with Twig : Debugging variables** (MINIMAL) — 17 min · 483 mots · 3 questions, 10 flashcards
 - NOUVEAU · **Console : Console component** (STANDARD) — 21 min · 750 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 8 min · 302 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 18 min · 491 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Console : Custom commands** (STANDARD) — 10 min · 443 mots · 3 questions, 1 flashcards
 - Révision **J+3** (14 min) — Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management
 - Révision **J+7** (17 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers · Messenger : Retries and failures
 - Révision **J+14** (11 min) — Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers · Forms : Form events
 - Révision **J+45** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 110 / 160 min*
+*Budget du jour : 120 / 160 min*
 
 ### Mardi 17 novembre 2026
 
