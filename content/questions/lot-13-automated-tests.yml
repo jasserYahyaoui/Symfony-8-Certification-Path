@@ -1237,7 +1237,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-e2qhdj18dvjh
-  version: 1
+  version: 2
   official_topic: Automated Tests
   official_item: OIT-vj24gwq6r1r4
   domain: symfony
@@ -1259,12 +1259,12 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - deprecation
   choices:
-  - id: CHO-wt2dca8hqd3w
-    text: 'Nothing visible: a silenced E_USER_DEPRECATED notice'
+  - id: CHO-j3cmq8jx5dx1
+    text: 'A silenced E_USER_DEPRECATED notice; the call works'
     correct: true
   - id: CHO-33e31y2gk80k
     text: An exception is thrown and caught by the error handler
@@ -1273,19 +1273,33 @@ questions:
   - id: CHO-gt690g86821g
     text: A warning is printed to the output in the dev environment
     correct: false
-    explanation: The notice is silenced, so nothing is printed by itself.
+    explanation: The notice is silenced, so nothing reaches the output. In dev the web debug toolbar does show
+      it, because Symfony's error handler collects and logs it; that is not printing.
   - id: CHO-cgkpke8qt4hz
     text: The call fails and returns null
     correct: false
     explanation: Deprecated code keeps working exactly as before until it is removed.
-  explanation: Deprecations are silenced notices, which is why an application can accumulate many of them without
-    any sign.
+  explanation: trigger_deprecation() calls @trigger_error() with E_USER_DEPRECATED, and the Symfony error
+    handler never throws for that level; the deprecated code keeps working. Executed on PHP 8.4 with
+    display_errors on, the call printed nothing; with the Symfony 8.0 error handler, it became an info log
+    entry. Version 1 said "Nothing visible", which the 8.0 upgrade documentation contradicts for the dev
+    environment, where the web debug toolbar shows these notices.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_minor.rst
     branch: '8.0'
     symbol_or_lines: upgrade-minor-symfony-code
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+    branch: '8.0'
+    symbol_or_lines: '@trigger_error(..., \E_USER_DEPRECATED)'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_major.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_major.rst
+    branch: '8.0'
+    symbol_or_lines: these notices are shown in the web dev toolbar
+    verified_at: '2026-10-02'
 - id: QST-2b9q5n3vadem
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

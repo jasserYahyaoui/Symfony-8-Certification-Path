@@ -137,20 +137,26 @@ flashcards:
 - id: FLC-1qhdkw1e4nfy
   official_item: OIT-vj24gwq6r1r4
   language: fr
+  level: TRAP
   front: Une dépréciation Symfony fait-elle échouer le code qui l'appelle ?
-  back: 'Non. C''est une notice E_USER_DEPRECATED silencée : rien n''échoue, rien ne s''affiche, et le code déprécié
-    fonctionne jusqu''à la version majeure suivante.'
-  explanation: La notice n'existe que si un gestionnaire d'erreurs la recueille — d'où des applications qui en accumulent
-    des centaines sans aucun signe.
+  back: 'Non. C''est une notice E_USER_DEPRECATED silencée : rien n''échoue, rien n''apparaît dans la sortie, et le
+    code déprécié fonctionne jusqu''à la version majeure suivante.'
+  explanation: La notice n'existe que si un gestionnaire d'erreurs la recueille — en dev, celui de Symfony, qui la
+    fait apparaître dans la barre de débogage. Sans lui, une application en accumule des centaines sans aucun signe.
   memorization_justification: On attend d'un avertissement qu'il se voie ; celui-ci est silencé par construction,
     ce qui est l'inverse de l'intuition.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_minor.rst
-    symbol_or_lines: 'Upgrading a Minor Version — deprecations are triggered as E_USER_DEPRECATED notices and the deprecated code keeps working until the next major version'
+    symbol_or_lines: 'might still work, but might now be deprecated'
     branch: '8.0'
-    verified_at: '2026-09-02'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+    symbol_or_lines: '@trigger_error(..., \E_USER_DEPRECATED)'
+    branch: '8.0'
+    verified_at: '2026-10-02'
 - id: FLC-1n8kybbrzdf2
   official_item: OIT-c6wd3f444qjn
   language: fr
@@ -1532,4 +1538,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()
+    verified_at: '2026-10-02'
+- id: FLC-68q8qpzej76r
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels sont les deux marqueurs d''une dépréciation ?'
+  back: L'annotation PHPDoc `@deprecated`, pour le lecteur, et l'appel `trigger_deprecation()`, pour le code qui tourne.
+  explanation: Conventions de contribution, branche 8.0.
+  memorization_justification: Deux publics, deux marqueurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Deprecating Code
+    verified_at: '2026-10-02'
+- id: FLC-8sgf9djtbz1b
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: RECALL
+  front: 'Symfony : par quoi commence le message d''une dépréciation déclenchée par trigger_deprecation() ?'
+  back: Par `Since <paquet> <version>:`, suivi du message formaté.
+  explanation: 'Lu dans `function.php` ; exécuté : `Since acme/pkg 1.2: Old thing is deprecated.`'
+  memorization_justification: Format du message.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '@trigger_error(..., \E_USER_DEPRECATED)'
+    verified_at: '2026-10-02'
+- id: FLC-2ycfravxj0bj
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: RECALL
+  front: 'Symfony : à quel niveau de journal le gestionnaire d''erreurs inscrit-il une dépréciation par défaut ?'
+  back: '`info`.'
+  explanation: 'Lu dans `ErrorHandler.php` (8.0) et exécuté : une entrée `info`, `User Deprecated: …`.'
+  memorization_justification: Niveau par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: E_DEPRECATED and E_USER_DEPRECATED levels never throw; \E_USER_DEPRECATED => [null, LogLevel::INFO]
+    verified_at: '2026-10-02'
+- id: FLC-3c37tavqy7zm
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une dépréciation n''apparaît-elle pas dans la sortie, même avec display_errors actif ?'
+  back: 'Parce que `trigger_deprecation()` la déclenche avec `@` : elle est silencée.'
+  explanation: 'Exécuté : rien avec `trigger_deprecation()`, `Deprecated: …` avec `trigger_error()` sans `@`.'
+  memorization_justification: Rôle de l'opérateur @.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '@trigger_error(..., \E_USER_DEPRECATED)'
+    verified_at: '2026-10-02'
+- id: FLC-58wq0qnh0e9r
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi la barre de débogage montre-t-elle des dépréciations, si elles sont silencées ?'
+  back: Parce que le gestionnaire d'erreurs de Symfony les recueille et les journalise ; la barre lit ce journal.
+  explanation: La documentation 8.0 le dit pour l'environnement dev.
+  memorization_justification: Silencée n'est pas perdue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_major.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_major.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Make your Code Deprecation Free; Deprecations in PHPUnit
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: E_DEPRECATED and E_USER_DEPRECATED levels never throw; \E_USER_DEPRECATED => [null, LogLevel::INFO]
+    verified_at: '2026-10-02'
+- id: FLC-xwc5t92psch7
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi monter d''abord à la dernière mineure avant une majeure ?'
+  back: Pour voir toutes les dépréciations et les corriger tant que le code déprécié fonctionne encore ; la majeure le supprime.
+  explanation: '*Upgrading a Major Version*, branche 8.0.'
+  memorization_justification: Ordre de montée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_major.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_major.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Make your Code Deprecation Free; Deprecations in PHPUnit
+    verified_at: '2026-10-02'
+- id: FLC-2z45cneez1w2
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vous venez de monter à une nouvelle mineure. Que faire des dépréciations nouvellement signalées ?'
+  back: 'Lire le fichier `UPGRADE` de la version et corriger progressivement : rien n''est cassé pour l''instant.'
+  explanation: '*Upgrading a Minor Version*, étape 2.'
+  memorization_justification: Démarche de correction.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_minor.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_minor.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Updating your Code to Work with the new Version
+    verified_at: '2026-10-02'
+- id: FLC-w72bm9avg63d
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : inscrire les dépréciations au niveau error dans le journal.'
+  back: Sous `framework.php_errors.log`, associer `E_DEPRECATED` et `E_USER_DEPRECATED` à `LogLevel::ERROR`.
+  explanation: Option documentée, qui accepte une table niveau d'erreur → niveau de journal.
+  memorization_justification: Configuration du journal.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: php_errors; log
+    verified_at: '2026-10-02'
+- id: FLC-sjre2kbmrfz7
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: TRAP
+  front: 'Symfony : le gestionnaire d''erreurs de Symfony transforme-t-il une dépréciation en exception en debug ?'
+  back: 'Non : il ne lève jamais d''exception pour `E_DEPRECATED` ni `E_USER_DEPRECATED`.'
+  explanation: '`ErrorHandler.php`, 8.0 : *levels never throw*.'
+  memorization_justification: Jamais d'exception.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/ErrorHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: E_DEPRECATED and E_USER_DEPRECATED levels never throw; \E_USER_DEPRECATED => [null, LogLevel::INFO]
+    verified_at: '2026-10-02'
+- id: FLC-36e6ht6k77he
+  official_item: OIT-vj24gwq6r1r4
+  language: fr
+  level: TRAP
+  front: 'Symfony : un test PHPUnit 11.5 qui déclenche trigger_deprecation() échoue-t-il avec failOnDeprecation activé ?'
+  back: 'Non : la notice est silencée, le test passe.'
+  explanation: 'Exécuté : `OK (1 test, 1 assertion)`.'
+  memorization_justification: Notice silencée et PHPUnit.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_major.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/setup/upgrade_major.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Make your Code Deprecation Free; Deprecations in PHPUnit
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '@trigger_error(..., \E_USER_DEPRECATED)'
     verified_at: '2026-10-02'

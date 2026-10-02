@@ -31,7 +31,7 @@ première page.
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | **RAFFINÉE** (PR #302) |
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | **RAFFINÉE** (PR #303) |
 | 7 | Client configuration | STANDARD | 406 / 900 | 1 | **RAFFINÉE** (PR #304) |
-| 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | à faire |
+| 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | **RAFFINÉE** (PR #305) |
 | 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | à faire |
 
 ## Page 1 — *Unit tests with PHPUnit* — RAFFINÉE
@@ -588,6 +588,83 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 9 — *Handling legacy deprecated code* — RAFFINÉE
+
+`CRS-fak8bf9014br` · `OIT-vj24gwq6r1r4` · MINIMAL · **396 → 688 mots** sur 700.
+Aucun niveau promu. Sources relues sur la branche 8.0 (`upgrade_minor.rst`,
+`upgrade_major.rst`, `framework.rst`, `conventions.rst`, `function.php`,
+`ErrorHandler.php`) ; exécutions sur PHP 8.4, ErrorHandler 8.0.15 et
+PHPUnit 11.5.56.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 8 du lot 13 (PR #305, `8000aab`) | 37056286069, success | `ok  lot-13  the introspection page carries its four flashcard levels, the early exception, the unfollowed redirect and the redirecting route` |
+
+### Une affirmation fausse
+
+La page disait d'une dépréciation : « rien ne s'affiche spontanément, **même en
+développement** ». `upgrade_major.rst` (8.0) dit l'inverse pour l'environnement
+dev : *these notices are shown in the web dev toolbar*. La notice est bien
+silencée — rien n'apparaît dans la sortie — mais le gestionnaire d'erreurs de
+Symfony la recueille, et la barre de débogage la montre.
+
+Exécuté :
+
+| Situation | Résultat |
+|---|---|
+| `trigger_deprecation()`, aucun gestionnaire, `display_errors` actif | rien ; le script continue |
+| `trigger_error(…, E_USER_DEPRECATED)` sans `@` | `Deprecated: …` dans la sortie |
+| `ErrorHandler` 8.0 + journal | entrée `info` : `User Deprecated: Since acme/pkg 1.2: …` |
+| test PHPUnit 11.5 avec `failOnDeprecation="true"` | `OK (1 test, 1 assertion)` |
+
+**Corrigé.** La page, la carte `FLC-1qhdkw1e4nfy` (« rien ne s'affiche » →
+« rien n'apparaît dans la sortie » ; sa source citait une phrase absente de
+`upgrade_minor.rst`, remplacée par une citation réelle et par `function.php`),
+et la question `QST-qspg3f4b1epq` (LEARNING) → **v2** : la bonne réponse
+« Nothing visible » devient « A silenced E_USER_DEPRECATED notice; the call
+works », nouvel identifiant de choix ; l'explication du distracteur « dev »
+précise le rôle de la barre de débogage.
+
+### Un objectif non enseigné
+
+L'item porte deux objectifs : reconnaître les deux marqueurs d'une dépréciation,
+et énoncer ses règles d'introduction. La page renvoyait les deux à *Deprecations
+best practices* sans les redire, alors que `QST-7q4ebzsrj45x` les évalue sur cet
+item. Ajout d'un rappel court : `@deprecated` et `trigger_deprecation()`, mineure
+seulement, jamais sur du code nouveau, suppression à la majeure — relu dans
+`conventions.rst` (8.0).
+
+**Questions.** `QST-2b9q5n3vadem` et `QST-7q4ebzsrj45x` (LEARNING) relues :
+exactes, inchangées. Aucune question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-1qhdkw1e4nfy` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`reconnaître une dépréciation`, `barre de débogage` et `failOnDeprecation`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 451 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 9 — *Handling legacy deprecated code* (MINIMAL, 396 / 700).
+Rapport de fin de lot 13, réconcilié par script, dans sa propre PR.
