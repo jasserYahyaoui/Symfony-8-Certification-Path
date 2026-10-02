@@ -3289,6 +3289,32 @@ jobs:
           else
             echo "ok  lot-11  the transports page carries its four flashcard levels, the class check, the unknown transport and the silent wildcard"
           fi
+          # Lot 11 refinement, page 3 (Messages and handlers): the four
+          # flashcard levels, the promoted-property versioning error, the
+          # transport filter option and the missing type-hint refusal.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-handlers -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/messages-and-handlers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page messages-and-handlers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-handlers || missing="$missing l11hdl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-handlers || missing="$missing l11hdl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-handlers || missing="$missing l11hdl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-handlers || missing="$missing l11hdl:no-trap-heading"
+          grep -aq 'must not be accessed' /tmp/l11r-handlers \
+            || missing="$missing l11hdl:no-versioning-error"
+          grep -aq 'fromTransport' /tmp/l11r-handlers \
+            || missing="$missing l11hdl:no-transport-filter"
+          grep -aq 'type-hint corresponding' /tmp/l11r-handlers \
+            || missing="$missing l11hdl:no-type-hint-refusal"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the messages and handlers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the messages and handlers page carries its four flashcard levels, the versioning error, the transport filter and the type-hint refusal"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
