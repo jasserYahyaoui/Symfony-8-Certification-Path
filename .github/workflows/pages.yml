@@ -3888,6 +3888,32 @@ jobs:
           else
             echo "ok  lot-13  the deprecated code page carries its four flashcard levels, the markers recap, the debug toolbar and the silenced notice"
           fi
+          # Lot 14 refinement, page 1 (Configuration): the four flashcard levels,
+          # the variables_order condition, the last loaded .env file winning and
+          # the processor order failure.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components -w '%{http_code}' "$BASE_URL/docs/courses/lot-14/configuration-including-dotenv-and-expressionlanguage-components")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 14 refined page configuration-including-dotenv-and-expressionlanguage-components serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components || missing="$missing l14cf:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components || missing="$missing l14cf:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components || missing="$missing l14cf:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components || missing="$missing l14cf:no-trap-heading"
+          grep -aqF -- 'variables_order' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components \
+            || missing="$missing l14cf:no-variables-order"
+          grep -aqF -- 'le dernier chargé gagne' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components \
+            || missing="$missing l14cf:no-last-loaded-wins"
+          grep -aqF -- 'Invalid JSON in env var' /tmp/l14r-configuration-including-dotenv-and-expressionlanguage-components \
+            || missing="$missing l14cf:no-processor-order"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 14 refinement missing from the configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-14  the configuration page carries its four flashcard levels, the variables order, the last loaded file and the processor order"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

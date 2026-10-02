@@ -725,14 +725,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Automated Tests : Client configuration** (STANDARD) — 19 min · 517 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 20 min · 767 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 20 min · 688 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 13 min · 598 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 24 min · 897 mots · 4 questions, 11 flashcards
 - Révision **J+1** (22 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+3** (16 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers
 - Révision **J+7** (14 min) — Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management
 - Révision **J+14** (11 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+30** (10 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 
-*Budget du jour : 145 / 160 min*
+*Budget du jour : 156 / 160 min*
 
 ### Samedi 21 novembre 2026
 

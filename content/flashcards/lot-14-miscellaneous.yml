@@ -10,6 +10,7 @@ flashcards:
 - id: FLC-nb0mh2t8j7r9
   official_item: OIT-tvc5rjv6qvse
   language: fr
+  level: TRAP
   front: Une vraie variable d'environnement et un fichier .env définissent la même clé. Laquelle gagne ?
   back: La vraie variable d'environnement, toujours. Les fichiers .env n'ajoutent que ce qui manque, ils n'écrasent
     rien.
@@ -58,3 +59,193 @@ flashcards:
     symbol_or_lines: '"composer require --dev symfony/var-dumper" — installed as a development dependency'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-jjcxm1yjtmgr
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: RECALL
+  front: 'Symfony : dans quel ordre les fichiers .env sont-ils chargés ?'
+  back: '`.env`, `.env.local`, `.env.<env>`, `.env.<env>.local` ; le dernier chargé gagne.'
+  explanation: Exécuté avec Dotenv 8.0.15.
+  memorization_justification: Ordre de la cascade.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Environment Variables in Production; .env File Syntax; Overriding Environment Values via .env.local
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv(); bootEnv()
+    verified_at: '2026-10-02'
+- id: FLC-5bxcqhte8p2x
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel fichier écrivent composer dump-env prod et dotenv:dump ?'
+  back: '`.env.local.php`, avec les valeurs finales de tous les fichiers `.env`.'
+  explanation: '*Configuring Environment Variables in Production*, branche 8.0.'
+  memorization_justification: Fichier compilé des variables.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Environment Variables in Production; .env File Syntax; Overriding Environment Values via .env.local
+    verified_at: '2026-10-02'
+- id: FLC-1x0cjn4b7pa8
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rendent parse() et lint() d''ExpressionLanguage ?'
+  back: '`parse()` rend un `ParsedExpression` ; `lint()` ne rend rien et lève une `SyntaxError` si l''expression est invalide.'
+  explanation: Exécuté sur ExpressionLanguage 8.0.15.
+  memorization_justification: Valeurs de retour.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'lint(Expression|string $expression, array $names, int $flags = 0): void'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/expression_language.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Parsing and Linting Expressions
+    verified_at: '2026-10-02'
+- id: FLC-1c5fvxc50w4s
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi .env.dev l''emporte-t-il sur .env.local en dev ?'
+  back: 'Parce qu''il est chargé après : entre fichiers `.env`, le dernier chargé gagne.'
+  explanation: 'Exécuté : une clé dans `.env`, `.env.local` et `.env.dev` vaut la valeur de `.env.dev`.'
+  memorization_justification: Le local n'est pas le plus fort.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv(); bootEnv()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Environment Variables in Production; .env File Syntax; Overriding Environment Values via .env.local
+    verified_at: '2026-10-02'
+- id: FLC-79d8bg4xqgk6
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi %env(base64:json:CONFIG)% échoue-t-il sur une valeur base64 de JSON ?'
+  back: 'Parce que les processeurs s''appliquent de droite à gauche : JSON est lu avant le décodage base64.'
+  explanation: 'Exécuté : `RuntimeException`, *Invalid JSON in env var "CONFIG"*.'
+  memorization_justification: Ordre des processeurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Environment Variable Processors
+    verified_at: '2026-10-02'
+- id: FLC-z4e92xkwtnm1
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi modifier .env ne demande-t-il pas de vider le cache ?'
+  back: Parce que le fichier est lu et analysé à chaque requête, hors du conteneur compilé.
+  explanation: Documentation 8.0 ; sauf si un `.env.local.php` existe.
+  memorization_justification: Lecture à chaque requête.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Environment Variables in Production; .env File Syntax; Overriding Environment Values via .env.local
+    verified_at: '2026-10-02'
+- id: FLC-604v22rv88em
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire la variable PORT comme un entier dans un paramètre.'
+  back: '`''%env(int:PORT)%''`.'
+  explanation: 'Exécuté : `8080` entier.'
+  memorization_justification: Processeur typé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/env_var_processors.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration/env_var_processors.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Environment Variable Processors
+    verified_at: '2026-10-02'
+- id: FLC-wph1s63akhg6
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vérifier une expression qui utilise une variable inconnue au moment du lint.'
+  back: '`lint($expr, [], Parser::IGNORE_UNKNOWN_VARIABLES)`.'
+  explanation: 'Exécuté : sans le drapeau, `SyntaxError` *Variable "foo" is not valid*.'
+  memorization_justification: Drapeau de lint.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/expression_language.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Parsing and Linting Expressions
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'lint(Expression|string $expression, array $names, int $flags = 0): void'
+    verified_at: '2026-10-02'
+- id: FLC-y6sxbef8yvmk
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: TRAP
+  front: 'Symfony : un .env.local.php existe. Une clé ajoutée à .env est-elle lue ?'
+  back: 'Non : avec `.env.local.php`, les fichiers `.env` ne sont plus analysés.'
+  explanation: Exécuté avec `Dotenv::bootEnv()`.
+  memorization_justification: Fichier compilé prioritaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv(); bootEnv()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Environment Variables in Production; .env File Syntax; Overriding Environment Values via .env.local
+    verified_at: '2026-10-02'
+- id: FLC-6sa8r95tkvb1
+  official_item: OIT-tvc5rjv6qvse
+  language: fr
+  level: TRAP
+  front: 'Symfony : lint(''1 +'', null) en 8.0 ?'
+  back: '`TypeError` : le paramètre `$names` est un `array`, `null` n''est pas accepté.'
+  explanation: Exécuté sur ExpressionLanguage 8.0.15.
+  memorization_justification: Signature 8.0.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'lint(Expression|string $expression, array $names, int $flags = 0): void'
+    verified_at: '2026-10-02'

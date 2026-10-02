@@ -118,7 +118,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-tgt66re62pkz
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-tvc5rjv6qvse
   domain: symfony
@@ -140,7 +140,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - parameters
   choices:
@@ -156,12 +156,15 @@ questions:
     text: The parameter is public, the environment variable private
     correct: false
     explanation: Visibility applies to services, not to either of these.
-  - id: CHO-qkgh9x1pvx7f
-    text: The parameter is typed, the environment variable is not
+  - id: CHO-jta0wpy1gxev
+    text: Only the variable can differ per environment
     correct: false
-    explanation: Parameters are not typed either; processors are what type an environment variable.
+    explanation: Both can. Executed on DependencyInjection 8.0.15, a parameter overridden under when@prod read
+      prod-value in prod and base in dev; a variable differs through a .env.<env> file.
   explanation: Because the environment variable is read at runtime, the same compiled container can be deployed
-    to machines that give it different values.
+    to machines that give it different values. Version 1 offered "the parameter is typed, the environment
+    variable is not" as a distractor; that is partly true, since an environment variable is a string until a
+    processor converts it, so the choice was replaced.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
