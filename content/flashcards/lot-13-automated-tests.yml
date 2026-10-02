@@ -121,6 +121,7 @@ flashcards:
 - id: FLC-80h962pnszqx
   official_item: OIT-bzkq4e7wks9a
   language: fr
+  level: RECALL
   front: Que rend getInternalResponse() par rapport à getResponse() ?
   back: L'objet Response de BrowserKit, c'est-à-dire celui du navigateur simulé. getResponse() rend celui de HttpFoundation,
     produit par l'application.
@@ -1365,4 +1366,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-db4h81cqec83
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle classe rend getInternalRequest() ?'
+  back: '`Symfony\Component\BrowserKit\Request` : la requête du navigateur simulé.'
+  explanation: Exécuté sur BrowserKit 8.0.14 ; `getRequest()` rend `HttpFoundation\Request`.
+  memorization_justification: Classe de la requête interne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-b385mvgx5jvc
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel attribut de requête porte le contrôleur appelé, et sous quelle forme ?'
+  back: '`_controller`, au format `Classe::méthode`.'
+  explanation: 'Exécuté : `App\…\HelloController::hello`, à côté de `_route` = `hello`.'
+  memorization_justification: Attribut _controller.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-9y4m7rdx00rz
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi getHistory() et getCookieJar() marchent-ils avant toute requête, et pas getResponse() ?'
+  back: Parce que l'historique et le pot de cookies sont créés avec le client ; requête, réponse et crawler n'existent qu'après `request()`.
+  explanation: 'Exécuté : historique vide, cookie posé ; `getResponse()` lève `BadMethodCallException`.'
+  memorization_justification: Cycle de vie des objets du client.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()
+    verified_at: '2026-10-02'
+- id: FLC-5h761m18q4eg
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi assertResponseStatusCodeSame(404) aide-t-il plus qu''un assertSame sur le code de statut brut ?'
+  back: Parce que son échec affiche la réponse entière — statut, en-têtes, corps — et pas seulement deux nombres.
+  explanation: 'Exécuté sur une réponse 200 : « 200 is identical to 404 » contre le message suivi de la réponse.'
+  memorization_justification: Valeur du message d'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-xmh44hggd4mr
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi lire _route plutôt que le HTML pour savoir quelle route a répondu ?'
+  back: Parce que deux routes peuvent rendre la même page ; `_route` nomme celle qui a été choisie.
+  explanation: C'est l'attribut que compare `assertRouteSame()`.
+  memorization_justification: Route et contenu sont distincts.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-zds4q3c0m5fv
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire le Content-Type de la réponse produite par l''application.'
+  back: '`$client->getResponse()->headers->get(''content-type'')`.'
+  explanation: 'Exécuté : `text/html; charset=UTF-8`.'
+  memorization_justification: Lecture d'en-tête.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-7rnfmkh4r473
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : vérifier qu''une requête sur /go a redirigé vers la route hello.'
+  back: Asserter la redirection, `followRedirect()`, puis `assertRouteSame('hello')`.
+  explanation: 'Exécuté : `_route` vaut `go` avant `followRedirect()`, `hello` après.'
+  memorization_justification: Tester une redirection.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-06zq95crqaxt
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: TRAP
+  front: 'Symfony : getResponse() rend-il null avant la première requête ?'
+  back: 'Non : il lève `BadMethodCallException` — *The "request()" method must be called before …*.'
+  explanation: Exécuté ; même comportement pour `getRequest()`, les méthodes `internal` et `getCrawler()`.
+  memorization_justification: Exception, pas null.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()
+    verified_at: '2026-10-02'
+- id: FLC-6jfvg0g122sk
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: TRAP
+  front: 'Symfony : après request(''GET'', ''/go'') qui redirige, que vaut _route ?'
+  back: '`go` : la redirection n''est pas suivie par défaut, la requête lue est celle qui a redirigé.'
+  explanation: 'Exécuté : 302 et `go`, puis 200 et `hello` après `followRedirect()`.'
+  memorization_justification: Redirection non suivie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Internal Objects; Redirecting
+    verified_at: '2026-10-02'
+- id: FLC-nk2c944s9f6f
+  official_item: OIT-bzkq4e7wks9a
+  language: fr
+  level: TRAP
+  front: 'Symfony : getInternalRequest()->getUri() rend-il le chemin /hello ?'
+  back: 'Non : l''adresse absolue, `http://localhost/hello` ; `getRequest()->getPathInfo()` rend `/hello`.'
+  explanation: Exécuté sur `/hello`.
+  memorization_justification: Adresse absolue ou chemin.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()
     verified_at: '2026-10-02'

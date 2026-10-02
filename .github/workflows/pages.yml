@@ -3836,6 +3836,32 @@ jobs:
           else
             echo "ok  lot-13  the client configuration page carries its four flashcard levels, the cgi header, the default agent and the unsaved session"
           fi
+          # Lot 13 refinement, page 8 (Request and response objects introspection):
+          # the four flashcard levels, the exception before the first request, the
+          # route of a redirect not followed and the failure message of an assertion.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l13r-request-and-response-objects-introspection -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/request-and-response-objects-introspection")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 13 refined page request-and-response-objects-introspection serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-trap-heading"
+          grep -aqF -- 'Avant la première requête' /tmp/l13r-request-and-response-objects-introspection \
+            || missing="$missing l13rr:no-before-first-request"
+          grep -aqF -- 'Après une redirection' /tmp/l13r-request-and-response-objects-introspection \
+            || missing="$missing l13rr:no-after-redirect"
+          grep -aqF -- 'la requête qui a redirigé' /tmp/l13r-request-and-response-objects-introspection \
+            || missing="$missing l13rr:no-redirecting-request"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 13 refinement missing from the request and response introspection page:$missing"
+            fail=1
+          else
+            echo "ok  lot-13  the introspection page carries its four flashcard levels, the early exception, the unfollowed redirect and the redirecting route"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

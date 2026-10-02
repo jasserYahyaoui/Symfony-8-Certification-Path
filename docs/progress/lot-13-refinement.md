@@ -30,7 +30,7 @@ première page.
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | **RAFFINÉE** (PR #301) |
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | **RAFFINÉE** (PR #302) |
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | **RAFFINÉE** (PR #303) |
-| 7 | Client configuration | STANDARD | 406 / 900 | 1 | à faire |
+| 7 | Client configuration | STANDARD | 406 / 900 | 1 | **RAFFINÉE** (PR #304) |
 | 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | à faire |
 | 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | à faire |
 
@@ -520,6 +520,74 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 8 — *Request and response objects introspection* — RAFFINÉE
+
+`CRS-xkp7v8142jt1` · `OIT-bzkq4e7wks9a` · STANDARD · **424 → 767 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle 8.0.15, BrowserKit 8.0.14 et
+PHPUnit 11.5.56 : chaque accesseur appelé avant et après une requête, puis sur
+une route qui redirige.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 7 du lot 13 (PR #304, `cf87652`) | 37048125367, success | `ok  lot-13  the client configuration page carries its four flashcard levels, the cgi header, the default agent and the unsaved session` |
+
+### Ce que la page affirmait sans le montrer
+
+La page était exacte. Une phrase restait vague : « ces méthodes n'ont pas de
+sens avant » une requête. Exécuté :
+
+| Cas | Résultat |
+|---|---|
+| `getRequest()`, `getResponse()`, `getInternal*()`, `getCrawler()` avant requête | `BadMethodCallException` (`AbstractBrowser.php`, 8.0) |
+| `getHistory()`, `getCookieJar()` avant requête | objets utilisables (historique vide, cookie posé) |
+| classes rendues après requête | `HttpFoundation\Request` / `Response`, `BrowserKit\Request` / `Response`, `History`, `CookieJar`, `DomCrawler\Crawler` |
+| `getInternalRequest()->getUri()` | `http://localhost/hello` ; `getPathInfo()` rend `/hello` |
+| `request('GET', '/go')` puis `followRedirect()` | 302 et `_route` = `go`, puis 200 et `hello` |
+| `assertSame()` sur le statut brut contre `assertResponseStatusCodeSame(404)` | deux nombres contre la réponse entière |
+
+La phrase vague est remplacée par le tableau ; la page gagne une section
+*Après une redirection*.
+
+### Une erreur de méthode, corrigée avant le commit
+
+La première version du tableau d'assertions écrivait l'appel brut avec une
+variable `$response`. `CRS-001` a bloqué : la chaîne reproduisait la bonne
+réponse d'une question VALIDATION d'un autre item (HttpClient). La ligne dit
+désormais « `assertSame()` sur le code de statut brut » ; la carte
+correspondante a été reformulée de même. Aucun déplacement dans un bloc de code.
+
+**Questions.** `QST-m9kesqa3bb7j`, `QST-0y00gjhre739` (LEARNING) et
+`QST-mmz7113w0hqb` (VALIDATION) relues : exactes, inchangées. Aucune question
+holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-80h962pnszqx` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`Avant la première requête`, `Après une redirection` et `la requête qui a redirigé`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 441 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 8 — *Request and response objects introspection* (STANDARD, 424 / 900).
+Page 9 — *Handling legacy deprecated code* (MINIMAL, 396 / 700).
