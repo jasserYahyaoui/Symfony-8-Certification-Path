@@ -28,7 +28,7 @@ première page.
 | 1 | Messenger component | STANDARD | 382 / 900 | 1 | **RAFFINÉE** (PR #280) |
 | 2 | Transports | STANDARD | 386 / 900 | 1 | **RAFFINÉE** (PR #281) |
 | 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | **RAFFINÉE** (PR #282) |
-| 4 | Workers | STANDARD | 408 / 900 | 1 | à faire |
+| 4 | Workers | STANDARD | 408 / 900 | 1 | **RAFFINÉE** (PR #283) |
 | 5 | Retries and failures | DEEP | 542 / 1200 | 1 | à faire |
 | 6 | Middleware | STANDARD | 376 / 900 | 1 | à faire |
 | 7 | Events | STANDARD | 427 / 900 | 1 | à faire |
@@ -357,6 +357,99 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 5 — *Retries and failures* — RAFFINÉE
+
+`CRS-hgkzgm1dh3my` · `OIT-76x1t7z916f4` · DEEP · **542 → 852 mots** sur 1200.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15 :
+`messenger:consume` et `messenger:failed:retry` lancés dans le même processus,
+transport à file statique (celui de la page 4), `retry_strategy` à
+`max_retries: 3`, un handler qui lève une exception ordinaire,
+*unrecoverable* ou *recoverable*.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 4 du lot 11 (PR #283, `10abcdd`) | 36991017548, success | `ok  lot-11  the workers page carries its four flashcard levels, the consume options, the reset listener and the priority run` |
+
+### Trois erreurs de fond
+
+**1. Le réessai ne concerne que l'asynchrone.** La page posait « une exception
+dans un handler n'est pas fatale : le message est remis dans le transport ».
+Exécuté sur un message non routé : `HandlerFailedException` — « Handling
+"App\P13\M\Boom" failed: boom » — levée par `dispatch()`, une seule tentative.
+
+**2. `RecoverableMessageHandlingException` ignore `max_retries`.** La page la
+décrivait comme un réessai « forcé ». Lu dans
+`SendFailedMessageForRetryListener::shouldRetry()` : `return true` pour une
+`RecoverableExceptionInterface`, **avant** l'appel à la stratégie. Exécuté :
+12 tentatives pour un worker limité à 12 messages, message toujours en file,
+jamais en échec.
+
+**3. `messenger:failed:retry` ne renvoie pas vers le transport d'origine.** La
+page l'affirmait. Lu dans `FailedMessagesRetryCommand` : la commande lance un
+worker sur le transport d'échec et traite le message elle-même. Exécuté : un
+message qui échoue encore n'est jamais envoyé vers `async` ; il revient en file
+d'échec avec un compteur à 1. Le compteur « remis à zéro » l'est à l'entrée en
+file d'échec (`RedeliveryStamp(0)`, `SendFailedMessageToFailureTransportListener`),
+pas par la commande.
+
+### Confirmé par l'exécution ou le calcul
+
+| Exception | Tentatives | Sans `failure_transport` | Avec |
+|---|---|---|---|
+| ordinaire | 4 | perdu | en file d'échec |
+| `Unrecoverable…` | 1 | perdu | en file d'échec |
+| `Recoverable…` | 12 (limite du worker) | jamais en échec | jamais en échec |
+
+- Délais de `MultiplierRetryStrategy(3, 1000, 2)` : 1000, 2000, 4000 ms sans
+  jitter, 1096, 2109, 4298 ms avec un jitter de 0,1.
+- Défauts FrameworkBundle 8.0 : `max_retries` 3, `delay` 1000, `multiplier` 2,
+  `max_delay` **0**, `jitter` 0,1.
+- `RecoverableMessageHandlingException` : délai en quatrième argument du
+  constructeur (`retryDelay`).
+- Plusieurs handlers en échec : lu dans `shouldRetry()`, le réessai n'est
+  refusé d'office que si **toutes** les exceptions emballées sont
+  *unrecoverable*. Une première rédaction ajoutait « une seule *recoverable*
+  suffit » ; la boucle s'arrête à la première exception ordinaire, la phrase
+  n'était donc pas vraie dans tous les ordres — retirée.
+
+L'exemple de transport d'échec utilisait un DSN `doctrine://` ; Doctrine étant
+hors périmètre, il passe par une variable d'environnement.
+
+**Questions.** `QST-0v3j82n0d4m7`, `QST-9c3nh6jtp3px`, `QST-8vfdesj0zh4w`,
+`QST-rdbfzznze605`, `QST-b27yd0msa8yq` (LEARNING) et `QST-cf72hjvcjyj2`
+(VALIDATION) relues : exactes, inchangées — les quatre tentatives, la perte sans
+transport d'échec et l'ordre des étages sont confirmés par l'exécution. Aucune
+question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-7hfxx70j2rhg` reçoit le niveau RECALL. L'item
+en porte **11** (4 RECALL, 2 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`HandlerFailedException`, `shouldRetry` et `RedeliveryStamp(0)`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15 | résultats cités ci-dessus |
+| sources du code relues en amont (branche 8.0) | le 2026-10-02 |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 251 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 5 — *Retries and failures* (DEEP, 542 / 1200).
+Page 6 — *Middleware* (STANDARD, 376 / 900).
