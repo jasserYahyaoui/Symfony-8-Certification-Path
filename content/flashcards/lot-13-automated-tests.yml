@@ -26,6 +26,7 @@ flashcards:
 - id: FLC-2g536z94cx54
   official_item: OIT-favt42nvgdqh
   language: fr
+  level: RECALL
   front: Quel fichier .env n'est pas lu dans l'environnement de test ?
   back: '.env.local. Sont lus, dans cet ordre : .env, .env.test, .env.test.local.'
   explanation: 'L''exclusion est délibérée : une machine de développement ne doit pas modifier le résultat des tests.'
@@ -309,4 +310,182 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: getKernelClass() — LogicException without KERNEL_CLASS
+    verified_at: '2026-10-02'
+- id: FLC-jm6rj4fjq624
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle classe étendre pour un test d''application, et que lui ajoute-t-elle ?'
+  back: '`WebTestCase`, qui étend `KernelTestCase` et ajoute le client (`createClient()`).'
+  explanation: Documentation 8.0, « Application Tests ».
+  memorization_justification: Classe de base.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Application Tests; Customizing Environment Variables
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createClient() — LogicException if the kernel is already booted
+    verified_at: '2026-10-02'
+- id: FLC-qbtp3sp29pzj
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle assertion vérifie la route qui a répondu ?'
+  back: '`assertRouteSame(''nom_de_route'')`.'
+  explanation: 'Exécuté : `assertRouteSame(''hello'')` sur `/hello`.'
+  memorization_justification: Route atteinte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setBrowserKitAssertionsAsVerbose(); assertResponseIsSuccessful(…, ?bool $verbose)
+    verified_at: '2026-10-02'
+- id: FLC-88bbmg4rqzpj
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi bootKernel() avant createClient() fait-il échouer le test ?'
+  back: Parce que `createClient()` démarre lui-même le noyau et refuse un noyau déjà démarré.
+  explanation: 'Exécuté : « Booting the kernel before calling … createClient() is not supported ».'
+  memorization_justification: Double démarrage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createClient() — LogicException if the kernel is already booted
+    verified_at: '2026-10-02'
+- id: FLC-v6grxpv962wr
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi .env.local n''est-il pas lu en environnement de test ?'
+  back: 'Pour que les tests donnent le même résultat sur toutes les machines : `loadEnv()` l''ignore pour les environnements de test.'
+  explanation: 'Exécuté avec Dotenv 8.0.15 : une variable seulement dans `.env.local` est absente en `test`.'
+  memorization_justification: Reproductibilité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv() — .env.local ignored for test envs; .env.$env.local last
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Application Tests; Customizing Environment Variables
+    verified_at: '2026-10-02'
+- id: FLC-2ceb2pgphwn5
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi préférer assertResponseIsSuccessful() à assertEquals(200, $code) ?'
+  back: Parce qu'en cas d'échec elle affiche la réponse reçue, et qu'elle accepte tout le 2xx.
+  explanation: 'Exécuté : en-têtes et corps imprimés sur un 404 ; 201 passe.'
+  memorization_justification: Lisibilité des échecs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setBrowserKitAssertionsAsVerbose(); assertResponseIsSuccessful(…, ?bool $verbose)
+    verified_at: '2026-10-02'
+- id: FLC-t5b84qn2rvh5
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : n''afficher que les en-têtes de la réponse quand une assertion échoue.'
+  back: '`self::setBrowserKitAssertionsAsVerbose(false)`, ou `$verbose: false` sur l''assertion.'
+  explanation: 'Exécuté : le corps disparaît du message d''échec.'
+  memorization_justification: Échecs moins bavards.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setBrowserKitAssertionsAsVerbose(); assertResponseIsSuccessful(…, ?bool $verbose)
+    verified_at: '2026-10-02'
+- id: FLC-p0n3nngan2tn
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : donner une valeur propre aux tests à une variable, sans toucher à .env.'
+  back: La définir dans `.env.test` (versionné) ou `.env.test.local` (local).
+  explanation: 'Ordre : `.env`, `.env.test`, `.env.test.local` ; le dernier gagne.'
+  memorization_justification: Configuration de test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Application Tests; Customizing Environment Variables
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv() — .env.local ignored for test envs; .env.$env.local last
+    verified_at: '2026-10-02'
+- id: FLC-zqz3f16xj0f7
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: TRAP
+  front: 'Symfony : assertResponseIsSuccessful() exige-t-elle un code 200 ?'
+  back: 'Non : tout code 2xx passe.'
+  explanation: 'Exécuté : une réponse 201 passe.'
+  memorization_justification: Succès supposé limité à 200.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setBrowserKitAssertionsAsVerbose(); assertResponseIsSuccessful(…, ?bool $verbose)
+    verified_at: '2026-10-02'
+- id: FLC-6977vkkp3aep
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: TRAP
+  front: 'Symfony : .env.test.local l''emporte-t-il sur une variable déjà définie dans le shell ?'
+  back: 'Non : une vraie variable d''environnement l''emporte sur tous les fichiers.'
+  explanation: 'Exécuté : `A=shell` reste `shell` en `test`.'
+  memorization_justification: Priorité de l'environnement réel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv() — .env.local ignored for test envs; .env.$env.local last
+    verified_at: '2026-10-02'
+- id: FLC-3etfvfga4ktr
+  official_item: OIT-favt42nvgdqh
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il générer les URL des tests d''application avec le routeur ?'
+  back: 'Non : la documentation recommande de les écrire en dur, pour qu''un changement de route casse le test.'
+  explanation: Un test qui génère son URL suit le changement et ne le détecte plus.
+  memorization_justification: URL en dur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Application Tests; Customizing Environment Variables
     verified_at: '2026-10-02'
