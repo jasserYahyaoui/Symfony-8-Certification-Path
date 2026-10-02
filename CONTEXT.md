@@ -22,7 +22,7 @@ périmètre sur instruction.
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
 | 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport fusionné (PR #297) |
-| 13 (Automated tests) | **en cours** — pages 1–3 déployées (PR #298 à #300) ; page 4 en PR |
+| 13 (Automated tests) | **en cours** — pages 1–4 déployées (PR #298 à #301) ; page 5 en PR |
 | 14 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -37,9 +37,10 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 4 du lot 13 après CI verte,
-lire son smoke test, puis page 5 (*Profiler object*) : brouillon et cartes
-prêts. Reprise à prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un
+**Prochaine action** : fusionner la PR de la page 5 du lot 13 après CI verte,
+lire son smoke test, puis page 6 (*Framework objects access*) : brouillon prêt —
+`QST-kyaxpk3c138c` (VALIDATION) à passer en v2 (`set()` après `get()` lève
+une exception, exécuté). Reprise à prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un
 pare-feu `stateless`). Signaux holdout des lots 06 à 12 à revoir par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau

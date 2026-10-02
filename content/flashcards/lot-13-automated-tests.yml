@@ -73,6 +73,7 @@ flashcards:
 - id: FLC-57vzb0a87say
   official_item: OIT-t0qx5z264tyf
   language: fr
+  level: TRAP
   front: Qu'active réellement $client->enableProfiler() ?
   back: La collecte des données, pour la requête suivante seulement. Le profileur lui-même doit déjà être activé
     par configuration.
@@ -846,4 +847,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Node Traversing; Accessing Node Values; Forms — filter(...)->form()
+    verified_at: '2026-10-02'
+- id: FLC-jz97f3fth96t
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle configuration du profileur la documentation donne-t-elle pour l''environnement de test ?'
+  back: '`profiler: { enabled: true, collect: false }` sous `when@test`.'
+  explanation: Documentation 8.0, « How to Use the Profiler in a Functional Test ».
+  memorization_justification: Profileur en test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+- id: FLC-ggdjcfy3jz29
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode du client rend le profil de la dernière réponse ?'
+  back: '`$client->getProfile()`.'
+  explanation: Elle rend un `Profile`, `null` ou `false`.
+  memorization_justification: Lecture du profil.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()
+    verified_at: '2026-10-02'
+- id: FLC-p507j360cftp
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode du profil rend un collecteur ?'
+  back: '`$profile->getCollector(''nom'')`, par exemple `''time''` ou `''request''`.'
+  explanation: 'Exécuté : `getCollector(''request'')->getRoute()` rend `hello`.'
+  memorization_justification: Collecteurs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+- id: FLC-d1kr9gh4bk66
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi la collecte est-elle désactivée par défaut en test ?'
+  back: Parce qu'elle ralentit nettement la suite ; on l'active test par test.
+  explanation: Documentation 8.0.
+  memorization_justification: Coût de la collecte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+- id: FLC-qpv2e5qfvpqv
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : que signifie getProfile() qui rend false, et null ?'
+  back: '`false` : pas de service `profiler` ; `null` : profileur présent mais rien collecté pour cette réponse.'
+  explanation: 'Exécuté : `false` sans configuration, `null` avec `collect: false`.'
+  memorization_justification: Deux valeurs d'absence.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()
+    verified_at: '2026-10-02'
+- id: FLC-1gjtxvtbr3x4
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi enableProfiler() ne fait-il rien sans configuration du profileur ?'
+  back: Parce qu'il n'agit que si le conteneur a un service `profiler`.
+  explanation: 'Lu dans `KernelBrowser::enableProfiler()` ; exécuté : `getProfile()` vaut `false`.'
+  memorization_justification: Pas de profileur, pas de collecte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()
+    verified_at: '2026-10-02'
+- id: FLC-4drd0k7rzw41
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : profiler deux requêtes successives d''un même test avec collect: false.'
+  back: Appeler `$client->enableProfiler()` avant **chacune** des deux requêtes.
+  explanation: 'Exécuté : sans nouvel appel, la deuxième rend `null`.'
+  memorization_justification: Collecte répétée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()
+    verified_at: '2026-10-02'
+- id: FLC-6jrgjarrqgvg
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lire un profil sans faire échouer le test quand le profileur est absent.'
+  back: '`if ($profile = $client->getProfile()) { … }`.'
+  explanation: L'idiome de la documentation couvre `false` et `null`.
+  memorization_justification: Lecture défensive.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+- id: FLC-svw4s9jp1n6t
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: TRAP
+  front: 'Symfony : enableProfiler() vaut-il pour toutes les requêtes du test ?'
+  back: 'Non : pour la requête suivante seulement.'
+  explanation: 'Exécuté : profil, puis `null` à la requête d''après.'
+  memorization_justification: Portée d'enableProfiler().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()
+    verified_at: '2026-10-02'
+- id: FLC-ss5t4frvwdt2
+  official_item: OIT-t0qx5z264tyf
+  language: fr
+  level: TRAP
+  front: 'Symfony : avec collect: true, faut-il appeler enableProfiler() ?'
+  back: 'Non : chaque requête est profilée.'
+  explanation: 'Exécuté : un profil aux deux requêtes.'
+  memorization_justification: Collecte globale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
     verified_at: '2026-10-02'
