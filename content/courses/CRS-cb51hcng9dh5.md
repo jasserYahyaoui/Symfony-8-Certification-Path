@@ -5,7 +5,7 @@ title: "Custom commands"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/console.rst"
@@ -18,6 +18,21 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "AsCommand"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+    branch: "8.0"
+    symbol_or_lines: "registerAttributeForAutoconfiguration(AsCommand::class) and registerForAutoconfiguration(Command::class) — console.command"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php"
+    branch: "8.0"
+    symbol_or_lines: "__construct() — an invokable subclass that does not override execute() runs __invoke()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst"
+    branch: "8.0"
+    symbol_or_lines: "Interactive Input — #[Ask], #[Interact]"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -59,12 +74,27 @@ La classe est un service comme un autre. `#[AsCommand]` est une étiquette
 d'autoconfiguration : le conteneur pose le tag `console.command` sur tout service
 qui la porte, et l'`Application` récupère les services ainsi étiquetés.
 
-Deux conséquences :
+Lu dans `FrameworkExtension` (8.0), l'autoconfiguration pose ce tag dans
+**deux** cas : sur une classe qui porte `#[AsCommand]`, et sur **toute
+sous-classe de `Command`**, attribut ou non. Exécuté sur FrameworkBundle
+8.0.15, quatre classes dans le dossier chargé par `services.yaml` :
+
+| Classe | Attribut | Résultat |
+|---|---|---|
+| étend `Command`, nom posé dans `configure()` | non | **enregistrée**, exécutable |
+| invocable, n'étend rien | non | **absente** de l'application |
+| invocable, `hidden: true`, alias `app:h` | oui | absente de `list`, exécutable par son nom **et** son alias |
+| étend `Command` et définit `__invoke()` | oui | `initialize()` puis `__invoke()` |
+
+Conséquences :
 
 - avec la configuration `services.yaml` par défaut, une classe dans `src/Command/`
   est enregistrée sans un mot de configuration ;
-- sans l'attribut — parce que la classe vient d'une bibliothèque, par exemple —
-  il faut poser le tag `console.command` à la main.
+- une classe invocable **sans** l'attribut n'est pas une commande : il faut
+  poser le tag `console.command` à la main ;
+- une classe d'une bibliothèque n'est pas chargée par la ressource `src/` : il
+  faut la déclarer comme service — l'autoconfiguration lui pose le tag si elle
+  étend `Command`.
 
 ## Les dépendances
 
@@ -106,10 +136,27 @@ class CreateUserCommand extends Command
 }
 ```
 
-La documentation la nomme *legacy syntax* et recommande la forme invocable. Elle
-garde cependant une utilité concrète : `initialize()` et `interact()` sont des
-méthodes de `Command`. Une commande qui a besoin de ces points d'entrée étend
-`Command` — et peut alors définir `__invoke()` ou `execute()`.
+La documentation la nomme *legacy syntax* et recommande la forme invocable.
+Elle garde une utilité concrète : `initialize()` est une méthode de `Command`,
+sans équivalent par attribut. Une commande qui en a besoin étend `Command` — et
+peut alors définir `__invoke()` ou `execute()` ; lu dans le constructeur de
+`Command`, une sous-classe qui ne redéfinit pas `execute()` mais est invocable
+passe par `__invoke()`.
+
+Pour **interagir**, l'héritage n'est plus nécessaire en 8.0. Exécuté :
+
+```php
+public function __invoke(#[Argument, Ask('Name?')] string $name): int
+```
+
+| Lancement | Résultat |
+|---|---|
+| sans argument, réponse `alice` | la question est posée, `$name` vaut `alice` |
+| `app:ask bob` | aucune question |
+| `app:ask -n` | « Not enough arguments (missing: "name"). », code 1 |
+
+`#[Interact]` sur une méthode publique couvre la logique d'interaction plus
+riche.
 
 ## Pièges d'examen
 
@@ -118,22 +165,29 @@ méthodes de `Command`. Une commande qui a besoin de ces points d'entrée étend
 
 **`__invoke()` doit retourner un `int`.** C'est le code de sortie du processus.
 
-**`#[AsCommand]` exige un `name`.** C'est le seul paramètre obligatoire.
+**`#[AsCommand]` exige un `name`.** C'est le seul paramètre obligatoire ;
+`description`, `aliases`, `hidden`, `help` et `usages` sont facultatifs.
 
-**Pas d'attribut, pas d'enregistrement automatique** : il reste le tag
-`console.command`.
+**Sans attribut, une sous-classe de `Command` est quand même enregistrée** ;
+une classe invocable, non.
 
-**`initialize()` et `interact()` supposent l'héritage de `Command`.**
+**`hidden: true` retire la commande de `list`, pas de l'application.**
+
+**Interagir ne suppose plus d'étendre `Command`** : `#[Ask]` et `#[Interact]`.
+Seul `initialize()` reste propre à `Command`.
 
 ## Points clés
 
 - Classe ordinaire + `#[AsCommand(name: …)]` + `__invoke(): int`.
-- L'attribut déclenche l'autoconfiguration du tag `console.command`.
+- L'attribut, ou l'héritage de `Command`, déclenche l'autoconfiguration du
+  tag `console.command`.
 - Dépendances par le constructeur : la commande est un service.
-- `extends Command` avec `execute()` reste supporté, et reste nécessaire pour
-  `initialize()` et `interact()`.
+- `extends Command` avec `execute()` reste supporté, et nécessaire pour
+  `initialize()` ; l'interaction passe aussi par `#[Ask]` et `#[Interact]`.
 
 ## Sources officielles
 
 - [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)
 - [`AsCommand`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php)
+- [FrameworkBundle 8.0, `FrameworkExtension`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php)
+- [Console Input, « Interactive Input »](https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst)

@@ -24,7 +24,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Console component | STANDARD | 454 / 900 | 1 | **RAFFINÉE** (PR #288) |
-| 2 | Built-in commands | MINIMAL | 302 / 700 | 1 | à faire |
+| 2 | Built-in commands | MINIMAL | 302 / 700 | 1 | **RAFFINÉE** (PR #289) |
 | 3 | Custom commands | STANDARD | 443 / 900 | 1 | à faire |
 | 4 | Configuration | STANDARD | 519 / 900 | 1 | à faire |
 | 5 | Options and arguments (using PHP attributes) | STANDARD | 711 / 900 | 1 | à faire |
@@ -185,6 +185,93 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Custom commands* — RAFFINÉE
+
+`CRS-cb51hcng9dh5` · `OIT-kbg00jqxxwhq` · STANDARD · **443 → 715 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Console 8.0.15 : quatre
+classes de commande dans le dossier chargé par `services.yaml`, puis une
+commande invocable avec `#[Argument, Ask]` lancée dans un vrai processus.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 12 (PR #289, `17e257a`) | 36998885316, success | `ok  lot-12  the built-in commands page carries its four flashcard levels, the ambiguous abbreviation, the installed components and the runtime environment` |
+
+### Deux affirmations fausses, et deux questions bâties dessus
+
+**1. « Sans l'attribut, il faut poser le tag `console.command` à la main. »**
+Lu dans `FrameworkExtension` (8.0) : l'autoconfiguration pose le tag sur une
+classe `#[AsCommand]` **et** sur toute sous-classe de `Command`. Exécuté :
+
+| Classe | Attribut | Résultat |
+|---|---|---|
+| étend `Command`, nom posé dans `configure()` | non | enregistrée, exécutable |
+| invocable, n'étend rien | non | absente |
+| invocable, `hidden: true`, alias `app:h` | oui | absente de `list`, exécutable par nom et alias |
+| étend `Command` et définit `__invoke()` | oui | `initialize()` puis `__invoke()` |
+
+**`QST-tvce4echjywq` (LEARNING) → v2.** Bonne réponse juste (« registering it
+as a service tagged console.command »), mais l'explication et celle d'un
+distracteur posaient que l'autoconfiguration n'agit qu'avec l'attribut ; et ce
+distracteur — « placing a copy of the class in src/Command/ » — devenait
+défendable pour une sous-classe de `Command`. Distracteur remplacé
+(`CHO-tzzapj63ax5k`), explications réécrites.
+
+**2. « `initialize()` et `interact()` supposent l'héritage de `Command`. »**
+Vrai pour `initialize()`, faux pour l'interaction : `#[Ask]` et `#[Interact]`
+(documentation 8.0, « Interactive Input »). Exécuté,
+`__invoke(#[Argument, Ask('Name?')] string $name)` : question posée si
+l'argument manque, sautée s'il est fourni, « Not enough arguments (missing:
+"name"). » et code 1 avec `-n`.
+
+**`QST-sp2y1cwdz94v` (VALIDATION) → v2.** Sa bonne réponse était « extending
+Command, because interact() is one of its methods » pour inviter l'utilisateur
+à saisir un argument manquant. Réécrite sur l'acquis visé par la question
+(`OUT-npjsrz7new8m`, « dire quand étendre Command reste nécessaire ») : la
+bonne réponse est désormais `initialize()`, et l'interaction devient un
+distracteur. Quatre choix nouveaux (`CHO-2tjfe21d00ad`, `CHO-p38a0cbjxcaz`, `CHO-m5c74q89ff2x`, `CHO-20ss7w9dq9k8`, la bonne réponse en premier), la bonne réponse n'est pas la
+plus longue.
+
+**Carte `FLC-czhm5c0vv1sv`** : son verso répétait l'erreur 2 ; corrigé, niveau
+TRAP.
+
+### Confirmé par la lecture
+
+- `AsCommand::__construct()` : `name` seul obligatoire ; `description`,
+  `aliases`, `hidden`, `help`, `usages` facultatifs.
+- Constructeur de `Command` : une sous-classe invocable qui ne redéfinit pas
+  `execute()` passe par `__invoke()`.
+
+**Questions.** `QST-gbzpgycr1r6g` (LEARNING) relue : exacte, inchangée. Aucune
+question holdout sur cet item.
+
+**Flashcards.** 10 ajoutées ; `FLC-czhm5c0vv1sv` corrigée et classée TRAP.
+L'item en porte **11** (2 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 4 TRAP),
+décompte relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`sous-classe de`, `hidden: true` et `Not enough arguments`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Console 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 301 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Custom commands* (STANDARD, 443 / 900).
+Page 4 — *Configuration* (STANDARD, 519 / 900).

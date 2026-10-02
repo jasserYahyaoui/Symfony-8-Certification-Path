@@ -3472,6 +3472,32 @@ jobs:
           else
             echo "ok  lot-12  the built-in commands page carries its four flashcard levels, the ambiguous abbreviation, the installed components and the runtime environment"
           fi
+          # Lot 12 refinement, page 3 (Custom commands): the four flashcard
+          # levels, the subclass registered without the attribute, the hidden
+          # command and the interaction that no longer needs inheritance.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-custom -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/custom-commands")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page custom-commands serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-custom || missing="$missing l12cu:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-custom || missing="$missing l12cu:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-custom || missing="$missing l12cu:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-custom || missing="$missing l12cu:no-trap-heading"
+          grep -aq 'sous-classe de' /tmp/l12r-custom \
+            || missing="$missing l12cu:no-subclass-autoconfiguration"
+          grep -aq 'hidden: true' /tmp/l12r-custom \
+            || missing="$missing l12cu:no-hidden-command"
+          grep -aq 'Not enough arguments' /tmp/l12r-custom \
+            || missing="$missing l12cu:no-ask-run"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the custom commands page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the custom commands page carries its four flashcard levels, the subclass autoconfiguration, the hidden command and the ask run"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
