@@ -5,13 +5,23 @@ title: "Client object"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
     branch: "8.0"
     symbol_or_lines: "KernelBrowser"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php"
+    branch: "8.0"
+    symbol_or_lines: "__construct() — followRedirects = false"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php"
+    branch: "8.0"
+    symbol_or_lines: "$followRedirects = true; followRedirect(); xmlHttpRequest()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -58,7 +68,8 @@ request(
 `$client->getResponse()`.
 
 Pour une requête AJAX, `xmlHttpRequest()` a les mêmes arguments et ajoute
-l'en-tête `HTTP_X_REQUESTED_WITH` automatiquement.
+l'en-tête `HTTP_X_REQUESTED_WITH` automatiquement — exécuté :
+`$client->getRequest()->isXmlHttpRequest()` vaut `true`.
 
 ## Naviguer
 
@@ -70,7 +81,8 @@ $client->restart();   // vide les cookies et l'historique
 ```
 
 `back()` et `forward()` **sautent les redirections** rencontrées, comme le fait
-un vrai navigateur.
+un vrai navigateur. Exécuté : `/created`, puis `/go` suivi jusqu'à `/hello` ;
+`back()` ramène à `/created`, pas à `/go`.
 
 ## Les redirections
 
@@ -86,11 +98,32 @@ confondre :
 La différence est le singulier : l'une agit sur la réponse courante, l'autre
 règle le client. `followRedirects()` doit être appelée **avant** la requête.
 
+Le défaut n'est pas celui de BrowserKit. Lu dans le code 8.0 :
+`AbstractBrowser` déclare `$followRedirects = true`, mais `HttpKernelBrowser`
+— parent de `KernelBrowser` — le passe à `false` dans son constructeur. Un
+`HttpBrowser`, qui parle à un vrai serveur, suit donc les redirections ; le
+client de test, non. Exécuté, `GET /go` qui redirige vers `/hello` :
+
+| Client | Après `request()` | Après `followRedirect()` |
+|---|---|---|
+| `createClient()`, par défaut | 302, `isFollowingRedirects()` faux | 200 sur `/hello` |
+
 ## Plusieurs requêtes dans un test
 
 Après une requête, la suivante **redémarre le noyau** et reconstruit le
 conteneur, pour isoler les requêtes. Conséquence pratique : le jeton de sécurité
-est effacé entre deux requêtes.
+est effacé entre deux requêtes. Exécuté : deux requêtes, deux objets conteneur
+différents ; après `disableReboot()`, le même conteneur sert la requête
+suivante.
+
+Ce jeton effacé n'implique pas toujours une déconnexion. `loginUser()` le
+place dans le stockage de jetons **et**, s'il y a une session, dans la session.
+Exécuté avec SecurityBundle 8.0.15, `loginUser()` puis deux requêtes :
+
+| Pare-feu | 1ʳᵉ requête | 2ᵉ requête |
+|---|---|---|
+| avec état (par défaut) | `alice` | `alice` — restauré depuis la session |
+| `stateless: true` | `alice` | anonyme |
 
 `disableReboot()` réinitialise le noyau au lieu de le redémarrer — Symfony
 appelle alors `reset()` sur les services marqués `kernel.reset`. Cela efface
@@ -116,17 +149,22 @@ $client->catchExceptions(false);
 
 Par défaut les exceptions sont interceptées et rendues en page d'erreur ; le
 test échoue alors sur un code 500 sans dire pourquoi. Cette méthode les laisse
-remonter jusqu'à PHPUnit.
+remonter jusqu'à PHPUnit. Exécuté, un contrôleur qui lève
+`RuntimeException('kaboom')` : réponse 500 par défaut, puis l'exception
+elle-même après `catchExceptions(false)`.
 
 ## Pièges d'examen
 
 **`request()` retourne un `Crawler`**, pas une `Response`.
 
-**Le client ne suit pas les redirections par défaut.**
+**Le client de test ne suit pas les redirections par défaut** — alors que le
+`AbstractBrowser` de BrowserKit, lui, les suit.
 
 **`followRedirect()` ≠ `followRedirects()`** : une fois, contre un réglage.
 
-**Le noyau redémarre entre deux requêtes** et le jeton de sécurité est perdu.
+**Le noyau redémarre entre deux requêtes** et le jeton en mémoire est perdu ;
+un pare-feu avec état le restaure depuis la session, un pare-feu `stateless`
+non.
 
 **Aucun JavaScript n'est exécuté** : c'est un client simulé, pas un navigateur.
 
@@ -142,3 +180,5 @@ remonter jusqu'à PHPUnit.
 
 - [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)
 - [`KernelBrowser`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php)
+- [`HttpKernelBrowser`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php)
+- [`AbstractBrowser`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php)

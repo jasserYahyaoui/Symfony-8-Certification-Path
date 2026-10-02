@@ -41,6 +41,7 @@ flashcards:
 - id: FLC-pdapm9phgtmc
   official_item: OIT-bc3brs4a4mtt
   language: fr
+  level: RECALL
   front: Que retourne $client->request() ?
   back: Un Crawler, pas une Response. La réponse se lit séparément par $client->getResponse().
   explanation: Le crawler porte le document rendu ; c'est lui qui permet de filtrer, cliquer et soumettre.
@@ -488,4 +489,188 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Application Tests; Customizing Environment Variables
+    verified_at: '2026-10-02'
+- id: FLC-mfd0x9mcgyvb
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode du client suit une seule redirection en attente ?'
+  back: '`followRedirect()` ; `followRedirects()` règle le client pour toutes les suivantes.'
+  explanation: 'Exécuté : 302, puis 200 sur la cible après `followRedirect()`.'
+  memorization_justification: Singulier et pluriel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: $followRedirects = true; followRedirect(); followRedirects(); xmlHttpRequest()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
+    verified_at: '2026-10-02'
+- id: FLC-j7zqgf2tk2fc
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode laisse remonter les exceptions jusqu''à PHPUnit ?'
+  back: '`$client->catchExceptions(false)`.'
+  explanation: 'Exécuté : réponse 500 par défaut, l''exception elle-même ensuite.'
+  memorization_justification: Déboguer un 500.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loginUser() — token storage and session; disableReboot(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-3fftht22p8gs
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi le client de test ne suit-il pas les redirections alors qu''AbstractBrowser les suit par défaut ?'
+  back: Parce que `HttpKernelBrowser`, parent de `KernelBrowser`, met `followRedirects` à `false` dans son constructeur.
+  explanation: 'Lu dans le code 8.0 ; exécuté : `isFollowingRedirects()` faux.'
+  memorization_justification: Défaut redéfini.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() — followRedirects = false
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: $followRedirects = true; followRedirect(); followRedirects(); xmlHttpRequest()
+    verified_at: '2026-10-02'
+- id: FLC-gbwgxg6edsms
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un utilisateur connecté par loginUser() reste-t-il authentifié à la deuxième requête ?'
+  back: Parce que `loginUser()` place aussi le jeton dans la session, qu'un pare-feu avec état relit après le redémarrage du noyau.
+  explanation: 'Exécuté : `alice` deux fois avec un pare-feu avec état.'
+  memorization_justification: Session et redémarrage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loginUser() — token storage and session; disableReboot(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-decb158nk58k
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi les tests du client sont-ils rapides mais aveugles au JavaScript ?'
+  back: 'Parce que `KernelBrowser` construit la requête en mémoire et la passe au noyau : ni serveur, ni navigateur.'
+  explanation: Documentation 8.0, « Application Tests ».
+  memorization_justification: Client simulé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
+    verified_at: '2026-10-02'
+- id: FLC-npxbaqk9p2bz
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : faire suivre toutes les redirections d''un test par le client.'
+  back: '`$client->followRedirects()` **avant** la requête.'
+  explanation: '`followRedirects(false)` revient au défaut.'
+  memorization_justification: Mode redirections.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: $followRedirects = true; followRedirect(); followRedirects(); xmlHttpRequest()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
+    verified_at: '2026-10-02'
+- id: FLC-xdtedk6hb85g
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : garder le même conteneur entre deux requêtes d''un test.'
+  back: '`$client->disableReboot()`.'
+  explanation: 'Exécuté : le même objet conteneur sert la requête suivante ; les services `kernel.reset` sont réinitialisés.'
+  memorization_justification: Pas de redémarrage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loginUser() — token storage and session; disableReboot(); catchExceptions()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
+    verified_at: '2026-10-02'
+- id: FLC-h91n4s24j5qg
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: TRAP
+  front: 'Symfony : request() retourne-t-elle la Response ?'
+  back: 'Non : un `Crawler` ; la réponse se lit par `$client->getResponse()`.'
+  explanation: 'Exécuté : `Symfony\Component\DomCrawler\Crawler`.'
+  memorization_justification: Valeur de retour.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: $followRedirects = true; followRedirect(); followRedirects(); xmlHttpRequest()
+    verified_at: '2026-10-02'
+- id: FLC-ypzrmzxf56gs
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: TRAP
+  front: 'Symfony : avec un pare-feu stateless, loginUser() vaut-il pour toutes les requêtes du test ?'
+  back: 'Non : seulement la première ; le noyau redémarre ensuite et le pare-feu ne relit pas la session.'
+  explanation: 'Exécuté : `alice`, puis anonyme.'
+  memorization_justification: Stateless et loginUser.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loginUser() — token storage and session; disableReboot(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-n4wy9v7h0cps
+  official_item: OIT-bc3brs4a4mtt
+  language: fr
+  level: TRAP
+  front: 'Symfony : back() revient-il sur la page de redirection ?'
+  back: 'Non : `back()` et `forward()` sautent les redirections, comme un navigateur.'
+  explanation: 'Exécuté : `/created`, puis `/go` suivi jusqu''à `/hello` ; `back()` ramène à `/created`.'
+  memorization_justification: Historique et redirections.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
     verified_at: '2026-10-02'
