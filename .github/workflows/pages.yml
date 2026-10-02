@@ -3576,6 +3576,32 @@ jobs:
           else
             echo "ok  lot-12  the input and output page carries its four flashcard levels, the plain mode, the raw option and the kept colours"
           fi
+          # Lot 12 refinement, page 7 (Built-in helpers): the four flashcard
+          # levels, the progress bar without a total, the step count set later
+          # and the question aborted on an empty input.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-built-in-helpers -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/built-in-helpers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page built-in-helpers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-built-in-helpers || missing="$missing l12bh:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-built-in-helpers || missing="$missing l12bh:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-built-in-helpers || missing="$missing l12bh:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-built-in-helpers || missing="$missing l12bh:no-trap-heading"
+          grep -aqF -- 'throbber' /tmp/l12r-built-in-helpers \
+            || missing="$missing l12bh:no-throbber"
+          grep -aqF -- 'setMaxSteps' /tmp/l12r-built-in-helpers \
+            || missing="$missing l12bh:no-max-steps"
+          grep -aqF -- 'MissingInputException' /tmp/l12r-built-in-helpers \
+            || missing="$missing l12bh:no-aborted-question"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the built-in helpers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the helpers page carries its four flashcard levels, the throbber, the max steps and the aborted question"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
