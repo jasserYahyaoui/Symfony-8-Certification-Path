@@ -3810,6 +3810,32 @@ jobs:
           else
             echo "ok  lot-13  the framework objects page carries its four flashcard levels, the test container, the removed service and the late double"
           fi
+          # Lot 13 refinement, page 7 (Client configuration): the four flashcard
+          # levels, the CGI header that needs no HTTP_ prefix, the default user
+          # agent and the session value lost without save().
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l13r-client-configuration -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/client-configuration")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 13 refined page client-configuration serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l13r-client-configuration || missing="$missing l13cc:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l13r-client-configuration || missing="$missing l13cc:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l13r-client-configuration || missing="$missing l13cc:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l13r-client-configuration || missing="$missing l13cc:no-trap-heading"
+          grep -aqF -- 'arrive bien comme' /tmp/l13r-client-configuration \
+            || missing="$missing l13cc:no-cgi-header"
+          grep -aqF -- 'Symfony BrowserKit' /tmp/l13r-client-configuration \
+            || missing="$missing l13cc:no-default-agent"
+          grep -aqF -- 'unsaved' /tmp/l13r-client-configuration \
+            || missing="$missing l13cc:no-unsaved-session"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 13 refinement missing from the client configuration page:$missing"
+            fail=1
+          else
+            echo "ok  lot-13  the client configuration page carries its four flashcard levels, the cgi header, the default agent and the unsaved session"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

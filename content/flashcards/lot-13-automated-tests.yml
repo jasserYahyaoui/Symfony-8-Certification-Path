@@ -106,6 +106,7 @@ flashcards:
 - id: FLC-31xxh9cs2ah8
   official_item: OIT-bswvewkkkj1q
   language: fr
+  level: RECALL
   front: Comment s'écrit l'en-tête X-Session-Token passé au client de test ?
   back: 'HTTP_X_SESSION_TOKEN : tirets remplacés par des soulignés, majuscules, préfixe HTTP_ (RFC 3875 §4.1.18).'
   explanation: La même transformation vaut pour tout en-tête personnalisé, dans createClient() comme dans request().
@@ -1186,4 +1187,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-hm92fhh8kahc
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: RECALL
+  front: 'Symfony : que portent les deux arguments de createClient() ?'
+  back: Le premier, les options du noyau (`environment`, `debug`) ; le second, les paramètres serveur, donc les en-têtes.
+  explanation: Lu dans `WebTestCase::createClient()`.
+  memorization_justification: Signature de createClient().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createClient(array $options = [], array $server = [])
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-1p1v6dtkr9gv
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel argument de request() porte les en-têtes d''une seule requête ?'
+  back: Le cinquième, `$server`, après les paramètres et les fichiers.
+  explanation: '`$client->request(''GET'', ''/'', [], [], [''HTTP_HOST'' => ''en.example.com''])`.'
+  memorization_justification: Position des en-têtes.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-gnkv8se39344
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi X-Session-Token passé tel quel au client n''arrive-t-il pas au serveur ?'
+  back: 'Parce que les paramètres serveur suivent la convention CGI : un en-tête s''y nomme `HTTP_` + majuscules + soulignés.'
+  explanation: 'Exécuté : `null` pour `X-Session-Token`, `abc` pour `HTTP_X_SESSION_TOKEN`.'
+  memorization_justification: Convention CGI.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-gsje06kr0vax
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une valeur posée en session sans save() est-elle invisible à la requête suivante ?'
+  back: Parce qu'elle n'est pas persistée ; la requête relit la session enregistrée.
+  explanation: 'Exécuté : `null` sans `save()`, `saved` avec.'
+  memorization_justification: Persistance de session.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSession(); catchExceptions()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-wxsxvpaseryv
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi CONTENT_TYPE n''a-t-il pas de préfixe HTTP_ ?'
+  back: Parce que c'est un en-tête standard de CGI, nommé sans préfixe ; seuls les autres en-têtes en prennent un.
+  explanation: 'Exécuté : `CONTENT_TYPE` arrive comme `Content-Type`.'
+  memorization_justification: En-têtes CGI standard.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-e26bmx47kxw4
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : envoyer toutes les requêtes d''un test vers l''hôte en.example.com.'
+  back: '`static::createClient([], [''HTTP_HOST'' => ''en.example.com''])`.'
+  explanation: 'Exécuté : l''hôte vaut encore à la deuxième requête.'
+  memorization_justification: Hôte du client.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+- id: FLC-rshkgejz5b9g
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : soumettre un formulaire protégé par CSRF sans l''afficher d''abord.'
+  back: 'Poser le jeton en session : `getSession()->set(''_csrf/form'', $t)`, `save()`, puis l''envoyer dans le formulaire.'
+  explanation: Documentation 8.0, « Accessing the Session ».
+  memorization_justification: Jeton CSRF.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSession(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-pq2yx3d56bcf
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il une première requête avant d''écrire en session depuis le client ?'
+  back: 'Non : `getSession()` rend déjà une session, et une valeur sauvegardée est lue par la première requête.'
+  explanation: 'Exécuté : `early` lu dès la première requête.'
+  memorization_justification: Session avant requête.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSession(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-e9bc3qqaq3rt
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: TRAP
+  front: 'Symfony : catchExceptions(false) change-t-il le comportement de l''application ?'
+  back: 'Non : il change seulement ce que le client fait de l''exception, qui remonte à PHPUnit.'
+  explanation: L'application lève la même exception dans les deux cas.
+  memorization_justification: Portée de catchExceptions().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSession(); catchExceptions()
+    verified_at: '2026-10-02'
+- id: FLC-yy43dbszj832
+  official_item: OIT-bswvewkkkj1q
+  language: fr
+  level: TRAP
+  front: 'Symfony : X_SESSION_TOKEN, sans préfixe, est-il reconnu comme en-tête ?'
+  back: 'Non : il faut `HTTP_X_SESSION_TOKEN`.'
+  explanation: 'Exécuté : `null` côté serveur.'
+  memorization_justification: Préfixe oublié.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Customizing the Client; Setting Custom Headers; Accessing the Session
     verified_at: '2026-10-02'

@@ -29,7 +29,7 @@ première page.
 | 3 | Client object | STANDARD | 524 / 900 | 1 | **RAFFINÉE** (PR #300) |
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | **RAFFINÉE** (PR #301) |
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | **RAFFINÉE** (PR #302) |
-| 6 | Framework objects access | STANDARD | 431 / 900 | 1 | à faire |
+| 6 | Framework objects access | STANDARD | 431 / 900 | 1 | **RAFFINÉE** (PR #303) |
 | 7 | Client configuration | STANDARD | 406 / 900 | 1 | à faire |
 | 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | à faire |
 | 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | à faire |
@@ -460,6 +460,66 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 7 — *Client configuration* — RAFFINÉE
+
+`CRS-4x4ec26c9bfc` · `OIT-bswvewkkkj1q` · STANDARD · **406 → 517 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle 8.0.15 et PHPUnit 11.5.56 :
+un contrôleur qui renvoie ce qu'il lit dans la requête et la session, appelé
+avec plusieurs nommages d'en-têtes et plusieurs ordres d'écriture en session.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 6 du lot 13 (PR #303, `212d8c6`) | 37046560960, success | `ok  lot-13  the framework objects page carries its four flashcard levels, the test container, the removed service and the late double` |
+
+### Ce que la page affirmait sans le montrer
+
+La page était exacte. Exécuté :
+
+| Cas | Résultat côté serveur |
+|---|---|
+| `HTTP_X_SESSION_TOKEN` | `X-Session-Token` = `abc` |
+| `X-Session-Token`, `X_SESSION_TOKEN` | `null` |
+| `CONTENT_TYPE` | `Content-Type` présent |
+| `HTTP_HOST` dans `createClient()` | encore valable à la deuxième requête |
+| session, `set()` sans `save()` | `null` |
+| session, `set()` + `save()` | la valeur |
+| session écrite et sauvée avant toute requête | lue par la première requête |
+
+L'agent utilisateur par défaut vaut `Symfony BrowserKit`. L'exemple CSRF est
+relu dans `testing.rst` (8.0), « Accessing the Session ».
+
+**Questions.** `QST-vtbv0rcpscbs`, `QST-0j3a50p7fbtn` (LEARNING) et
+`QST-d4rhfyhajr7w` (VALIDATION) relues : exactes, inchangées. Aucune question
+holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-31xxh9cs2ah8` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`arrive bien comme`, `Symfony BrowserKit` et `unsaved`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 431 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 7 — *Client configuration* (STANDARD, 406 / 900).
+Page 8 — *Request and response objects introspection* (STANDARD, 424 / 900).

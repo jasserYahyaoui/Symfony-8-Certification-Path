@@ -5,7 +5,7 @@ title: "Client configuration"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing.rst"
@@ -13,6 +13,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php"
+    branch: "8.0"
+    symbol_or_lines: "createClient(array $options = [], array $server = [])"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
+    branch: "8.0"
+    symbol_or_lines: "getSession(); catchExceptions()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -51,6 +61,18 @@ transforme selon la section 4.1.18 de la RFC 3875 :
 Les en-têtes standards de CGI échappent au préfixe — `CONTENT_TYPE`,
 `REMOTE_ADDR` — mais l'examen porte sur la règle des en-têtes personnalisés.
 
+Exécuté avec FrameworkBundle 8.0.15, un contrôleur qui renvoie ce qu'il lit
+dans `$request->headers` :
+
+| Clé passée au client | `X-Session-Token` côté serveur |
+|---|---|
+| `HTTP_X_SESSION_TOKEN` | `abc` |
+| `X-Session-Token` | `null` |
+| `X_SESSION_TOKEN` | `null` |
+
+`CONTENT_TYPE`, sans préfixe, arrive bien comme `Content-Type`. Sans réglage,
+l'agent utilisateur vaut `Symfony BrowserKit`.
+
 ## Par requête plutôt que par client
 
 Le même tableau se passe en **cinquième** argument de `request()` :
@@ -62,7 +84,8 @@ $client->request('GET', '/', [], [], [
 ```
 
 `createClient()` règle tout le test ; `request()` règle une requête. La position
-compte : le cinquième argument, après les paramètres et les fichiers.
+compte : le cinquième argument, après les paramètres et les fichiers. Exécuté :
+`HTTP_HOST` passé à `createClient()` vaut encore à la deuxième requête.
 
 ## Préparer la session
 
@@ -76,7 +99,13 @@ $client->request('POST', '/form', ['form' => ['_token' => 'fhr8d5sha3a69tpv24s5'
 
 `save()` est nécessaire : sans elle la valeur n'est pas persistée et la requête
 ne la verra pas. Le cas d'usage typique est le jeton CSRF, qu'on ne peut pas
-deviner sans avoir affiché le formulaire.
+deviner sans avoir affiché le formulaire. Exécuté :
+
+| Avant la requête | Valeur lue par le contrôleur |
+|---|---|
+| `set('k', 'unsaved')` | `null` |
+| `set('k', 'saved')` puis `save()` | `saved` |
+| `set` + `save()` **avant toute requête** | lue aussi : `getSession()` rend déjà une `Session` |
 
 ## Voir les exceptions
 
