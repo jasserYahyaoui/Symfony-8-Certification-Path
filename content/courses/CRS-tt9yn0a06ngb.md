@@ -5,7 +5,7 @@ title: "Unit tests with PHPUnit"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php"
+    branch: "8.0"
+    symbol_or_lines: "getKernelClass() — LogicException without KERNEL_CLASS"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -46,6 +51,12 @@ appelle la méthode, on assertit. **Aucun noyau n'est démarré, aucun conteneur
 n'est construit.** Une classe qui a besoin du conteneur pour être testée n'est
 plus testée unitairement.
 
+La frontière se voit à l'exécution. Exécuté avec PHPUnit 11.5 et FrameworkBundle
+8.0.15, dans la même suite : un test qui étend `TestCase` passe sans rien
+configurer ; un test qui étend `KernelTestCase` et appelle `bootKernel()` échoue
+tant que le noyau n'est pas désigné — `LogicException` : « You must set the
+KERNEL_CLASS environment variable… ».
+
 ## L'installation
 
 ```bash
@@ -53,15 +64,18 @@ composer require --dev symfony/test-pack
 php bin/phpunit
 ```
 
-`symfony/test-pack` tire PHPUnit et ce qui l'accompagne. La commande à connaître
-est **`php bin/phpunit`**, pas `vendor/bin/phpunit` : Flex installe ce
-lanceur.
+`symfony/test-pack` tire PHPUnit (`phpunit/phpunit`) et d'autres paquets utiles
+aux tests. La documentation 8.0 lance la suite par **`php bin/phpunit`**.
 
 ## Où vivent les tests
 
 Dans `tests/`, dont l'arborescence **reproduit celle de `src/`** : une classe de
 `src/Form/` se teste dans `tests/Form/`. Chaque classe de test se termine par
 `Test` — `UserTypeTest`.
+
+Le suffixe n'est pas décoratif. Exécuté, un répertoire contenant `CalcTest.php`
+et `CalcTests.php` : le parcours du répertoire n'exécute **que** `CalcTest.php`
+(1 test). `CalcTests.php` ne tourne que si on le désigne explicitement.
 
 ```bash
 php bin/phpunit                          # tout
@@ -71,10 +85,21 @@ php bin/phpunit tests/Form/UserTypeTest.php
 
 ## La configuration
 
-Le fichier est `phpunit.dist.xml` à la racine. Le nom compte : à partir de
-PHPUnit 10 c'est `phpunit.dist.xml` ; avant, `phpunit.xml.dist`. Flex le crée,
-avec `tests/bootstrap.php`, et la configuration par défaut suffit dans la
-plupart des cas. L'autochargement passe par `vendor/autoload.php`.
+Le fichier est `phpunit.dist.xml` à la racine ; la documentation précise
+qu'avant PHPUnit 10 il s'appelait `phpunit.xml.dist`. Flex le crée, avec
+`tests/bootstrap.php`, et la configuration par défaut suffit dans la plupart
+des cas. L'autochargement passe par `vendor/autoload.php`.
+
+Exécuté avec PHPUnit 11.5, les trois noms à la racine :
+
+| Fichiers présents | Configuration retenue |
+|---|---|
+| `phpunit.xml`, `phpunit.dist.xml`, `phpunit.xml.dist` | `phpunit.xml` |
+| `phpunit.dist.xml`, `phpunit.xml.dist` | `phpunit.dist.xml` |
+| `phpunit.xml.dist` seul | `phpunit.xml.dist` — encore lu |
+
+`phpunit.xml`, non versionné, sert donc à surcharger localement la
+configuration partagée.
 
 ## Pièges d'examen
 
@@ -84,7 +109,11 @@ plupart des cas. L'autochargement passe par `vendor/autoload.php`.
 **« Test fonctionnel » et « test d'application » désignent la même chose** dans
 le vocabulaire Symfony.
 
-**`php bin/phpunit`** est le lanceur installé par Flex.
+**`php bin/phpunit`** est la commande que donne la documentation 8.0.
+
+**Un fichier `…Tests.php` est ignoré** quand PHPUnit parcourt un répertoire.
+
+**`phpunit.xml` passe avant `phpunit.dist.xml`.**
 
 **`tests/` reflète `src/`**, et les classes se terminent par `Test`.
 
@@ -93,8 +122,10 @@ le vocabulaire Symfony.
 - Trois types : unitaire, intégration, application.
 - Un test unitaire est un test PHPUnit ordinaire, sans noyau ni conteneur.
 - `composer require --dev symfony/test-pack`, puis `php bin/phpunit`.
-- `phpunit.dist.xml` depuis PHPUnit 10 ; `tests/` reproduit `src/`.
+- `phpunit.dist.xml` depuis PHPUnit 10, `phpunit.xml` le surcharge ; `tests/`
+  reproduit `src/`, suffixe `Test`.
 
 ## Sources officielles
 
 - [Testing](https://github.com/symfony/symfony-docs/blob/8.0/testing.rst)
+- [FrameworkBundle 8.0, `KernelTestCase`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php)
