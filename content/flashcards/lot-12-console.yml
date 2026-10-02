@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-1geh3bkk61mh
   official_item: OIT-481gmkgbksnr
   language: fr
+  level: RECALL
   front: Que doit retourner la méthode d'exécution d'une commande ?
   back: 'Un entier, qui devient le code de sortie du processus : Command::SUCCESS (0), FAILURE (1) ou INVALID (2).'
   explanation: Un script d'intégration continue ou un cron lit ce code, jamais la sortie texte.
@@ -148,3 +149,181 @@ flashcards:
     symbol_or_lines: '"--silent # suppress all output, including errors" versus "-q # suppress all output (even the command result messages) but display errors"; and the table mapping --silent to -2 and --quiet to -1'
     verified_at: '2026-09-07'
 
+- id: FLC-1s1kbf1ja885
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options rendent l''entrée d''une commande non interactive ?'
+  back: '`--no-interaction` (`-n`), et aussi `--quiet` (`-q`) et `--silent`.'
+  explanation: Lu dans `Application::configureIO()` (8.0) ; exécuté avec `-n` et `-q`.
+  memorization_justification: Options non interactives.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-r3mqz0vpdws2
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel code de sortie donne une commande qui lève une exception de code 3 ?'
+  back: 3 ; une exception de code 0 ou négatif donne 1.
+  explanation: Exécuté avec Console 8.0.15, dans un vrai processus.
+  memorization_justification: Code de sortie d'une exception.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-6qbmkcgn7de3
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi interact() est-elle appelée sous cron, sans -n ?'
+  back: Parce que seule une option (`-n`, `-q`, `--silent`) rend l'entrée non interactive ; l'absence de terminal ne suffit pas.
+  explanation: 'Exécuté sans TTY, entrée standard vide : `interact()` appelée, la question reçoit sa valeur par défaut.'
+  memorization_justification: Cron et interactivité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); run() calls interact() only if $input->isInteractive()
+    verified_at: '2026-10-02'
+- id: FLC-28e0yjm5ghnp
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi configure() n''est-elle pas une étape du lancement d''une commande ?'
+  back: Parce qu'elle s'exécute dans le constructeur de `Command`, avant tout lancement.
+  explanation: 'Exécuté : `ctor-start`, `configure`, `ctor-end`.'
+  memorization_justification: Place de configure().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() calls configure(); run() calls interact() only if $input->isInteractive()
+    verified_at: '2026-10-02'
+- id: FLC-jv7m5gaatn96
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une commande dont __invoke() ne retourne rien sort-elle avec le code 255 ?'
+  back: 'Parce qu''elle lève une `TypeError`, qu''`Application` ne rattrape pas par défaut : PHP termine sur une erreur fatale.'
+  explanation: 'Exécuté : `TypeError`, la commande « must return an integer value », puis code 255.'
+  memorization_justification: Retour manquant.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __invoke must return an integer, otherwise TypeError
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-8362wf75de50
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lancer une commande depuis un cron sans qu''elle pose de question.'
+  back: Passer `--no-interaction` (`-n`) ; prévoir un repli pour toute valeur obtenue dans `interact()`.
+  explanation: Sans `-n`, `interact()` tourne même sans terminal.
+  memorization_justification: Exécution automatisée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Command Lifecycle
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-tmnskaz34v5f
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : poser une question dans une commande invocable qui n''étend pas Command.'
+  back: '`#[Ask]` sur le paramètre de `__invoke()`, ou une méthode publique marquée `#[Interact]`.'
+  explanation: 'Exécuté : la méthode `#[Interact]` tourne avant `__invoke()`, et elle est sautée avec `-n`.'
+  memorization_justification: Interaction sans Command.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'
+- id: FLC-cm8xbfk6cxw5
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: TRAP
+  front: 'Symfony : une commande qui retourne 300 sort-elle avec le code 300 ?'
+  back: 'Non : 255. `Application::run()` plafonne le code avant `exit()`.'
+  explanation: Exécuté dans un vrai processus.
+  memorization_justification: Code hors plage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-3xmbmek68vk3
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: TRAP
+  front: 'Symfony : -q ne fait-il que couper la sortie ?'
+  back: 'Non : il rend aussi l''entrée non interactive, donc `interact()` est sautée.'
+  explanation: Exécuté avec Console 8.0.15.
+  memorization_justification: Effet caché de -q.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — exception code as exit code, 1 if not positive, 255 cap; configureIO() — -n, -q, --silent set the input non-interactive
+    verified_at: '2026-10-02'
+- id: FLC-tpg8gap13akx
+  official_item: OIT-481gmkgbksnr
+  language: fr
+  level: TRAP
+  front: 'Symfony : une commande invocable peut-elle interagir sans étendre Command ?'
+  back: 'Oui : `#[Ask]` et `#[Interact]` en 8.0.'
+  explanation: La documentation 8.0 les décrit dans « Interactive Input ».
+  memorization_justification: Interaction réservée à Command.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Interactive Input — #[Ask], #[Interact]'
+    verified_at: '2026-10-02'

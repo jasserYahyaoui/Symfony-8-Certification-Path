@@ -65,7 +65,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-jc4865ayfy98
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-481gmkgbksnr
   domain: symfony
@@ -77,8 +77,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A command asks for a missing value inside interact(). Run from cron, it uses an empty value instead
-    of asking. Why?
+  question: A command asks for a missing value inside interact(). Run with --no-interaction, it uses an empty
+    value instead of asking. Why?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -88,7 +88,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-02'
   tags:
   - interact
   - non-interactive
@@ -96,10 +96,11 @@ questions:
   - id: CHO-wbwt1hqy4ff4
     text: interact() is not called when the input is not interactive
     correct: true
-  - id: CHO-jnx52zbrdzb8
-    text: cron strips the standard input before the command starts
+  - id: CHO-25fmfr5nrntq
+    text: --no-interaction closes the standard input before the command starts
     correct: false
-    explanation: The behaviour comes from Symfony's own interactivity check, not from cron's plumbing.
+    explanation: The standard input is left alone; the option marks the input as non-interactive, and
+      Command::run() then skips interact().
   - id: CHO-qkewtcznac4j
     text: interact() runs but its return value is discarded
     correct: false
@@ -109,8 +110,10 @@ questions:
     text: The value was set but overwritten by initialize()
     correct: false
     explanation: initialize() runs before interact(), so it cannot overwrite a later assignment.
-  explanation: interact() is skipped whenever the input is not interactive, so any value obtained there needs a
-    fallback.
+  explanation: interact() is skipped whenever the input is not interactive, which Application sets for
+    --no-interaction (-n), --quiet (-q) and --silent. A missing terminal is not enough. Executed on Console
+    8.0.15 with no TTY and an empty standard input, the situation of a cron job, interact() still ran and
+    the question received its default value. Any value obtained there needs a fallback.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst

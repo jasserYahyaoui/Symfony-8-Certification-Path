@@ -3420,6 +3420,32 @@ jobs:
           else
             echo "ok  lot-11  the events page carries its four flashcard levels, the refused handling, the eleventh event and the retry priority"
           fi
+          # Lot 12 refinement, page 1 (Console component): the four flashcard
+          # levels, the options that make the input non-interactive, the
+          # invokable interaction attribute and the missing return value.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l12r-component -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/console-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 12 refined page console-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l12r-component || missing="$missing l12cc:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l12r-component || missing="$missing l12cc:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l12r-component || missing="$missing l12cc:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l12r-component || missing="$missing l12cc:no-trap-heading"
+          grep -aq 'configureIO' /tmp/l12r-component \
+            || missing="$missing l12cc:no-interactivity-source"
+          grep -aq 'Interact]' /tmp/l12r-component \
+            || missing="$missing l12cc:no-interact-attribute"
+          grep -aq 'TypeError' /tmp/l12r-component \
+            || missing="$missing l12cc:no-missing-return"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 12 refinement missing from the console component page:$missing"
+            fail=1
+          else
+            echo "ok  lot-12  the console component page carries its four flashcard levels, the interactivity options, the interact attribute and the missing return"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
