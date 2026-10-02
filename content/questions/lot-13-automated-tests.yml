@@ -435,7 +435,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-cd7mwe96kqaf
-  version: 1
+  version: 2
   official_topic: Automated Tests
   official_item: OIT-bc3brs4a4mtt
   domain: symfony
@@ -447,7 +447,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A test logs a user in, then makes a second request, and the user is no longer authenticated. Why?
+  question: A test calls loginUser() for a stateless firewall, then makes two requests. The first one is
+    authenticated, the second one is not. Why?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -457,7 +458,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - reboot
   choices:
@@ -471,13 +472,16 @@ questions:
   - id: CHO-w0tcjzdgjgnr
     text: Session cookies are not kept by the test client
     correct: false
-    explanation: The client keeps a cookie jar across requests.
+    explanation: The client keeps a cookie jar across requests; a stateless firewall simply never reads the session.
   - id: CHO-rt0vxrkw5zsj
     text: A second request requires a new client instance
     correct: false
     explanation: The same client handles several requests; the kernel is what restarts.
-  explanation: Requests are isolated by rebooting the kernel. disableReboot() resets it instead, but reset() on
-    kernel.reset services still clears the token, which a compiler pass in the test environment can prevent.
+  explanation: loginUser() puts the token in the token storage and, when a session exists, in the session.
+    The first request reuses the booted kernel; the next one reboots it, so the in-memory token is gone, and a
+    stateless firewall does not restore it from the session. Executed on SecurityBundle 8.0.15, the user was
+    alice then anonymous with a stateless firewall, alice twice with a stateful one. disableReboot() resets
+    the kernel instead, but reset() on kernel.reset services still clears the token.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst

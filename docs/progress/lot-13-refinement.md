@@ -25,7 +25,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | **RAFFINÉE** (PR #298) |
-| 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | à faire |
+| 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #299) |
 | 3 | Client object | STANDARD | 524 / 900 | 1 | à faire |
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | à faire |
 | 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | à faire |
@@ -173,6 +173,82 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 3 — *Client object* — RAFFINÉE
+
+`CRS-k5wg55q2mg0p` · `OIT-bc3brs4a4mtt` · STANDARD · **524 → 762 mots** sur 900.
+Aucun niveau promu. Exécutions sur PHPUnit 11.5.56 avec FrameworkBundle et
+SecurityBundle 8.0.15 : six scénarios du client contre les routes du bac à
+sable, puis un noyau dédié, avec un pare-feu en mémoire, pour `loginUser()`.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 2 du lot 13 (PR #299, `7009892`) | 37040183505, success | `ok  lot-13  the functional tests page carries its four flashcard levels, the double boot, the verbose failure and the env precedence` |
+
+### Une question VALIDATION vraie dans un seul cas : la connexion perdue
+
+`QST-kyyb7h7x6z2b` demandait pourquoi un utilisateur connecté n'est plus
+authentifié à la deuxième requête, réponse « le client redémarre le noyau ».
+Lu dans `KernelBrowser::loginUser()` : le jeton va dans le stockage de jetons
+**et** dans la session. Exécuté :
+
+| Pare-feu | 1ʳᵉ requête | 2ᵉ requête |
+|---|---|---|
+| avec état | `alice` | `alice` |
+| `stateless: true` | `alice` | anonyme |
+
+**→ v2** : l'énoncé précise le pare-feu `stateless` ; choix inchangés,
+explications réécrites avec l'exécution. La page dit désormais la même chose.
+
+### Un défaut qui n'est pas celui de BrowserKit
+
+« Le client ne suit pas les redirections par défaut » est exact, mais la
+raison manquait. Lu dans le code 8.0 : `AbstractBrowser` déclare
+`$followRedirects = true` ; `HttpKernelBrowser`, parent de `KernelBrowser`, le
+passe à `false` dans son constructeur. Exécuté : `GET /go` → 302,
+`isFollowingRedirects()` faux ; `followRedirect()` → 200 sur `/hello`.
+
+### Confirmé par l'exécution
+
+- `request()` retourne un `Crawler`.
+- `back()` saute la redirection : `/created`, puis `/go` suivi jusqu'à
+  `/hello` ; `back()` ramène à `/created`. Une première sonde, sans suivre les
+  redirections, ne prouvait rien ; refaite.
+- Deux requêtes, deux objets conteneur ; après `disableReboot()`, le même.
+- `catchExceptions(false)` : 500 par défaut, puis `RuntimeException('kaboom')`.
+- `xmlHttpRequest()` : `isXmlHttpRequest()` vrai côté serveur.
+
+**Questions.** `QST-qznc9nx72jdq`, `QST-b27q0jdvhz16` (LEARNING) relues :
+exactes, inchangées. `QST-kyyb7h7x6z2b` (VALIDATION) en v2, ci-dessus. Aucune
+question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-pdapm9phgtmc` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`HttpKernelBrowser`, `stateless: true` et `deux objets conteneur`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 391 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 3 — *Client object* (STANDARD, 524 / 900).
+Page 4 — *Crawler object (CssSelector and DomCrawler components)* (STANDARD, 538 / 900).

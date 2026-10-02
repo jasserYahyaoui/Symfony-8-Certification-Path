@@ -3706,6 +3706,32 @@ jobs:
           else
             echo "ok  lot-13  the functional tests page carries its four flashcard levels, the double boot, the verbose failure and the env precedence"
           fi
+          # Lot 13 refinement, page 3 (Client object): the four flashcard levels,
+          # the redirect default HttpKernelBrowser overrides, the login lost on
+          # a stateless firewall and the container rebuilt between requests.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l13r-client-object -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/client-object")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 13 refined page client-object serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l13r-client-object || missing="$missing l13cl:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l13r-client-object || missing="$missing l13cl:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l13r-client-object || missing="$missing l13cl:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l13r-client-object || missing="$missing l13cl:no-trap-heading"
+          grep -aqF -- 'HttpKernelBrowser' /tmp/l13r-client-object \
+            || missing="$missing l13cl:no-redirect-default"
+          grep -aqF -- 'stateless: true' /tmp/l13r-client-object \
+            || missing="$missing l13cl:no-stateless-login"
+          grep -aqF -- 'deux objets conteneur' /tmp/l13r-client-object \
+            || missing="$missing l13cl:no-container-reboot"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 13 refinement missing from the client page:$missing"
+            fail=1
+          else
+            echo "ok  lot-13  the client page carries its four flashcard levels, the redirect default, the stateless login and the container reboot"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
