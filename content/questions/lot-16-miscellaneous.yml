@@ -143,7 +143,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - icu
   choices:
@@ -163,8 +163,9 @@ questions:
     text: Percent signs around the placeholder
     correct: false
     explanation: That is the classic syntax, which would mean rewriting the message rather than fixing the catalogue.
-  explanation: messages+intl-icu.en.yaml is processed by MessageFormatter; without the suffix the message is treated
-    as a plain string.
+  explanation: messages+intl-icu.en.yaml is processed by MessageFormatter. Without the suffix, the passed keys are
+    replaced literally with strtr; executed on Translation 8.0.14, ['name' => 'Ann'] turned Hello {name}! into
+    Hello {Ann}!, braces kept.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst
