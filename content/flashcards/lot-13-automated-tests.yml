@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-8p0tpa6x1krf
   official_item: OIT-c6wd3f444qjn
   language: fr
+  level: UNDERSTANDING
   front: Qu'est-ce qui fait basculer un test de l'unitaire vers l'intégration ?
   back: Le démarrage du noyau. Un test unitaire n'appelle ni bootKernel() ni le conteneur ; dès qu'il le fait, il
     est d'intégration.
@@ -143,3 +144,169 @@ flashcards:
     symbol_or_lines: 'Upgrading a Minor Version — deprecations are triggered as E_USER_DEPRECATED notices and the deprecated code keeps working until the next major version'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-1n8kybbrzdf2
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels sont les trois types de tests que distingue la documentation ?'
+  back: Unitaire, intégration, application — ce dernier aussi appelé test fonctionnel.
+  explanation: Documentation 8.0, « Testing ».
+  memorization_justification: Classification Symfony.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-njshrcw2saf9
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel paquet installer pour écrire et lancer des tests ?'
+  back: '`composer require --dev symfony/test-pack`, qui tire notamment `phpunit/phpunit`.'
+  explanation: Puis `php bin/phpunit`.
+  memorization_justification: Installation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-1nppwnvaes1y
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel fichier configure PHPUnit à la racine du projet ?'
+  back: '`phpunit.dist.xml` ; avant PHPUnit 10, `phpunit.xml.dist`.'
+  explanation: Flex le crée avec `tests/bootstrap.php`.
+  memorization_justification: Fichier de configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-g2fc8jggw1x2
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un test qui étend KernelTestCase échoue-t-il sans configuration ?'
+  back: 'Parce que `bootKernel()` doit savoir quel noyau construire : sans `KERNEL_CLASS`, `LogicException`.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15 et PHPUnit 11.5.
+  memorization_justification: Noyau à désigner.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getKernelClass() — LogicException without KERNEL_CLASS
+    verified_at: '2026-10-02'
+- id: FLC-qwnqhz06hvg5
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un fichier CalcTests.php n''est-il pas exécuté par php bin/phpunit tests/ ?'
+  back: Parce que PHPUnit ne retient, en parcourant un répertoire, que les fichiers terminés par `Test.php`.
+  explanation: 'Exécuté : 1 test sur 2 classes ; le fichier désigné explicitement tourne.'
+  memorization_justification: Suffixe des fichiers.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-ntf57j6y8dv2
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : lancer seulement les tests de src/Form/.'
+  back: '`php bin/phpunit tests/Form`.'
+  explanation: '`tests/` reproduit l''arborescence de `src/`.'
+  memorization_justification: Sous-ensemble de la suite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-894c17ygas0v
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : tester une classe de calcul sans démarrer Symfony.'
+  back: Une classe `…Test` qui étend `PHPUnit\Framework\TestCase`, instancie la classe et assertit.
+  explanation: 'Aucun noyau, aucun conteneur : c''est un test unitaire.'
+  memorization_justification: Test unitaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-p3z5z4g1dvae
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: TRAP
+  front: 'Symfony : « test fonctionnel » et « test d''application » sont-ils deux types distincts ?'
+  back: 'Non : la documentation les donne comme synonymes.'
+  explanation: Documentation 8.0, « Application Tests ».
+  memorization_justification: Vocabulaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-g05te1ta25ms
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: TRAP
+  front: 'Symfony : PHPUnit 11 ignore-t-il un fichier phpunit.xml.dist ?'
+  back: 'Non : exécuté, il le lit encore s''il est seul ; `phpunit.dist.xml` passe avant lui, et `phpunit.xml` avant les deux.'
+  explanation: Exécuté avec PHPUnit 11.5.
+  memorization_justification: Noms de configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+- id: FLC-e471h5r7bve2
+  official_item: OIT-c6wd3f444qjn
+  language: fr
+  level: TRAP
+  front: 'Symfony : un test qui appelle bootKernel() reste-t-il unitaire ?'
+  back: 'Non : démarrer le noyau en fait un test d''intégration.'
+  explanation: Le test unitaire n'utilise ni noyau ni conteneur.
+  memorization_justification: Frontière unitaire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests; Installation; Unit Tests
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getKernelClass() — LogicException without KERNEL_CLASS
+    verified_at: '2026-10-02'

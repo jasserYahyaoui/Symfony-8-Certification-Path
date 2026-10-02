@@ -21,8 +21,9 @@ périmètre sur instruction.
 | 09 (Dependency Injection) | terminé — 12 pages déployées (PR #254 à #265) ; rapport de fin de lot fusionné (PR #266) | `docs/progress/lot-09-refinement.md` |
 | 10 (Security) | **RAFFINÉ** — 12 pages déployées (PR #267 à #278) ; rapport de fin de lot fusionné (PR #279) | `docs/progress/lot-10-refinement.md` |
 | 11 (Messenger) | **terminé** — 7 pages déployées (PR #280 à #286) ; rapport fusionné (PR #287) | `docs/progress/lot-11-refinement.md` |
-| 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport de fin de lot en PR |
-| 13 et suivants | à faire, dans l'ordre numérique |
+| 12 (Console) | **terminé** — 9 pages déployées (PR #288 à #296) ; rapport fusionné (PR #297) |
+| 13 (Automated tests) | **en cours** — journal `docs/progress/lot-13-refinement.md` ; page 1 en PR |
+| 14 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
 
@@ -36,11 +37,13 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR du rapport de fin de lot 12 après CI
-verte, puis lot 13 (*Automated tests*), page 1, depuis `master`. Reprise à
-prévoir sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`).
-Signaux holdout des lots 06 à 12 à revoir par l'owner (listés dans chaque
-rapport).
+**Prochaine action** : fusionner la PR de la page 1 du lot 13 après CI verte,
+lire son smoke test, puis page 2 (*Functional tests with PHPUnit*) : brouillon
+et cartes prêts — `bootKernel()` avant `createClient()` refusé, ordre `.env`
+exécuté avec Dotenv 8.0.15. Le bac à sable a reçu PHPUnit 11.5.56,
+`symfony/phpunit-bridge` 8.0.14 et `symfony/dotenv` 8.0.15. Reprise à prévoir
+sur la page 6 du lot 10 (`lazy` ignoré sur un pare-feu `stateless`). Signaux
+holdout des lots 06 à 12 à revoir par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.

@@ -1,0 +1,110 @@
+# Raffinement pédagogique — Lot 13 (Automated tests)
+
+Suite de la mission ouverte au lot 02 : approfondir les **pages de cours**
+existantes — pièges d'examen, comportements implicites, flashcards aux quatre
+niveaux — un lot à la fois, dans l'ordre numérique. Le lot 01 reste hors
+périmètre sur instruction explicite (voir le journal du lot 02).
+
+Même méthode qu'aux lots 03 à 12 : chaque affirmation vérifiée contre le code
+de la branche 8.0 de Symfony ou la documentation correspondante, par exécution
+chaque fois que c'est possible, jamais de mémoire ; quand la documentation et le
+code divergent, le code l'emporte et l'écart est signalé sur la page ; budget
+`REV-001` respecté sans promotion de niveau ; une branche, une PR, une CI verte,
+une fusion et un smoke test de production **lu** par page. Le bac à sable
+d'exécution a reçu pour ce lot PHPUnit 11.5.56 et `symfony/phpunit-bridge`
+8.0.14 ; la vérification « aucun paquet `symfony/*` hors 8.0 » a été refaite
+après l'ajout. Le comportement de PHPUnit lui-même est cité comme **exécuté**,
+jamais comme source : son dépôt ne figure pas dans `source-map.yml`.
+
+## État par page (ordre officiel de l'item)
+
+Chiffres relevés le 2026-10-02 par script sur les fichiers canoniques
+(`syllabus-matrix.yml`, `content/**`) de `master` à `f2d8281`, avant la
+première page.
+
+| # | Page | Niveau | Mots / plafond | Flashcards | Statut |
+|---|---|---|---|---|---|
+| 1 | Unit tests with PHPUnit | STANDARD | 421 / 900 | 1 | à faire |
+| 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | à faire |
+| 3 | Client object | STANDARD | 524 / 900 | 1 | à faire |
+| 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | à faire |
+| 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | à faire |
+| 6 | Framework objects access | STANDARD | 431 / 900 | 1 | à faire |
+| 7 | Client configuration | STANDARD | 406 / 900 | 1 | à faire |
+| 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | à faire |
+| 9 | Handling legacy deprecated code | MINIMAL | 396 / 700 | 1 | à faire |
+
+## Page 1 — *Unit tests with PHPUnit* — RAFFINÉE
+
+`CRS-tt9yn0a06ngb` · `OIT-c6wd3f444qjn` · STANDARD · **421 → 579 mots** sur 900.
+Aucun niveau promu. Exécutions sur PHPUnit 11.5.56 avec FrameworkBundle
+8.0.15 : une suite de trois classes, puis les trois noms de configuration
+posés ensemble et retirés un à un.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| rapport de fin de lot 12 (PR #297, `f2d8281`) | 37022826907, success | `ok  lot-12  the verbosity page carries its four flashcard levels, the silent test, the quiet threshold and the variable precedence` — le rapport ne touchant aucune page, c'est la dernière ligne de lot dans le journal du smoke test |
+
+### Une affirmation retirée, faute de source admise
+
+La page écrivait « `php bin/phpunit`, pas `vendor/bin/phpunit` : Flex installe
+ce lanceur ». Le lanceur relève de la recette Flex, dont le dépôt n'est pas
+dans `source-map.yml` ; la documentation 8.0 dit seulement d'utiliser
+`php bin/phpunit`. La page s'en tient à cela.
+
+### Une affirmation imprécise : les noms de configuration
+
+« À partir de PHPUnit 10 c'est `phpunit.dist.xml` » est ce que dit la
+documentation, mais ne dit pas que l'ancien nom est encore lu. Exécuté :
+
+| Fichiers présents | Configuration retenue |
+|---|---|
+| `phpunit.xml`, `phpunit.dist.xml`, `phpunit.xml.dist` | `phpunit.xml` |
+| `phpunit.dist.xml`, `phpunit.xml.dist` | `phpunit.dist.xml` |
+| `phpunit.xml.dist` seul | `phpunit.xml.dist` |
+
+### Confirmé par l'exécution
+
+- Suffixe : `CalcTest.php` et `CalcTests.php` dans un même répertoire — le
+  parcours n'exécute que le premier ; le second tourne s'il est désigné.
+- Frontière unitaire / intégration : un `TestCase` passe sans configuration ;
+  un `KernelTestCase` qui appelle `bootKernel()` sans `KERNEL_CLASS` lève
+  `LogicException` (« You must set the KERNEL_CLASS environment variable… »),
+  lu dans `KernelTestCase::getKernelClass()`.
+
+**Questions.** `QST-rsbg20z3fzdk`, `QST-vfkmqvxkehvn`, `QST-3ayfnb7ae5bq`
+(LEARNING) et `QST-3p3j00y1dgsg` (VALIDATION) relues : exactes, inchangées.
+L'item n'a pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-8p0tpa6x1krf` reçoit le niveau
+UNDERSTANDING. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script sur tous les fichiers de
+cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus `KERNEL_CLASS`,
+`CalcTests.php` et `encore lu`, absentes de la version `master` de la page et
+des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 371 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+## Prochaine étape
+
+Page 2 — *Functional tests with PHPUnit* (STANDARD, 410 / 900).

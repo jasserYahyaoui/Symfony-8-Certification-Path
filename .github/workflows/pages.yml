@@ -3654,6 +3654,32 @@ jobs:
           else
             echo "ok  lot-12  the verbosity page carries its four flashcard levels, the silent test, the quiet threshold and the variable precedence"
           fi
+          # Lot 13 refinement, page 1 (Unit tests with PHPUnit): the four
+          # flashcard levels, the kernel class a kernel test needs, the file
+          # suffix PHPUnit scans for and the configuration file precedence.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l13r-unit-tests-with-phpunit -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/unit-tests-with-phpunit")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 13 refined page unit-tests-with-phpunit serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l13r-unit-tests-with-phpunit || missing="$missing l13ut:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l13r-unit-tests-with-phpunit || missing="$missing l13ut:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l13r-unit-tests-with-phpunit || missing="$missing l13ut:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l13r-unit-tests-with-phpunit || missing="$missing l13ut:no-trap-heading"
+          grep -aqF -- 'KERNEL_CLASS' /tmp/l13r-unit-tests-with-phpunit \
+            || missing="$missing l13ut:no-kernel-class"
+          grep -aqF -- 'CalcTests.php' /tmp/l13r-unit-tests-with-phpunit \
+            || missing="$missing l13ut:no-file-suffix"
+          grep -aqF -- 'encore lu' /tmp/l13r-unit-tests-with-phpunit \
+            || missing="$missing l13ut:no-config-precedence"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 13 refinement missing from the unit tests page:$missing"
+            fail=1
+          else
+            echo "ok  lot-13  the unit tests page carries its four flashcard levels, the kernel class, the file suffix and the config precedence"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
