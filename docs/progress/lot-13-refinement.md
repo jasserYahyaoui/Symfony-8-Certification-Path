@@ -28,7 +28,7 @@ première page.
 | 2 | Functional tests with PHPUnit | STANDARD | 410 / 900 | 1 | **RAFFINÉE** (PR #299) |
 | 3 | Client object | STANDARD | 524 / 900 | 1 | **RAFFINÉE** (PR #300) |
 | 4 | Crawler object (CssSelector and DomCrawler components) | STANDARD | 538 / 900 | 1 | **RAFFINÉE** (PR #301) |
-| 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | à faire |
+| 5 | Profiler object (WebProfiler bundle) | MINIMAL | 285 / 700 | 1 | **RAFFINÉE** (PR #302) |
 | 6 | Framework objects access | STANDARD | 431 / 900 | 1 | à faire |
 | 7 | Client configuration | STANDARD | 406 / 900 | 1 | à faire |
 | 8 | Request and response objects introspection | STANDARD | 424 / 900 | 1 | à faire |
@@ -392,6 +392,74 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 6 — *Framework objects access* — RAFFINÉE
+
+`CRS-g8v45328cg95` · `OIT-mtbcyaax2xsk` · STANDARD · **431 → 612 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle 8.0.15 et PHPUnit 11.5.56 :
+un `KernelTestCase` sur trois services autoconfigurés — un utilisé, son
+alias, un inutilisé — et une doublure posée avant puis après usage.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 5 du lot 13 (PR #302, `6bcb3e0`) | 37045105925, success | `ok  lot-13  the profiler page carries its four flashcard levels, the missing profiler, the uncollected response and the global collection` |
+
+### Une question VALIDATION au symptôme inexact
+
+`QST-kyaxpk3c138c` décrivait un test où, la doublure posée trop tard, « the
+tested service still receives the real one ». Exécuté : `get(Greeter)` puis
+`set(ClockInterface, …)` ne passe pas en silence — `InvalidArgumentException`
+« …service is already initialized, you cannot replace it. », levée par
+`TestContainer::set()`. **→ v2** : l'énoncé décrit ce message ; bonne réponse et
+choix inchangés, explication complétée par l'exécution.
+
+### Confirmé par l'exécution ou la lecture
+
+| `get()` sur… | Conteneur de test | Conteneur du noyau |
+|---|---|---|
+| `ClockInterface`, `Clock` (privés, utilisés) | l'instance | `ServiceNotFoundException` (exécuté sur `Clock`) |
+| `Unused` (privé, inutilisé) | `ServiceNotFoundException` « …removed or inlined… » | idem |
+
+- `getContainer()` démarre le noyau s'il ne l'est pas et rend
+  `test.service_container`, un `TestContainer` ; sans `framework.test`,
+  `LogicException` (lu).
+- `set()` avant `get()` : `hello at fake`.
+- Deux tests, deux conteneurs : le noyau redémarre à chaque test.
+- `debug: false` : la documentation dit « disables clearing the cache » ; la
+  page reprend cette formulation et la mise en garde qui l'accompagne.
+
+**Questions.** `QST-tc71xv48p476`, `QST-qa5pm7hv1d2a` (LEARNING) relues :
+exactes, inchangées. `QST-kyaxpk3c138c` (VALIDATION) en v2, ci-dessus. Aucune
+question holdout lue ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-mkp9h3yfzm3x` reçoit le niveau
+UNDERSTANDING. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script sur tous les fichiers de
+cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`TestContainer`, `removed or inlined` et `already initialized`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions PHPUnit 11.5 + FrameworkBundle 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 421 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 6 — *Framework objects access* (STANDARD, 431 / 900).
+Page 7 — *Client configuration* (STANDARD, 406 / 900).

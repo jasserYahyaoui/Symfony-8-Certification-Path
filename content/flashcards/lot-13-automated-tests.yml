@@ -89,6 +89,7 @@ flashcards:
 - id: FLC-mkp9h3yfzm3x
   official_item: OIT-mtbcyaax2xsk
   language: fr
+  level: UNDERSTANDING
   front: Pourquoi static::getContainer() donne-t-il accès à des services privés ?
   back: Parce qu'il rend un conteneur de test spécial, qui expose les services publics et les services privés non
     supprimés.
@@ -1019,4 +1020,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Enabling the Profiler in Tests; Testing the Profiler Information
+    verified_at: '2026-10-02'
+- id: FLC-wp10w540dvaz
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle variable d''environnement désigne le noyau d''un KernelTestCase ?'
+  back: '`KERNEL_CLASS`, en général dans `.env.test` ; `getKernelClass()` ou `createKernel()` l''emportent.'
+  explanation: Documentation 8.0, « Integration Tests ».
+  memorization_justification: Noyau des tests.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-3m315naw0v2h
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel service rend static::getContainer() ?'
+  back: '`test.service_container`, un `TestContainer`.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: Conteneur de test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getContainer() — boots if needed, returns test.service_container; LogicException without framework.test
+    verified_at: '2026-10-02'
+- id: FLC-2mb5589c1fex
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options bootKernel() accepte-t-il ?'
+  back: '`environment` et `debug`, par exemple `[''environment'' => ''my_test_env'', ''debug'' => false]`.'
+  explanation: '`debug: false` accélère la CI en désactivant le vidage du cache.'
+  memorization_justification: Options de démarrage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-128zrp8jq8ft
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un service privé inutilisé reste-t-il inaccessible même au conteneur de test ?'
+  back: 'Parce qu''il a été supprimé à la compilation : il n''existe plus.'
+  explanation: 'Exécuté : « has been removed or inlined when the container was compiled ».'
+  memorization_justification: Service supprimé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-qmtb1bctk7dh
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi container->set() échoue-t-il après get() du service consommateur ?'
+  back: Parce que la dépendance est déjà instanciée, et le conteneur de test refuse de la remplacer.
+  explanation: 'Exécuté : « …service is already initialized, you cannot replace it. ».'
+  memorization_justification: Ordre set / get.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/TestContainer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/TestContainer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: set() — already initialized services cannot be replaced
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-nz6hc8a1mms4
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre testable un service privé que personne n''utilise.'
+  back: Le déclarer `public` dans `config/services_test.yaml`.
+  explanation: Sinon il est supprimé à la compilation.
+  memorization_justification: Service privé supprimé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-p90w15nde9xh
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : remplacer une dépendance par une doublure dans un test d''intégration.'
+  back: '`static::getContainer()->set(Interface::class, $double)` **avant** `get()` du service qui en dépend.'
+  explanation: 'Exécuté : `hello at fake`.'
+  memorization_justification: Doublure.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-q89max2gpmd8
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: TRAP
+  front: 'Symfony : faut-il appeler bootKernel() avant static::getContainer() ?'
+  back: 'Non : `getContainer()` démarre le noyau s''il ne l''est pas.'
+  explanation: Lu dans `KernelTestCase::getContainer()` ; exécuté.
+  memorization_justification: Démarrage implicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getContainer() — boots if needed, returns test.service_container; LogicException without framework.test
+    verified_at: '2026-10-02'
+- id: FLC-t9k1jkhhrxtx
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: TRAP
+  front: 'Symfony : le conteneur de test rend-il les services privés publics ?'
+  back: 'Non : leur visibilité ne change pas ; c''est un autre conteneur, qui y donne accès.'
+  explanation: 'Exécuté : le conteneur du noyau refuse le même service.'
+  memorization_justification: Visibilité inchangée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
+    verified_at: '2026-10-02'
+- id: FLC-y55hrbna36xg
+  official_item: OIT-mtbcyaax2xsk
+  language: fr
+  level: TRAP
+  front: 'Symfony : le noyau d''un KernelTestCase est-il partagé entre les tests d''une classe ?'
+  back: 'Non : il redémarre à chaque test.'
+  explanation: 'Exécuté : deux tests, deux conteneurs différents.'
+  memorization_justification: Indépendance des tests.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Integration Tests; Retrieving Services from the Container; Mocking Dependencies
     verified_at: '2026-10-02'
