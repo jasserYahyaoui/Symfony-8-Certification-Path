@@ -3315,6 +3315,32 @@ jobs:
           else
             echo "ok  lot-11  the messages and handlers page carries its four flashcard levels, the versioning error, the transport filter and the type-hint refusal"
           fi
+          # Lot 11 refinement, page 4 (Workers): the four flashcard levels, the
+          # 8.0 consume options, the listener that resets services between
+          # messages and the executed priority order.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l11r-workers -w '%{http_code}' "$BASE_URL/docs/courses/lot-11/workers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 11 refined page workers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l11r-workers || missing="$missing l11wrk:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l11r-workers || missing="$missing l11wrk:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l11r-workers || missing="$missing l11wrk:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l11r-workers || missing="$missing l11wrk:no-trap-heading"
+          grep -aq 'exclude-receivers' /tmp/l11r-workers \
+            || missing="$missing l11wrk:no-consume-options"
+          grep -aq 'ResetServicesListener' /tmp/l11r-workers \
+            || missing="$missing l11wrk:no-reset-listener"
+          grep -aq 'high-1' /tmp/l11r-workers \
+            || missing="$missing l11wrk:no-priority-run"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 11 refinement missing from the workers page:$missing"
+            fail=1
+          else
+            echo "ok  lot-11  the workers page carries its four flashcard levels, the consume options, the reset listener and the priority run"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

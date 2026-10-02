@@ -27,7 +27,7 @@ première page.
 |---|---|---|---|---|---|
 | 1 | Messenger component | STANDARD | 382 / 900 | 1 | **RAFFINÉE** (PR #280) |
 | 2 | Transports | STANDARD | 386 / 900 | 1 | **RAFFINÉE** (PR #281) |
-| 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | à faire |
+| 3 | Messages and handlers | STANDARD | 381 / 900 | 1 | **RAFFINÉE** (PR #282) |
 | 4 | Workers | STANDARD | 408 / 900 | 1 | à faire |
 | 5 | Retries and failures | DEEP | 542 / 1200 | 1 | à faire |
 | 6 | Middleware | STANDARD | 376 / 900 | 1 | à faire |
@@ -273,6 +273,90 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 4 — *Workers* — RAFFINÉE
+
+`CRS-e5astysks0ty` · `OIT-dctf03ftx44f` · STANDARD · **408 → 611 mots** sur 900.
+Aucun niveau promu. Exécutions sur FrameworkBundle + Messenger 8.0.15 :
+`messenger:consume` lancé dans le même processus par l'`Application` de la
+console, sur deux transports, avec un service ordinaire et un service
+`ResetInterface` qui comptent ce qu'ils voient.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 3 du lot 11 (PR #282, `cfc28db`) | 36989528021, success | `ok  lot-11  the messages and handlers page carries its four flashcard levels, the versioning error, the transport filter and the type-hint refusal` |
+
+### Une affirmation incomplète : « les mêmes instances de services »
+
+La page écrivait que le worker garde les mêmes instances de services, et qu'un
+service qui accumule de l'état contamine les messages suivants — sans nuance.
+Lu dans `ResetServicesListener` : sur chaque `WorkerRunningEvent` non inactif,
+le réinitialiseur de services appelle `reset()` sur les services
+`ResetInterface` (tag `kernel.reset`, posé par l'autoconfiguration). Exécuté,
+trois messages :
+
+| Worker | Service ordinaire | Service `ResetInterface` |
+|---|---|---|
+| par défaut | 1, 2, 3 | 1, 1, 1 |
+| `--no-reset` | 1, 2, 3 | 1, 2, 3 |
+
+La page dit désormais ce qui est remis à zéro et ce qui ne l'est pas ; la
+question `QST-qh4r169hgx7y` l'expliquait déjà correctement.
+
+### Une méthode d'exécution corrigée en route
+
+Première tentative avec deux transports `in-memory://` : un seul des trois
+messages a été consommé. Cause, lue puis vérifiée : `InMemoryTransport`
+implémente `ResetInterface`, et la remise à zéro des services le vide après le
+premier message. Le fait est repris sur la page (in-memory est un transport de
+test, pas de worker) ; les mesures retenues utilisent un transport maison
+minimal, à file statique, qui survit à la remise à zéro.
+
+### Confirmé par l'exécution ou la lecture
+
+- Priorité : `low-1`, `low-2` envoyés avant `high-1` ; `messenger:consume high
+  low --limit=3` traite `high-1`, `low-1`, `low-2`. Lu dans `Worker::run()` :
+  après un message traité, retour au premier récepteur.
+- Options de `messenger:consume` 8.0.15 : `limit`, `failure-limit`,
+  `memory-limit`, `time-limit`, `sleep`, `bus`, `queues`, `no-reset`, `all`,
+  `exclude-receivers`, `keepalive`.
+- `messenger:stop-workers` et l'arrêt gracieux sur `SIGTERM` / `SIGINT` :
+  documentation 8.0, non exécutés (ils supposent des processus séparés).
+
+**Questions.** `QST-c0qzhz7ded47`, `QST-66bdw5shb7py`, `QST-qh4r169hgx7y`
+(LEARNING) et `QST-bzvvb66w5ftd` (VALIDATION) relues : exactes, inchangées —
+la priorité stricte de `QST-bzvvb66w5ftd` et la remise à zéro de
+`QST-qh4r169hgx7y` sont confirmées par l'exécution. Aucune question holdout lue
+ni modifiée.
+
+**Flashcards.** 10 ajoutées ; `FLC-sh7aqjgp5mzt` reçoit le niveau
+UNDERSTANDING. L'item en porte **11** (3 RECALL, 3 UNDERSTANDING,
+2 APPLICATION, 3 TRAP), décompte relevé par script sur tous les fichiers de
+cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`exclude-receivers`, `ResetServicesListener` et `high-1`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-02**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions FrameworkBundle + Messenger 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 241 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 4 — *Workers* (STANDARD, 408 / 900).
+Page 5 — *Retries and failures* (DEEP, 542 / 1200).

@@ -50,6 +50,7 @@ flashcards:
 - id: FLC-sh7aqjgp5mzt
   official_item: OIT-dctf03ftx44f
   language: fr
+  level: UNDERSTANDING
   front: Après un déploiement, pourquoi un worker exécute-t-il encore l'ancien code ?
   back: Parce qu'il a chargé le code à son démarrage. messenger:stop-workers demande un arrêt après le
     message courant ; le superviseur relance.
@@ -621,4 +622,182 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: bus, fromTransport, handles, method, priority, sign
+    verified_at: '2026-10-01'
+- id: FLC-ba8s8ws07r2d
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles options de messenger:consume arrêtent le worker de lui-même ?'
+  back: '`--limit`, `--failure-limit`, `--memory-limit`, `--time-limit`.'
+  explanation: Un superviseur — Supervisor, systemd — le relance.
+  memorization_justification: Options d'arrêt.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: options limit, failure-limit, memory-limit, time-limit, no-reset
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
+    verified_at: '2026-10-01'
+- id: FLC-212gbqr8wt6a
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle commande fait prendre le nouveau code aux workers après un déploiement ?'
+  back: '`messenger:stop-workers` : chaque worker s''arrête après son message en cours, le superviseur le relance.'
+  explanation: Elle ne tue aucun processus.
+  memorization_justification: Déploiement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
+    verified_at: '2026-10-01'
+- id: FLC-gye0mvg1vk1k
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle option de messenger:consume désactive la remise à zéro des services entre deux messages ?'
+  back: '`--no-reset`.'
+  explanation: 'Exécuté : avec `--no-reset`, un service `ResetInterface` garde son état d''un message à l''autre.'
+  memorization_justification: Réinitialisation des services.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: options limit, failure-limit, memory-limit, time-limit, no-reset
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resetServices() on WorkerRunningEvent
+    verified_at: '2026-10-01'
+- id: FLC-81nqk2pezbtw
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi messenger:consume high low ne traite-t-il pas les messages en alternance ?'
+  back: Parce qu'après chaque message traité, le worker repart du premier récepteur ; le second n'est lu que si le premier est vide.
+  explanation: 'Exécuté : `low-1`, `low-2` envoyés avant `high-1`, et `high-1` traité en premier.'
+  memorization_justification: Priorité stricte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Worker.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Worker.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — receivers in order, back to the first after a handled envelope
+    verified_at: '2026-10-01'
+- id: FLC-f76skpghdj9n
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un service qui accumule de l''état contamine-t-il les messages suivants dans un worker ?'
+  back: Parce que la même instance sert tous les messages ; seuls les services `ResetInterface` sont remis à zéro entre deux messages.
+  explanation: 'Exécuté : service ordinaire 1, 2, 3 ; service `ResetInterface` 1, 1, 1.'
+  memorization_justification: État entre messages.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resetServices() on WorkerRunningEvent
+    verified_at: '2026-10-01'
+- id: FLC-wcbcs9khb92d
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : consommer deux transports en donnant la priorité à async_high.'
+  back: '`php bin/console messenger:consume async_high async` — l''ordre des arguments fixe la priorité.'
+  explanation: Exécuté avec Messenger 8.0.15.
+  memorization_justification: Commande de consommation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
+    verified_at: '2026-10-01'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Worker.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Worker.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run() — receivers in order, back to the first after a handled envelope
+    verified_at: '2026-10-01'
+- id: FLC-vqjc22wet38r
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : empêcher un service avec cache interne de contaminer les messages suivants d''un worker.'
+  back: Lui faire implémenter `ResetInterface` et vider son état dans `reset()` ; l'autoconfiguration lui pose le tag `kernel.reset`.
+  explanation: 'Exécuté : le worker appelle `reset()` après chaque message.'
+  memorization_justification: Service réinitialisable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resetServices() on WorkerRunningEvent
+    verified_at: '2026-10-01'
+- id: FLC-fgsgvjya3d90
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: TRAP
+  front: 'Symfony : messenger:stop-workers tue-t-il les workers en cours ?'
+  back: 'Non : il pose un signal que chaque worker lit après son message en cours, puis il s''arrête proprement.'
+  explanation: Documentation 8.0, « Deploying to Production ».
+  memorization_justification: Arrêt brutal supposé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
+    verified_at: '2026-10-01'
+- id: FLC-am3cn12fjgd3
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: TRAP
+  front: 'Symfony : un transport in-memory:// convient-il à un worker qui réinitialise les services ?'
+  back: 'Non : il implémente `ResetInterface` et est vidé après le premier message.'
+  explanation: 'Exécuté : seul le premier de trois messages a été consommé.'
+  memorization_justification: Transport de test.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/InMemory/InMemoryTransport.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Transport/InMemory/InMemoryTransport.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: implements ResetInterface; reset()
+    verified_at: '2026-10-01'
+- id: FLC-tczfeeq5ygnr
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: TRAP
+  front: 'Symfony : vider le cache après un déploiement suffit-il pour les workers déjà lancés ?'
+  back: 'Non : un worker exécute le code chargé à son démarrage ; il faut le redémarrer (`messenger:stop-workers`).'
+  explanation: Le superviseur relance avec le nouveau code.
+  memorization_justification: Déploiement incomplet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Consuming Messages; Deploying to Production; messenger:stop-workers
     verified_at: '2026-10-01'
