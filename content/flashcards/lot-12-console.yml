@@ -76,6 +76,7 @@ flashcards:
 - id: FLC-bdrpkzcqw1ww
   official_item: OIT-nr9m883d15qq
   language: fr
+  level: TRAP
   front: 'Que se passe-t-il si un paramètre #[Option] n''a pas de valeur par défaut ?'
   back: 'La commande lève une LogicException au démarrage. Une option est facultative par nature : elle doit toujours
     avoir une valeur en l''absence de saisie.'
@@ -852,4 +853,176 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: __construct() calls configure(); addUsage() prefixes the command name
+    verified_at: '2026-10-02'
+- id: FLC-2kjdchvkq0e5
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels types un paramètre #[Option] accepte-t-il ?'
+  back: '`string`, `bool`, `int`, `float`, `array` et les `BackedEnum` ; en union, seulement `bool|string`, `bool|int`, `bool|float`.'
+  explanation: 'Exécuté : `DateTimeImmutable` et `int|string` lèvent une `LogicException`.'
+  memorization_justification: Types admis.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-gg54k07wxxs9
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel nom d''option donne le paramètre $maxRetries ?'
+  back: '`--max-retries` : le nom du paramètre en kebab-case.'
+  explanation: 'Exécuté : `$maxRetries` devient `max-retries`.'
+  memorization_justification: Nom par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Command Arguments; Using Command Options
+    verified_at: '2026-10-02'
+- id: FLC-ghad24cehzcd
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels paramètres partagent #[Argument] et #[Option] ?'
+  back: '`description`, `name` et `suggestedValues` ; `#[Option]` ajoute `shortcut`.'
+  explanation: Lu dans les constructeurs des deux attributs (8.0).
+  memorization_justification: Paramètres des attributs.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Argument.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Argument.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — required without default and not nullable
+    verified_at: '2026-10-02'
+- id: FLC-g71n3msgyw1m
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi #[Option] bool $loud = true accepte-t-il --no-loud ?'
+  back: Parce qu'un booléen dont le défaut n'est pas `false` devient négociable (`VALUE_NEGATABLE`).
+  explanation: 'Exécuté : `true` sans option, `false` avec `--no-loud`.'
+  memorization_justification: Option négociable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-q8mgaafeh7kt
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi #[Option] bool|string $output = ''x'' est-il refusé ?'
+  back: 'Parce qu''une union avec `bool` doit avoir `false` pour défaut : c''est ce qui distingue « absente », « présente sans valeur » et « avec valeur ».'
+  explanation: 'Exécuté : « must have a default value of false ».'
+  memorization_justification: Union et défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-s5h9gdbhbtse
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi aucun argument ne peut-il suivre un argument tableau ?'
+  back: Parce que l'argument tableau absorbe toutes les valeurs positionnelles restantes.
+  explanation: 'Exécuté : même un argument optionnel est refusé, message « Cannot add a required argument ».'
+  memorization_justification: Argument tableau en dernier.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addArgument() — no argument after an array argument; no required after optional
+    verified_at: '2026-10-02'
+- id: FLC-wxjzt6asj8an
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une option --output utilisable seule ou avec un fichier.'
+  back: '`#[Option] string|bool $output = false` : `--output` donne `true`, `--output=f.txt` la chaîne.'
+  explanation: Exécuté avec Console 8.0.15.
+  memorization_justification: Valeur optionnelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-5e8xsfw7emsc
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : une option --fmt limitée aux cas d''une énumération Fmt.'
+  back: '`#[Option] Fmt $fmt = Fmt::Json` avec `enum Fmt: string`.'
+  explanation: 'Exécuté : `--fmt=csv` donne `Fmt::Csv` ; `--fmt=xml` échoue en listant les valeurs valides.'
+  memorization_justification: Option énumérée.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
+    verified_at: '2026-10-02'
+- id: FLC-891snmpzbef5
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: TRAP
+  front: 'Symfony : un argument optionnel peut-il suivre un argument tableau ?'
+  back: 'Non : tout argument est refusé après un argument tableau, optionnel compris.'
+  explanation: Le message parle pourtant d'« argument requis ».
+  memorization_justification: Ordre des arguments.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addArgument() — no argument after an array argument; no required after optional
+    verified_at: '2026-10-02'
+- id: FLC-4xy2a9bz69f8
+  official_item: OIT-nr9m883d15qq
+  language: fr
+  level: TRAP
+  front: 'Symfony : #[Option] array $roles = [] a-t-il pour seul mode VALUE_IS_ARRAY ?'
+  back: 'Non : `VALUE_REQUIRED` + `VALUE_IS_ARRAY` ; une valeur doit suivre chaque `--roles`.'
+  explanation: 'Exécuté : `accepts-value`, `VALUE_REQUIRED`, `IS_ARRAY`.'
+  memorization_justification: Mode d'une option tableau.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tryFrom() — mode inferred from type and default; union types; BackedEnum suggestions
     verified_at: '2026-10-02'

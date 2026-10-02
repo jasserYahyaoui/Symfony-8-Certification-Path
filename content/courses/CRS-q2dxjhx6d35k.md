@@ -5,7 +5,7 @@ title: "Options and arguments (using PHP attributes)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php"
@@ -23,6 +23,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputDefinition.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputDefinition.php"
+    branch: "8.0"
+    symbol_or_lines: "addArgument() — no argument after an array argument; no required after optional"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php"
+    branch: "8.0"
+    symbol_or_lines: "tryFrom() — union types, default false, allowed types, BackedEnum suggestions"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -89,17 +99,27 @@ Même principe, mais avec une contrainte supplémentaire et un tableau plus rich
 | `bool $yell = false` | `VALUE_NONE` | `--yell` |
 | `bool $yell = true` ou `?bool $yell = null` | `VALUE_NEGATABLE` | `--yell` ou `--no-yell` |
 | `string $format = 'json'`, `int $limit = 10` | `VALUE_REQUIRED` | `--format=csv` |
-| `array $roles = []` | `VALUE_IS_ARRAY` | `--role=ADMIN --role=USER` |
+| `array $roles = []` | `VALUE_REQUIRED` + `VALUE_IS_ARRAY` | `--roles=ADMIN --roles=USER` |
 | `string\|bool $output = false` | `VALUE_OPTIONAL` | `--output` ou `--output=f.txt` |
 
 La contrainte : **une option doit déclarer une valeur par défaut**. Sans elle,
-la commande lève une `LogicException` au démarrage — pas une erreur à
-l'exécution, une erreur de définition. La logique est cohérente : une option est
+la commande lève une `LogicException` dès son ajout à l'application — exécuté :
+« must declare a default value » —, pas une erreur à l'exécution, une erreur
+de définition. La logique est cohérente : une option est
 par nature facultative, elle a donc toujours une valeur en l'absence de saisie.
 
 Le cas des types union mérite attention : seuls `bool|string`, `bool|int` et
 `bool|float` sont acceptés, et leur valeur par défaut **doit être `false`**.
 `--output` seul rend alors `true`, `--output=f.txt` rend la chaîne.
+
+Exécuté avec Console 8.0.15 :
+
+| Déclaration | Résultat |
+|---|---|
+| `int\|string $x = 1` | `LogicException` : seuls `bool\|string`, `bool\|int`, `bool\|float` |
+| `bool\|string $x = 'x'` | `LogicException` : « must have a default value of false » |
+| `bool $loud = true`, sans option | `true` ; avec `--no-loud`, `false` |
+| `Fmt $fmt`, `--fmt=xml` | « The value "xml" is not valid for the "fmt" option », code 1 |
 
 ## Les types admis
 
@@ -143,9 +163,12 @@ Une option n'est jamais requise ; c'est un argument qui peut l'être.
 pas de raccourci.
 
 **L'ordre des arguments est contraint.** `InputDefinition` lève une
-`LogicException` pour un argument **requis** déclaré après un argument optionnel,
-et pour un argument **requis** déclaré après un argument tableau — celui-ci
-absorbant toutes les valeurs positionnelles restantes.
+`LogicException` pour un argument requis déclaré après un argument optionnel,
+et pour **tout** argument déclaré après un argument tableau — celui-ci
+absorbant toutes les valeurs positionnelles restantes. Exécuté :
+`array $a = [], string $b = ''` est refusé, même `$b` optionnel, avec un
+message trompeur : « Cannot add a required argument "b" after an array
+argument "a". »
 
 ## Points clés
 
