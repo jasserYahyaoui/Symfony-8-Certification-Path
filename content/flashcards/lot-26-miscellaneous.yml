@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-50daktpqmkv9
   official_item: OIT-fr58jzaj6jtb
   language: fr
+  level: RECALL
   front: Que traverse toujours une donnée entre l'objet et le format, dans les deux sens ?
   back: Un tableau. La normalisation transforme l'objet en tableau et l'encodage transforme ce tableau en format
     ; à la lecture, l'inverse. Plusieurs normaliseurs interviennent, mais un seul encodeur, celui du format demandé.
@@ -23,3 +24,175 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: the-serialization-process-normalizers-and-encoders
     verified_at: '2026-09-02'
+- id: FLC-emqm9e1fmssf
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: RECALL
+  front: 'Symfony Serializer : quels encodeurs le service serializer fournit-il par défaut ?'
+  back: JSON, XML, CSV et YAML.
+  explanation: Section *The Serialization Process*, branche 8.0 ; exécuté sur les quatre formats.
+  memorization_justification: Quatre formats.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'The Serialization Process: Normalizers and Encoders'
+    verified_at: '2026-10-03'
+- id: FLC-6mz8frmmmeka
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: RECALL
+  front: 'Symfony Serializer : quelle valeur de groups reprend aussi les propriétés sans groupe ?'
+  back: '`''*''`.'
+  explanation: Section *Selecting Specific Properties*, branche 8.0, et exécuté.
+  memorization_justification: Groupe joker.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Selecting Specific Properties
+    verified_at: '2026-10-03'
+- id: FLC-frmg9m3dw5p7
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Serializer : pourquoi une propriété privée sans getter n''apparaît-elle pas ?'
+  back: 'Parce qu''`ObjectNormalizer` lit l''objet par l''accès aux propriétés : propriétés publiques et méthodes `get`, `has`, `is`, `can`.'
+  explanation: 'Exécuté sur Serializer 8.0.15 : la privée avec getter sort, la privée ou protégée sans accesseur non.'
+  memorization_justification: Portée réelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Built-in Normalizers
+    verified_at: '2026-10-03'
+- id: FLC-yk92sgasa9ma
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Serializer : pourquoi #[SerializedName] reste-t-il sans effet dans un Serializer construit à la main ?'
+  back: Parce qu'il agit par `MetadataAwareNameConverter`, que le service du framework branche et qu'un `ObjectNormalizer` nu n'a pas.
+  explanation: 'Exécuté : `fullName` sans le convertisseur, `full_name` avec.'
+  memorization_justification: Convertisseur requis.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Converting Property Names when Serializing and Deserializing
+    verified_at: '2026-10-03'
+- id: FLC-n0t57zgbwffm
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Serializer : pourquoi un même objet présent dans deux propriétés sœurs ne lève-t-il pas CircularReferenceException ?'
+  back: 'Parce que le compteur voyage dans le contexte transmis aux enfants : seule une branche qui contient l''objet en elle-même le compte deux fois.'
+  explanation: Lu dans `AbstractNormalizer::isCircularReference()` (8.0) et exécuté avec la limite `1`.
+  memorization_justification: Cycle contre répétition.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handling Circular References
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isCircularReference(); getAllowedAttributes()
+    verified_at: '2026-10-03'
+- id: FLC-y9wrkdc0gw6v
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Serializer : rendre un identifiant au lieu de lever sur une référence circulaire.'
+  back: Passer `AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER`, une fonction qui reçoit l'objet et rend l'identifiant.
+  explanation: Section *Handling Circular References*, branche 8.0 ; exécuté.
+  memorization_justification: Remplacer l'exception.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handling Circular References
+    verified_at: '2026-10-03'
+- id: FLC-et2q9q75224p
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Serializer : exclure une propriété dans tous les contextes.'
+  back: Lui poser `#[Ignore]`.
+  explanation: Section *Ignoring Properties*, branche 8.0, et exécuté.
+  memorization_justification: Exclusion permanente.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Ignoring Properties
+    verified_at: '2026-10-03'
+- id: FLC-8np2kxet6tdr
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: TRAP
+  front: 'Symfony Serializer : groups à Default reprend-il les propriétés sans groupe ?'
+  back: 'Non : la sortie est vide ; il n''y a pas de groupe `Default` implicite, seul `*` les reprend.'
+  explanation: Exécuté sur Serializer 8.0.15.
+  memorization_justification: Pas de Default.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Selecting Specific Properties
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isCircularReference(); getAllowedAttributes()
+    verified_at: '2026-10-03'
+- id: FLC-3jbgvyw551fs
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: TRAP
+  front: 'Symfony Serializer : relever circular_reference_limit à 2 suffit-il à sérialiser un vrai cycle ?'
+  back: 'Non : l''exception arrive plus tard, mais elle arrive ; seul un gestionnaire la remplace.'
+  explanation: Exécuté avec deux objets qui se pointent.
+  memorization_justification: Seuil sans fin.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handling Circular References
+    verified_at: '2026-10-03'
+- id: FLC-230h8ra2v70e
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: TRAP
+  front: 'Symfony Serializer : un format sans encodeur, comme toml, est-il ignoré ou rendu en JSON ?'
+  back: 'Ni l''un ni l''autre : `serialize()` lève une `UnsupportedFormatException`.'
+  explanation: Exécuté sur Serializer 8.0.15.
+  memorization_justification: Format inconnu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'The Serialization Process: Normalizers and Encoders'
+    verified_at: '2026-10-03'

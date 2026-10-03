@@ -4358,6 +4358,32 @@ jobs:
           else
             echo "ok  lot-25  the runtime page carries its four flashcard levels, the real include order, the line run once and the silent early autoload"
           fi
+          # Lot 26 refinement, page 1 (Serializer): the four flashcard levels, the
+          # public properties and accessors actually read, the absent Default group
+          # and the object repeated in sibling properties.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l26r-serializer -w '%{http_code}' "$BASE_URL/docs/courses/lot-26/serializer")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 26 refined page serializer serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l26r-serializer || missing="$missing l26se:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l26r-serializer || missing="$missing l26se:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l26r-serializer || missing="$missing l26se:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l26r-serializer || missing="$missing l26se:no-trap-heading"
+          grep -aqF -- 'préfixe inconnu' /tmp/l26r-serializer \
+            || missing="$missing l26se:no-public-reach"
+          grep -aqF -- 'contrairement au Validator' /tmp/l26r-serializer \
+            || missing="$missing l26se:no-default-group"
+          grep -aqF -- 'propriétés sœurs' /tmp/l26r-serializer \
+            || missing="$missing l26se:no-sibling-repeat"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 26 refinement missing from the serializer page:$missing"
+            fail=1
+          else
+            echo "ok  lot-26  the serializer page carries its four flashcard levels, the public reach, the missing Default group and the sibling repeat"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
