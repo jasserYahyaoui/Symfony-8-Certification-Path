@@ -19,7 +19,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Mailer | STANDARD | 512 / 900 | 1 | à faire |
+| 1 | Mailer | STANDARD | 512 / 900 | 1 | **RAFFINÉE** (PR #330) |
 | 2 | Mime | STANDARD | 492 / 900 | 1 | à faire |
 
 ## Page 1 — *Mailer* — RAFFINÉE
@@ -82,6 +82,66 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Mime* — RAFFINÉE
+
+`CRS-82d40ncj59k9` · `OIT-9xdjjsqcbn13` · STANDARD · **492 → 610 mots** sur 900.
+Aucun niveau promu. Exécutions sur Mime 8.0.15 et Mailer 8.0.15.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 22 (PR #330, `d7180ef`) | 37113542845, success | `ok  lot-22  the mailer page carries its four flashcard levels, the returned values, the unknown transport and the silent rejection` |
+
+### Une affirmation fausse : l'ordre des extensions
+
+L'exemple commentait `getExtensions('image/jpeg')` par `['jpeg', 'jpg', 'jpe']`,
+repris de la documentation 8.0. Exécuté : `jpg`, `jpeg`, `jpe`, `jfif` — la
+préférée est `jpg`. De même, `getMimeTypes('js')` rend `text/javascript` en
+premier. Le code l'emporte ; l'écart est signalé sur la page.
+
+### Confirmé par l'exécution
+
+| Cas | Résultat |
+|---|---|
+| texte, HTML, image intégrée, PDF joint | l'arbre `mixed` > `related` > `alternative` de la page |
+| texte seul / texte + HTML / texte + pièce jointe | `text/plain` / `alternative` / `mixed` |
+| PNG nommé `.txt` | `guessMimeType()` rend `image/png` |
+| expéditeur `jösé@…` / même destinataire | `InvalidArgumentException` / accepté |
+| `to()` deux fois / `to()` puis `addTo()` | 1 / 2 destinataires |
+| `Bcc` posé | absent des octets, présent dans l'enveloppe |
+| sans corps, sans destinataire, sans `From` | `LogicException` |
+
+**Questions.** `QST-mpsdvd7w472c`, `QST-4qhtngjnh5k3`, `QST-my73tx1dk4vf`
+(LEARNING) et `QST-7fsdtzgc219c` (VALIDATION) relues : exactes, inchangées.
+L'item n'a pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-x73mesgmmv9b` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`jfif`, `getPreparedHeaders` et `text/javascript`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-03**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Symfony 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 601 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Mime* (STANDARD, 492 / 900).
+Rapport de fin de lot 22, réconcilié par script, dans sa propre PR.

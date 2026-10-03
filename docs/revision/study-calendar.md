@@ -818,7 +818,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 26 novembre 2026
 
 - NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 22 min · 599 mots · 5 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 12 min · 492 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 21 min · 610 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Process** (STANDARD) — 15 min · 551 mots · 5 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 11 min · 426 mots · 4 questions, 1 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
@@ -828,7 +828,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (12 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+45** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 147 / 160 min*
+*Budget du jour : 156 / 160 min*
 
 ### Vendredi 27 novembre 2026
 
