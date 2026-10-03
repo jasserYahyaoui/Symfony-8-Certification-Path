@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-5ph49r9vszd1
   official_item: OIT-78k7kbfpgfxt
   language: fr
+  level: UNDERSTANDING
   front: Pourquoi les Cache Contracts n'ont-ils pas de méthode set() ?
   back: 'Parce que get() lit et écrit : son second argument est un appelable exécuté uniquement en cas de manque,
     qui produit la valeur et la stocke.'
@@ -22,3 +23,187 @@ flashcards:
     symbol_or_lines: '"The Cache Contracts define only two methods: get() and delete(). There''s no set() method because the get() method both gets and sets"; the second argument "is a PHP callable which is executed when the key is not found in the cache"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-g4qgr6hx5sv0
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles méthodes les Cache Contracts définissent-ils ?'
+  back: '`get()` et `delete()` ; pas de `set()`.'
+  explanation: Documentation *Cache*, branche 8.0.
+  memorization_justification: Surface de l'API.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-4yr0yphyhwvd
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle valeur de beta force un recalcul immédiat ?'
+  back: '`INF` ; `0` désactive le recalcul anticipé, `1.0` est la valeur par défaut.'
+  explanation: 'Exécuté : avec `INF`, le rappel tourne sur une clé présente.'
+  memorization_justification: Paramètre beta.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    verified_at: '2026-10-02'
+- id: FLC-sqfg99hvr74c
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel pool est injecté par autocâblage sur CacheInterface ?'
+  back: '`cache.app`.'
+  explanation: Documentation *Cache*, branche 8.0.
+  memorization_justification: Pool par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-q4e27600aa61
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi isHit() peut-il rendre true à l''intérieur du rappel de get() ?'
+  back: Parce que le rappel tourne aussi lors d'un recalcul anticipé, alors que la valeur est encore en cache.
+  explanation: 'Exécuté avec un grand `beta` et avec `INF` : `isHit()` vaut `true`.'
+  memorization_justification: Recalcul anticipé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-phg8gvczvthr
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi deux pools peuvent-ils partager un stockage sans conflit de clés ?'
+  back: Parce que chaque pool préfixe ses clés par son espace de noms.
+  explanation: 'Exécuté : deux `FilesystemAdapter` sur un même répertoire, même clé, valeurs distinctes.'
+  memorization_justification: Étanchéité des pools.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-xx174sjkfgmm
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : ne pas mettre en cache un résultat douteux renvoyé par le rappel.'
+  back: Déclarer `bool &$save` en second paramètre du rappel et le mettre à `false`.
+  explanation: 'Exécuté : `hasItem()` rend `false` ensuite.'
+  memorization_justification: Paramètre &$save.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    verified_at: '2026-10-02'
+- id: FLC-ya4eqxfa2bre
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : effacer d''un coup tous les items étiquetés bar.'
+  back: '`$pool->invalidateTags([''bar''])` sur un pool `TagAwareCacheInterface`.'
+  explanation: 'Exécuté : l''item étiqueté `bar` disparaît, l''item étiqueté seulement `foo` reste.'
+  memorization_justification: Invalidation par étiquette.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/TagAwareAdapter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/TagAwareAdapter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: invalidateTags()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-ajfvjtabnqet
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: TRAP
+  front: 'Symfony : le rappel de get() s''exécute-t-il à chaque appel ?'
+  back: 'Non : seulement en cas de manque, ou de recalcul anticipé ou forcé.'
+  explanation: 'Exécuté : deux appels, un seul calcul.'
+  memorization_justification: Rappel au manque.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-93ypz61gna33
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: TRAP
+  front: 'Symfony : cache.system est-il un cache.app plus rapide ?'
+  back: 'Non : il est réservé aux données dérivées du code source, régénérées au déploiement.'
+  explanation: Documentation *System Cache and Application Cache*.
+  memorization_justification: Rôle de cache.system.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'
+- id: FLC-m71p5n8r0kf7
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: TRAP
+  front: 'Symfony : beta = 0 désactive-t-il la mise en cache de la clé ?'
+  back: 'Non : seulement le recalcul anticipé ; la valeur reste en cache.'
+  explanation: Documentation *Preventing Cache Stampede*, branche 8.0.
+  memorization_justification: Portée de beta.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
+    verified_at: '2026-10-02'

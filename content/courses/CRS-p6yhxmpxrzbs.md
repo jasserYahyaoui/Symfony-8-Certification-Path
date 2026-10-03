@@ -5,7 +5,7 @@ title: "Cache"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/cache.rst"
@@ -13,6 +13,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php"
+    branch: "8.0"
+    symbol_or_lines: "get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/TagAwareAdapter.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/TagAwareAdapter.php"
+    branch: "8.0"
+    symbol_or_lines: "invalidateTags()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -153,7 +163,8 @@ la liste des clés.
 **`$save` est passé par référence** ; le mettre à `false` empêche
 l'enregistrement.
 
-**`beta = 0` désactive** le recalcul anticipé, `INF` le force.
+**`beta = 0` désactive** le recalcul anticipé, `INF` le force. Exécuté : avec
+`INF`, le rappel tourne sur une clé présente, et `isHit()` y rend `true`.
 
 **Les clés de deux pools ne se heurtent jamais.**
 

@@ -4072,6 +4072,32 @@ jobs:
           else
             echo "ok  lot-17  the HTTP caching page carries its four flashcard levels, the cacheable methods, the attribute naming and the passed POST"
           fi
+          # Lot 18 refinement, page 1 (Cache): the four flashcard levels, the
+          # forced recompute on a present key, the namespace prefix that keeps
+          # pools apart and the shared directory it was measured on.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l18r-cache -w '%{http_code}' "$BASE_URL/docs/courses/lot-18/cache")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 18 refined page cache serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l18r-cache || missing="$missing l18ca:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l18r-cache || missing="$missing l18ca:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l18r-cache || missing="$missing l18ca:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l18r-cache || missing="$missing l18ca:no-trap-heading"
+          grep -aqF -- 'clé présente' /tmp/l18r-cache \
+            || missing="$missing l18ca:no-forced-recompute"
+          grep -aqF -- 'préfixe ses clés' /tmp/l18r-cache \
+            || missing="$missing l18ca:no-namespace-prefix"
+          grep -aqF -- 'FilesystemAdapter' /tmp/l18r-cache \
+            || missing="$missing l18ca:no-shared-directory"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 18 refinement missing from the cache page:$missing"
+            fail=1
+          else
+            echo "ok  lot-18  the cache page carries its four flashcard levels, the forced recompute, the namespace prefix and the shared directory"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
