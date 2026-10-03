@@ -167,7 +167,7 @@ success — `ok  lot-17  the HTTP caching page carries its four flashcard levels
 
 ## Portes, au moment du rapport
 
-Exécutées le 2026-10-02 sur la branche du rapport, au-dessus de `c79a0e6` :
+Exécutées le 2026-10-03 sur la branche du rapport, au-dessus de `c79a0e6` :
 
 | Contrôle | Résultat |
 |---|---|
