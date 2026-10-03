@@ -5,7 +5,7 @@ title: "Clock"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst"
@@ -13,6 +13,21 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php"
+    branch: "8.0"
+    symbol_or_lines: "#[Required] setClock(); now() falls back to new Clock()"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/NativeClock.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/NativeClock.php"
+    branch: "8.0"
+    symbol_or_lines: "now(): DatePoint"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php"
+    branch: "8.0"
+    symbol_or_lines: "mockTime(string|\\DateTimeImmutable|bool $when = true)"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -40,6 +55,11 @@ Le composant fournit une `ClockInterface` et trois implémentations :
 | `MockClock` | une heure figée, que l'on déplace soi-même | tests |
 | `MonotonicClock` | s'appuie sur `hrtime()`, haute résolution et **monotone** | mesurer une durée |
 
+Une précision, exécutée sur Clock 8.0 : `NativeClock::now()`, comme la fonction
+`now()`, rend un **`DatePoint`** — une sous-classe de `DateTimeImmutable`, donc
+accepté partout où celle-ci est attendue, mais pas un objet de la classe
+exacte `DateTimeImmutable`.
+
 `MonotonicClock` n'est pas une horloge « plus précise » à tout faire : elle sert
 de **chronomètre**. Son intérêt est de croître régulièrement sans subir les
 ajustements de l'horloge système, qui peuvent faire reculer l'heure au milieu
@@ -65,8 +85,14 @@ Le remplacement à retenir : **`$this->clock->now()` à la place de
 `new \DateTimeImmutable()`**. Rien d'autre ne change dans la logique.
 
 Une variante existe pour éviter le paramètre de constructeur : le trait
-**`ClockAwareTrait`**. Grâce à l'autoconfiguration, le conteneur appelle son
-`setClock()`, et le service utilise ensuite **`$this->now()`**.
+**`ClockAwareTrait`**. Le conteneur appelle son `setClock()`, et le service
+utilise ensuite **`$this->now()`**.
+
+La documentation 8.0 attribue cet appel à l'autoconfiguration. Le code dit
+autre chose : `setClock()` porte `#[Required]`, que traite l'**autocâblage**.
+Exécuté sur DependencyInjection 8.0.15 : horloge injectée avec `autowire` seul,
+**pas** avec `autoconfigure` seul. Sans injection, `now()` se replie sur
+l'horloge globale `Clock`.
 
 ## `MockClock` : le temps ne passe pas tout seul
 
@@ -85,6 +111,10 @@ reste figée jusqu'à un appel explicite :
 - **`sleep()`** déplace l'heure **instantanément** — `sleep(600)` ne fait pas
   attendre le test dix minutes, il fait comme si ;
 - **`modify()`** accepte tous les formats de `DateTimeImmutable::modify()`.
+
+Exécuté : deux `now()` à 100 ms d'écart rendent la même heure, à la
+microseconde ; `sleep(600)` prend 0 seconde réelle et rend `15:30:00` ;
+`modify('+1 day')` avance d'un jour.
 
 ## L'horloge globale
 
@@ -134,6 +164,15 @@ $service->setClock($clock);
 Combiné à `ClockAwareTrait`, cela donne un test dont le résultat ne dépend plus
 du jour où on le lance.
 
+Exécuté avec PHPUnit 11.5 :
+
+| Appel | Résultat |
+|---|---|
+| `mockTime('1996-07-01')` | une `MockClock` à `1996-07-01 00:00` |
+| puis `mockTime('+2 days')` | `1996-07-03` : l'intervalle part de l'heure **déjà figée** |
+| `mockTime(false)` | une `NativeClock` |
+| test suivant | `Clock::get()` est redevenue une `NativeClock` |
+
 ## Pièges d'examen
 
 **`MockClock` n'avance jamais seule.** Sans `sleep()` ni `modify()`, deux appels
@@ -150,7 +189,13 @@ n'est pas ce qu'elle rend, c'est qu'on puisse la remplacer.
 **Deux traits, deux rôles** : `ClockAwareTrait` dans le service,
 `ClockSensitiveTrait` dans le test.
 
-**`DatePoint` lit `Clock`** : ce n'est pas un `DateTimeImmutable` ordinaire.
+**`setClock()` est appelé par l'autocâblage** (`#[Required]`), pas par
+l'autoconfiguration.
+
+**`DatePoint` lit `Clock`** : ce n'est pas un `DateTimeImmutable` ordinaire —
+et c'est ce que rendent `NativeClock::now()` et `now()`.
+
+**`mockTime('+2 days')` part de l'heure figée**, pas de l'heure réelle.
 
 ## Points clés
 
@@ -164,3 +209,6 @@ n'est pas ce qu'elle rend, c'est qu'on puisse la remplacer.
 ## Sources officielles
 
 - [The Clock Component](https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst)
+- [`ClockAwareTrait`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php)
+- [`NativeClock`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/NativeClock.php)
+- [`ClockSensitiveTrait`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php)

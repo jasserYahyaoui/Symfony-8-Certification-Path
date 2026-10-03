@@ -119,7 +119,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-bs7xcm74q6v9
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-qpjnpc56hjj0
   domain: symfony
@@ -131,7 +131,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A service uses ClockAwareTrait. What supplies its clock, and how does the service read the time?
+  question: A service registered with the default autowire and autoconfigure settings uses ClockAwareTrait. What
+    supplies its clock, and how does the service read the time?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -141,18 +142,17 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - clock-aware
   choices:
-  - id: CHO-b23wqzbdyr8n
-    text: Autoconfiguration calls the setter; read via $this->now()
+  - id: CHO-69z3hkceqh6n
+    text: Autowiring calls the setter; read via $this->now()
     correct: true
-  - id: CHO-9qfzvjqk7hwj
-    text: The trait instantiates a system clock on first use, read through $this->clock
+  - id: CHO-fm84x18x6jdy
+    text: 'Nothing: the clock is read via $this->clock'
     correct: false
-    explanation: The trait does not build its own clock; the container provides it, which is what makes it replaceable
-      in a test.
+    explanation: The container supplies the clock through the setter, and the trait's now() helper is what reads it.
   - id: CHO-50cbgrqxjk63
     text: The clock must be passed to the constructor, then read through $this->now()
     correct: false
@@ -160,16 +160,23 @@ questions:
   - id: CHO-etv2amt7pa0m
     text: A static accessor is used, so no injection happens at all
     correct: false
-    explanation: A global accessor exists in the component, but it is not what this trait relies on.
-  explanation: The trait declares a setter that autoconfiguration calls, so the clock arrives from the
-    container rather than being built by the service, and the time is read through the trait's now()
-    helper. That is what lets a test substitute a mocked clock without changing the service.
+    explanation: The global Clock is only the fallback now() uses when nothing was injected; here the container
+      injects the clock.
+  explanation: setClock() carries the Required attribute, which autowiring honours. Executed on DependencyInjection
+    8.0.15, the clock was injected with autowire on and not with autoconfigure alone; components/clock.rst
+    (8.0) credits autoconfiguration, the code says autowiring. Version 1 gave autoconfiguration as the
+    answer. Without injection, now() falls back to the global Clock.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
     branch: '8.0'
     symbol_or_lines: clock_use-inside-a-service
     verified_at: '2026-09-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    branch: '8.0'
+    symbol_or_lines: '#[Required] public function setClock(ClockInterface $clock)'
+    verified_at: '2026-10-02'
 - id: QST-j8hmpd45jp1s
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
