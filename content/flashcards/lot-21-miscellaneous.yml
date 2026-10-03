@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-e2refpyf7ra0
   official_item: OIT-tjn6kyvyc2h9
   language: fr
+  level: UNDERSTANDING
   front: Qu'apporte dumpFile() qu'une écriture ordinaire n'apporte pas ?
   back: 'L''atomicité : elle écrit un fichier temporaire puis le déplace, si bien qu''un lecteur simultané voit
     l''ancien fichier complet ou le nouveau complet, jamais un fichier à moitié écrit.'
@@ -37,3 +38,175 @@ flashcards:
     symbol_or_lines: 'the warning — "The Finder object is stateful. Any method call will change all its instances. If you need to perform several searches, create multiple instances of Finder or clone it after setting the common configuration"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-59w8gb1m83m6
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel mode mkdir() utilise-t-il par défaut ?'
+  back: '`0777` sur les systèmes POSIX, réduit par le `umask` courant.'
+  explanation: 'Exécuté : `0755` avec un `umask` de `022`.'
+  memorization_justification: Mode par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-8y959g67n4ez
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: RECALL
+  front: 'Symfony : que fait rename() quand la cible existe ?'
+  back: Il lève une `IOException`, sauf troisième argument à `true`, qui remplace la cible.
+  explanation: Exécuté sur Filesystem 8.0.15.
+  memorization_justification: Écrasement explicite.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-zf81g4a3ce1b
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode d''IOExceptionInterface donne le chemin fautif ?'
+  back: '`getPath()`.'
+  explanation: Documentation *Error Handling*, branche 8.0.
+  memorization_justification: Accesseur du chemin.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+- id: FLC-pn9snya6z2f5
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi Path::canonicalize() ne garantit-il pas que le chemin existe ?'
+  back: Parce que `Path` ne manipule que des chaînes, sans toucher au disque.
+  explanation: 'Exécuté : `/var/www/../lib/./x/` donne `/var/lib/x`, qui n''existe pas.'
+  memorization_justification: Chaîne contre disque.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+- id: FLC-5mkrd9y45c5x
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi appeler mkdir() sur un répertoire existant est-il sûr ?'
+  back: 'Parce que l''existant est ignoré : aucune exception.'
+  explanation: 'Exécuté : second `mkdir()` sans erreur.'
+  memorization_justification: Idempotence de mkdir().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-hy376vh391b3
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : écrire un fichier de configuration lu par d''autres processus pendant l''écriture.'
+  back: '`$filesystem->dumpFile($path, $content)` : écriture atomique, fichier temporaire puis déplacement.'
+  explanation: Documentation *dumpFile*, branche 8.0.
+  memorization_justification: Écriture atomique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-8ahmqkxnghe0
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : savoir sur quel chemin une opération a échoué.'
+  back: Attraper `IOExceptionInterface` et lire `$e->getPath()`.
+  explanation: Documentation *Error Handling*.
+  memorization_justification: Diagnostic d'échec.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+- id: FLC-h3x3rd2fbc39
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: TRAP
+  front: 'Symfony : getPath() rend-il toujours le chemin fautif ?'
+  back: 'Non : `readFile()` sur un répertoire lève une `IOException` sans chemin — `getPath()` rend `null`.'
+  explanation: Lu dans `Filesystem::readFile()` (8.0) et exécuté.
+  memorization_justification: Exception sans chemin.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-62037facrghh
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: TRAP
+  front: 'Symfony : dumpFile() échoue-t-il si le répertoire parent n''existe pas ?'
+  back: 'Non : il le crée.'
+  explanation: 'Exécuté : `x/y` créé par `dumpFile(''x/y/f.txt'', …)`.'
+  memorization_justification: Création du parent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir(); rename(); dumpFile(); readFile()
+    verified_at: '2026-10-02'
+- id: FLC-d3hbwc5hfp44
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: TRAP
+  front: 'Symfony : appendToFile() est-il atomique comme dumpFile() ?'
+  back: Non ; il peut seulement verrouiller le fichier pendant l'écriture, par son troisième argument.
+  explanation: Documentation *appendToFile*, branche 8.0.
+  memorization_justification: Atomicité et verrou.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
