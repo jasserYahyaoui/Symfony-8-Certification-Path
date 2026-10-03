@@ -832,7 +832,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 27 novembre 2026
 
 - NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 22 min · 751 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 12 min · 464 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 22 min · 755 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Serializer** (STANDARD) — 13 min · 456 mots · 5 questions, 1 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+3** (16 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache · Miscellaneous : Clock
@@ -841,7 +841,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+45** (8 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 127 / 160 min*
+*Budget du jour : 137 / 160 min*
 
 ### Samedi 28 novembre 2026
 
