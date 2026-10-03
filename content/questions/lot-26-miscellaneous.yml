@@ -232,7 +232,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-f4j1y7n6y64g
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
   domain: symfony
@@ -243,8 +243,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A property that should stay private keeps appearing in the output. What does the object
-    normalizer take by default, and how is one member excluded?
+  question: A member that should stay out of the output keeps appearing in it. What does the object
+    normalizer take by default, and how is that one member excluded everywhere?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -254,34 +254,38 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-12'
+  reviewed_at: '2026-10-03'
   tags:
   - serializer
   - object-normalizer
   choices:
-  - id: CHO-n57tkqvezkwv
-    text: Properties and get/has/is/can methods; ignore it
+  - id: CHO-yhrtaw5m0g09
+    text: Public properties and get/has/is/can methods; ignore it
     correct: true
-  - id: CHO-q18p9t4q6yzx
-    text: Only public properties; make the property private
+  - id: CHO-jrr2t2cd3y33
+    text: Every property, whatever its visibility; give it a different name
     correct: false
-    explanation: Visibility alone does not decide what is taken.
+    explanation: Private and protected properties are not read directly, and a new name changes the key, not
+      its presence.
   - id: CHO-cxpang3bha6h
     text: Only properties with a getter; remove the getter
     correct: false
-    explanation: Properties are taken as well, so removing a getter is not enough.
+    explanation: Public properties are taken as well, so removing a getter is not enough for them.
   - id: CHO-tss481g27vp5
     text: Everything, with no way to exclude a member
     correct: false
     explanation: An attribute exists precisely for that.
   explanation: The default reach is wide on purpose, which is why an object with a computed accessor
     exposes more than expected. The ignore attribute removes one member; groups are the tool when whole
-    sets have to differ per context.
+    sets have to differ per context. Executed on Serializer 8.0.15, a public property and the get, is,
+    has and can methods were output, while protected and private properties without an accessor were
+    not. Version 1 said that properties are taken without qualification and offered making the property
+    private as a wrong answer, which works when no accessor exposes it.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     repository: symfony/symfony-docs
     branch: '8.0'
-    symbol_or_lines: the ObjectNormalizer normalizes all properties and get/has/is/can methods; the
-      Ignore attribute
+    symbol_or_lines: the ObjectNormalizer reads through PropertyAccess, properties and get/has/is/can
+      methods; the Ignore attribute
     verified_at: '2026-09-12'
