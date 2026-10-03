@@ -282,7 +282,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-e7krb61ejhf9
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-a1anzcv85my3
   domain: symfony
@@ -294,8 +294,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A search spans several locations and its results are converted to an array. Some entries are missing.
-    What was overlooked?
+  question: A search spans several locations, one nested inside another, and its results are converted to an array.
+    The array holds fewer entries than the search counts. What was overlooked?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -305,7 +305,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - iterator
   choices:
@@ -319,13 +319,17 @@ questions:
   - id: CHO-npg7zg54vz2x
     text: Duplicate files across locations are removed automatically
     correct: false
-    explanation: No de-duplication by content or name is performed.
+    explanation: The search itself returns the shared file twice; it is the conversion, keyed by path, that keeps
+      only one.
   - id: CHO-h1cygwnhesa5
     text: The result must be sorted before it can be converted
     correct: false
     explanation: Sorting is unrelated to the loss of entries.
   explanation: Passing false as the second argument of the conversion discards the keys, which is what prevents
-    entries from overwriting one another.
+    entries from overwriting one another. The key is the file path, so only a file reached through two
+    locations collides; executed on Finder 8.0.14, overlapping locations counted 5, converted to 4, and to 5
+    with false, while two distinct files of the same name in separate locations did not collide. Version 1
+    did not say the locations overlapped.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst

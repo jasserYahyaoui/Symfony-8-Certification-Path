@@ -19,7 +19,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Filesystem | STANDARD | 516 / 900 | 1 | à faire |
+| 1 | Filesystem | STANDARD | 516 / 900 | 1 | **RAFFINÉE** (PR #327) |
 | 2 | Finder | STANDARD | 542 / 900 | 1 | à faire |
 
 ## Page 1 — *Filesystem* — RAFFINÉE
@@ -81,6 +81,67 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Finder* — RAFFINÉE
+
+`CRS-jwhqec35jczn` · `OIT-a1anzcv85my3` · STANDARD · **542 → 629 mots** sur 900.
+Aucun niveau promu. Exécutions sur Finder 8.0.14.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 21 (PR #327, `2b5de52`) | 37111130275, success | `ok  lot-21  the filesystem page carries its four flashcard levels, the umask mode, the pathless exception and the overwrite` |
+
+### Une précision : quand les clés se heurtent
+
+La page reprenait l'avertissement de la documentation : après plusieurs `in()`,
+`iterator_to_array()` peut perdre des entrées. Exécuté : la clé est le chemin du
+fichier. Deux `a.txt` dans deux répertoires distincts donnent deux clés ; seuls
+deux `in()` qui se recouvrent (`f1` et `f1/sub`) atteignent le même fichier deux
+fois — 5 comptés, 4 dans le tableau, 5 avec `false`.
+
+**`QST-y8xczgk8cn9z` (VALIDATION) → v2.** L'énoncé présentait la perte comme un
+effet de toute recherche multi-emplacements ; il précise désormais que les
+emplacements s'emboîtent. Choix inchangés ; l'explication d'un distracteur et
+l'explication générale citent l'exécution.
+
+### Confirmé par l'exécution
+
+| Cas | Résultat |
+|---|---|
+| deux `name()` successifs sur le même objet | 1 puis 2 fichiers |
+| sans `files()` ni `directories()` | 5 résultats : 4 fichiers, 1 répertoire |
+| itération sans `in()` | `LogicException` |
+
+**Questions.** `QST-9vdyrx07zz9j`, `QST-5a5z84vv3kvc`, `QST-tbsm9m352jya`
+(LEARNING) relues : exactes, inchangées. L'item n'a pas de question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-zw88x7tcje1m` reçoit le niveau TRAP. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`se recouvrent`, `LogicException` et `sans collision`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-03**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Symfony 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 581 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Finder* (STANDARD, 542 / 900).
+Rapport de fin de lot 21, réconcilié par script, dans sa propre PR.
