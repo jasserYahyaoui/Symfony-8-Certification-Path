@@ -19,7 +19,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Serializer | STANDARD | 456 / 900 | 1 | à faire |
+| 1 | Serializer | STANDARD | 456 / 900 | 1 | **RAFFINÉE** (PR #339) |
 
 ## Page 1 — *Serializer* — RAFFINÉE
 
@@ -88,6 +88,90 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
 
-Rapport de fin de lot 26, réconcilié par script, dans sa propre PR.
+# Rapport de fin de lot 26
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `2d076a0`, le commit de `master`
+qui précède la page refondue (PR #339). État mesuré : `ec2ef55`. Le décompte de
+cartes écrit dans l'entrée de page concorde avec les fichiers : **1 / 1**.
+
+## Périmètre et couverture
+
+**1** item officiel atomique porte `lot: lot-26` : `STANDARD`, niveau inchangé —
+une **observation**, aucune cible.
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Chiffre **cumulatif, sur tout le projet** ; sous-ensemble du lot : **1 / 1**.
+Aucun des deux n'a bougé : **ce lot n'a pas fait progresser la couverture**.
+
+## Volume, cartes, questions
+
+| | Avant | Après | Nouveau |
+|---|---|---|---|
+| Cours, corps en mots (plafond 900) | 456 | **777** | **+321** |
+| Cartes sur l'item | 1 | **11** | **+10** |
+
+Niveaux des cartes — **observation, jamais une cible** : `RECALL` 3 ·
+`UNDERSTANDING` 3 · `APPLICATION` 2 · `TRAP` 3 ; aucune sans niveau. La carte
+préexistante a reçu un niveau, sans autre modification.
+
+**6** questions (4 `LEARNING`, 1 `VALIDATION`, 1 `HOLDOUT` dans
+`mock-04-holdout.yml`), aucune ajoutée ni supprimée. **1** corrigée :
+`QST-j0bscrddekrm` (LEARNING), **v1 → v2**, bonne réponse précisée (*public
+properties*) et un distracteur en partie vrai remplacé (deux nouveaux
+identifiants de choix). **0 question holdout modifiée**.
+`POOL-002` : **0** item sans `VALIDATION`. **Matrice** : aucun texte modifié.
+
+## Affirmations corrigées
+
+| Affirmation | Exécuté ou lu | Décision |
+|---|---|---|
+| `ObjectNormalizer` retient toutes les propriétés | propriétés publiques et méthodes `get`/`has`/`is`/`can` ; protégées et privées sans accesseur exclues | page et `QST-j0bscrddekrm` corrigées |
+
+Aucune divergence documentation / code : la documentation 8.0 dit que le
+normaliseur passe par le composant d'accès aux propriétés ; l'erreur était
+celle de la page.
+
+## Signal pour le holdout — à revoir par l'owner
+
+Une question holdout porte sur l'item, dans `mock-04-holdout.yml` ; non lue.
+Faits établis qui pourraient la concerner : seules les propriétés publiques sont
+lues directement ; `groups` à `Default` ne rend rien ; `#[SerializedName]`
+exige `MetadataAwareNameConverter` hors framework ; un même objet dans deux
+propriétés sœurs n'est pas une référence circulaire.
+
+## Déploiement
+
+Page fusionnée par PR (#339), CI verte, déployée, smoke test lu : run 37120694984,
+success — `ok  lot-26  the serializer page carries its four flashcard levels, the public reach, the missing Default group and the sibling repeat`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-03 sur la branche du rapport, au-dessus de `ec2ef55` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 641 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+## Résumé autonome
+
+Lot 26 (*Serializer*), 1 item STANDARD : couverture projet 163/163 inchangée ;
+cours 456 → 777 mots (+321) ; cartes 1 → 11, toutes niveau posé ; 6 questions,
+1 corrigée (v2), 0 holdout modifiée ; page déployée, smoke test lu ; une
+affirmation fausse corrigée (`ObjectNormalizer` ne lit que le public et les
+accesseurs). Dernier lot portant des items : le lot 27 n'en porte aucun.
