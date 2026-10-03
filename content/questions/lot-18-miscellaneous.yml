@@ -173,7 +173,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-rmv013ank5zr
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
   domain: symfony
@@ -194,7 +194,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-12'
+  reviewed_at: '2026-10-02'
   tags:
   - cache
   - concepts
@@ -210,10 +210,11 @@ questions:
     text: The adapter is per request, the pool persists between them
     correct: false
     explanation: Lifetime is not what separates them.
-  - id: CHO-1rsq0xqx7ab9
-    text: They are two names for the same object
+  - id: CHO-44440r4xmfyb
+    text: The pool implements storage, the adapter names it
     correct: false
-    explanation: A pool is created from an adapter, so they cannot be the same thing.
+    explanation: It is the other way round. Version 1 offered "two names for the same object" here, which is
+      defensible in code, where new FilesystemAdapter() returns the very object used as a pool.
   explanation: 'Four names, four jobs: an item is one key and value, a pool is a repository of items
     through which every operation goes, an adapter implements the actual storage, and a provider is
     the connection some adapters need. Keys from different pools never collide, even on one backend.'
