@@ -5,7 +5,7 @@ title: "Event"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -13,6 +13,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php"
+    branch: "8.0"
+    symbol_or_lines: "implements \\ArrayAccess, \\IteratorAggregate"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
+    branch: "8.0"
+    symbol_or_lines: "stopPropagation(); isPropagationStopped()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -64,7 +74,9 @@ public function onPlacedOrder(OrderPlacedEvent $event): void
 ```
 
 Les écouteurs de cet événement **qui n'ont pas encore été appelés** ne le seront
-pas. Ceux déjà exécutés ne sont évidemment pas défaits.
+pas. Ceux déjà exécutés ne sont évidemment pas défaits. Exécuté avec des
+écouteurs de priorités `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
+tournent.
 
 Deux conséquences pratiques :
 
@@ -97,7 +109,9 @@ $event->hasArgument('key');
 
 Il ajoute `getSubject()`, `setArgument()`, `setArguments()`, `getArgument()`,
 `getArguments()` et `hasArgument()` à la classe de base, et implémente
-**`ArrayAccess`** sur ses arguments — d'où un accès par crochets.
+**`ArrayAccess`** sur ses arguments — d'où un accès par crochets — ainsi
+qu'**`IteratorAggregate`** : un `foreach` parcourt ses arguments. Exécuté :
+`$event['k']` rend `v`, et l'itération rend la clé `k`.
 
 Le compromis est clair : `GenericEvent` évite d'écrire une classe, au prix d'une
 donnée non typée à laquelle on accède par clé. Une sous-classe dédiée donne un
@@ -116,7 +130,8 @@ suivants d'être appelés.
 
 **`isPropagationStopped()` se lit après le `dispatch()`**, côté déclencheur.
 
-**`GenericEvent` implémente `ArrayAccess`** sur ses arguments, pas sur son sujet.
+**`GenericEvent` implémente `ArrayAccess`** sur ses arguments, pas sur son sujet —
+et `IteratorAggregate`, sur les mêmes arguments.
 
 ## Points clés
 
@@ -129,3 +144,4 @@ suivants d'être appelés.
 
 - [The EventDispatcher Component](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [The Generic Event Object](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst)
+- [`GenericEvent`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php)

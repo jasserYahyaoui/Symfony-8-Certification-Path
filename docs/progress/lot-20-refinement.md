@@ -19,7 +19,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | EventDispatcher | STANDARD | 579 / 900 | 1 | à faire |
+| 1 | EventDispatcher | STANDARD | 579 / 900 | 1 | **RAFFINÉE** (PR #324) |
 | 2 | Event | STANDARD | 469 / 900 | 1 | à faire |
 
 ## Page 1 — *EventDispatcher* — RAFFINÉE
@@ -79,6 +79,60 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
+## Page 2 — *Event* — RAFFINÉE
+
+`CRS-fhb1cbhnyaxx` · `OIT-8xcczyjyyanz` · STANDARD · **469 → 519 mots** sur 900.
+Aucun niveau promu. Exécutions sur EventDispatcher 8.0.15.
+
+### Déploiement précédent, lu en production
+
+| Fusion | Run Pages | Ligne de smoke test |
+|---|---|---|
+| page 1 du lot 20 (PR #324, `fdca3fb`) | 37108917875, success | `ok  lot-20  the event dispatcher page carries its four flashcard levels, the default method, the invoke fallback and the compiler pass` |
+
+### La page était exacte ; l'exécution la précise
+
+| Cas | Résultat |
+|---|---|
+| écouteurs `10`, `5` (qui arrête), `0`, `-5` | seuls `10` et `5` tournent |
+| `isPropagationStopped()` après `dispatch()` | `true` |
+| `GenericEvent('subj', ['k' => 'v'])['k']` | `v` |
+| `foreach` sur ce `GenericEvent` | la clé `k` |
+| interfaces de `GenericEvent` | `StoppableEventInterface`, `ArrayAccess`, `IteratorAggregate` |
+
+La page ne citait pas `IteratorAggregate` : ajouté.
+
+**Questions.** `QST-dxvqjgxd3vyq`, `QST-99x1vnm3rtx4` (LEARNING) et
+`QST-yxwtwshs91fd` (VALIDATION) relues : exactes, inchangées — la classe de base
+`Event` n'est pas abstraite, ce que confirme la lecture. L'item n'a pas de
+question holdout.
+
+**Flashcards.** 10 ajoutées ; `FLC-6eg8g2bt06nt` reçoit le niveau RECALL. L'item
+en porte **11** (3 RECALL, 3 UNDERSTANDING, 2 APPLICATION, 3 TRAP), décompte
+relevé par script sur tous les fichiers de cartes.
+
+**Aiguilles de smoke test.** Les quatre titres de niveau, plus
+`IteratorAggregate`, `seuls` et `toutes deux sur ses arguments`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-03**
+
+| Contrôle | Résultat |
+|---|---|
+| exécutions Symfony 8.0.15 | résultats cités ci-dessus |
+| `php bin/cert validate` | 0 bloquant |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `build_roadmap` + `render_calendar` (160/220) | régénérés ; `readiness` inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun (dont `aud10`) |
+| blocs `run:` des workflows | 34 parsent (`bash -n`) |
+| `composer gate-full` | exit 0 — 299 tests, 17 561 assertions ; TOTAL VIOLATIONS: 0 |
+| `verify-reschedule` | exit 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
 ## Prochaine étape
 
-Page 2 — *Event* (STANDARD, 469 / 900).
+Rapport de fin de lot 20, réconcilié par script, dans sa propre PR.
