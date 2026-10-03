@@ -5,7 +5,7 @@ title: "PropertyAccess"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-03"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php"
+    branch: "8.0"
+    symbol_or_lines: "isReadable(); isWritable(); getValue(); setValue()"
+    verified_at: "2026-10-03"
 ---
 
 ## Objectif
@@ -49,6 +54,16 @@ $propertyAccessor->setValue($person, 'children[0].firstName', 'Wouter');
 // équivaut à $person->getChildren()[0]->firstName = 'Wouter'
 ```
 
+Se tromper de notation n'est pas toléré. Exécuté sur PropertyAccess 8.0.8 :
+
+| Chemin | Cible | Résultat |
+|---|---|---|
+| `a` | tableau | `NoSuchPropertyException`, qui suggère d'écrire `[a]` |
+| `[x]` | `stdClass` | `NoSuchIndexException` : l'objet n'implémente pas `ArrayAccess` |
+
+Écrire dans un tableau le modifie **par référence** : `setValue($a, '[y]', 2)`
+ajoute la clé à `$a` lui-même.
+
 ## Le chemin absent : deux comportements opposés
 
 C'est le piège central de l'item, et il ne se déduit pas.
@@ -61,13 +76,27 @@ C'est le piège central de l'item, et il ne se déduit pas.
 Un tableau pardonne, un objet non. Les deux comportements se renversent, mais
 seulement en passant par `PropertyAccess::createPropertyAccessorBuilder()` :
 
-- `enableExceptionOnInvalidIndex()` fait lever le tableau ;
+- `enableExceptionOnInvalidIndex()` fait lever le tableau, par une
+  `NoSuchIndexException` ;
 - `disableExceptionOnInvalidPropertyPath()` fait rendre `null` à l'objet.
+
+## Le maillon `null`
+
+Une propriété intermédiaire qui vaut `null` est un troisième cas, distinct du
+chemin absent. Exécuté, `$person` à `null` sur un `Comment` :
+
+| Chemin | Résultat |
+|---|---|
+| `person.firstname` | `UnexpectedTypeException` |
+| `person?.firstname` | `null`, évaluation arrêtée |
+
+L'opérateur `?` ne couvre **que** le `null` : si `person` est un objet sans
+`firstname`, `person?.firstname` lève toujours `NoSuchPropertyException`.
 
 ## Demander avant d'appeler
 
-`isReadable()` et `isWritable()` répondent si un chemin **pourrait** être lu ou
-écrit, sans l'appeler :
+`isReadable()` et `isWritable()` répondent par un booléen, sans lever, là où
+`getValue()` et `setValue()` lèveraient :
 
 ```php
 if ($propertyAccessor->isWritable($person, 'firstName')) {
@@ -75,10 +104,29 @@ if ($propertyAccessor->isWritable($person, 'firstName')) {
 }
 ```
 
+**Elles ne sont pas sans effet.** La documentation dit qu'`isReadable()` évite
+d'appeler `getValue()` ; elle ne dit pas qu'elle évite le getter. Lu dans
+`PropertyAccessor::isReadable()` (8.0) et exécuté avec des accesseurs qui
+journalisent leurs appels :
+
+| Appel | Méthodes de l'objet appelées |
+|---|---|
+| `isReadable($person, 'firstName')` | `getFirstName()` |
+| `isWritable($person, 'firstName')` | aucune |
+| `isWritable($person, 'children[0].firstName')` | `getChildren()` |
+
+`isReadable()` **lit** le chemin entier ; `isWritable()` lit tout sauf le
+dernier maillon, qu'elle examine sans appeler le setter. Un getter coûteux ou à
+effet de bord s'exécute donc.
+
 ## Les méthodes magiques
 
 Autre asymétrie : `__get()` est utilisée **par défaut**, tandis que `__call()`
-doit être **activée** explicitement par le constructeur de l'accesseur.
+doit être **activée** explicitement par le constructeur de l'accesseur,
+`enableMagicCall()`. `__set()` est, lui aussi, actif par défaut.
+
+Exécuté : sans `enableMagicCall()`, une lecture qui ne passerait que par
+`__call()` lève `NoSuchPropertyException` ; avec, elle aboutit.
 
 ## Les collections
 
@@ -86,6 +134,16 @@ Pour une propriété de collection, l'écriture passe par les méthodes d'ajout 
 de retrait. Quand celles-ci ne portent pas les préfixes attendus, un extracteur
 par réflexion configuré avec les préfixes réellement employés est fourni à
 l'accesseur.
+
+Exécuté, sur un objet qui possède aussi `setChildren()` :
+
+| Ancienne liste → nouvelle | Méthodes appelées |
+|---|---|
+| `['a']` → `['b']` | `getChildren()`, `removeChild()`, `addChild()` |
+| `['a']` → `['a', 'b']` | `getChildren()`, `addChild()` |
+
+Le couple ajout/retrait **l'emporte sur le setter**, et seuls les éléments qui
+changent sont touchés.
 
 ## Pièges d'examen
 
@@ -96,15 +154,20 @@ Les deux défauts sont opposés.
 
 **`__get()` marche seule ; `__call()` doit être activée.**
 
-**`isReadable()` ne lit pas** — elle répond seulement si la lecture est possible.
+**`isReadable()` appelle le getter** — elle ne fait qu'éviter l'exception.
+
+**`?` arrête sur `null`**, pas sur une propriété absente.
 
 ## Points clés
 
 - `[index]` pour un tableau, `.propriété` pour un objet, mélangeables.
 - Défauts opposés sur chemin absent, renversables par le constructeur.
-- `isReadable()` / `isWritable()` interrogent sans exécuter.
+- `isReadable()` / `isWritable()` rendent un booléen au lieu de lever ;
+  `isReadable()` exécute le getter.
+- `?` rend `null` sur un maillon `null`.
 - `__get()` par défaut, `__call()` sur activation.
 
 ## Sources officielles
 
 - [`components/property_access.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst)
+- [`PropertyAccessor`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php)

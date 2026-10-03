@@ -148,7 +148,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-03'
   tags:
   - checking
   - api
@@ -168,8 +168,10 @@ questions:
     text: A read of the path, since a readable path is always writable
     correct: false
     explanation: Readability and writability are asked separately and are not equivalent.
-  explanation: isWritable() reports whether the write could be performed without performing it, and isReadable() does
-    the same for reads.
+  explanation: isWritable() reports whether the write could be performed without performing it. The read
+    counterpart is not symmetrical, which the previous wording claimed. Executed on PropertyAccess 8.0.8,
+    isReadable() called the getter, while isWritable() called no setter; on a nested path it called the
+    getters leading to the last segment.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst

@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-zggyac2jqrp5
   official_item: OIT-43pt66xsft9f
   language: fr
+  level: TRAP
   front: 'Chemin absent : que rend la lecture sur un tableau, et sur un objet ?'
   back: Sur un tableau, null. Sur un objet, une exception NoSuchPropertyException. Les deux défauts sont opposés,
     et chacun se renverse par le constructeur d'accesseur.
@@ -24,3 +25,181 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: accessing-a-non-existent-property-path
     verified_at: '2026-09-02'
+- id: FLC-9m2xn9fzahds
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: RECALL
+  front: 'Symfony PropertyAccess : quelle exception lève un index absent après enableExceptionOnInvalidIndex() ?'
+  back: '`NoSuchIndexException`.'
+  explanation: Exécuté sur PropertyAccess 8.0.8 ; sans cette option, le même chemin rend `null`.
+  memorization_justification: Exception d'index.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Reading from Arrays
+    verified_at: '2026-10-03'
+- id: FLC-phm7twmh7tvs
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: RECALL
+  front: 'Symfony PropertyAccess : quelle méthode du constructeur d''accesseur active la lecture par __call() ?'
+  back: '`enableMagicCall()`.'
+  explanation: Section *Magic __call() Method*, branche 8.0, et exécuté ; `__get()` et `__set()` sont actifs par défaut.
+  memorization_justification: Activer __call.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Magic __call() Method
+    verified_at: '2026-10-03'
+- id: FLC-he98mq8yw8bd
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: RECALL
+  front: 'Symfony PropertyAccess : quel opérateur arrête l''évaluation d''un chemin sur un maillon null ?'
+  back: '`?` : `person?.firstname` rend `null` si `person` vaut `null`.'
+  explanation: Section *Accessing Nullable Property Paths*, branche 8.0, et exécuté ; sans `?`, `UnexpectedTypeException`.
+  memorization_justification: Opérateur nullsafe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Nullable Property Paths
+    verified_at: '2026-10-03'
+- id: FLC-93f6yntrt66r
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony PropertyAccess : pourquoi isReadable() peut-il déclencher un effet de bord ?'
+  back: Parce qu'il lit réellement le chemin, getter compris ; il ne fait que convertir l'exception en `false`.
+  explanation: 'Lu dans `PropertyAccessor::isReadable()` (8.0) et exécuté : `getFirstName()` appelé.'
+  memorization_justification: Lecture réelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Checking Property Paths
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isReadable(); isWritable(); getValue(); setValue()
+    verified_at: '2026-10-03'
+- id: FLC-bc3ab34c1448
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony PropertyAccess : pourquoi écrire une collection n''appelle-t-il pas setChildren() ?'
+  back: 'Parce que les méthodes d''ajout et de retrait l''emportent : seuls les éléments qui changent passent par `addChild()` et `removeChild()`.'
+  explanation: 'Exécuté sur un objet qui possède aussi `setChildren()` : `getChildren()`, `removeChild()`, `addChild()`.'
+  memorization_justification: Adder et remover.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Writing to Array Properties
+    verified_at: '2026-10-03'
+- id: FLC-8yx8edb6pxyb
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony PropertyAccess : pourquoi le chemin a lève-t-il sur un tableau qui a la clé a ?'
+  back: Parce que sans crochets, le segment désigne une propriété d'objet ; il faut écrire `[a]`.
+  explanation: 'Exécuté : `NoSuchPropertyException`, dont le message suggère `[a]`.'
+  memorization_justification: Notation et cible.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Reading from Arrays
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isReadable(); isWritable(); getValue(); setValue()
+    verified_at: '2026-10-03'
+- id: FLC-zbwz45ezmkka
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony PropertyAccess : lire person.firstname sur un commentaire dont person peut être null, sans exception.'
+  back: '`$propertyAccessor->getValue($comment, ''person?.firstname'')`.'
+  explanation: Section *Accessing Nullable Property Paths*, branche 8.0.
+  memorization_justification: Chemin nullable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Nullable Property Paths
+    verified_at: '2026-10-03'
+- id: FLC-1jdvr5ck5yp4
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: APPLICATION
+  front: 'Symfony PropertyAccess : obtenir null plutôt qu''une exception pour une propriété d''objet absente.'
+  back: '`PropertyAccess::createPropertyAccessorBuilder()->disableExceptionOnInvalidPropertyPath()->getPropertyAccessor()`.'
+  explanation: Section *Accessing a Non-Existent Property Path*, branche 8.0, et exécuté.
+  memorization_justification: Renverser le défaut objet.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing a Non-Existent Property Path
+    verified_at: '2026-10-03'
+- id: FLC-8hhsxfx9bb9b
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: TRAP
+  front: 'Symfony PropertyAccess : l''opérateur ? évite-t-il l''exception d''une propriété absente ?'
+  back: 'Non : il n''arrête que sur `null` ; un objet sans la propriété lève toujours `NoSuchPropertyException`.'
+  explanation: 'Exécuté : `person?.firstname` sur un `person` non nul sans `firstname`.'
+  memorization_justification: Null contre absent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing Nullable Property Paths
+    verified_at: '2026-10-03'
+- id: FLC-x0pr8escf1e3
+  official_item: OIT-43pt66xsft9f
+  language: fr
+  level: TRAP
+  front: 'Symfony PropertyAccess : isWritable() appelle-t-il le setter pour répondre ?'
+  back: Non ; mais sur un chemin imbriqué, il appelle les getters qui mènent au dernier maillon.
+  explanation: 'Lu dans `PropertyAccessor::isWritable()` (8.0) et exécuté : `getChildren()` appelé pour `children[0].firstName`.'
+  memorization_justification: Lecture des maillons.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Checking Property Paths
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isReadable(); isWritable(); getValue(); setValue()
+    verified_at: '2026-10-03'
