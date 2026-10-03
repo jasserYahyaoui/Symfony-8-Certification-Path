@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-09-24 (raffinement pédagogique, lot 06 en cours)
+**Last updated:** 2026-10-03 (raffinement pédagogique, lots 02 à 26 traités ; rapport du lot 26 en PR)
 
 ---
 
@@ -35,8 +35,8 @@ périmètre sur instruction.
 | 23 (Miscellaneous) | **terminé** — 1 page déployée (PR #333) ; rapport fusionné (PR #334) |
 | 24 (Miscellaneous) | **terminé** — 1 page déployée (PR #335) ; rapport fusionné (PR #336) |
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
-| 26 (Miscellaneous) | **en cours** — page 1 en PR |
-| 27 et suivants | à faire, dans l'ordre numérique |
+| 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
+| 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 
 **Décisions du propriétaire en vigueur**
 
@@ -50,9 +50,11 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 1 du lot 26 après CI verte,
-lire son smoke test, puis rapport de fin de lot 26 — dernier lot portant des
-items. Signaux holdout des lots 06 à 26 à revoir par l'owner.
+**Prochaine action** : fusionner la PR du rapport de fin de lot 26 après CI
+verte ; la campagne de raffinement des pages couvre alors les lots 02 à 26 (le
+lot 01 reste hors périmètre sur instruction, le lot 27 ne porte aucun item).
+Restent au propriétaire : les signaux holdout des lots 06 à 26 consignés dans
+les rapports de fin de lot, et la passation du Mock 4.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
