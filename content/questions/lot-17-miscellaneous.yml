@@ -143,7 +143,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-02'
   tags:
   - attribute
   choices:
@@ -153,7 +153,9 @@ questions:
   - id: CHO-z6szn12hxkwb
     text: 3600, because the attribute is evaluated after the controller returns
     correct: false
-    explanation: The documented precedence is the other way round.
+    explanation: The listener does run after the controller, on kernel.response, but it only sets max-age when the
+      response has none; executed on HttpKernel 8.0.15, the Cache attribute with maxage 60 and setMaxAge(10)
+      in the action gave max-age=10.
   - id: CHO-yy4rkj0w09q2
     text: Whichever is smaller, as a safety rule
     correct: false

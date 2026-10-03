@@ -5,7 +5,7 @@ title: "HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge S
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst"
@@ -13,6 +13,21 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php"
+    branch: "8.0"
+    symbol_or_lines: "generateCacheKey(): URI, plus the body for QUERY"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php"
+    branch: "8.0"
+    symbol_or_lines: "onKernelResponse(); max-age set only when absent"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+    branch: "8.0"
+    symbol_or_lines: "isMethodCacheable(): GET, HEAD, QUERY"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -76,6 +91,10 @@ dehors, l'option `trace_level` le contrôle :
 Apache, `%{X-Symfony-Cache}o` — afin de mesurer l'efficacité du cache route par
 route. Le nom de l'en-tête se change par `trace_header`.
 
+Exécuté (HttpKernel 8.0.15), deux `GET` sur une route à `max-age=60` : en debug,
+`miss, store` puis `fresh` ; sans debug, la seconde réponse vient aussi du
+cache, mais **sans** en-tête — `trace_level` vaut `none` par défaut hors debug.
+
 ## Déclarer plutôt que construire
 
 L'attribut `#[Cache]`, de `Symfony\Component\HttpKernel\Attribute\Cache`, pose
@@ -94,7 +113,8 @@ public function index(): Response
 La règle de priorité est explicite dans la documentation et vaut d'être
 retenue : **les en-têtes posés dans le contrôleur l'emportent sur ceux
 configurés par l'attribut.** L'attribut fixe une politique par défaut ; le code
-peut la contredire.
+peut la contredire. Exécuté : `#[Cache(maxage: 60)]` et `setMaxAge(10)` dans
+l'action donnent `max-age=10`.
 
 ## Poser plusieurs réglages d'un coup
 
@@ -110,7 +130,8 @@ $response->setCache([
 ]);
 ```
 
-Les mêmes clés sont disponibles sur l'attribut `#[Cache]`.
+Les mêmes réglages existent sur l'attribut `#[Cache]`, mais en camelCase :
+`maxage`, `smaxage`, `mustRevalidate`, `lastModified`.
 
 Deux méthodes complètent l'ensemble :
 
@@ -121,7 +142,8 @@ $response->setNotModified();  // force un 304 sans contenu
 
 ## Ce que le cache ne fera pas
 
-**La clé de cache est l'URI de la requête** — sauf variation déclarée. Deux
+**La clé de cache est l'URI de la requête** — sauf variation déclarée ; pour la
+méthode `QUERY`, l'URI plus le corps (`Store`, 8.0). Deux
 utilisateurs différents sur la même URL reçoivent donc la même entrée, ce qui
 explique pourquoi une page personnalisée ne se met pas en cache partagé sans
 précaution.
@@ -137,6 +159,11 @@ documentation énonce :
 - ne **jamais** modifier l'état sur un `GET` ou un `HEAD` : si la réponse est
   cachée, les requêtes suivantes n'atteindront pas le serveur.
 
+La documentation ne cite que `GET` et `HEAD` ; en 8.0,
+`Request::isMethodCacheable()` retient aussi `QUERY`.
+Exécuté : deux `QUERY` de même corps, `fresh` ; un autre corps, `miss` ; un
+`POST` à `max-age=60`, `pass, invalidate` à chaque fois.
+
 **L'invalidation ne fait pas partie de la spécification HTTP.** Elle est utile,
 Symfony la rend possible, mais elle sort du protocole — c'est pourquoi le modèle
 d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
@@ -148,7 +175,8 @@ d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
 
 **Le contrôleur l'emporte sur `#[Cache]`**, pas l'inverse.
 
-**La clé de cache est l'URI**, pas la route ni ses paramètres.
+**La clé de cache est l'URI**, pas la route ni ses paramètres — corps compris
+pour `QUERY`.
 
 **Le cache HTTP ne s'applique qu'aux méthodes sûres.**
 
@@ -170,3 +198,4 @@ d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
 - [HTTP Cache](https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst)
 - [HTTP Cache Validation](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/validation.rst)
 - [HTTP Cache Expiration](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst)
+- [`HttpCache\Store`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php)

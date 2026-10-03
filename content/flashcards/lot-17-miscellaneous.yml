@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-tgvah1kzef9y
   official_item: OIT-zezwg9nya501
   language: fr
+  level: TRAP
   front: 'Un contrôleur porte #[Cache] et pose aussi des en-têtes sur la réponse. Lequel gagne ?'
   back: Les en-têtes posés dans le contrôleur. L'attribut fixe une politique par défaut que le code peut contredire.
   explanation: La documentation l'énonce explicitement ; l'ordre inverse serait tout aussi plausible a priori.
@@ -20,3 +21,169 @@ flashcards:
     symbol_or_lines: '"When both are used, the cache headers defined in the controller take precedence over those configured with the #[Cache] attribute"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-446h1t6qewa1
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle option active le proxy inverse intégré ?'
+  back: '`framework.http_cache: true`, en général sous `when@prod`.'
+  explanation: Documentation *HTTP Cache*, branche 8.0.
+  memorization_justification: Activation du proxy.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Symfony Reverse Proxy; Safe Methods: Only caching GET or HEAD requests; More Response Methods'
+    verified_at: '2026-10-02'
+- id: FLC-rkg976vqj9ss
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles méthodes Request::isMethodCacheable() retient-elle en 8.0 ?'
+  back: '`GET`, `HEAD` et `QUERY`.'
+  explanation: Lu dans `Request.php` (8.0).
+  memorization_justification: Méthodes cachables.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'isMethodCacheable(): GET, HEAD, QUERY'
+    verified_at: '2026-10-02'
+- id: FLC-7qy4nkypdrjc
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: RECALL
+  front: 'Symfony : comment s''écrit max_age sur l''attribut #[Cache] ?'
+  back: '`maxage` — l''attribut prend des arguments camelCase (`smaxage`, `mustRevalidate`), `setCache()` des clés snake_case.'
+  explanation: Lu dans `Attribute/Cache.php` (8.0).
+  memorization_justification: Nommage attribut contre setCache().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/Cache.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/Cache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): maxage, smaxage, mustRevalidate, lastModified'
+    verified_at: '2026-10-02'
+- id: FLC-3c72hkh5bgd9
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi une réponse servie du cache n''a-t-elle pas d''en-tête X-Symfony-Cache en prod ?'
+  back: Parce que `trace_level` vaut `none` hors debug, sauf configuration explicite.
+  explanation: 'Exécuté : `fresh` en debug, aucun en-tête sans debug, réponse pourtant servie du cache.'
+  memorization_justification: Trace et debug.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'trace_level default: full in debug, none otherwise'
+    verified_at: '2026-10-02'
+- id: FLC-7ny77rw1wy5k
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi setMaxAge(10) dans l''action l''emporte-t-il sur #[Cache(maxage: 60)] ?'
+  back: Parce que l'écouteur de l'attribut, sur `kernel.response`, ne pose `max-age` que si la réponse n'en a pas.
+  explanation: 'Exécuté : `max-age=10`.'
+  memorization_justification: Mécanisme de priorité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelResponse(); max-age set only when absent
+    verified_at: '2026-10-02'
+- id: FLC-abrq8k152jn3
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi deux requêtes QUERY sur la même URL peuvent-elles avoir deux entrées de cache ?'
+  back: Parce que la clé d'une requête `QUERY` est l'URI plus le corps.
+  explanation: 'Lu dans `Store::generateCacheKey()` ; exécuté : corps `a` en cache, corps `b` en `miss`.'
+  memorization_justification: Clé de cache QUERY.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'generateCacheKey(): URI, plus the body for QUERY'
+    verified_at: '2026-10-02'
+- id: FLC-wpbre3tzgmph
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : journaliser l''efficacité du cache route par route en production.'
+  back: '`trace_level: short`, et l''en-tête `X-Symfony-Cache` dans le format de log du serveur.'
+  explanation: Documentation *Symfony Reverse Proxy*.
+  memorization_justification: Trace en production.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Symfony Reverse Proxy; Safe Methods: Only caching GET or HEAD requests; More Response Methods'
+    verified_at: '2026-10-02'
+- id: FLC-j2w3nctadf72
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre une réponse publique, 600 s, avec un ETag, en un seul appel.'
+  back: '`$response->setCache([''public'' => true, ''max_age'' => 600, ''etag'' => ''abcdef''])`.'
+  explanation: Documentation *More Response Methods*.
+  memorization_justification: setCache().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Symfony Reverse Proxy; Safe Methods: Only caching GET or HEAD requests; More Response Methods'
+    verified_at: '2026-10-02'
+- id: FLC-9na3vfnxyx7t
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: TRAP
+  front: 'Symfony : un POST avec max-age=60 est-il servi depuis le cache Symfony ?'
+  back: 'Non : `pass, invalidate` à chaque requête.'
+  explanation: Exécuté sur HttpKernel 8.0.15.
+  memorization_justification: POST jamais caché.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'isMethodCacheable(): GET, HEAD, QUERY'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Symfony Reverse Proxy; Safe Methods: Only caching GET or HEAD requests; More Response Methods'
+    verified_at: '2026-10-02'
+- id: FLC-f8x38gexqfj0
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: TRAP
+  front: 'Symfony : la clé de cache du proxy est-elle le nom de la route ?'
+  back: 'Non : c''est l''URI de la requête, corps compris pour QUERY.'
+  explanation: Lu dans `Store::generateCacheKey()` (8.0).
+  memorization_justification: Clé par URI.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'generateCacheKey(): URI, plus the body for QUERY'
+    verified_at: '2026-10-02'
