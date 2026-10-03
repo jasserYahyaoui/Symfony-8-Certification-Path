@@ -5,7 +5,7 @@ title: "Filesystem"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    branch: "8.0"
+    symbol_or_lines: "mkdir(); rename(); dumpFile(); readFile()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -58,6 +63,16 @@ Trois comportements méritent d'être retenus :
 - **`mkdir()` et `remove()` acceptent un tableau** ou tout `Traversable`.
 
 `rename()` échoue si la cible existe, sauf troisième argument à `true`.
+
+Exécuté sur Filesystem 8.0.15, `umask` à `022` :
+
+| Appel | Résultat |
+|---|---|
+| `mkdir('a/b/c')` | trois niveaux créés, mode `0755` (0777 moins le `umask`) |
+| `mkdir()` sur l'existant | aucune exception |
+| `rename()` sur une cible existante | `IOException` |
+| même appel avec `true` | la cible est remplacée |
+| `dumpFile('x/y/f.txt', …)` | `x/y` créé au passage |
 `symlink()` accepte un troisième argument qui **duplique le répertoire** quand
 le système ne gère pas les liens symboliques.
 
@@ -81,7 +96,8 @@ et accepte un troisième argument pour **verrouiller** pendant l'écriture.
 
 **`readFile()` lève une exception** là où `file_get_contents()` rendrait
 `false` — quand le chemin n'est pas lisible, et quand on lui passe un
-répertoire.
+répertoire. Exécuté sur un fichier absent et sur un répertoire : `IOException`
+dans les deux cas.
 
 ## Les chemins, sans toucher au disque
 
@@ -106,6 +122,11 @@ try {
 
 C'est le gain réel du composant : une erreur ne peut pas passer inaperçue.
 
+Une réserve, lue dans `Filesystem::readFile()` (8.0) et exécutée : sur un
+**répertoire**, l'`IOException` est construite **sans chemin** — `getPath()`
+rend `null`, le chemin ne figure que dans le message. Pour un fichier illisible,
+le code passe le chemin à l'exception, et `getPath()` le rend.
+
 ## Pièges d'examen
 
 **`mkdir()` est récursive et ignore l'existant** — elle n'échoue pas sur un
@@ -117,7 +138,8 @@ répertoire déjà là.
 
 **`remove()` accepte un tableau** et traite fichiers, répertoires et liens.
 
-**`getPath()` est sur `IOExceptionInterface`** et nomme le chemin fautif.
+**`getPath()` est sur `IOExceptionInterface`** et nomme le chemin fautif — sauf
+pour `readFile()` sur un répertoire, où il rend `null`.
 
 **`Path` ne touche pas au disque.**
 
@@ -132,3 +154,4 @@ répertoire déjà là.
 ## Sources officielles
 
 - [The Filesystem Component](https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst)
+- [`Filesystem`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php)

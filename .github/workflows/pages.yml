@@ -4176,6 +4176,32 @@ jobs:
           else
             echo "ok  lot-20  the event page carries its four flashcard levels, the iterable generic event, the stopped listeners and the argument interfaces"
           fi
+          # Lot 21 refinement, page 1 (Filesystem): the four flashcard levels, the
+          # umask-reduced mode, the exception thrown without a path and the
+          # target replaced on request.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l21r-filesystem -w '%{http_code}' "$BASE_URL/docs/courses/lot-21/filesystem")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 21 refined page filesystem serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l21r-filesystem || missing="$missing l21fs:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l21r-filesystem || missing="$missing l21fs:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l21r-filesystem || missing="$missing l21fs:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l21r-filesystem || missing="$missing l21fs:no-trap-heading"
+          grep -aqF -- '0755' /tmp/l21r-filesystem \
+            || missing="$missing l21fs:no-umask-mode"
+          grep -aqF -- 'sans chemin' /tmp/l21r-filesystem \
+            || missing="$missing l21fs:no-pathless-exception"
+          grep -aqF -- 'cible est remplacée' /tmp/l21r-filesystem \
+            || missing="$missing l21fs:no-overwrite"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 21 refinement missing from the filesystem page:$missing"
+            fail=1
+          else
+            echo "ok  lot-21  the filesystem page carries its four flashcard levels, the umask mode, the pathless exception and the overwrite"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
