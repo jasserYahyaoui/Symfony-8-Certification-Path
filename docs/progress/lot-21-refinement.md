@@ -20,7 +20,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Filesystem | STANDARD | 516 / 900 | 1 | **RAFFINÉE** (PR #327) |
-| 2 | Finder | STANDARD | 542 / 900 | 1 | à faire |
+| 2 | Finder | STANDARD | 542 / 900 | 1 | **RAFFINÉE** (PR #328) |
 
 ## Page 1 — *Filesystem* — RAFFINÉE
 
@@ -142,6 +142,113 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 21
 
-Rapport de fin de lot 21, réconcilié par script, dans sa propre PR.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `6899d5f`, le commit de `master`
+qui précède la première page refondue (PR #327). État mesuré : `11ec6b9`
+(fusion de la page 2). Un second script a confronté les décomptes de cartes
+écrits dans les deux entrées de page aux fichiers : **2 / 2** concordent.
+
+## Périmètre
+
+**2** items officiels atomiques portent `lot: lot-21` dans la matrice, tous
+`STANDARD` — niveaux inchangés. Cette répartition est une **observation** :
+aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 21 est **2 / 2**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture**.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 2 cours du lot 21 | 1 058 | **1 283** | **+225** |
+
+Aucune page ne dépasse son budget `REV-001` (`STANDARD`, 900). La plus proche :
+*Filesystem*, 654.
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 21 | 2 | **22** | **+20** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 6 · `UNDERSTANDING` 6 · `APPLICATION` 4 · `TRAP` 6. **Zéro carte du
+lot sans niveau** ; chaque item en porte 11. Les deux cartes préexistantes ont
+reçu un niveau ; aucune n'a été supprimée ni corrigée au-delà.
+
+## Questions et pools
+
+**7** questions portent sur les items du lot 21 — aucune ajoutée, aucune
+supprimée, **une modifiée** :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 5 | `lot-21-miscellaneous.yml` |
+| `VALIDATION` | 2 | `lot-21-miscellaneous.yml` |
+| `HOLDOUT` | 0 | — |
+
+`QST-y8xczgk8cn9z` (VALIDATION), **v1 → v2** : l'énoncé présentait la perte
+d'entrées comme l'effet de toute recherche multi-emplacements ; il précise
+désormais que les emplacements s'emboîtent. Choix inchangés. Les six autres ont
+été relues : exactes. **Aucune question holdout** ne porte sur ce lot.
+`POOL-002` : 2 items `STANDARD` `EXAM_READY`, **0** sans question `VALIDATION`.
+**Matrice** : aucun texte modifié.
+
+## Affirmations corrigées sur les pages
+
+| Page | Affirmation | Décision |
+|---|---|---|
+| 1 | `getPath()` nomme le chemin fautif | incomplète — `readFile()` sur un répertoire lève une `IOException` sans chemin ; précisée |
+| 2 | plusieurs `in()` peuvent faire perdre des entrées à `iterator_to_array()` | précisée — la clé est le chemin : seuls des emplacements qui se recouvrent se heurtent |
+
+Aucune divergence documentation / code : les deux précisions complètent la
+documentation sans la contredire.
+
+## Signaux pour le holdout
+
+Aucun : le lot n'a pas de question holdout.
+
+## Déploiements
+
+Les deux pages ont été fusionnées par PR (#327, #328), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 2 : run 37111867715, success — `ok  lot-21  the finder page carries its four flashcard levels, the overlapping locations, the missing location and the distinct keys`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-03 sur la branche du rapport, au-dessus de `11ec6b9` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 581 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des deux entrées de page contre les fichiers | 2 / 2 concordants |
+
+## Résumé autonome
+
+Lot 21 (*Miscellaneous* : *Filesystem*, *Finder*), 2 items STANDARD :
+couverture projet 163/163 inchangée ; cours 1 058 → 1 283 mots (+225), aucun
+dépassement de budget ; flashcards 2 → 22 (+20), toutes niveau posé ; 7
+questions, 1 corrigée (v2), aucune holdout sur le lot ; deux pages déployées,
+smoke tests lus ; deux affirmations précisées (`getPath()` sans chemin, collision
+des clés de `Finder`).
