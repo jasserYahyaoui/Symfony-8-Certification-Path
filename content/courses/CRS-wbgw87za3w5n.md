@@ -5,7 +5,7 @@ title: "EventDispatcher"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -13,6 +13,16 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php"
+    branch: "8.0"
+    symbol_or_lines: "default method on + camelized event name; __invoke fallback"
+    verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
+    branch: "8.0"
+    symbol_or_lines: "dispatch(object $event, ?string $eventName = null): object"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -55,7 +65,9 @@ La priorité est un entier **positif ou négatif**, `0` par défaut.
 l'examen teste : l'intuition « priorité 1 avant priorité 10 » est fausse.
 
 À **priorité égale**, les écouteurs s'exécutent dans **l'ordre où ils ont été
-ajoutés** au répartiteur.
+ajoutés** au répartiteur. Exécuté (EventDispatcher 8.0) avec quatre écouteurs
+ajoutés dans l'ordre `0`, `0`, `10`, `-5` : `10`, puis les deux `0` dans leur
+ordre d'ajout, puis `-5`.
 
 ## Écouteur ou abonné
 
@@ -75,6 +87,17 @@ final class MyListener
 L'attribut se répète pour configurer plusieurs méthodes. Sa propriété `method`
 est **optionnelle** : par défaut, c'est `on` suivi du nom de l'événement en
 capitale initiale — un écouteur de `foo` appellera `onFoo()`.
+
+Lu dans `RegisterListenersPass` (8.0) et exécuté :
+
+| Cas | Méthode appelée |
+|---|---|
+| `event: 'acme.foo_bar'`, `onAcmeFooBar()` présente | `onAcmeFooBar()` — points et soulignés retirés |
+| `event: 'acme.other'`, pas de `onAcmeOther()` | `__invoke()`, en repli |
+| `#[AsEventListener]` sans `event`, `__invoke(CustomEvent $e)` | `__invoke()`, sur `CustomEvent::class` déduit du type |
+
+Sans méthode correspondante ni `__invoke()`, la compilation du conteneur
+échoue — lu dans le même fichier : *None of the … or "__invoke" methods exist*.
 
 L'**abonné** se déclare lui-même, par `EventSubscriberInterface` et son unique
 méthode statique `getSubscribedEvents()` :
@@ -110,7 +133,8 @@ $dispatcher->dispatch($event, 'foo.event');
 
 `dispatch()` prend l'objet événement et, **optionnellement**, un nom. Si le nom
 est omis, **c'est la classe de l'objet qui sert de nom** — d'où l'écriture
-courante `OrderPlacedEvent::class` comme clé d'abonnement.
+courante `OrderPlacedEvent::class` comme clé d'abonnement. Il **rend l'objet
+événement** lui-même — exécuté : le même objet, modifié par les écouteurs.
 
 ## Ce que reçoit l'écouteur
 
@@ -128,7 +152,7 @@ paresseusement d'autres écouteurs.
 **`dispatch()` sans nom utilise la classe de l'événement.**
 
 **`method` est optionnelle sur `#[AsEventListener]`** ; le défaut est `on` +
-nom de l'événement.
+nom de l'événement, et `__invoke()` sert de repli.
 
 **Un abonné peut inscrire plusieurs méthodes sur un même événement.**
 
@@ -146,3 +170,4 @@ nom de l'événement.
 
 - [The EventDispatcher Component](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [Events and Event Listeners](https://github.com/symfony/symfony-docs/blob/8.0/event_dispatcher.rst)
+- [`RegisterListenersPass`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php)

@@ -4124,6 +4124,32 @@ jobs:
           else
             echo "ok  lot-19  the clock page carries its four flashcard levels, the autowired setter, the required attribute and the frozen interval"
           fi
+          # Lot 20 refinement, page 1 (EventDispatcher): the four flashcard levels,
+          # the camelized default method, the __invoke fallback read in the
+          # compiler pass and the pass itself.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l20r-eventdispatcher -w '%{http_code}' "$BASE_URL/docs/courses/lot-20/eventdispatcher")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 20 refined page eventdispatcher serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l20r-eventdispatcher || missing="$missing l20ed:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l20r-eventdispatcher || missing="$missing l20ed:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l20r-eventdispatcher || missing="$missing l20ed:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l20r-eventdispatcher || missing="$missing l20ed:no-trap-heading"
+          grep -aqF -- 'onAcmeFooBar' /tmp/l20r-eventdispatcher \
+            || missing="$missing l20ed:no-default-method"
+          grep -aqF -- 'repli' /tmp/l20r-eventdispatcher \
+            || missing="$missing l20ed:no-invoke-fallback"
+          grep -aqF -- 'RegisterListenersPass' /tmp/l20r-eventdispatcher \
+            || missing="$missing l20ed:no-compiler-pass"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 20 refinement missing from the event dispatcher page:$missing"
+            fail=1
+          else
+            echo "ok  lot-20  the event dispatcher page carries its four flashcard levels, the default method, the invoke fallback and the compiler pass"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

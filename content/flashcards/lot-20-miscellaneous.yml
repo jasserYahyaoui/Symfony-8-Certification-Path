@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-tz5z2qr23ew3
   official_item: OIT-s601ppsyb9f7
   language: fr
+  level: TRAP
   front: Deux écouteurs ont les priorités 10 et -10. Lequel s'exécute en premier ?
   back: Celui à 10. Plus le nombre est élevé, plus l'écouteur est appelé tôt ; les valeurs négatives sont permises
     et passent en dernier.
@@ -36,3 +37,175 @@ flashcards:
     symbol_or_lines: 'Event::stopPropagation() — "the listener needs to be able to tell the dispatcher to stop all propagation of the event to future listeners (i.e. to not notify any more listeners)"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-1n0k8hbn4g4b
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: RECALL
+  front: 'Symfony : quels arguments prend addListener() ?'
+  back: Le nom de l'événement, un appelable, et une priorité optionnelle (`0` par défaut).
+  explanation: Documentation *Connecting Listeners*, branche 8.0.
+  memorization_justification: Signature d'addListener().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-hf56j39kmj6y
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: RECALL
+  front: 'Symfony : que rend $dispatcher->dispatch($event) ?'
+  back: L'objet événement lui-même, tel que les écouteurs l'ont laissé.
+  explanation: Lu dans `EventDispatcher::dispatch()` et exécuté.
+  memorization_justification: Valeur de retour de dispatch().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'dispatch(object $event, ?string $eventName = null): object; callListeners()'
+    verified_at: '2026-10-02'
+- id: FLC-z8ph6wrrsgwz
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle méthode appelle par défaut un écouteur de acme.foo_bar ?'
+  back: '`onAcmeFooBar()` : `on` plus le nom de l''événement en camelCase, points et soulignés retirés.'
+  explanation: 'Exécuté avec `#[AsEventListener(event: ''acme.foo_bar'')]`.'
+  memorization_justification: Méthode par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: default method on + camelized event name; __invoke fallback
+    verified_at: '2026-10-02'
+- id: FLC-jwtygjn0t28x
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un abonné se réutilise-t-il plus facilement qu''un écouteur ?'
+  back: Parce que la liste des événements vit dans la classe, par `getSubscribedEvents()`, et non dans une définition de service.
+  explanation: Documentation *Using Event Subscribers*, branche 8.0.
+  memorization_justification: Abonné contre écouteur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-q3cp7z806jda
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un écouteur reçoit-il aussi le nom de l''événement et le répartiteur ?'
+  back: Pour distribuer d'autres événements ou savoir sous quel nom il a été appelé ; le répartiteur passe toujours ces trois arguments.
+  explanation: 'Exécuté : le nom vaut la classe de l''événement quand `dispatch()` n''en reçoit pas.'
+  memorization_justification: Arguments de l'écouteur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'dispatch(object $event, ?string $eventName = null): object; callListeners()'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-rmtxw62nfx00
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un écouteur sans méthode onX() fonctionne-t-il encore ?'
+  back: Parce que le passe de compilation se replie sur `__invoke()` quand la méthode par défaut n'existe pas.
+  explanation: Exécuté ; sans l'une ni l'autre, *None of the … or "__invoke" methods exist*.
+  memorization_justification: Repli sur __invoke().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: default method on + camelized event name; __invoke fallback
+    verified_at: '2026-10-02'
+- id: FLC-bnbrgjywc741
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : inscrire deux méthodes d''un abonné sur kernel.response, avant et après les autres.'
+  back: '`KernelEvents::RESPONSE => [[''onPre'', 10], [''onPost'', -10]]` dans `getSubscribedEvents()`.'
+  explanation: Documentation *Using Event Subscribers*.
+  memorization_justification: Plusieurs méthodes, un événement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-tyf0bagk002v
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : écouter un événement sans nom explicite, avec un attribut.'
+  back: '`#[AsEventListener]` sur une classe dont `__invoke()` type son argument : l''événement est déduit du type.'
+  explanation: 'Exécuté : `__invoke(CustomEvent $e)` écoute `CustomEvent::class`.'
+  memorization_justification: Événement déduit du type.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: default method on + camelized event name; __invoke fallback
+    verified_at: '2026-10-02'
+- id: FLC-85fj3z1wy7bq
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: TRAP
+  front: 'Symfony : deux écouteurs de priorité 0 s''exécutent-ils dans un ordre indéfini ?'
+  back: 'Non : dans l''ordre où ils ont été ajoutés.'
+  explanation: 'Exécuté : `0`, `0`, `10`, `-5` ajoutés donnent `10`, les deux `0` dans l''ordre, `-5`.'
+  memorization_justification: Égalité de priorité.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-8h49na8vydar
+  official_item: OIT-s601ppsyb9f7
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans nom, dispatch($event) utilise-t-il un nom générique ?'
+  back: 'Non : la classe de l''objet événement sert de nom.'
+  explanation: Documentation et exécution.
+  memorization_justification: Nom par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'dispatch(object $event, ?string $eventName = null): object; callListeners()'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
