@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-xnqfscd5c1cy
   official_item: OIT-j4vpn5bh9f27
   language: fr
+  level: UNDERSTANDING
   front: Pourquoi MailerInterface::send() ne rend-il rien ?
   back: 'Parce qu''il peut différer l''envoi : avec Messenger installé, les messages partent de façon asynchrone
     par défaut. C''est TransportInterface::send() qui rend un SentMessage, et lui envoie toujours de façon synchrone.'
@@ -41,3 +42,175 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: creating-raw-email-messages
     verified_at: '2026-09-02'
+- id: FLC-7jxa8rnzzqf4
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: RECALL
+  front: 'Symfony Mailer : quels sont les trois protocoles de transport intégrés ?'
+  back: '`smtp`, `sendmail` et `native`.'
+  explanation: Tableau *Using Built-in Transports*, branche 8.0 ; les ponts vers des services tiers sont hors programme.
+  memorization_justification: Inventaire des transports.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Transport Setup; Using Built-in Transports
+    verified_at: '2026-10-03'
+- id: FLC-s6yy84t6xbkj
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: RECALL
+  front: 'Symfony Mailer : avec plusieurs transports déclarés sous transports, lequel sert par défaut ?'
+  back: Le premier déclaré.
+  explanation: 'Lu dans `Transports::__construct()` (8.0) : le premier transport parcouru devient le défaut.'
+  memorization_justification: Transport par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Multiple Email Transports
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); send()
+    verified_at: '2026-10-03'
+- id: FLC-z5kk79dkzjzw
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: RECALL
+  front: 'Symfony Mailer : quel événement permet d''empêcher l''envoi d''un message ?'
+  back: '`MessageEvent`, par sa méthode `reject()`.'
+  explanation: 'Lu dans `MessageEvent::reject()` (8.0) : elle marque le message rejeté et arrête la propagation.'
+  memorization_justification: Annuler un envoi.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Mailer Events
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Event/MessageEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Event/MessageEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: reject()
+    verified_at: '2026-10-03'
+- id: FLC-0cmbsvcgp27n
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Mailer : pourquoi la documentation déconseille-t-elle native://default ?'
+  back: 'Parce que la configuration de `sendmail` vient de `php.ini` et échappe à l''application : avec `sendmail -t`, ni remontée d''erreur ni retrait des en-têtes `Bcc`.'
+  explanation: Avertissement de *Using Built-in Transports*, branche 8.0, qui recommande `sendmail://default`.
+  memorization_justification: Risque du transport native.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Transport Setup; Using Built-in Transports
+    verified_at: '2026-10-03'
+- id: FLC-h5335799gy53
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Mailer : que garantit un envoi réussi ?'
+  back: Seulement que le transport a accepté le message ; sa remise ultérieure échappe à l'application.
+  explanation: Section *Handling Sending Failures*, branche 8.0 ; une erreur de remise au transport lève une `TransportExceptionInterface`.
+  memorization_justification: Sens du succès.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Handling Sending Failures
+    verified_at: '2026-10-03'
+- id: FLC-9tqy5878p28k
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Mailer : envoyer un message par le transport nommé alternative plutôt que par le défaut.'
+  back: '`$email->getHeaders()->addTextHeader(''X-Transport'', ''alternative'');` puis `$mailer->send($email);`'
+  explanation: Section *Multiple Email Transports*, branche 8.0 ; Mailer retire l'en-tête du message final.
+  memorization_justification: Choisir un transport.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Multiple Email Transports
+    verified_at: '2026-10-03'
+- id: FLC-5kvnz381x7g0
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Mailer : obtenir les informations de débogage d''un envoi réussi.'
+  back: 'Injecter `TransportInterface` : `$sentMessage = $transport->send($email);` puis `$sentMessage->getDebug()`.'
+  explanation: 'Section *Debugging Emails*, branche 8.0 : `MailerInterface::send()` ne rend rien.'
+  memorization_justification: Accès au débogage.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Debugging Emails
+    verified_at: '2026-10-03'
+- id: FLC-de237kk5mand
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: TRAP
+  front: 'Symfony Mailer : un X-Transport qui nomme un transport non déclaré retombe-t-il sur le défaut ?'
+  back: 'Non : une `InvalidArgumentException` liste les transports disponibles.'
+  explanation: Exécuté sur Mailer 8.0.15 avec deux transports `main` et `alt` ; lu dans `Transports::send()`.
+  memorization_justification: Nom de transport inconnu.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); send()
+    verified_at: '2026-10-03'
+- id: FLC-zf48t34ny4gb
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: TRAP
+  front: 'Symfony Mailer : un message rejeté par reject() fait-il échouer l''envoi ?'
+  back: 'Non : aucune exception, le transport rend `null`.'
+  explanation: Exécuté sur Mailer 8.0.15, transport `null://null`.
+  memorization_justification: Rejet silencieux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Event/MessageEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Event/MessageEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: reject()
+    verified_at: '2026-10-03'
+- id: FLC-yzbn7exq2yjh
+  official_item: OIT-j4vpn5bh9f27
+  language: fr
+  level: TRAP
+  front: 'Symfony Mailer : TransportInterface::send() part-il en asynchrone quand Messenger est installé ?'
+  back: 'Non : il envoie toujours de façon synchrone et rend un `SentMessage`.'
+  explanation: Section *Debugging Emails*, branche 8.0 ; seul `MailerInterface` passe par Messenger.
+  memorization_justification: Synchrone malgré Messenger.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Debugging Emails
+    verified_at: '2026-10-03'

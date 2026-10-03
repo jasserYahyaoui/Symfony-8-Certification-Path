@@ -5,7 +5,7 @@ title: "Mailer"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-03"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Transport/Transports.php"
+    branch: "8.0"
+    symbol_or_lines: "__construct(); send()"
+    verified_at: "2026-10-03"
 ---
 
 ## Objectif
@@ -62,6 +67,8 @@ public function sendEmail(MailerInterface $mailer): Response
         ->subject('Time for Symfony Mailer!')->text('Sending emails is fun again!');
 
     $mailer->send($email);
+
+    // ...
 }
 ```
 
@@ -80,6 +87,14 @@ Deux interfaces, deux comportements :
 `SentMessage` donne accès au message d'origine (`getOriginalMessage()`) et à
 des informations de débogage (`getDebug()`).
 
+Exécuté sur Mailer 8.0.15, transport `null://null` :
+
+| Appel | Valeur rendue |
+|---|---|
+| `Mailer::send($email)` | `null` |
+| `$transport->send($email)` | un `SentMessage`, dont l'original est l'`Email` |
+| `$transport->send()` d'un message rejeté par `MessageEvent::reject()` | `null` — aucune exception |
+
 ## Quand l'envoi échoue
 
 Le succès signifie seulement que **le transport a accepté** le message ; ce qui
@@ -92,6 +107,8 @@ Une erreur de remise au transport lève une
 
 `transports` remplace `dsn`. **Le premier déclaré sert par défaut** ; l'en-tête
 `X-Transport` en désigne un autre, et Mailer le retire du message final.
+Exécuté avec deux transports `main` et `alt` : un `X-Transport: alt` n'apparaît
+plus dans les octets envoyés, et il est même retiré de l'objet `Email` d'origine.
 
 ## Configurer globalement
 
@@ -117,6 +134,8 @@ un `SentMessage`, et lui envoie toujours de façon synchrone.
 
 **`native://default` est déconseillé** : ni erreurs ni retrait des `Bcc`.
 
+**Un message rejeté par `reject()` ne lève rien** : le transport rend `null`.
+
 ## Points clés
 
 - Transports intégrés : `smtp`, `sendmail`, `native`.
@@ -128,3 +147,4 @@ un `SentMessage`, et lui envoie toujours de façon synchrone.
 ## Sources officielles
 
 - [`mailer.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst)
+- [`Transports`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Transport/Transports.php)
