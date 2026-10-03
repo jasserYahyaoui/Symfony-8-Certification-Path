@@ -30,7 +30,7 @@ périmètre sur instruction.
 | 18 (Miscellaneous) | **terminé** — 1 page déployée (PR #320) ; rapport fusionné (PR #321) |
 | 19 (Miscellaneous) | **terminé** — 1 page déployée (PR #322) ; rapport fusionné (PR #323) |
 | 20 (Miscellaneous) | **terminé** — 2 pages déployées (PR #324 à #325) ; rapport fusionné (PR #326) |
-| 21 (Miscellaneous) | **en cours** — page 1 en PR |
+| 21 (Miscellaneous) | **en cours** — page 1 déployée (PR #327) ; page 2 en PR |
 | 22 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
@@ -45,8 +45,8 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR de la page 1 du lot 21 après CI verte,
-lire son smoke test, puis page 2 (*Finder*). Signaux holdout des lots 06 à 20 à revoir
+**Prochaine action** : fusionner la PR de la page 2 du lot 21 après CI verte,
+lire son smoke test, puis rapport de fin de lot 21, puis lot 22. Signaux holdout des lots 06 à 20 à revoir
 par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau

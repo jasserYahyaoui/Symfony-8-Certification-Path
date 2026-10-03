@@ -5,7 +5,7 @@ title: "Finder"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-02"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Finder.php"
+    branch: "8.0"
+    symbol_or_lines: "getIterator(): LogicException without in() or append()"
+    verified_at: "2026-10-02"
 ---
 
 ## Objectif
@@ -65,6 +70,8 @@ foreach ((clone $finder)->name('plugin_*') as $file) { }
 ```
 
 Sans le clonage, la seconde boucle chercherait `partial_*` **et** `plugin_*`.
+Exécuté sur Finder 8.0.14 : un fichier après le premier `name()`, deux après le
+second, sur le même objet.
 
 ## Où chercher
 
@@ -92,6 +99,8 @@ $finder->directories();  // répertoires seuls
 ```
 
 **Par défaut, le Finder rend les deux.** `files()` et `directories()` restreignent.
+Exécuté : 5 résultats sans filtre, 4 avec `files()`, 1 avec `directories()`.
+Sans `in()` ni `append()`, l'itération lève une `LogicException`.
 
 Les liens symboliques ne sont pas suivis par défaut ; `followLinks()` les suit.
 
@@ -128,6 +137,11 @@ distinct est créé par emplacement, et les clés peuvent se répéter. Il faut 
 passer **`false`** en second argument d'`iterator_to_array()`, sans quoi des
 résultats s'écrasent.
 
+La clé est le chemin du fichier. Exécuté : deux `a.txt` dans deux répertoires
+distincts donnent deux clés, sans collision ; deux `in()` qui se recouvrent
+(`f1` et `f1/sub`) atteignent le même fichier deux fois — `iterator_count()`
+rend 5, `iterator_to_array()` 4, avec `false` 5.
+
 ## Pièges d'examen
 
 **Le `Finder` est à état** : deux `name()` s'additionnent. Cloner pour réutiliser.
@@ -150,3 +164,4 @@ résultats s'écrasent.
 ## Sources officielles
 
 - [The Finder Component](https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst)
+- [`Finder`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Finder.php)

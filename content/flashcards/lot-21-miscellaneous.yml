@@ -26,6 +26,7 @@ flashcards:
 - id: FLC-zw88x7tcje1m
   official_item: OIT-a1anzcv85my3
   language: fr
+  level: TRAP
   front: 'Deux appels successifs à name() sur le même Finder : que cherche-t-on au final ?'
   back: 'Les deux motifs à la fois. Le Finder est à état : un appel de méthode s''ajoute à la configuration au lieu
     de la remplacer.'
@@ -209,4 +210,170 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
+    verified_at: '2026-10-02'
+- id: FLC-exnqgc20agxs
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quel est le seul critère obligatoire d''un Finder ?'
+  back: '`in()` (ou `append()`) ; sans, l''itération lève une `LogicException`.'
+  explanation: 'Exécuté : *You must call one of in() or append() methods*.'
+  memorization_justification: Critère obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Finder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getIterator(): LogicException without in() or append()'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-fdpq0bf212gf
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle classe a chaque résultat d''un Finder ?'
+  back: '`Symfony\Component\Finder\SplFileInfo`, qui étend celle de PHP et ajoute `getRelativePathname()`.'
+  explanation: Documentation *Usage*, branche 8.0.
+  memorization_justification: Classe des résultats.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-ypmbhvjfenjk
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: RECALL
+  front: 'Symfony : comment limiter un Finder aux enfants directs ?'
+  back: '`depth(''== 0'')`.'
+  explanation: Documentation *Directory Depth*.
+  memorization_justification: Profondeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-2jsztv9s78nq
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi cloner un Finder avant chaque recherche partagée ?'
+  back: 'Parce que l''objet est à état : chaque critère s''ajoute aux précédents.'
+  explanation: 'Exécuté : 1 fichier après un `name()`, 2 après un second.'
+  memorization_justification: Objet à état.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-0semwxz1vq57
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi iterator_to_array() perd-il des entrées après deux in() qui se recouvrent ?'
+  back: 'Parce que la clé est le chemin : le même fichier atteint deux fois s''écrase.'
+  explanation: 'Exécuté : 5 comptés, 4 dans le tableau, 5 avec `false`.'
+  memorization_justification: Clés de résultats.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-w1ys4ag6evm0
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi ignoreVCSIgnored(true) peut-il différer de Git ?'
+  back: Parce que Symfony part du répertoire de recherche, là où Git part de la racine du dépôt.
+  explanation: Documentation *Version Control Files*.
+  memorization_justification: Point de départ des .gitignore.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-zznprq9f8z76
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : chercher les gabarits partial_* puis plugin_* avec une base commune.'
+  back: Configurer `files()->in()` une fois, puis `(clone $finder)->name(...)` pour chaque recherche.
+  explanation: Documentation, avertissement sur l'état.
+  memorization_justification: Réutilisation correcte.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-69qm9vnxddx9
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : convertir en tableau les résultats d''une recherche sur plusieurs emplacements.'
+  back: '`iterator_to_array($finder, false)`.'
+  explanation: Documentation *Transforming Results into Arrays*.
+  memorization_justification: Conversion sûre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-514xhm29f8hg
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: TRAP
+  front: 'Symfony : un Finder sans files() rend-il seulement des fichiers ?'
+  back: 'Non : fichiers et répertoires.'
+  explanation: 'Exécuté : 5 résultats sans filtre, 4 fichiers, 1 répertoire.'
+  memorization_justification: Défaut fichiers et répertoires.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
+    verified_at: '2026-10-02'
+- id: FLC-97f86ffd7mxv
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: TRAP
+  front: 'Symfony : deux a.txt dans deux répertoires distincts se heurtent-ils dans iterator_to_array() ?'
+  back: 'Non : leurs chemins diffèrent ; seule la même cible atteinte deux fois collisionne.'
+  explanation: Exécuté sur Finder 8.0.14.
+  memorization_justification: Collision réelle.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
     verified_at: '2026-10-02'
