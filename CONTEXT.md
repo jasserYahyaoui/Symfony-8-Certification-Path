@@ -30,8 +30,9 @@ périmètre sur instruction.
 | 18 (Miscellaneous) | **terminé** — 1 page déployée (PR #320) ; rapport fusionné (PR #321) |
 | 19 (Miscellaneous) | **terminé** — 1 page déployée (PR #322) ; rapport fusionné (PR #323) |
 | 20 (Miscellaneous) | **terminé** — 2 pages déployées (PR #324 à #325) ; rapport fusionné (PR #326) |
-| 21 (Miscellaneous) | **terminé** — 2 pages déployées (PR #327 à #328) ; rapport en PR |
-| 22 et suivants | à faire, dans l'ordre numérique |
+| 21 (Miscellaneous) | **terminé** — 2 pages déployées (PR #327 à #328) ; rapport fusionné (PR #329) |
+| 22 (Miscellaneous) | **en cours** — page 1 en PR |
+| 23 et suivants | à faire, dans l'ordre numérique |
 
 **Décisions du propriétaire en vigueur**
 
@@ -45,10 +46,9 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR du rapport de fin de lot 21 après CI
-verte, puis lots 22 (*Mailer*, *Mime*), 23 (*Process*), 24 (*PropertyAccess*),
-25 (*Runtime*) et 26 (*Serializer*), dont les brouillons exécutés sont prêts.
-Signaux holdout des lots 06 à 20 à revoir par l'owner.
+**Prochaine action** : fusionner la PR de la page 1 du lot 22 après CI verte,
+lire son smoke test, puis page 2 (*Mime*). Signaux holdout des lots 06 à 21 à revoir
+par l'owner.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
