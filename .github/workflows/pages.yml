@@ -4150,6 +4150,32 @@ jobs:
           else
             echo "ok  lot-20  the event dispatcher page carries its four flashcard levels, the default method, the invoke fallback and the compiler pass"
           fi
+          # Lot 20 refinement, page 2 (Event): the four flashcard levels, the
+          # iterable generic event, the listeners left after a stop and the two
+          # interfaces both bound to the arguments.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l20r-event -w '%{http_code}' "$BASE_URL/docs/courses/lot-20/event")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 20 refined page event serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l20r-event || missing="$missing l20ev:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l20r-event || missing="$missing l20ev:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l20r-event || missing="$missing l20ev:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l20r-event || missing="$missing l20ev:no-trap-heading"
+          grep -aqF -- 'IteratorAggregate' /tmp/l20r-event \
+            || missing="$missing l20ev:no-iterator"
+          grep -aqF -- 'seuls' /tmp/l20r-event \
+            || missing="$missing l20ev:no-stopped-listeners"
+          grep -aqF -- 'toutes deux sur ses arguments' /tmp/l20r-event \
+            || missing="$missing l20ev:no-argument-interfaces"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 20 refinement missing from the event page:$missing"
+            fail=1
+          else
+            echo "ok  lot-20  the event page carries its four flashcard levels, the iterable generic event, the stopped listeners and the argument interfaces"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

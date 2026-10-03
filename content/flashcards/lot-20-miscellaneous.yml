@@ -25,6 +25,7 @@ flashcards:
 - id: FLC-6eg8g2bt06nt
   official_item: OIT-8xcczyjyyanz
   language: fr
+  level: RECALL
   front: Que fait exactement stopPropagation() sur un événement ?
   back: Elle empêche les écouteurs pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
   explanation: 'Son effet dépend donc entièrement des priorités : un écouteur appelé tôt peut couper la suite.'
@@ -208,4 +209,182 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Connecting Listeners; Creating and Dispatching an Event; Using Event Subscribers
+    verified_at: '2026-10-02'
+- id: FLC-00ctxzvt9anw
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles méthodes offre la classe de base Event ?'
+  back: '`stopPropagation()` et `isPropagationStopped()`, rien d''autre.'
+  explanation: Lu dans `Contracts/EventDispatcher/Event.php`.
+  memorization_justification: Classe de base minimale.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stopPropagation(); isPropagationStopped()
+    verified_at: '2026-10-02'
+- id: FLC-3abmeaz1cjqc
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelles interfaces GenericEvent implémente-t-il en plus ?'
+  back: '`ArrayAccess` et `IteratorAggregate`, toutes deux sur ses arguments.'
+  explanation: 'Exécuté : `$event[''k'']` et un `foreach` sur les arguments.'
+  memorization_justification: Interfaces de GenericEvent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: implements \ArrayAccess, \IteratorAggregate
+    verified_at: '2026-10-02'
+- id: FLC-3dapyvqdznq8
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi l''effet de stopPropagation() dépend-il des priorités ?'
+  back: 'Parce qu''il n''empêche que les écouteurs suivants : l''ordre d''appel décide de qui a déjà tourné.'
+  explanation: 'Exécuté : arrêt à la priorité `5`, seuls `10` et `5` tournent.'
+  memorization_justification: Arrêt et ordre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation; Creating and Dispatching an Event
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stopPropagation(); isPropagationStopped()
+    verified_at: '2026-10-02'
+- id: FLC-m5ebx3xvw99d
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi écrire une sous-classe d''Event plutôt qu''un GenericEvent ?'
+  back: 'Pour un contrat typé : des accesseurs explicites au lieu d''arguments non typés lus par clé.'
+  explanation: Documentation *The Generic Event Object*.
+  memorization_justification: Sous-classe contre GenericEvent.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Generic Event Object
+    verified_at: '2026-10-02'
+- id: FLC-jvf1823rgfmv
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi le déclencheur lit-il isPropagationStopped() après dispatch() ?'
+  back: Pour savoir si un écouteur a interrompu la chaîne et réagir en conséquence.
+  explanation: Documentation *Stopping Event Flow/Propagation*.
+  memorization_justification: Lecture côté déclencheur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation; Creating and Dispatching an Event
+    verified_at: '2026-10-02'
+- id: FLC-d5kwb3j05hb3
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : transporter une commande dans un événement.'
+  back: Une sous-classe d'`Event` avec un constructeur qui reçoit la commande et un `getOrder()`.
+  explanation: Documentation *Creating and Dispatching an Event*.
+  memorization_justification: Événement porteur de données.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation; Creating and Dispatching an Event
+    verified_at: '2026-10-02'
+- id: FLC-pptepehhwfm1
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : distribuer un événement générique sur un sujet, avec un argument type.'
+  back: '`$dispatcher->dispatch(new GenericEvent($subject, [''type'' => ''x'']), ''foo'')`.'
+  explanation: Documentation *The Generic Event Object*.
+  memorization_justification: GenericEvent en pratique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Generic Event Object
+    verified_at: '2026-10-02'
+- id: FLC-ajvnm8txb262
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: TRAP
+  front: 'Symfony : stopPropagation() défait-il le travail des écouteurs déjà appelés ?'
+  back: 'Non : il empêche seulement les suivants d''être appelés.'
+  explanation: 'Exécuté : l''écouteur de priorité `10` a bien tourné.'
+  memorization_justification: Portée de l'arrêt.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stopPropagation(); isPropagationStopped()
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation; Creating and Dispatching an Event
+    verified_at: '2026-10-02'
+- id: FLC-wjzmv966gwej
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: TRAP
+  front: 'Symfony : $event[''k''] lit-il le sujet d''un GenericEvent ?'
+  back: 'Non : il lit l''argument `k` ; le sujet se lit par `getSubject()`.'
+  explanation: 'Exécuté : `$event[''k'']` rend `v`.'
+  memorization_justification: ArrayAccess sur les arguments.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: implements \ArrayAccess, \IteratorAggregate
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher/generic_event.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Generic Event Object
+    verified_at: '2026-10-02'
+- id: FLC-692rhz0m5pny
+  official_item: OIT-8xcczyjyyanz
+  language: fr
+  level: TRAP
+  front: 'Symfony : la classe de base Event transporte-t-elle une donnée ?'
+  back: 'Non : il faut hériter, ou utiliser `GenericEvent`.'
+  explanation: Lu dans la classe de base.
+  memorization_justification: Aucune donnée par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stopPropagation(); isPropagationStopped()
     verified_at: '2026-10-02'
