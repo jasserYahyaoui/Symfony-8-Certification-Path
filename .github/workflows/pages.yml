@@ -4280,6 +4280,32 @@ jobs:
           else
             echo "ok  lot-22  the mime page carries its four flashcard levels, the executed extension order, the stripped Bcc and the javascript type"
           fi
+          # Lot 23 refinement, page 1 (Process): the four flashcard levels, SIGTERM
+          # sent before SIGKILL, the calls that check the timeout and the variable
+          # still inherited when another is passed.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l23r-process -w '%{http_code}' "$BASE_URL/docs/courses/lot-23/process")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 23 refined page process serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l23r-process || missing="$missing l23pr:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l23r-process || missing="$missing l23pr:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l23r-process || missing="$missing l23pr:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l23r-process || missing="$missing l23pr:no-trap-heading"
+          grep -aqF -- 'SIGTERM' /tmp/l23r-process \
+            || missing="$missing l23pr:no-sigterm"
+          grep -aqF -- 'toujours héritée' /tmp/l23r-process \
+            || missing="$missing l23pr:no-inherited"
+          grep -aqF -- 'il vérifie le délai' /tmp/l23r-process \
+            || missing="$missing l23pr:no-wait-check"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 23 refinement missing from the process page:$missing"
+            fail=1
+          else
+            echo "ok  lot-23  the process page carries its four flashcard levels, the two stop signals, the timeout checkers and the inherited variable"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
