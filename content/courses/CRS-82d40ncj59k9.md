@@ -5,7 +5,7 @@ title: "Mime"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-02"
+reviewed_at: "2026-10-03"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst"
@@ -13,6 +13,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/MimeTypes.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/MimeTypes.php"
+    branch: "8.0"
+    symbol_or_lines: "getExtensions(); getMimeTypes()"
+    verified_at: "2026-10-03"
 ---
 
 ## Objectif
@@ -83,6 +88,11 @@ remplace.
 
 Les caractères UTF-8 sont admis dans la partie locale — **sauf pour l'adresse
 d'expéditeur**, afin d'éviter les problèmes de retour en cas de rebond.
+Exécuté : `Envelope` lève une `InvalidArgumentException` pour un expéditeur
+`jösé@…`, accepte le même destinataire.
+
+L'arbre MIME présenté plus haut est exactement celui qu'`Email` produit pour
+texte, HTML, image intégrée et PDF joint — exécuté.
 
 ## Sérialiser un message
 
@@ -98,15 +108,24 @@ $message = new RawMessage(unserialize($serializedEmail));
 `MimeTypes` traduit dans les deux sens :
 
 ```php
-$mimeTypes->getExtensions('image/jpeg'); // ['jpeg', 'jpg', 'jpe']
+$mimeTypes->getExtensions('image/jpeg');
 $mimeTypes->getMimeTypes('js');
 ```
 
 Les tableaux rendus sont **ordonnés par priorité** : le premier élément est le
-préféré.
+préféré. La documentation 8.0 illustre cet ordre par des valeurs que le code ne
+rend plus. Exécuté sur Mime 8.0.15 :
+
+| Appel | Documentation 8.0 | Code 8.0, exécuté |
+|---|---|---|
+| `getExtensions('image/jpeg')` | `jpeg`, `jpg`, `jpe` | `jpg`, `jpeg`, `jpe`, `jfif` |
+| `getMimeTypes('js')` | `application/javascript` d'abord | `text/javascript` d'abord |
+
+Le code l'emporte : l'extension préférée de `image/jpeg` est `jpg`.
 
 `guessMimeType()` **ne regarde pas le nom du fichier** : il inspecte le
-contenu. L'opération est coûteuse ; l'extension PHP `fileinfo` l'accélère. Un
+contenu — exécuté, un PNG nommé `.txt` est reconnu `image/png`. L'opération
+est coûteuse ; l'extension PHP `fileinfo` l'accélère. Un
 devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 `mime.mime_type_guesser`.
 
@@ -116,7 +135,8 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 
 **`guessMimeType()` ignore le nom du fichier** — il lit le contenu.
 
-**Les tableaux de `MimeTypes` sont classés par priorité, pas alphabétiquement.**
+**Les tableaux de `MimeTypes` sont classés par priorité, pas alphabétiquement**
+— et la priorité réelle du code diffère de l'exemple de la documentation.
 
 **L'UTF-8 dans la partie locale est refusé pour l'expéditeur seul.**
 
@@ -135,3 +155,4 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 ## Sources officielles
 
 - [`components/mime.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst)
+- [`MimeTypes`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/MimeTypes.php)

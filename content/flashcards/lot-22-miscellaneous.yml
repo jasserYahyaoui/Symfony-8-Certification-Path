@@ -28,6 +28,7 @@ flashcards:
 - id: FLC-x73mesgmmv9b
   official_item: OIT-9xdjjsqcbn13
   language: fr
+  level: RECALL
   front: Dans un conteneur multipart/alternative, où se place la version préférée ?
   back: En dernier. Les parties d'un conteneur alternative sont des variantes du même contenu, et la forme préférée
     doit être ajoutée en dernière position.
@@ -213,4 +214,176 @@ flashcards:
     repository: symfony/symfony-docs
     branch: '8.0'
     symbol_or_lines: Debugging Emails
+    verified_at: '2026-10-03'
+- id: FLC-60n1qetby9nf
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: RECALL
+  front: 'Symfony Mime : quel conteneur regroupe des parties qui forment un tout, comme des images intégrées ?'
+  back: '`multipart/related`.'
+  explanation: 'Section *Creating Raw Email Messages*, branche 8.0 : `alternative` pour des variantes, `mixed` pour des natures différentes.'
+  memorization_justification: Rôle de related.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Raw Email Messages
+    verified_at: '2026-10-03'
+- id: FLC-1e0crkp26jth
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: RECALL
+  front: 'Symfony Mime : quelle classe reconstruit un message sérialisé ?'
+  back: '`RawMessage` : `new RawMessage(unserialize($serializedEmail))`.'
+  explanation: Section *Serializing Email Messages*, branche 8.0.
+  memorization_justification: Désérialisation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Serializing Email Messages
+    verified_at: '2026-10-03'
+- id: FLC-q155bf3wbg21
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Mime : pourquoi l''UTF-8 est-il refusé dans la partie locale de l''expéditeur seul ?'
+  back: Pour éviter les problèmes de messages en retour (rebonds) ; les destinataires, eux, l'acceptent.
+  explanation: 'Exécuté : `Envelope` lève une `InvalidArgumentException` pour l''expéditeur `jösé@…` et accepte le même destinataire.'
+  memorization_justification: Exception expéditeur.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Email Addresses
+    verified_at: '2026-10-03'
+- id: FLC-edet0xvgssgx
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Mime : pourquoi un Email qui ne porte que du texte n''est-il pas multipart ?'
+  back: 'Parce qu''`Email` ne crée un conteneur que s''il en faut un : texte seul donne `text/plain`, texte et HTML `multipart/alternative`.'
+  explanation: Exécuté sur Mime 8.0.15 ; une pièce jointe ajoutée au texte donne `multipart/mixed`.
+  memorization_justification: Structure à la demande.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Email.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/Email.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: to(); addTo(); getBody()
+    verified_at: '2026-10-03'
+- id: FLC-0c9fmgmxvc4f
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Mime : pourquoi guessMimeType() reconnaît-il un PNG nommé .txt ?'
+  back: Parce qu'il inspecte le contenu du fichier, pas son nom.
+  explanation: Exécuté sur Mime 8.0.15 ; la documentation recommande l'extension `fileinfo` pour accélérer la devinette.
+  memorization_justification: Contenu contre nom.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: MIME Types Utilities; Guessing the MIME Type
+    verified_at: '2026-10-03'
+- id: FLC-e67wtb4ay746
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Mime : ajouter un destinataire sans écraser ceux déjà posés.'
+  back: '`$email->addTo(''b@example.com'')` — `to()` remplace la liste.'
+  explanation: 'Exécuté : `to()` deux fois laisse 1 destinataire, `to()` puis `addTo()` en laisse 2.'
+  memorization_justification: Ajouter contre remplacer.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Email.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/Email.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: to(); addTo(); getBody()
+    verified_at: '2026-10-03'
+- id: FLC-svjgs9y54vrq
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Mime : obtenir l''extension préférée du type image/jpeg.'
+  back: '`$mimeTypes->getExtensions(''image/jpeg'')[0]`, qui vaut `jpg` en 8.0.'
+  explanation: 'Exécuté sur Mime 8.0.15 : `jpg`, `jpeg`, `jpe`, `jfif`, dans cet ordre de préférence.'
+  memorization_justification: Premier élément = préféré.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: MIME Types Utilities; Guessing the MIME Type
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/MimeTypes.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/MimeTypes.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getExtensions(); getMimeTypes()
+    verified_at: '2026-10-03'
+- id: FLC-fqzamy56ss4h
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: TRAP
+  front: 'Symfony Mime : les destinataires Bcc figurent-ils dans les octets du message envoyé ?'
+  back: 'Non : l''en-tête `Bcc` est retiré des en-têtes préparés ; les destinataires restent dans l''enveloppe.'
+  explanation: 'Lu dans `Message::getPreparedHeaders()` (8.0) et exécuté : aucun `Bcc` dans les octets, deux destinataires dans l''enveloppe.'
+  memorization_justification: Bcc et enveloppe.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Message.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/Message.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPreparedHeaders(); ensureValidity()
+    verified_at: '2026-10-03'
+- id: FLC-rpbhe5dnsht5
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: TRAP
+  front: 'Symfony Mime : un Email avec expéditeur et destinataire mais sans corps peut-il être envoyé ?'
+  back: 'Non : une `LogicException` exige une partie texte, une partie HTML ou des pièces jointes.'
+  explanation: Exécuté sur Mime 8.0.15 ; sans `To`, `Cc` ni `Bcc`, ou sans `From`, une `LogicException` est aussi levée.
+  memorization_justification: Corps obligatoire.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Message.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/Message.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPreparedHeaders(); ensureValidity()
+    verified_at: '2026-10-03'
+- id: FLC-3zx09xq6ccyp
+  official_item: OIT-9xdjjsqcbn13
+  language: fr
+  level: TRAP
+  front: 'Symfony Mime : getMimeTypes(''js'') rend-il application/javascript en premier ?'
+  back: 'Non : `text/javascript` d''abord, contrairement à l''exemple de la documentation 8.0.'
+  explanation: Exécuté sur Mime 8.0.15 ; le code l'emporte sur l'exemple.
+  memorization_justification: Ordre réel des types.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: MIME Types Utilities; Guessing the MIME Type
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/MimeTypes.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/MimeTypes.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getExtensions(); getMimeTypes()
     verified_at: '2026-10-03'

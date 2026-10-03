@@ -4254,6 +4254,32 @@ jobs:
           else
             echo "ok  lot-22  the mailer page carries its four flashcard levels, the returned values, the unknown transport and the silent rejection"
           fi
+          # Lot 22 refinement, page 2 (Mime): the four flashcard levels, the extension
+          # order the code returns, the Bcc header removed from the prepared headers
+          # and the javascript type listed first.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l22r-mime -w '%{http_code}' "$BASE_URL/docs/courses/lot-22/mime")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 22 refined page mime serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l22r-mime || missing="$missing l22mi:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l22r-mime || missing="$missing l22mi:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l22r-mime || missing="$missing l22mi:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l22r-mime || missing="$missing l22mi:no-trap-heading"
+          grep -aqF -- 'jfif' /tmp/l22r-mime \
+            || missing="$missing l22mi:no-executed-order"
+          grep -aqF -- 'getPreparedHeaders' /tmp/l22r-mime \
+            || missing="$missing l22mi:no-stripped-bcc"
+          grep -aqF -- 'text/javascript' /tmp/l22r-mime \
+            || missing="$missing l22mi:no-js-type"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 22 refinement missing from the mime page:$missing"
+            fail=1
+          else
+            echo "ok  lot-22  the mime page carries its four flashcard levels, the executed extension order, the stripped Bcc and the javascript type"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
