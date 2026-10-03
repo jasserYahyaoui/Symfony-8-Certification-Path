@@ -804,7 +804,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 25 novembre 2026
 
-- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 12 min · 579 mots · 3 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 21 min · 705 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 11 min · 469 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 11 min · 516 mots · 3 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 12 min · 542 mots · 4 questions, 1 flashcards
@@ -813,7 +813,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
 - Révision **J+30** (14 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 
-*Budget du jour : 111 / 160 min*
+*Budget du jour : 120 / 160 min*
 
 ### Jeudi 26 novembre 2026
 
