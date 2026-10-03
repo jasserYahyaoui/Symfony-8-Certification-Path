@@ -20,7 +20,7 @@ première page.
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
 | 1 | Mailer | STANDARD | 512 / 900 | 1 | **RAFFINÉE** (PR #330) |
-| 2 | Mime | STANDARD | 492 / 900 | 1 | à faire |
+| 2 | Mime | STANDARD | 492 / 900 | 1 | **RAFFINÉE** (PR #331) |
 
 ## Page 1 — *Mailer* — RAFFINÉE
 
@@ -142,6 +142,115 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
+# Rapport de fin de lot 22
 
-Rapport de fin de lot 22, réconcilié par script, dans sa propre PR.
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `aaf3f31`, le commit de `master`
+qui précède la première page refondue (PR #330). État mesuré : `8bebcd2`
+(fusion de la page 2). Un second script a confronté les décomptes de cartes
+écrits dans les deux entrées de page aux fichiers : **2 / 2** concordent.
+
+## Périmètre
+
+**2** items officiels atomiques portent `lot: lot-22` dans la matrice, tous
+`STANDARD` — niveaux inchangés. Cette répartition est une **observation** :
+aucune cible n'existe.
+
+## Couverture — formule unique (§3.5)
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Ce chiffre est **cumulatif et porte sur tout le projet**. Le sous-ensemble du
+lot 22 est **2 / 2**. Aucun des deux n'a bougé : **ce lot n'a pas fait
+progresser la couverture**.
+
+## Volume de cours — corps en mots, front matter exclu
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| 2 cours du lot 22 | 1 004 | **1 209** | **+205** |
+
+Aucune page ne dépasse son budget `REV-001` (`STANDARD`, 900). La plus proche :
+*Mime*, 610.
+
+## Flashcards
+
+| | Avant campagne | Après | Nouveau |
+|---|---|---|---|
+| Cartes sur les items du lot 22 | 2 | **22** | **+20** |
+
+Répartition par niveau — **observation, jamais une cible** :
+`RECALL` 6 · `UNDERSTANDING` 6 · `APPLICATION` 4 · `TRAP` 6. **Zéro carte du
+lot sans niveau** ; chaque item en porte 11. Les deux cartes préexistantes ont
+reçu un niveau ; aucune n'a été supprimée ni corrigée au-delà.
+
+## Questions et pools
+
+**9** questions portent sur les items du lot 22 — aucune ajoutée, aucune
+supprimée, **aucune modifiée** :
+
+| Pool | Nombre | Fichier |
+|---|---|---|
+| `LEARNING` | 7 | `lot-22-miscellaneous.yml` |
+| `VALIDATION` | 2 | `lot-22-miscellaneous.yml` |
+| `HOLDOUT` | 0 | — |
+
+Les neuf questions ont été relues contre `mailer.rst`, `components/mime.rst` et
+le code 8.0 : exactes. **Aucune question holdout** ne porte sur ce lot.
+`POOL-002` : 2 items `STANDARD` `EXAM_READY`, **0** sans question `VALIDATION`.
+**Matrice** : aucun texte modifié.
+
+## Affirmations corrigées sur les pages
+
+| Page | Affirmation | Décision |
+|---|---|---|
+| 1 | exemple d'envoi déclarant `: Response` sans rien rendre | corrigé — `// ...` rétabli, comme dans la documentation |
+| 2 | `getExtensions('image/jpeg')` rend `['jpeg', 'jpg', 'jpe']` | fausse en 8.0 — exécuté : `jpg`, `jpeg`, `jpe`, `jfif` ; corrigée |
+
+## Ce que dit la documentation, ce que fait le code
+
+| Documentation 8.0 | Code 8.0, exécuté | Décision |
+|---|---|---|
+| `components/mime.rst` : `getExtensions('image/jpeg')` → `jpeg`, `jpg`, `jpe` | `jpg`, `jpeg`, `jpe`, `jfif` | le code l'emporte, l'écart est signalé sur la page |
+| `components/mime.rst` : `application/javascript` en tête pour `js` | `text/javascript` en tête | idem |
+
+## Signaux pour le holdout
+
+Aucun : le lot n'a pas de question holdout.
+
+## Déploiements
+
+Les deux pages ont été fusionnées par PR (#330, #331), chacune avec CI verte,
+déployée par le workflow Pages, et sa ligne de smoke test lue en production. La
+page 2 : run 37114329773, success — `ok  lot-22  the mime page carries its four flashcard levels, the executed extension order, the stripped Bcc and the javascript type`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-03 sur la branche du rapport, au-dessus de `8bebcd2` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 601 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+| décomptes de cartes des deux entrées de page contre les fichiers | 2 / 2 concordants |
+
+## Résumé autonome
+
+Lot 22 (*Miscellaneous* : *Mailer*, *Mime*), 2 items STANDARD : couverture
+projet 163/163 inchangée ; cours 1 004 → 1 209 mots (+205), aucun dépassement de
+budget ; flashcards 2 → 22 (+20), toutes niveau posé ; 9 questions, aucune
+modifiée, aucune holdout sur le lot ; deux pages déployées, smoke tests lus ; un
+exemple de code corrigé et une affirmation fausse corrigée (ordre des
+extensions de `image/jpeg`), deux écarts documentation/code signalés.
