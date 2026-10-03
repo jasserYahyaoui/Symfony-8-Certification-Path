@@ -19,7 +19,7 @@ première page.
 
 | # | Page | Niveau | Mots / plafond | Flashcards | Statut |
 |---|---|---|---|---|---|
-| 1 | Process | STANDARD | 551 / 900 | 1 | à faire |
+| 1 | Process | STANDARD | 551 / 900 | 1 | **RAFFINÉE** (PR #333) |
 
 ## Page 1 — *Process* — RAFFINÉE
 
@@ -91,6 +91,89 @@ absentes de la version `master` de la page et des fichiers de cartes.
 | `aud10 --prove`, `lot27 --prove` | exit 0 |
 | empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
 
-## Prochaine étape
 
-Rapport de fin de lot 23, réconcilié par script, dans sa propre PR.
+# Rapport de fin de lot 23
+
+Toutes les figures ci-dessous sont **réconciliées par script** depuis
+`docs/syllabus/syllabus-matrix.yml`, `content/courses/**`,
+`content/flashcards/**` et `content/questions/**` — jamais depuis un rapport
+antérieur ni de mémoire. Base de comparaison : `740761f`, le commit de `master`
+qui précède la page refondue (PR #333). État mesuré : `ba0ee66`. Le décompte de
+cartes écrit dans l'entrée de page concorde avec les fichiers : **1 / 1**.
+
+## Périmètre et couverture
+
+**1** item officiel atomique porte `lot: lot-23` : `STANDARD`, niveau inchangé —
+une **observation**, aucune cible.
+
+```text
+EXAM_READY atomiques officiels / total atomiques officiels
+= 163 / 163 = 100,0 %
+```
+
+Chiffre **cumulatif, sur tout le projet** ; sous-ensemble du lot : **1 / 1**.
+Aucun des deux n'a bougé : **ce lot n'a pas fait progresser la couverture**.
+
+## Volume, cartes, questions
+
+| | Avant | Après | Nouveau |
+|---|---|---|---|
+| Cours, corps en mots (plafond 900) | 551 | **863** | **+312** |
+| Cartes sur l'item | 1 | **11** | **+10** |
+
+Niveaux des cartes — **observation, jamais une cible** : `RECALL` 3 ·
+`UNDERSTANDING` 3 · `APPLICATION` 2 · `TRAP` 3 ; aucune sans niveau. La carte
+préexistante a reçu un niveau, sans autre modification.
+
+**5** questions (4 `LEARNING`, 1 `VALIDATION`, aucune `HOLDOUT`), aucune
+ajoutée ni supprimée. **2** corrigées : `QST-1kkdfwcv8b04` (LEARNING),
+**v1 → v2**, énoncé visant l'appel bloquant simple et explication d'un
+distracteur corrigée (« aucune forme ne lève », démenti par `mustRun()`) ;
+`QST-qz4v99xfbh3t` (VALIDATION), explication seule précisée, version 1
+inchangée. **0 question holdout modifiée**.
+`POOL-002` : **0** item sans `VALIDATION`. **Matrice** : aucun texte modifié.
+
+## Affirmations corrigées
+
+| Affirmation | Exécuté ou lu | Décision |
+|---|---|---|
+| `stop()` envoie `SIGKILL` par défaut | `SIGTERM` d'abord, `SIGKILL` à l'échéance seulement ; `sleep 30` arrêté aussitôt par le signal `15` | page corrigée |
+
+## Ce que dit la documentation, ce que fait le code
+
+| Documentation 8.0 | Code 8.0, exécuté | Décision |
+|---|---|---|
+| `components/process.rst` : le signal par défaut de `stop()` est `SIGKILL` | `SIGTERM` immédiat, puis le signal passé, `SIGKILL` par défaut, si le processus tourne encore | le code l'emporte, l'écart est signalé sur la page |
+
+## Signal pour le holdout
+
+Aucun : le lot n'a pas de question holdout.
+
+## Déploiement
+
+Page fusionnée par PR (#333), CI verte, déployée, smoke test lu : run 37115824558,
+success — `ok  lot-23  the process page carries its four flashcard levels, the two stop signals, the timeout checkers and the inherited variable`.
+
+## Portes, au moment du rapport
+
+Exécutées le 2026-10-03 sur la branche du rapport, au-dessus de `ba0ee66` :
+
+| Contrôle | Résultat |
+|---|---|
+| `php bin/cert validate` | 0 bloquant (1 avertissement `PED-003` préexistant) |
+| `php bin/cert coverage` | 163 / 163, rapport inchangé |
+| `php bin/cert build` | exit 0 |
+| 11 audits `tools/audit/` | exit 0, FINDINGS 0 chacun |
+| `composer gate-full` | exit 0 — 299 tests, 17 611 assertions ; TOTAL VIOLATIONS: 0 |
+| `prove_framework_rules_fail.py` | PROOF OK (11 cas, restauration byte-identique) |
+| `prove_flashcard_coverage_fails.py` | PROOF OK |
+| `aud10 --prove`, `lot27 --prove` | exit 0 |
+| empreinte SHA-256 de `content/` et `docs/` avant / après les preuves | identique |
+
+## Résumé autonome
+
+Lot 23 (*Process*), 1 item STANDARD : couverture projet 163/163 inchangée ;
+cours 551 → 863 mots (+312) ; cartes 1 → 11, toutes niveau posé ; 5 questions,
+2 corrigées (1 en v2, 1 explication seule), aucune holdout sur le lot ; page
+déployée, smoke test lu ; une affirmation incomplète corrigée (les deux signaux
+de `stop()`), un écart documentation/code signalé.
