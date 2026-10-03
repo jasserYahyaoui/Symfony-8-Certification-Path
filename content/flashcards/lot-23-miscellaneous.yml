@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-1ppn91nts4vh
   official_item: OIT-qkcr4bat6dsb
   language: fr
+  level: TRAP
   front: Un processus lancé de façon asynchrone dépasse son délai. Qui s'en aperçoit ?
   back: Personne, sauf si l'appelant appelle checkTimeout() lui-même. Le délai n'est vérifié automatiquement que
     pendant un appel bloquant ; sur un processus démarré en asynchrone, la vérification régulière est à la charge
@@ -24,3 +25,193 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: process-timeout
     verified_at: '2026-09-02'
+- id: FLC-49wvjr7e5pcc
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: RECALL
+  front: 'Symfony Process : quel délai total un processus reçoit-il par défaut ?'
+  back: 60 secondes.
+  explanation: 'Lu dans le constructeur de `Process` (8.0) et exécuté : `getTimeout()` rend `60`.'
+  memorization_justification: Délai par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Process Timeout
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-1j2ja9rrstnq
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: RECALL
+  front: 'Symfony Process : quelle fabrique crée un processus à partir d''une ligne de commande en chaîne ?'
+  back: '`Process::fromShellCommandline()`.'
+  explanation: Section *Using Features From the OS Shell*, branche 8.0.
+  memorization_justification: Forme chaîne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Features From the OS Shell
+    verified_at: '2026-10-03'
+- id: FLC-53zzpzjrzd4v
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: RECALL
+  front: 'Symfony Process : combien de temps stop() attend-il par défaut avant son second signal ?'
+  back: 10 secondes.
+  explanation: 'Lu dans `Process::stop()` (8.0) : premier argument, `10` par défaut.'
+  memorization_justification: Délai de stop().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-afd7y03jwtv5
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Process : pourquoi le tableau d''arguments est-il la forme recommandée ?'
+  back: Parce que chaque argument passe tel quel, sans échappement à écrire ni shell à traverser.
+  explanation: 'Exécuté : `[''printf'', ''%s'', ''a b;c $HOME'']` affiche `a b;c $HOME`, littéral.'
+  memorization_justification: Pas d'échappement.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Features From the OS Shell
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-e7drrh9xfx3m
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Process : pourquoi désactiver la sortie interdit-il le délai d''inactivité ?'
+  back: 'Parce que ce délai se mesure depuis la dernière sortie produite : sans sortie collectée, il n''a rien à observer.'
+  explanation: 'Exécuté : `LogicException` dans les deux ordres d''appel.'
+  memorization_justification: Inactivité et sortie.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Disabling Output
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-6d7d31nsnpg2
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Process : pourquoi wait() peut-il lever ProcessTimedOutException ?'
+  back: Parce qu'il vérifie le délai pendant qu'il attend la fin du processus.
+  explanation: 'Exécuté : `sleep 3` avec un délai d''une seconde ; `isRunning()` et `getOutput()` ne lèvent rien, `wait()` lève.'
+  memorization_justification: Qui vérifie le délai.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Process Timeout
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-wr5grvbwvg10
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Process : lancer une commande sans la variable APP_ENV héritée du parent.'
+  back: '`new Process($command, null, [''APP_ENV'' => false])`.'
+  explanation: Section *Setting Environment Variables for Processes*, branche 8.0, et exécuté.
+  memorization_justification: Retirer une variable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Setting Environment Variables for Processes
+    verified_at: '2026-10-03'
+- id: FLC-ht01wbd3wqpg
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: APPLICATION
+  front: 'Symfony Process : insérer une valeur variable dans une commande shell sans l''échapper soi-même.'
+  back: '`Process::fromShellCommandline(''echo "${:MSG}"'')` puis `$process->run(null, [''MSG'' => $value])`.'
+  explanation: 'Section *Using Features From the OS Shell* ; exécuté : `a b;c` passe littéralement.'
+  memorization_justification: Valeur portable.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Features From the OS Shell
+    verified_at: '2026-10-03'
+- id: FLC-r8gke48ra8dc
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: TRAP
+  front: 'Symfony Process : stop() envoie-t-il SIGKILL d''emblée ?'
+  back: 'Non : `SIGTERM` d''abord ; `SIGKILL`, signal par défaut, seulement si le processus tourne encore à l''échéance.'
+  explanation: 'Lu dans `Process::stop()` (8.0) et exécuté : `sleep 30` arrêté aussitôt par le signal `15`.'
+  memorization_justification: Deux signaux.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping a Process
+    verified_at: '2026-10-03'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(); stop(); wait(); setIdleTimeout(); disableOutput()
+    verified_at: '2026-10-03'
+- id: FLC-e6z27j57z1w6
+  official_item: OIT-qkcr4bat6dsb
+  language: fr
+  level: TRAP
+  front: 'Symfony Process : passer un tableau d''environnement qui omet une variable la retire-t-il ?'
+  back: 'Non : elle reste héritée ; seule la valeur `false` la retire.'
+  explanation: 'Exécuté : avec `[''OTHER'' => ''x'']`, la variable du parent est toujours visible dans l''enfant.'
+  memorization_justification: Héritage par défaut.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Setting Environment Variables for Processes
+    verified_at: '2026-10-03'

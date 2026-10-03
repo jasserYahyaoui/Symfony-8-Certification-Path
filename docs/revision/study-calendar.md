@@ -819,8 +819,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 22 min · 599 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 21 min · 610 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Process** (STANDARD) — 15 min · 551 mots · 5 questions, 1 flashcards
-- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 11 min · 426 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Process** (STANDARD) — 25 min · 863 mots · 5 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
 - Révision **J+3** (16 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
 - Révision **J+7** (15 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
@@ -828,20 +827,21 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (12 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+45** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 156 / 160 min*
+*Budget du jour : 155 / 160 min*
 
 ### Vendredi 27 novembre 2026
 
+- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 11 min · 426 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 12 min · 464 mots · 4 questions, 1 flashcards
 - NOUVEAU · **Miscellaneous : Serializer** (STANDARD) — 13 min · 456 mots · 5 questions, 1 flashcards
-- Révision **J+1** (24 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process · Miscellaneous : PropertyAccess
+- Révision **J+1** (18 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+3** (16 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache · Miscellaneous : Clock
 - Révision **J+7** (15 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
 - Révision **J+14** (10 min) — Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management
 - Révision **J+30** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+45** (8 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 111 / 160 min*
+*Budget du jour : 116 / 160 min*
 
 ### Samedi 28 novembre 2026
 
@@ -866,7 +866,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Miscellaneous : Runtime
   - Miscellaneous : Serializer
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+1** (12 min) — Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+1** (18 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+3** (16 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
 - Révision **J+30** (12 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation · Forms : Forms handling
 
@@ -878,7 +878,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-15 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-16 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+3** (16 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process · Miscellaneous : PropertyAccess
+- Révision **J+3** (12 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+30** (12 min) — Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig · Forms : Forms theming · Forms : CSRF protection
 
 *Budget du jour : 220 / 220 min*
@@ -887,12 +887,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - **Correction Mock 1** — analyse par item, plan de correction, re-révision ciblée
 - **Assessment lot-17 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+3** (8 min) — Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+3** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+7** (16 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
 - Révision **J+14** (10 min) — Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands · Console : Custom commands
 - Révision **J+60** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 136 / 160 min*
+*Budget du jour : 140 / 160 min*
 
 
 ## Décembre 2026
@@ -925,21 +925,21 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-24 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-25 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+7** (16 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process · Miscellaneous : PropertyAccess
+- Révision **J+7** (12 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+14** (11 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+30** (11 min) — Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
 - Révision **J+45** (4 min) — Controllers : Argument value resolvers
 
-*Budget du jour : 132 / 160 min*
+*Budget du jour : 128 / 160 min*
 
 ### Vendredi 4 décembre 2026
 
-- Révision **J+7** (8 min) — Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+7** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+14** (11 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
 - Révision **J+30** (12 min) — Security : Authorization · Security : Configuration · Security : Providers · Security : Firewalls
 - Révision **J+60** (7 min) — PHP : Enums · HTTP : HTTP request
 
-*Budget du jour : 38 / 160 min*
+*Budget du jour : 42 / 160 min*
 
 ### Samedi 5 décembre 2026
 
@@ -983,20 +983,20 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 10 décembre 2026
 
-- Révision **J+14** (12 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process · Miscellaneous : PropertyAccess
+- Révision **J+14** (9 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+30** (13 min) — Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
 - Révision **J+45** (14 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 
-*Budget du jour : 39 / 160 min*
+*Budget du jour : 36 / 160 min*
 
 ### Vendredi 11 décembre 2026
 
-- Révision **J+14** (6 min) — Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+14** (9 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+30** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
 - Révision **J+45** (3 min) — Dependency Injection : Service locators
 - Révision **J+60** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading
 
-*Budget du jour : 33 / 160 min*
+*Budget du jour : 36 / 160 min*
 
 ### Samedi 12 décembre 2026
 
