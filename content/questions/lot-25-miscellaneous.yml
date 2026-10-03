@@ -15,7 +15,7 @@ questions:
   assesses_outcomes:
   - OUT-07vqtcfmbfnc
   - OUT-nt4s3vj5727z
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-r3qcmsehzex1
   domain: symfony
@@ -27,8 +27,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A counter is incremented at the top of the application's entry script, before the closure is returned.
-    It ends up at two instead of one. What explains it?
+  question: A counter is incremented at the top of the application's entry script, above the line that requires
+    the runtime autoload file. It ends up at two instead of one. What explains it?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -38,13 +38,13 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-03'
   tags:
   - bootstrap
   - side-effects
   choices:
-  - id: CHO-1tx5fvhmg8k2
-    text: The bootstrapping layer includes that script a second time, so anything it does happens twice
+  - id: CHO-tmhwpyqmrvjr
+    text: The bootstrapping layer includes the script again, so those lines run twice
     correct: true
   - id: CHO-m45fb59ttq5p
     text: Two requests were served and the counter persisted between them
@@ -59,7 +59,10 @@ questions:
     correct: false
     explanation: No mode duplicates the sequence for comparison.
   explanation: The documented sequence has the runtime include the front-controller script again, which is why the
-    docs warn it must produce no side effects.
+    docs warn it must produce no side effects. Executed on Runtime 8.0.14, a line above the require ran twice
+    and a line below it ran once, because the first pass ends inside the runtime file. Version 1 placed the
+    counter only before the returned closure and said that anything the script does happens twice, which
+    the line below the require contradicts.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst
