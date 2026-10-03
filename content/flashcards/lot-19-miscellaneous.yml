@@ -9,6 +9,7 @@ flashcards:
 - id: FLC-bhhw8akr7mb5
   official_item: OIT-qpjnpc56hjj0
   language: fr
+  level: TRAP
   front: Deux appels successifs à now() sur une MockClock rendent-ils des heures différentes ?
   back: Non. MockClock est figée à l'heure de son instanciation et n'avance jamais d'elle-même ; seuls sleep() ou
     modify() la déplacent.
@@ -22,3 +23,175 @@ flashcards:
     symbol_or_lines: '"The MockClock is instantiated with a time and does not move forward on its own. The time is fixed until sleep() or modify() are called"'
     branch: '8.0'
     verified_at: '2026-09-02'
+- id: FLC-vp8xjaqdr6e4
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle classe rend NativeClock::now() en 8.0 ?'
+  back: '`DatePoint`, une sous-classe de `DateTimeImmutable`.'
+  explanation: Lu dans `NativeClock.php` et exécuté.
+  memorization_justification: Type de retour de now().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/NativeClock.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/NativeClock.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'now(): DatePoint'
+    verified_at: '2026-10-02'
+- id: FLC-ye0t2zt3f79m
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: RECALL
+  front: 'Symfony : quelle horloge sert à mesurer une durée ?'
+  back: '`MonotonicClock`, fondée sur `hrtime()`, insensible aux ajustements de l''horloge système.'
+  explanation: Documentation *Clock*, branche 8.0.
+  memorization_justification: Chronomètre.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-v56nrt95yn9c
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: RECALL
+  front: 'Symfony : que peut recevoir ClockSensitiveTrait::mockTime() ?'
+  back: Une chaîne (date ou intervalle), un `DateTimeImmutable`, ou un booléen pour figer ou restaurer.
+  explanation: Exécuté avec PHPUnit 11.5.
+  memorization_justification: Arguments de mockTime().
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mockTime(string|\DateTimeImmutable|bool $when = true)
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-pffdfpvfbb85
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un service avec ClockAwareTrait reçoit-il son horloge ?'
+  back: Parce que `setClock()` porte `#[Required]`, que l'autocâblage appelle ; l'autoconfiguration seule ne l'appelle pas.
+  explanation: Exécuté sur DependencyInjection 8.0.15 ; la documentation parle d'autoconfiguration.
+  memorization_justification: Écart documentation-code.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '#[Required] setClock(); now() falls back to new Clock()'
+    verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-sd7qt8z39gbs
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi sleep(600) sur une MockClock ne ralentit-il pas le test ?'
+  back: Parce qu'il déplace l'heure simulée sans attendre.
+  explanation: 'Exécuté : 0 seconde réelle, l''heure passe de 15:20 à 15:30.'
+  memorization_justification: Sleep simulé.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-pyt8bp0nh5th
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : pourquoi un DatePoint créé en test suit-il l''horloge figée ?'
+  back: Parce qu'il prend son heure de l'horloge globale `Clock`.
+  explanation: 'Exécuté : `Clock::set(new MockClock(''2000-01-01''))`, puis `new DatePoint()` rend 2000-01-01.'
+  memorization_justification: DatePoint et Clock.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-2jn17mmx319e
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : rendre testable une méthode qui appelle new DateTimeImmutable().'
+  back: Injecter `ClockInterface` et appeler `$this->clock->now()` à la place.
+  explanation: Documentation *Using a Clock inside a Service*.
+  memorization_justification: Injection de l'horloge.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage; Using a Clock inside a Service; Writing Time-Sensitive Tests
+    verified_at: '2026-10-02'
+- id: FLC-nnd6b60g4drq
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: APPLICATION
+  front: 'Symfony : figer l''heure au 2 mars 2022 dans un test PHPUnit.'
+  back: '`static::mockTime(new \DateTimeImmutable(''2022-03-02''))`, avec `ClockSensitiveTrait`.'
+  explanation: 'Exécuté : `now()` rend 2022-03-02.'
+  memorization_justification: Figer le temps.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mockTime(string|\DateTimeImmutable|bool $when = true)
+    verified_at: '2026-10-02'
+- id: FLC-pzx3r6am0pr7
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: TRAP
+  front: 'Symfony : mockTime(''+2 days'') part-il de l''heure réelle ?'
+  back: 'Non : de l''heure déjà figée.'
+  explanation: 'Exécuté : après `mockTime(''1996-07-01'')`, `+2 days` donne 1996-07-03.'
+  memorization_justification: Intervalle relatif.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mockTime(string|\DateTimeImmutable|bool $when = true)
+    verified_at: '2026-10-02'
+- id: FLC-3yc8b7p36kw6
+  official_item: OIT-qpjnpc56hjj0
+  language: fr
+  level: TRAP
+  front: 'Symfony : sans injection, $this->now() de ClockAwareTrait échoue-t-il ?'
+  back: 'Non : il se replie sur l''horloge globale `Clock`.'
+  explanation: Lu dans `ClockAwareTrait` ; exécuté avec `Clock::set()`.
+  memorization_justification: Repli sur Clock.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '#[Required] setClock(); now() falls back to new Clock()'
+    verified_at: '2026-10-02'

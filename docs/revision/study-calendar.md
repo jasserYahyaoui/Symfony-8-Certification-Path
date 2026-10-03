@@ -795,12 +795,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 22 min · 813 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 23 min · 898 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 24 min · 896 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 14 min · 686 mots · 4 questions, 1 flashcards
+- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 24 min · 882 mots · 4 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
 - Révision **J+7** (16 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers
 - Révision **J+14** (13 min) — Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
 
-*Budget du jour : 136 / 160 min*
+*Budget du jour : 146 / 160 min*
 
 ### Mercredi 25 novembre 2026
 

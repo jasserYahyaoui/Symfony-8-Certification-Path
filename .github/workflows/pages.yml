@@ -4098,6 +4098,32 @@ jobs:
           else
             echo "ok  lot-18  the cache page carries its four flashcard levels, the forced recompute, the namespace prefix and the shared directory"
           fi
+          # Lot 19 refinement, page 1 (Clock): the four flashcard levels, the
+          # setter called by autowiring, its Required attribute and the interval
+          # measured from the frozen time.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/l19r-clock -w '%{http_code}' "$BASE_URL/docs/courses/lot-19/clock")
+          if [ "$code" != "200" ]; then
+            echo "::error::Lot 19 refined page clock serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aq '>Mémorisation<' /tmp/l19r-clock || missing="$missing l19ck:no-recall-heading"
+          grep -aq '>Compréhension<' /tmp/l19r-clock || missing="$missing l19ck:no-understanding-heading"
+          grep -aq '>Application<' /tmp/l19r-clock || missing="$missing l19ck:no-application-heading"
+          grep -aq '>Pièges<' /tmp/l19r-clock || missing="$missing l19ck:no-trap-heading"
+          grep -aqF -- 'autocâblage' /tmp/l19r-clock \
+            || missing="$missing l19ck:no-autowiring"
+          grep -aqF -- 'Required' /tmp/l19r-clock \
+            || missing="$missing l19ck:no-required-attribute"
+          grep -aqF -- 'déjà figée' /tmp/l19r-clock \
+            || missing="$missing l19ck:no-frozen-interval"
+          if [ -n "$missing" ]; then
+            echo "::error::Lot 19 refinement missing from the clock page:$missing"
+            fail=1
+          else
+            echo "ok  lot-19  the clock page carries its four flashcard levels, the autowired setter, the required attribute and the frozen interval"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
