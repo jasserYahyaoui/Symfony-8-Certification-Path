@@ -174,7 +174,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 13 octobre 2026
 
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 29 min · 894 mots · 5 questions, 17 flashcards
-- NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 26 min · 709 mots · 4 questions, 17 flashcards
+- NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 26 min · 717 mots · 4 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 22 min · 585 mots · 3 questions, 15 flashcards
 - NOUVEAU · **Controllers : HttpKernel component and FrameworkBundle** (STANDARD) — 25 min · 717 mots · 4 questions, 16 flashcards
 - Révision **J+1** (24 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices · Symfony Architecture : Framework overloading

@@ -5,7 +5,7 @@ title: "Framework interoperability and PSRs"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
@@ -60,7 +60,8 @@ Symfony satisfait. Elles diffèrent, et c'est vérifiable ligne à ligne :
 | `psr/log-implementation` | `1.0`, `2.0`, `3.0` |
 | `psr/simple-cache-implementation` | `1.0`, `2.0`, `3.0` |
 | `psr/cache-implementation` | `2.0`, `3.0` — **pas** `1.0` |
-| `psr/container-implementation`, `psr/link-implementation` | `1.0`, `2.0` |
+| `psr/container-implementation` | `1.1`, `2.0` — **pas** `1.0` |
+| `psr/link-implementation` | `1.0`, `2.0` |
 | `psr/clock-implementation`, `psr/event-dispatcher-implementation`, `psr/http-client-implementation` | `1.0` seulement |
 
 ## Les deux autres familles de `provide`

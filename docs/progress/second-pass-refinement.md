@@ -243,6 +243,12 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 | 7 | Exception handling | **corrigée** — voir ci-dessous |
 | 8 | Event dispatcher and kernel events | **corrigée** — voir ci-dessous |
 | 9 | Official best practices | **corrigée** — voir ci-dessous |
+| 10 | Backward compatibility promise | relue, exacte |
+| 11 | Deprecations best practices | relue, exacte |
+| 12 | Framework overloading | relue, exacte |
+| 13 | Release management and roadmap schedule | relue, exacte |
+| 14 | Framework interoperability and PSRs | **corrigée** — voir ci-dessous |
+| 15 | Naming conventions | relue, exacte |
 
 **Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
 HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
@@ -437,3 +443,55 @@ exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
 `prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
 OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
 et `docs/` identique avant / après les preuves.
+
+**Pages 10 à 13 et 15, relues sans défaut**, chacune confrontée à sa source
+8.0 : page 10 à `contributing/code/bc.rst` ; page 11 à
+`contributing/code/conventions.rst` ; page 12 à `bundles/override.rst` ; page 13
+à `contributing/community/releases.rst` ; page 15 à
+`contributing/code/standards.rst` (section *Naming Conventions*) et à
+`conventions.rst`.
+
+### Page 14 — *Framework interoperability and PSRs*
+
+`CRS-f74jcpnrrkhz` · STANDARD · **709 → 717 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 9 du lot 03 en seconde passe
+(PR #348, `a956450`), run Pages 37683870775, success — `ok  second-pass
+lot-03 official best practices: the Tests section holds two recommendations`.
+
+**Une version fausse.** Le tableau regroupait `psr/container-implementation`
+et `psr/link-implementation` sous « `1.0`, `2.0` ». Lu dans la clé `provide` du
+`composer.json` de la branche 8.0 (`6f841c0`) : `psr/container-implementation`
+vaut `1.1|2.0`, `psr/link-implementation` `1.0|2.0`. Corrigé : deux lignes, la
+première marquée « **pas** `1.0` », comme l'était déjà `psr/cache-implementation`.
+
+**Une carte d'une autre page, corrigée au passage.** `FLC-6m7k069wqxwq`
+(page 4, *Components and Bridges*) disait que `provide` couvre
+`psr/log-implementation`, `psr/cache-implementation`,
+`psr/container-implementation` « et onze autres ». La clé compte **quinze**
+entrées : ce sont douze autres. La correction de la page 4 (PR #344) ne l'avait
+pas vue.
+
+**Questions.** `QST-rqn99khrxjbz` (LEARNING) porte sur la différence entre une
+implémentation déclarée et PSR-12, pas sur les versions ; inchangée.
+
+**Aiguille de smoke test.** `<code>1.1</code>`, absente de la version `master`
+de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 03
+
+15 pages relues : **6 corrigées** (4 *Components and Bridges*, 6 *Request
+handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
+9 *Official best practices*, 14 *Framework interoperability and PSRs*),
+9 inchangées. Cartes corrigées : `FLC-tysgghm0xyx0`, `FLC-ttytsw9z60pf`,
+`FLC-6m7k069wqxwq` (page 4), `FLC-5rm5a89fpm9v` (page 6), `FLC-79nmwswd5a50`
+(page 7), `FLC-ns8r1qzptegb` (page 8). Question : `QST-0rxv1000z941`
+(LEARNING) passée en version 2. Aucune question holdout lue ni modifiée.
