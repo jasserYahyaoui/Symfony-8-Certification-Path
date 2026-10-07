@@ -5,7 +5,7 @@ title: "Status codes"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-16"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -70,7 +70,8 @@ l'**authentification**, pas l'autorisation.
 **301 vs 302 vs 307/308.** `301` et `308` sont permanents, `302` et `307` sont
 temporaires. La différence entre l'ancienne et la nouvelle paire tient à la
 méthode : `307` et `308` **préservent la méthode et le corps** de la requête,
-alors que les agents transforment historiquement `301`/`302` en `GET`.
+alors qu'après `301`/`302` un agent **peut**, « pour des raisons
+historiques », changer un `POST` en `GET` (§15.4.2, §15.4.3).
 
 **`303 See Other` n'entre pas dans ce 2×2.** Il demande un `GET` (ou `HEAD`)
 sur une autre ressource, quelle que soit la méthode d'origine : c'est
@@ -112,7 +113,8 @@ au même titre que 405, 410, 414 et 501.
 
 - Le premier chiffre donne la classe ; c'est le seul élément à mémoriser.
 - `401` = authentification, `403` = autorisation.
-- `307`/`308` préservent la méthode ; `301`/`302` non ; `303` impose un `GET`.
+- `307`/`308` préservent la méthode ; `301`/`302` ne la garantissent pas ;
+  `303` impose un `GET`.
 - `415` = le corps reçu, `406` = la représentation demandée.
 - Les constantes `Response::HTTP_*` évitent les codes magiques.
 

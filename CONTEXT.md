@@ -37,6 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02, page 2 en PR | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -50,11 +51,11 @@ périmètre sur instruction.
   recherches plein texte excluent le holdout. Signal ouvert : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
-**Prochaine action** : fusionner la PR du rapport de fin de lot 26 après CI
-verte ; la campagne de raffinement des pages couvre alors les lots 02 à 26 (le
-lot 01 reste hors périmètre sur instruction, le lot 27 ne porte aucun item).
-Restent au propriétaire : les signaux holdout des lots 06 à 26 consignés dans
-les rapports de fin de lot, et la passation du Mock 4.
+**Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
+propriétaire le 2026-10-07 — fusionner la PR de la page 2 du lot 02 après CI
+verte, lire son smoke test, puis poursuivre la relecture du lot 02 (page 3).
+Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
+du Mock 4.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
