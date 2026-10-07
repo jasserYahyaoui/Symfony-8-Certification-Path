@@ -2071,7 +2071,10 @@ flashcards:
     explanation: >-
       Même quand `$catch` vaut `false` et que `kernel.exception` n'a pas lieu,
       `finishRequest()` est appelé avant que l'exception ne remonte. Aucun autre
-      événement du cycle n'offre cette garantie.
+      événement du cycle n'offre cette garantie. Limite : une `\Error` n'y
+      entre que si `handleAllThrowables` est vrai, ce que
+      `framework.handle_all_throwables` fait par défaut ; exécuté avec le défaut
+      du constructeur d'`HttpKernel`, une `TypeError` saute l'événement.
     memorization_justification: >-
       Donne la raison d'être de l'événement ; sans elle, on le confond avec un
       simple synonyme tardif de `kernel.response`.
@@ -2082,7 +2085,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "handle, filterResponse, handleThrowable"
-        verified_at: "2026-09-18"
+        verified_at: "2026-10-07"
 
   - id: FLC-bje91n5wwq3x
     official_item: OIT-7sewqvmw6468

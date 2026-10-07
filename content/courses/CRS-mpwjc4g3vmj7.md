@@ -5,7 +5,7 @@ title: "Request handling"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst"
@@ -151,10 +151,11 @@ levée, `handleRaw()` est interrompu et `$catch` décide :
   `kernel.finish_request` est dispatché avant que l'exception ne remonte.
 
 Autrement dit `kernel.finish_request` a lieu sur **les trois** chemins : succès,
-exception rattrapée, exception relancée. C'est la seule garantie de ce type dans
-tout le cycle, et c'est ce qui rend l'événement fiable pour restaurer un état
-global. La manière d'écrire un écouteur d'exception appartient à la page
-suivante.
+exception rattrapée, exception relancée — **à une condition**. Une `\Error`
+n'entre dans ces branches que si `handleAllThrowables` est vrai :
+`framework.handle_all_throwables` le fait par défaut, mais le constructeur
+d'`HttpKernel` le met à `false`. Exécuté avec une `TypeError` et ce défaut :
+seul `kernel.request` a lieu, ni `kernel.exception` ni `kernel.finish_request`.
 
 ## Trois façons d'échouer, trois exceptions
 
@@ -180,7 +181,8 @@ donné.
   `kernel.response`, `kernel.finish_request` ni `kernel.terminate`.
 - Un seul contrôleur frontal, `public/index.php` — quel que soit l'URL demandée.
 - `kernel.finish_request` a lieu **même quand l'exception remonte**, et même
-  quand `$catch` vaut `false` et que `kernel.exception` n'est pas dispatché.
+  quand `$catch` vaut `false` — mais une `\Error` hors
+  `handle_all_throwables` le saute.
 - `kernel.controller_arguments` peut remplacer le contrôleur, pas seulement ses
   arguments.
 - `MAIN_REQUEST` vaut **1** et `SUB_REQUEST` **2** — pas `0` et `1`.
@@ -191,9 +193,9 @@ donné.
 (non → `kernel.request`). La réponse existe-t-elle ? (oui → `kernel.response`
 puis `kernel.finish_request`, et `kernel.terminate` après l'envoi).
 
-**`finally` est le mot-clé du cycle.** Dépilement de la requête et
-`kernel.finish_request` ont lieu sur tous les chemins ; tout le reste est
-conditionnel.
+**`finally` est le mot-clé du cycle.** Le dépilement de la requête a lieu sur
+tous les chemins ; `kernel.finish_request`, sur tous ceux qu'`HttpKernel`
+rattrape.
 
 ## Points clés
 
