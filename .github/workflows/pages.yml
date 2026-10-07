@@ -4402,6 +4402,24 @@ jobs:
           else
             echo "ok  second-pass  lot-02 status codes: a POST may become a GET after 301/302, not guaranteed"
           fi
+          # Second pass, lot 02 (HTTP response): headers already sent raise an E_WARNING and lose the status.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp02hr -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/http-response")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-02/http-response serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Cannot modify header' /tmp/sp-sp02hr \
+            || missing="$missing sp02hr:no-header-warning"
+          grep -aqF -- 'un statut perdu' /tmp/sp-sp02hr \
+            || missing="$missing sp02hr:no-lost-status"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-02/http-response:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-02 http response: headers already sent raise a warning and lose the status"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

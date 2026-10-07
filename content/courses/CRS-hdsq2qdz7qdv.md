@@ -5,7 +5,7 @@ title: "HTTP response"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-16"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -117,8 +117,11 @@ composant Runtime derrière `public/index.php`.
 du corps. Deux détails valent d'être connus :
 
 - **Si les en-têtes sont déjà partis**, `sendHeaders()` ne recommence pas : il
-  réémet seulement la ligne de statut, et uniquement hors des SAPI `cli`,
-  `phpdbg` et `embed`. Aucune exception, aucun avertissement.
+  tente seulement de réémettre la ligne de statut, hors des SAPI `cli`,
+  `phpdbg` et `embed`. Ce `header()` tardif échoue : exécuté sous `php -S`, un
+  `echo` avant `send()` produit un **`E_WARNING`** *Cannot modify header
+  information*, et un 404 arrive au client en **200**. Pas d'exception, mais
+  un avertissement, et un statut perdu.
 - **`$flush = false`** saute la clôture des tampons — et c'est justement ce que
   Symfony passe. `HttpKernelRunner::run()` appelle `send(false)`, exécute
   lui-même `fastcgi_finish_request()` (sauf en mode debug), **puis** appelle

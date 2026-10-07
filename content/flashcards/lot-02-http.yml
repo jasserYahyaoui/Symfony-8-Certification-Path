@@ -1660,12 +1660,13 @@ flashcards:
     language: fr
     level: TRAP
     front: "Les en-têtes sont déjà partis quand `sendHeaders()` est appelé. Quelle erreur obtient-on ?"
-    back: "Aucune. La méthode réémet seulement la ligne de statut, et uniquement hors des SAPI `cli`, `phpdbg` et `embed`."
+    back: "Pas d'exception, mais un `E_WARNING` hors des SAPI `cli`, `phpdbg` et `embed` : la méthode tente de réémettre la ligne de statut, et ce `header()` tardif échoue."
     explanation: >-
-      Ni exception, ni avertissement, ni `headers already sent` : le cas est
-      traité, pas signalé. Un `echo` malencontreux avant le retour du
-      contrôleur ne casse donc rien de visible — il fait simplement disparaître
-      tous les en-têtes que la réponse voulait poser, cookies compris.
+      Exécuté sous `php -S` sans tampon de sortie : un `echo` avant `send()`
+      produit « Cannot modify header information - headers already sent » depuis
+      `Response.php`, et un 404 arrive au client en 200. Les en-têtes que la
+      réponse voulait poser, cookies compris, sont perdus. En `cli`, rien n'est
+      tenté, donc rien n'est signalé.
     memorization_justification: >-
       Échec silencieux : rien dans les journaux ne rattache la disparition des
       en-têtes à sa cause.
@@ -1676,7 +1677,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "sendHeaders lignes 316-384"
-        verified_at: "2026-09-17"
+        verified_at: "2026-10-07"
 
   - id: FLC-2w1p3pxb5mn7
     official_item: OIT-jh06tkfrhthq
