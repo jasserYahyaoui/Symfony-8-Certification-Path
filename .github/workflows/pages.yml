@@ -4510,6 +4510,22 @@ jobs:
           else
             echo "ok  second-pass  lot-03 event dispatcher: an untyped listener without event fails the compilation"
           fi
+          # Second pass, lot 03 (Official best practices): two test recommendations, not three.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp03bp -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/official-best-practices")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-03/official-best-practices serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'les deux seules de la' /tmp/sp-sp03bp \
+            || missing="$missing sp03bp:no-two-test-practices"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-03/official-best-practices:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-03 official best practices: the Tests section holds two recommendations"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

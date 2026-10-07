@@ -242,6 +242,7 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 | 6 | Request handling | **corrigée** — voir ci-dessous |
 | 7 | Exception handling | **corrigée** — voir ci-dessous |
 | 8 | Event dispatcher and kernel events | **corrigée** — voir ci-dessous |
+| 9 | Official best practices | **corrigée** — voir ci-dessous |
 
 **Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
 HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
@@ -398,6 +399,36 @@ la carte, avec le cas du type union.
 
 **Aiguilles de smoke test.** `fait échouer la compilation` et `Un type union`,
 absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 9 — *Official best practices*
+
+`CRS-k2xvr11x936e` · STANDARD · **869 → 878 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 8 du lot 03 en seconde passe
+(PR #347, `af30693`), run Pages 37682319346, success — `ok  second-pass
+lot-03 event dispatcher: an untyped listener without event fails the
+compilation`.
+
+**Un dénombrement faux.** La page annonçait « trois recommandations » sur les
+URL de test et n'en citait que deux. Compté dans `best_practices.rst` (8.0) :
+dix sections soulignées de `-`, trente recommandations soulignées de `~` — les
+deux totaux de la page sont exacts —, et la section *Tests* n'en contient que
+deux, *Smoke Test your URLs* et *Hard-code URLs in a Functional Test*. Corrigé :
+deux, les deux seules de la section.
+
+**Questions.** `QST-nz6jxdj32j14` (LEARNING) porte sur le contenu de la
+recommandation, pas sur leur nombre ; inchangée.
+
+**Aiguille de smoke test.** `les deux seules de la`, absente de la version
+`master` de la page et des fichiers de cartes.
 
 **Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
 0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`

@@ -5,7 +5,7 @@ title: "Official best practices"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
@@ -109,8 +109,8 @@ aujourd'hui est `bcrypt`.
 **Trente recommandations, dix sections.** Si un nombre est demandé, ce sont
 ceux-là.
 
-**Trois recommandations portent sur les URL de test**, et elles ne disent pas
-la même chose : *smoke tester* toutes les URL avec un fournisseur de données,
+**Deux recommandations portent sur les URL de test** — les deux seules de la
+section *Tests* —, et elles ne disent pas la même chose : *smoke tester* toutes les URL avec un fournisseur de données,
 et coder l'URL **en dur** dans le test fonctionnel.
 
 ## Points clés

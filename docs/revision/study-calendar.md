@@ -162,7 +162,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 12 octobre 2026
 
-- NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 28 min · 869 mots · 5 questions, 17 flashcards
+- NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 28 min · 878 mots · 5 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Backward compatibility promise** (STANDARD) — 31 min · 890 mots · 5 questions, 18 flashcards
 - NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 28 min · 838 mots · 5 questions, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 29 min · 887 mots · 4 questions, 17 flashcards
