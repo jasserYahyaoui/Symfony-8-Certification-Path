@@ -104,13 +104,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 26 min · 802 mots · 4 questions, 15 flashcards
 - NOUVEAU · **Symfony Architecture : License** (MINIMAL) — 16 min · 542 mots · 2 questions, 10 flashcards
-- NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 24 min · 836 mots · 3 questions, 16 flashcards
+- NOUVEAU · **Symfony Architecture : Components and Bridges** (STANDARD) — 25 min · 881 mots · 3 questions, 16 flashcards
 - NOUVEAU · **Symfony Architecture : Code organization** (STANDARD) — 26 min · 848 mots · 4 questions, 16 flashcards
 - Révision **J+1** (20 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 - Révision **J+3** (15 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes · HTTP : HTTP request
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 143 / 160 min*
+*Budget du jour : 144 / 160 min*
 
 ### Vendredi 9 octobre 2026
 

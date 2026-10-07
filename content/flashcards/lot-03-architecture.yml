@@ -1297,11 +1297,12 @@ flashcards:
     back: "Trois : `symfony/doctrine-bridge`, `symfony/monolog-bridge` et `symfony/twig-bridge`."
     explanation: >-
       La clé `replace` du `composer.json` du mono-dépôt compte 65 paquets, dont
-      exactement ces trois bridges. Un quatrième répertoire de bridge existe —
-      `PhpUnit` — mais il n'y figure pas : installer `symfony/symfony` ne
-      fournit donc pas `symfony/phpunit-bridge`.
+      exactement ces trois bridges. Le répertoire `src/Symfony/Bridge/` en
+      compte cinq : `PhpUnit` et `PsrHttpMessage` n'y figurent pas, et
+      installer `symfony/symfony` ne fournit donc ni `symfony/phpunit-bridge`
+      ni `symfony/psr-http-message-bridge`.
     memorization_justification: >-
-      Liste courte et vérifiable, dont l'intérêt est l'absence du quatrième :
+      Liste courte et vérifiable, dont l'intérêt est l'absence des deux autres :
       c'est elle qui se retient mal.
     verification_status: VERIFIED
     official_sources:
@@ -1310,7 +1311,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "clé replace, entrées *-bridge"
-        verified_at: "2026-09-17"
+        verified_at: "2026-10-07"
 
   - id: FLC-96yjsk63bse0
     official_item: OIT-d416348gfhde
@@ -1574,8 +1575,8 @@ flashcards:
     back: "Faux. `symfony/phpunit-bridge` ne requiert que `php >=8.1.0`."
     explanation: >-
       La définition — un pont entre un composant et une bibliothèque tierce —
-      décrit trois des quatre répertoires. Le quatrième porte le nom et le type
-      sans la structure. Généraliser à partir du bridge Twig, qui est le cas
+      décrit quatre des cinq répertoires, `PsrHttpMessage` compris. `PhpUnit`
+      porte le nom et le type sans la structure. Généraliser à partir du bridge Twig, qui est le cas
       canonique, conduit exactement à cette erreur.
     memorization_justification: >-
       Généralisation naturelle à partir de l'exemple le plus enseigné, que le
@@ -1587,7 +1588,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "clé require"
-        verified_at: "2026-09-17"
+        verified_at: "2026-10-07"
 
   - id: FLC-b0qfp09pj6zn
     official_item: OIT-d416348gfhde

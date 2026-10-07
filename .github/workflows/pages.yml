@@ -4438,6 +4438,24 @@ jobs:
           else
             echo "ok  second-pass  lot-02 language detection: a refused q=0 language can still be chosen"
           fi
+          # Second pass, lot 03 (Components and Bridges): five bridge directories, PsrHttpMessage included.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp03cb -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/components-and-bridges")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-03/components-and-bridges serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'PsrHttpMessage' /tmp/sp-sp03cb \
+            || missing="$missing sp03cb:no-psr-bridge"
+          grep -aqF -- 'en compte pourtant' /tmp/sp-sp03cb \
+            || missing="$missing sp03cb:no-five-dirs"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-03/components-and-bridges:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-03 components and bridges: five bridge directories, two outside replace"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
