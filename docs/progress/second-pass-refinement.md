@@ -239,6 +239,7 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 | 3 | License | relue, exacte |
 | 4 | Components and Bridges | **corrigée** — voir ci-dessous |
 | 5 | Code organization | relue, exacte |
+| 6 | Request handling | **corrigée** — voir ci-dessous |
 
 **Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
 HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
@@ -280,6 +281,49 @@ paquets, dont cinq bundles ; `provide` limité aux `*-implementation` ; les
 
 **Aiguilles de smoke test.** `PsrHttpMessage` et `en compte pourtant`, absentes
 de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 6 — *Request handling*
+
+`CRS-mpwjc4g3vmj7` · DEEP · **1181 → 1194 mots** sur 1200.
+
+**Déploiement précédent, lu en production** : page 4 du lot 03 en seconde passe
+(PR #344, `ea3f1fd`), run Pages 37676008721, success — `ok  second-pass
+lot-03 components and bridges: five bridge directories, two outside replace`.
+
+**Une garantie trop large.** La page disait que `kernel.finish_request` a lieu
+sur « les trois » chemins, « la seule garantie de ce type dans tout le cycle » ;
+la carte `FLC-5rm5a89fpm9v` aussi. Lu dans `HttpKernel::handle()` (8.0),
+l. 78 : `if ($e instanceof \Error && !$this->handleAllThrowables) throw $e;`,
+avant `finishRequest()`. Exécuté avec un `HttpKernel` nu et un contrôleur qui
+lève :
+
+| Levée | `handleAllThrowables` | `$catch` | Événements |
+|---|---|---|---|
+| `RuntimeException` | faux | vrai | `request`, `exception`, `finish_request` |
+| `RuntimeException` | faux | faux | `request`, `finish_request` |
+| `TypeError` | faux | vrai ou faux | `request` seulement |
+| `TypeError` | vrai | vrai | `request`, `exception`, `finish_request` |
+| `TypeError` | vrai | faux | `request`, `finish_request` |
+
+`framework.handle_all_throwables` vaut `true` par défaut (`Configuration.php`
+de FrameworkBundle 8.0) : dans une application complète la garantie tient ;
+le constructeur d'`HttpKernel`, lui, met `handleAllThrowables` à `false`.
+Corrigé sur la page — paragraphe, astuce et piège — et dans la carte, au-delà
+de son niveau. Pour tenir le plafond, la phrase de renvoi vers la page
+suivante est retirée.
+
+**Questions.** Aucune question non holdout ne porte sur l'`\Error`.
+
+**Aiguilles de smoke test.** `handle_all_throwables` et `à une condition`,
+absentes de la version `master` de la page et des fichiers de cartes.
 
 **Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
 0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
