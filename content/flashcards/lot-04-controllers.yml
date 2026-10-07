@@ -400,11 +400,13 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `configureContainer()` peut-elle être `private` dans votre `Kernel` ?"
-    back: "Parce que `MicroKernelTrait` l'appelle **par réflexion**, ce qui contourne la visibilité."
+    back: "Parce que le code de `MicroKernelTrait` est copié dans votre `Kernel`, qui appelle ses propres méthodes privées. La réflexion n'y est pour rien."
     explanation: >-
-      Une méthode privée ne serait pas appelable normalement depuis le trait.
-      `ReflectionMethod::getClosure()` y accède, d'où le squelette Symfony qui
-      les déclare `private`.
+      Exécuté : un trait appelle sans réflexion une méthode privée de la classe
+      qui l'utilise. `MicroKernelTrait` passe par `ReflectionMethod` pour une
+      autre raison : lire le type du premier paramètre de
+      `configureContainer()` — `ContainerBuilder` reçoit le conteneur et le
+      chargeur, tout autre cas un `ContainerConfigurator`.
     memorization_justification: >-
       Explique une bizarrerie visible dans tout projet Symfony et qu'on prend
       pour une règle de PHP mal comprise.
@@ -415,7 +417,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "ReflectionMethod, configureContainer, configureRoutes"
-        verified_at: "2026-09-22"
+        verified_at: "2026-10-07"
 
   - id: FLC-e5g4j3jgmjrd
     official_item: OIT-qr7gnht5s847
