@@ -536,8 +536,8 @@ passe (PR #349, `be5abbf`), run Pages 37686033051, success — `ok  second-pass
 lot-03 psrs: the container implementation is declared at 1.1 and 2.0`.
 
 **Un dénombrement faux.** La page attribuait à `KernelInterface` « seize
-méthodes » en plus de `handle()` hérité. Compté par réflexion sur HttpKernel
-8.0 : **dix-sept** méthodes propres.
+méthodes » en plus de `handle()` hérité. Compté dans `KernelInterface.php`
+(HttpKernel 8.0) : **dix-sept** déclarations `public function`.
 
 **Une cause fausse.** La page expliquait que `configureContainer()` et
 `configureRoutes()` peuvent être `private` « parce que » `MicroKernelTrait` les
