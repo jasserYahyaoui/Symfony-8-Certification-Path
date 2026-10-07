@@ -166,12 +166,14 @@ flashcards:
     front: "kernel.exception : comment le code de statut de la réponse est-il choisi ?"
     back: "1) réponse 4xx, 5xx ou 3xx → son code ; 2) sinon exception HttpExceptionInterface → getStatusCode() ; 3) sinon 500."
     explanation: >-
-      Une réponse construite avec un statut 200 ou 204 ne passe aucune des deux
-      premières règles : elle sortira en 500, à moins d'appeler
-      allowCustomResponseCode() avant de la définir.
+      Une réponse construite avec un statut 200 ou 204 ne passe pas la première
+      règle : elle prend le statut de l'exception si celle-ci implémente
+      HttpExceptionInterface (404 pour une NotFoundHttpException, exécuté), et
+      500 sinon — à moins d'appeler allowCustomResponseCode() avant de la
+      définir.
     memorization_justification: >-
       Règle en cascade à trois branches dont l'ordre change la réponse, et dont
-      la conclusion — « mon 204 devient 500 » — contredit frontalement
+      la conclusion — « mon 204 devient 404, ou 500 » — contredit frontalement
       l'intuition.
     verification_status: VERIFIED
     official_sources:
@@ -179,7 +181,7 @@ flashcards:
         readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
         branch: "8.0"
         symbol_or_lines: "section kernel.exception, status code logic"
-        verified_at: "2026-09-01"
+        verified_at: "2026-10-07"
 
   - id: FLC-00w816qz6wh8
     official_item: OIT-c9pjp03cv4bq

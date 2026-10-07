@@ -240,6 +240,7 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 | 4 | Components and Bridges | **corrigée** — voir ci-dessous |
 | 5 | Code organization | relue, exacte |
 | 6 | Request handling | **corrigée** — voir ci-dessous |
+| 7 | Exception handling | **corrigée** — voir ci-dessous |
 
 **Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
 HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
@@ -324,6 +325,42 @@ suivante est retirée.
 
 **Aiguilles de smoke test.** `handle_all_throwables` et `à une condition`,
 absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 7 — *Exception handling*
+
+`CRS-kd67y4vnd0mm` · STANDARD · **882 → 898 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 6 du lot 03 en seconde passe
+(PR #345, `7f74f2b`), run Pages 37677869273, success — `ok  second-pass
+lot-03 request handling: an Error skips finish_request unless all throwables
+are handled`.
+
+**Une conclusion qui omettait une branche.** La page disait qu'une réponse
+`200` ou `204` fournie dans `kernel.exception` « ressort en `500` » ; la carte
+`FLC-79nmwswd5a50` aussi. La cascade de `HttpKernel::handleThrowable()` (8.0)
+a trois branches : statut de la réponse s'il est 3xx, 4xx ou 5xx, sinon
+`getStatusCode()` de l'exception si elle implémente `HttpExceptionInterface`,
+sinon `500`. Exécuté avec un `HttpKernel` nu et un écouteur qui pose
+`new Response('', 204)` : `404` après une `NotFoundHttpException`, `500` après
+une `InvalidArgumentException`. Corrigé sur la page et dans la carte : le `500`
+n'est que le dernier cas. Pour tenir le plafond, « construite dans
+`kernel.exception` » est retiré.
+
+**Questions.** `QST-0rxv1000z941` (LEARNING) posait la même situation sans
+nommer l'exception ; sa réponse `500` dépendait d'une hypothèse non écrite.
+Passée en version 2 : l'énoncé nomme une `InvalidArgumentException`, la réponse
+reste `500`, l'explication cite le cas `404`.
+
+**Aiguilles de smoke test.** `prend le statut` et `dans le seul cas`, absentes
+de la version `master` de la page et des fichiers de cartes.
 
 **Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
 0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`

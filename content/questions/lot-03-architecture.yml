@@ -638,7 +638,7 @@ questions:
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
     - OUT-dbm0023ax4bv
-  version: 1
+  version: 2
   official_topic: Symfony Architecture
   official_item: OIT-xc4zfr70jjas
   domain: symfony
@@ -649,8 +649,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A kernel.exception listener calls `$event->setResponse(new Response('No content', 204))` and nothing
-    else. What status code does the client receive?
+  question: A controller throws an InvalidArgumentException. A kernel.exception listener calls `$event->setResponse(new
+    Response('No content', 204))` and nothing else. What status code does the client receive?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -660,7 +660,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-07'
   tags:
   - exception
   - status
@@ -682,7 +682,8 @@ questions:
     explanation: 400 would require the original exception to carry that status.
   explanation: The kernel keeps the response's own code only when it is 4xx, 5xx or 3xx. A 204 falls through to
     the next rules, and with no HttpExceptionInterface on the exception the fallback is 500. allowCustomResponseCode()
-    must be called first to impose it.
+    must be called first to impose it. Version 1 did not name the exception; executed on HttpKernel 8.0, the same
+    listener after a NotFoundHttpException gives 404, not 500.
   official_sources: &id003
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst
