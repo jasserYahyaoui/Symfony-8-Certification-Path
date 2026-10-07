@@ -37,7 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
-| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 : pages 4, 6, 7 et 8 corrigées (PR #344 à #347), page 9 en PR | `docs/progress/second-pass-refinement.md` |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 relu, 5 corrections préparées | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -52,11 +52,11 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
 **Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07 — fusionner la PR de la page 9 du lot 03 après CI
-verte, lire son smoke test, puis la correction préparée de la page 14 (*PSR*),
-le bilan du lot 03, puis le lot 04 (corrections préparées : page 1 dix-sept
-méthodes et `private` sans réflexion, page 3 `json()` sans Serializer, page 7
-`has()` sans cookie).
+propriétaire le 2026-10-07 — fusionner la PR de la page 14 du lot 03 après CI
+verte, lire son smoke test, puis les cinq corrections préparées du lot 04, une PR
+chacune : page 1 (dix-sept méthodes, `private` sans réflexion), 3 (`json()` sans
+Serializer), 7 (`has()` sans cookie), 11 (cinq exceptions en 400), 13 (URL
+complète sans chaîne de requête) ; puis le lot 05.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

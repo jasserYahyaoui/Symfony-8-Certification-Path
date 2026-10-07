@@ -1440,7 +1440,7 @@ flashcards:
       C'est précisément le rôle de `provide` : permettre à une dépendance
       exprimée en termes d'interface — et non de paquet — d'être résolue par ce
       dépôt. La même clé couvre `psr/cache-implementation`,
-      `psr/container-implementation` et onze autres.
+      `psr/container-implementation` et douze autres, quinze entrées en tout.
     memorization_justification: >-
       Transpose la clé en situation réelle de résolution de dépendances, qui est
       la forme sous laquelle la notion est utile et testée.
@@ -1451,7 +1451,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "clé provide"
-        verified_at: "2026-09-18"
+        verified_at: "2026-10-07"
 
   - id: FLC-0pfe56mwrbrp
     official_item: OIT-d416348gfhde
