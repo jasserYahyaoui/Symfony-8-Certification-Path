@@ -5,7 +5,7 @@ title: "Components and Bridges"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
@@ -27,6 +27,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-18"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/PsrHttpMessage/composer.json"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PsrHttpMessage/composer.json"
+    branch: "8.0"
+    symbol_or_lines: "clés name, type et require"
+    verified_at: "2026-10-07"
 ---
 
 ## Objectif
@@ -59,8 +64,12 @@ sans les composants il n'a rien à exposer.
 
 Sur la branche 8.0, **trois** bridges sont publiés comme paquets séparés et
 listés dans la clé `replace` du mono-dépôt : `symfony/doctrine-bridge`,
-`symfony/monolog-bridge` et `symfony/twig-bridge`. Un quatrième répertoire
-existe, `PhpUnit`, et il est **absent** de `replace` — voir ci-dessous.
+`symfony/monolog-bridge` et `symfony/twig-bridge`. Le répertoire
+`src/Symfony/Bridge/` en compte pourtant **cinq** : deux autres, `PhpUnit` et
+`PsrHttpMessage`, sont **absents** de `replace` et publiés à part.
+`symfony/psr-http-message-bridge` relie HttpFoundation et PSR-7 — il exige
+`psr/http-message` et `symfony/http-foundation`, conforme à la définition ;
+`PhpUnit`, lui, la dément — voir ci-dessous.
 
 ## Le bundle
 
@@ -135,8 +144,9 @@ bundle.
 **`replace` ≠ `require`.** Le mono-dépôt déclare remplacer 65 paquets ; il ne
 les installe pas en plus.
 
-**Le bridge PHPUnit est l'exception à connaître** : aucun côté tiers, aucune
-entrée dans `replace`, une contrainte PHP plus basse que le reste du framework.
+**Le bridge PHPUnit est l'exception à connaître** : aucun côté tiers et une
+contrainte PHP plus basse que le reste du framework. L'absence de `replace`, il
+la partage avec `PsrHttpMessage`.
 
 ## Pièges d'examen
 
@@ -155,8 +165,9 @@ en plus.
 ## Points clés
 
 - Composant = bibliothèque autonome, dépôt propre, utilisable hors framework.
-- Bridge = intégration composant ↔ bibliothèque tierce ; trois sont publiés
-  comme paquets et listés dans `replace`, et `PhpUnit` en est l'exception.
+- Bridge = intégration composant ↔ bibliothèque tierce ; cinq répertoires,
+  dont trois listés dans `replace` ; `PhpUnit` et `PsrHttpMessage` n'y sont
+  pas, et `PhpUnit` dément la définition.
 - Bundle = intégration dans le framework ; c'est lui qui configure.
 - `replace` dans le `composer.json` du mono-dépôt liste les paquets remplacés.
 
@@ -165,3 +176,4 @@ en plus.
 - [composer.json de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/composer.json)
 - [composer.json du bridge Twig](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json)
 - [composer.json du bridge PHPUnit](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PhpUnit/composer.json)
+- [composer.json du bridge PsrHttpMessage](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/PsrHttpMessage/composer.json)

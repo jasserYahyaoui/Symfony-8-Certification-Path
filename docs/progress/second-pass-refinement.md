@@ -229,3 +229,62 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 
 10 pages relues : **3 corrigées** (2 *Status codes*, 4 *HTTP response*, 9
 *Language detection*), 1 carte corrigée (`FLC-8jmvzzwwb0q4`), 7 inchangées.
+
+## Lot 03
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | HttpFoundation component | relue, exacte |
+| 2 | Symfony Flex | relue, exacte |
+| 3 | License | relue, exacte |
+| 4 | Components and Bridges | **corrigée** — voir ci-dessous |
+| 5 | Code organization | relue, exacte |
+
+**Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
+HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
+polyfill et non un composant ; `RequestStack` exécuté — trois accesseurs à
+`null` sur une pile vide, `getParentRequest()` à `null` avec une seule requête,
+`getSession()` qui lève `SessionNotFoundException`, docblocks de `push()`,
+`pop()` et l'avertissement ESI. Page 2 : confrontée à `setup.rst` et
+`quick_tour/flex_recipes.rst` (plugin Composer, `symfony.lock` à committer, les
+deux dépôts de recettes, les trois ajouts de la recette Twig, `debug-pack`,
+`api-pack` et ses cinq recettes). Page 3 : `LICENSE` et la clé `license` de
+`composer.json` sur la branche 8.0. Page 5 : `Kernel` et `MicroKernelTrait`
+(8.0) lus — défauts des quatre accesseurs, `kernel.share_dir` conditionnel,
+`getEnvDir()` qui ajoute l'environnement, `APP_LOG_DIR` pris tel quel — et
+`configuration/override_dir_structure.rst` pour les clés `extra`, `config` et
+de bundle.
+
+### Page 4 — *Components and Bridges*
+
+`CRS-1bxqx6ks853z` · STANDARD · **836 → 881 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 9 du lot 02 en seconde passe
+(PR #343, `5ffb2e9`), run Pages 37674195484, success — `ok  second-pass
+lot-02 language detection: a refused q=0 language can still be chosen`.
+
+**Un dénombrement faux.** La page disait que trois bridges sont listés dans
+`replace` et qu'« un quatrième répertoire existe, `PhpUnit` ». Listé par un
+clone sans blobs de la branche 8.0 (`6f841c0`) : `src/Symfony/Bridge/` compte
+**cinq** répertoires — `Doctrine`, `Monolog`, `PhpUnit`, `PsrHttpMessage`,
+`Twig`. `symfony/psr-http-message-bridge` (type `symfony-bridge`, exige
+`psr/http-message` et `symfony/http-foundation`) est, comme `PhpUnit`, absent
+de `replace`. Corrigé : cinq répertoires, deux hors `replace`, `PhpUnit` seul à
+démentir la définition. Les cartes `FLC-tysgghm0xyx0` (« un quatrième
+répertoire ») et `FLC-ttytsw9z60pf` (« trois des quatre répertoires ») sont
+corrigées au-delà de leur niveau. Le reste est confirmé : `replace` à 65
+paquets, dont cinq bundles ; `provide` limité aux `*-implementation` ; les
+`require` des bridges Twig et PHPUnit.
+
+**Questions.** Aucune question non holdout ne compte les bridges.
+
+**Aiguilles de smoke test.** `PsrHttpMessage` et `en compte pourtant`, absentes
+de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
