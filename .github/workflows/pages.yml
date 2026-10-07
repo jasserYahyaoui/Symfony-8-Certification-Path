@@ -4474,6 +4474,24 @@ jobs:
           else
             echo "ok  second-pass  lot-03 request handling: an Error skips finish_request unless all throwables are handled"
           fi
+          # Second pass, lot 03 (Exception handling): a 200 response takes the HTTP exception status, 500 only otherwise.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp03eh -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/exception-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-03/exception-handling serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'prend le statut' /tmp/sp-sp03eh \
+            || missing="$missing sp03eh:no-exception-status"
+          grep -aqF -- 'dans le seul cas' /tmp/sp-sp03eh \
+            || missing="$missing sp03eh:no-500-only-when"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-03/exception-handling:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-03 exception handling: a 200 response takes the exception status, 500 only otherwise"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

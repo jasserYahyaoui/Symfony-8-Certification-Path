@@ -5,7 +5,7 @@ title: "Exception handling"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
@@ -122,8 +122,9 @@ sans un seul écouteur écrit à la main.
 
 **Le statut de la réponse fournie par un écouteur n'est pas toujours conservé.**
 Il ne l'est que si elle est 4xx, 5xx ou une redirection. Une réponse `200` ou
-`204` construite dans `kernel.exception` ressort en `500`, sauf appel préalable
-à `allowCustomResponseCode()`.
+`204` prend le statut **de l'exception** — exécuté : `404` pour une
+`NotFoundHttpException` — et `500` dans le seul cas où l'exception n'implémente
+pas `HttpExceptionInterface`. Sauf `allowCustomResponseCode()` préalable.
 
 **`\RuntimeException` n'est pas le contre-exemple qu'on croit.**
 `HttpException extends \RuntimeException implements HttpExceptionInterface` :
