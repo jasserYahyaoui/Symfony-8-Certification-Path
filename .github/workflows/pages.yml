@@ -933,7 +933,8 @@ jobs:
           # master's version of this page, so they would pass against the old
           # bytes. The four kept needles are new sections of this refinement:
           # the three-interface table, the reflection call in MicroKernelTrait,
-          # and the sixteen methods of KernelInterface.
+          # and the seventeen methods of KernelInterface (corrected from sixteen
+          # by the second pass, PR #350: the interface declares seventeen).
           code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
             -o /tmp/l4r-httpkernel -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/httpkernel-component-and-frameworkbundle")
           if [ "$code" != "200" ]; then
@@ -945,7 +946,7 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-understanding-heading"
           grep -aq '>Application<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-application-heading"
           grep -aq '>Pièges<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-trap-heading"
-          grep -aq 'seize méthodes' /tmp/l4r-httpkernel \
+          grep -aq 'dix-sept méthodes' /tmp/l4r-httpkernel \
             || missing="$missing httpkernel:no-interface-table"
           grep -aq 'locateResource' /tmp/l4r-httpkernel \
             || missing="$missing httpkernel:no-kernelinterface-methods"
@@ -4559,6 +4560,24 @@ jobs:
             fail=1
           else
             echo "ok  second-pass  lot-04 httpkernel component: seventeen methods, and private visibility owes nothing to reflection"
+          fi
+          # Second pass, lot 04 (AbstractController): json() raises nothing without the Serializer.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp04ac -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/the-base-abstractcontroller-class")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-04/the-base-abstractcontroller-class serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'il se rabat sur' /tmp/sp-sp04ac \
+            || missing="$missing sp04ac:no-json-fallback"
+          grep -aqF -- 'du localisateur' /tmp/sp-sp04ac \
+            || missing="$missing sp04ac:no-locator-exception"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-04/the-base-abstractcontroller-class:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-04 abstractcontroller: json() falls back to JsonResponse without the Serializer"
           fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected

@@ -5,7 +5,7 @@ title: "The base AbstractController class"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -120,8 +120,10 @@ déclarés, tous facultatifs, et rien d'autre n'est accessible.
 
 **Le préfixe `?` est la clé de lecture de la liste.** Il ne dit pas « peut-être
 présent dans le conteneur » au hasard : il dit que la classe fonctionne sans, et
-que le raccourci concerné lèvera une exception explicite si on l'appelle quand
-même.
+que le raccourci concerné lèvera une exception si on l'appelle quand même —
+sauf `json()` : sans Serializer, il se rabat sur `JsonResponse` et
+`json_encode()`, exécuté. Sans routeur, `generateUrl()` lève une
+`ServiceNotFoundException` du localisateur, pas une `LogicException`.
 
 **Pour situer un raccourci** : s'il produit une réponse, il est dans le lot 04 ;
 s'il touche à la sécurité, il en délègue tout à l'un des trois services de

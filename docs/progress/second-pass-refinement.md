@@ -502,6 +502,7 @@ handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
 |---|---|---|
 | 1 | HttpKernel component and FrameworkBundle | **corrigée** — voir ci-dessous |
 | 2 | Naming conventions | relue, exacte |
+| 3 | The base AbstractController class | **précisée** — voir ci-dessous |
 | 4 | The request | relue, exacte |
 | 5 | The response | relue, exacte |
 | 6 | The cookies | relue, exacte |
@@ -568,3 +569,60 @@ exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
 `prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
 OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
 et `docs/` identique avant / après les preuves.
+
+### Incident — le smoke test de la PR #350 a échoué
+
+**Déploiement de la page 1, lu en production** : PR #350 (`d8aab13`), run Pages
+37687772282 — build et déploiement `success`, **Production smoke test
+`failure`**. Le contrôle de seconde passe est passé (`ok  second-pass  lot-04
+httpkernel component: seventeen methods, and private visibility owes nothing to
+reflection`) ; c'est un contrôle **plus ancien**, posé au raffinement du lot 04,
+qui a échoué : `Lot 04 refinement missing from the HttpKernel page:
+httpkernel:no-interface-table`. Il cherchait la chaîne `seize méthodes` — le
+texte faux que la page 1 venait de corriger.
+
+**Correction.** L'aiguille devient `dix-sept méthodes` : le contrôle garde la
+même force — la présence du tableau des interfaces, avec la bonne valeur — et
+son commentaire dit pourquoi il a changé. Aucune autre aiguille n'est touchée.
+
+**Cause et parade.** Mes vérifications d'aiguilles portaient sur les
+**nouvelles** aiguilles (absentes de `master`), jamais sur les **anciennes** qu'un
+remplacement peut faire disparaître. Un contrôle s'ajoute avant chaque PR : toute
+aiguille de `pages.yml` présente dans la version `master` d'un fichier de
+`content/` modifié doit l'être encore dans la version corrigée. Rejoué sur l'état
+d'avant #350, il signale `seize méthodes` : il aurait arrêté l'erreur. Les six
+corrections déjà préparées ne cassent aucune aiguille.
+
+### Page 3 — *The base AbstractController class*
+
+`CRS-h8s87edcx8ae` · STANDARD · **753 → 777 mots** sur 900.
+
+**Une généralisation trop large.** L'astuce disait que le préfixe `?` signifie
+que « le raccourci concerné lèvera une exception explicite si on l'appelle
+quand même ». Exécuté avec un `AbstractController` dont le conteneur est un
+`ServiceLocator` vide : `json()` ne lève rien et rend une `JsonResponse` `200`
+`{"a":1}` — sans Serializer, il se rabat sur `json_encode()` (lu, l. 150 à 165) ;
+`generateUrl()` lève une `ServiceNotFoundException` du localisateur, pas la
+`LogicException` qui nomme un paquet. Précisé dans l'astuce. Le paragraphe sur
+Twig et Security, lui, était exact et reste inchangé, comme la carte
+`FLC-9m8aqbqef34y`, bornée à ces deux cas.
+
+**Le reste, confirmé par réflexion sur FrameworkBundle 8.0.15** : 24 méthodes
+`protected`, 2 `public`, 2 `private` ; 11 services souscrits, tous préfixés de
+`?` ; `setContainer()` retourne `?ContainerInterface` et porte `#[Required]` ;
+`addLink()` et `sendEarlyHints()` conformes au code.
+
+**Questions.** Aucune question non holdout ne porte sur `json()` sans
+Serializer.
+
+**Aiguilles de smoke test.** `il se rabat sur` et `du localisateur`, absentes de
+la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent, relancé après
+la correction de l'aiguille ; `composer gate-full` exit 0 — 299 tests,
+17 641 assertions, TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
+`prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
+`lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
+avant / après les preuves ; contrôle d'aiguilles anciennes : aucune régression.
