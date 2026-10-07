@@ -5,7 +5,7 @@ title: "Event dispatcher and kernel events"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -141,7 +141,9 @@ ResponseEvent::class => self::RESPONSE,
 
 C'est ce que lit `RegisterListenersPass`, et c'est ce qui permet d'écrire
 `#[AsEventListener]` **sans** paramètre `event` : le nom est déduit du type de
-l'argument de la méthode. Retirer le type rend l'attribut inopérant.
+l'argument de la méthode. Retirer le type **fait échouer la compilation du
+conteneur** — exécuté : `InvalidArgumentException`, *must define the "event"
+attribute*. Un type union, lui, abonne l'écouteur à chacun des événements.
 
 ## Le reste de l'API
 

@@ -2849,9 +2849,11 @@ flashcards:
     front: "Pourquoi `#[AsEventListener]` peut-il se passer du paramètre `event` ?"
     back: "Parce que `RegisterListenersPass` déduit le nom du **type** de l'argument, via `KernelEvents::ALIASES`."
     explanation: >-
-      Retirer le type de l'argument rend donc l'attribut inopérant. Les autres
-      paramètres — `method`, `priority`, `dispatcher` — restent facultatifs eux
-      aussi.
+      Retirer le type de l'argument fait donc échouer la compilation du
+      conteneur : exécuté, `InvalidArgumentException` « must define the "event"
+      attribute ». Un type union abonne l'écouteur à chaque événement. Les
+      autres paramètres — `method`, `priority`, `dispatcher` — restent
+      facultatifs eux aussi.
     memorization_justification: >-
       Relie une commodité d'écriture à son mécanisme, et dit du même coup ce qui
       la casse.
@@ -2862,7 +2864,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "ALIASES"
-        verified_at: "2026-09-21"
+        verified_at: "2026-10-07"
 
   - id: FLC-cc8avw6cmxss
     official_item: OIT-rd9b27fkb72r

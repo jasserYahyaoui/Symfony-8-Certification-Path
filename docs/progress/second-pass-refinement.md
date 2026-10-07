@@ -241,6 +241,7 @@ un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
 | 5 | Code organization | relue, exacte |
 | 6 | Request handling | **corrigée** — voir ci-dessous |
 | 7 | Exception handling | **corrigée** — voir ci-dessous |
+| 8 | Event dispatcher and kernel events | **corrigée** — voir ci-dessous |
 
 **Pages 1, 2, 3 et 5, relues sans défaut.** Page 1 : `composer.json` de
 HttpFoundation 8.0 n'exige que `php` et `symfony/polyfill-mbstring`, un
@@ -361,6 +362,42 @@ reste `500`, l'explication cite le cas `404`.
 
 **Aiguilles de smoke test.** `prend le statut` et `dans le seul cas`, absentes
 de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 8 — *Event dispatcher and kernel events*
+
+`CRS-2hpcy2rscq7m` · DEEP · **1038 → 1060 mots** sur 1200.
+
+**Déploiement précédent, lu en production** : page 7 du lot 03 en seconde passe
+(PR #346, `ca3d1e2`), run Pages 37679923798, success — `ok  second-pass
+lot-03 exception handling: a 200 response takes the exception status, 500 only
+otherwise`.
+
+**Une conséquence fausse.** La page disait que retirer le type de l'argument
+« rend l'attribut inopérant » pour un `#[AsEventListener]` sans `event` ; la
+carte `FLC-ns8r1qzptegb` aussi. Lu dans `RegisterListenersPass` (8.0), l. 188 à
+190, et exécuté : un `ContainerBuilder` avec l'autoconfiguration de
+`AsEventListener` et la passe, compilé —
+
+| Argument de la méthode | Résultat de `compile()` |
+|---|---|
+| non typé | `InvalidArgumentException` : *Service "l" must define the "event" attribute on "kernel.event_listener" tags.* |
+| `EvA\|EvB` | écouteur abonné à `EvA` et à `EvB` |
+
+L'attribut n'est pas ignoré : la compilation échoue. Corrigé sur la page et dans
+la carte, avec le cas du type union.
+
+**Questions.** Aucune question non holdout ne porte sur l'argument non typé.
+
+**Aiguilles de smoke test.** `fait échouer la compilation` et `Un type union`,
+absentes de la version `master` de la page et des fichiers de cartes.
 
 **Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
 0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
