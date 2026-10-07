@@ -116,7 +116,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Symfony Architecture : Request handling** (DEEP) — 34 min · 1194 mots · 5 questions, 20 flashcards
 - NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 27 min · 898 mots · 4 questions, 16 flashcards
-- NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 33 min · 1038 mots · 6 questions, 19 flashcards
+- NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 33 min · 1060 mots · 6 questions, 19 flashcards
 - Révision **J+1** (22 min) — Symfony Architecture : Symfony Flex · Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 - Révision **J+3** (16 min) — HTTP : HTTP response · HTTP : HTTP methods · HTTP : Cookies · HTTP : Caching
 - Révision **J+7** (16 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
