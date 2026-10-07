@@ -23,6 +23,8 @@ budget `REV-001` reste un plafond.
 | 1 | HTTP Specification (RFC 9110) | relue, exacte — résumé, en-tête *Obsoletes* / *Updates*, Table 1 et §3.1 confrontés à `rfc9110.html` |
 | 2 | Status codes | **corrigée** — voir ci-dessous |
 | 3 | HTTP request | relue, exacte — voir ci-dessous |
+| 4 | HTTP response | **corrigée** — voir ci-dessous |
+| 5 | HTTP methods | relue, exacte — voir ci-dessous |
 
 ### Page 2 — *Status codes*
 
@@ -82,3 +84,56 @@ vers `GET`, `HEAD`, `CONNECT`, `TRACE` et hors de la liste de
 abaissée ; `setTrustedHosts(['example.com'])` accepte
 `example.com.attaquant.test` et `exampleXcom` ; un hôte invalide lève même sans
 liste. Page inchangée.
+
+### Page 4 — *HTTP response*
+
+`CRS-hdsq2qdz7qdv` · STANDARD · **823 → 856 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 2 de la seconde passe
+(PR #341, `9229a32`), run Pages 37669985069, success — `ok  second-pass
+lot-02 status codes: a POST may become a GET after 301/302, not guaranteed`.
+
+**Une affirmation fausse.** La page disait, des en-têtes déjà partis, que
+`sendHeaders()` « réémet seulement la ligne de statut […] Aucune exception, aucun
+avertissement » ; la carte `FLC-8jmvzzwwb0q4` répondait « Aucune » erreur. Lu
+dans `Response::sendHeaders()` (8.0) : hors `cli`, `phpdbg` et `embed`, la
+méthode appelle `header()` alors que `headers_sent()` est vrai. Exécuté sous
+`php -S`, `output_buffering=0`, un `echo` avant `send()` d'une réponse 404 :
+`E_WARNING` *Cannot modify header information - headers already sent*, levé
+depuis `Response.php` l. 322, et la réponse arrive au client en **200**. Avec
+le tampon de sortie par défaut du serveur intégré, les en-têtes n'étaient pas
+encore partis et le 404 passait : l'exécution sans tampon est celle qui
+reproduit le cas décrit. Page et carte corrigées — la carte au-delà de son
+niveau.
+
+Confirmé par exécution sur HttpFoundation 8.0.15 : une `Response` neuve en
+`1.0`, promue `1.1` par `prepare()` qui pose le `Content-Type` et vide le corps
+d'un `HEAD` et d'un `204` ; `isRedirect()` et `isRedirection()` sur neuf
+statuts ; `RedirectResponse` à `302` par défaut, `201` accepté, `304` refusé
+par une `InvalidArgumentException` ; `DEFAULT_ENCODING_OPTIONS` = `15`, les
+quatre `JSON_HEX_*` ; `fromJsonString()` sans réencodage ; `isOk()` faux sur
+`201`. Lu dans `HttpKernelRunner::run()` (8.0) : `send(false)`, puis
+`fastcgi_finish_request()` hors debug, puis `terminate()`.
+
+**Questions.** Aucune question non holdout ne porte sur ce point.
+
+**Aiguilles de smoke test.** `Cannot modify header` et `un statut perdu`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 5 — *HTTP methods*
+
+Relue sans défaut. Exécuté sur HttpFoundation 8.0.15 : `isMethodSafe()`,
+`isMethodIdempotent()` et `isMethodCacheable()` sur onze méthodes, conformes au
+tableau de la page (`PURGE` idempotente, `QUERY` sûre, idempotente et
+cacheable, `CONNECT` aucune des trois) ; `isNotModified()` s'ouvre bien sur
+`isMethodCacheable()`. Confirmé dans `rfc9110.html` : §9.2.2 (PUT, DELETE et
+les méthodes sûres idempotentes), §9.2.3 (GET, HEAD et POST), §9.1 (casse).
+Page inchangée.
