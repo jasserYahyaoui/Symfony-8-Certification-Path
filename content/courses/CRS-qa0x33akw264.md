@@ -5,7 +5,7 @@ title: "Language detection"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -110,6 +110,12 @@ visiteur fixe la langue servie à tous les suivants par le cache partagé.
 **`getPreferredLanguage()` sans argument ne négocie rien.** Elle renvoie la
 première langue demandée par le client, que l'application sache la servir ou
 non. Passer la liste des locales supportées est ce qui rend l'appel utile.
+
+**`q=0` n'est pas filtré par Symfony.** La RFC en fait un refus, mais
+`getLanguages()` garde la langue refusée, en fin de liste, et
+`getPreferredLanguage()` peut la choisir. Exécuté : avec
+`Accept-Language: fr;q=0,en`, `getPreferredLanguage(['de', 'fr'])` rend
+**`fr`**, la langue que le client refuse.
 
 **`Accept-Language` est une préférence, pas une instruction.** Un serveur peut
 légitimement répondre dans une autre langue ; il l'indique alors par

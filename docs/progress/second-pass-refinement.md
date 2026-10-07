@@ -25,6 +25,11 @@ budget `REV-001` reste un plafond.
 | 3 | HTTP request | relue, exacte — voir ci-dessous |
 | 4 | HTTP response | **corrigée** — voir ci-dessous |
 | 5 | HTTP methods | relue, exacte — voir ci-dessous |
+| 6 | Cookies | relue, exacte — voir ci-dessous |
+| 7 | Caching | relue, exacte — voir ci-dessous |
+| 8 | Content negotiation | relue, exacte — voir ci-dessous |
+| 9 | Language detection | **précisée** — voir ci-dessous |
+| 10 | Symfony HttpClient component | relue, exacte — voir ci-dessous |
 
 ### Page 2 — *Status codes*
 
@@ -137,3 +142,90 @@ cacheable, `CONNECT` aucune des trois) ; `isNotModified()` s'ouvre bien sur
 `isMethodCacheable()`. Confirmé dans `rfc9110.html` : §9.2.2 (PUT, DELETE et
 les méthodes sûres idempotentes), §9.2.3 (GET, HEAD et POST), §9.1 (casse).
 Page inchangée.
+
+### Page 6 — *Cookies*
+
+Relue sans défaut. Exécuté sur HttpFoundation 8.0.15 : les défauts de
+`Cookie::create()` (`path` `/`, `httpOnly`, `samesite=lax`, `secure` faux,
+expiration `0`, non partitionné) ; `fromString()` sans `secure`, `httponly` ni
+`samesite` ; `partitioned` sérialisé après `samesite` ; l'immuabilité ;
+`secure` posé par `prepare()` sur une requête HTTPS, pas en HTTP ;
+`clearCookie()` reprend `path` et `domain` ; `removeCookie()` retire de la
+réponse ; `__Host-session` sans `Secure` émis sans plainte. Confirmé dans
+`draft-ietf-httpbis-rfc6265bis.md` : le cookie `SameSite=None` sans `Secure`
+ignoré (étape 19), les préfixes reconnus sans la casse par l'agent. Page
+inchangée. Observation, sans défaut de la page : `Cookie::create('theme')` sans
+valeur se sérialise en cookie d'effacement (`theme=deleted`, expiration
+passée) ; la page, à 900 mots sur 900, ne l'ajoute pas.
+
+### Page 7 — *Caching*
+
+Relue sans défaut. Exécuté : `no-cache, private` par défaut ; `private,
+must-revalidate` avec `Last-Modified` ou `Expires` ; `setMaxAge()` seul →
+`max-age=3600, private` ; `setSharedMaxAge()` rend public ; ETag faible ;
+`isNotModified()` rend `true` et un 304 vide quand la réponse n'a pas d'ETag
+malgré un `If-None-Match`, et `false` sur un `POST` à ETag correspondant. La
+note de `http_cache/expiration.rst` (8.0) sur `stale-if-error` est confirmée.
+Page inchangée.
+
+### Page 8 — *Content negotiation*
+
+Relue sans défaut. Exécuté : l'exemple de `getAcceptableContentTypes()` ; le tri
+par qualité puis ordre d'écriture, `q=0` conservé ; `getPreferredFormat()` rend
+`xml` quand `_format` ou `setRequestFormat()` vaut `xml` malgré
+`Accept: application/json`. Confirmé dans `rfc9110.html` : `q` insensible à la
+casse, trois décimales, `0.001`, `Accept-Charset` déprécié, l'avertissement de
+§12.5.4, `Vary: *` interdit à un proxy. Page inchangée.
+
+### Page 9 — *Language detection*
+
+`CRS-qa0x33akw264` · MINIMAL · **605 → 647 mots** sur 700.
+
+**Déploiement précédent, lu en production** : page 4 de la seconde passe
+(PR #342, `96618ff`), run Pages 37672004479, success — `ok  second-pass
+lot-02 http response: headers already sent raise a warning and lose the
+status`.
+
+**Une lacune.** La page enseignait que `q=0` signifie « refusé » sans dire que
+Symfony ne l'applique pas. Exécuté sur HttpFoundation 8.0.15 :
+`Accept-Language: fr;q=0,en` donne `getLanguages()` = `['en', 'fr']`, et
+`getPreferredLanguage(['de', 'fr'])` rend **`fr`** — la langue refusée,
+préférée à la valeur par défaut `de`. Lu dans `Request::getPreferredLanguage()`
+(8.0) : les combinaisons de toutes les langues de `getLanguages()` sont
+essayées, sans regarder la qualité. Ajouté en piège. La page sur la négociation
+de contenu le disait déjà pour `getAcceptableContentTypes()`.
+
+Le reste est confirmé : la liste normalisée de l'exemple, `zh_Hans`,
+`fr_Latn_FR`, `en_US`, une valeur hors grammaire rendue en minuscules, le
+dédoublonnage, `fr_CA` choisi pour `fr` quand il vient en premier, le premier
+locale fourni à défaut de correspondance, la première langue du client sans
+argument.
+
+**Questions et cartes.** Aucune ne prétend que Symfony filtre `q=0`.
+
+**Aiguilles de smoke test.** `pas filtré par Symfony` et `la langue que le
+client refuse`, absentes de la version `master`.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 10 — *Symfony HttpClient component*
+
+Relue sans défaut. Exécuté sur HttpClient 8.0.16 avec `MockHttpClient` :
+`max_duration` `0`, `max_redirects` `20` ; la hiérarchie des interfaces
+d'exception et la seule `getResponse()` des exceptions HTTP ; `getStatusCode()`
+rend 404 sans lever, `getContent()` lève une `ClientExceptionInterface`,
+`getContent(false)` rend le corps ; `toArray(false)` lève une `JsonException`,
+qui est une `DecodingExceptionInterface` ; `json` et `body` ensemble refusés ;
+un 302 avec `max_redirects` à `0` fait lever `getHeaders()` d'une
+`RedirectionException`. Page inchangée.
+
+## Bilan du lot 02
+
+10 pages relues : **3 corrigées** (2 *Status codes*, 4 *HTTP response*, 9
+*Language detection*), 1 carte corrigée (`FLC-8jmvzzwwb0q4`), 7 inchangées.
