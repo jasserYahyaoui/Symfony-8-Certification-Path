@@ -495,3 +495,76 @@ handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
 `FLC-6m7k069wqxwq` (page 4), `FLC-5rm5a89fpm9v` (page 6), `FLC-79nmwswd5a50`
 (page 7), `FLC-ns8r1qzptegb` (page 8). Question : `QST-0rxv1000z941`
 (LEARNING) passée en version 2. Aucune question holdout lue ni modifiée.
+
+## Lot 04
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | HttpKernel component and FrameworkBundle | **corrigée** — voir ci-dessous |
+| 2 | Naming conventions | relue, exacte |
+| 4 | The request | relue, exacte |
+| 5 | The response | relue, exacte |
+| 6 | The cookies | relue, exacte |
+| 8 | The flash messages | relue, exacte |
+| 9 | HTTP redirects | relue, exacte |
+| 10 | Internal redirects | relue, exacte |
+| 12 | File upload | relue, exacte |
+| 14 | Argument value resolvers | relue, exacte |
+
+**Pages relues sans défaut**, avec ce qui a été exécuté sur les composants 8.0
+du bac à sable (FrameworkBundle 8.0.15) : page 2, les noms de route générés par
+`AttributeClassLoader` seul et par `AttributeRouteControllerLoader` — dont le
+suffixe `_1`, le préfixe de classe et les alias FQCN —, et `controller.rst`,
+`templates.rst`, `routing.rst` pour les citations ; page 4, `getPayload()` dans
+ses cinq cas (formulaire prioritaire, corps vide, JSON, JSON invalide, nombre) ;
+page 5, `doRender()` et `file()` lus ; page 6, `ResponseHeaderBag` lu
+(`removeCookie()`, `clearCookie()`, `getCookies()`) ; page 8, `FlashBag` et
+`AppVariable::getFlashes()` lus, et un `add()` de flash exécuté dans un noyau
+complet, qui pose bien le cookie de session ; page 9, `RedirectResponse` sur
+201, 301 à 308 et 200, et l'URL vide ; page 10, `Request::duplicate()` comme
+l'appelle `forward()` ; page 12, `RequestPayloadValueResolver::mapUploadedFile()`
+et le défaut 422 ; page 14, `ArgumentResolver::getArguments()`, les priorités
+de `framework-bundle/Resources/config/web.php` et les défauts 404 / 422 des
+attributs `Map*`.
+
+### Page 1 — *HttpKernel component and FrameworkBundle*
+
+`CRS-tygmreqkkds3` · STANDARD · **717 → 762 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 14 du lot 03 en seconde
+passe (PR #349, `be5abbf`), run Pages 37686033051, success — `ok  second-pass
+lot-03 psrs: the container implementation is declared at 1.1 and 2.0`.
+
+**Un dénombrement faux.** La page attribuait à `KernelInterface` « seize
+méthodes » en plus de `handle()` hérité. Compté dans `KernelInterface.php`
+(HttpKernel 8.0) : **dix-sept** déclarations `public function`.
+
+**Une cause fausse.** La page expliquait que `configureContainer()` et
+`configureRoutes()` peuvent être `private` « parce que » `MicroKernelTrait` les
+appelle par réflexion, une méthode privée n'étant « pas appelable
+normalement ». Exécuté sur PHP 8.4 : une méthode d'un trait appelle **sans
+réflexion** une méthode privée de la classe qui l'utilise, même avec des
+arguments en trop. La réflexion sert à autre chose — lu dans
+`MicroKernelTrait::registerContainerConfiguration()` (8.0) : lire le type du
+premier paramètre de `configureContainer()`, qui reçoit `($container,
+$loader)` s'il est typé `ContainerBuilder`, un `ContainerConfigurator`
+sinon. Corrigé sur la page (paragraphe et point clé) et dans la carte
+`FLC-77v79574hbs0`, dont la réponse reposait sur la même cause.
+
+**Une affirmation vérifiée et conservée.** La route de prévisualisation
+`_error/{statusCode}` est celle que donne `controller/error_pages.rst` (8.0),
+une fois `errors.php` importé sous le préfixe `/_error`.
+
+**Questions.** Aucune question non holdout ne compte les méthodes ni ne porte
+sur la visibilité des méthodes du trait.
+
+**Aiguilles de smoke test.** `dix-sept méthodes` et `ne doit rien à la`,
+absentes de la version `master` de la page et des fichiers de cartes.
+
+**Contrôles réellement exécutés le 2026-10-07** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.

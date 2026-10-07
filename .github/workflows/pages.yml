@@ -4542,6 +4542,24 @@ jobs:
           else
             echo "ok  second-pass  lot-03 psrs: the container implementation is declared at 1.1 and 2.0"
           fi
+          # Second pass, lot 04 (HttpKernel component): KernelInterface declares seventeen methods; private configureContainer() owes nothing to reflection.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp04hk -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/httpkernel-component-and-frameworkbundle")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-04/httpkernel-component-and-frameworkbundle serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'dix-sept méthodes' /tmp/sp-sp04hk \
+            || missing="$missing sp04hk:no-seventeen-methods"
+          grep -aqF -- 'ne doit rien à la' /tmp/sp-sp04hk \
+            || missing="$missing sp04hk:no-private-not-reflection"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-04/httpkernel-component-and-frameworkbundle:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-04 httpkernel component: seventeen methods, and private visibility owes nothing to reflection"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

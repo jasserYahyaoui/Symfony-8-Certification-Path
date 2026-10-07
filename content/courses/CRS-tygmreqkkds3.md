@@ -5,7 +5,7 @@ title: "HttpKernel component and FrameworkBundle"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-07"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
@@ -72,7 +72,7 @@ chacune** :
 
 | Interface | Ce qu'elle ajoute |
 |---|---|
-| `KernelInterface` | seize méthodes — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accesseurs de répertoires… **et `handle()` par héritage** |
+| `KernelInterface` | dix-sept méthodes — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accesseurs de répertoires… **et `handle()` par héritage** |
 | `RebootableInterface` | `reboot(?string $warmupDir): void` |
 | `TerminableInterface` | `terminate(Request, Response): void` |
 
@@ -102,10 +102,14 @@ Il **implémente** `registerBundles()` et `registerContainerConfiguration()` à
 votre place — les deux méthodes que `KernelInterface` exige. En échange, il
 appelle deux points d'extension : `configureContainer()` et `configureRoutes()`.
 
-Il les appelle **par réflexion**, et c'est ce qui explique une bizarrerie du
-squelette Symfony : ces deux méthodes peuvent être déclarées `private` dans
-votre `Kernel`. Une méthode privée ne serait pas appelable normalement ; la
-réflexion, elle, y accède.
+Il les appelle **par réflexion** (`ReflectionMethod::getClosure()`), ce qui lui
+permet de lire la signature de `configureContainer()` : un premier paramètre
+typé `ContainerBuilder` reçoit le conteneur et le chargeur, tout autre cas un
+`ContainerConfigurator`.
+
+Leur visibilité `private` possible ne doit rien à la réflexion. Le trait est
+copié dans votre `Kernel`, qui appelle ses propres méthodes privées — exécuté :
+un trait appelle sans réflexion une méthode privée de la classe qui l'utilise.
 
 ## Pièges d'examen
 
@@ -149,8 +153,8 @@ conteneur de services ? → composant. Cela apparaît-il dans
   `handle()` par héritage.
 - `MicroKernelTrait` implémente `registerBundles()` et
   `registerContainerConfiguration()`, et appelle `configureContainer()` /
-  `configureRoutes()` **par réflexion** — d'où leur visibilité `private`
-  possible.
+  `configureRoutes()` **par réflexion** ; leur visibilité `private` tient à
+  ce que le trait est copié dans la classe, non à la réflexion.
 
 ## Sources officielles
 
