@@ -5,7 +5,7 @@ title: "HTTP methods matching"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -88,8 +88,9 @@ l'option soit activée ou non.
 - Le paramètre `_method` est cherché dans le corps, puis dans la chaîne de
   requête.
 - Un remplacement vers `GET`, `HEAD`, `CONNECT` ou `TRACE` est ignoré.
-- Un nom qui contient autre chose que des lettres majuscules lève une
-  `SuspiciousOperationException`.
+- Le nom est d'abord mis en majuscules : `_method=put` est accepté et donne
+  `PUT`. Seul un nom qui contient alors autre chose que des lettres — un
+  chiffre, un tiret — lève une `SuspiciousOperationException` (exécuté).
 
 `framework.allowed_http_method_override` restreint les méthodes simulables :
 `null` (le défaut) les autorise toutes, une liste les limite, et un tableau vide
