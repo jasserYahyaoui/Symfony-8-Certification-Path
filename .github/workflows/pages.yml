@@ -4633,6 +4633,24 @@ jobs:
           else
             echo "ok  second-pass  lot-04 internal controllers: in path mode a full URL drops the query string"
           fi
+          # Second pass, lot 05 (Trigger redirects): /login is an absolute path, not a relative one.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp05tr -w '%{http_code}' "$BASE_URL/docs/courses/lot-05/trigger-redirects")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-05/trigger-redirects serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'produit le chemin absolu' /tmp/sp-sp05tr \
+            || missing="$missing sp05tr:no-absolute-path"
+          grep -aqF -- 'un chemin sans hôte' /tmp/sp-sp05tr \
+            || missing="$missing sp05tr:no-hostless-path"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-05/trigger-redirects:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-05 trigger redirects: path() yields an absolute path, not a relative one"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
