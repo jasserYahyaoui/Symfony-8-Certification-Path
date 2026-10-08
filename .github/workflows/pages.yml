@@ -4669,6 +4669,25 @@ jobs:
           else
             echo "ok  second-pass  lot-05 http methods: a lowercase _method is uppercased, only non-letters raise"
           fi
+          # Second pass, lot 06 (Twig syntax): the class constant lookup is case-sensitive; const STATUS does not hide getStatus().
+          # The spread operator dates from 3.7 on sequences and mappings, 3.15 on call arguments.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp06ts -w '%{http_code}' "$BASE_URL/docs/courses/lot-06/twig-syntax-up-to-3-22-version")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-06/twig-syntax-up-to-3-22-version serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'correspond à la casse près' /tmp/sp-sp06ts \
+            || missing="$missing sp06ts:no-case-sensitive-const"
+          grep -aqF -- 'ne masque pas' /tmp/sp-sp06ts \
+            || missing="$missing sp06ts:no-does-not-hide"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-06/twig-syntax-up-to-3-22-version:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-06 twig syntax: const STATUS does not hide getStatus(), the constant lookup is case-sensitive"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

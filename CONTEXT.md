@@ -37,7 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
-| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lots 06 et 07 relus ; lot 08 en relecture | `docs/progress/second-pass-refinement.md` |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lot 06 terminé (1 page corrigée, PR #357) ; lots 07 et 08 relus ; lot 09 en relecture | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -52,10 +52,10 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
 **Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07 — fusionner la PR de la page 10 du lot 05 après CI
-verte, lire son smoke test ; puis les corrections préparées, une PR chacune :
-lot 06 page 2 ; lot 07 page 7 ; et finir la relecture du lot 08 (pages 6 à 8).
-Avant chaque PR, le contrôle d'aiguilles anciennes.
+propriétaire le 2026-10-07 — fusionner la PR de la page 2 du lot 06 après CI
+verte, lire son smoke test ; puis la correction préparée du lot 07 (page 7) avec
+les bilans des lots 07 et 08 ; et poursuivre la relecture du lot 09 (pages 5 à
+12). Avant chaque PR, le contrôle d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

@@ -693,7 +693,8 @@ flashcards:
     front: "Twig : fusionnez la séquence more à la fin de [1, 2]."
     back: "{% set numbers = [1, 2, ...more] %}"
     explanation: >-
-      L'opérateur ... étend une séquence ou un tableau associatif ; il existe depuis Twig 3.15.
+      L'opérateur ... étend une séquence ou un tableau associatif depuis Twig
+      3.7 (CHANGELOG 3.7.0) ; Twig 3.15 l'a étendu aux arguments d'un appel.
     memorization_justification: >-
       Syntaxe récente, empruntée à PHP.
     verification_status: VERIFIED
@@ -703,7 +704,13 @@ flashcards:
         repository: "twigphp/Twig"
         branch: "v3.22.0"
         symbol_or_lines: "Other Operators, Whitespace Control"
-        verified_at: "2026-09-24"
+        verified_at: "2026-10-08"
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/CHANGELOG"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/CHANGELOG"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        symbol_or_lines: "3.7.0: Add support for the ...spread operator on arrays and hashes"
+        verified_at: "2026-10-08"
 
   - id: FLC-12635kscyps3
     official_item: OIT-vhd83fn6w9wy
