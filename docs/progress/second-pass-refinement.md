@@ -1570,3 +1570,78 @@ avec `default_locale` à défaut de `fallbacks` lu dans `FrameworkExtension` ;
 ## Bilan du lot 16
 
 1 page relue : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Bilan de la seconde passe
+
+Relecture des lots 02 à 16 terminée le 2026-10-08. Chiffres **recomptés par
+script** : les résultats par page depuis les tableaux de ce journal, les cartes
+et questions par comparaison `git` des fichiers `content/flashcards/` et
+`content/questions/` entre `18fb176` (dernier commit avant la seconde passe) et
+`a7eb972` (PR #361).
+
+| Lot | Pages | Corrigées | Précisées | Exactes |
+|---|---|---|---|---|
+| 02 | 10 | 2 | 1 | 7 |
+| 03 | 15 | 6 | 0 | 9 |
+| 04 | 14 | 3 | 2 | 9 |
+| 05 | 12 | 2 | 0 | 10 |
+| 06 | 14 | 1 | 0 | 13 |
+| 07 | 13 | 0 | 1 | 12 |
+| 08 | 8 | 0 | 0 | 8 |
+| 09 | 12 | 0 | 0 | 12 |
+| 10 | 12 | 0 | 0 | 12 |
+| 11 | 7 | 0 | 0 | 7 |
+| 12 | 9 | 0 | 0 | 9 |
+| 13 | 9 | 1 | 2 | 6 |
+| 14 | 3 | 0 | 1 | 2 |
+| 15 | 2 | 0 | 0 | 2 |
+| 16 | 1 | 0 | 0 | 1 |
+| **Total** | **141** | **15** | **7** | **119** |
+
+Les 141 pages relues sont exactement les 141 items atomiques officiels des lots
+02 à 16 dans la matrice (`lot-02` : 10 … `lot-16` : 1). « Corrigée » : une
+affirmation était fausse ; « précisée » : vraie dans le cas courant mais
+généralisée, ou complétée par un comportement du code 8.0 que la page taisait.
+Aucun niveau n'a été promu ; le budget `REV-001` est resté un plafond (la page
+la plus serrée, lot 14 page 1, est restée à 897 mots sur 900).
+
+| Mesure | Valeur |
+|---|---|
+| PR de la seconde passe | 21, #341 à #361, toutes fusionnées par squash (un seul parent, vérifié) |
+| Déploiements | 21 runs Pages, conclusions relues par l'API le 2026-10-08 : 20 smoke tests verts, 1 rouge (#350, run 37687772282), réparé par #351 |
+| Cartes modifiées | 16 (aucune ajoutée ni retirée) |
+| Questions non holdout modifiées | 2, LEARNING : `QST-0rxv1000z941` (lot 03), `QST-8h7ynmfznjpe` (lot 14, explication seule) |
+| Questions holdout modifiées | **0** |
+| Couverture | 163 / 163, inchangée |
+
+**Dernier déploiement lu en production** : page 1 du lot 14 (PR #361,
+`a7eb972`), run Pages 37829726088, success — `ok  second-pass  lot-14
+configuration: a real env var wins by default, overrideExistingVars: true
+reverses it`.
+
+**Ce qui a été trouvé.** Les défauts recherchés — effets supposés absents,
+ordres repris de la documentation, généralisations — étaient concentrés dans
+les lots 02 à 07, 13 et 14 ; les lots 08 à 12, 15 et 16 n'en contenaient aucun,
+chaque page ayant été exécutée ou lue dans le code 8.0. Trois cas de la fin
+(lots 13 et 14) ont la même forme : une règle vraie par défaut, énoncée sans
+son exception (`back()` et le mode `followRedirects()`, `_controller` d'un
+contrôleur invocable, `overrideExistingVars`).
+
+**Signaux holdout pour le propriétaire**, sans identifiant ni contenu : au
+moins une question holdout du lot 13 mérite sa revue (point de la page 3).
+Celui du lot 06 reste ouvert. Les questions holdout n'ont été ni lues ni
+modifiées par la seconde passe, à l'exception de l'affichage accidentel
+consigné au lot 04.
+
+**Incidents.** Le smoke rouge de #350 (aiguille ancienne), réparé par #351 et
+prévenu depuis par le contrôle d'aiguilles anciennes ; l'affichage d'une
+question holdout au lot 04 ; et, le 2026-10-08, un heredoc non protégé qui a
+exécuté localement le texte entre accents graves d'une entrée de journal
+(`php bin/cert validate`, `coverage`, `build` ; `composer` a refusé de
+tourner) — aucun fichier suivi n'a changé, l'entrée a été réécrite avant le
+commit de #359.
+
+**Confidentialité.** L'isolement holdout est **fonctionnel** — absent de
+`practice.json` et d'`exam.json`, vérifié à chaque déploiement par le smoke
+test — et non une confidentialité : les payloads publiés portent les bonnes
+réponses.
