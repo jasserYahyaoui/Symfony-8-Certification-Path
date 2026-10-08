@@ -506,6 +506,7 @@ handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
 | 4 | The request | relue, exacte |
 | 5 | The response | relue, exacte |
 | 6 | The cookies | relue, exacte |
+| 7 | The session | **corrigée** — voir ci-dessous |
 | 8 | The flash messages | relue, exacte |
 | 9 | HTTP redirects | relue, exacte |
 | 10 | Internal redirects | relue, exacte |
@@ -626,3 +627,50 @@ la correction de l'aiguille ; `composer gate-full` exit 0 — 299 tests,
 `prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
 `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
 avant / après les preuves ; contrôle d'aiguilles anciennes : aucune régression.
+
+### Page 7 — *The session*
+
+`CRS-a51fqgqynr2d` · STANDARD · **733 → 779 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 3 du lot 04 et réparation
+de l'aiguille (PR #351, `59d0e85`), run Pages 37731211296, **success** — le
+smoke test est revenu au vert : `ok  second-pass  lot-04 abstractcontroller:
+json() falls back to JsonResponse without the Serializer`, et le contrôle du
+raffinement du lot 04 passe sur `dix-sept méthodes`.
+
+**Une conséquence fausse.** La page disait qu'un simple `has()` suffit à
+démarrer la session « et à faire apparaître le cookie » ; le piège et l'astuce
+le répétaient (« le cookie part »), et la carte `FLC-7r316smhg8bj` répondait
+« Oui » à la question « émet-elle un cookie de session ? ». Lu dans
+`AbstractSessionListener::onKernelResponse()` (HttpKernel 8.0) : le cookie
+n'est posé que si la session **n'est pas vide** ; la réponse devient privée dès
+que la session a servi. Exécuté dans un noyau complet (FrameworkBundle 8.0.15,
+session `mock_file`), trois routes d'un visiteur sans cookie :
+
+| Route | `Set-Cookie` | `Cache-Control` |
+|---|---|---|
+| ne touche pas la session | aucun | `max-age=60, public` |
+| `has('x')` seul | **aucun** | `max-age=0, must-revalidate, private` |
+| `set('x', 1)` | `MOCKSESSID` | `max-age=0, must-revalidate, private` |
+
+Corrigé sur la page (paragraphe, piège, astuce) et dans deux cartes :
+`FLC-7r316smhg8bj` répond désormais « Non, pas à un visiteur sans session », et
+`FLC-24afz5hynrda`, qui attribuait la cachabilité à l'absence de cookie, la
+rattache à l'usage de la session — le cas `has()` réfute l'ancienne cause : pas
+de cookie, et pourtant plus cachable. Les deux citent
+`AbstractSessionListener.php`.
+
+**Questions.** `QST-b5rsrffwd1ja` (LEARNING) — une page qui ne touche pas la
+session n'émet pas de cookie — reste exacte ; inchangée.
+
+**Aiguilles de smoke test.** `tant que la session reste vide` et `elle devient
+privée`, absentes de la version `master` de la page et des fichiers de cartes ;
+contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.

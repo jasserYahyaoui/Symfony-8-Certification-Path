@@ -5,7 +5,7 @@ title: "The session"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
@@ -27,6 +27,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-22"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+    branch: "8.0"
+    symbol_or_lines: "onKernelResponse: cookie only for a non-empty session, private on usage"
+    verified_at: "2026-10-08"
 ---
 
 ## Objectif
@@ -72,8 +77,10 @@ consultation neutre** : `has()` démarre la session exactement comme `get()`.
 La conséquence est directe et voulue : une page qui ne touche jamais à la
 session n'émet aucun cookie de session, et reste donc cachable par un proxy
 partagé. Activer la session ne coûte rien tant que personne ne s'en sert. À
-l'inverse, une simple vérification suffit à la démarrer — et à faire apparaître
-le cookie.
+l'inverse, une simple vérification suffit à la démarrer, et `SessionListener`
+rend alors la réponse **privée**. Le cookie, lui, n'est posé que si la session
+**n'est pas vide** — exécuté : après un `has()` seul, réponse `private` sans
+aucun `Set-Cookie` ; après un `set()`, le cookie part.
 
 Certaines fonctionnalités la démarrent indirectement, parce qu'elles s'en
 servent : l'authentification et les messages flash, notamment.
@@ -125,8 +132,8 @@ déconnexion.
 
 **Tester une valeur démarre la session, comme la lire.** Il n'existe pas de
 consultation neutre : `has()` passe par le même accès au sac que `get()`. La
-vérification suffit à émettre le cookie et à rendre la page non cachable par un
-proxy partagé.
+vérification suffit à rendre la page non cachable par un proxy partagé — sans
+émettre de cookie tant que la session reste vide.
 
 **Activer la session dans la configuration ne la démarre pas.** Le démarrage est
 paresseux ; une page qui n'y touche jamais n'émet aucun cookie de session.
@@ -149,8 +156,9 @@ au texte seul donne une réponse fausse.
 garder les données ? Oui → `migrate()`, c'est l'après-connexion. Non →
 `invalidate()`, c'est la déconnexion.
 
-**Pour savoir si une page émet un cookie de session** : y a-t-il un seul appel
-au sac d'attributs, fût-il un `has()` ? Si oui, le cookie part.
+**Pour savoir si une page reste cachable** : y a-t-il un seul appel au sac
+d'attributs, fût-il un `has()` ? Si oui, elle devient privée. Le cookie, lui,
+ne part que si la session contient une donnée.
 
 ## Points clés
 
