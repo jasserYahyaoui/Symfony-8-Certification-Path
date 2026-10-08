@@ -772,3 +772,74 @@ réparé par #351 (voir plus haut). Une question HOLDOUT a été affichée par
 erreur dans le terminal de travail pendant la relecture de la page 3 ; elle n'a
 été ni reprise ni modifiée, et les recherches dans les questions passent
 désormais par un filtre qui masque le texte des questions HOLDOUT.
+
+## Lot 05
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Routing component and FrameworkBundle | relue, exacte |
+| 2 | Configuration (YAML and PHP attributes) | relue, exacte |
+| 3 | Restrict URL parameters | relue, exacte |
+| 4 | Set default values to URL parameters | relue, exacte |
+| 5 | URLs generation | relue, exacte |
+| 6 | Trigger redirects | **corrigée** — voir ci-dessous |
+| 7 | Special internal routing attributes | relue, exacte |
+| 8 | Domain name matching | relue, exacte |
+| 9 | Conditional request matching | relue, exacte |
+| 11 | User's locale guessing | relue, exacte |
+| 12 | Router debugging | relue, exacte |
+
+**Pages relues sans défaut**, avec ce qui a été lu ou exécuté sur Routing et
+FrameworkBundle 8.0 : page 1, `composer.json` de Routing (PHP 8.4 et
+`deprecation-contracts` seuls), `RouterListener` (priorité 32, saut sur
+`_controller`, `_route_params`, 405 et `Allow`), `AttributeServicesLoader` et
+l'autoconfiguration de `#[Route]`, `RedirectableCompiledUrlMatcher::redirect()` ;
+page 2, les seize paramètres de `#[Route]` par réflexion, `AVAILABLE_KEYS` du
+chargeur YAML, l'alias réduit à `alias` et `deprecated`, l'héritage de
+`priority` ; page 3, l'énumération `Requirement` sans cas, `DIGITS` et
+`POSITIVE_INT`, `strict_requirements` (défaut `true`, chaîne vide pour
+`false`) ; page 4, exécuté : `/{page}/x` toujours obligatoire, `{!page}`
+obligatoire à l'appariement et présent à la génération, `{page?}` à `null` ;
+page 5, exécuté : paramètres en trop, défaut égal retiré, `_query` prioritaire
+et refusé hors tableau, objet à propriétés publiques en tableau,
+`Stringable` en chaîne, les quatre types de référence ; page 7, exécuté :
+`_query` par défaut ignoré, `_fragment` lu aux deux endroits ; page 8,
+exécuté : casse de l'hôte, défaut d'hôte toujours exigé, `NETWORK_PATH` vers un
+autre hôte ; page 9, exécuté : condition fausse → 404 et non 405, génération
+indifférente à la condition ; page 11, `LocaleListener` et le repli
+`fr_CA` → `fr` → nom nu du générateur ; page 12, `RouterDebugCommand`,
+`RouterMatchCommand` et le filtre `--method` du descripteur.
+
+### Page 6 — *Trigger redirects*
+
+`CRS-tgbv3wp66rcc` · STANDARD · **823 → 829 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 13 du lot 04 (PR #354,
+`635a254`), run Pages 37734723326, success — `ok  second-pass  lot-04 internal
+controllers: in path mode a full URL drops the query string`.
+
+**Un terme faux.** La page appelait `/login` un « chemin relatif », deux fois.
+`/login` est un chemin **absolu** — `ABSOLUTE_PATH`, le défaut de `path()` ;
+`RELATIVE_PATH` produit `../blog/2`, et la page 5 du même lot fait cette
+distinction. Exécuté : depuis HTTP, `generate('login')` sur une route
+`schemes: ['https']` rend `https://example.com/login` ; depuis HTTPS, `/login`.
+Corrigé en « chemin absolu, sans hôte ».
+
+**Le reste, confirmé par exécution** (`RedirectableCompiledUrlMatcher` sur des
+routes compilées) : barre finale redirigée en `GET` et `HEAD`, `POST` sans
+redirection ; schéma redirigé vers le premier listé ; barre et schéma corrigés
+en une seule redirection ; `permanent` à `true`.
+
+**Questions.** Aucune question non holdout n'emploie le terme.
+
+**Aiguilles de smoke test.** `produit le chemin absolu` et `un chemin sans
+hôte`, absentes de la version `master` de la page et des fichiers de cartes ;
+contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.

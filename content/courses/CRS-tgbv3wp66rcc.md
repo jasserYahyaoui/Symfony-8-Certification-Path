@@ -5,7 +5,7 @@ title: "Trigger redirects"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -116,8 +116,8 @@ L'option `schemes` déclare le schéma exigé par une route :
 Elle agit dans les deux sens, et c'est le point à retenir.
 
 **À la génération** : l'URL de `login` utilise toujours HTTPS. Conséquence
-visible dans un gabarit — `path('login')` produit un chemin relatif `/login` si
-la requête courante est déjà en HTTPS, mais une **URL absolue**
+visible dans un gabarit — `path('login')` produit le chemin absolu `/login`,
+sans hôte, si la requête courante est déjà en HTTPS, mais une **URL absolue**
 `https://example.com/login` si elle est en HTTP, puisqu'il faut bien changer de
 schéma.
 
@@ -151,7 +151,8 @@ forme d'URL reçoit un 404.
 
 **Le schéma agit à l'appariement *et* à la génération.** Une requête dans le
 mauvais schéma est redirigée ; et l'URL générée devient absolue dès que le
-schéma courant diffère, alors qu'elle serait restée un chemin relatif.
+schéma courant diffère, alors qu'elle serait restée un chemin sans hôte
+(`ABSOLUTE_PATH`, pas `RELATIVE_PATH`).
 
 **Le composant seul ne redirige pas.** Son `UrlMatcher` échoue en 404 ;
 c'est le matcher de FrameworkBundle qui sait rediriger.

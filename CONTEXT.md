@@ -37,7 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
-| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lots 05 et 06 relus, lot 07 en relecture | `docs/progress/second-pass-refinement.md` |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 : page 6 en PR ; lots 06 et 07 relus | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -52,10 +52,10 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
 
 **Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07 — fusionner la PR de la page 13 du lot 04 après CI
+propriétaire le 2026-10-07 — fusionner la PR de la page 6 du lot 05 après CI
 verte, lire son smoke test ; puis les corrections préparées, une PR chacune :
-lot 05 pages 6 et 10 ; lot 06 page 2 ; lot 07 page 7 ; et finir la relecture du
-lot 07 (pages 9 à 13). Avant chaque PR, le contrôle d'aiguilles anciennes.
+lot 05 page 10 ; lot 06 page 2 ; lot 07 page 7 ; puis le lot 08. Avant chaque
+PR, le contrôle d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

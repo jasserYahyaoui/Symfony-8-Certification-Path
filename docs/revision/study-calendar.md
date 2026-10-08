@@ -272,7 +272,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 23 min · 609 mots · 5 questions, 13 flashcards
 - NOUVEAU · **Routing : URLs generation** (STANDARD) — 21 min · 642 mots · 4 questions, 12 flashcards
-- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 23 min · 823 mots · 4 questions, 12 flashcards
+- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 23 min · 829 mots · 4 questions, 12 flashcards
 - NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 23 min · 758 mots · 5 questions, 12 flashcards
 - Révision **J+1** (26 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 - Révision **J+7** (15 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
