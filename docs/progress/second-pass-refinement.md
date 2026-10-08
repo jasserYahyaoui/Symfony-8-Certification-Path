@@ -510,6 +510,7 @@ handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
 | 8 | The flash messages | relue, exacte |
 | 9 | HTTP redirects | relue, exacte |
 | 10 | Internal redirects | relue, exacte |
+| 11 | Generate 404 pages | **précisée** — voir ci-dessous |
 | 12 | File upload | relue, exacte |
 | 14 | Argument value resolvers | relue, exacte |
 
@@ -666,6 +667,42 @@ session n'émet pas de cookie — reste exacte ; inchangée.
 **Aiguilles de smoke test.** `tant que la session reste vide` et `elle devient
 privée`, absentes de la version `master` de la page et des fichiers de cartes ;
 contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+### Page 11 — *Generate 404 pages*
+
+`CRS-p57qsnnfpd2a` · STANDARD · **594 → 606 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 7 du lot 04 (PR #352,
+`bf12ae3`), run Pages 37732444935, success — `ok  second-pass  lot-04 session:
+has() alone makes the response private and sets no cookie`.
+
+**Une liste incomplète.** La page citait trois exceptions de HttpFoundation qui
+implémentent `RequestExceptionInterface` — « toutes trois » — et donnent un 400.
+Le répertoire `HttpFoundation/Exception/` (8.0) en compte **cinq** : s'y
+ajoutent `JsonException`, que lève `getPayload()` sur un corps invalide (page 4),
+et `SessionNotFoundException`. Exécuté avec
+`FlattenException::createFromThrowable()` : les cinq donnent `400`, une
+`LogicException` donne `500`. Précisé ; les deux classes ajoutées sont citées
+en source.
+
+**Le reste, confirmé** : l'ordre de `FlattenException` (lu) ;
+`TwigErrorRenderer::findTemplate()` — `error<code>`, `error`, puis `null` et le
+rendu HTML intégré, TwigBundle 8.0 n'embarquant aucun gabarit
+`Exception/` ; la prévisualisation par sous-requête à `showException: false`.
+
+**Questions.** Aucune question non holdout ne nomme ces exceptions.
+
+**Aiguilles de smoke test.** `Cinq exceptions de HttpFoundation` et `sur un
+corps invalide`, absentes de la version `master` de la page et des fichiers de
+cartes ; contrôle d'aiguilles anciennes : aucune régression.
 
 **Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
 0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`

@@ -209,7 +209,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 16 octobre 2026
 
 - NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 24 min · 664 mots · 4 questions, 14 flashcards
-- NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 25 min · 594 mots · 5 questions, 14 flashcards
+- NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 25 min · 606 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 24 min · 593 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 24 min · 665 mots · 4 questions, 14 flashcards
 - Révision **J+1** (18 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
