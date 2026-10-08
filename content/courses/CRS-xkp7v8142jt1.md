@@ -5,7 +5,7 @@ title: "Request and response objects introspection"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing.rst"
@@ -18,6 +18,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getRequest(); getInternalRequest(); getResponse(); getInternalResponse(); getCrawler(); getHistory(); getCookieJar()"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "configureRoute(): the class name alone for __invoke, Class::method otherwise"
+    verified_at: "2026-10-08"
 ---
 ## Objectif
 
@@ -120,7 +126,10 @@ L'attribut `_route` dit **quelle route a répondu**. C'est ce que vérifie
 donne : deux routes différentes peuvent rendre la même page.
 
 Le nom de la route est sous `_route` ; le contrôleur appelé est sous
-`_controller`, au format `Classe::méthode`.
+`_controller`, au format `Classe::méthode` pour une route posée par attribut
+sur une méthode. Pour un contrôleur invocable, la valeur est la classe seule :
+`AttributeRouteControllerLoader` omet le nom de la méthode. Exécuté :
+`…\Pages::hello` pour la méthode, `…\Inv` pour la classe invocable.
 
 Les deux requêtes n'exposent pas l'adresse de la même façon. Exécuté sur
 `/hello` :

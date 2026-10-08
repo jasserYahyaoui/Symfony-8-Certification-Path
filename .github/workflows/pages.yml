@@ -4724,6 +4724,42 @@ jobs:
           else
             echo "ok  second-pass  lot-13 client: back() skips only redirects followed in followRedirects() mode"
           fi
+          # Second pass, lot 13 (Crawler object): reduce() removes a node only when the closure returns false.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp13cr -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/crawler-object-cssselector-and-domcrawler-components")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-13/crawler-object-cssselector-and-domcrawler-components serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'tout autre retour garde le' /tmp/sp-sp13cr \
+            || missing="$missing sp13cr:no-other-return-keeps"
+          grep -aqF -- 'une fonction sans' /tmp/sp-sp13cr \
+            || missing="$missing sp13cr:no-closure-without-return"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-13/crawler-object-cssselector-and-domcrawler-components:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-13 crawler: reduce() removes a node only when the closure returns false"
+          fi
+          # Second pass, lot 13 (Request and response introspection): _controller of an invokable controller is the class alone.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp13ri -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/request-and-response-objects-introspection")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-13/request-and-response-objects-introspection serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Pour un contrôleur invocable' /tmp/sp-sp13ri \
+            || missing="$missing sp13ri:no-invokable"
+          grep -aqF -- 'omet le nom de la méthode' /tmp/sp-sp13ri \
+            || missing="$missing sp13ri:no-method-omitted"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-13/request-and-response-objects-introspection:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-13 introspection: _controller of an invokable controller is the class name alone"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

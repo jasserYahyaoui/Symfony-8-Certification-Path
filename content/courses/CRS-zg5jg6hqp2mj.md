@@ -5,7 +5,7 @@ title: "Crawler object (CssSelector and DomCrawler components)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/dom_crawler.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing/dom_crawler.rst"
@@ -16,8 +16,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php"
     branch: "8.0"
-    symbol_or_lines: "text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default)"
-    verified_at: "2026-10-02"
+    symbol_or_lines: "text(?string $default = null, bool $normalizeWhitespace = true); attr($attribute, $default); reduce(): a node is removed only when the closure returns false"
+    verified_at: "2026-10-08"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Form.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Form.php"
     branch: "8.0"
@@ -79,7 +79,7 @@ $crawler->filter('input[type=submit]')
 | `nextAll()`, `previousAll()` | les frères après, avant |
 | `ancestors()` | les ascendants, jusqu'à `<html>` |
 | `children()` | les enfants directs |
-| `reduce($fn)` | ne garde que les nœuds pour lesquels la fonction rend `true` |
+| `reduce($fn)` | retire les nœuds pour lesquels la fonction rend `false` ; tout autre retour garde le nœud |
 
 `count($crawler)` donne le nombre de nœuds retenus.
 
@@ -109,6 +109,7 @@ Exécuté avec DomCrawler 8.0.15 :
 | `text()` sur trois `<li>` | le premier seulement |
 | `siblings()` de `li.me` | les deux autres `<li>` |
 | `ancestors()` de `li.me` | `ul`, `body`, `html` |
+| `reduce()` sur trois `<li>`, une fonction sans `return` | les trois gardés |
 
 ## Cliquer et soumettre
 

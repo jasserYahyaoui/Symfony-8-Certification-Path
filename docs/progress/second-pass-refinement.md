@@ -1249,9 +1249,12 @@ a été exécutée dans une application FrameworkBundle sans Monolog : sous
 | 1 | Unit tests with PHPUnit | relue, exacte |
 | 2 | Functional tests with PHPUnit | relue, exacte |
 | 3 | Client object | **corrigée** — voir ci-dessous |
+| 4 | Crawler object (CssSelector and DomCrawler components) | **précisée** — voir ci-dessous |
 | 5 | Profiler object (WebProfiler bundle) | relue, exacte |
 | 6 | Framework objects access | relue, exacte |
 | 7 | Client configuration | relue, exacte |
+| 8 | Request and response objects introspection | **précisée** — voir ci-dessous |
+| 9 | Handling legacy deprecated code | relue, exacte |
 
 **Pages relues sans défaut**, exécutées avec PHPUnit 11.5.56 et FrameworkBundle
 8.0.15, et confrontées à `testing.rst` 8.0 : page 1, un `TestCase` qui passe
@@ -1271,7 +1274,14 @@ du conteneur de test et du conteneur du noyau (`ClockInterface`, `Clock`,
 `Unused`), `set()` avant et après `get()`, `getContainer()` qui démarre le
 noyau et rend un `TestContainer`, deux conteneurs pour deux tests ; page 7,
 les trois clés d'en-tête, `CONTENT_TYPE`, l'agent utilisateur par défaut,
-`HTTP_HOST` conservé à la deuxième requête, les trois cas de session.
+`HTTP_HOST` conservé à la deuxième requête, les trois cas de session ; page 9,
+exécuté sur PHP 8.4 : `trigger_deprecation()` sans gestionnaire (rien),
+`trigger_error()` sans `@` (`Deprecated:` affiché), le gestionnaire d'erreurs de
+Symfony 8.0 avec un journal (entrée `info` « User Deprecated: Since acme/pkg
+1.2: … »), et un test PHPUnit 11.5 qui passe malgré `failOnDeprecation="true"` ;
+`trigger_deprecation()`, le commentaire d'`ErrorHandler`, le défaut `true` de
+`php_errors.log` (code et référence), `upgrade_minor.rst`, `upgrade_major.rst`
+et `conventions.rst` lus.
 
 ### Page 3 — *Client object*
 
@@ -1333,3 +1343,91 @@ exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
 `prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
 OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
 et `docs/` identique avant / après les preuves.
+
+### Page 4 — *Crawler object (CssSelector and DomCrawler components)*
+
+`CRS-zg5jg6hqp2mj` · STANDARD · **786 → 805 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 3 du lot 13 (PR #359,
+`e45e1b1`), run Pages 37825878998, success — `ok  second-pass  lot-13 client:
+back() skips only redirects followed in followRedirects() mode`.
+
+**Une généralisation.** Le tableau de parcours disait que `reduce($fn)` « ne
+garde que les nœuds pour lesquels la fonction rend `true` » — la formule de
+`testing/dom_crawler.rst` (8.0). Lu dans `Crawler::reduce()` (dom-crawler 8.0) :
+un nœud n'est retiré que si la fonction rend **strictement** `false`
+(`false !== $closure(...)`), ce que dit aussi `components/dom_crawler.rst` :
+« To remove a node, the anonymous function must return `false` ». Les deux
+lectures coïncident pour une fonction qui rend un booléen, et divergent sinon.
+Exécuté sur trois `<li>` : une fonction qui rend `$i === 1` en garde un ; une
+fonction sans `return`, trois ; une fonction qui rend `0`, trois. La cellule
+reprend désormais la règle du code, et le tableau d'exécution porte le cas sans
+`return`. La source `Crawler` de la page est re-vérifiée.
+
+**Le reste de la page, confirmé par exécution** (DomCrawler 8.0.15) : les sept
+lignes du tableau d'extraction et de parcours, `eq()`, `first()`, `last()`,
+`nextAll()`, `previousAll()`, `children()`, `extract()`, un parcours qui ne
+modifie pas le `Crawler` d'origine, et les trois origines d'un `Form` (bouton,
+`<form>`, champ) avec les valeurs envoyées ; le message de `filter()` sans
+CssSelector lu dans `Crawler`, et le premier argument de `submitForm()` relu
+dans `testing.rst`.
+
+**Questions et cartes.** Aucune carte ni question non holdout ne porte sur
+`reduce()`.
+
+**Aiguilles de smoke test.** `tout autre retour garde le` et `une fonction
+sans`, absentes de la version `master` de la page et des fichiers de cartes ;
+contrôle d'aiguilles anciennes : aucune régression.
+
+### Page 8 — *Request and response objects introspection*
+
+`CRS-xkp7v8142jt1` · STANDARD · **767 → 805 mots** sur 900.
+
+**Déploiement précédent, lu en production** : le même que pour la page 4
+ci-dessus (PR #359, run 37825878998).
+
+**Une généralisation.** La page disait que `_controller` porte le contrôleur
+« au format `Classe::méthode` ». Lu dans
+`AttributeRouteControllerLoader::configureRoute()` (FrameworkBundle 8.0) : pour
+une méthode `__invoke`, la valeur est le **nom de la classe seul**. Exécuté
+dans un `WebTestCase` : `…\Pages::hello` pour une route posée par attribut sur
+une méthode, `…\Inv` pour une classe invocable — et, pour une route déclarée
+en PHP avec `controller([Arr::class, 'a'])`, un tableau. La page précise les
+deux formes de l'attribut ; la source est ajoutée.
+
+**Carte.** `FLC-b385mvgx5jvc` (RECALL) répondait « `_controller`, au format
+`Classe::méthode` ». Réponse précisée : `Classe::méthode` pour une route posée
+par attribut sur une méthode, la classe seule pour un contrôleur invocable ;
+explication complétée, source ajoutée.
+
+**Le reste de la page, confirmé par exécution** (FrameworkBundle 8.0.15) : les
+classes rendues par les sept accesseurs, avant et après la première requête
+(`BadMethodCallException` et son message, historique vide, pot de cookies
+utilisable), les trois lectures d'URI, les deux messages d'échec
+(`assertSame()` contre `assertResponseStatusCodeSame()`), le tableau de
+redirection et `back()` qui revient sur `/go` — cohérent avec la correction de
+la page 3.
+
+**Questions.** La question VALIDATION sur `_route` est exacte ; aucune
+question non holdout ne porte sur la forme de `_controller`.
+
+**Aiguilles de smoke test.** `Pour un contrôleur invocable` et `omet le nom de
+la méthode`, absentes de la version `master` de la page et des fichiers de
+cartes ; contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08**, pour les pages 4 et 8 :
+`php bin/cert validate` 0 bloquant ; `php bin/cert coverage` 163 / 163,
+inchangé ; `php bin/cert build` exit 0 ; 11 audits exit 0, FINDINGS 0 ;
+34 blocs `run:` parsent ; `composer gate-full` exit 0 — 299 tests,
+17 641 assertions, TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
+`prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
+`lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
+avant / après les preuves.
+
+## Bilan du lot 13
+
+9 pages relues : **1 corrigée** (3 *Client object*), **2 précisées** (4
+*Crawler object*, 8 *Request and response objects introspection*),
+6 inchangées. Deux cartes corrigées (`FLC-n4wy9v7h0cps`, `FLC-b385mvgx5jvc`) ;
+aucune question non holdout modifiée. Signal pour le propriétaire : au moins une
+question holdout du lot 13 mérite sa revue (voir la page 3).
