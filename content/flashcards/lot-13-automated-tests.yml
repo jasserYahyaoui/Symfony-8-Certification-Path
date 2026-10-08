@@ -674,8 +674,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : back() revient-il sur la page de redirection ?'
-  back: 'Non : `back()` et `forward()` sautent les redirections, comme un navigateur.'
-  explanation: 'Exécuté : `/created`, puis `/go` suivi jusqu''à `/hello` ; `back()` ramène à `/created`.'
+  back: 'Oui après un `followRedirect()` manuel : il revient sur l''URL qui a redirigé. Non si le client l''a suivie en mode `followRedirects()` : `back()` la saute alors.'
+  explanation: 'Exécuté : `/created`, puis `/go` qui redirige vers `/hello`. En mode `followRedirects()`, `back()` ramène à `/created` ; par défaut puis `followRedirect()`, à `/go`, de nouveau en 302. `AbstractBrowser::request()` ne mémorise une redirection que si `followRedirects` est vrai.'
   memorization_justification: Historique et redirections.
   verification_status: VERIFIED
   official_sources:
@@ -685,6 +685,12 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Making Requests; Redirecting; Making Multiple Requests; Logging in Users
     verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: request() — $redirects filled only when followRedirects; back(); forward()
+    verified_at: '2026-10-08'
 - id: FLC-8zxz7qv3hbny
   official_item: OIT-se21g2xv6h4r
   language: fr

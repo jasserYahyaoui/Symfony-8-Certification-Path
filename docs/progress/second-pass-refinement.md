@@ -1106,3 +1106,230 @@ fautive.
 ## Bilan du lot 08
 
 8 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 09
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Dependency Injection component | relue, exacte |
+| 2 | Service container | relue, exacte |
+| 3 | Built-in services | relue, exacte |
+| 4 | Configuration parameters | relue, exacte |
+| 5 | Services registration (YAML and PHP attributes) | relue, exacte |
+| 6 | Service decoration | relue, exacte |
+| 7 | Tags | relue, exacte |
+| 8 | Semantic configuration | relue, exacte |
+| 9 | Factories | relue, exacte |
+| 10 | Compiler passes | relue, exacte |
+| 11 | Services autowiring | relue, exacte |
+| 12 | Service locators | relue, exacte |
+
+**Toutes exécutées dans un noyau Symfony 8.0** (paquets `symfony/*` en 8.0.x) :
+page 1, le tableau du composant seul ; page 2, options de `debug:container` et
+`#[Autoconfigure]` ; page 3, les treize types injectés, l'échec sans
+TwigBundle et deux messages d'autowiring ; page 4, `%%` échappé, `%` isolé pris
+pour une dépendance, `json:base64` et `base64:json` dans les deux ordres,
+`default:`, variable absente, et le message d'un `bind` inutilisé lu ; page 5,
+huit cas d'enregistrement dans un noyau complet ; page 6, priorités, ordre,
+`on_invalid` et nom interne ; page 7, itérateur étiqueté avec et sans
+`index_by` — l'ordre d'enregistrement a été inversé pour que la sonde puisse
+trancher : un service de priorité 5 est 2ᵉ en itérateur simple et perd sa place
+sous `index_by` ; page 8, huit cas avec un `AbstractBundle` ; page 9, les cinq
+formes de fabrique ; page 10, ordre des sept passes, visibilité des tags,
+service retiré ; page 11, les dix cas de désambiguïsation ; page 12, locator
+paresseux, même instance, `has()` sur un service absent, message d'un service
+non déclaré, dépendance dure.
+
+## Bilan du lot 09
+
+12 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 10
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Security Core, CSRF and PasswordHasher components | relue, exacte |
+| 2 | Authentication | relue, exacte |
+| 3 | Authorization | relue, exacte |
+| 4 | Configuration | relue, exacte |
+| 5 | Providers | relue, exacte |
+| 6 | Firewalls | relue, exacte |
+| 7 | Users | relue, exacte |
+| 8 | Password hashers | relue, exacte |
+| 9 | Roles | relue, exacte |
+| 10 | Access Control Rules | relue, exacte |
+| 11 | Authenticators, Passports and Badges | relue, exacte |
+| 12 | Voters and voting strategies | relue, exacte |
+
+**Pages exécutées ou lues dans le code 8.0** : page 1, dépendances des trois
+paquets lues et `symfony/password-hasher` installé **seul** dans un projet vide ;
+page 2, migration de session et pare-feu `stateless` — la première sonde était
+**biaisée** (le contrôleur écrivait lui-même en session, et la migration testée
+était une reconnexion du même utilisateur, que le code exempte) ; corrigée, elle
+confirme la page : identifiant de session changé, aucun cookie en `stateless`,
+401 ensuite ; page 3, court-circuit d'`affirmative`, réponses de refus selon le
+point d'entrée, message « Access Denied. The user doesn't have ROLE_ADMIN. » lu
+dans `RoleVoter` et `AccessDecision::getMessage()` ; page 4, ordre des
+pare-feux exécuté **avec** connexion (sans identifiants, aucun cookie n'est posé
+quel que soit l'ordre, ce qui ne permet pas de trancher) ; page 5,
+`ContextListener`, `InMemoryUser::isEqualTo()` et clés de fournisseurs ;
+page 6, partage d'un pare-feu par `context` exécuté, `$isLazy` lu dans
+`SecurityExtension` ; page 7, `UserInterface`, retrait d'`eraseCredentials()`
+lu dans le CHANGELOG, `UserCheckerListener` ; page 8, sept cas de hachage ;
+page 9, commande, six attributs d'`AuthenticatedVoter`, préfixe ; page 10, le
+tableau des stratégies sous `access_control` ré-exécuté ; page 11, interface,
+constructeurs, flux et messages lus ; page 12, les quatre stratégies sur six
+combinaisons de votes.
+
+## Bilan du lot 10
+
+12 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 11
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Messenger component | relue, exacte |
+| 2 | Transports | relue, exacte |
+| 3 | Messages and handlers | relue, exacte |
+| 4 | Workers | relue, exacte |
+| 5 | Retries and failures | relue, exacte |
+| 6 | Middleware | relue, exacte |
+| 7 | Events | relue, exacte |
+
+**Messenger 8.0.15** : page 1, tableau et exceptions exécutés ;
+page 2, huit cas de routage exécutés ; page 3, versionnement d'un message
+exécuté par `unserialize()` (trois cas) et règles de `MessengerPass` lues ;
+page 4, les onze options de `messenger:consume`, la boucle de priorité,
+`ResetServicesListener` et `InMemoryTransport` lus ; page 5, valeurs par défaut
+de `retry_strategy` et ordre de `shouldRetry()` lus ; page 6, ordre de la pile
+de middleware lu dans `FrameworkExtension` ; page 7, liste des événements et
+priorités des écouteurs de `WorkerMessageFailedEvent` (200, 100, −100) lues.
+
+## Bilan du lot 11
+
+7 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 12
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Console component | relue, exacte |
+| 2 | Built-in commands | relue, exacte |
+| 3 | Custom commands | relue, exacte |
+| 4 | Configuration | relue, exacte |
+| 5 | Options and arguments | relue, exacte |
+| 6 | Input and Output objects | relue, exacte |
+| 7 | Built-in helpers | relue, exacte |
+| 8 | Console events | relue, exacte |
+| 9 | Verbosity levels | relue, exacte |
+
+**Console 8.0.15** : page 1, codes de sortie et appel d'`interact()` exécutés par
+de vrais processus ; pages 2 et 3, `#[Ask]` exécuté et autoconfiguration lue ;
+page 4, le tag `console.command` ne reçoit ni `usages` ni `aliases` de
+l'attribut (lu) ; page 5, modes déduits et quatre erreurs exécutés ; page 6,
+tableaux exécutés ; page 7, sept cas d'helpers ; page 8, les sept lignes du
+tableau d'événements exécutées avec un dispatcher, `RETURN_CODE_DISABLED`,
+`abortExit()` et `getInterruptingSignal()` lus ; page 9, le tableau de
+verbosité exécuté dans de vrais processus, `SHELL_VERBOSITY` seul et combiné à
+`-q` et `-v`, `configureIO()` lu (`-q` et `--silent` rendent l'entrée non
+interactive) ; la phrase « `--silent` masque les erreurs, il ne les perd pas »
+a été exécutée dans une application FrameworkBundle sans Monolog : sous
+`--silent`, la console n'affiche rien et le logger écrit encore la ligne
+`[critical] Error thrown while running command`.
+
+## Bilan du lot 12
+
+9 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 13
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Unit tests with PHPUnit | relue, exacte |
+| 2 | Functional tests with PHPUnit | relue, exacte |
+| 3 | Client object | **corrigée** — voir ci-dessous |
+| 5 | Profiler object (WebProfiler bundle) | relue, exacte |
+| 6 | Framework objects access | relue, exacte |
+| 7 | Client configuration | relue, exacte |
+
+**Pages relues sans défaut**, exécutées avec PHPUnit 11.5.56 et FrameworkBundle
+8.0.15, et confrontées à `testing.rst` 8.0 : page 1, un `TestCase` qui passe
+sans configuration et un `KernelTestCase` qui échoue sans `KERNEL_CLASS`
+(message relevé), le suffixe `Test` (un fichier `…Tests.php` ignoré au parcours
+du répertoire, exécuté s'il est désigné), la priorité des trois fichiers de
+configuration ; page 2, `bootKernel()` puis `createClient()` (`LogicException`
+relevée), une réponse 201 acceptée par `assertResponseIsSuccessful()`, l'échec
+sur un 404 avec en-têtes et corps, puis en-têtes seuls après
+`setBrowserKitAssertionsAsVerbose(false)` ou avec `$verbose` à `false`, les
+dix-sept assertions citées présentes dans les traits de FrameworkBundle, et le
+tableau Dotenv dans ses quatre cas ; page 5, les cinq lignes du tableau du
+profileur sous trois configurations, la liste des collecteurs et la route lue
+par le collecteur `request`, `enableProfiler()` et `getProfile()` lus,
+`testing/profiling.rst` pour la configuration et l'idiome ; page 6, le tableau
+du conteneur de test et du conteneur du noyau (`ClockInterface`, `Clock`,
+`Unused`), `set()` avant et après `get()`, `getContainer()` qui démarre le
+noyau et rend un `TestContainer`, deux conteneurs pour deux tests ; page 7,
+les trois clés d'en-tête, `CONTENT_TYPE`, l'agent utilisateur par défaut,
+`HTTP_HOST` conservé à la deuxième requête, les trois cas de session.
+
+### Page 3 — *Client object*
+
+`CRS-k5wg55q2mg0p` · STANDARD · **762 → 830 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 7 du lot 07 (PR #358,
+`6f40f52`), run Pages 37739595552, success — `ok  second-pass  lot-07 csrf:
+Sec-Fetch-Site decides alone when present, beyond Origin and Referer`.
+
+**Une généralisation.** La page affirmait que `back()` et `forward()` sautent
+les redirections, « exécuté » sur `/created` puis `/go` suivi jusqu'à `/hello`,
+`back()` ramenant à `/created`. Ce n'est vrai que si le client suit les
+redirections de lui-même. Lu dans `AbstractBrowser::request()` (browser-kit
+8.0) : l'URL qui redirige n'est inscrite dans `$redirects`, la liste que
+`back()` et `forward()` sautent, que lorsque `followRedirects` est vrai — et la
+même page rappelle que le client de test ne suit pas les redirections par
+défaut. Exécuté dans un `WebTestCase` :
+
+| Mode du client | Après `back()` | Après `forward()` |
+|---|---|---|
+| `followRedirects()` avant les requêtes | `/created`, 201 | `/hello`, 200 |
+| par défaut, puis `followRedirect()` | `/go`, de nouveau 302 | `/hello`, 200 |
+| `followRedirects()`, puis `followRedirects(false)` avant `back()` | `/created`, 201 | — |
+
+La page précise désormais que seules les redirections suivies en mode
+`followRedirects()` sont sautées, avec ce tableau réduit à deux lignes, et un
+piège d'examen est ajouté. La source `AbstractBrowser` de la page est
+re-vérifiée.
+
+**Carte.** `FLC-n4wy9v7h0cps` (TRAP) répondait « Non : `back()` et `forward()`
+sautent les redirections » à la question « `back()` revient-il sur la page de
+redirection ? ». Réponse corrigée : oui après un `followRedirect()` manuel, non
+en mode `followRedirects()` ; explication refaite sur l'exécution, source
+`AbstractBrowser` ajoutée.
+
+**Le reste de la page, confirmé par exécution** (FrameworkBundle et
+SecurityBundle 8.0.15) : `KernelBrowser` rendu par `createClient()`,
+`request()` qui rend un `Crawler`, `xmlHttpRequest()` vu comme AJAX, 302 sans
+suivi puis 200 sur `/hello` après `followRedirect()`, deux conteneurs
+différents entre deux requêtes et le même après `disableReboot()`, `loginUser()`
+conservé à la deuxième requête avec état et perdu en `stateless`, 500 par
+défaut puis `RuntimeException('kaboom')` après `catchExceptions(false)` ;
+`restart()`, `loginUser()` et `doRequest()` lus, et le passage de
+`testing.rst` sur `disableReboot()` et l'étiquette `kernel.reset`.
+
+**Questions.** Aucune question non holdout ne porte sur ce point. Une recherche
+filtrée a touché une question `HOLDOUT` ; son texte n'a pas été affiché, et
+elle n'est désignée ici par aucun identifiant, item ni contenu. Signal pour le
+propriétaire : **au moins une question holdout du lot 13 mérite sa revue.**
+
+**Aiguilles de smoke test.** `seulement celles que le client a suivies seul` et
+`de nouveau 302`, absentes de la version `master` de la page et des fichiers de
+cartes ; contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
