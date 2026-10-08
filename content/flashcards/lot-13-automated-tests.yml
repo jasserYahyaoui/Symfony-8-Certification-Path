@@ -1406,8 +1406,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quel attribut de requête porte le contrôleur appelé, et sous quelle forme ?'
-  back: '`_controller`, au format `Classe::méthode`.'
-  explanation: 'Exécuté : `App\…\HelloController::hello`, à côté de `_route` = `hello`.'
+  back: '`_controller` : `Classe::méthode` pour une route posée par attribut sur une méthode ; la classe seule pour un contrôleur invocable.'
+  explanation: 'Exécuté : `App\…\HelloController::hello`, à côté de `_route` = `hello` ; pour une classe à `__invoke()`, `_controller` vaut le nom de la classe, sans `::__invoke`.'
   memorization_justification: Attribut _controller.
   verification_status: VERIFIED
   official_sources:
@@ -1417,6 +1417,12 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Accessing Internal Objects; Redirecting
     verified_at: '2026-10-02'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configureRoute() — the class name alone for __invoke, Class::method otherwise
+    verified_at: '2026-10-08'
 - id: FLC-9y4m7rdx00rz
   official_item: OIT-bzkq4e7wks9a
   language: fr

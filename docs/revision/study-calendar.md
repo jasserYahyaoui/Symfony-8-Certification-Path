@@ -708,7 +708,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 19 novembre 2026
 
 - NOUVEAU · **Automated Tests : Client object** (STANDARD) — 22 min · 830 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 22 min · 786 mots · 3 questions, 11 flashcards
+- NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 22 min · 805 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 16 min · 424 mots · 2 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Framework objects access** (STANDARD) — 20 min · 612 mots · 3 questions, 11 flashcards
 - Révision **J+1** (22 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
@@ -723,7 +723,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 20 novembre 2026
 
 - NOUVEAU · **Automated Tests : Client configuration** (STANDARD) — 19 min · 517 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 20 min · 767 mots · 3 questions, 11 flashcards
+- NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 21 min · 805 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 20 min · 688 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 24 min · 897 mots · 4 questions, 11 flashcards
 - Révision **J+1** (22 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
@@ -732,7 +732,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (11 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+30** (10 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
 
-*Budget du jour : 156 / 160 min*
+*Budget du jour : 157 / 160 min*
 
 ### Samedi 21 novembre 2026
 
