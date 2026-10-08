@@ -5,7 +5,7 @@ title: "Generate 404 pages"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst"
@@ -39,6 +39,18 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Exception/JsonException.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Exception/JsonException.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "final class JsonException extends UnexpectedValueException implements RequestExceptionInterface"
+    verified_at: "2026-10-08"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Exception/SessionNotFoundException.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Exception/SessionNotFoundException.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "SessionNotFoundException extends LogicException implements RequestExceptionInterface"
+    verified_at: "2026-10-08"
 ---
 
 ## Objectif
@@ -72,9 +84,10 @@ ordre :
 | toute autre | **500** |
 
 La deuxième ligne est celle que la documentation omet : elle dit « sinon 500 ».
-`BadRequestException`, `SuspiciousOperationException` et
-`ConflictingHeadersException`, toutes trois de HttpFoundation, implémentent
-cette interface et donnent donc un 400 sans être des exceptions HTTP.
+Cinq exceptions de HttpFoundation implémentent cette interface et donnent donc
+un 400 sans être des exceptions HTTP — exécuté : `BadRequestException`,
+`SuspiciousOperationException`, `ConflictingHeadersException`, `JsonException`,
+que lève `getPayload()` sur un corps invalide, et `SessionNotFoundException`.
 
 ## Personnaliser la page
 

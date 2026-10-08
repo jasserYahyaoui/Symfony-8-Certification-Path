@@ -4597,6 +4597,24 @@ jobs:
           else
             echo "ok  second-pass  lot-04 session: has() alone makes the response private and sets no cookie"
           fi
+          # Second pass, lot 04 (Generate 404 pages): five HttpFoundation exceptions give a 400, JsonException included.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp04nf -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/generate-404-pages")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-04/generate-404-pages serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Cinq exceptions de HttpFoundation' /tmp/sp-sp04nf \
+            || missing="$missing sp04nf:no-five-request-exceptions"
+          grep -aqF -- 'sur un corps invalide' /tmp/sp-sp04nf \
+            || missing="$missing sp04nf:no-json-400"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-04/generate-404-pages:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-04 generate 404 pages: five request exceptions give a 400, JsonException included"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
