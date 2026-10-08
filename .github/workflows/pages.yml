@@ -4706,6 +4706,24 @@ jobs:
           else
             echo "ok  second-pass  lot-07 csrf: Sec-Fetch-Site decides alone when present, beyond Origin and Referer"
           fi
+          # Second pass, lot 13 (Client object): back() skips only the redirects followed in followRedirects() mode.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp13cl -w '%{http_code}' "$BASE_URL/docs/courses/lot-13/client-object")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-13/client-object serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'seulement celles que le client a suivies seul' /tmp/sp-sp13cl \
+            || missing="$missing sp13cl:no-followed-alone"
+          grep -aqF -- 'de nouveau 302' /tmp/sp-sp13cl \
+            || missing="$missing sp13cl:no-again-302"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-13/client-object:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-13 client: back() skips only redirects followed in followRedirects() mode"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

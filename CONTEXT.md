@@ -37,7 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
-| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lot 06 terminé (1 page corrigée, PR #357) ; lot 07 terminé (1 page précisée, PR #358) ; lot 08 terminé (aucune erreur) ; lot 09 en relecture | `docs/progress/second-pass-refinement.md` |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lot 06 terminé (1 page corrigée, PR #357) ; lot 07 terminé (1 page précisée, PR #358) ; lot 08 terminé (aucune erreur) ; lots 09 à 12 terminés (aucune erreur) ; lot 13 en cours (page 3 corrigée, pages 4 et 8 à préciser, page 9 à relire) | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -48,13 +48,16 @@ périmètre sur instruction.
   voir `docs/revision/study-roadmap.md`). Au-delà, `--max-new` devient la
   seule marge.
 - Holdout : ne jamais lire, afficher ni identifier une question holdout ; les
-  recherches plein texte excluent le holdout. Signal ouvert : au moins une
-  question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2).
+  recherches plein texte excluent le holdout. Signaux ouverts : au moins une
+  question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
+  de même pour le lot 13 (seconde passe, page 3).
 
 **Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07 — fusionner la PR de la page 7 du lot 07 après CI
-verte, lire son smoke test ; finir la relecture du lot 09 (pages 9 à 12), puis
-les lots 10 à 16. Avant chaque PR, le contrôle d'aiguilles anciennes.
+propriétaire le 2026-10-07 — fusionner la PR de la page 3 du lot 13 après CI
+verte, lire son smoke test ; préciser les pages 4 (`reduce()` ne retire que sur
+`false`) et 8 (`_controller` d'un contrôleur invocable : la classe seule) du
+lot 13, relire sa page 9, puis les lots 14 à 16. Avant chaque PR, le contrôle
+d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

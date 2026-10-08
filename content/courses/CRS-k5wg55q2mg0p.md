@@ -5,7 +5,7 @@ title: "Client object"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
@@ -20,8 +20,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php"
     branch: "8.0"
-    symbol_or_lines: "$followRedirects = true; followRedirect(); xmlHttpRequest()"
-    verified_at: "2026-10-02"
+    symbol_or_lines: "$followRedirects = true; followRedirect(); xmlHttpRequest(); request() fills $redirects only when followRedirects; back(); forward()"
+    verified_at: "2026-10-08"
 ---
 
 ## Objectif
@@ -80,9 +80,16 @@ $client->reload();
 $client->restart();   // vide les cookies et l'historique
 ```
 
-`back()` et `forward()` **sautent les redirections** rencontrées, comme le fait
-un vrai navigateur. Exécuté : `/created`, puis `/go` suivi jusqu'à `/hello` ;
-`back()` ramène à `/created`, pas à `/go`.
+`back()` et `forward()` sautent les redirections, comme un navigateur — mais
+**seulement celles que le client a suivies seul**, en mode `followRedirects()`
+(voir plus bas). Lu dans le code 8.0 : `AbstractBrowser::request()` ne mémorise
+une redirection que dans ce mode. Exécuté, `/created` puis `/go`, qui redirige
+vers `/hello` :
+
+| Mode du client | Après `back()` |
+|---|---|
+| `followRedirects()` | `/created`, 201 |
+| par défaut, puis `followRedirect()` | `/go`, de nouveau 302 |
 
 ## Les redirections
 
@@ -161,6 +168,9 @@ elle-même après `catchExceptions(false)`.
 `AbstractBrowser` de BrowserKit, lui, les suit.
 
 **`followRedirect()` ≠ `followRedirects()`** : une fois, contre un réglage.
+
+**`back()` ne saute que les redirections suivies en mode `followRedirects()`** ;
+après un `followRedirect()` manuel, il revient sur l'URL qui a redirigé.
 
 **Le noyau redémarre entre deux requêtes** et le jeton en mémoire est perdu ;
 un pare-feu avec état le restaure depuis la session, un pare-feu `stateless`
