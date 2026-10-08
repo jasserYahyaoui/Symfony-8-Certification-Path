@@ -989,3 +989,120 @@ et `docs/` identique avant / après les preuves.
 14 pages relues : **1 corrigée** (2 *Twig syntax up to 3.22 version*, deux
 défauts), 13 inchangées. Carte corrigée : `FLC-weyvdp72vd5e`. Aucune question
 modifiée.
+
+## Lot 07
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Form component | relue, exacte |
+| 2 | Forms creation | relue, exacte |
+| 3 | Forms handling | relue, exacte |
+| 4 | Form types (built-in and custom) | relue, exacte |
+| 5 | Forms rendering with Twig | relue, exacte |
+| 6 | Forms theming | relue, exacte |
+| 7 | CSRF protection | **précisée** — voir ci-dessous |
+| 8 | Handling file upload | relue, exacte |
+| 9 | Built-in form types | relue, exacte |
+| 10 | Data transformers | relue, exacte |
+| 11 | Form events | relue, exacte |
+| 12 | Form type extensions | relue, exacte |
+| 13 | Form options (OptionsResolver component) | relue, exacte |
+
+**Environnement des exécutions.** Un bac à sable dédié porte `symfony/form`
+8.0.15 et ses dépendances. Composer y avait d'abord tiré cinq dépendances en 8.1
+(`options-resolver`, `property-access`, `event-dispatcher`…) faute d'épinglage ;
+toutes ont été épinglées en 8.0, et **les treize sondes du lot ont été
+rejouées** : sorties identiques. Le rendu passe par Twig 3.22.2 et Twig Bridge
+8.0.15.
+
+**Pages relues sans défaut**, chacune exécutée : page 1, les trois couches d'un
+`DateType` pour les trois `input` ; page 2, `NoSuchPropertyException` sans
+`mapped: false` (un soupçon contraire, tiré d'une lecture du `DataMapper`, a été
+**réfuté** par l'exécution), ordre de lecture des accesseurs, `data_class`
+devinée ; page 3, `GET` ignoré, `isValid()` non soumis, `getPayload()->get()`
+sur un tableau, `clearMissing` ; page 4, préfixes de bloc et parents ; page 5,
+rendu exact de `form_row()`, `form_end()` avec et sans `render_rest`, double
+rendu ; page 6, recherche de blocs, ordre des thèmes, les trois exemples
+documentés ; page 8, chemin temporaire sur un champ mappé, chaîne → `null`,
+`extensions` sans Mime ; page 9, lignée des 38 types, `choices`,
+`RepeatedType`, préfixes d'un bouton ; page 10, ordre des transformateurs, échec
+avec et sans Validator ; page 11, `add()` par événement et données portées par
+chaque événement ; page 12, `FormPass` et `#[AsTaggedItem]` (lu : la priorité de
+l'attribut n'est jamais lue quand le tag est passé en chaîne) ; page 13, douze
+cas d'`OptionsResolver`.
+
+### Page 7 — *CSRF protection*
+
+`CRS-0yhqc0b1q7hz` · STANDARD · **595 → 641 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 2 du lot 06 (PR #357,
+`9bd3050`), run Pages 37738262507, success — `ok  second-pass  lot-06 twig
+syntax: const STATUS does not hide getStatus(), the constant lookup is
+case-sensitive`.
+
+**Une règle documentée que le code complète.** La page reprend la documentation
+(`security/csrf.rst`, 8.0, l. 417 à 419) : un jeton sans état est accepté si
+`Origin` ou `Referer` correspond à l'origine de l'application. Lu dans
+`SameOriginCsrfTokenManager::isValidOrigin()` (security-csrf 8.0) : l'en-tête
+`Sec-Fetch-Site`, s'il est présent, est consulté **d'abord** et décide seul.
+Exécuté sur une requête `POST` vers `https://example.com/form` :
+
+| En-têtes | Jeton |
+|---|---|
+| `Origin` correct | accepté |
+| `Referer` correct | accepté |
+| `Origin` étranger, `Referer` correct | accepté |
+| `Origin` correct, `Sec-Fetch-Site: cross-site` | **refusé** |
+| `Origin` étranger, `Sec-Fetch-Site: same-origin` | **accepté** |
+| aucun | refusé |
+
+La page ajoute ce comportement en précisant que la règle documentée reste celle
+à citer à l'examen ; la source est ajoutée.
+
+**Questions.** Aucune question non holdout ne porte sur `Sec-Fetch-Site`.
+
+**Aiguilles de smoke test.** `Sec-Fetch-Site` et `décide seul`, absentes de la
+version `master` de la page et des fichiers de cartes ; contrôle d'aiguilles
+anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 07
+
+13 pages relues : **1 précisée** (7 *CSRF protection*), 12 inchangées. Aucune
+carte ni question modifiée.
+
+## Lot 08
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Validator component | relue, exacte |
+| 2 | PHP object validation | relue, exacte |
+| 3 | Built-in validation constraints | relue, exacte |
+| 4 | Validation scopes | relue, exacte |
+| 5 | Validation groups | relue, exacte |
+| 6 | Group sequence | relue, exacte |
+| 7 | Custom callback validators | relue, exacte |
+| 8 | Violations builder | relue, exacte |
+
+**Toutes exécutées sur `symfony/validator` 8.0.15** (dépendances épinglées en
+8.0) : page 1, quatorze cas — attributs ignorés sans `enableAttributeMapping()`,
+liste vide vraie en booléen, exceptions de configuration ; page 2, cascade par
+`Valid` et `Cascade`, héritage fusionné, `loadValidatorMetadata()` non statique,
+`#[ExtendsValidationFor]` ; page 3, la table `NotBlank` / `NotNull`,
+`EqualTo` / `IdenticalTo`, `Sequentially`, `AtLeastOneOf`, et le rangement des
+familles relu dans `map.rst.inc` ; page 4, les sept cas d'accesseurs et de
+classe ; page 5, groupes implicites et cascade par groupe ; page 6, onze cas de
+séquence et de provider ; page 7, huit cas de `Callback` ; page 8, les dix
+méthodes du constructeur de violation, chaîne non terminée, `atPath()` et valeur
+fautive.
+
+## Bilan du lot 08
+
+8 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
