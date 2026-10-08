@@ -5,7 +5,7 @@ title: "Built-in internal controllers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -107,8 +107,9 @@ permanente.
   défaut. C'est ce que `ignoreAttributes` coupe.
 - **L'URL générée est absolue** en mode `route` — schéma et hôte compris —,
   à l'inverse de `redirectToRoute()`, qui produit un chemin.
-- **En mode `path`, la chaîne de requête est toujours recopiée** ; il n'y a pas
-  d'option pour s'en passer. Un chemin relatif est complété par le schéma,
+- **En mode `path`, la chaîne de requête est recopiée sur un chemin**, sans
+  option pour s'en passer ; une URL complète — `https://…` ou `//…` — part
+  telle quelle, **sans** elle (exécuté). Un chemin relatif est complété par le schéma,
   l'hôte et le port, que `scheme`, `httpPort` et `httpsPort` permettent de fixer.
 
 ## `ErrorController`
@@ -128,7 +129,7 @@ configuration.
 et le code le vérifie.
 
 **`keepQueryParams` n'existe qu'en mode `route`.** En mode `path`, la chaîne de
-requête suit toujours.
+requête suit un chemin, jamais une URL complète.
 
 **Un `maxAge` seul rend la réponse publique.** Il faut `private: true` pour
 l'éviter.
@@ -142,7 +143,7 @@ l'éviter.
 - `RedirectController` : `route` **ou** `path`, jamais les deux.
 - Cible vide : 404, ou 410 si permanente.
 - `keepRequestMethod: true` transforme 302/301 en **307/308**.
-- Mode `route` : URL absolue, paramètres transmis ; mode `path` : query string recopiée.
+- Mode `route` : URL absolue, paramètres transmis ; mode `path` : query string recopiée sur un chemin seulement.
 
 ## Sources officielles
 

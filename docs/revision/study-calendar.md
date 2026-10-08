@@ -211,7 +211,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 24 min · 664 mots · 4 questions, 14 flashcards
 - NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 25 min · 606 mots · 5 questions, 14 flashcards
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 24 min · 593 mots · 5 questions, 14 flashcards
-- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 24 min · 665 mots · 4 questions, 14 flashcards
+- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 24 min · 687 mots · 4 questions, 14 flashcards
 - Révision **J+1** (18 min) — Controllers : The cookies · Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects
 - Révision **J+3** (15 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 - Révision **J+7** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
