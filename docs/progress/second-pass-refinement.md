@@ -893,3 +893,99 @@ et `docs/` identique avant / après les preuves.
 
 12 pages relues : **2 corrigées** (6 *Trigger redirects*, 10 *HTTP methods
 matching*), 10 inchangées. Aucune carte ni question modifiée.
+
+## Lot 06
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | TwigBundle | relue, exacte |
+| 2 | Twig syntax up to 3.22 version | **corrigée** — voir ci-dessous |
+| 3 | Auto escaping | relue, exacte |
+| 4 | Template inheritance | relue, exacte |
+| 5 | Global variables | relue, exacte |
+| 6 | Filters and functions | relue, exacte |
+| 7 | Template includes | relue, exacte |
+| 8 | Loops and conditions | relue, exacte |
+| 9 | URLs generation | relue, exacte |
+| 10 | Controller rendering | relue, exacte |
+| 11 | Translations and pluralization | relue, exacte |
+| 12 | String interpolation | relue, exacte |
+| 13 | Assets management | relue, exacte |
+| 14 | Debugging variables | relue, exacte |
+
+**Version de Twig des exécutions.** Les sondes de ce lot ont d'abord tourné sur
+Twig 3.30 ; le syllabus s'arrête à 3.22. Toutes ont été **rejouées sur Twig
+3.22.2** (avec Twig Bridge 8.0.15), avec des sorties identiques — y compris le
+message `A block definition cannot be nested under non-capturing nodes.` que
+cite la page 4 et que Twig 3.30 a changé.
+
+**Pages relues sans défaut** : page 1, `TwigExtension` et `Configuration` de
+TwigBundle 8.0 (défauts, `@`/`@@`, surcharge sous `templates/bundles/`, espace
+`!Nom`), options de `lint:twig` et `debug:twig` ; page 3, exécuté : stratégie par
+extension, expression statique non échappée, `raw` en dernier filtre, double
+échappement avec une stratégie variable ; page 4, exécuté : contenu hors bloc,
+`extends` multiples ou dans un bloc, liste de parents, `block()` et `is
+defined`, `use` et renommage ; page 5, les onze propriétés d'`AppVariable` et
+leurs exceptions, globales visibles dans une macro ; page 6, `slice`/`trim`,
+arguments nommés, `truncate` inconnu, attributs `#[AsTwig*]` (3.21) ; page 7,
+contexte, `only`, `with_context`, `ignore missing` et son ordre, `embed` ;
+page 8, `loop.last` absent sur un générateur, portée de boucle, tests de
+`CoreExtension` 3.22, vérité et vacuité de vingt valeurs ; page 9,
+`isUrlGenerationSafe()` et `UrlHelper` ; page 10, `FragmentHandler` et
+`InlineFragmentRenderer` ; page 11, filtre et balise `trans` (huit cas) ;
+page 12, interpolation et séquences d'échappement, dépréciation 3.12 ;
+page 13, `PathPackage` et stratégies de version (lus dans le clone 8.0) ;
+page 14, `dump()` et `{% dump %}` avec et sans débogage, arguments nommés
+refusés.
+
+### Page 2 — *Twig syntax up to 3.22 version*
+
+`CRS-x2f8reencvcs` · DEEP · **980 → 1016 mots** sur 1200.
+
+**Déploiement précédent, lu en production** : page 10 du lot 05 (PR #356,
+`424dd11`), run Pages 37737084904, success — `ok  second-pass  lot-05 http
+methods: a lowercase _method is uppercased, only non-letters raise`.
+
+**Premier défaut, un exemple faux.** La page affirmait qu'une classe déclarant
+`const STATUS` et `getStatus()` verrait `{{ order.status }}` lire la constante.
+`CoreExtension::getAttribute()` (Twig v3.22.0, l. 1807) teste
+`\defined($object::class.'::'.$item)` — sensible à la casse — alors que les
+méthodes sont cherchées en minuscules. Exécuté sur Twig 3.22.2 :
+
+| Classe | `{{ o.status }}` |
+|---|---|
+| `const STATUS` + `getStatus()` | `getter` |
+| `const status` + `const STATUS` + `getStatus()` | `const_lower` |
+
+La règle « constante avant méthode » tient, mais seulement pour une constante
+du même nom à la casse près. Corrigé dans le paragraphe et dans le piège.
+
+**Second défaut, une version fausse.** Le tableau des opérateurs datait de 3.15
+l'opérateur `...` sur les séquences et les tableaux. Le `CHANGELOG` de Twig
+v3.22.0 l'inscrit en **3.7.0** (« Add support for the ...spread operator on
+arrays and hashes ») ; 3.15 n'a ajouté que l'expansion des **arguments d'un
+appel**, comme le dit la `versionadded` de `templates.rst`. Corrigé dans le
+tableau et dans la carte `FLC-weyvdp72vd5e` (« il existe depuis Twig 3.15 ») ;
+le `CHANGELOG` est cité en source sur la page et sur la carte.
+
+**Questions.** `QST-2xamk5ahfyyn` (LEARNING) porte sur le premier accès tenté,
+le tableau ; inchangée. Aucune question non holdout ne porte sur la constante ni
+sur la version de `...`.
+
+**Aiguilles de smoke test.** `correspond à la casse près` et `ne masque pas`,
+absentes de la version `master` de la page et des fichiers de cartes ; contrôle
+d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 06
+
+14 pages relues : **1 corrigée** (2 *Twig syntax up to 3.22 version*, deux
+défauts), 13 inchangées. Carte corrigée : `FLC-weyvdp72vd5e`. Aucune question
+modifiée.

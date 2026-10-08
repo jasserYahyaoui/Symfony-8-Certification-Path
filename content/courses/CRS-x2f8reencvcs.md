@@ -5,7 +5,7 @@ title: "Twig syntax up to 3.22 version"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
@@ -46,6 +46,12 @@ official_sources:
     repository: "php/php-src"
     branch: "PHP-8.4"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/CHANGELOG"
+    readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/CHANGELOG"
+    symbol_or_lines: "3.7.0: Add support for the ...spread operator on arrays and hashes"
+    repository: "twigphp/Twig"
+    branch: "v3.22.0"
+    verified_at: "2026-10-08"
 ---
 
 ## Objectif
@@ -96,9 +102,11 @@ Trois conséquences pratiques. D'abord, le gabarit ne sait pas s'il manipule un
 tableau ou un objet, ce qui permet de commencer avec des tableaux puis de passer
 à des objets sans toucher aux gabarits. Ensuite, un tableau est essayé **avant**
 un objet : un objet qui implémente `ArrayAccess` verra `$foo['bar']` gagner.
-Enfin, la constante de classe passe **avant** toute méthode : une classe qui
-déclare à la fois `const STATUS` et `getStatus()` verra `{{ order.status }}`
-lire la constante, jamais le *getter*.
+Enfin, la constante de classe passe **avant** toute méthode — si son nom
+correspond à la casse près, alors que les méthodes sont cherchées sans tenir
+compte de la casse. Exécuté : avec `const STATUS` et `getStatus()`,
+`{{ order.status }}` appelle le *getter* ; seule une constante nommée `status`
+l'aurait masqué.
 
 > **Deux sources divergent sur l'étape 3.** La documentation Symfony 8.0
 > énumère sept étapes et ne mentionne pas la constante de classe. La
@@ -128,7 +136,7 @@ est **dépréciée depuis 3.15**.
 | Test | `is` : `is defined`, `is empty`, `is null`, `is iterable`, `is same as` |
 | Confort | `?:` (Elvis), `??` (coalescence) |
 | Filtre | `\|` |
-| Fonctions | `=>` crée une fonction fléchée ; `...` étend une séquence ou un tableau (3.15) |
+| Fonctions | `=>` crée une fonction fléchée ; `...` étend une séquence ou un tableau (3.7), les arguments d'un appel (3.15) |
 
 Trois pièges reviennent :
 
@@ -160,7 +168,8 @@ depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 
 - `{{ }}` affiche, `{% %}` exécute — un `{% %}` n'affiche jamais rien.
 - L'ordre de résolution commence par le **tableau**, pas par la propriété.
-- Une **constante de classe** est lue avant le *getter* du même nom.
+- Une **constante de classe** est lue avant le *getter* si son nom est
+  identique, casse comprise : `const STATUS` ne masque pas `getStatus()`.
 - `and` / `or` / `not`, jamais `&&` / `||` / `!`.
 - `~` concatène ; `+` additionne.
 - Sans `strict_variables`, une variable inconnue vaut `null` silencieusement.
