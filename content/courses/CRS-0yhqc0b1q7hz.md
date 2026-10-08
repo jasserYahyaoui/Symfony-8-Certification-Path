@@ -5,7 +5,7 @@ title: "CSRF protection"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-25"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst"
@@ -26,6 +26,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "addCsrfSection(), addFormSection()"
     verified_at: "2026-09-25"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/SameOriginCsrfTokenManager.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Csrf/SameOriginCsrfTokenManager.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "isValidOrigin: Sec-Fetch-Site first, then Origin and Referer"
+    verified_at: "2026-10-08"
 ---
 
 ## Objectif
@@ -83,6 +89,12 @@ cachable. On les déclare par identifiant, avec
 `framework.csrf_protection.stateless_token_ids`. Pour les valider, Symfony
 vérifie les en-têtes **`Origin`** et **`Referer`** : si l'un correspond à
 l'origine de l'application, le jeton est accepté.
+
+Le code 8.0 (`SameOriginCsrfTokenManager::isValidOrigin()`) ajoute une règle
+que la documentation ne dit pas : l'en-tête `Sec-Fetch-Site`, s'il est présent,
+décide seul. Exécuté : `Origin` correct mais `Sec-Fetch-Site: cross-site`,
+refusé ; `Origin` étranger mais `same-origin`, accepté. Pour une question
+d'examen, la règle documentée reste celle à citer.
 
 La documentation 8.0 précise qu'ils sont **activés par défaut dans une
 application Flex** : la configuration fournie déclare
