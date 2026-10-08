@@ -185,13 +185,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mercredi 14 octobre 2026
 
 - NOUVEAU · **Controllers : Naming conventions** (MINIMAL) — 23 min · 695 mots · 3 questions, 15 flashcards
-- NOUVEAU · **Controllers : The base AbstractController class** (STANDARD) — 27 min · 753 mots · 5 questions, 16 flashcards
+- NOUVEAU · **Controllers : The base AbstractController class** (STANDARD) — 28 min · 777 mots · 5 questions, 16 flashcards
 - NOUVEAU · **Controllers : The request** (MINIMAL) — 24 min · 684 mots · 4 questions, 16 flashcards
 - NOUVEAU · **Controllers : The response** (STANDARD) — 28 min · 812 mots · 5 questions, 16 flashcards
 - Révision **J+1** (22 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions · Controllers : HttpKernel component and FrameworkBundle
 - Révision **J+7** (14 min) — HTTP : Content negotiation · HTTP : Language detection · HTTP : Symfony HttpClient component · Symfony Architecture : HttpFoundation component
 
-*Budget du jour : 138 / 160 min*
+*Budget du jour : 139 / 160 min*
 
 ### Jeudi 15 octobre 2026
 
