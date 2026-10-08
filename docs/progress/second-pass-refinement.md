@@ -786,6 +786,7 @@ désormais par un filtre qui masque le texte des questions HOLDOUT.
 | 7 | Special internal routing attributes | relue, exacte |
 | 8 | Domain name matching | relue, exacte |
 | 9 | Conditional request matching | relue, exacte |
+| 10 | HTTP methods matching | **corrigée** — voir ci-dessous |
 | 11 | User's locale guessing | relue, exacte |
 | 12 | Router debugging | relue, exacte |
 
@@ -843,3 +844,52 @@ exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
 `prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
 OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
 et `docs/` identique avant / après les preuves.
+
+### Page 10 — *HTTP methods matching*
+
+`CRS-h3q0qxnq8eq0` · MINIMAL · **474 → 496 mots** sur 700.
+
+**Déploiement précédent, lu en production** : page 6 du lot 05 (PR #355,
+`ce86c61`), run Pages 37735740537, success — `ok  second-pass  lot-05 trigger
+redirects: path() yields an absolute path, not a relative one`.
+
+**Une condition fausse.** La page disait qu'« un nom qui contient autre chose
+que des lettres majuscules lève une `SuspiciousOperationException` ». Lu dans
+`Request::getMethod()` (HttpFoundation 8.0, l. 1224 à 1236) : le nom est passé
+par `strtoupper()` **avant** le contrôle `strspn(…, 'A…Z')`. Exécuté avec
+`enableHttpMethodParameterOverride()` et un `POST` portant `_method` :
+
+| `_method` | `getMethod()` |
+|---|---|
+| `put`, `Put` | `PUT` |
+| `delete` | `DELETE` |
+| `P-UT`, `PUT2` | `SuspiciousOperationException` |
+
+Une minuscule n'est donc pas refusée ; seul un caractère qui n'est pas une
+lettre l'est. Corrigé.
+
+**Le reste, confirmé** : remplacement seulement depuis un `POST` ; en-tête
+`X-HTTP-METHOD-OVERRIDE` lu en premier et indépendant de
+`http_method_override` (défaut `false`) ; `GET`, `HEAD`, `CONNECT` et `TRACE`
+ignorés à l'exécution et refusés par la configuration de
+`allowed_http_method_override` ; `[]` qui coupe tout ; le thème de formulaire
+qui ajoute `_method` dès que la méthode n'est ni `GET` ni `POST`.
+
+**Questions.** Aucune question non holdout ne porte sur la casse de `_method`.
+
+**Aiguilles de smoke test.** `mis en majuscules` et `chiffre, un tiret`,
+absentes de la version `master` de la page et des fichiers de cartes ; contrôle
+d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 05
+
+12 pages relues : **2 corrigées** (6 *Trigger redirects*, 10 *HTTP methods
+matching*), 10 inchangées. Aucune carte ni question modifiée.

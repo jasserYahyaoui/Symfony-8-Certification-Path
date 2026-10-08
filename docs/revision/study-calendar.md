@@ -284,7 +284,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 14 min · 518 mots · 2 questions, 8 flashcards
 - NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 22 min · 613 mots · 5 questions, 12 flashcards
-- NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 14 min · 474 mots · 2 questions, 8 flashcards
+- NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 14 min · 496 mots · 2 questions, 8 flashcards
 - NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 21 min · 591 mots · 4 questions, 12 flashcards
 - Révision **J+1** (24 min) — Routing : Set default values to URL parameters · Routing : URLs generation · Routing : Trigger redirects · Routing : Special internal routing attributes
 - Révision **J+7** (14 min) — Controllers : Naming conventions · Controllers : The base AbstractController class · Controllers : The request · Controllers : The response
