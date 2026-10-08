@@ -5,7 +5,7 @@ title: "Configuration (including DotEnv and ExpressionLanguage components)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-08"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst"
@@ -16,8 +16,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php"
     branch: "8.0"
-    symbol_or_lines: "loadEnv(); bootEnv()"
-    verified_at: "2026-10-02"
+    symbol_or_lines: "loadEnv(); bootEnv(); populate() — bool $overrideExistingVars = false"
+    verified_at: "2026-10-08"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php"
     branch: "8.0"
@@ -89,10 +89,10 @@ Deux règles décident du reste, et ce sont elles que l'examen interroge :
 
 - **`.env.local` est ignoré dans l'environnement `test`** — délibérément, pour
   que les tests donnent le même résultat pour tout le monde ;
-- **une vraie variable d'environnement l'emporte toujours** sur tout ce que les
-  fichiers `.env` définissent. Le fichier ne fait qu'ajouter ce qui manque. La
-  documentation pose une condition : l'option PHP `variables_order` doit
-  contenir `E`, pour que `$_ENV` soit exposé.
+- **une vraie variable d'environnement l'emporte** sur les fichiers `.env`,
+  qui ajoutent seulement ce qui manque — sauf si Dotenv est appelé avec
+  `overrideExistingVars: true` (exécuté). Condition documentée :
+  `variables_order` doit contenir `E`, pour exposer `$_ENV`.
 
 Entre les fichiers eux-mêmes, **le dernier chargé gagne**, dans l'ordre du
 tableau. Exécuté avec Dotenv 8.0.15, une même clé définie dans plusieurs
@@ -175,7 +175,8 @@ d'autorisation.
 **Un paramètre est résolu à la compilation, une variable d'environnement à
 l'exécution.**
 
-**La vraie variable d'environnement gagne** contre les fichiers `.env`.
+**La vraie variable d'environnement gagne** contre les fichiers `.env`, sauf
+avec `overrideExistingVars: true`.
 
 **`.env.local` ne s'applique pas en `test`.**
 
@@ -193,7 +194,7 @@ l'exécution.**
 
 - Paramètre = compilation ; variable d'environnement = exécution.
 - Cascade `.env` → `.env.local` → `.env.<env>` → `.env.<env>.local`, le dernier
-  chargé gagnant ; la vraie variable système au-dessus de tout.
+  chargé gagnant ; la vraie variable système au-dessus, par défaut.
 - Processeurs typés, chaînables de droite à gauche.
 - ExpressionLanguage : `evaluate()` sans compiler, `compile()` pour cacher.
 

@@ -55,7 +55,8 @@ questions:
     text: 'Neither: the conflict raises an error at boot'
     correct: false
     explanation: Nothing is raised; the two coexist and one simply wins.
-  explanation: The .env files supply defaults; a variable already present in the environment is never overwritten.
+  explanation: The .env files supply defaults; a variable already present in the environment is not overwritten,
+    unless Dotenv is called with overrideExistingVars set to true.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst

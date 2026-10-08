@@ -12,9 +12,11 @@ flashcards:
   language: fr
   level: TRAP
   front: Une vraie variable d'environnement et un fichier .env définissent la même clé. Laquelle gagne ?
-  back: La vraie variable d'environnement, toujours. Les fichiers .env n'ajoutent que ce qui manque, ils n'écrasent
-    rien.
-  explanation: C'est ce qui permet à un hébergeur de fixer une valeur qu'aucun fichier versionné ne peut contredire.
+  back: 'La vraie variable d''environnement, par défaut : les fichiers .env n''ajoutent que ce qui manque. Seul
+    `overrideExistingVars: true`, passé à loadEnv(), bootEnv() ou populate(), les laisse l''écraser.'
+  explanation: 'C''est ce qui permet à un hébergeur de fixer une valeur qu''aucun fichier versionné ne contredit — tant
+    que l''application n''appelle pas Dotenv avec `overrideExistingVars: true`. Exécuté avec K=fromshell : la valeur
+    du shell par défaut, celle du .env avec l''option.'
   memorization_justification: L'ordre de la cascade .env est bien retenu, mais on oublie ce qui la surplombe.
   verification_status: VERIFIED
   official_sources:
@@ -28,6 +30,12 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'Dotenv::populate(array $values, bool $overrideExistingVars = false) — "@param bool $overrideExistingVars Whether existing environment variables set by the system should be overridden"; the default is false, so a real environment variable wins'
     verified_at: '2026-09-07'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Overriding Environment Variables Defined By The System — overrideExistingVars
+    verified_at: '2026-10-08'
 - id: FLC-63tca08n26r1
   official_item: OIT-kv7mbksn7m8v
   language: fr

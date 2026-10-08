@@ -37,7 +37,7 @@ périmètre sur instruction.
 | 25 (Miscellaneous) | **terminé** — 1 page déployée (PR #337) ; rapport fusionné (PR #338) |
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
-| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lot 06 terminé (1 page corrigée, PR #357) ; lot 07 terminé (1 page précisée, PR #358) ; lot 08 terminé (aucune erreur) ; lots 09 à 12 terminés (aucune erreur) ; lot 13 terminé (page 3 corrigée, PR #359 ; pages 4 et 8 précisées, PR suivante) ; lot 14 en relecture | `docs/progress/second-pass-refinement.md` |
+| Seconde passe (lots 02 à 16) | **en cours** — lot 02 relu (3 pages corrigées, PR #341 à #343) ; lot 03 relu (6 pages corrigées, PR #344 à #349) ; lot 04 terminé (5 pages corrigées ou précisées, PR #350 à #354 — smoke rouge de #350 réparé par #351) ; lot 05 terminé (2 pages corrigées, PR #355 et #356) ; lot 06 terminé (1 page corrigée, PR #357) ; lot 07 terminé (1 page précisée, PR #358) ; lot 08 terminé (aucune erreur) ; lots 09 à 12 terminés (aucune erreur) ; lot 13 terminé (page 3 corrigée, PR #359 ; pages 4 et 8 précisées, PR #360) ; lot 14 terminé (page 1 précisée, PR en cours) ; lots 15 et 16 terminés (aucune erreur) — relecture des lots 02 à 16 achevée, bilan final à rédiger | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -53,12 +53,10 @@ périmètre sur instruction.
   de même pour le lot 13 (seconde passe, page 3).
 
 **Prochaine action** : seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07 — fusionner la PR des pages 4 et 8 du lot 13 après
-CI verte, lire son smoke test ; préciser la page 1 du lot 14
-(`overrideExistingVars: true` laisse le `.env` écraser une variable du système ;
-carte `FLC-nb0mh2t8j7r9` et explication de `QST-8h7ynmfznjpe`), relire ses
-pages 2 et 3, puis les lots 15 et 16. Avant chaque PR, le contrôle d'aiguilles
-anciennes.
+propriétaire le 2026-10-07 — fusionner la PR de la page 1 du lot 14 après CI
+verte, lire son smoke test, puis rédiger le bilan final de la seconde passe
+(décompte par script des pages corrigées, précisées et inchangées, lots 02 à 16)
+dans une PR de journal.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

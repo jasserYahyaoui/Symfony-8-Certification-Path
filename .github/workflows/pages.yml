@@ -4760,6 +4760,24 @@ jobs:
           else
             echo "ok  second-pass  lot-13 introspection: _controller of an invokable controller is the class name alone"
           fi
+          # Second pass, lot 14 (Configuration): a real env var wins by default, but overrideExistingVars: true lets .env override it.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp14cf -w '%{http_code}' "$BASE_URL/docs/courses/lot-14/configuration-including-dotenv-and-expressionlanguage-components")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-14/configuration-including-dotenv-and-expressionlanguage-components serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'sauf si Dotenv est appelé avec' /tmp/sp-sp14cf \
+            || missing="$missing sp14cf:no-unless-dotenv"
+          grep -aqF -- 'qui ajoutent seulement ce qui manque' /tmp/sp-sp14cf \
+            || missing="$missing sp14cf:no-only-add-missing"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-14/configuration-including-dotenv-and-expressionlanguage-components:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-14 configuration: a real env var wins by default, overrideExistingVars: true reverses it"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
