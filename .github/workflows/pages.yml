@@ -4615,6 +4615,24 @@ jobs:
           else
             echo "ok  second-pass  lot-04 generate 404 pages: five request exceptions give a 400, JsonException included"
           fi
+          # Second pass, lot 04 (Built-in internal controllers): in path mode a full URL drops the query string.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp04rc -w '%{http_code}' "$BASE_URL/docs/courses/lot-04/built-in-internal-controllers")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-04/built-in-internal-controllers serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'recopiée sur un chemin' /tmp/sp-sp04rc \
+            || missing="$missing sp04rc:no-copied-on-path"
+          grep -aqF -- 'jamais une URL complète' /tmp/sp-sp04rc \
+            || missing="$missing sp04rc:no-never-full-url"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-04/built-in-internal-controllers:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-04 internal controllers: in path mode a full URL drops the query string"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

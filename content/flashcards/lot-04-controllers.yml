@@ -3897,9 +3897,12 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une route RedirectController en mode path reçoit ?page=2. La redirection garde-t-elle ce paramètre ?"
-    back: "Oui : en mode path, la chaîne de requête est toujours recopiée, sans option pour s en passer."
+    back: "Oui si path est un chemin : la chaîne de requête est recopiée, sans option pour s en passer. Non si path est une URL complète (https://… ou //…) : elle part telle quelle."
     explanation: >-
-      keepQueryParams n existe que pour le mode route.
+      keepQueryParams n existe que pour le mode route. Exécuté sur
+      FrameworkBundle 8.0 avec ?page=2 : le chemin /target redirige vers
+      http://localhost/target?page=2, l URL https://example.org/target vers
+      elle-même, sans la chaîne de requête.
     memorization_justification: >-
       Le cas inverse la règle apprise sur keepQueryParams.
     verification_status: VERIFIED
@@ -3909,7 +3912,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "urlRedirectAction"
-        verified_at: "2026-09-24"
+        verified_at: "2026-10-08"
 
   - id: FLC-h3y38sv0ygbb
     official_item: OIT-e93sa9rd4kd9
@@ -3954,7 +3957,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « keepQueryParams conserve la query string dans les deux modes de RedirectController »."
-    back: "Non. L option n existe qu en mode route ; en mode path la query string suit toujours."
+    back: "Non. L option n existe qu en mode route ; en mode path la query string suit un chemin, jamais une URL complète."
     explanation: >-
       Les deux actions n ont pas la même signature.
     memorization_justification: >-
@@ -3966,7 +3969,7 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "urlRedirectAction"
-        verified_at: "2026-09-24"
+        verified_at: "2026-10-08"
 
   - id: FLC-4xme1syf6wkm
     official_item: OIT-e93sa9rd4kd9

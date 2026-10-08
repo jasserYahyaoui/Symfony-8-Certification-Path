@@ -512,6 +512,7 @@ handling*, 7 *Exception handling*, 8 *Event dispatcher and kernel events*,
 | 10 | Internal redirects | relue, exacte |
 | 11 | Generate 404 pages | **précisée** — voir ci-dessous |
 | 12 | File upload | relue, exacte |
+| 13 | Built-in internal controllers | **corrigée** — voir ci-dessous |
 | 14 | Argument value resolvers | relue, exacte |
 
 **Pages relues sans défaut**, avec ce qui a été exécuté sur les composants 8.0
@@ -711,3 +712,63 @@ exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
 `prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
 OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
 et `docs/` identique avant / après les preuves.
+
+### Page 13 — *Built-in internal controllers*
+
+`CRS-zmg0wrxvqqdq` · STANDARD · **665 → 687 mots** sur 900.
+
+**Déploiement précédent, lu en production** : page 11 du lot 04 (PR #353,
+`61787b8`), run Pages 37733505922, success — `ok  second-pass  lot-04 generate
+404 pages: five request exceptions give a 400, JsonException included`.
+
+**Une règle trop absolue.** La page disait qu'en mode `path` de
+`RedirectController` la chaîne de requête « est toujours recopiée » ; le piège et
+les points clés le répétaient, comme les cartes `FLC-422dng3d9mpz` et
+`FLC-q651qspyt2g7`. Lu dans `urlRedirectAction()` (FrameworkBundle 8.0,
+l. 120 à 127) : une URL complète — schéma présent, ou `//…` complété par le
+schéma — est rendue **avant** la recopie de la chaîne de requête. Exécuté, depuis
+`http://localhost/from?page=2` :
+
+| `path` | `Location` |
+|---|---|
+| `/target` | `http://localhost/target?page=2` |
+| `https://example.org/target` | `https://example.org/target` |
+| `//cdn.example.org/target` | `http://cdn.example.org/target` |
+
+Corrigé sur la page et dans les deux cartes : recopiée sur un chemin, jamais
+sur une URL complète.
+
+**Le reste, confirmé** : `templateAction()` (`maxAge: 0` ne pose rien,
+`sharedAge: 0` pose `s-maxage=0`, `private` absent rend publique dès qu'un âge
+est fourni) ; `redirectAction()` (307 / 308 avec `keepRequestMethod`, URL
+générée en `ABSOLUTE_URL`, `RuntimeException` pour `route` et `path` ensemble
+ou absents, 404 / 410 pour une cible vide).
+
+**Questions.** Aucune question non holdout ne porte sur la chaîne de requête en
+mode `path`.
+
+**Aiguilles de smoke test.** `recopiée sur un chemin` et `jamais une URL
+complète`, absentes de la version `master` de la page et des fichiers de cartes ;
+contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 04
+
+14 pages relues : **5 corrigées ou précisées** (1 *HttpKernel component and
+FrameworkBundle*, 3 *The base AbstractController class*, 7 *The session*,
+11 *Generate 404 pages*, 13 *Built-in internal controllers*), 9 inchangées —
+la page 3 et la page 11 sont des précisions, les trois autres des corrections.
+Cartes corrigées : `FLC-77v79574hbs0` (page 1), `FLC-7r316smhg8bj` et
+`FLC-24afz5hynrda` (page 7), `FLC-422dng3d9mpz` et `FLC-q651qspyt2g7`
+(page 13). Aucune question modifiée. Un incident : le smoke test rouge de #350,
+réparé par #351 (voir plus haut). Une question HOLDOUT a été affichée par
+erreur dans le terminal de travail pendant la relecture de la page 3 ; elle n'a
+été ni reprise ni modifiée, et les recherches dans les questions passent
+désormais par un filtre qui masque le texte des questions HOLDOUT.
