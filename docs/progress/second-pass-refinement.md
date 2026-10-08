@@ -1431,3 +1431,142 @@ avant / après les preuves.
 6 inchangées. Deux cartes corrigées (`FLC-n4wy9v7h0cps`, `FLC-b385mvgx5jvc`) ;
 aucune question non holdout modifiée. Signal pour le propriétaire : au moins une
 question holdout du lot 13 mérite sa revue (voir la page 3).
+
+## Lot 14
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Configuration (including DotEnv and ExpressionLanguage components) | **précisée** — voir ci-dessous |
+| 2 | Error handling | relue, exacte |
+| 3 | Code debugging | relue, exacte |
+
+**Pages relues sans défaut**, exécutées avec les composants 8.0 du bac à sable :
+page 2, dans un **vrai contrôleur frontal** (Runtime 8.0, serveur web de PHP) —
+une clé de tableau absente rend 500 et une `ErrorException` en debug, 200 et un
+avertissement journalisé sans debug ; dans un `WebTestCase`, ce même cas rend
+200 en debug, car le gestionnaire d'erreurs de PHPUnit intercepte
+l'avertissement avant celui de Symfony, d'où le choix du contrôleur frontal —,
+les cinq statuts du tableau dans les deux modes, les gabarits
+`error404.html.twig` et `error.html.twig` sans debug, l'ordre de
+`ErrorListener::logKernelException()` et de `FlattenException` lu, le défaut
+`%kernel.debug%` de `php_errors.throw` lu dans le code et la référence,
+`error_pages.rst` pour les quatre niveaux, les variables du gabarit, la
+sécurité sur une 404 et les routes `/_error` ; page 3, les `composer.json` de
+FrameworkBundle et d'ErrorHandler (VarDumper requis hors `--dev`), puis, noyau
+en `prod` sans DebugBundle derrière le serveur web de PHP, `function_exists('dump')`
+vrai, un `dump()` qui rend 200 avec le dump HTML avant le contenu et les
+en-têtes de la réponse perdus (`Cache-Control` et un en-tête maison absents,
+présents sur une route sans dump), `router:match` avec et sans `-v`, et
+`debug:config framework exceptions` qui affiche `log_level: null` pour une
+classe déclarée sans cette clé ; `var_dumper.rst` lu.
+
+### Page 1 — *Configuration (including DotEnv and ExpressionLanguage components)*
+
+`CRS-b7wpm5anh7c6` · STANDARD · **897 → 897 mots** sur 900.
+
+**Déploiement précédent, lu en production** : pages 4 et 8 du lot 13
+(PR #360, `15109f0`), run Pages 37827682223, success — `ok  second-pass
+lot-13 crawler: reduce() removes a node only when the closure returns false`
+et `ok  second-pass  lot-13 introspection: _controller of an invokable
+controller is the class name alone`.
+
+**Une généralisation que la documentation contredit elle-même.** La page
+disait qu'une vraie variable d'environnement « l'emporte **toujours** » sur les
+fichiers `.env`, qui « ne font qu'ajouter ce qui manque ». `configuration.rst`
+(8.0) écrit bien « always win », mais décrit deux paragraphes plus loin
+l'exception : `loadEnv()`, `bootEnv()` et `populate()` acceptent
+`overrideExistingVars: true`, qui laisse les fichiers écraser une variable du
+système. Exécuté avec Dotenv 8.0.15, `K=fromshell` dans le shell et
+`K=fromdotenv` dans `.env` :
+
+| Appel | `$_SERVER['K']` | `getenv('K')` |
+|---|---|---|
+| `loadEnv()` | `fromshell` | `fromshell` |
+| `loadEnv(…, overrideExistingVars: true)` | `fromdotenv` | `fromshell` |
+| `bootEnv(…, overrideExistingVars: true)` | `fromdotenv` | `fromshell` |
+
+La page précise la règle (« par défaut ») et nomme l'option, dans le corps, les
+pièges et les points clés. Le budget `REV-001` étant presque atteint, la phrase
+sur `variables_order` est resserrée pour que le volume reste à 897 mots ; la
+source `Dotenv` de la page est re-vérifiée.
+
+**Carte.** `FLC-nb0mh2t8j7r9` (TRAP) répondait « La vraie variable
+d'environnement, toujours […] ils n'écrasent rien », alors que sa propre source
+cite le défaut `false` de `$overrideExistingVars`. Réponse et explication
+précisées ; la section *Overriding Environment Variables Defined By The System*
+de `configuration.rst` est ajoutée comme source.
+
+**Question.** `QST-8h7ynmfznjpe` (LEARNING) : la bonne réponse — la vraie
+variable — reste juste par défaut ; son explication disait « never
+overwritten ». Explication précisée (« not overwritten, unless Dotenv is called
+with overrideExistingVars set to true ») ; choix et version inchangés, comme
+pour la correction d'explication de la PR #295. Aucune autre question non
+holdout ne porte sur ce point.
+
+**Le reste de la page, confirmé par exécution** : la cascade `.env` dans ses
+trois cas et deux environnements, `bootEnv()` avec un `.env.local.php` (une clé
+absente n'est plus définie), la syntaxe (`'${E}'` littéral, `"${E}"` interpolé,
+`${NOPE:-defaut}`), les quatre références du tableau des processeurs sur un
+conteneur compilé, `evaluate()`, `compile()`, `parse()`, la signature de
+`lint()` et ses cinq cas ; `dotenv:dump` présent dans le composant, et
+`configuration.rst` pour la lecture à chaque requête.
+
+**Aiguilles de smoke test.** `sauf si Dotenv est appelé avec` et `qui
+ajoutent seulement ce qui manque`, absentes de la version `master` de la page et
+des fichiers de cartes ; contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-08** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 14
+
+3 pages relues : **1 précisée** (1 *Configuration*), 2 inchangées. Une carte
+précisée (`FLC-nb0mh2t8j7r9`) et une explication de question LEARNING précisée
+(`QST-8h7ynmfznjpe`, choix et version inchangés).
+
+## Lot 15
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Deployment best practices | relue, exacte |
+| 2 | Web Profiler, Web Debug Toolbar and Data collectors | relue, exacte |
+
+**Pages relues sans défaut** : page 1, `deployment.rst` 8.0 pour les étapes,
+les commandes, `.env.local.php`, `--empty`, `dotenv:dump` et
+`requirements-checker`, `Kernel::getProjectDir()` lu puis exécuté (noyau dans
+`app/src/` : `app/src` sans `composer.json`, `app` avec) ; page 2, le tableau
+d'injection de la barre ré-exécuté dans un `WebTestCase` avec WebProfilerBundle
+8.0.15 (HTML avec `</body>` seul injecté ; JSON, 302, HTML sans `</body>` et XHR
+sans barre ; `X-Debug-Token-Link` présent dans les cinq cas), et lus dans le
+code 8.0 : les conditions de `WebDebugToolbarListener::onKernelResponse()`, la
+purge une fois sur dix au-delà de `2 * 86400` secondes dans
+`FileProfilerStorage`, `ProfilerListener` et `Profiler::saveProfile()` pour
+`collect()` et `lateCollect()` ; `profiler.rst` pour le reste.
+
+## Bilan du lot 15
+
+2 pages relues : **aucune erreur**. Aucune carte ni question modifiée.
+
+## Lot 16
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Internationalization and localization | relue, exacte |
+
+**Page relue sans défaut**, exécutée avec Translation 8.0.15 et Twig : `strtr`
+sans `+intl-icu` (`Hello {Ann}!` avec la clé `name`, `Hello Ann!` avec
+`{name}`), clé absente rendue telle quelle, repli de `es_AR` calculé
+`es_419 > es > en` et résolu sur `es_419`, échappement du paramètre par le
+filtre `|trans` et non par la balise `{% trans %}` ; `setFallbackLocales()`
+avec `default_locale` à défaut de `fallbacks` lu dans `FrameworkExtension` ;
+`translation.rst` pour les emplacements, la priorité clé par clé, le
+`cache:clear`, YAML ou XLIFF, `trans_default_domain` et la locale parente.
+
+## Bilan du lot 16
+
+1 page relue : **aucune erreur**. Aucune carte ni question modifiée.
