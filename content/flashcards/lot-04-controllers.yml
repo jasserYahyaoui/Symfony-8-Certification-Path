@@ -2300,13 +2300,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi le démarrage paresseux de la session rend-il une page cachable ?"
-    back: "Parce qu'une page qui ne touche jamais à la session n'émet aucun cookie de session, donc rien n'identifie l'utilisateur dans la réponse."
+    back: "Parce que `SessionListener` ne rend la réponse privée que si la session a servi : une page qui n'y touche jamais garde ses en-têtes de cache."
     explanation: >-
       Activer la session dans la configuration ne coûte donc rien tant que
-      personne ne s en sert.
+      personne ne s en sert. Ce n est pas le cookie qui décide : exécuté, un
+      has() seul rend la réponse privée sans poser de cookie.
     memorization_justification: >-
-      Le lien entre un cookie et la cachabilité par un proxy partagé est la
-      raison d être du mécanisme, pas un effet secondaire.
+      Le lien entre l usage de la session et la cachabilité par un proxy
+      partagé est la raison d être du mécanisme, pas un effet secondaire.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
@@ -2314,7 +2315,13 @@ flashcards:
         repository: "symfony/symfony-docs"
         branch: "8.0"
         symbol_or_lines: "Sessions are only started if you read from or write to them"
-        verified_at: "2026-09-22"
+        verified_at: "2026-10-08"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelResponse: cookie only for a non-empty session, private on usage"
+        verified_at: "2026-10-08"
 
   - id: FLC-r4904kbkvtje
     official_item: OIT-e41m74xaqhy7
@@ -2342,9 +2349,11 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une page appelle uniquement `$session->has('panier')` et rien d'autre. Émet-elle un cookie de session ?"
-    back: "Oui. La vérification passe par le sac d'attributs et démarre la session."
+    back: "Non, pas à un visiteur sans session. La vérification démarre la session et rend la réponse privée, mais le cookie n'est posé que pour une session non vide."
     explanation: >-
-      La page cesse donc d être cachable par un proxy partagé, sans qu aucune
+      Exécuté sur FrameworkBundle 8.0 : après un has() seul, Cache-Control
+      private et aucun Set-Cookie ; après un set(), le cookie part. La page
+      cesse pourtant d être cachable par un proxy partagé, sans qu aucune
       donnée n ait été lue ni écrite.
     memorization_justification: >-
       Le cas paraît anodin et change le comportement de cache de toute la page.
@@ -2355,7 +2364,13 @@ flashcards:
         repository: "symfony/symfony"
         branch: "8.0"
         symbol_or_lines: "has"
-        verified_at: "2026-09-22"
+        verified_at: "2026-10-08"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "onKernelResponse: cookie only for a non-empty session, private on usage"
+        verified_at: "2026-10-08"
 
   - id: FLC-x72hqt7n8k2z
     official_item: OIT-e41m74xaqhy7
