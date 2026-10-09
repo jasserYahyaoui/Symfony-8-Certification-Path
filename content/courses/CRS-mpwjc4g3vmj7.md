@@ -5,7 +5,7 @@ title: "Request handling"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst"
@@ -156,6 +156,46 @@ n'entre dans ces branches que si `handleAllThrowables` est vrai :
 `framework.handle_all_throwables` le fait par défaut, mais le constructeur
 d'`HttpKernel` le met à `false`. Exécuté avec une `TypeError` et ce défaut :
 seul `kernel.request` a lieu, ni `kernel.exception` ni `kernel.finish_request`.
+
+## Le cycle en schéma
+
+```mermaid
+---
+title: Le trajet sans exception
+---
+flowchart TD
+  accTitle: Le trajet d'une requête principale sans exception
+  accDescr: kernel.request peut poser une réponse et sauter le contrôleur. Sinon kernel.controller, kernel.controller_arguments, puis l'appel du contrôleur. kernel.view n'a lieu que si le retour n'est pas une Response, et s'il ne pose aucune réponse, une exception est levée. Toute réponse passe par kernel.response puis kernel.finish_request, et kernel.terminate suit l'envoi.
+  REQ["kernel.request"] -->|"setResponse()"| RESP
+  REQ --> CTRL["kernel.controller"]
+  CTRL --> ARGS["kernel.controller_arguments"]
+  ARGS --> CALL["appel du contrôleur"]
+  CALL -->|"une Response"| RESP["kernel.response"]
+  CALL -->|"autre chose"| VIEW["kernel.view"]
+  VIEW -->|"setResponse()"| RESP
+  VIEW -->|"aucune réponse"| ERR(["exception"])
+  RESP --> FIN["kernel.finish_request"]
+  FIN --> SEND["envoi"]
+  SEND --> TERM["kernel.terminate"]
+```
+
+```mermaid
+---
+title: Une exception pendant handle()
+---
+flowchart TD
+  accTitle: Ce que handle() fait d'une exception
+  accDescr: Une Error que handle_all_throwables ne couvre pas est relancée sans aucun événement. Sinon, si catch vaut false, kernel.finish_request a lieu puis l'exception est relancée. Si catch vaut true, kernel.exception est dispatché. Si un écouteur pose une réponse, kernel.response puis kernel.finish_request ont lieu. Sinon kernel.finish_request a lieu puis l'exception est relancée.
+  ERR(["exception levée"]) --> E{"Error non couverte ?"}
+  E -->|"oui"| RAW(["relancée sans événement"])
+  E -->|"non"| C{"catch ?"}
+  C -->|"false"| FIN2["kernel.finish_request"]
+  C -->|"true"| EXC["kernel.exception"]
+  EXC -->|"setResponse()"| RESP["kernel.response"]
+  EXC -->|"aucune réponse"| FIN2
+  RESP --> FIN["kernel.finish_request"]
+  FIN2 --> UP(["relancée"])
+```
 
 ## Trois façons d'échouer, trois exceptions
 

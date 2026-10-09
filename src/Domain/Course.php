@@ -45,8 +45,36 @@ final readonly class Course
     }
 
     /**
+     * A fenced ```mermaid block, from its opening line to its closing fence.
+     *
+     * An unclosed block does not match, so its text stays counted: the
+     * failure mode of a malformed diagram is a heavier page, never a lighter
+     * one. DIA-001 reports the unclosed fence itself.
+     */
+    public const string MERMAID_BLOCK = '/^```mermaid\b[^\n]*\n.*?^```[ \t]*$/msu';
+
+    /**
+     * The ```mermaid blocks of a Markdown body, fences included.
+     *
+     * @return list<string>
+     */
+    public static function mermaidBlocks(string $markdown): array
+    {
+        preg_match_all(self::MERMAID_BLOCK, $markdown, $matches);
+
+        return $matches[0];
+    }
+
+    /**
      * Body words — the unit CLAUDE.md requires for course size, and the input
      * to the revision budget REV-001.
+     *
+     * A ```mermaid block is not counted (ADR-0009, the owner's decision of
+     * 2026-10-09). Its source is node identifiers, arrows and labels, not prose
+     * read at 250 words a minute, and counting it would make a diagram compete
+     * with the explanation it replaces. DIA-001 keeps the exemption from
+     * becoming a hiding place: every block must declare a diagram type, an
+     * accessible title and an accessible description.
      *
      * Counted as whitespace-separated tokens, not with `str_word_count()`:
      * that function's default character class excludes accented letters, so it
@@ -57,7 +85,8 @@ final readonly class Course
      */
     public function wordCount(): int
     {
-        $tokens = preg_split('/\s+/u', trim($this->body), -1, \PREG_SPLIT_NO_EMPTY);
+        $prose = preg_replace(self::MERMAID_BLOCK, ' ', $this->body) ?? $this->body;
+        $tokens = preg_split('/\s+/u', trim($prose), -1, \PREG_SPLIT_NO_EMPTY);
 
         return false === $tokens ? 0 : \count($tokens);
     }

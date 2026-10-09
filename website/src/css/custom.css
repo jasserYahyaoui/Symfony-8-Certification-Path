@@ -283,6 +283,24 @@ main dd a:not(.button):not(.card),
   color: var(--certpath-code-string) !important;
 }
 
+/* Le thème GitHub sert aussi `function` et `deleted` en #d73a49, soit 4.29:1
+   sur #f6f8fa. Révélé par le premier cours audité en largeur téléphone
+   (lot 03, *Request handling*) : `public function handle(` y est tokenisé en
+   `function-definition function`. Le thème sombre (Dracula) n'est pas en
+   cause, d'où une correction limitée au thème clair. */
+[data-theme='light'] .token.function,
+[data-theme='light'] .token.deleted {
+  color: #b31d28 !important;  /* 6.3:1 on #f6f8fa */
+}
+
+/* Mermaid's dark theme writes edge labels in #cccccc on #585858: 4.43:1, under
+   the 4.5:1 minimum for body-size text. The colours are set by a stylesheet
+   Mermaid injects into each SVG, so the override needs !important. */
+[data-theme='dark'] .docusaurus-mermaid-container .edgeLabel,
+[data-theme='dark'] .docusaurus-mermaid-container .edgeLabel p {
+  color: #f0f0f0 !important;  /* 6.2:1 on #585858 */
+}
+
 /* --------------------------------------------------------------------------
  * Couleurs d'événements de l'agenda de révision.
  *

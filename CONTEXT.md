@@ -39,6 +39,7 @@ périmètre sur instruction.
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
 | Extension de la seconde passe (lots 17 à 26, puis 01) | **terminée** le 2026-10-09 — 22 pages relues (les 22 items de ces lots) : 8 corrigées, 8 précisées, 6 exactes ; 2 cartes et 5 questions non holdout modifiées (1 VALIDATION, 4 LEARNING), 0 question holdout ; 7 PR (#363 à #369), toutes déployées, smoke vert sauf #366 (réparé par #367) ; décisions du propriétaire appliquées : lot 22 « Suivre le code » (#368), octets NUL « Retirer après build » (#369) ; bilan par script dans le journal | `docs/progress/second-pass-refinement.md` |
+| Schémas Mermaid ([ADR-0009](docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md)) | **pilote** le 2026-10-09 : 2 schémas vérifiés dans le code 8.0 (lot 03, *Request handling* : trajet sans exception, puis branche d'exception) ; Mermaid hors budget de mots ; règle `DIA-001` (type, `accTitle`, `accDescr`) avec 4 cas de preuve ; audit a11y en largeur téléphone, thèmes clair et sombre ; déploiement à lire avant la suite | `docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -48,6 +49,10 @@ périmètre sur instruction.
   clé de question : suivre le code (lot 22, *Mailer*, 2026-10-09).
 - Octets NUL du rendu serveur : les retirer après le build, et faire échouer le
   build s'il en reste (2026-10-09).
+- Schémas Mermaid dans les cours : autorisés, et **hors budget de mots** — « Vas y
+  pour mermaid et ninclut pas memrmaid dans budget mots , faire enregistrer
+  cette règle » (2026-10-09, ADR-0009). Chaque bloc doit porter un type, un
+  `accTitle` et un `accDescr` (règle `DIA-001`).
 - Planning de révision : `--start 2026-10-01 --exam 2026-12-15 --max-new 4
   --weekday 160 --weekend 220` depuis le 2026-09-24 (140/200 ne tenait plus ;
   voir `docs/revision/study-roadmap.md`). Au-delà, `--max-new` devient la
@@ -57,9 +62,14 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
-**Prochaine action** : seconde passe et extension terminées — les 163 pages
-ont été relues. Rien n'est en cours côté contenu. Avant toute nouvelle PR qui
-touche une page, le contrôle d'aiguilles anciennes.
+**Prochaine action** : lire en production le smoke du pilote Mermaid
+(`ok  diagrams  lot-03 request handling…`), puis poursuivre les schémas par
+lots de deux ou trois cours, chaque flèche vérifiée dans le code 8.0 :
+lot 11 *Retries and failures*, lot 10 *Authenticators, Passports and Badges*,
+lot 22 *Mailer*, lot 10 *Voters and voting strategies*, lot 09 *Compiler
+passes*, lot 17 *HTTP Caching* ; lot 07 *Form events* après décision sur la
+PR #148, qui traite le même sujet. Avant toute PR qui touche une page, le
+contrôle d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06, 13 et 01, et la
 passation du Mock 4.
 
