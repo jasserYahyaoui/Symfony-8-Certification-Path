@@ -514,7 +514,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 6 novembre 2026
 
-- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 27 min · 949 mots · 5 questions, 11 flashcards
+- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 27 min · 892 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Security : Voters and voting strategies** (DEEP) — 26 min · 810 mots · 6 questions, 11 flashcards
 - NOUVEAU · **Messenger : Messenger component** (STANDARD) — 19 min · 647 mots · 3 questions, 11 flashcards
 - Révision **J+1** (22 min) — Security : Users · Security : Password hashers · Security : Roles · Security : Access Control Rules
@@ -569,7 +569,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Messenger : Transports** (STANDARD) — 23 min · 679 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Messenger : Messages and handlers** (STANDARD) — 22 min · 686 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Messenger : Workers** (STANDARD) — 21 min · 611 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 26 min · 852 mots · 6 questions, 11 flashcards
+- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 26 min · 804 mots · 6 questions, 11 flashcards
 - Révision **J+3** (14 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+7** (15 min) — Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers · Forms : Form events
 - Révision **J+14** (14 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
