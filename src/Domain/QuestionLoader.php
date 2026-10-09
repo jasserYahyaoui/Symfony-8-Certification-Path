@@ -10,13 +10,26 @@ use CertPath\Schema\YamlLoader;
 use CertPath\Support\Id;
 
 /**
- * Loads every question bank file under `content/questions/`.
+ * Loads every question bank file under `content/questions/` — or, built with
+ * `comprehension()`, every comprehension bank under `content/comprehension/`.
+ *
+ * The two are kept apart here, at load time (ADR-0010): a comprehension
+ * question found among the exam banks, or an exam question found among the
+ * comprehension banks, is refused before any rule or payload sees it. Pool
+ * isolation that depended on every consumer filtering correctly would fail the
+ * first time one forgot to.
  */
 final readonly class QuestionLoader
 {
     public function __construct(
         private YamlLoader $yaml = new YamlLoader(),
+        private string $schema = SchemaRegistry::QUESTION_BANK,
     ) {
+    }
+
+    public static function comprehension(): self
+    {
+        return new self(schema: SchemaRegistry::COMPREHENSION_BANK);
     }
 
     /**
@@ -46,7 +59,7 @@ final readonly class QuestionLoader
      */
     public function loadFile(string $path): array
     {
-        $document = $this->yaml->load($path, SchemaRegistry::QUESTION_BANK);
+        $document = $this->yaml->load($path, $this->schema);
 
         $raw = $document['questions'] ?? [];
         if (!\is_array($raw)) {
@@ -117,14 +130,71 @@ final readonly class QuestionLoader
             explanation: (string) ($raw['explanation'] ?? ''),
             officialSources: $sources,
             classification: Classification::from($this->req($raw, 'classification', $ctx)),
-            pool: Pool::from($this->req($raw, 'pool', $ctx)),
+            pool: $this->pool($raw, $ctx),
             tags: array_map(strval(...), (array) ($raw['tags'] ?? [])),
             verificationStatus: VerificationStatus::from($this->req($raw, 'verification_status', $ctx)),
             reviewers: array_map(strval(...), (array) ($raw['reviewers'] ?? [])),
             reviewedAt: isset($raw['reviewed_at']) ? (string) $raw['reviewed_at'] : null,
             questionArchetype: $this->archetype($raw, $ctx),
             assessesOutcomes: $this->outcomeRefs($raw, $ctx),
+            relatedItems: $this->relatedItems($raw, $ctx),
         );
+    }
+
+    /**
+     * ADR-0010: the pool decides the file, and the file decides the pool.
+     *
+     * @param array<string, mixed> $raw
+     */
+    private function pool(array $raw, string $ctx): Pool
+    {
+        $pool = Pool::from($this->req($raw, 'pool', $ctx));
+        $comprehensionBank = SchemaRegistry::COMPREHENSION_BANK === $this->schema;
+
+        if ($comprehensionBank && Pool::Comprehension !== $pool) {
+            throw new SchemaException(\sprintf(
+                '%s: a comprehension bank holds COMPREHENSION questions only, found %s (ADR-0010).',
+                $ctx,
+                $pool->value,
+            ));
+        }
+
+        if (!$comprehensionBank && Pool::Comprehension === $pool) {
+            throw new SchemaException(\sprintf(
+                '%s: a COMPREHENSION question belongs in content/comprehension/, never among the exam banks (ADR-0010).',
+                $ctx,
+            ));
+        }
+
+        return $pool;
+    }
+
+    /**
+     * @param array<string, mixed> $raw
+     *
+     * @return list<string>
+     */
+    private function relatedItems(array $raw, string $ctx): array
+    {
+        $items = (array) ($raw['related_items'] ?? []);
+
+        if ([] !== $items && SchemaRegistry::COMPREHENSION_BANK !== $this->schema) {
+            throw new SchemaException(\sprintf('%s: `related_items` exists only on comprehension questions (ADR-0010).', $ctx));
+        }
+
+        $refs = [];
+        foreach ($items as $ref) {
+            if (!\is_string($ref) || !Id::isValid($ref)) {
+                throw new SchemaException(\sprintf(
+                    '%s: `related_items` entry "%s" is not a persistent identifier.',
+                    $ctx,
+                    \is_scalar($ref) ? (string) $ref : \gettype($ref),
+                ));
+            }
+            $refs[] = $ref;
+        }
+
+        return $refs;
     }
 
     /**

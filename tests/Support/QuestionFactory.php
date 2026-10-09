@@ -61,6 +61,7 @@ final class QuestionFactory
             reviewers: ['tech-lead'],
             questionArchetype: $overrides['questionArchetype'] ?? null,
             assessesOutcomes: $overrides['assessesOutcomes'] ?? [],
+            relatedItems: $overrides['relatedItems'] ?? [],
             reviewedAt: '2026-08-31',
         );
     }

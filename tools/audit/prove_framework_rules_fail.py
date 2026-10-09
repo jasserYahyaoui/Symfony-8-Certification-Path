@@ -43,6 +43,12 @@ LOT01_QUESTION = 'content/questions/lot-01-php.yml'
 # the exemption: prose added next to a diagram must still be counted.
 DIAGRAM_COURSE = 'content/courses/CRS-mpwjc4g3vmj7.md'
 
+# The pilot comprehension bank (ADR-0010): lot 12, Console. Its first
+# question is the only one assessing OUT-b3610kc2cj3b, and the only one whose
+# subtopic is `component`, which makes both unique anchors.
+COMPREHENSION_BANK = 'content/comprehension/lot-12-console.yml'
+COMPREHENSION_FIRST = '- id: QST-nkndry7djpj0\n  question_archetype: SCENARIO_CHOICE\n'
+
 # These anchors carry the fields QST-a4xhs81g86kj really has, because the
 # injection must REPLACE them. Inserting a second `question_archetype:` or
 # `assesses_outcomes:` after the id produces a duplicate YAML key, and the
@@ -200,6 +206,44 @@ CASES = [
           "## Trois façons d'échouer, trois exceptions\n",
           ('mot ' * 10).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
         '[ERROR] REV-001',
+    ),
+    # ADR-0010. Comprehension checks: complete, independent, and held to the
+    # bar of the exam banks. Each case breaks the real pilot bank.
+    (
+        'CMP-001 rejects a lot whose comprehension check leaves an outcome untested',
+        [(COMPREHENSION_BANK,
+          '  assesses_outcomes:\n  - OUT-b3610kc2cj3b\n',
+          '  assesses_outcomes:\n  - OUT-a1qc1gqac172\n')],
+        '[ERROR] CMP-001',
+    ),
+    (
+        'CMP-002 rejects a comprehension prompt copied from an exam bank',
+        [(COMPREHENSION_BANK,
+          "  question: 'An application has three commands: debug:config, debug:container and debug:router. Which\n    input runs debug:router?'\n",
+          '  question: Which command lists everything the application can run?\n')],
+        '[ERROR] CMP-002',
+    ),
+    (
+        'CMP-003 rejects a comprehension question that is not in English',
+        [(COMPREHENSION_BANK, '  subtopic: component\n  language: en\n', '  subtopic: component\n  language: fr\n')],
+        '[ERROR] CMP-003',
+    ),
+    (
+        'CMP-003 rejects a synthesis question reaching into another lot',
+        [(COMPREHENSION_BANK, '  related_items:\n  - OIT-dv5400dtksfg\n', '  related_items:\n  - OIT-c6wd3f444qjn\n')],
+        '[ERROR] CMP-003',
+    ),
+    (
+        'CMP-003 runs the exam-bank rules on the comprehension bank (ARC-001 here)',
+        [(COMPREHENSION_BANK, COMPREHENSION_FIRST, COMPREHENSION_FIRST.replace('SCENARIO_CHOICE', 'CODE_DIAGNOSIS'))],
+        '[ERROR] ARC-001: comprehension bank:',
+    ),
+    (
+        'the loader refuses an exam-pool question inside a comprehension bank',
+        [(COMPREHENSION_BANK,
+          "  pool: COMPREHENSION\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n  reviewed_at: '2026-10-09'\n  tags:\n  - component\n",
+          "  pool: LEARNING\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n  reviewed_at: '2026-10-09'\n  tags:\n  - component\n")],
+        'COMPREHENSION questions only, found LEARNING',
     ),
 ]
 

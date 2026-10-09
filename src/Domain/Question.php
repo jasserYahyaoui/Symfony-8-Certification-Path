@@ -59,6 +59,15 @@ final readonly class Question
          */
         public ?QuestionArchetype $questionArchetype = null,
         public array $assessesOutcomes = [],
+        /**
+         * ADR-0010: other items of the same lot a comprehension question also
+         * covers. A synthesis question ties two mechanisms together, and the
+         * outcomes it assesses may belong to any of them. Empty everywhere
+         * else.
+         *
+         * @var list<string>
+         */
+        public array $relatedItems = [],
     ) {
     }
 

@@ -65,6 +65,16 @@ final readonly class DocsGenerator
 
         $written[] = $this->writeJson($dataDir.'/exam.json', $exam);
 
+        // ADR-0010: the comprehension checks. Read from their own loader's
+        // field, and held to both invariants: no holdout question, and no
+        // question of any exam bank — the second implies the first, and the
+        // first is asserted anyway because it is the one §17 makes critical.
+        $comprehension = $this->payloads->comprehensionPayload($content);
+        PayloadBuilder::assertNoHoldoutLeak($comprehension, $content);
+        PayloadBuilder::assertComprehensionIsolated($comprehension, $content);
+
+        $written[] = $this->writeJson($dataDir.'/comprehension.json', $comprehension);
+
         // Mock 4 is the one payload that carries the holdout, and it is held
         // to a stricter invariant rather than a looser one: it must match the
         // blueprint exactly — 75 questions, the per-topic allotment, one per
@@ -212,6 +222,12 @@ final readonly class DocsGenerator
     private const string CATEGORY_SYLLABUS = '{"label":"Syllabus officiel","position":3}';
     private const string CATEGORY_REVISION = '{"label":"Plan de r\u00e9vision","position":1}';
     private const string CATEGORY_WHATS_NEW = '{"label":"Nouveaut\u00e9s de Symfony 8.0","position":4}';
+
+    /**
+     * Past any item's order, so the comprehension check is the last entry of
+     * its lot's category whatever the lot's size (ADR-0010).
+     */
+    private const int COMPREHENSION_SIDEBAR_POSITION = 10000;
 
     /**
      * The candidate roadmap, published rather than left in the repository.
@@ -783,14 +799,31 @@ donc exécutable, pas seulement documentaire.
         $lots = $this->project->loadLotRegistry();
         uksort($byLot, static fn (string $a, string $b): int => $lots->order($a) <=> $lots->order($b) ?: strcmp($a, $b));
 
+        $comprehensionByLot = [];
+        foreach ($content->comprehension as $question) {
+            $item = $content->matrix->findById($question->officialItemId);
+            if (null !== $item) {
+                $comprehensionByLot[$item->lot] = ($comprehensionByLot[$item->lot] ?? 0) + 1;
+            }
+        }
+
         foreach ($byLot as $lot => $items) {
             // The id stays the slug: URLs, bookmarks and internal links are
             // built on it and must not move for a label change.
             $slug = CourseUrl::slug($lot);
-            $pages['courses/'.$slug.'/index.md'] = $this->lotIndexPage($lot, $items, $lots);
+            $checkCount = $comprehensionByLot[$lot] ?? 0;
+            $pages['courses/'.$slug.'/index.md'] = $this->lotIndexPage($lot, $items, $lots, $checkCount);
 
             foreach ($items as $item) {
                 $pages[CourseUrl::pagePath($item).'.md'] = $this->itemPage($item, $content);
+            }
+
+            if ($checkCount > 0) {
+                $path = CourseUrl::comprehensionPath($lot).'.md';
+                if (isset($pages[$path])) {
+                    throw new \LogicException(\sprintf('An item page of %s already uses the path of its comprehension check, %s.', $lot, $path));
+                }
+                $pages[$path] = $this->comprehensionPage($lot, $items, $lots, $checkCount);
             }
         }
 
@@ -812,7 +845,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
     /**
      * @param list<OfficialItem> $items
      */
-    private function lotIndexPage(string $lot, array $items, LotRegistry $lots): string
+    private function lotIndexPage(string $lot, array $items, LotRegistry $lots, int $checkCount = 0): string
     {
         // "05 — Routing", never "lot-05": the id is a technical key, and the
         // leading number is the recommended revision order, not a weighting.
@@ -835,7 +868,45 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             );
         }
 
+        if ($checkCount > 0) {
+            $markdown .= \sprintf(
+                "\nPour finir le lot : le [contrôle de compréhension](./%s.md), %d questions qui couvrent chaque objectif d'apprentissage de ces items.\n",
+                basename(CourseUrl::comprehensionPath($lot)),
+                $checkCount,
+            );
+        }
+
         return $markdown;
+    }
+
+    /**
+     * ADR-0010: the lot's comprehension check, last in its sidebar category.
+     *
+     * The page is a frame: what the check is, how it is corrected, and what it
+     * is not. The questions are loaded from `comprehension.json` by the
+     * component, so the page carries no question, no choice and no answer —
+     * a correction cannot be read before the question is answered.
+     *
+     * @param list<OfficialItem> $items
+     */
+    private function comprehensionPage(string $lot, array $items, LotRegistry $lots, int $count): string
+    {
+        $label = $lots->label($lot);
+        $title = 'Contrôle de compréhension — '.$label;
+        $itemCount = \count($items);
+
+        return "---\ntitle: ".$this->escapeYaml($title)
+            ."\nsidebar_position: ".self::COMPREHENSION_SIDEBAR_POSITION
+            ."\nsidebar_label: ".$this->escapeYaml('Contrôle de compréhension')
+            ."\n---\n"
+            ."\n# {$title}\n\n"
+            ."À faire **après** les cours du lot. {$count} questions, en anglais comme l'examen, "
+            ."qui couvrent **chaque objectif d'apprentissage** des {$itemCount} items du lot ; "
+            ."certaines relient plusieurs items entre eux.\n\n"
+            ."- La correction s'affiche **après chaque question**, avec un lien vers le cours à revoir.\n"
+            ."- Ces questions sont **distinctes** de celles de Practice Mode, d'Exam Mode et des simulations.\n"
+            ."- Rien n'est enregistré : le score vaut pour cette session seulement.\n\n"
+            ."<ComprehensionCheck lot=\"{$lot}\" />\n";
     }
 
     private function itemPage(OfficialItem $item, ContentSet $content): string

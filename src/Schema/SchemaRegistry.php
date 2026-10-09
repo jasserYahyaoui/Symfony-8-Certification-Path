@@ -18,6 +18,8 @@ final class SchemaRegistry
     public const string MOCK_BLUEPRINT = 'mock_blueprint';
     public const string ID_REGISTRY = 'id-registry';
     public const string QUESTION_BANK = 'question-bank';
+    /** ADR-0010: end-of-lot comprehension questions, kept apart from every other pool. */
+    public const string COMPREHENSION_BANK = 'comprehension-bank';
     public const string FLASHCARD_DECK = 'flashcard-deck';
     public const string EXAM_BLUEPRINT = 'exam-blueprint';
 
@@ -39,6 +41,7 @@ final class SchemaRegistry
         // 2: every citation carries `readable_url`, the rendered spelling of
         // its raw url (SRC-002 keeps the two from drifting).
         self::QUESTION_BANK => 2,
+        self::COMPREHENSION_BANK => 1,
         self::FLASHCARD_DECK => 2,
         self::EXAM_BLUEPRINT => 1,
         self::LEARNER_STATE => 1,

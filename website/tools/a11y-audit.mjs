@@ -315,6 +315,41 @@ for (const lot of (await readdir(join(WEBSITE, 'docs/courses'), {withFileTypes: 
   }
 }
 
+/**
+ * The comprehension check closing each lot (ADR-0010), in the three states the
+ * learner meets: the first question, its correction, and the end-of-check
+ * summary. Found from comprehension.json, never listed by hand, so a lot cannot
+ * gain a check without gaining its audit.
+ *
+ * The summary is reached the way a learner reaches it: by answering every
+ * question. The first choice is taken each time, whatever it is; the audit is
+ * about the page, not the score.
+ */
+const comprehensionPayload = JSON.parse(
+  await readFile(join(WEBSITE, 'static/data/comprehension.json'), 'utf8'),
+);
+
+async function answerFirstChoice(page) {
+  await page.locator('fieldset.certpath-question input').first().check();
+  await page.getByRole('button', {name: 'Valider ma réponse'}).click();
+  await page.locator('.certpath-feedback').waitFor();
+}
+
+for (const [lot, entry] of Object.entries(comprehensionPayload.lots ?? {})) {
+  PAGES.push([`comprehension ${lot}`, entry.url, {drive: async (page) => {
+    await page.locator('fieldset.certpath-question').waitFor();
+  }}]);
+  PAGES.push([`comprehension ${lot} — correction`, entry.url, {drive: answerFirstChoice}]);
+  PAGES.push([`comprehension ${lot} — bilan`, entry.url, {drive: async (page) => {
+    for (let i = 0; i < entry.questions; i++) {
+      await answerFirstChoice(page);
+      const next = i + 1 < entry.questions ? 'Question suivante' : 'Voir mon bilan';
+      await page.getByRole('button', {name: next}).click();
+    }
+    await page.locator('#comprehension-summary').waitFor();
+  }}]);
+}
+
 // Use the image's Chromium when present (the build container ships one whose
 // revision the pinned Playwright does not match); otherwise let Playwright
 // resolve its own, which is what CI does.

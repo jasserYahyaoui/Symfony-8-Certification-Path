@@ -167,6 +167,12 @@ final readonly class Project
         return $this->path('content/flashcards');
     }
 
+    /** ADR-0010: the end-of-lot comprehension banks, one file per lot. */
+    public function comprehensionDir(): string
+    {
+        return $this->path('content/comprehension');
+    }
+
     public function websiteDir(): string
     {
         return $this->path('website');
@@ -211,6 +217,7 @@ final readonly class Project
             wordingFingerprints: $this->loadWordingFingerprints(),
             contentFiles: $this->markdownFiles(),
             projectDir: $this->rootDir,
+            comprehension: QuestionLoader::comprehension()->loadDirectory($this->comprehensionDir()),
         );
     }
 

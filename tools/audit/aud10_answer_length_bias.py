@@ -61,6 +61,11 @@ twenty-six lots carrying atomic official items are recorded at framework
 version 2, so it covered nobody, and a tolerance that covers nothing still tells
 the next reader the bar is optional.
 
+COMPREHENSION BANKS, 2026-10-09 (ADR-0010). The comprehension checks closing
+each lot are held to the bar of the exam banks, this one included. Each is
+measured as its own group, `comprehension/lot-XX`, never pooled with the lot's
+exam questions: a bias in one would otherwise be diluted by the other.
+
 Exit code 1 if any lot's excess is beyond chance at alpha.
 
 `--prove` re-runs the measurement over the same corpus with every correct answer
@@ -91,7 +96,7 @@ def measure(questions, lot_of, pad: int = 0):
     for q in questions:
         if q['answer_mode'] != 'single':
             continue
-        lot = lot_of[q['official_item']]
+        lot = q.get('_group') or lot_of[q['official_item']]
         lengths = [
             (len(c['text']) + (pad if c.get('correct') else 0), bool(c.get('correct')))
             for c in q['choices']
@@ -172,6 +177,9 @@ def main() -> int:
     questions = []
     for path in sorted(glob.glob(str(ROOT / 'content/questions/*.yml'))):
         questions += yaml.safe_load(pathlib.Path(path).read_text(encoding='utf-8'))['questions']
+    for path in sorted(glob.glob(str(ROOT / 'content/comprehension/*.yml'))):
+        for q in yaml.safe_load(pathlib.Path(path).read_text(encoding='utf-8'))['questions']:
+            questions.append({**q, '_group': 'comprehension/' + lot_of[q['official_item']]})
     single = [q for q in questions if q['answer_mode'] == 'single']
 
     per, correct_len, distractor_len = measure(single, lot_of)
