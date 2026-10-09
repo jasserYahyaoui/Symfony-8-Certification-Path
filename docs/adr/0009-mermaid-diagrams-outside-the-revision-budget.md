@@ -185,3 +185,21 @@ diagram teach one:
 
 *Form events* (lot 07) still waits on PR #148, which rewrites the same topic.
 
+## Addendum — Form events (2026-10-09)
+
+PR #148, which had added the nested-form event order to *Form events* as prose
+and a text block, was closed unmerged at the owner's request. The order is now
+a sequence diagram on that course, established twice: against
+`form/events.rst` 8.0, section *Events in Nested Forms*, cited with its anchor,
+and by execution with `symfony/form` 8.0.15 — parent `PRE_SET_DATA`, child
+`PRE_SET_DATA` and `POST_SET_DATA`, parent `POST_SET_DATA`; then parent
+`PRE_SUBMIT`, the child's three submit events, parent `SUBMIT` and
+`POST_SUBMIT`. The same execution shows the window the course relies on: a
+field added to the parent during the child's `POST_SUBMIT` is submitted, with
+the value from the request. One sentence of prose, 41 body words, says so; the
+diagram's 158 tokens are outside the budget.
+
+It is the project's first `sequenceDiagram`. Its configuration narrows the
+actors and drops the repeated bottom row, for the same reason as the
+flowcharts: labels went from 8.6 px to 10.5 px on a 390 px screen.
+
