@@ -273,7 +273,18 @@ main dd a:not(.button):not(.card),
 .token.variable,
 /* `.token.number` aussi : les dates AAAA-MM-JJ des commandes de régénération
    sont tokenisées en nombres, servies dans le même #36acaa. */
-.token.number {
+.token.number,
+/* Puis le reste du groupe #36acaa du thème, d'un coup (2026-10-09) : les
+   booléens YAML `true` / `false` (`boolean important`) ont échoué dès que
+   l'audit a visité Voters et HTTP Caching, deux pages jamais auditées. Corriger
+   jeton par jeton, à mesure que les pages sont découvertes, aurait laissé les
+   autres membres du groupe attendre leur tour. */
+.token.boolean,
+.token.property,
+.token.entity,
+.token.url,
+.token.regex,
+.token.inserted {
   color: var(--certpath-code-constant) !important;
 }
 

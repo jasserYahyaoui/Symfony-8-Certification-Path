@@ -155,3 +155,10 @@ gives its file — and requires one `accTitle` per diagram the course writes.
 Proven against a local build: all six diagram pages pass, and declaring two
 diagrams for *Mailer*, which has one, fails with exit 1.
 
+The gate caught one more inherited defect on the first run of this batch:
+YAML booleans (`boolean important`) in #36acaa, 2.58:1, on *Voters* and
+*HTTP Caching*, two pages never audited before. The existing override covered
+`constant`, `number` and `variable` from that colour group; it now covers the
+whole group the light theme paints #36acaa, rather than waiting for each token
+to surface on the next page audited. Rebuilt and re-audited: 36 PASS, 0 FAIL.
+
