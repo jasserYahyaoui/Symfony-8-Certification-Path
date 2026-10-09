@@ -104,3 +104,26 @@ anywhere else on the page: a fence is not a hiding place.
 - Any later change to the pattern must change all three copies. Widening it to
   every fence would take every PHP snippet out of the budget; a unit test pins
   that it does not.
+
+## Addendum — second batch (2026-10-09)
+
+Two text diagrams were replaced by drawn ones: *Retries and failures* (lot 11),
+checked against `SendFailedMessageForRetryListener::shouldRetry()` and
+`SendFailedMessageToFailureTransportListener` (Messenger 8.0.15), and
+*Authenticators, Passports and Badges* (lot 10), checked against
+`AuthenticatorManager::executeAuthenticator()` and the listeners' subscribed
+events (Security HTTP 8.0.14). The authenticator diagram now shows the failure
+branch the text version left out.
+
+`DIA-001` reads the source, so it cannot see a Mermaid **syntax error**, which
+draws nothing. The accessibility audit now visits every course page carrying a
+```` ```mermaid ```` block, found from the generated Markdown rather than listed
+by hand, and fails when fewer diagrams are drawn than written. Proven by
+breaking one block in the generated Markdown: the audit exited 1, naming the
+page, 1 block and 0 drawn.
+
+Visiting those pages found one more defect that was not Mermaid's: the light
+code theme writes YAML keys (`atrule`, `attr-name`) in #00a4db, 2.69:1 against
+the code background. All 25 courses with a YAML block were affected and none
+had ever been audited. Fixed in `custom.css` at 5.5:1.
+

@@ -180,7 +180,12 @@ function diagramsDrawn(markdownPath) {
     const expected = source.split('\n').filter((l) => l.startsWith('```mermaid')).length;
     if (expected === 0) throw new Error(`a11y: ${markdownPath} carries no mermaid block to audit`);
     const svgs = page.locator('.docusaurus-mermaid-container svg');
-    await svgs.nth(expected - 1).waitFor({timeout: 20000});
+    try {
+      await svgs.nth(expected - 1).waitFor({timeout: 20000});
+    } catch {
+      // Proven on 2026-10-09: a syntax error in one block draws no SVG at all.
+      throw new Error(`a11y: ${markdownPath} has ${expected} mermaid block(s) but ${await svgs.count()} drawn — a Mermaid syntax error draws nothing`);
+    }
     const drawn = await page.evaluate(() => [...document.querySelectorAll('.docusaurus-mermaid-container svg')].map((s) => ({
       title: document.getElementById(s.getAttribute('aria-labelledby') || '')?.textContent?.trim() || '',
       desc: document.getElementById(s.getAttribute('aria-describedby') || '')?.textContent?.trim() || '',
@@ -289,6 +294,26 @@ const PAGES = [
   ['mock 5', '/mock-5'],
   ['progression', '/progression'],
 ];
+
+/**
+ * Every other course page that carries a diagram, at phone width (ADR-0009).
+ *
+ * DIA-001 reads the source: it cannot see a Mermaid syntax error, which draws
+ * an error box instead of the diagram. Only rendering the page can, so each
+ * page with a ```mermaid block is audited here — found from the generated
+ * Markdown, never listed by hand, so a page cannot gain a diagram without
+ * gaining its audit. The request-handling page above is audited in both
+ * themes; the dark theme is a stylesheet shared by every diagram.
+ */
+for (const lot of (await readdir(join(WEBSITE, 'docs/courses'), {withFileTypes: true})).filter((e) => e.isDirectory())) {
+  for (const file of (await readdir(join(WEBSITE, 'docs/courses', lot.name))).filter((f) => f.endsWith('.md')).sort()) {
+    const markdownPath = `docs/courses/${lot.name}/${file}`;
+    const path = `/docs/courses/${lot.name}/${file.replace(/\.md$/, '')}`;
+    if (path === '/docs/courses/lot-03/request-handling') continue;
+    if (!(await readFile(join(WEBSITE, markdownPath), 'utf8')).includes('```mermaid')) continue;
+    PAGES.push([`diagrams ${lot.name}/${file.replace(/\.md$/, '')}`, path, {drive: diagramsDrawn(markdownPath)}]);
+  }
+}
 
 // Use the image's Chromium when present (the build container ships one whose
 // revision the pinned Playwright does not match); otherwise let Playwright

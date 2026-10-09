@@ -5,7 +5,7 @@ title: "Authenticators, Passports and Badges"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/custom_authenticator.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/custom_authenticator.rst"
@@ -116,16 +116,25 @@ La dernière ligne s'explique dans `SecurityExtension` :
 
 Lu dans `AuthenticatorManager::executeAuthenticator()` :
 
-```text
-supports()                     l'authenticator prend-il la main ?
-authenticate()                 construit le Passport
-CheckPassportEvent             les écouteurs résolvent les badges : utilisateur
-                               chargé, mot de passe vérifié, CSRF, user checker
-badge non résolu ?             → échec
-createToken()                  le Passport devient un TokenInterface
-AuthenticationSuccessEvent     user checker, après authentification
-onAuthenticationSuccess()      la réponse de l'authenticator
-LoginSuccessEvent              remember-me, migration du mot de passe
+```mermaid
+---
+title: executeAuthenticator(), succès et échec
+---
+flowchart TD
+  accTitle: Le flux d'un authenticator dans Symfony 8.0
+  accDescr: supports() décide si l'authenticator prend la requête. authenticate() construit le Passport. CheckPassportEvent fait résoudre les badges, utilisateur, mot de passe, CSRF et user checker avant authentification. Une AuthenticationException, ou un badge non résolu, mène à onAuthenticationFailure() puis LoginFailureEvent. Sinon createToken() crée le jeton, AuthenticationSuccessEvent passe le user checker après authentification, onAuthenticationSuccess() rend la réponse, puis LoginSuccessEvent déclenche remember-me et la migration du mot de passe.
+  SUP{"supports()"} -->|"false"| SKIP(["ignoré"])
+  SUP -->|"true ou null"| AUTH["authenticate() : le Passport"]
+  AUTH --> CHECK["CheckPassportEvent : utilisateur, mot de passe, CSRF, user checker"]
+  CHECK --> RES{"tous les badges résolus ?"}
+  CHECK -->|"exception"| FAIL["onAuthenticationFailure()"]
+  RES -->|"non"| FAIL
+  RES -->|"oui"| TOK["createToken()"]
+  TOK --> ASE["AuthenticationSuccessEvent : user checker, après"]
+  ASE -->|"exception"| FAIL
+  ASE --> OK["onAuthenticationSuccess()"]
+  OK --> LSE["LoginSuccessEvent : remember-me, migration du mot de passe"]
+  FAIL --> LFE["LoginFailureEvent"]
 ```
 
 Remember-me et rehachage arrivent donc **après** `onAuthenticationSuccess()`.
