@@ -2190,6 +2190,44 @@ TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
 `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
 avant / après les preuves.
 
+### Incident — le smoke test de la PR #366 a échoué
+
+La PR #366 (lot 01) a été fusionnée (`f4920c0`) et déployée : le job *Deploy*
+est en succès, les pages servies portent les corrections, mais le job
+*Production smoke test* a échoué deux fois (runs 37906049116 et 37906161874)
+sur une seule aiguille — `Second-pass correction missing from
+lot-01/abstract-classes: sp01abs:no-unless-abstract`. Les 17 autres aiguilles
+du lot 01 et toutes les aiguilles plus anciennes étaient présentes.
+
+**Cause.** Le source et le markdown généré portent bien `sauf à être`. Le HTML
+construit porte `sauf \x00à être` : un octet NUL inséré avant le `à`. Une
+aiguille `grep -F` qui traverse cet endroit échoue donc. Mesuré sur le build : **169 pages HTML** contiennent au total
+241 octets NUL, toujours insérés juste avant un caractère multi-octets (`à`,
+`é`, `—`), parfois deux de suite, y compris au milieu d'un mot
+(`D\x00éveloppe`) ; aucun autre type de fichier n'en contient. La position
+varie d'une page à l'autre : sur ce build, `ne doit rien à la` (lot 04) n'est
+pas touchée. Toute aiguille qui contient un caractère accentué peut donc
+échouer à un build ultérieur, si le contenu qui la précède change.
+Le phénomène est identique avec `docusaurus build --no-minify`, et le module
+JavaScript compilé de la page est propre : les NUL naissent au rendu serveur.
+`@docusaurus/core/lib/client/renderToHtml.js` y emploie
+`renderToPipeableStream` de react-dom 18.3.1 et renvoie à
+`facebook/react#31134` et `facebook/docusaurus#9985` (non lus : `github.com`
+n'est pas joignable d'ici).
+
+**Effet visible.** Dans un nœud texte, le navigateur ignore le NUL. Dans un
+attribut, il le remplace par « � » : 20 `aria-label` (« D�velopper la
+catégorie »), 3 `id` de titres et 1 `href` de sommaire
+(`lot-03/backward-compatibility-promise`, `#points-cl�és`) sont touchés.
+Défaut préexistant du site, hors du périmètre de la seconde passe ; signalé au
+propriétaire avec une proposition de correctif, non appliqué ici.
+
+**Réparation du smoke test.** L'aiguille `sauf à être` est remplacée par
+`elle-même abstraite`, issue de la même correction et absente de la page
+avant elle ; elle est présente dans le HTML construit. Les 170 aiguilles de
+`pages.yml` ont été vérifiées contre le build local : toutes présentes. Aucune
+aiguille n'est retirée ni affaiblie.
+
 ## Bilan du lot 01
 
 9 pages relues : **7 corrigées** (1, 2, 4, 6, 7, 8, 9), **2 précisées** (3, 5).

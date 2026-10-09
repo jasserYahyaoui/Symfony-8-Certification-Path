@@ -4980,7 +4980,7 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'sauf à être' /tmp/sp-sp01abs \
+          grep -aqF -- 'elle-même abstraite' /tmp/sp-sp01abs \
             || missing="$missing sp01abs:no-unless-abstract"
           grep -aqF -- 'Signature seulement' /tmp/sp-sp01abs \
             || missing="$missing sp01abs:no-ctor-signature"
