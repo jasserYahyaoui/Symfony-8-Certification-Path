@@ -1858,7 +1858,7 @@ question modifiée.
 
 | # | Page | Résultat |
 |---|---|---|
-| 1 | Mailer | **défaut établi, en attente de décision du propriétaire** — voir ci-dessous |
+| 1 | Mailer | **corrigée** après décision du propriétaire — voir ci-dessous |
 | 2 | Mime | relue, exacte |
 
 **Page relue sans défaut** : page 2, `mime.rst` (8.0) pour `multipart/alternative`
@@ -1866,7 +1866,10 @@ question modifiée.
 devinette par le contenu, l'extension `fileinfo` et le tag
 `mime.mime_type_guesser`.
 
-### Page 1 — *Mailer*, en attente
+### Page 1 — *Mailer*
+
+`CRS-h304h6ht87kc` · STANDARD · **599 → 671 mots** sur 900.
+
 
 `mailer.rst` (8.0) écrit : « if your application has the Messenger component
 installed, all emails will be sent asynchronously by default ». Exécuté dans un
@@ -1888,9 +1891,40 @@ d'une question contre une phrase explicite de la documentation relève d'une
 contradiction de sources (CLAUDE.md, *Human approval*) : **rien n'est modifié**
 avant la décision du propriétaire.
 
+**Décision du propriétaire (2026-10-09)** : « Suivre le code ». Appliquée :
+
+- la page cite la règle de la documentation et en donne la condition, lue dans
+  `Mailer::send()` (8.0 : sans bus, envoi direct ; avec bus, distribution d'un
+  `SendEmailMessage`) et exécutée ; le piège d'examen porte la même condition ;
+  source `Mailer` ajoutée ;
+- la carte `FLC-xnqfscd5c1cy` dit que le bus ne diffère l'envoi que si le
+  message est routé vers un transport asynchrone ;
+- la question `QST-x1q4fk8g682j` passe en version 2 : la bonne réponse devient
+  « Synchronously, until a mail message is routed to an async transport »
+  (texte resserré pour qu'elle ne soit pas la plus longue), « Asynchronously »
+  devient un distracteur expliqué ; l'explication cite la documentation, le
+  code, l'exécution et la version 1 ; source `Mailer` ajoutée.
+
+**Déploiement précédent, lu en production** : réparation du smoke du lot 01
+(PR #367, `146ec97`), run Pages 37908512971, success — neuf lignes
+`ok  second-pass  lot-01 …`, dont `lot-01 abstract classes`.
+
+**Aiguilles de smoke test.** `code en fixe la condition` et `il y reste en
+attente`, en ASCII, absentes de la version `master` de la page et des fichiers
+de cartes ; contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-09** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
 ## Bilan du lot 22
 
-2 pages relues : 1 exacte, 1 défaut établi en attente de décision.
+2 pages relues : **1 corrigée** (1 *Mailer*, après décision du propriétaire),
+1 inchangée. Une carte et une question LEARNING (version 2) modifiées.
 
 ## Lot 23
 

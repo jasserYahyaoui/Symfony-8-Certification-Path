@@ -69,7 +69,7 @@ questions:
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
   - OUT-ybad6g99v4cm
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-j4vpn5bh9f27
   domain: symfony
@@ -92,18 +92,19 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-09'
   tags:
   - async
   - messenger-boundary
   choices:
   - id: CHO-p3cveetryv3j
     text: Asynchronously, because that is the default once Messenger is present
-    correct: true
-  - id: CHO-1g8h0pxfn77n
-    text: Synchronously, until a mail message class is explicitly routed to a transport
     correct: false
-    explanation: The default applies without any routing being declared.
+    explanation: That default relies on the mail message being routed to an asynchronous transport; with no
+      routing, the bus handles it at once.
+  - id: CHO-1g8h0pxfn77n
+    text: Synchronously, until a mail message is routed to an async transport
+    correct: true
   - id: CHO-wnbgxfzhdpcw
     text: Synchronously, because Messenger only affects classes the developer wrote
     correct: false
@@ -113,13 +114,22 @@ questions:
     correct: false
     explanation: The DSN selects how the message leaves, not whether sending is deferred.
   explanation: The documentation states that when the Messenger component is installed, all emails are sent asynchronously
-    by default.
+    by default. That default relies on routing - the mailer dispatches a SendEmailMessage on the bus, and the
+    bus defers it only when the message is routed to an asynchronous transport. Executed on Symfony 8.0 with
+    Messenger enabled and no routing, the email is delivered during send(); routed to an in-memory transport,
+    it waits there. Version 1 marked asynchronous delivery as correct for this case.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst
     branch: '8.0'
     symbol_or_lines: creating-sending-messages
-    verified_at: '2026-09-02'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Mailer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Mailer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: send() - dispatches a SendEmailMessage on the bus when one is set
+    verified_at: '2026-10-09'
 - id: QST-42tvpnq0tkt2
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:

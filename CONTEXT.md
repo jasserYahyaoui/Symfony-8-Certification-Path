@@ -38,12 +38,16 @@ périmètre sur instruction.
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
-| Extension de la seconde passe (lots 17 à 26, puis 01) | **relecture achevée** le 2026-10-09 — lots 17, 18, 21, 24, 25, 26 : une page précisée chacun (PR #363 à #365) ; lots 19, 20, 23 : aucune erreur ; lot 01 : 7 pages corrigées, 2 précisées, 1 carte et 4 questions modifiées (PR #366 ; smoke rouge sur une aiguille, réparé par la PR suivante) ; lot 22 page 1 : défaut établi, **en attente de décision du propriétaire** (la doc dit « asynchrone par défaut » avec Messenger, le code ne diffère que si `SendEmailMessage` est routé ; la clé de `QST-x1q4fk8g682j` est fausse pour son énoncé « aucun routage ») | `docs/progress/second-pass-refinement.md` |
+| Extension de la seconde passe (lots 17 à 26, puis 01) | **relecture achevée** le 2026-10-09 — lots 17, 18, 21, 24, 25, 26 : une page précisée chacun (PR #363 à #365) ; lots 19, 20, 23 : aucune erreur ; lot 01 : 7 pages corrigées, 2 précisées, 1 carte et 4 questions modifiées (PR #366 ; smoke rouge sur une aiguille, réparé par la PR suivante) ; lot 22 page 1 : corrigée après décision du propriétaire (« Suivre le code », PR en cours), `QST-x1q4fk8g682j` en version 2 | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
 - Corriger toujours les défauts trouvés, y compris dans la matrice et les
   questions (2026-09-24).
+- Quand le code 8.0 exécuté contredit une phrase de la documentation sur une
+  clé de question : suivre le code (lot 22, *Mailer*, 2026-10-09).
+- Octets NUL du rendu serveur : les retirer après le build, et faire échouer le
+  build s'il en reste (2026-10-09).
 - Planning de révision : `--start 2026-10-01 --exam 2026-12-15 --max-new 4
   --weekday 160 --weekend 220` depuis le 2026-09-24 (140/200 ne tenait plus ;
   voir `docs/revision/study-roadmap.md`). Au-delà, `--max-new` devient la
@@ -54,10 +58,10 @@ périmètre sur instruction.
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
 **Prochaine action** : extension de la seconde passe aux lots 17 à 26 puis 01
-(« Go » du 2026-10-09). Fusionner la PR de réparation du smoke test (aiguille
-du lot 01) et lire son smoke ; appliquer la décision du propriétaire sur le
-lot 22 page 1 et sur les octets NUL du rendu serveur (169 pages HTML, dont 24
-attributs touchés), puis rédiger le bilan de l'extension. Avant chaque PR, le
+(« Go » du 2026-10-09). Fusionner la PR du lot 22 et lire son smoke ; appliquer
+la décision du propriétaire sur les octets NUL du rendu serveur (« Retirer
+après build » : script `postbuild`, échec s'il en reste), puis rédiger le bilan
+de l'extension. Avant chaque PR, le
 contrôle d'aiguilles anciennes ; tant que les NUL ne sont pas corrigés, toute
 aiguille accentuée est fragile.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
