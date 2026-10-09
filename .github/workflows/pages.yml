@@ -110,7 +110,8 @@ jobs:
                       "practice" "exam" "simulations" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
                       "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
-                      "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json"; do
+                      "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json" \
+                      "data/comprehension.json"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then

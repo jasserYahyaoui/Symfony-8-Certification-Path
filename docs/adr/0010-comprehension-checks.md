@@ -74,9 +74,17 @@ another pool and no holdout id.
 
 ## Consequences
 
-- 612 learning outcomes across 26 lots: the full set is at least 612 questions,
-  delivered lot by lot. The pilot is lot 12, *Console* (9 items, 25 outcomes),
-  verifiable by execution against Console 8.0.15.
+- 612 learning outcomes across 26 lots: a lot needs at least as many
+  questions as it has outcomes, unless a synthesis question assesses several;
+  delivered lot by lot. The pilot is lot 12, *Console* (9 items, 25 outcomes):
+  34 questions, 29 on one item and 5 synthesis questions relating two items,
+  every answer verified by execution against Console 8.0.15 or read in the 8.0
+  documentation. `CMP-002` rejected one draft prompt, at 63 % similarity to a
+  LEARNING question it shared only a sentence shape with; it was rewritten, the
+  threshold was not moved.
+- `aud10` measures each comprehension bank as its own group,
+  `comprehension/lot-XX`, and the rule proofs break the real pilot bank six
+  ways (`prove_framework_rules_fail.py`).
 - `mastery-checkpoints.md` keeps its own protocol; the comprehension check is
   an additional, earlier step — understanding before testing.
 - A learner's answers are not stored: the page keeps the score for the session
