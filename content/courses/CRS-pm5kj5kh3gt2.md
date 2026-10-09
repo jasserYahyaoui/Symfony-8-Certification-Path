@@ -5,7 +5,7 @@ title: "Runtime"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-03"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst"
@@ -23,6 +23,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getArgument()"
     verified_at: "2026-10-03"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/GenericRuntime.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/GenericRuntime.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "getArgument(): $context is $_SERVER, plus $_ENV only when $_SERVER has no PATH"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -150,7 +156,8 @@ erreur.
 - L'amorçage est abstrait pour rendre le fichier d'entrée générique.
 - Cinq étapes ; le script est inclus à nouveau, avant même l'instanciation du
   runtime dans le code.
-- `array $context` = `$_SERVER` + `$_ENV`.
+- `array $context` = `$_SERVER` + `$_ENV` selon la documentation ; le code
+  n'ajoute `$_ENV` que si `$_SERVER` ne porte pas `PATH`.
 - La nature de l'objet retourné choisit HTTP ou console.
 - `APP_RUNTIME` ou `extra.runtime.class` sélectionne le runtime.
 

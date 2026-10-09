@@ -4830,6 +4830,58 @@ jobs:
           else
             echo "ok  second-pass  lot-21 filesystem: symlink() third argument copies on Windows only"
           fi
+          # Second pass extension, lot 24 (PropertyAccess): the builder is not the only way, new PropertyAccessor() flags and framework.property_access reverse the defaults too.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp24pa -w '%{http_code}' "$BASE_URL/docs/courses/lot-24/propertyaccess")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-24/propertyaccess serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'pas la seule voie' /tmp/sp-sp24pa \
+            || missing="$missing sp24pa:no-not-the-only-way"
+          grep -aqF -- 'avec le seul drapeau' /tmp/sp-sp24pa \
+            || missing="$missing sp24pa:no-single-flag"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-24/propertyaccess:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-24 propertyaccess: constructor flags and framework.property_access reverse the defaults too"
+          fi
+          # Second pass extension, lot 25 (Runtime): the key points state the PATH condition under which the ENV superglobal joins the context.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp25rt -w '%{http_code}' "$BASE_URL/docs/courses/lot-25/runtime")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-25/runtime serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'selon la documentation ; le code' /tmp/sp-sp25rt \
+            || missing="$missing sp25rt:no-per-docs-code"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-25/runtime:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-25 runtime: the context argument adds the ENV superglobal only when SERVER has no PATH"
+          fi
+          # Second pass extension, lot 26 (Serializer): without a class metadata factory, groups and Ignore are not applied.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp26se -w '%{http_code}' "$BASE_URL/docs/courses/lot-26/serializer")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-26/serializer serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'construit sans fabrique de' /tmp/sp-sp26se \
+            || missing="$missing sp26se:no-built-without-factory"
+          grep -aqF -- 'y compris celle marquée' /tmp/sp-sp26se \
+            || missing="$missing sp26se:no-including-ignored"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-26/serializer:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-26 serializer: without a class metadata factory, groups and Ignore are not applied"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

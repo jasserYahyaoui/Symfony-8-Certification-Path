@@ -5,7 +5,7 @@ title: "PropertyAccess"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-03"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst"
@@ -16,8 +16,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php"
     branch: "8.0"
-    symbol_or_lines: "isReadable(); isWritable(); getValue(); setValue()"
-    verified_at: "2026-10-03"
+    symbol_or_lines: "isReadable(); isWritable(); getValue(); setValue(); __construct(int $magicMethodsFlags, int $throw) — THROW_ON_INVALID_INDEX, THROW_ON_INVALID_PROPERTY_PATH"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -73,12 +73,18 @@ C'est le piège central de l'item, et il ne se déduit pas.
 | index de tableau | `[age]` inexistant | rend **`null`** |
 | propriété d'objet | `birthday` inexistante | **lève** `NoSuchPropertyException` |
 
-Un tableau pardonne, un objet non. Les deux comportements se renversent, mais
-seulement en passant par `PropertyAccess::createPropertyAccessorBuilder()` :
+Un tableau pardonne, un objet non. Les deux comportements se renversent par le
+constructeur d'accesseur, `PropertyAccess::createPropertyAccessorBuilder()` :
 
 - `enableExceptionOnInvalidIndex()` fait lever le tableau, par une
   `NoSuchIndexException` ;
 - `disableExceptionOnInvalidPropertyPath()` fait rendre `null` à l'objet.
+
+Ce n'est pas la seule voie : `new PropertyAccessor()` prend les mêmes réglages
+en drapeaux — `THROW_ON_INVALID_INDEX`, `THROW_ON_INVALID_PROPERTY_PATH`,
+`MAGIC_CALL` —, et une application les fixe sous `framework.property_access`.
+Exécuté : avec le seul drapeau `THROW_ON_INVALID_INDEX`, l'index absent lève
+une `NoSuchIndexException` et la propriété absente rend `null`.
 
 ## Le maillon `null`
 

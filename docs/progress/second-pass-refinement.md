@@ -1853,3 +1853,163 @@ avant / après les preuves.
 
 2 pages relues : **1 précisée** (1 *Filesystem*), 1 inchangée. Aucune carte ni
 question modifiée.
+
+## Lot 22
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Mailer | **défaut établi, en attente de décision du propriétaire** — voir ci-dessous |
+| 2 | Mime | relue, exacte |
+
+**Page relue sans défaut** : page 2, `mime.rst` (8.0) pour `multipart/alternative`
+(forme préférée en dernier), l'ordre de priorité des tableaux de `MimeTypes`, la
+devinette par le contenu, l'extension `fileinfo` et le tag
+`mime.mime_type_guesser`.
+
+### Page 1 — *Mailer*, en attente
+
+`mailer.rst` (8.0) écrit : « if your application has the Messenger component
+installed, all emails will be sent asynchronously by default ». Exécuté dans un
+noyau FrameworkBundle 8.0.15, `null://null`, un écouteur de `SentMessageEvent` :
+
+| Messenger | Routage de `SendEmailMessage` | Pendant `send()` |
+|---|---|---|
+| activé | aucun | le courriel part (1 `SentMessageEvent`) |
+| activé | vers `in-memory://` | rien ne part ; 1 message en attente |
+
+Le code ne diffère l'envoi que si `SendEmailMessage` est routé vers un
+transport asynchrone. La page, la carte `FLC-xnqfscd5c1cy` et la question
+LEARNING `QST-x1q4fk8g682j` reprennent la phrase de la documentation ; la
+question va plus loin : son énoncé pose « no mail-specific routing was
+configured » et sa bonne réponse est « Asynchronously » — fausse pour ce cas
+exécuté, où c'est le distracteur « Synchronously, until a mail message class is
+explicitly routed to a transport » qui décrit le comportement. Changer la clé
+d'une question contre une phrase explicite de la documentation relève d'une
+contradiction de sources (CLAUDE.md, *Human approval*) : **rien n'est modifié**
+avant la décision du propriétaire.
+
+## Bilan du lot 22
+
+2 pages relues : 1 exacte, 1 défaut établi en attente de décision.
+
+## Lot 23
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Process | relue, exacte |
+
+**Page relue sans défaut** : la seule affirmation non exécutée au raffinement —
+une fonction de rappel reste possible après `disableOutput()` — est exécutée
+(Process 8.0) : `run()` avec rappel ne lève rien et le rappel reçoit `"hello\n"`.
+
+## Bilan du lot 23
+
+1 page relue : **aucune erreur**.
+
+## Lot 24
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | PropertyAccess | **précisée** — voir ci-dessous |
+
+### Page 1 — *PropertyAccess*
+
+`CRS-5vz7w1ny9shd` · STANDARD · **751 → 795 mots** sur 900.
+
+**Déploiement précédent, lu en production** : lots 18 et 21 (PR #364,
+`52bf506`), run Pages 37902813120, success — `ok  second-pass  lot-18 cache:
+cache.adapter.system chains APCu in front of the PHP files` et `ok  second-pass
+lot-21 filesystem: symlink() third argument copies on Windows only`.
+
+**Un « seulement » de trop.** La page disait que les deux défauts opposés
+(index absent → `null`, propriété absente → exception) se renversent
+« seulement en passant par `PropertyAccess::createPropertyAccessorBuilder()` ».
+Lu dans le constructeur de `PropertyAccessor` (8.0) : il prend les mêmes
+réglages en drapeaux (`$magicMethodsFlags`, `$throw` avec
+`THROW_ON_INVALID_INDEX` et `THROW_ON_INVALID_PROPERTY_PATH`) ; et FrameworkBundle
+les expose sous `framework.property_access` (`magic_call`, `magic_get`,
+`magic_set`, `throw_exception_on_invalid_index`,
+`throw_exception_on_invalid_property_path`). Exécuté :
+`new PropertyAccessor(MAGIC_GET | MAGIC_SET, THROW_ON_INVALID_INDEX)` lève une
+`NoSuchIndexException` sur un index absent et rend `null` sur une propriété
+absente. La page cite le constructeur d'accesseur, puis les deux autres voies ;
+la source `PropertyAccessor` est re-vérifiée. Aucune carte ni question non
+holdout ne dit « seulement ».
+
+**Aiguilles de smoke test.** `pas la seule voie` et `avec le seul drapeau`.
+
+## Bilan du lot 24
+
+1 page relue : **1 précisée**.
+
+## Lot 25
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Runtime | **précisée** — voir ci-dessous |
+
+### Page 1 — *Runtime*
+
+`CRS-pm5kj5kh3gt2` · STANDARD · **755 → 770 mots** sur 900.
+
+**Déploiement précédent** : le même que pour le lot 24 ci-dessus.
+
+**Un point clé plus général que le corps.** Le corps de la page disait déjà,
+d'après `GenericRuntime::getArgument()`, que `$_ENV` n'est ajouté à
+`array $context` que si `$_SERVER` ne porte pas `PATH` — relu dans le code 8.0 ;
+les *Points clés* écrivaient pourtant `array $context` = `$_SERVER` + `$_ENV`,
+sans condition. La ligne nomme désormais la formule de la documentation et la
+condition du code ; la source `GenericRuntime` est ajoutée. Aucune carte ni
+question non holdout ne porte sur `$_ENV`.
+
+**Aiguille de smoke test.** `selon la documentation ; le code`.
+
+## Bilan du lot 25
+
+1 page relue : **1 précisée**.
+
+## Lot 26
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Serializer | **précisée** — voir ci-dessous |
+
+### Page 1 — *Serializer*
+
+`CRS-3z96cp2s1dka` · STANDARD · **777 → 824 mots** sur 900.
+
+**Déploiement précédent** : le même que pour le lot 24 ci-dessus.
+
+**Une condition non dite.** La page disait qu'une propriété sans groupe ne sort
+pas quand un groupe est demandé, et que `#[Ignore]` exclut « définitivement ».
+Lu dans `AbstractNormalizer::getAllowedAttributes()` (8.0) : sans fabrique de
+métadonnées, la méthode rend `false` et aucun filtrage n'a lieu. Exécuté sur
+Serializer 8.0.15, une classe à quatre propriétés publiques — deux avec groupe,
+une sans, une marquée `#[Ignore]` — et `groups` à `public-view` :
+
+| Normaliseur | Sortie |
+|---|---|
+| `new ObjectNormalizer()` | les quatre, y compris la propriété `#[Ignore]` |
+| avec `ClassMetadataFactory(new AttributeLoader())` | la seule propriété du groupe |
+
+La page précise que groupes et `#[Ignore]` sont des métadonnées, lues par le
+service `serializer` du framework et ignorées par un normaliseur construit sans
+fabrique — comme elle le disait déjà pour `#[SerializedName]` ; le piège porte la
+condition. La source `AbstractNormalizer` est re-vérifiée. Les cartes et
+questions restent justes dans le cadre du service du framework.
+
+**Aiguilles de smoke test.** `construit sans fabrique de` et `y compris celle
+marquée`.
+
+**Contrôles réellement exécutés le 2026-10-09**, pour les lots 24, 25 et 26 :
+`php bin/cert validate` 0 bloquant ; `php bin/cert coverage` 163 / 163,
+inchangé ; `php bin/cert build` exit 0 ; 11 audits exit 0, FINDINGS 0 ;
+34 blocs `run:` parsent ; `composer gate-full` exit 0 — 299 tests,
+17 641 assertions, TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
+`prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
+`lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
+avant / après les preuves. Contrôle d'aiguilles anciennes : aucune régression.
+
+## Bilan du lot 26
+
+1 page relue : **1 précisée**. Aucune carte ni question modifiée.
