@@ -174,6 +174,37 @@ Exécuté : deux `QUERY` de même corps, `fresh` ; un autre corps, `miss` ; un
 Symfony la rend possible, mais elle sort du protocole — c'est pourquoi le modèle
 d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
 
+## Schéma
+
+```mermaid
+---
+title: HttpCache::handle(), avant le cache
+---
+flowchart TD
+  accTitle: Les requêtes que le proxy HttpCache ne cherche pas dans le cache
+  accDescr: Une méthode non sûre est transmise à l'application, trace pass, puis l'entrée est invalidée si la réponse réussit, trace invalidate. Une méthode sûre mais non cachable, ou un en-tête Expect, est transmise sans cache, trace pass. Toute autre requête est cherchée dans le cache.
+  REQ(["requête"]) --> SAFE{"méthode sûre ?"}
+  SAFE -->|"non"| INV["pass, puis invalidate si succès"]
+  SAFE -->|"oui"| CACH{"cachable, sans Expect ?"}
+  CACH -->|"non"| PASS["pass"]
+  CACH -->|"oui"| LOOK(["recherche dans le cache"])
+```
+
+```mermaid
+---
+title: La recherche, par URI
+---
+flowchart TD
+  accTitle: Ce que le proxy HttpCache fait d'une requête cherchée dans le cache
+  accDescr: Sans entrée pour l'URI, trace miss, l'application répond et la réponse est stockée si elle est cachable, trace store. Une entrée assez fraîche et sans no-cache est servie, trace fresh. Sinon elle est revalidée auprès de l'application. Un 304 donne la trace valid. Sinon la trace invalid, et la nouvelle réponse est stockée si elle est cachable.
+  LOOK{"entrée pour l'URI ?"} -->|"non"| MISS["miss, puis store si cachable"]
+  LOOK -->|"oui"| FRESH{"fraîche, sans no-cache ?"}
+  FRESH -->|"oui"| HIT(["fresh"])
+  FRESH -->|"non"| VAL{"revalidation : 304 ?"}
+  VAL -->|"oui"| VALID(["valid"])
+  VAL -->|"non"| INVALID["invalid, puis store si cachable"]
+```
+
 ## Pièges d'examen
 
 **`framework.http_cache: true` suffit** à activer le proxy ; aucune classe à

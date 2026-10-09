@@ -133,6 +133,30 @@ plus dans les octets envoyés, et il est même retiré de l'objet `Email` d'orig
 - `SentMessageEvent` — après un envoi réussi ;
 - `FailedMessageEvent` — après un échec, avec `getError()`.
 
+## Le parcours en schéma
+
+```mermaid
+---
+title: Un courriel, de Mailer::send() au transport
+---
+flowchart TD
+  accTitle: Le parcours d'un courriel envoyé par Mailer::send()
+  accDescr: Sans bus Messenger, Mailer::send() appelle le transport tout de suite. Avec un bus, un premier MessageEvent marqué queued est dispatché, et s'il est rejeté rien n'est envoyé. Sinon un SendEmailMessage part sur le bus. Routé vers un transport asynchrone, il attend un worker. Non routé, son handler appelle le transport pendant dispatch(). Le transport dispatche à son tour MessageEvent. Rejeté, il rend null sans exception. Sinon il envoie, puis dispatche SentMessageEvent et rend un SentMessage, ou FailedMessageEvent et relance l'erreur.
+  SEND["Mailer::send()"] --> BUS{"bus Messenger ?"}
+  BUS -->|"non"| T["TransportInterface::send()"]
+  BUS -->|"oui"| Q{"MessageEvent, queued : rejeté ?"}
+  Q -->|"oui"| STOP(["rien n'est envoyé"])
+  Q -->|"non"| ROUTE{"SendEmailMessage routé vers un transport async ?"}
+  ROUTE -->|"oui"| QUEUE(["en file : un worker l'enverra"])
+  ROUTE -->|"non"| T
+  QUEUE -.->|"worker"| T
+  T --> ME{"MessageEvent : rejeté ?"}
+  ME -->|"oui"| NULL(["rend null, sans exception"])
+  ME -->|"non"| DO{"envoi accepté ?"}
+  DO -->|"oui"| OK["SentMessageEvent, rend un SentMessage"]
+  DO -->|"non"| KO["FailedMessageEvent, l'erreur remonte"]
+```
+
 ## Pièges d'examen
 
 **Avec Messenger installé, l'envoi est asynchrone par défaut** selon la

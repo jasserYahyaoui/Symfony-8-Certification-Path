@@ -5129,6 +5129,64 @@ jobs:
             fi
           done
 
+          # Every Mermaid diagram, in production (ADR-0009). Mermaid draws in the
+          # browser, so the HTML holds none of them; each page's own JavaScript chunk
+          # does. The chunk is found the way the browser finds it: main.js names the
+          # chunk of the page, runtime~main gives its file name. That chunk must carry
+          # one accTitle per diagram the course writes. A page whose diagrams were
+          # not deployed, or deployed without their accessible title, fails here.
+          if ! python3 - "$BASE_URL" <<'PY'
+          import re, sys, time, urllib.request
+          base = sys.argv[1]
+          PAGES = {
+              'lot-03/request-handling': 2,
+              'lot-11/retries-and-failures': 1,
+              'lot-10/authenticators-passports-and-badges': 1,
+              'lot-22/mailer': 1,
+              'lot-10/voters-and-voting-strategies': 1,
+              'lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included': 2,
+          }
+          def get(url):
+              for attempt in range(5):
+                  try:
+                      with urllib.request.urlopen(url, timeout=30) as r:
+                          return r.read().decode('utf-8', 'replace')
+                  except Exception as e:
+                      last = e
+                      time.sleep(5)
+              raise SystemExit(f'::error::Mermaid check: cannot fetch {url}: {last}')
+          html = get(base + '/docs/courses/lot-03/request-handling')
+          scripts = re.findall(r'src="([^"]*/assets/js/(?:main|runtime~main)\.[0-9a-f]+\.js)"', html)
+          main = next((s for s in scripts if '/main.' in s), None)
+          runtime = next((s for s in scripts if 'runtime~main' in s), None)
+          if not main or not runtime:
+              raise SystemExit('::error::Mermaid check: main.js or runtime~main.js not referenced by the page')
+          origin = re.match(r'https?://[^/]+', base).group(0)
+          absolute = lambda src: src if src.startswith('http') else origin + src
+          main_js, runtime_js = get(absolute(main)), get(absolute(runtime))
+          failed = False
+          for page, expected in PAGES.items():
+              entry = re.search(r'\[\(\)=>([^\]]*?),"@site/docs/courses/' + re.escape(page) + r'\.md"', main_js)
+              if not entry:
+                  print(f'::error::Mermaid check: no chunk registered for {page}')
+                  failed = True
+                  continue
+              found = 0
+              for chunk in re.findall(r'\.e\((\d+)\)', entry.group(1)):
+                  maps = re.findall(r'[{,]' + chunk + r':"([0-9a-f]+)"', runtime_js)
+                  name, digest = (maps[0], maps[1]) if len(maps) > 1 else (chunk, maps[0])
+                  found += get(f'{base}/assets/js/{name}.{digest}.js').count('accTitle:')
+              if found != expected:
+                  print(f'::error::Mermaid check: {page} writes {expected} diagram(s), its chunk serves {found}')
+                  failed = True
+              else:
+                  print(f'ok  diagrams  {page}: {found} diagram(s) served with their accessible title')
+          sys.exit(1 if failed else 0)
+          PY
+          then
+            fail=1
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would

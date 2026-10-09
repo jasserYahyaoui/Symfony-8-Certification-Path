@@ -5,7 +5,7 @@ title: "Voters and voting strategies"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst"
@@ -111,6 +111,23 @@ le votant ci-dessus a voté sans une ligne dans `services.yaml`.
 Un vote vaut `ACCESS_GRANTED` (1), `ACCESS_ABSTAIN` (0) ou `ACCESS_DENIED` (-1).
 L'abstention est le cas normal, et c'est ce qui permet à des votants
 indépendants de coexister : chacun ne se prononce que sur son domaine.
+
+```mermaid
+---
+title: Voter::vote(), attribut par attribut
+---
+flowchart TD
+  accTitle: Comment Voter::vote() choisit entre accordé, refusé et abstention
+  accDescr: Le vote part en abstention. Pour chaque attribut, si supports() rend false, l'attribut est ignoré. Dès qu'un attribut est supporté, le vote passe à refusé. Si voteOnAttribute() rend true pour cet attribut, le vote est accordé immédiatement. Une fois les attributs épuisés, le vote vaut abstention si aucun n'était supporté, refusé sinon.
+  START(["vote = ACCESS_ABSTAIN"]) --> NEXT{"attribut suivant ?"}
+  NEXT -->|"oui"| SUP{"supports() ?"}
+  SUP -->|"false"| NEXT
+  SUP -->|"true"| DEN["vote = ACCESS_DENIED"]
+  DEN --> VOA{"voteOnAttribute() ?"}
+  VOA -->|"true"| GR(["rend ACCESS_GRANTED"])
+  VOA -->|"false"| NEXT
+  NEXT -->|"aucun"| END(["rend le vote : ABSTAIN si rien n'était supporté, DENIED sinon"])
+```
 
 ## Les quatre stratégies
 
