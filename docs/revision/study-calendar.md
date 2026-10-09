@@ -831,9 +831,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 27 novembre 2026
 
-- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 22 min · 751 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 22 min · 755 mots · 4 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Serializer** (STANDARD) — 24 min · 777 mots · 5 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 23 min · 795 mots · 4 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 22 min · 770 mots · 4 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : Serializer** (STANDARD) — 24 min · 824 mots · 5 questions, 11 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+3** (16 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache · Miscellaneous : Clock
 - Révision **J+7** (15 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
@@ -841,7 +841,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+45** (8 min) — Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
 
-*Budget du jour : 148 / 160 min*
+*Budget du jour : 149 / 160 min*
 
 ### Samedi 28 novembre 2026
 

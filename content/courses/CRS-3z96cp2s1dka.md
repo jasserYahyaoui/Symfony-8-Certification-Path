@@ -5,7 +5,7 @@ title: "Serializer"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-03"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst"
@@ -16,8 +16,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php"
     branch: "8.0"
-    symbol_or_lines: "isCircularReference(); getAllowedAttributes()"
-    verified_at: "2026-10-03"
+    symbol_or_lines: "isCircularReference(); getAllowedAttributes() — returns false (no filtering) without a class metadata factory"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -98,6 +98,11 @@ Exécuté, avec `name` et `fullName` dans `public-view`, `age` dans `admin-view`
 Il n'y a pas de groupe `Default` implicite, contrairement au Validator : `*`
 est la seule valeur qui reprend les propriétés sans groupe.
 
+Groupes et `#[Ignore]` sont des **métadonnées** : le service `serializer` du
+framework les lit, mais un `ObjectNormalizer` construit sans fabrique de
+métadonnées les ignore. Exécuté : `groups` à `public-view` rend alors toutes les
+propriétés, y compris celle marquée `#[Ignore]`.
+
 ## Renommer
 
 `#[SerializedName]` change le nom d'un attribut dans le format produit, sans
@@ -138,7 +143,8 @@ répété côte à côte n'est pas circulaire.
 
 **Plusieurs normaliseurs, un seul encodeur** par opération.
 
-**Une propriété sans groupe disparaît** dès qu'un groupe est demandé.
+**Une propriété sans groupe disparaît** dès qu'un groupe est demandé — si le
+normaliseur dispose de ses métadonnées.
 
 **`circular_reference_limit` vaut `1` par défaut**, et relever le seuil ne
 supprime pas l'exception d'un vrai cycle.
