@@ -102,6 +102,21 @@ that is `EXAM_READY` needs at least one `VALIDATION` question, because its
 stated evidence requires a success in exam mode — rule `POOL-002` enforces this,
 so a lot is not finished until its VALIDATION questions exist.
 
+**A fourth pool closes each lot: `COMPREHENSION` ([ADR-0010](docs/adr/0010-comprehension-checks.md)).**
+By the owner's decision of 2026-10-09, each lot ends with a « Contrôle de
+compréhension » page, last in its sidebar category, correcting after each
+question. Its questions live in `content/comprehension/lot-XX.yml`, are loaded
+by `QuestionLoader::comprehension()` into `ContentSet::$comprehension`, and are
+seen by nothing that reads `content/questions/` — no mock, readiness, coverage
+or roadmap figure counts them. They are in **English** and their number is not
+fixed: a lot is complete when every `OUT` id of every item is assessed (rule
+`CMP-001`, synthesis questions counting through `related_items`). `CMP-002`
+refuses a prompt 60 % similar to any exam question, holdout included, without
+printing a holdout id; `CMP-003` runs the exam-bank question rules on them.
+Writing one means verifying its answer like any other — by execution where it
+can be — and reading only the LEARNING and VALIDATION prompts of the lot, never
+the holdout. If `CMP-002` fires, rewrite the question; never move the threshold.
+
 **Refinement is versioned, and the bar is allowed to rise (ADR-0007).**
 `docs/progress/refinement-log.yml` records the `framework_version` each lot was
 audited against. Version 2 requires identified learning outcomes (`OUT` ids),

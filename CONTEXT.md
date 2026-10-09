@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-03 (raffinement pédagogique, lots 02 à 26 traités ; rapport du lot 26 en PR)
+**Last updated:** 2026-10-09 (contrôles de compréhension, pilote lot 12)
 
 ---
 
@@ -40,6 +40,7 @@ périmètre sur instruction.
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
 | Extension de la seconde passe (lots 17 à 26, puis 01) | **terminée** le 2026-10-09 — 22 pages relues (les 22 items de ces lots) : 8 corrigées, 8 précisées, 6 exactes ; 2 cartes et 5 questions non holdout modifiées (1 VALIDATION, 4 LEARNING), 0 question holdout ; 7 PR (#363 à #369), toutes déployées, smoke vert sauf #366 (réparé par #367) ; décisions du propriétaire appliquées : lot 22 « Suivre le code » (#368), octets NUL « Retirer après build » (#369) ; bilan par script dans le journal | `docs/progress/second-pass-refinement.md` |
 | Schémas Mermaid ([ADR-0009](docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md)) | **pilote** le 2026-10-09 : 2 schémas vérifiés dans le code 8.0 (lot 03, *Request handling* : trajet sans exception, puis branche d'exception) ; Mermaid hors budget de mots ; règle `DIA-001` (type, `accTitle`, `accDescr`) avec 4 cas de preuve ; audit a11y en largeur téléphone, thèmes clair et sombre ; déployé (PR #371, smoke `ok  diagrams …`) ; **lot 2** : lot 11 *Retries and failures* et lot 10 *Authenticators* passent du schéma texte à Mermaid, l'audit a11y visite désormais toute page à schéma (une erreur de syntaxe y échoue, prouvé), et le contraste des clés YAML est corrigé sur les 25 cours concernés (PR #372) ; **lot 3** : lot 22 *Mailer*, lot 10 *Voters*, lot 17 *HTTP Caching* (deux schémas) ; *Compiler passes* écarté (liste sans embranchement) ; le smoke de production vérifie désormais chaque schéma dans le chunk JS de sa page (PR #373) ; **lot 4** : lot 12 *Console events*, lot 07 *Forms handling*, lot 10 *Access Control Rules* (deux schémas) ; les 11 autres schémas texte restent du texte (hiérarchies, listes, chaînes linéaires) (PR #374). **Série close le 2026-10-09** : 9 cours, 12 schémas, 1 477 mots de source Mermaid hors budget (recompté par script) ; PR #371 à #374, toutes déployées, smoke de production vert, chaque schéma vérifié dans le chunk JS de sa page. Puis, sur demande du propriétaire : **PR #148 fermée** sans fusion, et lot 07 *Form events* reçoit un schéma de séquence (ordre imbriqué, exécuté avec Form 8.0.15), déployé (PR #376, smoke `ok  diagrams  lot-07/form-events`). **Total : 10 cours, 13 schémas** | `docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md` |
+| Contrôles de compréhension ([ADR-0010](docs/adr/0010-comprehension-checks.md)) | **pilote lot 12** le 2026-10-09 : 4ᵉ pool `COMPREHENSION` (`content/comprehension/`), règles `CMP-001` (chaque objectif évalué), `CMP-002` (énoncé ≥ 60 % similaire à une question existante refusé, holdout compris, id holdout jamais affiché), `CMP-003` (règles des banques d'examen, anglais, synthèses dans le lot) ; page « Contrôle de compréhension » en fin de lot, correction après chaque question ; lot 12 *Console* : 34 questions, 25/25 objectifs, chaque réponse vérifiée par exécution (Console 8.0.15) ; en PR. Ensuite : les autres lots, un par PR | `docs/adr/0010-comprehension-checks.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -53,6 +54,10 @@ périmètre sur instruction.
   pour mermaid et ninclut pas memrmaid dans budget mots , faire enregistrer
   cette règle » (2026-10-09, ADR-0009). Chaque bloc doit porter un type, un
   `accTitle` et un `accDescr` (règle `DIA-001`).
+- Contrôles de compréhension en fin de lot, **en anglais**, nombre de questions
+  non fixé : « vraiment tous ce qu'il faut pour garantir que le lot est révisé
+  en succès » ; correction après chaque question ; pilote sur un lot puis la
+  suite (2026-10-09, ADR-0010).
 - Planning de révision : `--start 2026-10-01 --exam 2026-12-15 --max-new 4
   --weekday 160 --weekend 220` depuis le 2026-09-24 (140/200 ne tenait plus ;
   voir `docs/revision/study-roadmap.md`). Au-delà, `--max-new` devient la
@@ -62,7 +67,11 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
-**Prochaine action** : rien d'ouvert côté schémas — tous les flux à
+**Prochaine action** : contrôles de compréhension des autres lots, un lot par
+PR, selon la méthode du pilote (lot 12) : objectifs lus dans la matrice, cours
+du lot relus, énoncés LEARNING et VALIDATION du lot lus pour s'en écarter (jamais
+le holdout), chaque réponse vérifiée par exécution quand c'est possible,
+`CMP-001` à `CMP-003` et `aud10` verts. Côté schémas, rien d'ouvert — tous les flux à
 embranchements repérés sont dessinés et déployés, *Form events* compris. Un
 nouveau schéma suit l'ADR-0009 : flux à embranchements seulement, chaque flèche
 vérifiée dans le code 8.0, page ajoutée à la liste du smoke par chunk dans

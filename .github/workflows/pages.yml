@@ -5311,4 +5311,57 @@ jobs:
             fail=1
           fi
 
+          # The comprehension checks (ADR-0010), against the deployed bytes and the
+          # canonical banks of this commit. The payload must carry exactly the
+          # comprehension questions and none of the exam banks' ids -- the
+          # holdout's included, which are counted and never printed -- and each
+          # lot's page must be served with its own heading. The questions are
+          # drawn in the browser; the served HTML proves the page and its frame.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/comprehension.json "$BASE_URL/data/comprehension.json"
+          if ! python3 - "$BASE_URL" /tmp/comprehension.json <<'PY'
+          import glob, json, sys, time, urllib.request
+          import yaml
+          base, path = sys.argv[1], sys.argv[2]
+          payload = json.load(open(path, encoding='utf-8'))
+          banks = {q['id']: q for f in sorted(glob.glob('content/comprehension/*.yml'))
+                   for q in yaml.safe_load(open(f, encoding='utf-8'))['questions']}
+          exam = {q['id'] for f in glob.glob('content/questions/*.yml')
+                  for q in yaml.safe_load(open(f, encoding='utf-8'))['questions']}
+          served = [q['id'] for q in payload.get('questions', [])]
+          failed = False
+          if payload.get('pool') != 'COMPREHENSION':
+              print(f"::error::comprehension.json declares pool {payload.get('pool')!r}")
+              failed = True
+          if sorted(served) != sorted(banks):
+              print(f'::error::comprehension.json serves {len(served)} question(s), the banks hold {len(banks)}')
+              failed = True
+          leaked = len(set(served) & exam)
+          if leaked:
+              print(f'::error::comprehension.json serves {leaked} id(s) of the exam banks (ids withheld)')
+              failed = True
+          for lot, entry in payload.get('lots', {}).items():
+              for attempt in range(5):
+                  try:
+                      with urllib.request.urlopen(base + entry['url'], timeout=30) as r:
+                          html = r.read().decode('utf-8', 'replace')
+                      break
+                  except Exception as e:
+                      html, last = None, e
+                      time.sleep(5)
+              if html is None:
+                  print(f"::error::comprehension page of {lot} not served: {last}")
+                  failed = True
+              elif 'Contrôle de compréhension' not in html:
+                  print(f'::error::comprehension page of {lot} is served without its heading')
+                  failed = True
+              else:
+                  print(f"ok  comprehension  {lot}: {entry['questions']} question(s) in the payload, page served")
+          if not failed:
+              print(f'ok  comprehension  {len(served)} question(s), pool COMPREHENSION, no exam-bank id')
+          sys.exit(1 if failed else 0)
+          PY
+          then
+            fail=1
+          fi
+
           exit $fail
