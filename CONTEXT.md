@@ -38,7 +38,7 @@ périmètre sur instruction.
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
-| Extension de la seconde passe (lots 17 à 26, puis 01) | **relecture achevée** le 2026-10-09 — lots 17, 18, 21, 24, 25, 26 : une page précisée chacun (PR #363 à #365) ; lots 19, 20, 23 : aucune erreur ; lot 01 : 7 pages corrigées, 2 précisées, 1 carte et 4 questions modifiées (PR #366 ; smoke rouge sur une aiguille, réparé par la PR suivante) ; lot 22 page 1 : corrigée après décision du propriétaire (« Suivre le code », PR en cours), `QST-x1q4fk8g682j` en version 2 | `docs/progress/second-pass-refinement.md` |
+| Extension de la seconde passe (lots 17 à 26, puis 01) | **terminée** le 2026-10-09 — 22 pages relues (les 22 items de ces lots) : 8 corrigées, 8 précisées, 6 exactes ; 2 cartes et 5 questions non holdout modifiées (1 VALIDATION, 4 LEARNING), 0 question holdout ; 7 PR (#363 à #369), toutes déployées, smoke vert sauf #366 (réparé par #367) ; décisions du propriétaire appliquées : lot 22 « Suivre le code » (#368), octets NUL « Retirer après build » (#369) ; bilan par script dans le journal | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -57,13 +57,11 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
-**Prochaine action** : extension de la seconde passe aux lots 17 à 26 puis 01
-(« Go » du 2026-10-09). Fusionner la PR du correctif NUL (`postbuild`
-`strip-ssr-nul.mjs`) et lire son smoke, dont la ligne `ok  build  no NUL
-byte…` ; puis rédiger le bilan de l'extension. Avant chaque PR, le
-contrôle d'aiguilles anciennes.
-Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
-du Mock 4.
+**Prochaine action** : seconde passe et extension terminées — les 163 pages
+ont été relues. Rien n'est en cours côté contenu. Avant toute nouvelle PR qui
+touche une page, le contrôle d'aiguilles anciennes.
+Restent au propriétaire : les signaux holdout des lots 06, 13 et 01, et la
+passation du Mock 4.
 
 **Tests réellement exécutés à la dernière page** : voir le tableau
 « Contrôles réellement exécutés » de la dernière entrée du journal du lot.
