@@ -38,6 +38,7 @@ périmètre sur instruction.
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
+| Extension de la seconde passe (lots 17 à 26, puis 01) | **en cours** depuis le 2026-10-09 — lot 17 : 1 page précisée (PR en cours) ; lots 18 à 21 relus, à journaliser : lot 18 page 1 à préciser (APCu chaîné), lot 21 page 1 à préciser (`symlink()` copie sous Windows seulement ; phrase absorbée par le tableau) ; lots 19, 20, 21 page 2 exacts | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -52,10 +53,10 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
   de même pour le lot 13 (seconde passe, page 3).
 
-**Prochaine action** : la seconde passe sur les lots 02 à 16, décidée par le
-propriétaire le 2026-10-07, est terminée (bilan final dans
-`docs/progress/second-pass-refinement.md`, PR de bilan à fusionner et son
-déploiement à lire). Aucune autre relecture n'est planifiée.
+**Prochaine action** : extension de la seconde passe aux lots 17 à 26 puis 01
+(« Go » du 2026-10-09). Fusionner la PR du lot 17 après CI verte, lire son smoke
+test ; appliquer les précisions des lots 18 et 21 ; relire les lots 22 à 26,
+puis 01. Avant chaque PR, le contrôle d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 
