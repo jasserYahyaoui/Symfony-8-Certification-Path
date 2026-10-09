@@ -5,7 +5,7 @@ title: "Console events"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
@@ -57,10 +57,25 @@ application Symfony, FrameworkBundle le lui donne ; une `Application` construite
 
 ## L'ordre réel
 
-```text
-COMMAND  →  exécution  →  TERMINATE
-                ↓ exception
-              ERROR     →  TERMINATE
+```mermaid
+---
+title: Application::doRunCommand()
+---
+flowchart TD
+  accTitle: L'ordre des événements autour d'une commande console
+  accDescr: Sans dispatcher, la commande s'exécute seule, sans aucun événement. Avec un dispatcher, console.command est dispatché. Si un écouteur appelle disableCommand(), la commande n'est pas exécutée et le code vaut 113. Sinon elle s'exécute. Une exception mène à console.error, où poser le code 0 abandonne l'erreur. Dans tous les cas console.terminate est dispatché, puis l'erreur restante est relancée, ou le code de sortie de l'événement est rendu.
+  D{"dispatcher ?"} -->|"non"| ALONE(["exécution seule, aucun événement"])
+  D -->|"oui"| CMD["console.command"]
+  CMD --> DIS{"disableCommand() ?"}
+  DIS -->|"oui"| C113["code 113, pas d'exécution"]
+  DIS -->|"non"| RUN["exécution"]
+  RUN -->|"exception"| ERR["console.error : le code 0 abandonne l'erreur"]
+  RUN --> TERM["console.terminate"]
+  C113 --> TERM
+  ERR --> TERM
+  TERM --> OUT{"erreur restante ?"}
+  OUT -->|"oui"| THROW(["relancée"])
+  OUT -->|"non"| CODE(["rend le code de l'événement"])
 ```
 
 Le point que l'examen teste : **`TERMINATE` est toujours atteint**, y compris

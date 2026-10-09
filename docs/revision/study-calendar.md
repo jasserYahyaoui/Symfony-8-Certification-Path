@@ -694,7 +694,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 18 novembre 2026
 
-- NOUVEAU · **Console : Console events** (STANDARD) — 24 min · 728 mots · 5 questions, 11 flashcards
+- NOUVEAU · **Console : Console events** (STANDARD) — 24 min · 716 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 18 min · 450 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 20 min · 579 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 20 min · 571 mots · 3 questions, 11 flashcards
