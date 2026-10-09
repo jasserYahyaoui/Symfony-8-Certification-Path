@@ -1720,3 +1720,136 @@ et `docs/` identique avant / après les preuves.
 ## Bilan du lot 17
 
 1 page relue : **1 précisée**. Aucune carte ni question modifiée.
+
+## Lot 18
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Cache | **précisée** — voir ci-dessous |
+
+### Page 1 — *Cache*
+
+`CRS-p6yhxmpxrzbs` · STANDARD · **896 → 897 mots** sur 900.
+
+**Déploiement précédent, lu en production** : lot 17 (PR #363, `8c13819`), run
+Pages 37901282428, success — `ok  second-pass  lot-17 http caching: a public
+entry serves everyone, a Cookie request otherwise yields a private response`.
+
+**La documentation se contredit, le code tranche.** La page disait que
+`cache.adapter.system` choisit « fichiers PHP, **ou** APCu quand il est là ».
+`cache.rst` (8.0) l'écrit ainsi dans une note (« either PHP files or APCu »),
+mais la section *System Cache* du même fichier dit « writes to the filesystem
+and chains APCu when available ». Lu dans `AbstractAdapter::createSystemCache()`
+(8.0) : un `PhpFilesAdapter` seul, ou, si APCu est pris en charge (et activé en
+CLI), un `ChainAdapter([ApcuAdapter, PhpFilesAdapter])` — APCu devant les
+fichiers, pas à leur place. Exécuté sans APCu : un `PhpFilesAdapter`. La page
+dit désormais « fichiers PHP, chaînés derrière APCu » ; la source est ajoutée.
+
+**Le reste de la page, confirmé par exécution** (Cache 8.0.15) : `$save` à
+`false` (rappel appelé à chaque `get()`, rien d'enregistré), `beta` à `INF` (rappel
+sur une clé présente, `isHit()` vrai) et à `0`, `tag()` puis `invalidateTags()`
+(seul l'item étiqueté disparaît) ; lus : les défauts `cache.adapter.filesystem`
+et `cache.adapter.system` des pools, la liste des adaptateurs préconfigurés et
+l'étanchéité des pools par espace de noms dans `cache.rst`.
+
+**Questions et cartes.** Aucune carte ni question non holdout ne porte sur
+l'adaptateur système.
+
+**Aiguille de smoke test.** `chaînés derrière`, absente de la version `master`
+de la page et des fichiers de cartes ; contrôle d'aiguilles anciennes : aucune
+régression.
+
+## Bilan du lot 18
+
+1 page relue : **1 précisée**. Aucune carte ni question modifiée.
+
+## Lot 19
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Clock | relue, exacte |
+
+**Page relue sans défaut** : les affirmations non exécutées au raffinement ont
+été confrontées au code 8.0 — `now()` et le constructeur de `DatePoint`, qui
+valide le modificateur par le constructeur de `DateTimeImmutable` puis
+l'applique par `modify()` à l'heure de `Clock`, conformément à `clock.rst`
+(« any string accepted by the DateTime constructor »).
+
+## Bilan du lot 19
+
+1 page relue : **aucune erreur**.
+
+## Lot 20
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | EventDispatcher | relue, exacte |
+| 2 | Event | relue, exacte |
+
+**Pages relues sans défaut** : page 1, les trois arguments passés à un écouteur
+(événement, nom, répartiteur) et les trois paramètres d'`addListener()`
+exécutés, la méthode par défaut et le repli `__invoke()` lus dans
+`RegisterListenersPass`, `event_dispatcher.rst` pour le choix écouteur ou
+abonné ; page 2, l'API de `GenericEvent` et d'`Event` relue par réflexion
+(`StoppableEventInterface`, `ArrayAccess`, `IteratorAggregate`, les six méthodes
+d'arguments).
+
+## Bilan du lot 20
+
+2 pages relues : **aucune erreur**.
+
+## Lot 21
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | Filesystem | **précisée** — voir ci-dessous |
+| 2 | Finder | relue, exacte |
+
+**Page relue sans défaut** : page 2, la citation « stateful » confrontée à
+`finder.rst` (8.0), les jokers, les protocoles d'URL, `followLinks()` et la
+racine des `.gitignore`.
+
+### Page 1 — *Filesystem*
+
+`CRS-h9nryezt8wnb` · STANDARD · **654 → 689 mots** sur 900.
+
+**Déploiement précédent, lu en production** : le même que pour le lot 18
+ci-dessus (PR #363, run 37901282428).
+
+**Une règle reprise de la documentation, que le code restreint.** La page
+disait que le troisième argument de `symlink()` « duplique le répertoire quand
+le système ne gère pas les liens symboliques » — la formule de `filesystem.rst`
+(8.0). Lu dans `Filesystem::symlink()` (8.0) : l'argument s'appelle
+`$copyOnWindows`, et la copie par `mirror()` n'a lieu que si
+`DIRECTORY_SEPARATOR` est une barre oblique inverse, c'est-à-dire sous Windows.
+Exécuté sous Linux avec `true` : un lien symbolique est créé, rien n'est copié.
+La page précise la condition et cite la formule de la documentation ; la source
+`Filesystem` est re-vérifiée. `makePathRelative()` est exécuté (`../` et
+`videos/`, les deux exemples de la documentation).
+
+**Un défaut de rendu.** La phrase sur `symlink()` suivait le tableau
+d'exécution sans ligne vide ; en GFM, elle devenait deux lignes du tableau —
+vérifié dans le HTML du build (`<td><code>symlink()</code> accepte … quand</td>`).
+Une ligne vide est ajoutée. Une recherche par script sur les 163 pages ne trouve
+aucun autre texte collé à un tableau.
+
+**Questions et cartes.** Aucune carte ni question non holdout ne porte sur
+`symlink()`.
+
+**Aiguilles de smoke test.** `sous Windows seulement` et `bien un lien qui est
+créé`, absentes de la version `master` de la page et des fichiers de cartes ;
+contrôle d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-09**, pour les lots 18 et 21 :
+`php bin/cert validate` 0 bloquant ; `php bin/cert coverage` 163 / 163,
+inchangé ; `php bin/cert build` exit 0 ; 11 audits exit 0, FINDINGS 0 ;
+34 blocs `run:` parsent ; `composer gate-full` exit 0 — 299 tests,
+17 641 assertions, TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
+`prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
+`lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
+avant / après les preuves.
+
+## Bilan du lot 21
+
+2 pages relues : **1 précisée** (1 *Filesystem*), 1 inchangée. Aucune carte ni
+question modifiée.

@@ -5,7 +5,7 @@ title: "Filesystem"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst"
@@ -16,8 +16,8 @@ official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
     branch: "8.0"
-    symbol_or_lines: "mkdir(); rename(); dumpFile(); readFile()"
-    verified_at: "2026-10-02"
+    symbol_or_lines: "mkdir(); rename(); dumpFile(); readFile(); symlink(bool $copyOnWindows = false) — mirrors only when DIRECTORY_SEPARATOR is a backslash"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -73,8 +73,11 @@ Exécuté sur Filesystem 8.0.15, `umask` à `022` :
 | `rename()` sur une cible existante | `IOException` |
 | même appel avec `true` | la cible est remplacée |
 | `dumpFile('x/y/f.txt', …)` | `x/y` créé au passage |
-`symlink()` accepte un troisième argument qui **duplique le répertoire** quand
-le système ne gère pas les liens symboliques.
+
+`symlink()` accepte un troisième argument qui **duplique le répertoire** au lieu
+de créer le lien — sous Windows seulement : le code le nomme `$copyOnWindows`.
+La documentation dit « si le système de fichiers ne gère pas les liens » ;
+exécuté sous Linux avec `true`, c'est bien un lien qui est créé.
 
 ## Écrire et lire
 

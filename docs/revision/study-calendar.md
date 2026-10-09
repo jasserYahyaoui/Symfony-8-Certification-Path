@@ -794,7 +794,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 22 min · 813 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 23 min · 897 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 24 min · 896 mots · 4 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 24 min · 897 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 24 min · 882 mots · 4 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
 - Révision **J+7** (16 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers
@@ -806,14 +806,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 21 min · 705 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 19 min · 519 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 20 min · 654 mots · 3 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 21 min · 689 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 21 min · 629 mots · 4 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache · Miscellaneous : Clock
 - Révision **J+7** (15 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
 - Révision **J+14** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
 - Révision **J+30** (14 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 
-*Budget du jour : 146 / 160 min*
+*Budget du jour : 147 / 160 min*
 
 ### Jeudi 26 novembre 2026
 
