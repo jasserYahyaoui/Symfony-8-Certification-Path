@@ -39,7 +39,7 @@ périmètre sur instruction.
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
 | Extension de la seconde passe (lots 17 à 26, puis 01) | **terminée** le 2026-10-09 — 22 pages relues (les 22 items de ces lots) : 8 corrigées, 8 précisées, 6 exactes ; 2 cartes et 5 questions non holdout modifiées (1 VALIDATION, 4 LEARNING), 0 question holdout ; 7 PR (#363 à #369), toutes déployées, smoke vert sauf #366 (réparé par #367) ; décisions du propriétaire appliquées : lot 22 « Suivre le code » (#368), octets NUL « Retirer après build » (#369) ; bilan par script dans le journal | `docs/progress/second-pass-refinement.md` |
-| Schémas Mermaid ([ADR-0009](docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md)) | **pilote** le 2026-10-09 : 2 schémas vérifiés dans le code 8.0 (lot 03, *Request handling* : trajet sans exception, puis branche d'exception) ; Mermaid hors budget de mots ; règle `DIA-001` (type, `accTitle`, `accDescr`) avec 4 cas de preuve ; audit a11y en largeur téléphone, thèmes clair et sombre ; déployé (PR #371, smoke `ok  diagrams …`) ; **lot 2** : lot 11 *Retries and failures* et lot 10 *Authenticators* passent du schéma texte à Mermaid, l'audit a11y visite désormais toute page à schéma (une erreur de syntaxe y échoue, prouvé), et le contraste des clés YAML est corrigé sur les 25 cours concernés | `docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md` |
+| Schémas Mermaid ([ADR-0009](docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md)) | **pilote** le 2026-10-09 : 2 schémas vérifiés dans le code 8.0 (lot 03, *Request handling* : trajet sans exception, puis branche d'exception) ; Mermaid hors budget de mots ; règle `DIA-001` (type, `accTitle`, `accDescr`) avec 4 cas de preuve ; audit a11y en largeur téléphone, thèmes clair et sombre ; déployé (PR #371, smoke `ok  diagrams …`) ; **lot 2** : lot 11 *Retries and failures* et lot 10 *Authenticators* passent du schéma texte à Mermaid, l'audit a11y visite désormais toute page à schéma (une erreur de syntaxe y échoue, prouvé), et le contraste des clés YAML est corrigé sur les 25 cours concernés (PR #372) ; **lot 3** : lot 22 *Mailer*, lot 10 *Voters*, lot 17 *HTTP Caching* (deux schémas) ; *Compiler passes* écarté (liste sans embranchement) ; le smoke de production vérifie désormais chaque schéma dans le chunk JS de sa page | `docs/adr/0009-mermaid-diagrams-outside-the-revision-budget.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -62,13 +62,12 @@ périmètre sur instruction.
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
-**Prochaine action** : lire en production le smoke du lot 2 de schémas
-(`ok  diagrams  lot-11/…`, `lot-10/…`), puis poursuivre les schémas par
-lots de deux ou trois cours, chaque flèche vérifiée dans le code 8.0 :
-lot 22 *Mailer*, lot 10 *Voters and voting strategies*, lot 09 *Compiler
-passes*, lot 17 *HTTP Caching* ; lot 07 *Form events* après décision sur la
-PR #148, qui traite le même sujet. Avant toute PR qui touche une page, le
-contrôle d'aiguilles anciennes.
+**Prochaine action** : lire en production le smoke du lot 3 de schémas
+(`ok  diagrams  lot-22/mailer: 1 diagram(s) served…`), puis examiner les
+autres cours à schéma texte : seuls les flux à embranchements reçoivent un
+schéma Mermaid. Lot 07 *Form events* attend une décision sur la PR #148, qui
+traite le même sujet. Avant toute PR qui touche une page, le contrôle
+d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06, 13 et 01, et la
 passation du Mock 4.
 

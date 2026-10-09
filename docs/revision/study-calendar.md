@@ -793,7 +793,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 24 novembre 2026
 
 - NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 22 min · 813 mots · 3 questions, 11 flashcards
-- NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 23 min · 897 mots · 3 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 23 min · 899 mots · 3 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 24 min · 897 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 24 min · 882 mots · 4 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
@@ -817,7 +817,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 26 novembre 2026
 
-- NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 23 min · 671 mots · 5 questions, 11 flashcards
+- NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 23 min · 676 mots · 5 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 21 min · 610 mots · 4 questions, 11 flashcards
 - NOUVEAU · **Miscellaneous : Process** (STANDARD) — 25 min · 863 mots · 5 questions, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder

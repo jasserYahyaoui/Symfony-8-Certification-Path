@@ -127,3 +127,38 @@ code theme writes YAML keys (`atrule`, `attr-name`) in #00a4db, 2.69:1 against
 the code background. All 25 courses with a YAML block were affected and none
 had ever been audited. Fixed in `custom.css` at 5.5:1.
 
+## Addendum — third batch (2026-10-09)
+
+Three courses gained a diagram, none of which had one:
+
+- *Mailer* (lot 22) — `Mailer::send()`, `AbstractTransport::send()` and the
+  Messenger `MessageHandler` (Mailer 8.0.15), with the `mailer.mailer` service
+  definition of FrameworkBundle, which passes the event dispatcher. The
+  diagram shows a detail the prose leaves implicit: with a bus, `MessageEvent`
+  is dispatched twice, once marked `queued` before the message reaches the bus,
+  and once by the transport that sends it.
+- *Voters and voting strategies* (lot 10) — `Voter::vote()` (Security Core
+  8.0.15): abstain by default, deny once an attribute is supported, grant on the
+  first `voteOnAttribute()` that returns `true`.
+- *HTTP Caching* (lot 17) — `HttpCache::handle()`, `lookup()`, `validate()`,
+  `fetch()`, `pass()`, `invalidate()` and `store()` (HttpKernel 8.0.15), with
+  the trace each path records. Drawn as one diagram it was 815 px wide and
+  rendered its labels at 7 px on a phone; split in two, 11.5 px and 9.6 px.
+
+*Compiler passes* (lot 09) was considered and not drawn: its five stages are an
+ordered list without a branch, already a table on the page.
+
+**The production smoke test now sees the diagrams.** The HTML holds none of
+them, but each page's JavaScript chunk does. The smoke test finds that chunk the
+way the browser does — `main.js` names the chunk of the page, `runtime~main`
+gives its file — and requires one `accTitle` per diagram the course writes.
+Proven against a local build: all six diagram pages pass, and declaring two
+diagrams for *Mailer*, which has one, fails with exit 1.
+
+The gate caught one more inherited defect on the first run of this batch:
+YAML booleans (`boolean important`) in #36acaa, 2.58:1, on *Voters* and
+*HTTP Caching*, two pages never audited before. The existing override covered
+`constant`, `number` and `variable` from that colour group; it now covers the
+whole group the light theme paints #36acaa, rather than waiting for each token
+to surface on the next page audited. Rebuilt and re-audited: 36 PASS, 0 FAIL.
+
