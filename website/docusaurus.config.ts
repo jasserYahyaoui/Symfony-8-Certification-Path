@@ -25,11 +25,16 @@ const config: Config = {
   // rather than shipping. This mirrors CI rule LNK-001 for the site itself.
   onBrokenLinks: 'throw',
 
+  // Mermaid diagrams in courses (ADR-0009). Rule DIA-001 makes every block
+  // carry an accessible title and description; the blocks stay outside the
+  // revision budget REV-001, by the owner's decision of 2026-10-09.
   markdown: {
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'throw',
     },
   },
+  themes: ['@docusaurus/theme-mermaid'],
 
   i18n: {
     defaultLocale: 'fr',
@@ -57,6 +62,14 @@ const config: Config = {
   ],
 
   themeConfig: {
+    // A diagram is scaled down to the width of a phone, and its text with it:
+    // at Mermaid's default spacing a three-branch flowchart rendered its labels
+    // at under 9px on a 390px screen. Tighter spacing keeps them legible.
+    mermaid: {
+      options: {
+        flowchart: {nodeSpacing: 20, rankSpacing: 35},
+      },
+    },
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,

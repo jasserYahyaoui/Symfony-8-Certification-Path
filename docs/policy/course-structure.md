@@ -96,3 +96,21 @@ Between 2026-09-03 and 2026-09-09 this file claimed 62 courses deliberately had
 no trap section while all 163 had one. Nothing failed, because no gate compares
 a policy's prose with the corpus — which is exactly why the figure has to carry
 its date and be refreshed by hand when a campaign moves it.
+
+## Diagrams (ADR-0009)
+
+A course may carry a Mermaid diagram where the syllabus examines an **ordered
+flow with branches** — a step that short-circuits the rest, a failure, an
+exception. A plain list does not need one, and a plain-text diagram in a
+```` ```text ```` block is often enough.
+
+- The diagram is fenced as ```` ```mermaid ````, opens with its type, and
+  carries `accTitle` and `accDescr` (rule `DIA-001`). A visible title goes in
+  the block's own `---` front matter.
+- It is outside the revision budget, not outside verification: each arrow is
+  checked against the Symfony 8.0 code like a sentence, and `CRS-001` reads
+  inside the block.
+- It is drawn for a phone first. A diagram is scaled to the screen's width, and
+  its text with it: keep it vertical (`flowchart TD`), and split a flow that
+  spreads over three columns into two diagrams.
+

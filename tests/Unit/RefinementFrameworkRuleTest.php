@@ -511,7 +511,76 @@ final class RefinementFrameworkRuleTest extends TestCase
         self::assertSame(3, $course->wordCount());
     }
 
+    /**
+     * ADR-0009: a ```mermaid block is outside the revision budget, by the
+     * owner's decision of 2026-10-09.
+     */
+    public function testAMermaidBlockIsNotCountedAsBodyWords(): void
+    {
+        $course = $this->courseWithBody("un deux\n\n```mermaid\nflowchart TD\n  A[\"début\"] --> B[\"fin\"]\n```\n\ntrois");
+
+        self::assertSame(3, $course->wordCount());
+    }
+
+    /**
+     * The exemption is scoped to diagrams. Without this, widening the pattern
+     * to every fence would pass the test above and quietly take every PHP
+     * snippet of the corpus out of the budget.
+     */
+    public function testOtherFencedCodeIsStillCounted(): void
+    {
+        $course = $this->courseWithBody("un\n\n```php\n\$a = 1;\n```");
+
+        // un, ```php, $a, =, 1;, ``` — the fence lines count like any token.
+        self::assertSame(6, $course->wordCount());
+    }
+
+    /**
+     * An unclosed block matches nothing, so a malformed diagram makes a page
+     * heavier, never lighter. DIA-001 reports the unclosed fence itself.
+     */
+    public function testAnUnclosedMermaidBlockStaysCounted(): void
+    {
+        $course = $this->courseWithBody("un\n\n```mermaid\nflowchart TD\n  A --> B");
+
+        self::assertSame(7, $course->wordCount());
+    }
+
+    /**
+     * The exemption removes the diagram, not the ceiling: prose one word over
+     * the budget still fails with a diagram beside it.
+     */
+    public function testADiagramDoesNotLiftTheBudgetOnProse(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-03', 'contentLevel' => ContentLevel::Minimal]);
+        $budget = RevisionBudgetRule::budgets()[ContentLevel::Minimal->value];
+        $diagram = "\n\n```mermaid\nflowchart TD\n".str_repeat("  A --> B\n", 200)."```\n";
+
+        $within = $this->courseWithBody(trim(str_repeat('mot ', $budget)).$diagram, $item->id->value);
+        $over = $this->courseWithBody(trim(str_repeat('mot ', $budget + 1)).$diagram, $item->id->value);
+
+        self::assertSame([], (new RevisionBudgetRule())->check($this->content([$item], [], courses: [$within])));
+
+        $violations = (new RevisionBudgetRule())->check($this->content([$item], [], courses: [$over]));
+        self::assertCount(1, $violations);
+        self::assertSame('REV-001', $violations[0]->ruleId);
+    }
+
     // ---- fixtures ----------------------------------------------------------
+
+    private function courseWithBody(string $body, string $itemId = 'OIT-000000000001'): Course
+    {
+        return new Course(
+            id: Id::mint(EntityType::Course),
+            officialItemId: $itemId,
+            title: 'Course',
+            contentLevel: ContentLevel::Minimal,
+            body: $body,
+            officialSources: [],
+            language: Language::French,
+            verificationStatus: VerificationStatus::Verified,
+        );
+    }
 
     /**
      * @param list<\CertPath\Domain\OfficialItem> $items

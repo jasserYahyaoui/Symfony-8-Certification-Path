@@ -44,7 +44,7 @@ rule from `RuleSet::mandatory()` is a governance decision, not maintenance.
   a script, never from an earlier report or from memory;
 - compute coverage only as EXAM_READY atomic official items over total atomic
   official items, and count course size as **body words**, excluding YAML front
-  matter;
+  matter and ```` ```mermaid ```` blocks (ADR-0009);
 - state level distribution as an observation (see the rule above);
 - distinguish HOLDOUT **functional isolation** (absent from `practice.json`)
   from **confidentiality** — the published payloads carry correct answers, so
@@ -165,6 +165,16 @@ that item tests it. A correct answer belonging to **another** item is a leak
 wherever it appears — the learner reading the page sees it either way, and the
 fence only hides it from the rule. If `CRS-001` fires, fix the content; moving
 the string into a fence is gaming the check, not passing it.
+
+**A diagram is outside the budget, not outside the rules (ADR-0009).** By the
+owner's decision of 2026-10-09, a ```` ```mermaid ```` block is not counted as
+body words — in `REV-001`, `R14`, `AUD-04` and the revision roadmap, through one
+pattern, `Course::MERMAID_BLOCK`, mirrored in `tools/audit/collect.py` and
+`build_roadmap.py`. Rule `DIA-001` makes each block a real diagram with an
+`accTitle` and an `accDescr`; never put prose in a fence to fit a page under its
+budget. Each arrow is a claim, verified against the 8.0 code like a sentence.
+Mermaid draws in the browser: the accessibility audit waits for the SVGs, and a
+curl-based smoke test can only see the section around them.
 
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,

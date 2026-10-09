@@ -4,7 +4,7 @@ Clause 8 asks whether the corpus is "a corpus a candidate can actually
 revise". That is two questions, and only the first is arithmetic:
 
   is the volume manageable, measured the way CLAUDE.md requires — body
-  words, front matter excluded;
+  words, front matter and ```mermaid blocks excluded (ADR-0009);
   and is any of that volume duplicated, so that a learner reads the same
   thing twice under two headings?
 
@@ -41,7 +41,7 @@ def bump(k, n=1):
 courses = collect.courses()
 words = []
 for fm, body in courses:
-    words.append((fm['_file'], len(body.split())))
+    words.append((fm['_file'], collect.body_words(body)))
 
 sizes = sorted(n for _f, n in words)
 total = sum(sizes)
@@ -53,6 +53,13 @@ bump('median body words', median)
 bump('mean body words', mean)
 bump('shortest', sizes[0])
 bump('longest', sizes[-1])
+# Diagram source sits outside the budget (ADR-0009) but not outside the
+# report: an exemption nobody can see the size of would invite prose into it.
+diagrams = [(fm['_file'], len(collect.MERMAID_BLOCK.findall(body)), collect.mermaid_words(body))
+            for fm, body in courses]
+bump('mermaid diagrams', sum(n for _f, n, _w in diagrams))
+bump('courses with a mermaid diagram', sum(1 for _f, n, _w in diagrams if n))
+bump('mermaid tokens, outside the budget', sum(w for _f, _n, w in diagrams))
 
 # An outlier is judged against this corpus, not an external rule: a course
 # more than four times the median is an outlier by construction.

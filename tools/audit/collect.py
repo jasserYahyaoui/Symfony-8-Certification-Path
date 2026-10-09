@@ -41,6 +41,21 @@ def flashcards():
 
 FRONT_MATTER = re.compile(r'\A---\n(.*?)\n---\n', re.S)
 
+# A fenced ```mermaid block, as Course::MERMAID_BLOCK matches it in PHP. Its
+# source is not counted as body words (ADR-0009): one definition, shared by
+# every script that reports course size, so no two of them can disagree.
+MERMAID_BLOCK = re.compile(r'^```mermaid\b[^\n]*\n.*?^```[ \t]*$', re.M | re.S)
+
+
+def body_words(body):
+    """Body words as Course::wordCount() counts them: whitespace tokens, ```mermaid blocks excluded."""
+    return len(MERMAID_BLOCK.sub(' ', body).split())
+
+
+def mermaid_words(body):
+    """Whitespace tokens inside ```mermaid blocks: outside the budget, still reported."""
+    return sum(len(b.split()) for b in MERMAID_BLOCK.findall(body))
+
 
 def courses():
     """Each course as (front matter dict, body text). Body excludes front matter."""

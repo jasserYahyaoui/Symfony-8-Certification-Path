@@ -2,7 +2,8 @@
 
 **Rule:** `REV-001` · **Criterion:** `R14_revision_budget` ·
 **Decision:** [ADR-0007](../adr/0007-refinement-framework-v2.md), budgets
-recalibrated by [ADR-0008](../adr/0008-revision-budget-recalibration.md)
+recalibrated by [ADR-0008](../adr/0008-revision-budget-recalibration.md),
+Mermaid diagrams excluded by [ADR-0009](../adr/0009-mermaid-diagrams-outside-the-revision-budget.md)
 
 ## The one measure where more is worse
 
@@ -15,6 +16,14 @@ unit turned into a ceiling.
 ## How body words are counted
 
 Whitespace-separated tokens of the Markdown body, front matter excluded.
+
+**```` ```mermaid ```` blocks are excluded too** — the owner's decision of
+2026-10-09, recorded in
+[ADR-0009](../adr/0009-mermaid-diagrams-outside-the-revision-budget.md). The
+exemption is the diagram's, not the page's: every word outside the fence still
+counts, and rule `DIA-001` requires each block to be a real diagram, with an
+accessible title and description, so that the fence cannot carry prose the
+budget refuses. `AUD-04` reports the Mermaid token count separately.
 
 `Course::wordCount()` deliberately does **not** use PHP's `str_word_count()`:
 its default character class excludes accented letters, so it splits `défaut`

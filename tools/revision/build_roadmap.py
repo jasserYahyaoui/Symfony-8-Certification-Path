@@ -15,6 +15,8 @@ Ne corrigez jamais le calendrier à la main : régénérez-le.
 import argparse, os, sys
 import yaml, glob, re, collections, datetime, math, json
 
+MERMAID_BLOCK = re.compile(r'^```mermaid\b[^\n]*\n.*?^```[ \t]*$', re.M | re.S)
+
 # ---------------------------------------------------------------- paramètres
 WPM          = 110   # HYPOTHÈSE : mots/min, 1re lecture attentive, FR + code
 Q_FACTOR     = 1.6   # HYPOTHÈSE : × estimated_time_seconds, pour lire l'explication
@@ -78,7 +80,9 @@ words = {}
 for f in glob.glob('content/courses/*.md'):
     s = open(f,encoding='utf-8').read()
     cid = re.search(r'id:\s*(CRS-\w+)', s)
-    if cid: words[cid.group(1)] = len(re.findall(r'\S+', s.split('---',2)[-1]))
+    # Mots de corps comme Course::wordCount() : sans front matter, sans blocs
+    # ```mermaid (ADR-0009) — la source d'un schéma ne se lit pas à WPM mots/min.
+    if cid: words[cid.group(1)] = len(re.findall(r'\S+', MERMAID_BLOCK.sub(' ', s.split('---',2)[-1])))
 fc = collections.Counter()
 for f in glob.glob('content/flashcards/*.yml'):
     for c in (yaml.safe_load(open(f,encoding='utf-8')).get('flashcards') or []):

@@ -163,6 +163,35 @@ function answerThen(question, wantCorrect, after) {
 const SINGLE = pickQuestion('single');
 const MULTIPLE = pickQuestion('multiple');
 
+/**
+ * Wait until every Mermaid diagram of a course page is drawn (ADR-0009).
+ *
+ * Mermaid draws in the browser, after the page has loaded: the built HTML
+ * holds no SVG at all. Running axe before the drawing would audit an empty
+ * container and report a pass about nothing, so the expected count is read
+ * from the generated Markdown, not hardcoded, and a diagram that fails to
+ * draw times out here instead of passing silently. Each drawing must also
+ * expose the accessible title and description DIA-001 requires in the
+ * source: a rule on the source proves nothing about what the reader gets.
+ */
+function diagramsDrawn(markdownPath) {
+  return async (page) => {
+    const source = await readFile(join(WEBSITE, markdownPath), 'utf8');
+    const expected = source.split('\n').filter((l) => l.startsWith('```mermaid')).length;
+    if (expected === 0) throw new Error(`a11y: ${markdownPath} carries no mermaid block to audit`);
+    const svgs = page.locator('.docusaurus-mermaid-container svg');
+    await svgs.nth(expected - 1).waitFor({timeout: 20000});
+    const drawn = await page.evaluate(() => [...document.querySelectorAll('.docusaurus-mermaid-container svg')].map((s) => ({
+      title: document.getElementById(s.getAttribute('aria-labelledby') || '')?.textContent?.trim() || '',
+      desc: document.getElementById(s.getAttribute('aria-describedby') || '')?.textContent?.trim() || '',
+    })));
+    if (drawn.length !== expected) throw new Error(`a11y: ${expected} mermaid block(s), ${drawn.length} diagram(s) drawn`);
+    drawn.forEach((d, i) => {
+      if (!d.title || !d.desc) throw new Error(`a11y: diagram ${i + 1} is drawn without an accessible title and description`);
+    });
+  };
+}
+
 // One page per interactive surface, plus a generated item page carrying the
 // <details> flashcards introduced by Lot 0.5.
 const PAGES = [
@@ -174,6 +203,12 @@ const PAGES = [
   // heading-order check exists to catch. Auditing only a deck without levels
   // would leave that structure unaudited while reporting a full pass.
   ['item page with levelled flashcards', '/docs/courses/lot-02/http-specification-rfc-9110'],
+  // A course carrying Mermaid diagrams, at phone width and in both themes:
+  // a diagram is scaled down to the screen, and dark mode recolours it.
+  ['item page with diagrams', '/docs/courses/lot-03/request-handling',
+    {drive: diagramsDrawn('docs/courses/lot-03/request-handling.md')}],
+  ['item page with diagrams, dark', '/docs/courses/lot-03/request-handling',
+    {colorScheme: 'dark', drive: diagramsDrawn('docs/courses/lot-03/request-handling.md')}],
   // §5 glossary: a generated table, so its header scope and reading order
   // are worth auditing rather than assumed.
   ['glossary', '/docs/syllabus/glossary'],
@@ -269,7 +304,9 @@ for (const [name, path, script] of PAGES) {
   // Interactive states are audited at phone width: a correction that forces a
   // horizontal page scroll is a real defect and only shows up narrow.
   const context = await browser.newContext(
-    script ? {viewport: {width: 390, height: 780}} : {},
+    script
+      ? {viewport: {width: 390, height: 780}, ...(script.colorScheme ? {colorScheme: script.colorScheme} : {})}
+      : {},
   );
   const page = await context.newPage();
   if (script?.state) {

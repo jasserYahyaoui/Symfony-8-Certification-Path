@@ -1,6 +1,7 @@
 """Proof that the refinement-framework rules of ADR-0007 actually fire.
 
 ARC-001, PED-003 and REV-001 were added to a corpus that satisfies all three,
+and DIA-001 (ADR-0009) to one whose two diagrams satisfy it,
 so each of them reports nothing on the canonical data. A rule that has only
 ever been silent has not been shown to be capable of speaking: five checks in
 this project were found to be vacuous, four of them comparing a value with
@@ -35,6 +36,12 @@ LINKED_COURSE = 'content/courses/CRS-0a0d5bp6769e.md'
 # LEARNING link leaves only the holdout one, which must not discharge it.
 # QST-4rr5p2mvc7g5 is the LEARNING half; QST-95yb2ee8eb52 the HOLDOUT one.
 LOT01_QUESTION = 'content/questions/lot-01-php.yml'
+
+# The first course to carry Mermaid diagrams (ADR-0009): lot 03, Request
+# handling, DEEP, 1199 body words of 1200 once its two diagrams are excluded.
+# That margin of one word is what makes the REV-001 case below a real test of
+# the exemption: prose added next to a diagram must still be counted.
+DIAGRAM_COURSE = 'content/courses/CRS-mpwjc4g3vmj7.md'
 
 # These anchors carry the fields QST-a4xhs81g86kj really has, because the
 # injection must REPLACE them. Inserting a second `question_archetype:` or
@@ -166,6 +173,33 @@ CASES = [
             'readable_url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"',
         )],
         '[ERROR] SRC-002',
+    ),
+    # DIA-001 (ADR-0009). Mermaid blocks are outside the revision budget, so
+    # the rule that makes each one a real, accessible diagram is the only thing
+    # standing between that exemption and prose hidden inside a fence.
+    (
+        'DIA-001 rejects a diagram without an accessible title',
+        [(DIAGRAM_COURSE, "  accTitle: Le trajet d'une requête principale sans exception\n", '')],
+        '[ERROR] DIA-001',
+    ),
+    (
+        'DIA-001 rejects a diagram without an accessible description',
+        [(DIAGRAM_COURSE, '  accDescr: Une Error que handle_all_throwables', '  %% Une Error que handle_all_throwables')],
+        '[ERROR] DIA-001',
+    ),
+    (
+        'DIA-001 rejects prose written where the diagram type belongs',
+        [(DIAGRAM_COURSE,
+          "flowchart TD\n  accTitle: Le trajet d'une",
+          "Ce paragraphe se cache dans un schema pour echapper au budget.\n  accTitle: Le trajet d'une")],
+        '[ERROR] DIA-001',
+    ),
+    (
+        'REV-001 still counts the prose written beside a diagram',
+        [(DIAGRAM_COURSE,
+          "## Trois façons d'échouer, trois exceptions\n",
+          ('mot ' * 10).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
+        '[ERROR] REV-001',
     ),
 ]
 

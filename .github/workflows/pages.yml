@@ -5082,6 +5082,29 @@ jobs:
             echo "ok  build  no NUL byte in a sampled page, and its table-of-contents link resolves"
           fi
 
+          # Mermaid diagrams (ADR-0009). Mermaid draws in the browser, so the HTML
+          # read here holds the section around the diagrams, never the drawing:
+          # rendering is checked by the accessibility audit, which waits for every
+          # SVG. What curl can check is that the section shipped, and that course
+          # tables scroll in the keyboard-reachable region that let this page pass
+          # at phone width.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/mm-rh -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/request-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Mermaid check: page lot-03/request-handling serves $code"
+            fail=1
+          else
+            missing=""
+            grep -aqF -- 'Le cycle en sch' /tmp/mm-rh || missing="$missing mm:diagram-section"
+            grep -aqF -- 'aria-label="Tableau : Ce qui manque' /tmp/mm-rh || missing="$missing mm:table-region"
+            if [ -n "$missing" ]; then
+              echo "::error::Mermaid pilot missing from lot-03/request-handling:$missing"
+              fail=1
+            else
+              echo "ok  diagrams  lot-03 request handling ships its diagram section, and its table scrolls in a keyboard-reachable region"
+            fi
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
