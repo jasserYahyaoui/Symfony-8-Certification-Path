@@ -2311,3 +2311,89 @@ tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ; aucun HTML du build final ne
 contient d'octet NUL (recompté par script) ; `php bin/cert validate`
 0 bloquant ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ; preuves
 PROOF OK ; empreinte SHA-256 de `content/` et `docs/` identique.
+
+## Bilan de l'extension
+
+Relecture des lots 17 à 26 et 01 terminée le 2026-10-09. Chiffres **recomptés
+par script** : les résultats par page depuis les tableaux de ce journal ; les
+cartes et questions par comparaison `git` des fichiers `content/flashcards/` et
+`content/questions/` entre `59a6c05` (PR #362, bilan de la seconde passe) et
+`39f61af` (PR #369) ; les mots de corps (front matter exclu) des cours modifiés
+entre les mêmes commits.
+
+**Déploiement précédent, lu en production** : correctif NUL (PR #369,
+`39f61af`), run Pages 37915917586, success — `ok  build  no NUL byte in a
+sampled page, and its table-of-contents link resolves`. La ligne du
+`postbuild`, « removed 241 NUL byte(s) from 169 HTML file(s) », a été lue dans
+le log de la CI de la PR (run 37915068474) ; le build Pages passe par la même
+commande, `npm --prefix website run build`. Le site de production n'est pas
+joignable depuis ce conteneur (`github.io` refusé par le proxy) : au-delà de
+la page échantillonnée par le smoke test, l'absence d'octet NUL en production
+n'a pas été mesurée ici.
+
+| Lot | Pages | Corrigées | Précisées | Exactes |
+|---|---|---|---|---|
+| 17 | 1 | 0 | 1 | 0 |
+| 18 | 1 | 0 | 1 | 0 |
+| 19 | 1 | 0 | 0 | 1 |
+| 20 | 2 | 0 | 0 | 2 |
+| 21 | 2 | 0 | 1 | 1 |
+| 22 | 2 | 1 | 0 | 1 |
+| 23 | 1 | 0 | 0 | 1 |
+| 24 | 1 | 0 | 1 | 0 |
+| 25 | 1 | 0 | 1 | 0 |
+| 26 | 1 | 0 | 1 | 0 |
+| 01 | 9 | 7 | 2 | 0 |
+| **Total de l'extension** | **22** | **8** | **8** | **6** |
+
+Les 22 pages relues sont exactement les 22 items atomiques officiels de ces
+lots dans la matrice (lots 17 à 26 : 13 ; lot 01 : 9). Aucun niveau n'a été
+promu ; le budget `REV-001` est resté un plafond : les 16 cours modifiés sont
+tous `STANDARD`, les plus serrés sont ceux des lots 17 et 18, à 897 mots sur
+900.
+
+| Mesure | Valeur |
+|---|---|
+| PR de l'extension | 7, #363 à #369, toutes fusionnées par squash (un seul parent, vérifié) |
+| Déploiements | 7 commits de fusion, runs Pages relus par l'API le 2026-10-09 : #363, #364, #365, #367, #368 et #369 en succès ; #366 en échec deux fois (runs 37906049116 et 37906161874, smoke test seul), réparé par #367 |
+| Cours modifiés | 16 (= 8 corrigées + 8 précisées), +486 mots de corps |
+| Cartes modifiées | 2 : `FLC-ef5rh3zk8shg` (lot 01), `FLC-xnqfscd5c1cy` (lot 22) |
+| Questions non holdout modifiées | 5 — VALIDATION : `QST-4bawjd57a598` (lot 01, version 2) ; LEARNING : `QST-e35gsy2e4vr3` (lot 01, version 2), `QST-x1q4fk8g682j` (lot 22, version 2), `QST-trxpf8mvw13a` et `QST-hdx34ew6s8ah` (lot 01, explications seules) |
+| Questions holdout modifiées | **0** |
+| Couverture | 163 / 163, inchangée |
+
+**Cumul seconde passe + extension** (les chiffres ci-dessus sont ceux de
+l'extension seule) : 163 pages relues, soit les 163 items atomiques officiels
+— 23 corrigées, 15 précisées, 125 exactes ; 18 cartes et 7 questions non
+holdout modifiées ; 0 question holdout.
+
+**Ce qui a été trouvé.** Dans les lots 17 à 26, la forme attendue : une règle
+vraie par défaut, énoncée sans son exception — six pages précisées. Le lot 22
+portait une contradiction entre la documentation et le code 8.0 exécuté, sur
+la clé d'une question ; elle n'a été tranchée qu'après décision du
+propriétaire (« Suivre le code »). Le lot 01 concentrait les erreurs : 7 pages
+corrigées sur 9.
+
+**Correction de l'introduction de l'extension.** Elle dit ces 22 pages
+« raffinées plus tard, avec exécution ». C'est vrai des lots 17 à 26, audités
+sous la version 2 du cadre les 12 et 14 septembre ; c'est faux du lot 01,
+audité **le premier**, le 2026-09-09 (`docs/progress/refinement-log.yml`).
+
+**Décisions du propriétaire appliquées** (2026-10-09) : lot 22, « Suivre le
+code » (PR #368) ; octets NUL, « Retirer après build » (PR #369).
+
+**Signaux holdout pour le propriétaire**, sans identifiant ni contenu : au
+moins une question holdout du lot 01 mérite sa revue. Ceux des lots 06 et 13
+restent ouverts. Aucune question holdout n'a été lue ni modifiée par
+l'extension.
+
+**Incidents.** Le smoke test rouge de #366 : une aiguille traversait un octet
+NUL inséré par le rendu serveur ; #367 l'a remplacée sans affaiblir le
+contrôle. La cause a été mesurée (169 pages, 241 octets, dont 24 dans des
+attributs) et corrigée par #369, avec un contrôle de build et un smoke test
+qui échouent s'il en reste.
+
+**Confidentialité.** L'isolement holdout est **fonctionnel** — absent de
+`practice.json` et d'`exam.json`, vérifié à chaque déploiement par le smoke
+test — et non une confidentialité : les payloads publiés portent les bonnes
+réponses.
