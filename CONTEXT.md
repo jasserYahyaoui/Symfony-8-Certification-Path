@@ -58,12 +58,10 @@ périmètre sur instruction.
   de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
 **Prochaine action** : extension de la seconde passe aux lots 17 à 26 puis 01
-(« Go » du 2026-10-09). Fusionner la PR du lot 22 et lire son smoke ; appliquer
-la décision du propriétaire sur les octets NUL du rendu serveur (« Retirer
-après build » : script `postbuild`, échec s'il en reste), puis rédiger le bilan
-de l'extension. Avant chaque PR, le
-contrôle d'aiguilles anciennes ; tant que les NUL ne sont pas corrigés, toute
-aiguille accentuée est fragile.
+(« Go » du 2026-10-09). Fusionner la PR du correctif NUL (`postbuild`
+`strip-ssr-nul.mjs`) et lire son smoke, dont la ligne `ok  build  no NUL
+byte…` ; puis rédiger le bilan de l'extension. Avant chaque PR, le
+contrôle d'aiguilles anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 
