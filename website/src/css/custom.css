@@ -293,6 +293,17 @@ main dd a:not(.button):not(.card),
   color: #b31d28 !important;  /* 6.3:1 on #f6f8fa */
 }
 
+/* Same theme, same defect: `atrule` and `attr-name` in #00a4db, 2.69:1 on
+   #f6f8fa. YAML keys are tokenised `key atrule`, so every one of the 25
+   courses with a YAML block failed in light mode — found when the audit began
+   visiting every page that carries a diagram, the first course with YAML it
+   had ever rendered. `keyword` and `selector` share the rule but are
+   overridden to #00009f further down the theme, and pass. */
+[data-theme='light'] .token.atrule,
+[data-theme='light'] .token.attr-name {
+  color: #006b99 !important;  /* 5.5:1 on #f6f8fa */
+}
+
 /* Mermaid's dark theme writes edge labels in #cccccc on #585858: 4.43:1, under
    the 4.5:1 minimum for body-size text. The colours are set by a stylesheet
    Mermaid injects into each SVG, so the override needs !important. */

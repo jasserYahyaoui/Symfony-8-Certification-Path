@@ -5,7 +5,7 @@ title: "Retries and failures"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
@@ -147,13 +147,22 @@ envoyé vers `async`.
 
 ## L'enchaînement complet
 
-```text
-message consommé par un worker, handler lève
-  → Recoverable ?            oui → réessai, sans limite
-  → Unrecoverable ?          oui → échec immédiat
-  → tentatives restantes ?   oui → réessai après délai croissant
-  → failure_transport ?      oui → file d'échec, en attente humaine
-                             non → message perdu
+```mermaid
+---
+title: Un handler lève, pendant la consommation par un worker
+---
+flowchart TD
+  accTitle: Ce que devient un message dont le handler a levé une exception
+  accDescr: Dans l'ordre de shouldRetry(). Une RecoverableMessageHandlingException force le réessai, sans limite. Si toutes les exceptions sont Unrecoverable, aucun réessai. Sinon, s'il reste des tentatives selon max_retries, réessai après un délai croissant. Sans réessai, le message part dans le failure_transport s'il est configuré, et il est perdu sinon.
+  F(["le handler lève"]) --> R{"Recoverable ?"}
+  R -->|"oui"| RETRY["réessai, sans limite"]
+  R -->|"non"| U{"toutes Unrecoverable ?"}
+  U -->|"non"| N{"tentatives restantes ?"}
+  N -->|"oui"| DELAY["réessai après délai croissant"]
+  N -->|"non"| FT{"failure_transport ?"}
+  U -->|"oui"| FT
+  FT -->|"oui"| FAILED["file d'échec, en attente humaine"]
+  FT -->|"non"| LOST(["message perdu"])
 ```
 
 Chaque étage change la réponse, et c'est l'ordre qui compte : une

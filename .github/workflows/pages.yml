@@ -5105,6 +5105,30 @@ jobs:
             fi
           fi
 
+          # Mermaid, second batch (ADR-0009): two text diagrams replaced by drawn
+          # ones. The drawing is invisible to curl, so each page must serve its
+          # own prose AND no longer carry the old text diagram: a stale page
+          # still holding the text block fails here.
+          for spec in \
+            "lot-11/retries-and-failures|ordre qui compte|tentatives restantes ?" \
+            "lot-10/authenticators-passports-and-badges|Remember-me et rehachage|le Passport devient un TokenInterface"; do
+            page="${spec%%|*}"; rest="${spec#*|}"; prose="${rest%%|*}"; old="${rest#*|}"
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o /tmp/mm-b2 -w '%{http_code}' "$BASE_URL/docs/courses/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Mermaid batch 2: page $page serves $code"
+              fail=1
+            elif ! grep -aqF -- "$prose" /tmp/mm-b2; then
+              echo "::error::Mermaid batch 2: $page does not serve its course prose"
+              fail=1
+            elif grep -aqF -- "$old" /tmp/mm-b2; then
+              echo "::error::Mermaid batch 2: $page still serves the old text diagram"
+              fail=1
+            else
+              echo "ok  diagrams  $page draws its flow in Mermaid, the text diagram is gone"
+            fi
+          done
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
