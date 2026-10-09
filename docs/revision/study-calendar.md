@@ -30,22 +30,22 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 1 octobre 2026
 
-- NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 14 min · 400 mots · 5 questions, 1 flashcards
-- NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 13 min · 431 mots · 4 questions, 1 flashcards
-- NOUVEAU · **PHP : Attributes** (STANDARD) — 13 min · 360 mots · 4 questions, 1 flashcards
-- NOUVEAU · **PHP : Interfaces** (STANDARD) — 12 min · 524 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 15 min · 485 mots · 5 questions, 1 flashcards
+- NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 14 min · 449 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : Attributes** (STANDARD) — 13 min · 377 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : Interfaces** (STANDARD) — 13 min · 563 mots · 4 questions, 1 flashcards
 
-*Budget du jour : 52 / 160 min*
+*Budget du jour : 55 / 160 min*
 
 ### Vendredi 2 octobre 2026
 
-- NOUVEAU · **PHP : Anonymous functions and closures** (STANDARD) — 13 min · 395 mots · 4 questions, 1 flashcards
-- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 12 min · 314 mots · 5 questions, 1 flashcards
-- NOUVEAU · **PHP : Exception and error handling** (STANDARD) — 12 min · 372 mots · 4 questions, 1 flashcards
-- NOUVEAU · **PHP : Traits** (STANDARD) — 13 min · 353 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : Anonymous functions and closures** (STANDARD) — 13 min · 428 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 13 min · 336 mots · 5 questions, 1 flashcards
+- NOUVEAU · **PHP : Exception and error handling** (STANDARD) — 12 min · 396 mots · 4 questions, 1 flashcards
+- NOUVEAU · **PHP : Traits** (STANDARD) — 13 min · 365 mots · 4 questions, 1 flashcards
 - Révision **J+1** (24 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 74 / 160 min*
+*Budget du jour : 75 / 160 min*
 
 ### Samedi 3 octobre 2026
 
@@ -72,7 +72,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 5 octobre 2026
 
-- NOUVEAU · **PHP : Enums** (STANDARD) — 11 min · 383 mots · 3 questions, 1 flashcards
+- NOUVEAU · **PHP : Enums** (STANDARD) — 11 min · 406 mots · 3 questions, 1 flashcards
 - NOUVEAU · **HTTP : HTTP Specification (RFC 9110)** (MINIMAL) — 34 min · 692 mots · 10 questions, 16 flashcards
 - NOUVEAU · **HTTP : Status codes** (MINIMAL) — 26 min · 679 mots · 4 questions, 17 flashcards
 - NOUVEAU · **HTTP : HTTP request** (DEEP) — 33 min · 1183 mots · 5 questions, 17 flashcards

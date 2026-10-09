@@ -323,7 +323,8 @@ questions:
     correct: false
     explanation: Attributes are evaluated without access to runtime scope, so no variable is available.
   explanation: 'Attribute arguments must be constant expressions: literals, constants, class constants,
-    enum cases and constant arithmetic. Function calls and variables are rejected at compile time.'
+    enum cases, constant arithmetic and, since PHP 8.1, new expressions. Function calls and variables are
+    rejected at compile time.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
     readable_url: https://github.com/php/doc-en/blob/master/language/attributes.xml
@@ -558,7 +559,7 @@ questions:
   question_archetype: API_SIGNATURE
   assesses_outcomes:
     - OUT-fs6z2g5dv4qq
-  version: 1
+  version: 2
   official_topic: PHP
   official_item: OIT-webdvbgbrfth
   domain: php
@@ -570,7 +571,8 @@ questions:
   answer_mode: single
   required_answer_count: 1
   code_language: php
-  question: Which declaration causes a fatal error?
+  question: Which declaration causes a fatal error? The methods are declared in an abstract class, not in
+    a trait.
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -580,7 +582,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-09'
   tags:
   - abstract
   choices:
@@ -599,8 +601,10 @@ questions:
     text: An abstract class with no abstract methods at all
     correct: false
     explanation: 'Perfectly legal: it simply cannot be instantiated.'
-  explanation: An abstract private method could never be implemented by a subclass, since private members
-    are invisible to it. PHP rejects the combination outright.
+  explanation: In a class, an abstract private method could never be implemented by a subclass, since
+    private members are invisible to it, so PHP rejects the combination. A trait, however, may declare
+    abstract private methods since PHP 8.0 (executed on 8.4). Version 1 did not say where the declaration
+    stood, which left the trait case open.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
     readable_url: https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml
@@ -708,7 +712,8 @@ questions:
   - id: CHO-mayqdwym4b01
     text: TypeError is only catchable inside a finally block
     correct: false
-    explanation: finally does not catch anything; it always runs regardless.
+    explanation: finally does not catch anything; it runs after try and catch, whether or not something
+      was thrown.
   explanation: Error and Exception are sibling branches under the Throwable interface. catch (Exception)
     never sees an Error; catch (Throwable) sees both.
   official_sources:
@@ -1172,7 +1177,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
     - OUT-ynfsf3qdn2mj
-  version: 1
+  version: 2
   official_topic: PHP
   official_item: OIT-vt0p9cacpkpd
   domain: php
@@ -1194,7 +1199,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-08'
+  reviewed_at: '2026-10-09'
   tags:
   - interfaces
   - php84
@@ -1209,15 +1214,19 @@ questions:
   - id: CHO-s4tzzn3mv22f
     text: 'public string $name { get => $this->raw; set => $this->raw = $value; }'
     correct: false
-    explanation: A virtual property implementing both hooks satisfies the declaration.
-  - id: CHO-9jjg0nsbqdek
-    text: 'public private(set) string $name;'
+    explanation: A public property implementing both hooks satisfies the declaration; with the short set
+      form it is backed rather than virtual, which does not matter here.
+  - id: CHO-0nnnetzjjdtw
+    text: 'public string $name { set => trim($value); }'
     correct: false
-    explanation: Asymmetric visibility narrows who may write, which is a separate question from whether
-      the property is writeable at all.
+    explanation: A backed property with only a set hook keeps public read and write access, so it satisfies
+      the declaration.
   explanation: Since PHP 8.4 an interface may declare a property and must say whether it is readable,
-    writeable or both. A readonly property cannot satisfy a settable interface property, because it may
-    be written only once from the declaring scope.
+    writeable or both; the declaration applies only to public read and write access. A settable interface
+    property may not be readonly, because a readonly property is implicitly protected(set) since PHP 8.4
+    and so offers no public write access. Version 1 also listed public private(set) string $name as a
+    satisfying member; executed on PHP 8.4 it fails for the same reason ("Set access level of C::$name must
+    be omitted"), so it was replaced by a member that does satisfy the declaration.
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
     readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
@@ -1225,7 +1234,7 @@ questions:
       that is settable may not be readonly"'
     repository: php/doc-en
     branch: master
-    verified_at: '2026-09-08'
+    verified_at: '2026-10-09'
 - id: QST-b807cvrtscf6
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:

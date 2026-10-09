@@ -5,7 +5,7 @@ title: "Attributes"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
@@ -20,6 +20,12 @@ official_sources:
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/appendices/migration81/new-features.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/appendices/migration81/new-features.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'new in Initializers — "It is now possible to use new ClassName() expressions as ... attribute arguments"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -57,8 +63,10 @@ Les arguments suivent les règles d'appel habituelles, et les deux syntaxes —
 positionnelle et nommée — sont acceptées. Ce qu'ils peuvent contenir est
 défini positivement : des **valeurs littérales ou des expressions
 constantes**. Sont donc admis un littéral, une constante, une constante de
-classe, un cas d'énumération, et un tableau de ces éléments — mais ni appel
-de fonction ni variable, qui ne sont pas des expressions constantes.
+classe, un cas d'énumération, un tableau de ces éléments et, depuis PHP 8.1,
+une instanciation `new`, ce qui permet d'imbriquer des attributs — exécuté :
+`#[Outer([new Inner('a')])]`. En revanche, ni appel de fonction ni variable,
+qui ne sont pas des expressions constantes.
 
 ## Lire
 

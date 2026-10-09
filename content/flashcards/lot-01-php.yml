@@ -12,11 +12,11 @@ flashcards:
   - id: FLC-ef5rh3zk8shg
     official_item: OIT-46ry8d7dypmb
     language: fr
-    front: "PHP : quelles sont les quatre nouveautés de langage de PHP 8.4 ?"
-    back: "Property hooks, visibilité asymétrique (private(set)), objets paresseux, attribut #[\\Deprecated]."
+    front: "PHP : quelles nouveautés de langage PHP 8.4 apporte-t-il ?"
+    back: "Property hooks, visibilité asymétrique (private(set)), objets paresseux, attribut #[\\Deprecated], et new déréférençable sans parenthèses englobantes."
     explanation: >-
-      Symfony 8.0 exige PHP >= 8.4, donc ces quatre ajouts sont dans le
-      périmètre examinable. Ne pas les confondre avec 8.3 (constantes de classe
+      Symfony 8.0 exige PHP >= 8.4, donc ces cinq ajouts sont dans le
+      périmètre examinable ; UPGRADING (8.4) les liste sous New Features > Core. Ne pas les confondre avec 8.3 (constantes de classe
       typées, #[\Override]) ni 8.1 (enums, readonly, callable de première classe).
     memorization_justification: >-
       Attribution version-par-fonctionnalité : rien dans la syntaxe n'indique sa

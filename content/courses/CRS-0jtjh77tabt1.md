@@ -5,7 +5,7 @@ title: "Abstract classes"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
@@ -13,6 +13,18 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/traits.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'Abstract Trait Members — "Public, protected, and private methods are supported. Prior to PHP 8.0.0, only public and protected abstract methods were supported"'
+    verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: '"Although they are supported, including constructors in interfaces is strongly discouraged"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -38,11 +50,12 @@ abstract class Repository
 
 - Une classe abstraite **ne peut pas être instanciée**.
 - Une méthode abstraite n'a **pas de corps** et peut être `public` ou
-  `protected`, jamais `private`.
+  `protected`, jamais `private` dans une classe ; un trait, lui, admet
+  `abstract private` depuis PHP 8.0 — exécuté.
 - Une classe contenant au moins une méthode abstraite **doit** être déclarée
   `abstract`.
-- La classe fille doit implémenter toutes les méthodes abstraites, avec une
-  visibilité **égale ou plus permissive** et une signature compatible.
+- La classe fille doit implémenter toutes les méthodes abstraites, sauf à être
+  elle-même abstraite, avec une visibilité **égale ou plus permissive** et une signature compatible.
 - Une classe abstraite peut avoir un constructeur, des propriétés et des
   méthodes concrètes.
 
@@ -52,7 +65,7 @@ abstract class Repository
 |---|---|---|
 | Corps de méthode | Non | Oui |
 | Propriétés d'état | Non | Oui |
-| Constructeur | Non | Oui |
+| Constructeur | Signature seulement, déconseillée | Oui |
 | Visibilité | Publique uniquement | `public` ou `protected` |
 | Nombre par classe | Plusieurs | **Une seule** |
 
