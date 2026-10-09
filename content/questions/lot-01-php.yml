@@ -723,11 +723,12 @@ questions:
     repository: php/doc-en
     branch: master
     verified_at: '2026-09-01'
-  - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
-    readable_url: https://github.com/php/doc-en/blob/master/language/errors/php7.xml
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/error-handling.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/error-handling.xml
+    repository: php/doc-en
     branch: master
-    symbol_or_lines: '"As the Error hierarchy does not inherit from Exception, code that uses catch (Exception $e) blocks to handle uncaught exceptions ... will find that these Errors are not caught by these blocks"'
-    verified_at: '2026-09-07'
+    symbol_or_lines: 'section "Throwable hierarchy": Error and Exception are two separate branches under Throwable, so catch (Exception $e) does not catch an Error (moved from language/errors/php7.xml, now 404)'
+    verified_at: '2026-10-09'
 - id: QST-fhrga35d77wa
   question_archetype: DEFINITION_RECALL
   assesses_outcomes:
@@ -1450,12 +1451,12 @@ questions:
     placed first shadows every narrower one after it. PHP raises no error for the shadowed branch:
     the bug is silent, and only the ordering reveals it.'
   official_sources:
-  - url: https://raw.githubusercontent.com/php/doc-en/master/language/exceptions.xml
-    readable_url: https://github.com/php/doc-en/blob/master/language/exceptions.xml
-    symbol_or_lines: '"The first catch block the thrown object matches will be used"'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/control-structures/try-catch.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/control-structures/try-catch.xml
+    symbol_or_lines: '"The first catch block that matches the class of the thrown Throwable object will handle the error" (moved from language/exceptions.xml, now 404)'
     repository: php/doc-en
     branch: master
-    verified_at: '2026-09-08'
+    verified_at: '2026-10-09'
 - id: QST-604t8tj8gx9c
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
