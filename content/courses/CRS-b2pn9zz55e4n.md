@@ -5,7 +5,7 @@ title: "Form events"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst"
@@ -14,6 +14,13 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst"
+    anchor: "form-events-nested-forms"
+    symbol_or_lines: '"After the parent PRE_SUBMIT, children are *fully* submitted (including their own PRE_SUBMIT, SUBMIT, and POST_SUBMIT events) before the parent continues"'
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    verified_at: "2026-10-09"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php"
     repository: "symfony/symfony"
@@ -136,6 +143,37 @@ Un champ dépendant d'un autre ne peut pas s'ajouter depuis son propre
 `POST_SUBMIT` au formulaire lui-même : sa structure est figée. On l'ajoute au
 **formulaire parent**, depuis l'événement de l'enfant. C'est ce qui rend le motif
 des listes dépendantes contre-intuitif à écrire.
+
+L'ordre de propagation explique pourquoi cela fonctionne : au `POST_SUBMIT` de
+l'enfant, le parent n'a pas encore atteint son `SUBMIT`. Exécuté avec
+`symfony/form` 8.0.15 : un champ ajouté au parent à ce moment est soumis, avec
+la valeur de la requête.
+
+```mermaid
+---
+title: Un parent et son enfant, exécuté avec Form 8.0.15
+---
+sequenceDiagram
+  accTitle: L'ordre des événements d'un formulaire parent et de son enfant
+  accDescr: À la mise en place, PRE_SET_DATA du parent, puis PRE_SET_DATA et POST_SET_DATA de l'enfant, puis POST_SET_DATA du parent. À la soumission, PRE_SUBMIT du parent, puis l'enfant est soumis entièrement, PRE_SUBMIT, SUBMIT et POST_SUBMIT, avant que le parent ne passe à SUBMIT puis POST_SUBMIT. Au POST_SUBMIT de l'enfant, le parent n'est pas encore soumis, et un champ qui lui est ajouté à ce moment est soumis avec la valeur de la requête. La validation part du POST_SUBMIT de la racine.
+  participant P as parent
+  participant E as enfant
+  Note over P,E: mise en place
+  P->>P: PRE_SET_DATA
+  P->>E: setData()
+  E->>E: PRE_SET_DATA
+  E->>E: POST_SET_DATA
+  P->>P: POST_SET_DATA
+  Note over P,E: soumission
+  P->>P: PRE_SUBMIT
+  P->>E: submit()
+  E->>E: PRE_SUBMIT
+  E->>E: SUBMIT
+  E->>E: POST_SUBMIT
+  E-->>P: add() : accepté, puis soumis
+  P->>P: SUBMIT
+  P->>P: POST_SUBMIT (validation)
+```
 
 La validation, elle, ne part que du formulaire **racine** : `ValidationListener`
 écoute le `POST_SUBMIT` de chaque formulaire, mais n'agit que si

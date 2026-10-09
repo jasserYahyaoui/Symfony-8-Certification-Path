@@ -68,6 +68,9 @@ const config: Config = {
     mermaid: {
       options: {
         flowchart: {nodeSpacing: 20, rankSpacing: 35},
+        // Same reason for sequence diagrams: narrower actors, no repeated row
+        // of actors at the bottom.
+        sequence: {actorMargin: 30, width: 110, mirrorActors: false},
       },
     },
     colorMode: {
