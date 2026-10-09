@@ -5,7 +5,7 @@ title: "Mailer"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-03"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/mailer.rst"
@@ -18,6 +18,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "__construct(); send()"
     verified_at: "2026-10-03"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Mailer.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Mailer.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "send(): dispatches a SendEmailMessage on the bus when one is set; deferral depends on its routing"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -73,7 +79,11 @@ public function sendEmail(MailerInterface $mailer): Response
 ```
 
 **Le point à retenir** : si l'application dispose du composant Messenger,
-les messages partent **asynchrones par défaut**.
+la documentation dit que les messages partent **asynchrones par défaut**. Le
+code en fixe la condition : `send()` distribue un `SendEmailMessage` sur le bus,
+qui ne diffère l'envoi que si ce message est **routé** vers un transport
+asynchrone. Exécuté : sans routage, le courriel part pendant `send()` ; routé
+vers un transport `in-memory://`, il y reste en attente.
 
 ## Ce que rend l'envoi
 
@@ -125,7 +135,9 @@ plus dans les octets envoyés, et il est même retiré de l'objet `Email` d'orig
 
 ## Pièges d'examen
 
-**Avec Messenger installé, l'envoi est asynchrone par défaut.**
+**Avec Messenger installé, l'envoi est asynchrone par défaut** selon la
+documentation, à condition que `SendEmailMessage` soit routé vers un transport
+asynchrone ; sans routage, il part pendant `send()`.
 
 **`MailerInterface::send()` ne rend rien** ; c'est `TransportInterface` qui rend
 un `SentMessage`, et lui envoie toujours de façon synchrone.

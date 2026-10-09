@@ -11,8 +11,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Pourquoi MailerInterface::send() ne rend-il rien ?
-  back: 'Parce qu''il peut différer l''envoi : avec Messenger installé, les messages partent de façon asynchrone
-    par défaut. C''est TransportInterface::send() qui rend un SentMessage, et lui envoie toujours de façon synchrone.'
+  back: 'Parce qu''il peut différer l''envoi : avec Messenger, il distribue un SendEmailMessage, que le bus ne diffère
+    que s''il est routé vers un transport asynchrone. C''est TransportInterface::send() qui rend un SentMessage, et
+    lui envoie toujours de façon synchrone.'
   explanation: Passer d'une interface à l'autre est la manière documentée d'obtenir les informations de débogage
     d'un envoi.
   memorization_justification: Un envoi qui ne rend rien passe pour un oubli d'API ; c'est en réalité la trace d'un

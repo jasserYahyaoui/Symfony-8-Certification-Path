@@ -5044,6 +5044,24 @@ jobs:
           else
             echo "ok  second-pass  lot-01 enums: pure enum value access warns and yields null, modification throws an Error"
           fi
+          # Second pass extension, lot 22 (Mailer): with Messenger, sending is deferred only when SendEmailMessage is routed to an async transport.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp22ma -w '%{http_code}' "$BASE_URL/docs/courses/lot-22/mailer")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-22/mailer serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'code en fixe la condition' /tmp/sp-sp22ma \
+            || missing="$missing sp22ma:no-code-condition"
+          grep -aqF -- 'il y reste en attente' /tmp/sp-sp22ma \
+            || missing="$missing sp22ma:no-waits-there"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-22/mailer:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-22 mailer: sending is deferred only when SendEmailMessage is routed to an async transport"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
