@@ -2269,3 +2269,45 @@ Une carte corrigée (`FLC-ef5rh3zk8shg`). Quatre questions modifiées : une
 VALIDATION (`QST-4bawjd57a598`, version 2, un choix remplacé) et trois LEARNING
 (`QST-e35gsy2e4vr3` en version 2 ; `QST-trxpf8mvw13a` et `QST-hdx34ew6s8ah`,
 explications seules). Aucune question holdout lue ni modifiée.
+
+## Octets NUL du rendu serveur — correctif
+
+**Décision du propriétaire (2026-10-09)** : « Retirer après build ».
+
+**Déploiement précédent, lu en production** : lot 22 (PR #368, `3f0afd4`), run
+Pages 37914325122, success — `ok  second-pass  lot-22 mailer: sending is
+deferred only when SendEmailMessage is routed to an async transport`.
+
+**Le correctif.** `website/tools/strip-ssr-nul.mjs`, branché en script
+`postbuild` de `website/package.json` : il s'exécute donc après chaque
+`npm --prefix website run build`, c'est-à-dire dans la CI, dans le déploiement
+Pages et dans `composer gate-full` (par `npm run gate`). Il retire les octets
+NUL des fichiers HTML du build — chacun est une insertion, jamais un
+remplacement, si bien que le texte voulu est rétabli à l'identique — et
+**fait échouer le build** si un octet NUL reste dans un HTML ou apparaît dans
+un autre artefact texte (`.js`, `.css`, `.json`, `.xml`, `.svg`…) ; les
+binaires, qui en contiennent légitimement, ne sont pas examinés.
+
+**Vérifié avant la PR**, sur une copie du build : 241 octets retirés de
+169 fichiers ; aucun HTML n'en contient plus ; une seconde exécution n'en
+trouve aucun ; le lien de sommaire `href="#points-clés"` de
+`lot-03/backward-compatibility-promise`, le libellé `Développer la catégorie`
+et le texte `sauf à être` sont rétablis ; un `.js` piégé avec un octet NUL fait
+échouer le script (exit 1).
+
+**Smoke test de production.** Un bloc nouveau récupère
+`lot-03/backward-compatibility-promise`, exige zéro octet NUL et la présence de
+`href="#points-clés"`. Exécuté en local, le même test **échoue** sur la page du
+build non nettoyé (« NUL bytes present ») et passe sur la copie nettoyée.
+
+La cause amont — react-dom 18.3.1 sous `renderToPipeableStream` — n'est pas
+traitée : passer à React 19 reste possible et rendrait le script inactif, que
+son contrôle continuerait de surveiller.
+
+**Contrôles réellement exécutés le 2026-10-09** : `composer gate-full` exit 0
+— le `postbuild` y a tourné et a affiché « removed 241 NUL byte(s) from 169
+HTML file(s) », l'audit d'accessibilité donne 29 PASS et aucun échec, 299
+tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ; aucun HTML du build final ne
+contient d'octet NUL (recompté par script) ; `php bin/cert validate`
+0 bloquant ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ; preuves
+PROOF OK ; empreinte SHA-256 de `content/` et `docs/` identique.

@@ -5063,6 +5063,25 @@ jobs:
             echo "ok  second-pass  lot-22 mailer: sending is deferred only when SendEmailMessage is routed to an async transport"
           fi
 
+          # Server-side render NUL bytes (2026-10-09). react-dom 18.3.1 left U+0000
+          # before some multi-byte characters in 169 pages; website/tools/
+          # strip-ssr-nul.mjs removes them after the build. This page carried one
+          # inside a table-of-contents href, which pointed nowhere.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/nul-bcp -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/backward-compatibility-promise")
+          if [ "$code" != "200" ]; then
+            echo "::error::NUL check: page lot-03/backward-compatibility-promise serves $code"
+            fail=1
+          elif [ "$(tr -cd '\000' < /tmp/nul-bcp | wc -c)" != "0" ]; then
+            echo "::error::NUL bytes are back in lot-03/backward-compatibility-promise"
+            fail=1
+          elif ! grep -aqF -- 'href="#points-clés"' /tmp/nul-bcp; then
+            echo "::error::The table-of-contents link to the key points of lot-03/backward-compatibility-promise is broken"
+            fail=1
+          else
+            echo "ok  build  no NUL byte in a sampled page, and its table-of-contents link resolves"
+          fi
+
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,
           # so neither the coverage report nor the readiness dashboard would
