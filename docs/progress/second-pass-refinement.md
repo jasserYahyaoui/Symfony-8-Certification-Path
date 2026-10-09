@@ -1645,3 +1645,78 @@ commit de #359.
 `practice.json` et d'`exam.json`, vérifié à chaque déploiement par le smoke
 test — et non une confidentialité : les payloads publiés portent les bonnes
 réponses.
+
+# Extension — lots 17 à 26, puis 01
+
+Le 2026-10-09, après le bilan des lots 02 à 16, le propriétaire a répondu « Go »
+; avec l'autorisation durable « ensuite continue les autres lots », la même
+méthode est appliquée aux 22 pages restantes : les lots 17 à 26 (13 pages), puis
+le lot 01 (9 pages). Ces pages ont été raffinées plus tard, avec exécution ; la
+relecture vise surtout la forme de défaut trouvée en fin de seconde passe — une
+règle vraie par défaut, énoncée sans son exception.
+
+## Lot 17
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | HTTP Caching (reverse proxies, expiration, validation) | **précisée** — voir ci-dessous |
+
+### Page 1 — *HTTP Caching*
+
+`CRS-1k0ce9dvdr99` · STANDARD · **898 → 897 mots** sur 900.
+
+**Déploiement précédent, lu en production** : bilan final de la seconde passe
+(PR #362, `59a6c05`), run Pages 37832080709, success ; job *Production smoke
+test* en succès.
+
+**Deux défauts de la même famille.** Exécuté avec `HttpCache` et `Store`
+(HttpKernel 8.0.15), sans cookie :
+
+| Réponse de l'application | `Cache-Control` servi | Deux `GET` |
+|---|---|---|
+| `setMaxAge(60)` | `max-age=60, private` | `miss` puis `miss` |
+| en-tête brut `max-age=60` | `max-age=60, private` | `miss` puis `miss` |
+| `setPublic()` + `setMaxAge(60)` | `max-age=60, public` | `miss, store` puis `fresh` |
+| `setSharedMaxAge(60)` | `public, s-maxage=60` | `miss, store` puis `fresh` |
+
+1. La page décrivait son exécution comme « deux `GET` sur une route à
+   `max-age=60` » donnant `miss, store` puis `fresh`. Une réponse à `max-age=60`
+   seul est `private` — le défaut que la page *Caching* du lot 02 enseigne — et
+   n'est jamais stockée. Le cas exécuté était nécessairement `public` ; la page
+   le dit désormais.
+2. La page disait que deux utilisateurs sur la même URL « reçoivent donc la
+   même entrée ». Lu dans `HttpCache::forward()` (8.0) : une requête portant un
+   en-tête de l'option `private_headers` — `Authorization` et `Cookie` par
+   défaut — rend la réponse `private`, sauf si elle est explicitement `public`.
+   Exécuté avec deux cookies : réponse non `public`, `miss` pour Alice, `miss`
+   pour Bob ; réponse `public`, `miss, store` pour Alice puis `fresh` pour Bob,
+   qui reçoit la page d'Alice. La page dit maintenant les deux.
+
+Le budget `REV-001` étant presque atteint, la phrase remplacée est réécrite plus
+courte : 897 mots. La source `HttpCache` est ajoutée.
+
+**Le reste de la page, confirmé** : `trace_level` (`full` en debug, `none`
+sinon, `short` sur la requête principale) lu dans `HttpCache` ; la clé de
+`Store::generateCacheKey()`, URI plus corps pour `QUERY` ; les noms de
+`#[Cache]` lus par réflexion (`maxage`, `smaxage`, `mustRevalidate`,
+`lastModified`) ; les clés de `setCache()`, `expire()` et `setNotModified()` lus
+dans `Response`.
+
+**Questions et cartes.** Aucune carte ni question non holdout n'affirme qu'un
+`max-age=60` seul est stocké, ni ne porte sur les en-têtes privés.
+
+**Aiguilles de smoke test.** `Bob reçoit la page` et `Sinon, une requête`,
+absentes de la version `master` de la page et des fichiers de cartes ; contrôle
+d'aiguilles anciennes : aucune régression.
+
+**Contrôles réellement exécutés le 2026-10-09** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 ; 34 blocs `run:` parsent ;
+`composer gate-full` exit 0 — 299 tests, 17 641 assertions, TOTAL VIOLATIONS: 0 ;
+`prove_framework_rules_fail.py` et `prove_flashcard_coverage_fails.py` PROOF
+OK ; `aud10 --prove`, `lot27 --prove` exit 0 ; empreinte SHA-256 de `content/`
+et `docs/` identique avant / après les preuves.
+
+## Bilan du lot 17
+
+1 page relue : **1 précisée**. Aucune carte ni question modifiée.

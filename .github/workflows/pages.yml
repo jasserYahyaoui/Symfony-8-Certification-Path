@@ -4778,6 +4778,24 @@ jobs:
           else
             echo "ok  second-pass  lot-14 configuration: a real env var wins by default, overrideExistingVars: true reverses it"
           fi
+          # Second pass extension, lot 17 (HTTP Caching): a public entry is shared, a Cookie or Authorization request otherwise makes the response private.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp17hc -w '%{http_code}' "$BASE_URL/docs/courses/lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Bob reçoit la page' /tmp/sp-sp17hc \
+            || missing="$missing sp17hc:no-bob-gets-alice"
+          grep -aqF -- 'Sinon, une requête' /tmp/sp-sp17hc \
+            || missing="$missing sp17hc:no-otherwise-private"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-17 http caching: a public entry serves everyone, a Cookie request otherwise yields a private response"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

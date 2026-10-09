@@ -5,7 +5,7 @@ title: "HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge S
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst"
@@ -28,6 +28,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "isMethodCacheable(): GET, HEAD, QUERY"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "private_headers (Authorization, Cookie): the response is made private unless it is public"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -91,7 +97,7 @@ dehors, l'option `trace_level` le contrôle :
 Apache, `%{X-Symfony-Cache}o` — afin de mesurer l'efficacité du cache route par
 route. Le nom de l'en-tête se change par `trace_header`.
 
-Exécuté (HttpKernel 8.0.15), deux `GET` sur une route à `max-age=60` : en debug,
+Exécuté (HttpKernel 8.0.15), deux `GET` sur une route `public, max-age=60` : en debug,
 `miss, store` puis `fresh` ; sans debug, la seconde réponse vient aussi du
 cache, mais **sans** en-tête — `trace_level` vaut `none` par défaut hors debug.
 
@@ -143,10 +149,10 @@ $response->setNotModified();  // force un 304 sans contenu
 ## Ce que le cache ne fera pas
 
 **La clé de cache est l'URI de la requête** — sauf variation déclarée ; pour la
-méthode `QUERY`, l'URI plus le corps (`Store`, 8.0). Deux
-utilisateurs différents sur la même URL reçoivent donc la même entrée, ce qui
-explique pourquoi une page personnalisée ne se met pas en cache partagé sans
-précaution.
+méthode `QUERY`, l'URI plus le corps (`Store`, 8.0). Une entrée `public` sert
+tout le monde : exécuté, Bob reçoit la page d'Alice. Sinon, une requête
+portant `Cookie` ou `Authorization` rend la réponse `private`, jamais
+stockée.
 
 **Le cache HTTP ne vaut que pour les méthodes sûres.** Trois conséquences que la
 documentation énonce :
