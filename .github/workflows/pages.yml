@@ -4796,6 +4796,40 @@ jobs:
           else
             echo "ok  second-pass  lot-17 http caching: a public entry serves everyone, a Cookie request otherwise yields a private response"
           fi
+          # Second pass extension, lot 18 (Cache): cache.adapter.system chains APCu in front of PHP files, it does not replace them.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp18ca -w '%{http_code}' "$BASE_URL/docs/courses/lot-18/cache")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-18/cache serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'chaînés derrière' /tmp/sp-sp18ca \
+            || missing="$missing sp18ca:no-chained-behind"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-18/cache:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-18 cache: cache.adapter.system chains APCu in front of the PHP files"
+          fi
+          # Second pass extension, lot 21 (Filesystem): the third argument of symlink() copies on Windows only ($copyOnWindows).
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp21fs -w '%{http_code}' "$BASE_URL/docs/courses/lot-21/filesystem")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-21/filesystem serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'sous Windows seulement' /tmp/sp-sp21fs \
+            || missing="$missing sp21fs:no-windows-only"
+          grep -aqF -- 'bien un lien qui est créé' /tmp/sp-sp21fs \
+            || missing="$missing sp21fs:no-link-created"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-21/filesystem:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-21 filesystem: symlink() third argument copies on Windows only"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

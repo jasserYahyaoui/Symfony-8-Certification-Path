@@ -5,7 +5,7 @@ title: "Cache"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/cache.rst"
@@ -23,6 +23,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "invalidateTags()"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/AbstractAdapter.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/AbstractAdapter.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "createSystemCache(): PhpFilesAdapter alone, or ChainAdapter([ApcuAdapter, PhpFilesAdapter]) when APCu is supported"
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -132,7 +138,7 @@ mettre Redis lorsque c'est possible, pour que les données survivent au
 déploiement et soient partagées entre plusieurs serveurs.
 
 `cache.adapter.system` n'est pas un stockage : il **choisit** dynamiquement le
-meilleur disponible — fichiers PHP, ou APCu quand il est là.
+meilleur disponible — fichiers PHP, chaînés derrière APCu quand il est là.
 
 Les adaptateurs préconfigurés couvrent `apcu`, `array`, `filesystem`,
 `memcached`, `pdo`, `psr6`, `redis` et `valkey`, ces deux derniers ayant une
