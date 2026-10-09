@@ -5,7 +5,7 @@ title: "Anonymous functions and closures"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
@@ -13,6 +13,12 @@ official_sources:
     branch: "master"
     symbol_or_lines: "Anonymous functions, Static anonymous functions, Arrow functions"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/closure/bindto.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/predefined/closure/bindto.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: '"Static closures cannot have any bound object ..., but this method can nevertheless be used to change their class scope"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -72,7 +78,9 @@ class Cart
 ```
 
 `Closure::bind()` et `Closure::bindTo()` permettent de relier une closure à un
-autre objet — et échouent sur une closure `static`.
+autre objet — sauf une closure `static`, qui ne peut porter aucun objet : PHP
+émet « Cannot bind an instance to a static closure » et rend `null`. Changer
+seulement sa portée de classe, objet à `null`, reste possible — exécuté.
 
 ## Callable de première classe
 

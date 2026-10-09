@@ -5,7 +5,7 @@ title: "Enums"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/enumerations.xml"
@@ -86,8 +86,8 @@ enum Suit: string implements Colorful
 ## Ce qu'elle ne peut pas faire
 
 **Aucun état.** Une enum n'a pas de propriétés d'instance : ses cas sont des
-singletons. `$suit->value` est en lecture seule, et toute modification indirecte
-est une erreur fatale.
+singletons. `$suit->value` est en lecture seule : toute modification, directe ou
+indirecte, lève une `Error` — « Cannot modify readonly property », exécuté.
 
 **Pas de constructeur**, pas d'héritage (`extends` interdit), pas
 d'instanciation par `new`.
@@ -104,7 +104,8 @@ fatale.** Ces méthodes sont fournies par le moteur.
 **`cases()` sur une enum adossée renvoie les cas, pas les valeurs.** Pour les
 valeurs : `array_column(Suit::cases(), 'value')`.
 
-**Une enum pure n'a pas de `->value`.** Y accéder est une erreur.
+**Une enum pure n'a pas de `->value`.** Y accéder ne lève rien : PHP émet un
+avertissement « Undefined property » et rend `null` — exécuté.
 
 ## Points clés
 

@@ -38,7 +38,7 @@ périmètre sur instruction.
 | 26 (Miscellaneous) | **terminé** — 1 page déployée (PR #339) ; rapport en PR |
 | 27 | aucun item atomique officiel dans la matrice (0 `lot: lot-27`, vérifié par script le 2026-10-03), aucune page ni question : rien à raffiner |
 | Seconde passe (lots 02 à 16) | **terminée** le 2026-10-08 — 141 pages relues (les 141 items des lots 02 à 16) : 15 corrigées, 7 précisées, 119 exactes ; 16 cartes et 2 questions LEARNING modifiées, 0 question holdout ; 21 PR (#341 à #361), toutes déployées, smoke vert sauf #350 (réparé par #351) ; bilan final par script dans le journal | `docs/progress/second-pass-refinement.md` |
-| Extension de la seconde passe (lots 17 à 26, puis 01) | **en cours** depuis le 2026-10-09 — lots 17, 18, 21, 24, 25, 26 : une page précisée chacun (PR #363, #364 et PR en cours) ; lots 19, 20, 23 : aucune erreur ; lot 22 page 1 : défaut établi, **en attente de décision du propriétaire** (la doc dit « asynchrone par défaut » avec Messenger, le code ne diffère que si `SendEmailMessage` est routé ; la clé de `QST-x1q4fk8g682j` est fausse pour son énoncé « aucun routage ») ; lot 01 relu, défauts établis sur ses 9 pages, à appliquer | `docs/progress/second-pass-refinement.md` |
+| Extension de la seconde passe (lots 17 à 26, puis 01) | **relecture achevée** le 2026-10-09 — lots 17, 18, 21, 24, 25, 26 : une page précisée chacun (PR #363 à #365) ; lots 19, 20, 23 : aucune erreur ; lot 01 : 7 pages corrigées, 2 précisées, 1 carte et 4 questions modifiées (PR en cours) ; lot 22 page 1 : défaut établi, **en attente de décision du propriétaire** (la doc dit « asynchrone par défaut » avec Messenger, le code ne diffère que si `SendEmailMessage` est routé ; la clé de `QST-x1q4fk8g682j` est fausse pour son énoncé « aucun routage ») | `docs/progress/second-pass-refinement.md` |
 
 **Décisions du propriétaire en vigueur**
 
@@ -51,14 +51,13 @@ périmètre sur instruction.
 - Holdout : ne jamais lire, afficher ni identifier une question holdout ; les
   recherches plein texte excluent le holdout. Signaux ouverts : au moins une
   question holdout du lot 06 mérite une revue du propriétaire (lot 06, page 2) ;
-  de même pour le lot 13 (seconde passe, page 3).
+  de même pour le lot 13 (seconde passe, page 3) et pour le lot 01 (extension).
 
 **Prochaine action** : extension de la seconde passe aux lots 17 à 26 puis 01
-(« Go » du 2026-10-09). Fusionner la PR des lots 24 à 26 après CI verte, lire
-son smoke test ; appliquer les corrections du lot 01 (pages 1 à 9, dont la
-question VALIDATION `QST-4bawjd57a598`, qui a deux choix défaillants) ; obtenir
-la décision du propriétaire sur le lot 22 page 1. Avant chaque PR, le contrôle
-d'aiguilles anciennes.
+(« Go » du 2026-10-09). Fusionner la PR du lot 01 après CI verte, lire son
+smoke test ; appliquer la décision du propriétaire sur le lot 22 page 1, puis
+rédiger le bilan de l'extension. Avant chaque PR, le contrôle d'aiguilles
+anciennes.
 Restent au propriétaire : les signaux holdout des lots 06 à 26 et la passation
 du Mock 4.
 

@@ -5,14 +5,20 @@ title: "Interfaces"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml"
-    symbol_or_lines: '"All methods declared in an interface must be public"; Constants — "It''s possible for interfaces to have constants. Interface constants work exactly like class constants"'
+    symbol_or_lines: '"All methods declared in an interface must be public"; Constants — "It''s possible for interfaces to have constants. Interface constants work exactly like class constants"; Properties — "The interface declaration applies only to public read and write access" and "an interface property that is settable may not be readonly"'
     repository: "php/doc-en"
     branch: "master"
-    verified_at: "2026-09-01"
+    verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/properties.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -89,8 +95,11 @@ publique ordinaire, ou une propriété virtuelle qui implémente le hook
 correspondant.
 
 **Une propriété `readonly` ne peut pas satisfaire une propriété d'interface
-`set`** : elle ne s'écrit qu'une fois, depuis sa portée de déclaration. Elle
-convient en revanche pour un `get` seul.
+`set`** : la déclaration d'interface porte sur l'écriture **publique**, et une
+propriété `readonly` est implicitement `protected(set)` depuis PHP 8.4. Pour la
+même raison, `public private(set)` ne la satisfait pas non plus. Exécuté :
+« Set access level of C::$name must be omitted (as in class I) » dans les deux
+cas. `readonly` convient en revanche pour un `get` seul.
 
 ## Pièges d'examen
 

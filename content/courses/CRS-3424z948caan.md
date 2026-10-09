@@ -5,7 +5,7 @@ title: "Object Oriented Programming"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml"
@@ -19,6 +19,12 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/properties.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -57,8 +63,9 @@ La promotion déclare la propriété, la type et l'affecte en une seule écritur
 
 ## `readonly`
 
-Une propriété `readonly` est initialisable **une seule fois, depuis la portée
-de déclaration**. Depuis 8.2, la classe entière peut être `readonly`, ce qui
+Une propriété `readonly` est initialisable **une seule fois**. Depuis PHP 8.4,
+elle est implicitement `protected(set)` : une classe fille peut donc
+l'initialiser — exécuté. Depuis 8.2, la classe entière peut être `readonly`, ce qui
 rend toutes ses propriétés `readonly`.
 
 ```php
@@ -107,7 +114,8 @@ pas en avoir, ou elle serait déjà initialisée.
 
 - `private` est lié à la classe déclarante, pas à l'instance.
 - `self` = classe de déclaration ; `static` = classe appelée.
-- `readonly` : une écriture, depuis la portée déclarante ; l'objet reste mutable.
+- `readonly` : une seule écriture, depuis la classe ou une fille
+  (`protected(set)` implicite en 8.4) ; l'objet reste mutable.
 - La promotion de constructeur déclare, type et affecte en une fois.
 
 ## Sources officielles

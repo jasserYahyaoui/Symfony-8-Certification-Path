@@ -5,7 +5,7 @@ title: "PHP API up to PHP 8.4 version"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
     readable_url: "https://github.com/php/php-src/blob/PHP-8.4/UPGRADING"
@@ -19,6 +19,18 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/property-hooks.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/property-hooks.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'Property hooks — "The value the expression evaluates to will be set on the backing value"; Virtual properties'
+    verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+    readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/properties.xml"
+    repository: "php/doc-en"
+    branch: "master"
+    symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
+    verified_at: "2026-10-09"
 ---
 
 ## Objectif
@@ -40,12 +52,21 @@ getter ni setter séparés :
 ```php
 class Person
 {
+    public string $first = '';
+    public string $last = '';
+
     public string $fullName {
         get => $this->first.' '.$this->last;
-        set => $this->first = explode(' ', $value)[0];
+        set { [$this->first, $this->last] = explode(' ', $value, 2); }
     }
 }
 ```
+
+Aucun des deux hooks ne lit ni n'écrit `$this->fullName` : la propriété est
+**virtuelle**, rien n'est stocké. Attention à la forme courte `set => expr` :
+selon la documentation PHP, la valeur de l'expression est écrite **dans la
+propriété elle-même**. Exécuté en PHP 8.4 avec `set => $this->first = …` :
+`fullName` devient une propriété adossée, qui stocke le prénom.
 
 **Visibilité asymétrique** — lecture et écriture peuvent avoir des portées
 différentes :
@@ -73,7 +94,7 @@ parenthèses englobantes.
 | Version | Apports les plus examinables |
 |---|---|
 | 8.0 | Arguments nommés, promotion de constructeur, `match`, types union, `?->`, `static` en type de retour |
-| 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première classe `foo(...)`, propriétés `final const` |
+| 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première classe `foo(...)`, constantes de classe `final` |
 | 8.2 | `readonly` sur la classe entière, types DNF, propriétés dynamiques dépréciées |
 | 8.3 | Constantes de classe typées, `#[\Override]`, `json_validate()` |
 | 8.4 | Property hooks, visibilité asymétrique, objets paresseux, `#[\Deprecated]`, `new` déréférençable |
@@ -81,8 +102,10 @@ parenthèses englobantes.
 ## Pièges d'examen
 
 **`readonly` n'est pas `private(set)`.** Une propriété `readonly` ne peut être
-écrite **qu'une fois**, depuis la portée de déclaration. `private(set)` autorise
-autant d'écritures que voulu, mais seulement depuis la classe.
+écrite **qu'une fois** ; depuis PHP 8.4, elle est implicitement
+`protected(set)`, donc une classe enfant peut l'initialiser — exécuté.
+`private(set)` autorise autant d'écritures que voulu, mais seulement depuis la
+classe.
 
 **Les property hooks ne sont pas des propriétés calculées mises en cache.** Le
 hook `get` s'exécute à chaque lecture.

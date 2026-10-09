@@ -5,7 +5,7 @@ title: "Traits"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/traits.xml"
@@ -90,8 +90,9 @@ erreur fatale — pas un choix silencieux du premier trait.
 **`as` n'écarte rien.** Il ajoute un nom ; l'original reste. Utiliser `as` seul
 face à un conflit ne le résout pas.
 
-**Un trait n'est pas un type.** `$x instanceof Timestampable` ne compile pas
-comme test de trait — pour typer, il faut une interface.
+**Un trait n'est pas un type.** `$x instanceof Timestampable` compile, mais rend
+`false` même si la classe de `$x` utilise le trait — exécuté ; `class_uses()`,
+lui, le voit. Pour typer, il faut une interface.
 
 ## Points clés
 

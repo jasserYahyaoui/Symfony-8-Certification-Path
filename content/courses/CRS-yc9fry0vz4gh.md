@@ -5,7 +5,7 @@ title: "Exception and error handling"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/predefined/throwable.xml"
@@ -25,10 +25,9 @@ trop.
 ```text
 Throwable  (interface, étend Stringable)
 ├── Error                    problèmes du moteur
-│   ├── TypeError
+│   ├── TypeError → ArgumentCountError
 │   ├── ValueError
 │   ├── ArithmeticError → DivisionByZeroError
-│   ├── ArgumentCountError
 │   └── AssertionError
 └── Exception                conditions applicatives
     ├── RuntimeException  → OutOfBoundsException, UnexpectedValueException…
@@ -87,7 +86,7 @@ try {
 } catch (\Throwable) {                  // capture sans variable (8.0+)
     // ...
 } finally {
-    // exécuté dans tous les cas, y compris après un return
+    // exécuté après le try et les catch, y compris après un return
 }
 ```
 
@@ -97,7 +96,8 @@ try {
 c'est leur seul point commun dans la hiérarchie.
 
 **`finally` s'exécute même après un `return`** dans le `try` — et un `return`
-dans le `finally` écrase celui du `try`.
+dans le `finally` écrase celui du `try`. Pas après un `exit()`, en revanche :
+exécuté, le script s'arrête sans passer par le `finally`.
 
 **L'ordre des `catch` compte** : le premier bloc compatible gagne. Placer
 `catch (Throwable)` en premier rend les suivants inatteignables.
@@ -108,7 +108,8 @@ dans le `finally` écrase celui du `try`.
   branches sœurs.
 - `catch (Exception)` laisse passer les `Error`.
 - Une classe ne peut pas implémenter `Throwable` directement.
-- `finally` s'exécute toujours ; l'ordre des `catch` est significatif.
+- `finally` s'exécute après le `try` et les `catch`, sauf `exit()` ; l'ordre
+  des `catch` est significatif.
 
 ## Sources officielles
 

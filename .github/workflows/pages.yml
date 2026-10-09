@@ -4882,6 +4882,168 @@ jobs:
           else
             echo "ok  second-pass  lot-26 serializer: without a class metadata factory, groups and Ignore are not applied"
           fi
+          # Second pass extension, lot 01 (PHP API): a short set hook writes the property itself; readonly is implicitly protected(set) since PHP 8.4.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01api -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/php-api-up-to-php-8-4-version")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/php-api-up-to-php-8-4-version serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'devient une propriété adossée' /tmp/sp-sp01api \
+            || missing="$missing sp01api:no-backed-property"
+          grep -aqF -- 'donc une classe enfant peut' /tmp/sp-sp01api \
+            || missing="$missing sp01api:no-child-may-init"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/php-api-up-to-php-8-4-version:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 php api: a short set hook writes the property, readonly is protected(set) since 8.4"
+          fi
+          # Second pass extension, lot 01 (OOP): readonly is implicitly protected(set) since PHP 8.4, a child class may initialise it.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01oop -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/object-oriented-programming")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/object-oriented-programming serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'une classe fille peut donc' /tmp/sp-sp01oop \
+            || missing="$missing sp01oop:no-child-may"
+          grep -aqF -- 'implicite en 8.4' /tmp/sp-sp01oop \
+            || missing="$missing sp01oop:no-implicit-84"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/object-oriented-programming:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 oop: readonly is implicitly protected(set) since PHP 8.4"
+          fi
+          # Second pass extension, lot 01 (Attributes): new expressions are valid attribute arguments since PHP 8.1.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01attr -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/attributes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/attributes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'une instanciation' /tmp/sp-sp01attr \
+            || missing="$missing sp01attr:no-new-instantiation"
+          grep -aqF -- 'ce qui permet' /tmp/sp-sp01attr \
+            || missing="$missing sp01attr:no-nesting"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/attributes:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 attributes: new expressions are valid attribute arguments since PHP 8.1"
+          fi
+          # Second pass extension, lot 01 (Interfaces): a settable interface property needs public write access, readonly and private(set) both fail.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01intf -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/interfaces")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/interfaces serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'ne la satisfait pas non plus' /tmp/sp-sp01intf \
+            || missing="$missing sp01intf:no-private-set-fails"
+          grep -aqF -- 'Set access level of' /tmp/sp-sp01intf \
+            || missing="$missing sp01intf:no-set-access-level"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/interfaces:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 interfaces: readonly and private(set) both fail a settable interface property"
+          fi
+          # Second pass extension, lot 01 (Closures): a static closure takes no object but its class scope can still be changed.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01clos -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/anonymous-functions-and-closures")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/anonymous-functions-and-closures serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'qui ne peut porter aucun objet' /tmp/sp-sp01clos \
+            || missing="$missing sp01clos:no-static-no-object"
+          grep -aqF -- 'seulement sa portée de classe' /tmp/sp-sp01clos \
+            || missing="$missing sp01clos:no-scope-only"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/anonymous-functions-and-closures:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 closures: a static closure takes no object, its scope can still change"
+          fi
+          # Second pass extension, lot 01 (Abstract classes): an interface may declare a constructor, a trait may declare abstract private methods.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01abs -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/abstract-classes")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/abstract-classes serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'sauf à être' /tmp/sp-sp01abs \
+            || missing="$missing sp01abs:no-unless-abstract"
+          grep -aqF -- 'Signature seulement' /tmp/sp-sp01abs \
+            || missing="$missing sp01abs:no-ctor-signature"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/abstract-classes:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 abstract classes: interface constructors and trait abstract private methods exist"
+          fi
+          # Second pass extension, lot 01 (Exceptions): ArgumentCountError extends TypeError; exit() skips finally.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01exc -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/exception-and-error-handling")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/exception-and-error-handling serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'sans passer par' /tmp/sp-sp01exc \
+            || missing="$missing sp01exc:no-exit-skips-finally"
+          grep -aqF -- 'exécuté après le try et les catch' /tmp/sp-sp01exc \
+            || missing="$missing sp01exc:no-after-try-catch"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/exception-and-error-handling:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 exceptions: ArgumentCountError extends TypeError, exit() skips finally"
+          fi
+          # Second pass extension, lot 01 (Traits): instanceof against a trait compiles and returns false.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01trait -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/traits")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/traits serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'même si la classe de' /tmp/sp-sp01trait \
+            || missing="$missing sp01trait:no-even-if-class"
+          grep -aqF -- 'lui, le voit' /tmp/sp-sp01trait \
+            || missing="$missing sp01trait:no-class-uses"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/traits:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 traits: instanceof against a trait compiles and returns false"
+          fi
+          # Second pass extension, lot 01 (Enums): pure enum ->value is a warning and null; modifying ->value throws an Error.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/sp-sp01enum -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/enums")
+          if [ "$code" != "200" ]; then
+            echo "::error::Second pass: page lot-01/enums serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'toute modification, directe ou' /tmp/sp-sp01enum \
+            || missing="$missing sp01enum:no-direct-or-indirect"
+          grep -aqF -- 'émet un' /tmp/sp-sp01enum \
+            || missing="$missing sp01enum:no-emits-warning"
+          if [ -n "$missing" ]; then
+            echo "::error::Second-pass correction missing from lot-01/enums:$missing"
+            fail=1
+          else
+            echo "ok  second-pass  lot-01 enums: pure enum value access warns and yields null, modification throws an Error"
+          fi
 
           # The "Nouveautés de Symfony 8.0" chapter. It is ENRICHMENT projected
           # from docs/whats-new/, deliberately NOT registered as matrix items,

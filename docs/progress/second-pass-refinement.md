@@ -2013,3 +2013,187 @@ avant / après les preuves. Contrôle d'aiguilles anciennes : aucune régression
 ## Bilan du lot 26
 
 1 page relue : **1 précisée**. Aucune carte ni question modifiée.
+
+## Lot 01
+
+| # | Page | Résultat |
+|---|---|---|
+| 1 | PHP API up to PHP 8.4 version | **corrigée** — voir ci-dessous |
+| 2 | Object Oriented Programming | **corrigée** — voir ci-dessous |
+| 3 | Attributes | **précisée** — voir ci-dessous |
+| 4 | Interfaces | **corrigée** — voir ci-dessous |
+| 5 | Anonymous functions and closures | **précisée** — voir ci-dessous |
+| 6 | Abstract classes | **corrigée** — voir ci-dessous |
+| 7 | Exception and error handling | **corrigée** — voir ci-dessous |
+| 8 | Traits | **corrigée** — voir ci-dessous |
+| 9 | Enums | **corrigée** — voir ci-dessous |
+
+Les neuf pages du lot 01 ne portaient aucune trace d'exécution. Chaque
+affirmation testable l'a été sur **PHP 8.4.19**, et confrontée à `php/doc-en`
+(branche `master`) ou à `php-src` — les `UPGRADING` 8.0 à 8.4 ont été lus, mais
+seul `PHP-8.4` est une source autorisée par `source-map.yml` ; les citations
+ajoutées viennent donc de `php/doc-en`.
+
+**Déploiement précédent, lu en production** : lots 24 à 26 (PR #365,
+`1df52c6`), run Pages 37904380899, success — `ok  second-pass  lot-24
+propertyaccess: …`, `ok  second-pass  lot-25 runtime: …`, `ok  second-pass
+lot-26 serializer: …`.
+
+### Page 1 — *PHP API up to PHP 8.4 version*
+
+`CRS-722pscs6e2m0` · STANDARD · **400 → 485 mots** sur 900.
+
+- **Un exemple de hook trompeur.** `set => $this->first = explode(…)[0]` laisse
+  croire à une propriété calculée. Selon *Property hooks* (doc-en), la valeur
+  d'une forme courte `set =>` est écrite **dans la propriété elle-même**.
+  Exécuté : `isVirtual()` faux, et `fullName` stocke `"Ann"`. L'exemple passe à
+  la forme bloc, avec `$first` et `$last` déclarées : propriété virtuelle, rien
+  de stocké (exécuté) ; la page explique le piège de la forme courte.
+- **Un piège périmé en 8.4.** « `readonly` … écrite une fois, depuis la portée de
+  déclaration » : *Properties* (doc-en) — « As of PHP 8.4.0, readonly properties
+  are implicitly protected(set), so may be set from child classes ». Exécuté :
+  une classe fille initialise la propriété `readonly` du parent ;
+  `isProtectedSet()` vrai.
+- **Un terme faux.** « propriétés `final const` » (8.1) : `UPGRADING` 8.1 —
+  « the final modifier for class constants » ; corrigé en « constantes de
+  classe `final` ».
+- **Carte** `FLC-ef5rh3zk8shg` : « quelles sont les **quatre** nouveautés de
+  langage de PHP 8.4 », alors que la page en liste cinq et que `UPGRADING` 8.4
+  (*New Features > Core*) compte aussi `new` déréférençable. Recto et verso
+  corrigés.
+
+### Page 2 — *Object Oriented Programming*
+
+`CRS-3424z948caan` · **431 → 449 mots**. Même affirmation périmée sur
+`readonly` (« depuis la portée de déclaration »), dans le corps et les points
+clés : corrigée, avec la même source et la même exécution.
+
+### Page 3 — *Attributes*
+
+`CRS-tqcp2kn9r3b5` · **360 → 377 mots**. La page énumérait les arguments admis
+(littéral, constante, constante de classe, cas d'énumération, tableau) en
+omettant **`new`**, admis depuis PHP 8.1 (*migration81 / new in Initializers*,
+doc-en : « … and as attribute arguments »). Exécuté :
+`#[Outer([new Inner('a')])]` s'instancie. L'appel de fonction reste refusé à
+la compilation (exécuté : « Constant expression contains invalid operations »),
+et répéter un attribut sans `IS_REPEATABLE` ne lève qu'au `newInstance()`,
+comme la page le disait. Question `QST-trxpf8mvw13a` (LEARNING) : explication
+complétée de `new` ; choix et version inchangés.
+
+### Page 4 — *Interfaces*
+
+`CRS-e4y7gtn5k4f0` · **524 → 563 mots**. La raison donnée au refus d'une
+propriété `readonly` pour un `set` d'interface (« elle ne s'écrit qu'une fois,
+depuis sa portée de déclaration ») est fausse. *Object Interfaces* (doc-en) :
+« The interface declaration applies only to public read and write access ».
+Exécuté sur `interface I { public string $name { get; set; } }` :
+
+| Membre de la classe | Résultat |
+|---|---|
+| `public readonly string $name;` | « Set access level of C::$name must be omitted (as in class I) » |
+| `public private(set) string $name;` | la même erreur |
+| `public string $name;` | satisfait |
+| `public string $name { get => $this->raw; set => $this->raw = $value; }` | satisfait — `isVirtual()` faux |
+| `public string $name { set => trim($value); }` | satisfait |
+
+**Question VALIDATION `QST-4bawjd57a598`** — « Which class member fails to
+satisfy it? », à réponse unique : **deux** de ses choix échouaient, `readonly`
+(la clé) et `public private(set)`, présenté comme satisfaisant. Passée en
+version 2 : le choix `CHO-9jjg0nsbqdek` (`private(set)`) est remplacé par
+`CHO-0nnnetzjjdtw` (`public string $name { set => trim($value); }`, frappé par
+`bin/cert id:mint`), qui satisfait la déclaration ; l'explication du choix à
+hooks ne parle plus de propriété virtuelle ; l'explication générale donne la
+vraie raison et retrace la version 1. La clé reste `readonly`.
+
+### Page 5 — *Anonymous functions and closures*
+
+`CRS-e7m4xbcxegyc` · **395 → 428 mots**. « `bind()` et `bindTo()` … échouent
+sur une closure `static` » : seulement quand on leur passe un objet. Exécuté :
+`Closure::bind($static, new B())` rend `null` avec l'avertissement « Cannot
+bind an instance to a static closure » ; avec `null` pour objet et une portée
+de classe, la closure `static` est rendue et lit un membre privé de cette
+classe. *Closure::bindTo* (doc-en) : « Static closures cannot have any bound
+object …, but this method can nevertheless be used to change their class
+scope ».
+
+### Page 6 — *Abstract classes*
+
+`CRS-0jtjh77tabt1` · **314 → 336 mots**.
+
+- Le tableau disait qu'une interface n'a **pas de constructeur**. Exécuté : une
+  interface déclare `__construct(int $x)`, une classe conforme s'instancie, une
+  signature incompatible est une erreur fatale. *Object Interfaces* (doc-en) :
+  « Although they are supported, including constructors in interfaces is
+  strongly discouraged ». Cellule corrigée.
+- « Une méthode abstraite … jamais `private` » : vrai dans une classe
+  (exécuté : « cannot be declared private »), faux dans un trait depuis PHP 8.0
+  (*Traits*, doc-en ; exécuté). Précisé.
+- « La classe fille doit implémenter toutes les méthodes abstraites » : sauf à
+  être elle-même abstraite. Précisé.
+- **Question** `QST-e35gsy2e4vr3` (LEARNING) : « Which declaration causes a
+  fatal error? », clé `abstract private` sans dire où la méthode est déclarée ;
+  passée en version 2, l'énoncé précise « in an abstract class, not in a
+  trait », l'explication cite le cas du trait.
+
+### Page 7 — *Exception and error handling*
+
+`CRS-yc9fry0vz4gh` · **372 → 396 mots**.
+
+- Le schéma plaçait `ArgumentCountError` directement sous `Error`. Exécuté :
+  `get_parent_class('ArgumentCountError')` rend `TypeError`. Schéma corrigé ;
+  les autres parents du schéma sont confirmés par la même exécution.
+- « `finally` … exécuté dans tous les cas » / « s'exécute toujours » : exécuté,
+  un `exit()` dans le `try` arrête le script sans passer par le `finally`.
+  Précisé dans le commentaire du code, les pièges et les points clés ; le
+  `return` du `finally` qui écrase celui du `try` est confirmé.
+- **Question** `QST-hdx34ew6s8ah` (LEARNING) : l'explication d'un distracteur
+  disait « it always runs regardless » ; corrigée, clé et version inchangées.
+
+### Page 8 — *Traits*
+
+`CRS-bshgpd44ykba` · **353 → 365 mots**. « `$x instanceof Timestampable` ne
+compile pas » est faux. Exécuté : `php -l` ne signale rien, l'expression rend
+`false` sur une instance d'une classe qui utilise le trait, et `class_uses()`
+le liste. Corrigé. Confirmés : conflit non arbitré avec `as` seul, erreur
+fatale ; constantes et méthodes statiques dans un trait.
+
+### Page 9 — *Enums*
+
+`CRS-3sggmeyd01x6` · **383 → 406 mots**.
+
+- « Une enum pure n'a pas de `->value`. Y accéder est une erreur » : exécuté,
+  c'est un avertissement « Undefined property » et la valeur `null`, sans
+  exception. Corrigé.
+- « toute modification indirecte est une erreur fatale » : exécuté, modifier
+  `->value` directement ou par référence lève une `Error` rattrapable
+  (« Cannot modify readonly property », « Cannot indirectly modify readonly
+  property »). Corrigé.
+- Confirmés : `from()` et sa `ValueError`, `array_column(Suit::cases(),
+  'value')`, l'alias par constante, la redéfinition de `from()` refusée.
+
+**Holdout.** Deux questions `HOLDOUT` du lot 01 répondent aux motifs de
+recherche de ces corrections ; leur texte n'a pas été affiché et elles ne sont
+désignées ici par aucun identifiant. Signal pour le propriétaire : **au moins
+une question holdout du lot 01 mérite sa revue.**
+
+**Aiguilles de smoke test.** Deux par page, absentes de la version `master` des
+pages et du fichier de cartes ; contrôle d'aiguilles anciennes : aucune
+régression.
+
+**Contrôles réellement exécutés le 2026-10-09** : `php bin/cert validate`
+0 bloquant ; `php bin/cert coverage` 163 / 163, inchangé ; `php bin/cert build`
+exit 0 ; 11 audits exit 0, FINDINGS 0 — dont `aud05_question_bank` et
+`aud10_answer_length_bias` après les modifications de questions ; 34 blocs
+`run:` parsent ; `composer gate-full` exit 0 — 299 tests, 17 641 assertions,
+TOTAL VIOLATIONS: 0 ; `prove_framework_rules_fail.py` et
+`prove_flashcard_coverage_fails.py` PROOF OK ; `aud10 --prove`,
+`lot27 --prove` exit 0 ; empreinte SHA-256 de `content/` et `docs/` identique
+avant / après les preuves.
+
+## Bilan du lot 01
+
+9 pages relues : **7 corrigées** (1, 2, 4, 6, 7, 8, 9), **2 précisées** (3, 5).
+Une carte corrigée (`FLC-ef5rh3zk8shg`). Quatre questions modifiées : une
+VALIDATION (`QST-4bawjd57a598`, version 2, un choix remplacé) et trois LEARNING
+(`QST-e35gsy2e4vr3` en version 2 ; `QST-trxpf8mvw13a` et `QST-hdx34ew6s8ah`,
+explications seules). Aucune question holdout lue ni modifiée.
