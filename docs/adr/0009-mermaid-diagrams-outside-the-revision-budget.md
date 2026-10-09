@@ -162,3 +162,26 @@ YAML booleans (`boolean important`) in #36acaa, 2.58:1, on *Voters* and
 whole group the light theme paints #36acaa, rather than waiting for each token
 to surface on the next page audited. Rebuilt and re-audited: 36 PASS, 0 FAIL.
 
+## Addendum — fourth batch (2026-10-09)
+
+The remaining text diagrams were reviewed against this ADR's own test, an
+ordered flow with branches. Eleven of the twelve are hierarchies (MIME parts,
+exception trees), linear chains (trait precedence, middleware order, locale
+fallback, theme block lookup, data-transformer order) or not diagrams at all;
+they stay as text. One is a branching flow, and two courses without any
+diagram teach one:
+
+- *Console events* (lot 12) — `Application::doRunCommand()` (Console
+  8.0.15): no dispatcher, no event; `disableCommand()` gives 113 without
+  running; an exception reaches `console.error`, where exit code 0 drops it;
+  `console.terminate` on every path. Replaces the text diagram.
+- *Forms handling* (lot 07) — `HttpFoundationRequestHandler::handleRequest()`
+  and `Form::isValid()` (Form 8.0.15), `AbstractController::render()` for the
+  422 (FrameworkBundle).
+- *Access Control Rules* (lot 10) — `AccessMap::getPatterns()`,
+  `ChannelListener` and `AccessListener` (Security HTTP 8.0.14). Four
+  decisions in a row drew a staircase 729 px wide, labels at 7.9 px; split into
+  « which rule » and « what it requires », 10.9 px and 10.8 px.
+
+*Form events* (lot 07) still waits on PR #148, which rewrites the same topic.
+

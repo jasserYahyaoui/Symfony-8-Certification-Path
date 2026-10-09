@@ -5,7 +5,7 @@ title: "Access Control Rules"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-01"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst"
@@ -95,6 +95,33 @@ c'est le même votant qui les examine. Dès que deux votants interviennent — u
 rôle et une expression, un rôle et un état d'authentification —, la stratégie
 décide : « ou » en `affirmative`, « et » en `unanimous`. La documentation
 l'avertit pour `roles` + `allow_if`.
+
+```mermaid
+---
+title: Quelle règle s'applique
+---
+flowchart TD
+  accTitle: Comment access_control choisit la règle d'une requête
+  accDescr: Les règles sont lues dans l'ordre, et la première qui correspond, tous critères réunis, est la seule appliquée. Si aucune ne correspond, access_control ne restreint rien. Si la règle exige un canal, requires_channel, que la requête ne respecte pas, la réponse est une redirection 301. Sinon les exigences de la règle sont examinées.
+  R(["règles, dans l'ordre"]) --> MATCH{"une règle correspond ?"}
+  MATCH -->|"aucune"| FREE(["aucune restriction"])
+  MATCH -->|"la première"| CH{"canal requis respecté ?"}
+  CH -->|"non"| R301(["redirection 301"])
+  CH -->|"oui"| NEXT(["ses exigences"])
+```
+
+```mermaid
+---
+title: Ce que la règle exige
+---
+flowchart TD
+  accTitle: Comment access_control applique les exigences d'une règle
+  accDescr: Une règle sans roles ni allow_if laisse passer. Sinon roles et allow_if sont passés ensemble à decide(), avec la requête pour sujet, et la stratégie tranche. Accordé, la requête continue. Refusé, une AccessDeniedException donne 403 à un utilisateur connu, et le point d'entrée à un anonyme.
+  ATTR{"roles ou allow_if ?"} -->|"non"| PASS(["la requête continue"])
+  ATTR -->|"oui"| DEC{"decide(), selon la stratégie"}
+  DEC -->|"accordé"| GO(["la requête continue"])
+  DEC -->|"refusé"| DENY(["refus : 403, ou point d'entrée"])
+```
 
 ## Ce que cela ne fait pas
 

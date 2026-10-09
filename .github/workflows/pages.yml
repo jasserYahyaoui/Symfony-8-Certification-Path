@@ -5145,6 +5145,9 @@ jobs:
               'lot-22/mailer': 1,
               'lot-10/voters-and-voting-strategies': 1,
               'lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included': 2,
+              'lot-12/console-events': 1,
+              'lot-07/forms-handling': 1,
+              'lot-10/access-control-rules': 2,
           }
           def get(url):
               for attempt in range(5):

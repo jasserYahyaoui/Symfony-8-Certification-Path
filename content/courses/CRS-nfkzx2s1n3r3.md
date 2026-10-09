@@ -5,7 +5,7 @@ title: "Forms handling"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-09"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/forms.rst"
@@ -91,6 +91,26 @@ Rendre le formulaire invalide est le comportement normal :
 paramètres et passe la réponse en **422** — seulement si son statut était
 encore 200. Il convertit aussi le formulaire en vue : pas besoin d'appeler
 `createView()`.
+
+```mermaid
+---
+title: Une action, deux passages
+---
+flowchart TD
+  accTitle: Une seule action qui affiche et traite un formulaire
+  accDescr: handleRequest() ne soumet rien si la méthode de la requête diffère de l'option method du formulaire, POST par défaut, ni si la requête ne porte pas de données sous le nom du formulaire. Sinon il appelle submit(), avec clearMissing à false pour PATCH. Le contrôleur teste isSubmitted() puis isValid(). Soumis et valide, il redirige. Sinon il rend le formulaire, et render() passe la réponse en 422 si le formulaire est soumis et invalide. isValid() sur un formulaire non soumis lève une LogicException.
+  HR["handleRequest()"] --> M{"méthode = option method ?"}
+  M -->|"non"| NS["non soumis"]
+  M -->|"oui"| D{"données sous le nom du formulaire ?"}
+  D -->|"non"| NS
+  D -->|"oui"| SUB["submit(), clearMissing false pour PATCH"]
+  SUB --> V{"isSubmitted() et isValid() ?"}
+  NS --> V
+  V -->|"oui"| RED(["redirection"])
+  V -->|"non"| R{"soumis et invalide ?"}
+  R -->|"oui"| R422(["render() : 422"])
+  R -->|"non"| R200(["render() : 200"])
+```
 
 ## `submit()`, pour le contrôle fin
 
