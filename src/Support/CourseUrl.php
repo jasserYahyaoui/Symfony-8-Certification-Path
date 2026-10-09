@@ -32,6 +32,20 @@ final class CourseUrl
         return 'courses/'.self::slug($item->lot).'/'.self::slug($item->officialItem);
     }
 
+    /**
+     * The lot's comprehension check (ADR-0010): the last page of the lot's own
+     * sidebar category, beside the courses it tests.
+     */
+    public static function forComprehension(string $lot): string
+    {
+        return '/docs/'.self::comprehensionPath($lot);
+    }
+
+    public static function comprehensionPath(string $lot): string
+    {
+        return 'courses/'.self::slug($lot).'/controle-de-comprehension';
+    }
+
     public static function slug(string $value): string
     {
         $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $value);

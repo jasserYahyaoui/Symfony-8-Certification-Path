@@ -6,6 +6,9 @@ namespace CertPath\Validation;
 
 use CertPath\Validation\Rule\AssessmentCoverageRule;
 use CertPath\Validation\Rule\CognitiveLevelRule;
+use CertPath\Validation\Rule\ComprehensionCoverageRule;
+use CertPath\Validation\Rule\ComprehensionIndependenceRule;
+use CertPath\Validation\Rule\ComprehensionQualityRule;
 use CertPath\Validation\Rule\CourseIntegrityRule;
 use CertPath\Validation\Rule\CourseLevelAgreementRule;
 use CertPath\Validation\Rule\LearnerFacingLinkRule;
@@ -72,6 +75,9 @@ final class RuleSet
             new OutcomeAssessmentRule(),
             new RevisionBudgetRule(),
             new DiagramAccessibilityRule(),
+            new ComprehensionCoverageRule(),
+            new ComprehensionIndependenceRule(),
+            new ComprehensionQualityRule(),
         ];
     }
 }

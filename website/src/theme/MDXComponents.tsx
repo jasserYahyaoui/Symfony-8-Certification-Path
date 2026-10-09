@@ -1,6 +1,7 @@
 import type {ComponentProps, ReactNode} from 'react';
 import {Children, isValidElement} from 'react';
 import MDXComponents from '@theme-original/MDXComponents';
+import ComprehensionCheck from '@site/src/components/ComprehensionCheck';
 
 /**
  * The text of a React subtree: what a sighted reader sees in a header cell.
@@ -57,4 +58,6 @@ function ScrollableTable(props: ComponentProps<'table'>) {
 export default {
   ...MDXComponents,
   table: ScrollableTable,
+  // The lot's comprehension check (ADR-0010), placed by the generator.
+  ComprehensionCheck,
 };

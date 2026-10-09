@@ -46,7 +46,7 @@ export interface Question {
 
 export interface Payload {
   generated_at: string;
-  pool: 'LEARNING' | 'VALIDATION' | 'HOLDOUT';
+  pool: 'LEARNING' | 'VALIDATION' | 'HOLDOUT' | 'COMPREHENSION';
   questions: Question[];
   /**
    * Present on practice.json since Lot 27 and on every mock payload. Exam Mode
@@ -54,6 +54,31 @@ export interface Payload {
    * one call site that has no index.
    */
   items?: Record<string, ItemIndexEntry>;
+}
+
+/**
+ * A comprehension question (ADR-0010): a question like the others, plus the lot
+ * it closes and, for a synthesis question, the other items of the lot it ties
+ * together.
+ */
+export interface ComprehensionQuestion extends Question {
+  lot: string;
+  related_items: string[];
+  assesses_outcomes: string[];
+}
+
+/**
+ * comprehension.json. Built from the comprehension banks alone; the build
+ * asserts it carries no question of any other pool.
+ */
+export interface ComprehensionPayload {
+  generated_at: string;
+  pool: 'COMPREHENSION';
+  lots: Record<string, {url: string; questions: number}>;
+  items: Record<string, ItemIndexEntry>;
+  /** Outcome id → the matrix's own wording of it. */
+  outcomes: Record<string, string>;
+  questions: ComprehensionQuestion[];
 }
 
 /** An atomic official item, with what the learner is meant to be able to do. */

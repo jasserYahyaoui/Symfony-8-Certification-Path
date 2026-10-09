@@ -29,6 +29,14 @@ interface Props {
   item?: ItemIndexEntry;
   onNext: () => void;
   isLast: boolean;
+  /**
+   * The outcomes the question assesses, in the matrix's words. The
+   * comprehension check passes them (ADR-0010); without them the takeaway is
+   * the item's first outcome, as in Practice Mode.
+   */
+  takeaways?: string[];
+  /** Other items a synthesis question ties together, each with its course. */
+  relatedItems?: ItemIndexEntry[];
 }
 
 export default function PracticeFeedback({
@@ -37,6 +45,8 @@ export default function PracticeFeedback({
   item,
   onNext,
   isLast,
+  takeaways,
+  relatedItems = [],
 }: Props): React.JSX.Element {
   const correct = isCorrect(question, chosen);
   const result = correct ? 'correct' : 'incorrect';
@@ -50,7 +60,12 @@ export default function PracticeFeedback({
 
   const correctChoices = question.choices.filter((c) => c.correct);
   const wrongChoices = question.choices.filter((c) => !c.correct);
-  const takeaway = item?.learning_outcomes?.[0];
+  const keyPoints =
+    takeaways && takeaways.length > 0
+      ? takeaways
+      : item?.learning_outcomes?.[0]
+        ? [item.learning_outcomes[0]]
+        : [];
 
   return (
     <div className="certpath-feedback" data-result={result}>
@@ -128,12 +143,26 @@ export default function PracticeFeedback({
       )}
 
       {/* 5 — Key takeaway: the item's own learning outcome, never a new fact. */}
-      {takeaway && (
+      {keyPoints.length === 1 && (
         <section aria-labelledby={`fb-key-${question.id}`}>
           <h3 id={`fb-key-${question.id}`} className="certpath-feedback-heading">
             À retenir
           </h3>
-          <RichText className="certpath-takeaway">{takeaway}</RichText>
+          <RichText className="certpath-takeaway">{keyPoints[0]}</RichText>
+        </section>
+      )}
+      {keyPoints.length > 1 && (
+        <section aria-labelledby={`fb-key-${question.id}`}>
+          <h3 id={`fb-key-${question.id}`} className="certpath-feedback-heading">
+            À retenir
+          </h3>
+          <ul className="certpath-takeaway-list">
+            {keyPoints.map((point) => (
+              <li key={point}>
+                <RichText as="span">{point}</RichText>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
@@ -146,10 +175,19 @@ export default function PracticeFeedback({
           {question.official_topic}
           {item ? ` · ${item.official_item}` : ''}
         </p>
-        {item && (
+        {item && relatedItems.length === 0 && (
           <p>
             <Link to={item.course_url}>Ouvrir le cours</Link>
           </p>
+        )}
+        {item && relatedItems.length > 0 && (
+          <ul>
+            {[item, ...relatedItems].map((entry) => (
+              <li key={entry.course_url}>
+                <Link to={entry.course_url}>{entry.official_item}</Link>
+              </li>
+            ))}
+          </ul>
         )}
         {question.official_sources.length > 0 && (
           <p className="certpath-note">

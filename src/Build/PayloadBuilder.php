@@ -67,6 +67,75 @@ final class PayloadBuilder
     }
 
     /**
+     * The comprehension checks of ADR-0010, one series per lot.
+     *
+     * Read from the content set's own `comprehension` field, which only the
+     * comprehension loader fills: an exam question cannot reach this payload
+     * by a filter going wrong, and `assertComprehensionIsolated()` checks it
+     * anyway. Questions keep their file order — the author's teaching order,
+     * which the page follows — and carry their lot and their related items, so
+     * a synthesis question links to every course it ties together.
+     *
+     * @return array<string, mixed>
+     */
+    public function comprehensionPayload(ContentSet $content): array
+    {
+        $lots = [];
+        $questions = [];
+        $covered = [];
+
+        foreach ($content->comprehension as $question) {
+            $item = $content->matrix->findById($question->officialItemId);
+            if (null === $item) {
+                // CMP-003 (wrapping QST-001) already failed the validation.
+                throw new \LogicException(\sprintf(
+                    'Comprehension question "%s" names an item absent from the matrix.',
+                    $question->id->value,
+                ));
+            }
+
+            $lots[$item->lot] ??= [
+                'url' => CourseUrl::forComprehension($item->lot),
+                'questions' => 0,
+            ];
+            ++$lots[$item->lot]['questions'];
+
+            $questions[] = [
+                ...$this->exportQuestion($question),
+                'lot' => $item->lot,
+                'related_items' => $question->relatedItems,
+                'assesses_outcomes' => $question->assessesOutcomes,
+            ];
+
+            $covered[] = $question->officialItemId;
+            array_push($covered, ...$question->relatedItems);
+        }
+
+        ksort($lots);
+
+        // The correction's « à retenir » names the outcomes the question
+        // assessed, in the matrix's own words — never a sentence of the page.
+        $outcomes = [];
+        foreach (array_unique($covered) as $itemId) {
+            foreach ($content->matrix->findById($itemId)?->learningOutcomes ?? [] as $outcome) {
+                if (null !== $outcome->idValue()) {
+                    $outcomes[$outcome->idValue()] = $outcome->text;
+                }
+            }
+        }
+        ksort($outcomes);
+
+        return [
+            'generated_at' => gmdate('c'),
+            'pool' => Pool::Comprehension->value,
+            'lots' => $lots,
+            'items' => $this->itemIndexFor($content, $covered),
+            'outcomes' => $outcomes,
+            'questions' => $questions,
+        ];
+    }
+
+    /**
      * Mock 4, the official-format simulation (§10, ADR-0005 Option A).
      *
      * This is the one payload that carries the holdout, and it exists because
@@ -124,10 +193,23 @@ final class PayloadBuilder
      */
     private function itemIndex(ContentSet $content, array $questions): array
     {
+        return $this->itemIndexFor(
+            $content,
+            array_map(static fn (Question $q): string => $q->officialItemId, $questions),
+        );
+    }
+
+    /**
+     * @param list<string> $itemIds
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function itemIndexFor(ContentSet $content, array $itemIds): array
+    {
         $index = [];
 
-        foreach ($questions as $question) {
-            $item = $content->matrix->findById($question->officialItemId);
+        foreach ($itemIds as $itemId) {
+            $item = $content->matrix->findById($itemId);
             if (null === $item) {
                 continue;
             }
@@ -573,6 +655,52 @@ final class PayloadBuilder
                     $id,
                 ));
             }
+        }
+    }
+
+    /**
+     * ADR-0010's isolation, both ways: the comprehension payload carries only
+     * comprehension questions, and none of them shares an id with a question
+     * of the exam banks — the holdout included, whose ids are never printed.
+     *
+     * @param array<string, mixed> $payload
+     */
+    public static function assertComprehensionIsolated(array $payload, ContentSet $content): void
+    {
+        if (Pool::Comprehension->value !== ($payload['pool'] ?? null)) {
+            throw new \LogicException('The comprehension payload must declare the COMPREHENSION pool (ADR-0010).');
+        }
+
+        $comprehension = [];
+        foreach ($content->comprehension as $question) {
+            $comprehension[$question->id->value] = true;
+        }
+
+        $exam = [];
+        foreach ($content->questions as $question) {
+            $exam[$question->id->value] = $question->pool;
+        }
+
+        foreach ((array) ($payload['questions'] ?? []) as $exported) {
+            $id = (string) ($exported['id'] ?? '');
+
+            if (isset($exam[$id])) {
+                throw new \LogicException(Pool::Holdout === $exam[$id]
+                    ? 'A HOLDOUT question reached the comprehension payload (ADR-0010); its id is withheld.'
+                    : \sprintf('Question "%s" of the %s pool reached the comprehension payload (ADR-0010).', $id, $exam[$id]->value));
+            }
+
+            if (!isset($comprehension[$id])) {
+                throw new \LogicException(\sprintf('Question "%s" in the comprehension payload is not a comprehension question (ADR-0010).', $id));
+            }
+        }
+
+        if (\count((array) ($payload['questions'] ?? [])) !== \count($comprehension)) {
+            throw new \LogicException(\sprintf(
+                'The comprehension payload carries %d questions; the banks hold %d (ADR-0010).',
+                \count((array) ($payload['questions'] ?? [])),
+                \count($comprehension),
+            ));
         }
     }
 
