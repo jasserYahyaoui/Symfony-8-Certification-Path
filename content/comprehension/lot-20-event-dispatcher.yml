@@ -330,3 +330,485 @@ questions:
     branch: '8.0'
     symbol_or_lines: class GenericEvent
     verified_at: '2026-10-09'
+- id: QST-y6ynt8fydkyc
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-c43j65gh5pth
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which call registers a callable on acme.foo.action, early in the chain?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-2sxrjzpahk29
+    text: '`$dispatcher->addListener(''acme.foo.action'', [$l, ''onFoo''], 10)`'
+    correct: true
+  - id: CHO-7qq2feb4n59p
+    text: '`$dispatcher->addListener([$l, ''onFoo''], ''acme.foo.action'', 10)`'
+    correct: false
+    explanation: The event name comes first.
+  - id: CHO-0rremycgqbfc
+    text: '`$dispatcher->listen(''acme.foo.action'', [$l, ''onFoo''], priority: -10)`'
+    correct: false
+    explanation: No listen(); and -10 runs late.
+  - id: CHO-v06nt61y2xdt
+    text: '`$dispatcher->on(''acme.foo.action'', [$l, ''onFoo''])`'
+    correct: false
+    explanation: No such method.
+  explanation: Name, callable, optional priority. Higher priority runs earlier.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Connecting Listeners
+    verified_at: '2026-10-09'
+- id: QST-qd8x24haqpjg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-c43j65gh5pth
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener is tagged for acme.foo_bar with no method given. Its class has onAcmeFooBar() and
+    __invoke(). Which one runs?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-yrk4xpg7phzs
+    text: onAcmeFooBar()
+    correct: true
+  - id: CHO-qde1j1x3s1zm
+    text: __invoke()
+    correct: false
+    explanation: It is only the fallback.
+  - id: CHO-fdzmy2tkckam
+    text: Both, in that order
+    correct: false
+    explanation: One method is registered.
+  - id: CHO-56bhsc8yj9n7
+    text: onAcme_foo_bar()
+    correct: false
+    explanation: Dots and underscores are removed.
+  explanation: Executed with RegisterListenersPass 8.0.15. Without onAcmeFooBar(), __invoke() runs.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'process(): method'
+    verified_at: '2026-10-09'
+- id: QST-rvf5xb46hpxq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-c43j65gh5pth
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener tagged for acme.other has neither onAcmeOther() nor __invoke(), and no method set.
+    When does it fail?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-f6fqaay22trd
+    text: At container compilation
+    correct: true
+  - id: CHO-185csyg20mfc
+    text: At the first dispatch of acme.other
+    correct: false
+    explanation: It fails earlier.
+  - id: CHO-rv0z6jsje19f
+    text: 'Never: the listener is skipped'
+    correct: false
+    explanation: An exception is raised.
+  - id: CHO-tdsx4tx7qf49
+    text: At cache warmup in production only
+    correct: false
+    explanation: Every compile fails.
+  explanation: 'Executed: InvalidArgumentException, None of the "onAcmeOther" or "__invoke" methods exist.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: None of the
+    verified_at: '2026-10-09'
+- id: QST-9tr179wffhz3
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-m0svgqcarref
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    In what order do the two methods run on kernel.response?
+
+    ```php
+    return [KernelEvents::RESPONSE => [
+        ['post', -10],
+        ['pre', 10],
+    ]];
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-wat4zq5g7fnp
+    text: pre, then post
+    correct: true
+  - id: CHO-75x6b3562mcp
+    text: 'post, then pre: array order'
+    correct: false
+    explanation: Priority decides.
+  - id: CHO-d2bshq6v72b6
+    text: 'Only post: one method per event'
+    correct: false
+    explanation: A subscriber may list several.
+  - id: CHO-kghf0zsy2rxa
+    text: 'Only pre: the first key wins'
+    correct: false
+    explanation: Both are registered.
+  explanation: A subscriber can register several methods on one event, each with its priority.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Event Subscribers
+    verified_at: '2026-10-09'
+- id: QST-kqqbt9a7ksfn
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gawacg0bt5r5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does `$result = $dispatcher->dispatch($event)` put in $result?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-h3vj2xhkte4q
+    text: The same event object
+    correct: true
+  - id: CHO-9packqjv3tx9
+    text: A clone taken before the listeners ran
+    correct: false
+    explanation: The same object is returned.
+  - id: CHO-28mx02371nne
+    text: True if a listener ran
+    correct: false
+    explanation: The event is returned.
+  - id: CHO-xp31aj8amk21
+    text: 'Nothing: dispatch() is void'
+    correct: false
+    explanation: It returns the event.
+  explanation: 'Executed with EventDispatcher 8.0.15: $result === $event.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dispatch()
+    verified_at: '2026-10-09'
+- id: QST-r2mv3302mcwc
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-gawacg0bt5r5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Besides the event, what else does a listener receive?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  choices:
+  - id: CHO-8d0jyz7vqem7
+    text: The event name and the dispatcher itself
+    correct: true
+  - id: CHO-qvta2emxe6tm
+    text: The service container and the current request
+    correct: false
+    explanation: Not passed.
+  - id: CHO-k1afqvkfbfag
+    text: Its own priority
+    correct: false
+    explanation: Not passed.
+  - id: CHO-nwawvd1ww79e
+    text: Nothing else
+    correct: false
+    explanation: Two more arguments are passed.
+  explanation: 'Executed: the third argument was the very dispatcher. A listener can dispatch more events.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Event Name Introspection
+    verified_at: '2026-10-09'
+- id: QST-6hw0x2t5g1s4
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-90fn81pm7q7x
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does the base Symfony\Contracts\EventDispatcher\Event class carry?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  - event
+  choices:
+  - id: CHO-sceh0txbmebe
+    text: Only propagation stopping
+    correct: true
+  - id: CHO-j586p0tgrahy
+    text: A subject and an arguments array
+    correct: false
+    explanation: That is GenericEvent.
+  - id: CHO-66p9kxba9zj7
+    text: The request and the response
+    correct: false
+    explanation: Those are kernel events.
+  - id: CHO-14gf622b9eep
+    text: A name and a priority
+    correct: false
+    explanation: The dispatcher holds those.
+  explanation: It is minimal on purpose, so that each API defines its own subclass.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Event Objects
+    verified_at: '2026-10-09'
+- id: QST-p7ee04evna8c
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ck4dc8hb0b3j
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener at priority 10 already changed the event. The one at 5 calls stopPropagation().
+    What about the change made at 10?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  - event
+  choices:
+  - id: CHO-yx7t1nx2c7ss
+    text: It stays
+    correct: true
+  - id: CHO-h4fm12ap1swg
+    text: It is rolled back
+    correct: false
+    explanation: Nothing is undone.
+  - id: CHO-rzywm0tgswh3
+    text: The listener at 10 runs again
+    correct: false
+    explanation: No replay.
+  - id: CHO-gdm24km7nm80
+    text: An exception reports the conflict
+    correct: false
+    explanation: No exception.
+  explanation: stopPropagation() only prevents later listeners from being called.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stopping Event Flow/Propagation
+    verified_at: '2026-10-09'
+- id: QST-eq1t3tcwdaqe
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-2e82py415svq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-8xcczyjyyanz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is printed?
+
+    ```php
+    $e = new GenericEvent('subj', ['k' => 'v']);
+    echo $e['k'], ' ', implode(',', array_keys(iterator_to_array($e)));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - event-dispatcher
+  - event
+  choices:
+  - id: CHO-kb5xtezhcwc9
+    text: '`v k`'
+    correct: true
+  - id: CHO-mw1wveq3mtfp
+    text: '`subj k`'
+    correct: false
+    explanation: Brackets read arguments, not the subject.
+  - id: CHO-rewf5nekj88k
+    text: 'An error: GenericEvent is not an array'
+    correct: false
+    explanation: It implements ArrayAccess.
+  - id: CHO-jfvn7jvdcpdw
+    text: '`v 0`'
+    correct: false
+    explanation: Iteration yields the argument keys.
+  explanation: 'Executed with EventDispatcher 8.0.15: ArrayAccess and IteratorAggregate on the arguments.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: offsetGet(), getIterator()
+    verified_at: '2026-10-09'
