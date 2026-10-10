@@ -277,3 +277,690 @@ questions:
     branch: '8.0'
     symbol_or_lines: setNotModified()
     verified_at: '2026-10-09'
+- id: QST-h4fkxx4vvke9
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What turns on Symfony's PHP reverse proxy in production?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-k8d396dkgjqv
+    text: '`framework.http_cache: true` in prod'
+    correct: true
+  - id: CHO-pthkwnmpcg58
+    text: Writing an AppCache class that extends HttpCache
+    correct: false
+    explanation: No class is needed in a modern app.
+  - id: CHO-3dwjtnqtzj6v
+    text: Installing Varnish first
+    correct: false
+    explanation: Varnish is an alternative, not a requirement.
+  - id: CHO-hntfvbmbgw88
+    text: '`APP_HTTP_CACHE=1` in .env'
+    correct: false
+    explanation: No such variable.
+  explanation: It sits under when@prod because a cache hides changes during development.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Symfony Reverse Proxy
+    verified_at: '2026-10-09'
+- id: QST-0jzq2nxfy0v2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why can a team later replace Symfony's reverse proxy by Varnish without touching the app?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-vktvrspd1p0a
+    text: The app only speaks HTTP headers
+    correct: true
+  - id: CHO-n1fzkp6m3p6y
+    text: Varnish reads the var/cache/http_cache files directly
+    correct: false
+    explanation: They share no storage.
+  - id: CHO-pwgkrgnvb8x9
+    text: A bundle translates the configuration
+    correct: false
+    explanation: No translation layer exists.
+  - id: CHO-psb9wxtw7vqc
+    text: 'It cannot: the app must be rewritten'
+    correct: false
+    explanation: Reverse proxies are interchangeable.
+  explanation: Symfony's proxy is slower than one written in C, but works on the same principle.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Symfony Reverse Proxy
+    verified_at: '2026-10-09'
+- id: QST-krf1jd1m3exb
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Ops want the cache result of each main request written to the Apache access log. Which trace_level?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-qsjhnswht45t
+    text: '`short`'
+    correct: true
+  - id: CHO-s04h89k2tty8
+    text: '`full`, which lists every sub-request'
+    correct: false
+    explanation: It gives the detail, not a log-friendly form.
+  - id: CHO-5ntjcr4fqr5g
+    text: '`none`'
+    correct: false
+    explanation: It adds no header.
+  - id: CHO-79ecsh0a807z
+    text: '`debug`'
+    correct: false
+    explanation: Not a trace_level value.
+  explanation: 'Executed with HttpKernel 8.0.15, debug off: the header then reads "fresh". Log it with
+    %{X-Symfony-Cache}o.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: trace_level
+    verified_at: '2026-10-09'
+- id: QST-ep9h25hey20x
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In debug, a public max-age=60 page is requested twice. What do the two X-Symfony-Cache headers
+    read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-8r2n6gg8c0eh
+    text: '`miss, store`, then `fresh`'
+    correct: true
+  - id: CHO-cdppc6wjjjj4
+    text: '`fresh`, then `fresh`'
+    correct: false
+    explanation: The first one has to be fetched.
+  - id: CHO-pnpsxge01tt8
+    text: '`miss`, then `miss`'
+    correct: false
+    explanation: The page is stored.
+  - id: CHO-pn5s6t2hn113
+    text: '`store, write`, then `hit, from cache`'
+    correct: false
+    explanation: Not the wording.
+  explanation: Executed with HttpKernel 8.0.15. The header name can be changed with trace_header.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: record()
+    verified_at: '2026-10-09'
+- id: QST-bxqgdz5mwq2b
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The attribute on an action promises one lifetime; the action body then sets another on the
+    response itself. Which one reaches the client?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  - attributes
+  choices:
+  - id: CHO-ry2784k5eypk
+    text: The one set in the action body
+    correct: true
+  - id: CHO-7649eg0r525d
+    text: The attribute's, which is applied last and wins
+    correct: false
+    explanation: The attribute only fills what the code left unset.
+  - id: CHO-3vb3fhgj94hm
+    text: Both, sent as two Cache-Control headers
+    correct: false
+    explanation: One value is sent.
+  - id: CHO-evtwmr3rwja0
+    text: 'Neither: the conflict disables caching'
+    correct: false
+    explanation: No conflict handling.
+  explanation: 'Read in CacheAttributeListener 8.0: max-age from the attribute is applied only if the
+    response has none.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelResponse(): hasCacheControlDirective'
+    verified_at: '2026-10-09'
+- id: QST-rn266tkvechc
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What happens?
+
+    ```php
+    $response->setCache(['maxage' => 60]);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-mvtsrxw2qp3g
+    text: An InvalidArgumentException
+    correct: true
+  - id: CHO-6n7wyvfy4q2k
+    text: max-age=60 is set
+    correct: false
+    explanation: setCache() uses max_age.
+  - id: CHO-n88q2p8h1b57
+    text: 'Nothing: unknown keys are silently ignored by design'
+    correct: false
+    explanation: They are rejected.
+  - id: CHO-g4x227pye90t
+    text: s-maxage=60 is set
+    correct: false
+    explanation: That would be s_maxage.
+  explanation: 'Executed with HttpFoundation 8.0.15. setCache() takes snake_case keys; #[Cache] takes
+    maxage, smaxage, mustRevalidate.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setCache()
+    verified_at: '2026-10-09'
+- id: QST-612npv6whz80
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does Cache-Control hold?
+
+    ```php
+    $response->setCache(['public' => true, 'max_age' => 600, 'immutable' => true]);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-tgyfd8k6s8kn
+    text: '`immutable, max-age=600, public`'
+    correct: true
+  - id: CHO-ke9syxqmqg35
+    text: '`public, max_age=600, immutable` in that order'
+    correct: false
+    explanation: Header directives use dashes.
+  - id: CHO-mj9e20kkht3d
+    text: '`max-age=600, private`'
+    correct: false
+    explanation: public was requested.
+  - id: CHO-tym5p4zhc5pe
+    text: '`public, s-maxage=600`'
+    correct: false
+    explanation: max_age sets max-age.
+  explanation: Executed with HttpFoundation 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setCache()
+    verified_at: '2026-10-09'
+- id: QST-shp1wbeh5pgx
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A response has max-age=100. Then `$response->expire()` runs. What changes?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-5t7e3q1yd82v
+    text: 'Age becomes 100: it is stale'
+    correct: true
+  - id: CHO-bzpxqkc4ydkt
+    text: max-age drops to 0
+    correct: false
+    explanation: max-age stays; Age is raised.
+  - id: CHO-1xrvy7sjrnwv
+    text: The response becomes a 304
+    correct: false
+    explanation: That is setNotModified().
+  - id: CHO-1tdkj3029wnk
+    text: All cache headers are removed from the response
+    correct: false
+    explanation: They are kept.
+  explanation: 'Executed with HttpFoundation 8.0.15: Age: 100, Cache-Control still max-age=100.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: expire()
+    verified_at: '2026-10-09'
+- id: QST-0gga8yh71qsc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The request carries a Cookie. The response sets only max-age=60, never public. What does the
+    reverse proxy do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-qnxmm5evw77d
+    text: Private, not stored
+    correct: true
+  - id: CHO-e6mddtw6yrtg
+    text: It stores it per cookie value
+    correct: false
+    explanation: Nothing is stored.
+  - id: CHO-vv43snmy2ff4
+    text: It strips the cookie and stores it
+    correct: false
+    explanation: The response becomes private.
+  - id: CHO-efdzvgt7fhfr
+    text: It stores it, since max-age alone allows that
+    correct: false
+    explanation: Cookie makes it private unless public is explicit.
+  explanation: 'Executed with HttpKernel 8.0.15: miss twice, "max-age=60, private". An explicit public
+    would be stored.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isPrivateRequest()
+    verified_at: '2026-10-09'
+- id: QST-9dc5drvksy2w
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two QUERY requests hit /search with different bodies, the response being public max-age=60.
+    What does the second one get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-8m74my7g3xc4
+    text: 'A miss: the body is in the key'
+    correct: true
+  - id: CHO-6atw1asw7xq4
+    text: The first response, from cache
+    correct: false
+    explanation: QUERY keys include the body.
+  - id: CHO-4wtq5z8gc3n4
+    text: 'A 405: QUERY is not cacheable'
+    correct: false
+    explanation: In 8.0 QUERY is cacheable.
+  - id: CHO-k2ctdpnzd33x
+    text: 'A pass: QUERY requests are never cached at all'
+    correct: false
+    explanation: The same body gives fresh.
+  explanation: 'Executed with HttpKernel 8.0.15: same body → fresh, other body → miss, store.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getCacheKey()
+    verified_at: '2026-10-09'
+- id: QST-8ps2yck0aky5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /a is cached. A PUT /a goes through the proxy, then a GET /a. What does the trace of the GET
+    show?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-ap25qb9mxfaj
+    text: stale, invalid, store
+    correct: true
+  - id: CHO-3ev3kyrevr0v
+    text: fresh
+    correct: false
+    explanation: The PUT invalidated the entry.
+  - id: CHO-atq6a1xk8r4h
+    text: pass
+    correct: false
+    explanation: GET is cacheable.
+  - id: CHO-b133xqdyv3fw
+    text: miss, store, as on first use
+    correct: false
+    explanation: The entry existed and was invalidated.
+  explanation: 'Executed with HttpKernel 8.0.15: the PUT itself traced "pass, invalidate".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: invalidate()
+    verified_at: '2026-10-09'
+- id: QST-hkwx4m4h0jhg
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A GET /unsubscribe?id=4 removes a user from a list. Why is that a problem behind a cache?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-sgdd8kqjxtz9
+    text: Cached hits never reach the app
+    correct: true
+  - id: CHO-7g3tnv9v6c8c
+    text: GET cannot carry a query string
+    correct: false
+    explanation: It can.
+  - id: CHO-fj3bg417m5z6
+    text: The proxy turns it into a POST
+    correct: false
+    explanation: It does not.
+  - id: CHO-rm786wc1rd4v
+    text: There is no problem with a cache
+    correct: false
+    explanation: Repeated calls would be served from cache.
+  explanation: Never change state on GET or HEAD.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Safe Methods
+    verified_at: '2026-10-09'
+- id: QST-9w552t71sxpn
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: With the expiration model alone, why must users wait for the deadline to see new content?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-x6jfnhcrvh3n
+    text: Invalidation is not in HTTP
+    correct: true
+  - id: CHO-hfjfnkbjt319
+    text: Expiration headers cannot be changed once deployed
+    correct: false
+    explanation: They can, for future responses.
+  - id: CHO-afprh78xdkf0
+    text: Symfony forbids purging
+    correct: false
+    explanation: Symfony makes it possible.
+  - id: CHO-xve80kp7gms9
+    text: Browsers ignore max-age
+    correct: false
+    explanation: They honour it.
+  explanation: Useful, possible with Symfony, but not part of the protocol.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Invalidation
+    verified_at: '2026-10-09'

@@ -611,3 +611,1221 @@ questions:
     branch: '8.0'
     symbol_or_lines: exceptionsMapping
     verified_at: '2026-10-09'
+- id: QST-rpnjkx79ghx8
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The server exports K=real and .env holds K=file. Dotenv loads .env with default options. Which
+    value does the app read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-v92qj81bc2tt
+    text: real
+    correct: true
+  - id: CHO-cph76ym3sjwm
+    text: file
+    correct: false
+    explanation: Files only add what is missing, by default.
+  - id: CHO-khwpq7110131
+    text: Both, as an array
+    correct: false
+    explanation: One value wins.
+  - id: CHO-c824q38s8w2z
+    text: 'An error: K is defined twice'
+    correct: false
+    explanation: No conflict is reported.
+  explanation: 'Executed with Dotenv 8.0.15. With overrideExistingVars: true, the file value would win.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'populate(): overrideExistingVars'
+    verified_at: '2026-10-09'
+- id: QST-g89prx5dyzj9
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which call makes .env values replace variables already set in the real environment?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-ynm414kdb8j8
+    text: '`(new Dotenv())->loadEnv($path, overrideExistingVars: true)`'
+    correct: true
+  - id: CHO-gkjm2h1hjq77
+    text: '`(new Dotenv())->loadEnv($path, force: true)`'
+    correct: false
+    explanation: No such argument.
+  - id: CHO-fafd4bngm729
+    text: '`(new Dotenv())->usePutenv()->loadEnv($path)`'
+    correct: false
+    explanation: putenv() support is unrelated to precedence.
+  - id: CHO-shd4n0jfpg2v
+    text: '`(new Dotenv())->loadEnv($path, defaultEnv: ''prod'')`'
+    correct: false
+    explanation: It only sets APP_ENV when missing.
+  explanation: 'Executed with Dotenv 8.0.15: the file value then wins over the real variable.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv()
+    verified_at: '2026-10-09'
+- id: QST-nqngeqvxh2am
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: APP_ENV is test. K=env sits in .env and K=local in .env.local. What does K hold?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-2snh378r389x
+    text: 'env: .env.local is skipped in test'
+    correct: true
+  - id: CHO-04jy05b57jxc
+    text: 'local: .env.local always overrides .env'
+    correct: false
+    explanation: Except in the test environment.
+  - id: CHO-0cbddm5cxqv9
+    text: 'Nothing: test reads only .env.test'
+    correct: false
+    explanation: .env is read in every environment.
+  - id: CHO-kf2ytnsbccrc
+    text: local, unless phpunit.xml sets K
+    correct: false
+    explanation: phpunit.xml is not part of the cascade.
+  explanation: 'Executed with Dotenv 8.0.15: tests give the same result on every machine.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'loadEnv(): testEnvs'
+    verified_at: '2026-10-09'
+- id: QST-amaww89nnf8m
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: .env.local.php defines K only. .env defines K and ONLY. After bootEnv(), what about ONLY?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  - deployment
+  choices:
+  - id: CHO-756d0mbyeptt
+    text: 'Undefined: .env is not parsed'
+    correct: true
+  - id: CHO-4154b1pfwqqp
+    text: It is read from .env, as usual
+    correct: false
+    explanation: .env.local.php replaces the whole cascade.
+  - id: CHO-psw21traqp4f
+    text: It is an empty string
+    correct: false
+    explanation: It is not defined at all.
+  - id: CHO-7tbh31dxen60
+    text: 'bootEnv() throws: two sources'
+    correct: false
+    explanation: The PHP file simply wins.
+  explanation: 'Executed with Dotenv 8.0.15: composer dump-env prod writes that file to skip parsing.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'bootEnv(): .env.local.php'
+    verified_at: '2026-10-09'
+- id: QST-mgg9de3wrj9n
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In prod, without a .env.local.php, someone edits .env. What is needed for the change to apply?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-cgaz726h3qfd
+    text: 'Nothing: .env is read on each request'
+    correct: true
+  - id: CHO-bkh26yb4y8ww
+    text: cache:clear, since parameters are compiled
+    correct: false
+    explanation: Env vars are read at runtime.
+  - id: CHO-m0sr8hd70hn7
+    text: composer dump-autoload
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-0pt4b1jag3fa
+    text: A PHP-FPM restart
+    correct: false
+    explanation: The file is read by Dotenv, not cached by FPM.
+  explanation: Container parameters need a recompile; environment variables do not.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: .env file parsed on every request
+    verified_at: '2026-10-09'
+- id: QST-wnfnj719k1qe
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: FLAG is "0" in the environment. What does `%env(bool:FLAG)%` inject?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - env-processors
+  choices:
+  - id: CHO-8cq2n80e4gpt
+    text: '`false`'
+    correct: true
+  - id: CHO-0dntq3zpx97g
+    text: '`"0"`'
+    correct: false
+    explanation: That is without the processor.
+  - id: CHO-2gr3x1pfgwyd
+    text: '`true`, a non-empty string'
+    correct: false
+    explanation: 'bool: casts the value, and "0" is false.'
+  - id: CHO-hyhqrx0zzjyy
+    text: '`0`'
+    correct: false
+    explanation: bool gives a boolean.
+  explanation: 'Executed with DependencyInjection 8.0.15. Processors chain right to left: json:base64:X
+    decodes base64 first.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/EnvVarProcessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '''bool'''
+    verified_at: '2026-10-09'
+- id: QST-hf6ahktz0z4d
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is the resolved value?
+
+    ```yaml
+    parameters:
+        app.format: 'a %%s b'
+    ```
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - parameters
+  choices:
+  - id: CHO-k2hqpk56xx3e
+    text: '`a %s b`'
+    correct: true
+  - id: CHO-m6t3x5a5y9yk
+    text: '`a %%s b`'
+    correct: false
+    explanation: A doubled percent becomes one.
+  - id: CHO-4thdk7p0vcf0
+    text: A ParameterNotFoundException for "s"
+    correct: false
+    explanation: '%% is an escape, not a reference.'
+  - id: CHO-y21105zzrwk8
+    text: '`a  b`'
+    correct: false
+    explanation: Nothing is removed.
+  explanation: Executed with DependencyInjection 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resolveString()
+    verified_at: '2026-10-09'
+- id: QST-vdzdf162gmpm
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In services.yaml, app.max should equal the class constant MAX of App\Post (value 7). Which
+    line does it?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - parameters
+  choices:
+  - id: CHO-kemyhhkcayvs
+    text: '`app.max: !php/const App\Post::MAX`'
+    correct: true
+  - id: CHO-hpw6f4cm7vsd
+    text: '`app.max: ''%App\Post::MAX%''`'
+    correct: false
+    explanation: Percents reference parameters, not constants.
+  - id: CHO-gtg4c7py25p6
+    text: '`app.max: ''@App\Post::MAX''`'
+    correct: false
+    explanation: '@ references services.'
+  - id: CHO-x4ynxzndqrev
+    text: '`app.max: constant(''App\Post::MAX'')`'
+    correct: false
+    explanation: Not a YAML tag; parameters are not expressions.
+  explanation: 'Executed with DependencyInjection 8.0.15: the parameter is int(7). !php/enum reads an
+    enum case.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuration Parameters
+    verified_at: '2026-10-09'
+- id: QST-57hvxxqypj62
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xrdyp9pn9ffe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$el->lint(''bar()'', [], Parser::IGNORE_UNKNOWN_VARIABLES)`, with no function bar registered.
+    What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - expression-language
+  choices:
+  - id: CHO-5arh98vzy62k
+    text: 'SyntaxError: unknown function bar'
+    correct: true
+  - id: CHO-q0qtg74rt6ns
+    text: 'Nothing: unknown names are ignored'
+    correct: false
+    explanation: Only unknown variables are ignored with that flag.
+  - id: CHO-3c56xaernvzb
+    text: It evaluates bar() and returns null
+    correct: false
+    explanation: lint() never evaluates.
+  - id: CHO-7re4tws1wst0
+    text: A TypeError
+    correct: false
+    explanation: The arguments are valid.
+  explanation: 'Executed with ExpressionLanguage 8.0.15: adding IGNORE_UNKNOWN_FUNCTIONS silences it.
+    In 8.0 $names must be an array.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/Parser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: IGNORE_UNKNOWN_FUNCTIONS
+    verified_at: '2026-10-09'
+- id: QST-e2t1j7jhpkvn
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-xrdyp9pn9ffe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where does ExpressionLanguage let a rule live in configuration instead of PHP code?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - expression-language
+  choices:
+  - id: CHO-eg9kwzxk7d3h
+    text: A route condition
+    correct: true
+  - id: CHO-hh8hfshwrgbr
+    text: A Twig template filter
+    correct: false
+    explanation: Twig has its own expression syntax.
+  - id: CHO-kjy1c1c8p35f
+    text: A database migration file
+    correct: false
+    explanation: Migrations run SQL or PHP.
+  - id: CHO-a85h8x7gkryf
+    text: A .env file
+    correct: false
+    explanation: .env holds strings, not expressions.
+  explanation: The framework uses it for route conditions, security allow_if rules and similar one-line
+    rules.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/expression_language.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
+- id: QST-8g2h311c94ka
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-nrbst3qj145g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An action throws `new \RuntimeException('Product 42 not found')`. Which status code is sent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-qbfx4js8tk2c
+    text: '500'
+    correct: true
+  - id: CHO-34amtcgh6hyz
+    text: 404, read from the message
+    correct: false
+    explanation: The message is never read.
+  - id: CHO-0fqg4j7q52hk
+    text: '400'
+    correct: false
+    explanation: Only a RequestExceptionInterface gives 400.
+  - id: CHO-grms6s3jrg9z
+    text: 200 with an error body
+    correct: false
+    explanation: An error page carries an error status.
+  explanation: Executed with HttpKernel 8.0.15. createNotFoundException() exists to throw one that carries
+    404.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/Exception/FlattenException.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'createFromThrowable(): 500 default'
+    verified_at: '2026-10-09'
+- id: QST-vn7jfs6bc573
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-nrbst3qj145g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An exception carries `#[WithHttpStatus(404)]` but extends HttpException with status 409. Which
+    status wins?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-7ah5c3mdeq9t
+    text: '409: the interface wins over the attribute'
+    correct: true
+  - id: CHO-xxsnwcd9ke0w
+    text: '404: the attribute is checked first'
+    correct: false
+    explanation: It only applies to exceptions without the interface.
+  - id: CHO-c7fjr4dwtewh
+    text: '500: the two declarations conflict'
+    correct: false
+    explanation: There is no conflict error.
+  - id: CHO-9a5nb4dx64xc
+    text: Whichever of the two was declared last in the class
+    correct: false
+    explanation: Declaration order is irrelevant.
+  explanation: 'Executed with HttpKernel 8.0.15: on a plain exception the attribute gives 404.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelException(): WithHttpStatus'
+    verified_at: '2026-10-09'
+- id: QST-1bvw2y62k6mq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-nrbst3qj145g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: HttpFoundation throws a BadRequestException (a RequestExceptionInterface) from inside an action.
+    Which status?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-vnpe9kzyhjzr
+    text: 400 Bad Request
+    correct: true
+  - id: CHO-khepvz3kjwst
+    text: 500 Internal Server Error
+    correct: false
+    explanation: Request exceptions are mapped to 400.
+  - id: CHO-7gnyyrd5vg0b
+    text: 422 Unprocessable Content
+    correct: false
+    explanation: 422 is what AbstractController::render() uses for invalid forms.
+  - id: CHO-rc8yebc15m5x
+    text: 404 Not Found
+    correct: false
+    explanation: Unrelated.
+  explanation: Executed with HttpKernel 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: RequestExceptionInterface
+    verified_at: '2026-10-09'
+- id: QST-z27d08qzz8w9
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-pw8f8xsdrrcf
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer wants to see the custom 404 page while working in dev. What does FrameworkBundle
+    provide?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-trvzr78qn0hx
+    text: The /_error/{code} preview routes
+    correct: true
+  - id: CHO-548y3xv8x1by
+    text: Setting APP_DEBUG=0 in .env.local only
+    correct: false
+    explanation: Possible, but the preview routes are the documented tool.
+  - id: CHO-4p8wyb692r7a
+    text: A debug:error command
+    correct: false
+    explanation: No such command.
+  - id: CHO-2ryexy4hyar7
+    text: 'Nothing: the custom page never shows in dev'
+    correct: false
+    explanation: The preview routes show it.
+  explanation: They are loaded under when@dev. In debug mode the detailed exception page replaces error
+    templates.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Testing Error Pages during Development
+    verified_at: '2026-10-09'
+- id: QST-6r2spteme004
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4d26jh0mp0z1
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Without debug, error404.html.twig and error.html.twig both exist. Which template renders a
+    418?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  - twig
+  choices:
+  - id: CHO-2z9qthn6tbw3
+    text: error.html.twig
+    correct: true
+  - id: CHO-5nt8emaax8s8
+    text: error404.html.twig
+    correct: false
+    explanation: Only a 404 uses it.
+  - id: CHO-s53csd30g7y2
+    text: error418.html.twig, generated on the fly
+    correct: false
+    explanation: Nothing is generated.
+  - id: CHO-ezf68d456apg
+    text: The minimal built-in page
+    correct: false
+    explanation: The generic template exists.
+  explanation: TwigErrorRenderer tries error<code>.html.twig, then error.html.twig, then the minimal page.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTemplate()
+    verified_at: '2026-10-09'
+- id: QST-7kxf2p0jjaac
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-4d26jh0mp0z1
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where do custom error templates go?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  - twig
+  choices:
+  - id: CHO-pt60hat8945t
+    text: templates/bundles/TwigBundle/Exception/
+    correct: true
+  - id: CHO-zgm705n8nq83
+    text: templates/errors/
+    correct: false
+    explanation: Not the path the renderer looks at.
+  - id: CHO-nvex9gjfbb2h
+    text: config/packages/error/
+    correct: false
+    explanation: That holds configuration.
+  - id: CHO-1csnpshag5ks
+    text: public/errors/
+    correct: false
+    explanation: Static files are not rendered by Twig.
+  explanation: They receive status_code, status_text and exception — whose trace must never reach end
+    users.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Overriding the Default Error Templates
+    verified_at: '2026-10-09'
+- id: QST-b52a6mn3gk29
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4d26jh0mp0z1
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An API must answer errors as JSON with a custom shape. Which level of intervention is the
+    documented fit?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-dd47qjsevsc5
+    text: A normalizer for the FlattenException
+    correct: true
+  - id: CHO-kf75kesftw8m
+    text: A Twig error template
+    correct: false
+    explanation: Templates shape HTML pages.
+  - id: CHO-3b021q80mf5n
+    text: Catching the exception inside every controller
+    correct: false
+    explanation: Errors are handled centrally.
+  - id: CHO-p6mz6xjfae5n
+    text: A route condition
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Levels: templates, normalizer for non-HTML formats, error controller, kernel.exception
+    listener.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Overriding Error output for non-HTML formats
+    verified_at: '2026-10-09'
+- id: QST-j0c2swv7673k
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pw8f8xsdrrcf
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom 404 template shows "Hello {{ app.user.name }}". In production a logged-in user hits
+    a missing page. What appears?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  - security
+  choices:
+  - id: CHO-c0qj942yw49e
+    text: 'Nothing: app.user is null'
+    correct: true
+  - id: CHO-thagbcersnrs
+    text: The user name, as on any page
+    correct: false
+    explanation: Routing fails before security runs.
+  - id: CHO-vkavs60w5r0n
+    text: A 500 error from the template
+    correct: false
+    explanation: app.user is simply null.
+  - id: CHO-hq9fx969a4va
+    text: A redirect to the login form
+    correct: false
+    explanation: No redirect is involved.
+  explanation: Because of the loading order of routing and security, a 404 page sees an anonymous user.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security and 404 pages
+    verified_at: '2026-10-09'
+- id: QST-66qrxhvxxbr4
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-ck41dmqysxwe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer wants the script to halt right after printing a variable. Which helper does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-yz9cp9j0x72f
+    text: '`dd($x)`'
+    correct: true
+  - id: CHO-zdz6ge4jxx3w
+    text: '`dump($x)`'
+    correct: false
+    explanation: dump() returns, and execution goes on.
+  - id: CHO-90aq43h16pbe
+    text: '`var_export($x)`'
+    correct: false
+    explanation: It prints or returns PHP code, then continues.
+  - id: CHO-ms1ns2edfbrj
+    text: '`debug_zval_dump($x)`'
+    correct: false
+    explanation: It prints refcounts, then continues.
+  explanation: dd() = dump and die.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/VarDumper/Resources/functions/dump.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dd()
+    verified_at: '2026-10-09'
+- id: QST-18q564c6zr26
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ck41dmqysxwe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Dumps inside a JSON API break its responses. What keeps them out of the output?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-9x8p7km3nqta
+    text: Running `bin/console server:dump`
+    correct: true
+  - id: CHO-q96gsxc6h058
+    text: Replacing every dump() call with var_dump()
+    correct: false
+    explanation: That also writes to the output.
+  - id: CHO-mspbx99vn7tg
+    text: Calling dd() instead
+    correct: false
+    explanation: dd() still prints, then stops.
+  - id: CHO-ramfgaeemgt4
+    text: Setting APP_DEBUG=0
+    correct: false
+    explanation: The dump function still exists.
+  explanation: With the dump server running, dump() sends its data there instead of the response.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Dump Server
+    verified_at: '2026-10-09'
+- id: QST-65h8nxjqxhef
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-7zqhdcxxen5v
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In dev with DebugBundle, a controller calls dump($x) then returns an HTML page. Where is the
+    dump shown?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-6fp8f2rcqcvh
+    text: In the web debug toolbar
+    correct: true
+  - id: CHO-jsm2n69xv9fh
+    text: At the top of the page body
+    correct: false
+    explanation: DebugBundle redirects it to the toolbar.
+  - id: CHO-avpwt7t3kay4
+    text: Only in var/log/dev.log
+    correct: false
+    explanation: It goes to the toolbar.
+  - id: CHO-fpqbwf7v72br
+    text: Nowhere
+    correct: false
+    explanation: It is collected.
+  explanation: If the toolbar cannot appear — dd(), die(), a fatal error — the dump falls back to the
+    output.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: DebugBundle and Twig Integration
+    verified_at: '2026-10-09'
+- id: QST-k6gqps365f4x
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-cfyrgc2t8f2q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A value set in no file still shows up in framework's behaviour. Which command reveals it,
+    defaults included?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  - commands
+  choices:
+  - id: CHO-2jvnrnzn45am
+    text: '`debug:config framework`'
+    correct: true
+  - id: CHO-acj1pv5vqxjx
+    text: '`config:dump-reference framework`'
+    correct: false
+    explanation: It shows the schema, not your merged values.
+  - id: CHO-zhh5xf6t6a20
+    text: '`debug:container framework`'
+    correct: false
+    explanation: It lists services.
+  - id: CHO-pgf11x6a78hy
+    text: '`cat config/packages/framework.yaml`'
+    correct: false
+    explanation: A file shows only what was written.
+  explanation: debug:config prints the configuration after merging, keys never written included.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ConfigDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: execute()
+    verified_at: '2026-10-09'
+- id: QST-z28gefp5wwja
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-cfyrgc2t8f2q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A URL answers 404 and you need to know why each route was rejected. Which command and option?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  - commands
+  choices:
+  - id: CHO-nnntv1p96fx7
+    text: '`router:match /path -v`'
+    correct: true
+  - id: CHO-thd56mqvea5q
+    text: '`debug:router --show-controllers`'
+    correct: false
+    explanation: It lists routes without testing a path.
+  - id: CHO-dsnjz32639z0
+    text: '`debug:container router`'
+    correct: false
+    explanation: It shows the service.
+  - id: CHO-7pa7gm65yy60
+    text: '`router:match /path --format=json`'
+    correct: false
+    explanation: The reasons come with verbosity.
+  explanation: In verbose mode router:match prints each route tried and the reason, such as Path does
+    not match.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: execute()
+    verified_at: '2026-10-09'

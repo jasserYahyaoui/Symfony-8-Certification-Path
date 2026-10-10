@@ -289,3 +289,484 @@ questions:
     branch: '8.0'
     symbol_or_lines: invalidateTags()
     verified_at: '2026-10-09'
+- id: QST-337jtkezvah9
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-rmv013ank5zr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What separates an adapter from a provider?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-479ws8arjbp2
+    text: Storage logic, against a connection service
+    correct: true
+  - id: CHO-v8n8p4rz4zf8
+    text: Two words for the same class
+    correct: false
+    explanation: They are distinct notions.
+  - id: CHO-yz70gv95qkbh
+    text: A provider stores items; an adapter only names them
+    correct: false
+    explanation: The adapter implements storage.
+  - id: CHO-68v9w9jn3x8r
+    text: An adapter is PSR-6, a provider is a contract
+    correct: false
+    explanation: Unrelated split.
+  explanation: 'Item: a key and a value. Pool: a logical store. Adapter: the storage. Provider: the framework
+    service connecting to it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Terminology
+    verified_at: '2026-10-09'
+- id: QST-8mdvb13pp1ye
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer looks for the write method of the cache contract to store a computed value. What
+    does the contract offer?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-e4xst4bfjkbg
+    text: get() and delete() only
+    correct: true
+  - id: CHO-qn83sew7ysy3
+    text: set(), next to get() and delete()
+    correct: false
+    explanation: There is no set().
+  - id: CHO-1b853hzxe19e
+    text: getItem(), save() and deleteItem()
+    correct: false
+    explanation: That is PSR-6.
+  - id: CHO-mbddz36fmab2
+    text: fetch() and store()
+    correct: false
+    explanation: Not the contract.
+  explanation: 'Read by reflection on Cache Contracts: only get and delete. get() reads and writes.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Contracts
+    verified_at: '2026-10-09'
+- id: QST-cg31zp6esjhm
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A third-party library demands a PSR-6 pool. Otherwise, which API does the documentation recommend?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-pazzayg5kd7r
+    text: Cache Contracts
+    correct: true
+  - id: CHO-xzfwc4245b0t
+    text: PSR-6 everywhere, for consistency
+    correct: false
+    explanation: Contracts are recommended.
+  - id: CHO-kjr57gev4081
+    text: PSR-16 simple cache
+    correct: false
+    explanation: Not the recommendation.
+  - id: CHO-9w9aa3b4g3e1
+    text: Direct calls on the adapter class
+    correct: false
+    explanation: Not the recommendation.
+  explanation: Less code, and stampede protection by default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Contracts
+    verified_at: '2026-10-09'
+- id: QST-zgs9knrytr43
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service type-hints its constructor argument with CacheInterface. Which pool arrives?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  - autowiring
+  choices:
+  - id: CHO-0r60aa3mkkdw
+    text: cache.app
+    correct: true
+  - id: CHO-w3wh50cv1h2z
+    text: cache.system
+    correct: false
+    explanation: It holds what derives from code.
+  - id: CHO-a2tj8mw2xwjb
+    text: A new ArrayAdapter
+    correct: false
+    explanation: Autowiring injects the configured pool.
+  - id: CHO-zp28sp5sgc7d
+    text: 'None: a pool name is required'
+    correct: false
+    explanation: The interface is autowired.
+  explanation: 'Named pools need another argument name or #[Target].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Cache with FrameworkBundle
+    verified_at: '2026-10-09'
+- id: QST-01297dp3c5g5
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    "k" is already cached as v1. What is printed?
+
+    ```php
+    echo $cache->get('k', function (ItemInterface $i) {
+        echo $i->isHit() ? 'early ' : 'miss ';
+        return 'v2';
+    }, INF);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  - stampede
+  choices:
+  - id: CHO-rppx7a47ebfp
+    text: '`early v2`'
+    correct: true
+  - id: CHO-dyd2rx9nv2bc
+    text: '`v1`'
+    correct: false
+    explanation: beta INF forces the callback.
+  - id: CHO-917dpjh5e7gm
+    text: '`miss v2`'
+    correct: false
+    explanation: isHit() is true on an early recompute.
+  - id: CHO-j5ey7bghz1e7
+    text: 'An error: beta must be at most 1'
+    correct: false
+    explanation: INF is allowed.
+  explanation: Executed with Cache 8.0.15 (FilesystemAdapter). beta 0 disables early expiration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stampede Prevention
+    verified_at: '2026-10-09'
+- id: QST-6z26py42wdz0
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which two mechanisms protect Cache Contracts from a stampede, with no configuration?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  - stampede
+  choices:
+  - id: CHO-pqc77rbf8gft
+    text: A lock per key, and probabilistic early expiration
+    correct: true
+  - id: CHO-jq5q49ghbytc
+    text: A queue, and a retry strategy
+    correct: false
+    explanation: Those are Messenger notions.
+  - id: CHO-5vca4x5j5xqv
+    text: Replication, and a TTL jitter on write
+    correct: false
+    explanation: Not the documented pair.
+  - id: CHO-rpf0qdhq2w5c
+    text: 'None: it must be configured'
+    correct: false
+    explanation: It is on by default.
+  explanation: The lock holds one PHP process per key per machine. beta tunes early expiration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Stampede Prevention
+    verified_at: '2026-10-09'
+- id: QST-bmf0ys55p7z9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jvfb807ka1q6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does cache.adapter.system store data in?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-66trqrpwr2d7
+    text: 'It picks: PHP files, behind APCu when present'
+    correct: true
+  - id: CHO-m3s53g3je45s
+    text: Always Redis
+    correct: false
+    explanation: It chooses dynamically.
+  - id: CHO-fkg2a4bqqar6
+    text: Always APCu
+    correct: false
+    explanation: APCu is only used if available.
+  - id: CHO-m2hcsx3m5e7p
+    text: Memory, lost at the end of the request
+    correct: false
+    explanation: That is the array adapter.
+  explanation: Read in AbstractAdapter::createSystemCache() 8.0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/AbstractAdapter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createSystemCache()
+    verified_at: '2026-10-09'
+- id: QST-rc2t79wwcs8n
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-jvfb807ka1q6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: cache.app data must survive deployments and be shared by three servers. What does the documentation
+    advise?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-8p5a89n5aw8f
+    text: A Redis adapter for cache.app
+    correct: true
+  - id: CHO-g2zfrvz1dszt
+    text: Move the data into cache.system
+    correct: false
+    explanation: It is for code-derived data.
+  - id: CHO-82xqvpd6jwj9
+    text: Keep the filesystem default and copy var/
+    correct: false
+    explanation: Not shared.
+  - id: CHO-t0mzfdkkbf9a
+    text: Clear cache.app at each deployment
+    correct: false
+    explanation: It need not be cleared.
+  explanation: Redis and valkey also have tag-aware variants.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: cache.app
+    verified_at: '2026-10-09'
+- id: QST-v3rzscrk87x3
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    "k" holds v1. What is printed?
+
+    ```php
+    $cache->delete('k');
+    echo $cache->get('k', fn () => 'v2');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-9m015ag13jgd
+    text: '`v2`'
+    correct: true
+  - id: CHO-yzem9v6eykpm
+    text: '`v1`'
+    correct: false
+    explanation: delete() removed it.
+  - id: CHO-j20dfrvvm489
+    text: 'Nothing: get() returns null after delete()'
+    correct: false
+    explanation: The callback recomputes.
+  - id: CHO-rxqdahg4vgn4
+    text: 'An exception: the key is gone'
+    correct: false
+    explanation: A miss calls the callback.
+  explanation: Executed with Cache 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Contracts
+    verified_at: '2026-10-09'

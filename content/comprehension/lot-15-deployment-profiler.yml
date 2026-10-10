@@ -430,3 +430,986 @@ questions:
     branch: '8.0'
     symbol_or_lines: Enabling the Profiler Conditionally
     verified_at: '2026-10-09'
+- id: QST-p8b5n11aw3bb
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-evgzmx45nr93
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A server already skips require-dev packages. Which extra Composer flag speeds up class loading?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - composer
+  choices:
+  - id: CHO-ehjv004vf8xs
+    text: --optimize-autoloader
+    correct: true
+  - id: CHO-4evvph14c98d
+    text: --no-dev, a second time
+    correct: false
+    explanation: It only skips packages.
+  - id: CHO-zz9wccx7ee4m
+    text: --prefer-dist
+    correct: false
+    explanation: It picks archives over clones.
+  - id: CHO-kzja60jxd261
+    text: --no-scripts
+    correct: false
+    explanation: It skips Composer scripts.
+  explanation: 'It builds a class map. The two flags answer two needs: install less, and autoload faster.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Install/Update your Vendors
+    verified_at: '2026-10-09'
+- id: QST-jp8c5czhfr9b
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On the production server, which command clears the right cache?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - cache
+  choices:
+  - id: CHO-jb3cw7m28nss
+    text: '`APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear`'
+    correct: true
+  - id: CHO-jht1q6rx94n5
+    text: '`php bin/console cache:clear`, whatever the shell sets'
+    correct: false
+    explanation: Without APP_ENV it may clear another environment.
+  - id: CHO-g78049nnbg6k
+    text: '`rm -rf var/`'
+    correct: false
+    explanation: It also removes logs, and warms nothing.
+  - id: CHO-e3fc9r1zthsj
+    text: '`composer dump-env prod`'
+    correct: false
+    explanation: It compiles .env files, not the cache.
+  explanation: The cache is per environment; clearing dev achieves nothing for prod.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Clear your Symfony Cache
+    verified_at: '2026-10-09'
+- id: QST-zqsf861fbsdk
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`composer install --no-dev` fails with "class not found" during its scripts. What does the
+    documentation advise?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - composer
+  choices:
+  - id: CHO-yzy9rzf9vq5q
+    text: '`export APP_ENV=prod`, then run it again'
+    correct: true
+  - id: CHO-scbvyge3y1d8
+    text: Drop --no-dev for good
+    correct: false
+    explanation: The scripts simply ran in dev.
+  - id: CHO-3pnzfwzp7wgg
+    text: Delete composer.lock and update
+    correct: false
+    explanation: That changes the versions shipped.
+  - id: CHO-tnpqyz4135wd
+    text: Run it with --no-scripts and never run them
+    correct: false
+    explanation: The scripts are needed.
+  explanation: post-install-cmd then runs in prod, where dev bundles are not registered.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: class not found
+    verified_at: '2026-10-09'
+- id: QST-zj9xzp4rtd8c
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-evgzmx45nr93
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A FrameworkBundle app is installed with --no-dev, and a forgotten dump($x) runs. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - debugging
+  choices:
+  - id: CHO-qd4ca1gn940x
+    text: 'It works: VarDumper is still installed'
+    correct: true
+  - id: CHO-d59cbs0j6syq
+    text: 'A fatal error: dump() is undefined'
+    correct: false
+    explanation: error-handler requires var-dumper as a normal dependency.
+  - id: CHO-v2mck2hzyv6p
+    text: It is silently skipped in prod
+    correct: false
+    explanation: It prints into the response.
+  - id: CHO-jwb04kdyqpbf
+    text: It writes only to var/log/prod.log
+    correct: false
+    explanation: It prints into the response.
+  explanation: 'Read in the 8.0 composer.json files: framework-bundle → error-handler → var-dumper.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: symfony/var-dumper'
+    verified_at: '2026-10-09'
+- id: QST-0t7qjh6m8amy
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-0m3mf05m416t
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does the documentation say production values may be provided?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - dotenv
+  choices:
+  - id: CHO-h5krt586wpk0
+    text: Real env vars, or a .env.prod.local file
+    correct: true
+  - id: CHO-e6gvtfkh79s8
+    text: Only real env vars; files are forbidden
+    correct: false
+    explanation: Both options are given.
+  - id: CHO-c3wss9yhefgp
+    text: Only by editing the committed .env
+    correct: false
+    explanation: .env holds defaults.
+  - id: CHO-jkhzt17cjqda
+    text: In config/packages/prod/parameters.yaml
+    correct: false
+    explanation: Secrets do not belong there.
+  explanation: The documentation does not choose between the two.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configure your Environment Variables
+    verified_at: '2026-10-09'
+- id: QST-ab66h062ek0r
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-0m3mf05m416t
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A server must rely only on real env vars, but keep the fast .env.local.php. Which command?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - dotenv
+  choices:
+  - id: CHO-q4p0awag5apf
+    text: '`composer dump-env prod --empty`'
+    correct: true
+  - id: CHO-nn2veybwwdq1
+    text: '`composer dump-env prod --no-values`'
+    correct: false
+    explanation: No such option.
+  - id: CHO-9x9c5dd6kb89
+    text: '`php bin/console secrets:set --empty`'
+    correct: false
+    explanation: Unrelated to .env files.
+  - id: CHO-22y8x1mc6dn8
+    text: '`composer dump-autoload --env=prod`'
+    correct: false
+    explanation: No such option.
+  explanation: --empty writes the structure without values. Without Composer, dotenv:dump does the same.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: composer dump-env prod --empty
+    verified_at: '2026-10-09'
+- id: QST-549fzgt4dnjt
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The production server lacks the Symfony CLI. How are the PHP requirements checked?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  choices:
+  - id: CHO-b0d78kyqzxnd
+    text: '`composer require symfony/requirements-checker`'
+    correct: true
+  - id: CHO-h7eqf5nbv7px
+    text: '`php bin/console debug:requirements`'
+    correct: false
+    explanation: No such command.
+  - id: CHO-8whvfr3b67h6
+    text: '`php -m`, compared by hand'
+    correct: false
+    explanation: Not the documented tool.
+  - id: CHO-pzq0hqhmf8ne
+    text: They cannot be checked there
+    correct: false
+    explanation: The checker package exists for that.
+  explanation: On a development machine the Symfony CLI does it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Check Requirements
+    verified_at: '2026-10-09'
+- id: QST-79ds57gqh8rc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A team deploys by plain FTP upload. Is that against the documented process?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  choices:
+  - id: CHO-bt4ag66jersd
+    text: 'No: no tool is prescribed'
+    correct: true
+  - id: CHO-q3ynxjseqjcv
+    text: 'Yes: Deployer is mandatory'
+    correct: false
+    explanation: Deployer is cited, not required.
+  - id: CHO-c170cnkjf5j4
+    text: 'Yes: only a PaaS is supported'
+    correct: false
+    explanation: A PaaS is one option.
+  - id: CHO-43twjzksns5e
+    text: 'Yes: the Symfony CLI must push the code'
+    correct: false
+    explanation: Not required.
+  explanation: It lists the tasks, not a tool.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: How to Deploy
+    verified_at: '2026-10-09'
+- id: QST-1j86fz9mzbjc
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The web debug toolbar is disabled. Are profiles still recorded?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-ne4b79aegbc4
+    text: 'Yes: the toolbar is only a view'
+    correct: true
+  - id: CHO-et792sjhz5cz
+    text: 'No: the toolbar collects the data'
+    correct: false
+    explanation: Collectors gather; the profiler stores.
+  - id: CHO-tmf2z7wc2msj
+    text: Only for HTML responses
+    correct: false
+    explanation: Every profiled request is stored.
+  - id: CHO-rngdt02cwrc5
+    text: Only when APP_DEBUG is 0
+    correct: false
+    explanation: Unrelated.
+  explanation: Collectors gather, the profiler stores under a token, the toolbar shows a summary.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
+- id: QST-z3hw7ny58k8d
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How is the profiler installed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-rh45jab53vpb
+    text: '`composer require --dev symfony/profiler-pack`'
+    correct: true
+  - id: CHO-99y6hmc1z1jv
+    text: '`composer require symfony/profiler-pack`, kept in prod'
+    correct: false
+    explanation: Never enable it in production.
+  - id: CHO-9zvnnevmvzme
+    text: It ships with symfony/framework-bundle
+    correct: false
+    explanation: It is a separate pack.
+  - id: CHO-hb1zrjv2snwp
+    text: '`bin/console profiler:install`'
+    correct: false
+    explanation: No such command.
+  explanation: Enabling it in production would open major vulnerabilities.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Never enable the profiler in production
+    verified_at: '2026-10-09'
+- id: QST-jdm1yn1km42v
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: With the profiler on, an action returns a 302 redirect. What does the response carry?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-vc3csjaeqc83
+    text: No toolbar, but X-Debug-Token-Link
+    correct: true
+  - id: CHO-sv2p4k976eev
+    text: The toolbar, appended to the body
+    correct: false
+    explanation: Redirections are skipped.
+  - id: CHO-73s2mnaptqsm
+    text: 'Neither: redirects are not profiled'
+    correct: false
+    explanation: The profile exists.
+  - id: CHO-ecwe82mp89t0
+    text: A toolbar in a Location header
+    correct: false
+    explanation: Not a thing.
+  explanation: Executed with WebProfilerBundle 8.0.15. Same for JSON and XHR responses.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelResponse(): isRedirection()'
+    verified_at: '2026-10-09'
+- id: QST-phe74y96p0dm
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What separates X-Debug-Token from X-Debug-Token-Link?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-sb6pjtgk6g4r
+    text: The token, against the full profile URL
+    correct: true
+  - id: CHO-jvwmekprggk2
+    text: The first only exists in tests, the other in dev
+    correct: false
+    explanation: Both are set when profiling.
+  - id: CHO-m0g3kq33cr11
+    text: One is a cookie and the other a header
+    correct: false
+    explanation: Both are headers.
+  - id: CHO-1stz82ydf0qa
+    text: They are the same value
+    correct: false
+    explanation: One is a token, one a URL.
+  explanation: /_profiler lists every stored profile.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: X-Debug-Token-Link
+    verified_at: '2026-10-09'
+- id: QST-3978xf64eq8s
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An old profile from last week is still listed in /_profiler. How is that possible?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-s8sde4knvt43
+    text: The 2-day purge only runs on 1 write in 10
+    correct: true
+  - id: CHO-mmvk8nbnghmf
+    text: Profiles never expire
+    correct: false
+    explanation: Old profiles are purged.
+  - id: CHO-7thrra93msn2
+    text: A cron job deletes them each Monday
+    correct: false
+    explanation: No cron; the purge is probabilistic.
+  - id: CHO-nq408sktd0j9
+    text: 'It is a bug: profiles last 24 hours'
+    correct: false
+    explanation: The limit is 2 days.
+  explanation: 'Read in FileProfilerStorage 8.0: random_int(1, 10) on write, then profiles older than
+    2 * 86400 s go.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'write(): random_int(1, 10)'
+    verified_at: '2026-10-09'
+- id: QST-bncnjvegjgg9
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test holds a token string. Which call returns its profile?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-2hgz9svz9msx
+    text: '`$profiler->loadProfile($token)`'
+    correct: true
+  - id: CHO-z6wj8rccanzt
+    text: '`$profiler->loadProfileFromResponse($token)`'
+    correct: false
+    explanation: That one takes a Response.
+  - id: CHO-jnz85fbq628h
+    text: '`$profiler->find($token)`'
+    correct: false
+    explanation: find() searches by criteria and returns tokens.
+  - id: CHO-v3j3hnspgf3m
+    text: '`$profiler->get($token)`'
+    correct: false
+    explanation: No such method.
+  explanation: 'Profiler 8.0: loadProfile(string $token): ?Profile.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadProfile()
+    verified_at: '2026-10-09'
+- id: QST-bjb2kfdxmcaj
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which command lists the data collectors actually registered?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - commands
+  choices:
+  - id: CHO-khvnh0ytqmn3
+    text: '`debug:container --tag=data_collector`'
+    correct: true
+  - id: CHO-ty34bhtv1gbz
+    text: '`debug:profiler`'
+    correct: false
+    explanation: No such command.
+  - id: CHO-sa7vhxwwhedy
+    text: '`debug:event-dispatcher kernel.response`'
+    correct: false
+    explanation: It lists listeners.
+  - id: CHO-6jhp0kjcmwa7
+    text: '`debug:config web_profiler --collectors`'
+    correct: false
+    explanation: No such option.
+  explanation: Collectors are services carrying the data_collector tag.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: debug:container --tag=data_collector
+    verified_at: '2026-10-09'
+- id: QST-cwgb85t9nws9
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q8696dzgbpts
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A collector measures the time of each API call. Where must the measuring happen?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-5mavrhpvcyye
+    text: In a service during the request
+    correct: true
+  - id: CHO-b0wemmjs9ser
+    text: Inside collect(), which repeats each call
+    correct: false
+    explanation: collect() runs once; it picks up results.
+  - id: CHO-jt0cwmphs6kd
+    text: Inside getName()
+    correct: false
+    explanation: It only returns the identifier.
+  - id: CHO-r13a2nm7z9w7
+    text: Inside reset()
+    correct: false
+    explanation: It clears state between requests.
+  explanation: collect() is called once, on kernel.response.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelResponse()
+    verified_at: '2026-10-09'
+- id: QST-cbfct96071wh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-q8696dzgbpts
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A collector stores an open PDO connection in $this->data. What goes wrong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-z9fm7z886q3n
+    text: The profile cannot be serialized
+    correct: true
+  - id: CHO-v41bmv2626mh
+    text: 'Nothing: data is kept in memory'
+    correct: false
+    explanation: Profiles are serialized to storage.
+  - id: CHO-cjgpfbsfvtzq
+    text: The toolbar shows the connection twice
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-5nhpfta8dmng
+    text: getName() returns null
+    correct: false
+    explanation: Unrelated.
+  explanation: Store plain values; a connection or a resource cannot be serialized.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DataCollector/DataCollector.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __serialize()
+    verified_at: '2026-10-09'
+- id: QST-6nczwdk4frj2
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which three methods does a collector implement through DataCollectorInterface?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-6grnbwvxxknn
+    text: collect(), getName() and reset()
+    correct: true
+  - id: CHO-zbbzsb3f6kaf
+    text: collect(), render() and getData()
+    correct: false
+    explanation: Not the interface.
+  - id: CHO-jaa4nbchdf2g
+    text: handle(), getName() and terminate()
+    correct: false
+    explanation: Not the interface.
+  - id: CHO-mmmq8sp25r0z
+    text: collect(), lateCollect() and getName()
+    correct: false
+    explanation: lateCollect() belongs to another interface.
+  explanation: 'reset() comes from ResetInterface. getName() must be unique: it is the access key.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DataCollector/DataCollectorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: interface
+    verified_at: '2026-10-09'
+- id: QST-289sstayac45
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: autoconfigure is off. What must a new collector service get to be used?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-mrhfw390js8q
+    text: The data_collector tag
+    correct: true
+  - id: CHO-h63dwmrhbe4d
+    text: The kernel.event_listener tag
+    correct: false
+    explanation: Collectors are not listeners.
+  - id: CHO-q274fqzjd1z8
+    text: A line in web_profiler.yaml
+    correct: false
+    explanation: Not needed.
+  - id: CHO-jzw6mn5eer2j
+    text: 'Nothing: the profiler scans src/'
+    correct: false
+    explanation: It reads tagged services.
+  explanation: With autoconfigure, extending AbstractDataCollector is enough.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating a custom Data Collector
+    verified_at: '2026-10-09'

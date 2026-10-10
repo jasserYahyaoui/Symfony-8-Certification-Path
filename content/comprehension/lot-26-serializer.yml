@@ -292,3 +292,541 @@ questions:
     branch: '8.0'
     symbol_or_lines: handleCircularReference()
     verified_at: '2026-10-09'
+- id: QST-et0jfkbyacjy
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-g6j22cqpx1ga
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: During deserialize(), what sits between the JSON string and the object?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-5tm15t1bj2wd
+    text: A PHP array
+    correct: true
+  - id: CHO-d91rb7t7jcq4
+    text: 'Nothing: the decoder builds the object'
+    correct: false
+    explanation: Data always goes through an array.
+  - id: CHO-rkr26tz7bk2p
+    text: A stdClass
+    correct: false
+    explanation: An array.
+  - id: CHO-yk820eckagj2
+    text: A DOMDocument
+    correct: false
+    explanation: Only XML parsing uses one, internally.
+  explanation: 'Decoder: format → array. Denormalizer: array → object.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
+- id: QST-v5vkaj8qw3nx
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-a95xx41fw6hn
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An app registers four encoders and six normalizers. The code asks for JSON output. Which of
+    them can act on that call?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-dwg6wnzj5kar
+    text: The normalizer list, and the JSON encoder only
+    correct: true
+  - id: CHO-7sbwb0bmej54
+    text: Exactly one normalizer and one encoder
+    correct: false
+    explanation: Normalizers form a sorted list.
+  - id: CHO-3sese0psbmtx
+    text: All four encoders, one after another
+    correct: false
+    explanation: Only the one for the format.
+  - id: CHO-vm79w2mke149
+    text: Encoders only; normalizers are for deserialize()
+    correct: false
+    explanation: Both run.
+  explanation: The encoder is the one supporting the requested format.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Serializer Component
+    verified_at: '2026-10-09'
+- id: QST-xn3y6ebr13zm
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-g6j22cqpx1ga
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does the XML encoder give?
+
+    ```php
+    $serializer->encode(['k' => 'v'], 'xml');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-7v2j5k3t7x26
+    text: '`<response><k>v</k></response>`'
+    correct: true
+  - id: CHO-z3f65kx9yngs
+    text: '`<k>v</k>` with no root'
+    correct: false
+    explanation: A root node is added.
+  - id: CHO-92pw0p2wbp14
+    text: '`<array><k>v</k></array>`'
+    correct: false
+    explanation: The default root is response.
+  - id: CHO-v3jr54vf2777
+    text: An UnsupportedFormatException
+    correct: false
+    explanation: XML is provided.
+  explanation: Executed with Serializer 8.0.15, after the XML prolog. JSON, XML, CSV and YAML encoders
+    are provided.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Encoder/XmlEncoder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ROOT_NODE_NAME
+    verified_at: '2026-10-09'
+- id: QST-mzqmn08epnsg
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f4j1y7n6y64g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which keys does ObjectNormalizer output?
+
+    ```php
+    class A
+    {
+        public function isActive() { return true; }
+        public function canFly() { return true; }
+        public function fetchThing() { return 1; }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-g3yzmt3j7214
+    text: active and fly
+    correct: true
+  - id: CHO-dnph9h9h3hps
+    text: isActive, canFly and fetchThing
+    correct: false
+    explanation: Prefixes are removed, and fetch is not one.
+  - id: CHO-xjeyz5dg2ep0
+    text: active, fly and thing
+    correct: false
+    explanation: fetch is not a known prefix.
+  - id: CHO-709nggd1k296
+    text: 'None: only properties are read'
+    correct: false
+    explanation: Accessor methods are read.
+  explanation: 'Executed with Serializer 8.0.15: get, has, is and can prefixes.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The ObjectNormalizer
+    verified_at: '2026-10-09'
+- id: QST-6a382msyqscv
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-f4j1y7n6y64g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A password hash property must never appear in any output, whatever the context. Which tool?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - attributes
+  choices:
+  - id: CHO-n48nypt3c8v2
+    text: '`#[Ignore]`'
+    correct: true
+  - id: CHO-0fkpaheyxdeg
+    text: A group that is never requested
+    correct: false
+    explanation: Without groups it would still be output.
+  - id: CHO-ftfv6gs3rr96
+    text: Making it protected, with a public getter
+    correct: false
+    explanation: The getter would expose it.
+  - id: CHO-44vq91k0q1vg
+    text: '`#[SerializedName('''')]`'
+    correct: false
+    explanation: It renames; it does not hide.
+  explanation: '#[Ignore] excludes everywhere; groups exclude case by case.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Ignoring Attributes
+    verified_at: '2026-10-09'
+- id: QST-2t2f4s1bxmzv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-r6x291jsb0qt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: email has no group; name is in public-view. Which context outputs both?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - groups
+  choices:
+  - id: CHO-mz9qx2p1r4gs
+    text: '`[''groups'' => ''*'']`'
+    correct: true
+  - id: CHO-4rcf4ngfdck3
+    text: '`[''groups'' => [''Default'']]`'
+    correct: false
+    explanation: 'It outputs nothing: no implicit Default group.'
+  - id: CHO-hmb6h1cawphr
+    text: '`[''groups'' => ''public-view'']`'
+    correct: false
+    explanation: email has no group, so it is left out.
+  - id: CHO-ygvqbkncf3ka
+    text: '`[''groups'' => [''public-view'', ''Default'']]`'
+    correct: false
+    explanation: 'It gives name only: Default is not implicit.'
+  explanation: Executed with Serializer 8.0.15 and attribute metadata.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Serialization Groups
+    verified_at: '2026-10-09'
+- id: QST-q602am02qjfq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-r6x291jsb0qt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Serializer is built by hand with `new ObjectNormalizer()` and no metadata factory. Groups
+    are requested. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - groups
+  choices:
+  - id: CHO-67njvefjskpm
+    text: 'Ignored: all is output'
+    correct: true
+  - id: CHO-454p9ypkh4r8
+    text: Only grouped properties are output
+    correct: false
+    explanation: Groups are metadata it cannot read.
+  - id: CHO-w11tdej9xdj7
+    text: 'An exception: groups need a factory'
+    correct: false
+    explanation: Nothing is thrown.
+  - id: CHO-7c5d6j7rz1a2
+    text: Nothing is output
+    correct: false
+    explanation: Everything is output.
+  explanation: 'Executed with Serializer 8.0.15: #[Ignore] was ignored too. The framework service reads
+    metadata.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAllowedAttributes()
+    verified_at: '2026-10-09'
+- id: QST-86rv4gv35asr
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f4j1y7n6y64g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[SerializedName(''full_name'')]` sits on fullName. When is it ignored?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - attributes
+  choices:
+  - id: CHO-anzhwdppmndf
+    text: Without the metadata name converter
+    correct: true
+  - id: CHO-4xv0hh7sqm9n
+    text: 'Never: PHP attributes always apply, whatever the setup'
+    correct: false
+    explanation: A hand-built serializer can miss it.
+  - id: CHO-8cfk1gc1wht4
+    text: In JSON only
+    correct: false
+    explanation: Format plays no part.
+  - id: CHO-seefc951e1gh
+    text: When groups are requested
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Executed with Serializer 8.0.15: fullName without MetadataAwareNameConverter, full_name
+    with it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/NameConverter/MetadataAwareNameConverter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: normalize()
+    verified_at: '2026-10-09'
+- id: QST-ya64vd74rqge
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4bynfsdjvrc5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Org and Mem point to each other. The output should show a reference instead of failing. Which
+    context key?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-ms25c2pr2b8a
+    text: '`circular_reference_handler`'
+    correct: true
+  - id: CHO-ry2bbpazad7j
+    text: '`circular_reference_limit` set to 2'
+    correct: false
+    explanation: It still throws, later.
+  - id: CHO-tvngpxpf0bps
+    text: '`max_depth` alone'
+    correct: false
+    explanation: Not the circular reference mechanism.
+  - id: CHO-ymxchyy6ve08
+    text: '`skip_null_values`'
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Executed with Serializer 8.0.15: a handler returning ''ref'' gave {"members":[{"org":"ref","name":"m"}],"name":"o"}.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleCircularReference()
+    verified_at: '2026-10-09'
+- id: QST-g7b7xntk0mv2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4bynfsdjvrc5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One object is set in two sibling properties a and b of a parent. With the default limit, what
+    happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-wersmwqe7jhw
+    text: Both are output, no exception
+    correct: true
+  - id: CHO-yhcpkn1f82kj
+    text: CircularReferenceException on b
+    correct: false
+    explanation: The counter follows the current branch.
+  - id: CHO-akvhbvw90ztb
+    text: b is output as null
+    correct: false
+    explanation: It is output in full.
+  - id: CHO-c7c4304bvdxv
+    text: Only a is output
+    correct: false
+    explanation: Both are.
+  explanation: 'Executed with Serializer 8.0.15. A real cycle throws, configured limit: 1.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isCircularReference()
+    verified_at: '2026-10-09'

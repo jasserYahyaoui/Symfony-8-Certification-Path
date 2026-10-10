@@ -292,3 +292,432 @@ questions:
     branch: '8.0'
     symbol_or_lines: mockTime()
     verified_at: '2026-10-09'
+- id: QST-6kt2770nwjpw
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A batch job must time an import precisely, even if the server clock is adjusted meanwhile.
+    Which clock?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-70je9cyhs23x
+    text: MonotonicClock
+    correct: true
+  - id: CHO-6m3jx411ks0r
+    text: NativeClock, which reads the system time
+    correct: false
+    explanation: A system time can jump back.
+  - id: CHO-7hxf8vecyxwj
+    text: MockClock, set at the start of the job
+    correct: false
+    explanation: It never moves on its own.
+  - id: CHO-fv0gjr25nkac
+    text: DatePoint, created twice
+    correct: false
+    explanation: It reads the global clock.
+  explanation: 'It relies on hrtime(): it only grows, and serves as a stopwatch.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: MonotonicClock
+    verified_at: '2026-10-09'
+- id: QST-g91ybfzcte7q
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-80sdaactjvcg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service holds an injected ClockInterface $clock. What replaces `new \DateTimeImmutable()`
+    in its code?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-tbvkcqx13dhv
+    text: '`$this->clock->now()`'
+    correct: true
+  - id: CHO-gt088eytb4sv
+    text: '`new DatePoint($this->clock)`'
+    correct: false
+    explanation: DatePoint takes no clock.
+  - id: CHO-ha7pmtbe1vv4
+    text: '`$this->clock->getTime()`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-b7dkp4dve31k
+    text: '`\DateTimeImmutable::createFromClock()`'
+    correct: false
+    explanation: No such method.
+  explanation: Nothing else in the logic changes.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage
+    verified_at: '2026-10-09'
+- id: QST-by5r7sby6fzr
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is printed?
+
+    ```php
+    $m = new MockClock('2022-11-16 15:20:00');
+    $m->modify('+1 day');
+    echo $m->now()->format('Y-m-d H:i');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-6g75xv3hr0z6
+    text: '`2022-11-17 15:20`'
+    correct: true
+  - id: CHO-cd2zgnptyara
+    text: '`2022-11-16 15:20`'
+    correct: false
+    explanation: modify() moves the clock.
+  - id: CHO-7nzw8tzvdkx8
+    text: Today's date plus one day
+    correct: false
+    explanation: The clock starts from its own date.
+  - id: CHO-q3d6kqkc71r1
+    text: 'An error: modify() takes a full date'
+    correct: false
+    explanation: Any modify() format works.
+  explanation: Executed with Clock 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/MockClock.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: modify()
+    verified_at: '2026-10-09'
+- id: QST-k8fec87wdne1
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-80sdaactjvcg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is printed?
+
+    ```php
+    Clock::set(new MockClock('2020-01-01 10:00:00'));
+    echo now('+3 hours')->format('H:i');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-n6rtg5e3m5ae
+    text: '`13:00`'
+    correct: true
+  - id: CHO-2r59vvb5253z
+    text: '`10:00`'
+    correct: false
+    explanation: The modifier applies.
+  - id: CHO-vmtjstc2pqj6
+    text: The real time plus three hours
+    correct: false
+    explanation: now() reads the global clock.
+  - id: CHO-xv13510dzr1j
+    text: 'An error: now() takes no argument'
+    correct: false
+    explanation: It accepts a modifier.
+  explanation: Executed with Clock 8.0.15. Clock accepts any PSR-20 clock.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Resources/now.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: now()
+    verified_at: '2026-10-09'
+- id: QST-rg10r2fexyv9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-80sdaactjvcg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An entity declares `private \DateTimeImmutable $createdAt = new DatePoint();`. A test froze
+    the global clock at 2020-01-01. What is createdAt?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-a6n1ed91ep8q
+    text: 2020-01-01, from the global clock
+    correct: true
+  - id: CHO-1jdwfs4vwpjn
+    text: The real current date
+    correct: false
+    explanation: DatePoint reads Clock.
+  - id: CHO-s78p0nndd4ks
+    text: 'A TypeError: DatePoint is not DateTimeImmutable'
+    correct: false
+    explanation: It is a subclass.
+  - id: CHO-y0hd3vsknr1p
+    text: Null until the entity is saved
+    correct: false
+    explanation: It is set at construction.
+  explanation: 'Executed with Clock 8.0.15: new DatePoint() after Clock::set() gave the mocked time.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/DatePoint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-wr0ctmfexggh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An object uses ClockAwareTrait, but setClock() was never called. What does $this->now() read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-mq83j9zf6vmm
+    text: The global Clock
+    correct: true
+  - id: CHO-0p02mchn9cs9
+    text: 'Nothing: it throws an error'
+    correct: false
+    explanation: It falls back.
+  - id: CHO-h2tp3z0tpcwj
+    text: Always the real system time
+    correct: false
+    explanation: It reads Clock::get(), which may be mocked.
+  - id: CHO-nkhffpya66kt
+    text: The Unix epoch
+    correct: false
+    explanation: Not a fallback.
+  explanation: 'Executed with Clock 8.0.15: with Clock set to a MockClock, now() returned its time.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: now()
+    verified_at: '2026-10-09'
+- id: QST-vwqnfz9hmdma
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One test calls `static::mockTime('2022-03-02')` through ClockSensitiveTrait. What does the
+    next test get from Clock::get()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  - testing
+  choices:
+  - id: CHO-av7q08hkepca
+    text: A NativeClock again
+    correct: true
+  - id: CHO-bcr96652p7k9
+    text: The same MockClock, at 2022-03-02
+    correct: false
+    explanation: The trait restores the clock after each test.
+  - id: CHO-bpbbh6ngvxdc
+    text: A MockClock at the real date
+    correct: false
+    explanation: The original clock is restored.
+  - id: CHO-5sazs4fxxpyf
+    text: 'Null'
+    correct: false
+    explanation: A clock is always set.
+  explanation: Executed with PHPUnit 11.5. mockTime(false) also gives a NativeClock.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: restoreClockAfterTest()
+    verified_at: '2026-10-09'
+- id: QST-3z3kywqpza8z
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where do ClockAwareTrait and ClockSensitiveTrait each belong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-7kq9ckygd2b3
+    text: In the service, and in the test
+    correct: true
+  - id: CHO-7q6s6y9e4v30
+    text: Both in the test class
+    correct: false
+    explanation: ClockAwareTrait goes in the service.
+  - id: CHO-f0xnb5kjgd9h
+    text: Both in the service
+    correct: false
+    explanation: ClockSensitiveTrait is for tests.
+  - id: CHO-whgtmrz6krvm
+    text: In the test, and in the service
+    correct: false
+    explanation: Reversed.
+  explanation: The service reads the clock; the test freezes it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Writing Time-Sensitive Tests
+    verified_at: '2026-10-09'

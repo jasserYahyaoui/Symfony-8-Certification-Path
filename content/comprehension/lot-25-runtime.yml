@@ -276,3 +276,471 @@ questions:
     branch: '8.0'
     symbol_or_lines: require_once guard
     verified_at: '2026-10-09'
+- id: QST-p01tbcpwae2v
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-87xc26yncsb7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An entry script requires autoload_runtime.php, then returns 42 instead of a closure. What
+    happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-x73zt6zwjtd6
+    text: 'TypeError: callable object expected'
+    correct: true
+  - id: CHO-gnrf7pd9704p
+    text: 42 is used as the exit code
+    correct: false
+    explanation: The return value must be an object.
+  - id: CHO-07v9sh06r083
+    text: The default kernel is built instead
+    correct: false
+    explanation: No default.
+  - id: CHO-vq4xw9yd3z9w
+    text: Nothing is printed and the exit code is 0
+    correct: false
+    explanation: A TypeError is thrown.
+  explanation: Executed with Runtime 8.0.14.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: callable object expected
+    verified_at: '2026-10-09'
+- id: QST-6f7p6taxqbhp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-87xc26yncsb7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The entry closure returns a Response object directly, not a kernel. What does SymfonyRuntime
+    do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-f43xske859wq
+    text: It sends that response
+    correct: true
+  - id: CHO-t3jemmz7atc4
+    text: 'TypeError: a kernel is required'
+    correct: false
+    explanation: A Response has its own runner.
+  - id: CHO-phz7y5y05jtp
+    text: It wraps it in a kernel and handles a request
+    correct: false
+    explanation: It just sends it.
+  - id: CHO-nm4st5vx403v
+    text: It ignores it and exits silently
+    correct: false
+    explanation: It is output.
+  explanation: 'Executed with Runtime 8.0.14: the body was printed. A closure returning a string raised
+    a TypeError: object expected.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRunner()
+    verified_at: '2026-10-09'
+- id: QST-jksbn7jmq6zx
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the 8.0 code of autoload_runtime.php, which comes first?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-j6x9d5r1tb0v
+    text: The entry script is included, then the runtime is built
+    correct: true
+  - id: CHO-02fva0ga3x0y
+    text: The runtime is built, then the script is included
+    correct: false
+    explanation: That is the order the 8.0 docs list; the code reverses it.
+  - id: CHO-565edp19wxx7
+    text: The closure is called, then the script included
+    correct: false
+    explanation: The closure comes from the script.
+  - id: CHO-y61gw2rfvp9q
+    text: The runner runs, then the closure is resolved
+    correct: false
+    explanation: Running is last.
+  explanation: 'Read in autoload_runtime.template (8.0): require $_SERVER[''SCRIPT_FILENAME''], then new
+    $_SERVER[''APP_RUNTIME''].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: require SCRIPT_FILENAME
+    verified_at: '2026-10-09'
+- id: QST-j23r6jk3awq2
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A deploy runs `composer install --no-plugins`. Why does public/index.php then fail?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  - composer
+  choices:
+  - id: CHO-0thkkk208qx6
+    text: autoload_runtime.php was never generated
+    correct: true
+  - id: CHO-jwkq6v7npj2v
+    text: The Runtime component was not installed
+    correct: false
+    explanation: It is installed; its plugin did not run.
+  - id: CHO-yx3szf8z219p
+    text: Plugins disable the class map
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-a19bbs2c8p43
+    text: It does not fail
+    correct: false
+    explanation: The required file is missing.
+  explanation: 'Executed: the file deleted, composer dump-autoload --no-plugins did not recreate it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Installation
+    verified_at: '2026-10-09'
+- id: QST-03qyqtr1d7qy
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-awqwz26y52yr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which closure gets the current HTTP request from SymfonyRuntime?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-xxckhym4bkpy
+    text: '`function (Request $request) { ... }`'
+    correct: true
+  - id: CHO-dqpzf79jevy6
+    text: '`function (array $request) { ... }`'
+    correct: false
+    explanation: That gives $_REQUEST-like data, not a Request object.
+  - id: CHO-a1kw9xbswmxb
+    text: '`function () { return Request::current(); }`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-aqptvf0bka5j
+    text: '`function (string $request) { ... }`'
+    correct: false
+    explanation: Not a resolvable type.
+  explanation: 'Executed with Runtime 8.0.14: the closure received a Request and printed path=/.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using the Runtime
+    verified_at: '2026-10-09'
+- id: QST-6km1sms4amx1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-awqwz26y52yr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: $_SERVER holds PATH, as under PHP-FPM. Does `array $context` include $_ENV values?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-rmy2ycjfh3nb
+    text: 'No: $_ENV is only merged without PATH'
+    correct: true
+  - id: CHO-fqvcsgffcg5x
+    text: 'Yes, always: $_SERVER + $_ENV'
+    correct: false
+    explanation: That is the doc wording; the code adds a condition.
+  - id: CHO-3ssr4g4ep0j9
+    text: Only $_ENV is used
+    correct: false
+    explanation: $_SERVER is the base.
+  - id: CHO-pnd4vecm8s1g
+    text: 'Neither: context comes from .env only'
+    correct: false
+    explanation: $_SERVER is the base.
+  explanation: Read in GenericRuntime::getArgument() 8.0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/GenericRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getArgument()
+    verified_at: '2026-10-09'
+- id: QST-yz95ytns5rv3
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: bin/console and public/index.php use the same mechanism. What decides between HTTP and CLI?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  - console
+  choices:
+  - id: CHO-04p6nh7mttqg
+    text: The kind of object the closure returns
+    correct: true
+  - id: CHO-e6n74rfwm8qm
+    text: The file name of the entry script
+    correct: false
+    explanation: The returned object decides.
+  - id: CHO-dpefcpk6n4rk
+    text: APP_ENV
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-askwsrjdv24n
+    text: A flag in composer.json
+    correct: false
+    explanation: The returned object decides.
+  explanation: A kernel gives an HTTP app; a console Application gives a CLI app.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Resolvable Applications
+    verified_at: '2026-10-09'
+- id: QST-v2thekaztcfc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-3n7fcpgc1j29
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The project has no .env file. The default SymfonyRuntime starts. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  - dotenv
+  choices:
+  - id: CHO-032p0jkymqsp
+    text: A PathException from Dotenv
+    correct: true
+  - id: CHO-ea8kwe6awzas
+    text: It starts with APP_ENV=prod
+    correct: false
+    explanation: It needs .env unless disabled.
+  - id: CHO-wkrk9v9ze8yn
+    text: It starts with APP_ENV=dev
+    correct: false
+    explanation: Only with disable_dotenv.
+  - id: CHO-k01vpx7hg00s
+    text: It creates an empty .env
+    correct: false
+    explanation: Nothing is written.
+  explanation: Executed with Runtime 8.0.14. With disable_dotenv it started, APP_ENV dev and APP_DEBUG
+    1.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): disable_dotenv'
+    verified_at: '2026-10-09'
+- id: QST-9613fydj9xcd
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-3n7fcpgc1j29
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How can runtime options such as disable_dotenv be passed without editing composer.json?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-y1ts62k989ak
+    text: APP_RUNTIME_OPTIONS, as JSON
+    correct: true
+  - id: CHO-8am0fvb3twy9
+    text: APP_RUNTIME=disable_dotenv
+    correct: false
+    explanation: APP_RUNTIME names a class.
+  - id: CHO-7fm1dz19r0pq
+    text: --runtime-options on the PHP command line
+    correct: false
+    explanation: No such option.
+  - id: CHO-b97mar56r4md
+    text: A runtime.yaml under config/
+    correct: false
+    explanation: Not read by the runtime.
+  explanation: 'Executed: APP_RUNTIME_OPTIONS=''{"disable_dotenv":true}''. The other place is extra.runtime.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: APP_RUNTIME_OPTIONS json_decode
+    verified_at: '2026-10-09'

@@ -332,3 +332,631 @@ questions:
     branch: '8.0'
     symbol_or_lines: iterator_to_array
     verified_at: '2026-10-09'
+- id: QST-8xydp5075dr5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: umask is 022. `$fs->mkdir('a/b/c')` runs twice in an empty directory. What is the outcome?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-darazcmmb4tg
+    text: Mode 0755, no error on the 2nd call
+    correct: true
+  - id: CHO-7064mz01n7mf
+    text: 'An IOException: a/ does not exist yet'
+    correct: false
+    explanation: mkdir() is recursive.
+  - id: CHO-z500ae8ktpxr
+    text: Mode 0777, ignoring the umask
+    correct: false
+    explanation: The umask applies.
+  - id: CHO-48a54m2yztv5
+    text: An IOException on the second call
+    correct: false
+    explanation: An existing directory is ignored.
+  explanation: Executed with Filesystem 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mkdir()
+    verified_at: '2026-10-09'
+- id: QST-vv1h42wp3qg5
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A cleanup must delete a symlink, a whole directory and a log file in one call. Which call?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-3qba4n1fp1xr
+    text: '`$fs->remove([''link'', ''/a/dir'', ''app.log''])`'
+    correct: true
+  - id: CHO-6pq10wz2d6cj
+    text: '`$fs->unlink(''link'', ''/a/dir'', ''app.log'')`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-z29ez6p8nxba
+    text: '`$fs->rmdir([''/a/dir''])`, then unlink() on the other two'
+    correct: false
+    explanation: remove() handles all three.
+  - id: CHO-66djjxgq4g2d
+    text: '`$fs->delete([''link'', ''/a/dir'', ''app.log''])`'
+    correct: false
+    explanation: No such method.
+  explanation: 'Executed: a link and a directory removed in one remove().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: remove()
+    verified_at: '2026-10-09'
+- id: QST-bqpgrha5gg2r
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The target b.ogg already exists and must be replaced. Which call works?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-f5h7xe7egjqq
+    text: '`$fs->rename(''a.ogg'', ''b.ogg'', true)`'
+    correct: true
+  - id: CHO-gysgy8g33xh9
+    text: '`$fs->rename(''a.ogg'', ''b.ogg'')`'
+    correct: false
+    explanation: It throws an IOException if the target exists.
+  - id: CHO-47qd3y4cdcy9
+    text: '`$fs->rename(''a.ogg'', ''b.ogg'', force: ''yes'')`'
+    correct: false
+    explanation: No such argument.
+  - id: CHO-64eptw29hgz6
+    text: '`$fs->move(''a.ogg'', ''b.ogg'')`'
+    correct: false
+    explanation: No such method.
+  explanation: Executed with Filesystem 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: rename()
+    verified_at: '2026-10-09'
+- id: QST-hsdd747adbw0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-p4ef3jhd70w3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$fs->dumpFile(''x/y/f.txt'', ''1'')` runs where x/ does not exist. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-0hf5jzzbg0z3
+    text: x/y is created, then the file
+    correct: true
+  - id: CHO-j5rs60qfyc9n
+    text: 'An IOException: missing directory'
+    correct: false
+    explanation: Directories are created on the way.
+  - id: CHO-f5qhkbzzmrr3
+    text: Only x/ is created
+    correct: false
+    explanation: The whole path is.
+  - id: CHO-fkh6hpg9425p
+    text: PHP warns, and false is returned
+    correct: false
+    explanation: The component throws, never returns false.
+  explanation: Executed with Filesystem 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dumpFile()
+    verified_at: '2026-10-09'
+- id: QST-zmhf9h9dm07z
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-p4ef3jhd70w3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Several workers write to logs.txt at once. What does appendToFile() offer that dumpFile()
+    does not?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-fhh2zw5tt9wb
+    text: An optional lock during the write
+    correct: true
+  - id: CHO-aewy9wc9nrn5
+    text: An atomic replace of the whole file
+    correct: false
+    explanation: That is dumpFile().
+  - id: CHO-eespsyrdahq1
+    text: Automatic log rotation
+    correct: false
+    explanation: Not a feature.
+  - id: CHO-c44a32rk5mr4
+    text: 'Nothing: they are aliases'
+    correct: false
+    explanation: One appends, one replaces.
+  explanation: Its third argument locks the file while writing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: appendToFile()
+    verified_at: '2026-10-09'
+- id: QST-pqndhznv3cd8
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    No such directory exists on disk. What does this print?
+
+    ```php
+    echo Path::canonicalize('/no/such/../dir');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-zagd3ffa3c0v
+    text: '`/no/dir`'
+    correct: true
+  - id: CHO-vbt5mz3fdxqq
+    text: 'An IOException: path not found'
+    correct: false
+    explanation: Path never touches the disk.
+  - id: CHO-bszpe5khmygc
+    text: '`false`'
+    correct: false
+    explanation: A string is returned.
+  - id: CHO-2scewnsvd3wt
+    text: '`/no/such/../dir`'
+    correct: false
+    explanation: .. is resolved.
+  explanation: 'Executed with Filesystem 8.0.15: Path computes strings only.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: canonicalize()
+    verified_at: '2026-10-09'
+- id: QST-zc0qhb0cp4rt
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On Linux, `$fs->symlink('/src', '/dst', true)` runs. What is /dst?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-phap99m5gmhj
+    text: A symlink
+    correct: true
+  - id: CHO-kdsr99wra48j
+    text: A copy of /src
+    correct: false
+    explanation: Copying only happens on Windows.
+  - id: CHO-8sgbwj7e7fwx
+    text: 'Nothing: true cancels the call'
+    correct: false
+    explanation: The link is created.
+  - id: CHO-w3p6s1vg3fhd
+    text: A hard link
+    correct: false
+    explanation: symlink() makes symbolic links.
+  explanation: Executed under Linux. The third argument is named $copyOnWindows in 8.0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'symlink(): copyOnWindows'
+    verified_at: '2026-10-09'
+- id: QST-qv1hemxd60r5
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-9rc3vz43p7t0
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why can a Finder result call getRelativePathname()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-jfpe6apybnfj
+    text: Finder's SplFileInfo extends PHP's
+    correct: true
+  - id: CHO-mx3hs72qv1rp
+    text: PHP's SplFileInfo has had it since 8.0
+    correct: false
+    explanation: The native class lacks it.
+  - id: CHO-k3j4hn3x09k0
+    text: It is a string, not an object
+    correct: false
+    explanation: Each result is an object.
+  - id: CHO-jvz7fxhsn4c2
+    text: A Finder helper function adds it
+    correct: false
+    explanation: It is a method of the subclass.
+  explanation: 'Executed: each result is a Symfony\Component\Finder\SplFileInfo.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/SplFileInfo.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getRelativePathname()
+    verified_at: '2026-10-09'
+- id: QST-k4jjefwn7cwc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9rc3vz43p7t0
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Finder is iterated with files() and name() set, but in() was never called. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-5h5rkgbwfetb
+    text: A LogicException
+    correct: true
+  - id: CHO-mvaqqd6pn8s0
+    text: It searches the current directory
+    correct: false
+    explanation: in() or append() is mandatory.
+  - id: CHO-b2n604xakjae
+    text: It yields nothing
+    correct: false
+    explanation: It throws.
+  - id: CHO-k217r53frx42
+    text: It searches the project root
+    correct: false
+    explanation: No default location.
+  explanation: 'Executed with Finder 8.0.15: You must call one of in() or append() methods.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getIterator()
+    verified_at: '2026-10-09'
+- id: QST-m9y8pep2mdyd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xntxjbxkapfz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A directory holds a, .env and .git/HEAD. `files()->ignoreVCS(false)` is used. How many files
+    come back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-2t3ydbn2qcb5
+    text: '1: dot files are still ignored'
+    correct: true
+  - id: CHO-6pgf97yvjmm2
+    text: '3: every VCS and dot file comes back'
+    correct: false
+    explanation: ignoreDotFiles() is still on.
+  - id: CHO-4w4htcd5wwx3
+    text: '2: .env and a'
+    correct: false
+    explanation: .env is a dot file.
+  - id: CHO-jnjqy37tttsy
+    text: '0'
+    correct: false
+    explanation: a is found.
+  explanation: 'Executed with Finder 8.0.15: 1 by default, 2 with ignoreDotFiles(false), 3 with both off.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ignoreDotFiles(), ignoreVCS()
+    verified_at: '2026-10-09'
+- id: QST-q2x2cabdmx09
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-xntxjbxkapfz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    t/ holds a.txt, sub/b.txt and sub/deep/c.txt. What is the count?
+
+    ```php
+    iterator_count((new Finder())->files()->in('t')->depth('== 0'));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-ctf16p4aqgeb
+    text: '1'
+    correct: true
+  - id: CHO-qw3vd1v3tqr9
+    text: '3'
+    correct: false
+    explanation: 'That is without depth(): recursion is the default.'
+  - id: CHO-048zkjfce1p8
+    text: '2'
+    correct: false
+    explanation: Only direct children.
+  - id: CHO-w2b0ms4fq810
+    text: '0'
+    correct: false
+    explanation: a.txt sits at depth 0.
+  explanation: Executed with Finder 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: depth()
+    verified_at: '2026-10-09'
+- id: QST-8m9hssnzgk0t
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-xntxjbxkapfz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: ignoreVCSIgnored(true) must match Git exactly. Where should the search start?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-egy13ypmejvs
+    text: At the repository root
+    correct: true
+  - id: CHO-2m71zjv7qv47
+    text: 'Anywhere: rules are read from the root'
+    correct: false
+    explanation: Symfony starts from the search directory.
+  - id: CHO-2mp2wvc74g1s
+    text: In .git/
+    correct: false
+    explanation: Not a source directory.
+  - id: CHO-tsraqsjhfk5t
+    text: In the deepest subdirectory
+    correct: false
+    explanation: Parent .gitignore rules would be missed.
+  explanation: Git reads from the repository root; Symfony from the search directory.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Version Control Files
+    verified_at: '2026-10-09'

@@ -274,3 +274,650 @@ questions:
     branch: '8.0'
     symbol_or_lines: trans()
     verified_at: '2026-10-09'
+- id: QST-wwp73s353mg2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Moving every hard-coded string into a translatable layer is called what?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-rnkpenz2np17
+    text: Internationalization
+    correct: true
+  - id: CHO-jvvrbr31nb31
+    text: Localization
+    correct: false
+    explanation: Localization supplies the values for one locale.
+  - id: CHO-d0sp7nqjb3c4
+    text: Transliteration
+    correct: false
+    explanation: That converts scripts.
+  - id: CHO-fvwwgdqbyamr
+    text: Content negotiation
+    correct: false
+    explanation: That picks a format from headers.
+  explanation: i18n prepares the app; localization fills it for a given locale.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
+- id: QST-10fwg4qwpavy
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which locale string follows the recommended form?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - locale
+  choices:
+  - id: CHO-yvvpt7wbqmf2
+    text: '`fr_FR`'
+    correct: true
+  - id: CHO-swmgc5mcpbqc
+    text: '`fr-fr`'
+    correct: false
+    explanation: An underscore and an upper-case country.
+  - id: CHO-j7wd44ex558p
+    text: '`FR_fr`'
+    correct: false
+    explanation: Language first, in lower case.
+  - id: CHO-1p6hzqkc9j86
+    text: '`french_France`'
+    correct: false
+    explanation: ISO codes are used.
+  explanation: ISO 639-1 language, an underscore, ISO 3166-1 alpha-2 country.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translation Locale
+    verified_at: '2026-10-09'
+- id: QST-jd8b2db8qhcr
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which domain does this call read?
+
+    ```php
+    $translator->trans('Hello World');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-vydfy5p1sz10
+    text: '`messages`'
+    correct: true
+  - id: CHO-2bxj8w0yctqz
+    text: '`app`'
+    correct: false
+    explanation: Only when passed as domain.
+  - id: CHO-drrwfwmdf1fy
+    text: '`translations`'
+    correct: false
+    explanation: That is the directory.
+  - id: CHO-cxk8fq19mj64
+    text: '`default`'
+    correct: false
+    explanation: The default domain is messages.
+  explanation: '`trans(''Hello World'', domain: ''app'')` would read the app domain.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trans()
+    verified_at: '2026-10-09'
+- id: QST-g2vh7ddzc4za
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Professional translators will work on the catalogues with dedicated tools. Which format is
+    advised?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-caz9ay45f43z
+    text: XLIFF
+    correct: true
+  - id: CHO-7qk2htacw9d8
+    text: YAML, as for any project
+    correct: false
+    explanation: YAML is advised for simple projects.
+  - id: CHO-2k6jy7bh45yw
+    text: Plain PHP arrays
+    correct: false
+    explanation: Not the advice for translators.
+  - id: CHO-4nyj4jrqrxmf
+    text: INI
+    correct: false
+    explanation: Not the advice.
+  explanation: The extension of the file chooses the loader.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translation Resource/File Names and Locations
+    verified_at: '2026-10-09'
+- id: QST-y45cw4bbchzr
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer creates translations/billing.fr.yaml in prod. The keys stay untranslated. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - cache
+  choices:
+  - id: CHO-ga4e2e55pe74
+    text: A new catalogue needs cache:clear
+    correct: true
+  - id: CHO-y60zfjknn1sj
+    text: billing is not a valid domain name
+    correct: false
+    explanation: Any name is a domain.
+  - id: CHO-j28af8whpyvf
+    text: Only messages.* files are read
+    correct: false
+    explanation: Each file is a domain.
+  - id: CHO-2bgj5smxs8xq
+    text: YAML catalogues need +intl-icu
+    correct: false
+    explanation: That suffix only enables ICU.
+  explanation: New resources are discovered when the cache is rebuilt.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: clear your cache
+    verified_at: '2026-10-09'
+- id: QST-9ddyz6k85qsz
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A classic catalogue, without the ICU suffix, stores `greet: ''Bye {who}''`. Which parameters
+    make trans(''greet'', ...) output `Bye Bo`?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-9h27ce70ysc3
+    text: '`[''{who}'' => ''Bo'']`'
+    correct: true
+  - id: CHO-wq6w6ab7037x
+    text: '`[''who'' => ''Bo'']`'
+    correct: false
+    explanation: 'It gives Bye {Bo}: only "who" is replaced.'
+  - id: CHO-mj03p14e1r5j
+    text: '`[''%who%'' => ''Bo'']`'
+    correct: false
+    explanation: 'No %who% in the message: nothing changes.'
+  - id: CHO-6dfdwpxas978
+    text: 'None: braces need +intl-icu'
+    correct: false
+    explanation: A literal replacement still works.
+  explanation: 'Executed with Translation 8.0.14 on Hello {name}!: [''{name}'' => ''Ann''] gave Hello
+    Ann!. The classic format is a literal strtr.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Translation/TranslatorTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'trans(): strtr'
+    verified_at: '2026-10-09'
+- id: QST-8sh21e6490j4
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    In messages+intl-icu.en.yaml:
+
+    ```yaml
+    apples: '{apples, plural, =0 {none} one {one apple} other {# apples}}'
+    ```
+
+    What does `trans('apples', ['apples' => 5])` give?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-dhq4nah4nheh
+    text: '`5 apples`'
+    correct: true
+  - id: CHO-0pkp86gjr57b
+    text: '`# apples`'
+    correct: false
+    explanation: '# is replaced by the number.'
+  - id: CHO-5a2yr670rbbw
+    text: '`one apple`'
+    correct: false
+    explanation: one matches 1 in English.
+  - id: CHO-5ywst5emwsvp
+    text: '`none`'
+    correct: false
+    explanation: =0 matches 0 only.
+  explanation: 'Executed with Translation 8.0.14 and ext-intl: 0 → none, 1 → one apple, 5 → 5 apples.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Pluralization
+    verified_at: '2026-10-09'
+- id: QST-4kx52397aebt
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In an ICU plural, what separates `=1` from `one`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-893hwmw6v3fg
+    text: An exact value, against a language category
+    correct: true
+  - id: CHO-zqbpyeb9frk6
+    text: 'Nothing: they are synonyms'
+    correct: false
+    explanation: One is a value, the other a category.
+  - id: CHO-ng5mcje0v14a
+    text: '`=1` is legacy and `one` replaces it'
+    correct: false
+    explanation: Both are current.
+  - id: CHO-hv9h07at4bqq
+    text: '`one` only exists in Russian'
+    correct: false
+    explanation: English has one and other.
+  explanation: 'Executed with =1 and one both present: 1 picks =1. Russian has four categories.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Pluralization
+    verified_at: '2026-10-09'
+- id: QST-5ezdt788vxbj
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A paragraph of text is written right inside a template and must be translated as is. Which
+    construct fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - twig
+  choices:
+  - id: CHO-0ahb9yqmrqp1
+    text: The `{% trans %}` tag
+    correct: true
+  - id: CHO-b5ta5r4p86ap
+    text: The `|trans` filter on a variable
+    correct: false
+    explanation: The filter suits expressions.
+  - id: CHO-5zh9dx8w9m67
+    text: '`{{ trans() }}` as a function'
+    correct: false
+    explanation: The bridge offers a filter and a tag.
+  - id: CHO-t0jhfvjd7qq0
+    text: 'Nothing: templates cannot translate text'
+    correct: false
+    explanation: They can.
+  explanation: With the tag, the %var% notation is required for placeholders.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations in Templates
+    verified_at: '2026-10-09'
+- id: QST-n2eyhg1qgm13
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Autoescape is on. What does this render?
+
+    ```twig
+    {% trans with {'%n%': '<i>x</i>'} %}Hi %n%{% endtrans %}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - twig
+  - escaping
+  choices:
+  - id: CHO-vkjvbmhrdk16
+    text: '`Hi <i>x</i>`, unescaped'
+    correct: true
+  - id: CHO-a51cnnh2ht6f
+    text: '`Hi &lt;i&gt;x&lt;/i&gt;`'
+    correct: false
+    explanation: That is what the filter gives.
+  - id: CHO-64kyqnb5wxyr
+    text: '`Hi %n%`'
+    correct: false
+    explanation: The parameter is replaced.
+  - id: CHO-faeqm08v1w3a
+    text: A syntax error
+    correct: false
+    explanation: The tag accepts with.
+  explanation: 'Executed with TwigBridge 8.0.15: the tag escapes nothing, parameters included.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using the trans tag escapes nothing
+    verified_at: '2026-10-09'
+- id: QST-1mfx2j47x7rd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: layout.html.twig declares app as its default translation domain and includes a partial. The
+    partial translates a key with no domain given. Which catalogue answers?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - twig
+  choices:
+  - id: CHO-tq2m2qh3bk0z
+    text: messages
+    correct: true
+  - id: CHO-mknwfs1d6qwp
+    text: app, inherited from the layout
+    correct: false
+    explanation: It applies to the current template only.
+  - id: CHO-0yz5nqerztns
+    text: Both, app first
+    correct: false
+    explanation: Only one domain is read.
+  - id: CHO-0bnym3ta1wxv
+    text: 'None: B raises an error'
+    correct: false
+    explanation: B simply uses the default.
+  explanation: 'Executed with TwigBridge 8.0.15: the including template used app, the included one messages.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: trans_default_domain
+    verified_at: '2026-10-09'
+- id: QST-jfzwwwzjnwaa
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-z28gpra0mn3s
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The framework.translator.fallbacks option is not set. What ends the fallback chain?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - locale
+  choices:
+  - id: CHO-xnsmjynsbnt1
+    text: default_locale
+    correct: true
+  - id: CHO-4xyncvamnetz
+    text: Always en
+    correct: false
+    explanation: It is not hard-coded.
+  - id: CHO-nwx7qn3p7gch
+    text: 'Nothing: the chain stops at the language'
+    correct: false
+    explanation: fallbacks then applies.
+  - id: CHO-89kav1aze04p
+    text: The browser Accept-Language list
+    correct: false
+    explanation: Not part of the chain.
+  explanation: 'Executed with Translation 8.0.14 and fallbacks [fr]: es_AR > es_419 > es > fr.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Fallback Translation Locales
+    verified_at: '2026-10-09'
