@@ -474,3 +474,798 @@ questions:
     branch: '8.0'
     symbol_or_lines: setSender()
     verified_at: '2026-10-09'
+- id: QST-axtx2psjq7a1
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-2q2fdnv4mhv9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: php.ini uses `sendmail -t`. What goes wrong with `native://default`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  choices:
+  - id: CHO-48qsrgmybh9v
+    text: No error reporting, and Bcc headers kept
+    correct: true
+  - id: CHO-sz130n3fnxew
+    text: 'Nothing: it is the recommended DSN'
+    correct: false
+    explanation: It is strongly discouraged.
+  - id: CHO-1f47scnn4w38
+    text: Messages are always sent twice
+    correct: false
+    explanation: Not the documented risk.
+  - id: CHO-zzh5mpyc5rf7
+    text: Attachments are dropped from every email
+    correct: false
+    explanation: Not the documented risk.
+  explanation: The sendmail configuration escapes the app; the documentation strongly discourages it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: native://default
+    verified_at: '2026-10-09'
+- id: QST-3wnghgw11z3m
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2q2fdnv4mhv9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The SMTP password contains `@` and `#`. What must be done in MAILER_DSN?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  choices:
+  - id: CHO-3pnd2377hjp9
+    text: URL-encode those characters
+    correct: true
+  - id: CHO-s9mhqfw08fb8
+    text: Wrap the password in quotes
+    correct: false
+    explanation: Quotes do not escape URI characters.
+  - id: CHO-dqtqmke3knfw
+    text: 'Nothing: the parser copes'
+    correct: false
+    explanation: Reserved URI characters must be encoded.
+  - id: CHO-z2hbgsg5y89f
+    text: Move the password into php.ini
+    correct: false
+    explanation: Unrelated.
+  explanation: Reserved URI characters in the user, password or host must be encoded.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Transport Setup
+    verified_at: '2026-10-09'
+- id: QST-tzcyacbnfwfa
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zpm8v90288p0
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A MessageEvent listener calls reject(). What does `$transport->send($email)` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  - events
+  choices:
+  - id: CHO-078f0x7d0arb
+    text: Returns null, with no exception
+    correct: true
+  - id: CHO-y241br9acr63
+    text: Throws a TransportException
+    correct: false
+    explanation: Nothing is thrown.
+  - id: CHO-6eeqkgvbfp1n
+    text: Returns a SentMessage anyway
+    correct: false
+    explanation: Nothing was sent.
+  - id: CHO-mm7wyyxkxc4w
+    text: Sends it, since reject() only logs
+    correct: false
+    explanation: reject() prevents sending.
+  explanation: Executed with Mailer 8.0.15 and null://null. reject() also stops propagation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/AbstractTransport.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'send(): isRejected()'
+    verified_at: '2026-10-09'
+- id: QST-a29mm1ccwens
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zpm8v90288p0
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Messenger routes SendEmailMessage to an async transport. How does `$transport->send()` behave,
+    called directly?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  - messenger
+  choices:
+  - id: CHO-ent04wvrkskx
+    text: Synchronously
+    correct: true
+  - id: CHO-aapk8869gw5b
+    text: Asynchronously, like MailerInterface
+    correct: false
+    explanation: TransportInterface always sends synchronously.
+  - id: CHO-hrzk65gwaxmf
+    text: 'It throws: use the bus instead'
+    correct: false
+    explanation: It works.
+  - id: CHO-30qdke8rxbdj
+    text: It queues and returns null
+    correct: false
+    explanation: It returns a SentMessage.
+  explanation: Only MailerInterface::send() dispatches to the bus.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Sending Messages Async
+    verified_at: '2026-10-09'
+- id: QST-sv6hfdebap2r
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f466f6crw21c
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`transports` lists main, then alt. A message carries no X-Transport. Which transport is used?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  choices:
+  - id: CHO-94cskxbjgc9a
+    text: main
+    correct: true
+  - id: CHO-02sbxyv8crvv
+    text: alt, the last one declared
+    correct: false
+    explanation: The first one is the default.
+  - id: CHO-rjyw1a11w6zt
+    text: Both, one after the other
+    correct: false
+    explanation: One transport sends.
+  - id: CHO-v1r9kc5rzjqn
+    text: 'None: a header is required'
+    correct: false
+    explanation: The first one is the default.
+  explanation: 'Executed with Mailer 8.0.15: Transports lists [main,alt], main first.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): default'
+    verified_at: '2026-10-09'
+- id: QST-fpbcvfpvgx5v
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f466f6crw21c
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'After Transports sent an Email that had `X-Transport: alt`, does the original Email object
+    still hold that header?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  choices:
+  - id: CHO-w8am2z8shbt9
+    text: 'No: it was removed from the object too'
+    correct: true
+  - id: CHO-0j8tfx3z9pd6
+    text: 'Yes: only the bytes sent lack it'
+    correct: false
+    explanation: It is removed from the Email itself.
+  - id: CHO-234gjfmdjyy3
+    text: Yes, renamed X-Transport-Used
+    correct: false
+    explanation: No such header.
+  - id: CHO-rqz7kg1phcvf
+    text: Only if the send failed
+    correct: false
+    explanation: It is removed before sending.
+  explanation: 'Executed with Mailer 8.0.15: has(''X-Transport'') is false afterwards.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'send(): remove X-Transport'
+    verified_at: '2026-10-09'
+- id: QST-8e8pj1hhzxw9
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-7fptsggm3eqe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Every email of the app must be sent from the same bounce address. Where is that set once?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  choices:
+  - id: CHO-9thpwcbmm3k2
+    text: framework.mailer.envelope.sender
+    correct: true
+  - id: CHO-at4h71k5xt82
+    text: A From header in each controller
+    correct: false
+    explanation: Repeated, and From is not the envelope.
+  - id: CHO-wbfd1h4h5pvj
+    text: MAILER_FROM in .env
+    correct: false
+    explanation: No such variable.
+  - id: CHO-tf6gxtpeqp8m
+    text: php.ini sendmail_from
+    correct: false
+    explanation: Only native uses php.ini.
+  explanation: framework.mailer.headers sets common headers, From included.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuring Emails Globally
+    verified_at: '2026-10-09'
+- id: QST-nbv9dcpmr1wv
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-7fptsggm3eqe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-j4vpn5bh9f27
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which event reports a send that the transport refused, with the error?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mailer
+  - events
+  choices:
+  - id: CHO-tqcy9hf461sp
+    text: FailedMessageEvent, via getError()
+    correct: true
+  - id: CHO-h4kc8meadwd1
+    text: MessageEvent, after the fact
+    correct: false
+    explanation: It runs before sending.
+  - id: CHO-96m6bm1f161n
+    text: SentMessageEvent with a failed flag
+    correct: false
+    explanation: It follows a successful send.
+  - id: CHO-zj3t7cj3h1pw
+    text: kernel.exception only
+    correct: false
+    explanation: Mailer has its own event.
+  explanation: MessageEvent before, SentMessageEvent after success, FailedMessageEvent after failure.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Mailer Events
+    verified_at: '2026-10-09'
+- id: QST-brcmb1dph43f
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-8mvg51813h97
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is the body's structure?
+
+    ```php
+    $e = (new Email())->text('t')->html('<p>h</p>');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-5j0m7cnn4ss1
+    text: 'multipart/alternative: plain, then html'
+    correct: true
+  - id: CHO-7f6cnxpzm7wr
+    text: 'multipart/alternative: html, then plain'
+    correct: false
+    explanation: The preferred version comes last.
+  - id: CHO-exf0af0wpx9f
+    text: 'multipart/mixed: plain and html'
+    correct: false
+    explanation: Same content in two forms is alternative.
+  - id: CHO-y4txa02kn1f4
+    text: 'multipart/related: plain and html'
+    correct: false
+    explanation: related groups a whole, such as inline images.
+  explanation: Executed with Mime 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Email.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: generateBody()
+    verified_at: '2026-10-09'
+- id: QST-6y877vccxwvv
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-8mvg51813h97
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which container wraps a PDF attachment next to the message body?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-7phm918cvxjb
+    text: multipart/mixed
+    correct: true
+  - id: CHO-ggmvs47j882j
+    text: multipart/alternative
+    correct: false
+    explanation: It holds versions of the same content.
+  - id: CHO-psdffty19bnv
+    text: multipart/related
+    correct: false
+    explanation: It holds parts of one whole.
+  - id: CHO-bgzen4ckhkbz
+    text: multipart/attachment
+    correct: false
+    explanation: Not a MIME type.
+  explanation: mixed holds contents of different natures.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: MIME Message Parts
+    verified_at: '2026-10-09'
+- id: QST-svsr26kpj7kj
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-svzhszy009bw
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which recipients remain?
+
+    ```php
+    $e = (new Email())->to('a@x.com')->to('b@x.com')->addTo('c@x.com');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-ggaawmymjfx1
+    text: b@x.com and c@x.com
+    correct: true
+  - id: CHO-33zwx32a90s3
+    text: a@x.com, b@x.com and c@x.com
+    correct: false
+    explanation: to() replaces.
+  - id: CHO-ywxqw0tjfcxk
+    text: c@x.com only
+    correct: false
+    explanation: addTo() appends.
+  - id: CHO-0exfn35htp83
+    text: a@x.com and c@x.com
+    correct: false
+    explanation: The second to() replaced a.
+  explanation: Executed with Mime 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Email.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: to(), addTo()
+    verified_at: '2026-10-09'
+- id: QST-psyp79se9fts
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-svzhszy009bw
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An Email was serialized into a queue. Which call rebuilds a sendable message?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-pa947hzbg0re
+    text: '`new RawMessage(unserialize($data))`'
+    correct: true
+  - id: CHO-q0mt7mx8ry3k
+    text: '`Email::fromString($data)`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-jqhq8scwmaxe
+    text: '`new Message($data)`'
+    correct: false
+    explanation: Message takes headers and a body.
+  - id: CHO-x0tn15p765hw
+    text: '`Email::unserialize($data)`'
+    correct: false
+    explanation: Not the documented way.
+  explanation: Executed with Mime 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Serializing Email Messages
+    verified_at: '2026-10-09'
+- id: QST-q9yzfxgxpqg5
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0rk3gn6523qv
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is the first element?
+
+    ```php
+    (new MimeTypes())->getExtensions('image/jpeg')[0];
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-t24bv68n62nj
+    text: '`jpg`'
+    correct: true
+  - id: CHO-fxwbvr6ebce8
+    text: '`jpeg`, as the 8.0 docs show'
+    correct: false
+    explanation: The code ranks jpg first.
+  - id: CHO-d5cnntkcxncc
+    text: '`jpe`'
+    correct: false
+    explanation: Third.
+  - id: CHO-zwg24grhfw8t
+    text: '`jfif`'
+    correct: false
+    explanation: Last.
+  explanation: 'Executed with Mime 8.0.15: jpg, jpeg, jpe, jfif. Arrays are ordered by preference.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/MimeTypes.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getExtensions()
+    verified_at: '2026-10-09'
+- id: QST-aecy8587gxpf
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-0rk3gn6523qv
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A project adds its own MIME type guesser. What must the service implement and carry?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-11rxxg1dt1k0
+    text: MimeTypeGuesserInterface, tag mime.mime_type_guesser
+    correct: true
+  - id: CHO-rw8hp2b9pb0p
+    text: MimeTypesInterface, tag mime.types
+    correct: false
+    explanation: Not the guesser contract.
+  - id: CHO-467nac8pq83v
+    text: 'Nothing: guessers are found by name'
+    correct: false
+    explanation: An interface and a tag are needed.
+  - id: CHO-e0y9smb3qh1x
+    text: An extension of the fileinfo PHP module
+    correct: false
+    explanation: fileinfo only speeds guessing up.
+  explanation: Guessing reads content and is costly; ext-fileinfo speeds it up.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Adding a MIME Type Guesser
+    verified_at: '2026-10-09'
+- id: QST-1w123zkerwg4
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-svzhszy009bw
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-9xdjjsqcbn13
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does getName() return?
+
+    ```php
+    Address::create('Fabien Potencier <fabien@example.com>')->getName();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - mime
+  choices:
+  - id: CHO-w9mgh2va7jsp
+    text: '`Fabien Potencier`'
+    correct: true
+  - id: CHO-cdcwzm1mt1ca
+    text: '`fabien@example.com`'
+    correct: false
+    explanation: That is getAddress().
+  - id: CHO-1x7rsv34976v
+    text: 'An empty string: create() keeps the raw text'
+    correct: false
+    explanation: It parses Name <address>.
+  - id: CHO-wbsq8r2k9px0
+    text: '`Fabien Potencier <fabien@example.com>`'
+    correct: false
+    explanation: That is toString().
+  explanation: Executed with Mime 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mime/Address.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: create()
+    verified_at: '2026-10-09'
