@@ -747,8 +747,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: 'After Transports sent an Email that had `X-Transport: alt`, does the original Email object
-    still hold that header?'
+  question: 'Transports successfully sent an Email that had `X-Transport: alt`. Does the original Email
+    object still hold that header?'
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -774,10 +774,11 @@ questions:
     correct: false
     explanation: No such header.
   - id: CHO-rqz7kg1phcvf
-    text: Only if the send failed
+    text: Yes, but only in the dev environment
     correct: false
-    explanation: It is removed before sending.
-  explanation: 'Executed with Mailer 8.0.15: has(''X-Transport'') is false afterwards.'
+    explanation: The environment plays no part.
+  explanation: 'Executed with Mailer 8.0.15: has(''X-Transport'') is false afterwards. Read in Transports::send():
+    on failure the header is put back before rethrowing.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Mailer/Transport/Transports.php
     repository: symfony/symfony
