@@ -3753,3 +3753,476 @@ questions:
     branch: '8.0'
     symbol_or_lines: FormEvents::PRE_SUBMIT
     verified_at: '2026-10-09'
+- id: QST-hqj75nse5s4a
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-y3ytkg8qf2rc
+  version: 1
+  official_topic: Forms
+  official_item: OIT-mgvdw7cfpwyz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form keeps the default POST method. handleRequest() receives a GET carrying t[a]=x in the
+    query string. Is the form submitted?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - handle-request
+  choices:
+  - id: CHO-vd5s4g6gkrwa
+    text: 'No'
+    correct: true
+  - id: CHO-pvwy37s50694
+    text: 'Yes: handleRequest() reads any method'
+    correct: false
+    explanation: The method must match.
+  - id: CHO-g6x2mcxsvraa
+    text: Yes, but it is invalid
+    correct: false
+    explanation: It is not submitted at all.
+  - id: CHO-zy5q5etk4nvn
+    text: 'An exception: wrong method'
+    correct: false
+    explanation: It is silently ignored.
+  explanation: 'A request of another method is ignored. Executed with Form 8.0 and the HttpFoundation
+    extension: isSubmitted() false.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleRequest()
+    verified_at: '2026-10-09'
+- id: QST-mtyec0bac8rk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pe7s3cdg6fgb
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Field b is `mapped: false`. The form is submitted with a only. What do `$form->get(''b'')->getData()`
+    and `$form->getData()` give?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - mapping
+  choices:
+  - id: CHO-5hc8h5rfnj3d
+    text: null; b not in data
+    correct: true
+  - id: CHO-24s7c69jhc1h
+    text: An empty string, and data with b
+    correct: false
+    explanation: Unmapped fields never reach the data.
+  - id: CHO-fv0m2xny0z6x
+    text: null, and data with b = null
+    correct: false
+    explanation: b is absent from the data.
+  - id: CHO-cf15ycc17w1e
+    text: 'An exception: b was not sent'
+    correct: false
+    explanation: It returns null.
+  explanation: 'Executed with Form 8.0: null, then {"a":"x"}.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Unmapped Fields
+    verified_at: '2026-10-09'
+- id: QST-9n5spr5h3azw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0a3jcmk5066b
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A RepeatedType field pw gets first = "s" and second = "z". What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - repeated
+  choices:
+  - id: CHO-mndhayf6cyfy
+    text: Invalid; pw unset
+    correct: true
+  - id: CHO-e8vnpk1sj5hr
+    text: pw takes "s", the value typed first
+    correct: false
+    explanation: Mismatched values are refused.
+  - id: CHO-yteapbz9ty1c
+    text: pw takes ["s", "z"]
+    correct: false
+    explanation: One value, or none.
+  - id: CHO-q90js8cs7v49
+    text: An exception at submit
+    correct: false
+    explanation: It becomes a form error.
+  explanation: 'Executed with Form 8.0: invalid, data []. With matching values, data was {"pw":"s"}: two
+    fields, one datum.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/RepeatedType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: buildForm()
+    verified_at: '2026-10-09'
+- id: QST-vvkecjs4tnyw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-41xcqcjzrmm1
+  version: 1
+  official_topic: Forms
+  official_item: OIT-p810t98zedem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`choices: [''France'' => ''fr'']`. The client submits "fr". What is the field data?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - choice
+  choices:
+  - id: CHO-8prfcvw1nwch
+    text: fr
+    correct: true
+  - id: CHO-6ht7jd8taeyp
+    text: France
+    correct: false
+    explanation: Keys are labels; values are data.
+  - id: CHO-62m8b1sy40g0
+    text: '[''France'' => ''fr'']'
+    correct: false
+    explanation: One value.
+  - id: CHO-3xak4qpsq6pm
+    text: 'null: unknown choice'
+    correct: false
+    explanation: fr is a valid value.
+  explanation: Executed with Form 8.0. Submitting "France" made the form invalid.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: choices
+    verified_at: '2026-10-09'
+- id: QST-pjxtywsmr4k8
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9d91memjprhk
+  version: 1
+  official_topic: Forms
+  official_item: OIT-gcs0jathkv9b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An extension targets TextType. Which of EmailType, TextareaType and IntegerType fields does
+    it reach?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - extensions
+  choices:
+  - id: CHO-ypv4e1ah1h51
+    text: Email and textarea
+    correct: true
+  - id: CHO-sb8etnwrfyrt
+    text: All three
+    correct: false
+    explanation: IntegerType does not extend TextType.
+  - id: CHO-7dsjmnc624tq
+    text: Only TextType fields
+    correct: false
+    explanation: Child types are reached.
+  - id: CHO-rkddt7t7g8ws
+    text: IntegerType only
+    correct: false
+    explanation: Reversed.
+  explanation: 'Executed with Form 8.0: buildForm() ran for text, email and textarea fields, not integer.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/AbstractTypeExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getExtendedTypes()
+    verified_at: '2026-10-09'
+- id: QST-zdk24edbdq71
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jz8pzthzk661
+  version: 1
+  official_topic: Forms
+  official_item: OIT-v7zyhcm44m88
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A SUBMIT listener adds field late; the request sends late = "y". What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - events
+  choices:
+  - id: CHO-p63jb1y85msc
+    text: late stays null
+    correct: true
+  - id: CHO-s3j469a569nv
+    text: late receives "y"
+    correct: false
+    explanation: It was added after submission started.
+  - id: CHO-07045827czf5
+    text: An exception at SUBMIT
+    correct: false
+    explanation: add() does not throw there.
+  - id: CHO-zwkba3d7tdsx
+    text: The form becomes invalid
+    correct: false
+    explanation: Not by itself.
+  explanation: 'Executed with Form 8.0: no error; late null, getExtraData() {"late":"y"}.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: submit()
+    verified_at: '2026-10-09'
+- id: QST-c4g57rvjn3vf
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-zphxh7z24zht
+  version: 1
+  official_topic: Forms
+  official_item: OIT-j2vjdxcer4ft
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Form task_form has a DateType field dueDate. What are its block_prefixes?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forms
+  - theming
+  choices:
+  - id: CHO-37kq2pqjr2v4
+    text: form, date, _task_form_dueDate
+    correct: true
+  - id: CHO-479mrhnkcjv7
+    text: '`["date", "_task_form_dueDate"]`'
+    correct: false
+    explanation: form comes first.
+  - id: CHO-w4f8tfr76ka7
+    text: '`["form", "text", "date", "_dueDate"]`'
+    correct: false
+    explanation: DateType does not extend TextType; the form name is in the unique prefix.
+  - id: CHO-2aytkwkj9k8t
+    text: '`["_task_form_dueDate", "date", "form"]`'
+    correct: false
+    explanation: From general to specific.
+  explanation: 'Executed with Form 8.0: full_name task_form[dueDate], id task_form_dueDate.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/BaseType.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'buildView(): block_prefixes'
+    verified_at: '2026-10-09'
+- id: QST-jd35wr41nwcv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-m9sv8pew063t
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: m defaults to GET with allowed values GET and POST. resolve(['m' => 'PUT']) runs. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - options-resolver
+  choices:
+  - id: CHO-6mn5b2zy46zq
+    text: InvalidOptionsException
+    correct: true
+  - id: CHO-7vbwyha8gkpx
+    text: m falls back to GET
+    correct: false
+    explanation: An invalid value throws.
+  - id: CHO-yrfhn6dj9beg
+    text: m becomes PUT
+    correct: false
+    explanation: Not allowed.
+  - id: CHO-1btyzae6bqq5
+    text: UndefinedOptionsException
+    correct: false
+    explanation: m is defined.
+  explanation: 'Executed with OptionsResolver 8.0: Accepted values are: "GET", "POST".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setAllowedValues()
+    verified_at: '2026-10-09'
+- id: QST-ap5vbcmt7cdp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-c7879v7m2pqb
+  version: 1
+  official_topic: Forms
+  official_item: OIT-rj9web4whgmz
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Only a is defined. resolve(['b' => 2]) runs. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - options-resolver
+  choices:
+  - id: CHO-5pd5dqsqbf3q
+    text: UndefinedOptionsException
+    correct: true
+  - id: CHO-4pg6sasg1tfh
+    text: b is ignored silently and the result holds only a
+    correct: false
+    explanation: Unknown options are refused.
+  - id: CHO-cwchh0hyhx71
+    text: b is added
+    correct: false
+    explanation: It is refused.
+  - id: CHO-bmah9kw3d0re
+    text: A warning, then success
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with OptionsResolver 8.0: The option "b" does not exist. Defined options are:
+    "a".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resolve()
+    verified_at: '2026-10-09'
