@@ -276,3 +276,547 @@ questions:
     branch: '8.0'
     symbol_or_lines: enableMagicCall()
     verified_at: '2026-10-09'
+- id: QST-hxs3em6gj5bt
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-1mrdfqr9nk4q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What happens?
+
+    ```php
+    $pa->getValue(['a' => 1], 'a');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-qyae67ppy5qk
+    text: NoSuchPropertyException
+    correct: true
+  - id: CHO-azkq3baraxp8
+    text: It returns 1, read as an array key
+    correct: false
+    explanation: Without brackets the path targets an object property.
+  - id: CHO-bvt1p2qng80d
+    text: It returns null
+    correct: false
+    explanation: A dot path on an array throws.
+  - id: CHO-dkmw39mx9ppx
+    text: NoSuchIndexException
+    correct: false
+    explanation: The path was read as a property.
+  explanation: 'Executed with PropertyAccess 8.0.8. The message suggests: Maybe you intended to write
+    the property path as "[a]".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: readProperty()
+    verified_at: '2026-10-09'
+- id: QST-gmntk2jt5p25
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-1mrdfqr9nk4q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What happens?
+
+    ```php
+    $pa->getValue(new \stdClass(), '[x]');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-dy0d9dj5mbrf
+    text: NoSuchIndexException
+    correct: true
+  - id: CHO-ax8xx1w29n9m
+    text: It returns null
+    correct: false
+    explanation: An object without ArrayAccess cannot be indexed.
+  - id: CHO-88q2d278v0yc
+    text: It reads the public x property instead
+    correct: false
+    explanation: Brackets target an index.
+  - id: CHO-eekr4meae6tm
+    text: NoSuchPropertyException
+    correct: false
+    explanation: The path was read as an index.
+  explanation: 'Executed with PropertyAccess 8.0.8: stdClass does not implement ArrayAccess.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: readIndex()
+    verified_at: '2026-10-09'
+- id: QST-qtjp15b6pdks
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-1mrdfqr9nk4q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does $a hold afterwards?
+
+    ```php
+    $a = ['x' => 1];
+    $pa->setValue($a, '[y]', 2);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-ycfahak0ghda
+    text: '`[''x'' => 1, ''y'' => 2]`'
+    correct: true
+  - id: CHO-nt4zafaxa42j
+    text: '`[''x'' => 1]`: a copy was changed'
+    correct: false
+    explanation: The array is passed by reference.
+  - id: CHO-wnqmn5qdd593
+    text: '`[''y'' => 2]`'
+    correct: false
+    explanation: Existing keys stay.
+  - id: CHO-xctetgfz2rvq
+    text: 'An error: arrays are read-only'
+    correct: false
+    explanation: Arrays can be written.
+  explanation: Executed with PropertyAccess 8.0.8.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setValue(&$objectOrArray)
+    verified_at: '2026-10-09'
+- id: QST-zht8ycc22jhh
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-bhjp8tarh8e7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A missing object property must return null instead of throwing. Which builder call, before
+    getPropertyAccessor()?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-8xd5ht6tvh9z
+    text: '`disableExceptionOnInvalidPropertyPath()`'
+    correct: true
+  - id: CHO-zvnnfxhv5xtv
+    text: 'None: the default accessor already returns null for it'
+    correct: false
+    explanation: By default a missing property throws.
+  - id: CHO-h7xysh2ssb7z
+    text: '`enableExceptionOnInvalidIndex()`'
+    correct: false
+    explanation: That concerns array indexes.
+  - id: CHO-khqj1km6appc
+    text: '`enableMagicCall()`'
+    correct: false
+    explanation: That enables __call().
+  explanation: 'Executed with PropertyAccess 8.0.8: birthday on stdClass gave null.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessorBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableExceptionOnInvalidPropertyPath()
+    verified_at: '2026-10-09'
+- id: QST-3hqajqvfh7vg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bhjp8tarh8e7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An accessor is built with `new PropertyAccessor(PropertyAccessor::DISALLOW_MAGIC_METHODS,
+    PropertyAccessor::THROW_ON_INVALID_INDEX)`. A missing object property is read. What comes back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-hsxrb4qddb18
+    text: 'null'
+    correct: true
+  - id: CHO-teywgfbc0jf2
+    text: NoSuchPropertyException, as by default
+    correct: false
+    explanation: The second argument replaces the default flags.
+  - id: CHO-4nyn1fjrhxed
+    text: NoSuchIndexException
+    correct: false
+    explanation: That is for indexes.
+  - id: CHO-dbr5wgd4pydv
+    text: A TypeError on the flags
+    correct: false
+    explanation: They are valid.
+  explanation: 'Executed with PropertyAccess 8.0.8: THROW_ON_INVALID_PROPERTY_PATH is not among the flags.
+    In an app, framework.property_access sets these.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-24qjjt2w5426
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f3nt0swctvqd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    $comment->person is null. What do the two calls give?
+
+    ```php
+    $pa->getValue($comment, 'person.firstname');
+    $pa->getValue($comment, 'person?.firstname');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-px0cxyfns42w
+    text: UnexpectedTypeException, then null
+    correct: true
+  - id: CHO-1v06fxk458ny
+    text: null, then null
+    correct: false
+    explanation: Without ? a null link throws.
+  - id: CHO-eczg34hgj8vg
+    text: NoSuchPropertyException on both calls
+    correct: false
+    explanation: A null link is not a missing property.
+  - id: CHO-1h9gzxy5p0zg
+    text: UnexpectedTypeException twice
+    correct: false
+    explanation: '? stops on null.'
+  explanation: Executed with PropertyAccess 8.0.8.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing a nullable property path
+    verified_at: '2026-10-09'
+- id: QST-h8b4ygew1rm3
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f3nt0swctvqd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: person is an object that has no firstname. What does `person?.firstname` give?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-mdcer54b9jxe
+    text: NoSuchPropertyException
+    correct: true
+  - id: CHO-7r6tsmnbsfms
+    text: 'null: ? also covers properties that do not exist'
+    correct: false
+    explanation: It only covers null.
+  - id: CHO-6350zztnb3pf
+    text: An empty string
+    correct: false
+    explanation: It throws.
+  - id: CHO-m3at9nd2qje4
+    text: UnexpectedTypeException
+    correct: false
+    explanation: person is an object.
+  explanation: Executed with PropertyAccess 8.0.8.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Accessing a nullable property path
+    verified_at: '2026-10-09'
+- id: QST-bsmftxn74mee
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-6h3qaavna2z8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: isWritable($obj, 'name') is called; setName() logs each call. Is setName() called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-vy7s9qp6whcw
+    text: 'No: it is only inspected'
+    correct: true
+  - id: CHO-je0yfrkmenns
+    text: Yes, with null
+    correct: false
+    explanation: No value is written.
+  - id: CHO-yqpcy6yp75pd
+    text: Yes, then the old value is restored
+    correct: false
+    explanation: No write happens.
+  - id: CHO-71ycgd4px402
+    text: Only if a getter exists
+    correct: false
+    explanation: The setter is never called.
+  explanation: 'Executed with PropertyAccess 8.0.8: nothing logged. isReadable() does call the getter.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isWritable()
+    verified_at: '2026-10-09'
+- id: QST-nde7ftyd4z2h
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xd2zq134swyh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class writes data only through __set(). With a default accessor, does setValue($obj, 'zz',
+    3) reach it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-xe3v78rnvwtj
+    text: 'Yes: on by default'
+    correct: true
+  - id: CHO-01featvnee8n
+    text: 'No: magic methods need enableMagicCall()'
+    correct: false
+    explanation: That flag is for __call() only.
+  - id: CHO-y2nhz6k2amwq
+    text: 'No: only setters are used'
+    correct: false
+    explanation: __set() is used.
+  - id: CHO-t8zcdfb9w769
+    text: Only if __get() is also defined
+    correct: false
+    explanation: Not required.
+  explanation: 'Executed with PropertyAccess 8.0.8: __set(zz) was called.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Magic __set() Method
+    verified_at: '2026-10-09'
+- id: QST-3dp8ngn1gb91
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-6h3qaavna2z8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: children holds [a]. The class has getChildren(), setChildren(), addChild() and removeChild().
+    setValue sets it to [b]. Which methods run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  - collections
+  choices:
+  - id: CHO-29jvftw2dxe2
+    text: getChildren(), removeChild(), addChild()
+    correct: true
+  - id: CHO-f0n256xbw7rh
+    text: setChildren() only
+    correct: false
+    explanation: Adders and removers win over the setter.
+  - id: CHO-ejftmvfwh51f
+    text: getChildren(), setChildren()
+    correct: false
+    explanation: The setter is not used.
+  - id: CHO-950npecekbg9
+    text: removeChild() and addChild() for every item
+    correct: false
+    explanation: Only the changed items are touched.
+  explanation: 'Executed with PropertyAccess 8.0.8: get,remove,add.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Writing to Array Properties
+    verified_at: '2026-10-09'
