@@ -37,6 +37,7 @@
             "@test"
         ],
         "gate-full": [
+            "Composer\\Config::disableProcessTimeout",
             "@validate-content",
             "@coverage",
             "@readiness",

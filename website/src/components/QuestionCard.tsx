@@ -56,7 +56,10 @@ export default function QuestionCard({
 
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset className="certpath-question" disabled={disabled}>
+      {/* Disabled control by control, not on the fieldset: a disabled fieldset
+          also takes a scrollable code block out of the keyboard order, and the
+          learner still has to read it during the correction. */}
+      <fieldset className="certpath-question">
         <legend>
           Question {index + 1} sur {total}
         </legend>
@@ -99,6 +102,7 @@ export default function QuestionCard({
               value={choice.id}
               checked={chosen.includes(choice.id)}
               onChange={() => toggle(choice.id)}
+              disabled={disabled}
             />
             <label htmlFor={`choice-${choice.id}`}>
               <RichText as="span" language={question.code_language}>
@@ -112,7 +116,7 @@ export default function QuestionCard({
           <button
             type="submit"
             className="button button--primary"
-            disabled={chosen.length === 0}>
+            disabled={disabled || chosen.length === 0}>
             {submitLabel}
           </button>
         </div>

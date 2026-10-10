@@ -49,6 +49,10 @@ summary:focus-visible {
   border-radius: var(--ifm-global-radius);
   padding: 1.25rem;
   margin-bottom: 1.5rem;
+  /* A fieldset defaults to min-width: min-content, so a wide code block would
+     widen the whole card past a phone screen instead of scrolling inside its
+     own <pre>. */
+  min-width: 0;
 }
 
 .certpath-question legend {
