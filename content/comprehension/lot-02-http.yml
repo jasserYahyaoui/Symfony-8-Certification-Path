@@ -2655,3 +2655,1537 @@ questions:
     branch: master
     symbol_or_lines: Section 15.5.2 401 Unauthorized
     verified_at: '2026-10-09'
+- id: QST-ra1cc2w4mdsj
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-6w2h5pvzsg06
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A team writes a CDN and needs the rules for storing and reusing responses. Which document
+    of the 2022 HTTP set do they read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - rfc
+  choices:
+  - id: CHO-k4mgvbm85vv9
+    text: RFC 9111
+    correct: true
+  - id: CHO-kvcqjffnmjq7
+    text: RFC 9110, the semantics document
+    correct: false
+    explanation: Semantics.
+  - id: CHO-b2cke34y89fd
+    text: RFC 9112
+    correct: false
+    explanation: HTTP/1.1 message syntax.
+  - id: CHO-2jcbghx74kj3
+    text: RFC 9114
+    correct: false
+    explanation: HTTP/3.
+  explanation: 9110 semantics, 9111 caching, 9112 HTTP/1.1, 9113 HTTP/2, 9114 HTTP/3.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 1.1 Purpose
+    verified_at: '2026-10-09'
+- id: QST-nebknbjp9v6h
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-rvm0f266br2d
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Body pieces on an HTTP/1.1 connection are sent as length-prefixed chunks. Which specification
+    describes that wire format?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - rfc
+  choices:
+  - id: CHO-bqd0vbyngq57
+    text: RFC 9112
+    correct: true
+  - id: CHO-zer89632dhrr
+    text: RFC 9110, which covers all of HTTP
+    correct: false
+    explanation: 9110 describes no frame syntax.
+  - id: CHO-50vsspwtyeas
+    text: RFC 9111
+    correct: false
+    explanation: Caching.
+  - id: CHO-07gvte4hajkz
+    text: RFC 6265
+    correct: false
+    explanation: Cookies.
+  explanation: Message framing belongs to the HTTP/1.1 syntax document.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9112.html
+    branch: master
+    symbol_or_lines: 7.1 Chunked Transfer Coding
+    verified_at: '2026-10-09'
+- id: QST-4t9p76aa7qep
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-rgdrqp8pe47j
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which is case-insensitive in HTTP: a field name like Content-Type, or a method name like
+    GET?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - rfc
+  choices:
+  - id: CHO-yc3j4p5h5are
+    text: The field name only
+    correct: true
+  - id: CHO-gk9yqe33sfnh
+    text: The method name only
+    correct: false
+    explanation: Methods are case-sensitive.
+  - id: CHO-wt6gckzapfg4
+    text: Both
+    correct: false
+    explanation: Methods are case-sensitive (§9.1).
+  - id: CHO-dzanjr0be65b
+    text: Neither
+    correct: false
+    explanation: Field names are case-insensitive (§5.1).
+  explanation: RFC 9110 §5.1 and §9.1.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 5.1 Field Names; 9.1 Overview
+    verified_at: '2026-10-09'
+- id: QST-7vvfejj6zhkf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-b4zep1k4shd7
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-7801mj6w73ky
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: RFC 9110 lists RFC 3864 under "Updates", not "Obsoletes". What does that mean for 3864?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - rfc
+  choices:
+  - id: CHO-rhvftpev24va
+    text: It is amended but still in force
+    correct: true
+  - id: CHO-7zqed5bdexmc
+    text: It is replaced and no longer valid
+    correct: false
+    explanation: That is Obsoletes.
+  - id: CHO-38brmjc1e14f
+    text: It is withdrawn without replacement
+    correct: false
+    explanation: Not what Updates means.
+  - id: CHO-w4q4xy1b3fqn
+    text: 'Nothing: the two words are synonyms'
+    correct: false
+    explanation: They differ.
+  explanation: Obsoletes replaces; Updates amends.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 'Updates: 3864'
+    verified_at: '2026-10-09'
+- id: QST-1gq9jhy05ays
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-7hfm105c194h
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-512se83ab7qj
+  domain: http
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does a status code beginning with 5 indicate?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 30
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - status-codes
+  choices:
+  - id: CHO-ngnz7fyx0zjt
+    text: A server error
+    correct: true
+  - id: CHO-67mggskwxns7
+    text: A client error
+    correct: false
+    explanation: 4xx.
+  - id: CHO-b9hq4m1cszkj
+    text: A redirection
+    correct: false
+    explanation: 3xx.
+  - id: CHO-x7rv30hgvb39
+    text: An informational response
+    correct: false
+    explanation: 1xx.
+  explanation: The first digit defines the class.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 15. Status Codes
+    verified_at: '2026-10-09'
+- id: QST-9dgmp55av871
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-6sg999w56sxb
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-512se83ab7qj
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form POST must end on a confirmation page fetched with GET, whatever the original method.
+    Which status?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - status-codes
+  - redirects
+  choices:
+  - id: CHO-54dm0gtbce92
+    text: '303'
+    correct: true
+  - id: CHO-c7m5tab5k34p
+    text: 307, the temporary redirect
+    correct: false
+    explanation: 307 would replay the POST.
+  - id: CHO-grzqwax274xw
+    text: '308'
+    correct: false
+    explanation: 308 would replay the POST, permanently.
+  - id: CHO-8aq0ej6d16dr
+    text: '201'
+    correct: false
+    explanation: Not a redirect to a page.
+  explanation: 303 See Other drives Post/Redirect/Get.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 15.4.4 303 See Other
+    verified_at: '2026-10-09'
+- id: QST-yktsy4evebk8
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-p4n2v9ecgmyv
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-512se83ab7qj
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An endpoint deletes a record and has nothing to send back. Why is 204 more precise than 200
+    with zero bytes?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - status-codes
+  choices:
+  - id: CHO-7pnwm7k6szq2
+    text: 204 states no body can follow
+    correct: true
+  - id: CHO-ja8d4zm5h6an
+    text: 'None: both mean exactly the same thing'
+    correct: false
+    explanation: 204 states that no content follows.
+  - id: CHO-pmraw6tr2cht
+    text: 200 forbids a body
+    correct: false
+    explanation: Reversed.
+  - id: CHO-9j4842g47h14
+    text: 204 is a redirect
+    correct: false
+    explanation: It is 2xx.
+  explanation: RFC 9110 §15.3.5.
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+    branch: master
+    symbol_or_lines: 15.3.5 204 No Content
+    verified_at: '2026-10-09'
+- id: QST-pc393z86k7d1
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-w17b65zev3y5
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The URL is /x?p=1. What happens?
+
+    ```php
+    $request->query->all('nope');
+    $request->query->all('p');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  choices:
+  - id: CHO-3y78nt8mmv0v
+    text: '`[]`, then an exception'
+    correct: true
+  - id: CHO-f8znrbsrrvty
+    text: null, then `['1']` wrapping the scalar
+    correct: false
+    explanation: A missing key gives []; a scalar is refused.
+  - id: CHO-tdy93ckyp14f
+    text: Two BadRequestExceptions
+    correct: false
+    explanation: A missing key gives [].
+  - id: CHO-mf497253a3xs
+    text: '`[]` twice'
+    correct: false
+    explanation: A scalar value is refused.
+  explanation: 'Executed with HttpFoundation 8.0.15: Unexpected value for parameter "p": expecting "array",
+    got "string".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/InputBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: all()
+    verified_at: '2026-10-09'
+- id: QST-pt5v7d1rzd1f
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-hm4eajgn6rks
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller must read "name" whether the client posts JSON or a classic form. Which call?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  choices:
+  - id: CHO-z3h0qcgezkgy
+    text: '`$request->getPayload()->get(''name'')`'
+    correct: true
+  - id: CHO-w4efx3mp6vvq
+    text: '`$request->request->get(''name'')`'
+    correct: false
+    explanation: The request bag is empty for a JSON body.
+  - id: CHO-zjm5ast60gz5
+    text: '`$request->query->get(''name'')`'
+    correct: false
+    explanation: That is the query string.
+  - id: CHO-eaqs2hvsjkka
+    text: '`json_decode($request->getContent())->name`'
+    correct: false
+    explanation: Fails for form data.
+  explanation: 'Executed with HttpFoundation 8.0.15: getPayload() returned an InputBag holding Ann.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPayload()
+    verified_at: '2026-10-09'
+- id: QST-fg1wz2dym4dk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-g11rrz2thqp0
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Behind one trusted balancer, the forwarded chain reads `1.2.3.4, 203.0.113.7`. A visitor forged
+    the first entry. Which address does Symfony report as the client?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - proxies
+  choices:
+  - id: CHO-6nh5c3cnf41r
+    text: 203.0.113.7
+    correct: true
+  - id: CHO-1cpnn2jr9an6
+    text: 1.2.3.4, the leftmost
+    correct: false
+    explanation: The leftmost value is client-controlled.
+  - id: CHO-w2zm3nav2bk0
+    text: 10.0.0.5
+    correct: false
+    explanation: That is without a trusted proxy.
+  - id: CHO-je38zrcjkb4c
+    text: The whole list
+    correct: false
+    explanation: One address.
+  explanation: 'Executed with HttpFoundation 8.0.15: the nearest untrusted address to the server.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getClientIps()
+    verified_at: '2026-10-09'
+- id: QST-3kgv48ks33cn
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-04bvez73yte3
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-d3nyk9z0q2pd
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Trusted hosts are `['example\.com']`. A request arrives for example.com.evil.org. What does
+    getHost() do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - hosts
+  choices:
+  - id: CHO-yc19zf50yfq2
+    text: It accepts it
+    correct: true
+  - id: CHO-f42drjkwr1sq
+    text: Throws SuspiciousOperationException
+    correct: false
+    explanation: The substring matches.
+  - id: CHO-15fc8sgdxm9f
+    text: Returns example.com
+    correct: false
+    explanation: It returns the real host.
+  - id: CHO-xs7qk4a7g25r
+    text: Returns an empty string
+    correct: false
+    explanation: It returns the host.
+  explanation: 'Executed with HttpFoundation 8.0.15: the pattern is unanchored. Anchor it: ^example\.com$.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getHost(): trustedHostPatterns'
+    verified_at: '2026-10-09'
+- id: QST-cjh5s6ngd9ee
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2ekazygpee7h
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which pair does isRedirect() classify as redirects?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  choices:
+  - id: CHO-66zyksz24y9w
+    text: 201 and 303
+    correct: true
+  - id: CHO-3n88xpzxm5w2
+    text: 300 and 304, both 3xx
+    correct: false
+    explanation: Both are excluded.
+  - id: CHO-fhy9mnbp0kb1
+    text: 304 and 307
+    correct: false
+    explanation: 304 is excluded.
+  - id: CHO-eanvgwvnf3ye
+    text: 200 and 301
+    correct: false
+    explanation: 200 is excluded.
+  explanation: 'Executed with HttpFoundation 8.0.15: 201, 301, 302, 303, 307, 308 yes; 300, 304 no.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isRedirect()
+    verified_at: '2026-10-09'
+- id: QST-dccm20qz95fk
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-2ekazygpee7h
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What happens?
+
+    ```php
+    new RedirectResponse('/x', 304);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  choices:
+  - id: CHO-91f4cv7cman6
+    text: InvalidArgumentException
+    correct: true
+  - id: CHO-88176r5x9cb5
+    text: A 304 redirect to /x
+    correct: false
+    explanation: 304 is not in the redirect list.
+  - id: CHO-06h9886kzhmn
+    text: 'A 302: the status is ignored'
+    correct: false
+    explanation: It is validated.
+  - id: CHO-tn9t7rbypsyk
+    text: A 304 without Location
+    correct: false
+    explanation: It throws.
+  explanation: Executed with HttpFoundation 8.0.15. The default status is 302; 201 is accepted.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-v3c0s70cz403
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-yq2nzprwr82v
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-jh06tkfrhthq
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What body does this produce?
+
+    ```php
+    new JsonResponse(['a' => '<b>']);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  - json
+  choices:
+  - id: CHO-3eswmrhtce1q
+    text: Unicode-escaped `<` and `>`
+    correct: true
+  - id: CHO-jr6s3bewsbdd
+    text: '`{"a":"<b>"}`, as json_encode() gives'
+    correct: false
+    explanation: JsonResponse adds HTML escaping flags.
+  - id: CHO-8j7c2zk45jc2
+    text: '`{"a":"&lt;b&gt;"}`'
+    correct: false
+    explanation: Unicode escapes, not HTML entities.
+  - id: CHO-q4x9xgeg2emc
+    text: '`["a","<b>"]`'
+    correct: false
+    explanation: Keys are kept.
+  explanation: 'Executed with HttpFoundation 8.0.15: {"a":"\u003Cb\u003E"}. Compare decoded data, never
+    the string.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DEFAULT_ENCODING_OPTIONS
+    verified_at: '2026-10-09'
+- id: QST-1g2f38yvt692
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pvvwmsfr9v99
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-qnm508g1ktqm
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does Symfony 8.0 classify PURGE?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  choices:
+  - id: CHO-4s6bzh54vhwp
+    text: Idempotent only
+    correct: true
+  - id: CHO-asebqjpq0zje
+    text: Safe and idempotent
+    correct: false
+    explanation: Not safe.
+  - id: CHO-k33wb9w1dcg5
+    text: Neither safe nor idempotent
+    correct: false
+    explanation: Symfony adds it to idempotent methods.
+  - id: CHO-m1b6d4hdmn34
+    text: Cacheable
+    correct: false
+    explanation: Only GET, HEAD and QUERY.
+  explanation: 'Executed with HttpFoundation 8.0.15: PURGE [safe false, idempotent true, cacheable false].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isMethodIdempotent()
+    verified_at: '2026-10-09'
+- id: QST-v4wx6ed7bf63
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-pvvwmsfr9v99
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-qnm508g1ktqm
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Is PATCH idempotent in Symfony 8.0, and which RFC defines it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  choices:
+  - id: CHO-jz1m7hn2ngcj
+    text: No; RFC 5789
+    correct: true
+  - id: CHO-32q7gvgy26dk
+    text: Idempotent; RFC 9110
+    correct: false
+    explanation: Neither.
+  - id: CHO-9qheab9bb243
+    text: Idempotent; RFC 5789
+    correct: false
+    explanation: 'Executed: isMethodIdempotent() is false.'
+  - id: CHO-27ye2pq8jngd
+    text: Safe; RFC 9110
+    correct: false
+    explanation: Neither.
+  explanation: Executed with HttpFoundation 8.0.15. RFC 9110 §9.2 lists only its own methods.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isMethodIdempotent()
+    verified_at: '2026-10-09'
+- id: QST-6yd4xy7sgzj0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-v9x1yyn34t4x
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A developer builds a theme cookie with only a name and a value, through the static factory.
+    What protections does it get without asking?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-fjy3p7cbqx4c
+    text: HttpOnly and SameSite=Lax
+    correct: true
+  - id: CHO-3z59ywyawz8e
+    text: 'None: a bare cookie'
+    correct: false
+    explanation: The defaults are already safe.
+  - id: CHO-rhwscb5rxzt2
+    text: Secure, HttpOnly and SameSite=Strict
+    correct: false
+    explanation: Secure is off, SameSite is lax.
+  - id: CHO-4ynjsg1rq45z
+    text: SameSite=None
+    correct: false
+    explanation: lax by default.
+  explanation: Executed with HttpFoundation 8.0.15. Cookie::fromString('n=v') gives HttpOnly false and
+    SameSite null.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: create()
+    verified_at: '2026-10-09'
+- id: QST-cpkxqaxn5pbd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-sh5sn773tmkx
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A cookie was set on the response, then `$response->headers->removeCookie('a')` is called.
+    What happens in the browser?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-ng7p52dr5nqc
+    text: Nothing
+    correct: true
+  - id: CHO-ptb6swnk1n4h
+    text: The browser deletes cookie a
+    correct: false
+    explanation: That is clearCookie().
+  - id: CHO-y85ptshwd036
+    text: An expired cookie is sent
+    correct: false
+    explanation: That is clearCookie().
+  - id: CHO-wya22mr4pjd8
+    text: 'An exception: it was not sent yet'
+    correct: false
+    explanation: It works.
+  explanation: 'Executed with HttpFoundation 8.0.15: only the pending Set-Cookie is dropped. clearCookie()
+    sends an expired cookie.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: removeCookie()
+    verified_at: '2026-10-09'
+- id: QST-3f2b1y22d7ax
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-v9x1yyn34t4x
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Does HttpOnly protect against CSRF?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  - security
+  choices:
+  - id: CHO-cr8thwgvbt1j
+    text: 'No: it only blocks script reads'
+    correct: true
+  - id: CHO-ypswet1w3xdy
+    text: 'Yes: the cookie is then never sent with cross-site requests'
+    correct: false
+    explanation: That is SameSite.
+  - id: CHO-7920bjvah7z2
+    text: Yes, with Secure
+    correct: false
+    explanation: Secure is about HTTPS.
+  - id: CHO-etkvmdbhtn8f
+    text: Only for session cookies
+    correct: false
+    explanation: It never addresses CSRF.
+  explanation: SameSite addresses CSRF; HttpOnly addresses script theft (XSS).
+  official_sources:
+  - url: https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md
+    repository: httpwg/http-extensions
+    branch: main
+    symbol_or_lines: HttpOnly
+    verified_at: '2026-10-09'
+- id: QST-pa68a6k2fdrd
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-sh5sn773tmkx
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-bz1f5nh8g9b2
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What kind of cookie is this?
+
+    ```php
+    Cookie::create('n', 'v')->withExpires(0);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-tqxng8dmar9m
+    text: A session cookie
+    correct: true
+  - id: CHO-zj11dacemfc8
+    text: An already expired cookie
+    correct: false
+    explanation: 0 means no expiry date.
+  - id: CHO-88zn0whhhwz4
+    text: A cookie that never expires
+    correct: false
+    explanation: It lives for the session.
+  - id: CHO-gercw2ahpwgk
+    text: An invalid cookie
+    correct: false
+    explanation: It is valid.
+  explanation: 'Executed with HttpFoundation 8.0.15: getExpiresTime() is 0; it disappears when the browser
+    closes.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: withExpires()
+    verified_at: '2026-10-09'
+- id: QST-x765evk6rnvb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-m7sm7y26r3vk
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What Cache-Control does each call give?
+
+    ```php
+    (new Response())->setMaxAge(60);
+    (new Response())->setSharedMaxAge(60);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - caching
+  choices:
+  - id: CHO-f8jvg19s4jze
+    text: private, then public
+    correct: true
+  - id: CHO-fh0zzvk13txh
+    text: '`public, max-age=60` for both of them'
+    correct: false
+    explanation: private is the default; s-maxage is set by the second.
+  - id: CHO-ddhp0z1pjjr0
+    text: '`max-age=60`, then `s-maxage=60, private`'
+    correct: false
+    explanation: setSharedMaxAge() makes it public.
+  - id: CHO-m8aa91fh08nr
+    text: '`no-cache`, then `public`'
+    correct: false
+    explanation: Both set an age.
+  explanation: 'Executed with HttpFoundation 8.0.15: max-age=60, private; then public, s-maxage=60. A
+    fresh Response says "no-cache, private".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setSharedMaxAge()
+    verified_at: '2026-10-09'
+- id: QST-th7vddfr5k1d
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8qect8jsygkg
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-tc39jp8japfc
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A GET carries If-None-Match matching the response ETag. After isNotModified() returns true,
+    what is the response?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - caching
+  choices:
+  - id: CHO-4k3g36jbmjcw
+    text: A 304 with an empty body
+    correct: true
+  - id: CHO-55x5k6pcmqe8
+    text: Unchanged, 200 with its body
+    correct: false
+    explanation: isNotModified() turns it into a 304.
+  - id: CHO-vx7zextnnsj8
+    text: A 412 Precondition Failed
+    correct: false
+    explanation: Not for a match.
+  - id: CHO-ptmkfjmkgsax
+    text: A 204
+    correct: false
+    explanation: It becomes 304.
+  explanation: Executed with HttpFoundation 8.0.15. On a POST it returns false at once.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isNotModified()
+    verified_at: '2026-10-09'
+- id: QST-p7b0wn3txb3v
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-2brhvb6bgms5
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Accept is `text/*;q=0.3, text/plain;q=0.7, application/json, image/png;q=0`. What does getAcceptableContentTypes()
+    return?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - negotiation
+  choices:
+  - id: CHO-82fy6ncef375
+    text: json, plain, text/*, png
+    correct: true
+  - id: CHO-g19kaxxd9xxg
+    text: json, text/plain, text/*, with image/png dropped
+    correct: false
+    explanation: Symfony keeps q=0 entries, last.
+  - id: CHO-t9hvhjdjk70c
+    text: text/plain, json, text/*
+    correct: false
+    explanation: 'Sorted by quality: json is 1.0.'
+  - id: CHO-vr7qc79zz2f5
+    text: In header order
+    correct: false
+    explanation: Sorted by quality.
+  explanation: 'Executed with HttpFoundation 8.0.15: sorted by quality, q=0 kept.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getAcceptableContentTypes()
+    verified_at: '2026-10-09'
+- id: QST-6y05g69epzyq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gqzyfd5s32ta
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-mrvrtxm4v2m5
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The route sets _format to xml; the client sends Accept: application/json. What does getPreferredFormat()
+    return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - negotiation
+  choices:
+  - id: CHO-wfkrz7j89wjf
+    text: xml
+    correct: true
+  - id: CHO-ae5rsjsvvd0c
+    text: json
+    correct: false
+    explanation: _format is read before Accept.
+  - id: CHO-ajyxva0y7nmx
+    text: html, the default
+    correct: false
+    explanation: A format is set.
+  - id: CHO-322e4h1razkd
+    text: 'null'
+    correct: false
+    explanation: xml is set.
+  explanation: Executed with HttpFoundation 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPreferredFormat()
+    verified_at: '2026-10-09'
+- id: QST-9wdpyj3yexm9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-asmwtw5t98t8
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-fhjmv9w3wxsb
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Accept-Language is `fr-CH, fr;q=0.9, en;q=0.8`. The app supports only de. What does getPreferredLanguage(['de'])
+    return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - languages
+  choices:
+  - id: CHO-tr5rxhebvp21
+    text: de
+    correct: true
+  - id: CHO-7phsz8ynh7eq
+    text: 'null: no match'
+    correct: false
+    explanation: It falls back to the first supported.
+  - id: CHO-byhgxexwssww
+    text: fr_CH
+    correct: false
+    explanation: Not supported.
+  - id: CHO-s2ty2qbdzn65
+    text: en
+    correct: false
+    explanation: Not supported.
+  explanation: 'Executed with HttpFoundation 8.0.15: with no match, the first supported locale. Without
+    an argument it returned fr_CH.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPreferredLanguage()
+    verified_at: '2026-10-09'
+- id: QST-99gz974nf78y
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9vyq57j7gj6b
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$client->request(''POST'', $url, [''json'' => [''name'' => ''Ann'']])`. Which header does
+    HttpClient add?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-client
+  choices:
+  - id: CHO-ybmzr72zxrff
+    text: 'Content-Type: application/json'
+    correct: true
+  - id: CHO-3qzhyw957y4a
+    text: 'None: headers must be set by hand'
+    correct: false
+    explanation: The json option sets it.
+  - id: CHO-8z4rj61ywatv
+    text: 'Content-Type: application/x-www-form-urlencoded'
+    correct: false
+    explanation: That is the body option with an array.
+  - id: CHO-zxyfspercgvz
+    text: 'Accept: application/json only'
+    correct: false
+    explanation: Accept stays */*.
+  explanation: 'Executed with HttpClient 8.0.15 (MockHttpClient): body {"name":"Ann"}, Content-Type: application/json.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/HttpClientTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'prepareRequest(): json'
+    verified_at: '2026-10-09'
+- id: QST-a9abmxc7dcq6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-a0z9e1zqpyxy
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A 200 response carries "not json". The code calls toArray(false). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-client
+  choices:
+  - id: CHO-6ntdm6w95x3f
+    text: A decoding exception
+    correct: true
+  - id: CHO-ab6epsf8jq54
+    text: It returns an empty array, as false asks
+    correct: false
+    explanation: Invalid JSON still throws.
+  - id: CHO-gh70tvp6thmk
+    text: It returns null
+    correct: false
+    explanation: It throws.
+  - id: CHO-mt6ykn1rvcyz
+    text: A ClientExceptionInterface exception
+    correct: false
+    explanation: The status is fine; decoding fails.
+  explanation: 'Executed with HttpClient 8.0.15 (JsonException). false only disables the status check:
+    a 500 with valid JSON decoded fine.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/CommonResponseTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: toArray()
+    verified_at: '2026-10-09'
+- id: QST-qdkd7wh1pyrt
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81pzmq0sf6k9
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The host is unreachable. Which call throws the TransportException?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-client
+  choices:
+  - id: CHO-9hb22m2peza7
+    text: The first read
+    correct: true
+  - id: CHO-eaehdywveq4a
+    text: request() itself, before returning
+    correct: false
+    explanation: request() returns at once.
+  - id: CHO-nd4r7evxftp7
+    text: The constructor of the client
+    correct: false
+    explanation: No request yet.
+  - id: CHO-w88bd4sggr0y
+    text: 'None: errors are returned as status 0'
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with HttpClient 8.0.15 (MockHttpClient): request() returned, getStatusCode()
+    threw.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/MockResponse.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: error
+    verified_at: '2026-10-09'
+- id: QST-xj45jj163k52
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-a0z9e1zqpyxy
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which HttpClient option values mean "unlimited" and "follow no redirect"?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-client
+  choices:
+  - id: CHO-r9fteysasvck
+    text: max_duration 0, and max_redirects 0
+    correct: true
+  - id: CHO-fx3cpsznm2mr
+    text: timeout 0, and max_redirects -1
+    correct: false
+    explanation: timeout is idle time.
+  - id: CHO-rz8qvbp9qp9c
+    text: max_duration -1, and max_redirects 0
+    correct: false
+    explanation: 0 is unlimited for max_duration.
+  - id: CHO-hjvqyh9bamym
+    text: max_duration 0, and max_redirects -1
+    correct: false
+    explanation: 0 follows no redirect.
+  explanation: timeout is the idle timeout, not the total duration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: OPTIONS_DEFAULTS
+    verified_at: '2026-10-09'
