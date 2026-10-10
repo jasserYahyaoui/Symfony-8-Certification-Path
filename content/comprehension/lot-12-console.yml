@@ -2113,3 +2113,1117 @@ questions:
     symbol_or_lines: Command::__construct() calls $this->configure()
     branch: '8.0'
     verified_at: '2026-10-09'
+- id: QST-83v9bp34en8w
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-a1qc1gqac172
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: exit-code
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: execute() returns 300. With bin/console's auto-exit, which status does the shell see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - component
+  - exit-code
+  choices:
+  - id: CHO-qja46rmztd52
+    text: '255'
+    correct: true
+  - id: CHO-qpkpxpcrb1yb
+    text: '300'
+    correct: false
+    explanation: A process status is capped at 255.
+  - id: CHO-sah46txh7m5c
+    text: 44, i.e. 300 modulo 256
+    correct: false
+    explanation: Application caps the code before exit().
+  - id: CHO-6jhsmjsv8mhy
+    text: 1, as for any failure
+    correct: false
+    explanation: The value is capped, not replaced.
+  explanation: 'Executed with Console 8.0.15: Application::run() returns 300, the process exits with 255.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: 'run(): exitCode > 255'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-1enq2dpkbjnq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-a1qc1gqac172
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: exit-code
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command throws `new RuntimeException('x', 7)`; another throws `new RuntimeException('x')`.
+    Which exit codes?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - component
+  - exit-code
+  choices:
+  - id: CHO-dpjk27n2khv0
+    text: 7, then 1
+    correct: true
+  - id: CHO-gdj8b0jw2ys5
+    text: 1 for both
+    correct: false
+    explanation: A non-zero exception code is used.
+  - id: CHO-kpv3rfe68x08
+    text: 7, then 0
+    correct: false
+    explanation: Code 0 becomes 1.
+  - id: CHO-nvfe0kdw98hj
+    text: 255 for both
+    correct: false
+    explanation: Not the rule.
+  explanation: Executed with Console 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: 'run(): getCode()'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-gpxd4pz5hdt7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jc4865ayfy98
+  version: 1
+  official_topic: Console
+  official_item: OIT-481gmkgbksnr
+  domain: symfony
+  subtopic: interaction
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A cron job runs a command whose interact() asks for a missing value, without -n. Is interact()
+    called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - component
+  - interaction
+  choices:
+  - id: CHO-k05f619j182d
+    text: 'Yes: only -n, -q or --silent skip it'
+    correct: true
+  - id: CHO-kb9cvx166vm6
+    text: 'No: cron has no terminal'
+    correct: false
+    explanation: Lack of a terminal does not skip it.
+  - id: CHO-tn0hy9f98m9a
+    text: 'No: interact() never runs from scripts'
+    correct: false
+    explanation: Only the flags decide.
+  - id: CHO-fgzxt9dg4x0s
+    text: Only on the first run
+    correct: false
+    explanation: Every run.
+  explanation: A cron job is not a non-interactive mode by itself.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    symbol_or_lines: 'run(): isInteractive()'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-5b506219rmym
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-hf28acc5am6h
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  subtopic: built-in-commands
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`php bin/console` is run with no argument at all. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - built-in-commands
+  choices:
+  - id: CHO-933kvsaekzfq
+    text: The list command runs
+    correct: true
+  - id: CHO-101xdn7n1f25
+    text: 'An error: a command name is required'
+    correct: false
+    explanation: list is the default command.
+  - id: CHO-c5kg6w1aey3e
+    text: The help command for help runs
+    correct: false
+    explanation: list, not help.
+  - id: CHO-m2jqz7hn8t82
+    text: An interactive menu opens
+    correct: false
+    explanation: No menu.
+  explanation: 'Executed with Console 8.0.15: the listing starts with the application name and Usage.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: defaultCommand = 'list'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-76b8cgr1b14a
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-hf28acc5am6h
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  subtopic: environments
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On a server, `php bin/console cache:clear` runs with no APP_ENV set and no --env. Which cache
+    is cleared?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - built-in-commands
+  - environments
+  choices:
+  - id: CHO-2ra0mh66z032
+    text: dev
+    correct: true
+  - id: CHO-q0sw1t9x9qw6
+    text: prod, the server's environment
+    correct: false
+    explanation: Without APP_ENV the default is dev.
+  - id: CHO-4wtmphzt6zwn
+    text: All environments
+    correct: false
+    explanation: One environment per run.
+  - id: CHO-qabr8cv2jjb5
+    text: 'None: --env is required'
+    correct: false
+    explanation: A default applies.
+  explanation: Use --env=prod or APP_ENV=prod; --no-debug turns debug off for one run.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    symbol_or_lines: Selecting the Environment
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-vhrm2pwq9saf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dxyaxf4dpkqc
+  version: 1
+  official_topic: Console
+  official_item: OIT-zgq6w4jqamvb
+  domain: symfony
+  subtopic: abbreviation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: app:sync-users and app:status exist. What does `bin/console a:s` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - built-in-commands
+  - abbreviation
+  choices:
+  - id: CHO-9w9sfxd0dasz
+    text: 'Fails: the name is ambiguous'
+    correct: true
+  - id: CHO-36h4g37w90hq
+    text: Runs app:status, the shorter name
+    correct: false
+    explanation: Length does not break ties.
+  - id: CHO-4nkj9bqtyepf
+    text: Runs app:sync-users, declared first
+    correct: false
+    explanation: Order does not break ties.
+  - id: CHO-vfxn46g34sq3
+    text: Runs both
+    correct: false
+    explanation: One command per run.
+  explanation: 'Executed with Console 8.0.15: Command "a:s" is ambiguous. Did you mean one of these?'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: find()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-q6ztx069hffk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-g23jwhyz5189
+  version: 1
+  official_topic: Console
+  official_item: OIT-kbg00jqxxwhq
+  domain: symfony
+  subtopic: custom-commands
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Without #[AsCommand], which of these classes in src/Command/ is still registered as a command?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - custom-commands
+  choices:
+  - id: CHO-javk9t3e8czg
+    text: A class extending Command
+    correct: true
+  - id: CHO-y1x7vx3er937
+    text: 'A plain invokable class with __invoke(): int'
+    correct: false
+    explanation: It needs the attribute.
+  - id: CHO-j69pyd6tvpmc
+    text: Both
+    correct: false
+    explanation: Only the subclass.
+  - id: CHO-6dxsvwj44c1w
+    text: Neither
+    correct: false
+    explanation: The subclass is autoconfigured.
+  explanation: 'Extending Command or carrying #[AsCommand] triggers the console.command tag.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    symbol_or_lines: Registering the Command
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-7c91z30qp0sk
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-npjsrz7new8m
+  version: 1
+  official_topic: Console
+  official_item: OIT-kbg00jqxxwhq
+  domain: symfony
+  subtopic: custom-commands
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command must run code in initialize(), before interaction. What does that require?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - custom-commands
+  choices:
+  - id: CHO-h04yre09rc3e
+    text: Extending Command
+    correct: true
+  - id: CHO-d7skvejey08v
+    text: 'An #[Interact] method'
+    correct: false
+    explanation: That is for interaction, not initialize().
+  - id: CHO-ah4thqt69je0
+    text: 'An #[Ask] parameter'
+    correct: false
+    explanation: That asks for values.
+  - id: CHO-kx0vpebmkwjd
+    text: 'Nothing: invokable classes have initialize() too'
+    correct: false
+    explanation: initialize() is specific to Command.
+  explanation: 'Interaction no longer requires extending Command: #[Ask] and #[Interact] exist.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    symbol_or_lines: Command Lifecycle
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-n3fk4ewe97hv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-e1vg5bhm9yn9
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  subtopic: configuration
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command is declared `#[AsCommand('|app:secret')]`. Is it listed, and can it run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-qdxr589nbfny
+    text: Not listed, but it runs
+    correct: true
+  - id: CHO-9fkqb5kzdnr0
+    text: Listed, and it runs
+    correct: false
+    explanation: An empty first segment hides it.
+  - id: CHO-j4bz3j7aahfm
+    text: Not listed, and it cannot run
+    correct: false
+    explanation: Hidden is not disabled.
+  - id: CHO-fazn37kng2ap
+    text: A syntax error at load
+    correct: false
+    explanation: The pipe syntax is valid.
+  explanation: 'Executed with Console 8.0.15: run returned 0 and printed "ran"; list did not show it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
+    repository: symfony/symfony
+    symbol_or_lines: '__construct(): name'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-sp0pgqxhrqz3
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-szgbkmx55kyh
+  version: 1
+  official_topic: Console
+  official_item: OIT-1hdmw4gm819r
+  domain: symfony
+  subtopic: configuration
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: configure() reads a property set in the constructor. Where must that property be set?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-mevk0eb9chjm
+    text: Before parent::__construct()
+    correct: true
+  - id: CHO-jw17q348jacs
+    text: After parent::__construct()
+    correct: false
+    explanation: configure() runs inside the parent constructor.
+  - id: CHO-jkn7nc49348s
+    text: In execute()
+    correct: false
+    explanation: Too late.
+  - id: CHO-6srt1460a7e1
+    text: 'Anywhere: configure() runs lazily'
+    correct: false
+    explanation: It runs during construction.
+  explanation: configure() runs at the end of Command::__construct(); it cannot see user input.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    symbol_or_lines: '__construct(): configure()'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-dmbxf9vqn6wr
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dvv3qwaprsck
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: options
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[Option] bool $color = true` on __invoke(). How can a user turn it off?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - options
+  choices:
+  - id: CHO-eebjrme0bh07
+    text: '`--no-color`'
+    correct: true
+  - id: CHO-88yh831jad9h
+    text: '`--color=false`'
+    correct: false
+    explanation: A negatable option takes no value.
+  - id: CHO-r2t7p5e27vry
+    text: 'It cannot: a flag is only set, never unset'
+    correct: false
+    explanation: A true default makes it negatable.
+  - id: CHO-dwckjstj86b5
+    text: '`-color`'
+    correct: false
+    explanation: Not the syntax.
+  explanation: 'Executed with Console 8.0.15: --no-color gave false.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    symbol_or_lines: VALUE_NEGATABLE
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-mky0sgys8yj0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ghsttz17xxqe
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: options
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[Option] string $x` has no default value. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - options
+  choices:
+  - id: CHO-xm5eyjymt2kk
+    text: 'LogicException: an option must declare a default'
+    correct: true
+  - id: CHO-hr51ycw68fzk
+    text: The option becomes required
+    correct: false
+    explanation: Options are never required.
+  - id: CHO-rctjxvhj1ccb
+    text: It defaults to an empty string
+    correct: false
+    explanation: It is refused.
+  - id: CHO-rxshwnjgwwfa
+    text: It defaults to null
+    correct: false
+    explanation: It is refused.
+  explanation: 'Executed with Console 8.0.15: The option parameter "$x" ... must declare a default value.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
+    repository: symfony/symfony
+    symbol_or_lines: tryFrom()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-yyg2vmrjbeav
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2tyae0a8545m
+  version: 1
+  official_topic: Console
+  official_item: OIT-nr9m883d15qq
+  domain: symfony
+  subtopic: arguments
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[Argument] array $a = [], #[Argument] string $b = ''''` on __invoke(). What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - arguments
+  choices:
+  - id: CHO-9x4w4qqc1h71
+    text: LogicException, even though $b is optional
+    correct: true
+  - id: CHO-xd8ahdnkk06e
+    text: 'It works: both are optional'
+    correct: false
+    explanation: Nothing may follow an array argument.
+  - id: CHO-4t3sww8ykmn9
+    text: $b takes the last value given
+    correct: false
+    explanation: The array swallows all values.
+  - id: CHO-7h6gcmdm9n66
+    text: $b is ignored silently
+    correct: false
+    explanation: It is refused.
+  explanation: 'Executed with Console 8.0.15: Cannot add a required argument "b" after an array argument
+    "a" — a misleading message.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
+    repository: symfony/symfony
+    symbol_or_lines: addArgument()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-btvaq89kdcd9
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-eea5s77r44aw
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: input
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The command defines an option force. It is run without it. What is printed?
+
+    ```php
+    $o->writeln(json_encode([
+        $i->hasOption('force'),
+        $i->hasParameterOption('--force'),
+    ]));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - input
+  choices:
+  - id: CHO-f7h99yvq87qm
+    text: '`[true,false]`'
+    correct: true
+  - id: CHO-sdmsmss1ssx1
+    text: '`[false,false]`'
+    correct: false
+    explanation: hasOption() reads the definition.
+  - id: CHO-n3rxt92ew3kv
+    text: '`[true,true]`'
+    correct: false
+    explanation: hasParameterOption() reads the raw command line.
+  - id: CHO-kasv747cbjyn
+    text: '`[false,true]`'
+    correct: false
+    explanation: Reversed.
+  explanation: Executed with Console 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/Input.php
+    repository: symfony/symfony
+    symbol_or_lines: hasOption()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-qmz78c6ceyt7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-b3v4c3hz8gha
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: output
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why should a command never use echo?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - output
+  choices:
+  - id: CHO-4qstezvdjesz
+    text: It bypasses verbosity, formatting and tests
+    correct: true
+  - id: CHO-5ee624p98xw1
+    text: echo is forbidden by PHP in CLI
+    correct: false
+    explanation: It works, which is the problem.
+  - id: CHO-2vhtkx2t2qwj
+    text: It always writes to STDERR
+    correct: false
+    explanation: It writes to stdout.
+  - id: CHO-kg5465rpzsjn
+    text: It is slower
+    correct: false
+    explanation: Not the reason.
+  explanation: Write through OutputInterface or SymfonyStyle.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    repository: symfony/symfony-docs
+    symbol_or_lines: Console Output
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-688b4bh5vb6r
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-yvpt5rvdwtkb
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  subtopic: questions
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`new ConfirmationQuestion(''ok? '')` is asked, and the user just presses Enter. What is returned?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - helpers
+  - questions
+  choices:
+  - id: CHO-06e8z37rqkaj
+    text: 'true'
+    correct: true
+  - id: CHO-g3zb3sfzkh28
+    text: 'false'
+    correct: false
+    explanation: The default is true when omitted.
+  - id: CHO-s6yhpfjj8g23
+    text: 'null'
+    correct: false
+    explanation: A confirmation returns a bool.
+  - id: CHO-nqb8bjmgcm3m
+    text: It asks again
+    correct: false
+    explanation: The default applies.
+  explanation: Executed with Console 8.0.15. A plain Question without default returned null on an empty
+    line.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Question/ConfirmationQuestion.php
+    repository: symfony/symfony
+    symbol_or_lines: __construct(default true)
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-06awavzjnb67
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-0jqghb0j4pxh
+  version: 1
+  official_topic: Console
+  official_item: OIT-v6wxp78gk42c
+  domain: symfony
+  subtopic: helpers
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why is `$this->getHelper('question')` unavailable in a plain invokable command?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - helpers
+  choices:
+  - id: CHO-aha0qkd45r73
+    text: getHelper() comes from Command
+    correct: true
+  - id: CHO-ywadvx1nje8a
+    text: Helpers were removed in 8.0
+    correct: false
+    explanation: They exist.
+  - id: CHO-9z9h11kq779x
+    text: It needs a kernel
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-y5kf0s9aaxvd
+    text: It is only available in interact()
+    correct: false
+    explanation: It is a Command method.
+  explanation: 'Use SymfonyStyle or #[Ask] in an invokable command.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    symbol_or_lines: getHelper()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-rn53ypmatzhb
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rzgybvr9fa5g
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A console.command listener calls disableCommand(). What is the exit code, and is console.terminate
+    dispatched?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - events
+  choices:
+  - id: CHO-3ve1yzrnnw35
+    text: 113, and terminate is dispatched
+    correct: true
+  - id: CHO-r6mj3b18eztp
+    text: 0, and terminate is skipped
+    correct: false
+    explanation: Not the code; terminate still runs.
+  - id: CHO-2q98c2a84hp3
+    text: 1, and terminate is dispatched
+    correct: false
+    explanation: The code is 113.
+  - id: CHO-7a309ad7mgqv
+    text: 113, and terminate is skipped
+    correct: false
+    explanation: Terminate is dispatched.
+  explanation: 'Executed with Console 8.0.15: the terminate listener saw exit code 113.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
+    repository: symfony/symfony
+    symbol_or_lines: RETURN_CODE_DISABLED
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-9ntftvjv5tjc
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2e5yd7119yha
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A standalone Application has no dispatcher set. Are console events dispatched?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - events
+  choices:
+  - id: CHO-xaa99g4fjdjf
+    text: 'No: no dispatcher, no events'
+    correct: true
+  - id: CHO-rwn5m6m25gfp
+    text: Yes, through a default dispatcher
+    correct: false
+    explanation: There is none by default.
+  - id: CHO-25sf8rff16fz
+    text: Only console.error
+    correct: false
+    explanation: None at all.
+  - id: CHO-kj79b8nextxy
+    text: Only console.terminate
+    correct: false
+    explanation: None at all.
+  explanation: setDispatcher() wires them; in the framework it is done for you.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: setDispatcher()
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-1eaey66hme8e
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8fna7evcc7x4
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  subtopic: verbosity
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: SHELL_VERBOSITY=1 is exported, and the command is run with -q. A VERBOSE message and a QUIET-level
+    message are written. What shows?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - verbosity
+  choices:
+  - id: CHO-7164tamydqn2
+    text: Only the QUIET-level message
+    correct: true
+  - id: CHO-83n10zacd829
+    text: 'Both: SHELL_VERBOSITY wins'
+    correct: false
+    explanation: -q wins over the variable.
+  - id: CHO-ejhsmfpsytze
+    text: Nothing
+    correct: false
+    explanation: QUIET-level messages show under -q.
+  - id: CHO-y7kvx4ydvz5q
+    text: Only the VERBOSE message
+    correct: false
+    explanation: It is hidden under -q.
+  explanation: Executed with Console 8.0.15. SHELL_VERBOSITY alone showed both.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    symbol_or_lines: 'configureIO(): SHELL_VERBOSITY'
+    branch: '8.0'
+    verified_at: '2026-10-10'
+- id: QST-skrs2bed3e7v
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8fna7evcc7x4
+  version: 1
+  official_topic: Console
+  official_item: OIT-dv5400dtksfg
+  domain: symfony
+  subtopic: verbosity
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A message is written with VERBOSITY_VERBOSE. At which flags does it appear?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-10'
+  tags:
+  - verbosity
+  choices:
+  - id: CHO-n6sekbdpnkg2
+    text: -v, -vv and -vvv
+    correct: true
+  - id: CHO-jz2exjfx73bm
+    text: Only -v
+    correct: false
+    explanation: The level is a threshold.
+  - id: CHO-f5ta887ga48p
+    text: Only -vvv
+    correct: false
+    explanation: That is DEBUG.
+  - id: CHO-2ffjvavejdb0
+    text: Always
+    correct: false
+    explanation: Not at normal verbosity.
+  explanation: 'Executed with Console 8.0.15: shown with -vv. The level is writeln()''s second argument.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/Output.php
+    repository: symfony/symfony
+    symbol_or_lines: 'write(): verbosity'
+    branch: '8.0'
+    verified_at: '2026-10-10'
