@@ -1,0 +1,3763 @@
+# Lot 05 - Routing: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the twelve items is assessed by at
+# least one question (rule CMP-001); the last questions tie two items together
+# through related_items. No prompt repeats or rewords a question of the exam
+# banks (rule CMP-002). Answers verified against Routing and HttpFoundation
+# 8.0.15 by execution, and against the 8.0 sources cited.
+
+schema_version: 1
+questions:
+- id: QST-gw67395df7b6
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-jsv2v128z17j
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$matcher->match(''/blog/hello'')` succeeds. What does it return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing-component
+  choices:
+  - id: CHO-4bssxcp1c5af
+    text: An array of variables
+    correct: true
+  - id: CHO-fbh5vbtp6t2e
+    text: A Response object ready to be sent
+    correct: false
+    explanation: The matcher never builds a response; it only describes the match.
+  - id: CHO-r104w0qne7a7
+    text: The controller callable to execute
+    correct: false
+    explanation: Resolving the controller is HttpKernel's job; _controller is just one of the variables.
+  - id: CHO-t9c0j7a2e7jk
+    text: A Route object taken from the collection
+    correct: false
+    explanation: The matcher returns values, not the route definition.
+  explanation: 'Matching maps the request to a set of configuration variables: _route, the placeholders,
+    and the defaults such as _controller.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/UrlMatcherInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'match(): array'
+    verified_at: '2026-10-09'
+- id: QST-25j5vh6pvemt
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-25y9qjcp8wgy
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Routing class holds the current host, scheme, HTTP method and port that matching and
+    generation both read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing-component
+  choices:
+  - id: CHO-6878wk9h6a0d
+    text: RequestContext
+    correct: true
+  - id: CHO-3sspms6pvqtn
+    text: RouteCollection, which stores them next to the routes
+    correct: false
+    explanation: A collection only holds the ordered routes.
+  - id: CHO-cqxhfzj3m7rf
+    text: Route, through its host and schemes options
+    correct: false
+    explanation: Those are what one route requires, not the current values.
+  - id: CHO-vc6c519ckb0p
+    text: Router, which reads them from the Request each time
+    correct: false
+    explanation: The Router delegates to a context object that holds them.
+  explanation: RequestContext carries the base URL, method, host, scheme and ports; the matcher and the
+    generator both receive it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RequestContext.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class RequestContext
+    verified_at: '2026-10-09'
+- id: QST-xevhx8y6gyat
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-25y9qjcp8wgy
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Routing class ties a loader, a matcher and a generator together behind one service?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing-component
+  choices:
+  - id: CHO-2f9wh314czpb
+    text: Router
+    correct: true
+  - id: CHO-bw8jce0f194k
+    text: RouteCollectionBuilder, which also compiles the matcher
+    correct: false
+    explanation: No such builder assembles the three in 8.0.
+  - id: CHO-4cf2bdtqbkvy
+    text: RouterListener, registered on kernel.request
+    correct: false
+    explanation: The listener calls the router; it does not assemble it.
+  - id: CHO-7vyey3meejwz
+    text: RequestMatcher, from the HttpFoundation component
+    correct: false
+    explanation: That class matches requests for other purposes, such as firewalls.
+  explanation: Router loads the RouteCollection from a resource and lazily builds a matcher and a generator
+    from it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Router.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getMatcher(), getGenerator()
+    verified_at: '2026-10-09'
+- id: QST-rhfpamv78zkp
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-qpav59c60vb3
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why can an option count when an incoming URL is matched yet be ignored when a URL is built?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing-component
+  - url-generation
+  choices:
+  - id: CHO-f82xxhmw3g6m
+    text: Matching and building are two separate classes
+    correct: true
+  - id: CHO-ny4avr26887g
+    text: The builder runs before the container is compiled
+    correct: false
+    explanation: Generation happens at runtime, like matching.
+  - id: CHO-yzmd9z1gfbqs
+    text: Options are read only from YAML during matching
+    correct: false
+    explanation: Options apply whatever the configuration format.
+  - id: CHO-8nr99c07xc5f
+    text: Building uses a cached copy of older routes
+    correct: false
+    explanation: Both sides use the same compiled routes.
+  explanation: UrlMatcher maps a path to variables, UrlGenerator maps variables to a path. The generator
+    never sees the request, so anything that depends on it cannot apply there.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class UrlGenerator
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/UrlMatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class UrlMatcher
+    verified_at: '2026-10-09'
+- id: QST-aggxbf0xp9hf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bn50g0may31c
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: RouterListener turns "no route" into a 404 response. Which package defines that class?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - framework-bundle
+  - router-listener
+  choices:
+  - id: CHO-535xfg0v3hk2
+    text: HttpKernel
+    correct: true
+  - id: CHO-kv2ejarmggzw
+    text: FrameworkBundle, which ships it with the router
+    correct: false
+    explanation: The bundle registers it as router_listener; it does not define it.
+  - id: CHO-4ghtt95bmy7h
+    text: The Routing component itself
+    correct: false
+    explanation: Routing has no dependency on HttpKernel and defines no listener.
+  - id: CHO-y4j5kxvgk7c3
+    text: HttpFoundation, next to the Request class
+    correct: false
+    explanation: HttpFoundation has no event listeners.
+  explanation: The class is Symfony\Component\HttpKernel\EventListener\RouterListener, subscribed to kernel.request
+    at priority 32; FrameworkBundle wires it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents()
+    verified_at: '2026-10-09'
+- id: QST-q4n854xet24x
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-bn50g0may31c
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A project uses the Routing component on its own, without FrameworkBundle. What does it NOT
+    get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - framework-bundle
+  choices:
+  - id: CHO-rccvbd57pzpp
+    text: The debug:router and router:match commands
+    correct: true
+  - id: CHO-vh55zs382sp0
+    text: The UrlGenerator class
+    correct: false
+    explanation: Generation is part of the component.
+  - id: CHO-dvw2d0kc39bt
+    text: Route requirements and defaults
+    correct: false
+    explanation: They are part of Route, in the component.
+  - id: CHO-kymjmvs9nz0g
+    text: The ability to load YAML route files
+    correct: false
+    explanation: The YAML loader is in the component; it needs the Yaml component.
+  explanation: FrameworkBundle adds the cached router service, the router listener wiring, the debug and
+    match commands, and RedirectController and TemplateController.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: debug:router
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: router:match
+    verified_at: '2026-10-09'
+- id: QST-7ay868c04e9h
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-f2tn472mwm2p
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which YAML declares the same route as `#[Route(''/blog/{slug}'', name: ''blog_show'', methods:
+    [''GET''])]` on BlogController::show?'
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-fzjbpqdr7c6m
+    text: |-
+      ```yaml
+      blog_show:
+          path: /blog/{slug}
+          controller: App\Controller\BlogController::show
+          methods: GET
+      ```
+    correct: true
+  - id: CHO-h33wb1at7haw
+    text: |-
+      ```yaml
+      blog_show:
+          route: /blog/{slug}
+          action: App\Controller\BlogController::show
+          methods: GET
+      ```
+    correct: false
+    explanation: The keys are path and controller; route and action are not accepted.
+  - id: CHO-nam3h88qf9dj
+    text: |-
+      ```yaml
+      /blog/{slug}:
+          name: blog_show
+          controller: App\Controller\BlogController::show
+      ```
+    correct: false
+    explanation: The top-level key is the route name, not the path.
+  - id: CHO-fpmmbcy73g0q
+    text: |-
+      ```yaml
+      blog_show:
+          path: /blog/{slug}
+          methods: GET
+      ```
+    correct: false
+    explanation: Without controller the route has no _controller to run.
+  explanation: In YAML the top-level key is the route name; path, controller and methods are the keys
+    mirroring the attribute arguments.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: AVAILABLE_KEYS
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating Routes in YAML
+    verified_at: '2026-10-09'
+- id: QST-gajyyy9cav6t
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jjd0fkj8bsy5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Route `post_new` (/post/new) is loaded after route `post_show` (/post/{id}), with no requirement
+    on id. Which one handles /post/new?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - route-order
+  choices:
+  - id: CHO-zxdhhz6qka75
+    text: post_show, with id set to "new"
+    correct: true
+  - id: CHO-tspd0gw3sbc3
+    text: post_new, because a static path is preferred
+    correct: false
+    explanation: Symfony does not rank static paths first; order decides.
+  - id: CHO-sxk4rqc9d4ej
+    text: 'Neither: two candidates raise an exception'
+    correct: false
+    explanation: Several candidates are normal; the first one wins.
+  - id: CHO-ypwaqste5mfm
+    text: post_new, because it was declared last
+    correct: false
+    explanation: The first matching route wins, not the last.
+  explanation: Routes are evaluated in order and the first match wins. A requirement on id, or a higher
+    priority on post_new, fixes it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/UrlMatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: matchCollection()
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Priority Parameter
+    verified_at: '2026-10-09'
+- id: QST-z82ek69vctxv
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-tkq7ea4zgfd1
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two attribute routes in different controllers collide, and editing the generic one is not
+    allowed. What makes the specific route win without touching the other?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - route-order
+  - priority
+  choices:
+  - id: CHO-vdzae6284gmd
+    text: '`priority: 1` on the specific route'
+    correct: true
+  - id: CHO-ca3f55zvz3z7
+    text: Renaming the specific route so it sorts first
+    correct: false
+    explanation: Route names do not affect evaluation order.
+  - id: CHO-8b8n0z5m3nt0
+    text: 'Adding `methods: [''GET'']` to the specific route'
+    correct: false
+    explanation: The generic route still accepts GET, so it still matches first.
+  - id: CHO-c80wy98dj991
+    text: Moving the specific controller into src/Controller/Admin/
+    correct: false
+    explanation: The directory does not set the order.
+  explanation: 'priority, an integer defaulting to 0, is available on #[Route]: higher values are evaluated
+    first.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): priority'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Priority Parameter
+    verified_at: '2026-10-09'
+- id: QST-kyey48kefr67
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-tkq7ea4zgfd1
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    A developer copies the attribute fix into config/routes.yaml:
+
+    ```yaml
+    blog_list:
+        path: /blog/list
+        controller: App\Controller\BlogController::list
+        priority: 2
+    ```
+
+    What happens when the routes load?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - priority
+  choices:
+  - id: CHO-8xdhwpcxf39r
+    text: An InvalidArgumentException about an unsupported key
+    correct: true
+  - id: CHO-18ahyf12tdrj
+    text: The route loads with priority 2
+    correct: false
+    explanation: The YAML loader does not list priority among its keys.
+  - id: CHO-wxqt9vn4qc7x
+    text: The key is ignored and the route loads at priority 0
+    correct: false
+    explanation: Unknown keys are rejected, not ignored.
+  - id: CHO-vvdk40yx5bpy
+    text: priority is copied into the route defaults
+    correct: false
+    explanation: Only the defaults key feeds defaults.
+  explanation: priority is an argument of the PHP attribute; the YAML loader validates every key and throws
+    for one it does not support. Ordering in YAML is the order of the file.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validate(): AVAILABLE_KEYS'
+    verified_at: '2026-10-09'
+- id: QST-phas6x1nbvxe
+  question_archetype: VERSION_ATTRIBUTION
+  assesses_outcomes:
+  - OUT-zmrs1nv9vh0d
+  version: 1
+  official_topic: Routing
+  official_item: OIT-egy2wn3z7gb7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In Symfony 8.0, an import of `Symfony\Component\Routing\Annotation\Route` fails. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - attributes
+  choices:
+  - id: CHO-n01mfvyxrfmt
+    text: That namespace was removed; Routing\Attribute\Route remains
+    correct: true
+  - id: CHO-p0naj34dp5r6
+    text: It needs an extra annotations package installed
+    correct: false
+    explanation: The class no longer exists at all.
+  - id: CHO-trxav5mapg4n
+    text: It moved to FrameworkBundle\Routing\Route
+    correct: false
+    explanation: The attribute is still in the Routing component.
+  - id: CHO-tw4je93pp0b7
+    text: It needs PHP 8.5 to load
+    correct: false
+    explanation: Nothing about the class depends on 8.5.
+  explanation: Routing 8.0 has no Annotation directory; the attribute is Symfony\Component\Routing\Attribute\Route.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: namespace Symfony\Component\Routing\Attribute
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '8.0: Remove class aliases in the Annotation namespace'
+    verified_at: '2026-10-09'
+- id: QST-r89nm80f7jrr
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-gxaj5vfr68nt
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which attribute restricts {id} to digits in the `requirements` option, rather than inline?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - requirements
+  choices:
+  - id: CHO-1w7yafjgm3as
+    text: '`#[Route(''/post/{id}'', requirements: [''id'' => ''\d+''])]`'
+    correct: true
+  - id: CHO-rjqned7v5c58
+    text: '`#[Route(''/post/{id}'', constraints: [''id'' => ''\d+''])]`'
+    correct: false
+    explanation: The argument is named requirements.
+  - id: CHO-e5taqjd0jdp8
+    text: '`#[Route(''/post/{id}'', requirements: ''\d+'')]`'
+    correct: false
+    explanation: requirements maps each parameter name to its pattern.
+  - id: CHO-c53fg1ptpg7a
+    text: '`#[Route(''/post/{id:\d+}'')]`'
+    correct: false
+    explanation: 'Inline patterns are written in angle brackets: {id<\d+>}.'
+  explanation: 'Three forms exist: requirements on the attribute, requirements in YAML or PHP config,
+    and the inline {id<\d+>} form.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): requirements'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Parameters Validation
+    verified_at: '2026-10-09'
+- id: QST-agbet86971rf
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-gxaj5vfr68nt
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In YAML, under which key does `id: ''\d+''` go to constrain the {id} placeholder?'
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - requirements
+  choices:
+  - id: CHO-d6fmn8347fww
+    text: requirements
+    correct: true
+  - id: CHO-ywq1rr5x8v7q
+    text: defaults
+    correct: false
+    explanation: defaults gives values, not patterns.
+  - id: CHO-kpya9m56g55k
+    text: options
+    correct: false
+    explanation: options carries compiler options such as utf8.
+  - id: CHO-tyc1v2jascqb
+    text: condition
+    correct: false
+    explanation: condition takes one expression for the whole route.
+  explanation: requirements maps each placeholder to a regular expression, in YAML as in the attribute.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'parseRoute(): requirements'
+    verified_at: '2026-10-09'
+- id: QST-sezyvtzwdv31
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-t3ajatgs8hh2
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /blog/{page} must list a page and /blog/{slug} must show an article. What lets both coexist?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - requirements
+  - route-order
+  choices:
+  - id: CHO-pcceqw9htjmd
+    text: A digits requirement on page
+    correct: true
+  - id: CHO-t36as4e01k57
+    text: Declaring the slug route first
+    correct: false
+    explanation: Then the slug route catches /blog/2 as well.
+  - id: CHO-wy36ffxcgh64
+    text: Giving page a default value
+    correct: false
+    explanation: A default does not stop page from matching any string.
+  - id: CHO-fpaqb5d0v6zy
+    text: Naming the parameters differently is enough
+    correct: false
+    explanation: Placeholder names play no part in matching.
+  explanation: Without requirements both patterns match the same URLs and the first wins. A requirement
+    makes the first route refuse non-numeric values, which then reach the second.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Parameters Validation
+    verified_at: '2026-10-09'
+- id: QST-p18rcyp1z7gc
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-7hyaem7hsh5h
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does a YAML route reuse the pattern of `Requirement::UUID_V4`?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - requirements
+  - requirement-enum
+  choices:
+  - id: CHO-k1xegz9q19qb
+    text: '`id: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4`'
+    correct: true
+  - id: CHO-7hmhpjexq2yc
+    text: '`id: Requirement::UUID_V4`'
+    correct: false
+    explanation: That is read as a literal string, not resolved.
+  - id: CHO-wg9a895gty4y
+    text: '`id: ''%Requirement::UUID_V4%''`'
+    correct: false
+    explanation: Percent signs name container parameters, not PHP constants.
+  - id: CHO-pn562vkq6dg4
+    text: '`id: !requirement UUID_V4`'
+    correct: false
+    explanation: There is no such YAML tag.
+  explanation: The !php/const tag makes the YAML parser read the constant; executed on 8.0.15, the route
+    ends up with its pattern.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Requirement/Requirement.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: UUID_V4
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Requirement enum in YAML
+    verified_at: '2026-10-09'
+- id: QST-785wv0dwhd2x
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-6m9a09sd49jg
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Given `#[Route('/blog/{page<\d+>?first}')]`, what does a request for /blog produce?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - requirements
+  - defaults
+  choices:
+  - id: CHO-vzjgke61ptjx
+    text: A match, with page = "first"
+    correct: true
+  - id: CHO-ebq9b5q38q3b
+    text: A 404, because "first" is not made of digits
+    correct: false
+    explanation: The default is not checked against the requirement.
+  - id: CHO-qn9jd997g35s
+    text: A 500 at cache warmup
+    correct: false
+    explanation: The definition is accepted.
+  - id: CHO-6sewrx86wzfe
+    text: A match, with page = null
+    correct: false
+    explanation: The default after ? is used.
+  explanation: 'Executed on 8.0.15: the requirement applies only to a value present in the URL; the default
+    bypasses it. /blog/x, on the other hand, is not matched.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'compilePattern(): firstOptional'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Optional Parameters
+    verified_at: '2026-10-09'
+- id: QST-fwaaav2zjcvj
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-w99f0fjydtp0
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which inline path makes {page} optional with the default 1?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - defaults
+  choices:
+  - id: CHO-6gy4g5p0bbxj
+    text: '`/blog/{page?1}`'
+    correct: true
+  - id: CHO-d1r67sqhyt63
+    text: '`/blog/{page=1}`'
+    correct: false
+    explanation: The inline default uses ?, not =.
+  - id: CHO-r9b9vfbw3pgv
+    text: '`/blog/{?page:1}`'
+    correct: false
+    explanation: Not a valid placeholder syntax.
+  - id: CHO-q30zy9szq9vz
+    text: '`/blog/[page=1]`'
+    correct: false
+    explanation: Square brackets are not placeholder syntax.
+  explanation: '{page?1} sets the default inline; {page?} sets it to null; {page<\d+>?1} adds a requirement.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: extractInlineDefaultsAndRequirements
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Optional Parameters
+    verified_at: '2026-10-09'
+- id: QST-t2ph0e4k82fx
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-w99f0fjydtp0
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route path is `/blog/{page?}`. A request arrives for /blog. Which value does the page attribute
+    get?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - defaults
+  choices:
+  - id: CHO-shgsm1511j2w
+    text: 'null'
+    correct: true
+  - id: CHO-9w9161k8dmcz
+    text: An empty string
+    correct: false
+    explanation: A bare ? sets the default to null.
+  - id: CHO-kxk8ry2a28xc
+    text: '0'
+    correct: false
+    explanation: No numeric default is invented.
+  - id: CHO-a01aq4fyw60q
+    text: 'None: /blog does not match'
+    correct: false
+    explanation: The ? makes page optional.
+  explanation: A ? with nothing after it makes the parameter optional with a null default.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'extractInlineDefaultsAndRequirements(): null default'
+    verified_at: '2026-10-09'
+- id: QST-0cr4dxdjavy6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-fhjj5c6d002g
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In `/{lang}/{page}`, only lang has a default. Does /blog match, with lang defaulted?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - defaults
+  choices:
+  - id: CHO-9t00gxw1cphj
+    text: 'No: page is still required after it'
+    correct: true
+  - id: CHO-b819a26n9tmy
+    text: Yes, with lang set to its default
+    correct: false
+    explanation: A default is only usable if every following part is optional too.
+  - id: CHO-4npxf7bz5vtm
+    text: Yes, but page gets null
+    correct: false
+    explanation: page has no default.
+  - id: CHO-bqjgt8c6w2rv
+    text: Only when strict_requirements is false
+    correct: false
+    explanation: That option concerns generation.
+  explanation: Everything after an optional parameter must be optional. Executed on 8.0.15, a path with
+    an optional segment followed by a mandatory one does not match without it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: firstOptional
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Optional Parameters
+    verified_at: '2026-10-09'
+- id: QST-6yy5dq45ghr9
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-qva279gdyyra
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does writing {!page} instead of {page} change, page having a default of 1?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - defaults
+  - url-generation
+  choices:
+  - id: CHO-rx1z5ycg1rk6
+    text: The URL keeps /1, and page becomes mandatory
+    correct: true
+  - id: CHO-18jw4b54k5c7
+    text: The default is ignored at generation only
+    correct: false
+    explanation: The default is still used; it is just not stripped.
+  - id: CHO-rzfaw0xy18tf
+    text: page is excluded from requirements
+    correct: false
+    explanation: The ! does not touch requirements.
+  - id: CHO-2nq3df29t4x8
+    text: Matching becomes case-insensitive
+    correct: false
+    explanation: The ! concerns the URL segment, not case.
+  explanation: 'Executed on 8.0.15: generation gives /blog/1 instead of /blog, and /blog no longer matches
+    because the parameter is mandatory.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: important parameter
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): important'
+    verified_at: '2026-10-09'
+- id: QST-fgrgt1sv74sw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-33d0j3zrrwmz
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`{page<\d+>?first}` is the only placeholder of /blog/{…}. Called with no arguments, the generator
+    yields which string?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - defaults
+  - requirements
+  - url-generation
+  choices:
+  - id: CHO-e41aefm98nv5
+    text: '`/blog`'
+    correct: true
+  - id: CHO-yc4aemegwx04
+    text: '`/blog/first`'
+    correct: false
+    explanation: A value equal to the default is dropped from the end.
+  - id: CHO-fy553q4jrgsj
+    text: An InvalidParameterException
+    correct: false
+    explanation: The default is not checked; only a supplied value is.
+  - id: CHO-bme8v5r88cz2
+    text: '`/blog?page=first`'
+    correct: false
+    explanation: page is a placeholder, not an extra parameter.
+  explanation: 'Executed on 8.0.15: the default may break the requirement and is still used. Passing page
+    = "x" explicitly, however, throws.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: doGenerate()
+    verified_at: '2026-10-09'
+- id: QST-5m65rd142t25
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-t5wbk2v6vn3y
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Inside a mailer service, a link to the invoice_show route has to be built. Which dependency
+    gives it the router's generate()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - services
+  choices:
+  - id: CHO-xrefgr17ezh0
+    text: UrlGeneratorInterface
+    correct: true
+  - id: CHO-kcgr9av5f8tv
+    text: AbstractController, to call generateUrl()
+    correct: false
+    explanation: A service is not a controller; inject the generator.
+  - id: CHO-09van177q5px
+    text: RequestStack, to read the URL
+    correct: false
+    explanation: RequestStack gives the current request, not other routes' URLs.
+  - id: CHO-4gxys5h0jmvf
+    text: RouteCollection, to read the path
+    correct: false
+    explanation: Reading a path is not generating a URL with parameters.
+  explanation: Autowiring UrlGeneratorInterface gives the router; generateUrl() in a controller and path()/url()
+    in Twig call the same generate().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Generating URLs in Services
+    verified_at: '2026-10-09'
+- id: QST-qzmt2ptw724n
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-t5wbk2v6vn3y
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a Twig template, `path('blog')` and `url('blog')` differ how?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - twig
+  choices:
+  - id: CHO-spahraqmd2zz
+    text: url() includes scheme and host
+    correct: true
+  - id: CHO-trsa70adm5xb
+    text: path() checks the requirements, url() does not
+    correct: false
+    explanation: Both go through the same generator.
+  - id: CHO-c1g35djv0pe2
+    text: url() adds the query string from the request
+    correct: false
+    explanation: Neither copies the current query string.
+  - id: CHO-2r7qjzqjqpa0
+    text: path() only works for routes without parameters
+    correct: false
+    explanation: Both accept parameters.
+  explanation: path() asks for ABSOLUTE_PATH (or RELATIVE_PATH), url() for ABSOLUTE_URL (or NETWORK_PATH).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPath(), getUrl()
+    verified_at: '2026-10-09'
+- id: QST-vm7992qh5896
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-5t7q7sa1385e
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Route `blog` is /blog/{page}, the context host is localhost. What does this return?
+
+    ```php
+    $generator->generate('blog', ['page' => 3], UrlGeneratorInterface::NETWORK_PATH);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - reference-types
+  choices:
+  - id: CHO-nd2kbx7sf0jw
+    text: '`//localhost/blog/3`'
+    correct: true
+  - id: CHO-pzeba9r3wt33
+    text: '`http://localhost/blog/3`'
+    correct: false
+    explanation: That is ABSOLUTE_URL; NETWORK_PATH drops the scheme.
+  - id: CHO-nj777pgsycjz
+    text: '`blog/3`'
+    correct: false
+    explanation: That is RELATIVE_PATH.
+  - id: CHO-chvme1v45xje
+    text: '`/blog/3`'
+    correct: false
+    explanation: That is ABSOLUTE_PATH, the default.
+  explanation: 'Executed on 8.0.15. NETWORK_PATH is scheme-relative: it keeps the host and drops the scheme.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NETWORK_PATH
+    verified_at: '2026-10-09'
+- id: QST-dckcmfdbxzv0
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-5t7q7sa1385e
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which reference type produces a path relative to the current URL, such as `../blog/3`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - reference-types
+  choices:
+  - id: CHO-dmd6tkg7cm4s
+    text: RELATIVE_PATH
+    correct: true
+  - id: CHO-n2vbh4gtt3a2
+    text: NETWORK_PATH
+    correct: false
+    explanation: That one keeps the host, as //host/path.
+  - id: CHO-89mmegw2xhcx
+    text: ABSOLUTE_PATH
+    correct: false
+    explanation: That one starts with /.
+  - id: CHO-cjxrj3avafp6
+    text: ABSOLUTE_URL
+    correct: false
+    explanation: That one includes scheme and host.
+  explanation: 'The four constants: ABSOLUTE_URL = 0, ABSOLUTE_PATH = 1, RELATIVE_PATH = 2, NETWORK_PATH
+    = 3.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: RELATIVE_PATH
+    verified_at: '2026-10-09'
+- id: QST-3n0qzcv71dqv
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dqnskk31jve5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    A typo slips in: the key is `pgae`, not `page`, and page defaults to 1 in /blog/{page}.
+
+    ```php
+    $generator->generate('opt', ['pgae' => 2]);
+    ```
+
+    Which URL comes out?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - query-string
+  choices:
+  - id: CHO-f2zf3s7mdgj9
+    text: '`/blog?pgae=2`'
+    correct: true
+  - id: CHO-wpnsx76w03j8
+    text: '`/blog/2`'
+    correct: false
+    explanation: The misspelt key does not fill the page placeholder.
+  - id: CHO-hyx36cq44pz9
+    text: '`/blog`'
+    correct: false
+    explanation: An unknown key is not dropped.
+  - id: CHO-std5b477c1sb
+    text: A MissingMandatoryParametersException
+    correct: false
+    explanation: page has a default, so nothing is missing.
+  explanation: 'Executed on 8.0.15: a key that matches no placeholder goes into the query string, so a
+    typo raises no error.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): extra parameters'
+    verified_at: '2026-10-09'
+- id: QST-f25sp6xws0rs
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dqnskk31jve5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Both an extra key and `_query` carry q, with different values:
+
+    ```php
+    $generator->generate('opt', ['q' => 'a', '_query' => ['q' => 'b']]);
+    ```
+
+    With /blog/{page} defaulting page to 1, what is the result?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - query-string
+  - reserved-parameters
+  choices:
+  - id: CHO-sh2he39f97da
+    text: '`/blog?q=b`'
+    correct: true
+  - id: CHO-6mv5cnxhfzem
+    text: '`/blog?q=a`'
+    correct: false
+    explanation: Values from _query take precedence over extra parameters of the same name.
+  - id: CHO-b7sv745bz958
+    text: '`/blog?q=a&q=b`'
+    correct: false
+    explanation: A key appears once in the query string.
+  - id: CHO-1hbdfgg9ejdx
+    text: '`/blog?_query[q]=b&q=a`'
+    correct: false
+    explanation: _query is consumed by the generator, not output.
+  explanation: 'Executed on 8.0.15: _query entries are merged over the extra parameters, so q = b wins.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): _query'
+    verified_at: '2026-10-09'
+- id: QST-83vxhm59nq1z
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-hz0pwe66gz3a
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A template helper must show a link only when a route is defined. What is the safe way to know?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - url-generation
+  - exceptions
+  choices:
+  - id: CHO-y9gpm5cqjfhw
+    text: Call generate() and catch RouteNotFoundException
+    correct: true
+  - id: CHO-0z1krg9txeb6
+    text: Call getRouteCollection()->get() on every request
+    correct: false
+    explanation: The documentation warns that rebuilding the collection is slow.
+  - id: CHO-jeccnvzhkxpe
+    text: Check that the controller class exists
+    correct: false
+    explanation: A controller can exist without a route, and the reverse.
+  - id: CHO-c41tsse7k4zf
+    text: Test the name against a regular expression
+    correct: false
+    explanation: Names say nothing about what is registered.
+  explanation: 'Executed on 8.0.15: generate() for an unknown name throws RouteNotFoundException; catching
+    it is the documented test.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'generate(): RouteNotFoundException'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Checking if a Route Exists
+    verified_at: '2026-10-09'
+- id: QST-cantn4m6e6x2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-35a9hesk4cpd
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: HEAD /foo/ reaches an application whose only candidate is declared without the final slash.
+    Which response comes back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - trailing-slash
+  choices:
+  - id: CHO-a5qbzr7v4e0q
+    text: A 301 redirect to /foo
+    correct: true
+  - id: CHO-mkv1px3s98n7
+    text: 'A 404: only GET is redirected'
+    correct: false
+    explanation: HEAD is redirected like GET.
+  - id: CHO-xbjm6frchq7n
+    text: A 405 Method Not Allowed
+    correct: false
+    explanation: The method is acceptable; the form of the URL is not.
+  - id: CHO-wqshvnkp2pwf
+    text: A 302 redirect to /foo
+    correct: false
+    explanation: The redirect is permanent.
+  explanation: 'Executed on 8.0.15: GET and HEAD are redirected to the declared form, with permanent =
+    true (301). POST gets no redirect.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'match(): GET/HEAD redirect'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: redirect()
+    verified_at: '2026-10-09'
+- id: QST-bs1m4a0cnqp1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-5kd3xgw0a686
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The declared path ends with a slash, /dir/, yet the browser asks for /dir by GET. Which response
+    is produced?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - trailing-slash
+  choices:
+  - id: CHO-nez0q8dcxyt3
+    text: A 301 to /dir/
+    correct: true
+  - id: CHO-q9gaqtakd8t7
+    text: The route matches directly, with a 200
+    correct: false
+    explanation: The two forms differ; Symfony redirects to the declared one.
+  - id: CHO-7hytw56zzwde
+    text: A 404
+    correct: false
+    explanation: GET is redirected rather than refused.
+  - id: CHO-bv94wfs22mqj
+    text: A 301 to /dir, the canonical form
+    correct: false
+    explanation: The redirect goes to the form the route declares.
+  explanation: 'Executed on 8.0.15: the redirection works both ways, always toward the declared path.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trailing slash
+    verified_at: '2026-10-09'
+- id: QST-9veb2tg1ebwg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-615hjenzhh66
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The page itself was served over plain HTTP, and it calls path('sec') for an HTTPS-only route.
+    Which string is produced?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - schemes
+  choices:
+  - id: CHO-0ax6h0vc38fc
+    text: '`https://localhost/sec`, an absolute URL'
+    correct: true
+  - id: CHO-y8p21e9x2q5z
+    text: '`/sec`, since path() never adds a host'
+    correct: false
+    explanation: A scheme change forces an absolute URL.
+  - id: CHO-6sp0q0x020kr
+    text: '`//localhost/sec`'
+    correct: false
+    explanation: A scheme-relative URL would keep HTTP.
+  - id: CHO-r46czyjvdvgw
+    text: 'An exception: the scheme does not match'
+    correct: false
+    explanation: Generation switches the scheme instead.
+  explanation: 'Executed on 8.0.15: from HTTP the URL becomes absolute with https; from HTTPS it stays
+    /sec.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): required schemes'
+    verified_at: '2026-10-09'
+- id: QST-c495fhg7q4hp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-615hjenzhh66
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Same route `sec`, HTTPS only. A POST arrives over plain HTTP. What does the router do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - schemes
+  choices:
+  - id: CHO-2hb65kvtty8q
+    text: 'No route matches: 404'
+    correct: true
+  - id: CHO-j6tvk6dfct1z
+    text: A 301 to the https URL
+    correct: false
+    explanation: Scheme redirects apply to GET and HEAD only.
+  - id: CHO-mqn26pfzsjpr
+    text: A 307, which keeps the method
+    correct: false
+    explanation: The matcher never issues 307 here.
+  - id: CHO-w9vxr8akbtpy
+    text: It matches, the scheme being ignored for POST
+    correct: false
+    explanation: The scheme is still required.
+  explanation: 'Executed on 8.0.15: GET over HTTP is redirected to HTTPS; POST gets no redirect and no
+    match.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: requiredSchemes
+    verified_at: '2026-10-09'
+- id: QST-ek7cwhnmxq8g
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-khhjkt6203k6
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why route /old-page to RedirectController in YAML instead of writing a controller?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - redirect-controller
+  choices:
+  - id: CHO-sszpve0jmfp6
+    text: FrameworkBundle already provides one; no code is needed
+    correct: true
+  - id: CHO-e31jdktyy252
+    text: Only RedirectController can send a 301
+    correct: false
+    explanation: Any controller can return a permanent redirect.
+  - id: CHO-hbmez1bhxs3h
+    text: A controller cannot redirect before kernel.response
+    correct: false
+    explanation: Controllers return redirects all the time.
+  - id: CHO-mpdqe35ypq9g
+    text: Attribute routes cannot redirect
+    correct: false
+    explanation: Nothing forbids it; it is just unnecessary code.
+  explanation: RedirectController lets a route point to another route or URL by configuration alone.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: redirectAction(), urlRedirectAction()
+    verified_at: '2026-10-09'
+- id: QST-pk1d00t4bzrj
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-zsdbtcwh25g5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Four of these may be set on a route as reserved parameters; one is only added by the matcher
+    after a match. Which?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  choices:
+  - id: CHO-bm31w0ecw4kb
+    text: _route
+    correct: true
+  - id: CHO-zrq0rvg0xvm9
+    text: _query
+    correct: false
+    explanation: 'It is listed: it adds query string parameters to a generated URL.'
+  - id: CHO-bxeysxyybbe4
+    text: _fragment
+    correct: false
+    explanation: 'It is listed: it sets the part after #.'
+  - id: CHO-8mtx40qnekrw
+    text: _controller
+    correct: false
+    explanation: 'It is listed: it names the controller to run.'
+  explanation: The list is _controller, _format, _locale, _fragment and _query. _route is added by the
+    matcher; it is not set in a route.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Special Parameters
+    verified_at: '2026-10-09'
+- id: QST-zdrfyrgc3b95
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-zsdbtcwh25g5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Every placeholder is defaulted, and only a reserved key is passed:
+
+    ```php
+    $generator->generate('opt', ['_fragment' => 'top']);
+    ```
+
+    For /blog/{page} with page = 1 by default, which string comes back?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - url-generation
+  choices:
+  - id: CHO-tg52ntav1y1s
+    text: '`/blog#top`'
+    correct: true
+  - id: CHO-8vw5awke9knr
+    text: '`/blog?_fragment=top`'
+    correct: false
+    explanation: _fragment is consumed, not passed as a query parameter.
+  - id: CHO-c7rwdrkqck2n
+    text: '`/blog/top`'
+    correct: false
+    explanation: It does not fill a placeholder.
+  - id: CHO-xb4khz8z1e2t
+    text: '`/blog`'
+    correct: false
+    explanation: The fragment is added.
+  explanation: 'Executed on 8.0.15: _fragment becomes the part after #.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): _fragment'
+    verified_at: '2026-10-09'
+- id: QST-z5rcj5ev62r6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zg0vs74c3yef
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route matches /report.json with _format = json. The controller returns `new Response($body)`
+    with no Content-Type. What Content-Type is sent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - format
+  choices:
+  - id: CHO-y3br2sjbffqt
+    text: '`application/json`'
+    correct: true
+  - id: CHO-dw0ad4e3epk4
+    text: '`text/html; charset=UTF-8`'
+    correct: false
+    explanation: That is used when the request format is html.
+  - id: CHO-2vht676wa6ad
+    text: None at all
+    correct: false
+    explanation: prepare() fills in a missing Content-Type.
+  - id: CHO-jxee9djcnka0
+    text: '`text/plain`'
+    correct: false
+    explanation: The format is json, not txt.
+  explanation: 'Executed on 8.0.15: _format sets the request format; Response::prepare() derives the Content-Type
+    from it when the response has none.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'prepare(): getRequestFormat()'
+    verified_at: '2026-10-09'
+- id: QST-4df2trz7zwxe
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zg0vs74c3yef
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Same route, but the controller sets `Content-Type: text/csv` itself. What is sent?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - format
+  choices:
+  - id: CHO-08feyyre3fw7
+    text: '`text/csv; charset=utf-8`'
+    correct: true
+  - id: CHO-acw0rs2gmyt4
+    text: '`application/json`, forced by _format'
+    correct: false
+    explanation: prepare() only fills a missing header.
+  - id: CHO-cc8kra285vcf
+    text: Both values, as two headers
+    correct: false
+    explanation: The header is set once.
+  - id: CHO-mwses4gs1d5f
+    text: A 406 Not Acceptable
+    correct: false
+    explanation: Nothing negotiates here.
+  explanation: 'Executed on 8.0.15: prepare() derives the Content-Type from the request format only when
+    the response has none; for a text type it appends the charset.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'prepare(): !headers->has(Content-Type)'
+    verified_at: '2026-10-09'
+- id: QST-qxz9nj38qctp
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-4k0zcm86nfkk
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[Route(''/s'', stateless: true, utf8: true)]`: where do the two values end up?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - attributes
+  choices:
+  - id: CHO-p5nszhje9e4g
+    text: '`_stateless` in defaults; `utf8` in options'
+    correct: true
+  - id: CHO-6eeqh6b3y426
+    text: Both in the route defaults
+    correct: false
+    explanation: utf8 is an option of the compiler, not a default.
+  - id: CHO-sn25mckj9p9g
+    text: Both in the route options
+    correct: false
+    explanation: stateless becomes the _stateless default.
+  - id: CHO-sgvre58qtgn6
+    text: Both in requirements
+    correct: false
+    explanation: Neither constrains a parameter.
+  explanation: 'Executed on 8.0.15: locale, format and stateless set the _locale, _format and _stateless
+    defaults; utf8 sets the utf8 option.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): locale, format, utf8, stateless'
+    verified_at: '2026-10-09'
+- id: QST-0t4zwc5an2w8
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-4k0zcm86nfkk
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    This attribute, copied from an example, fails when the class loads. Why?
+
+    ```php
+    #[Route('/list', name: 'list', query: ['page' => 1])]
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - attributes
+  choices:
+  - id: CHO-4gsn562s65c4
+    text: '#[Route] has no query argument: unknown named parameter'
+    correct: true
+  - id: CHO-ez4qk6embe6c
+    text: query needs a string, not an array
+    correct: false
+    explanation: The argument does not exist at all.
+  - id: CHO-dfjfv25sktf3
+    text: name must come before the path
+    correct: false
+    explanation: Named arguments may follow the positional one.
+  - id: CHO-726b4rcthtjx
+    text: page must also appear in the path
+    correct: false
+    explanation: The error is raised before routes are compiled.
+  explanation: 'Executed on 8.0.15: PHP throws an Error, "Unknown named parameter $query". Query parameters
+    go in _query at generation.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct() parameters
+    verified_at: '2026-10-09'
+- id: QST-21svnrrta03j
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-8f5nc3sevst2
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: According to the documentation, which reserved parameter belongs on a single route only, never
+    on an import?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - reserved-parameters
+  - imports
+  choices:
+  - id: CHO-sk2vr9dt4zcj
+    text: _fragment
+    correct: true
+  - id: CHO-prdqw1ncywxj
+    text: _locale
+    correct: false
+    explanation: It is commonly set on a whole import.
+  - id: CHO-szn6en9ra8tf
+    text: _format
+    correct: false
+    explanation: It may be set on an import.
+  - id: CHO-cg1tm3v1pvgw
+    text: _controller
+    correct: false
+    explanation: The documentation allows it on an import too.
+  explanation: 'The documentation states the exception for _fragment. Routing 8.0 does not enforce it:
+    an import''s defaults are copied without a name check.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Special Parameters: _fragment'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCollection.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addDefaults()
+    verified_at: '2026-10-09'
+- id: QST-154bsp5vt75s
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-wtvymxrjxf80
+  version: 1
+  official_topic: Routing
+  official_item: OIT-21m4pmtymygn
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Host matching: route m requires m.example.com and the client sends M.EXAMPLE.COM, in capitals.
+    Is m selected?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - host
+  choices:
+  - id: CHO-28edav5qwkem
+    text: 'Yes: host matching ignores case'
+    correct: true
+  - id: CHO-avhjkfakfmk1
+    text: 'No: the comparison is exact'
+    correct: false
+    explanation: The host is lowercased and the regex is case-insensitive.
+  - id: CHO-mnh2yxzdqps2
+    text: 'Only if the route sets utf8: true'
+    correct: false
+    explanation: utf8 is unrelated to host case.
+  - id: CHO-z9qed5cd55b7
+    text: Yes, but with a 301 to the lowercase host
+    correct: false
+    explanation: No redirect is issued.
+  explanation: 'Executed on 8.0.15: the matcher lowercases the request host and the host regex carries
+    the i flag.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: strtolower($context->getHost())
+    verified_at: '2026-10-09'
+- id: QST-y6n0rnbra8zd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kz98mvtwphqc
+  version: 1
+  official_topic: Routing
+  official_item: OIT-21m4pmtymygn
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route declares no host option. Which hosts can it match?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - host
+  choices:
+  - id: CHO-yxns73mvsh0k
+    text: Any host
+    correct: true
+  - id: CHO-49nk1rjeyk2v
+    text: Only the host in default_uri
+    correct: false
+    explanation: default_uri serves generation outside a request.
+  - id: CHO-wvxz97qvxcda
+    text: Only localhost
+    correct: false
+    explanation: No host is assumed.
+  - id: CHO-45fhjfv4n28e
+    text: Only the host of the first request after warmup
+    correct: false
+    explanation: Nothing is remembered between requests.
+  explanation: Without host, a route places no constraint on the host name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Sub-Domain Routing
+    verified_at: '2026-10-09'
+- id: QST-30a3qx8ehs1f
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ac8d2dvvjma9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-21m4pmtymygn
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    ```php
+    #[Route('/', host: '{sub}.example.com', defaults: ['sub' => 'm'], requirements: ['sub' => 'm|mobile'])]
+    ```
+
+    A request arrives for example.com, with no subdomain. Does the route match?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - host
+  - defaults
+  choices:
+  - id: CHO-ge0tx0cxgjqs
+    text: 'No: a host parameter is always required'
+    correct: true
+  - id: CHO-970wqvbk7kyq
+    text: Yes, with sub = m
+    correct: false
+    explanation: Defaults make path parameters optional, not host parameters.
+  - id: CHO-bfgq18bkdrgb
+    text: Yes, with sub = null
+    correct: false
+    explanation: The host does not match at all.
+  - id: CHO-mee280y1d2r7
+    text: Yes, after a 301 to m.example.com
+    correct: false
+    explanation: There is no host redirect.
+  explanation: 'Executed on 8.0.15: example.com does not match. The default serves generation, where url()
+    then gives http://m.example.com/.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'compile(): host pattern'
+    verified_at: '2026-10-09'
+- id: QST-v2zawx780p18
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-wtvymxrjxf80
+  - OUT-ac8d2dvvjma9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-21m4pmtymygn
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Route `m` has host m.example.com. The current request is on www.example.com. What does `path('m')`
+    produce?
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - host
+  - url-generation
+  choices:
+  - id: CHO-51ydafx9cwfb
+    text: '`//m.example.com/`'
+    correct: true
+  - id: CHO-63f75jgxyfk1
+    text: '`/`'
+    correct: false
+    explanation: A bare path would point at the wrong host.
+  - id: CHO-qq3n99hg25et
+    text: '`http://m.example.com/`'
+    correct: false
+    explanation: path() switches to NETWORK_PATH, which drops the scheme.
+  - id: CHO-wmkv0ha52tgb
+    text: 'An exception: wrong host'
+    correct: false
+    explanation: Generation adapts instead.
+  explanation: 'Executed on 8.0.15: a host change turns ABSOLUTE_PATH into NETWORK_PATH; from m.example.com
+    the result is simply /.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): host differs'
+    verified_at: '2026-10-09'
+- id: QST-d0da4m2m7ams
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-s9bajh1gydjw
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route must only match when the query string contains `beta=1`. Which attribute does it?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - conditions
+  choices:
+  - id: CHO-a6a2ay5ef30p
+    text: '`condition: "request.query.get(''beta'') == ''1''"`'
+    correct: true
+  - id: CHO-30a51f6qtaft
+    text: '`requirements: [''beta'' => ''1'']`'
+    correct: false
+    explanation: requirements constrain placeholders, not the query string.
+  - id: CHO-dg2s7wyvwz4a
+    text: '`defaults: [''beta'' => ''1'']`'
+    correct: false
+    explanation: A default is a value, not a test.
+  - id: CHO-svdwmsjn0ytn
+    text: '`condition: $request->query->get(''beta'') === ''1''`'
+    correct: false
+    explanation: A condition is an expression string, not PHP code.
+  explanation: condition takes an ExpressionLanguage string; request is the Request object.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Expressions
+    verified_at: '2026-10-09'
+- id: QST-1grrwb59e7jb
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-er1yxf3bmwn9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Inside a route condition, what does `env('FEATURE_X')` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - conditions
+  choices:
+  - id: CHO-b9z3h2z8xd35
+    text: Reads an environment variable
+    correct: true
+  - id: CHO-ag5ef1exn723
+    text: Returns the kernel environment name
+    correct: false
+    explanation: That would be a parameter, %kernel.environment%.
+  - id: CHO-xj3zz9ehkp70
+    text: Fetches a service named FEATURE_X
+    correct: false
+    explanation: service() does that, for tagged services.
+  - id: CHO-wn122b8t0g9q
+    text: 'Nothing: env() is not available there'
+    correct: false
+    explanation: FrameworkBundle provides env() and service().
+  explanation: Conditions get context, request and params, plus env() and service().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'routing.expression_language_function: env'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching Expressions
+    verified_at: '2026-10-09'
+- id: QST-qfmf1rkq8ybp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-er1yxf3bmwn9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /d/{id} accepts POST only, with condition `params['id'] < 10`. A GET arrives for /d/50. What
+    is the result?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - conditions
+  - methods
+  choices:
+  - id: CHO-apawbgcwvf32
+    text: '404: the route is skipped before the method check'
+    correct: true
+  - id: CHO-0k7dw85vz2j0
+    text: '405, with Allow: POST'
+    correct: false
+    explanation: A false condition removes the route before methods count.
+  - id: CHO-4h7j3psegyxe
+    text: '200: GET is accepted when the condition fails'
+    correct: false
+    explanation: A failed condition never accepts.
+  - id: CHO-chpredq8769r
+    text: '500: params is not available'
+    correct: false
+    explanation: params holds the matched parameters.
+  explanation: 'Executed on 8.0.15: /d/50 gives ResourceNotFoundException, /d/5 gives MethodNotAllowedException.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: condition checked before methods
+    verified_at: '2026-10-09'
+- id: QST-k38nkts5e9zs
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-tgxzpmwjg951
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A condition calls `service('checker').allows(request)`. What must be done to the checker class?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - conditions
+  - services
+  choices:
+  - id: CHO-5bp1mrm16x8n
+    text: 'Mark it `#[AsRoutingConditionService(alias: ''checker'')]`'
+    correct: true
+  - id: CHO-fx1ca45gkrq4
+    text: Make it public in services.yaml
+    correct: false
+    explanation: service() only reaches tagged services, public or not.
+  - id: CHO-fdyet20nceg0
+    text: Implement ExpressionFunctionProviderInterface
+    correct: false
+    explanation: That adds functions, not services.
+  - id: CHO-8r5qncjvjc4w
+    text: 'Nothing: every service is reachable'
+    correct: false
+    explanation: Only routing.condition_service services are.
+  explanation: The attribute, or the routing.condition_service tag, puts the service in the locator that
+    service() reads.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: routing.condition_service tag
+    verified_at: '2026-10-09'
+- id: QST-ye8wqapb2w5d
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-413aqdhzwkfw
+  version: 1
+  official_topic: Routing
+  official_item: OIT-e2zrm9qkpx7j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Route `cond2` is /d/{id} with condition `params['id'] < 10`. What does generate('cond2', ['id'
+    => 50]) return?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - conditions
+  - url-generation
+  choices:
+  - id: CHO-1mt7jnvqsfa9
+    text: '`/d/50`'
+    correct: true
+  - id: CHO-4vp5508rasck
+    text: A RouteNotFoundException
+    correct: false
+    explanation: Generation does not evaluate conditions.
+  - id: CHO-2bjt1ew78w45
+    text: An InvalidParameterException
+    correct: false
+    explanation: Only requirements are checked at generation.
+  - id: CHO-5tmc1ksth04j
+    text: '`null`'
+    correct: false
+    explanation: generate() returns a string.
+  explanation: Executed on 8.0.15. The generator never evaluates conditions, so it builds URLs the matcher
+    would refuse.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: conditions are not taken into account when generating URLs
+    verified_at: '2026-10-09'
+- id: QST-6ca74x4xk5xs
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-y5cganxr802r
+  version: 1
+  official_topic: Routing
+  official_item: OIT-5g82spham3vm
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route has no methods option. A DELETE request arrives for its path. Does it match?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  choices:
+  - id: CHO-h8tq3kmk6zc9
+    text: 'Yes'
+    correct: true
+  - id: CHO-pz283jcbq4n5
+    text: 'No: DELETE must be listed explicitly'
+    correct: false
+    explanation: An empty methods list accepts every verb.
+  - id: CHO-1n8htyc1k63q
+    text: Only when http_method_override is on
+    correct: false
+    explanation: That option is about _method, not routing.
+  - id: CHO-zyxk8nznv8mm
+    text: 'No: only GET and POST are implied'
+    correct: false
+    explanation: No verb is implied; all are accepted.
+  explanation: 'Executed on 8.0.15: a route with no methods constraint accepts any verb.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getMethods(): empty means any'
+    verified_at: '2026-10-09'
+- id: QST-36hghz8b6zjh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-28bd4czsshkq
+  version: 1
+  official_topic: Routing
+  official_item: OIT-5g82spham3vm
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A route declares methods: [''GET'']. A HEAD request arrives for its path. Does it match?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  choices:
+  - id: CHO-7symgw10mft9
+    text: 'Yes: HEAD is compared as GET'
+    correct: true
+  - id: CHO-karb77etbe6k
+    text: 'No: 405, Allow: GET'
+    correct: false
+    explanation: The matcher treats HEAD as GET when comparing.
+  - id: CHO-4m5h4z2xeqkn
+    text: 'No: 404'
+    correct: false
+    explanation: The path matches and the method is acceptable.
+  - id: CHO-4rdh7cspb5hb
+    text: Only if HEAD is added to the list
+    correct: false
+    explanation: Listing it is redundant.
+  explanation: 'Executed on 8.0.15: HEAD matches a GET-only route; POST gets a MethodNotAllowedException
+    with allowed methods [GET].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '''HEAD'' === \$requestMethod ? ''GET'''
+    verified_at: '2026-10-09'
+- id: QST-4e2r62bcj6sc
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-1cfa6y0xkxt0
+  version: 1
+  official_topic: Routing
+  official_item: OIT-5g82spham3vm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: http_method_override is enabled. A GET request carries ?_method=PUT. What does getMethod()
+    return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  - method-override
+  choices:
+  - id: CHO-e2sq2vew7j4h
+    text: GET
+    correct: true
+  - id: CHO-5ebd2p79e38x
+    text: PUT
+    correct: false
+    explanation: Overrides apply only to POST requests.
+  - id: CHO-7ywnaks4kg7p
+    text: A SuspiciousOperationException
+    correct: false
+    explanation: The value is valid; it is just not applied.
+  - id: CHO-b7f94wjz3cqg
+    text: POST
+    correct: false
+    explanation: The real method is GET.
+  explanation: 'Executed on 8.0.15: the override is read only when the real method is POST. From a POST,
+    _method=put gives PUT, and _method=GET is ignored.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getMethod()
+    verified_at: '2026-10-09'
+- id: QST-7q2wcsj24xyc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-1cfa6y0xkxt0
+  version: 1
+  official_topic: Routing
+  official_item: OIT-5g82spham3vm
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which framework option must be true for the hidden `_method` field to be read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - methods
+  - method-override
+  choices:
+  - id: CHO-zvdjcv8g2y24
+    text: framework.http_method_override
+    correct: true
+  - id: CHO-ggvrarmb4fzd
+    text: framework.allowed_http_method_override
+    correct: false
+    explanation: That one restricts which methods may be simulated.
+  - id: CHO-nxcygh2pmea0
+    text: framework.form.method_override
+    correct: false
+    explanation: There is no such option.
+  - id: CHO-y4913ezdnwtk
+    text: router.strict_requirements
+    correct: false
+    explanation: That one concerns URL generation.
+  explanation: http_method_override defaults to false; when true, _method in a POST body or query string
+    sets the method.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: http_method_override
+    verified_at: '2026-10-09'
+- id: QST-r44v4gg8fz68
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q1mwf424caew
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which listener copies the matched _locale attribute onto the request, and why does it run
+    after routing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locale
+  - listeners
+  choices:
+  - id: CHO-kfcx2n7dpvwy
+    text: LocaleListener, priority 16, reading what RouterListener (32) set
+    correct: true
+  - id: CHO-rxa1rxzrz73e
+    text: RouterListener itself, at priority 32
+    correct: false
+    explanation: The router listener sets attributes; the locale listener applies the locale.
+  - id: CHO-mc7sp71ta4r6
+    text: TranslatorListener, at priority 64
+    correct: false
+    explanation: It must run after routing, so its priority is lower.
+  - id: CHO-27gy5v7k1vpq
+    text: SessionListener, at priority 128
+    correct: false
+    explanation: The session is not involved.
+  explanation: LocaleListener, on kernel.request at 16, reads _locale after RouterListener at 32 has matched
+    the route, then sets it on the request and the router context.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents()
+    verified_at: '2026-10-09'
+- id: QST-q2djszk4rd6b
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-7vtxk6rxbjq2
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Given this route, which route names does the loader create?
+
+    ```php
+    #[Route(path: ['en' => '/about-us', 'nl' => '/over-ons', '/about-us'], name: 'about_us')]
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locale
+  - localized-routes
+  choices:
+  - id: CHO-czw2qnp755wk
+    text: about_us.en, about_us.nl and about_us
+    correct: true
+  - id: CHO-8nty7d4d9bm3
+    text: about_us only, with three paths
+    correct: false
+    explanation: One route is created per entry.
+  - id: CHO-szg33x1vbkwq
+    text: about_us.en, about_us.nl and about_us.0
+    correct: false
+    explanation: The entry with no key becomes about_us itself.
+  - id: CHO-wh1zn7h8pagf
+    text: about_us_en and about_us_nl only
+    correct: false
+    explanation: The separator is a dot, and the fallback is kept.
+  explanation: 'Executed on 8.0.15: the localized routes carry _locale and _canonical_route = about_us;
+    the unkeyed entry is about_us, with no locale.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'addRoute(): localized paths'
+    verified_at: '2026-10-09'
+- id: QST-xynz1mtqehdv
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-7vtxk6rxbjq2
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Same localized route. The router context locale is fr, which has no path. What does generate('about_us')
+    return?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locale
+  - localized-routes
+  - url-generation
+  choices:
+  - id: CHO-b6hxejb74qmb
+    text: '`/about-us`, the unkeyed fallback'
+    correct: true
+  - id: CHO-a89cs0ebsrxn
+    text: '`/over-ons`'
+    correct: false
+    explanation: That is the nl path.
+  - id: CHO-1pcgxwf23d87
+    text: A RouteNotFoundException
+    correct: false
+    explanation: The fallback route exists.
+  - id: CHO-p1a4kbce7zh2
+    text: '`/fr/about-us`'
+    correct: false
+    explanation: No locale prefix is invented.
+  explanation: 'Executed on 8.0.15: with locale nl the result is /over-ons; with fr, the unkeyed about_us
+    route is used.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'generate(): name.locale lookup'
+    verified_at: '2026-10-09'
+- id: QST-bzrgt72dkrdn
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-r3cc9h4e6h3x
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The URL carries no locale and set_locale_from_accept_language is off. The browser sends Accept-Language:
+    de. What sets the locale?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locale
+  choices:
+  - id: CHO-w1z8cngv3p75
+    text: framework.default_locale
+    correct: true
+  - id: CHO-ynq69ayjv1ss
+    text: The Accept-Language header
+    correct: false
+    explanation: It is used only when set_locale_from_accept_language is true.
+  - id: CHO-yn4gswd5m5dv
+    text: The first entry of enabled_locales
+    correct: false
+    explanation: That list restricts negotiation; it is not the fallback.
+  - id: CHO-afybcyvrjy23
+    text: PHP's intl.default_locale ini setting
+    correct: false
+    explanation: Symfony uses its own default_locale.
+  explanation: LocaleListener uses _locale first, then Accept-Language if enabled, then default_locale
+    (en when nothing is configured).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setDefaultLocale(), onKernelRequest()
+    verified_at: '2026-10-09'
+- id: QST-gkk3y6e38cqa
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-qtd7wg0gtvex
+  version: 1
+  official_topic: Routing
+  official_item: OIT-xxcpx1qssp93
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The locale must come from a user preference stored in the session. Where should it be set?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locale
+  - listeners
+  choices:
+  - id: CHO-8x4dvpx81jsf
+    text: A kernel.request listener with priority above 16
+    correct: true
+  - id: CHO-xcef7106aq13
+    text: $request->setLocale() at the top of each controller
+    correct: false
+    explanation: By then the translator is configured.
+  - id: CHO-8nas5hce6xcx
+    text: A kernel.response listener
+    correct: false
+    explanation: The page is already rendered.
+  - id: CHO-dhs8mf4y94af
+    text: A kernel.controller listener with priority 0
+    correct: false
+    explanation: Still after LocaleListener has run.
+  explanation: LocaleListener applies the locale at priority 16; a custom listener must run before it,
+    with a higher priority.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translations and the user locale
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: priority 16
+    verified_at: '2026-10-09'
+- id: QST-pytz3a16kyyd
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ef2j62bxp9fd
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A URL runs the wrong controller, and you suspect a route higher up catches it. Why does debug:router
+    help?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  - route-order
+  choices:
+  - id: CHO-pan1xgnepr2b
+    text: It lists routes in the order they are matched
+    correct: true
+  - id: CHO-aqq372x7pfvs
+    text: It sorts routes alphabetically by name
+    correct: false
+    explanation: The order is evaluation order, not alphabetical.
+  - id: CHO-v42dqx8fbc94
+    text: It hides routes that can never match
+    correct: false
+    explanation: Every route is listed.
+  - id: CHO-wb67xm56jhcg
+    text: It runs each route against the URL
+    correct: false
+    explanation: That is router:match.
+  explanation: Since the first match wins, the listing order answers which route comes first.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: execute()
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Debugging Routes
+    verified_at: '2026-10-09'
+- id: QST-cznn7z9jntt4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-qnzwvqtmb7v5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: No route is named `blog`, but `blog_show` and `admin_blog` exist. What does `debug:router
+    blog` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-6s18fgm211dv
+    text: Asks which one, or lists both when non-interactive
+    correct: true
+  - id: CHO-ggzh4a6xc16j
+    text: 'Prints: The route "blog" does not exist.'
+    correct: false
+    explanation: That happens only when no name contains the argument.
+  - id: CHO-sa34kmt2njc3
+    text: Shows blog_show, the first by name
+    correct: false
+    explanation: With several matches it does not pick one.
+  - id: CHO-cx1skq826rmf
+    text: Shows both routes in full detail
+    correct: false
+    explanation: Only one route's detail is shown.
+  explanation: RouterDebugCommand looks for an exact name, then for names containing the argument, case-insensitively.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findRouteNameContaining()
+    verified_at: '2026-10-09'
+- id: QST-jdbfvaqr5ysb
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-qnzwvqtmb7v5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which debug:router option shows the alias names that point to routes?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-ee3vztz6tkwd
+    text: '`--show-aliases`'
+    correct: true
+  - id: CHO-9wecnr4d84z0
+    text: '`--aliases-only`'
+    correct: false
+    explanation: No such option.
+  - id: CHO-s706g3kdzcr7
+    text: '`--format=aliases`'
+    correct: false
+    explanation: The formats are txt, xml, json and md.
+  - id: CHO-3jhg7qanjqbd
+    text: '`--verbose`'
+    correct: false
+    explanation: Verbosity does not add the aliases.
+  explanation: --show-aliases adds route aliases; --show-controllers adds controllers; --method filters;
+    --format changes output.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configure()
+    verified_at: '2026-10-09'
+- id: QST-djk44yn60t96
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-w0yjsy54z7s9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route only answers PUT on api.example.com. How do you check with router:match that /api/posts/1
+    reaches it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-bj003spacr95
+    text: '`router:match /api/posts/1 --method=PUT --host=api.example.com`'
+    correct: true
+  - id: CHO-0nvy1aa6nnhg
+    text: '`router:match https://api.example.com/api/posts/1 PUT`'
+    correct: false
+    explanation: The argument is a path; host and method are options.
+  - id: CHO-xg3n1a37y9s0
+    text: '`debug:router /api/posts/1 --method=PUT`'
+    correct: false
+    explanation: debug:router takes a route name, not a path.
+  - id: CHO-5fqjmef4afcw
+    text: '`router:match PUT /api/posts/1`'
+    correct: false
+    explanation: The method is not positional.
+  explanation: router:match takes the path info; --method, --host and --scheme set the router context
+    first.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configure()
+    verified_at: '2026-10-09'
+- id: QST-yb4tqhjrhns5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-w0yjsy54z7s9
+  version: 1
+  official_topic: Routing
+  official_item: OIT-8sr74a2wnb3r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a deploy script, `router:match /nowhere` finds no route. What does the script see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-bsakazntcf4x
+    text: An error and exit code 1
+    correct: true
+  - id: CHO-8zkmnpke3yws
+    text: Exit code 0 and an empty table
+    correct: false
+    explanation: A failed match is reported as a failure.
+  - id: CHO-jft3ck2j1mar
+    text: Exit code 404
+    correct: false
+    explanation: Exit codes are not HTTP statuses.
+  - id: CHO-w8b2b8rn2sr1
+    text: Exit code 2, for invalid input
+    correct: false
+    explanation: The input is valid; nothing matched.
+  explanation: RouterMatchCommand prints near-matches with their reason, and returns 1 when nothing matches.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'execute(): return 1'
+    verified_at: '2026-10-09'
+- id: QST-ebbxzr19fqjh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gxaj5vfr68nt
+  - OUT-dqnskk31jve5
+  related_items:
+  - OIT-81b2c0jmv2j3
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Route `s` is /s/{id} with id requiring digits. What does generate('s', ['id' => 'x']) do with
+    default router settings?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - requirements
+  - url-generation
+  choices:
+  - id: CHO-212y8b60jfbe
+    text: Throws InvalidParameterException
+    correct: true
+  - id: CHO-90mg3q4yv8k2
+    text: Returns `/s/x`
+    correct: false
+    explanation: That happens only when strict_requirements is null.
+  - id: CHO-scfgy34wze5h
+    text: Returns an empty string
+    correct: false
+    explanation: That happens only when strict_requirements is false.
+  - id: CHO-g4ada7a2x0ex
+    text: Returns `/s?id=x`
+    correct: false
+    explanation: id is a placeholder, never moved to the query string.
+  explanation: 'Executed on 8.0.15: strict_requirements true throws; null logs and returns /s/x; false
+    returns an empty string. Requirements count both ways, unlike conditions.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): strictRequirements'
+    verified_at: '2026-10-09'
+- id: QST-0yhghk2b113y
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kz98mvtwphqc
+  - OUT-28bd4czsshkq
+  related_items:
+  - OIT-5g82spham3vm
+  version: 1
+  official_topic: Routing
+  official_item: OIT-21m4pmtymygn
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two routes share the path /. What can tell them apart at matching time?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - host
+  - methods
+  choices:
+  - id: CHO-c8c2y84cwf8r
+    text: Either a host or a methods constraint
+    correct: true
+  - id: CHO-ecx9brymd8vk
+    text: Only their names
+    correct: false
+    explanation: Names play no part in matching.
+  - id: CHO-2d86kpb2cqba
+    text: Only the order of declaration
+    correct: false
+    explanation: Order decides only between routes that both match.
+  - id: CHO-ma272sh082k3
+    text: Only different _format defaults
+    correct: false
+    explanation: A default does not constrain matching.
+  explanation: Without host or methods a route accepts any host and any verb; adding one makes it refuse
+    the others, so the second route can take them.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Matching HTTP Methods
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Sub-Domain Routing
+    verified_at: '2026-10-09'
+- id: QST-p1eyqxmbpf9q
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-4k0zcm86nfkk
+  - OUT-q1mwf424caew
+  related_items:
+  - OIT-xxcpx1qssp93
+  version: 1
+  official_topic: Routing
+  official_item: OIT-4pgc74ctc3vc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[Route(''/contact'', locale: ''fr'')]` has no {_locale} in its path. What locale does a
+    request to /contact get?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - reserved-parameters
+  - locale
+  choices:
+  - id: CHO-859nwd12gc78
+    text: 'fr: locale sets the _locale default'
+    correct: true
+  - id: CHO-dsc2e0kv4yhh
+    text: The default_locale, since the path has no {_locale}
+    correct: false
+    explanation: Defaults become request attributes too.
+  - id: CHO-shfkpsyas1p6
+    text: fr, but only for URL generation
+    correct: false
+    explanation: The default is a matched attribute, read by LocaleListener.
+  - id: CHO-r6ejvpy8gfcn
+    text: 'None: the route fails to compile'
+    correct: false
+    explanation: A default needs no placeholder.
+  explanation: 'Executed on 8.0.15: locale: becomes the _locale default. Matched defaults go into the
+    request attributes, where LocaleListener reads _locale.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Attribute/Route.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): locale'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setLocale()
+    verified_at: '2026-10-09'
+- id: QST-3skk668nwmjw
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-35a9hesk4cpd
+  - OUT-w0yjsy54z7s9
+  related_items:
+  - OIT-8sr74a2wnb3r
+  version: 1
+  official_topic: Routing
+  official_item: OIT-d51jbkfs21pt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form POSTs to /contact/ but the route is /contact, and the response is a 404. Why no redirect?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - redirects
+  - debugging
+  choices:
+  - id: CHO-gn6skm8vkq3e
+    text: Trailing-slash redirects are for GET and HEAD only
+    correct: true
+  - id: CHO-xq63bqxr8pta
+    text: 'The redirect needs schemes: [''https'']'
+    correct: false
+    explanation: Schemes are unrelated to the slash.
+  - id: CHO-m53vjevj6tq1
+    text: A 404 means the route is not loaded at all
+    correct: false
+    explanation: GET /contact/ would still be redirected.
+  - id: CHO-wpd77pa999ky
+    text: Redirects require debug mode
+    correct: false
+    explanation: Redirects work in every environment.
+  explanation: 'Executed on 8.0.15: POST /foo/ for a route /foo gives no match. A 301 could be replayed
+    as GET and lose the body.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: GET/HEAD only
+    verified_at: '2026-10-09'
