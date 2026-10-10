@@ -1,0 +1,432 @@
+# Lot 15 - Deployment, profiler and data collectors: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the two items is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified against the 8.0 sources cited.
+
+schema_version: 1
+questions:
+- id: QST-9ttwyc2b7h5j
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Tagging a release, running migrations, clearing the cache, installing vendors: which one
+    is optional in the documented deployment?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  choices:
+  - id: CHO-eq6h9jr3j7rf
+    text: Tagging a release in version control
+    correct: true
+  - id: CHO-mca7d7c4f8d7
+    text: Installing dependencies
+    correct: false
+    explanation: It is one of the four.
+  - id: CHO-66p63x1f3may
+    text: Running database migrations
+    correct: false
+    explanation: It is one of the four.
+  - id: CHO-0s5dkaavb2kf
+    text: Clearing the cache
+    correct: false
+    explanation: It is one of the four.
+  explanation: Transfer code, install dependencies, run migrations, clear the cache; tagging is common
+    but optional.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Common Deployment Tasks
+    verified_at: '2026-10-09'
+- id: QST-d7e2x8c8rn5c
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-evgzmx45nr93
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In `composer install --no-dev --optimize-autoloader`, what does --no-dev alone achieve?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - composer
+  choices:
+  - id: CHO-2qxpqjme1nbe
+    text: It skips require-dev packages
+    correct: true
+  - id: CHO-vw4b1bs3w9vw
+    text: It builds a class map
+    correct: false
+    explanation: That is --optimize-autoloader.
+  - id: CHO-jxk18796cewr
+    text: It disables debug mode
+    correct: false
+    explanation: APP_DEBUG does that.
+  - id: CHO-rm04ffgv7w4t
+    text: It removes dump() from production
+    correct: false
+    explanation: VarDumper still comes in through ErrorHandler.
+  explanation: 'Two flags, two effects: fewer packages, faster autoloading.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Install/Update your Vendors
+    verified_at: '2026-10-09'
+- id: QST-13wb1es8c8ws
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0m3mf05m416t
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`.env.local.php` exists on the server, and an operator adds a key to .env.prod.local. Does
+    the app see it?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - dotenv
+  choices:
+  - id: CHO-sv0dj2k38n43
+    text: 'No: with .env.local.php, .env files are not parsed'
+    correct: true
+  - id: CHO-hf7x5q69jzck
+    text: 'Yes: .env.prod.local always wins'
+    correct: false
+    explanation: .env.local.php takes precedence over the files.
+  - id: CHO-qzpb0b86maez
+    text: Yes, after cache:clear
+    correct: false
+    explanation: The cache is not the issue.
+  - id: CHO-y1hreyf7cj18
+    text: Only in debug mode
+    correct: false
+    explanation: Debug is unrelated.
+  explanation: Rerun composer dump-env prod, or use real environment variables.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'bootEnv(): .env.local.php'
+    verified_at: '2026-10-09'
+- id: QST-qks8s09f5kgv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-q3cr8sbwrafh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The kernel sits in app/src/ and the deployment ships no composer.json at all. What does getProjectDir()
+    return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deployment
+  - kernel
+  choices:
+  - id: CHO-155yxfs5p90r
+    text: app/src, with no error
+    correct: true
+  - id: CHO-6a348rwh42k6
+    text: app, as usual
+    correct: false
+    explanation: It is found by walking up to composer.json.
+  - id: CHO-v17xw2ky504r
+    text: A LogicException
+    correct: false
+    explanation: It falls back silently.
+  - id: CHO-b2mqn091hdj3
+    text: The current working directory
+    correct: false
+    explanation: It starts from the kernel file.
+  explanation: Override Kernel::getProjectDir() when composer.json is not deployed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getProjectDir()
+    verified_at: '2026-10-09'
+- id: QST-9mfg0ctew8mw
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-rvstpkee1rj6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which piece stores the gathered data under a token and serves it back later?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-ywde9w3kw7d6
+    text: The profiler
+    correct: true
+  - id: CHO-5jfh48y14fhv
+    text: A data collector
+    correct: false
+    explanation: Collectors gather during the request.
+  - id: CHO-y7kgt56rc1s5
+    text: The web debug toolbar
+    correct: false
+    explanation: It is only a view on the profiler.
+  - id: CHO-rhkbkdp6naw4
+    text: The ErrorHandler
+    correct: false
+    explanation: Unrelated.
+  explanation: Collectors gather, the profiler stores, the toolbar displays a summary.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: saveProfile(), loadProfile()
+    verified_at: '2026-10-09'
+- id: QST-fdxeevr7z620
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-zexxpeg1gehg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An HTML response has no `</body>` tag, with the profiler on. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-c2ym5qnbhgwa
+    text: No toolbar; the profile is reachable via X-Debug-Token-Link
+    correct: true
+  - id: CHO-4m0xv9ky52ys
+    text: The toolbar is appended at the end
+    correct: false
+    explanation: It is injected before </body> only.
+  - id: CHO-njdmy134y5f6
+    text: No profile is stored
+    correct: false
+    explanation: The profile exists in all cases.
+  - id: CHO-x535asb449ed
+    text: 'A 500: malformed HTML'
+    correct: false
+    explanation: Nothing fails.
+  explanation: The same holds for JSON, redirects and XHR requests; /_profiler lists all profiles.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: injectToolbar()
+    verified_at: '2026-10-09'
+- id: QST-vhqrbecpza0s
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-q8696dzgbpts
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: During which kernel events are collect() and lateCollect() called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - data-collectors
+  choices:
+  - id: CHO-t2a95dc8kay9
+    text: kernel.response, then kernel.terminate
+    correct: true
+  - id: CHO-zf723dwsve67
+    text: kernel.request, then kernel.response
+    correct: false
+    explanation: collect() happens once the response exists.
+  - id: CHO-xjvs5dxb10gj
+    text: Both on kernel.terminate
+    correct: false
+    explanation: collect() runs on kernel.response.
+  - id: CHO-519wyx7ag2q6
+    text: kernel.controller, then kernel.view
+    correct: false
+    explanation: Unrelated.
+  explanation: ProfilerListener::onKernelResponse() collects; onKernelTerminate() saves the profile after
+    lateCollect().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelResponse(), onKernelTerminate()
+    verified_at: '2026-10-09'
+- id: QST-m3cx7ts2as8f
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-evgzmx45nr93
+  - OUT-rvstpkee1rj6
+  related_items:
+  - OIT-d1qsxrtv25kk
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-6xqn9ybksrbr
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller receives the profiler service to disable it on one action. What must its type
+    be to survive production?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - deployment
+  - profiler
+  choices:
+  - id: CHO-ds25rgaqrts2
+    text: '`?Profiler`, checked for null'
+    correct: true
+  - id: CHO-zjeskb09eyyz
+    text: '`Profiler`, since it always exists'
+    correct: false
+    explanation: In production the profiler service does not exist.
+  - id: CHO-24mxczr6ea8f
+    text: '`ProfilerInterface`'
+    correct: false
+    explanation: The service is typed Profiler.
+  - id: CHO-vnzf9pcn61b5
+    text: '`ContainerInterface`'
+    correct: false
+    explanation: That is service location.
+  explanation: The profiler is a dev dependency and never enabled in production.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Enabling the Profiler Conditionally
+    verified_at: '2026-10-09'

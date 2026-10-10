@@ -1,0 +1,334 @@
+# Lot 21 - Filesystem and Finder: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the two items is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing
+# Filesystem 8.0.15 and Finder 8.0, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-r9bszvjnfnrr
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0mnzvybywnv8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    y already exists. What happens?
+
+    ```php
+    $filesystem->rename('x', 'y');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-qrzxwkzym656
+    text: 'An IOException: the target exists'
+    correct: true
+  - id: CHO-v4c95z75e7rs
+    text: y is silently replaced
+    correct: false
+    explanation: Only with the third argument set to true.
+  - id: CHO-0kfa29j3bvfr
+    text: x is copied, y kept
+    correct: false
+    explanation: rename() moves.
+  - id: CHO-y206q8zj61b9
+    text: false is returned
+    correct: false
+    explanation: The component throws instead of returning false.
+  explanation: Executed with Filesystem 8.0.15. mkdir() is recursive and ignores an existing directory.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: rename()
+    verified_at: '2026-10-09'
+- id: QST-tnhwgmzg4kcq
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-p4ef3jhd70w3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How does dumpFile() achieve its atomic write?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-yp2frqecv0ba
+    text: It writes a temporary file, then moves it into place
+    correct: true
+  - id: CHO-r8tzht1xhjew
+    text: It locks the file with flock()
+    correct: false
+    explanation: That is appendToFile()'s optional lock.
+  - id: CHO-xnrk4tx2zktx
+    text: It writes byte by byte
+    correct: false
+    explanation: That would be the opposite.
+  - id: CHO-4wkv97zmn5sy
+    text: It writes to a .bak copy first
+    correct: false
+    explanation: Not the mechanism.
+  explanation: Concurrent readers see either the whole old file or the whole new one.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dumpFile()
+    verified_at: '2026-10-09'
+- id: QST-1msx9yee8am6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9zm5ea8e1m2y
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: readFile() is called on a missing file, then on a directory. What does getPath() of each IOException
+    return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - filesystem
+  choices:
+  - id: CHO-xtc0wn0dgkt4
+    text: The path, then null
+    correct: true
+  - id: CHO-xpbk9svsfkec
+    text: The path both times
+    correct: false
+    explanation: For a directory the path is only in the message.
+  - id: CHO-c2v2hx5w31zf
+    text: null both times
+    correct: false
+    explanation: The missing file passes its path.
+  - id: CHO-nedyqpre9z7w
+    text: No exception for the directory
+    correct: false
+    explanation: A directory also throws.
+  explanation: Executed with Filesystem 8.0.15. IOExceptionInterface::getPath() names the failing path
+    when given.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: readFile()
+    verified_at: '2026-10-09'
+- id: QST-8cza2fyf0a0c
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-9rc3vz43p7t0
+  - OUT-0gd4a3m5v66c
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    templates/ holds partial_a.twig and plugin_b.twig. What do the two counts give?
+
+    ```php
+    $f = (new Finder())->in('templates');
+    iterator_count($f->name('partial_*'));
+    iterator_count($f->name('plugin_*'));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-x4j3k4fpxb24
+    text: 1, then 2
+    correct: true
+  - id: CHO-e6gsj828q9h9
+    text: 1, then 1
+    correct: false
+    explanation: 'The second name() adds to the first: clone to reuse.'
+  - id: CHO-65b9s1xva1e8
+    text: 2, then 2
+    correct: false
+    explanation: The first search only has partial_*.
+  - id: CHO-67h3fvxm8064
+    text: 1, then 0
+    correct: false
+    explanation: The second pattern is added, not substituted.
+  explanation: 'Executed with Finder 8.0: the object is stateful.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: stateful warning
+    verified_at: '2026-10-09'
+- id: QST-ry331ay8885d
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xntxjbxkapfz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`(new Finder())->in($dir)` with no other criteria. What does it return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-cdqmgnx92qj0
+    text: Files and directories, recursively, VCS dirs skipped
+    correct: true
+  - id: CHO-yrcgh5707bme
+    text: Files only, top level
+    correct: false
+    explanation: Both kinds, and recursive.
+  - id: CHO-mmmzn5rtdvt3
+    text: Everything, .git included
+    correct: false
+    explanation: VCS metadata is ignored by default.
+  - id: CHO-3w9xxrt7ck02
+    text: Nothing until name() is set
+    correct: false
+    explanation: in() is the only required criterion.
+  explanation: files() or directories() restrict; depth() bounds recursion; without in() iteration throws.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: defaults
+    verified_at: '2026-10-09'
+- id: QST-wc8g9haz1kbr
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-e7krb61ejhf9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Finder uses `in('f1')` and `in('f1/sub')`; iterator_count() gives 5 but iterator_to_array()
+    gives 4. What restores 5?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - finder
+  choices:
+  - id: CHO-mwen4tvfv8mx
+    text: '`iterator_to_array($finder, false)`'
+    correct: true
+  - id: CHO-pgxxd775zwp6
+    text: Calling `->files()`
+    correct: false
+    explanation: The issue is repeated keys.
+  - id: CHO-xgkrt09qa2qy
+    text: '`->sortByName()`'
+    correct: false
+    explanation: Sorting does not change keys.
+  - id: CHO-nst12h8y34vp
+    text: Cloning the Finder
+    correct: false
+    explanation: The keys still repeat.
+  explanation: Overlapping locations reach the same file twice under the same key; false discards keys.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: iterator_to_array
+    verified_at: '2026-10-09'

@@ -1,0 +1,613 @@
+# Lot 14 - Configuration, error handling and debugging: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the three items is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing Dotenv,
+# ExpressionLanguage and DependencyInjection 8.0.15, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-d06n3061ev80
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The same compiled container is deployed on two servers with different database URLs. Which
+    reference makes that work?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-tspncgnvjn2s
+    text: '`''%env(DATABASE_URL)%''`'
+    correct: true
+  - id: CHO-3e405h96hxjt
+    text: '`''%database_url%''` set under parameters'
+    correct: false
+    explanation: A parameter is frozen into the compiled container.
+  - id: CHO-tw39167yg1yk
+    text: '`''%kernel.database_url%''`'
+    correct: false
+    explanation: No such kernel parameter.
+  - id: CHO-vcmxq38r46ws
+    text: '`''${DATABASE_URL}''` in services.yaml'
+    correct: false
+    explanation: That is .env syntax, not container syntax.
+  explanation: Parameters resolve at compile time; environment variables are read at runtime.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuration Based on Environment Variables
+    verified_at: '2026-10-09'
+- id: QST-33bkn0zjb7by
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In dev, K is defined in .env, .env.local and .env.dev. Which file's value wins?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-zqbrr0x5fc10
+    text: .env.dev
+    correct: true
+  - id: CHO-t5z4pjeejw1k
+    text: .env.local
+    correct: false
+    explanation: .env.<env> is loaded after .env.local.
+  - id: CHO-5101vdk98bq5
+    text: .env
+    correct: false
+    explanation: It is the first, lowest layer.
+  - id: CHO-q5zb3vcyez1v
+    text: 'None: duplicate keys are an error'
+    correct: false
+    explanation: The last loaded file wins.
+  explanation: Executed with Dotenv 8.0.15. In test, .env.local is skipped; a real environment variable
+    beats every file.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadEnv()
+    verified_at: '2026-10-09'
+- id: QST-0v8kvbfg07rv
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-zbp5kh2xgz63
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    With `E=x` earlier in the file, what do S, D and F hold?
+
+    ```bash
+    S='${E}'
+    D="${E}"
+    F=${NOPE:-fallback}
+    ```
+  code_language: bash
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - dotenv
+  choices:
+  - id: CHO-pcj3djrqh850
+    text: S = ${E}, D = x, F = fallback
+    correct: true
+  - id: CHO-njkh5ht398gz
+    text: S = x, D = x, F = fallback
+    correct: false
+    explanation: Single quotes keep the text literal.
+  - id: CHO-ewwa68508f0x
+    text: S = ${E}, D = ${E}, F = fallback
+    correct: false
+    explanation: Double quotes interpolate.
+  - id: CHO-0c203cka082m
+    text: S = x, D = x, F = empty
+    correct: false
+    explanation: :- gives the fallback when the variable is unset.
+  explanation: Executed with Dotenv 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resolveVariables()
+    verified_at: '2026-10-09'
+- id: QST-txnrrtcrc99w
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-xrdyp9pn9ffe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What do these two calls return?
+
+    ```php
+    $el = new ExpressionLanguage();
+    $el->evaluate('1 + 2');
+    $el->compile('1 + 2');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - expression-language
+  choices:
+  - id: CHO-2dwpywqgeq9a
+    text: '`3` and the PHP string `(1 + 2)`'
+    correct: true
+  - id: CHO-6q3tfq0dbnb2
+    text: Both `3`
+    correct: false
+    explanation: compile() returns PHP source, to be cached.
+  - id: CHO-s4mxm2cajw7g
+    text: '`(1 + 2)` and `3`'
+    correct: false
+    explanation: The reverse.
+  - id: CHO-jcs8q9f0p4pw
+    text: A ParsedExpression twice
+    correct: false
+    explanation: That is parse().
+  explanation: Executed with ExpressionLanguage 8.0.15. lint() throws SyntaxError on an unknown variable
+    unless told to ignore it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: evaluate(), compile()
+    verified_at: '2026-10-09'
+- id: QST-hs5gtm9fdcen
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-nrbst3qj145g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An exception class carries `#[WithHttpStatus(404)]` and implements no interface. Which status
+    reaches the client when it escapes an action?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-egs11j2hw2em
+    text: '404'
+    correct: true
+  - id: CHO-b746bbzrpcnm
+    text: '500: only HttpExceptionInterface sets a status'
+    correct: false
+    explanation: The attribute is read by ErrorListener.
+  - id: CHO-v66aqg4gv2zv
+    text: 500 in prod, 404 in dev
+    correct: false
+    explanation: The status is the same in both.
+  - id: CHO-mjckn4fhz51e
+    text: The status written in the message
+    correct: false
+    explanation: The message is never read.
+  explanation: 'Order in ErrorListener: framework.exceptions config, #[WithHttpStatus], HttpExceptionInterface,
+    400 for RequestExceptionInterface, else 500.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelException()
+    verified_at: '2026-10-09'
+- id: QST-7qgdj2h2t3x3
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4d26jh0mp0z1
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The 404 page only needs the company logo and a search box. Which level of intervention is
+    enough?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-y3db704yhx7j
+    text: Override the error404.html.twig template
+    correct: true
+  - id: CHO-wfb4w8th068n
+    text: Listen to kernel.exception
+    correct: false
+    explanation: Disproportionate for a visual change.
+  - id: CHO-hqmvgnp6nb2v
+    text: Override the error controller
+    correct: false
+    explanation: Only needed to change generation logic.
+  - id: CHO-m3k3spcm7959
+    text: Write a normalizer
+    correct: false
+    explanation: Normalizers shape non-HTML output.
+  explanation: 'Templates, normalizer, error controller, kernel.exception: pick the lowest level that
+    suffices.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Overriding the Default Error Templates
+    verified_at: '2026-10-09'
+- id: QST-1m3tk5kwnvj4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pw8f8xsdrrcf
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-kv7mbksn7m8v
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Code reads an undefined array key. With default settings, what happens in debug mode and without
+    it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - error-handling
+  choices:
+  - id: CHO-rnbbzzb435hm
+    text: 'Debug: a 500 ErrorException; otherwise the warning is logged and the page renders'
+    correct: true
+  - id: CHO-x6mmmrq8e488
+    text: A 500 in both modes
+    correct: false
+    explanation: php_errors.throw defaults to %kernel.debug%.
+  - id: CHO-t52v7f9q5h6v
+    text: A 200 in both modes
+    correct: false
+    explanation: In debug the warning becomes an exception.
+  - id: CHO-pdf18krtdnf7
+    text: A 404 in both modes
+    correct: false
+    explanation: Unrelated to routing.
+  explanation: framework.php_errors.throw follows kernel.debug; dev shows the exception page, prod a generic
+    error page.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: php_errors.throw
+    verified_at: '2026-10-09'
+- id: QST-xkajfwvp2x7k
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ck41dmqysxwe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this line do in a dev request?
+
+    ```php
+    $total = dump($cart)->getTotal();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-788jmdwx68b5
+    text: Dumps $cart and still calls getTotal() on it
+    correct: true
+  - id: CHO-c7avxq3y4hav
+    text: 'Dumps $cart and stops: dump() returns nothing'
+    correct: false
+    explanation: dump() returns its argument.
+  - id: CHO-dhebwxamt24h
+    text: Dumps and ends the request
+    correct: false
+    explanation: That is dd().
+  - id: CHO-3mkf1k1nedvn
+    text: 'A fatal error: dump() is void'
+    correct: false
+    explanation: It returns the value.
+  explanation: dump() returns the value it receives, so it can sit inside an expression; dd() dumps and
+    stops.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/VarDumper/Resources/functions/dump.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dump()
+    verified_at: '2026-10-09'
+- id: QST-4dvx68tf60m0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-7zqhdcxxen5v
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A forgotten dump() reaches production, where DebugBundle is not installed. What happens to
+    that request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  choices:
+  - id: CHO-mkc81nvr4djz
+    text: The dump is printed before the content; headers are lost
+    correct: true
+  - id: CHO-ryk7zp88kepa
+    text: 'A fatal error: dump() is undefined'
+    correct: false
+    explanation: VarDumper comes with ErrorHandler, a FrameworkBundle requirement.
+  - id: CHO-w9a0xedkmpnb
+    text: 'Nothing: dump() is a no-op in prod'
+    correct: false
+    explanation: It still writes output.
+  - id: CHO-62qfk02fb9sd
+    text: The dump goes to the debug toolbar
+    correct: false
+    explanation: There is no toolbar in prod.
+  explanation: Output starts before Symfony sends the response, so PHP sends its own headers.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: symfony/var-dumper'
+    verified_at: '2026-10-09'
+- id: QST-jntaf665z8t5
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-cfyrgc2t8f2q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-xgrbftkj67ds
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: You must know which listeners run on kernel.request and in what order. Which command?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - debugging
+  - commands
+  choices:
+  - id: CHO-phbb88t38rw8
+    text: '`debug:event-dispatcher kernel.request`'
+    correct: true
+  - id: CHO-n3vfqtegvpaw
+    text: '`debug:container --tag=kernel.event_listener`'
+    correct: false
+    explanation: It lists services, not resolved order.
+  - id: CHO-sj3vrjkp83g7
+    text: '`debug:config framework`'
+    correct: false
+    explanation: It shows configuration.
+  - id: CHO-qb413zn1b0r5
+    text: '`router:match /`'
+    correct: false
+    explanation: It explains route matching.
+  explanation: Each debug:* command answers one question about what Symfony understood.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/EventDispatcherDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: debug:event-dispatcher
+    verified_at: '2026-10-09'
+- id: QST-j12gsmvtxmy1
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-tgt66re62pkz
+  - OUT-nrbst3qj145g
+  related_items:
+  - OIT-kv7mbksn7m8v
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tvc5rjv6qvse
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`framework.exceptions` maps App\TeapotException to `status_code: 418`, and that class also
+    implements HttpExceptionInterface returning 400. Which status wins?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - configuration
+  - error-handling
+  choices:
+  - id: CHO-m7v0zar0j03e
+    text: '418'
+    correct: true
+  - id: CHO-verqvx85n2pb
+    text: '400'
+    correct: false
+    explanation: Configuration is checked first and wins even over the interface.
+  - id: CHO-3k5tndcyp16w
+    text: '500'
+    correct: false
+    explanation: Both give a status.
+  - id: CHO-akrchw30c05c
+    text: The first one thrown
+    correct: false
+    explanation: There is one exception.
+  explanation: ErrorListener reads framework.exceptions before anything else.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: exceptionsMapping
+    verified_at: '2026-10-09'

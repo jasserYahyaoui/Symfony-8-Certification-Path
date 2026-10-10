@@ -1,0 +1,1688 @@
+# Lot 11 - Messenger: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the seven items is assessed by at
+# least one question (rule CMP-001); the last questions tie two items together
+# through related_items. No prompt repeats or rewords a question of the exam
+# banks (rule CMP-002). Answers verified against Messenger 8.0.15, by execution
+# where possible.
+
+schema_version: 1
+questions:
+- id: QST-e73qk49ndqnv
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-c3q6angezzhs
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-hs1297vvhr89
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In Messenger's vocabulary, which piece fetches a message from a transport, decodes it and
+    passes it on?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - messenger
+  choices:
+  - id: CHO-q87gbmc5h924
+    text: The receiver
+    correct: true
+  - id: CHO-f9n1sjhk1y4d
+    text: The sender
+    correct: false
+    explanation: The sender serializes and sends.
+  - id: CHO-a0ga8dsmm02c
+    text: The handler
+    correct: false
+    explanation: The handler runs the business logic.
+  - id: CHO-v5wvckqpx0r4
+    text: The envelope
+    correct: false
+    explanation: The envelope wraps a message with stamps.
+  explanation: 'The documented concepts: sender, receiver, handler, middleware, envelope, envelope stamps.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Concepts
+    verified_at: '2026-10-09'
+- id: QST-v5s0qb3ja4gg
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-w4ahdf9xdh5w
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-hs1297vvhr89
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Orphan is routed nowhere and has no handler. What does this do?
+
+    ```php
+    $bus->dispatch(new Orphan());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - messenger
+  choices:
+  - id: CHO-2vg5m97bz3b8
+    text: NoHandlerForMessageException
+    correct: true
+  - id: CHO-ey667132zgbk
+    text: Silently drops the message
+    correct: false
+    explanation: An unhandled sync message is an error.
+  - id: CHO-9hnm8amht3ym
+    text: Queues it for later
+    correct: false
+    explanation: There is no transport.
+  - id: CHO-35r9tqabqtxj
+    text: Returns an envelope with no stamps
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with Messenger 8.0.15: No handler for message "Orphan".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NoHandlerForMessageException
+    verified_at: '2026-10-09'
+- id: QST-7tdjw5knf1b8
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-rr0nvj9b8x0z
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-hs1297vvhr89
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Two handler classes return "h1" and "h2" for Welcome, synchronously. What does this print?
+
+    ```php
+    $env = $bus->dispatch(new Welcome());
+    echo count($env->all(HandledStamp::class)), ' ',
+         $env->last(HandledStamp::class)->getResult();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - messenger
+  - stamps
+  choices:
+  - id: CHO-08znxn9gw48j
+    text: '`2 h2`'
+    correct: true
+  - id: CHO-364q6e9f6d0y
+    text: '`1 h1`'
+    correct: false
+    explanation: Each handler adds its own stamp.
+  - id: CHO-q5zayxp8cfyv
+    text: '`2 h1`'
+    correct: false
+    explanation: last() returns the most recent stamp.
+  - id: CHO-nf5tg0tx8s95
+    text: A LogicException
+    correct: false
+    explanation: Only HandleTrait refuses several handlers.
+  explanation: 'Executed with Messenger 8.0.15: dispatch() returns the envelope, one HandledStamp per
+    handler.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Envelope.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: last(), all()
+    verified_at: '2026-10-09'
+- id: QST-tmq11ryzz8bh
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-d34tvv7rydk9
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Every message class under App\Message must go to the async transport. Which routing key does
+    it?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - transports
+  - routing
+  choices:
+  - id: CHO-atj09pk4a5pb
+    text: '`''App\Message\*'': async`'
+    correct: true
+  - id: CHO-2ck57vn92j49
+    text: '`''App\Message'': async`'
+    correct: false
+    explanation: A namespace needs the trailing *.
+  - id: CHO-aqpjtbtynfmd
+    text: '`''App\Message\**'': async`'
+    correct: false
+    explanation: One * is the syntax.
+  - id: CHO-8g582mtx5nx2
+    text: '`App\Message\: async`'
+    correct: false
+    explanation: That is the services.yaml discovery syntax, not routing.
+  explanation: 'Routing keys: class, parent class, interface, namespace ending in *, or * alone.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Routing Messages to a Transport
+    verified_at: '2026-10-09'
+- id: QST-nf9qd723pthf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-sz3q1tm5smja
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The only routing key is `App\Other\*`, which matches no message. A message App\Message\Ping
+    is dispatched. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - transports
+  - routing
+  choices:
+  - id: CHO-9rv7pgx59yc9
+    text: It is handled immediately, in the request
+    correct: true
+  - id: CHO-172wjk1p71pj
+    text: A LogicException when the container builds
+    correct: false
+    explanation: Only unknown classes or transports fail the build.
+  - id: CHO-wx6jey2b5zpj
+    text: It is dropped
+    correct: false
+    explanation: Unrouted means synchronous.
+  - id: CHO-cs7ej10wrw3g
+    text: It waits in a default queue
+    correct: false
+    explanation: There is no default queue.
+  explanation: An unrouted message is processed synchronously; a wildcard that matches nothing stays silent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: messenger routing checks
+    verified_at: '2026-10-09'
+- id: QST-te6wxrem5wwt
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-961gweegp990
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Routed to `sync://`, then to `in-memory://`: which one runs the handler during dispatch()?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - transports
+  choices:
+  - id: CHO-2fm8hsxx8tgh
+    text: sync:// only
+    correct: true
+  - id: CHO-tz29cvbxf5cq
+    text: in-memory:// only
+    correct: false
+    explanation: It keeps messages for inspection and runs nothing.
+  - id: CHO-wa3c65zh9v3t
+    text: Both
+    correct: false
+    explanation: in-memory:// does not handle.
+  - id: CHO-6dmk3x7qs6d7
+    text: 'Neither: both need a worker'
+    correct: false
+    explanation: sync:// handles on the spot.
+  explanation: sync:// processes at once, yet adds a SentStamp; in-memory:// stores messages for tests.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/Sync/SyncTransport.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: send()
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/InMemory/InMemoryTransport.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: send()
+    verified_at: '2026-10-09'
+- id: QST-ta35zasstbpx
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-25tacm3ebgk7
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-ckr67pq9npyb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Sms carries `#[AsMessage(['async', 'audit'])]` and config/packages/messenger.yaml routes Sms
+    to `sync`. Which transports receive it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - transports
+  - routing
+  choices:
+  - id: CHO-6mk6rewrzqyy
+    text: Only sync
+    correct: true
+  - id: CHO-22xnrnef39mg
+    text: async and audit
+    correct: false
+    explanation: Configuration overrides the attribute.
+  - id: CHO-sqh6meh4yq4d
+    text: async, audit and sync
+    correct: false
+    explanation: They are not merged.
+  - id: CHO-hhgtr83jqpq1
+    text: 'None: the conflict fails the build'
+    correct: false
+    explanation: Configuration simply wins.
+  explanation: Without the configuration key, the attribute alone sends it to both async and audit.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: AsMessage and configuration precedence
+    verified_at: '2026-10-09'
+- id: QST-hwad11c1vxs8
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-65c68dmyhjc9
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which handler is wired by autoconfiguration alone?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - handlers
+  choices:
+  - id: CHO-gq9a3745qzje
+    text: |-
+      `#[AsMessageHandler]
+      final class H { public function __invoke(Ping $m): void {} }`
+    correct: true
+  - id: CHO-2vpt1mxm9axh
+    text: '`final class H implements MessageHandler { public function handle(Ping $m) {} }`'
+    correct: false
+    explanation: No interface is involved, and handle() is not the convention.
+  - id: CHO-9mjh1s9frzvv
+    text: |-
+      `#[AsMessageHandler]
+      final class H { public function __invoke($m): void {} }`
+    correct: false
+    explanation: Without a type, the build fails.
+  - id: CHO-g6he9pr75526
+    text: '`final class H { public function __invoke(Ping $m): void {} }`'
+    correct: false
+    explanation: Without the attribute nothing marks it as a handler.
+  explanation: The attribute marks the handler; the argument type names the message.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class AsMessageHandler
+    verified_at: '2026-10-09'
+- id: QST-4b91kr7fyaq9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-yr8h53ttvp6e
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A handler method is `onNotice(Notice $m)` with #[AsMessageHandler], and Notice is an interface
+    that Ping implements. Is it called for Ping?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - handlers
+  choices:
+  - id: CHO-pvk0xmmhg5rg
+    text: 'Yes: the type may be an interface'
+    correct: true
+  - id: CHO-r34w3a5j4v13
+    text: 'No: the type must be the exact class'
+    correct: false
+    explanation: Parents and interfaces match too.
+  - id: CHO-rdn90znv3fqh
+    text: Only if Ping is routed
+    correct: false
+    explanation: Routing is unrelated to matching.
+  - id: CHO-hhqhgmzypc1d
+    text: 'The build fails: interfaces are refused'
+    correct: false
+    explanation: Union types and interfaces are allowed.
+  explanation: The argument type decides; it may be a class, a parent, an interface or a union.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/DependencyInjection/MessengerPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: guessHandledClasses()
+    verified_at: '2026-10-09'
+- id: QST-jste84j6xw0m
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-r1kvyze41rx5
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'OrderPlaced has an invoicing handler and a notification handler. What does `priority: 10`
+    on the second one change?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - handlers
+  choices:
+  - id: CHO-6jpf3dv25at5
+    text: 'Its order: it now runs first'
+    correct: true
+  - id: CHO-4skswfef9sfj
+    text: Only it runs
+    correct: false
+    explanation: Priority orders; it never excludes.
+  - id: CHO-a4c677d8tcfk
+    text: It runs on a separate worker
+    correct: false
+    explanation: Transports decide that.
+  - id: CHO-vs323s2z4m7q
+    text: It retries more often
+    correct: false
+    explanation: Unrelated to retries.
+  explanation: Every handler of a message runs; priority sets the order.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: priority
+    verified_at: '2026-10-09'
+- id: QST-ykxzh3aqz065
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2evbydc34ggd
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A queued message was serialized by v1. v2 adds a promoted constructor property `public int
+    $tries = 0`. What happens when v2 reads the property on that old message?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - messages
+  - serialization
+  choices:
+  - id: CHO-r34br9k0r5dp
+    text: 'Error: accessed before initialization'
+    correct: true
+  - id: CHO-v52ajy62c79j
+    text: It reads 0, the default
+    correct: false
+    explanation: unserialize() never calls the constructor that holds that default.
+  - id: CHO-4a6tjhm6b8et
+    text: The message is rejected by the transport
+    correct: false
+    explanation: It is decoded; the access fails.
+  - id: CHO-wpsb3719qs6t
+    text: It reads null
+    correct: false
+    explanation: An uninitialized typed property cannot be read.
+  explanation: A declared property with a default is safe; a promoted one is not.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: unserialize()
+    verified_at: '2026-10-09'
+- id: QST-3gaeeytc26n4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-n57edsf6gz2k
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-dctf03ftx44f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: low holds low-1, low-2; then high-1 arrives on high. Which order does `messenger:consume high
+    low --limit=3` follow?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - workers
+  choices:
+  - id: CHO-cv1dca3ncndx
+    text: high-1, low-1, low-2
+    correct: true
+  - id: CHO-bs33js3k8qwx
+    text: low-1, low-2, high-1
+    correct: false
+    explanation: high is listed first, so it is read first.
+  - id: CHO-pxqcawawnrdg
+    text: low-1, high-1, low-2
+    correct: false
+    explanation: The worker starts with the first transport.
+  - id: CHO-bddvb6h34qg5
+    text: Alternating, one per transport
+    correct: false
+    explanation: It goes back to the first after each message.
+  explanation: Transports are checked in the given order; the second is read only when the first is empty.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Worker.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'run(): receivers loop'
+    verified_at: '2026-10-09'
+- id: QST-4vng74739k6b
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-k3t8watc85cw
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-dctf03ftx44f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A worker's memory grows slowly over days. What is the recommended approach?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - workers
+  choices:
+  - id: CHO-7njvzvw6z032
+    text: Exit on a limit, then restart
+    correct: true
+  - id: CHO-7xbdf592cfwq
+    text: Call gc_collect_cycles() in each handler
+    correct: false
+    explanation: The pattern is to stop and restart, not to patch leaks.
+  - id: CHO-2cd2sjd5tzj1
+    text: Run it under the web server
+    correct: false
+    explanation: Workers are CLI processes.
+  - id: CHO-bxd5qtsbswyr
+    text: Raise memory_limit to -1
+    correct: false
+    explanation: That hides the problem.
+  explanation: --limit, --memory-limit, --time-limit and --failure-limit stop the worker gracefully.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Deploying to Production
+    verified_at: '2026-10-09'
+- id: QST-a1c3ymmea4rx
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-d5r5yrf58x1s
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-dctf03ftx44f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does messenger:stop-workers do to a worker busy with a message?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - workers
+  - deployment
+  choices:
+  - id: CHO-8jzr42p9fsta
+    text: Lets it finish, then stop
+    correct: true
+  - id: CHO-12ftvqerw6vv
+    text: It kills the process at once
+    correct: false
+    explanation: The stop is graceful.
+  - id: CHO-60vpsr32865h
+    text: It reloads the new code in place
+    correct: false
+    explanation: PHP cannot reload; the supervisor restarts.
+  - id: CHO-fhes8vgdfthh
+    text: It requeues the current message
+    correct: false
+    explanation: The current message completes.
+  explanation: Workers keep the code they started with; the signal makes them exit so the supervisor restarts
+    them.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/StopWorkersCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: execute()
+    verified_at: '2026-10-09'
+- id: QST-m4rzr0ndefzz
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-q8eq8avwpyh2
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-dctf03ftx44f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service counts calls and implements ResetInterface. A default worker handles three messages.
+    What count does it see on the third?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - workers
+  - reset
+  choices:
+  - id: CHO-e2x6v04gatja
+    text: '1'
+    correct: true
+  - id: CHO-6rxpzwtjqeaw
+    text: '3'
+    correct: false
+    explanation: That is without ResetInterface, or with --no-reset.
+  - id: CHO-rn8v79r2j9xs
+    text: '0'
+    correct: false
+    explanation: It counts the current call.
+  - id: CHO-pvkwrqjjag4t
+    text: It depends on the transport
+    correct: false
+    explanation: The reset happens between messages, whatever the transport.
+  explanation: Services are shared across messages; ResetServicesListener calls reset() between them.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/ResetServicesListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resetServices()
+    verified_at: '2026-10-09'
+- id: QST-5wp8byn2r12f
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-7rq6sxm6qqr3
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which waiting times does this strategy give for the three retries?
+
+    ```php
+    new MultiplierRetryStrategy(maxRetries: 3, delayMilliseconds: 1000, multiplier: 2, jitter: 0);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - retries
+  choices:
+  - id: CHO-rm5ftkvq3t3p
+    text: 1000, 2000, 4000 ms
+    correct: true
+  - id: CHO-pnv7qxs9hbec
+    text: 1000, 1000, 1000 ms
+    correct: false
+    explanation: The multiplier grows the delay.
+  - id: CHO-tzk6fh95pje5
+    text: 2000, 4000, 8000 ms
+    correct: false
+    explanation: The first delay is delayMilliseconds itself.
+  - id: CHO-xttt74me4vc2
+    text: 1000, 3000, 5000 ms
+    correct: false
+    explanation: The growth is exponential, not linear.
+  explanation: Executed with Messenger 8.0.15; a fourth retry is refused. max_delay caps the series.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Retry/MultiplierRetryStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getWaitingTime()
+    verified_at: '2026-10-09'
+- id: QST-gzzvfw6s37y2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-y57ephy9n9ey
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A handler throws RecoverableMessageHandlingException on every attempt, and max_retries is
+    3. How many attempts happen?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - retries
+  choices:
+  - id: CHO-v21914cedg7y
+    text: 'No limit: max_retries is never consulted'
+    correct: true
+  - id: CHO-cvfn9w3m4dgp
+    text: '4'
+    correct: false
+    explanation: That is for ordinary exceptions.
+  - id: CHO-jagy0e1755hf
+    text: '1'
+    correct: false
+    explanation: That is Unrecoverable.
+  - id: CHO-1rsz858hzvxa
+    text: '3'
+    correct: false
+    explanation: The recoverable path bypasses the count.
+  explanation: shouldRetry() returns true for a recoverable exception before looking at max_retries; its
+    4th argument sets retryDelay.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: shouldRetry()
+    verified_at: '2026-10-09'
+- id: QST-pjrza8rr0ap9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-d866n6yn58qx
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A worker hits UnrecoverableMessageHandlingException in a handler, in an app that never set
+    up a failure queue. Fate of that message?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - failures
+  choices:
+  - id: CHO-jq50f8nfphxc
+    text: It is lost after one attempt
+    correct: true
+  - id: CHO-hrwttrkcrt43
+    text: It is retried max_retries times
+    correct: false
+    explanation: Unrecoverable skips retries.
+  - id: CHO-9pagnz56crmy
+    text: It stays in the queue forever
+    correct: false
+    explanation: It is rejected.
+  - id: CHO-4772e9fd26rx
+    text: It is moved to a default failed queue
+    correct: false
+    explanation: Without failure_transport there is none.
+  explanation: Unrecoverable skips the strategy but would still go to a failure transport if one existed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageToFailureTransportListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onMessageFailed()
+    verified_at: '2026-10-09'
+- id: QST-j12tbve1yqsq
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-jd6ca4q02538
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The Boom handler throws RuntimeException('boom') and Boom is not routed. What reaches the caller?
+
+    ```php
+    $bus->dispatch(new Boom());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - failures
+  choices:
+  - id: CHO-v8fs5ft550bf
+    text: A HandlerFailedException
+    correct: true
+  - id: CHO-n9zmnw82hfy9
+    text: 'Nothing: the message is retried later'
+    correct: false
+    explanation: Retries need a transport and a worker.
+  - id: CHO-c8xse63ffhdp
+    text: The RuntimeException itself, unwrapped
+    correct: false
+    explanation: It is wrapped.
+  - id: CHO-26egh4b99jbb
+    text: The message lands in the failure transport
+    correct: false
+    explanation: Sync messages never reach it.
+  explanation: 'Executed with Messenger 8.0.15: synchronous handling has one attempt and no failure transport.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Exception/HandlerFailedException.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-5580s498zqe3
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4f772gc14626
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`messenger:failed:retry` replays a message that fails again. Where does it end up?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - failures
+  - commands
+  choices:
+  - id: CHO-4evapghvy03p
+    text: Back in the failure transport
+    correct: true
+  - id: CHO-y89raztz8wn4
+    text: In its original async transport
+    correct: false
+    explanation: The command handles it itself.
+  - id: CHO-n4rcj9a3xvca
+    text: Deleted
+    correct: false
+    explanation: It is kept for another decision.
+  - id: CHO-nkrf9e950kaf
+    text: In a new retry queue
+    correct: false
+    explanation: There is no such queue.
+  explanation: failed:retry processes messages from the failure transport directly; failed:show and failed:remove
+    inspect and delete.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/FailedMessagesRetryCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: runWorker()
+    verified_at: '2026-10-09'
+- id: QST-jr3perhgeezk
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-se3m27j02981
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-amnpjdprky6z
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which line continues the chain inside `handle(Envelope $envelope, StackInterface $stack):
+    Envelope`?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - middleware
+  choices:
+  - id: CHO-686h7prp05gc
+    text: '`return $stack->next()->handle($envelope, $stack);`'
+    correct: true
+  - id: CHO-k7t5s6pd48h7
+    text: '`return $stack->handle($envelope);`'
+    correct: false
+    explanation: next() returns the next middleware.
+  - id: CHO-d579tbpq6274
+    text: '`return $this->bus->dispatch($envelope);`'
+    correct: false
+    explanation: That re-enters the bus.
+  - id: CHO-f3f1w608mgd3
+    text: '`$stack->next(); return $envelope;`'
+    correct: false
+    explanation: next() alone runs nothing.
+  explanation: Each middleware calls the next one and returns the resulting envelope.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/StackInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: next()
+    verified_at: '2026-10-09'
+- id: QST-kjjeapjh2h2v
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f1z737x6w2pv
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-amnpjdprky6z
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Halt::handle() returns `$envelope` without calling next. Orphan has no handler. What happens?
+
+    ```php
+    $bus = new MessageBus([new Halt(), new HandleMessageMiddleware(new HandlersLocator([]))]);
+    $bus->dispatch(new Orphan());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - middleware
+  choices:
+  - id: CHO-13z1nmsdw29k
+    text: Nothing at all
+    correct: true
+  - id: CHO-a5cnx4w11gzm
+    text: NoHandlerForMessageException
+    correct: false
+    explanation: HandleMessageMiddleware is never reached.
+  - id: CHO-2228ftde82dn
+    text: A LogicException about the stack
+    correct: false
+    explanation: Nothing checks it.
+  - id: CHO-88r5a7nhn1c5
+    text: Orphan is queued
+    correct: false
+    explanation: There is no sender.
+  explanation: 'Executed with Messenger 8.0.15: the message vanishes silently.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/MessageBus.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: dispatch()
+    verified_at: '2026-10-09'
+- id: QST-gwmxbh75np59
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-gcjncj08dwdf
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-amnpjdprky6z
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A metrics middleware must count each async message once, at reception only. How does it tell
+    the two passes apart?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - middleware
+  - stamps
+  choices:
+  - id: CHO-f0663jtc8nh6
+    text: By a ReceivedStamp
+    correct: true
+  - id: CHO-dyawms9z7p09
+    text: By a static counter
+    correct: false
+    explanation: Send and receive happen in different processes.
+  - id: CHO-zr04f4r8bv95
+    text: By checking for a HandledStamp
+    correct: false
+    explanation: That appears after the handlers ran, not on entry.
+  - id: CHO-cxxvms90vp9m
+    text: By PHP_SAPI === "cli"
+    correct: false
+    explanation: A CLI command can also dispatch.
+  explanation: The chain runs at dispatch and again in the worker; only the second carries ReceivedStamp.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Stamp/ReceivedStamp.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class ReceivedStamp
+    verified_at: '2026-10-09'
+- id: QST-7c844qg1fkbe
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-kc77500x8et6
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-amnpjdprky6z
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where do middleware listed under `middleware:` sit in the default bus?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - middleware
+  choices:
+  - id: CHO-1y4t33tacfv7
+    text: Before send_message and handle_message
+    correct: true
+  - id: CHO-kr1eh64kmbw7
+    text: After handle_message
+    correct: false
+    explanation: handle_message closes the chain.
+  - id: CHO-yf9tdh5r52bc
+    text: Before add_bus_name_stamp_middleware
+    correct: false
+    explanation: The default stamp middleware come first.
+  - id: CHO-z4atcma9bvtc
+    text: Between send_message and handle_message
+    correct: false
+    explanation: Both stay at the end.
+  explanation: Custom middleware run in declared order, so they can interrupt sending and handling.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: default middleware
+    verified_at: '2026-10-09'
+- id: QST-hm7xc7836a4q
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-32c5zqv7br2d
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-16at9vwzww43
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener on SendMessageToTransportsEvent logs every message. An unrouted message is dispatched.
+    Is it logged?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  choices:
+  - id: CHO-9ymnd92tgstg
+    text: 'No: it needs senders'
+    correct: true
+  - id: CHO-qzp9y7d4yanx
+    text: 'Yes: the event fires for every dispatch'
+    correct: false
+    explanation: Only when sending to a transport.
+  - id: CHO-akck9qx0wqv9
+    text: Yes, twice
+    correct: false
+    explanation: It does not fire at all.
+  - id: CHO-kz346ydh6m53
+    text: Only in a worker
+    correct: false
+    explanation: It fires at sending time, in the dispatching process.
+  explanation: Events cover sending to a transport and the worker lifecycle; middleware cover every dispatch.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: SendMessageToTransportsEvent
+    verified_at: '2026-10-09'
+- id: QST-y6nq70fbheqv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-syfrg3ycvcq9
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-16at9vwzww43
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The queue is empty and the worker loops. Which event keeps firing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  choices:
+  - id: CHO-pfwkg56qvrx6
+    text: WorkerRunningEvent
+    correct: true
+  - id: CHO-19xxr3d6s1te
+    text: WorkerMessageReceivedEvent
+    correct: false
+    explanation: No message is received.
+  - id: CHO-s0hqjaykc209
+    text: WorkerStartedEvent
+    correct: false
+    explanation: It fires once.
+  - id: CHO-8sf28aywnhz5
+    text: None while idle
+    correct: false
+    explanation: The running event fires on each loop.
+  explanation: Expensive work placed there runs in a loop.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Event/WorkerRunningEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isWorkerIdle()
+    verified_at: '2026-10-09'
+- id: QST-774787v9gamg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-52jpm5kq981q
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-16at9vwzww43
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A WorkerMessageFailedEvent listener at priority 150 reads willRetry() for a message that will
+    be retried. What does it get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  - retries
+  choices:
+  - id: CHO-1xxg30bnybas
+    text: 'false: set later, at 100'
+    correct: true
+  - id: CHO-jm7255f4ewpb
+    text: 'true'
+    correct: false
+    explanation: Not yet set at priority 150.
+  - id: CHO-p8wzhabhhecp
+    text: 'null'
+    correct: false
+    explanation: It returns a bool.
+  - id: CHO-8whvvzqhd205
+    text: An exception
+    correct: false
+    explanation: It just returns the current flag.
+  explanation: SendFailedMessageForRetryListener sets it at priority 100; listeners at 0 see true.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSubscribedEvents()
+    verified_at: '2026-10-09'
+- id: QST-1ewyz89sane1
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-y0bea85rjt47
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-16at9vwzww43
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An alert must be sent when a message fails for good in a worker. Middleware or event listener?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  - middleware
+  choices:
+  - id: CHO-wvhxrj3jhj5c
+    text: A listener on WorkerMessageFailedEvent
+    correct: true
+  - id: CHO-cbx9s3h7e9ag
+    text: A middleware, since only it sees failures
+    correct: false
+    explanation: The worker event carries the throwable and willRetry().
+  - id: CHO-vfzc8xrk5n3t
+    text: A listener on SendMessageToTransportsEvent
+    correct: false
+    explanation: That fires before sending.
+  - id: CHO-72bj8kzgxrb9
+    text: A handler for the failed message
+    correct: false
+    explanation: Handlers do business logic.
+  explanation: A listener suffices for the worker lifecycle; a middleware is needed for every dispatch,
+    sync included.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Event/WorkerMessageFailedEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: willRetry()
+    verified_at: '2026-10-09'
+- id: QST-78mkc5e6jh5d
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-w4ahdf9xdh5w
+  - OUT-gcjncj08dwdf
+  related_items:
+  - OIT-amnpjdprky6z
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-hs1297vvhr89
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A message routed to async is dispatched. Right after dispatch() returns, which handlers have
+    run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - messenger
+  - middleware
+  choices:
+  - id: CHO-jbjfnvd3an8p
+    text: 'None: the message was only sent'
+    correct: true
+  - id: CHO-6hpcq7nqxftp
+    text: All of them
+    correct: false
+    explanation: That is the unrouted, synchronous case.
+  - id: CHO-knr3r74bghb2
+    text: The first one only
+    correct: false
+    explanation: Sending runs no handler.
+  - id: CHO-5z213nacdq7r
+    text: Those with the highest priority
+    correct: false
+    explanation: Priority orders handlers when they run, later.
+  explanation: The envelope carries SentStamp and no HandledStamp; the worker runs the chain again and
+    handles it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle()
+    verified_at: '2026-10-09'
+- id: QST-a59j2s171j8e
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-r1kvyze41rx5
+  - OUT-rr0nvj9b8x0z
+  related_items:
+  - OIT-hs1297vvhr89
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-9a8aa389vk48
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Welcome has two handlers. A query service uses HandleTrait. What does `$this->handle(new Welcome())`
+    do?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - handlers
+  - stamps
+  choices:
+  - id: CHO-wcc9mwrxs48b
+    text: A LogicException
+    correct: true
+  - id: CHO-hzps31fpr6rb
+    text: Returns the second handler's result
+    correct: false
+    explanation: HandleTrait requires exactly one handler.
+  - id: CHO-fbn4gmhdyyr3
+    text: Returns an array of both results
+    correct: false
+    explanation: It returns a single value or throws.
+  - id: CHO-rjvxjb81vsym
+    text: Returns null
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with Messenger 8.0.15: "Only one handler is expected".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/HandleTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handle()
+    verified_at: '2026-10-09'
+- id: QST-fzrgehybmm5y
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-jd6ca4q02538
+  - OUT-k3t8watc85cw
+  related_items:
+  - OIT-dctf03ftx44f
+  version: 1
+  official_topic: Messenger
+  official_item: OIT-76x1t7z916f4
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A worker runs with `--failure-limit=5`. A burst of failing messages occurs. What does that
+    option change?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - failures
+  - workers
+  choices:
+  - id: CHO-r05v83s12dhz
+    text: The worker stops after 5 failed messages
+    correct: true
+  - id: CHO-65radmqjgj32
+    text: Each message is retried at most 5 times
+    correct: false
+    explanation: That is max_retries.
+  - id: CHO-h6ptm884dx9t
+    text: Failures beyond 5 are dropped
+    correct: false
+    explanation: Retries and failure transport work as usual.
+  - id: CHO-kdrdppwfxbzw
+    text: It raises an alert at 5 failures
+    correct: false
+    explanation: It stops the worker.
+  explanation: It is a stop condition for the process; the supervisor restarts it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: --failure-limit
+    verified_at: '2026-10-09'

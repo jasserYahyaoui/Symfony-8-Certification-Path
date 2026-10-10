@@ -1,0 +1,1833 @@
+# Lot 08 - Data Validation: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the eight items is assessed by at
+# least one question (rule CMP-001); the last questions tie two items together
+# through related_items. No prompt repeats or rewords a question of the exam
+# banks (rule CMP-002). Answers verified by executing Validator 8.0.15.
+
+schema_version: 1
+questions:
+- id: QST-40cq65msk9pd
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-wsh6jsvs5s6f
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Only the email property of a User object must be checked, against its declared constraints.
+    Which call?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - validator
+  choices:
+  - id: CHO-75m9wm8p8v6p
+    text: '`validateProperty($user, ''email'')`'
+    correct: true
+  - id: CHO-q2fw74z13b54
+    text: '`validate($user->email)`'
+    correct: false
+    explanation: A bare string without a constraint throws.
+  - id: CHO-whqdgka2n3w0
+    text: '`validate($user, null, [''email''])`'
+    correct: false
+    explanation: The third argument names groups, not properties.
+  - id: CHO-39gg7nbkqtz4
+    text: '`validatePropertyValue($user, ''email'')`'
+    correct: false
+    explanation: That one needs the candidate value as third argument.
+  explanation: validate() checks the whole object, validateProperty() one property as stored, and validatePropertyValue()
+    a candidate value against a property's constraints.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validateProperty()
+    verified_at: '2026-10-09'
+- id: QST-0hg0ff22dsfq
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0enczxzp4pwq
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The object is valid. What does this print?
+
+    ```php
+    $list = $validator->validate($object);
+    echo ($list ? 'T' : 'F') . count($list);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - validator
+  choices:
+  - id: CHO-pk4v0k08nv8a
+    text: '`T0`'
+    correct: true
+  - id: CHO-h084aqka7kh7
+    text: '`F0`'
+    correct: false
+    explanation: An object is always truthy, even an empty list.
+  - id: CHO-e90g0gx1g7b7
+    text: '`T1`'
+    correct: false
+    explanation: A valid object gives an empty list.
+  - id: CHO-8t50krehjvcv
+    text: '`F` and a warning'
+    correct: false
+    explanation: count() works on the list.
+  explanation: 'Executed with Validator 8.0.15: validate() returns a ConstraintViolationList; test count().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/ConstraintViolationList.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Countable
+    verified_at: '2026-10-09'
+- id: QST-r9ne8mam39ez
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0enczxzp4pwq
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Outside the framework, `Validation::createValidator()` validates an object whose properties
+    carry #[Assert\NotBlank] and are empty. What comes back?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - validator
+  choices:
+  - id: CHO-sb17g3teeyhh
+    text: 'An empty list: attributes are not read'
+    correct: true
+  - id: CHO-r1bmsrjj723y
+    text: One violation per empty property
+    correct: false
+    explanation: That needs enableAttributeMapping().
+  - id: CHO-wwja4jk0zq3a
+    text: A MappingException
+    correct: false
+    explanation: No error signals the omission.
+  - id: CHO-jv74cz8jd19b
+    text: A RuntimeException asking for constraints
+    correct: false
+    explanation: That is for a scalar without constraint.
+  explanation: 'Executed with Validator 8.0.15: 0 violations, 2 with createValidatorBuilder()->enableAttributeMapping().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/ValidatorBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableAttributeMapping()
+    verified_at: '2026-10-09'
+- id: QST-x68ty700ppj6
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-kgffdypsnscc
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A signup form wants to check "nope" against User::$email before any User exists. Which call
+    fits?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - validator
+  choices:
+  - id: CHO-pcp98z7jzc3f
+    text: '`validatePropertyValue(User::class, ''email'', ''nope'')`'
+    correct: true
+  - id: CHO-jctfa83tx7xm
+    text: '`validateProperty(User::class, ''email'')`'
+    correct: false
+    explanation: That reads the property from an object.
+  - id: CHO-4x14d4deywrx
+    text: '`validate(''nope'', User::class)`'
+    correct: false
+    explanation: The second argument is constraints, not a class.
+  - id: CHO-4vhy4ne9btwf
+    text: '`validatePropertyValue(''nope'', User::class, ''email'')`'
+    correct: false
+    explanation: The class or object comes first.
+  explanation: 'Executed with Validator 8.0.15: the class name is accepted, and the Email violation is
+    returned.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validatePropertyValue()
+    verified_at: '2026-10-09'
+- id: QST-hhnst06de2vx
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-c85m458ahp7g
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-d3yp0sq36xrx
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Why does loading this class's metadata fail?
+
+    ```php
+    public function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank());
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - object-validation
+  choices:
+  - id: CHO-29a1v2qfj956
+    text: The method must be static
+    correct: true
+  - id: CHO-0q833947zpkq
+    text: It must return the metadata
+    correct: false
+    explanation: It returns nothing.
+  - id: CHO-nsc69rx90fyt
+    text: Property constraints need attributes
+    correct: false
+    explanation: PHP mapping is equivalent.
+  - id: CHO-j8kn6pg9yw1g
+    text: ClassMetadata must be passed by reference
+    correct: false
+    explanation: Objects are handles.
+  explanation: 'StaticMethodLoader throws a MappingException: the method should be static.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loadClassMetadata()
+    verified_at: '2026-10-09'
+- id: QST-0g5m7d5ptv9g
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-mqjbbf32kjca
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-d3yp0sq36xrx
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Addr::$zip carries NotBlank and is empty. What does validating an Author produce?
+
+    ```php
+    class Author
+    {
+        #[Assert\Valid]
+        public ?Addr $address = null;
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - object-validation
+  - cascade
+  choices:
+  - id: CHO-7797ntrw49kz
+    text: 'No violation: address is null'
+    correct: true
+  - id: CHO-xp64nc20rate
+    text: '`address.zip: This value should not be blank.`'
+    correct: false
+    explanation: There is no Addr to descend into.
+  - id: CHO-tbc5d0dhfa4d
+    text: '`address: This value should not be null.`'
+    correct: false
+    explanation: Valid does not make the property required.
+  - id: CHO-ty247tcrq5sj
+    text: A TypeError
+    correct: false
+    explanation: null is allowed by the type.
+  explanation: 'Executed with Validator 8.0.15: with an Addr instance, the violation would be at address.zip.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Valid.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class Valid
+    verified_at: '2026-10-09'
+- id: QST-przmgbc6rn3y
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-wmvdnjq75f68
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-d3yp0sq36xrx
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does validating a Child with n = "abc" report?
+
+    ```php
+    class Base
+    {
+        #[Assert\NotBlank]
+        public string $n = 'abc';
+    }
+    class Child extends Base
+    {
+        #[Assert\Length(min: 5)]
+        public string $n = 'abc';
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - object-validation
+  - inheritance
+  choices:
+  - id: CHO-ykzqr4v2bw7t
+    text: One violation, from Length
+    correct: true
+  - id: CHO-3cs6n3v17gd2
+    text: 'Nothing: the child replaces NotBlank and "abc" is not blank'
+    correct: false
+    explanation: Length still applies and fails.
+  - id: CHO-a2jnepq412f8
+    text: Two violations
+    correct: false
+    explanation: NotBlank passes on "abc".
+  - id: CHO-zvfh439gr1zw
+    text: Only NotBlank is checked
+    correct: false
+    explanation: 'Both apply: they are merged.'
+  explanation: 'Executed with Validator 8.0.15: parent and child constraints are both applied; only groups
+    can separate them.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: constraints inheritance
+    verified_at: '2026-10-09'
+- id: QST-e7f0hbtsa3xf
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-zxecwdwyhgng
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the constraints reference, which family holds DivisibleBy?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-4jjhtjscjv3w
+    text: Comparison
+    correct: true
+  - id: CHO-p7qnk7cdxfsc
+    text: Number
+    correct: false
+    explanation: That family is Positive, Negative and their OrZero forms.
+  - id: CHO-paa56hgtv9dc
+    text: Financial and other numbers
+    correct: false
+    explanation: That holds Iban, Bic, Luhn and similar.
+  - id: CHO-5zhj8j3bn28z
+    text: Other
+    correct: false
+    explanation: It sits with the comparisons.
+  explanation: The reference map lists DivisibleBy with EqualTo, GreaterThan, Range and the other comparisons.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Comparison Constraints
+    verified_at: '2026-10-09'
+- id: QST-69r5dw698aq2
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-wkzdab0t8y8n
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    How many of these values does NotBlank reject?
+
+    ```php
+    [null, '', false, [], '0', 0, ' ']
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-77mcjhd2b4rh
+    text: 'Four: null, '''', false and []'
+    correct: true
+  - id: CHO-q12yt0atjr0v
+    text: 'Seven: all of them look empty'
+    correct: false
+    explanation: '''0'', 0 and '' '' pass.'
+  - id: CHO-6eehzd8n9gfv
+    text: 'Five: 0 is blank too'
+    correct: false
+    explanation: In PHP 8, '0' != 0 is false, so 0 passes.
+  - id: CHO-8f7ksbw878s4
+    text: 'One: only null'
+    correct: false
+    explanation: That is NotNull.
+  explanation: 'Executed with Validator 8.0.15. NotNull rejects null alone; a string of spaces passes
+    NotBlank unless normalizer: trim is set.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validate()
+    verified_at: '2026-10-09'
+- id: QST-fg7g37fecpkp
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ca39zvmah4sj
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this report?
+
+    ```php
+    $validator->validate(['a' => 1], new Assert\Collection([
+        'a' => new Assert\Positive(),
+        'b' => new Assert\NotBlank(),
+    ]));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-0xcn3qzenv83
+    text: '`[b]`: This field is missing.'
+    correct: true
+  - id: CHO-afeqesd72mgc
+    text: 'Nothing: b is optional'
+    correct: false
+    explanation: Collection keys are required unless marked Optional.
+  - id: CHO-v7mk4fmcb1dc
+    text: '`[a]`: should be positive'
+    correct: false
+    explanation: 1 is positive.
+  - id: CHO-dsa4y7n7eknb
+    text: '`[b]`: should not be blank'
+    correct: false
+    explanation: The key itself is missing.
+  explanation: Executed with Validator 8.0.15. Collection maps a constraint per key; All applies one constraint
+    to every element.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CollectionValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: missingFieldsMessage
+    verified_at: '2026-10-09'
+- id: QST-n3mwqyk60jmr
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-8hwwtw34wdgt
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '"ab" is validated against `[new Length(min: 5), new Email()]`, then against the same two
+    inside `Sequentially`. How many violations each time?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-f23nt0t58gwf
+    text: 2, then 1
+    correct: true
+  - id: CHO-mchmfqjn8rx9
+    text: 1, then 1
+    correct: false
+    explanation: Without Sequentially both constraints report.
+  - id: CHO-ambn5a7wmr66
+    text: 2, then 2
+    correct: false
+    explanation: Sequentially stops at the first failure.
+  - id: CHO-3gzcqa24tsb8
+    text: 1, then 2
+    correct: false
+    explanation: The reverse.
+  explanation: Executed with Validator 8.0.15. AtLeastOneOf with the same pair gives one summary violation.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/SequentiallyValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validate()
+    verified_at: '2026-10-09'
+- id: QST-qqn3a81cq71f
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-8hwwtw34wdgt
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A contact value is acceptable if it is either a valid email or a valid phone pattern. Which
+    constraint wraps the two?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-hkpyvah612da
+    text: AtLeastOneOf
+    correct: true
+  - id: CHO-y5q989adsqek
+    text: Sequentially
+    correct: false
+    explanation: That requires all, in order.
+  - id: CHO-xcva8v1mw04n
+    text: All
+    correct: false
+    explanation: That applies to array elements.
+  - id: CHO-tg2aa4qr94rc
+    text: Compound
+    correct: false
+    explanation: That groups constraints that all apply.
+  explanation: AtLeastOneOf succeeds if one inner constraint passes; if none does, it reports one summary.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/AtLeastOneOf.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class AtLeastOneOf
+    verified_at: '2026-10-09'
+- id: QST-gwmdpkxph4za
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-tgzkeywcr2c5
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-ttwpe00f32q9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which scope validates a value computed by a method, not stored anywhere?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - scopes
+  choices:
+  - id: CHO-t115kfbsryj2
+    text: Getter
+    correct: true
+  - id: CHO-4m4dvp2ccccz
+    text: Property
+    correct: false
+    explanation: That validates a stored value.
+  - id: CHO-8zypaycyg189
+    text: Class
+    correct: false
+    explanation: That receives the whole object, not a returned value.
+  - id: CHO-gzfgb4f1tfjw
+    text: Payload
+    correct: false
+    explanation: payload is an option, not a scope.
+  explanation: Property, getter and class are the three targets.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Constraint Targets
+    verified_at: '2026-10-09'
+- id: QST-d6s2pp7wvbnw
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-wdhsjrrpmggk
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-ttwpe00f32q9
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which property paths are reported?
+
+    ```php
+    class G
+    {
+        #[Assert\IsTrue]
+        private function isSafe(): bool { return false; }
+
+        #[Assert\NotBlank]
+        public function getFull(): string { return ''; }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - scopes
+  choices:
+  - id: CHO-bvh6ykg712jq
+    text: '`safe` and `full`'
+    correct: true
+  - id: CHO-tdpexkwfgzmf
+    text: '`isSafe` and `getFull`'
+    correct: false
+    explanation: The prefix is removed.
+  - id: CHO-47nmypbynd9g
+    text: 'Only `full`: private methods are skipped'
+    correct: false
+    explanation: Visibility does not matter.
+  - id: CHO-75pfp2dp19wx
+    text: A MappingException for isSafe
+    correct: false
+    explanation: is is an accepted prefix.
+  explanation: 'Executed with Validator 8.0.15: names must start with get, is or has; the path drops the
+    prefix.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get/is/has
+    verified_at: '2026-10-09'
+- id: QST-ajc37b4xmqpp
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-v2t6031e9x7s
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-ttwpe00f32q9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A booking needs `$checkout > $checkin`. Where does the rule belong?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - scopes
+  choices:
+  - id: CHO-q5mvj2tcxgc3
+    text: A class-level constraint, such as Callback
+    correct: true
+  - id: CHO-a7br9n8px6y2
+    text: GreaterThan on $checkout alone
+    correct: false
+    explanation: Without propertyPath it cannot see the other property.
+  - id: CHO-twxga92pjre3
+    text: A getter on $checkin
+    correct: false
+    explanation: A getter checks one computed value, not the pair.
+  - id: CHO-yjgjqn2p39em
+    text: A NotBlank on both
+    correct: false
+    explanation: That does not compare.
+  explanation: Only the class scope sees the whole object; atPath() can then point the error at one field.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Classes
+    verified_at: '2026-10-09'
+- id: QST-1pz15y847jsm
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-yme605pqpcbw
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-kkhb3wd341ex
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`new Assert\NotBlank()` is created with no groups argument. Which group does it carry before
+    any class is involved?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - groups
+  choices:
+  - id: CHO-c8fg5sd9mfz9
+    text: '`["Default"]`'
+    correct: true
+  - id: CHO-a7y7wb1qdxfp
+    text: '`[]`'
+    correct: false
+    explanation: Default is assigned.
+  - id: CHO-76wcfwhtmsb9
+    text: '`["*"]`'
+    correct: false
+    explanation: There is no wildcard group.
+  - id: CHO-rr7jmw8npr5n
+    text: The class name only
+    correct: false
+    explanation: The class name is added when attached to a class.
+  explanation: Executed with Validator 8.0.15. Once added to class User, it is in Default and User.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DEFAULT_GROUP
+    verified_at: '2026-10-09'
+- id: QST-vextjd711wsm
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-s73ykpqy5sch
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-kkhb3wd341ex
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    email = "x", city = "a". Which paths does `validate($o)` report?
+
+    ```php
+    class Gr
+    {
+        #[Assert\Email(groups: ['registration'])]
+        public string $email = 'x';
+
+        #[Assert\Length(min: 2)]
+        public string $city = 'a';
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - groups
+  choices:
+  - id: CHO-z14784bqassv
+    text: Only city
+    correct: true
+  - id: CHO-qv6y8beza3eg
+    text: email and city
+    correct: false
+    explanation: registration is not validated by default.
+  - id: CHO-p5x3fyvf3vgf
+    text: Only email
+    correct: false
+    explanation: city is in Default.
+  - id: CHO-067k0d3ty873
+    text: Nothing
+    correct: false
+    explanation: city fails Length.
+  explanation: 'Executed with Validator 8.0.15: without a groups argument, only Default applies.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Default group
+    verified_at: '2026-10-09'
+- id: QST-1zv715rg102g
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-vnsvr71xs30c
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-kkhb3wd341ex
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Same class Gr, plus `#[Assert\NotBlank(groups: [''Gr''])] public string $only = '''';`. Which
+    paths does `validate($o, null, [''Gr''])` report?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - groups
+  choices:
+  - id: CHO-bdak61kjmxs0
+    text: city and only
+    correct: true
+  - id: CHO-1c3kgt0avt4j
+    text: Only only
+    correct: false
+    explanation: Default constraints belong to the class-name group too.
+  - id: CHO-bdt1qcjbyh53
+    text: Only city
+    correct: false
+    explanation: only is explicitly in Gr.
+  - id: CHO-5tn833ajt3b5
+    text: email, city and only
+    correct: false
+    explanation: registration is not requested.
+  explanation: 'Executed with Validator 8.0.15. Validating Default would not run only: the class-name
+    group contains Default, not the reverse.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: class name group
+    verified_at: '2026-10-09'
+- id: QST-tk3432vgq5hg
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-xyz5371z2twb
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-rwavvsx2d7nq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    u is empty and isPw() returns false. What does `validate($o)` report?
+
+    ```php
+    #[Assert\GroupSequence(['Sq', 'Strict'])]
+    class Sq
+    {
+        #[Assert\NotBlank]
+        public string $u = '';
+
+        #[Assert\IsTrue(groups: ['Strict'])]
+        public function isPw(): bool { return false; }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - group-sequence
+  choices:
+  - id: CHO-kg3vn4vaqhd6
+    text: Only u
+    correct: true
+  - id: CHO-0cma9a9m4w2q
+    text: u and pw
+    correct: false
+    explanation: Strict runs only if Sq passed.
+  - id: CHO-g2cv72jtmsdy
+    text: Only pw
+    correct: false
+    explanation: Sq runs first.
+  - id: CHO-xe1wg87218vm
+    text: Nothing
+    correct: false
+    explanation: u is blank.
+  explanation: 'Executed with Validator 8.0.15: once u is filled, the pw violation appears.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stepThroughGroupSequence()
+    verified_at: '2026-10-09'
+- id: QST-58wg79gtcfpg
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-b5t21ax5y3aq
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-rwavvsx2d7nq
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Validating this class throws a GroupDefinitionException. What is wrong?
+
+    ```php
+    #[Assert\GroupSequence(['Strict'])]
+    class SqMiss { /* ... */ }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - group-sequence
+  choices:
+  - id: CHO-8257ke6s5trc
+    text: The sequence must contain the class name, SqMiss
+    correct: true
+  - id: CHO-rys98w4bwqf1
+    text: A sequence needs at least two groups
+    correct: false
+    explanation: The message names the missing class group.
+  - id: CHO-b6txc1x7583p
+    text: Strict is not declared anywhere
+    correct: false
+    explanation: Unknown groups are allowed.
+  - id: CHO-43f6z57j64kw
+    text: The attribute must sit on a method
+    correct: false
+    explanation: It sits on the class.
+  explanation: 'Executed with Validator 8.0.15: "The group "SqMiss" is missing in the group sequence."
+    With Default instead, "not allowed in group sequences".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setGroupSequence()
+    verified_at: '2026-10-09'
+- id: QST-ec314bse587c
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-w45gx8dhzkr1
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-rwavvsx2d7nq
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Same Sq class, u still empty. What does `validate($o, null, ['Strict'])` report?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - group-sequence
+  choices:
+  - id: CHO-3avx2yxgk94c
+    text: Only pw
+    correct: true
+  - id: CHO-gm8fy3gpy9w8
+    text: Only u, since Sq runs first
+    correct: false
+    explanation: Naming a group skips the sequence.
+  - id: CHO-d9t9s9qpfpv2
+    text: u and pw
+    correct: false
+    explanation: Only Strict is validated.
+  - id: CHO-th59xx36xfyr
+    text: Nothing
+    correct: false
+    explanation: pw fails in Strict.
+  explanation: 'Executed with Validator 8.0.15: the sequence is attached to Default only.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Group Sequence
+    verified_at: '2026-10-09'
+- id: QST-ndt9qt29hcz5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kbx7xfhhm46j
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-rwavvsx2d7nq
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A provider returns `['User', 'Premium', 'Api']`. Each group has one failing constraint. What
+    is reported?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - group-sequence
+  - provider
+  choices:
+  - id: CHO-aef1ydp2pd0c
+    text: User's violation only
+    correct: true
+  - id: CHO-9k4xzec7v4px
+    text: User's and Premium's
+    correct: false
+    explanation: That is the nested form [[User, Premium], Api].
+  - id: CHO-hx45kpjmhpep
+    text: All three
+    correct: false
+    explanation: A sequence stops at the first failing step.
+  - id: CHO-f810wmw0y0h1
+    text: Api's only
+    correct: false
+    explanation: Steps run in order.
+  explanation: 'Flat: each group is a step. A nested array validates its groups together as one step.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/GroupSequenceProviderInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getGroupSequence()
+    verified_at: '2026-10-09'
+- id: QST-f6z2tg9t4qhg
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-fh85dvq5wq94
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Assert\Callback targets a method declared static. How must its parameters be written?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - callback
+  choices:
+  - id: CHO-548f5jbzspkp
+    text: '`static function v(mixed $value, ExecutionContextInterface $c, mixed $payload)`'
+    correct: true
+  - id: CHO-bvjjtpatdgsm
+    text: '`static function v(ExecutionContextInterface $c, mixed $payload)`'
+    correct: false
+    explanation: 'Executed: TypeError, the object arrives first.'
+  - id: CHO-fsxqhh1v7e34
+    text: '`static function v(ExecutionContextInterface $c, mixed $value)`'
+    correct: false
+    explanation: The object comes before the context.
+  - id: CHO-h7w484hknrc9
+    text: '`static function v(mixed $value): bool`'
+    correct: false
+    explanation: The context is needed to add violations.
+  explanation: 'Executed with Validator 8.0.15: CallbackValidator invokes a static method with the object
+    first. An instance method receives (context, payload).'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validate(): isStatic()'
+    verified_at: '2026-10-09'
+- id: QST-0bsrrt1q4x7j
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-3mgrr61v77zn
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    How many violations does this callback produce?
+
+    ```php
+    #[Assert\Callback]
+    public function check(ExecutionContextInterface $c): bool
+    {
+        return false;
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - callback
+  choices:
+  - id: CHO-gqpe3f11614s
+    text: None
+    correct: true
+  - id: CHO-yd3mr1gzqe3y
+    text: 'One: false means invalid'
+    correct: false
+    explanation: The return value is ignored.
+  - id: CHO-pz5rph4dsst6
+    text: One generic "invalid" violation
+    correct: false
+    explanation: Nothing is added for you.
+  - id: CHO-akjfd8b8wc3j
+    text: 'A TypeError: callbacks return void'
+    correct: false
+    explanation: Any return type is allowed; it is ignored.
+  explanation: Only violations added to the context count.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: return value ignored
+    verified_at: '2026-10-09'
+- id: QST-ja4zn5dd0ndd
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-4637w32xw9y8
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What does `#[Assert\Callback([ZipChecker::class, 'check'])]` on the Address class point to?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - callback
+  choices:
+  - id: CHO-5k2w9pnhct9g
+    text: A static method on another class
+    correct: true
+  - id: CHO-845dppa7b6aq
+    text: A method named check on Address
+    correct: false
+    explanation: A bare name would; an array names another class.
+  - id: CHO-f9ntc2ed1ft6
+    text: A service resolved from the container
+    correct: false
+    explanation: It is a static callable.
+  - id: CHO-x4rwx8ang6zt
+    text: A constraint class to instantiate
+    correct: false
+    explanation: It is a callable.
+  explanation: A bare name is looked up on the validated class; an array is an external static callable;
+    a closure works too.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: External Callbacks and Closures
+    verified_at: '2026-10-09'
+- id: QST-tzpsp5zd9f9y
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-x2rv3kwasf88
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class-level callback must attach its error to the end field. Which context method makes
+    that possible?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - violations
+  choices:
+  - id: CHO-tqxvk18z3tkw
+    text: buildViolation(), then atPath('end')
+    correct: true
+  - id: CHO-h6kheyywmrga
+    text: addViolation() with the path as second argument
+    correct: false
+    explanation: The second argument holds message parameters.
+  - id: CHO-a3rw5z4c12xx
+    text: addViolation() alone
+    correct: false
+    explanation: It reports at the current path, the object.
+  - id: CHO-9gfg7fdm20jx
+    text: setNode('end')
+    correct: false
+    explanation: No such method.
+  explanation: addViolation() reports at once at the current path; buildViolation() returns a builder
+    that can set path, code, value and parameters.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Context/ExecutionContextInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addViolation(), buildViolation()
+    verified_at: '2026-10-09'
+- id: QST-3yq4wg148rhh
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-y8sak1s2672z
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    How many violations does this add?
+
+    ```php
+    $context->buildViolation('Never seen')
+        ->atPath('x');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - violations
+  choices:
+  - id: CHO-tn2ns1jh5nn5
+    text: None
+    correct: true
+  - id: CHO-8v7jz0ns5e6n
+    text: One, at path x
+    correct: false
+    explanation: The chain lacks addViolation().
+  - id: CHO-bpsf4fcet3r2
+    text: One, at the object
+    correct: false
+    explanation: Nothing is recorded.
+  - id: CHO-yzqzn6kvncwg
+    text: A LogicException for an unfinished builder
+    correct: false
+    explanation: Nothing is thrown.
+  explanation: 'Executed with Validator 8.0.15: the builder records nothing until addViolation().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: addViolation()
+    verified_at: '2026-10-09'
+- id: QST-4hpjztzatn55
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-eq4vjk7mmyxm
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class-level callback calls `buildViolation('Bad')->atPath('x')->addViolation()`. What is
+    the violation's invalid value?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - violations
+  choices:
+  - id: CHO-7brxawep4rg9
+    text: The whole object
+    correct: true
+  - id: CHO-bj80neeev5g2
+    text: The value of x
+    correct: false
+    explanation: atPath() changes the path only; use setInvalidValue().
+  - id: CHO-qrq4nx2arajw
+    text: 'null'
+    correct: false
+    explanation: The current value is the object.
+  - id: CHO-b4c9bcym03yb
+    text: The string "x"
+    correct: false
+    explanation: That is the path.
+  explanation: 'Executed with Validator 8.0.15: the path is x, the invalid value stays the context value.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: atPath(), setInvalidValue()
+    verified_at: '2026-10-09'
+- id: QST-2p47h8f9nqyt
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-nb6w1gbs0ndt
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What do getMessage() and getMessageTemplate() return?
+
+    ```php
+    $c->buildViolation('built {{ v }}')
+        ->setParameter('{{ v }}', 'V')
+        ->addViolation();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - violations
+  choices:
+  - id: CHO-6xr7qzaxb23q
+    text: '"built V" and "built {{ v }}"'
+    correct: true
+  - id: CHO-jxs2cbqrw7kn
+    text: Both "built V"
+    correct: false
+    explanation: The template keeps the placeholder.
+  - id: CHO-yzsxp4vcgxnc
+    text: Both "built {{ v }}"
+    correct: false
+    explanation: The message is filled.
+  - id: CHO-h90akm6mv76b
+    text: '"built V" and null'
+    correct: false
+    explanation: The template is stored.
+  explanation: 'Executed with Validator 8.0.15: parameters fill the message while the template stays translatable.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/ConstraintViolation.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getMessageTemplate()
+    verified_at: '2026-10-09'
+- id: QST-5hzapjkzbn5q
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-vnsvr71xs30c
+  - OUT-mqjbbf32kjca
+  related_items:
+  - OIT-d3yp0sq36xrx
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-kkhb3wd341ex
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'User::$address carries #[Assert\Valid]; Address::$zip has a Default NotBlank and is empty.
+    Validating User with group User: is address.zip reported?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - groups
+  - cascade
+  choices:
+  - id: CHO-sqc5fkbfsafg
+    text: 'No: the User group is passed down, and zip is not in it'
+    correct: true
+  - id: CHO-dkxp5dccpd2y
+    text: 'Yes: Valid always uses Default'
+    correct: false
+    explanation: The requested group travels with the cascade.
+  - id: CHO-g8v1jgdyq9mr
+    text: 'Yes: User and Default are identical'
+    correct: false
+    explanation: They differ exactly on cascaded objects.
+  - id: CHO-np904304fcyn
+    text: 'It throws: groups cannot cascade'
+    correct: false
+    explanation: They can.
+  explanation: Validating Default reaches address.zip; validating the class-name group does not, since
+    Address receives the group User.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Default vs class name group
+    verified_at: '2026-10-09'
+- id: QST-mm41va3k0d52
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-fh85dvq5wq94
+  - OUT-nb6w1gbs0ndt
+  related_items:
+  - OIT-0wnxbapegqhv
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-hcdrp2y7kbct
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What reaches the method?
+
+    ```php
+    new Assert\Callback(
+        callback: function ($value, $context, $payload) { /* ... */ },
+        payload: ['severity' => 'warning'],
+    )
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - callback
+  - violations
+  choices:
+  - id: CHO-et2y538hy45n
+    text: $payload is ["severity" => "warning"]
+    correct: true
+  - id: CHO-dkn090madw29
+    text: '$payload is null: closures get no payload'
+    correct: false
+    explanation: Closures receive (value, context, payload).
+  - id: CHO-qw4qh05gca0p
+    text: severity is copied into the violation code
+    correct: false
+    explanation: The validator does not use payload.
+  - id: CHO-abmar5mjm7jv
+    text: 'The closure is rejected: callbacks must be methods'
+    correct: false
+    explanation: Closures are accepted.
+  explanation: 'Executed with Validator 8.0.15: payload is passed through untouched for the application''s
+    use.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: payload
+    verified_at: '2026-10-09'
+- id: QST-qgx10wzhm7f1
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0enczxzp4pwq
+  - OUT-zxecwdwyhgng
+  related_items:
+  - OIT-9x3strrjdng7
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-6wd8860brzfy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What happens?
+
+    ```php
+    $validator->validate('abc', new Assert\Length());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - validator
+  - constraints
+  choices:
+  - id: CHO-err93yyfmsav
+    text: MissingOptionsException when Length is built
+    correct: true
+  - id: CHO-z3qz26kmez41
+    text: 'An empty list: no limits means valid'
+    correct: false
+    explanation: The constraint cannot be built.
+  - id: CHO-4pr7ksp8seys
+    text: 'A violation: Length needs a limit'
+    correct: false
+    explanation: Configuration errors throw; only data errors become violations.
+  - id: CHO-bwpnez8dtn2s
+    text: 'RuntimeException: provide a constraint'
+    correct: false
+    explanation: A constraint is provided.
+  explanation: 'Executed with Validator 8.0.15: "Either option "min" or "max" must be given". Invalid
+    data gives violations; invalid configuration throws.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Length.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'

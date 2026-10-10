@@ -1,0 +1,276 @@
+# Lot 16 - Internationalization and localization: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing the Translation
+# component 8.0, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-nz82a6kt8wqn
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In `admin.en_GB.xlf`, what does each part of the name decide?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-zrcgbb5cyzf0
+    text: Domain, locale, then the loader used
+    correct: true
+  - id: CHO-rd37y2r793ch
+    text: Bundle, locale, then the format version
+    correct: false
+    explanation: The first part is the domain.
+  - id: CHO-kzn1qgd9f7hv
+    text: Locale, domain, then the loader
+    correct: false
+    explanation: The domain comes first.
+  - id: CHO-w0wtp4h7bjrr
+    text: 'Nothing: only the content matters'
+    correct: false
+    explanation: The name decides everything.
+  explanation: domain.locale.loader; a new catalogue file needs cache:clear to be discovered.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translation Resource/File Names and Locations
+    verified_at: '2026-10-09'
+- id: QST-v5g45ae9z599
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    messages.en.yaml (no +intl-icu) holds `hi: 'Hello {name}!'`. What does this return?
+
+    ```php
+    $translator->trans('hi', ['name' => 'Ann']);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-sy24qtdthper
+    text: '`Hello {Ann}!`'
+    correct: true
+  - id: CHO-zn2s8v8n52fc
+    text: '`Hello Ann!`'
+    correct: false
+    explanation: 'Without +intl-icu, replacement is a literal strtr: only "name" is replaced, braces stay.'
+  - id: CHO-1qpq24hb4m5n
+    text: '`Hello {name}!`'
+    correct: false
+    explanation: strtr finds "name" inside the braces and replaces it.
+  - id: CHO-1dejy2md9dqt
+    text: 'An exception: unknown placeholder'
+    correct: false
+    explanation: Nothing checks it.
+  explanation: 'Executed with Translation 8.0: the key {name}, or a +intl-icu domain with name, gives
+    Hello Ann!.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/MessageFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: format()
+    verified_at: '2026-10-09'
+- id: QST-nbh0hxg9cyp6
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-z28gpra0mn3s
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: For locale es_AR, in which order are catalogues tried for a missing key?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  - fallback
+  choices:
+  - id: CHO-jm7rr7xxpztd
+    text: es_AR, es_419, es, then the fallbacks option
+    correct: true
+  - id: CHO-85c0684j20dw
+    text: es_AR, es, then the fallbacks option
+    correct: false
+    explanation: The parent locale es_419 comes in between.
+  - id: CHO-2ac9tw9jmrx2
+    text: es_AR, the fallbacks option, then es
+    correct: false
+    explanation: The language comes before configured fallbacks.
+  - id: CHO-zyec1b9ra3pb
+    text: es, es_AR, es_419
+    correct: false
+    explanation: The requested locale comes first.
+  explanation: Some locales have a parent locale, inserted before the bare language.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: computeFallbackLocales()
+    verified_at: '2026-10-09'
+- id: QST-ff43frv04yty
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gemxb3z58qyr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A bundle ships translations/messages.fr.yaml with 50 keys; the project redefines 2 of them
+    in its own translations/. What do the other 48 show?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-fb1sr1525a24
+    text: The bundle's values
+    correct: true
+  - id: CHO-mmrn3dnbc0se
+    text: 'Their raw keys: the project file replaces the bundle''s'
+    correct: false
+    explanation: Overriding is key by key.
+  - id: CHO-vwdpq3vt3cv3
+    text: 'Nothing: a conflict error'
+    correct: false
+    explanation: Project files simply take priority.
+  - id: CHO-p181ydyxj3qd
+    text: The default_locale translation
+    correct: false
+    explanation: The fr catalogue still holds them.
+  explanation: Project translations override bundle translations key by key.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Translation Resource/File Names and Locations
+    verified_at: '2026-10-09'
+- id: QST-vxpj8rm6j13b
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-f181kwzbmq80
+  - OUT-z28gpra0mn3s
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A key exists in no catalogue at all, fallbacks included. What does trans() return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - translation
+  choices:
+  - id: CHO-tyr2dgtm57zd
+    text: The key itself, unchanged
+    correct: true
+  - id: CHO-yn5qmtp6rj70
+    text: An empty string
+    correct: false
+    explanation: The original string is returned.
+  - id: CHO-mf3fyn1jv8gw
+    text: A MissingTranslationException
+    correct: false
+    explanation: Nothing is thrown.
+  - id: CHO-e3h3z1nkyjtg
+    text: 'null'
+    correct: false
+    explanation: trans() returns a string.
+  explanation: 'A missing translation is silent: the symptom is a raw key on the page.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trans()
+    verified_at: '2026-10-09'
