@@ -1579,3 +1579,1706 @@ questions:
     branch: '8.0'
     symbol_or_lines: getKernelClass()
     verified_at: '2026-10-09'
+- id: QST-y7y0pscfj5mw
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-tn4gp01mcsfz
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A colleague says "functional test". Which of the three documented test kinds do they mean?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - unit-tests
+  choices:
+  - id: CHO-cyvpf1q2zwzz
+    text: Application test
+    correct: true
+  - id: CHO-9wexc28gpz4f
+    text: Integration test, which boots the kernel
+    correct: false
+    explanation: Integration tests send no request.
+  - id: CHO-m4apqspe0a01
+    text: Unit test of a single class
+    correct: false
+    explanation: Unit tests involve one class.
+  - id: CHO-kaz4brktg0qb
+    text: 'None: it is a fourth kind'
+    correct: false
+    explanation: It is a synonym.
+  explanation: 'Unit, integration, application: the third is also called functional.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Types of Tests
+    verified_at: '2026-10-09'
+- id: QST-bwcsev2qnyk7
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-s84n2y8t4g36
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-c6wd3f444qjn
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A fresh project has no test tooling. Which command installs what the docs use?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - unit-tests
+  choices:
+  - id: CHO-xtfq7nk0a3sw
+    text: '`composer require --dev symfony/test-pack`'
+    correct: true
+  - id: CHO-nn7grjfmvhv3
+    text: '`composer require phpunit`'
+    correct: false
+    explanation: Not the documented pack.
+  - id: CHO-zzrggah28hyn
+    text: '`php bin/console make:tests`'
+    correct: false
+    explanation: Not an install command.
+  - id: CHO-0mkxesp8xqys
+    text: '`composer require --dev symfony/testing-tools`'
+    correct: false
+    explanation: No such package.
+  explanation: Then run the suite with php bin/phpunit.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Installation
+    verified_at: '2026-10-09'
+- id: QST-021mdhj17v01
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-aev6xdsqazd4
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why does a WebTestCase test not call bootKernel() before createClient()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - web-test-case
+  choices:
+  - id: CHO-762v9wffxeka
+    text: createClient() boots the kernel itself
+    correct: true
+  - id: CHO-3c9jnx0f2csf
+    text: WebTestCase does not use a kernel
+    correct: false
+    explanation: It extends KernelTestCase.
+  - id: CHO-et0tmz072m1j
+    text: bootKernel() is forbidden there
+    correct: false
+    explanation: It is just not needed.
+  - id: CHO-z6y4w7zdwzvf
+    text: The kernel boots on the first assertion
+    correct: false
+    explanation: createClient() boots it.
+  explanation: WebTestCase extends KernelTestCase.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createClient()
+    verified_at: '2026-10-09'
+- id: QST-539h9ptsryjp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9v5ravsc1d59
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A POST answers 201 Created. Does assertResponseIsSuccessful() pass?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - assertions
+  choices:
+  - id: CHO-p5wcxrxs032x
+    text: 'Yes: any 2xx passes'
+    correct: true
+  - id: CHO-hydd9vysqwmt
+    text: 'No: only 200 passes'
+    correct: false
+    explanation: It covers the whole 2xx range.
+  - id: CHO-haqtqthrkqrg
+    text: Only with an explicit 201 argument
+    correct: false
+    explanation: It takes no status.
+  - id: CHO-btbrjxh20n20
+    text: 'No: 201 counts as a redirect'
+    correct: false
+    explanation: 3xx are redirects.
+  explanation: 'Executed with FrameworkBundle 8.0.15: a 201 response passes.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: assertResponseIsSuccessful()
+    verified_at: '2026-10-09'
+- id: QST-60xgexyvk4p6
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-aev6xdsqazd4
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-favt42nvgdqh
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test requests `$router->generate('blog_show', ...)` rather than a written URL. What does
+    the documentation advise instead?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - web-test-case
+  choices:
+  - id: CHO-w8yqjjedcz6y
+    text: Hard-code the URL
+    correct: true
+  - id: CHO-r9yvdp09ayjm
+    text: Generating it is the best practice
+    correct: false
+    explanation: A changed URL would then go unnoticed.
+  - id: CHO-26xpz7wbh3yv
+    text: Use the route name in request()
+    correct: false
+    explanation: request() takes a URI.
+  - id: CHO-rv3jj7qvs1xg
+    text: Read it from the sitemap
+    correct: false
+    explanation: Not advised.
+  explanation: A hard-coded URL fails when public URLs change, which is the point.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Hardcoding the request URLs is a best practice
+    verified_at: '2026-10-09'
+- id: QST-pfcdv8nm2hef
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pkd6t54g5k0j
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: GET /go redirects to /hello. The test calls followRedirect() once, then back(). Where does
+    it land?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - redirects
+  choices:
+  - id: CHO-ghb8esftazaz
+    text: /go
+    correct: true
+  - id: CHO-9m64ec4ry7y7
+    text: The page visited before /go, if any
+    correct: false
+    explanation: A manually followed redirect stays in history.
+  - id: CHO-ybg63yy9rha6
+    text: /hello, again
+    correct: false
+    explanation: back() moves to the previous entry.
+  - id: CHO-v5qj1c6bbt3j
+    text: 'Nowhere: back() throws'
+    correct: false
+    explanation: History holds two entries.
+  explanation: Executed with FrameworkBundle 8.0.15. Only redirects followed in followRedirects() mode
+    are skipped by back().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: back()
+    verified_at: '2026-10-09'
+- id: QST-awhvre8ejh28
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-b0gj22s9raax
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test must act as an existing user without filling the login form. Which call?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - security
+  choices:
+  - id: CHO-tnqday0g67yk
+    text: '`$client->loginUser($user)`'
+    correct: true
+  - id: CHO-wcstrb6pky48
+    text: '`$client->setUser($user)`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-nzy9qpd9t1tg
+    text: '`$client->getSession()->set(''user'', $user)`'
+    correct: false
+    explanation: The token is not stored under that key.
+  - id: CHO-qh6a9zxrks20
+    text: '`$client->authenticate($user)`'
+    correct: false
+    explanation: No such method.
+  explanation: loginUser() takes a user object and optionally a firewall name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: loginUser()
+    verified_at: '2026-10-09'
+- id: QST-eb8r6cjx6kq1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-b0gj22s9raax
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A page builds its menu with JavaScript. Does the test client see that menu?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  choices:
+  - id: CHO-95hmfbbwkvxb
+    text: 'No: no JavaScript runs'
+    correct: true
+  - id: CHO-gwbasjtgw80a
+    text: 'Yes: the kernel runs scripts'
+    correct: false
+    explanation: The kernel only runs PHP.
+  - id: CHO-r3hq6xc7y93g
+    text: Yes, after a short wait
+    correct: false
+    explanation: Nothing executes scripts.
+  - id: CHO-wrzfr9sbfesa
+    text: Only with followRedirects()
+    correct: false
+    explanation: Unrelated.
+  explanation: It is a simulated client, not a browser.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Application Tests
+    verified_at: '2026-10-09'
+- id: QST-z7fd8nvftf2h
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-cd7mwe96kqaf
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bc3brs4a4mtt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test makes two requests with one client. Is the service container the same object for both?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - kernel
+  choices:
+  - id: CHO-yg0w1gcwtca4
+    text: 'No: the kernel reboots'
+    correct: true
+  - id: CHO-q9352sgswtjp
+    text: 'Yes: one client always keeps one container'
+    correct: false
+    explanation: Each request reboots the kernel.
+  - id: CHO-bbt0t7bgp44v
+    text: Only in debug mode
+    correct: false
+    explanation: Unrelated to debug.
+  - id: CHO-zav1pay4f4tg
+    text: Only for public services
+    correct: false
+    explanation: The whole container is rebuilt.
+  explanation: 'Executed with FrameworkBundle 8.0.15: two ids; after disableReboot() the same one.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableReboot()
+    verified_at: '2026-10-09'
+- id: QST-vtrwr1mtyse9
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0cm314bnvwqx
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The page holds `<h1>  Hello⏎   World  </h1>`. What do the two calls return?
+
+    ```php
+    $h1->text();
+    $h1->text(null, false);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  choices:
+  - id: CHO-p9c0tdpj3a17
+    text: '`Hello World`, then the raw text'
+    correct: true
+  - id: CHO-rkw22pcr3bk2
+    text: The raw text twice, spaces and newline kept
+    correct: false
+    explanation: text() normalizes whitespace by default.
+  - id: CHO-n40cpzv6jrsr
+    text: '`Hello World` twice'
+    correct: false
+    explanation: false turns normalization off.
+  - id: CHO-abzncyd76kh1
+    text: null, then the raw text
+    correct: false
+    explanation: The first call returns a string.
+  explanation: Executed with DomCrawler 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: text()
+    verified_at: '2026-10-09'
+- id: QST-2y450p3yqkwh
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0cm314bnvwqx
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The list has three `<li>`. How many nodes are kept?
+
+    ```php
+    count($crawler->filter('li')->reduce(function ($node, $i) {}));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  choices:
+  - id: CHO-xw93bwvvxv7q
+    text: '3'
+    correct: true
+  - id: CHO-5e2z8md2r5tt
+    text: '0: null drops every node'
+    correct: false
+    explanation: Only false removes a node.
+  - id: CHO-p7mjpxpss5dq
+    text: '1'
+    correct: false
+    explanation: Nothing is removed.
+  - id: CHO-t405v970vadb
+    text: 'An error: the callback must return bool'
+    correct: false
+    explanation: Any non-false value keeps the node.
+  explanation: Executed with DomCrawler 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: reduce()
+    verified_at: '2026-10-09'
+- id: QST-bzgr46ftpfx8
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0cm314bnvwqx
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Two links: `<a href="/x">X</a><a href="/y">Y</a>`. What does this return?
+
+    ```php
+    $crawler->filter('a')->extract(['_text', 'href']);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  choices:
+  - id: CHO-g4ema0cv6a8b
+    text: '`[[''X'', ''/x''], [''Y'', ''/y'']]`'
+    correct: true
+  - id: CHO-506n1bkzeke5
+    text: '`[''X'', ''/x'']`, the first link only'
+    correct: false
+    explanation: extract() covers every node.
+  - id: CHO-k6ynhwy5pfre
+    text: '`[[''_text'' => ''X'', ''href'' => ''/x''], ...]`'
+    correct: false
+    explanation: Rows are lists.
+  - id: CHO-xt1p7svf2b14
+    text: '`[['''', ''/x''], ['''', ''/y'']]`'
+    correct: false
+    explanation: _text gives the text.
+  explanation: Executed with DomCrawler 8.0.15. text() and attr() only read the first node.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: extract()
+    verified_at: '2026-10-09'
+- id: QST-8zcz3xs20efp
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-0cm314bnvwqx
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    `<ul><li>a</li><li>b</li><li>c</li></ul>`. What is printed?
+
+    ```php
+    $li = $crawler->filter('li');
+    $first = $li->first();
+    echo count($li), count($first), $li->eq(1)->text();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  choices:
+  - id: CHO-gyb476h1gs0e
+    text: '`31b`'
+    correct: true
+  - id: CHO-z2r2edw2k7hr
+    text: '`11a`: first() narrowed $li too'
+    correct: false
+    explanation: first() returns a new crawler; $li is unchanged.
+  - id: CHO-g3961qx1k927
+    text: '`31a`'
+    correct: false
+    explanation: eq() is zero-based.
+  - id: CHO-mr916akgke9r
+    text: '`33b`'
+    correct: false
+    explanation: first() keeps one node.
+  explanation: 'Executed with DomCrawler 8.0.15: traversal methods return a new Crawler.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: first(), eq()
+    verified_at: '2026-10-09'
+- id: QST-thc8fy68dr2k
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-3vvzqtq2z234
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A form field is a checkbox. Which call checks it?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  - forms
+  choices:
+  - id: CHO-hkjc9fnkafbx
+    text: '`$form[''ok'']->tick()`'
+    correct: true
+  - id: CHO-hy92tyy665s0
+    text: '`$form[''ok'']->select(''yes'')`'
+    correct: false
+    explanation: select() is for lists and radios.
+  - id: CHO-5rwdbb6cey6h
+    text: '`$form[''ok'']->check()`'
+    correct: false
+    explanation: No such method.
+  - id: CHO-901dgfre6t13
+    text: '`$form[''ok''] = true`'
+    correct: false
+    explanation: A checkbox is ticked, not assigned true.
+  explanation: Executed with DomCrawler 8.0.15. upload() is for file fields.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Field/ChoiceFormField.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: tick()
+    verified_at: '2026-10-09'
+- id: QST-k6t679y1g1wp
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-3vvzqtq2z234
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$crawler->filter(''input[name=q]'')->form()` is called. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  - forms
+  choices:
+  - id: CHO-f3a4mfnev5g2
+    text: A LogicException
+    correct: true
+  - id: CHO-mkwy12pq1rkv
+    text: It returns the enclosing form element
+    correct: false
+    explanation: Only a button, a submit input or a form works.
+  - id: CHO-ee2bf1ssz1wz
+    text: It returns an empty form
+    correct: false
+    explanation: It throws.
+  - id: CHO-ja5bj17j9g9j
+    text: It submits q only
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with DomCrawler 8.0.15: Unable to submit on a "input" tag.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Form.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setNode()
+    verified_at: '2026-10-09'
+- id: QST-j4mg2prst4gw
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-3vvzqtq2z234
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-se21g2xv6h4r
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test needs the Link object of "Read more", then follows it. Which pair?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - dom-crawler
+  choices:
+  - id: CHO-k8tm8fgy780x
+    text: '`selectLink(''Read more'')->link()`, then `$client->click($link)`'
+    correct: true
+  - id: CHO-xaf7047ey6a3
+    text: '`$crawler->filter(''Read more'')->link()`, then `$client->followLink($link)`'
+    correct: false
+    explanation: filter() takes a selector; no follow().
+  - id: CHO-pb8vfbn5jsp8
+    text: '`$client->getLink(''Read more'')`, then `$client->request($link)`'
+    correct: false
+    explanation: No getLink().
+  - id: CHO-ttq0wyftbf1z
+    text: '`$crawler->link(''Read more'')`, then `$client->submit($link)`'
+    correct: false
+    explanation: submit() takes a Form.
+  explanation: $client->clickLink('Read more') does both in one call.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Clicking on Links
+    verified_at: '2026-10-09'
+- id: QST-473dq0wjpmpv
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-r3rw0s0swgpy
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-t0qx5z264tyf
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Under framework.profiler in when@test, which setting lets a test collect a profile on demand
+    without slowing every request?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  - configuration
+  choices:
+  - id: CHO-8g2y8xdbjp1n
+    text: '`{ enabled: true, collect: false }`'
+    correct: true
+  - id: CHO-1s4t49sv834t
+    text: '`{ enabled: false, collect: false }`'
+    correct: false
+    explanation: Without a profiler nothing can be collected.
+  - id: CHO-vwbh8fjar1by
+    text: '`{ enabled: true, collect: true }`'
+    correct: false
+    explanation: It collects on every request.
+  - id: CHO-cfx1b3jh4107
+    text: '`{ enabled: true, collect: on_demand }`'
+    correct: false
+    explanation: Not a valid value.
+  explanation: Under when@test. enableProfiler() then turns collection on for one request.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: when@test
+    verified_at: '2026-10-09'
+- id: QST-625vae684r5n
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bbrw7hnswytn
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-t0qx5z264tyf
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Collection is off by configuration. After one enableProfiler() call the test sends GET /a,
+    then GET /b, and only then reads the profile. What does it get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-sdhb1d3a9bqn
+    text: 'null'
+    correct: true
+  - id: CHO-3gwv2cpax9m5
+    text: The profile of the second request
+    correct: false
+    explanation: enableProfiler() covers the next request only.
+  - id: CHO-20v4jnqzw4vj
+    text: 'false'
+    correct: false
+    explanation: false means there is no profiler service.
+  - id: CHO-4njcbcwkts30
+    text: Both profiles, as an array
+    correct: false
+    explanation: One profile at most.
+  explanation: 'Executed with FrameworkBundle 8.0.15: only the request right after enableProfiler() is
+    collected.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableProfiler(), getProfile()
+    verified_at: '2026-10-09'
+- id: QST-bmxzg6rz1h4y
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-bbrw7hnswytn
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-t0qx5z264tyf
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A failing performance test should let a developer find the request in the web profiler later.
+    What goes in the failure message?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - profiler
+  choices:
+  - id: CHO-16379teyv2cz
+    text: '`$profile->getToken()`'
+    correct: true
+  - id: CHO-eypf16a6b63h
+    text: '`$profile->getCollector(''time'')`'
+    correct: false
+    explanation: An object, not a lookup key.
+  - id: CHO-cn0dg8pfjn61
+    text: '`$client->getRequest()->getUri()`'
+    correct: false
+    explanation: Many profiles share a URI.
+  - id: CHO-14h357yb4mxq
+    text: '`spl_object_id($profile)`'
+    correct: false
+    explanation: Meaningless outside the test.
+  explanation: getCollector('time')->getDuration() gives the metric itself.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: getToken()
+    verified_at: '2026-10-09'
+- id: QST-hnmn7r3fezp1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-yt8hbz210rcd
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two tests of one KernelTestCase class each call static::getContainer(). Same container object?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-test-case
+  choices:
+  - id: CHO-v02p5awwpj4a
+    text: 'No: it reboots per test'
+    correct: true
+  - id: CHO-f3e3xv5b4asr
+    text: 'Yes: one kernel is shared by the whole class'
+    correct: false
+    explanation: It reboots per test.
+  - id: CHO-mw0q0b4b3zb6
+    text: Yes, unless debug is off
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-hr9pytz3qykd
+    text: Only if bootKernel() is not called
+    correct: false
+    explanation: It reboots regardless.
+  explanation: 'Executed with FrameworkBundle 8.0.15: two different container ids.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'tearDown(): ensureKernelShutdown()'
+    verified_at: '2026-10-09'
+- id: QST-0nq7vqw52gfa
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-yt8hbz210rcd
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: CI must run integration tests faster, in the test env. Which boot call does the documentation
+    suggest?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-test-case
+  choices:
+  - id: CHO-naxhm01qsbsr
+    text: '`self::bootKernel([''debug'' => false])`'
+    correct: true
+  - id: CHO-xc6br01k50vj
+    text: '`self::bootKernel([''cache'' => false])`'
+    correct: false
+    explanation: No such option.
+  - id: CHO-77jnf3kvpgft
+    text: '`self::bootKernel([''environment'' => ''prod''])`'
+    correct: false
+    explanation: Tests run in test.
+  - id: CHO-wnvn4x6zmxap
+    text: '`self::bootKernel([''fast'' => true])`'
+    correct: false
+    explanation: No such option.
+  explanation: debug false disables cache clearing; clear it yourself if the environment is reused.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: run your test with debug set to false
+    verified_at: '2026-10-09'
+- id: QST-ff5z7exb4ph1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jkdgtbjxta7j
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Clock is private and used by Greeter. Which container returns it from get(Clock::class)?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-test-case
+  - container
+  choices:
+  - id: CHO-zf827bhxm2ka
+    text: static::getContainer() only
+    correct: true
+  - id: CHO-ntb80j6pjzka
+    text: self::$kernel->getContainer() only
+    correct: false
+    explanation: The kernel container hides private services.
+  - id: CHO-nxe8g738be9q
+    text: Both
+    correct: false
+    explanation: The kernel container throws ServiceNotFoundException.
+  - id: CHO-9bbjq841bb0k
+    text: 'Neither: private services are removed'
+    correct: false
+    explanation: Only unused ones are removed.
+  explanation: 'Executed with FrameworkBundle 8.0.15: the test container is a TestContainer.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/TestContainer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get()
+    verified_at: '2026-10-09'
+- id: QST-nsy4x5wq0sgb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-r3m449dn77cm
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-mtbcyaax2xsk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Greeter prints "hello at " + the clock's now(). What is printed?
+
+    ```php
+    $c = static::getContainer();
+    $c->set(ClockInterface::class, $fakeClockReturningFake);
+    echo $c->get(Greeter::class)->greet();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-test-case
+  - container
+  choices:
+  - id: CHO-b66gvz16bfk7
+    text: '`hello at fake`'
+    correct: true
+  - id: CHO-a2c07vh1kwty
+    text: The real time
+    correct: false
+    explanation: The double was set before Greeter was built.
+  - id: CHO-nrr1s09vmxza
+    text: 'An exception: ClockInterface is a private alias'
+    correct: false
+    explanation: set() works on private aliases in the test container.
+  - id: CHO-7zqza9mxpge0
+    text: 'An exception: already initialized'
+    correct: false
+    explanation: Greeter was not built yet.
+  explanation: Executed with FrameworkBundle 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/TestContainer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: set()
+    verified_at: '2026-10-09'
+- id: QST-v874vt0ag1ew
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-pgb3b6xmtm4e
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Only one request of a test needs a custom Host. Where is it passed?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - headers
+  choices:
+  - id: CHO-gaapkmrhzfcg
+    text: '`request(''GET'', ''/'', [], [], [''HTTP_HOST'' => ''en.example.com''])`'
+    correct: true
+  - id: CHO-rzzftehyq4r6
+    text: '`$client->request(''GET'', ''/'', [''HTTP_HOST'' => ''en.example.com''])`'
+    correct: false
+    explanation: The third argument holds parameters.
+  - id: CHO-2qx2kznxe6xc
+    text: '`static::createClient([], [''HTTP_HOST'' => ''en.example.com''])`'
+    correct: false
+    explanation: That sets it for the whole test.
+  - id: CHO-5y8jr48cxt1t
+    text: '`$client->withHeader(''Host'', ''en.example.com'')`'
+    correct: false
+    explanation: No such method.
+  explanation: Server parameters are request()'s fifth argument.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: request()
+    verified_at: '2026-10-09'
+- id: QST-ydt20eckj72c
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2t00vt83c8pb
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The client is created with `['CONTENT_TYPE' => 'application/json']`. What does the controller
+    read as Content-Type?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - headers
+  choices:
+  - id: CHO-43a6vhnmt1f2
+    text: application/json
+    correct: true
+  - id: CHO-2c94baj097g6
+    text: 'null: HTTP_ prefix missing'
+    correct: false
+    explanation: CGI standard headers have no HTTP_ prefix.
+  - id: CHO-r37haydwv82r
+    text: text/html
+    correct: false
+    explanation: The value passed is kept.
+  - id: CHO-38gjg37xn75n
+    text: The key itself
+    correct: false
+    explanation: The value arrives.
+  explanation: Executed with FrameworkBundle 8.0.15. Without settings, the user agent is "Symfony BrowserKit".
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ServerBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getHeaders()
+    verified_at: '2026-10-09'
+- id: QST-b5qf9k8ak8c5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kn9vqpak4jb0
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Before any request, a test calls `$client->getSession()->set('k', 'early')` and save(). What
+    does the controller read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - session
+  choices:
+  - id: CHO-mtw9z3dsz049
+    text: early
+    correct: true
+  - id: CHO-56m2rdj8vdy0
+    text: 'null: no session exists yet'
+    correct: false
+    explanation: getSession() already returns a Session.
+  - id: CHO-20efa344d53k
+    text: A BadMethodCallException
+    correct: false
+    explanation: getSession() works before a request.
+  - id: CHO-dagbem0t5q3j
+    text: null, until a second request
+    correct: false
+    explanation: The first request sees it.
+  explanation: Executed with FrameworkBundle 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getSession()
+    verified_at: '2026-10-09'
+- id: QST-ewe68dc3sm7b
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pgb3b6xmtm4e
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bswvewkkkj1q
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An action throws RuntimeException("kaboom"). With a default client, what does the test see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - exceptions
+  choices:
+  - id: CHO-dqrmbaccjzym
+    text: A 500 response
+    correct: true
+  - id: CHO-8t2zp01vnb8w
+    text: The RuntimeException, raised in the test
+    correct: false
+    explanation: Only with catchExceptions(false).
+  - id: CHO-01x2pwfcmx9y
+    text: A 200 with an error message
+    correct: false
+    explanation: The error page carries 500.
+  - id: CHO-93qjs4dm3vs8
+    text: 'Nothing: the request is dropped'
+    correct: false
+    explanation: An error page is returned.
+  explanation: 'Executed with FrameworkBundle 8.0.15: catchExceptions(false) let RuntimeException: kaboom
+    reach PHPUnit.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: catchExceptions()
+    verified_at: '2026-10-09'
+- id: QST-x4ffj3m4znm2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-az102q4grt31
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A fresh client has made no request. What does getResponse() do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - introspection
+  choices:
+  - id: CHO-pffrrbsm607j
+    text: BadMethodCallException
+    correct: true
+  - id: CHO-cd631bb12sd4
+    text: It returns null
+    correct: false
+    explanation: It throws.
+  - id: CHO-8bynh65cyats
+    text: It returns an empty 200
+    correct: false
+    explanation: It throws.
+  - id: CHO-d3dhertxw4qx
+    text: It sends a GET /
+    correct: false
+    explanation: No request is sent.
+  explanation: 'Executed with BrowserKit 8.0.14: The "request()" method must be called before ... getResponse().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getResponse()
+    verified_at: '2026-10-09'
+- id: QST-3m6j3rqjsbsy
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-mvr73tryph6w
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test must check which PHP method handled GET /hello, not which route matched. Which request
+    attribute holds it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - client
+  - introspection
+  choices:
+  - id: CHO-sjwdkgec879x
+    text: _controller
+    correct: true
+  - id: CHO-31c79v1nm5hk
+    text: _route, which also holds the method
+    correct: false
+    explanation: It names the route.
+  - id: CHO-n8pg6y6gpacz
+    text: _action, set by the router
+    correct: false
+    explanation: Not set.
+  - id: CHO-38ynzxkan05z
+    text: _handler, set by the kernel
+    correct: false
+    explanation: Not set.
+  explanation: 'Executed: App\P13\W\HelloController::hello for an attribute route on a method.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configureRoute()
+    verified_at: '2026-10-09'
+- id: QST-rkc0ye355b7r
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-2qpbjpt6nv81
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-bzkq4e7wks9a
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why prefer assertResponseStatusCodeSame(404) to assertSame(404, $response->getStatusCode())?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - assertions
+  - introspection
+  choices:
+  - id: CHO-np3t19mkay4d
+    text: A failure shows the response
+    correct: true
+  - id: CHO-p2h6s10jr1ez
+    text: It is faster
+    correct: false
+    explanation: Speed is not the reason.
+  - id: CHO-eszzyjh7ry1r
+    text: assertSame() cannot compare two integers
+    correct: false
+    explanation: It can.
+  - id: CHO-tvqdpfzskk9c
+    text: getStatusCode() is deprecated
+    correct: false
+    explanation: It is not.
+  explanation: 'Executed: assertSame failed with "200 is identical to 404"; the Symfony one printed status,
+    headers and body.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: assertResponseStatusCodeSame()
+    verified_at: '2026-10-09'
+- id: QST-2k4mnqadabn3
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-e2qhdj18dvjh
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-vj24gwq6r1r4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: display_errors is on and no error handler is set. Code calls trigger_deprecation(). What appears?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  choices:
+  - id: CHO-zwv6mg0tcsrr
+    text: Nothing, and the script goes on
+    correct: true
+  - id: CHO-2ede5gegjha8
+    text: 'A Deprecated: line in the output'
+    correct: false
+    explanation: The notice is silenced with @.
+  - id: CHO-n0g62mrfkjyx
+    text: An exception
+    correct: false
+    explanation: Deprecations never throw.
+  - id: CHO-czpwk86tx1as
+    text: A fatal error
+    correct: false
+    explanation: It is a notice.
+  explanation: 'Executed on PHP 8.4. With Symfony''s ErrorHandler and a logger: an info entry "User Deprecated:
+    Since acme/pkg 1.2: ...".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trigger_deprecation()
+    verified_at: '2026-10-09'
+- id: QST-qsx11smhp0ay
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-hnxp6h0scgsq
+  version: 1
+  official_topic: Automated Tests
+  official_item: OIT-vj24gwq6r1r4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An app on 7.x wants to reach 8.0 safely. In what order?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  - upgrade
+  choices:
+  - id: CHO-kkmym7y5mfcz
+    text: Last 7.x, fix, then 8.0
+    correct: true
+  - id: CHO-t5dq9s9nzw79
+    text: Jump to 8.0, then fix what breaks
+    correct: false
+    explanation: 8.0 removes what was deprecated.
+  - id: CHO-0mahwe0zhfgj
+    text: Fix deprecations after reaching 8.0
+    correct: false
+    explanation: The deprecated code is gone by then.
+  - id: CHO-zgerxnnp0thz
+    text: Only read UPGRADE-8.0.md and skip the update
+    correct: false
+    explanation: Deprecations show up on the last minor.
+  explanation: composer update "symfony/*", read the UPGRADE file, fix progressively.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup/upgrade_major.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Make your Code Deprecation Free
+    verified_at: '2026-10-09'
