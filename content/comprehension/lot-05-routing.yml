@@ -3761,3 +3761,326 @@ questions:
     branch: '8.0'
     symbol_or_lines: GET/HEAD only
     verified_at: '2026-10-09'
+- id: QST-b0pdm1sx5rf7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-25y9qjcp8wgy
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ceaw3ewfsw85
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Symfony packages does symfony/routing 8.0 require?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - component
+  choices:
+  - id: CHO-835dkyt9ve5x
+    text: Only deprecation-contracts
+    correct: true
+  - id: CHO-8hn0adj8n9h5
+    text: http-foundation and http-kernel
+    correct: false
+    explanation: The component needs no HTTP package.
+  - id: CHO-dz81gwqyh6ge
+    text: framework-bundle
+    correct: false
+    explanation: The bundle depends on it, not the reverse.
+  - id: CHO-ytbfgm5sfkd9
+    text: config and yaml
+    correct: false
+    explanation: Loaders use them optionally.
+  explanation: 'Read in routing/composer.json 8.0: php and symfony/deprecation-contracts.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: require
+    verified_at: '2026-10-09'
+- id: QST-py6eaezzp4ne
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-gxaj5vfr68nt
+  version: 1
+  official_topic: Routing
+  official_item: OIT-1cj08dhtp9hj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A route /u/{name} requires `\p{Lu}\p{Ll}+` with utf8 enabled. Does /u/Élodie match?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - requirements
+  choices:
+  - id: CHO-7m1szn510s4n
+    text: 'Yes: requirements are PHP regex with Unicode'
+    correct: true
+  - id: CHO-jkvz1cwxa7yz
+    text: 'No: É is not ASCII'
+    correct: false
+    explanation: Unicode properties work with utf8.
+  - id: CHO-5p6034appc2c
+    text: 'No: \p is not supported'
+    correct: false
+    explanation: It is supported.
+  - id: CHO-fbqxzz0yz3yd
+    text: Only if URL-decoded by hand
+    correct: false
+    explanation: The matcher decodes it.
+  explanation: 'Executed with Routing 8.0.15: the name attribute was Élodie.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'compile(): utf8'
+    verified_at: '2026-10-09'
+- id: QST-fsr7yn9brztv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-33d0j3zrrwmz
+  version: 1
+  official_topic: Routing
+  official_item: OIT-ff0kghjbzvpm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /d/{page} requires `\d+` but defaults page to "first". A request arrives for /d. What is page?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - defaults
+  choices:
+  - id: CHO-e0w3xsd5e0hv
+    text: '"first"'
+    correct: true
+  - id: CHO-ckr1f0gxw3s6
+    text: 'A 404: "first" fails the requirement'
+    correct: false
+    explanation: The default is not checked.
+  - id: CHO-yj0wyqsk7219
+    text: 'null'
+    correct: false
+    explanation: The default applies.
+  - id: CHO-8cs5acyg1j1s
+    text: '0'
+    correct: false
+    explanation: The default is a string.
+  explanation: Executed with Routing 8.0.15. generate('d') gave /d.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/UrlMatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mergeDefaults()
+    verified_at: '2026-10-09'
+- id: QST-tg24agn7jnm9
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dqnskk31jve5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Route opt is /opt/{page} with defaults page = 1 and q = "x". What do these return?
+
+    ```php
+    $g->generate('opt', ['page' => 2, 'q' => 'x']);
+    $g->generate('opt', ['page' => 2, 'q' => 'y']);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - generation
+  choices:
+  - id: CHO-0etbytpmrepx
+    text: '`/opt/2`, then `/opt/2?q=y`'
+    correct: true
+  - id: CHO-x74mb4vrwwhg
+    text: '`/opt/2?q=x`, then `/opt/2?q=y`'
+    correct: false
+    explanation: An extra equal to its default is dropped.
+  - id: CHO-6t3k00cq48z4
+    text: '`/opt/2`, then `/opt/2`'
+    correct: false
+    explanation: A different value is kept.
+  - id: CHO-fdt5a4bnm9wm
+    text: 'An error: q is not in the path'
+    correct: false
+    explanation: It goes to the query string.
+  explanation: Executed with Routing 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): extra parameters'
+    verified_at: '2026-10-09'
+- id: QST-fbyb5y5ve39b
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dqnskk31jve5
+  version: 1
+  official_topic: Routing
+  official_item: OIT-81b2c0jmv2j3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An extra parameter o is an object with public properties a and b and a __toString() returning
+    S. How is it written in the query string?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - generation
+  choices:
+  - id: CHO-jh36kdsznay3
+    text: As o[a]=1&o[b]=2
+    correct: true
+  - id: CHO-3m62g9kr2s0h
+    text: As o=S
+    correct: false
+    explanation: Public properties come first; __toString() only without them.
+  - id: CHO-bv28vwd1ed7x
+    text: It is dropped
+    correct: false
+    explanation: It is converted.
+  - id: CHO-bddgq9pq0rk5
+    text: 'An error: objects are refused'
+    correct: false
+    explanation: Converted.
+  explanation: Executed with Routing 8.0.15. An object with only __toString() gave o=S. The docs still
+    say the opposite.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): http_build_query'
+    verified_at: '2026-10-09'
+- id: QST-3n38v0wvt098
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-1cfa6y0xkxt0
+  version: 1
+  official_topic: Routing
+  official_item: OIT-5g82spham3vm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'http_method_override is off (the default). A POST carries the header `X-HTTP-Method-Override:
+    PUT`. What does getMethod() return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - routing
+  - methods
+  choices:
+  - id: CHO-1rc3bgjysnxe
+    text: PUT
+    correct: true
+  - id: CHO-18kqfv7xfvmw
+    text: 'POST: overrides are off'
+    correct: false
+    explanation: The option only governs the _method field.
+  - id: CHO-ef70z8erpe2s
+    text: An exception
+    correct: false
+    explanation: It is honoured.
+  - id: CHO-p6drhd6ben64
+    text: GET
+    correct: false
+    explanation: Not related.
+  explanation: 'Executed with HttpFoundation 8.0.15. Only allowed_http_method_override: [] neutralises
+    the header.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getMethod()
+    verified_at: '2026-10-09'

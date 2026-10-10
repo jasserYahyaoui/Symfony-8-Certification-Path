@@ -4155,3 +4155,678 @@ questions:
     branch: '8.0'
     symbol_or_lines: generateAbsoluteUrl()
     verified_at: '2026-10-09'
+- id: QST-7agahgjved4n
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-xpcwsqhycgnr
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    v is the empty string `''`. What does this print?
+
+    ```twig
+    {{ v ?: 'D' }}|{{ v ?? 'D' }}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - operators
+  choices:
+  - id: CHO-3n5g0sfzjmhv
+    text: '`D|`'
+    correct: true
+  - id: CHO-083npk5emzrf
+    text: '`D|D`'
+    correct: false
+    explanation: ?? only replaces null or undefined.
+  - id: CHO-78w2rwwbzz3g
+    text: '`|D`'
+    correct: false
+    explanation: Reversed.
+  - id: CHO-gqm0kbzhxjra
+    text: '`|`'
+    correct: false
+    explanation: '?: treats '''' as falsy.'
+  explanation: 'Executed with Twig 3.22.2. With v = 0: D|0; with v = null: D|D.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: Other Operators
+    verified_at: '2026-10-09'
+- id: QST-hfxs6p447req
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-491pkbwc6e8x
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-vhd83fn6w9wy
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What does each delimiter do: `{{ }}`, `{% %}`, `{# #}`?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - syntax
+  choices:
+  - id: CHO-xmbxmbwzm5vp
+    text: Prints; executes; comments
+    correct: true
+  - id: CHO-tgm9npadv7nb
+    text: Executes; prints; comments
+    correct: false
+    explanation: Reversed.
+  - id: CHO-2nhd6568tqxt
+    text: Prints; comments; executes
+    correct: false
+    explanation: Not the roles.
+  - id: CHO-s9h4nah9nyac
+    text: All three print
+    correct: false
+    explanation: Only {{ }} prints.
+  explanation: A {% %} tag never prints anything by itself.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: Synopsis
+    verified_at: '2026-10-09'
+- id: QST-ewjcwy8qx18q
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-947gftrjzm6w
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    In an .html.twig template, what is printed?
+
+    ```twig
+    {% set x %}<i>{% endset %}{{ x }}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - escaping
+  choices:
+  - id: CHO-2s3kfdamgktg
+    text: '`<i>`'
+    correct: true
+  - id: CHO-jb9pdetbp6tt
+    text: '`&lt;i&gt;`'
+    correct: false
+    explanation: A captured block is already safe markup.
+  - id: CHO-9fv40p5fzmyr
+    text: 'Nothing: set blocks do not print'
+    correct: false
+    explanation: '{{ x }} prints it.'
+  - id: CHO-namp1y91jgq1
+    text: A syntax error
+    correct: false
+    explanation: Capturing set is valid.
+  explanation: 'Executed with Twig 3.22.2: the captured block is Markup, not escaped again.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/set.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: capture
+    verified_at: '2026-10-09'
+- id: QST-1a00515g128t
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-mhbzxr5470xc
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ns36thqnh2jk
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    v is `a'b`. What does this print?
+
+    ```twig
+    {% autoescape 'js' %}{{ v }}{% endautoescape %}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - escaping
+  choices:
+  - id: CHO-djfv9ef8b5ta
+    text: '`a\u0027b`'
+    correct: true
+  - id: CHO-wh5dpa4jggmv
+    text: '`a&#039;b`'
+    correct: false
+    explanation: That is the HTML strategy.
+  - id: CHO-zn6czhxzwxzc
+    text: '`a''b`'
+    correct: false
+    explanation: The js strategy escapes the quote.
+  - id: CHO-yhdw2kd1jz1a
+    text: '`a\''b`'
+    correct: false
+    explanation: Unicode escape is used.
+  explanation: Executed with Twig 3.22.2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: autoescape
+    verified_at: '2026-10-09'
+- id: QST-fw3h8b77txgb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-5gpp6vwt10fk
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-g3p8wdtww344
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    base.html.twig is `[{% block a %}A{% endblock %}]`. What does this child render?
+
+    ```twig
+    {% extends 'base.html.twig' %}
+    {% block a %}X{{ parent() }}{% endblock %}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - inheritance
+  choices:
+  - id: CHO-d895c0k2rzq3
+    text: '`[XA]`'
+    correct: true
+  - id: CHO-27ddc1ss02nw
+    text: '`[X]`'
+    correct: false
+    explanation: parent() adds the parent content.
+  - id: CHO-80tpsmhm8qy8
+    text: '`[AX]`'
+    correct: false
+    explanation: X is written before parent().
+  - id: CHO-ar8sd331794y
+    text: '`X[A]`'
+    correct: false
+    explanation: The child fills the block.
+  explanation: Executed with Twig 3.22.2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: Template Inheritance
+    verified_at: '2026-10-09'
+- id: QST-yfcfg7wktfaj
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-2m2fsf0992k6
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-g3p8wdtww344
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this template print?
+
+    ```twig
+    {% block t %}T{% endblock %}-{{ block('t') }}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - blocks
+  choices:
+  - id: CHO-xqb65j8c7deh
+    text: '`T-T`'
+    correct: true
+  - id: CHO-g0z9qnvjp91y
+    text: '`T-`'
+    correct: false
+    explanation: block() prints it again.
+  - id: CHO-ds78dyhh0azq
+    text: '`-T`'
+    correct: false
+    explanation: The tag prints it once too.
+  - id: CHO-584dw5h1z1qv
+    text: 'An error: block printed twice'
+    correct: false
+    explanation: block() reprints.
+  explanation: Executed with Twig 3.22.2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/block.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: block
+    verified_at: '2026-10-09'
+- id: QST-dqbe1esgjjps
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-k04wxdqz7vn1
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-ds2p5d4eg0pq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    No template named x exists. What does this print?
+
+    ```twig
+    {{ include('x', ignore_missing: true) }}ok
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - include
+  choices:
+  - id: CHO-yxz48drtzt47
+    text: '`ok`'
+    correct: true
+  - id: CHO-m3d44y9tenhb
+    text: 'An error: template not found'
+    correct: false
+    explanation: ignore_missing tolerates it.
+  - id: CHO-858e0ahs6twc
+    text: '`xok`'
+    correct: false
+    explanation: Nothing is printed for x.
+  - id: CHO-z3wp35n9nfd4
+    text: Nothing
+    correct: false
+    explanation: ok is printed.
+  explanation: Executed with Twig 3.22.2. The tag spells it ignore missing.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: ignore_missing
+    verified_at: '2026-10-09'
+- id: QST-kz301wscwhht
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rjj1wzpn63ph
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: strict_variables is on and the loop iterates a generator. What does `{{ loop.last }}` do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - loops
+  choices:
+  - id: CHO-jz6rkc7nxkxw
+    text: 'A RuntimeError: key "last" does not exist'
+    correct: true
+  - id: CHO-kecqs06f619m
+    text: It prints true on the last item
+    correct: false
+    explanation: A generator has no known length.
+  - id: CHO-9hrwe8n3mjej
+    text: It prints nothing, silently
+    correct: false
+    explanation: Strict mode throws.
+  - id: CHO-nfmysvmjwgq4
+    text: It consumes the generator twice
+    correct: false
+    explanation: It throws.
+  explanation: 'Executed with Twig 3.22.2: loop held only parent, index0, index, first.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: The loop variable
+    verified_at: '2026-10-09'
+- id: QST-gdwzjg6kbfbw
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-j1qtw6ccaxqg
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this print?
+
+    ```twig
+    {% if 1 is same as('1') %}s{% else %}n{% endif %}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - tests
+  choices:
+  - id: CHO-cs5f3b1wc79z
+    text: '`n`'
+    correct: true
+  - id: CHO-6nnqjb0zm1wv
+    text: '`s`'
+    correct: false
+    explanation: same as compares with ===.
+  - id: CHO-5ygqyyrk8kny
+    text: A syntax error
+    correct: false
+    explanation: same as is a valid test.
+  - id: CHO-548fqc0s4bkc
+    text: Nothing
+    correct: false
+    explanation: The else branch prints n.
+  explanation: Executed with Twig 3.22.2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/sameas.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: same as
+    verified_at: '2026-10-09'
+- id: QST-phde6whfhfge
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-n2sny821kd8p
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-84j0qwkbcgq6
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this print?
+
+    ```twig
+    {% for i in range(1, 5, 2) %}{{ i }}{% endfor %}
+    ```
+  code_language: twig
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - loops
+  choices:
+  - id: CHO-bhnsmae96pn5
+    text: '`135`'
+    correct: true
+  - id: CHO-trpjtn3r3q96
+    text: '`12345`'
+    correct: false
+    explanation: The step is 2.
+  - id: CHO-2bce0f202vyw
+    text: '`13`'
+    correct: false
+    explanation: The upper bound is included.
+  - id: CHO-tavvktyqvfhc
+    text: '`246`'
+    correct: false
+    explanation: It starts at 1.
+  explanation: Executed with Twig 3.22.2.
+  official_sources:
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/range.rst
+    repository: twigphp/Twig
+    branch: v3.22.0
+    symbol_or_lines: range
+    verified_at: '2026-10-09'
+- id: QST-xqd7adc4a38r
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-5g7zrabez2b4
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-yh6zx9shv9vs
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Twig link to /post/{slug} is built with an extra key mistyped as pgae. Instead of failing,
+    what URL does the generator hand back?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - urls
+  choices:
+  - id: CHO-4yxkvs86ty3s
+    text: '`/post/x?pgae=2`'
+    correct: true
+  - id: CHO-zbw8xkx4j3y4
+    text: 'An error: unknown parameter'
+    correct: false
+    explanation: Extra parameters go to the query string.
+  - id: CHO-8z80drf62vxa
+    text: '`/post/x`'
+    correct: false
+    explanation: It is kept.
+  - id: CHO-fqcy99ctefb3
+    text: '`/post/x?page=2`'
+    correct: false
+    explanation: No correction.
+  explanation: Executed with the 8.0 UrlGenerator.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): extra'
+    verified_at: '2026-10-09'
+- id: QST-kg1783f9bg80
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-eqkt5vg15zqf
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-yh6zx9shv9vs
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The page is served over http. A route requires the https scheme. What does path() return for
+    it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - twig
+  - urls
+  choices:
+  - id: CHO-z0pb928h627y
+    text: A full https:// URL
+    correct: true
+  - id: CHO-mpmpxkg0fb18
+    text: A relative path, /sec
+    correct: false
+    explanation: The scheme differs, so it widens.
+  - id: CHO-ta77fgtycrjf
+    text: An error
+    correct: false
+    explanation: It widens the reference.
+  - id: CHO-znmbaqb749ee
+    text: A //host network path
+    correct: false
+    explanation: That is for a different host.
+  explanation: 'Executed with the 8.0 UrlGenerator: https://example.com/sec.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doGenerate(): schemes'
+    verified_at: '2026-10-09'

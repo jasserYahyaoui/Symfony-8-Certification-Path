@@ -2221,3 +2221,669 @@ questions:
     branch: master
     symbol_or_lines: Readonly properties
     verified_at: '2026-10-09'
+- id: QST-p492x35m6bas
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-fr1x4bcak73j
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    On PHP 8.4, what does this print?
+
+    ```php
+    class R { public readonly int $x; }
+    class R2 extends R {
+        public function __construct() { $this->x = 5; }
+    }
+    echo (new R2())->x;
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php84
+  - readonly
+  choices:
+  - id: CHO-5yw4wa6s2eqm
+    text: '`5`'
+    correct: true
+  - id: CHO-4qjzv62tmjv3
+    text: 'An Error: only R may initialise x'
+    correct: false
+    explanation: readonly is implicitly protected(set) in 8.4.
+  - id: CHO-vq20xkf8k582
+    text: '`0`'
+    correct: false
+    explanation: x was set to 5.
+  - id: CHO-4wgvgq1yaek3
+    text: 'An Error: readonly needs a default'
+    correct: false
+    explanation: readonly properties cannot have one.
+  explanation: Executed on PHP 8.4.19.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'Readonly properties: implicitly protected(set)'
+    verified_at: '2026-10-09'
+- id: QST-h68wr4qk6aqz
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ayahqn48ev7g
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The get hook increments $n on each call. After two reads of $h->v, what is $h->n?
+
+    ```php
+    class Hk {
+        public int $n = 0;
+        public int $v { get { $this->n++; return 42; } }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php84
+  - hooks
+  choices:
+  - id: CHO-60tzs4fqwt4v
+    text: '2'
+    correct: true
+  - id: CHO-9khhqgpz3p3b
+    text: '1: the hook result is cached'
+    correct: false
+    explanation: A hook runs on every read.
+  - id: CHO-csn3mzd8sw0t
+    text: '0'
+    correct: false
+    explanation: The hook ran.
+  - id: CHO-3a1qrq23f6dq
+    text: '42'
+    correct: false
+    explanation: That is v.
+  explanation: Executed on PHP 8.4.19.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Property Hooks
+    verified_at: '2026-10-09'
+- id: QST-1pbxemmhpgyr
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-zqwbp11av4pr
+  version: 1
+  official_topic: PHP
+  official_item: OIT-ywrx9x3hg9z8
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    C extends P. What does this print?
+
+    ```php
+    class P {
+        public static function make() { return new self(); }
+        public static function make2() { return new static(); }
+    }
+    class C extends P {}
+    echo get_class(C::make()), ' ', get_class(C::make2());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - late-static-binding
+  choices:
+  - id: CHO-m7c05k9hykme
+    text: '`P C`'
+    correct: true
+  - id: CHO-pr4fvs290vpa
+    text: '`C C`'
+    correct: false
+    explanation: self is the declaring class.
+  - id: CHO-3y97vd6w5qw1
+    text: '`P P`'
+    correct: false
+    explanation: static follows the called class.
+  - id: CHO-bgp36byhg1mr
+    text: '`C P`'
+    correct: false
+    explanation: Reversed.
+  explanation: Executed on PHP 8.4.19.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: self vs static
+    verified_at: '2026-10-09'
+- id: QST-mnhvwrjad3cx
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-2tvh0svv8jhg
+  version: 1
+  official_topic: PHP
+  official_item: OIT-ywrx9x3hg9z8
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`public readonly int $x = 1;` is declared. What does PHP do?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - readonly
+  choices:
+  - id: CHO-zr85ybzkrrc0
+    text: 'Fatal error: no default value on readonly'
+    correct: true
+  - id: CHO-g8a2nh7g6mv3
+    text: 'Accepts it: x is 1 for ever'
+    correct: false
+    explanation: A default would initialise it already.
+  - id: CHO-tdp0ndeydjfc
+    text: Accepts it with a deprecation
+    correct: false
+    explanation: It is fatal.
+  - id: CHO-sr8c9fyfsez4
+    text: Ignores readonly
+    correct: false
+    explanation: It refuses the declaration.
+  explanation: 'Executed on PHP 8.4.19: Readonly property A::$x cannot have default value.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Readonly properties
+    verified_at: '2026-10-09'
+- id: QST-mpsmqwgq2dm7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0rkkxvd0e76f
+  version: 1
+  official_topic: PHP
+  official_item: OIT-1kjqdnryaw0h
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '#[At] has no IS_REPEATABLE and is used twice on a class. When does PHP complain?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - attributes
+  choices:
+  - id: CHO-5y8kv5nd4773
+    text: 'At newInstance(): must not be repeated'
+    correct: true
+  - id: CHO-t1ss4bfcf0vj
+    text: At compile time of the class
+    correct: false
+    explanation: Only reading it complains.
+  - id: CHO-dwycwrxbt9c8
+    text: At getAttributes()
+    correct: false
+    explanation: It returned both.
+  - id: CHO-whhzaafrwpkb
+    text: Never
+    correct: false
+    explanation: newInstance() throws.
+  explanation: 'Executed on PHP 8.4.19: getAttributes() returned 2; newInstance() threw Error: Attribute
+    "At" must not be repeated.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: IS_REPEATABLE
+    verified_at: '2026-10-09'
+- id: QST-6yv598k4f6jy
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-fs6z2g5dv4qq
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`abstract class A { abstract private function f(); }` is compiled. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - abstract
+  choices:
+  - id: CHO-84dkhnahf1bp
+    text: 'Fatal error: an abstract method cannot be private'
+    correct: true
+  - id: CHO-rfx5s570pv4t
+    text: It compiles; children cannot see f()
+    correct: false
+    explanation: It is refused.
+  - id: CHO-rbe7pzb14p1h
+    text: It compiles with a warning
+    correct: false
+    explanation: Fatal.
+  - id: CHO-h5ncthsxtqmc
+    text: f() becomes protected
+    correct: false
+    explanation: No promotion.
+  explanation: Executed on PHP 8.4.19.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Class Abstraction
+    verified_at: '2026-10-09'
+- id: QST-996001af6m69
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-svjaxs75amyd
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: B extends A and declares `#[\Override] public function g()`, but A has no g(). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php83
+  - override
+  choices:
+  - id: CHO-hfq52d5f19n3
+    text: Fatal error at compile time
+    correct: true
+  - id: CHO-eg1acwg8d3cy
+    text: A deprecation notice
+    correct: false
+    explanation: It is fatal.
+  - id: CHO-2z8pkvvmbrfk
+    text: 'Nothing: the attribute is informative'
+    correct: false
+    explanation: PHP checks it.
+  - id: CHO-m82rh341recs
+    text: g() is added to A
+    correct: false
+    explanation: No.
+  explanation: 'Executed on PHP 8.4.19: B::g() has #[\Override] attribute, but no matching parent method
+    exists. Added in 8.3.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/php-src/PHP-8.3/UPGRADING
+    repository: php/php-src
+    branch: PHP-8.3
+    symbol_or_lines: Override attribute
+    verified_at: '2026-10-09'
+- id: QST-j1925ak56qek
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xrckdfqa6x5n
+  version: 1
+  official_topic: PHP
+  official_item: OIT-bvnvx2b6yt2y
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A try block calls exit("bye"). Its finally echoes "finally". What is printed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - exceptions
+  choices:
+  - id: CHO-58e7zngvvame
+    text: Only bye
+    correct: true
+  - id: CHO-9eb72766ksf4
+    text: bye, then finally
+    correct: false
+    explanation: exit() skips finally.
+  - id: CHO-szk5b3rc14mn
+    text: finally, then bye
+    correct: false
+    explanation: exit() skips finally.
+  - id: CHO-bzke2v2nf9nt
+    text: Nothing
+    correct: false
+    explanation: bye is printed by exit().
+  explanation: Executed on PHP 8.4.19. A return in try still runs finally.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/error-handling.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: finally
+    verified_at: '2026-10-09'
+- id: QST-9638ch7x0g0s
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-xwdtmfm9hzsc
+  version: 1
+  official_topic: PHP
+  official_item: OIT-bvnvx2b6yt2y
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A catch block on Error must also catch division failures. Which class sits directly above
+    ArithmeticError?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - errors
+  choices:
+  - id: CHO-e3113bkejvct
+    text: Error
+    correct: true
+  - id: CHO-13s0bxdzp7g6
+    text: Exception
+    correct: false
+    explanation: Error does not extend Exception.
+  - id: CHO-905qthbdn5ne
+    text: Throwable
+    correct: false
+    explanation: Throwable is an interface.
+  - id: CHO-mv7sfsq4rdjn
+    text: RuntimeException
+    correct: false
+    explanation: An SPL exception.
+  explanation: 'Executed on PHP 8.4.19: DivisionByZeroError → ArithmeticError → Error.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Throwable
+    verified_at: '2026-10-09'
+- id: QST-qhdzyrca0x3t
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-x8c9nce1wqh5
+  version: 1
+  official_topic: PHP
+  official_item: OIT-n0zfkcr189af
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Class U uses trait T. What do these give?
+
+    ```php
+    var_dump((new U()) instanceof T);
+    echo json_encode(class_uses(new U()));
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - traits
+  choices:
+  - id: CHO-q8b1kkx9mgb4
+    text: false, then {"T":"T"}
+    correct: true
+  - id: CHO-s61y8nrd7q0n
+    text: true, then {"T":"T"}
+    correct: false
+    explanation: A trait is not a type.
+  - id: CHO-qaf3mxw1z8tv
+    text: false, then []
+    correct: false
+    explanation: class_uses() sees the trait.
+  - id: CHO-584m060gv3q9
+    text: 'An error: instanceof on a trait'
+    correct: false
+    explanation: It compiles, and returns false.
+  explanation: Executed on PHP 8.4.19.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: Traits
+    verified_at: '2026-10-09'
+- id: QST-kfrawavav2w3
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-xccz85tdts39
+  version: 1
+  official_topic: PHP
+  official_item: OIT-hqz5c2qse24w
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`enum Su: string { case H = ''h''; case S = ''s''; }`. What does `array_column(Su::cases(),
+    ''value'')` return?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - enums
+  choices:
+  - id: CHO-ymqjtvj37dze
+    text: '`[''h'', ''s'']`'
+    correct: true
+  - id: CHO-fxh17hxhw383
+    text: '`[''H'', ''S'']`'
+    correct: false
+    explanation: Those are the names.
+  - id: CHO-g3h8mb3ypwtg
+    text: '`[]`'
+    correct: false
+    explanation: Case objects expose value.
+  - id: CHO-68w5adnnh094
+    text: An error on objects
+    correct: false
+    explanation: array_column reads public properties.
+  explanation: Executed on PHP 8.4.19. Su::cases() returns the case objects, not the values.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: cases()
+    verified_at: '2026-10-09'
+- id: QST-wtzvsxfm6v00
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pj3m73g0x58y
+  version: 1
+  official_topic: PHP
+  official_item: OIT-fhb3vz7xbt5h
+  domain: php
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these is accepted by the `callable` type but is not a Closure?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - php
+  - closures
+  choices:
+  - id: CHO-3pqwg28sh7ck
+    text: The string 'strlen'
+    correct: true
+  - id: CHO-resm0we3rxfp
+    text: An arrow function
+    correct: false
+    explanation: It is a Closure.
+  - id: CHO-pqt4tf4pz5pf
+    text: strlen(...)
+    correct: false
+    explanation: First-class callable syntax returns a Closure.
+  - id: CHO-5k72aqdhxk0x
+    text: A static function () {}
+    correct: false
+    explanation: It is a Closure.
+  explanation: 'Executed on PHP 8.4.19: is_callable(''strlen'') is true; fn () => 1 is a Closure.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: callable
+    verified_at: '2026-10-09'
