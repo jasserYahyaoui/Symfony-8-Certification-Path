@@ -291,3 +291,582 @@ questions:
     branch: '8.0'
     symbol_or_lines: disableOutput(), setIdleTimeout()
     verified_at: '2026-10-09'
+- id: QST-4abks8e6aw88
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-vr32ta087n2a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A command needs a shell pipe, and must pass a user value safely. Which form fits?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-410s0k0w2m4z
+    text: '`Process::fromShellCommandline(''grep "${:Q}" f | wc -l'')`'
+    correct: true
+  - id: CHO-ep7szg8dfed1
+    text: '`new Process("grep $q f | wc -l")`'
+    correct: false
+    explanation: The constructor takes an array; and $q is not escaped.
+  - id: CHO-pdt1kqb7sm4c
+    text: '`new Process([''grep'', $q, ''f'', ''|'', ''wc'', ''-l''])`'
+    correct: false
+    explanation: 'An array runs no shell: | is a literal argument.'
+  - id: CHO-5raydprkctxz
+    text: '`shell_exec("grep $q f | wc -l")`'
+    correct: false
+    explanation: Process replaces it, and $q is not escaped.
+  explanation: 'Q is then passed as an env value to run(). Executed with Process 8.0.13: "${:MSG}" with
+    MSG = a b;c printed a b;c literally.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using Features From the OS Shell
+    verified_at: '2026-10-09'
+- id: QST-9n2hj8sxjbga
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-vr32ta087n2a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`Process::fromShellCommandline(''echo "${:NOPE}"'')->run()` runs with no NOPE value given.
+    What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-283n16pzmer8
+    text: An InvalidArgumentException
+    correct: true
+  - id: CHO-wvkb436b5sg8
+    text: It prints an empty line
+    correct: false
+    explanation: A missing placeholder value is refused.
+  - id: CHO-dprq5p10xd2q
+    text: It prints ${:NOPE} literally
+    correct: false
+    explanation: The placeholder is resolved or refused.
+  - id: CHO-bhkaxavr74y2
+    text: The shell reports a syntax error
+    correct: false
+    explanation: Process refuses before the shell runs.
+  explanation: Executed with Process 8.0.13.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: replacePlaceholders()
+    verified_at: '2026-10-09'
+- id: QST-zd7r683wk6hd
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What do the three calls return?
+
+    ```php
+    $p = new Process(['sh', '-c', 'echo one; sleep 0.3; echo two']);
+    $p->start();
+    usleep(150000);
+    $a = $p->getIncrementalOutput();
+    $p->wait();
+    $b = $p->getIncrementalOutput();
+    $c = $p->getOutput();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-zqc7bn60r8ex
+    text: 'a: one; b: two; c: one and two'
+    correct: true
+  - id: CHO-zzt2hxyppg1j
+    text: 'a: one; b: one and two; c: one and two'
+    correct: false
+    explanation: Incremental output only gives what is new.
+  - id: CHO-cqgrnzzhv532
+    text: 'a: empty; b: one and two; c: one and two'
+    correct: false
+    explanation: one was already printed at 150 ms.
+  - id: CHO-htrjhyf1mzfg
+    text: 'a: one; b: two; c: two'
+    correct: false
+    explanation: getOutput() gives everything.
+  explanation: Executed with Process 8.0.13.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getIncrementalOutput()
+    verified_at: '2026-10-09'
+- id: QST-2tcfv0kv1kye
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-hsn9hab7spvy
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`sleep 3` is started with a 1-second timeout. At 1.5 s the code calls wait(). What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-az1xb3c41vbb
+    text: ProcessTimedOutException
+    correct: true
+  - id: CHO-4jk0zyshtvjs
+    text: It waits the full 3 seconds
+    correct: false
+    explanation: wait() checks the timeout.
+  - id: CHO-cj7m1jv5k95k
+    text: It returns 0 at once
+    correct: false
+    explanation: The process is still running.
+  - id: CHO-dx2qp285prfn
+    text: 'A LogicException: wait() needs run()'
+    correct: false
+    explanation: wait() follows start().
+  explanation: Executed with Process 8.0.13. isRunning() and getOutput() do not check the timeout.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'wait(): checkTimeout()'
+    verified_at: '2026-10-09'
+- id: QST-dgy1r9q3btdw
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-hsn9hab7spvy
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A long import is launched with run() and no timeout setting. After how long is it killed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-6t8grns365t3
+    text: After 60 seconds
+    correct: true
+  - id: CHO-0a0a42xdsw12
+    text: 'Never: there is no default limit'
+    correct: false
+    explanation: The default is 60 seconds.
+  - id: CHO-gnkf25nypvhq
+    text: After max_execution_time
+    correct: false
+    explanation: Process has its own timeout.
+  - id: CHO-qm3wydykeyk7
+    text: After 30 seconds
+    correct: false
+    explanation: The default is 60 seconds.
+  explanation: 'Executed with Process 8.0.13: getTimeout() gives 60. ProcessTimedOutException is then
+    thrown.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): timeout 60'
+    verified_at: '2026-10-09'
+- id: QST-9brapm7pwgwx
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ew0th9575tfe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A process has setTimeout(600) and setIdleTimeout(30). It prints a line every 10 s for 15 minutes.
+    What stops it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-yzyz941ef5vt
+    text: The total timeout
+    correct: true
+  - id: CHO-ay63kn31w0qw
+    text: The idle timeout, at 30 s
+    correct: false
+    explanation: It prints every 10 s.
+  - id: CHO-qr62by5fx6qn
+    text: 'Nothing: output resets both'
+    correct: false
+    explanation: Output only resets the idle timer.
+  - id: CHO-mqrbqqge79kd
+    text: The default 60 s timeout
+    correct: false
+    explanation: It was set to 600.
+  explanation: Both apply together; the first exceeded raises ProcessTimedOutException.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Process Idle Timeout
+    verified_at: '2026-10-09'
+- id: QST-09nvh6ey4mfm
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-z054mp760r1h
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: setIdleTimeout(5) is called first, then disableOutput(). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-rhefkgfbxgmx
+    text: 'A LogicException: the clash works both ways'
+    correct: true
+  - id: CHO-nhyjwztj91t2
+    text: Output is disabled and the idle timeout dropped
+    correct: false
+    explanation: It is refused.
+  - id: CHO-v292s6w23zp2
+    text: Nothing until run()
+    correct: false
+    explanation: It is refused at once.
+  - id: CHO-6vrbvbvpqccg
+    text: A RuntimeException
+    correct: false
+    explanation: That one is for changes while running.
+  explanation: Executed with Process 8.0.13. disableOutput() during the run raised a RuntimeException.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableOutput()
+    verified_at: '2026-10-09'
+- id: QST-tde5c2bfhrjs
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The parent defines P23VAR. The child is built with env `['OTHER' => 'x']`. Does it see P23VAR?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-7fxej8sfqn9t
+    text: 'Yes: only false removes it'
+    correct: true
+  - id: CHO-rqtw241wqz38
+    text: 'No: passing an env array replaces it all'
+    correct: false
+    explanation: The child still inherits.
+  - id: CHO-tje0meg1jxmf
+    text: Only on Windows
+    correct: false
+    explanation: The platform plays no part.
+  - id: CHO-vks8t36be1qk
+    text: Only if OTHER is also defined
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Executed with Process 8.0.13: absent only with [''P23VAR'' => false].'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Setting Environment Variables for Processes
+    verified_at: '2026-10-09'
+- id: QST-zj4ha9scj9c2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`sleep 30` is running. `$p->stop(10)` is called. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-r1xk0dvwp3g0
+    text: SIGTERM at once; it ends
+    correct: true
+  - id: CHO-qm2j0mpsn7ts
+    text: A wait of 10 s, then SIGKILL
+    correct: false
+    explanation: SIGTERM comes first; SIGKILL only at the deadline.
+  - id: CHO-kq1g6g3tz0cb
+    text: SIGKILL at once
+    correct: false
+    explanation: SIGKILL is the deadline signal.
+  - id: CHO-3t920mfazemh
+    text: 'Nothing: stop() only flags the object'
+    correct: false
+    explanation: A signal is sent.
+  explanation: 'Executed with Process 8.0.13: stopped at once, term signal 15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: stop()
+    verified_at: '2026-10-09'
+- id: QST-45051jtfavw7
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A script must run a PHP sub-process with the same binary as the current one. What finds that
+    binary?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-9fdp2p5mmcxj
+    text: PhpExecutableFinder
+    correct: true
+  - id: CHO-7be6dhny9jdz
+    text: ExecutableFinder with 'php'
+    correct: false
+    explanation: It finds the first php on PATH, maybe not the same.
+  - id: CHO-1vs4w11edh36
+    text: PHP_SAPI
+    correct: false
+    explanation: It names the SAPI, not a path.
+  - id: CHO-qdmkrv09kqtk
+    text: getenv('PHP')
+    correct: false
+    explanation: No such variable is set.
+  explanation: ExecutableFinder finds any executable by name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Finding an Executable
+    verified_at: '2026-10-09'
+- id: QST-f74ax9wgtxfk
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-vr32ta087n2a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which PHP functions does the Process component replace?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-ktggad86wz4m
+    text: exec(), passthru(), shell_exec(), system()
+    correct: true
+  - id: CHO-kmdmbz66zd8t
+    text: fopen(), fwrite() and the other stream functions
+    correct: false
+    explanation: Filesystem functions.
+  - id: CHO-v3h4svp7wsyy
+    text: pcntl_fork() only
+    correct: false
+    explanation: Not the list.
+  - id: CHO-0zbyxc5k07a2
+    text: eval() and include
+    correct: false
+    explanation: Not the list.
+  explanation: It also handles escaping and platform differences.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
