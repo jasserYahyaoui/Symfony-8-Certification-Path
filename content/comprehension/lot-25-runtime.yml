@@ -1,0 +1,278 @@
+# Lot 25 - Runtime: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified against Runtime 8.0 and the
+# sources cited.
+
+schema_version: 1
+questions:
+- id: QST-b435jfagnh6a
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-87xc26yncsb7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why does public/index.php return a closure instead of handling the request itself?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-bawyh2bfzm6k
+    text: So the runtime can decide how to run the app
+    correct: true
+  - id: CHO-w8pcess6v05k
+    text: Because PHP-FPM requires a return value
+    correct: false
+    explanation: FPM requires nothing of the kind.
+  - id: CHO-q75bc102bjv4
+    text: To let OPcache skip the file
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-nc90hgeq5pjc
+    text: Because Kernel cannot be built in a script
+    correct: false
+    explanation: The closure builds it.
+  explanation: Bootstrapping is abstracted so the entry file stays generic across environments.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Usage
+    verified_at: '2026-10-09'
+- id: QST-55epe3neshy6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  - OUT-nt4s3vj5727z
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A log line is written at the very top of public/index.php, above the require of autoload_runtime.php.
+    How many lines per request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-w9k2v5d2ggtq
+    text: Two
+    correct: true
+  - id: CHO-kkyh0c8ycpr7
+    text: One
+    correct: false
+    explanation: Code above the require runs on both passes.
+  - id: CHO-3dwe57kxxg2r
+    text: 'Zero: the runtime skips user code'
+    correct: false
+    explanation: It runs the script.
+  - id: CHO-1e6mafw6k9b9
+    text: One per middleware
+    correct: false
+    explanation: There are no middleware here.
+  explanation: Lines below the require run once. The entry script must have no side effects.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: include script
+    verified_at: '2026-10-09'
+- id: QST-46c4m9qng2sq
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-awqwz26y52yr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Why does this entry closure fail with an InvalidArgumentException?
+
+    ```php
+    return function (array $ctx): Kernel {
+        return new Kernel($ctx['APP_ENV'], (bool) $ctx['APP_DEBUG']);
+    };
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-75k39fk2sqyw
+    text: The array parameter must be named $context
+    correct: true
+  - id: CHO-jp5ycscn9y4a
+    text: The return type must be HttpKernelInterface
+    correct: false
+    explanation: Kernel is fine.
+  - id: CHO-mmapahmpp44g
+    text: APP_DEBUG must be cast to int
+    correct: false
+    explanation: Unrelated to the error.
+  - id: CHO-w71hq8k946pf
+    text: Closures cannot take arrays
+    correct: false
+    explanation: They can.
+  explanation: For array arguments, both the type and the name ($context, $argv, $request) are used for
+    resolution.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/GenericRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getArgument()
+    verified_at: '2026-10-09'
+- id: QST-wacqtpdkmz04
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-3n7fcpgc1j29
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A project must use a custom runtime class without editing index.php. Where can it be set?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-4cnt1dwwfva5
+    text: '`APP_RUNTIME` or `extra.runtime.class`'
+    correct: true
+  - id: CHO-3682zn18ydw6
+    text: '`framework.runtime` in config/packages'
+    correct: false
+    explanation: The runtime runs before the kernel reads config.
+  - id: CHO-9be2e1fvrhfr
+    text: A Kernel::getRuntime() override
+    correct: false
+    explanation: No such method.
+  - id: CHO-hf46d5ptj9kw
+    text: A service tagged runtime
+    correct: false
+    explanation: The container does not exist yet.
+  explanation: Options go through APP_RUNTIME_OPTIONS or extra.runtime.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Selecting Runtimes
+    verified_at: '2026-10-09'
+- id: QST-174wrjjqc6j7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-07vqtcfmbfnc
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-r3qcmsehzex1
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: index.php first requires vendor/autoload.php, then autoload_runtime.php, then returns the
+    closure. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-8ch7b9c2xxac
+    text: It ends silently; the app never runs
+    correct: true
+  - id: CHO-6ngdfawwnt6b
+    text: The app runs normally
+    correct: false
+    explanation: autoload_runtime.php stops when the autoloader is already loaded.
+  - id: CHO-r5f97en5xg72
+    text: 'A fatal error: class already declared'
+    correct: false
+    explanation: Nothing is declared twice.
+  - id: CHO-42j01xyps4mz
+    text: The app runs twice
+    correct: false
+    explanation: It does not run at all.
+  explanation: The first require_once of autoload_runtime.php returns true and the file interrupts itself,
+    silently.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: require_once guard
+    verified_at: '2026-10-09'

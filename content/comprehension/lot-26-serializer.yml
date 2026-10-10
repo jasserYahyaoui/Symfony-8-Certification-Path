@@ -1,0 +1,294 @@
+# Lot 26 - Serializer: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing Serializer
+# 8.0, and against the sources cited. Third-party bridges are out of scope.
+
+schema_version: 1
+questions:
+- id: QST-76tz3feab409
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-g6j22cqpx1ga
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which part decides that a property is renamed full_name in the output?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-9xdrcrdm7jam
+    text: The normalizer, with its name converter
+    correct: true
+  - id: CHO-rd8ytv6t6564
+    text: The JSON encoder
+    correct: false
+    explanation: Encoders only turn arrays into a format.
+  - id: CHO-ppmcg274z3bg
+    text: PHP's json_encode()
+    correct: false
+    explanation: It only encodes the array it is given.
+  - id: CHO-2errmnwwazhf
+    text: The Symfony HttpFoundation Response
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Normalizers: object ⇄ array (which properties, values, names). Encoders: array ⇄ format.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'serialize(): normalize then encode'
+    verified_at: '2026-10-09'
+- id: QST-kg5astsr8fz8
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-a95xx41fw6hn
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$serializer->serialize($obj, ''toml'')` with the default encoders. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-77f01gm9t3rz
+    text: UnsupportedFormatException
+    correct: true
+  - id: CHO-j5ss431n5bkd
+    text: JSON is produced as a fallback
+    correct: false
+    explanation: No fallback encoder.
+  - id: CHO-wewye9a0k8yg
+    text: The normalized array is returned
+    correct: false
+    explanation: serialize() returns a string or throws.
+  - id: CHO-qng93gkmhne7
+    text: An empty string
+    correct: false
+    explanation: It throws.
+  explanation: Executed with Serializer 8.0. One encoder serves an operation; several normalizers may
+    take part.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: encode()
+    verified_at: '2026-10-09'
+- id: QST-005qjj6gs5xd
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f4j1y7n6y64g
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Which keys does ObjectNormalizer output for this class?
+
+    ```php
+    class P
+    {
+        public string $name = 'n';
+        protected $hid = 'h';
+        private $sec = 's';
+        public function getSec() { return $this->sec; }
+        public function fetchThing() { return 't'; }
+        public function isActive() { return true; }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-hh4j3zas58x0
+    text: name, sec, active
+    correct: true
+  - id: CHO-x8pzs6xt380n
+    text: name, hid, sec, thing, active
+    correct: false
+    explanation: Protected without accessor and fetch* are skipped.
+  - id: CHO-004s1a5pfcnf
+    text: name only
+    correct: false
+    explanation: get and is accessors count.
+  - id: CHO-vn00zcaeabwr
+    text: name, sec, thing, active
+    correct: false
+    explanation: fetch is not a recognized prefix.
+  explanation: 'Executed with Serializer 8.0: public properties plus get/has/is/can methods. #[Ignore]
+    excludes a member everywhere.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/ObjectNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: extractAttributes()
+    verified_at: '2026-10-09'
+- id: QST-pe4xqm4hfa4q
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-r6x291jsb0qt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Only `nick` has `#[Groups(['public'])]`; name and email have none. What does `['groups' =>
+    ['Default']]` output?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - groups
+  choices:
+  - id: CHO-ffxr2t6vhtts
+    text: An empty object
+    correct: true
+  - id: CHO-7twvhtpy1d2e
+    text: name and email
+    correct: false
+    explanation: There is no implicit Default group, unlike the Validator.
+  - id: CHO-bm2n83jvakq4
+    text: All three
+    correct: false
+    explanation: 'That is groups: *.'
+  - id: CHO-21271hd3v97y
+    text: nick only
+    correct: false
+    explanation: nick is in public, not Default.
+  explanation: 'Executed with Serializer 8.0: groups: public gives nick; groups: * gives everything.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getAllowedAttributes(): groups'
+    verified_at: '2026-10-09'
+- id: QST-gkjrvfyhqysz
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-4bynfsdjvrc5
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    An Org lists a Mem whose org points back. What does this return?
+
+    ```php
+    $serializer->serialize($org, 'json', [
+        'circular_reference_handler' => fn () => 'ref',
+    ]);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - serializer
+  - circular-reference
+  choices:
+  - id: CHO-zyv1vhsfhdyj
+    text: '`{"members":[{"org":"ref","name":"m"}]}`'
+    correct: true
+  - id: CHO-k6g8nga3xatq
+    text: A CircularReferenceException
+    correct: false
+    explanation: The handler replaces the exception.
+  - id: CHO-apy4ge45rfdq
+    text: '`{"members":[{"name":"m"}]}`'
+    correct: false
+    explanation: The handler result is inserted.
+  - id: CHO-eajdxknx4drc
+    text: An infinitely nested document
+    correct: false
+    explanation: The limit stops it.
+  explanation: Executed with Serializer 8.0. Without the handler, the exception fires at the default limit
+    of 1.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleCircularReference()
+    verified_at: '2026-10-09'

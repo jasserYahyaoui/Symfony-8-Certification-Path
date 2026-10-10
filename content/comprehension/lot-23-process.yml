@@ -1,0 +1,293 @@
+# Lot 23 - Process: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing the Process
+# component 8.0, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-gfystsk2ap9c
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-4h80hb7ky1wt
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The command exits with code 3. What do the two calls do?
+
+    ```php
+    (new Process(['sh', '-c', 'exit 3']))->run();
+    (new Process(['sh', '-c', 'exit 3']))->mustRun();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-bctzk0b11kjw
+    text: run() returns 3; mustRun() throws ProcessFailedException
+    correct: true
+  - id: CHO-82rehr8qc6fp
+    text: Both throw
+    correct: false
+    explanation: run() only returns the exit code.
+  - id: CHO-9qjw1bnmy64e
+    text: Both return 3
+    correct: false
+    explanation: mustRun() throws on failure.
+  - id: CHO-teajkknctggr
+    text: Both return immediately, before the end
+    correct: false
+    explanation: That is start().
+  explanation: Executed with Process 8.0. start() returns at once and leaves checking to you.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: run(), mustRun()
+    verified_at: '2026-10-09'
+- id: QST-wj5qzbj1xbpq
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-vr32ta087n2a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What is printed?
+
+    ```php
+    $p = new Process(['printf', '%s', 'a b;c $HOME']);
+    $p->run();
+    echo $p->getOutput();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-5nb0058rtgf2
+    text: '`a b;c $HOME`, literally'
+    correct: true
+  - id: CHO-70r860qepkz7
+    text: '`a b` then an error for `c`'
+    correct: false
+    explanation: No shell parses the argument.
+  - id: CHO-w1pszce8yb2v
+    text: '`a b;c` followed by the home directory'
+    correct: false
+    explanation: No variable expansion happens.
+  - id: CHO-zbgg98phzhar
+    text: 'Nothing: arrays need escaping'
+    correct: false
+    explanation: The array form needs none.
+  explanation: Executed with Process 8.0. A string through fromShellCommandline() hands escaping and portability
+    to you.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct(array $command)
+    verified_at: '2026-10-09'
+- id: QST-xxb6jrccksth
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-hsn9hab7spvy
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`sleep 3` is started with start() and a 1-second timeout. At 1.5 s, the code only calls isRunning().
+    What does it get?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  - timeout
+  choices:
+  - id: CHO-fkrvzh2mn8kr
+    text: 'true: nobody checked the timeout'
+    correct: true
+  - id: CHO-1a9whj9sqqk0
+    text: 'false: the process was killed at 1 s'
+    correct: false
+    explanation: An async process is not watched for you.
+  - id: CHO-y5807fkp6273
+    text: A ProcessTimedOutException
+    correct: false
+    explanation: isRunning() does not check the timeout; checkTimeout() or wait() do.
+  - id: CHO-1qnrbsvt56y4
+    text: 'null'
+    correct: false
+    explanation: It returns a bool.
+  explanation: 'Executed with Process 8.0: checkTimeout() then throws. The default timeout is 60 seconds.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: checkTimeout()
+    verified_at: '2026-10-09'
+- id: QST-223hrbxhn5a9
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ew0th9575tfe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A backup may run for hours but must be killed if it prints nothing for 5 minutes. Which setting
+    fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  - timeout
+  choices:
+  - id: CHO-djmd1czxcrqx
+    text: setIdleTimeout(300), with a large or null total timeout
+    correct: true
+  - id: CHO-1hqzc0j8meym
+    text: setTimeout(300)
+    correct: false
+    explanation: That caps the total duration.
+  - id: CHO-wxcyr6czt71h
+    text: setTimeout(null) alone
+    correct: false
+    explanation: Nothing would catch a stall.
+  - id: CHO-v6d1dv1z36mv
+    text: stop(300)
+    correct: false
+    explanation: stop() ends the process now, waiting up to 300 s.
+  explanation: The idle timeout counts from the last output; both limits apply together.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setIdleTimeout()
+    verified_at: '2026-10-09'
+- id: QST-rp9fy545n65e
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-z054mp760r1h
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qkcr4bat6dsb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Why does the second line throw?
+
+    ```php
+    $p->disableOutput();
+    $p->setIdleTimeout(5);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - process
+  choices:
+  - id: CHO-6n2h1taje6mq
+    text: An idle timeout needs output to measure
+    correct: true
+  - id: CHO-1xcxt8ddmha1
+    text: setIdleTimeout() must come after start()
+    correct: false
+    explanation: The order with disableOutput() is the issue.
+  - id: CHO-gmzbtvq54pt7
+    text: 5 is below the minimum
+    correct: false
+    explanation: No such minimum.
+  - id: CHO-jvh3wtt81a0y
+    text: disableOutput() also disables timeouts
+    correct: false
+    explanation: setTimeout() still works.
+  explanation: 'Executed with Process 8.0: LogicException, "Idle timeout cannot be set while the output
+    is disabled". getOutput() is unavailable too.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: disableOutput(), setIdleTimeout()
+    verified_at: '2026-10-09'

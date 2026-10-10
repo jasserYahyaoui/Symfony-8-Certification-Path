@@ -1,0 +1,278 @@
+# Lot 24 - PropertyAccess: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing
+# PropertyAccess 8.0, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-ksfq1vyk9avv
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-1mrdfqr9nk4q
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: $order is an object whose `lines` property is an array of objects. Which path reads the second
+    line's sku?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-3d75p74bm052
+    text: '`''lines[1].sku''`'
+    correct: true
+  - id: CHO-rmgsnsqvf90n
+    text: '`''lines.1.sku''`'
+    correct: false
+    explanation: An array index uses brackets.
+  - id: CHO-y07y4xfp3bwc
+    text: '`''[lines][1][sku]''`'
+    correct: false
+    explanation: Objects use dots, not brackets.
+  - id: CHO-xn4j566j8xdq
+    text: '`''lines->1->sku''`'
+    correct: false
+    explanation: Not path syntax.
+  explanation: Brackets for array indexes, dots for object properties, freely combined.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Reading from Arrays and Objects
+    verified_at: '2026-10-09'
+- id: QST-4j4zx0kgt5km
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-f3nt0swctvqd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    With a default accessor, what do these give?
+
+    ```php
+    $pa->getValue(['a' => 1], '[b]');
+    $pa->getValue(new \stdClass(), 'birthday');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-95zb3rmdpww4
+    text: null, then NoSuchPropertyException
+    correct: true
+  - id: CHO-nnz306gx8nm5
+    text: Both null
+    correct: false
+    explanation: A missing object property throws.
+  - id: CHO-snsrr6wh11am
+    text: Both throw
+    correct: false
+    explanation: A missing array index returns null.
+  - id: CHO-9vzen2vk0v4v
+    text: NoSuchIndexException, then null
+    correct: false
+    explanation: The reverse of the defaults.
+  explanation: Executed with PropertyAccess 8.0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: readIndex(), readProperty()
+    verified_at: '2026-10-09'
+- id: QST-pj61rp5ccgsg
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-bhjp8tarh8e7
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A missing array index must throw instead of returning null. Which builder call does it?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-1xggypmj5g9c
+    text: '`enableExceptionOnInvalidIndex()`'
+    correct: true
+  - id: CHO-h60hredapert
+    text: '`disableExceptionOnInvalidPropertyPath()`'
+    correct: false
+    explanation: That makes missing object properties return null.
+  - id: CHO-241rgsepfmmc
+    text: '`enableMagicCall()`'
+    correct: false
+    explanation: That enables __call().
+  - id: CHO-k442e8h4exj4
+    text: '`setStrict(true)`'
+    correct: false
+    explanation: No such method.
+  explanation: 'Executed with PropertyAccess 8.0: NoSuchIndexException. Both defaults can be reversed.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessorBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableExceptionOnInvalidIndex()
+    verified_at: '2026-10-09'
+- id: QST-b8hat78af62h
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-6h3qaavna2z8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: isReadable($person, 'firstName') is called on an object whose getter logs each call. Is the
+    getter called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-72spfpg20y8k
+    text: 'Yes: isReadable() reads the path'
+    correct: true
+  - id: CHO-7y9hcj1kcfrr
+    text: 'No: it only inspects the class'
+    correct: false
+    explanation: It actually reads the value.
+  - id: CHO-a8nxbrn2qxs7
+    text: Only if the property is private
+    correct: false
+    explanation: It is called regardless.
+  - id: CHO-wpnj9jfade22
+    text: Only when it returns false
+    correct: false
+    explanation: It is called first.
+  explanation: isReadable() and isWritable() return booleans instead of throwing; isWritable() reads all
+    but the last link.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isReadable()
+    verified_at: '2026-10-09'
+- id: QST-s7kcgwe2vf73
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-xd2zq134swyh
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-43pt66xsft9f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class exposes data only through __get(), another only through __call(). With a default accessor,
+    which can be read?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - property-access
+  choices:
+  - id: CHO-3xhdsq329z9j
+    text: Only the __get() class
+    correct: true
+  - id: CHO-zd3mn6eg0vas
+    text: Both
+    correct: false
+    explanation: __call() must be enabled with enableMagicCall().
+  - id: CHO-3xk8q39216cm
+    text: Only the __call() class
+    correct: false
+    explanation: The reverse.
+  - id: CHO-kq3d1k1cjgga
+    text: Neither
+    correct: false
+    explanation: __get() works by default.
+  explanation: Executed with PropertyAccess 8.0.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessorBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: enableMagicCall()
+    verified_at: '2026-10-09'

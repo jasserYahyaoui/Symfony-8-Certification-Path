@@ -1,0 +1,291 @@
+# Lot 18 - Cache: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing the Cache
+# component 8.0.15, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-1rc72pvqjry1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rmv013ank5zr
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two pools share the same Redis server and both store a key named "user_1". What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-sk52h5cfqtx9
+    text: 'Nothing: keys of two pools never collide'
+    correct: true
+  - id: CHO-gfjn3k1m7qkz
+    text: The second write overwrites the first
+    correct: false
+    explanation: Pools are namespaced, even on shared storage.
+  - id: CHO-f78qn49p4v5y
+    text: 'An exception: duplicate key'
+    correct: false
+    explanation: There is no conflict.
+  - id: CHO-kf49c3erw257
+    text: Both pools read the same value
+    correct: false
+    explanation: Each pool keeps its own entry.
+  explanation: 'Item, pool, adapter and provider: the pool is the logical store all operations go through.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Cache Pools
+    verified_at: '2026-10-09'
+- id: QST-4312r4ah4gn2
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does $n hold after these two calls on an empty pool?
+
+    ```php
+    $cache->get('k', function () use (&$n) { $n++; return 'v'; });
+    $cache->get('k', function () use (&$n) { $n++; return 'w'; });
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-dwfggd8h30tj
+    text: 1, and both calls return "v"
+    correct: true
+  - id: CHO-zppnamdagbyz
+    text: 2, and the second call returns "w"
+    correct: false
+    explanation: The callback runs only on a miss.
+  - id: CHO-9xwbttnjnf67
+    text: '0: get() never runs callbacks'
+    correct: false
+    explanation: It runs on the first miss.
+  - id: CHO-pa3x1m0ff1s2
+    text: 1, but the second call returns "w"
+    correct: false
+    explanation: The stored value is returned.
+  explanation: Executed with Cache 8.0.15. get() reads and writes, so the contracts need no set().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get()
+    verified_at: '2026-10-09'
+- id: QST-gf0jmpevzqgb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-ggw5eh2abp9f
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Is the value stored here?
+
+    ```php
+    $cache->get('s', function (ItemInterface $item, bool &$save) {
+        $save = false;
+        return 1;
+    });
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-ax4r5t08rfz1
+    text: 'No: the next get() recomputes'
+    correct: true
+  - id: CHO-2z763egtf9wd
+    text: 'Yes: the returned value is always stored'
+    correct: false
+    explanation: $save, by reference, prevents it.
+  - id: CHO-ftqavnz3c8vt
+    text: Yes, but expired at once
+    correct: false
+    explanation: It is not stored at all.
+  - id: CHO-vjp1rpyv2wqe
+    text: 'A TypeError: the callback takes one argument'
+    correct: false
+    explanation: The second parameter is supported.
+  explanation: Executed with Cache 8.0.15. A beta of INF forces recomputation; 0 disables early expiration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'get(): $save'
+    verified_at: '2026-10-09'
+- id: QST-fng00czbcr3g
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-jvfb807ka1q6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which data belongs in cache.system rather than cache.app?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  choices:
+  - id: CHO-jbz2q7a3cgek
+    text: Metadata derived from source code, rebuilt at warmup
+    correct: true
+  - id: CHO-tgs27z66wdmq
+    text: User sessions
+    correct: false
+    explanation: Sessions are runtime data.
+  - id: CHO-35pjpa9vdxpe
+    text: API responses fetched at runtime
+    correct: false
+    explanation: 'That is application data: cache.app.'
+  - id: CHO-mxstbbtj1w86
+    text: Anything that must survive deployments
+    correct: false
+    explanation: cache.system changes with the code.
+  explanation: cache.app holds application data and need not be cleared on deploy; Redis is recommended
+    for it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: cache.app and cache.system
+    verified_at: '2026-10-09'
+- id: QST-f65vwekvgeza
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-jvfb807ka1q6
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    The item was tagged "bar" when computed. What does the last get() do?
+
+    ```php
+    $pool->invalidateTags(['bar']);
+    $pool->get('a', fn () => 2);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cache
+  - tags
+  choices:
+  - id: CHO-r6p99r64p9qf
+    text: 'It recomputes: the tagged item was removed'
+    correct: true
+  - id: CHO-43kbhzzdrjsw
+    text: It returns the old value
+    correct: false
+    explanation: invalidateTags() deleted it.
+  - id: CHO-1pgsz3p4qv76
+    text: 'It throws: the tag no longer exists'
+    correct: false
+    explanation: Nothing throws.
+  - id: CHO-dd1q7jecwjtn
+    text: It returns null
+    correct: false
+    explanation: The callback provides 2.
+  explanation: 'Executed with TagAwareAdapter 8.0.15: tag() then invalidateTags() deletes every item with
+    the tag.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/TagAwareCacheInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: invalidateTags()
+    verified_at: '2026-10-09'

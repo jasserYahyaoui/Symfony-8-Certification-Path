@@ -1,0 +1,279 @@
+# Lot 17 - HTTP Caching: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified against HttpKernel 8.0.15 and
+# the sources cited. ESI is out of scope and not asked.
+
+schema_version: 1
+questions:
+- id: QST-hhmap30t72dw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: http_cache is enabled with debug off and default trace settings. The second GET of a cacheable
+    page is served from cache. What does X-Symfony-Cache show?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-d2g4htjdkhdm
+    text: 'Nothing: the header is absent'
+    correct: true
+  - id: CHO-rcwvbk3vj9m6
+    text: fresh
+    correct: false
+    explanation: Without debug, trace_level defaults to none.
+  - id: CHO-cz465jzzpb6c
+    text: miss, store
+    correct: false
+    explanation: That would be the first request, in debug.
+  - id: CHO-13h7m87afr1c
+    text: HIT
+    correct: false
+    explanation: Not Symfony's trace format.
+  explanation: In debug, the trace shows "miss, store" then "fresh"; set trace_level to short to log it
+    in production.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/HttpCache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trace_level
+    verified_at: '2026-10-09'
+- id: QST-5vrprt9ddpf6
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which attribute declares a shared cache lifetime of 600 seconds on an action?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  - attributes
+  choices:
+  - id: CHO-7fnts5ghbnh2
+    text: '`#[Cache(public: true, smaxage: 600)]`'
+    correct: true
+  - id: CHO-wgt75jhfjr37
+    text: '`#[Cache(public: true, s_maxage: 600)]`'
+    correct: false
+    explanation: 'The attribute uses camelCase: smaxage.'
+  - id: CHO-zvks2rq0pwtn
+    text: '`#[HttpCache(shared: 600)]`'
+    correct: false
+    explanation: No such attribute.
+  - id: CHO-kes5swmadq1w
+    text: '`#[Cache(sharedMaxAge: 600)]`'
+    correct: false
+    explanation: The argument is smaxage.
+  explanation: 'setCache() uses snake_case keys (s_maxage); #[Cache] uses camelCase. Headers set in the
+    controller win over the attribute.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/Cache.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-c85xjxpb1njw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /account is cached as `public, max-age=60` behind the reverse proxy. Alice loads it, then
+    Bob does, without cookies. What does Bob see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-472gnf9kyadg
+    text: Alice's page
+    correct: true
+  - id: CHO-eq675g4dezxh
+    text: 'His own page: the route parameters differ'
+    correct: false
+    explanation: The cache key is the URI; nothing differs.
+  - id: CHO-wah899tzp29n
+    text: 'An error: personal pages cannot be public'
+    correct: false
+    explanation: Nothing checks that.
+  - id: CHO-afw487j5pbpx
+    text: A 304
+    correct: false
+    explanation: The full cached response is served.
+  explanation: The key is the URI unless a variation is declared; such pages must be private.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: generateCacheKey()
+    verified_at: '2026-10-09'
+- id: QST-kr5n4taema7c
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-81d6pteaq67a
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A POST endpoint answers with `max-age=60`. What does Symfony's reverse proxy do on the next
+    identical POST?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-qcne16dd3rpk
+    text: Passes it to the application again
+    correct: true
+  - id: CHO-95r7m1nztyzp
+    text: Serves the stored response
+    correct: false
+    explanation: POST is not a cacheable method here.
+  - id: CHO-sx1xtx47m4c0
+    text: Returns 304
+    correct: false
+    explanation: Nothing is stored.
+  - id: CHO-gnn9a1z66ss4
+    text: Rejects it with 405
+    correct: false
+    explanation: It forwards the request.
+  explanation: Only safe methods are cached; invalidation is outside the HTTP specification.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: isMethodCacheable()
+    verified_at: '2026-10-09'
+- id: QST-twx4fnts1vpa
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-dvk4cpkj78nz
+  - OUT-edevbpg23scq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-zezwg9nya501
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this call turn the response into?
+
+    ```php
+    $response->setNotModified();
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-cache
+  choices:
+  - id: CHO-j2r22649x2zt
+    text: A 304 with no content
+    correct: true
+  - id: CHO-caazafby9zb9
+    text: A 200 with max-age=0
+    correct: false
+    explanation: That is closer to expire().
+  - id: CHO-nsayabgzstj4
+    text: A 410 Gone
+    correct: false
+    explanation: Unrelated.
+  - id: CHO-dtae8e574yt9
+    text: Nothing until send()
+    correct: false
+    explanation: It changes the response at once.
+  explanation: setNotModified() turns the response into a 304; expire() marks it stale.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setNotModified()
+    verified_at: '2026-10-09'

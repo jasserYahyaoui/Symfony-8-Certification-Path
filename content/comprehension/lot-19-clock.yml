@@ -1,0 +1,294 @@
+# Lot 19 - Clock: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the item is assessed by at least
+# one question (rule CMP-001). No prompt repeats or rewords a question of the
+# exam banks (rule CMP-002). Answers verified by executing the Clock
+# component 8.0, and against the sources cited.
+
+schema_version: 1
+questions:
+- id: QST-c8t6w2r5mms2
+  question_archetype: CODE_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-80sdaactjvcg
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Why can this method not be tested for February 29?
+
+    ```php
+    public function isLeapDay(): bool
+    {
+        return (new \DateTimeImmutable())->format('m-d') === '02-29';
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-cxnb4hetyawd
+    text: It reads the system clock directly
+    correct: true
+  - id: CHO-0sz36d7ng8pr
+    text: DateTimeImmutable cannot represent leap days
+    correct: false
+    explanation: It can.
+  - id: CHO-54r3kandvn55
+    text: format() ignores the year
+    correct: false
+    explanation: Irrelevant to testability.
+  - id: CHO-mr3txh11cxxr
+    text: Booleans cannot be asserted
+    correct: false
+    explanation: They can.
+  explanation: Inject ClockInterface and call $this->clock->now(), so a test can fix the time.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: introduction
+    verified_at: '2026-10-09'
+- id: QST-tvfvatq996zb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What does this print, and how long does it take?
+
+    ```php
+    $c = new MockClock('2022-11-16 15:20:00');
+    $c->sleep(600);
+    echo $c->now()->format('H:i:s');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-x33tbfpbayav
+    text: 15:30:00, at once
+    correct: true
+  - id: CHO-nckrev71q5hb
+    text: 15:30:00, after ten real minutes
+    correct: false
+    explanation: sleep() moves mock time instantly.
+  - id: CHO-v2t86xnpncfx
+    text: '15:20:00'
+    correct: false
+    explanation: sleep() advances the clock.
+  - id: CHO-p7jhyw1d018x
+    text: The real current time
+    correct: false
+    explanation: MockClock is frozen.
+  explanation: 'Executed with Clock 8.0: MockClock never advances by itself; sleep() and modify() move
+    it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/MockClock.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: sleep()
+    verified_at: '2026-10-09'
+- id: QST-93fc4yvd0e8z
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-yw73vkeyaqnd
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What class does NativeClock::now() return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-erk51rxby3k5
+    text: DatePoint, a DateTimeImmutable subclass
+    correct: true
+  - id: CHO-ygytjv2epvdd
+    text: DateTime
+    correct: false
+    explanation: It is immutable.
+  - id: CHO-13ezsq42psds
+    text: Exactly DateTimeImmutable
+    correct: false
+    explanation: It is a subclass of it.
+  - id: CHO-2ss4svhnpk2k
+    text: An int timestamp
+    correct: false
+    explanation: It returns an object.
+  explanation: Executed with Clock 8.0. DatePoint takes its time from the global Clock.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/NativeClock.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: now()
+    verified_at: '2026-10-09'
+- id: QST-688y525tth2z
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service uses ClockAwareTrait and is registered with autoconfigure on but autowire off. What
+    clock does $this->now() use?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  choices:
+  - id: CHO-518szycrg0kt
+    text: 'The global Clock: setClock() was never called'
+    correct: true
+  - id: CHO-xv15pb1kgj39
+    text: The injected clock service
+    correct: false
+    explanation: 'setClock() is #[Required], handled by autowiring.'
+  - id: CHO-75c92s8j298h
+    text: A MockClock
+    correct: false
+    explanation: Only in tests that mock it.
+  - id: CHO-wnzxxxe4rctz
+    text: 'None: it throws'
+    correct: false
+    explanation: It falls back to the global Clock.
+  explanation: 'The documentation credits autoconfiguration; the #[Required] setter is actually wired
+    by autowiring.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/ClockAwareTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'setClock(): #[Required]'
+    verified_at: '2026-10-09'
+- id: QST-bhmakfmeh1fb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-bs7xcm74q6v9
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-qpjnpc56hjj0
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    In a test using ClockSensitiveTrait, what date does the second call return?
+
+    ```php
+    static::mockTime('1996-07-01');
+    $clock = static::mockTime('+2 days');
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - clock
+  - tests
+  choices:
+  - id: CHO-tf843epjwsmd
+    text: '1996-07-03'
+    correct: true
+  - id: CHO-zn5khbtv88j5
+    text: Today plus two days
+    correct: false
+    explanation: The interval starts from the already mocked time.
+  - id: CHO-vvhsh9d65msx
+    text: '1996-07-01'
+    correct: false
+    explanation: The interval is applied.
+  - id: CHO-srdx2fa8yzyf
+    text: 'An exception: only dates are accepted'
+    correct: false
+    explanation: Intervals are accepted.
+  explanation: mockTime() takes a date string, an interval, a DateTimeImmutable or a bool; the clock is
+    restored after each test.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/Test/ClockSensitiveTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: mockTime()
+    verified_at: '2026-10-09'
