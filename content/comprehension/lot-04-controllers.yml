@@ -1,0 +1,3357 @@
+# Lot 04 - Controllers: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the fourteen items is assessed by at
+# least one question (rule CMP-001); the last five tie two items together
+# through related_items. No prompt repeats or rewords a question of the exam
+# banks (rule CMP-002). Answers verified against FrameworkBundle, HttpKernel,
+# HttpFoundation and TwigBridge 8.0.15, by execution where possible.
+
+schema_version: 1
+questions:
+- id: QST-09zw7rffabxq
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-dvn4fe5a95kf
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-qr7gnht5s847
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The keys written under `framework:` in config/packages/framework.yaml: which package defines
+    that tree?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - framework-bundle
+  choices:
+  - id: CHO-6tj4897344v6
+    text: FrameworkBundle
+    correct: true
+  - id: CHO-cwc79fkw8az4
+    text: The HttpKernel component
+    correct: false
+    explanation: The component defines the kernel contract, not a configuration tree.
+  - id: CHO-ekzgvrjewydm
+    text: The Config component
+    correct: false
+    explanation: Config provides the tools; the framework tree is declared by the bundle.
+  - id: CHO-gk725cgxf1y8
+    text: symfony/flex
+    correct: false
+    explanation: Flex writes recipe files; it defines no configuration tree.
+  explanation: 'HttpKernel provides the contract, the Kernel class, the events and the resolvers. FrameworkBundle
+    wires them: listeners, tagged resolvers, the framework: tree, console commands.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: TreeBuilder('framework')
+    verified_at: '2026-10-09'
+- id: QST-z8a011k4yj2w
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-9n7kqntbxaap
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-qr7gnht5s847
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: KernelInterface does not list handle() among its own methods, yet every Kernel has it. Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel
+  choices:
+  - id: CHO-cmwh3q49242p
+    text: It extends HttpKernelInterface
+    correct: true
+  - id: CHO-8gt9ccf84bg3
+    text: MicroKernelTrait adds handle()
+    correct: false
+    explanation: The trait adds registerBundles() and registerContainerConfiguration().
+  - id: CHO-ev86435r8mw9
+    text: TerminableInterface declares it
+    correct: false
+    explanation: TerminableInterface declares terminate().
+  - id: CHO-qxca8q7z6cax
+    text: It is a magic __call() method
+    correct: false
+    explanation: handle() is a real method, inherited through the interface chain.
+  explanation: abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface;
+    KernelInterface itself extends HttpKernelInterface.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: interface KernelInterface extends HttpKernelInterface
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface
+    verified_at: '2026-10-09'
+- id: QST-kvxx6e8g9t2s
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-wtvmvsdmdz41
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-qr7gnht5s847
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A project uses MicroKernelTrait in its Kernel. Which package must it require for that trait?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - framework-bundle
+  choices:
+  - id: CHO-v2q1txtb9m8a
+    text: symfony/framework-bundle
+    correct: true
+  - id: CHO-xmx0ev4j5jvw
+    text: symfony/http-kernel
+    correct: false
+    explanation: The component holds Kernel, not MicroKernelTrait.
+  - id: CHO-db2pz1qvxb3n
+    text: symfony/runtime
+    correct: false
+    explanation: Runtime runs the kernel; it does not define the trait.
+  - id: CHO-1qg87eh1c7dp
+    text: symfony/dependency-injection
+    correct: false
+    explanation: DI holds the container, not the kernel trait.
+  explanation: Kernel belongs to the HttpKernel component; MicroKernelTrait and AbstractController belong
+    to FrameworkBundle.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: trait MicroKernelTrait
+    verified_at: '2026-10-09'
+- id: QST-xtd2s7v8pxwa
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8a4ygtt2rwe5
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-qr7gnht5s847
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A home-made framework builds `new HttpKernel($dispatcher, $controllerResolver, $requestStack,
+    new ArgumentResolver())` without any bundle. Can it handle requests?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-kernel
+  choices:
+  - id: CHO-23jaqbvzdwhf
+    text: 'Yes: the component works on its own'
+    correct: true
+  - id: CHO-ppabytnjqs8b
+    text: 'No: HttpKernel needs FrameworkBundle to boot'
+    correct: false
+    explanation: The component is standalone; the bundle only wires it.
+  - id: CHO-jj74r1f84hxm
+    text: Only with a Kernel subclass registering bundles
+    correct: false
+    explanation: HttpKernel handles requests directly; Kernel is optional.
+  - id: CHO-5xk417dq1e66
+    text: Only in debug mode
+    correct: false
+    explanation: The environment plays no part.
+  explanation: 'Executed with HttpKernel 8.0.15 and no bundle: handle() dispatched the events and returned
+    the controller''s response.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: HttpKernel::__construct(), handle()
+    verified_at: '2026-10-09'
+- id: QST-dk708m1vss2e
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kym7hw6vad3k
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-ycc2c8tnv68h
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A class App\Controller\Pages, with no Controller suffix, carries #[Route] attributes on its
+    methods. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  - controllers
+  choices:
+  - id: CHO-gek9wnnraxby
+    text: Its routes work like any other
+    correct: true
+  - id: CHO-pj3d53zmem1e
+    text: Its routes are ignored for lack of the suffix
+    correct: false
+    explanation: The suffix is a convention, not a requirement.
+  - id: CHO-s325dz7c9dng
+    text: Symfony renames the class at compile time
+    correct: false
+    explanation: Nothing is renamed.
+  - id: CHO-2re416xrpewa
+    text: It works only if it extends AbstractController
+    correct: false
+    explanation: Extending the base class is optional too.
+  explanation: A controller class can technically have any name; Controller is a convention, as is dropping
+    the Action suffix. Route names must be unique.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: the class is suffixed Controller by convention
+    verified_at: '2026-10-09'
+- id: QST-zcawv2sq4f7v
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-fzeda7ytt9hf
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-ycc2c8tnv68h
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In config/routes.yaml, a route points to the invokable class App\Controller\ShowPage. Which
+    `controller` value is correct?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  - routing
+  choices:
+  - id: CHO-jycrgb773dkr
+    text: '`App\Controller\ShowPage`'
+    correct: true
+  - id: CHO-rffmqaxz0pkc
+    text: '`App\Controller\ShowPage::invoke`'
+    correct: false
+    explanation: The method is __invoke; for an invokable class the class name alone is used.
+  - id: CHO-89vzx8g9z4c3
+    text: '`ShowPage`'
+    correct: false
+    explanation: The class name must be fully qualified.
+  - id: CHO-rsa1swh1xc1v
+    text: '`app.controller.show_page`'
+    correct: false
+    explanation: That is not a service id the default setup creates.
+  explanation: _controller is FQCN::method, or the FQCN alone when the class is invokable.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/service.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Invokable Controllers
+    verified_at: '2026-10-09'
+- id: QST-avdwf64haarv
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-j9vdv1qav4by
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-ycc2c8tnv68h
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    With FrameworkBundle, what name does this route get?
+
+    ```php
+    namespace App\Controller;
+
+    class LuckyController
+    {
+        #[Route('/lucky')]
+        public function number(): Response { /* ... */ }
+    }
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  - routing
+  choices:
+  - id: CHO-fmf7tx60tb4f
+    text: app_lucky_number
+    correct: true
+  - id: CHO-8kfp800nd3mj
+    text: app_controller_luckycontroller_number
+    correct: false
+    explanation: That is the component's name; FrameworkBundle shortens it.
+  - id: CHO-nqcs0hc6bhth
+    text: lucky_number
+    correct: false
+    explanation: The namespace segment app is kept.
+  - id: CHO-q9wb3n98yqv9
+    text: 'None: an unnamed route is ignored'
+    correct: false
+    explanation: A name is always generated.
+  explanation: The component builds app_controller_luckycontroller_number; FrameworkBundle replaces bundle_
+    and controller_ segments and an Action suffix, giving app_lucky_number.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getDefaultRouteName()
+    verified_at: '2026-10-09'
+- id: QST-chbmz3w1a142
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-5xtttnzd990y
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A routed class extends nothing and returns a Response. What does it lose compared with one
+    extending AbstractController?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - abstract-controller
+  choices:
+  - id: CHO-182rgpe6maq3
+    text: Only the shortcut methods
+    correct: true
+  - id: CHO-1r1gn6f4cdnt
+    text: 'Routing: it will never be called'
+    correct: false
+    explanation: Any callable can be a controller.
+  - id: CHO-kp68bcwykhwe
+    text: Dependency injection into its actions
+    correct: false
+    explanation: Typed arguments are resolved for any controller.
+  - id: CHO-xpt6gh2gesnd
+    text: Access to the Request
+    correct: false
+    explanation: A Request argument is filled by type, base class or not.
+  explanation: AbstractController is an optional base class from FrameworkBundle; it adds shortcuts such
+    as render(), json() and redirectToRoute(), nothing more.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The Base Controller Class & Services
+    verified_at: '2026-10-09'
+- id: QST-qh8wawb8npnk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-37kbkcyddm1r
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: From a PHPUnit test method, `$controller->json(['ok' => true])` is invoked on an AbstractController
+    subclass instance. Outcome?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - abstract-controller
+  - testing
+  choices:
+  - id: CHO-ngxa3z2mhh71
+    text: 'An Error: json() is protected'
+    correct: true
+  - id: CHO-yefmpefdwhx8
+    text: A JsonResponse is returned
+    correct: false
+    explanation: The helpers cannot be called from outside the class.
+  - id: CHO-y7fj5czdbafk
+    text: A LogicException about the missing serializer
+    correct: false
+    explanation: The call is refused before the method runs.
+  - id: CHO-kcgaj6nkh328
+    text: 'null'
+    correct: false
+    explanation: The call is refused.
+  explanation: All shortcuts are protected; only setContainer() and getSubscribedServices() are public.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: protected function json()
+    verified_at: '2026-10-09'
+- id: QST-1k2tdpmfvm08
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-j0pg9ejmv4hg
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An API project without Twig has controllers extending AbstractController. Why does the container
+    still compile?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - abstract-controller
+  - service-subscriber
+  choices:
+  - id: CHO-9h67zfn3m833
+    text: Its subscribed services are optional, marked with ?
+    correct: true
+  - id: CHO-9evnzc4t7jah
+    text: Twig is installed automatically with the bundle
+    correct: false
+    explanation: Twig is a separate package.
+  - id: CHO-9dawtktj61qc
+    text: AbstractController receives the whole container lazily
+    correct: false
+    explanation: It receives a container restricted to its subscribed services.
+  - id: CHO-n77j2rhvhcmc
+    text: The compiler pass skips controllers
+    correct: false
+    explanation: Controllers are services like the others.
+  explanation: getSubscribedServices() lists eleven entries, each prefixed with ? as optional. Calling
+    render() without Twig throws a LogicException naming the missing package.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getSubscribedServices(): ''twig'' => ''?''.Environment::class'
+    verified_at: '2026-10-09'
+- id: QST-rgk3y4agg2q4
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-mzj3xrwsw6dr
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which signature is AbstractController::setContainer() in Symfony 8.0?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - abstract-controller
+  choices:
+  - id: CHO-4wsddddz9gmt
+    text: '`public function setContainer(...): ?ContainerInterface`'
+    correct: true
+  - id: CHO-65mjcfrwd770
+    text: '`public function setContainer(ContainerInterface $container): void`'
+    correct: false
+    explanation: It returns the previous container.
+  - id: CHO-1ht99xxmd8x9
+    text: '`protected function setContainer(ContainerInterface $container): static`'
+    correct: false
+    explanation: It is public, so the container can call it.
+  - id: CHO-tscndq2kycqd
+    text: '`public function __construct(ContainerInterface $container)`'
+    correct: false
+    explanation: The container is set by a setter, not the constructor.
+  explanation: 'setContainer() carries #[Required], so autowiring calls it, and returns the previous container
+    or null.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '#[Required] public function setContainer(): ?ContainerInterface'
+    verified_at: '2026-10-09'
+- id: QST-t6eppvfhyerx
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-gvjp79xbcjsb
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Twig extension, built once as a service, needs the locale of whichever request is running.
+    What should its constructor receive?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - services
+  choices:
+  - id: CHO-k2jm13smz27p
+    text: RequestStack
+    correct: true
+  - id: CHO-v72abk1t7t4w
+    text: Request
+    correct: false
+    explanation: A service is built once; the request changes every time.
+  - id: CHO-me3n10pka0py
+    text: SessionInterface
+    correct: false
+    explanation: The session does not hold the request locale.
+  - id: CHO-g57kc13jatcf
+    text: HttpKernelInterface
+    correct: false
+    explanation: The kernel does not hand out the current request.
+  explanation: In a controller, a Request argument is filled by type. In a service, inject RequestStack
+    and call getCurrentRequest() when needed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getCurrentRequest()
+    verified_at: '2026-10-09'
+- id: QST-6er73ds1e1q9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8y8ytxt6m5v1
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The route is /post/{slug}, and the action is written `show(string $id)`. What happens on /post/hello?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - route-parameters
+  choices:
+  - id: CHO-9kr7gef8wrvg
+    text: A RuntimeException about $id
+    correct: true
+  - id: CHO-f9cmej24sefq
+    text: $id receives "hello", the first route parameter
+    correct: false
+    explanation: Matching is by name, never by position.
+  - id: CHO-z599p32qv3nj
+    text: $id receives an empty string
+    correct: false
+    explanation: There is no default value, so nothing fills it.
+  - id: CHO-rzmtczn4zvr8
+    text: A 404, since the route does not match
+    correct: false
+    explanation: The route matches; the argument fails.
+  explanation: 'Route parameters land in the attributes bag and reach the controller by argument name.
+    Executed: "requires the $id argument that could not be resolved".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getArguments(): requires the argument that could not be resolved'
+    verified_at: '2026-10-09'
+- id: QST-4dxwf9srzchw
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-y2d9m024g5gk
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which request attribute holds a string such as `App\Controller\BlogController::show`?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - attributes
+  choices:
+  - id: CHO-3qj1z0yfbsdt
+    text: _controller
+    correct: true
+  - id: CHO-f13fkyr3y2kn
+    text: _route
+    correct: false
+    explanation: _route holds the route name, such as blog_show.
+  - id: CHO-xk6w0g9bmpzp
+    text: _format
+    correct: false
+    explanation: _format is the request format.
+  - id: CHO-yky05rcg3gah
+    text: _route_params
+    correct: false
+    explanation: That holds the parameters of the matched route.
+  explanation: The router writes _route and _controller, with the route parameters, into $request->attributes.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelRequest(): attributes'
+    verified_at: '2026-10-09'
+- id: QST-673d80q8rmpd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-axr8r9fatztr
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A POST carries a form field name=form, and its raw body is the JSON `{"name":"json"}`. What
+    does `$request->getPayload()->get('name')` return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - payload
+  choices:
+  - id: CHO-fbr43f11q4z5
+    text: form
+    correct: true
+  - id: CHO-fw747j6y1j9v
+    text: json
+    correct: false
+    explanation: 'Form parameters win: the JSON body is read only when the request bag is empty.'
+  - id: CHO-619e4fhsx7ac
+    text: Both, as an array
+    correct: false
+    explanation: getPayload() does not merge the two sources.
+  - id: CHO-za2t5x3e8vkc
+    text: A JsonException
+    correct: false
+    explanation: The body is never decoded here, since the form bag is not empty.
+  explanation: 'getPayload() returns a clone of $request->request when it is not empty, otherwise the
+    JSON body decoded into an InputBag; an invalid JSON body throws. Executed: form.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Request::getPayload()
+    verified_at: '2026-10-09'
+- id: QST-5qb1848anr31
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-axr8r9fatztr
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A JSON request arrives with the body `42`. What does getPayload() do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request
+  - payload
+  choices:
+  - id: CHO-svcrvwng7n7x
+    text: It throws a JsonException
+    correct: true
+  - id: CHO-xetvcr53hadb
+    text: It returns an InputBag holding 42
+    correct: false
+    explanation: An InputBag needs keys; a scalar body is refused.
+  - id: CHO-4cnh3wxrhtw2
+    text: It returns an empty InputBag
+    correct: false
+    explanation: An empty bag is for an empty body only.
+  - id: CHO-61qjf0h9yj6e
+    text: It returns the request bag
+    correct: false
+    explanation: The request bag is empty here, so the body is decoded.
+  explanation: 'Executed: "JSON content was expected to decode to an array, "int" returned" — a JsonException
+    of HttpFoundation, which converts to a 400.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'Request::toArray(): JSON content was expected to decode to an array'
+    verified_at: '2026-10-09'
+- id: QST-dga1g148avgf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-4wrmsr0a1xvb
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An action ends without any return statement. What does the client get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  choices:
+  - id: CHO-n6brcpp0s3yd
+    text: An exception from the kernel
+    correct: true
+  - id: CHO-73sg1parx71n
+    text: An empty 200 page
+    correct: false
+    explanation: Nothing builds a response from null.
+  - id: CHO-mnw75zw9a8yk
+    text: A 204 No Content
+    correct: false
+    explanation: No status is inferred from a missing return.
+  - id: CHO-7m02dxm126k3
+    text: The previous response from the cache
+    correct: false
+    explanation: Each request needs its own response.
+  explanation: kernel.view is dispatched for the null value; without a listener setting a Response, ControllerDoesNotReturnResponseException
+    asks "Did you forget to add a return statement?".
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: ControllerDoesNotReturnResponseException
+    verified_at: '2026-10-09'
+- id: QST-7s4rk8gzsq4q
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-5ram2kxkc3de
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Inside a controller, the HTML of a template must become the body of an email. Which helper
+    gives it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  - templates
+  choices:
+  - id: CHO-1yqm0h97k1j0
+    text: renderView()
+    correct: true
+  - id: CHO-neey8wd556cv
+    text: render()
+    correct: false
+    explanation: render() returns a Response, not the HTML string.
+  - id: CHO-aantf5zcxg0y
+    text: stream()
+    correct: false
+    explanation: stream() returns a StreamedResponse sent to the browser.
+  - id: CHO-cmewbnjbw3yk
+    text: json()
+    correct: false
+    explanation: json() encodes data into a JsonResponse.
+  explanation: render() returns a Response; renderView() returns a string.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'renderView(): string; render(): Response'
+    verified_at: '2026-10-09'
+- id: QST-a7xs8xsrv3hy
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-k5603xv7233j
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On the first display of a page, a never-submitted form is passed to render(). Which status
+    is sent?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  - forms
+  choices:
+  - id: CHO-rhtpvmqyt5wt
+    text: '200'
+    correct: true
+  - id: CHO-gn3rd8hgjfs1
+    text: '422'
+    correct: false
+    explanation: 422 needs a form that is submitted and invalid.
+  - id: CHO-h02mg1m43tt2
+    text: '400'
+    correct: false
+    explanation: Nothing here is a bad request.
+  - id: CHO-stachp1rn7k6
+    text: '204'
+    correct: false
+    explanation: The page has content.
+  explanation: render() switches to 422 only if the response is still 200 and a FormInterface parameter
+    is submitted and invalid.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRender(): isSubmitted() && !isValid() → 422'
+    verified_at: '2026-10-09'
+- id: QST-d20mwdq77p9t
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-fy6864mta4ff
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller must send an existing PDF from disk to the browser. Which helper fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  - files
+  choices:
+  - id: CHO-taqq6m8rrqzm
+    text: file()
+    correct: true
+  - id: CHO-kr2hqakbam81
+    text: json()
+    correct: false
+    explanation: json() encodes data as JSON.
+  - id: CHO-622gmnynbnhq
+    text: renderView()
+    correct: false
+    explanation: renderView() renders a template to a string.
+  - id: CHO-xskjd34d2777
+    text: redirect()
+    correct: false
+    explanation: A redirect sends no file.
+  explanation: file() returns a BinaryFileResponse, json() a JsonResponse, stream() a StreamedResponse
+    for a template sent progressively.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'file(): BinaryFileResponse'
+    verified_at: '2026-10-09'
+- id: QST-cjg8j56c7vmj
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-d9trsb0jwxp7
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-2emwghgkkrdy
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller returns `$this->file('report.pdf')` with no other argument. What does the browser
+    do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - response
+  - files
+  choices:
+  - id: CHO-3zz1b9cjqxrs
+    text: It downloads the file
+    correct: true
+  - id: CHO-tzsxq57ebg5r
+    text: It shows the PDF inside the page
+    correct: false
+    explanation: Inline display needs DISPOSITION_INLINE.
+  - id: CHO-ezdnh28cmcq6
+    text: It decides on its own, as no disposition is sent
+    correct: false
+    explanation: The disposition header is always written.
+  - id: CHO-6566aaqz068y
+    text: It receives a 404
+    correct: false
+    explanation: The file exists; nothing fails.
+  explanation: The third argument defaults to ResponseHeaderBag::DISPOSITION_ATTACHMENT.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: file(... string $disposition = ResponseHeaderBag::DISPOSITION_ATTACHMENT)
+    verified_at: '2026-10-09'
+- id: QST-nhn46gtk81a4
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-kejhjexj129b
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-pfrzrr0qcmh3
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which line reads the theme cookie the browser sent?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  choices:
+  - id: CHO-zgx08cbxr66a
+    text: '`$request->cookies->get(''theme'')`'
+    correct: true
+  - id: CHO-9y6bxvqwqp2a
+    text: '`$response->headers->getCookies()`'
+    correct: false
+    explanation: That lists the cookies this response will send.
+  - id: CHO-t56yna1ggtwc
+    text: '`$request->headers->get(''Set-Cookie'')`'
+    correct: false
+    explanation: Set-Cookie is a response header.
+  - id: CHO-ra7pryjana99
+    text: '`$_COOKIE[''theme'']`'
+    correct: false
+    explanation: Symfony wraps the globals; read through the Request.
+  explanation: Read on the Request, write on the Response through $response->headers->setCookie().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: public InputBag $cookies
+    verified_at: '2026-10-09'
+- id: QST-2bntsx1cb3rt
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-yfn908g4pdys
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-pfrzrr0qcmh3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller calls PHP's setcookie(). A functional test then inspects the cookies of $client->getResponse().
+    What does it find?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - cookies
+  - testing
+  choices:
+  - id: CHO-x89hr5n6r9dx
+    text: Not that cookie
+    correct: true
+  - id: CHO-9v4m5726rh0d
+    text: The cookie, like any other
+    correct: false
+    explanation: setcookie() bypasses the Response object.
+  - id: CHO-mmj1ggym43ay
+    text: An exception thrown by setcookie() in tests
+    correct: false
+    explanation: Nothing is thrown; the header is just outside Symfony's model.
+  - id: CHO-3hcy8j751zq8
+    text: The cookie, but expired
+    correct: false
+    explanation: It is not in the Response at all.
+  explanation: setcookie() writes a raw header, invisible to kernel.response listeners and to tests reading
+    the Response. Use the ResponseHeaderBag.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setCookie()
+    verified_at: '2026-10-09'
+- id: QST-ya3h9a8eahpk
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-wc78qqp1pj1p
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which action signature receives the session without touching the Request?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - session
+  choices:
+  - id: CHO-r26styge9j6p
+    text: '`public function cart(SessionInterface $session): Response`'
+    correct: true
+  - id: CHO-0z4rdee5qnq3
+    text: '`public function cart(Session $s = new Session()): Response`'
+    correct: false
+    explanation: Creating a session by hand bypasses the framework's one.
+  - id: CHO-2p7bf3kfers3
+    text: '`public function cart(string $session): Response`'
+    correct: false
+    explanation: A string is not filled with the session.
+  - id: CHO-zmemehah61z4
+    text: '`public function cart(): Response` with `$this->session`'
+    correct: false
+    explanation: No such property exists.
+  explanation: SessionValueResolver fills a SessionInterface argument. In a service, use RequestStack::getSession().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/SessionValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: SessionValueResolver
+    verified_at: '2026-10-09'
+- id: QST-g5cx9fm0qt9d
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-vvctkweagzvz
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A page only checks `$session->has('cart')` and writes nothing. Has the session started?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - session
+  choices:
+  - id: CHO-0qj0zqkwb8n5
+    text: Yes, like get() would
+    correct: true
+  - id: CHO-styyx89vqbeb
+    text: 'No: only writing starts it'
+    correct: false
+    explanation: Reading and testing start it too.
+  - id: CHO-6beqaz8yeg2e
+    text: 'No: only the configuration starts it'
+    correct: false
+    explanation: Enabling sessions does not start one.
+  - id: CHO-n4hv3mxsapz1
+    text: Only if a flash was set
+    correct: false
+    explanation: has() alone is enough.
+  explanation: Reading, writing or testing a value starts the session; has(), get(), set(), all(), replace(),
+    remove() and clear() all go through the same bag access.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'has(): $this->getAttributeBag()->has()'
+    verified_at: '2026-10-09'
+- id: QST-h1arrc0v9x2w
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-srphtyf5qzqs
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After a page only calls has() on the session, what does the response carry?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - session
+  - caching
+  choices:
+  - id: CHO-3tbxaa3k27jm
+    text: Cache-Control private, but no session cookie
+    correct: true
+  - id: CHO-3z3p3mthdz58
+    text: A session cookie and a public Cache-Control
+    correct: false
+    explanation: A started session makes the response private.
+  - id: CHO-z2h6fgx61cbb
+    text: 'Nothing changed: has() is neutral'
+    correct: false
+    explanation: has() starts the session.
+  - id: CHO-zhhgc6xe0mvb
+    text: A session cookie, since any start sets it
+    correct: false
+    explanation: The cookie is sent only when the session is not empty.
+  explanation: A started session makes SessionListener mark the response private; the cookie is only sent
+    once the session holds data, after a set() for instance.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelResponse(): setPrivate()'
+    verified_at: '2026-10-09'
+- id: QST-x8vgq7q9ze7p
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-7t4egm4bdr19
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e41m74xaqhy7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On logout, the session data must go and the old session id must die. Which call does both?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - session
+  - security
+  choices:
+  - id: CHO-m83rtmxy8g5c
+    text: invalidate()
+    correct: true
+  - id: CHO-gyvy6jzzj87y
+    text: migrate()
+    correct: false
+    explanation: migrate() alone keeps the data, and keeps the old session unless passed true.
+  - id: CHO-e9e1pnngface
+    text: clear()
+    correct: false
+    explanation: clear() empties the attributes but keeps the id.
+  - id: CHO-t59nkxv3d7xd
+    text: remove('_security_main')
+    correct: false
+    explanation: That removes one key only.
+  explanation: invalidate() clears the storage, then calls migrate(true, ...), which regenerates the id
+    and destroys the old session.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'invalidate(): clear() then migrate(true)'
+    verified_at: '2026-10-09'
+- id: QST-pd4mzxstkrsf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-sc6f90ffqzcw
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-65bev6t7wbna
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: One flash is set, then the next page loops over `app.flashes` twice. What does the second
+    loop show?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flash
+  choices:
+  - id: CHO-jmcmkgr3p76t
+    text: Nothing
+    correct: true
+  - id: CHO-7311qzhyn06y
+    text: The same messages again
+    correct: false
+    explanation: Reading flashes consumes them.
+  - id: CHO-90z7g62nk3vd
+    text: Only the most recent message
+    correct: false
+    explanation: All were consumed by the first read.
+  - id: CHO-k2p0d0r3wc7r
+    text: An exception
+    correct: false
+    explanation: Reading an empty bag is fine.
+  explanation: 'A flash is a session message used once: it disappears when read. peek() and peekAll()
+    read without consuming.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: get(), all() remove; peek(), peekAll() keep
+    verified_at: '2026-10-09'
+- id: QST-wmvmmceycwn4
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-qpxzbnrf0g4x
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-65bev6t7wbna
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Outside any controller class, which call stacks exactly what addFlash('notice', $m) would
+    stack?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flash
+  - services
+  choices:
+  - id: CHO-tcv2hwzbrmh4
+    text: '`$requestStack->getSession()->getFlashBag()->add(''notice'', $m)`'
+    correct: true
+  - id: CHO-caqyp5zhj6nz
+    text: '`$requestStack->getSession()->set(''notice'', $m)`'
+    correct: false
+    explanation: That stores a plain attribute, not a flash.
+  - id: CHO-tyw9echbysfm
+    text: '`$requestStack->getSession()->getFlashBag()->set(''notice'', $m)`'
+    correct: false
+    explanation: set() replaces every notice message.
+  - id: CHO-2zzx23h1gepb
+    text: '`$requestStack->getCurrentRequest()->attributes->set(''_flash'', $m)`'
+    correct: false
+    explanation: Request attributes die with the request.
+  explanation: addFlash() is strictly getSession()->getFlashBag()->add(). add() stacks a message; set()
+    replaces the whole type.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'addFlash(): getFlashBag()->add()'
+    verified_at: '2026-10-09'
+- id: QST-jhxh49n2chzn
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-6g7emmk5p02f
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-65bev6t7wbna
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A header shows `app.session.flashbag.peekAll()`, then the body loops over `app.flashes`. Do
+    the messages appear in both places?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flash
+  choices:
+  - id: CHO-s7w2kfw1xyzq
+    text: 'Yes: peekAll() reads without consuming'
+    correct: true
+  - id: CHO-k9j8k1jnkd2h
+    text: 'No: peekAll() already consumed them'
+    correct: false
+    explanation: Only get() and all() consume.
+  - id: CHO-9awcypmqx705
+    text: Only in the header
+    correct: false
+    explanation: The body still finds them after a peek.
+  - id: CHO-376b9mh8y7qa
+    text: Only in the body
+    correct: false
+    explanation: The header shows them too.
+  explanation: get() and all() return and consume; peek() and peekAll() return without consuming.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: peekAll(), all()
+    verified_at: '2026-10-09'
+- id: QST-4ptfj5x5akpw
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-gzgd3nv5dqsb
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-bwfqarnn6s2f
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After saving a post, the action must go to the route blog_show for its slug. Which call?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  choices:
+  - id: CHO-g9hac71khn6g
+    text: '`$this->redirectToRoute(''blog_show'', [''slug'' => $slug])`'
+    correct: true
+  - id: CHO-qw4r42exb3tm
+    text: '`$this->redirect(''blog_show'', [''slug'' => $slug])`'
+    correct: false
+    explanation: redirect() takes a URL, not a route name.
+  - id: CHO-e8mpcspnyzah
+    text: '`$this->forward(''blog_show'', [''slug'' => $slug])`'
+    correct: false
+    explanation: forward() takes a controller, and makes no redirect.
+  - id: CHO-qysbhtdr0enw
+    text: '`$this->generateUrl(''blog_show'', [''slug'' => $slug])`'
+    correct: false
+    explanation: That builds a string; it redirects nothing.
+  explanation: redirectToRoute() generates the URL of a route, then calls redirect(); redirect() takes
+    a URL.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'redirectToRoute(): $this->redirect($this->generateUrl())'
+    verified_at: '2026-10-09'
+- id: QST-mjzawjjpw423
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-v6qwe7g2fz54
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-bwfqarnn6s2f
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`return $this->redirect(''/account'');` — which status code is sent?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - status
+  choices:
+  - id: CHO-xcqsq4ts4d38
+    text: '302'
+    correct: true
+  - id: CHO-jfa0qz2dnr98
+    text: '301'
+    correct: false
+    explanation: 301 must be asked for; the default is temporary.
+  - id: CHO-jgvnbreghdyd
+    text: '303'
+    correct: false
+    explanation: Not the default.
+  - id: CHO-ah0z0e9tqsa2
+    text: '307'
+    correct: false
+    explanation: Not the default.
+  explanation: Both helpers default to 302; the status is the second argument of redirect() and the third
+    of redirectToRoute().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: redirect(string $url, int $status = 302)
+    verified_at: '2026-10-09'
+- id: QST-jzenzxpwvntz
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-2n6hy6wr111b
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-bwfqarnn6s2f
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A login action ends with a redirect to whatever the next query parameter holds. A phishing
+    mail links to it with next set to an attacker's site. What is the flaw?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - redirects
+  - security
+  choices:
+  - id: CHO-m39ssjcrnx6x
+    text: An open redirect
+    correct: true
+  - id: CHO-0a6601n81a17
+    text: A CSRF flaw in the login form
+    correct: false
+    explanation: The problem is the unchecked redirect target.
+  - id: CHO-289janjf041t
+    text: A missing 301 status
+    correct: false
+    explanation: The status does not matter; the target does.
+  - id: CHO-tt9rrxfjgame
+    text: Session fixation
+    correct: false
+    explanation: The session id is not involved.
+  explanation: redirect() does not check its destination. Validate the URL, or redirect to a route.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Redirecting: redirect() does not check its destination'
+    verified_at: '2026-10-09'
+- id: QST-zq0rfe0ebkrq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rwcxavb94b2x
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: May a controller add a header to the Response that forward() gave it before returning it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forward
+  choices:
+  - id: CHO-pmsf1xk4bn9d
+    text: 'Yes'
+    correct: true
+  - id: CHO-577581jj6esz
+    text: 'No: it was already sent'
+    correct: false
+    explanation: Nothing is sent until the main controller returns.
+  - id: CHO-p7591x133rba
+    text: 'No: forward() returns a string'
+    correct: false
+    explanation: forward() returns the target controller's Response.
+  - id: CHO-27vezt7m5jcr
+    text: Only for redirect responses
+    correct: false
+    explanation: Any Response can be changed.
+  explanation: forward() runs a sub-request through the kernel and returns the Response of the target
+    controller, which the caller may still modify.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'forward(): http_kernel->handle($subRequest, SUB_REQUEST)'
+    verified_at: '2026-10-09'
+- id: QST-ddsdzgs4fh0r
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kbajzz4zg5nn
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After `return $this->forward(...)` from the /checkout action, what does the address bar show?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forward
+  - redirects
+  choices:
+  - id: CHO-h7fpj4c2dq6c
+    text: /checkout, unchanged
+    correct: true
+  - id: CHO-ybne516jz8f9
+    text: The URL of the target controller's route
+    correct: false
+    explanation: No redirect is sent; the browser knows nothing of the forward.
+  - id: CHO-h2vb6z1zxxjg
+    text: /checkout?forwarded=1
+    correct: false
+    explanation: Nothing is added to the URL.
+  - id: CHO-3rjyhpatbbec
+    text: A blank page during a second request
+    correct: false
+    explanation: There is a single HTTP request.
+  explanation: 'forward(): one HTTP request, same URL, sub-request inside the kernel. redirectToRoute():
+    a 3xx, a second request, a new URL.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: forward()
+    verified_at: '2026-10-09'
+- id: QST-bbcw2hg4k5qd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-7any6zqhanpk
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`$this->forward(''App\Controller\Post::show'', [''id'' => 5])` targets `show(int $postId)`.
+    What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forward
+  - arguments
+  choices:
+  - id: CHO-qcyvxxvke926
+    text: An error about $postId
+    correct: true
+  - id: CHO-mv70vysztq76
+    text: $postId receives 5, the first value
+    correct: false
+    explanation: Values are matched by name, never by position.
+  - id: CHO-xm9w9smkx2jz
+    text: $postId receives 0
+    correct: false
+    explanation: No default exists, so nothing fills it.
+  - id: CHO-j1k0xyw6p78m
+    text: The forward falls back to a redirect
+    correct: false
+    explanation: No fallback exists.
+  explanation: The array becomes the sub-request's attributes; RequestAttributeValueResolver fills each
+    argument with the attribute of the same name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestAttributeValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'resolve(): attributes->get($argument->getName())'
+    verified_at: '2026-10-09'
+- id: QST-855dhb7pmkdg
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-dpjz6mhjj9g1
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The template rendered by a forwarded controller needs app.current_route. What must the caller
+    pass?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - forward
+  - routing
+  choices:
+  - id: CHO-z81bbq9eg6wj
+    text: '`_route` and `_route_params` in the forward() array'
+    correct: true
+  - id: CHO-j56gaj99rcb1
+    text: 'Nothing: forward() copies the route'
+    correct: false
+    explanation: The array replaces the attributes, so _route is lost.
+  - id: CHO-2sbcft21jxdx
+    text: The route name as forward()'s first argument
+    correct: false
+    explanation: The first argument is the controller.
+  - id: CHO-fckkx4m5hj67
+    text: '`$request->query->all()` as third argument'
+    correct: false
+    explanation: That passes the query string, not the route.
+  explanation: The forward() array becomes the attributes of the sub-request and replaces the originals;
+    _route and _route_params are attributes like the others.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/forwarding.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: app.current_route and _route_params after forwarding
+    verified_at: '2026-10-09'
+- id: QST-jzap3k9y0ypx
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-qa34bn6sqmqj
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`throw $this->createNotFoundException();` with no argument: what message does the exception
+    carry?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - errors
+  - '404'
+  choices:
+  - id: CHO-cb70c5nqwzhz
+    text: Not Found
+    correct: true
+  - id: CHO-ybprndv0a2t4
+    text: An empty string
+    correct: false
+    explanation: The default message is "Not Found".
+  - id: CHO-4zq5j7wp1jxy
+    text: Page not found
+    correct: false
+    explanation: The exact default is "Not Found".
+  - id: CHO-rr4szswy7bxd
+    text: The route name
+    correct: false
+    explanation: No route is involved.
+  explanation: createNotFoundException() builds and returns a NotFoundHttpException; only throw raises
+    it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createNotFoundException(string $message = 'Not Found')
+    verified_at: '2026-10-09'
+- id: QST-70cxqpv73xk6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kybyc8rb3vw0
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In production, templates/bundles/TwigBundle/Exception/ holds error.html.twig but no error404.html.twig.
+    A page is missing. Which template renders?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - errors
+  - templates
+  choices:
+  - id: CHO-z9va1e7eg7rx
+    text: error.html.twig
+    correct: true
+  - id: CHO-2332yrntmv1y
+    text: 'None: Symfony''s built-in page'
+    correct: false
+    explanation: The generic template is tried before the built-in renderer.
+  - id: CHO-7rjhnxdewg7d
+    text: error500.html.twig
+    correct: false
+    explanation: Each status looks for its own file, then the generic one.
+  - id: CHO-6g5hgsvc11d3
+    text: An exception, since error404 is mandatory
+    correct: false
+    explanation: No per-status file is required.
+  explanation: TwigErrorRenderer tries error<code>.html.twig, then error.html.twig, then falls back to
+    the HtmlErrorRenderer.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTemplate()
+    verified_at: '2026-10-09'
+- id: QST-e87d67pkc5vh
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-jwxbjkcsf51k
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a custom error template, of which class is the `exception` variable?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - errors
+  - templates
+  choices:
+  - id: CHO-ws2dfn50x0qs
+    text: FlattenException
+    correct: true
+  - id: CHO-85p9asw3jsch
+    text: The class that was thrown
+    correct: false
+    explanation: The renderer passes a flattened copy, not the original object.
+  - id: CHO-7c8501qsa3c3
+    text: HttpException
+    correct: false
+    explanation: The docs suggest it, but the code passes a FlattenException.
+  - id: CHO-9mwac6rt4jbj
+    text: \Throwable
+    correct: false
+    explanation: FlattenException does not even extend Exception.
+  explanation: The template receives exception, status_code and status_text; exception is the FlattenException
+    built from the thrown error.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'render(): ''exception'' => \$flattenException'
+    verified_at: '2026-10-09'
+- id: QST-gdfgjx5qq0wr
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-ym6q5502fmyf
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In dev, with the framework error routes imported under /_error, which URL previews the 404
+    page in JSON?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - errors
+  - preview
+  choices:
+  - id: CHO-1x49w9evzpge
+    text: /_error/404.json
+    correct: true
+  - id: CHO-6xmrah84ccx7
+    text: /_error/json/404
+    correct: false
+    explanation: The route is {code}.{_format}.
+  - id: CHO-82smfj26eh56
+    text: /404?_format=json
+    correct: false
+    explanation: The preview has its own route.
+  - id: CHO-xdqfxrg1ehz8
+    text: /_profiler/404.json
+    correct: false
+    explanation: The profiler is a different tool.
+  explanation: The route _preview_error is /{code}.{_format}, _format defaulting to html; the preview
+    turns debug off for that render.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/routing/errors.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '''_preview_error'', ''/{code}.{_format}'''
+    verified_at: '2026-10-09'
+- id: QST-xnw3zgdda8gg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-mfs1nh45d7sr
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A logged-in user hits a missing page in production. The 404 template shows a greeting using
+    the current user. What appears?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - errors
+  - security
+  choices:
+  - id: CHO-y1pmy9e8va4g
+    text: No user at all
+    correct: true
+  - id: CHO-2we9pm5qk8v2
+    text: The user's name, as on every page
+    correct: false
+    explanation: Routing fails before security runs.
+  - id: CHO-66x2zbn10jrq
+    text: An exception in the template
+    correct: false
+    explanation: The user is simply absent.
+  - id: CHO-hk7cncgc1jxp
+    text: Only in dev
+    correct: false
+    explanation: It is a production behaviour.
+  explanation: Because of the order routing and security are loaded in, the user looks logged out on a
+    404 page; it works in tests and fails in production.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: security not available in 404 pages
+    verified_at: '2026-10-09'
+- id: QST-4gq07k0sr3mm
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-np64n1673fc3
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`#[MapUploadedFile(name: ''doc'')] UploadedFile $file` — which form field is read?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - upload
+  choices:
+  - id: CHO-kmr78pzpyyzr
+    text: doc
+    correct: true
+  - id: CHO-q8ahqgxbp332
+    text: file, the argument name
+    correct: false
+    explanation: The name option overrides the argument name.
+  - id: CHO-20sabw75w6eh
+    text: Both doc and file
+    correct: false
+    explanation: Only one key is read.
+  - id: CHO-14jjj8gsjv8h
+    text: The first uploaded file, whatever its field
+    correct: false
+    explanation: The resolver reads one named key.
+  explanation: The resolver reads $request->files under the attribute's name option, or under the argument
+    name when it is absent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapUploadedFile.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: MapUploadedFile(name)
+    verified_at: '2026-10-09'
+- id: QST-fr5dcka5hj4n
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-q06cyzmh9hjt
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The avatar field is optional: `#[MapUploadedFile] ?UploadedFile $avatar = null`. A visitor
+    submits nothing. Value of $avatar?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - upload
+  choices:
+  - id: CHO-mzbnj5b7jjh0
+    text: 'null'
+    correct: true
+  - id: CHO-a8q5y4sk1zxr
+    text: An HttpException with status 422
+    correct: false
+    explanation: That happens only when the argument is neither nullable nor defaulted.
+  - id: CHO-y0brg84b25sk
+    text: An empty UploadedFile
+    correct: false
+    explanation: Nothing is fabricated.
+  - id: CHO-019qxhswg6w9
+    text: A 400 Bad Request
+    correct: false
+    explanation: A nullable argument simply receives null.
+  explanation: 'Missing file: null or the default for a nullable or defaulted argument, [] for an array,
+    otherwise a 422 HttpException.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'mapUploadedFile(): isNullable(), hasDefaultValue()'
+    verified_at: '2026-10-09'
+- id: QST-jxggw9301p6q
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-map3gyk0v2py
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An action validates an upload but never calls move(). What remains of the file after the request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - upload
+  choices:
+  - id: CHO-2dqshb5nshwc
+    text: Nothing
+    correct: true
+  - id: CHO-47g847f60dea
+    text: The file, kept in var/uploads
+    correct: false
+    explanation: No directory is chosen for you.
+  - id: CHO-g372bnda37wk
+    text: The file, in public/
+    correct: false
+    explanation: Nothing copies it there.
+  - id: CHO-p7xsegh2xdk3
+    text: The file, until the session ends
+    correct: false
+    explanation: Temporary uploads die with the request.
+  explanation: move() puts the temporary file where it should live and returns a File for the new place.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: move()
+    verified_at: '2026-10-09'
+- id: QST-x2edpxezm4a7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-aw5esqj5yqqm
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'getClientMimeType() and getMimeType(): which one can be trusted, and why?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - upload
+  - security
+  choices:
+  - id: CHO-cj896wrrm8tq
+    text: getMimeType(), guessed from the content
+    correct: true
+  - id: CHO-a128d31j94pg
+    text: getClientMimeType(), set by the browser
+    correct: false
+    explanation: Anything the client declares can be forged.
+  - id: CHO-pvmb29830yxz
+    text: Both, since Symfony validates the upload
+    correct: false
+    explanation: Symfony does not verify what the client declares.
+  - id: CHO-d2snrcc7st4q
+    text: 'Neither: MIME types are never reliable'
+    correct: false
+    explanation: The type guessed from the content is the reliable one.
+  explanation: 'The getClient… methods return what the browser sent: name, extension, path, MIME type.
+    getMimeType() and guessExtension() start from the content.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getClientMimeType(): not safe'
+    verified_at: '2026-10-09'
+- id: QST-x9504w2xefnt
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-38dvrzpkavx9
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-tb3bnd6b0f01
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A stored file name is built as a slug, a unique id, a dot and an extension. Which call should
+    give the extension?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - upload
+  choices:
+  - id: CHO-tpdfcpbem22s
+    text: '`$file->guessExtension()`'
+    correct: true
+  - id: CHO-6wnnpyd9jz82
+    text: '`$file->getClientOriginalExtension()`'
+    correct: false
+    explanation: It comes from the name the client sent.
+  - id: CHO-ptjgzh7518kv
+    text: '`$file->guessClientExtension()`'
+    correct: false
+    explanation: It derives from the MIME type the client declared.
+  - id: CHO-hrwkp1gdgw7g
+    text: '`pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION)`'
+    correct: false
+    explanation: Still the client's name.
+  explanation: guessExtension() derives the extension from the real MIME type of the content.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/File/File.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: guessExtension()
+    verified_at: '2026-10-09'
+- id: QST-wayyqgxzg3wz
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-bpvmhcnp7akr
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e93sa9rd4kd9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: /old must redirect to the route home, with no PHP written. What goes in the route's controller
+    key?
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - built-in-controllers
+  choices:
+  - id: CHO-rwt6arzgv7gs
+    text: '`Symfony\Bundle\FrameworkBundle\Controller\RedirectController`'
+    correct: true
+  - id: CHO-vmd2a5b2x7hj
+    text: '`App\Controller\RedirectController`'
+    correct: false
+    explanation: That class would have to be written.
+  - id: CHO-dexgz4fbensv
+    text: '`redirect`'
+    correct: false
+    explanation: No such alias exists.
+  - id: CHO-ba3ntwgatxax
+    text: '`Symfony\Component\HttpFoundation\RedirectResponse`'
+    correct: false
+    explanation: A response class is not a controller.
+  explanation: Framework controllers are referenced by FQCN; their options go in defaults and reach the
+    controller as arguments, matched by name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Redirecting to URLs and Routes Directly from a Route
+    verified_at: '2026-10-09'
+- id: QST-84h2wmjpam6y
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-b7ntcrpknmjw
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e93sa9rd4kd9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which default must a TemplateController route always provide?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - built-in-controllers
+  choices:
+  - id: CHO-k7qkenk5ejtm
+    text: template
+    correct: true
+  - id: CHO-qy1c8rxk37fq
+    text: statusCode
+    correct: false
+    explanation: It defaults to 200.
+  - id: CHO-bmnjqft6w2fx
+    text: maxAge
+    correct: false
+    explanation: Optional, null by default.
+  - id: CHO-gbg7j1z7n271
+    text: context
+    correct: false
+    explanation: Optional, an empty array by default.
+  explanation: templateAction(string $template, ?int $maxAge = null, ?int $sharedAge = null, ?bool $private
+    = null, array $context = [], int $statusCode = 200, array $headers = []).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: templateAction(string $template, ...)
+    verified_at: '2026-10-09'
+- id: QST-vjmj0jse62hx
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-mh1c4db9g0en
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e93sa9rd4kd9
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A RedirectController route sets both a route and a path default. What happens on a request?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - built-in-controllers
+  choices:
+  - id: CHO-qfcctxr5zbeh
+    text: A RuntimeException
+    correct: true
+  - id: CHO-0vx7ezppheyc
+    text: route wins over path
+    correct: false
+    explanation: Neither wins; the controller refuses.
+  - id: CHO-9staeqf59g8c
+    text: path wins over route
+    correct: false
+    explanation: Neither wins.
+  - id: CHO-7x3s8ecr3p6p
+    text: A 404
+    correct: false
+    explanation: 404 is for an empty target, not for both.
+  explanation: route targets a route, path a path or URL; they are exclusive. An empty target gives 404,
+    or 410 if permanent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__invoke(): Ambiguous redirection settings'
+    verified_at: '2026-10-09'
+- id: QST-2eaptmhqa3sk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xs0zdk3dz20y
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-e93sa9rd4kd9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A route moves for good and must keep POST requests as POST: permanent and keepRequestMethod
+    are both true. Status?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - built-in-controllers
+  - status
+  choices:
+  - id: CHO-6drsfv9eypnc
+    text: '308'
+    correct: true
+  - id: CHO-7xe442t3eem3
+    text: '301'
+    correct: false
+    explanation: 301 lets the client switch to GET; keeping the method needs 308.
+  - id: CHO-3f3exx35ebj4
+    text: '307'
+    correct: false
+    explanation: 307 is the temporary method-keeping code.
+  - id: CHO-1kbgx81c4dgs
+    text: '302'
+    correct: false
+    explanation: That is temporary and may change the method.
+  explanation: keepRequestMethod turns 302 into 307 and 301 into 308.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '$statusCode = $permanent ? 308 : 307'
+    verified_at: '2026-10-09'
+- id: QST-f8p6810n0hcy
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-np4jrjh0phfs
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Writing a custom value resolver: what must resolve(Request, ArgumentMetadata) give back,
+    by its declared type?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  choices:
+  - id: CHO-mapy75ygsnwv
+    text: '`iterable`'
+    correct: true
+  - id: CHO-v8n3tkn88y8k
+    text: '`mixed`'
+    correct: false
+    explanation: Returning the value itself is the classic mistake.
+  - id: CHO-8sgkxb60007a
+    text: '`?object`'
+    correct: false
+    explanation: It returns values, not a single object.
+  - id: CHO-x4hwd2g70brt
+    text: '`bool`'
+    correct: false
+    explanation: Support is expressed by returning an empty iterable.
+  explanation: 'resolve(Request $request, ArgumentMetadata $argument): iterable — empty when it cannot
+    resolve, one value, or several for a variadic argument; a generator works too.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ValueResolverInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'resolve(): iterable'
+    verified_at: '2026-10-09'
+- id: QST-fej74xqrckrw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-5kafbd3d9nt8
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two resolvers can both fill an argument; one is tagged with priority 200, the other 100. What
+    happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  - priority
+  choices:
+  - id: CHO-nk6qgafw9nhz
+    text: Only the 200 one
+    correct: true
+  - id: CHO-kgt83c59g6j4
+    text: Both run, and the 100 one overwrites
+    correct: false
+    explanation: The chain stops at the first resolver producing a value.
+  - id: CHO-sazwn8efgpk9
+    text: Both values are passed, as an array
+    correct: false
+    explanation: Multiple values only fit variadic arguments, else it throws.
+  - id: CHO-xfxdnk2v5wh3
+    text: The 100 one runs first
+    correct: false
+    explanation: Higher priority runs first.
+  explanation: ArgumentResolver walks the tagged resolvers by priority; the first non-empty result wins.
+    If none yields a value, a RuntimeException is thrown.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getArguments(): foreach resolvers ... continue 2'
+    verified_at: '2026-10-09'
+- id: QST-0hwh850sy0s6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-mtg83g8mv3bb
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Suppose DefaultValueResolver ran before SessionValueResolver. What would `?SessionInterface
+    $session = null` receive when a session exists?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  - session
+  choices:
+  - id: CHO-vmfcqzqydd7h
+    text: Always null
+    correct: true
+  - id: CHO-gp59p2aw67bf
+    text: The session, as today
+    correct: false
+    explanation: The default would answer first and stop the chain.
+  - id: CHO-0pn1qjyathy6
+    text: An exception
+    correct: false
+    explanation: The default resolver succeeds with null.
+  - id: CHO-xte5n194vqsg
+    text: Both values
+    correct: false
+    explanation: The first resolver to answer wins.
+  explanation: 'SessionValueResolver runs at 120 and DefaultValueResolver at -100: the session is used
+    when it exists, the default only otherwise.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: argument_resolver priorities
+    verified_at: '2026-10-09'
+- id: QST-hxphs3xfkfay
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-cbtvxgfkskae
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The route /events/{since} reaches `list(\DateTimeInterface $since)`. Which object is passed?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  - dates
+  choices:
+  - id: CHO-m1fyxmsscnnf
+    text: A DateTimeImmutable
+    correct: true
+  - id: CHO-5fztd7anhgg4
+    text: A DateTime built by DateTimeValueResolver
+    correct: false
+    explanation: For the interface type, the resolver picks DateTimeImmutable.
+  - id: CHO-xncd701b59px
+    text: The raw string
+    correct: false
+    explanation: The resolver converts it.
+  - id: CHO-rs75sa0bjn04
+    text: 'null'
+    correct: false
+    explanation: The value is present in the URL.
+  explanation: 'Each built-in resolver fills one kind of argument: Request, session, attributes, backed
+    enums, Uid, dates, services, defaults, variadics. An invalid date gives 404.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/DateTimeValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: DateTimeInterface → DateTimeImmutable
+    verified_at: '2026-10-09'
+- id: QST-pq8tq34jbca2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ynyxk5m0hyzd
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An argument typed with a DTO class has no #[MapRequestPayload] attribute. Does the payload
+    resolver fill it from the body?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  - targeted
+  choices:
+  - id: CHO-p33673n7zw6q
+    text: 'No: it is a targeted resolver'
+    correct: true
+  - id: CHO-f8vr6g7cx97p
+    text: Yes, for any object type
+    correct: false
+    explanation: Targeted resolvers are removed from the general chain.
+  - id: CHO-szvzjkmg5jwz
+    text: Yes, but only for POST
+    correct: false
+    explanation: The method is not the criterion.
+  - id: CHO-xzcftcrsz7tz
+    text: Yes, with a deprecation
+    correct: false
+    explanation: It simply does not run.
+  explanation: RequestPayloadValueResolver and QueryParameterValueResolver carry controller.targeted_value_resolver
+    and run only when an attribute selects them.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: controller.targeted_value_resolver
+    verified_at: '2026-10-09'
+- id: QST-qeqxc6mrt5xq
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-chxt3emfrcjg
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-8hs6e05vq91g
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'One request has an unknown backed-enum value in its path; another sends a JSON body that
+    fails #[MapRequestPayload] validation. Which statuses?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - value-resolvers
+  - status
+  choices:
+  - id: CHO-kvz0cn6h4z5e
+    text: 404 for the enum, 422 for the payload
+    correct: true
+  - id: CHO-kpvs2m9x0mss
+    text: 400 for both
+    correct: false
+    explanation: URL values fail in 404, body values in 422.
+  - id: CHO-ajvt7adykxve
+    text: 422 for the enum, 404 for the payload
+    correct: false
+    explanation: It is the other way round.
+  - id: CHO-hp64kjvc0pxn
+    text: 500 for both
+    correct: false
+    explanation: Both are client errors with dedicated statuses.
+  explanation: What comes from the URL fails in 404 (enum, date, Uid, MapQueryParameter); what comes from
+    the body fails in 422 (MapRequestPayload, MapUploadedFile).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/BackedEnumValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotFoundHttpException
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapRequestPayload.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validationFailedStatusCode = 422
+    verified_at: '2026-10-09'
+- id: QST-x6a0hh8e0pxm
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-sc6f90ffqzcw
+  - OUT-srphtyf5qzqs
+  related_items:
+  - OIT-e41m74xaqhy7
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-65bev6t7wbna
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A public page calls addFlash() and nothing else touches the session. Can a shared proxy still
+    cache it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - flash
+  - caching
+  choices:
+  - id: CHO-rthtaxr24svj
+    text: 'No: the response becomes private'
+    correct: true
+  - id: CHO-bwwcxrmghppt
+    text: 'Yes: flashes live outside the session'
+    correct: false
+    explanation: A flash is a session message.
+  - id: CHO-kd6vtdha0t6k
+    text: Yes, since no attribute was written
+    correct: false
+    explanation: Writing a flash writes to the session.
+  - id: CHO-gyak8gvxqkef
+    text: Only for logged-out visitors
+    correct: false
+    explanation: The flash starts a session for anyone.
+  explanation: Flashes are stored in the session, so adding one starts it; a started session makes SessionListener
+    mark the response private, and the session cookie is sent.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/AbstractSessionListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'onKernelResponse(): setPrivate()'
+    verified_at: '2026-10-09'
+- id: QST-x8yhtkwqxvev
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kbajzz4zg5nn
+  - OUT-gzgd3nv5dqsb
+  related_items:
+  - OIT-bwfqarnn6s2f
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-znm2tr61aw9p
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The incoming request has ?page=3. Which call keeps that query string at its target without
+    extra arguments: forward() or redirectToRoute() with `$request->query->all()`?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - forward
+  - query-string
+  choices:
+  - id: CHO-tcx12215bbez
+    text: Only redirectToRoute() with the query array
+    correct: true
+  - id: CHO-7fba6d7ct4b7
+    text: forward(), which keeps everything of the request
+    correct: false
+    explanation: forward() replaces the query with [] unless passed.
+  - id: CHO-q9ywq76e04q9
+    text: Both
+    correct: false
+    explanation: forward() drops the query by default.
+  - id: CHO-80frcywjevj7
+    text: Neither
+    correct: false
+    explanation: Extra route parameters become the query string of the generated URL.
+  explanation: forward()'s third argument defaults to [], replacing the query; redirectToRoute() turns
+    parameters that are not path variables into the query string.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: forward(string $controller, array $path = [], array $query = [])
+    verified_at: '2026-10-09'
+- id: QST-gntcdsf5w7dw
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kybyc8rb3vw0
+  - OUT-chxt3emfrcjg
+  related_items:
+  - OIT-8hs6e05vq91g
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-emymfwgesh99
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In production, a URL carries an invalid backed-enum value. The app has error404.html.twig
+    and error.html.twig. Which template renders?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - errors
+  - enums
+  choices:
+  - id: CHO-emdw8ncetwzb
+    text: error404.html.twig
+    correct: true
+  - id: CHO-ej78qwghhen5
+    text: error.html.twig
+    correct: false
+    explanation: A status-specific template is tried first, and the status is 404.
+  - id: CHO-pm0wpegz8fbh
+    text: error400.html.twig, missing, so error.html.twig
+    correct: false
+    explanation: The enum resolver gives 404, not 400.
+  - id: CHO-7hnmfxken82g
+    text: Symfony's built-in page
+    correct: false
+    explanation: Custom templates exist, so they are used.
+  explanation: BackedEnumValueResolver throws a NotFoundHttpException, so the status is 404, and TwigErrorRenderer
+    picks error404.html.twig first.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/BackedEnumValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: NotFoundHttpException
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: findTemplate()
+    verified_at: '2026-10-09'
+- id: QST-zg642tdvbgba
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-j0pg9ejmv4hg
+  - OUT-5ram2kxkc3de
+  related_items:
+  - OIT-2emwghgkkrdy
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-gqpj4rbt0hc7
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Twig is not installed. An action calls renderView(). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - twig
+  - abstract-controller
+  choices:
+  - id: CHO-e2drzq6mgxcx
+    text: A LogicException
+    correct: true
+  - id: CHO-a1trwvtdgfqy
+    text: An empty string
+    correct: false
+    explanation: The helpers fail loudly.
+  - id: CHO-8ttpyy0tq02a
+    text: The container fails to compile
+    correct: false
+    explanation: The twig subscription is optional, so it compiles.
+  - id: CHO-t5akf7v47c68
+    text: A 404
+    correct: false
+    explanation: Nothing routes differently.
+  explanation: twig is subscribed as ?Environment; the helper checks for it and throws a LogicException
+    naming the method and the missing package.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRenderView(): LogicException'
+    verified_at: '2026-10-09'
+- id: QST-gn4vvfddbx4g
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-8y8ytxt6m5v1
+  - OUT-cbtvxgfkskae
+  related_items:
+  - OIT-8hs6e05vq91g
+  version: 1
+  official_topic: Controllers
+  official_item: OIT-6cr9b8ea8g32
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which built-in resolver turns the {slug} placeholder into a `$slug` argument, and on what
+    basis?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - route-parameters
+  - value-resolvers
+  choices:
+  - id: CHO-9xy8e3p2wxa6
+    text: RequestAttributeValueResolver, by name
+    correct: true
+  - id: CHO-cme2a1sz1za2
+    text: RequestValueResolver, by matching the type
+    correct: false
+    explanation: That one fills Request-typed arguments.
+  - id: CHO-d40vabk2mt0e
+    text: DefaultValueResolver, by position
+    correct: false
+    explanation: It fills defaults; nothing is matched by position.
+  - id: CHO-622dz7kmzw1j
+    text: ServiceValueResolver, by service id
+    correct: false
+    explanation: That one fills services.
+  explanation: The router puts route parameters into the attributes; RequestAttributeValueResolver, at
+    priority 100, fills each argument whose name matches an attribute.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestAttributeValueResolver.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resolve()
+    verified_at: '2026-10-09'
