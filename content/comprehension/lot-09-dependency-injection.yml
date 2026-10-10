@@ -2551,3 +2551,1053 @@ questions:
     branch: '8.0'
     symbol_or_lines: autowiring .inner
     verified_at: '2026-10-09'
+- id: QST-3dh86mnbbcdt
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dvs57dgffn57
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-92ctf3sy3ddk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After compile(), code calls setDefinition() and then setParameter(). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - container
+  - compile
+  choices:
+  - id: CHO-t1evyj1845mq
+    text: Both throw
+    correct: true
+  - id: CHO-zdbk8w7kdsbd
+    text: Both work and are merged at next use
+    correct: false
+    explanation: compile() freezes it.
+  - id: CHO-0vjhjrn4t3b3
+    text: Only setParameter() works
+    correct: false
+    explanation: The parameter bag is frozen too.
+  - id: CHO-9j3jf5bjstf2
+    text: They are silently ignored
+    correct: false
+    explanation: They throw.
+  explanation: 'Executed with DependencyInjection 8.0.15: the container is frozen. BadMethodCallException,
+    then LogicException on a frozen ParameterBag.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ContainerBuilder.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'setDefinition(): isCompiled()'
+    verified_at: '2026-10-09'
+- id: QST-pbntx8hf4pz5
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-6ah70qtk60fe
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-92ctf3sy3ddk
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two services need each other. Constructor injection on both would loop. What does the course
+    suggest for one side?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - injection
+  choices:
+  - id: CHO-warcc566twd9
+    text: Setter injection
+    correct: true
+  - id: CHO-q8dhsg66xkes
+    text: Injecting the whole container
+    correct: false
+    explanation: That hides dependencies.
+  - id: CHO-xyv752xxbyxn
+    text: A static property
+    correct: false
+    explanation: Not injection.
+  - id: CHO-03mf502cmdx7
+    text: Making both public
+    correct: false
+    explanation: Visibility is unrelated.
+  explanation: Constructor for required dependencies; setter for optional ones or to break a cycle.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/injection_types.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Setter Injection
+    verified_at: '2026-10-09'
+- id: QST-737k8f3ma6dy
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-4mx2cr2ydxtf
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service is fetched three times during a request. How many instances are created?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - container
+  choices:
+  - id: CHO-5a8j1k5e4hv0
+    text: One, created on first use
+    correct: true
+  - id: CHO-necv134d1a27
+    text: Three
+    correct: false
+    explanation: Services are shared by default.
+  - id: CHO-58s4h5cn1cn0
+    text: One, created at compile time
+    correct: false
+    explanation: Built on demand.
+  - id: CHO-408mfqewpb41
+    text: 'None: services are static'
+    correct: false
+    explanation: Instances are created.
+  explanation: The container holds definitions; the object is built once, when first needed.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: shared
+    verified_at: '2026-10-09'
+- id: QST-vhdkew9bk26n
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-8hr9dpyd6r1k
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-79f4n087b66c
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which debug:container option shows internal services hidden by default?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - container
+  - debug
+  choices:
+  - id: CHO-jq0a0jfxgy27
+    text: --show-hidden
+    correct: true
+  - id: CHO-cncd5477k4kd
+    text: --show-private
+    correct: false
+    explanation: No such option.
+  - id: CHO-ffxp46wqm83g
+    text: --all
+    correct: false
+    explanation: No such option.
+  - id: CHO-n1yj3kpvby1q
+    text: --internal
+    correct: false
+    explanation: No such option.
+  explanation: The compiled container is cached PHP in var/cache/; config files are not reread per request.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: show-hidden
+    verified_at: '2026-10-09'
+- id: QST-t7e5hehtksev
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q8fq5v0gn6nh
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-dy7108w6bf4z
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: TwigBundle is removed from bundles.php. What happens to Twig\Environment injection?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - built-in-services
+  choices:
+  - id: CHO-k3m6ss4w1fz9
+    text: 'It fails: the bundle provided the service'
+    correct: true
+  - id: CHO-fdec4tzg3wx6
+    text: 'It still works: FrameworkBundle provides it'
+    correct: false
+    explanation: Each bundle brings its services.
+  - id: CHO-3z748y1egb9x
+    text: It works in dev only
+    correct: false
+    explanation: Removed everywhere.
+  - id: CHO-7n7mqf6whdgq
+    text: It falls back to a stub
+    correct: false
+    explanation: No fallback.
+  explanation: Built-in services come from installed bundles.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: debug:autowiring
+    verified_at: '2026-10-09'
+- id: QST-37mp7jh632gp
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-q6ks7q0n73de
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    What are the resolved values?
+
+    ```yaml
+    parameters:
+        a: '50%'
+        b: '100%% sure'
+    ```
+  code_language: yaml
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - parameters
+  choices:
+  - id: CHO-z1yje31zxm2t
+    text: '`50%` and `100% sure`'
+    correct: true
+  - id: CHO-sw2fg36gwy6g
+    text: 'An error on a: a lone percent'
+    correct: false
+    explanation: A lone percent is kept.
+  - id: CHO-wnpfcwkgtskg
+    text: '`50%` and `100%% sure`'
+    correct: false
+    explanation: '%% becomes %.'
+  - id: CHO-zq0pbts6212c
+    text: '`50` and `100 sure`'
+    correct: false
+    explanation: Nothing is stripped.
+  explanation: Executed with DependencyInjection 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: resolveString()
+    verified_at: '2026-10-09'
+- id: QST-tes4n6ynwd0w
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-b81c2y9edqrn
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-ar4h3zfskjsp
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Ops tune a throttle value per server and expect the new number to apply on the next request,
+    with no cache rebuild. Which reference fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - parameters
+  - env
+  choices:
+  - id: CHO-k0ge4k2xjc0y
+    text: '`%env(int:RATE_LIMIT)%`'
+    correct: true
+  - id: CHO-taw92nkstat4
+    text: '`%app.rate_limit%`'
+    correct: false
+    explanation: A parameter is fixed at compile time.
+  - id: CHO-2azdx49cv7a5
+    text: A class constant
+    correct: false
+    explanation: Needs a deploy.
+  - id: CHO-tzqt6k2esx0j
+    text: '`@=rate_limit`'
+    correct: false
+    explanation: Not a valid reference.
+  explanation: '%param% is resolved at compile time; %env()% at runtime.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuration Based on Environment Variables
+    verified_at: '2026-10-09'
+- id: QST-n94vhtw51b8b
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bqf7brva4nwe
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In the default services.yaml, what does each of resource, autowire and autoconfigure do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - registration
+  choices:
+  - id: CHO-n1k7qn7wh6pb
+    text: Discover; wire; tag
+    correct: true
+  - id: CHO-9d37c6er52sj
+    text: Wires; tags; discovers
+    correct: false
+    explanation: Shuffled.
+  - id: CHO-j0qy4vzjpf7k
+    text: Discovers; makes public; caches
+    correct: false
+    explanation: Not their roles.
+  - id: CHO-22gwrepnbtq5
+    text: All three make services public
+    correct: false
+    explanation: Services stay private.
+  explanation: Writing the class is enough; discovered services are private.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Service Container
+    verified_at: '2026-10-09'
+- id: QST-76w38kxat9nw
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-112hac96j8hg
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'What separates #[When(env: ''prod'')] from #[Exclude] on a class in src/?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - registration
+  - attributes
+  choices:
+  - id: CHO-bwdttgm1bsn3
+    text: 'When: outside prod; Exclude: always'
+    correct: true
+  - id: CHO-cfbycm1h17hk
+    text: They are synonyms
+    correct: false
+    explanation: Different scopes.
+  - id: CHO-tq6ddmktqx7w
+    text: When adds a tag; Exclude removes one
+    correct: false
+    explanation: Neither is about tags.
+  - id: CHO-q4gxjc4v48az
+    text: Exclude only works in dev
+    correct: false
+    explanation: Everywhere.
+  explanation: Both act on automatic registration.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: class When
+    verified_at: '2026-10-09'
+- id: QST-8bcdvhnyfnme
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-j5rpdd6qsy3y
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-stze9x4aydp3
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class sits in a directory listed under exclude, and services.yaml also declares it explicitly.
+    Is it a service?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - registration
+  choices:
+  - id: CHO-pync0ddjakqc
+    text: 'Yes'
+    correct: true
+  - id: CHO-sdbe0qk403hz
+    text: 'No: exclude removes it'
+    correct: false
+    explanation: Explicit declarations still register.
+  - id: CHO-z9gy1j74c6sm
+    text: Only if public
+    correct: false
+    explanation: Visibility is unrelated.
+  - id: CHO-vy7a65t9ngsv
+    text: A conflict error at compile
+    correct: false
+    explanation: No conflict.
+  explanation: 'exclude only skips discovery. Executed with DependencyInjection 8.0.15: a class under
+    exclude, declared public explicitly, was returned by get().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: exclude
+    verified_at: '2026-10-09'
+- id: QST-11t01p68y7d4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-7mpy7kfscvv1
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Bar decorates foo with priority 1, Baz with priority 5. What does get('foo') build?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - decoration
+  choices:
+  - id: CHO-yw4tkk19r501
+    text: Bar(Baz(Foo))
+    correct: true
+  - id: CHO-k1mn5v45cm9g
+    text: Baz(Bar(Foo))
+    correct: false
+    explanation: The highest priority is the innermost.
+  - id: CHO-wtrr90td9rep
+    text: Baz(Foo), Bar dropped
+    correct: false
+    explanation: Both apply.
+  - id: CHO-sgahdq04j2mm
+    text: 'Foo: decorators need public ids'
+    correct: false
+    explanation: They apply.
+  explanation: 'Executed with DependencyInjection 8.0.15: outer Bar, then Baz, then Foo.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'process(): priority'
+    verified_at: '2026-10-09'
+- id: QST-kbj95hdn6shj
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-tv6pkb930kss
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-adhs2ny9hc5f
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A decorator targets a service that does not exist, with decoration_on_invalid: ignore. What
+    happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - decoration
+  choices:
+  - id: CHO-17zjqakvd5sp
+    text: The decorator is removed
+    correct: true
+  - id: CHO-bnffcbyhk02r
+    text: It decorates an empty service
+    correct: false
+    explanation: It is removed.
+  - id: CHO-4vea68p0ge8a
+    text: Compilation fails
+    correct: false
+    explanation: ignore avoids that.
+  - id: CHO-xyy0sx2jbc6s
+    text: It becomes the target service
+    correct: false
+    explanation: It is removed.
+  explanation: 'Executed with DependencyInjection 8.0.15: has(''dec'') is false.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: IGNORE_ON_INVALID_REFERENCE
+    verified_at: '2026-10-09'
+- id: QST-x6kq8xsn0jrv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-enhmt34n32vh
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Chain receives a tagged iterator of three handlers. Right after get('chain'), how many handlers
+    are built?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - tags
+  - iterator
+  choices:
+  - id: CHO-pbxt9fmnvp9w
+    text: None yet
+    correct: true
+  - id: CHO-2xcdw54x4ar3
+    text: All three
+    correct: false
+    explanation: The iterator is lazy.
+  - id: CHO-7etyvsz3fqmw
+    text: The first one
+    correct: false
+    explanation: None.
+  - id: CHO-4grg4h52dcb3
+    text: Only public ones
+    correct: false
+    explanation: None until iterated.
+  explanation: 'Executed with DependencyInjection 8.0.15: none until iteration.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Argument/RewindableGenerator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getIterator()
+    verified_at: '2026-10-09'
+- id: QST-3q3vg99fm2dh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-e2wn6rtf32vb
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-83sac57rw0xn
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Handlers declare an `index` attribute, but the iterator is `new TaggedIteratorArgument('app.h')`
+    with no index_by. What keys does iteration give?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - tags
+  - iterator
+  choices:
+  - id: CHO-dbjzpgsy42ek
+    text: 0, 1, 2
+    correct: true
+  - id: CHO-03q5449pdmby
+    text: The index values
+    correct: false
+    explanation: Only with index_by.
+  - id: CHO-fyp8b8zyjs0w
+    text: The service ids
+    correct: false
+    explanation: Integer keys.
+  - id: CHO-yfqwx0d0ms5e
+    text: The class names
+    correct: false
+    explanation: Integer keys.
+  explanation: Executed with DependencyInjection 8.0.15. With 'index' as index_by, the keys were the index
+    values.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Argument/TaggedIteratorArgument.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): indexAttribute'
+    verified_at: '2026-10-09'
+- id: QST-1h7efg5n27k9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-5tp6e11ygzgz
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-h2n7d7dbr56p
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Service s has class Cls, factory `[null, 'create']` and arguments ['A']. Is Cls::__construct()
+    called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - factories
+  choices:
+  - id: CHO-4f4324qq177g
+    text: 'No'
+    correct: true
+  - id: CHO-294vd5671xgw
+    text: Yes, then create() is called
+    correct: false
+    explanation: The factory replaces the constructor.
+  - id: CHO-w88956f385cs
+    text: Yes, with 'A'
+    correct: false
+    explanation: Arguments go to the factory.
+  - id: CHO-82r6axdmc90y
+    text: 'An error: null is not callable'
+    correct: false
+    explanation: null means the service class.
+  explanation: 'Executed with DependencyInjection 8.0.15: no constructor call; Cls::create(''A'') built
+    it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setFactory()
+    verified_at: '2026-10-09'
+- id: QST-aaaffxp6rhr1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rrswf59s7t5a
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-h2n7d7dbr56p
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A service declared with class Foo uses a factory that returns a Cls object. What does the
+    container do?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - factories
+  choices:
+  - id: CHO-2vj15ah95yba
+    text: Returns the Cls object
+    correct: true
+  - id: CHO-2e5qyvrwhy97
+    text: Throws a type error at compile
+    correct: false
+    explanation: The type is not checked.
+  - id: CHO-1w7trwpe2wp4
+    text: Casts it to Foo
+    correct: false
+    explanation: No casting in PHP.
+  - id: CHO-5nhhv8d7sx0c
+    text: Throws on get()
+    correct: false
+    explanation: The error, if any, hits the consumer.
+  explanation: 'Executed with DependencyInjection 8.0.15: get() returned X\Cls.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using a Factory
+    verified_at: '2026-10-09'
+- id: QST-3r3fv695gfq4
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-avkzmraeybbg
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-3y0b9gxyandm
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Passes are added at each of the five PassConfig types. In which order do they run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - compiler-passes
+  choices:
+  - id: CHO-2905s8w5rf9x
+    text: beforeOptimization, optimization, beforeRemoving, removing, afterRemoving
+    correct: true
+  - id: CHO-t79vzq8gs8f6
+    text: optimization, beforeOptimization, removing, beforeRemoving, afterRemoving
+    correct: false
+    explanation: Before comes first.
+  - id: CHO-x7xvdn9g037m
+    text: removing, afterRemoving, beforeOptimization, optimization, beforeRemoving
+    correct: false
+    explanation: Removal is late.
+  - id: CHO-0kbcgfc1a3d0
+    text: In the order they were added
+    correct: false
+    explanation: Types decide.
+  explanation: Executed with DependencyInjection 8.0.15. Within a type, higher priority runs first.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getPasses()
+    verified_at: '2026-10-09'
+- id: QST-kqh4q6ggajr0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-h9f0rmgswrcz
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Two classes implement T and no alias for T exists. A constructor asks for T. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - autowiring
+  choices:
+  - id: CHO-nacfw5ab3nzk
+    text: Compilation fails
+    correct: true
+  - id: CHO-mx2fpdb4cs8f
+    text: The first class found is used
+    correct: false
+    explanation: No guess.
+  - id: CHO-sz4y15yxx3t9
+    text: Both are injected as an array
+    correct: false
+    explanation: One argument, one service.
+  - id: CHO-pd77q11ph114
+    text: null is injected
+    correct: false
+    explanation: It fails.
+  explanation: Executed with DependencyInjection 8.0.15. One implementation alone would get an automatic
+    alias.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createTypeNotFoundMessage()
+    verified_at: '2026-10-09'
+- id: QST-4wwagdeshk3r
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-6j9rnmzbnkzn
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-wm3qdqemtap9
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`__construct(string $dir)` with autowire on and nothing configured. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - autowiring
+  choices:
+  - id: CHO-8gjmr56rqt62
+    text: A compile error
+    correct: true
+  - id: CHO-kaame749br3b
+    text: An empty string is injected
+    correct: false
+    explanation: Scalars are never autowired.
+  - id: CHO-nksd7dpyp12c
+    text: null is injected
+    correct: false
+    explanation: It fails.
+  - id: CHO-d621zpd8v91z
+    text: The kernel.project_dir is guessed
+    correct: false
+    explanation: No guessing.
+  explanation: 'Executed with DependencyInjection 8.0.15: "...is type-hinted string, you should configure
+    its value explicitly".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: autowireMethod()
+    verified_at: '2026-10-09'
+- id: QST-av9ytne2zec4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-treyye0w8xe4
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-gkhcbtygef69
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A locator knows only foo. Code calls get('router'), a service that exists. What does the error
+    say?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - locator
+  choices:
+  - id: CHO-vwradt0enbnh
+    text: It only knows "foo"
+    correct: true
+  - id: CHO-dnacsybc5w4n
+    text: 'Nothing: it returns the router'
+    correct: false
+    explanation: A locator is restricted.
+  - id: CHO-spbfhgteqns0
+    text: The router is private
+    correct: false
+    explanation: Not the message.
+  - id: CHO-b5d6bjhf8eg4
+    text: Circular reference
+    correct: false
+    explanation: Unrelated.
+  explanation: 'Executed with DependencyInjection 8.0.15: ServiceNotFoundException ... only knows about
+    the "foo" service.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ServiceLocator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: createNotFoundException()
+    verified_at: '2026-10-09'
