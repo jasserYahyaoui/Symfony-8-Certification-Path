@@ -1,0 +1,3614 @@
+# Lot 03 - Symfony Architecture: comprehension check (ADR-0010).
+#
+# A separate pool, COMPREHENSION, served on the page closing the lot and
+# nowhere else. Every learning outcome of the fifteen items is assessed by at
+# least one question (rule CMP-001); the last five tie two items together
+# through related_items. No prompt repeats or rewords a question of the exam
+# banks (rule CMP-002). Kernel and dispatcher behaviour was verified by
+# execution against HttpKernel 8.0.15; policies were read in the 8.0 docs.
+
+schema_version: 1
+questions:
+- id: QST-xah8pgnf03eh
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-m2fxjk4j2mc1
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-y0ah7pq9c4hv
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A unit test needs a GET request to /blog without any web server or superglobal. Which call
+    builds it?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-foundation
+  - testing
+  choices:
+  - id: CHO-kkjtfbn66334
+    text: '`Request::create(''/blog'')`'
+    correct: true
+  - id: CHO-9cy5r53ntvmw
+    text: '`Request::createFromGlobals()`'
+    correct: false
+    explanation: That reads $_GET, $_POST and $_SERVER, which is exactly what the test wants to avoid.
+  - id: CHO-26d4vf2av6g8
+    text: '`$_SERVER[''REQUEST_URI''] = ''/blog''`'
+    correct: false
+    explanation: Writing a superglobal is the global state HttpFoundation exists to replace.
+  - id: CHO-qfqz7y477yyq
+    text: '`new RequestStack(''/blog'')`'
+    correct: false
+    explanation: RequestStack holds requests; it does not build one.
+  explanation: HttpFoundation turns the request and response into objects; an object can be built in a
+    test, which superglobals and header() calls cannot.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Request: creating a request with Request::create()'
+    verified_at: '2026-10-09'
+- id: QST-hysha9ek2t8v
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-qr20ybf8za07
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-y0ah7pq9c4hv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Between symfony/http-foundation and symfony/http-kernel, which one requires the other?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-foundation
+  - dependencies
+  choices:
+  - id: CHO-1zxh81n9dvae
+    text: http-kernel requires http-foundation; the reverse is false
+    correct: true
+  - id: CHO-2far2b5yjcxa
+    text: http-foundation requires http-kernel
+    correct: false
+    explanation: http-foundation depends on no other Symfony component.
+  - id: CHO-q38c4px7hq55
+    text: Each requires the other
+    correct: false
+    explanation: The dependency goes one way, towards HttpFoundation.
+  - id: CHO-sav9p1y4sfs5
+    text: 'Neither: both come only with symfony/framework-bundle'
+    correct: false
+    explanation: Both are standalone packages, installable without the framework.
+  explanation: 'The kernel contract, handle(Request): Response, is written in HttpFoundation''s vocabulary.
+    HttpFoundation itself stays usable in any PHP project.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: symfony/http-foundation'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require key: no other Symfony component'
+    verified_at: '2026-10-09'
+- id: QST-cjrxy5nqzrqz
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jgk2rwhep0vm
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-y0ah7pq9c4hv
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: During a sub-request made from the main request, what do getCurrentRequest(), getMainRequest()
+    and getParentRequest() of the RequestStack return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request-stack
+  choices:
+  - id: CHO-stb8gm0a8rp0
+    text: The sub-request, the main request, the main request
+    correct: true
+  - id: CHO-2wed6hxcsxjq
+    text: The main request, the main request, null
+    correct: false
+    explanation: 'The current request is the last one pushed: the sub-request.'
+  - id: CHO-9cwbsptf4k6y
+    text: The sub-request, the sub-request, the main request
+    correct: false
+    explanation: The main request is the first one pushed, never the sub-request.
+  - id: CHO-88a8wg14g7fw
+    text: The sub-request, the main request, null
+    correct: false
+    explanation: Here a request sits below the current one, so the parent is not null.
+  explanation: current = last pushed, main = first pushed, parent = the one before the current. On the
+    main request alone, getParentRequest() returns null.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getCurrentRequest(), getMainRequest(), getParentRequest()
+    verified_at: '2026-10-09'
+- id: QST-164421bbnxbv
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-jgk2rwhep0vm
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-y0ah7pq9c4hv
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A RequestStack holds no request, as in a console command. Which of its accessors throws instead
+    of returning null?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - request-stack
+  - session
+  choices:
+  - id: CHO-esy73hcjh6d3
+    text: getSession()
+    correct: true
+  - id: CHO-0nzdqzq817pz
+    text: getCurrentRequest()
+    correct: false
+    explanation: It returns null on an empty stack.
+  - id: CHO-j6y7zp60n9zq
+    text: getMainRequest()
+    correct: false
+    explanation: It returns null on an empty stack.
+  - id: CHO-gvgrc5dzte4q
+    text: getParentRequest()
+    correct: false
+    explanation: It returns null when there is no request before the current one.
+  explanation: getSession() is typed SessionInterface, not nullable, and throws a SessionNotFoundException
+    when no current request carries a session.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getSession(): SessionNotFoundException'
+    verified_at: '2026-10-09'
+- id: QST-aqnrsqh611px
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-p7r2daxac21t
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which Composer commands does Symfony Flex change the behaviour of?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flex
+  choices:
+  - id: CHO-xtjd9r7vgtq1
+    text: require, update and remove
+    correct: true
+  - id: CHO-hkrb42dyq313
+    text: install only
+    correct: false
+    explanation: Flex acts on require, update and remove.
+  - id: CHO-bh1jeqqx0qmc
+    text: 'None: Flex is run as bin/console flex'
+    correct: false
+    explanation: Flex has no console command; it is a Composer plugin.
+  - id: CHO-sr5y0t6psmg6
+    text: dump-autoload and run-script
+    correct: false
+    explanation: Those are untouched; Flex hooks into package changes.
+  explanation: Flex is a Composer plugin installed with every new Symfony application. Without it, `composer
+    require logger` fails, since logger is not a package name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Symfony Flex modifies the behavior of the require, update, and remove Composer commands
+    verified_at: '2026-10-09'
+- id: QST-wjy7ez74gmqt
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-n6w2cz5vwgsw
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After `composer require` of a package, a config file appears in config/packages/ and a variable
+    in .env. What produced them?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flex
+  - recipes
+  choices:
+  - id: CHO-ekecz43p2hta
+    text: The package's recipe
+    correct: true
+  - id: CHO-mgshpk2yaccd
+    text: The package's alias
+    correct: false
+    explanation: An alias is only a short name resolved to a package; it writes no file.
+  - id: CHO-y4j9jfwd2pyv
+    text: Composer itself
+    correct: false
+    explanation: Composer installs code into vendor/; it never edits config/ or .env.
+  - id: CHO-7azp168awj8m
+    text: The bundle's constructor
+    correct: false
+    explanation: Nothing runs at install time inside the bundle; Flex applies the recipe.
+  explanation: 'An alias names a package; a recipe is the set of automated instructions Flex applies when
+    installing it: enable the bundle, add config files, create folders, add .env variables.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'recipes: a set of automated instructions to install and enable packages'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Flex Recipes and Aliases
+    verified_at: '2026-10-09'
+- id: QST-kps75wvbrddq
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-ach5wc85h25x
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A teammate wants to stop committing symfony.lock, calling it a generated file. What would
+    the project lose?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flex
+  - symfony-lock
+  choices:
+  - id: CHO-051xrt6ca7tz
+    text: The record of which recipes were applied, in which version
+    correct: true
+  - id: CHO-a5bbbm0x8kh7
+    text: The exact versions of the installed packages
+    correct: false
+    explanation: That is composer.lock, a different file.
+  - id: CHO-ca9hx807q9p7
+    text: The list of enabled bundles
+    correct: false
+    explanation: That lives in config/bundles.php.
+  - id: CHO-fm3bjgv953a9
+    text: 'Nothing: Flex rebuilds it from vendor/'
+    correct: false
+    explanation: 'The docs require it to be committed: it records recipe history.'
+  explanation: Flex keeps track of installed recipes in symfony.lock, which must be committed; composer.lock
+    does the same job for dependencies.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: symfony.lock file, which must be committed to your code repository
+    verified_at: '2026-10-09'
+- id: QST-et05nng05wj6
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-svxn0t2pskq8
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Flex asks for permission before applying a recipe from symfony/recipes-contrib. According
+    to the docs, why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - flex
+  - recipes-contrib
+  choices:
+  - id: CHO-e8c5v17g2423
+    text: Its recipes work, but the packages they configure may be unmaintained
+    correct: true
+  - id: CHO-rfth985k6s97
+    text: Its recipes have not been tested
+    correct: false
+    explanation: The docs say all contrib recipes are guaranteed to work.
+  - id: CHO-f4t9vzcxrbad
+    text: Contrib recipes may delete files
+    correct: false
+    explanation: The concern named is the package, not what the recipe does.
+  - id: CHO-6ks0816nager
+    text: Contrib recipes are paid
+    correct: false
+    explanation: Both repositories are public and community-fed.
+  explanation: symfony/recipes is a curated list for high quality, maintained packages, the only one Flex
+    reads by default. Contrib recipes are guaranteed to work; their packages could be unmaintained.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Contrib recipe repository: guaranteed to work, but their associated packages could
+      be unmaintained'
+    verified_at: '2026-10-09'
+- id: QST-hbrjz0c59szg
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-h592sg3sr8rd
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-347k8phdewem
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Who is named as copyright holder in the LICENSE file at the root of symfony/symfony?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - license
+  choices:
+  - id: CHO-csz0xsh8a4nr
+    text: Fabien Potencier
+    correct: true
+  - id: CHO-mxamdg45j55k
+    text: SensioLabs
+    correct: false
+    explanation: The notice names a person, not the company.
+  - id: CHO-eyxj7yg5r765
+    text: The Symfony Foundation
+    correct: false
+    explanation: No foundation is named in the file.
+  - id: CHO-7np9zmy3hn6a
+    text: The PHP Group
+    correct: false
+    explanation: That is the PHP license holder, not Symfony's.
+  explanation: '"Copyright (c) 2004-present Fabien Potencier", followed by the MIT permission text.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'line 1: Copyright (c) 2004-present Fabien Potencier'
+    verified_at: '2026-10-09'
+- id: QST-5s8d2zxc77aa
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-580atmp6tp25
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-347k8phdewem
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A vendor embeds parts of Symfony in a product it distributes under its own proprietary license.
+    Is that allowed, and on what condition?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - license
+  - mit
+  choices:
+  - id: CHO-1hqbgpbzc7ty
+    text: Yes, if the copyright and permission notices are kept
+    correct: true
+  - id: CHO-4kmsvexpxxb6
+    text: 'No: MIT code must stay under MIT'
+    correct: false
+    explanation: MIT grants the right to sublicense; it is not copyleft.
+  - id: CHO-gfmnj7kw3p5z
+    text: Yes, with no condition at all
+    correct: false
+    explanation: The single condition is to include both notices in substantial copies.
+  - id: CHO-t5c5x4dzbesc
+    text: Only if the vendor publishes its own source code
+    correct: false
+    explanation: That is a copyleft requirement; MIT has none.
+  explanation: 'MIT grants use, copy, modify, merge, publish, distribute, sublicense and sell, on one
+    condition: include the copyright notice and this permission notice in substantial portions.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: permission paragraph and the condition on substantial portions
+    verified_at: '2026-10-09'
+- id: QST-kzwm7afs9e3c
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-21jyzfg4a961
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-d416348gfhde
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which definition matches a Symfony bridge?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - components
+  - bridges
+  - bundles
+  choices:
+  - id: CHO-gb8b1jy1epha
+    text: Integration code between a Symfony component and a third-party library
+    correct: true
+  - id: CHO-x7ect30zh6e1
+    text: A standalone library usable in any PHP project
+    correct: false
+    explanation: That is a component.
+  - id: CHO-ta1p4f51ymx9
+    text: Code that registers services and configuration in the framework
+    correct: false
+    explanation: That is a bundle.
+  - id: CHO-2067f71cbhwv
+    text: A Composer metapackage grouping dependencies
+    correct: false
+    explanation: That is a Flex pack.
+  explanation: A component works alone, a bridge links a component to a third-party library, a bundle
+    plugs the whole into the framework and makes it configurable.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'description and require: twig/twig'
+    verified_at: '2026-10-09'
+- id: QST-yj5hfk01d5se
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-tvjm3k5gjnb4
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-d416348gfhde
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these Symfony packages is a bridge?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - components
+  - bridges
+  - bundles
+  choices:
+  - id: CHO-j3mzc89b0dgg
+    text: symfony/twig-bridge
+    correct: true
+  - id: CHO-a7wnnm7f7vv1
+    text: symfony/finder
+    correct: false
+    explanation: Finder is a standalone component.
+  - id: CHO-xk66vgbc9afr
+    text: symfony/security-bundle
+    correct: false
+    explanation: 'A bundle: it configures security inside the framework.'
+  - id: CHO-bnbb5ypp16r9
+    text: symfony/console
+    correct: false
+    explanation: Console is a standalone component.
+  explanation: 'symfony/twig-bridge connects Symfony components to the Twig library: URL generation, form
+    rendering and translation from a template. It configures nothing; TwigBundle does.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: name symfony/twig-bridge; require twig/twig
+    verified_at: '2026-10-09'
+- id: QST-e6mzj44g35k6
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-vzswg6fmf7fr
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-d416348gfhde
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Symfony application installs symfony/twig-bridge and twig/twig, but not TwigBundle. What
+    does it get in its container?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bridges
+  - bundles
+  choices:
+  - id: CHO-pmk1qqh77dbw
+    text: No Twig service and no twig configuration key
+    correct: true
+  - id: CHO-8f45pgq7nm79
+    text: A configured twig service, since the bridge registers it
+    correct: false
+    explanation: A bridge configures nothing; the bundle does.
+  - id: CHO-p2nhxm56djtj
+    text: The twig service, but without Symfony extensions
+    correct: false
+    explanation: No service is registered at all without the bundle.
+  - id: CHO-pnq607zq6fdt
+    text: An error at install time
+    correct: false
+    explanation: The packages install fine; they are just not wired.
+  explanation: Only a bundle registers services and exposes a configuration tree. The bridge provides
+    the integration classes, such as Twig extensions, that the bundle then wires.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: Provides integration for Twig with various Symfony components
+    verified_at: '2026-10-09'
+- id: QST-v958267zdxc3
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-gp7n5whkxyk0
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-p3p7te94qc1n
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a default Symfony application, where does the Kernel class live?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - directories
+  choices:
+  - id: CHO-ajnn7p9ff8tq
+    text: src/Kernel.php
+    correct: true
+  - id: CHO-t4j300qeewgs
+    text: config/Kernel.php
+    correct: false
+    explanation: config/ holds configuration files, not PHP classes.
+  - id: CHO-2563c4rx9p6r
+    text: public/Kernel.php
+    correct: false
+    explanation: public/ holds only the front controller and web assets.
+  - id: CHO-a2xk6p32kpae
+    text: bin/Kernel.php
+    correct: false
+    explanation: bin/ holds executables such as bin/console.
+  explanation: src/ holds the application code under the App\ namespace, Kernel.php included.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Use the Default Directory Structure
+    verified_at: '2026-10-09'
+- id: QST-ewbaawjmgbe1
+  question_archetype: BEHAVIOR_DIAGNOSIS
+  assesses_outcomes:
+  - OUT-yj8f9a5ncap4
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-p3p7te94qc1n
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A logo placed at assets/images/logo.png, not processed by any asset tool, answers 404 at /assets/images/logo.png.
+    Why?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - directories
+  - public
+  choices:
+  - id: CHO-7zkckb12cq29
+    text: Only public/ is served by the web server
+    correct: true
+  - id: CHO-rk60vg4w9vgg
+    text: The route for /assets is missing
+    correct: false
+    explanation: Files are served by the web server, not by Symfony routes.
+  - id: CHO-jrgy1xt3x680
+    text: Images must be declared in config/packages/
+    correct: false
+    explanation: No configuration makes a folder outside public/ reachable.
+  - id: CHO-e0nm5g6btnz2
+    text: The file needs a .twig extension
+    correct: false
+    explanation: Templates and static files are different things.
+  explanation: public/ is the document root, with index.php. Anything elsewhere is out of the browser's
+    reach unless a tool copies or compiles it into public/.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Override the Public Directory
+    verified_at: '2026-10-09'
+- id: QST-0fdv2bn3vddt
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-yrbk1d6tvd4c
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-p3p7te94qc1n
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Templates must move from templates/ to resources/views/. Which setting does that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - directories
+  - templates
+  choices:
+  - id: CHO-rksedya4y9gz
+    text: '`twig.default_path`'
+    correct: true
+  - id: CHO-xdgytqbwfks9
+    text: '`extra.templates-dir` in composer.json'
+    correct: false
+    explanation: No such key exists; templates are configured by the Twig bundle.
+  - id: CHO-605bkgn87bt4
+    text: '`config.vendor-dir` in composer.json'
+    correct: false
+    explanation: That moves vendor/, nothing else.
+  - id: CHO-x6tzcrn4edgp
+    text: Overriding `Kernel::getCacheDir()`
+    correct: false
+    explanation: That moves the cache directory.
+  explanation: 'Three mechanisms: composer.json extra for bin, config, src and public (config for vendor);
+    bundle configuration for templates and translations; the kernel for cache and logs.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Override the Templates Directory: twig.default_path'
+    verified_at: '2026-10-09'
+- id: QST-6sahkfjn3th6
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-8rwmvym0a0qy
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-p3p7te94qc1n
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: config/packages/twig.yaml sets one value, and config/packages/test/twig.yaml sets the same
+    key differently. Which value applies when running in dev?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - configuration
+  - environments
+  choices:
+  - id: CHO-y41639nxjwt1
+    text: The one from config/packages/twig.yaml
+    correct: true
+  - id: CHO-2cjdmpx1agm1
+    text: The one from config/packages/test/twig.yaml
+    correct: false
+    explanation: An environment folder is only loaded in that environment, here test.
+  - id: CHO-7at85ph8c8ad
+    text: Both, merged into a list
+    correct: false
+    explanation: A scalar key is overridden, not merged; and the test file is not read in dev.
+  - id: CHO-8e4asmensvv6
+    text: 'Neither: the conflict is an error'
+    correct: false
+    explanation: There is no conflict in dev, where the test file is not loaded.
+  explanation: Files in config/packages/<env>/ are loaded only in that environment and override the common
+    configuration there.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Configuration Environments: config/packages/<env>/'
+    verified_at: '2026-10-09'
+- id: QST-gzjva0wyqx08
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-ab41ar3ad6kf
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What are the values of HttpKernelInterface::MAIN_REQUEST and SUB_REQUEST?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - http-kernel
+  choices:
+  - id: CHO-tpmt9xk48h9f
+    text: 1 and 2
+    correct: true
+  - id: CHO-vypkfmgm7xpg
+    text: 0 and 1
+    correct: false
+    explanation: The constants start at 1.
+  - id: CHO-ycmt2aw2qka1
+    text: '''main'' and ''sub'''
+    correct: false
+    explanation: They are integers, passed as handle()'s $type.
+  - id: CHO-0yqqjgjmwyf3
+    text: true and false
+    correct: false
+    explanation: They are integers; the boolean argument is $catch.
+  explanation: 'handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response.
+    The kernel treats both types with the same code; listeners tell them apart.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: MAIN_REQUEST = 1, SUB_REQUEST = 2, handle()
+    verified_at: '2026-10-09'
+- id: QST-s6m5yz10dn23
+  question_archetype: SEQUENCE_ORDER
+  assesses_outcomes:
+  - OUT-3p88arwajsx7
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller returns a Response. Which kernel events follow the call to the controller, in
+    order?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-events
+  choices:
+  - id: CHO-xm99jw1ccn4s
+    text: kernel.response, kernel.finish_request, then kernel.terminate after sending
+    correct: true
+  - id: CHO-cr8yaf5jq0ex
+    text: kernel.view, kernel.response, kernel.finish_request, kernel.terminate
+    correct: false
+    explanation: kernel.view only fires when the controller did not return a Response.
+  - id: CHO-ebk4rxwx7vhp
+    text: kernel.finish_request, kernel.response, kernel.terminate
+    correct: false
+    explanation: finish_request comes after response.
+  - id: CHO-9eqhnyzrwtcq
+    text: kernel.terminate, kernel.response
+    correct: false
+    explanation: terminate is the last event, after the response is sent.
+  explanation: 'Executed with HttpKernel 8.0.15: request, controller, response, finish_request — no view.
+    kernel.terminate is dispatched by the runner after sending.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Kernel Events
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: handleRaw(), filterResponse()
+    verified_at: '2026-10-09'
+- id: QST-jh9qmvetzezc
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-6adtz0h101zr
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In a Symfony 8.0 application, which piece builds the Request object from the PHP globals?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - runtime
+  choices:
+  - id: CHO-484k7gpg6gg0
+    text: The Runtime component, through SymfonyRuntime
+    correct: true
+  - id: CHO-msehekk2ymtg
+    text: public/index.php, with an explicit createFromGlobals() call
+    correct: false
+    explanation: index.php only returns a closure building the kernel; the Runtime does the rest.
+  - id: CHO-xj2a3qwr26jg
+    text: The ControllerResolver
+    correct: false
+    explanation: It turns _controller into a callable; the request already exists.
+  - id: CHO-dm849fgse1a3
+    text: The router
+    correct: false
+    explanation: The router matches an existing request.
+  explanation: SymfonyRuntime calls Request::createFromGlobals() and hands it to HttpKernelRunner, which
+    calls handle(), sends the response and calls terminate().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getRunner(): new HttpKernelRunner($application, Request::createFromGlobals())'
+    verified_at: '2026-10-09'
+- id: QST-tz0avzj98jf9
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dy7bs7233e18
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A controller returns an array, and no kernel.view listener turns it into a Response. What
+    happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-events
+  - view
+  choices:
+  - id: CHO-45emtxxxxzdz
+    text: A ControllerDoesNotReturnResponseException, after kernel.view was dispatched
+    correct: true
+  - id: CHO-mcpa1pcv2r01
+    text: The array is sent as JSON
+    correct: false
+    explanation: Nothing converts it unless a kernel.view listener does.
+  - id: CHO-a0r7fdkq1zt3
+    text: kernel.view is skipped and an empty 200 is sent
+    correct: false
+    explanation: kernel.view fires precisely because no Response came back.
+  - id: CHO-4vqafrdk0dzw
+    text: A TypeError before kernel.view
+    correct: false
+    explanation: The kernel accepts any return value and dispatches kernel.view first.
+  explanation: kernel.view fires only when the controller returns something else than a Response. If no
+    listener sets one, the kernel throws ("The controller must return a Response object").
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'handleRaw(): ViewEvent, ControllerDoesNotReturnResponseException'
+    verified_at: '2026-10-09'
+- id: QST-gyf4efx4gsav
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-wzt3s8mkhkj9
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-7sewqvmw6468
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A kernel.terminate listener adds a header to $event->getResponse(). What does the client see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-events
+  - terminate
+  choices:
+  - id: CHO-1j2729qmqts6
+    text: 'Nothing: the response was already sent'
+    correct: true
+  - id: CHO-2c0kdtzffgwc
+    text: The header, since terminate runs before sending
+    correct: false
+    explanation: terminate runs after the response is sent.
+  - id: CHO-02ng2a18r4vp
+    text: An exception, since getResponse() does not exist there
+    correct: false
+    explanation: TerminateEvent does expose the response, for reading.
+  - id: CHO-f1bd9w271d84
+    text: The header on the next request
+    correct: false
+    explanation: Each response is independent.
+  explanation: 'kernel.terminate is dispatched after the response has been sent: the place for slow work,
+    never for changing the response. kernel.response is the last chance to modify it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Event/TerminateEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: TerminateEvent::getResponse()
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: kernel.terminate
+    verified_at: '2026-10-09'
+- id: QST-76fwdqepy3vj
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9f4yqqyqwecq
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Routing fails with NotFoundHttpException. During exception handling, an HTML page is attached
+    as a 200 response, with no other call. Which status does the kernel finally emit?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - exceptions
+  - status
+  choices:
+  - id: CHO-rvr774n261v5
+    text: '404'
+    correct: true
+  - id: CHO-g3bcmtv4pywc
+    text: '200'
+    correct: false
+    explanation: A 2xx response from the listener is not kept unless allowCustomResponseCode() was called.
+  - id: CHO-mx2nrw3ngnyd
+    text: '500'
+    correct: false
+    explanation: 500 is only the fallback for exceptions without HttpExceptionInterface.
+  - id: CHO-1t7eqdvy3whh
+    text: '204'
+    correct: false
+    explanation: Nothing here produces 204.
+  explanation: 'Rules in order: a 4xx, 5xx or redirect response keeps its own status; otherwise an HttpExceptionInterface
+    gives its getStatusCode(); otherwise 500. Executed: 404.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'handleThrowable(): isClientError(), isServerError(), isRedirect(), HttpExceptionInterface'
+    verified_at: '2026-10-09'
+- id: QST-1y5gy20jbsb7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-wbfptxs3qm46
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application exception extends InvalidArgumentException and carries `#[WithHttpStatus(422)]`.
+    With the standard ErrorListener, which status reaches the client?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - exceptions
+  - with-http-status
+  choices:
+  - id: CHO-7z4r4vqhzg3b
+    text: '422'
+    correct: true
+  - id: CHO-ahryqkv6tcaw
+    text: 500, since InvalidArgumentException is not an HTTP exception
+    correct: false
+    explanation: The attribute makes the listener replace it by an HttpException first.
+  - id: CHO-p1yst2cytf3h
+    text: 400, the generic client error
+    correct: false
+    explanation: 'The status comes from the attribute: 422.'
+  - id: CHO-0aer2z4dv8y4
+    text: '200'
+    correct: false
+    explanation: An exception never yields 200 without allowCustomResponseCode().
+  explanation: 'The status is carried by HttpExceptionInterface. ErrorListener::logKernelException() turns
+    a class marked #[WithHttpStatus] into an HttpException before the status rule runs. Executed: 422.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'logKernelException(): WithHttpStatus'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getStatusCode(), getHeaders()
+    verified_at: '2026-10-09'
+- id: QST-80j1aedjyqe3
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-dbm0023ax4bv
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A kernel.exception listener must really answer 200 for one expected exception. What must it
+    call before setResponse()?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - exceptions
+  - status
+  choices:
+  - id: CHO-86frat0f1g3e
+    text: '`$event->allowCustomResponseCode()`'
+    correct: true
+  - id: CHO-j59fnxvk2xjh
+    text: '`$event->stopPropagation()`'
+    correct: false
+    explanation: That stops other listeners; the status rule still applies.
+  - id: CHO-w896kq9hryjh
+    text: '`$response->setStatusCode(200, true)`'
+    correct: false
+    explanation: The kernel overrides the status of a 2xx response anyway.
+  - id: CHO-2xm1tq2y3787
+    text: '`$event->setThrowable(null)`'
+    correct: false
+    explanation: setThrowable() takes a Throwable; it does not change the status rule.
+  explanation: 'Without allowCustomResponseCode(), a 200 response set in kernel.exception takes the exception''s
+    status, or 500. Executed: 404 without it, 200 with it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Event/ExceptionEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: allowCustomResponseCode(), isAllowingCustomResponseCode()
+    verified_at: '2026-10-09'
+- id: QST-7g3v4zbnh3yh
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-9gyxnzp7ngzp
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A listener wants the standard error page to be built, but for a clearer exception than the
+    one thrown. Which ExceptionEvent call does that?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - exceptions
+  - exception-event
+  choices:
+  - id: CHO-wt4nw1k1e85t
+    text: '`$event->setThrowable($clearer)`'
+    correct: true
+  - id: CHO-mqedqt97vbjy
+    text: '`$event->setResponse(...)`'
+    correct: false
+    explanation: 'A response ends error handling: the standard error page is not built.'
+  - id: CHO-em7r5qr2580j
+    text: '`$event->setController(...)`'
+    correct: false
+    explanation: That belongs to ControllerEvent.
+  - id: CHO-p9fexm1tdhm0
+    text: '`$event->setArguments(...)`'
+    correct: false
+    explanation: That belongs to ControllerArgumentsEvent.
+  explanation: 'ExceptionEvent offers two levers: replace the exception with setThrowable(), or end the
+    handling with setResponse().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Event/ExceptionEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: setThrowable(), setResponse()
+    verified_at: '2026-10-09'
+- id: QST-ypfheg7zmc09
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-dbz79ewzqdg9
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A class in src/ implements EventSubscriberInterface; services.yaml is the default one. What
+    else must be declared for it to be called?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  - subscriber
+  choices:
+  - id: CHO-g0epakcw7h23
+    text: 'Nothing: autoconfiguration tags it kernel.event_subscriber'
+    correct: true
+  - id: CHO-qq7q99xtkfch
+    text: A kernel.event_listener tag per event
+    correct: false
+    explanation: That tag is for listeners; a subscriber names its events itself.
+  - id: CHO-ke0dfgt95dc4
+    text: 'An #[AsEventListener] attribute on the class'
+    correct: false
+    explanation: That attribute declares a listener, not needed for a subscriber.
+  - id: CHO-vnj7b017y27p
+    text: A call to addSubscriber() in Kernel.php
+    correct: false
+    explanation: The container registers it; no manual call is needed.
+  explanation: A subscriber declares its events in the static getSubscribedEvents(); FrameworkBundle autoconfigures
+    EventSubscriberInterface. A listener is declared from outside, by tag or attribute.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: registerForAutoconfiguration(EventSubscriberInterface::class)
+    verified_at: '2026-10-09'
+- id: QST-xaby1wyaamhg
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ces5mycxj5zx
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: addListener() is called twice for one event name, with no third argument either time. When
+    the event is dispatched, which callable is invoked first?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  - priority
+  choices:
+  - id: CHO-pmv9tvpv6a59
+    text: The one added first
+    correct: true
+  - id: CHO-w4b7dc2y391k
+    text: The one added last
+    correct: false
+    explanation: Equal priorities keep the order of registration.
+  - id: CHO-3ktfe0r9gh84
+    text: An undefined one
+    correct: false
+    explanation: 'The order is deterministic: registration order.'
+  - id: CHO-ch4fa0tszbz7
+    text: 'Neither: equal priorities are an error'
+    correct: false
+    explanation: Equal priorities are normal; the default is 0.
+  explanation: 'The priority defaults to 0; higher runs earlier, and listeners of equal priority run in
+    the order they were added. Executed: first-added, then second-added.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'sortListeners(): krsort on priorities'
+    verified_at: '2026-10-09'
+- id: QST-rs25h1m4dem5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-xfcs32dwmgx2
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application dispatches a plain object of its own, which implements no interface. Can one
+    of its listeners stop the others?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - events
+  - propagation
+  choices:
+  - id: CHO-43435rd9vsee
+    text: 'No: only StoppableEventInterface events can be stopped'
+    correct: true
+  - id: CHO-pqb63gvqq8j3
+    text: Yes, by calling stopPropagation() on it
+    correct: false
+    explanation: A plain object has no stopPropagation() method.
+  - id: CHO-yf3p4wke947c
+    text: Yes, by returning false
+    correct: false
+    explanation: Return values of listeners are ignored.
+  - id: CHO-yfpmgkapjxkh
+    text: Yes, by throwing, which skips the remaining listeners silently
+    correct: false
+    explanation: An exception propagates to the caller; it is not a stop mechanism.
+  explanation: 'callListeners() checks isPropagationStopped() only for events implementing PSR-14''s StoppableEventInterface,
+    which Symfony''s Event class does. Executed: both listeners ran.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'callListeners(): StoppableEventInterface'
+    verified_at: '2026-10-09'
+- id: QST-a8rrdp5jevrw
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2x9c1gjdj7t5
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: API controllers return plain arrays, and one listener must turn every array into a JSON response.
+    Which event and event class fit?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-events
+  - view
+  choices:
+  - id: CHO-rnrwpxcacjm3
+    text: kernel.view with ViewEvent
+    correct: true
+  - id: CHO-9709vftzss2x
+    text: kernel.response with ResponseEvent
+    correct: false
+    explanation: By then a Response must already exist; an array never gets there.
+  - id: CHO-heh2f2zjwzxx
+    text: kernel.controller with ControllerEvent
+    correct: false
+    explanation: The controller has not run yet, so there is no array.
+  - id: CHO-5329sfz5yfz8
+    text: kernel.terminate with TerminateEvent
+    correct: false
+    explanation: 'Too late: the response is already sent.'
+  explanation: 'ViewEvent exposes getControllerResult() and setResponse(): it exists to turn a non-Response
+    return value into a Response.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Event/ViewEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getControllerResult(), setResponse()
+    verified_at: '2026-10-09'
+- id: QST-a2rbck972myz
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-p34x8sjgctbp
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which constant of KernelEvents names the event dispatched after kernel.response to restore
+    global state?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - kernel-events
+  - constants
+  choices:
+  - id: CHO-ehzdg1jxkyd1
+    text: KernelEvents::FINISH_REQUEST
+    correct: true
+  - id: CHO-4g4dfkwkccn8
+    text: KernelEvents::TERMINATE
+    correct: false
+    explanation: TERMINATE fires after sending, for slow work.
+  - id: CHO-5g922sejf8gr
+    text: KernelEvents::RESPONSE
+    correct: false
+    explanation: That is the event before it.
+  - id: CHO-c4e9w6nn6k5k
+    text: KernelEvents::RESET
+    correct: false
+    explanation: No such constant exists.
+  explanation: KernelEvents::FINISH_REQUEST is "kernel.finish_request". The class holds eight event constants
+    and an ALIASES table mapping each event class to its name.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: FINISH_REQUEST, ALIASES
+    verified_at: '2026-10-09'
+- id: QST-w41kn9qd483d
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-bxcjgv614zqk
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Following the best practices, where should the sender address of notification emails go, a
+    value that is the same on every machine?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - best-practices
+  - configuration
+  choices:
+  - id: CHO-rs3fgjte9a9c
+    text: A container parameter
+    correct: true
+  - id: CHO-xbgcg3gsgyst
+    text: An environment variable
+    correct: false
+    explanation: Its value does not change per machine, so the docs say not to use an env var.
+  - id: CHO-vy5fq7ceyypa
+    text: A secret
+    correct: false
+    explanation: An email sender is not sensitive.
+  - id: CHO-50dy9147mr6m
+    text: A class constant
+    correct: false
+    explanation: Constants are for options that rarely change, such as items per page.
+  explanation: Env vars for infrastructure that differs per machine; secrets for sensitive values; parameters
+    for application behaviour; constants for options that rarely change.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Use Parameters for Application Configuration: the sender of email notifications'
+    verified_at: '2026-10-09'
+- id: QST-qkejsfgtsc60
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2snt9b8p7pfa
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which parameter name follows the recommended convention?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - best-practices
+  - parameters
+  choices:
+  - id: CHO-pg8kjyh2qpym
+    text: app.contents_dir
+    correct: true
+  - id: CHO-vx0yjas6gyky
+    text: contents_dir
+    correct: false
+    explanation: Without the app. prefix it may collide with Symfony or bundle parameters.
+  - id: CHO-cb1nqdbkjxpd
+    text: app.dir
+    correct: false
+    explanation: 'Too vague: the docs ask for one or two words describing the purpose.'
+  - id: CHO-kfxdcs24ky5j
+    text: application_contents_directory
+    correct: false
+    explanation: No app. prefix, and longer than needed.
+  explanation: Prefix application parameters with app. to avoid collisions, then use one or two words
+    describing their purpose.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Use Short and Prefixed Parameter Names
+    verified_at: '2026-10-09'
+- id: QST-bw6ep0fw9wpr
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-0b0m78g19vrs
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: The same form class creates and edits products, with an "Add" or "Save" button. Where do the
+    best practices put the button?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - best-practices
+  - forms
+  choices:
+  - id: CHO-ykxj1tr855d4
+    text: In the template
+    correct: true
+  - id: CHO-hc75txfdj135
+    text: In the form class, with add()
+    correct: false
+    explanation: The form class should stay agnostic of where it is used.
+  - id: CHO-rmvam1kjf14j
+    text: In the controller
+    correct: false
+    explanation: The controller does not render buttons; the template does.
+  - id: CHO-hv3gzszxt398
+    text: In a form type extension
+    correct: false
+    explanation: Nothing that general is needed; the template decides.
+  explanation: '"Add Form Buttons in Templates": the class stays reusable, and the label and style of
+    the button stay with the page that shows it.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Add Form Buttons in Templates
+    verified_at: '2026-10-09'
+- id: QST-6v43906s3spm
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2t4534jgce75
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-hzbednd04fd4
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which situation still justifies writing a bundle, according to the best practices?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - best-practices
+  - bundles
+  choices:
+  - id: CHO-x9n9739wtjfb
+    text: Code meant to be reused by several separate projects
+    correct: true
+  - id: CHO-xm97m01wsh6z
+    text: Splitting one application into Blog and User modules
+    correct: false
+    explanation: Organise your own code with namespaces under App\ instead.
+  - id: CHO-swsb06x05rfp
+    text: Keeping controllers apart from services
+    correct: false
+    explanation: Directories and namespaces do that.
+  - id: CHO-fvwdvmtzh6d3
+    text: Loading configuration faster
+    correct: false
+    explanation: Bundles bring no such benefit.
+  explanation: A bundle is meant to be reusable as a stand-alone piece of software. Do not create bundles
+    to organise your own application logic.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Don't Create any Bundle to Organize your Application Logic
+    verified_at: '2026-10-09'
+- id: QST-tg6k2fjmtgh7
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bmtapjwv4je4
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Adding a return type to a method you implement from a Symfony interface: may a later minor
+    release break that code, according to bc.rst?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bc-promise
+  - interfaces
+  choices:
+  - id: CHO-97mjmyh5xpam
+    text: No, it is guaranteed
+    correct: true
+  - id: CHO-ew4zcn4wjpqa
+    text: Yes, implementing an interface is never covered
+    correct: false
+    explanation: Implementing is covered, method by method.
+  - id: CHO-nf6c32x992mt
+    text: Only for interfaces tagged @final
+    correct: false
+    explanation: '@final concerns classes and methods, not this rule.'
+  - id: CHO-xfm1qfr4m57h
+    text: Only in an LTS version
+    correct: false
+    explanation: The promise applies to every minor version.
+  explanation: Using, implementing and extending are treated separately. Implementing an interface covers
+    implementing its methods, adding arguments with defaults and adding return types.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Using our Interfaces: If you implement the interface and... Add a return type'
+    verified_at: '2026-10-09'
+- id: QST-emvggpvmbg4c
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-z81y6z00tr3t
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A subclass reads a private field of its Symfony parent through ReflectionProperty, and a minor
+    upgrade breaks it. Was Symfony allowed to do that?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bc-promise
+  - inheritance
+  choices:
+  - id: CHO-cgn18edgbyws
+    text: 'Yes: private members reached by reflection are not covered'
+    correct: true
+  - id: CHO-ypfkgdxrpykv
+    text: 'No: anything a subclass touches is covered'
+    correct: false
+    explanation: Four cases are excluded, private access by reflection among them.
+  - id: CHO-ve4yb8qbbvt2
+    text: No, unless the class is tagged @final
+    correct: false
+    explanation: '@final is unrelated; private reflection is never covered.'
+  - id: CHO-t3r0a8zer368
+    text: Only in a major release
+    correct: false
+    explanation: This case has no guarantee at all, minors included.
+  explanation: 'Extending is covered except four cases: adding a new property, adding a new method, and
+    reaching private methods or properties through reflection.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Using our Classes: If you extend the class and... Access a private property (via
+      Reflection): No'
+    verified_at: '2026-10-09'
+- id: QST-rp0j2p5h5tye
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-92tk3wgmcgkc
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which call keeps working when a later Symfony minor version renames parameters?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bc-promise
+  - named-arguments
+  choices:
+  - id: CHO-m121yq9k3as2
+    text: '`#[Route(path: ''/blog'', name: ''blog'')]`'
+    correct: true
+  - id: CHO-cnhdkajk14eb
+    text: '`$router->generate(name: ''blog'')`'
+    correct: false
+    explanation: Parameter names of ordinary methods are not covered.
+  - id: CHO-03w73ejc3jzm
+    text: '`$request->query->get(key: ''page'')`'
+    correct: false
+    explanation: Named arguments on regular methods may break.
+  - id: CHO-p6njn1m6smdn
+    text: '`$response->setStatusCode(code: 404)`'
+    correct: false
+    explanation: Only attribute constructors guarantee their parameter names.
+  explanation: Parameter names are only covered by the promise for constructors of attribute classes.
+    Named arguments anywhere else may break on upgrade.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'note [10]: Parameter names are only covered for constructors of Attribute classes'
+    verified_at: '2026-10-09'
+- id: QST-57tprmvxrtdr
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-4x6dvn65hj5v
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these may change in a Symfony minor version without breaking the promise?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bc-promise
+  - internal
+  choices:
+  - id: CHO-na1sf2fe80vk
+    text: A class tagged @internal
+    correct: true
+  - id: CHO-5b98xwq0pfda
+    text: A public method of a component
+    correct: false
+    explanation: Public methods are covered.
+  - id: CHO-jyn49y6e5evz
+    text: A constant of a public interface
+    correct: false
+    explanation: Public API is covered.
+  - id: CHO-p59c0dpwkmjr
+    text: A protected method of a non-final class
+    correct: false
+    explanation: Protected methods are covered for subclasses.
+  explanation: 'Excluded from the promise: anything tagged @internal or in *\Tests\ namespaces, experimental
+    features tagged @experimental, and internal security and validation translations.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: '@internal tags are excluded; Experimental Features; Using our Translations'
+    verified_at: '2026-10-09'
+- id: QST-bzqg5bt61bft
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-xh1k5wmbaqwa
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-vk57zg2wpep7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Your class extends a Symfony class whose docblock says @final but whose declaration has no
+    final keyword. What is true?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - bc-promise
+  - final
+  choices:
+  - id: CHO-1g34464k5832
+    text: It runs, but the extension is outside the promise
+    correct: true
+  - id: CHO-remjnj8ww10j
+    text: PHP refuses to compile it
+    correct: false
+    explanation: Only the final keyword is enforced by PHP; @final is an annotation.
+  - id: CHO-ef2zwxehdkwj
+    text: It is fully covered, since PHP accepts it
+    correct: false
+    explanation: '@final marks the class as final for the promise.'
+  - id: CHO-pqm8vrnvdr11
+    text: It throws at runtime on instantiation
+    correct: false
+    explanation: Nothing is thrown; DebugClassLoader may report a deprecation.
+  explanation: final prevents extension; @final marks code as final without enforcing it, and shrinks
+    what the promise covers for that class.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The @final PHPDoc annotation marks code as final without actually enforcing it
+    verified_at: '2026-10-09'
+- id: QST-29myr68n5r56
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-yqb3s91g64f7
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A contributor adds a brand new method in a minor version and marks it @deprecated at once,
+    as a transition helper. What do the conventions say?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  choices:
+  - id: CHO-pet2593pr8qv
+    text: 'It is not allowed: a new method cannot be introduced as deprecated'
+    correct: true
+  - id: CHO-atc7fs870d49
+    text: It is allowed if trigger_deprecation() is also called
+    correct: false
+    explanation: The rule forbids it whatever the signal.
+  - id: CHO-59zm9rrcfj6w
+    text: It is allowed in an LTS version only
+    correct: false
+    explanation: No version allows it.
+  - id: CHO-mgrqb6xjy0w1
+    text: It is required for every transition helper
+    correct: false
+    explanation: The conventions forbid it.
+  explanation: Deprecations are introduced in the next minor version and removed in the next major. A
+    new class, interface, trait or method cannot be introduced as deprecated.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Deprecating Code: A new method cannot be introduced as deprecated'
+    verified_at: '2026-10-09'
+- id: QST-gvysgtjagmzj
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8dx7erg8d1eb
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A method is marked deprecated only by a @deprecated PHPDoc tag, without trigger_deprecation().
+    What does an application calling it notice at runtime?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  choices:
+  - id: CHO-y3h63pbae11a
+    text: 'Nothing: no deprecation is reported'
+    correct: true
+  - id: CHO-td8njdx24x0c
+    text: A deprecation in the logs and profiler
+    correct: false
+    explanation: Only trigger_deprecation() produces that runtime notice.
+  - id: CHO-a5hb3fff15fc
+    text: An exception
+    correct: false
+    explanation: Deprecated code keeps working until the next major.
+  - id: CHO-687fj503k87q
+    text: A Composer warning
+    correct: false
+    explanation: Composer does not read PHPDoc tags.
+  explanation: '@deprecated informs readers and tools; trigger_deprecation() is what a running application
+    sees. Symfony requires both.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: A deprecation must also be triggered to help people with the migration
+    verified_at: '2026-10-09'
+- id: QST-y9ty2tpvay48
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-crtr1pmq22t7
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Why is trigger_deprecation() shipped in its own tiny package rather than in a component?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  - contracts
+  choices:
+  - id: CHO-ne5t3x0zq2dm
+    text: So that any library can call it without depending on Symfony
+    correct: true
+  - id: CHO-pck9gcwf66y8
+    text: Because it is still experimental
+    correct: false
+    explanation: It is a stable contract.
+  - id: CHO-qw9ms7pq2qcv
+    text: Because it only works with PHPUnit
+    correct: false
+    explanation: It works in any running code.
+  - id: CHO-c5d3xwhy4exs
+    text: Because components cannot define functions
+    correct: false
+    explanation: Nothing forbids that; the reason is reuse.
+  explanation: trigger_deprecation() comes from symfony/deprecation-contracts, a minimal package any library
+    can require.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: requires the symfony/deprecation-contracts package
+    verified_at: '2026-10-09'
+- id: QST-2khkhsvnfv88
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-0j2bgvnbyj7p
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A pull request deprecates a class in 7.4. Which three files must it update?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - deprecations
+  - changelog
+  choices:
+  - id: CHO-h1wvwxx100cj
+    text: The component's CHANGELOG.md, UPGRADE-7.4.md and UPGRADE-8.0.md
+    correct: true
+  - id: CHO-cvx5ynn4nr5g
+    text: README.md, CHANGELOG-7.4.md and composer.json
+    correct: false
+    explanation: The root CHANGELOG-* files are generated, never edited.
+  - id: CHO-91xfxy2r4cvc
+    text: UPGRADE-7.4.md only
+    correct: false
+    explanation: The component changelog and the next major's upgrade file are also required.
+  - id: CHO-qswpphhht8hs
+    text: The class docblock only
+    correct: false
+    explanation: The written trace goes to three files, in the same pull request.
+  explanation: 'Deprecation: component CHANGELOG.md, UPGRADE of the minor version, and the consequences
+    in the UPGRADE of the next major — all mandatory, in the same pull request.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: CHANGELOG.md, UPGRADE-4.4.md, UPGRADE-5.0.md in the same pull request
+    verified_at: '2026-10-09'
+- id: QST-h81sc75phds2
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-w0kft9548h99
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: You must wrap a third-party bundle's mailer service to add logging, keeping the original behaviour.
+    Which mechanism fits?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - overriding
+  - services
+  choices:
+  - id: CHO-89nqghgyfg9b
+    text: Service decoration
+    correct: true
+  - id: CHO-bvn6dfh14d3k
+    text: A template under templates/bundles/
+    correct: false
+    explanation: That overrides templates, not services.
+  - id: CHO-k4j3ka8da2c0
+    text: A form type extension
+    correct: false
+    explanation: That modifies form types.
+  - id: CHO-mtq9fewbjvba
+    text: A translation file with the same domain
+    correct: false
+    explanation: That overrides translations.
+  explanation: 'Each part has its mechanism: templates in templates/bundles/, services by decoration,
+    definitions by compiler pass, form types by type extension, translations by domain.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Services & Configuration: service decoration'
+    verified_at: '2026-10-09'
+- id: QST-7p3hbe858g98
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-w0kft9548h99
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Every form of the application, including a bundle's, must get an extra help text on its email
+    fields. Which mechanism is documented for changing existing form types?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - overriding
+  - forms
+  choices:
+  - id: CHO-tw2n9d005jcr
+    text: A form type extension
+    correct: true
+  - id: CHO-nsh9te2pq967
+    text: Service decoration of the form factory
+    correct: false
+    explanation: Possible in theory, but the documented tool is the type extension.
+  - id: CHO-nw7rtp54ecsq
+    text: A compiler pass removing the type
+    correct: false
+    explanation: Removing the type breaks the bundle.
+  - id: CHO-71np58zdqgpw
+    text: Copying the bundle's form type into src/
+    correct: false
+    explanation: The bundle would keep using its own.
+  explanation: '"Existing form types can be modified defining form type extensions."'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Forms: form type extensions'
+    verified_at: '2026-10-09'
+- id: QST-mtczfsznkk0q
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-2r6g1ds91vvw
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Where do you put a file overriding registration/confirmed.html.twig of AcmeUserBundle?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - overriding
+  - templates
+  choices:
+  - id: CHO-gz1k9x96twzx
+    text: templates/bundles/AcmeUserBundle/registration/confirmed.html.twig
+    correct: true
+  - id: CHO-yytzg67v7gf4
+    text: templates/AcmeUser/registration/confirmed.html.twig
+    correct: false
+    explanation: Overrides live under templates/bundles/, with the full bundle name.
+  - id: CHO-abf9yr3kq28k
+    text: src/Resources/AcmeUserBundle/views/registration/confirmed.html.twig
+    correct: false
+    explanation: That old layout is not where Symfony looks.
+  - id: CHO-gxkszdmg0165
+    text: vendor/acme/user-bundle/templates/registration/confirmed.html.twig
+    correct: false
+    explanation: vendor/ is never edited by hand.
+  explanation: Same name and relative path, under templates/bundles/<BundleName>/. The cache may need
+    clearing after adding a template in a new location, even in debug.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Templates: templates/bundles/AcmeUserBundle/'
+    verified_at: '2026-10-09'
+- id: QST-f1vp6smfwwgd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-s8kw5gsv7y2e
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An override template starts with `{% extends "@AcmeUser/registration/confirmed.html.twig"
+    %}`, without the exclamation mark. What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - overriding
+  - templates
+  choices:
+  - id: CHO-vsrect46tfes
+    text: 'An infinite loop: the name resolves to the override itself'
+    correct: true
+  - id: CHO-2atv7bqvky5y
+    text: It extends the original bundle template
+    correct: false
+    explanation: Without !, the namespace resolves to the override first.
+  - id: CHO-9pxyr9rry8vw
+    text: Twig ignores the extends tag
+    correct: false
+    explanation: It is honoured, which causes the loop.
+  - id: CHO-gd3fggwzrt0d
+    text: The bundle template is copied into the cache
+    correct: false
+    explanation: Nothing is copied; the reference points back to itself.
+  explanation: '@!AcmeUser/... names the original template, skipping the override; that is what breaks
+    the cycle.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Templates: infinite loop error; @!AcmeUser'
+    verified_at: '2026-10-09'
+- id: QST-5xyms27kn241
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-97dtctsck41f
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-efzq92vdtayj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A bundle puts NotBlank on User::$email; the application adds an Email constraint to the same
+    property in its own configuration. What is validated?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - overriding
+  - validation
+  choices:
+  - id: CHO-xrcdn3m8hr8m
+    text: Both constraints
+    correct: true
+  - id: CHO-y4m2jczwdgvq
+    text: Only Email, which replaces the bundle's
+    correct: false
+    explanation: Constraints are merged; the application cannot remove the bundle's.
+  - id: CHO-c360wzyjek20
+    text: Only NotBlank
+    correct: false
+    explanation: The application's constraint is added too.
+  - id: CHO-bmtq7r9nxn6j
+    text: 'Neither: the conflict disables validation'
+    correct: false
+    explanation: 'There is no conflict: metadata is merged.'
+  explanation: 'Symfony loads the validation configuration of every bundle into one metadata tree: you
+    can add constraints, not override them, unless the bundle uses validation groups.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Validation Metadata: add new constraints, but you cannot override them'
+    verified_at: '2026-10-09'
+- id: QST-hj21nhvwxkst
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-fe71pjx6g6a2
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Symfony 6.0 came out in 2021, 7.0 in 2023. Following the same rhythm, what is the gap between
+    two majors?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - releases
+  choices:
+  - id: CHO-f8atzqzbck3h
+    text: Every two years
+    correct: true
+  - id: CHO-2vpd2zze9egj
+    text: Every six months
+    correct: false
+    explanation: That is the minor cadence.
+  - id: CHO-3yp55bhjcmbr
+    text: Every year
+    correct: false
+    explanation: Majors come every two years.
+  - id: CHO-1yv3f653kv8m
+    text: When enough features are ready
+    correct: false
+    explanation: The model is time-based, not feature-based.
+  explanation: Patch roughly every month, minor every six months, major every two years.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'time-based model: major every two years'
+    verified_at: '2026-10-09'
+- id: QST-jy9y7r8b7anj
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-r00p8959jcpp
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: In which month and year did Symfony 8.0 come out, given the release model?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - releases
+  choices:
+  - id: CHO-3ydv4wv1gh8b
+    text: November 2025
+    correct: true
+  - id: CHO-m5pspzt1jkby
+    text: May 2026
+    correct: false
+    explanation: Majors come in November; May only brings minors.
+  - id: CHO-4mbzea5dvd3q
+    text: November 2026
+    correct: false
+    explanation: Majors come in November of odd years.
+  - id: CHO-y40h7019dnfb
+    text: January 2025
+    correct: false
+    explanation: Releases land in May and November.
+  explanation: Minors come in May and November; majors in November of odd years (2021, 2023, 2025).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: major version comes out every two years in November of odd years
+    verified_at: '2026-10-09'
+- id: QST-bq4tr362fx4v
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-bcjh1p7m06v1
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Symfony 8.1 is a standard release, not an LTS. Once published, how long does it receive bug
+    fixes, and how long security fixes?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - releases
+  - maintenance
+  choices:
+  - id: CHO-yvrnm81420td
+    text: 8 months for both
+    correct: true
+  - id: CHO-2qzp7ep80rb2
+    text: 6 months for both
+    correct: false
+    explanation: 'Standard versions get two months past the next minor: 8 in total.'
+  - id: CHO-7tjqbrws2teh
+    text: 3 years for bugs, 4 for security
+    correct: false
+    explanation: Those are LTS durations.
+  - id: CHO-xxwjkv7pj1jj
+    text: 1 year for both
+    correct: false
+    explanation: Standard versions get 8 months.
+  explanation: 'Standard: 8 months of bug fixes and 8 of security fixes. LTS: 3 years and 4 years.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Standard: 8 months / 8 months; LTS: 3 years / 4 years'
+    verified_at: '2026-10-09'
+- id: QST-9xr0sw54vcmz
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-gz76fhvfsxy3
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which of these Symfony versions is a long-term support release?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - releases
+  - lts
+  choices:
+  - id: CHO-xjvz74e16vq5
+    text: '7.4'
+    correct: true
+  - id: CHO-nf9gm0b4vc26
+    text: '7.3'
+    correct: false
+    explanation: A standard version; X.4 is the LTS.
+  - id: CHO-expya5qxwg8s
+    text: '8.0'
+    correct: false
+    explanation: X.0 is a standard version.
+  - id: CHO-3aw99qvdqqqe
+    text: '8.1'
+    correct: false
+    explanation: A standard version.
+  explanation: Since the 3.x branch, each major has five minors, X.0 to X.4, and the last one is LTS.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The last minor version of a branch is a long-term support version
+    verified_at: '2026-10-09'
+- id: QST-x9q1j61svpj8
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-1q68f4h4bdny
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application moves from Symfony 7.4 to 8.0. Which new features does 8.0 bring that 7.4 lacks?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - releases
+  - upgrade
+  choices:
+  - id: CHO-ayh6y2kkp9j5
+    text: 'None: the two share features; 8.0 removes what 7.4 deprecated'
+    correct: true
+  - id: CHO-jg4mt5mytxyt
+    text: Every feature merged since 7.0
+    correct: false
+    explanation: 7.4 already has them; both were developed together.
+  - id: CHO-ty0d7krvybjh
+    text: Only performance improvements
+    correct: false
+    explanation: The difference is the removal of deprecated code.
+  - id: CHO-bhagfwmdqkna
+    text: All PHP 8.4 language features
+    correct: false
+    explanation: That is a PHP requirement, not a Symfony feature set.
+  explanation: A major is developed in parallel with the last minor of the previous branch, with the same
+    features; they differ only by the deprecations.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Development: next major developed at the same time as the last minor'
+    verified_at: '2026-10-09'
+- id: QST-8tp3c8ynzmd2
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-t5v0mavn0je1
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-kcj9a5846b1s
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A library asks for any psr/clock-implementation. Which PSR number is that, satisfied by Symfony's
+    Clock?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - psr
+  - clock
+  choices:
+  - id: CHO-3gat5kc715fz
+    text: PSR-20
+    correct: true
+  - id: CHO-ky7v3svzhv2k
+    text: PSR-18
+    correct: false
+    explanation: PSR-18 is the HTTP client, implemented by HttpClient.
+  - id: CHO-nthfzkahpk8g
+    text: PSR-16
+    correct: false
+    explanation: PSR-16 is simple cache.
+  - id: CHO-xk9ss6ekdx09
+    text: PSR-13
+    correct: false
+    explanation: PSR-13 is links, implemented by WebLink.
+  explanation: symfony/symfony provides psr/clock-implementation, as well as log, cache, simple-cache,
+    container, link, event-dispatcher and http-client implementations.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'provide: psr/clock-implementation'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'provide: psr/clock-implementation 1.0'
+    verified_at: '2026-10-09'
+- id: QST-cex9t8e7t6r2
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-3we3dc646hxk
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-kcj9a5846b1s
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: src/ maps to the App\ namespace. Which PSR is that, and how does Symfony relate to it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - psr
+  - autoloading
+  choices:
+  - id: CHO-xq0m0gbfdxxf
+    text: PSR-4, followed by the project layout, not implemented as an interface
+    correct: true
+  - id: CHO-gptq47466617
+    text: PSR-4, implemented and declared in the provide key
+    correct: false
+    explanation: provide lists implementations; autoloading is a convention Composer applies.
+  - id: CHO-bys451yjkns0
+    text: PSR-11, implemented by the container
+    correct: false
+    explanation: PSR-11 is the container interface, not autoloading.
+  - id: CHO-x38nmxyawrew
+    text: PSR-12, the autoloading standard
+    correct: false
+    explanation: PSR-12 is the coding style.
+  explanation: 'Symfony implements PSRs that define interfaces (3, 6, 11, 13, 14, 16, 18, 20) and follows
+    others: PSR-4 for autoloading and PSR-12 for coding style.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: based on the PSR-12 (code style) and PSR-4 (autoloading) standards
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: provide
+    verified_at: '2026-10-09'
+- id: QST-91t6d7qed7fs
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-sqrkr5sjqqz1
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-kcj9a5846b1s
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: After `composer require symfony/psr-http-message-bridge`, the conversion to PSR-7 still fails
+    for lack of classes. What is missing?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - psr
+  - psr-7
+  choices:
+  - id: CHO-kt7pmd616gyt
+    text: A PSR-7 and PSR-17 implementation, such as nyholm/psr7
+    correct: true
+  - id: CHO-gjxk2yq3n66f
+    text: A configuration key enabling PSR-7 in FrameworkBundle
+    correct: false
+    explanation: No key provides an implementation; a package does.
+  - id: CHO-zjt904d7hxcf
+    text: 'Nothing: the bridge ships its own PSR-7 classes'
+    correct: false
+    explanation: The bridge converts; it needs an implementation installed.
+  - id: CHO-p2xm2p1x2ms7
+    text: Upgrading HttpFoundation to its PSR-7 mode
+    correct: false
+    explanation: HttpFoundation has no PSR-7 mode.
+  explanation: HttpFoundation is not PSR-7. The bridge converts both ways and needs PSR-7 and PSR-17 implementations,
+    nyholm/psr7 being the documented example.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/psr7.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The bridge also needs a PSR-7 and PSR-17 implementation; nyholm/psr7
+    verified_at: '2026-10-09'
+- id: QST-4dffjxeve44s
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-tga0d0zxwpvv
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-kcj9a5846b1s
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A library type-hints Psr\EventDispatcher\EventDispatcherInterface. Which PSR is that, and
+    does Symfony's dispatcher satisfy it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - psr
+  - event-dispatcher
+  choices:
+  - id: CHO-n6rx9kwgwqq9
+    text: PSR-14, yes
+    correct: true
+  - id: CHO-atvx4b2vxrxp
+    text: PSR-11, yes
+    correct: false
+    explanation: PSR-11 is the container; the dispatcher is PSR-14.
+  - id: CHO-cmqqe98wvmy9
+    text: PSR-14, only through a bridge
+    correct: false
+    explanation: 'No bridge is needed: the dispatcher implements it.'
+  - id: CHO-zc8kd8stjvw0
+    text: PSR-7, no
+    correct: false
+    explanation: PSR-7 is HTTP messages.
+  explanation: The container is a PSR-11 ContainerInterface and the dispatcher a PSR-14 EventDispatcherInterface,
+    directly, with no adapter.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'provide: psr/event-dispatcher-implementation, psr/container-implementation'
+    verified_at: '2026-10-09'
+- id: QST-29vsamcwf92w
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-qy3807tsb7qw
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-c9pjp03cv4bq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: How do Symfony's standards write an enumeration case?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  choices:
+  - id: CHO-9zbkcqa6x9h5
+    text: UpperCamelCase, as in IsArray
+    correct: true
+  - id: CHO-2jm59029a5ed
+    text: SCREAMING_SNAKE_CASE, as in IS_ARRAY
+    correct: false
+    explanation: That is for constants; enum cases are UpperCamelCase.
+  - id: CHO-wz90pg6hrjf1
+    text: camelCase, as in isArray
+    correct: false
+    explanation: camelCase is for variables and methods.
+  - id: CHO-sefegthkv8fq
+    text: snake_case, as in is_array
+    correct: false
+    explanation: snake_case is for configuration, routes and templates.
+  explanation: 'Example from the standards: InputArgumentMode::IsArray, while the matching class constant
+    is InputArgument::IS_ARRAY.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Use UpperCamelCase for enumeration cases
+    verified_at: '2026-10-09'
+- id: QST-3n7p8wzvkjvf
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-2njr3rsw6g05
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-c9pjp03cv4bq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which name follows Symfony's standards for an enumeration?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  choices:
+  - id: CHO-nsk4qj7g63qx
+    text: InputArgumentMode
+    correct: true
+  - id: CHO-9ysmfcjy465a
+    text: InputArgumentModeEnum
+    correct: false
+    explanation: No dedicated suffix for classes or enumerations.
+  - id: CHO-n6hvsjfne422
+    text: AbstractInputArgumentMode
+    correct: false
+    explanation: Abstract is a prefix for abstract classes only.
+  - id: CHO-5wd575x2n1q9
+    text: InputArgumentModeInterface
+    correct: false
+    explanation: The Interface suffix is for interfaces.
+  explanation: Prefix Abstract for abstract classes; suffix Interface, Trait and Exception; no dedicated
+    suffix such as Class or Enum.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Don't use a dedicated suffix for classes or enumerations
+    verified_at: '2026-10-09'
+- id: QST-926hrg4p4zqv
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-3r39kw6erehf
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-c9pjp03cv4bq
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A new attribute fills a controller argument from the request payload. Which prefix do the
+    standards give it?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - naming
+  - attributes
+  choices:
+  - id: CHO-w3pzwhxe2dbj
+    text: 'Map, as in #[MapRequestPayload]'
+    correct: true
+  - id: CHO-1jy887zc7mpw
+    text: 'As, as in #[AsRequestPayload]'
+    correct: false
+    explanation: As is for attributes configuring services.
+  - id: CHO-jg4sjgpz0kcd
+    text: 'With, as in #[WithRequestPayload]'
+    correct: false
+    explanation: With is not one of the two documented prefixes.
+  - id: CHO-8jr526bgbknf
+    text: No prefix
+    correct: false
+    explanation: Controller-argument attributes take the Map prefix.
+  explanation: 'As... for service configuration (#[AsCommand], #[AsEventListener]); Map... for controller
+    arguments (#[MapEntity], #[MapCurrentUser]).'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Prefix PHP attributes that relate to controller arguments with Map
+    verified_at: '2026-10-09'
+- id: QST-bekr9ch1ytxf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-ces5mycxj5zx
+  - OUT-3p88arwajsx7
+  related_items:
+  - OIT-7sewqvmw6468
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-rd9b27fkb72r
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A kernel.request listener registered at priority 64 reads the _route attribute. The RouterListener
+    runs at priority 32. What does the listener see?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - priority
+  - routing
+  choices:
+  - id: CHO-majpscf859a1
+    text: 'No _route yet: it runs before the router'
+    correct: true
+  - id: CHO-fac1qhgs4xrf
+    text: The matched route, since routing always comes first
+    correct: false
+    explanation: 'Higher priority runs earlier: 64 runs before 32.'
+  - id: CHO-pf4wc46fxqrj
+    text: The route of the previous request
+    correct: false
+    explanation: Attributes belong to each request.
+  - id: CHO-5edb3zbd9986
+    text: An exception, since kernel.request forbids reading attributes
+    correct: false
+    explanation: Reading is allowed; the value is just not there yet.
+  explanation: kernel.request comes before controller resolution, and the router writes _route and _controller
+    during it, at priority 32. A listener needing the route must use a lower priority.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getSubscribedEvents(): kernel.request, onKernelRequest, 32'
+    verified_at: '2026-10-09'
+- id: QST-shhhbj0gg7ah
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-9gyxnzp7ngzp
+  - OUT-xfcs32dwmgx2
+  related_items:
+  - OIT-rd9b27fkb72r
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-xc4zfr70jjas
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On kernel.exception, a listener at priority -128 sets a Response. Another listener sits at
+    priority -200. Does it run?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - exceptions
+  - propagation
+  choices:
+  - id: CHO-bnfhqcbcwrsb
+    text: 'No: setResponse() stops the propagation of that event'
+    correct: true
+  - id: CHO-9bk17v80437f
+    text: 'Yes: every listener of an event always runs'
+    correct: false
+    explanation: Setting a response on ExceptionEvent stops propagation.
+  - id: CHO-rdn3qe134j0h
+    text: Yes, but only in debug mode
+    correct: false
+    explanation: The environment plays no part.
+  - id: CHO-g0gbgq9q7cxt
+    text: It runs first, since -200 is higher
+    correct: false
+    explanation: Higher numbers run earlier; -200 is lower than -128.
+  explanation: 'Executed with HttpKernel 8.0.15: the -200 listener did not run. That is why the standard
+    error page, built at -128, can be pre-empted by any earlier listener.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Event/RequestEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'setResponse(): stopPropagation()'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: onKernelException at -128
+    verified_at: '2026-10-09'
+- id: QST-dsd8wx6fdyd4
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-yqb3s91g64f7
+  - OUT-bmtapjwv4je4
+  related_items:
+  - OIT-vk57zg2wpep7
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A public method is deprecated in 7.2. Your code calls it. Until when does it keep working,
+    and is that covered by the promise?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - deprecations
+  - bc-promise
+  choices:
+  - id: CHO-2gmqwccmkge4
+    text: Through all of 7.x; it can only be removed in 8.0, and calling it is covered until then
+    correct: true
+  - id: CHO-t3tgae6w593a
+    text: Until 7.3, the next minor
+    correct: false
+    explanation: Deprecated code is removed only in the next major.
+  - id: CHO-jgw96fe0z6z4
+    text: Until 7.2.x patches end; deprecation removes the guarantee
+    correct: false
+    explanation: A deprecation warns; the method stays covered.
+  - id: CHO-4pnxsbp8rsv7
+    text: Forever, since public methods are never removed
+    correct: false
+    explanation: The next major removes deprecated code.
+  explanation: Deprecation happens in a minor, removal in the next major; meanwhile, using the public
+    API remains covered by the backward compatibility promise.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Deprecating Code
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Using our Classes
+    verified_at: '2026-10-09'
+- id: QST-nc9353037hbh
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-1q68f4h4bdny
+  - OUT-8dx7erg8d1eb
+  related_items:
+  - OIT-ehf5zdnmdb1j
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-pk5s7cnhk776
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application on 7.4 runs its test suite and the logs show no deprecation triggered by its
+    code. What does that suggest about moving to 8.0?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - upgrade
+  choices:
+  - id: CHO-ps5fnanat6m0
+    text: The code relies on nothing 8.0 removes
+    correct: true
+  - id: CHO-s51bex67x3jk
+    text: 'Nothing: deprecations are only visible in PHPDoc'
+    correct: false
+    explanation: trigger_deprecation() reports them at runtime.
+  - id: CHO-jswce9sbpc12
+    text: 8.0 will still require new features to be adopted
+    correct: false
+    explanation: 8.0 and 7.4 share features; only deprecated code goes.
+  - id: CHO-zpxt1akf6g26
+    text: The upgrade must wait for 8.4 LTS
+    correct: false
+    explanation: Nothing forces waiting; 8.0 is upgradeable now.
+  explanation: 8.0 equals 7.4 minus what 7.4 deprecated, and every deprecation is triggered at runtime.
+    A clean run on the last minor is the recommended path to the next major.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Development: same features, deprecations removed'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: A deprecation must also be triggered
+    verified_at: '2026-10-09'
+- id: QST-4wehkrrbp2yx
+  question_archetype: CONFIG_BEHAVIOR
+  assesses_outcomes:
+  - OUT-n6w2cz5vwgsw
+  - OUT-8rwmvym0a0qy
+  related_items:
+  - OIT-p3p7te94qc1n
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-132nwnh9c6bc
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`composer require twig` created config/packages/twig.yaml and config/packages/test/twig.yaml.
+    Which of them is read when the test suite runs?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - synthesis
+  - flex
+  - environments
+  choices:
+  - id: CHO-h7q215wp974m
+    text: 'Both: the test file overrides the common one in test'
+    correct: true
+  - id: CHO-03fc1dp4nypb
+    text: Only config/packages/test/twig.yaml
+    correct: false
+    explanation: The common file is always loaded; the test file overrides it.
+  - id: CHO-kpd5r8yfaaax
+    text: Only config/packages/twig.yaml
+    correct: false
+    explanation: In the test environment the test folder is loaded too.
+  - id: CHO-65tv90tktvbh
+    text: Neither until the alias is resolved
+    correct: false
+    explanation: The alias was resolved at install; the recipe wrote both files.
+  explanation: The twig alias resolved to symfony/twig-bundle, whose recipe wrote both files. Environment
+    folders under config/packages/ override the common configuration in that environment.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Flex Recipes and Aliases: config/packages/test/twig.yaml'
+    verified_at: '2026-10-09'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Configuration Environments
+    verified_at: '2026-10-09'
