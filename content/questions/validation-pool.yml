@@ -312,11 +312,12 @@ questions:
     explanation: Throwable is the interface both Exception and Error implement. Catching Exception alone
       misses TypeError, ValueError and the rest.
     official_sources:
-      - url: https://raw.githubusercontent.com/php/doc-en/master/language/errors/php7.xml
-        readable_url: https://github.com/php/doc-en/blob/master/language/errors/php7.xml
+      - url: https://raw.githubusercontent.com/php/doc-en/master/language/error-handling.xml
+        readable_url: https://github.com/php/doc-en/blob/master/language/error-handling.xml
+        repository: php/doc-en
         branch: master
-        symbol_or_lines: Throwable hierarchy
-        verified_at: '2026-09-01'
+        symbol_or_lines: 'section "Throwable hierarchy" (moved from language/errors/php7.xml, now 404)'
+        verified_at: '2026-10-09'
   - id: QST-zxsw2qb185qq
     question_archetype: BEHAVIOR_PREDICTION
     assesses_outcomes:
