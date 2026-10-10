@@ -2433,3 +2433,836 @@ questions:
     branch: '8.0'
     symbol_or_lines: onLoginSuccess()
     verified_at: '2026-10-09'
+- id: QST-ekxcah49w1xr
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-3xr6hfb46rq2
+  version: 1
+  official_topic: Security
+  official_item: OIT-942znmbjwvad
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '`composer require symfony/security-csrf` in an empty project. Which other Symfony security
+    package comes with it?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - security
+  - components
+  choices:
+  - id: CHO-tkybk3bj9gdp
+    text: security-core
+    correct: true
+  - id: CHO-4ftrxt5zfey5
+    text: 'None: it is a fully standalone package'
+    correct: false
+    explanation: It requires security-core.
+  - id: CHO-n62qq8ehd4fw
+    text: security-http
+    correct: false
+    explanation: No HTTP dependency.
+  - id: CHO-w2mmcqrrxrp3
+    text: security-bundle
+    correct: false
+    explanation: Not required.
+  explanation: 'Read in the 8.0 composer.json files: security-csrf requires security-core, which requires
+    password-hasher; password-hasher requires only php.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: require
+    verified_at: '2026-10-09'
+- id: QST-h5cvsdx8g3ch
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-tw22dh0mnngy
+  version: 1
+  official_topic: Security
+  official_item: OIT-942znmbjwvad
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Firewalls and authenticators live in which package?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - security
+  - components
+  choices:
+  - id: CHO-1yz3akargh5c
+    text: security-http
+    correct: true
+  - id: CHO-1xzpmy5zyeww
+    text: security-core
+    correct: false
+    explanation: It has no HTTP dependency.
+  - id: CHO-bnqgweefg1kp
+    text: password-hasher
+    correct: false
+    explanation: Hashing only.
+  - id: CHO-se7qkg2r9wnp
+    text: security-csrf
+    correct: false
+    explanation: CSRF tokens only.
+  explanation: security-http links the model to the request; SecurityBundle configures it.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/composer.json
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'require: symfony/http-foundation'
+    verified_at: '2026-10-09'
+- id: QST-a590p562ws5r
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-dfkz9qj59wbm
+  version: 1
+  official_topic: Security
+  official_item: OIT-z9c24d68et6w
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: On an anonymous request, what does `$tokenStorage->getToken()` return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authentication
+  choices:
+  - id: CHO-r624g7xzn1qt
+    text: 'null'
+    correct: true
+  - id: CHO-fwwyx2z80zx6
+    text: An AnonymousToken for the visitor
+    correct: false
+    explanation: The anonymous token no longer exists.
+  - id: CHO-vyb7saqsnnpc
+    text: A token with no roles
+    correct: false
+    explanation: No token at all.
+  - id: CHO-jd7fpxe6kj1b
+    text: It throws
+    correct: false
+    explanation: It returns null.
+  explanation: Executed with security-core 8.0.15 on an empty TokenStorage.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authentication/Token/Storage/TokenStorage.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: getToken()
+    verified_at: '2026-10-09'
+- id: QST-ka552qhe1a49
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-a4tnzhe2yvpa
+  version: 1
+  official_topic: Security
+  official_item: OIT-z9c24d68et6w
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which call answers "who is this?" and which "may they do that?"
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authentication
+  - authorization
+  choices:
+  - id: CHO-cxgsk9wx1bre
+    text: getUser(), then isGranted()
+    correct: true
+  - id: CHO-svbfjb8r9wvm
+    text: isGranted(), then getUser()
+    correct: false
+    explanation: Reversed.
+  - id: CHO-zycekrn5d399
+    text: Both are answered by getUser()
+    correct: false
+    explanation: Authorization needs isGranted().
+  - id: CHO-8tqs7mfmj0z6
+    text: Both are answered by isGranted()
+    correct: false
+    explanation: Identity comes from getUser().
+  explanation: Authentication and authorization are separate questions.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Access Control (Authorization)
+    verified_at: '2026-10-09'
+- id: QST-knpye5t3x2k0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-rf2bzpb84d4y
+  version: 1
+  official_topic: Security
+  official_item: OIT-3qgn13f7zvqx
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An anonymous visitor hits a page requiring ROLE_USER on a form-login firewall. What do they
+    get?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authorization
+  choices:
+  - id: CHO-tncdj9pjnzex
+    text: A redirect to login
+    correct: true
+  - id: CHO-cdvyq4ce4emd
+    text: A 403 Forbidden response
+    correct: false
+    explanation: 403 is for a known user without the right.
+  - id: CHO-s9471cjw2h6d
+    text: A 500
+    correct: false
+    explanation: Not an error.
+  - id: CHO-46vsehp2stek
+    text: The page, read-only
+    correct: false
+    explanation: Access is denied.
+  explanation: 'Anonymous users get the entry point''s response: a redirect for form login, 401 for HTTP
+    Basic.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: entry point
+    verified_at: '2026-10-09'
+- id: QST-rmdm8h58t4e4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-vsg2j46ctc7h
+  version: 1
+  official_topic: Security
+  official_item: OIT-3qgn13f7zvqx
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Affirmative strategy, three voters. The first grants. How many voters are consulted?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authorization
+  - voters
+  choices:
+  - id: CHO-m2brks6tav3s
+    text: One
+    correct: true
+  - id: CHO-tx9z2nfy6znd
+    text: Three
+    correct: false
+    explanation: The first grant ends it.
+  - id: CHO-c51k587pxftx
+    text: Two
+    correct: false
+    explanation: One.
+  - id: CHO-w5e43m2qan5v
+    text: Only those supporting the attribute
+    correct: false
+    explanation: It stops at the first grant.
+  explanation: Executed with security-core 8.0.15. Consensus consulted all three.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/AffirmativeStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide()
+    verified_at: '2026-10-09'
+- id: QST-9rh178sx457h
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-mrdkwy4adq6q
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Which security.yaml section says where users are loaded from?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - security-config
+  choices:
+  - id: CHO-vs3praxyg4yt
+    text: providers
+    correct: true
+  - id: CHO-xxbfeg4v9qf4
+    text: password_hashers
+    correct: false
+    explanation: How passwords are checked.
+  - id: CHO-5a6dk9dmbv00
+    text: firewalls
+    correct: false
+    explanation: How users authenticate.
+  - id: CHO-cy5crxa9t73p
+    text: access_control
+    correct: false
+    explanation: What is required to enter.
+  explanation: 'Four sections: hashing, providers, firewalls, access control.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: The User Provider
+    verified_at: '2026-10-09'
+- id: QST-ef5afwkm4tqn
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-18068akbjm47
+  version: 1
+  official_topic: Security
+  official_item: OIT-45p7535dk4s2
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A custom user provider service must be plugged in. Which provider key?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - user-providers
+  choices:
+  - id: CHO-zbsq1fpyr8t1
+    text: id
+    correct: true
+  - id: CHO-grgr1et549d4
+    text: service_class
+    correct: false
+    explanation: Not a key.
+  - id: CHO-zykxdnk3xynx
+    text: custom
+    correct: false
+    explanation: Not a key.
+  - id: CHO-rbtwtqqqkd0t
+    text: chain
+    correct: false
+    explanation: It combines providers.
+  explanation: 'SecurityBundle keys: memory, ldap, chain, id; entity comes with the ORM bridge.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating a Custom User Provider
+    verified_at: '2026-10-09'
+- id: QST-nv323kv4zbct
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-psq7sd74p14g
+  version: 1
+  official_topic: Security
+  official_item: OIT-rwa6m06crs1h
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A firewall has `security: false`. What does that disable for its URLs?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - firewalls
+  choices:
+  - id: CHO-x74272r3tkk0
+    text: Both login and access rules
+    correct: true
+  - id: CHO-75qqybe1n4w4
+    text: Authentication only, rules still apply
+    correct: false
+    explanation: access_control is not applied either.
+  - id: CHO-mbwtc8fe91ya
+    text: Session storage only
+    correct: false
+    explanation: That is stateless.
+  - id: CHO-7s639pnzenvc
+    text: Lazy loading only
+    correct: false
+    explanation: That is lazy.
+  explanation: No listener runs, so no rule applies.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'security: false'
+    verified_at: '2026-10-09'
+- id: QST-gmnky255n7ef
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-q8e80pz7kv3c
+  version: 1
+  official_topic: Security
+  official_item: OIT-gkh08ztwdme1
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A Symfony 6 User class is ported to 8.0. Which of its methods are still required by the base
+    user contract?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - users
+  choices:
+  - id: CHO-5rhmzt624p0d
+    text: getRoles(), getUserIdentifier()
+    correct: true
+  - id: CHO-nmp88s8a589y
+    text: getRoles(), getPassword() and getUserIdentifier(), all three
+    correct: false
+    explanation: getPassword() is on PasswordAuthenticatedUserInterface.
+  - id: CHO-47fsna0sz2ck
+    text: getRoles(), getUserIdentifier() and eraseCredentials()
+    correct: false
+    explanation: eraseCredentials() was removed.
+  - id: CHO-ht89611h6n34
+    text: getUsername() and getRoles()
+    correct: false
+    explanation: getUsername() is long gone.
+  explanation: Executed by reflection on security-core 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: interface UserInterface
+    verified_at: '2026-10-09'
+- id: QST-rm1kjnptmakh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-0vbk74q4f9dg
+  version: 1
+  official_topic: Security
+  official_item: OIT-ta627mbwfz7m
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Stored hashes are plain sha256 hex. The hasher becomes `auto` without migrate_from. Can old
+    users log in?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - password-hashing
+  choices:
+  - id: CHO-yfk38e41h2p0
+    text: 'No'
+    correct: true
+  - id: CHO-aknhes9xgtk9
+    text: 'Yes: auto detects sha256'
+    correct: false
+    explanation: A plain digest does not name its algorithm.
+  - id: CHO-dbj3zh01smzw
+    text: Yes, and they are rehashed
+    correct: false
+    explanation: They fail to verify.
+  - id: CHO-wg06nrk5qamg
+    text: Only after cache:clear
+    correct: false
+    explanation: Unrelated.
+  explanation: 'A plain digest names no algorithm. Executed with PasswordHasher 8.0.15: verify false;
+    with migrate_from: [legacy], true and needsRehash true.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/MigratingPasswordHasher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: verify()
+    verified_at: '2026-10-09'
+- id: QST-9q378mc995c2
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-skkmfs49mpzn
+  version: 1
+  official_topic: Security
+  official_item: OIT-cwfr5t1ngj23
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A rule has `path: /admin`. Which of these URLs does it also match?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - access-control
+  choices:
+  - id: CHO-6n25endq1xn0
+    text: /blog/admin-tips
+    correct: true
+  - id: CHO-zy8wfp90xjea
+    text: 'None: it matches /admin exactly'
+    correct: false
+    explanation: It is an unanchored regex.
+  - id: CHO-pq0tsh8r6syc
+    text: /x?y=/admin
+    correct: false
+    explanation: The query string is not compared.
+  - id: CHO-8ahhakfws0bg
+    text: Only /admin/...
+    correct: false
+    explanation: Any path containing /admin.
+  explanation: 'Executed with PathRequestMatcher 8.0.15: /blog/admin-tips and /administrator matched.
+    Use ^/admin.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestMatcher/PathRequestMatcher.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: matches()
+    verified_at: '2026-10-09'
+- id: QST-n2z5h2q3bdrq
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-a4y23xrqfy6h
+  version: 1
+  official_topic: Security
+  official_item: OIT-s3jh7wg5km19
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An API-token authenticator has no password to check. Which passport fits?
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authenticators
+  choices:
+  - id: CHO-25jrkx2fc00w
+    text: '`SelfValidatingPassport`'
+    correct: true
+  - id: CHO-z1xjfb9d1gzw
+    text: '`new Passport(new UserBadge($id))` with no credentials argument'
+    correct: false
+    explanation: Passport requires credentials.
+  - id: CHO-0ygvzqv792z7
+    text: '`new Passport(new UserBadge($id), null)`'
+    correct: false
+    explanation: Credentials cannot be null.
+  - id: CHO-2ywz3zb41775
+    text: '`new TokenPassport($token)`'
+    correct: false
+    explanation: No such class.
+  explanation: 'Read in 8.0: Passport::__construct(UserBadge, CredentialsInterface, array); SelfValidatingPassport
+    takes no credentials.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/SelfValidatingPassport.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: __construct()
+    verified_at: '2026-10-09'
+- id: QST-btg1m3ngfb6k
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-pg8zhgwny9pq
+  version: 1
+  official_topic: Security
+  official_item: OIT-s3jh7wg5km19
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: What is the return type of AuthenticatorInterface::supports()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - authenticators
+  choices:
+  - id: CHO-mtc98etf18f4
+    text: ?bool
+    correct: true
+  - id: CHO-05dnaarxg2vy
+    text: bool
+    correct: false
+    explanation: null is allowed for lazy authentication.
+  - id: CHO-exzdy98wws9b
+    text: int
+    correct: false
+    explanation: Not a vote.
+  - id: CHO-25ce8n2w4veb
+    text: void
+    correct: false
+    explanation: It answers.
+  explanation: true, false, or null (lazy, on a lazy stateful firewall).
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'supports(): ?bool'
+    verified_at: '2026-10-09'
+- id: QST-7p0ktmbensc7
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-bb75dy1j7zcq
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Under the strategy that follows voter order, the first voter abstains, the second denies,
+    the third would grant. Outcome?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-tb946gcbhzrd
+    text: Deny
+    correct: true
+  - id: CHO-hptzg0j1da4g
+    text: 'Grant: one grant suffices, whatever its position'
+    correct: false
+    explanation: That is affirmative.
+  - id: CHO-c8mpknr9pqa0
+    text: Abstain
+    correct: false
+    explanation: The first non-abstain decides.
+  - id: CHO-wnhzw0mtcwfv
+    text: Deny only if allow_if_all_abstain is false
+    correct: false
+    explanation: Not all abstained.
+  explanation: 'Executed with security-core 8.0.15: the third voter was never called.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: decide()
+    verified_at: '2026-10-09'
+- id: QST-gpkysy0qt1j5
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-88k6kjx82v30
+  version: 1
+  official_topic: Security
+  official_item: OIT-kqm5mxq4jnkj
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: Every voter abstains, default settings. What does affirmative decide?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-09'
+  tags:
+  - voters
+  - strategies
+  choices:
+  - id: CHO-ca7z93j73a5x
+    text: Deny
+    correct: true
+  - id: CHO-72tm57zrt42b
+    text: Grant
+    correct: false
+    explanation: allow_if_all_abstain is false by default.
+  - id: CHO-gmzmcmm11neq
+    text: It throws
+    correct: false
+    explanation: It denies.
+  - id: CHO-qc6g6hed5vb6
+    text: Abstain
+    correct: false
+    explanation: A decision is a boolean.
+  explanation: Executed with security-core 8.0.15. Unanimous also denied.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/AffirmativeStrategy.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: allowIfAllAbstainDecisions
+    verified_at: '2026-10-09'
