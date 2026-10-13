@@ -54,7 +54,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F3 | `kernel.view` shown as unconditional | **VÉRIFIÉ** (local) | see P0.3 |
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
-| F6 | Roadmap / mock texts out of sync | **EN COURS** — mock texts derived; comprehension load **BLOQUÉ** (owner: date or daily time) | see P2.5 |
+| F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | À FAIRE | P1.6 — baseline: 0 in VALIDATION and COMPREHENSION |
 | F8 | Unsourced "not examinable" restrictions | À FAIRE | P1.1–P1.5, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
@@ -190,7 +190,7 @@ questions, 1 909 cards, first pass 59.9 h, spaced reviews 57.5 h).
 
 **Comprehension load: blocked on the owner.** The 1 117 comprehension
 questions (15.7 h raw, 25.1 h at the plan's ×1.6) are budgeted nowhere. Counted
-in each item's first pass ([`roadmap-comprehension-load.patch`](roadmap-comprehension-load.patch)),
+in each item's first pass (applied since, see « Owner decisions », 3),
 the published parameters no longer fit: `build_roadmap.py` stops with « Pas de
 place » for exam 2026-12-15 at 160/220 min. Measured alternatives:
 
@@ -219,8 +219,13 @@ citation, so a format change has to be designed with it, not applied in bulk.
 2. **Delivery: PR, merge, deploy**, as for the previous lots: branch, gates,
    PR, green CI, squash merge, deployment, production smoke test.
 
-3. **Pending:** the comprehension load (P2.5 table above) — later exam date
-   or more time per day. Until then the published plan omits ~25 h.
+3. **Comprehension load: option B** (owner, 2026-10-13, « B »): the exam moves
+   to **2026-12-29**, the daily time is unchanged (160 / 220 min). The patch is
+   applied: each item's first pass counts its comprehension questions; CI and
+   the published plan use `--exam 2026-12-29`. Measured: first pass 86.3 h
+   (comprehension 26.4 h), all items introduced 9 Dec, Mock 4 on 26 Dec, 30
+   reviews (1.6 h) fall after the exam. The hand-written roadmap and readiness
+   pages keep their 11 September analysis, under a notice that says so.
 
 ## Delivery log
 

@@ -30,10 +30,9 @@ travaux : 343 tests, 23 546 assertions.
   HOLDOUT non lu ni réécrit avant que le Mock 4 soit passé (décision du
   2026-10-13). Le contrôle par pool est prêt : `docs/remediation/aud10-per-pool.patch`.
 - **F9** — la dernière citation en 404 est dans une question HOLDOUT : même décision.
-- **F6** — charge des 1 117 questions de compréhension (~25 h) non comptée :
-  l'inclure rend le plan intenable au 15 décembre à 160/220 min. Choix à faire
-  entre 210/270 min par jour, ou un examen le 29 décembre.
-  Patch prêt : `docs/remediation/roadmap-comprehension-load.patch`.
+- ~~F6 — charge de compréhension~~ **tranché le 2026-10-13 : option B.** Examen
+  déplacé au **29 décembre 2026**, rythme inchangé (160/220 min) ; la charge de
+  compréhension (26,4 h) est comptée. Mock 4 le 26 décembre.
 
 **Prochaine action :** P1.5 Serializer et P1.4 Cache. Leurs cours sont à environ
 10 mots du budget STANDARD : la question du niveau doit être tranchée sur l'item

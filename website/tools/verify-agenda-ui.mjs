@@ -127,12 +127,19 @@ await check('cocher une session survit au rechargement', async () => {
 });
 
 // ------------------------------------------------------------- replanning
+// The published exam date, read from the plan rather than retyped: the owner
+// moved it once (2026-12-15 → 2026-12-29), and a literal here failed on the
+// move instead of on a broken replanning.
+const PUBLISHED_EXAM = JSON.parse(
+  await readFile(new URL('../../docs/revision/plan.json', import.meta.url).pathname, 'utf8'),
+).exam;
+
 await check("changer la date d'examen replanifie le calendrier", async () => {
   await page.goto(url('/calendar?view=month&date=2026-10-01'), {waitUntil: 'networkidle'});
 
   const examBefore = await page.inputValue('input[type="date"] >> nth=1');
-  if (examBefore !== '2026-12-15') {
-    throw new Error(`date d examen initiale ${examBefore}, attendu 2026-12-15`);
+  if (examBefore !== PUBLISHED_EXAM) {
+    throw new Error(`date d examen initiale ${examBefore}, attendu ${PUBLISHED_EXAM}`);
   }
 
   await page.fill('input[type="date"] >> nth=1', '2027-01-30');
@@ -156,7 +163,7 @@ await check("changer la date d'examen replanifie le calendrier", async () => {
   await page.getByRole('button', {name: 'Revenir au plan publié'}).click();
   await page.waitForSelector('text=Plan replanifié', {state: 'detached'});
   const back = await page.inputValue('input[type="date"] >> nth=1');
-  if (back !== '2026-12-15') {
+  if (back !== PUBLISHED_EXAM) {
     throw new Error(`retour au plan publié : ${back}`);
   }
   return 'examen déplacé au 2027-01-30, plan recalculé, puis retour au plan publié';

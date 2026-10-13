@@ -83,6 +83,16 @@ for f in glob.glob('content/courses/*.md'):
     # Mots de corps comme Course::wordCount() : sans front matter, sans blocs
     # ```mermaid (ADR-0009) — la source d'un schéma ne se lit pas à WPM mots/min.
     if cid: words[cid.group(1)] = len(re.findall(r'\S+', MERMAID_BLOCK.sub(' ', s.split('---',2)[-1])))
+# Comprehension checks (ADR-0010): answered once per lot, corrected after each
+# question, so priced like the exam banks — estimated time × Q_FACTOR. Counted
+# in each item's first pass (remediation F6): the 2026-10-13 audit found ~15.7 h
+# of raw answering time that no plan had budgeted.
+cmp_sec = collections.Counter()
+cmp_n = collections.Counter()
+for f in sorted(glob.glob('content/comprehension/*.yml')):
+    for q in yaml.safe_load(open(f, encoding='utf-8'))['questions']:
+        cmp_sec[q['official_item']] += q['estimated_time_seconds']
+        cmp_n[q['official_item']] += 1
 fc = collections.Counter()
 for f in glob.glob('content/flashcards/*.yml'):
     for c in (yaml.safe_load(open(f,encoding='utf-8')).get('flashcards') or []):
@@ -98,10 +108,11 @@ for lot in ORDER:
         c_min  = math.ceil(w / WPM)
         q_min  = math.ceil(sum(x['estimated_time_seconds'] for x in qq) / 60 * Q_FACTOR)
         f_min  = math.ceil(fc.get(i['id'],0) * FC_SEC / 60)
+        k_min  = math.ceil(cmp_sec.get(i['id'], 0) / 60 * Q_FACTOR)
         items.append(dict(id=i['id'], lot=lot, topic=i['official_topic'],
                           name=i['official_item'], level=i['content_level'],
                           words=w, nq=len(qq), nfc=fc.get(i['id'],0),
-                          c=c_min, q=q_min, f=f_min, total=c_min+q_min+f_min,
+                          nk=cmp_n.get(i['id'], 0), c=c_min, q=q_min, f=f_min, k=k_min, total=c_min+q_min+f_min+k_min,
                           deep=i['content_level']=='DEEP',
                           transverse=(lot in TRANSVERSE_LOTS) or i['content_level']=='DEEP'))
 assert len(items) == 163, len(items)
@@ -470,7 +481,7 @@ tot_first = sum(i['total'] for i in items)
 tot_rev   = sum(REVIEW[i['level']][o] for i in items
                 for o in (OFFSETS_PLUS if i['transverse'] else OFFSETS))
 print(f"items {len(items)} | 1re passe {tot_first} min = {tot_first/60:.1f} h")
-print(f"  dont cours {sum(i['c'] for i in items)/60:.1f} h · questions {sum(i['q'] for i in items)/60:.1f} h · flashcards {sum(i['f'] for i in items)/60:.1f} h")
+print(f"  dont cours {sum(i['c'] for i in items)/60:.1f} h · questions {sum(i['q'] for i in items)/60:.1f} h · flashcards {sum(i['f'] for i in items)/60:.1f} h · compréhension {sum(i['k'] for i in items)/60:.1f} h")
 print(f"révisions espacées {tot_rev} min = {tot_rev/60:.1f} h")
 print(f"jours planifiés {len(days)} | début {START}")
 print(f"tous les items introduits : {all_items_in}")
