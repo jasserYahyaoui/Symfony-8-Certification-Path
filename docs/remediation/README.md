@@ -227,7 +227,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Lot | PR | Merge | Deployment |
 |---|---|---|---|
 | P0.1–P0.3 | #394, CI green | squash `fdf4035` | Pages run 38450923116 — Deploy success; job « Production smoke test » 115482864576 success, log read (1117 comprehension questions served). Direct fetch of the site from this session is refused by the egress proxy. |
-| P1.7, P2.4, P2.5 (part) | open | — | — |
+| P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
