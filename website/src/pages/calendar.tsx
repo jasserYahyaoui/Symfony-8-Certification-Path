@@ -94,7 +94,7 @@ function Caveat({payload}: {payload: CalendarPayload}): React.JSX.Element {
       </p>
 
       <p>
-        <strong>L'heure de l'examen n'est pas connue de ce dépôt</strong>, donc le 15 décembre porte
+        <strong>L'heure de l'examen n'est pas connue de ce dépôt</strong>, donc le jour de l'examen porte
         un jalon et non un créneau. Elle ne sera pas inventée.
       </p>
 

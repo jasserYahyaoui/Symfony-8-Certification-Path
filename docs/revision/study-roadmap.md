@@ -4,23 +4,28 @@
 le samedi · 2 h à 3 h le dimanche · aucune indisponibilité · apprentissage en
 français, termes techniques en anglais.
 
-**Départ** : 1er octobre 2026. **Examen visé** : **15 décembre 2026**.
+**Départ** : 1er octobre 2026. **Examen visé** : **29 décembre 2026** (15 décembre jusqu'au 13 octobre).
 **Objectif** : passer la certification du premier coup — un `PASS`, pas un score
 maximal.
 
-> **Chiffres périmés — avertissement du 13 octobre 2026 (remédiation F6).**
-> Les volumes et charges écrits à la main dans ce document datent du
-> **11 septembre 2026** : 71 578 mots, 519 questions hors HOLDOUT, 174 cartes.
-> Mesuré le 13 octobre par `build_roadmap.py` : **111 276 mots, 653 questions
-> hors HOLDOUT, 1 909 cartes** ; première passe **59,9 h** (cours 18,3 · questions
-> 16,4 · cartes 25,2), révisions espacées **57,5 h**. Les dates et le détail
-> jour par jour à jour sont dans [`study-calendar.md`](study-calendar.md), généré.
+> **Date déplacée au mardi 29 décembre 2026 — décision du propriétaire, 13 octobre 2026.**
+> Raison : les 1 117 questions des contrôles de compréhension (≈ 15,7 h de
+> réponse, 26,4 h au facteur 1,6 de ce plan) n'étaient comptées nulle part ;
+> comptées, le plan ne tenait plus au 15 décembre au même rythme (160 min en
+> semaine, 220 le week-end). Le rythme est **inchangé**, la date recule.
 >
-> **Non compté nulle part encore :** les 1 117 questions des contrôles de
-> compréhension, environ 15,7 h de réponse (25,1 h au facteur 1,6 de ce plan).
-> Les inclure rend le plan actuel intenable au 15 décembre ; le choix entre
-> plus de temps par jour et une date plus tardive est au propriétaire
-> (`docs/remediation/README.md`).
+> Plan régénéré le 13 octobre par `build_roadmap.py` : **111 276 mots, 653
+> questions hors HOLDOUT, 1 117 questions de compréhension, 1 909 cartes** ;
+> première passe **86,3 h** (cours 18,3 · questions 16,4 · cartes 25,2 ·
+> compréhension 26,4) ; tous les items introduits le **9 décembre** ; Mocks 1 et
+> 2 les 12–13 déc., 3 et 5 les 19–20 déc., **Mock 4 le 26 décembre** ;
+> 30 révisions perdues après l'examen (1,6 h). Le détail jour par jour est dans
+> [`study-calendar.md`](study-calendar.md), généré.
+>
+> **Le reste de ce document est l'analyse du 11 septembre**, écrite pour le
+> 15 décembre avec 71 578 mots, 519 questions et 174 cartes. Ses tableaux de
+> charge et de pertes ne décrivent plus le plan ; ils sont gardés comme trace du
+> raisonnement, pas comme chiffres en vigueur.
 
 ---
 
@@ -285,7 +290,7 @@ J+60 sur les transverses — redevient atteignable et redevient le bon choix.
 
 | Fichier | Contenu |
 |---|---|
-| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre 2026 au 9 janvier 2027 |
+| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre au 29 décembre 2026 (jour de l'examen) |
 | [`mastery-checkpoints.md`](mastery-checkpoints.md) | Le contrôle de fin de lot, l'analyse des faiblesses, le plan de correction |
 | [`exam-readiness.md`](exam-readiness.md) | Les dates prévisionnelles, la charge, et le critère PRÊT-CANDIDAT |
 
@@ -295,7 +300,7 @@ Le calendrier est **généré**, pas écrit à la main :
 
 ```bash
 python3 tools/revision/build_roadmap.py \
-    --start 2026-10-01 --exam 2026-12-15 \
+    --start 2026-10-01 --exam 2026-12-29 \
     --max-new 4 --weekday 160 --weekend 220
 python3 tools/revision/render_calendar.py
 ```

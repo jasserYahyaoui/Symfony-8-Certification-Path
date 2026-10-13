@@ -62,6 +62,7 @@ for k in sorted(P['days']):
         tag = "NOUVEAU" if full else "NOUVEAU (suite)"
         det = []
         if i['nq']: det.append(f"{i['nq']} questions")
+        if i.get('nk'): det.append(f"{i['nk']} questions de compréhension")
         if i['nfc']: det.append(f"{i['nfc']} flashcards")
         else: det.append("aucune flashcard")
         w(f"- {tag} · **{i['topic']} : {i['name']}** ({i['level']}) — "
