@@ -43,16 +43,17 @@ questions:
   - id: CHO-rd8ytv6t6564
     text: The JSON encoder
     correct: false
-    explanation: Encoders only turn arrays into a format.
+    explanation: Encoders only write the normalized data into a format.
   - id: CHO-ppmcg274z3bg
     text: PHP's json_encode()
     correct: false
-    explanation: It only encodes the array it is given.
+    explanation: It only encodes the data it is given.
   - id: CHO-2errmnwwazhf
     text: The Symfony HttpFoundation Response
     correct: false
     explanation: Unrelated.
-  explanation: 'Normalizers: object ⇄ array (which properties, values, names). Encoders: array ⇄ format.'
+  explanation: 'Normalizers: value ⇄ normalized data (which properties, values, names). Encoders: normalized data ⇄
+    format.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
     repository: symfony/symfony
@@ -96,7 +97,7 @@ questions:
     correct: false
     explanation: No fallback encoder.
   - id: CHO-wewye9a0k8yg
-    text: The normalized array is returned
+    text: The normalized data is returned
     correct: false
     explanation: serialize() returns a string or throws.
   - id: CHO-qng93gkmhne7
@@ -296,7 +297,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-g6j22cqpx1ga
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
   domain: symfony
@@ -307,7 +308,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: During deserialize(), what sits between the JSON string and the object?
+  question: 'During deserialize() of the JSON {"name":"Ada"} into a Person, what does the decoder hand to the denormalizer?'
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -317,7 +318,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-09'
+  reviewed_at: '2026-10-13'
   tags:
   - serializer
   choices:
@@ -327,16 +328,17 @@ questions:
   - id: CHO-d91rb7t7jcq4
     text: 'Nothing: the decoder builds the object'
     correct: false
-    explanation: Data always goes through an array.
+    explanation: The decoder only reads the format; building the object is the denormalizer's job.
   - id: CHO-rkr26tz7bk2p
     text: A stdClass
     correct: false
-    explanation: An array.
+    explanation: JsonEncoder decodes in associative mode, which yields an array.
   - id: CHO-yk820eckagj2
     text: A DOMDocument
     correct: false
     explanation: Only XML parsing uses one, internally.
-  explanation: 'Decoder: format → array. Denormalizer: array → object.'
+  explanation: 'A JSON object decodes to an array, which the denormalizer turns into the Person. It is not universal:
+    decoding "H" yields a string, which BackedEnumNormalizer turns into an enum case.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
     repository: symfony/symfony-docs

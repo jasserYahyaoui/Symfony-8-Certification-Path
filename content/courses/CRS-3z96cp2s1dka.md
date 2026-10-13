@@ -5,7 +5,7 @@ title: "Serializer"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-13"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst"
@@ -18,6 +18,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "isCircularReference(); getAllowedAttributes() — returns false (no filtering) without a class metadata factory"
     verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php"
+    branch: "8.0"
+    symbol_or_lines: "normalize() — @return array|string|int|float|bool|\\ArrayObject|null"
+    verified_at: "2026-10-13"
 ---
 
 ## Objectif
@@ -34,19 +39,30 @@ L'accès aux valeurs par chemin appartient au lot 24 (PropertyAccess) ; il est
 ici seulement l'outil sur lequel s'appuie la normalisation d'objets. La
 sérialisation des messages transportés appartient au lot 11 (Messenger).
 
-## Deux étapes, jamais une
-
-C'est le concept central : **les données passent toujours par un tableau**,
-dans les deux sens.
+## Deux étapes, deux responsabilités
 
 | Étape | Rôle |
 |---|---|
-| **Normaliseurs** | objet ⇄ **tableau** |
-| **Encodeurs** | tableau ⇄ **format** |
+| **Normaliseurs** | valeur PHP ⇄ **représentation normalisée** |
+| **Encodeurs** | représentation normalisée ⇄ **format** |
 
 Un normaliseur décide *quelles propriétés* sont retenues, *quelle valeur* elles
 portent et *quel nom* elles prennent. Un encodeur ne sait qu'une chose :
 produire et lire un format.
+
+**La représentation normalisée n'est pas toujours un tableau.**
+`NormalizerInterface::normalize()` déclare `array|string|int|float|bool|\ArrayObject|null`.
+Exécuté sur Serializer 8.0.15 :
+
+| Valeur normalisée | Résultat | JSON |
+|---|---|---|
+| objet ordinaire, par `ObjectNormalizer` | tableau | `{"name":"Ada"}` |
+| `DateTimeImmutable`, par `DateTimeNormalizer` | **chaîne** RFC 3339 | `"2026-01-02T03:04:05+00:00"` |
+| enum *backed* `'H'`, par `BackedEnumNormalizer` | **chaîne** `'H'` | `"H"` |
+| l'entier `42` | `42`, sans normaliseur | `42` |
+
+À la lecture, le décodeur rend ce que porte le format : `"H"` reste une chaîne,
+que le dénormaliseur change en `Suit::Hearts`.
 
 Le service par défaut compose une **liste triée de normaliseurs** et **un seul
 encodeur**, celui du format demandé.
@@ -139,7 +155,8 @@ répété côte à côte n'est pas circulaire.
 
 ## Pièges d'examen
 
-**Tout passe par un tableau**, dans les deux sens : normaliseur puis encodeur.
+**Normaliseur puis encodeur**, dans les deux sens — mais l'étape du milieu
+n'est un tableau que pour un objet : une date ou une enum deviennent une chaîne.
 
 **Plusieurs normaliseurs, un seul encodeur** par opération.
 
@@ -149,18 +166,13 @@ normaliseur dispose de ses métadonnées.
 **`circular_reference_limit` vaut `1` par défaut**, et relever le seuil ne
 supprime pas l'exception d'un vrai cycle.
 
-**Seules les propriétés publiques** sont lues directement ; une privée ne sort
-que par un accesseur.
-
 **`groups` à `Default` ne rend rien** : seul `*` reprend les propriétés sans
 groupe.
 
 ## Points clés
 
-- Normaliseur = objet ⇄ tableau ; encodeur = tableau ⇄ format.
-- JSON, XML, CSV, YAML sont fournis.
-- Sont retenus : les propriétés publiques, et les méthodes en `get`, `has`,
-  `is`, `can`.
+- Normaliseur = valeur ⇄ représentation normalisée (tableau pour un objet,
+  chaîne pour une date ou une enum) ; encodeur = représentation ⇄ format.
 - `#[Ignore]` exclut partout, les groupes excluent au cas par cas.
 - `#[SerializedName]` renomme dans le format seul.
 - Référence circulaire : exception, seuil `1`, rappel possible.

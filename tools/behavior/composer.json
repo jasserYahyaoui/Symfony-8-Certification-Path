@@ -1,0 +1,24 @@
+{
+    "name": "jasseryahyaoui/cert-behavior-checks",
+    "description": "Executes the central claims the course teaches against the exam versions (Symfony 8.0, PHP 8.4). Separate from the site generator, which runs Symfony 7.4.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4",
+        "symfony/cache": "8.0.*",
+        "symfony/error-handler": "8.0.*",
+        "symfony/event-dispatcher": "8.0.*",
+        "symfony/http-foundation": "8.0.*",
+        "symfony/http-kernel": "8.0.*",
+        "symfony/property-access": "8.0.*",
+        "symfony/property-info": "8.0.*",
+        "symfony/serializer": "8.0.*",
+        "symfony/string": "8.0.*",
+        "symfony/type-info": "8.0.*",
+        "symfony/var-dumper": "8.0.*",
+        "symfony/var-exporter": "8.0.*"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

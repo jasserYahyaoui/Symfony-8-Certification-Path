@@ -10,15 +10,21 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: RECALL
-  front: Que traverse toujours une donnée entre l'objet et le format, dans les deux sens ?
-  back: Un tableau. La normalisation transforme l'objet en tableau et l'encodage transforme ce tableau en format
-    ; à la lecture, l'inverse. Plusieurs normaliseurs interviennent, mais un seul encodeur, celui du format demandé.
-  explanation: C'est ce découpage qui sépare le choix des propriétés de la production du format.
-  memorization_justification: On se représente la sérialisation comme une conversion directe vers JSON ; l'étape
-    intermédiaire, qui porte toute la logique de sélection, est invisible.
+  front: Normaliser puis encoder — la représentation normalisée est-elle toujours un tableau ?
+  back: Non. Un objet ordinaire devient un tableau (ObjectNormalizer), mais DateTimeNormalizer rend une chaîne
+    RFC 3339, BackedEnumNormalizer la valeur du cas, et un scalaire passe tel quel. Plusieurs normaliseurs interviennent,
+    un seul encodeur, celui du format demandé.
+  explanation: normalize() déclare array|string|int|float|bool|ArrayObject|null ; exécuté sur Serializer 8.0.15.
+  memorization_justification: L'exemple courant, un objet devenu tableau, se généralise à tort en règle ; les dates
+    et les enums le démentent.
   verification_status: VERIFIED
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-13'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php
+    branch: '8.0'
+    symbol_or_lines: 'normalize() — @return array|string|int|float|bool|\ArrayObject|null'
+    verified_at: '2026-10-13'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     branch: '8.0'

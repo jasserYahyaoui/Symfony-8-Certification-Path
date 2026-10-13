@@ -15,7 +15,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-ggw5eh2abp9f
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
   domain: symfony
@@ -27,7 +27,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: When is the callable passed as the second argument of the cache get() method executed?
+  question: With the default beta, when can the callable passed as the second argument of the cache get() method
+    run?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -37,27 +38,35 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-13'
   tags:
   - get
   choices:
   - id: CHO-ydsmsv5r3b50
-    text: Only when the key is missing
+    text: On a miss, or on a hit elected for early recomputation
     correct: true
   - id: CHO-bm6j4s2gv7jc
-    text: On every call, so the value can be refreshed
+    text: On every call, so that the stored value is always refreshed
     correct: false
-    explanation: On a hit the stored value is returned and the callable is never invoked.
+    explanation: A hit that is not elected for early recomputation is served without the callable.
   - id: CHO-610cr7vsrext
-    text: Once at warmup, then never again
+    text: Only when the key is missing, never while it is still stored
     correct: false
-    explanation: Nothing ties it to warmup; it runs on demand.
+    explanation: Probabilistic early expiration can elect a stored item with an expiry before it expires, and
+      beta=INF forces the callable on a stored key.
   - id: CHO-t7c0mn2hscgr
-    text: Only when the pool is explicitly cleared first
+    text: Only after the pool has been explicitly cleared with clear()
     correct: false
     explanation: Clearing is not required; a plain miss is enough.
-  explanation: get() both reads and writes, which is why the contracts define no set() method.
+  explanation: 'get() both reads and writes, which is why the contracts define no set(). It recomputes when the item
+    is not a hit or beta is INF, and may elect an item that has an expiry for early recomputation; executed with Cache
+    8.0.15, beta=INF runs the callable on a present key and isHit() is true inside it.'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'doGet(): $recompute = !$item->isHit() || \INF === $beta, then probabilistic early expiration'
+    verified_at: '2026-10-13'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     branch: '8.0'
@@ -67,7 +76,7 @@ questions:
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
   - OUT-ggw5eh2abp9f
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
   domain: symfony
@@ -89,7 +98,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-13'
   tags:
   - beta
   choices:
@@ -217,7 +226,8 @@ questions:
       defensible in code, where new FilesystemAdapter() returns the very object used as a pool.
   explanation: 'Four names, four jobs: an item is one key and value, a pool is a repository of items
     through which every operation goes, an adapter implements the actual storage, and a provider is
-    the connection some adapters need. Keys from different pools never collide, even on one backend.'
+    the connection some adapters need. Framework pools do not collide on a shared backend because each gets
+    its own namespace.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst

@@ -9398,13 +9398,13 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le raisonnement porte sur un découpage en deux responsabilités — normaliser puis encoder, avec un
-      tableau toujours au milieu — et sur la prévision de ce qui figure dans le résultat : une propriété
+      Le raisonnement porte sur un découpage en deux responsabilités — normaliser puis encoder, la forme
+      normalisée n'étant un tableau que pour un objet — et sur la prévision de ce qui figure dans le résultat : une propriété
       sans groupe disparaît dès qu'un groupe est demandé. Le nombre de normaliseurs et d'options du
       composant n'est pas de la complexité, et les ponts tiers sont hors périmètre.
     learning_outcomes:
       - id: OUT-g6j22cqpx1ga
-        outcome: Séparer le rôle des normaliseurs de celui des encodeurs et situer le tableau intermédiaire
+        outcome: Séparer le rôle des normaliseurs de celui des encodeurs et prévoir la forme normalisée (tableau, chaîne, scalaire)
       - id: OUT-a95xx41fw6hn
         outcome: Savoir que plusieurs normaliseurs interviennent mais un seul encodeur par opération
       - id: OUT-f4j1y7n6y64g
