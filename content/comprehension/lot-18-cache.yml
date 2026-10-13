@@ -12,7 +12,7 @@ questions:
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
   - OUT-rmv013ank5zr
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
   domain: symfony
@@ -23,7 +23,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Two pools share the same Redis server and both store a key named "user_1". What happens?
+  question: In a Symfony application, two pools declared under framework.cache.pools share one Redis server and
+    both store a key named "user_1". What happens?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -33,17 +34,17 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-09'
+  reviewed_at: '2026-10-13'
   tags:
   - cache
   choices:
   - id: CHO-sk52h5cfqtx9
-    text: 'Nothing: keys of two pools never collide'
+    text: 'Nothing: each pool keeps its own entry'
     correct: true
   - id: CHO-gfjn3k1m7qkz
     text: The second write overwrites the first
     correct: false
-    explanation: Pools are namespaced, even on shared storage.
+    explanation: Each framework pool gets its own namespace, even on shared storage.
   - id: CHO-f78qn49p4v5y
     text: 'An exception: duplicate key'
     correct: false
@@ -52,7 +53,9 @@ questions:
     text: Both pools read the same value
     correct: false
     explanation: Each pool keeps its own entry.
-  explanation: 'Item, pool, adapter and provider: the pool is the logical store all operations go through.'
+  explanation: 'The framework prefixes each pool''s keys with a namespace hashed from the pool name, the adapter
+    class and a seed. Isolation comes from that namespace: two adapters built by hand with the same namespace and
+    storage share their keys.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
     repository: symfony/symfony-docs
@@ -63,7 +66,7 @@ questions:
   question_archetype: CODE_OUTPUT
   assesses_outcomes:
   - OUT-ggw5eh2abp9f
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-78k7kbfpgfxt
   domain: symfony
@@ -75,7 +78,7 @@ questions:
   answer_mode: single
   required_answer_count: 1
   question: |-
-    What does $n hold after these two calls on an empty pool?
+    What does $n hold after these two calls on an empty ArrayAdapter with no default lifetime?
 
     ```php
     $cache->get('k', function () use (&$n) { $n++; return 'v'; });
@@ -91,7 +94,7 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-09'
+  reviewed_at: '2026-10-13'
   tags:
   - cache
   choices:
@@ -101,7 +104,8 @@ questions:
   - id: CHO-zppnamdagbyz
     text: 2, and the second call returns "w"
     correct: false
-    explanation: The callback runs only on a miss.
+    explanation: The item has no expiry, so it cannot be elected for early recomputation, and the default beta
+      does not force one; the second call is a plain hit.
   - id: CHO-9xwbttnjnf67
     text: '0: get() never runs callbacks'
     correct: false

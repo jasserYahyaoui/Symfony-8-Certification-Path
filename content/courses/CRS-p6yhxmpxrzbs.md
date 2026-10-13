@@ -5,7 +5,7 @@ title: "Cache"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-13"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/cache.rst"
@@ -59,9 +59,10 @@ L'injection de dépendances et l'autocâblage.
 | **Adaptateur** | la classe qui implémente le stockage réel — fichiers, Redis… |
 | **Fournisseur** | le service de connexion au stockage, notion propre au framework |
 
-Le point à retenir sur les pools : **les clés de deux pools ne se heurtent
-jamais**, même si les deux pools partagent le même stockage. C'est ce qui permet
-d'en créer autant qu'on veut sans coordonner les noms de clés.
+Les pools du framework ne se heurtent pas, même sur un stockage partagé :
+chacun reçoit un **espace de noms** dérivé de son nom. Exécuté, deux
+`FilesystemAdapter` construits avec le même espace de noms et le même dossier
+**partagent** leurs clés.
 
 ## Deux approches, une recommandée
 
@@ -90,10 +91,10 @@ $value = $cache->get('my_cache_key', function (ItemInterface $item): string {
 $cache->delete('my_cache_key');
 ```
 
-Le second argument est un **appelable exécuté seulement en cas de manque**. En
-cas de succès, il n'est pas appelé du tout — d'où l'absence d'écriture séparée :
-la valeur et la façon de la produire sont déclarées au même endroit, et il
-devient impossible de lire une clé sans savoir la reconstruire.
+Le second argument est un **appelable qui produit la valeur** : au manque, et
+aussi sur une clé **présente** quand le recalcul anticipé l'élit ou que `beta`
+vaut `INF`. Un succès ordinaire le saute. D'où l'absence d'écriture séparée :
+la valeur et la façon de la produire sont déclarées au même endroit.
 
 Dans une application Symfony, typer un argument avec `CacheInterface` injecte le
 pool `cache.app` par autocâblage.
@@ -108,9 +109,8 @@ Le rappel offre deux capacités que l'examen peut viser :
 
 ## La ruée sur le cache
 
-Quand une clé coûteuse expire, toutes les requêtes simultanées se mettent à la
-recalculer. Les Cache Contracts en protègent de deux manières, **sans rien
-configurer** :
+Quand une clé coûteuse expire, les requêtes simultanées la recalculent toutes.
+Les Cache Contracts l'évitent **sans configuration** :
 
 - un **verrou** : un seul processus PHP recalcule une clé donnée, par machine ;
 - une **expiration anticipée probabiliste** : au lieu d'attendre l'échéance, un
@@ -119,7 +119,8 @@ configurer** :
 
 Le troisième paramètre de `get()`, le **`beta`**, règle ce second mécanisme :
 `1.0` par défaut, une valeur plus haute recalcule plus tôt, **`0` le désactive**
-et **`INF` force un recalcul immédiat**.
+— sans désactiver le cache — et **`INF` force un recalcul immédiat**. Seul un
+item doté d'une échéance peut être élu en avance.
 
 ## Les pools du framework
 
@@ -164,24 +165,20 @@ la liste des clés.
 
 **Il n'existe pas de `set()`** dans les Cache Contracts.
 
-**Le rappel ne s'exécute qu'en cas de manque.**
-
 **`$save` est passé par référence** ; le mettre à `false` empêche
 l'enregistrement.
 
-**`beta = 0` désactive** le recalcul anticipé, `INF` le force. Exécuté : avec
-`INF`, le rappel tourne sur une clé présente, et `isHit()` y rend `true`.
-
-**Les clés de deux pools ne se heurtent jamais.**
+**Le rappel ne tourne pas qu'au manque.** Exécuté : avec `beta` à `INF`, il
+tourne sur une clé présente, et `isHit()` y rend `true`.
 
 **`cache.system` n'est pas un `cache.app` plus rapide** : il suppose des données
 dérivables du code source.
 
 ## Points clés
 
-- Item, pool, adaptateur, fournisseur ; les pools sont étanches entre eux.
+- Item, pool, adaptateur, fournisseur ; un espace de noms isole chaque pool.
 - Cache Contracts recommandés : `get()` et `delete()`, pas de `set()`.
-- Le rappel tourne au manque, expose `isHit()` et `&$save`.
+- Le rappel tourne au manque ou au recalcul anticipé, expose `isHit()` et `&$save`.
 - Anti-ruée intégré : verrou plus expiration anticipée réglée par `beta`.
 - `cache.app` pour les données, `cache.system` pour ce qui dérive du code.
 - `tag()` puis `invalidateTags()` pour effacer un groupe.

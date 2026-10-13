@@ -1,0 +1,162 @@
+# Remediation of the 2026-10-13 audit findings (F1–F10)
+
+This file is the tracker for the remediation mission received on 2026-10-13. It
+answers the ten findings the mission states (F1–F10) with the evidence produced
+here. It is written so the work can be resumed from the repository alone.
+
+The findings came with the mission as historical observations on a copy examined
+on 2026-10-13. Each one was **reproduced in this repository before being
+acted on**; the figures below are this repository's, not the audit's.
+
+Statuses: `À FAIRE`, `EN COURS`, `CORRIGÉ NON VÉRIFIÉ`, `VÉRIFIÉ`, `BLOQUÉ`.
+`VÉRIFIÉ` means: canonical files corrected, an executed check passes, and the
+local gates pass. It never means deployed; delivery is recorded separately.
+
+## Baseline (clean `master` at `45dad23`, 2026-10-13)
+
+Measured in a separate worktree of `origin/master`, before any change.
+
+| Measure | Value |
+|---|---|
+| `php bin/cert validate` | exit 0 — 1 violation, 0 blocking (PED-003 warning) |
+| `vendor/bin/phpunit` (after `bin/cert build`) | exit 0 — 343 tests, 23 546 assertions |
+| Official items / courses | 163 / 163 |
+| Learning outcomes (`OUT-*`) | 612 |
+| Flashcards | 1 909 |
+| Questions by pool | LEARNING 516, VALIDATION 137, HOLDOUT 75, COMPREHENSION 1 117 |
+| Multiple-answer questions | LEARNING 10, HOLDOUT 8, VALIDATION 0, COMPREHENSION 0 |
+| Bank files | 29 in `content/questions/`, 26 in `content/comprehension/` |
+
+Versions used for reproductions: PHP 8.4.19; Symfony 8.0.15 (`tools/behavior`,
+`composer.lock`; 8.0.16 was not offered by the resolver here); Symfony Contracts
+3.7.1. Twig 3.22.2 is in a separate sandbox and not yet used by any check.
+
+## Mechanism added for P0 (and P1.8, P3.3)
+
+| Piece | Role |
+|---|---|
+| `tools/behavior/` | Separate Composer project pinned to `symfony/*: 8.0.*`. `php tools/behavior/run.php` executes each fact; exit 1 on any mismatch. Runs in CI (`Taught behaviour holds on Symfony 8.0`). |
+| `docs/facts/central-facts.yml` | Registry: one entry per corrected fact — statement, sources, the check that executes it, the content ids that teach it, and regexes of the corrected wording. |
+| `tests/Integration/CentralFactsTest.php` | In the main PHPUnit suite: every fact names an existing check, every linked id exists, and no canonical file (`content/**`, the matrix) states a corrected claim again. A HOLDOUT match is reported without its id. |
+
+The four kinds of test the mission distinguishes are kept apart: the generator's
+own tests (PHPUnit), the Symfony behaviour (`tools/behavior`), the agreement of
+the content with that behaviour (`CentralFactsTest`, by wording), and the UI
+(`website/tools/verify-*.mjs`). A forbidden pattern catches a **wording**, not
+an idea: it stops the old sentence returning, not every way of being wrong.
+
+## Findings
+
+| # | Finding | Status | Evidence |
+|---|---|---|---|
+| F1 | Serializer « toujours un tableau » | **VÉRIFIÉ** (local) | see P0.1 |
+| F2 | Cache callback « only on a miss » | **VÉRIFIÉ** (local) | see P0.2 |
+| F3 | `kernel.view` shown as unconditional | **VÉRIFIÉ** (local) | see P0.3 |
+| F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
+| F5 | Content metrics read as candidate mastery | À FAIRE | P1.7 |
+| F6 | Roadmap / mock texts out of sync | À FAIRE | P2.5 |
+| F7 | Too few multiple-answer questions | À FAIRE | P1.6 — baseline: 0 in VALIDATION and COMPREHENSION |
+| F8 | Unsourced "not examinable" restrictions | À FAIRE | P1.1–P1.5, P2.7 |
+| F9 | PHP source 404 and mutable branch URLs | À FAIRE | P2.6 |
+| F10 | No per-card recall record; comprehension stores nothing | À FAIRE | P2.3, P2.4 |
+
+### P0.1 — Serializer (F1)
+
+Reproduced on Serializer 8.0.15 (`tools/behavior/checks/serializer.php`):
+`DateTimeNormalizer::normalize()` returns `string`; `BackedEnumNormalizer`
+returns the backing `string`; `serialize(42, 'json')` gives `42`; an ordinary
+object normalizes to `array`. `NormalizerInterface::normalize()` declares
+`array|string|int|float|bool|\ArrayObject|null` (fetched from the 8.0 branch).
+
+Corrected: course `CRS-3z96cp2s1dka` (section rewritten, contrast table, pitfall
+and key point), matrix item `OIT-fr58jzaj6jtb` (level justification; outcome
+`OUT-g6j22cqpx1ga` reworded, id kept), flashcard `FLC-50daktpqmkv9`, LEARNING
+`QST-xeygxgdd5586` (now a contrast question: which value normalizes to an
+array), COMPREHENSION `QST-et0jfkbyacjy` (hypothesis made explicit: a JSON
+object), plus distractor explanations in `QST-76tz3feab409` and
+`QST-kg5astsr8fz8`. The groups/metadata explanation was kept. The single
+HOLDOUT question on this item was searched by script for the wording, without
+display: no match. That search is by wording only.
+
+### P0.2 — Cache (F2)
+
+Reproduced (`checks/cache.php`): with `beta = INF` on a stored key the callback
+runs, `isHit()` is true inside it and `v2` is saved; `beta = 0` serves the stored
+value and does not disable caching; an item without expiry is never elected
+early with the default beta (200 draws); `$save = false` returns the value
+without storing it; two `FilesystemAdapter` with the same namespace and
+directory share a key, a different namespace does not. Source: `CacheTrait::doGet()`
+(`$recompute = !$item->isHit() || \INF === $beta`, then the probabilistic
+election) and `cache.rst` « keys from different pools never collide … prefixing
+keys with a namespace ».
+
+Corrected: course `CRS-p6yhxmpxrzbs` (callback, beta, pool isolation, pitfalls,
+key points — it contradicted itself), flashcard `FLC-5ph49r9vszd1`, LEARNING
+`QST-ch9mc2vedk60` (« Only when the key is missing » is now a distractor with its
+reason) and `QST-w6g2sgj7apm1`, COMPREHENSION `QST-1rc72pvqjry1` (framework
+pools named as the hypothesis) and `QST-4312r4ah4gn2` (hypothesis: no default
+lifetime). `FLC-ajfvjtabnqet`, `FLC-q4e27600aa61` and the beta questions were
+already right and were left alone.
+
+### P0.3 — HttpKernel (F3)
+
+Reproduced on HttpKernel 8.0.15 (`checks/http-kernel.php`), with a recorder
+listening at the highest priority:
+
+| Path | Events |
+|---|---|
+| controller returns a `Response`, then `terminate()` called | request → controller → controller_arguments → response → finish_request → terminate |
+| controller returns an array, a view listener converts it | request → controller → controller_arguments → **view** → response → finish_request |
+| nothing converts it | `ControllerDoesNotReturnResponseException` |
+| response set on `kernel.request` | request → response → finish_request |
+
+Corrected: flashcard `FLC-jjsdae8j3b56` (view bracketed and conditional;
+terminate tied to the separate `terminate()` call) and the key-points line of
+course `CRS-mpwjc4g3vmj7`, whose body and diagram already showed view as
+conditional. The course was 1 word over its DEEP budget after the edit; a
+redundant word was removed, the budget was not touched.
+
+### P0.4 — HOLDOUT length bias (F4)
+
+Measured on this repository, single-answer questions, whitespace normalized,
+ties for the longest choice excluded from the denominator:
+
+| Pool | strictly-longest choice is correct |
+|---|---|
+| LEARNING | 87 / 444 = 19.6 % |
+| VALIDATION | 23 / 124 = 18.5 % |
+| HOLDOUT | **34 / 64 = 53.1 %** |
+
+Chance is 25 % for four choices. This is not a predicted exam score and not an
+official threshold. Shuffling removes a position cue, not a length cue.
+
+The control is written and proved, but **not committed yet**: `aud10` gains a
+`pool/LEARNING`, `pool/VALIDATION`, `pool/HOLDOUT` group, gated with the same
+exact Poisson-binomial tail and alpha 0.01 (its denominator counts ties, so it
+reads 34/67, P = 5.2e-06). `--prove` asserts that a bias injected into the
+holdout alone fires on `pool/HOLDOUT`, and that a 75-question group at chance
+(19/75) stays silent. It fails on the current holdout — correctly — so landing
+it before the rewrite would turn CI red.
+
+**Blocked by owner decision.** Rewriting the options requires reading the
+holdout, which this project has so far kept unread so that the owner, who has
+not taken Mock 4, can take it unseen. The owner chose to leave it untouched for
+now (« Owner decisions », 1).
+
+## Owner decisions (2026-10-13)
+
+1. **Holdout (F4): control only, later.** The holdout is not read or rewritten
+   now. The per-pool control stays out of the audit, as
+   [`aud10-per-pool.patch`](aud10-per-pool.patch) (`git apply` it), until the
+   rewrite can follow; F4 stays `BLOQUÉ`. Landing the control alone would turn
+   CI red on a known defect, and disabling the group to land it would be a
+   weakened check.
+2. **Delivery: PR, merge, deploy**, as for the previous lots: branch, gates,
+   PR, green CI, squash merge, deployment, production smoke test.
+
+## Next action
+
+Run the full gate set on this branch (`validate`, coverage, build, the eleven
+audits, `composer gate-full`, the proofs with SHA-256 restore check), commit
+P0.1–P0.3, then P1 in the mission's order, starting with P1.5 (Serializer) and
+P1.4 (Cache), which extend the two items just corrected.

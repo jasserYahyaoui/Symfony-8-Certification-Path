@@ -69,7 +69,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-g6j22cqpx1ga
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-fr58jzaj6jtb
   domain: symfony
@@ -81,8 +81,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Between an object and the produced format, which intermediate representation does the data always pass
-    through, in both directions?
+  question: 'A Serializer is built with ObjectNormalizer, DateTimeNormalizer, BackedEnumNormalizer and JsonEncoder.
+    For which value does the normalization step return an array?'
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -92,29 +92,34 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-13'
   tags:
   - process
   - architecture
   choices:
   - id: CHO-bhd1zdsc4se4
-    text: An array
+    text: An object with public properties
     correct: true
   - id: CHO-6132d7xzrbbz
-    text: A string in the target format, refined in a second pass
+    text: A DateTimeImmutable instance
     correct: false
-    explanation: The format is produced only at the last step.
+    explanation: DateTimeNormalizer returns an RFC 3339 string, which the encoder writes as a JSON string.
   - id: CHO-s007zctbbbaw
-    text: A stream the encoder consumes lazily
+    text: A case of a string-backed enum
     correct: false
-    explanation: Streaming is not what the two-step split is about.
+    explanation: BackedEnumNormalizer returns the case's backing value, here a string.
   - id: CHO-0c4xamsdd5pw
-    text: None; the object is written straight to the format
+    text: The integer 42 on its own
     correct: false
-    explanation: The documented process has two distinct responsibilities.
-  explanation: 'Data is always converted to an array first: normalizers handle object to array, encoders handle array
-    to format.'
+    explanation: The Serializer returns null and scalars unchanged; JSON encodes 42 as 42.
+  explanation: 'Normalizing then encoding are two responsibilities, but the normalized form is not always an array: normalize()
+    may return array, string, int, float, bool, ArrayObject or null. Executed with Serializer 8.0.15.'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/NormalizerInterface.php
+    branch: '8.0'
+    symbol_or_lines: 'normalize() — @return array|string|int|float|bool|\ArrayObject|null'
+    verified_at: '2026-10-13'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst
     branch: '8.0'

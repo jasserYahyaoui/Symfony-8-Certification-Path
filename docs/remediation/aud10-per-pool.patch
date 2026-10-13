@@ -1,0 +1,72 @@
+diff --git a/tools/audit/aud10_answer_length_bias.py b/tools/audit/aud10_answer_length_bias.py
+index 105374f..7e77e20 100644
+--- a/tools/audit/aud10_answer_length_bias.py
++++ b/tools/audit/aud10_answer_length_bias.py
+@@ -66,7 +66,16 @@ each lot are held to the bar of the exam banks, this one included. Each is
+ measured as its own group, `comprehension/lot-XX`, never pooled with the lot's
+ exam questions: a bias in one would otherwise be diluted by the other.
+ 
+-Exit code 1 if any lot's excess is beyond chance at alpha.
++POOLS, 2026-10-13 (remediation F4). A lot pools its LEARNING, VALIDATION and
++HOLDOUT questions, so a bias confined to one pool is diluted by the others. The
++holdout showed it: 34 of its 64 single-answer questions with a strictly longest
++choice had the correct one longest (53%), while no lot failed. Each exam pool is
++now also measured as its own group, `pool/LEARNING`, `pool/VALIDATION`,
++`pool/HOLDOUT`, with the same test and alpha. The holdout is the bank that is
++meant to measure the candidate, so it is the last one that may be gamed by
++length. Only aggregate counts are printed for it, never a question.
++
++Exit code 1 if any lot's or pool's excess is beyond chance at alpha.
+ 
+ `--prove` re-runs the measurement over the same corpus with every correct answer
+ lengthened IN MEMORY, and asserts the finding fires. No file is
+@@ -183,6 +192,8 @@ def main() -> int:
+     single = [q for q in questions if q['answer_mode'] == 'single']
+ 
+     per, correct_len, distractor_len = measure(single, lot_of)
++    by_pool = [{**q, '_group': 'pool/' + q['pool']} for q in single if '_group' not in q]
++    pools, _, _ = measure(by_pool, lot_of)
+ 
+     if '--prove' in sys.argv:
+         proved, _, _ = measure(single, lot_of, pad=120)
+@@ -201,6 +212,23 @@ def main() -> int:
+             print(f'  NOT fired, and correctly so: {", ".join(silent)} — under {floor} '
+                   'questions, total bias still sits above alpha. Stated here so the '
+                   'proof cannot be read as covering what it does not cover.')
++        # The pools: the bias injected into the holdout alone must fire on
++        # pool/HOLDOUT, however the other pools look — the dilution this group
++        # exists to undo. And a group at chance must stay silent.
++        holdout_only = [q for q in by_pool if q['pool'] == 'HOLDOUT']
++        proved_pool, _, _ = measure(holdout_only, lot_of, pad=120)
++        if not any(f.startswith('LEN-1  pool/HOLDOUT ') for f in gate(proved_pool)):
++            print('PROOF FAILED — pool/HOLDOUT stayed silent with every holdout '
++                  'answer made the longest; the per-pool check is VACUOUS')
++            return 1
++        at_chance = {'pool/SYNTHETIC': {'longest': 19, 'total': 75, 'chance': 18.75,
++                                        'ps': [0.25] * 75}}
++        if gate(at_chance):
++            print('PROOF FAILED — a 75-question group at the chance rate (19/75) '
++                  'was flagged; the per-pool check fires on noise')
++            return 1
++        print('  pool/HOLDOUT fires when only the holdout is biased; a 75-question '
++              'group at chance (19/75) stays silent')
+         # A test relaxed far enough to miss what the audit was written for would
+         # still pass the injection above, because pad=120 is absurd. This second
+         # assertion pins the real historical defect instead: the 2026-09-09
+@@ -238,7 +266,15 @@ def main() -> int:
+         mark = 'too small' if b['total'] < floor else ''
+         print(f'    {lot}  {b["longest"]:3}/{b["total"]:3} = {rate:5.1f}%   P={p:7.4f}  {mark}')
+ 
+-    findings = gate(per)
++    print(f'\n  per exam pool — each pool gated on its own, so a bias in one is not')
++    print(f'  diluted by the others. Aggregates only.')
++    for pool in sorted(pools):
++        b = pools[pool]
++        rate = b['longest'] / b['total'] * 100
++        p = tail(b['ps'], b['longest'])
++        print(f'    {pool}  {b["longest"]:3}/{b["total"]:3} = {rate:5.1f}%   P={p:.3g}')
++
++    findings = gate(per) + gate(pools)
+ 
+     for f in findings:
+         print(f)

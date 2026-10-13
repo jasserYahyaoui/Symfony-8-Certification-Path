@@ -121,17 +121,29 @@ flashcards:
     language: fr
     level: RECALL
     front: "Ordre des événements du noyau pour une requête traitée sans erreur ?"
-    back: "request → controller → controller_arguments → view → response → finish_request → terminate."
+    back: >-
+      request → controller → controller_arguments → [view] → response →
+      finish_request, puis terminate quand terminate() est appelé après l'envoi.
+      view n'a lieu que si le contrôleur ne rend pas une Response.
     explanation: >-
-      kernel.exception ne figure pas dans cette liste : il n'est dispatché que
-      si une exception survient, et il peut interrompre la séquence à tout
-      moment.
+      Exécuté sur HttpKernel 8.0.15 : un contrôleur qui rend une Response donne
+      request, controller, controller_arguments, response, finish_request, puis
+      terminate, sans view. Une réponse posée sur kernel.request saute
+      directement à response. kernel.exception ne figure que si une exception
+      survient. terminate n'est pas dispatché par handle() : c'est l'appel
+      séparé de terminate(), que fait le Runtime.
     memorization_justification: >-
-      Séquence ordonnée de sept noms, dont deux paires voisines
-      (controller / controller_arguments, response / finish_request) qui
-      s'intervertissent facilement de mémoire.
+      Séquence ordonnée dont un maillon est conditionnel, et deux paires
+      voisines (controller / controller_arguments, response / finish_request)
+      qui s'intervertissent facilement de mémoire.
     verification_status: VERIFIED
+    reviewed_at: "2026-10-13"
     official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        branch: "8.0"
+        symbol_or_lines: "handleRaw(): kernel.view only when the controller result is not a Response; terminate()"
+        verified_at: "2026-10-13"
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
         readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst"
         branch: "8.0"

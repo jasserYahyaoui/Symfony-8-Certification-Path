@@ -11,13 +11,19 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Pourquoi les Cache Contracts n'ont-ils pas de méthode set() ?
-  back: 'Parce que get() lit et écrit : son second argument est un appelable exécuté uniquement en cas de manque,
-    qui produit la valeur et la stocke.'
+  back: 'Parce que get() lit et écrit : son second argument est un appelable qui produit la valeur et la stocke
+    — au manque, ou sur une clé présente élue pour un recalcul anticipé ou forcée par beta = INF.'
   explanation: 'L''API ne définit que get() et delete(). Conséquence : on ne peut pas lire une clé sans déclarer
     comment la reconstruire.'
   memorization_justification: Toute autre API de cache expose un set() ; son absence ici surprend et s'oublie.
   verification_status: VERIFIED
+  reviewed_at: '2026-10-13'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'doGet(): $recompute = !$item->isHit() || \INF === $beta, then probabilistic early expiration'
+    verified_at: '2026-10-13'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/cache.rst
     symbol_or_lines: '"The Cache Contracts define only two methods: get() and delete(). There''s no set() method because the get() method both gets and sets"; the second argument "is a PHP callable which is executed when the key is not found in the cache"'

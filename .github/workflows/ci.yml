@@ -97,6 +97,16 @@ jobs:
       - name: Unit and integration tests
         run: vendor/bin/phpunit
 
+      # The claims the course teaches, executed against the exam versions.
+      # tools/behavior pins Symfony 8.0.*; the generator above runs 7.4, which
+      # is not what the exam asks about. CentralFactsTest (in the suite above)
+      # checks that the content still states each fact and not its correction's
+      # predecessor; this step checks that Symfony 8.0 still behaves that way.
+      - name: Taught behaviour holds on Symfony 8.0
+        run: |
+          composer install --working-dir=tools/behavior --prefer-dist --no-interaction --no-progress
+          php tools/behavior/run.php
+
       - name: Revision plan is deterministic and up to date
         run: |
           set -o pipefail

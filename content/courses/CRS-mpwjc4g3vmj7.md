@@ -5,7 +5,7 @@ title: "Request handling"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-13"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst"
@@ -240,8 +240,9 @@ rattrape.
 ## Points clés
 
 - `handle(Request, $type, $catch): Response` est le contrat unique.
-- L'ordre : request → *(résolution)* → controller → controller_arguments →
-  *(appel)* → view → response → finish_request → *(envoi)* → terminate.
+- L'ordre : request → controller → controller_arguments →
+  *(appel)* → [view, sans `Response`] → response → finish_request →
+  *(envoi)* → terminate.
 - Tout le travail est fait par des écouteurs ; `handle()` ne fait qu'orchestrer.
 - `handle()` empile la requête à l'entrée et la dépile dans un `finally` : c'est
   ce qui fait fonctionner `getCurrentRequest()` et `getParentRequest()`.
