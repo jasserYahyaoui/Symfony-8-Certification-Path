@@ -845,7 +845,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Samedi 28 novembre 2026
 
-- **Mock 1** — 61 questions — premier étalonnage, sans enjeu
+- **Mock 1** — premier étalonnage, sans enjeu — 41 questions / 42 min, tirées d'une banque de 62
 - **Source tour et mise en pratique** sur les 18 items de la semaine :
   - Miscellaneous : Error handling
   - Miscellaneous : Code debugging
@@ -874,7 +874,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 29 novembre 2026
 
-- **Mock 2** — 84 questions
+- **Mock 2** — 52 questions / 60 min, tirées d'une banque de 84
 - **Assessment lot-14 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-15 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-16 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
@@ -943,14 +943,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Samedi 5 décembre 2026
 
-- **Mock 3** — 68 questions
+- **Mock 3** — 45 questions / 54 min, tirées d'une banque de 68
 - Révision **J+30** (11 min) — Security : Users · Security : Password hashers · Security : Roles · Security : Access Control Rules
 
 *Budget du jour : 101 / 220 min*
 
 ### Dimanche 6 décembre 2026
 
-- **Mock 5** — tirage dans les 519 questions éligibles
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 653 questions hors holdout
 - Révision **J+30** (11 min) — Security : Authenticators, Passports and Badges · Security : Voters and voting strategies · Messenger : Messenger component
 - Révision **J+45** (8 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+60** (2 min) — Symfony Architecture : HttpFoundation component

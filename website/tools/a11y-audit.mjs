@@ -125,7 +125,7 @@ function pickQuestion(mode) {
 /** Seed a weakness for exactly one question, at the current storage version. */
 function seedWeakness(questionId, officialItem) {
   return {
-    schema_version: 3,
+    schema_version: 4,
     attempts: [{
       question_id: questionId,
       question_version: 1,
@@ -137,6 +137,30 @@ function seedWeakness(questionId, officialItem) {
     }],
     sessions: [],
     practice_sessions: [],
+    comprehension: [],
+    revision: {done: {}, settings: null},
+  };
+}
+
+/**
+ * A history that fills « Ma progression » (remediation F5): five practice
+ * answers on one item's topic, so one cell is concluded, and a single Mock 2
+ * answer, so another reads « données insuffisantes ».
+ */
+function seedHistory() {
+  const item = practicePayload.questions[0].official_item;
+  const same = practicePayload.questions.filter((q) => q.official_item === item).slice(0, 5);
+  const pad = practicePayload.questions.filter((q) => q.official_item !== item).slice(0, 5 - same.length);
+  const attempt = (q, i, mode) => ({
+    question_id: q.id, question_version: q.version, official_item: q.official_item,
+    correct: i % 2 === 0, chosen: [], answered_at: `2026-01-01T00:00:0${i}.000Z`, mode,
+  });
+  return {
+    schema_version: 4,
+    attempts: [...same, ...pad].map((q, i) => attempt(q, i, 'practice')).concat([attempt(same[0], 9, 'mock-2')]),
+    sessions: [],
+    practice_sessions: [],
+    comprehension: [],
     revision: {done: {}, settings: null},
   };
 }
@@ -293,6 +317,12 @@ const PAGES = [
   ['mock 3', '/mock-3'],
   ['mock 5', '/mock-5'],
   ['progression', '/progression'],
+  ['progression — historique', '/progression', {
+    state: seedHistory,
+    drive: async (page) => {
+      await page.getByRole('region', {name: 'Vos réponses par sujet officiel'}).waitFor();
+    },
+  }],
 ];
 
 /**
@@ -348,6 +378,29 @@ for (const [lot, entry] of Object.entries(comprehensionPayload.lots ?? {})) {
     }
     await page.locator('#comprehension-summary').waitFor();
   }}]);
+}
+
+/**
+ * The retake offer (remediation F10): one lot, its first question recorded as
+ * missed, so the check opens with « Reprendre seulement celles-ci ».
+ */
+{
+  const [lot, entry] = Object.entries(comprehensionPayload.lots ?? {})[0];
+  const first = comprehensionPayload.questions.find((q) => q.lot === lot);
+  PAGES.push([`comprehension ${lot} — reprise`, entry.url, {
+    state: () => ({
+      schema_version: 4, attempts: [], sessions: [], practice_sessions: [],
+      comprehension: [{
+        question_id: first.id, question_version: first.version, official_item: first.official_item,
+        lot, correct: false, answered_at: '2026-01-01T00:00:00.000Z',
+      }],
+      revision: {done: {}, settings: null},
+    }),
+    drive: async (page) => {
+      await page.getByRole('button', {name: 'Reprendre seulement celles-ci'}).click();
+      await page.locator('fieldset.certpath-question').waitFor();
+    },
+  }]);
 }
 
 // Use the image's Chromium when present (the build container ships one whose

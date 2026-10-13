@@ -8,6 +8,20 @@ français, termes techniques en anglais.
 **Objectif** : passer la certification du premier coup — un `PASS`, pas un score
 maximal.
 
+> **Chiffres périmés — avertissement du 13 octobre 2026 (remédiation F6).**
+> Les volumes et charges écrits à la main dans ce document datent du
+> **11 septembre 2026** : 71 578 mots, 519 questions hors HOLDOUT, 174 cartes.
+> Mesuré le 13 octobre par `build_roadmap.py` : **111 276 mots, 653 questions
+> hors HOLDOUT, 1 909 cartes** ; première passe **59,9 h** (cours 18,3 · questions
+> 16,4 · cartes 25,2), révisions espacées **57,5 h**. Les dates et le détail
+> jour par jour à jour sont dans [`study-calendar.md`](study-calendar.md), généré.
+>
+> **Non compté nulle part encore :** les 1 117 questions des contrôles de
+> compréhension, environ 15,7 h de réponse (25,1 h au facteur 1,6 de ce plan).
+> Les inclure rend le plan actuel intenable au 15 décembre ; le choix entre
+> plus de temps par jour et une date plus tardive est au propriétaire
+> (`docs/remediation/README.md`).
+
 ---
 
 ## Avertissement de vocabulaire, à lire avant tout le reste

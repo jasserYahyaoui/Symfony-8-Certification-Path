@@ -89,3 +89,21 @@ another pool and no holdout id.
   an additional, earlier step — understanding before testing.
 - A learner's answers are not stored: the page keeps the score for the session
   only. Practice Mode's weak-point history therefore stays exactly what it was.
+
+## Addendum, 2026-10-13 — answers are recorded, in a slice of their own
+
+Remediation F10 found that the check stored nothing, so a learner could not
+return to what they had missed. The reason given above — Practice Mode's
+weak-point history must stay exactly what it was — still holds, and is kept by
+**where** the answers go, not by refusing to keep them:
+
+- they go to `comprehension`, a new slice of the learner state (storage schema
+  4, migration adds an empty slice and touches nothing else), never to
+  `attempts`;
+- `attempts` alone drives the weak-point replay and Mock 5, so neither sees a
+  comprehension answer;
+- the slice serves two things only: offering a retake of the questions last
+  missed in a lot, and the « Compréhension » column of « Ma progression »,
+  where it is labelled as corrected-after-each-answer learning, not a measure.
+
+The check still feeds no readiness, coverage or roadmap figure.
