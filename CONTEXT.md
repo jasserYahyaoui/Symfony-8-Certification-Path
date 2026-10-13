@@ -1,6 +1,44 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-10 (contrôles de compréhension : les 26 lots en mini-examens, 1117 questions)
+**Last updated:** 2026-10-13 (remédiation F1–F10 : P0.1–P0.3, P1.7, P2.4, P2.5 en partie livrés)
+
+---
+
+## En cours : remédiation de l'audit du 2026-10-13 (F1–F10)
+
+Suivi complet, reprenable sans la conversation : `docs/remediation/README.md`.
+Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
+
+| Lot | PR | Fusion | Déploiement |
+|---|---|---|---|
+| P0.1–P0.3 — Serializer (F1), Cache (F2), HttpKernel (F3) corrigés, exécutés sur Symfony 8.0.15 | #394 | `fdf4035` | run Pages 38450923116, smoke 115482864576 **success, lu** |
+| P1.7 (F5) « Ma progression », P2.4 (F10) historique de compréhension, P2.5 (F6) textes des mocks | #395 | `6c1448c` | smoke 115498368380 **success, lu** |
+
+Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
+`docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
+formulation fait échouer PHPUnit), `website/tools/verify-observed.mjs` (CI),
+stockage local en schéma 4 (tranche `comprehension`).
+
+Tests réellement exécutés le 2026-10-13 sur #395 : `validate` 0 bloquant ;
+`gate-full` 346 tests, 23 586 assertions OK, a11y 0 violation ; 11 audits 0
+constat ; preuves PF, PFC, A10P, L27P OK, restauration identique ; 6 contrôles
+UI OK ; `tools/behavior/run.php` 10/10. Référence sur `master` propre avant
+travaux : 343 tests, 23 546 assertions.
+
+**Bloqué, décisions du propriétaire :**
+- **F4** — biais de longueur du HOLDOUT (34/64 bonnes réponses les plus longues) :
+  HOLDOUT non lu ni réécrit avant que le Mock 4 soit passé (décision du
+  2026-10-13). Le contrôle par pool est prêt : `docs/remediation/aud10-per-pool.patch`.
+- **F9** — la dernière citation en 404 est dans une question HOLDOUT : même décision.
+- **F6** — charge des 1 117 questions de compréhension (~25 h) non comptée :
+  l'inclure rend le plan intenable au 15 décembre à 160/220 min. Choix à faire
+  entre 210/270 min par jour, ou un examen le 29 décembre.
+  Patch prêt : `docs/remediation/roadmap-comprehension-load.patch`.
+
+**Prochaine action :** P1.5 Serializer et P1.4 Cache. Leurs cours sont à environ
+10 mots du budget STANDARD : la question du niveau doit être tranchée sur l'item
+lui-même avant d'écrire. Ensuite P1.6, les questions à réponses multiples
+(0 en VALIDATION et 0 en COMPREHENSION).
 
 ---
 
