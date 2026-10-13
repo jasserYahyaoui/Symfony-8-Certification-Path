@@ -23,6 +23,15 @@ import {extname, join} from 'node:path';
 const LOCAL_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const ROOT = new URL('../build/', import.meta.url).pathname;
 const WEBSITE = new URL('../', import.meta.url).pathname;
+// Read, not retyped: a migration bumps it, and a copy here would fail on the
+// bump rather than on a real loss of answers (as it did at v4).
+const STORAGE_VERSION = Number(
+  (await readFile(new URL('../src/lib/storage.ts', import.meta.url).pathname, 'utf8'))
+    .match(/STORAGE_VERSION\s*=\s*(\d+)/)?.[1],
+);
+if (!Number.isInteger(STORAGE_VERSION)) {
+  throw new Error('impossible de lire STORAGE_VERSION dans storage.ts');
+}
 const PORT = 4603;
 const BASE = '/Symfony-8-Certification-Path';
 const TYPES = {
@@ -339,13 +348,13 @@ await check('les réponses survivent à un rechargement', async () => {
   const stored = await page.evaluate(() =>
     JSON.parse(window.localStorage.getItem('certpath.learner-state')),
   );
-  if (stored.schema_version !== 3) {
+  if (stored.schema_version !== STORAGE_VERSION) {
     throw new Error(`schema_version ${stored.schema_version} après rechargement`);
   }
   const mine = stored.attempts.filter((a) => a.session_id);
   if (mine.length === 0) throw new Error('aucune tentative rattachée à une série');
   await context.close();
-  return `schema v3, ${mine.length} tentative(s) rattachée(s)`;
+  return `schema v${STORAGE_VERSION}, ${mine.length} tentative(s) rattachée(s)`;
 });
 
 // ------------------------------------------- a v2 history still loads (migration)

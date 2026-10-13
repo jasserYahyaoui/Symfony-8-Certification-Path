@@ -1,6 +1,85 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '@theme/Layout';
 import {clearState, readState} from '@site/src/lib/storage';
+import {CHANNELS, MIN_QUESTIONS, enough, observe, type Cell, type Channel, type Observed} from '@site/src/lib/observed';
+import usePayload from '@site/src/lib/usePayload';
+import type {Payload} from '@site/src/lib/types';
+
+const CHANNEL_LABEL: Record<Channel, string> = {
+  practice: 'Practice',
+  comprehension: 'Compréhension',
+  training: 'Exam et Mocks 1, 2, 3, 5',
+  mock4: 'Mock 4',
+};
+
+function cellText(cell: Cell): string {
+  if (cell.questions === 0) {
+    return '—';
+  }
+  if (!enough(cell)) {
+    return `données insuffisantes (${cell.questions} question${cell.questions > 1 ? 's' : ''})`;
+  }
+  const latest = cell.repeated > 0 ? ` · dernière réponse ${cell.latestCorrect}/${cell.questions}` : '';
+  return `1re réponse ${cell.firstCorrect}/${cell.questions}${latest}`;
+}
+
+/**
+ * What the learner's own answers show (remediation F5). Read on the client
+ * only: localStorage does not exist when Docusaurus renders the page.
+ */
+function ObservedTable(): React.JSX.Element {
+  const index = usePayload<Payload>('practice.json');
+  const [observed, setObserved] = useState<Observed | null>(null);
+
+  useEffect(() => {
+    if (index.status !== 'ready') {
+      return;
+    }
+    const items = index.payload.items ?? {};
+    const state = readState();
+    setObserved(observe(state.attempts, state.comprehension, (id) => items[id]?.official_topic));
+  }, [index.status]);
+
+  if (index.status === 'error') {
+    return <p role="status">Index des sujets indisponible : {index.message}</p>;
+  }
+  if (observed === null) {
+    return <p role="status">Lecture de votre historique…</p>;
+  }
+  if (observed.size === 0) {
+    return <p>Aucune réponse enregistrée dans ce navigateur : rien ne peut encore être observé.</p>;
+  }
+
+  const topics = [...observed.keys()].sort((a, b) => a.localeCompare(b, 'fr'));
+
+  return (
+    <div className="certpath-table-scroll" tabIndex={0} role="region" aria-label="Vos réponses par sujet officiel">
+      <table>
+        <caption>Vos réponses par sujet officiel, séparées par mode</caption>
+        <thead>
+          <tr>
+            <th scope="col">Sujet officiel</th>
+            {CHANNELS.map((c) => (
+              <th scope="col" key={c}>
+                {CHANNEL_LABEL[c]}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {topics.map((topic) => (
+            <tr key={topic}>
+              <th scope="row">{topic}</th>
+              {CHANNELS.map((c) => (
+                <td key={c}>{cellText(observed.get(topic)![c])}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 /**
  * Privacy controls, Master Plan §13: explicit reset and versioned JSON export.
@@ -38,6 +117,38 @@ export default function Progression(): React.JSX.Element {
     <Layout title="Ma progression" description="Exporter ou effacer votre progression locale.">
       <main className="container margin-vert--lg">
         <h1>Ma progression</h1>
+
+        <h2>Ce que vos réponses montrent</h2>
+        <p>
+          Ce tableau décrit <strong>vos</strong> réponses. La couverture du
+          syllabus et la Certification Readiness décrivent le <strong>contenu</strong> du
+          site : elles peuvent valoir 100 % sans que vous ayez ouvert un cours.
+        </p>
+        <ul>
+          <li>
+            <strong>Practice</strong> et <strong>Compréhension</strong> corrigent
+            après chaque réponse : c'est de l'apprentissage, pas une mesure.
+          </li>
+          <li>
+            <strong>Exam et Mocks 1, 2, 3, 5</strong> puisent dans la banque de
+            validation : vous avez pu y revoir les mêmes questions.
+          </li>
+          <li>
+            <strong>Mock 4</strong> est la seule banque tenue hors de tout
+            entraînement. Sa première réponse est ce qui se rapproche le plus
+            d'une mesure sur des questions inédites.
+          </li>
+        </ul>
+        <p className="certpath-note">
+          La « 1re réponse » compte la première fois que vous avez répondu à
+          chaque question ; une nouvelle tentative mesure aussi votre souvenir de
+          la question. Sous {MIN_QUESTIONS} questions distinctes, rien n'est
+          conclu. Aucune probabilité de réussite n'est calculée : le seuil
+          officiel et la pondération par sujet ne sont pas publiés.
+        </p>
+        <ObservedTable />
+
+        <h2>Exporter ou effacer</h2>
 
         <p>
           Toute votre progression est conservée dans le stockage local de ce

@@ -53,12 +53,12 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F2 | Cache callback « only on a miss » | **VÉRIFIÉ** (local) | see P0.2 |
 | F3 | `kernel.view` shown as unconditional | **VÉRIFIÉ** (local) | see P0.3 |
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
-| F5 | Content metrics read as candidate mastery | À FAIRE | P1.7 |
-| F6 | Roadmap / mock texts out of sync | À FAIRE | P2.5 |
+| F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
+| F6 | Roadmap / mock texts out of sync | **EN COURS** — mock texts derived; comprehension load **BLOQUÉ** (owner: date or daily time) | see P2.5 |
 | F7 | Too few multiple-answer questions | À FAIRE | P1.6 — baseline: 0 in VALIDATION and COMPREHENSION |
 | F8 | Unsourced "not examinable" restrictions | À FAIRE | P1.1–P1.5, P2.7 |
-| F9 | PHP source 404 and mutable branch URLs | À FAIRE | P2.6 |
-| F10 | No per-card recall record; comprehension stores nothing | À FAIRE | P2.3, P2.4 |
+| F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
+| F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
 ### P0.1 — Serializer (F1)
 
@@ -143,6 +143,71 @@ holdout, which this project has so far kept unread so that the owner, who has
 not taken Mock 4, can take it unseen. The owner chose to leave it untouched for
 now (« Owner decisions », 1).
 
+### P1.7 — Content metrics are not the learner (F5)
+
+Already in place before this work, and kept: the introduction separates
+coverage from readiness, and PRÊT-CANDIDAT opens with « `EXAM_READY` ne parle
+pas de vous ». What was missing was the learner's side: « Ma progression »
+showed no answer at all.
+
+Added: a table « Ce que vos réponses montrent », per official topic, in four
+columns that are never added together — Practice and Compréhension (corrected
+after each answer: learning), Exam and Mocks 1, 2, 3, 5 (VALIDATION, possibly
+seen before), Mock 4 (the holdout). Each cell gives the **first** answer and,
+when a question was retried, the **latest**. Under 5 distinct questions it
+reads « données insuffisantes ». No pass probability is computed: the pass mark
+and topic weights are not published. Logic in `website/src/lib/observed.ts`;
+`website/tools/verify-observed.mjs` (CI step) checks no history, partial,
+repeated, contradictory and mixed-channel histories, and was shown to fail on
+two injected defects (a retry counted as a first answer; Mock 4 merged into
+training), each file restored byte-identically.
+
+### P2.4 — Comprehension recorded and retaken (F10, part)
+
+Answers go to a new slice `comprehension` (storage schema 4; the migration adds
+an empty slice and touches nothing else), never to `attempts`, so Practice
+weak points and Mock 5 never see them. The check offers « Reprendre seulement
+celles-ci » for the questions last missed in the lot, and the summary offers a
+retake of the ones just missed. ADR-0010 has an addendum. Two new a11y
+surfaces: « progression — historique » (seeded) and « comprehension — reprise ».
+`verify-practice-ui` read the storage version as a literal 3; it now reads it
+from `storage.ts`, as `verify-agenda-ui` already did — the assertion is
+unchanged.
+
+### P2.5 — Roadmap and mocks (F6)
+
+Reproduced: `build_roadmap.py` wrote « 61 / 84 / 68 questions » and « 519
+questions éligibles » — bank sizes presented as sitting sizes. The mock lines
+are now read from the blueprints the payloads are built from: Mock 1 41 q /
+42 min from 62, Mock 2 52 / 60 from 84, Mock 3 45 / 54 from 68, Mock 5 10 to 40
+from 653, Mock 4 75 / 90. `MocksBlueprintTest` already holds the blueprint equal
+to the bank.
+
+The hand-written `study-roadmap.md` and `exam-readiness.md` still carry the
+11 September snapshot (71 578 words, 519 questions, 174 cards); each now opens
+with a dated notice giving the 13 October measurement (111 276 words, 653
+questions, 1 909 cards, first pass 59.9 h, spaced reviews 57.5 h).
+
+**Comprehension load: blocked on the owner.** The 1 117 comprehension
+questions (15.7 h raw, 25.1 h at the plan's ×1.6) are budgeted nowhere. Counted
+in each item's first pass ([`roadmap-comprehension-load.patch`](roadmap-comprehension-load.patch)),
+the published parameters no longer fit: `build_roadmap.py` stops with « Pas de
+place » for exam 2026-12-15 at 160/220 min. Measured alternatives:
+
+| Parameters | Lots done | Reviews lost after the exam |
+|---|---|---|
+| exam 15 Dec, 210 min weekday / 270 weekend | 27 Nov | 59 (3.1 h) |
+| exam 29 Dec, 160 / 220 (unchanged) | 9 Dec | 30 (1.6 h) |
+| exam 15 Dec, 160 / 220, or 180 / 240, or 200 / 240 | — | infeasible |
+
+### P2.6 — Sources (F9)
+
+The one citation still answering 404 (`language/exceptions.xml`) is in a
+HOLDOUT question. By the owner's decision the holdout is not touched now, and
+the right replacement page cannot be chosen without reading the question.
+Version pinning of branch URLs is not started: `AUD-02` reads the ref of every
+citation, so a format change has to be designed with it, not applied in bulk.
+
 ## Owner decisions (2026-10-13)
 
 1. **Holdout (F4): control only, later.** The holdout is not read or rewritten
@@ -154,9 +219,20 @@ now (« Owner decisions », 1).
 2. **Delivery: PR, merge, deploy**, as for the previous lots: branch, gates,
    PR, green CI, squash merge, deployment, production smoke test.
 
+3. **Pending:** the comprehension load (P2.5 table above) — later exam date
+   or more time per day. Until then the published plan omits ~25 h.
+
+## Delivery log
+
+| Lot | PR | Merge | Deployment |
+|---|---|---|---|
+| P0.1–P0.3 | #394, CI green | squash `fdf4035` | Pages run 38450923116 — Deploy success; job « Production smoke test » 115482864576 success, log read (1117 comprehension questions served). Direct fetch of the site from this session is refused by the egress proxy. |
+| P1.7, P2.4, P2.5 (part) | open | — | — |
+
 ## Next action
 
-Run the full gate set on this branch (`validate`, coverage, build, the eleven
-audits, `composer gate-full`, the proofs with SHA-256 restore check), commit
-P0.1–P0.3, then P1 in the mission's order, starting with P1.5 (Serializer) and
-P1.4 (Cache), which extend the two items just corrected.
+P1 in the mission's order: P1.5 (Serializer) and P1.4 (Cache) extend the two
+items corrected in P0, but both courses sit within ~10 words of the STANDARD
+budget of 900, so the extension needs the level question settled on the item's
+own merits (matrix field guide) before any paragraph is written. Then P1.6
+(multiple-answer questions in VALIDATION and COMPREHENSION, baseline 0 and 0).

@@ -11,7 +11,7 @@
 import type {Question} from './types';
 
 const STORAGE_KEY = 'certpath.learner-state';
-const STORAGE_VERSION = 3;
+const STORAGE_VERSION = 4;
 
 export interface Attempt {
   question_id: string;
@@ -69,6 +69,23 @@ export interface PracticeSession {
  * state, so the export and the reset on /progression already cover them —
  * a second storage key would be a second thing to forget to erase.
  */
+/**
+ * One answer given in a comprehension check (ADR-0010, addendum 2026-10-13).
+ *
+ * Kept in its own slice, never in `attempts`: the check corrects after each
+ * question, so it is learning, not evidence. `attempts` drives the weak-point
+ * replay of Practice Mode and the selection of Mock 5; a comprehension answer
+ * there would let a corrected-on-the-spot answer steer an evaluation.
+ */
+export interface ComprehensionAttempt {
+  question_id: string;
+  question_version: number;
+  official_item: string;
+  lot: string;
+  correct: boolean;
+  answered_at: string;
+}
+
 export interface RevisionState {
   /** Event key (`date|start|title`) → ISO timestamp it was marked done. */
   done: Record<string, string>;
@@ -91,6 +108,7 @@ export interface LearnerState {
   attempts: Attempt[];
   sessions: ExamSession[];
   practice_sessions: PracticeSession[];
+  comprehension: ComprehensionAttempt[];
   revision: RevisionState;
 }
 
@@ -106,6 +124,9 @@ const MIGRATIONS: Record<number, Migration> = {
   // untouched — a learner who has been practising for weeks keeps everything
   // and simply has no practice series recorded before this version.
   3: (state) => ({...state, practice_sessions: []}),
+  // Comprehension checks start recording answers, in a slice of their own.
+  // Nothing earlier is touched; a learner simply has no history before v4.
+  4: (state) => ({...state, comprehension: []}),
 };
 
 function emptyRevision(): RevisionState {
@@ -118,6 +139,7 @@ function empty(): LearnerState {
     attempts: [],
     sessions: [],
     practice_sessions: [],
+    comprehension: [],
     revision: emptyRevision(),
   };
 }
@@ -147,6 +169,7 @@ function migrate(raw: unknown): LearnerState {
     attempts: Array.isArray(state.attempts) ? state.attempts : [],
     sessions: Array.isArray(state.sessions) ? state.sessions : [],
     practice_sessions: Array.isArray(state.practice_sessions) ? state.practice_sessions : [],
+    comprehension: Array.isArray(state.comprehension) ? state.comprehension : [],
     revision: {
       done: revision.done && typeof revision.done === 'object' ? revision.done : {},
       settings: revision.settings ?? null,
@@ -219,6 +242,26 @@ export function recordPracticeSession(session: PracticeSession): void {
   const state = readState();
   state.practice_sessions.push(session);
   writeState(state);
+}
+
+export function recordComprehension(attempt: ComprehensionAttempt): void {
+  const state = readState();
+  state.comprehension.push(attempt);
+  writeState(state);
+}
+
+/**
+ * The comprehension questions of a lot whose most recent answer was wrong.
+ * The latest answer wins: a notion missed then understood is no longer owed.
+ */
+export function missedComprehension(lot: string): Set<string> {
+  const latest = new Map<string, boolean>();
+  for (const attempt of readState().comprehension) {
+    if (attempt.lot === lot) {
+      latest.set(attempt.question_id, attempt.correct);
+    }
+  }
+  return new Set([...latest].filter(([, correct]) => !correct).map(([id]) => id));
 }
 
 /**

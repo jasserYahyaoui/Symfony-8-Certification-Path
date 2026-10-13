@@ -166,11 +166,25 @@ last_study = max(days)
 #    Le tail de révisions J+30/J+45/J+60 continue en parallèle : il occupe la
 #    semaine, le mock occupe le samedi et sa correction le dimanche.
 all_items_in = max(lot_done_date.values())
-MOCKS = [('Mock 1','61 questions — premier étalonnage, sans enjeu'),
-         ('Mock 2','84 questions'),
-         ('Mock 3','68 questions'),
-         ('Mock 5','tirage dans les 519 questions éligibles'),
-         ('Mock 4','75 questions / 90 min — holdout, format fixé par §10, une seule fois')]
+# Read from the blueprints the payloads are built from, never retyped
+# (remediation F6). The old literals — 61, 84, 68 and 519 — were bank sizes
+# written as sitting sizes, and stayed after the banks moved. A sitting draws
+# `question_count` from `eligible_questions`; both are said, so the two are
+# never confused again. MocksBlueprintTest keeps the blueprint equal to the bank.
+_BP = yaml.safe_load(open('docs/mocks/mocks-1-2-3-5-blueprint.yml', encoding='utf-8'))
+_M = {m['id']: m for m in _BP['mocks']}
+_M4 = yaml.safe_load(open('docs/mocks/mock-4-blueprint.yml', encoding='utf-8'))['official_constraints']
+def _sitting(mid, lead=''):
+    m = _M[mid]
+    return (f"{lead}{m['question_count']} questions / {m['duration_minutes']} min, "
+            f"tirées d'une banque de {m['eligible_questions']}")
+MOCKS = [('Mock 1', _sitting('mock-1', 'premier étalonnage, sans enjeu — ')),
+         ('Mock 2', _sitting('mock-2')),
+         ('Mock 3', _sitting('mock-3')),
+         ('Mock 5', f"{_M['mock-5']['question_count_summary']} ; univers de "
+                    f"{_M['mock-5']['eligible_questions']} questions hors holdout"),
+         ('Mock 4', f"{_M4['questions']} questions / {_M4['minutes']} min — holdout, "
+                    f"format fixé par §10, une seule fois")]
 if EXAM:
     # Exigence : aucun mock avant que TOUS les lots soient étudiés. Avec une date
     # d'examen imposée, le nombre de week-ends restants peut être inférieur au

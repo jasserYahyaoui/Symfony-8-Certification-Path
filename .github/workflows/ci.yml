@@ -220,6 +220,13 @@ jobs:
       - name: The browser scheduler agrees with build_roadmap.py
         run: node website/tools/verify-reschedule.mjs
 
+      # « Ma progression » shows the learner's own answers by channel. These
+      # cases (none, partial, repeated, contradictory, mixed channels) pin what
+      # a reader sees, so a change that merges channels or counts a retry as a
+      # first answer stops the build.
+      - name: Learner-facing figures keep their channels apart
+        run: node website/tools/verify-observed.mjs
+
       # `onBrokenLinks: 'throw'` makes this the site-level counterpart of the
       # LNK-001 content rule: a dead link fails the build instead of shipping.
       - name: Build the documentation site
