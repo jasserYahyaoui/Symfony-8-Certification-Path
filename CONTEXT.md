@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-13 (remédiation F1–F10 : P0.1–P0.3, P1.7, P2.4, P2.5 en partie livrés)
+**Last updated:** 2026-10-14 (remédiation F1–F10 : P0, P1.4, P1.5, P1.7, P2.4, P2.5 livrés ; examen le 29 décembre)
 
 ---
 
@@ -13,6 +13,9 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 |---|---|---|---|
 | P0.1–P0.3 — Serializer (F1), Cache (F2), HttpKernel (F3) corrigés, exécutés sur Symfony 8.0.15 | #394 | `fdf4035` | run Pages 38450923116, smoke 115482864576 **success, lu** |
 | P1.7 (F5) « Ma progression », P2.4 (F10) historique de compréhension, P2.5 (F6) textes des mocks | #395 | `6c1448c` | smoke 115498368380 **success, lu** |
+| Date d'examen → 29 décembre (option B du propriétaire), charge de compréhension comptée | #397 | `c4c5348` | smoke 115538068644 **success, lu** |
+| P1.5 Serializer : ordre des normaliseurs, extracteur de types, OBJECT_TO_POPULATE, contexte ; promu DEEP | #398 | `afe8926` | smoke 115735269277 **success, lu** |
+| P1.4 Cache : PSR-6, PSR-16, ponts ; promu DEEP | #399 | `effce50` | smoke 115749438772 **success, lu** |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -34,10 +37,11 @@ travaux : 343 tests, 23 546 assertions.
   déplacé au **29 décembre 2026**, rythme inchangé (160/220 min) ; la charge de
   compréhension (26,4 h) est comptée. Mock 4 le 26 décembre.
 
-**Prochaine action :** P1.5 Serializer et P1.4 Cache. Leurs cours sont à environ
-10 mots du budget STANDARD : la question du niveau doit être tranchée sur l'item
-lui-même avant d'écrire. Ensuite P1.6, les questions à réponses multiples
-(0 en VALIDATION et 0 en COMPREHENSION).
+**Prochaine action :** P1.3 Validator, puis P1.2 Form (collections), puis P1.1
+PHP. Toujours : exécuter d'abord dans `tools/behavior` (18 faits aujourd'hui),
+écrire ensuite, et décider du niveau sur l'item, jamais sur un compte de mots.
+P1.6 doit encore des questions à réponses multiples en VALIDATION (0 à ce jour),
+ce qui modifie les blueprints des Mocks 1 à 3.
 
 ---
 

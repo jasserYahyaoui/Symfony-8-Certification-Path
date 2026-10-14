@@ -298,12 +298,14 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P0.1–P0.3 | #394, CI green | squash `fdf4035` | Pages run 38450923116 — Deploy success; job « Production smoke test » 115482864576 success, log read (1117 comprehension questions served). Direct fetch of the site from this session is refused by the egress proxy. |
 | Exam date (owner option B) | #397 | squash `c4c5348` | smoke 115538068644 success, log read |
 | P1.5 Serializer | #398 | squash `afe8926` | smoke 115735269277 success, log read (519 LEARNING, 615 outcomes, lot-26 comprehension 18) |
+| P1.4 Cache | #399 | squash `effce50` | smoke 115749438772 success, log read (lot-18 comprehension 16, 1 122 in all) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P1 in the mission's order: P1.5 (Serializer) and P1.4 (Cache) extend the two
-items corrected in P0, but both courses sit within ~10 words of the STANDARD
-budget of 900, so the extension needs the level question settled on the item's
-own merits (matrix field guide) before any paragraph is written. Then P1.6
-(multiple-answer questions in VALIDATION and COMPREHENSION, baseline 0 and 0).
+P1.3 (Validator: constraint behaviours, compositions, a custom Constraint and
+ConstraintValidator), then P1.2 (Form collections and mapping), then P1.1 (PHP
+API beyond « what's new »). Each the same way: execute first in
+`tools/behavior`, then write; decide the level on the item, never on a word
+count. P1.6 still owes multiple-answer questions in VALIDATION, which moves the
+Mock 1–3 blueprints and must be done with them.
