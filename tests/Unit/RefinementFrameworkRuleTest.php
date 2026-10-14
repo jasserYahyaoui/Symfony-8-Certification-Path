@@ -464,11 +464,12 @@ final class RefinementFrameworkRuleTest extends TestCase
      * test green while the published derivation described a corpus that no
      * longer exists. Serializer was promoted on 2026-10-14 (remediation P1.5):
      * 27/123/13. The counts are checked against the matrix below, so the next
-     * promotion cannot leave this figure behind.
+     * promotion cannot leave this figure behind. Cache followed the same day:
+     * 27/122/14.
      */
     public function testThePublishedCorpusCeilingMatchesTheBudgets(): void
     {
-        self::assertSame(145_200, RevisionBudgetRule::corpusCeiling(27, 123, 13));
+        self::assertSame(145_500, RevisionBudgetRule::corpusCeiling(27, 122, 14));
     }
 
     public function testThePublishedLevelCountsAreTheMatrixCounts(): void
@@ -477,7 +478,7 @@ final class RefinementFrameworkRuleTest extends TestCase
         foreach (\CertPath\Support\Project::locate()->loadContentSet()->matrix->items as $item) {
             ++$counts[$item->contentLevel->value];
         }
-        self::assertSame(['MINIMAL' => 27, 'STANDARD' => 123, 'DEEP' => 13], $counts);
+        self::assertSame(['MINIMAL' => 27, 'STANDARD' => 122, 'DEEP' => 14], $counts);
     }
 
     /**

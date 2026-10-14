@@ -774,3 +774,113 @@ questions:
     branch: '8.0'
     symbol_or_lines: Cache Contracts
     verified_at: '2026-10-09'
+- id: QST-3va6n5ybkba5
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-8h04z2xxjp34
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A third-party library asks for a Psr\SimpleCache\CacheInterface, and the application has a PSR-6 pool. Which
+    statements hold? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - cache
+  choices:
+  - id: CHO-fd2fkm3z261m
+    text: new Psr16Cache($pool) gives the library the PSR-16 cache it asks for
+    correct: true
+  - id: CHO-28e1bzvpmedz
+    text: get('k', 'fallback') then returns the fallback when the key is missing
+    correct: true
+  - id: CHO-q096cxt0xcvb
+    text: The pool can be passed as is, since every adapter implements PSR-16
+    correct: false
+    explanation: Adapters implement PSR-6 and the Contracts; PSR-16 comes from Psr16Cache.
+  - id: CHO-c247hkaktngn
+    text: Psr16Adapter is the class that wraps the pool for the library
+    correct: false
+    explanation: 'Psr16Adapter goes the other way: it turns a PSR-16 cache into a PSR-6 pool.'
+  explanation: Choose the API by the contract the consumer expects. Psr16Cache turns a PSR-6 pool into PSR-16; Psr16Adapter
+    does the reverse. Executed with Cache 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    branch: '8.0'
+    symbol_or_lines: get($key, $default); has(); PSR-16 over a PSR-6 pool
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/Psr16Adapter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/Psr16Adapter.php
+    branch: '8.0'
+    symbol_or_lines: 'Psr16Adapter: a PSR-6 pool, and Contracts cache, over a PSR-16 cache'
+    verified_at: '2026-10-14'
+- id: QST-1mz08p0dyk3c
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-wq0bg1r133y3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: With a PSR-6 pool, code calls $item = $pool->getItem('k'), then $item->set('x'), and never calls save(). What
+    does a later $pool->getItem('k')->isHit() return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - cache
+  choices:
+  - id: CHO-5cckprsvarq7
+    text: 'false: set() only changes the item object'
+    correct: true
+  - id: CHO-ej58sxxy0x11
+    text: 'true: set() writes through to the pool'
+    correct: false
+    explanation: In PSR-6 nothing is stored until save() or saveDeferred() and commit().
+  - id: CHO-89ev3g92m180
+    text: true, but only until the end of the request
+    correct: false
+    explanation: Nothing was written, for any duration.
+  - id: CHO-07nff9dyhqbj
+    text: An exception, because the item was never saved
+    correct: false
+    explanation: 'A miss is not an error: isHit() is false.'
+  explanation: Executed with Cache 8.0.15. The Cache Contracts write implicitly through the get() callback; PSR-6 writes
+    only on save().
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'getItem(): commits a deferred item of the same key; save(); saveDeferred(); commit()'
+    verified_at: '2026-10-14'

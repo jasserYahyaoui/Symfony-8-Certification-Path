@@ -4,7 +4,21 @@ declare(strict_types=1);
 
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\Psr16Adapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Contracts\Cache\ItemInterface;
+
+$tempDir = static fn (): string => sys_get_temp_dir().'/cert-behavior-'.bin2hex(random_bytes(4));
+$removeDir = static function (string $dir): void {
+    if (!is_dir($dir)) {
+        return;
+    }
+    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($files as $file) {
+        $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
+    }
+    rmdir($dir);
+};
 
 return [
     // F2: a present key does not guarantee the callback is skipped.
@@ -94,5 +108,84 @@ return [
             }
             rmdir($dir);
         }
+    },
+    // P1.4: PSR-6 writes only on save(); a stored null is a hit.
+    'cache.psr6-save-and-null' => static function (): ?string {
+        $pool = new ArrayAdapter();
+        $item = $pool->getItem('k');
+        if ($item->isHit() || null !== $item->get()) {
+            return 'a miss was not isHit() false with get() null';
+        }
+        $item->set('x');
+        if ($pool->getItem('k')->isHit()) {
+            return 'set() without save() stored the value';
+        }
+        $item->set(null);
+        $pool->save($item);
+        $again = $pool->getItem('k');
+        if (!$again->isHit() || null !== $again->get()) {
+            return 'a saved null was not a hit holding null';
+        }
+        $pool->deleteItem('k');
+
+        return $pool->getItem('k')->isHit() ? 'deleteItem() left the item' : null;
+    },
+    // P1.4: saveDeferred() is invisible to another pool until commit(), and a
+    // getItem() on the same key of the deferring pool commits it.
+    'cache.psr6-deferred-commit' => static function () use ($tempDir, $removeDir): ?string {
+        $dir = $tempDir();
+        try {
+            $pool = new FilesystemAdapter('ns', 0, $dir);
+            $other = new FilesystemAdapter('ns', 0, $dir);
+            $pool->saveDeferred($pool->getItem('a')->set('v'));
+            if ($other->getItem('a')->isHit()) {
+                return 'a deferred item was visible to another pool before commit';
+            }
+            if (!$pool->getItem('a')->isHit() || !$other->getItem('a')->isHit()) {
+                return 'getItem() on the deferring pool did not commit the item';
+            }
+            $pool->saveDeferred($pool->getItem('b')->set('v'));
+            $pool->commit();
+
+            if (!$other->getItem('b')->isHit()) {
+                return 'commit() did not persist the deferred item';
+            }
+            // ArrayAdapter's saveDeferred() is save(): no deferral at all.
+            $array = new ArrayAdapter();
+            $array->saveDeferred($array->getItem('c')->set('v'));
+            $snapshot = $array->getValues();
+
+            return isset($snapshot['c']) ? null : 'ArrayAdapter deferred an item instead of saving it';
+        } finally {
+            $removeDir($dir);
+        }
+    },
+    // P1.4: PSR-16 returns the default on a miss; has() tells a stored null apart.
+    'cache.psr16-default-and-has' => static function (): ?string {
+        $cache = new Psr16Cache(new ArrayAdapter());
+        if ('dflt' !== $cache->get('missing', 'dflt')) {
+            return 'a miss did not return the default';
+        }
+        $cache->set('z', null);
+
+        return null === $cache->get('z', 'dflt') && $cache->has('z')
+            ? null
+            : 'a stored null was not returned as null, or has() was false';
+    },
+    // P1.4: Psr16Cache turns a PSR-6 pool into PSR-16; Psr16Adapter turns PSR-16
+    // back into a pool that also speaks the Cache Contracts.
+    'cache.psr-bridges' => static function (): ?string {
+        $psr16 = new Psr16Cache(new ArrayAdapter());
+        $pool = new Psr16Adapter($psr16);
+        if (!$psr16 instanceof Psr\SimpleCache\CacheInterface) {
+            return 'Psr16Cache is not a PSR-16 cache';
+        }
+        if (!$pool instanceof Psr\Cache\CacheItemPoolInterface || !$pool instanceof Symfony\Contracts\Cache\CacheInterface) {
+            return 'Psr16Adapter is not both a PSR-6 pool and a Contracts cache';
+        }
+
+        return 'computed' === $pool->get('k', static fn (): string => 'computed') && $psr16->has('k')
+            ? null
+            : 'a value computed through the Contracts did not reach the PSR-16 cache';
     },
 ];

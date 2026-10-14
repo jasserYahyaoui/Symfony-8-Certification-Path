@@ -183,3 +183,48 @@ facts:
     behavior_check: serializer.context-options
     content: [CRS-3z96cp2s1dka, FLC-d5w66y32a3ka, QST-hjv0ngsgvqxr]
     forbidden: []
+  cache.psr6-save-and-null:
+    finding: P1.4
+    official_item: OIT-78k7kbfpgfxt
+    statement: >-
+      PSR-6 stores nothing until save(); a miss is isHit() false with get() null, and a saved null is
+      isHit() true with get() null, so only isHit() tells them apart. deleteItem() removes the item.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    behavior_check: cache.psr6-save-and-null
+    content: [CRS-p6yhxmpxrzbs, FLC-zh5xzmekgemg, QST-gfe8kk8nxsgf, QST-1mz08p0dyk3c]
+    forbidden:
+      - "/get\\(\\) (returns|rend) null[^.]{0,40}(means|signifie)[^.]{0,20}(missing|absent)/iu"
+  cache.psr6-deferred-commit:
+    finding: P1.4
+    official_item: OIT-78k7kbfpgfxt
+    statement: >-
+      With FilesystemAdapter, an item passed to saveDeferred() is invisible to another pool until commit(),
+      and a getItem() of that key on the deferring pool commits it. ArrayAdapter's saveDeferred() calls save().
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
+    behavior_check: cache.psr6-deferred-commit
+    content: [CRS-p6yhxmpxrzbs, FLC-qcvd0xvack55, QST-eakh06qrdwz5]
+    forbidden: []
+  cache.psr16-default-and-has:
+    finding: P1.4
+    official_item: OIT-78k7kbfpgfxt
+    statement: PSR-16 get() returns the default on a miss; has() tells a stored null apart from a miss.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    behavior_check: cache.psr16-default-and-has
+    content: [CRS-p6yhxmpxrzbs, QST-gfe8kk8nxsgf, QST-3va6n5ybkba5]
+    forbidden: []
+  cache.psr-bridges:
+    finding: P1.4
+    official_item: OIT-78k7kbfpgfxt
+    statement: >-
+      Psr16Cache turns a PSR-6 pool into a PSR-16 cache; Psr16Adapter turns a PSR-16 cache into a PSR-6
+      pool that also implements the Cache Contracts. Adapters do not implement PSR-16 themselves.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/Psr16Adapter.php
+    behavior_check: cache.psr-bridges
+    content: [CRS-p6yhxmpxrzbs, QST-3va6n5ybkba5]
+    forbidden: []

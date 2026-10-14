@@ -235,3 +235,140 @@ questions:
     branch: '8.0'
     symbol_or_lines: Cache Pools, Adapters and Items; Provider
     verified_at: '2026-09-14'
+- id: QST-eakh06qrdwz5
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-wq0bg1r133y3
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: psr-6
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '$pool and $reader are two FilesystemAdapter instances with the same namespace and directory. What does the
+    code print?
+
+
+    ```php
+
+    $item = $pool->getItem(''report'');
+
+    $item->set(''ready'');
+
+    $pool->saveDeferred($item);
+
+    var_dump($reader->getItem(''report'')->isHit());
+
+    var_dump($pool->getItem(''report'')->isHit());
+
+    var_dump($reader->getItem(''report'')->isHit());
+
+    ```'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - psr-6
+  - deferred
+  choices:
+  - id: CHO-hxt0wpg0zse8
+    text: false, true, true
+    correct: true
+  - id: CHO-5ehn5046xxq4
+    text: false, true, false — the item stays deferred until commit()
+    correct: false
+    explanation: getItem() on the deferring pool commits the deferred key, so the reader then finds it.
+  - id: CHO-b1s2mvm7t922
+    text: true, true, true — saveDeferred() writes at once like save()
+    correct: false
+    explanation: That is ArrayAdapter's behaviour; FilesystemAdapter defers until a commit.
+  - id: CHO-egmn21db1dm6
+    text: false, false, false — nothing is stored without commit()
+    correct: false
+    explanation: The deferring pool sees its own item, and reading it commits it.
+  explanation: saveDeferred() keeps the item until commit(). A getItem() on the same key of the deferring pool commits it
+    first, so the second reader call finds it. Executed with Cache 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'getItem(): commits a deferred item of the same key; save(); saveDeferred(); commit()'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
+    branch: '8.0'
+    symbol_or_lines: saveDeferred() returns $this->save($item)
+    verified_at: '2026-10-14'
+- id: QST-gfe8kk8nxsgf
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-wq0bg1r133y3
+  - OUT-8h04z2xxjp34
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-78k7kbfpgfxt
+  domain: symfony
+  subtopic: psr-6
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A value of null was stored on purpose. Which checks tell it apart from a missing key? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - psr-6
+  - psr-16
+  choices:
+  - id: CHO-4rax8nr68trg
+    text: 'PSR-6: getItem($key)->isHit()'
+    correct: true
+  - id: CHO-fkhn9y852jhr
+    text: 'PSR-16: has($key)'
+    correct: true
+  - id: CHO-nt514athxr3s
+    text: 'PSR-6: getItem($key)->get() === null'
+    correct: false
+    explanation: A stored null and a miss both return null.
+  - id: CHO-5053q4y806rp
+    text: 'PSR-16: get($key) === null, without a default'
+    correct: false
+    explanation: Without a default, a miss also returns null.
+  explanation: 'Executed with Cache 8.0.15: after storing null, isHit() is true and has() is true, while get() returns null
+    in both APIs exactly as on a miss.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'getItem(): commits a deferred item of the same key; save(); saveDeferred(); commit()'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    branch: '8.0'
+    symbol_or_lines: get($key, $default); has(); PSR-16 over a PSR-6 pool
+    verified_at: '2026-10-14'
