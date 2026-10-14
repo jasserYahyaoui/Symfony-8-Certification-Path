@@ -18,6 +18,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getExtensions(); getMimeTypes()"
     verified_at: "2026-10-03"
+outcome_sections:
+  OUT-svzhszy009bw: "Deux API pour un même message"
+  OUT-8mvg51813h97: "L'arborescence MIME"
+  OUT-0rk3gn6523qv: "Les types MIME"
+  OUT-1c0gmbpg2341: "Les adresses"
 ---
 
 ## Objectif

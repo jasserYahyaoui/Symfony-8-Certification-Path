@@ -51,6 +51,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-q1mwf424caew: "Par le parameter `_locale`"
+  OUT-7vtxk6rxbjq2: "Par des paths localisés"
+  OUT-r3cc9h4e6h3x: "Quand l'URL ne dit rien"
+  OUT-qtd7wg0gtvex: "Le piège de l'instant"
 ---
 
 ## Objectif

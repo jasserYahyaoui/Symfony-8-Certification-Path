@@ -19,6 +19,10 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "getAcceptableContentTypes line 1783"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-em6af2cxwyj0: "Le facteur de qualité, exactement"
+  OUT-2brhvb6bgms5: "Le facteur de qualité, exactement"
+  OUT-gqzyfd5s32ta: "Les headers de Response"
 ---
 
 ## Objectif

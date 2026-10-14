@@ -18,6 +18,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getKernelClass() — LogicException without KERNEL_CLASS"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-tn4gp01mcsfz: "Trois types, trois périmètres"
+  OUT-mytdwrbfbyr0: "Où vivent les tests"
+  OUT-s84n2y8t4g36: "L'installation"
 ---
 
 ## Objectif

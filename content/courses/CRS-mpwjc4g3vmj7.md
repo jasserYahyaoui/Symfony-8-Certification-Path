@@ -40,6 +40,12 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-18"
+outcome_sections:
+  OUT-ab41ar3ad6kf: "Le contrat"
+  OUT-3p88arwajsx7: "Le trajet"
+  OUT-6adtz0h101zr: "Le trajet"
+  OUT-dy7bs7233e18: "Le trajet"
+  OUT-wzt3s8mkhkj9: "Le trajet"
 ---
 
 ## Objectif

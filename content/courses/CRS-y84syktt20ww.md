@@ -21,6 +21,9 @@ official_sources:
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-h592sg3sr8rd: "La licence"
+  OUT-580atmp6tp25: "Ce qu'elle autorise"
 ---
 
 ## Objectif

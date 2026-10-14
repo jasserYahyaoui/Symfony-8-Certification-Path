@@ -51,6 +51,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "SessionNotFoundException extends LogicException implements RequestExceptionInterface"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-qa34bn6sqmqj: "Produire le 404"
+  OUT-kybyc8rb3vw0: "Personnaliser la page"
+  OUT-jwxbjkcsf51k: "Personnaliser la page"
+  OUT-ym6q5502fmyf: "Deux pièges"
+  OUT-mfs1nh45d7sr: "Deux pièges"
 ---
 
 ## Objectif

@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "__construct() calls configure(); addUsage() prefixes the command name"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-axs8gacjytk9: "Tout dans l'attribute"
+  OUT-e1vg5bhm9yn9: "Les alias"
+  OUT-szgbkmx55kyh: "La method `configure()`"
 ---
 
 ## Objectif

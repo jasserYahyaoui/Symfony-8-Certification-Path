@@ -21,6 +21,12 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-4wrmsr0a1xvb: "La règle"
+  OUT-5ram2kxkc3de: "Rendre un template"
+  OUT-k5603xv7233j: "Rendre un template"
+  OUT-fy6864mta4ff: "Servir un file"
+  OUT-d9trsb0jwxp7: "Servir un file"
 ---
 
 ## Objectif

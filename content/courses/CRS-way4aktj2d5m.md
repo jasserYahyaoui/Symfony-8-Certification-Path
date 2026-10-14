@@ -29,6 +29,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Loading Resources, attribute mapping"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-wsh6jsvs5s6f: "Les trois manières de valider"
+  OUT-0enczxzp4pwq: "Ce qu'il retourne"
+  OUT-kgffdypsnscc: "Les trois manières de valider"
 ---
 
 ## Objectif

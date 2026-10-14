@@ -40,6 +40,12 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-21"
+outcome_sections:
+  OUT-dbz79ewzqdg9: "Listener ou abonné"
+  OUT-ces5mycxj5zx: "Priorité"
+  OUT-xfcs32dwmgx2: "Propagation"
+  OUT-2x9c1gjdj7t5: "Le catalogue du kernel"
+  OUT-p34x8sjgctbp: "Le catalogue du kernel"
 ---
 
 ## Objectif

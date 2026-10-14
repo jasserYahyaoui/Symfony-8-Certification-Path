@@ -28,6 +28,12 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-15"
+outcome_sections:
+  OUT-hm4eajgn6rks: "Les sacs"
+  OUT-8beznche62fc: "InputBag n'accepte que des scalaires"
+  OUT-w17b65zev3y5: "InputBag n'accepte que des scalaires"
+  OUT-g11rrz2thqp0: "Client et proxys"
+  OUT-04bvez73yte3: "L'hôte, et la seconde liste de confiance"
 ---
 
 ## Objectif

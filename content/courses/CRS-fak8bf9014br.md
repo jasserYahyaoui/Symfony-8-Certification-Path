@@ -38,6 +38,9 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "E_DEPRECATED and E_USER_DEPRECATED levels never throw"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-e2qhdj18dvjh: "Rappel : reconnaître une deprecation"
+  OUT-hnxp6h0scgsq: "Rappel : reconnaître une deprecation"
 ---
 ## Objectif
 

@@ -13,6 +13,10 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-xccz85tdts39: "Pure ou adossée"
+  OUT-6az3084jk5xb: "L'API"
+  OUT-c6mz3z761kqd: "Ce qu'une enum peut faire"
 ---
 
 ## Objectif

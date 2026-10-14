@@ -45,6 +45,12 @@ official_sources:
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-cqhgw19wwy6g: "La différence"
+  OUT-thp60dyg5ccw: "Enchaîner"
+  OUT-v2xep4yvvh3g: "Enchaîner"
+  OUT-2x8ake8z462h: "Ce que Symfony ajoute"
+  OUT-mhmwe1napmfn: "Ce que Symfony ajoute"
 ---
 
 ## Objectif

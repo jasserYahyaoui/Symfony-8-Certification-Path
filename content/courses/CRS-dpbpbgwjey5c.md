@@ -38,6 +38,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "UrlGenerator::doGenerate(), scheme and host widening"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-eqkt5vg15zqf: "Deux functions"
+  OUT-5g7zrabez2b4: "Deux functions"
+  OUT-b6ffjb05rkmr: "L'échappement"
 ---
 
 ## Objectif

@@ -18,6 +18,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "mkdir(); rename(); dumpFile(); readFile(); symlink(bool $copyOnWindows = false) — mirrors only when DIRECTORY_SEPARATOR is a backslash"
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-0mnzvybywnv8: "Les opérations à connaître"
+  OUT-p4ef3jhd70w3: "Écrire et lire"
+  OUT-9zm5ea8e1m2y: "Les erreurs"
 ---
 
 ## Objectif

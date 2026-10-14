@@ -38,6 +38,10 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-y5cganxr802r: "L'option `methods`"
+  OUT-28bd4czsshkq: "L'option `methods`"
+  OUT-1cfa6y0xkxt0: "La limite des forms HTML"
 ---
 
 ## Objectif

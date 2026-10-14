@@ -56,6 +56,18 @@ final readonly class CourseLoader
             $sources[] = \is_array($source) ? SourceRef::fromArray($source) : new SourceRef(url: (string) $source);
         }
 
+        $sections = $meta['outcome_sections'] ?? [];
+        if (!\is_array($sections)) {
+            throw new SchemaException(\sprintf('Course "%s": `outcome_sections` must map outcome ids to headings.', $ctx));
+        }
+        $outcomeSections = [];
+        foreach ($sections as $outcome => $heading) {
+            if (!\is_string($outcome) || !\is_string($heading) || '' === trim($heading)) {
+                throw new SchemaException(\sprintf('Course "%s": `outcome_sections` must map outcome ids to headings.', $ctx));
+            }
+            $outcomeSections[$outcome] = $heading;
+        }
+
         return new Course(
             id: Id::parse($this->req($meta, 'id', $ctx)),
             officialItemId: $this->req($meta, 'official_item', $ctx),
@@ -66,6 +78,7 @@ final readonly class CourseLoader
             language: Language::from($this->req($meta, 'language', $ctx)),
             verificationStatus: VerificationStatus::from($this->req($meta, 'verification_status', $ctx)),
             reviewedAt: isset($meta['reviewed_at']) ? (string) $meta['reviewed_at'] : null,
+            outcomeSections: $outcomeSections,
         );
     }
 

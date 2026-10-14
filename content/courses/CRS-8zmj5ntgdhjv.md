@@ -27,6 +27,11 @@ official_sources:
     symbol_or_lines: "A binding is configured for an argument %s, but no corresponding argument has been found"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-b81c2y9edqrn: "La variable d'environment"
+  OUT-q6ks7q0n73de: "Le pourcent littéral"
+  OUT-eatwchm2rs41: "Les processeurs"
+  OUT-ddcr84rvx9ap: "`bind` et `#[Autowire]`"
 ---
 
 ## Objectif

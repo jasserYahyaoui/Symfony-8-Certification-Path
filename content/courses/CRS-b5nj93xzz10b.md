@@ -26,6 +26,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "FormRenderer::searchAndRenderBlock()"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-5ccs7c2daq4f: "Les functions"
+  OUT-zembn60q8907: "Trois niveaux de contrôle"
+  OUT-nmcf66pedj3a: "Le détail qui compte"
+  OUT-gm5mj2qf5q98: "Action, method, attributes"
 ---
 
 ## Objectif

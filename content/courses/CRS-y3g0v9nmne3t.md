@@ -37,6 +37,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "access_decision_manager — strategy, strategy_service, allow_if_*"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-nxz3gazat4wf: "Les deux methods, en 8.0"
+  OUT-f6ap8771qrtd: "Trois valeurs, pas deux"
+  OUT-3hwcwd6n6vsq: "Trois valeurs, pas deux"
+  OUT-bb75dy1j7zcq: "Les quatre stratégies"
+  OUT-88k6kjx82v30: "Les deux cas limites"
 ---
 
 ## Objectif

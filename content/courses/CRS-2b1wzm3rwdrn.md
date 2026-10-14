@@ -38,6 +38,10 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-wtvymxrjxf80: "L'option `host`"
+  OUT-kz98mvtwphqc: "L'option `host`"
+  OUT-ac8d2dvvjma9: "L'hôte accepte des parameters"
 ---
 
 ## Objectif

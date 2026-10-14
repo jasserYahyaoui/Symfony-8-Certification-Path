@@ -14,6 +14,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-w0kft9548h99: "L'array"
+  OUT-2r6g1ds91vvw: "Les templates"
+  OUT-s8kw5gsv7y2e: "Les templates"
+  OUT-97dtctsck41f: "La validation ne se surcharge pas"
 ---
 
 ## Objectif

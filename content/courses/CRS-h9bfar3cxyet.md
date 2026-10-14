@@ -27,6 +27,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "handle() — NoHandlerForMessageException unless allowNoHandlers"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-se3m27j02981: "Ce qu'un middleware voit"
+  OUT-f1z737x6w2pv: "Ce qu'un middleware voit"
+  OUT-gcjncj08dwdf: "Deux passages en asynchrone"
+  OUT-kc77500x8et6: "Où se place un middleware maison"
 ---
 
 ## Objectif

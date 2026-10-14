@@ -24,6 +24,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "send(): dispatches a SendEmailMessage on the bus when one is set; deferral depends on its routing"
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-2q2fdnv4mhv9: "Le transport"
+  OUT-zpm8v90288p0: "Ce que rend l'envoi"
+  OUT-ybad6g99v4cm: "Envoyer"
+  OUT-f466f6crw21c: "Plusieurs transports"
+  OUT-7fptsggm3eqe: "Quand l'envoi échoue"
 ---
 
 ## Objectif

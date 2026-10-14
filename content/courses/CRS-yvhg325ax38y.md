@@ -17,6 +17,11 @@ official_sources:
     symbol_or_lines: "createFirewall() — security false returns an empty listener list; security.access_listener"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-mrdkwy4adq6q: "Ce qui décide de quoi"
+  OUT-wnw02nsyvmyg: "Les deux règles d'ordre"
+  OUT-d69mg4gn25dt: "`security: false` éteint tout"
+  OUT-7x0agpczf39n: "Vérifier"
 ---
 
 ## Objectif

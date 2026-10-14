@@ -25,6 +25,9 @@ official_sources:
     branch: "master"
     symbol_or_lines: '"Although they are supported, including constructors in interfaces is strongly discouraged"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-fs6z2g5dv4qq: "Règles"
+  OUT-zt4gxw6enqcj: "Interface ou abstract class ?"
 ---
 
 ## Objectif

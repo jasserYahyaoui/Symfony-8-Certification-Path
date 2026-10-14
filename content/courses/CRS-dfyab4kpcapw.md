@@ -20,6 +20,10 @@ official_sources:
     branch: "v3.22.0"
     symbol_or_lines: "Lexer::stripcslashes(), REGEX_STRING"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-rve93x3e2gjq: "La syntaxe"
+  OUT-w25h6r5rdb9c: "La constraint"
+  OUT-tf752s70s9sw: "Échapper"
 ---
 
 ## Objectif

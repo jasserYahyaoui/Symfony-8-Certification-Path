@@ -32,6 +32,11 @@ official_sources:
     symbol_or_lines: "registerForAutoconfiguration(EventSubscriberInterface::class)"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-deqvr7c2bvsf: "Ce qu'un tag fait"
+  OUT-enhmt34n32vh: "Les recevoir"
+  OUT-e2wn6rtf32vb: "Ordonner et nommer"
+  OUT-ejv3jffbt4xd: "Les poser sans configuration"
 ---
 
 ## Objectif

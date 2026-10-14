@@ -501,3 +501,51 @@ html[data-theme='dark'] {
   color: var(--certpath-incorrect);
   font-weight: 600;
 }
+
+/* ---------------------------------------------------------------------------
+ * Mock correction (owner's request of 2026-10-14): every question after
+ * submission, the right answers, and a link to the course section.
+ * The state is carried by words in the markup ("bonne réponse", "votre choix");
+ * borders and weight are a second, redundant cue.
+ * ------------------------------------------------------------------------- */
+
+.certpath-review {
+  padding-left: 0;
+  list-style: none;
+}
+
+.certpath-review-entry {
+  margin: 1rem 0;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--certpath-incorrect);
+  overflow-wrap: anywhere;
+}
+
+.certpath-review-entry[data-result='correct'] {
+  border-left-color: var(--ifm-color-emphasis-300);
+}
+
+.certpath-review-choices {
+  margin: 0.4rem 0 0.6rem 1.1rem;
+}
+
+.certpath-review-choices li[data-correct='yes'] {
+  font-weight: 600;
+}
+
+.certpath-review-mark {
+  font-weight: 600;
+}
+
+.certpath-review-choices li[data-correct='no'][data-chosen='yes'] .certpath-review-mark {
+  color: var(--certpath-incorrect);
+}
+
+.certpath-review-links ul {
+  margin: 0.2rem 0 0 1.1rem;
+}
+
+.certpath-review-passed summary {
+  cursor: pointer;
+  font-weight: 600;
+}

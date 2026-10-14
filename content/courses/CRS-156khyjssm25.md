@@ -33,6 +33,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-18"
+outcome_sections:
+  OUT-gp7n5whkxyk0: "L'arborescence par défaut"
+  OUT-yj8f9a5ncap4: "L'arborescence par défaut"
+  OUT-yrbk1d6tvd4c: "Déplacer un directory"
+  OUT-8rwmvym0a0qy: "Sous config/"
 ---
 
 ## Objectif

@@ -32,6 +32,10 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-ef2j62bxp9fd: "`debug:router` — quelles routes existent"
+  OUT-qnzwvqtmb7v5: "`debug:router` — quelles routes existent"
+  OUT-w0yjsy54z7s9: "`router:match` — quelle route répondrait"
 ---
 
 ## Objectif

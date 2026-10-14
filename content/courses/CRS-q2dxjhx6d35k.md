@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "tryFrom() — union types, default false, allowed types, BackedEnum suggestions"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-ghsttz17xxqe: "Déclarer"
+  OUT-dvv3qwaprsck: "Le mode d'une option"
+  OUT-2tyae0a8545m: "L'équivalent classique"
 ---
 
 ## Objectif

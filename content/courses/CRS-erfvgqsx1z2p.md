@@ -19,6 +19,10 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "isMethodSafe line 1444, isMethodIdempotent line 1452, isMethodCacheable line 1462"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-pvvwmsfr9v99: "Les trois properties"
+  OUT-yfskr4jf463t: "Ce que l'array enseigne"
+  OUT-vx89t3yy7xck: "Pièges d'examen"
 ---
 
 ## Objectif

@@ -22,6 +22,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "decode() — unserialize(), no constructor call"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-65c68dmyhjc9: "Le message"
+  OUT-yr8h53ttvp6e: "Le handler"
+  OUT-r1kvyze41rx5: "Plusieurs handlers"
+  OUT-2evbydc34ggd: "Le message"
 ---
 
 ## Objectif

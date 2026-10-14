@@ -26,6 +26,10 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-23"
+outcome_sections:
+  OUT-sc6f90ffqzcw: "Ce que c'est"
+  OUT-qpxzbnrf0g4x: "Poser"
+  OUT-6g7emmk5p02f: "Lire, et le piège"
 ---
 
 ## Objectif

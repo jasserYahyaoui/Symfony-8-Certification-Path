@@ -30,7 +30,48 @@ final readonly class Course
         public Language $language,
         public VerificationStatus $verificationStatus,
         public ?string $reviewedAt = null,
+        /**
+         * Where each learning outcome of the item is taught: outcome id =>
+         * the text of a `## ` heading of the body. A wrong answer in a mock
+         * links to that section rather than to the top of a page of a
+         * thousand words. Rule SEC-001 keeps every entry pointing at a
+         * heading that exists.
+         *
+         * @var array<string, string>
+         */
+        public array $outcomeSections = [],
     ) {
+    }
+
+    /**
+     * The `## ` headings of the body, in order, fenced code excluded.
+     *
+     * @return list<string>
+     */
+    public function sectionHeadings(): array
+    {
+        return self::headingsOf($this->body);
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function headingsOf(string $markdown): array
+    {
+        $headings = [];
+        $inFence = false;
+        foreach (explode("\n", $markdown) as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+
+                continue;
+            }
+            if (!$inFence && 1 === preg_match('/^## (.+?)\s*$/u', $line, $m)) {
+                $headings[] = $m[1];
+            }
+        }
+
+        return $headings;
     }
 
     /**

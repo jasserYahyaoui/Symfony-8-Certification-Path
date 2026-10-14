@@ -14,6 +14,9 @@ official_sources:
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-kejhjexj129b: "Deux objects, deux sens"
+  OUT-yfn908g4pdys: "Conséquence pratique"
 ---
 
 ## Objectif

@@ -38,6 +38,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-s9bajh1gydjw: "L'option `condition`"
+  OUT-er1yxf3bmwn9: "Les variables disponibles"
+  OUT-tgxzpmwjg951: "Les variables disponibles"
+  OUT-413aqdhzwkfw: "La limite, et elle est importante"
 ---
 
 ## Objectif

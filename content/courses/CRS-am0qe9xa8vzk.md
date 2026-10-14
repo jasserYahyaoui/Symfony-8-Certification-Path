@@ -18,6 +18,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "__construct(); stop(); wait(); checkTimeout(); setIdleTimeout(); disableOutput()"
     verified_at: "2026-10-03"
+outcome_sections:
+  OUT-4h80hb7ky1wt: "Trois façons de lancer"
+  OUT-vr32ta087n2a: "Array ou string"
+  OUT-hsn9hab7spvy: "Les deux délais"
+  OUT-ew0th9575tfe: "Les deux délais"
+  OUT-z054mp760r1h: "Récupérer l'output"
 ---
 
 ## Objectif

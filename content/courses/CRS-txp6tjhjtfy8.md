@@ -26,6 +26,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "DateTimeToArrayTransformer::transform()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-teejhc73n9se: "Le problème résolu"
+  OUT-xysy1a4vx444: "Les trois couches de données"
+  OUT-v7z96yxzjbvx: "Les deux sens"
+  OUT-hqxn9f5pmxnp: "Les trois couches de données"
 ---
 
 ## Objectif

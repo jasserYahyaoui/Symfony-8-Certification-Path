@@ -22,6 +22,9 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "configureIO() — options before SHELL_VERBOSITY"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-8fna7evcc7x4: "Les six niveaux"
+  OUT-wv0q7kcb8q1t: "Les six niveaux"
 ---
 
 ## Objectif

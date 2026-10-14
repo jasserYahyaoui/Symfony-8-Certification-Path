@@ -18,6 +18,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "computeFallbackLocales(); INTL_DOMAIN_SUFFIX"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-gemxb3z58qyr: "Le nom du file n'est pas décoratif"
+  OUT-f181kwzbmq80: "Les deux syntaxes d'espace réservé"
+  OUT-z28gpra0mn3s: "La cascade de repli"
 ---
 
 ## Objectif

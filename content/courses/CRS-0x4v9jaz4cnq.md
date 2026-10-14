@@ -18,6 +18,9 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "enableProfiler() — no-op without the profiler service; getProfile() — false or loadProfileFromResponse()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-r3rw0s0swgpy: "Deux réglages, pas un"
+  OUT-bbrw7hnswytn: "Deux réglages, pas un"
 ---
 
 ## Objectif

@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "findTemplate()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-nrbst3qj145g: "Le status code"
+  OUT-4d26jh0mp0z1: "Quatre niveaux d'intervention"
+  OUT-pw8f8xsdrrcf: "Deux affichages, selon l'environment"
 ---
 
 ## Objectif

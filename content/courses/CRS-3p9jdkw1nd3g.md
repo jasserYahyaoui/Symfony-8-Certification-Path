@@ -28,6 +28,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ask() — default when not interactive; MissingInputException on end of input"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-0jqghb0j4pxh: "Le catalogue"
+  OUT-ynfwxjqpxy07: "La progression"
+  OUT-yvpt5rvdwtkb: "Les questions"
 ---
 
 ## Objectif

@@ -27,6 +27,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getSubscribedEvents() — WorkerMessageFailedEvent at priority 100"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-32c5zqv7br2d: "Le catalogue"
+  OUT-syfrg3ycvcq9: "Les deux qui comptent"
+  OUT-52jpm5kq981q: "Les deux qui comptent"
+  OUT-y0bea85rjt47: "Event ou middleware"
 ---
 
 ## Objectif

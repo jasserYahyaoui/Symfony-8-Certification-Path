@@ -28,6 +28,15 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "serializer.normalizer.object: priority -1000, receives property_info"
     verified_at: "2026-10-14"
+outcome_sections:
+  OUT-g6j22cqpx1ga: "Deux étapes, deux responsabilités"
+  OUT-a95xx41fw6hn: "Pièges d'examen"
+  OUT-f4j1y7n6y64g: "Ce qui est pris par défaut"
+  OUT-r6x291jsb0qt: "Choisir selon le contexte"
+  OUT-4bynfsdjvrc5: "Les références circulaires"
+  OUT-hkvn3vxj4fyb: "Quel normalizer agit ?"
+  OUT-m8wfdy7569p8: "Dénormaliser"
+  OUT-cf0sd5w3fzhe: "Le contexte"
 ---
 
 ## Objectif

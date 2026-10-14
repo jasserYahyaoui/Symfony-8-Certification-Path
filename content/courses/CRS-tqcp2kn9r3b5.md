@@ -26,6 +26,10 @@ official_sources:
     branch: "master"
     symbol_or_lines: 'new in Initializers — "It is now possible to use new ClassName() expressions as ... attribute arguments"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-0rkkxvd0e76f: "Déclarer"
+  OUT-xnmzqxrwf753: "Poser"
+  OUT-s8tzdy31hq6k: "Lire"
 ---
 
 ## Objectif

@@ -45,6 +45,13 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-np4jrjh0phfs: "Le contrat"
+  OUT-5kafbd3d9nt8: "Ce que fait `ArgumentResolver`"
+  OUT-mtg83g8mv3bb: "L'ordre"
+  OUT-cbtvxgfkskae: "Le catalogue"
+  OUT-ynyxk5m0hyzd: "Les resolvers ciblés"
+  OUT-chxt3emfrcjg: "Le catalogue"
 ---
 
 ## Objectif

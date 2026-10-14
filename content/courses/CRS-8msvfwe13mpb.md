@@ -38,6 +38,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ReflectionExtractor::getReadInfo()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-nafaf5j5xy59: "Deux endroits pour le construire"
+  OUT-5dydayznyx68: "`add()` et ses trois arguments"
+  OUT-04d4xdarmk8w: "`data_class`"
+  OUT-75g8bz40n09y: "La correspondance nom ↔ property"
+  OUT-pe7s3cdg6fgb: "Le field non mappé"
 ---
 
 ## Objectif

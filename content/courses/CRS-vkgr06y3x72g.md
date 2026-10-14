@@ -32,6 +32,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-w99f0fjydtp0: "La règle de base"
+  OUT-fhjj5c6d002g: "Tout ce qui suit un parameter facultatif doit l'être"
+  OUT-qva279gdyyra: "Le point d'exclamation"
+  OUT-33d0j3zrrwmz: "Défaut et constraint"
 ---
 
 ## Objectif

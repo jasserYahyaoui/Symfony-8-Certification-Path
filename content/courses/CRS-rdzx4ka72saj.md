@@ -27,6 +27,11 @@ official_sources:
     symbol_or_lines: "Read existing security token from the session; User was reloaded from a user provider"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-ff1nnw75gh0x: "Le trajet"
+  OUT-dfkz9qj59wbm: "Pas de token sans user"
+  OUT-a4tnzhe2yvpa: "La question posée"
+  OUT-23cr959cs1z0: "Avec ou sans état"
 ---
 
 ## Objectif

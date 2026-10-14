@@ -28,6 +28,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "loadEnv() — .env.local ignored for test envs"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-aev6xdsqazd4: "Le squelette"
+  OUT-5q3ywht70qq9: "L'environment `test`"
+  OUT-9v5ravsc1d59: "Les assertions de Symfony"
 ---
 
 ## Objectif

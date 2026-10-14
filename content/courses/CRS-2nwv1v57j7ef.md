@@ -39,6 +39,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-jsv2v128z17j: "Le composant"
+  OUT-25y9qjcp8wgy: "Le composant"
+  OUT-qpav59c60vb3: "Le composant"
+  OUT-bn50g0may31c: "Ce que FrameworkBundle ajoute encore"
 ---
 
 ## Objectif

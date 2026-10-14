@@ -22,6 +22,11 @@ official_sources:
     symbol_or_lines: "configure() — argument name; options show-hidden, tag, tags, parameter, parameters, types, env-var, env-vars, format, raw, deprecations; no show-private"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-4mx2cr2ydxtf: "Une definition, pas un object"
+  OUT-rx9sxdh2gjgm: "Public ou privé"
+  OUT-21rjj7sevj21: "L'alias"
+  OUT-8hr9dpyd6r1k: "La compilation"
 ---
 
 ## Objectif

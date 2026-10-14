@@ -22,6 +22,11 @@ official_sources:
     symbol_or_lines: "needs an instance of %s but this type has been excluded"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-bqf7brva4nwe: "L'enregistrement automatique"
+  OUT-j5rpdd6qsy3y: "Le cas explicite"
+  OUT-rf33669d3w01: "Le piège de `_defaults`"
+  OUT-112hac96j8hg: "Côté attributes"
 ---
 
 ## Objectif

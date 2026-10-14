@@ -19,6 +19,11 @@ official_sources:
     branch: "master"
     symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-6tzwvmfwj408: "Ce qu'une interface contient"
+  OUT-5vqwe44nsee5: "Ce qu'une interface contient"
+  OUT-7vt306wrfkb7: "Les constantes sont surchargeables — depuis PHP 8.1"
+  OUT-ynfsf3qdn2mj: "Les properties d'interface — depuis PHP 8.4"
 ---
 
 ## Objectif

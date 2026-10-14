@@ -22,6 +22,10 @@ official_sources:
     symbol_or_lines: "Container::make(): ?object"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-rrswf59s7t5a: "Les écritures"
+  OUT-mfkawre47dv3: "Les arguments"
+  OUT-5tp6e11ygzgz: "Les écritures"
 ---
 
 ## Objectif

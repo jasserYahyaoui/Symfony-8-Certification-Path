@@ -21,6 +21,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-p7r2daxac21t: "Ce que Flex est"
+  OUT-n6w2cz5vwgsw: "Alias et recettes"
+  OUT-ach5wc85h25x: "symfony.lock"
+  OUT-svxn0t2pskq8: "Les deux dépôts de recettes"
 ---
 
 ## Objectif

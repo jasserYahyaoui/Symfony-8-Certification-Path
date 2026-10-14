@@ -25,6 +25,11 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-15"
+outcome_sections:
+  OUT-8qect8jsygkg: "Deux modèles"
+  OUT-m7sm7y26r3vk: "Expiration"
+  OUT-c5rwk67m9qxc: "Pièges d'examen"
+  OUT-mepzxqmzgxss: "Vary"
 ---
 
 ## Objectif

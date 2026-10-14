@@ -339,6 +339,21 @@ const PAGES = [
     await page.getByRole('button', {name: 'Soumettre maintenant'}).click();
     await page.locator('#results-heading').waitFor();
   }}],
+  ['examens — correction', '/examens', {drive: async (page) => {
+    // One question answered right, so both lists of the correction exist, and
+    // the folded one is opened: an audit of a closed <details> skips its body.
+    const payload = await page.evaluate(async () => (await fetch('/Symfony-8-Certification-Path/data/exams.json')).json());
+    const byChoice = new Map(payload.questions.flatMap((q) => q.choices.map((c) => [c.id, q])));
+    await page.getByRole('button', {name: "Passer l'examen 1"}).click();
+    const card = page.locator('fieldset.certpath-question');
+    await card.waitFor();
+    const q = byChoice.get(await card.locator('input').first().getAttribute('value'));
+    for (const c of q.choices.filter((c) => c.correct)) await card.locator(`input[value="${c.id}"]`).check();
+    await page.getByRole('button', {name: 'Enregistrer et continuer'}).click();
+    await page.getByRole('button', {name: 'Soumettre maintenant'}).click();
+    await page.locator('#correction-heading').waitFor();
+    await page.locator('.certpath-review-passed summary').click();
+  }}],
   ['progression', '/progression'],
   ['progression — historique', '/progression', {
     state: seedHistory,

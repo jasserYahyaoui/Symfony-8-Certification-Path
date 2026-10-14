@@ -23,6 +23,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "\"symfony/var-dumper\": \"^7.4|^8.0\" under require"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-q3cr8sbwrafh: "Les quatre étapes du tronc commun"
+  OUT-evgzmx45nr93: "Les deux commands à connaître exactement"
+  OUT-0m3mf05m416t: "Les variables d'environment en production"
 ---
 
 ## Objectif

@@ -207,6 +207,23 @@ CASES = [
           ('mot ' * 10).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
         '[ERROR] REV-001',
     ),
+    # SEC-001 (owner, 2026-10-14). A wrong answer in a mock links to the course
+    # section teaching the outcome; each case would ship a link to nothing.
+    (
+        'SEC-001 rejects a section renamed under its mapping',
+        [(LOT01_COURSE, '\n## Règles\n', '\n## Les règles\n')],
+        '[ERROR] SEC-001',
+    ),
+    (
+        'SEC-001 rejects an outcome left without a section',
+        [(LOT01_COURSE, '  OUT-zt4gxw6enqcj: "Interface ou abstract class ?"\n', '')],
+        '[ERROR] SEC-001',
+    ),
+    (
+        'SEC-001 rejects an outcome mapped to a summary instead of a teaching section',
+        [(LOT01_COURSE, '  OUT-fs6z2g5dv4qq: "Règles"\n', '  OUT-fs6z2g5dv4qq: "Points clés"\n')],
+        '[ERROR] SEC-001',
+    ),
     # ADR-0010. Comprehension checks: complete, independent, and held to the
     # bar of the exam banks. Each case breaks the real pilot bank.
     (

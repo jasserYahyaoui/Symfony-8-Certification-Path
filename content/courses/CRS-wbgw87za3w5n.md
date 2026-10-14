@@ -23,6 +23,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "dispatch(object $event, ?string $eventName = null): object"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-c43j65gh5pth: "La priorité, et son départage"
+  OUT-m0svgqcarref: "Listener ou abonné"
+  OUT-gawacg0bt5r5: "Distribuer"
 ---
 
 ## Objectif

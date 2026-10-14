@@ -21,6 +21,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-5xtttnzd990y: "Elle est optionnelle"
+  OUT-37kbkcyddm1r: "Les raccourcis sont `protected`"
+  OUT-j0pg9ejmv4hg: "Un abonné à des services, pas un container"
+  OUT-mzj3xrwsw6dr: "Un abonné à des services, pas un container"
 ---
 
 ## Objectif

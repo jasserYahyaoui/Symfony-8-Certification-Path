@@ -22,6 +22,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "$followRedirects = true; followRedirect(); xmlHttpRequest(); request() fills $redirects only when followRedirects; back(); forward()"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-b0gj22s9raax: "Faire une Request"
+  OUT-pkd6t54g5k0j: "Les redirects"
+  OUT-cd7mwe96kqaf: "Plusieurs Requests dans un test"
 ---
 
 ## Objectif

@@ -26,6 +26,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-22"
+outcome_sections:
+  OUT-gvjp79xbcjsb: "L'obtenir"
+  OUT-8y8ytxt6m5v1: "Les parameters de route"
+  OUT-y2d9m024g5gk: "Les parameters de route"
+  OUT-axr8r9fatztr: "Corps et chaîne de Request"
 ---
 
 ## Objectif

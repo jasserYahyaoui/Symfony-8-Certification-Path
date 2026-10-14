@@ -22,6 +22,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "handle() — HandledStamp; NoHandlerForMessageException"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-c3q6angezzhs: "Les six concepts de la documentation"
+  OUT-w4ahdf9xdh5w: "Dispatcher"
+  OUT-rr0nvj9b8x0z: "L'Envelope et les stamps"
 ---
 
 ## Objectif

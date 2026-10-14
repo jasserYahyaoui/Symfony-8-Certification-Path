@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Interactive Input — #[Ask], #[Interact]"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-86vxgq9k86kd: "La forme recommandée : la command invocable"
+  OUT-g23jwhyz5189: "Comment Symfony la trouve"
+  OUT-npjsrz7new8m: "La syntaxe classique, toujours valide"
 ---
 
 ## Objectif

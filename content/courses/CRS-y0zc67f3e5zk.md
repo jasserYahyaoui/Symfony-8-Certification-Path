@@ -27,6 +27,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "disableCommand(); RETURN_CODE_DISABLED = 113"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-2e5yd7119yha: "Les quatre events"
+  OUT-8v3ady0sf894: "L'ordre réel"
+  OUT-rzgybvr9fa5g: "`ERROR` — rattraper"
 ---
 
 ## Objectif

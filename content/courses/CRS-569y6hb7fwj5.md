@@ -17,6 +17,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "NotBlankValidator::validate"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-zxecwdwyhgng: "Les familles"
+  OUT-wkzdab0t8y8n: "Les distinctions qui décident"
+  OUT-ca39zvmah4sj: "Les constraints de structure"
+  OUT-8hwwtw34wdgt: "Les constraints de structure"
 ---
 
 ## Objectif

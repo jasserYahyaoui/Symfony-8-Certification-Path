@@ -22,6 +22,10 @@ official_sources:
     symbol_or_lines: "decide() returns true on the first ACCESS_GRANTED"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-vsg2j46ctc7h: "Le path"
+  OUT-67x1qs1y7bjk: "Deux familles d'attributes"
+  OUT-rf2bzpb84d4y: "Refuser"
 ---
 
 ## Objectif

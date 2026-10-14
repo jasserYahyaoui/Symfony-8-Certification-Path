@@ -39,6 +39,11 @@ official_sources:
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-2m2fsf0992k6: "Le mécanisme"
+  OUT-0b65p7477ebz: "Hors d'un block : une erreur, pas un oubli silencieux"
+  OUT-5gpp6vwt10fk: "Reprendre, réafficher, tester un block"
+  OUT-qbyeeh719t3d: "Réutilisation horizontale"
 ---
 
 ## Objectif

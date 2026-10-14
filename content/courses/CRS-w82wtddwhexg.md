@@ -39,6 +39,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-43tnheqyaw2v: "Le défaut : la stratégie dépend du nom du template"
+  OUT-mhbzxr5470xc: "Le défaut : la stratégie dépend du nom du template"
+  OUT-ss6r3pwx0fjy: "Les cinq stratégies"
+  OUT-947gftrjzm6w: "Désactiver, avec parcimonie"
 ---
 
 ## Objectif

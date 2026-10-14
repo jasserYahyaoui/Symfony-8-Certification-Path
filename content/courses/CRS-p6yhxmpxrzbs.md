@@ -39,6 +39,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Psr16Cache: PSR-16 over a PSR-6 pool; Adapter/Psr16Adapter the reverse"
     verified_at: "2026-10-14"
+outcome_sections:
+  OUT-rmv013ank5zr: "Quatre mots"
+  OUT-ggw5eh2abp9f: "L'API qui surprend"
+  OUT-jvfb807ka1q6: "Les pools du framework"
+  OUT-wq0bg1r133y3: "PSR-6 : écrire soi-même"
+  OUT-8h04z2xxjp34: "PSR-16 et les ponts"
 ---
 
 ## Objectif

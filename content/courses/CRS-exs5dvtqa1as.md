@@ -32,6 +32,11 @@ official_sources:
     symbol_or_lines: "Unrecognized option %s under %s"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-06ednnh0npmz: "Les deux moitiés"
+  OUT-qrtvpp33jqb2: "Ce que l'exécution montre"
+  OUT-k2cfezp9wvf5: "La forme moderne"
+  OUT-vmzkkhjtf67j: "Configurer un autre bundle"
 ---
 
 ## Objectif

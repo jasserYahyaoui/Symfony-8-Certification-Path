@@ -18,6 +18,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ContainerBuilder::register(), compile(), get()"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-svr2vz7ebkv7: "Injection ou récupération"
+  OUT-6ah70qtk60fe: "Trois formes d'injection"
+  OUT-dvs57dgffn57: "Le composant"
 ---
 
 ## Objectif

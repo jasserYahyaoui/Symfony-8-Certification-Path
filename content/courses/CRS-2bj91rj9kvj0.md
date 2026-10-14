@@ -38,6 +38,12 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-xw5hbxewf5xf: "Trois packages, trois roles"
+  OUT-fe5bp6xb3w5m: "Où vivent les templates"
+  OUT-4hq67myssdj1: "Surcharger le template d'un bundle"
+  OUT-eqrycamdmt25: "Les options qui changent le comportement"
+  OUT-kd4ywvpax765: "Les commands"
 ---
 
 ## Objectif

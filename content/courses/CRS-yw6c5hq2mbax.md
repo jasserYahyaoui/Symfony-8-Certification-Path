@@ -44,6 +44,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "addFragmentsSection()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-hxf3hmdmh40t: "Avec ou sans route"
+  OUT-yzay5m44wwmq: "Avec ou sans route"
+  OUT-wnm1nq0vg8m5: "Ce que cela déclenche"
+  OUT-686mezsja6g7: "L'URL des fragments"
 ---
 
 ## Objectif

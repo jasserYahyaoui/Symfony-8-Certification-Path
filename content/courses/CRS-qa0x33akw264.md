@@ -14,6 +14,10 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "Request::getLanguages line 1663, Request::getPreferredLanguage line 1633"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-ja7etzg7tjay: "Le header"
+  OUT-asmwtw5t98t8: "Comment `getPreferredLanguage()` choisit"
+  OUT-q78pqrprnpe6: "Comment Symfony normalise un tag de langue"
 ---
 
 ## Objectif

@@ -251,6 +251,18 @@ jobs:
             echo "ok  lot-01  the Interfaces page carries the 8.1 and 8.4 rules"
           fi
 
+          # A mock's correction links a missed question to a course section by
+          # its anchor (owner, 2026-10-14). The anchor is an explicit heading id
+          # written by the generator; without it the link opens the top of the
+          # page. Read from the deployed bytes, like the needles above.
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/secpage "$BASE_URL/docs/courses/lot-01/abstract-classes"
+          if grep -q 'id="s-regles"' /tmp/secpage && grep -q 'id="s-interface-ou-abstract-class"' /tmp/secpage; then
+            echo "ok  sections the course headings carry the anchors the correction links to"
+          else
+            echo "::error::The published course page lacks the section anchors a mock's correction links to"
+            fail=1
+          fi
+
           # The Lot 02 audit, proved against the deployed bytes, for the same
           # reason as the Lot 01 block above: no rule and no test reads a
           # published page, so without this the only evidence the three P0

@@ -39,6 +39,12 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-np64n1673fc3: "Le récupérer"
+  OUT-q06cyzmh9hjt: "Le récupérer"
+  OUT-map3gyk0v2py: "Le déplacer"
+  OUT-aw5esqj5yqqm: "Ce qui vient du client n'est pas fiable"
+  OUT-38dvrzpkavx9: "Ce qui vient du client n'est pas fiable"
 ---
 
 ## Objectif

@@ -28,6 +28,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "injectToolbar()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-rvstpkee1rj6: "Trois pièces, trois roles"
+  OUT-zexxpeg1gehg: "La barre n'apparaît pas toujours"
+  OUT-q8696dzgbpts: "Les collectors"
 ---
 
 ## Objectif

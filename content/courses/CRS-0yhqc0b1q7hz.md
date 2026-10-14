@@ -32,6 +32,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "isValidOrigin: Sec-Fetch-Site first, then Origin and Referer"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-p1tsfr91bmqy: "Ce qui est automatique"
+  OUT-nhv282ce36br: "Ce qui est automatique"
+  OUT-9may3eay9wcj: "Les options du form"
+  OUT-vtp031jk3dbg: "Les options du form"
+  OUT-wc1yk5bm6nw6: "Tokens avec ou sans état"
 ---
 
 ## Objectif

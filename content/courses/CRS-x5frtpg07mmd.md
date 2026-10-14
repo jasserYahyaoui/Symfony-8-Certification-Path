@@ -22,6 +22,11 @@ official_sources:
     symbol_or_lines: "refreshUser() — the provider call a lazy firewall avoids"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-xnh28hz1zchd: "Un seul firewall par Request"
+  OUT-j6xr27ajqs3e: "Un seul firewall par Request"
+  OUT-6dsw1jm1j7df: "Ce qu'un firewall porte"
+  OUT-psq7sd74p14g: "`lazy`"
 ---
 
 ## Objectif

@@ -52,6 +52,13 @@ official_sources:
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-491pkbwc6e8x: "Les trois délimiteurs"
+  OUT-4wpk7x3epxym: "`foo.bar` : l'ordre de résolution"
+  OUT-ap22qz4fkjra: "`foo.bar` : l'ordre de résolution"
+  OUT-93svekvx55t0: "Les opérateurs"
+  OUT-xpcwsqhycgnr: "`foo.bar` : l'ordre de résolution"
+  OUT-je4qjh1s6yw0: "Affectation et espaces"
 ---
 
 ## Objectif

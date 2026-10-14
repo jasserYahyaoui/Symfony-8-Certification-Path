@@ -19,6 +19,11 @@ official_sources:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "Response::HTTP_* constants, lines 28-160"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-7hfm105c194h: "Les cinq classes"
+  OUT-8yd42b69nxnx: "Pièges d'examen"
+  OUT-6sg999w56sxb: "Pièges d'examen"
+  OUT-p4n2v9ecgmyv: "Pièges d'examen"
 ---
 
 ## Objectif

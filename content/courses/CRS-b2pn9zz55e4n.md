@@ -33,6 +33,13 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ValidationListener::validateForm(), isRoot()"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-v8srdqc4xxjy: "Deux moments, cinq events"
+  OUT-xj0demzqg8ct: "Ce que porte chaque event"
+  OUT-jz8pzthzk661: "Ce que dit le code sur le verrouillage"
+  OUT-eyj84n4wy8wg: "Les forms imbriqués"
+  OUT-htmpmeg36syj: "Les forms imbriqués"
+  OUT-0sq5c8vams1s: "L'array de décision"
 ---
 
 ## Objectif

@@ -14,6 +14,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-bxcjgv614zqk: "Configuration : la règle des trois niveaux"
+  OUT-2snt9b8p7pfa: "Configuration : la règle des trois niveaux"
+  OUT-0b0m78g19vrs: "Les recommandations qui surprennent"
+  OUT-2t4534jgce75: "Les recommandations qui surprennent"
 ---
 
 ## Objectif

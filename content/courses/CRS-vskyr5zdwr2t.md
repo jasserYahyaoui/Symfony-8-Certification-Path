@@ -18,6 +18,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Constraint::addImplicitGroupName()"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-yme605pqpcbw: "Les groups implicites"
+  OUT-s73ykpqy5sch: "Valider avec un group"
+  OUT-vnsvr71xs30c: "`Default` contre le nom de la class"
 ---
 
 ## Objectif

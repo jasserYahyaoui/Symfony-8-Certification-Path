@@ -27,6 +27,9 @@ official_sources:
     symbol_or_lines: "alias(RequestStack::class, request_stack); alias(Filesystem::class, filesystem)"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-q8fq5v0gn6nh: "D'où ils viennent"
+  OUT-gg02aw655bat: "Comment les trouver"
 ---
 
 ## Objectif

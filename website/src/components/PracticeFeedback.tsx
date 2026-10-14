@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import Link from '@docusaurus/Link';
 import type {ItemIndexEntry, Question} from '@site/src/lib/types';
 import {isCorrect} from '@site/src/lib/storage';
+import {sectionsFor} from '@site/src/lib/courseSections';
 import RichText from './RichText';
 
 /**
@@ -58,6 +59,7 @@ export default function PracticeFeedback({
     heading.current?.focus();
   }, [question.id]);
 
+  const sections = sectionsFor(question, item);
   const correctChoices = question.choices.filter((c) => c.correct);
   const wrongChoices = question.choices.filter((c) => !c.correct);
   const keyPoints =
@@ -175,6 +177,15 @@ export default function PracticeFeedback({
           {question.official_topic}
           {item ? ` · ${item.official_item}` : ''}
         </p>
+        {item && relatedItems.length === 0 && sections.length > 0 && (
+          <ul>
+            {sections.map((section) => (
+              <li key={section.url}>
+                <Link to={section.url}>§ {section.title}</Link>
+              </li>
+            ))}
+          </ul>
+        )}
         {item && relatedItems.length === 0 && (
           <p>
             <Link to={item.course_url}>Ouvrir le cours</Link>

@@ -38,6 +38,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "FormRenderer::searchAndRenderBlock()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-kevx5cz60q4s: "Ce qu'est un type"
+  OUT-0ztsd5vjbe72: "Les six methods"
+  OUT-dstzcbzx0kt7: "`getParent()`, la key de la brièveté"
+  OUT-tq1etfz8r98x: "Composer plutôt qu'étendre"
 ---
 
 ## Objectif

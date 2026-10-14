@@ -29,6 +29,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "StaticMethodLoader::loadClassMetadata(), should be static"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-c85m458ahp7g: "Les quatre formats de déclaration"
+  OUT-mqjbbf32kjca: "La validation ne descend pas toute seule"
+  OUT-wmvdnjq75f68: "L'inheritance fusionne, il ne remplace pas"
 ---
 
 ## Objectif

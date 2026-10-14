@@ -22,6 +22,11 @@ official_sources:
     symbol_or_lines: "createNotFoundException() — is a smaller service locator that"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-3c8n410rjew2: "Le cas légitime"
+  OUT-treyye0w8xe4: "Ce que cela n'est pas"
+  OUT-g6613nkxjesh: "Hériter"
+  OUT-7s1prxwgdhe5: "La forme courte"
 ---
 
 ## Objectif

@@ -37,6 +37,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "User Checkers"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-q8e80pz7kv3c: "`UserInterface`, en 8.0"
+  OUT-9523w2t3cts8: "Le password est une interface séparée"
+  OUT-tfqgyk6sjrcg: "`UserInterface`, en 8.0"
+  OUT-5hk32whbfhrd: "Interdire un compte"
 ---
 
 ## Objectif

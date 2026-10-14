@@ -18,6 +18,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "isReadable(); isWritable(); getValue(); setValue(); __construct(int $magicMethodsFlags, int $throw) — THROW_ON_INVALID_INDEX, THROW_ON_INVALID_PROPERTY_PATH"
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-1mrdfqr9nk4q: "Deux notations, deux cibles"
+  OUT-f3nt0swctvqd: "Le path absent : deux comportements opposés"
+  OUT-bhjp8tarh8e7: "Le path absent : deux comportements opposés"
+  OUT-6h3qaavna2z8: "Demander avant d'appeler"
+  OUT-xd2zq134swyh: "Les methods magiques"
 ---
 
 ## Objectif

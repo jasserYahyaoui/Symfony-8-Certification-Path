@@ -32,6 +32,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "clés name, type et require"
     verified_at: "2026-10-07"
+outcome_sections:
+  OUT-21jyzfg4a961: "Le triangle"
+  OUT-tvjm3k5gjnb4: "Le triangle"
+  OUT-vzswg6fmf7fr: "Le bundle"
 ---
 
 ## Objectif

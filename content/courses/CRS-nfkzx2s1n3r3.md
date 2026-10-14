@@ -38,6 +38,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "InputBag::get()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-y3ytkg8qf2rc: "Le motif recommandé"
+  OUT-68682qbtydht: "L'ordre des deux tests"
+  OUT-zr9efpstp5ny: "Le motif recommandé"
+  OUT-mj8bjkemt33a: "`submit()`, pour le contrôle fin"
+  OUT-hkxn2p2xjmg7: "`submit()`, pour le contrôle fin"
 ---
 
 ## Objectif

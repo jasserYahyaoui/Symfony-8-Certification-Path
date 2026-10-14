@@ -31,6 +31,10 @@ official_sources:
     branch: "master"
     symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-svjaxs75amyd: "Rappel des versions antérieures"
+  OUT-ayahqn48ev7g: "Ce que 8.4 ajoute au cœur du langage"
+  OUT-fr1x4bcak73j: "Rappel des versions antérieures"
 ---
 
 ## Objectif
