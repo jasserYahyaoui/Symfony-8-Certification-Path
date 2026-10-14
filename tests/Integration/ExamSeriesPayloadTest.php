@@ -115,6 +115,17 @@ final class ExamSeriesPayloadTest extends TestCase
         PayloadBuilder::assertExamSeries($payload, $content);
     }
 
+    /** …and refuses a series whose numbering does not rise in estimated difficulty. */
+    public function testTheBuildCheckRefusesASeriesThatDoesNotRise(): void
+    {
+        [$payload, $content] = $this->fixture();
+        [$payload['exams'][0], $payload['exams'][5]] = [$payload['exams'][5], $payload['exams'][0]];
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessageMatches('/does not rise in estimated difficulty/');
+        PayloadBuilder::assertExamSeries($payload, $content);
+    }
+
     /** The build-time check refuses a series in which two exams share a question. */
     public function testTheBuildCheckRefusesASharedQuestion(): void
     {

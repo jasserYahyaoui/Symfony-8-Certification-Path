@@ -55,7 +55,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
-| F7 | Too few multiple-answer questions | **EN COURS** — +2 LEARNING, +2 COMPREHENSION (P1.5, P1.4); VALIDATION still 0; every mock exam now asks both kinds, spread evenly (2 per exam, a floor) | P1.6 |
+| F7 | Too few multiple-answer questions | **VÉRIFIÉ** (local) — P1.6: +33 (3 VALIDATION, 30 LEARNING), every choice executed or read in its source; 7 or 8 per mock exam | see P1.6 |
 | F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5) and Cache (P1.4) extended, VÉRIFIÉ; P1.1–P1.3, P2.7 À FAIRE | see P1.5 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
@@ -309,3 +309,37 @@ API beyond « what's new »). Each the same way: execute first in
 `tools/behavior`, then write; decide the level on the item, never on a word
 count. P1.6 still owes multiple-answer questions in VALIDATION, which moves the
 Mock 1–3 blueprints and must be done with them.
+
+### P1.6 — Multiple-answer questions (F7)
+
+Owner, 2026-10-14: « continue avec les questions à cases à cocher ». 33 English
+multiple-answer questions over 33 items and 12 of the 14 topics (none yet for
+PHP or Automated Tests). Before writing them,
+each choice — correct or not — was executed on Symfony 8.0.15, PHP 8.4 and
+Twig 3.22 (`tools/behavior`, which gains the components it needs), or read in
+the cited source for the four that rest on a document (RFC 9110 on 307/308,
+the release process, the special routing parameters, AbstractController's
+signatures).
+
+`tools/behavior/questions/multiple-answer.php` returns, for 29 of them, one
+boolean per choice in content order; `run.php` compares the list with the
+`correct` flags of the YAML, so a flag flipped in the content fails CI
+(shown: flipping one flag of `QST-bbxhkwvjjhph` gave `FAIL … the content marks
+[true,true,true,false], Symfony 8.0 gives [true,true,false,false]`, then the
+file was restored byte-identically under SHA-256). `MultipleAnswerEvidenceTest`
+requires an execution or a stated reason for every multiple-answer VALIDATION
+question and every question of the new file.
+
+Pools: the bank holds **one VALIDATION question per item** (audit L1-4, the
+Mock 1–3 payload tests). Only three of the 33 items had none, so 3 are
+VALIDATION and 30 LEARNING (`content/questions/multiple-answer-learning.yml`);
+the numbered mock exams draw on both. A first draft put 34 in VALIDATION; the
+audit refused it, and a PHP question was dropped because lot 01 caps an item at
+five questions (L1-5). Ten candidate questions were dropped beforehand for
+duplicating an existing one.
+
+Consequences, recomputed from the bank by the blueprint's own rule: Mock 1
+42 questions / 43 min (was 41 / 42), Mock 2 and 3 unchanged in count, Mock 5's
+universe 691; the six exams carry 7 or 8 multiple-answer questions each and
+are numbered by estimated difficulty, now asserted at build time.
+

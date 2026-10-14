@@ -2484,3 +2484,178 @@ questions:
         branch: master
         symbol_or_lines: section 15.5.16
         verified_at: '2026-09-16'
+  # P1.6 (owner, 2026-10-14): multiple-answer questions, every choice executed
+  # on Symfony 8.0.15 or read in the cited source; re-run by tools/behavior/questions/.
+  - id: QST-dg4pvtdpr5q1
+    question_archetype: CONFIG_BEHAVIOR
+    assesses_outcomes:
+    - OUT-zq43jp3a97gg
+    version: 1
+    official_topic: Forms
+    official_item: OIT-p810t98zedem
+    domain: symfony
+    subtopic: choice-type
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which ChoiceType option combinations render a <select> element? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: VALIDATION
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - choice-type
+    choices:
+    - id: CHO-q738zry3xzdp
+      text: '''expanded'' => false, ''multiple'' => false'
+      correct: true
+    - id: CHO-4z58pr6btwds
+      text: '''expanded'' => false, ''multiple'' => true'
+      correct: true
+    - id: CHO-qmrd0aga84q9
+      text: '''expanded'' => true, ''multiple'' => false'
+      correct: false
+      explanation: Expanded and single renders radio buttons.
+    - id: CHO-4c6qfe93wq62
+      text: '''expanded'' => true, ''multiple'' => true'
+      correct: false
+      explanation: Expanded and multiple renders checkboxes.
+    explanation: 'Rendered with Form and TwigBridge 8.0.15 and form_div_layout.html.twig: expanded
+      false gives a <select>, with multiple="multiple" when multiple is true; expanded true
+      gives radio buttons, or checkboxes when multiple is true.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php
+      branch: '8.0'
+      symbol_or_lines: ChoiceType::configureOptions(), multiple, expanded
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/choice.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/choice.rst
+      branch: '8.0'
+      symbol_or_lines: Select Tag, Checkboxes or Radio Buttons
+      verified_at: '2026-10-14'
+  - id: QST-9xrwcaceyrnm
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-se3aqxhdbf9t
+    version: 1
+    official_topic: Security
+    official_item: OIT-fw6db7ryrk4q
+    domain: symfony
+    subtopic: roles
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'The role hierarchy is `ROLE_ADMIN: [ROLE_USER]` and `ROLE_SUPER_ADMIN: [ROLE_ADMIN,
+      ROLE_ALLOWED_TO_SWITCH]`. A user holds ROLE_ADMIN only. Which roles does the hierarchy
+      grant them? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: VALIDATION
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - role-hierarchy
+    choices:
+    - id: CHO-g915sp5867n6
+      text: ROLE_ADMIN
+      correct: true
+    - id: CHO-f0atstye5rrr
+      text: ROLE_USER
+      correct: true
+    - id: CHO-t2znazcmge3t
+      text: ROLE_ALLOWED_TO_SWITCH
+      correct: false
+      explanation: It is reachable from ROLE_SUPER_ADMIN, which this user does not hold.
+    - id: CHO-4rpwh8n8yabt
+      text: ROLE_SUPER_ADMIN
+      correct: false
+      explanation: 'A hierarchy is inherited downward only: holding ROLE_ADMIN never grants
+        its parent.'
+    explanation: 'Executed with SecurityCore 8.0.15: RoleHierarchy::getReachableRoleNames([ROLE_ADMIN])
+      returns ROLE_ADMIN and ROLE_USER. From ROLE_SUPER_ADMIN, it adds ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH
+      and ROLE_USER.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Role/RoleHierarchy.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Role/RoleHierarchy.php
+      branch: '8.0'
+      symbol_or_lines: getReachableRoleNames()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security.rst
+      branch: '8.0'
+      symbol_or_lines: Hierarchical Roles
+      verified_at: '2026-10-14'
+  - id: QST-xg0943vmrt8s
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-8fna7evcc7x4
+    version: 1
+    official_topic: Console
+    official_item: OIT-dv5400dtksfg
+    domain: symfony
+    subtopic: verbosity
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which verbosity constants does OutputInterface declare in Symfony 8.0? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: VALIDATION
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - verbosity
+    choices:
+    - id: CHO-tbjsjvp059sk
+      text: VERBOSITY_SILENT
+      correct: true
+    - id: CHO-061mma1jady4
+      text: VERBOSITY_VERY_VERBOSE
+      correct: true
+    - id: CHO-v7cs29j418ca
+      text: VERBOSITY_NONE
+      correct: false
+      explanation: 'No such constant: the lowest levels are VERBOSITY_SILENT and VERBOSITY_QUIET.'
+    - id: CHO-kcd5aa21edqn
+      text: VERBOSITY_TRACE
+      correct: false
+      explanation: 'No such constant: the highest level is VERBOSITY_DEBUG.'
+    explanation: 'Read by reflection on Console 8.0.15: OutputInterface declares six levels,
+      VERBOSITY_SILENT (8), VERBOSITY_QUIET (16), VERBOSITY_NORMAL (32), VERBOSITY_VERBOSE (64),
+      VERBOSITY_VERY_VERBOSE (128) and VERBOSITY_DEBUG (256).'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
+      branch: '8.0'
+      symbol_or_lines: VERBOSITY_* constants
+      verified_at: '2026-10-14'

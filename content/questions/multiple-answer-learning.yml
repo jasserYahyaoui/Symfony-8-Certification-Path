@@ -1,0 +1,1732 @@
+# Multiple-answer LEARNING questions of remediation item P1.6 (owner, 2026-10-14).
+#
+# Written with the three VALIDATION ones at the end of validation-pool.yml, and
+# checked the same way: every choice executed on Symfony 8.0.15 or read in the
+# cited source, and re-run by tools/behavior/questions/. They are LEARNING
+# because their item already has its VALIDATION question: the bank holds one per
+# item (audit L1-4, and Mock1PayloadTest and its siblings). They reach Practice
+# Mode and the numbered mock exams (/examens), which draw on LEARNING and
+# VALIDATION alike.
+schema_version: 2
+questions:
+  - id: QST-bbxhkwvjjhph
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-pvvwmsfr9v99
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-qnm508g1ktqm
+    domain: http
+    subtopic: methods
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: For which request methods does Symfony's Request::isMethodSafe() return true?
+      (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - safe-methods
+    choices:
+    - id: CHO-th4h251f8r87
+      text: OPTIONS
+      correct: true
+    - id: CHO-zj3m13depwjq
+      text: HEAD
+      correct: true
+    - id: CHO-89esmxkq7cbj
+      text: PUT
+      correct: false
+      explanation: PUT is idempotent but changes state, so it is not safe.
+    - id: CHO-tvv8zevy1d0x
+      text: DELETE
+      correct: false
+      explanation: DELETE is idempotent but changes state, so it is not safe.
+    explanation: 'Executed with HttpFoundation 8.0.15: isMethodSafe() is true for GET, HEAD,
+      OPTIONS and TRACE, false for PUT, DELETE, POST and PATCH. PUT and DELETE are idempotent
+      (isMethodIdempotent() is true) without being safe, as RFC 9110 section 9.2 defines.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
+      branch: '8.0'
+      symbol_or_lines: isMethodSafe(), isMethodIdempotent()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+      readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+      branch: master
+      symbol_or_lines: section 9.2.1 Safe Methods, section 9.2.2 Idempotent Methods
+      verified_at: '2026-10-14'
+  - id: QST-kj1dey8gs671
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-2ekazygpee7h
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-jh06tkfrhthq
+    domain: symfony
+    subtopic: response
+    language: en
+    difficulty: hard
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: For which status codes does Symfony's Response::isRedirect() return true? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - response
+    - status
+    choices:
+    - id: CHO-n0mjyjz54wv8
+      text: '201'
+      correct: true
+    - id: CHO-mftmq99dmywk
+      text: '308'
+      correct: true
+    - id: CHO-1qasjhxdx0jr
+      text: '304'
+      correct: false
+      explanation: 304 is in the 3xx class, so isRedirection() is true, but it is not in the
+        isRedirect() list.
+    - id: CHO-rn7wwez4sj35
+      text: '300'
+      correct: false
+      explanation: 300 is in the 3xx class, but isRedirect() does not list it.
+    explanation: 'Executed with HttpFoundation 8.0.15: isRedirect() is true for 201, 301, 302,
+      303, 307 and 308, the statuses that carry a Location to follow. isRedirection() is the
+      3xx class and is true for 300 and 304 too, but false for 201.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      branch: '8.0'
+      symbol_or_lines: isRedirect(), isRedirection()
+      verified_at: '2026-10-14'
+  - id: QST-b7n04h0xsdrb
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-6sg999w56sxb
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-512se83ab7qj
+    domain: http
+    subtopic: status-codes
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A form POST receives a redirection. With which status codes must the user agent
+      keep the POST method when it follows the redirection automatically? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - redirection
+    choices:
+    - id: CHO-4840qw35h7nd
+      text: 307 Temporary Redirect
+      correct: true
+    - id: CHO-w523bw5dhwx2
+      text: 308 Permanent Redirect
+      correct: true
+    - id: CHO-xzb44q2wdf07
+      text: 303 See Other
+      correct: false
+      explanation: 303 sends the client to retrieve another resource, with GET or HEAD.
+    - id: CHO-0bxsv7fa7p2h
+      text: 302 Found
+      correct: false
+      explanation: RFC 9110 lets a user agent change POST to GET on a 302, for historical reasons.
+    explanation: 'RFC 9110 section 15.4.8: on a 307 "the user agent MUST NOT change the request
+      method"; section 15.4.9 says the same of 308. A 303 redirects to a retrieval with GET
+      or HEAD, and on 301 and 302 a user agent may change POST to GET.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+      readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+      branch: master
+      symbol_or_lines: section 15.4.4 303 See Other, section 15.4.8 307 Temporary Redirect,
+        section 15.4.9 308 Permanent Redirect
+      verified_at: '2026-10-14'
+  - id: QST-vkzw1c93z3ct
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-em6af2cxwyj0
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-mrvrtxm4v2m5
+    domain: http
+    subtopic: negotiation
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'A request carries `Accept: application/json, text/html;q=0.5, image/png;q=0`.
+      Which representations does the client accept? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - accept
+    - quality-values
+    choices:
+    - id: CHO-fqh1fkwtxytj
+      text: application/json
+      correct: true
+    - id: CHO-6rp4hykp8eh7
+      text: text/html
+      correct: true
+    - id: CHO-7va2z9n40pwd
+      text: image/png
+      correct: false
+      explanation: 'q=0 means "not acceptable": the client explicitly refuses PNG.'
+    - id: CHO-qp3jmd72931z
+      text: text/plain
+      correct: false
+      explanation: It is not listed and no wildcard covers it.
+    explanation: A missing q means 1, so application/json is preferred and text/html is acceptable
+      at 0.5. q=0 marks a media type as not acceptable (RFC 9110 section 12.4.2). Executed with
+      HttpFoundation 8.0.15, AcceptHeader gives qualities 1, 0.5 and 0, and has no entry for
+      text/plain.
+    official_sources:
+    - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
+      readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
+      branch: master
+      symbol_or_lines: section 12.4.2 Quality Values, section 12.5.1 Accept
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/AcceptHeader.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/AcceptHeader.php
+      branch: '8.0'
+      symbol_or_lines: fromString(), get(), getQuality()
+      verified_at: '2026-10-14'
+  - id: QST-w2tv19e0bh82
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-m7sm7y26r3vk
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-tc39jp8japfc
+    domain: symfony
+    subtopic: caching
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A controller calls `$response->setSharedMaxAge(600)` on a new Response and sets
+      nothing else. Which directives does the Cache-Control header carry? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - cache-control
+    choices:
+    - id: CHO-54ah1p1e05qx
+      text: public
+      correct: true
+    - id: CHO-hj61qg0mpc32
+      text: s-maxage=600
+      correct: true
+    - id: CHO-pyvdd4nnmxde
+      text: private
+      correct: false
+      explanation: setSharedMaxAge() makes the response public; private is what setMaxAge()
+        alone leaves.
+    - id: CHO-y3nssk12747c
+      text: max-age=600
+      correct: false
+      explanation: Only s-maxage is set; max-age is a separate call.
+    explanation: 'Executed with HttpFoundation 8.0.15: after setSharedMaxAge(600) the header
+      is "public, s-maxage=600". setSharedMaxAge() calls setPublic() itself. A new Response
+      given setMaxAge(600) alone sends "max-age=600, private".'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      branch: '8.0'
+      symbol_or_lines: setSharedMaxAge(), setMaxAge(), setPublic()
+      verified_at: '2026-10-14'
+  - id: QST-z9qbypbt56bw
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-9bcphcvp1dp0
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-9kh5cqz5qtrb
+    domain: symfony
+    subtopic: http-client
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: A request made with the HttpClient component gets a 404. Which calls on the response
+      throw a ClientException? (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - http-client
+    - errors
+    choices:
+    - id: CHO-zy4vfdskgv9x
+      text: getHeaders()
+      correct: true
+    - id: CHO-b4tjyrwm1s38
+      text: getContent()
+      correct: true
+    - id: CHO-nh9cfm4yzpew
+      text: toArray()
+      correct: true
+    - id: CHO-enrvff41rdhz
+      text: getStatusCode()
+      correct: false
+      explanation: 'It returns 404: its signature declares no HTTP exception.'
+    - id: CHO-jwkfakrfv3sm
+      text: getContent(false)
+      correct: false
+      explanation: Passing false as $throw returns the body instead of throwing.
+    explanation: 'Executed with HttpClient 8.0.15 and MockHttpClient: on a 404, getHeaders(),
+      getContent() and toArray() throw ClientException by default; getStatusCode() returns 404
+      and getContent(false) returns the body. That is how to inspect an error response without
+      an exception.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php
+      branch: '8.0'
+      symbol_or_lines: getStatusCode(), getHeaders(bool $throw = true), getContent(bool $throw
+        = true), toArray(bool $throw = true)
+      verified_at: '2026-10-14'
+  - id: QST-42fahb78tb66
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-dy7bs7233e18
+    version: 1
+    official_topic: Symfony Architecture
+    official_item: OIT-7sewqvmw6468
+    domain: symfony
+    subtopic: kernel
+    language: en
+    difficulty: hard
+    cognitive_level: UNDERSTAND
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: A controller returns a Response and nothing throws. Which of these kernel events
+      are dispatched while the request is handled? (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - kernel-events
+    choices:
+    - id: CHO-b43qnxnk9s5e
+      text: kernel.request
+      correct: true
+    - id: CHO-wxng58n7v61g
+      text: kernel.controller
+      correct: true
+    - id: CHO-433agj7yzada
+      text: kernel.response
+      correct: true
+    - id: CHO-xkch68j3r0e3
+      text: kernel.view
+      correct: false
+      explanation: kernel.view is dispatched only when the controller returns something other
+        than a Response.
+    - id: CHO-571g0b3gjh8d
+      text: kernel.exception
+      correct: false
+      explanation: kernel.exception is dispatched only when an exception is thrown.
+    explanation: 'Executed with HttpKernel 8.0.15: the events dispatched were kernel.request,
+      kernel.controller, kernel.controller_arguments, kernel.response and kernel.finish_request,
+      then kernel.terminate after terminate(). kernel.view and kernel.exception were not.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+      branch: '8.0'
+      symbol_or_lines: 'handleRaw(): kernel.view only when the controller result is not a Response'
+      verified_at: '2026-10-14'
+  - id: QST-h13r88e3t040
+    question_archetype: VERSION_ATTRIBUTION
+    assesses_outcomes:
+    - OUT-gz76fhvfsxy3
+    - OUT-bcjh1p7m06v1
+    version: 1
+    official_topic: Symfony Architecture
+    official_item: OIT-pk5s7cnhk776
+    domain: symfony
+    subtopic: releases
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Branch 7 of Symfony shipped 7.0, 7.1, 7.2, 7.3 and 7.4. Which statements about
+      the maintenance of these versions are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - lts
+    - maintenance
+    choices:
+    - id: CHO-61fhf4y03h5s
+      text: 7.4 is the long-term support version of the branch.
+      correct: true
+    - id: CHO-zfk16f4jxfx2
+      text: 7.4 receives security fixes for four years.
+      correct: true
+    - id: CHO-v797sthzc567
+      text: 7.3 receives bug fixes for three years.
+      correct: false
+      explanation: '7.3 is a standard version: bug and security fixes for eight months.'
+    - id: CHO-fkf32p9xhfc2
+      text: 7.0 is the long-term support version of the branch.
+      correct: false
+      explanation: The last minor of a branch, X.4, is the LTS one, not X.0.
+    explanation: Each major branch has five minor versions, X.0 to X.4, and the last one is
+      the long-term support version. A standard version gets bug and security fixes for 8 months;
+      an LTS version gets bug fixes for 3 years and security fixes for 4 years.
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst
+      branch: '8.0'
+      symbol_or_lines: 'five per branch (X.0, X.1, X.2, X.3 and X.4); table: Standard 8 months
+        / 8 months, LTS 3 years / 4 years'
+      verified_at: '2026-10-14'
+  - id: QST-qy72c2rzdvrw
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-ck4dc8hb0b3j
+    version: 1
+    official_topic: Miscellaneous
+    official_item: OIT-8xcczyjyyanz
+    domain: symfony
+    subtopic: event
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Three listeners are registered on the event `order.placed` with priorities 10,
+      5 and 0. The listener at priority 5 calls `$event->stopPropagation()`. Afterwards, another
+      event `order.paid` is dispatched. Which statements are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - propagation
+    choices:
+    - id: CHO-b6ht5k28v5jz
+      text: The listener at priority 10 has already run.
+      correct: true
+    - id: CHO-xka718m0bw3q
+      text: The listeners of order.paid still run.
+      correct: true
+    - id: CHO-10tbwhp641d4
+      text: The listener at priority 0 runs after the one at 5.
+      correct: false
+      explanation: stopPropagation() prevents the listeners not yet called on this event from
+        running.
+    - id: CHO-40k0s18tqzxe
+      text: dispatch() throws once propagation is stopped.
+      correct: false
+      explanation: dispatch() returns the event; isPropagationStopped() is then true.
+    explanation: 'Executed with EventDispatcher 8.0.15: the listeners ran in the order 10, 5,
+      and the listener at 0 was skipped. isPropagationStopped() was true on the returned event,
+      and a later dispatch of another event ran its listeners normally.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
+      branch: '8.0'
+      symbol_or_lines: stopPropagation(), isPropagationStopped()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+      branch: '8.0'
+      symbol_or_lines: 'callListeners(): stops when isPropagationStopped()'
+      verified_at: '2026-10-14'
+  - id: QST-sws8a7kgyd2f
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-37kbkcyddm1r
+    version: 1
+    official_topic: Controllers
+    official_item: OIT-gqpj4rbt0hc7
+    domain: symfony
+    subtopic: abstract-controller
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which AbstractController helpers return a Response object that the action can
+      return as is? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - abstract-controller
+    choices:
+    - id: CHO-30bhrr0j0beg
+      text: render()
+      correct: true
+    - id: CHO-syektqkfhqkg
+      text: json()
+      correct: true
+    - id: CHO-w1qm0qyyqqrv
+      text: renderView()
+      correct: false
+      explanation: 'renderView() returns a string: it has to be wrapped in a Response.'
+    - id: CHO-mzwxs0jk4pn0
+      text: createNotFoundException()
+      correct: false
+      explanation: It returns a NotFoundHttpException to be thrown, not a Response.
+    explanation: In FrameworkBundle 8.0, render() returns Response and json() returns JsonResponse,
+      a Response subclass. renderView() returns string and createNotFoundException() returns
+      NotFoundHttpException.
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
+      branch: '8.0'
+      symbol_or_lines: 'render(): Response; json(): JsonResponse; renderView(): string; createNotFoundException():
+        NotFoundHttpException'
+      verified_at: '2026-10-14'
+  - id: QST-kcb8mz5b8cy9
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-5t7q7sa1385e
+    version: 1
+    official_topic: Routing
+    official_item: OIT-81b2c0jmv2j3
+    domain: symfony
+    subtopic: url-generation
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which UrlGeneratorInterface reference types produce a URL that contains the host
+      name? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - reference-type
+    choices:
+    - id: CHO-8ht3bhpet14z
+      text: ABSOLUTE_URL
+      correct: true
+    - id: CHO-7mqk9vkvqp3r
+      text: NETWORK_PATH
+      correct: true
+    - id: CHO-sxw5z5cqs30x
+      text: ABSOLUTE_PATH
+      correct: false
+      explanation: 'It produces /blog/a: a path from the root, without the host.'
+    - id: CHO-f1cyfs6dnxxj
+      text: RELATIVE_PATH
+      correct: false
+      explanation: It produces a path relative to the current one, without the host.
+    explanation: 'Executed with Routing 8.0.15 for host example.com over https: ABSOLUTE_URL
+      gives https://example.com/blog/a, NETWORK_PATH gives //example.com/blog/a, ABSOLUTE_PATH
+      gives /blog/a and RELATIVE_PATH gives blog/a.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php
+      branch: '8.0'
+      symbol_or_lines: ABSOLUTE_URL, ABSOLUTE_PATH, RELATIVE_PATH, NETWORK_PATH
+      verified_at: '2026-10-14'
+  - id: QST-szaz294k89ed
+    question_archetype: DEFINITION_RECALL
+    assesses_outcomes:
+    - OUT-zsdbtcwh25g5
+    version: 1
+    official_topic: Routing
+    official_item: OIT-4pgc74ctc3vc
+    domain: symfony
+    subtopic: special-parameters
+    language: en
+    difficulty: easy
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: Which of these are special routing parameters that Symfony documents? (Choose
+      3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - special-parameters
+    choices:
+    - id: CHO-92s4sm98pgx3
+      text: _controller
+      correct: true
+    - id: CHO-q8738p0zhxe0
+      text: _format
+      correct: true
+    - id: CHO-mt270ss36j28
+      text: _locale
+      correct: true
+    - id: CHO-21y8tzeey522
+      text: _method
+      correct: false
+      explanation: _method is the form field used to override the HTTP method; it is not a routing
+        parameter.
+    - id: CHO-agt7rknh0axv
+      text: _action
+      correct: false
+      explanation: 'No such parameter exists: the action is part of _controller.'
+    explanation: The routing documentation for 8.0 lists the special parameters _controller,
+      _format, _fragment, _locale and _query. _method belongs to the HTTP method override of
+      forms.
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/routing.rst
+      branch: '8.0'
+      symbol_or_lines: 'Special Parameters: _controller, _format, _fragment, _locale, _query'
+      verified_at: '2026-10-14'
+  - id: QST-78tq6ays7vnp
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-j1qtw6ccaxqg
+    version: 1
+    official_topic: Templating with Twig
+    official_item: OIT-84j0qwkbcgq6
+    domain: symfony
+    subtopic: tests
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which expressions use a test that Twig 3.22 core provides? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - tests
+    choices:
+    - id: CHO-rm1j6z49a6t4
+      text: '{{ user is defined }}'
+      correct: true
+    - id: CHO-34tmhpryjs1s
+      text: '{{ items is empty }}'
+      correct: true
+    - id: CHO-pp13fvq2py1n
+      text: '{{ name is blank }}'
+      correct: false
+      explanation: 'Twig core has no blank test: compiling it raises a SyntaxError.'
+    - id: CHO-3kcak9sa10d5
+      text: '{{ price is numeric }}'
+      correct: false
+      explanation: 'Twig core has no numeric test: compiling it raises a SyntaxError.'
+    explanation: 'Executed with Twig 3.22: defined, empty, iterable and null compile as tests;
+      blank and numeric raise Twig\Error\SyntaxError ("unknown test").'
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php
+      branch: v3.22.0
+      symbol_or_lines: getTests()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/empty.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst
+      branch: v3.22.0
+      symbol_or_lines: empty test
+      verified_at: '2026-10-14'
+  - id: QST-wbjj5skr4pen
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-mhbzxr5470xc
+    version: 1
+    official_topic: Templating with Twig
+    official_item: OIT-ns36thqnh2jk
+    domain: symfony
+    subtopic: escaping
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: Which of these are valid escaping strategies for the escape filter in Twig 3.22?
+      (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - escape
+    choices:
+    - id: CHO-qq8vsxnrdd29
+      text: html_attr
+      correct: true
+    - id: CHO-8jtgay7ebhak
+      text: css
+      correct: true
+    - id: CHO-ax344g3c6gq5
+      text: url
+      correct: true
+    - id: CHO-2epfsfmnyb06
+      text: xml
+      correct: false
+      explanation: 'Not a strategy: Twig raises "Invalid escaping strategy".'
+    - id: CHO-ffn87rdzt28y
+      text: sql
+      correct: false
+      explanation: 'Not a strategy: escaping for SQL is the database layer''s job.'
+    explanation: 'Executed with Twig 3.22: html, js, css, url and html_attr are accepted; xml
+      and sql raise a RuntimeError, "Invalid escaping strategy".'
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst
+      branch: v3.22.0
+      symbol_or_lines: 'strategies: html, js, css, url, html_attr'
+      verified_at: '2026-10-14'
+  - id: QST-qq5n3a8927cw
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-93svekvx55t0
+    version: 1
+    official_topic: Templating with Twig
+    official_item: OIT-vhd83fn6w9wy
+    domain: symfony
+    subtopic: syntax
+    language: en
+    difficulty: hard
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: Which operators exist in Twig 3.22? (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - operators
+    choices:
+    - id: CHO-6r1c9dz4wpxv
+      text: '~'
+      correct: true
+    - id: CHO-5ne358zcss69
+      text: ??
+      correct: true
+    - id: CHO-qkc7dqmh4v44
+      text: starts with
+      correct: true
+    - id: CHO-vvr41xw9w2z7
+      text: '&&'
+      correct: false
+      explanation: Twig writes and; && is a SyntaxError.
+    - id: CHO-q9f0st29rw6s
+      text: .=
+      correct: false
+      explanation: 'There is no compound assignment: set the variable again with ~.'
+    explanation: 'Executed with Twig 3.22: ~ concatenates, ?? returns the default for an undefined
+      value and "starts with" tests a prefix. && and .= both raise a SyntaxError.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/operators_precedence.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/operators_precedence.rst
+      branch: v3.22.0
+      symbol_or_lines: 'operator table: ~, ??, starts with, and; no && and no .='
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst
+      readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst
+      branch: v3.22.0
+      symbol_or_lines: starts with and ends with operators
+      verified_at: '2026-10-14'
+  - id: QST-nf32gcp2hzy8
+    question_archetype: SEQUENCE_ORDER
+    assesses_outcomes:
+    - OUT-v8srdqc4xxjy
+    version: 1
+    official_topic: Forms
+    official_item: OIT-v7zyhcm44m88
+    domain: symfony
+    subtopic: events
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: A form already built from its initial data is then submitted with $form->submit().
+      Which events does the submission dispatch? (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - form-events
+    choices:
+    - id: CHO-ysena2k7nmmr
+      text: FormEvents::PRE_SUBMIT
+      correct: true
+    - id: CHO-w5f7afgg8fts
+      text: FormEvents::SUBMIT
+      correct: true
+    - id: CHO-kk7ydgmc08af
+      text: FormEvents::POST_SUBMIT
+      correct: true
+    - id: CHO-f6zke37eb4cg
+      text: FormEvents::PRE_SET_DATA
+      correct: false
+      explanation: It belongs to the set-up phase and was dispatched when the form was built.
+    - id: CHO-7xhc00f1g39f
+      text: FormEvents::POST_SET_DATA
+      correct: false
+      explanation: It belongs to the set-up phase and was dispatched when the form was built.
+    explanation: 'Executed with Form 8.0.15: building the form dispatched PRE_SET_DATA and POST_SET_DATA;
+      submit() then dispatched PRE_SUBMIT, SUBMIT and POST_SUBMIT, in that order.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst
+      branch: '8.0'
+      symbol_or_lines: the two phases of the form workflow
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php
+      branch: '8.0'
+      symbol_or_lines: Form::submit()
+      verified_at: '2026-10-14'
+  - id: QST-5vhmxncenp53
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-c7879v7m2pqb
+    version: 1
+    official_topic: Forms
+    official_item: OIT-rj9web4whgmz
+    domain: symfony
+    subtopic: options-resolver
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A resolver declares setDefaults(['a' => 1]), setDefined('b') and setRequired('c').
+      Which calls to resolve() throw? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - options-resolver
+    choices:
+    - id: CHO-zs6r5j2q8hg2
+      text: resolve(['c' => 1, 'z' => 1])
+      correct: true
+    - id: CHO-hkmkppjvbrtg
+      text: resolve([])
+      correct: true
+    - id: CHO-58z037ah7q5z
+      text: resolve(['c' => 1])
+      correct: false
+      explanation: 'It returns [''a'' => 1, ''c'' => 1]: a defined option without a default
+        may be omitted.'
+    - id: CHO-nph2ptq9x959
+      text: resolve(['c' => 1, 'a' => 5])
+      correct: false
+      explanation: A default can always be overridden.
+    explanation: 'Executed with OptionsResolver 8.0.15: an undeclared option z throws UndefinedOptionsException
+      and a missing required option c throws MissingOptionsException. resolve([''c'' => 1])
+      returns [''a'' => 1, ''c'' => 1], and b is absent because setDefined() gives no default.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/OptionsResolver/OptionsResolver.php
+      branch: '8.0'
+      symbol_or_lines: 'resolve(): UndefinedOptionsException, MissingOptionsException'
+      verified_at: '2026-10-14'
+  - id: QST-4nh0cd7s8rrd
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-wkzdab0t8y8n
+    version: 1
+    official_topic: Data Validation
+    official_item: OIT-9x3strrjdng7
+    domain: symfony
+    subtopic: constraints
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: Which values make the NotBlank constraint report a violation? (Choose 3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - not-blank
+    choices:
+    - id: CHO-y8x37yscdzmg
+      text: 'null'
+      correct: true
+    - id: CHO-tta0f4x7c2pn
+      text: ''''''
+      correct: true
+    - id: CHO-0fvaq03gmk1b
+      text: '[]'
+      correct: true
+    - id: CHO-pkzy2spbpkk2
+      text: '''0'''
+      correct: false
+      explanation: NotBlank deliberately accepts the string '0'.
+    - id: CHO-pzvwtz36bz26
+      text: '0'
+      correct: false
+      explanation: NotBlank accepts the integer 0.
+    explanation: 'Executed with Validator 8.0.15: NotBlank rejects null, '''' and [] (and false),
+      and accepts ''0'', 0 and '' ''. Its test is false === $value || (!$value && ''0'' != $value).'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
+      branch: '8.0'
+      symbol_or_lines: NotBlankValidator::validate
+      verified_at: '2026-10-14'
+  - id: QST-xpm0gvpryn1e
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-s73ykpqy5sch
+    version: 1
+    official_topic: Data Validation
+    official_item: OIT-kkhb3wd341ex
+    domain: symfony
+    subtopic: groups
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'A class has four NotBlank constraints: on $a with no group, on $b with groups:
+      [''registration''], on $c with groups: [''Default''], on $d with groups: [''Strict''].
+      validate($object) is called with no group. Which properties are checked? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - groups
+    choices:
+    - id: CHO-32r59pdd5387
+      text: $a
+      correct: true
+    - id: CHO-e1x1x85cbckz
+      text: $c
+      correct: true
+    - id: CHO-knxaakb518f8
+      text: $b
+      correct: false
+      explanation: Its constraint belongs only to registration, which nobody asked for.
+    - id: CHO-d7v8pwcqcb8w
+      text: $d
+      correct: false
+      explanation: Its constraint belongs only to Strict, which nobody asked for.
+    explanation: 'Executed with Validator 8.0.15 on an object whose four properties are empty:
+      validate() with no group reported a and c, and validate() with the registration group
+      reported only b. Without an argument, only the Default group is validated, and a constraint
+      without a group belongs to Default.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst
+      branch: '8.0'
+      symbol_or_lines: Default group; constraints with no group
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+      branch: '8.0'
+      symbol_or_lines: Constraint::$groups, DEFAULT_GROUP
+      verified_at: '2026-10-14'
+  - id: QST-ngwbd01akwev
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-avkzmraeybbg
+    version: 1
+    official_topic: Dependency Injection
+    official_item: OIT-3y0b9gxyandm
+    domain: symfony
+    subtopic: compiler-passes
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which of these are PassConfig constants accepted as the type of addCompilerPass()?
+      (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - pass-config
+    choices:
+    - id: CHO-8y65szs8ab2r
+      text: PassConfig::TYPE_BEFORE_REMOVING
+      correct: true
+    - id: CHO-wvp5bc0bh2en
+      text: PassConfig::TYPE_OPTIMIZE
+      correct: true
+    - id: CHO-7dpxz9q6tyk0
+      text: PassConfig::TYPE_AFTER_COMPILATION
+      correct: false
+      explanation: 'No such constant: the last stage is TYPE_AFTER_REMOVING.'
+    - id: CHO-c8ttdm0drmmw
+      text: PassConfig::TYPE_BEFORE_LOADING
+      correct: false
+      explanation: 'No such constant: passes run after loading, on definitions.'
+    explanation: 'Read by reflection on DependencyInjection 8.0.15: PassConfig declares TYPE_BEFORE_OPTIMIZATION,
+      TYPE_OPTIMIZE, TYPE_BEFORE_REMOVING, TYPE_REMOVE and TYPE_AFTER_REMOVING; addCompilerPass()
+      defaults to TYPE_BEFORE_OPTIMIZATION.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
+      branch: '8.0'
+      symbol_or_lines: PassConfig::TYPE_*
+      verified_at: '2026-10-14'
+  - id: QST-ybpw4y25fj78
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-rx9sxdh2gjgm
+    version: 1
+    official_topic: Dependency Injection
+    official_item: OIT-79f4n087b66c
+    domain: symfony
+    subtopic: container
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Right after `$container->register('app.archiver', Archiver::class)`, which statements
+      about the new definition are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - definition
+    choices:
+    - id: CHO-4f4z6y1dfrsp
+      text: isPublic() returns false.
+      correct: true
+    - id: CHO-wxx49yq45p0f
+      text: isShared() returns true.
+      correct: true
+    - id: CHO-hwptadp47jys
+      text: isLazy() returns true.
+      correct: false
+      explanation: 'A definition is not lazy unless asked: isLazy() is false.'
+    - id: CHO-2y0hfz738s5e
+      text: isAutowired() returns true.
+      correct: false
+      explanation: register() does not autowire; that is the _defaults of services.yaml.
+    explanation: 'Executed with DependencyInjection 8.0.15: a definition created by register()
+      is private, shared, not lazy, not autowired and not abstract. Shared means one instance
+      for every consumer; private means it cannot be fetched with get() from outside once compiled.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Definition.php
+      branch: '8.0'
+      symbol_or_lines: isPublic(), isShared(), isLazy(), isAutowired()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
+      branch: '8.0'
+      symbol_or_lines: public and private services
+      verified_at: '2026-10-14'
+  - id: QST-6ew0t2hfqnsb
+    question_archetype: BEHAVIOR_DIAGNOSIS
+    assesses_outcomes:
+    - OUT-6j9rnmzbnkzn
+    version: 1
+    official_topic: Dependency Injection
+    official_item: OIT-wm3qdqemtap9
+    domain: symfony
+    subtopic: autowiring
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: An autowired service declares one of these constructor arguments, with no configuration
+      at all. Which of them does the container fill? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - autowiring
+    choices:
+    - id: CHO-temv4szjg0a2
+      text: MailerClient $client, where MailerClient is a registered service class
+      correct: true
+    - id: CHO-w589s8957qe1
+      text: int $max = 10
+      correct: true
+    - id: CHO-1xfc82dajbbn
+      text: string $dir
+      correct: false
+      explanation: 'A scalar has no service to match: compilation fails, asking to configure
+        it.'
+    - id: CHO-92zg1mf4mr97
+      text: NotifierInterface $notifier, with no alias for the interface
+      correct: false
+      explanation: 'No service is named after the interface: compilation fails.'
+    explanation: 'Executed with DependencyInjection 8.0.15: a class-typed argument is filled
+      with the service of that id; an optional scalar keeps its default. "string $dir" fails
+      with "is type-hinted string, you should configure its value explicitly", and an interface
+      without an alias fails with "references interface ... but no such service exists".'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+      branch: '8.0'
+      symbol_or_lines: 'autowireMethod(): scalar and interface failures'
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+      branch: '8.0'
+      symbol_or_lines: type-based resolution, aliases
+      verified_at: '2026-10-14'
+  - id: QST-rafgr5c0nmkg
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-67x1qs1y7bjk
+    version: 1
+    official_topic: Security
+    official_item: OIT-3qgn13f7zvqx
+    domain: symfony
+    subtopic: voters
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which attributes are handled by AuthenticatedVoter rather than by RoleVoter? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - authenticated-voter
+    choices:
+    - id: CHO-q70pqxe6rcr8
+      text: IS_AUTHENTICATED_FULLY
+      correct: true
+    - id: CHO-1x81xha723ew
+      text: PUBLIC_ACCESS
+      correct: true
+    - id: CHO-sp58bhazegdb
+      text: ROLE_USER
+      correct: false
+      explanation: RoleVoter handles attributes starting with ROLE_.
+    - id: CHO-j4ak9sesxmz6
+      text: IS_ANONYMOUS
+      correct: false
+      explanation: 'It no longer exists: no voter supports it in 8.0.'
+    explanation: 'Executed with SecurityCore 8.0.15: AuthenticatedVoter supports IS_AUTHENTICATED_FULLY,
+      IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED, IS_IMPERSONATOR, IS_REMEMBERED and PUBLIC_ACCESS,
+      but not ROLE_USER or IS_ANONYMOUS. RoleVoter supports ROLE_USER only.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
+      branch: '8.0'
+      symbol_or_lines: attribute constants, supportsAttribute()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/RoleVoter.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/RoleVoter.php
+      branch: '8.0'
+      symbol_or_lines: 'supportsAttribute(): ROLE_ prefix'
+      verified_at: '2026-10-14'
+  - id: QST-m4xfyvvr6rnq
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-rr0nvj9b8x0z
+    version: 1
+    official_topic: Messenger
+    official_item: OIT-hs1297vvhr89
+    domain: symfony
+    subtopic: bus
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A bus runs SendMessageMiddleware, which has no sender for the message class, then
+      HandleMessageMiddleware with one handler that returns "ok". Which statements about `$envelope
+      = $bus->dispatch($message)` are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - stamps
+    - sync
+    choices:
+    - id: CHO-shatzbzhyxn8
+      text: The handler has run when dispatch() returns.
+      correct: true
+    - id: CHO-bw50jv7r7q9s
+      text: $envelope->last(HandledStamp::class)->getResult() is "ok".
+      correct: true
+    - id: CHO-vye4adp2sggf
+      text: The envelope carries a SentStamp.
+      correct: false
+      explanation: No sender matched, so nothing was sent.
+    - id: CHO-b42zhv9sevb2
+      text: dispatch() throws NoHandlerForMessageException.
+      correct: false
+      explanation: A handler exists; that exception means none matched.
+    explanation: 'Executed with Messenger 8.0.15: with no sender for the class, the message
+      continued to HandleMessageMiddleware, was handled during dispatch(), and the returned
+      Envelope carried a HandledStamp with the result and no SentStamp.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/HandleMessageMiddleware.php
+      branch: '8.0'
+      symbol_or_lines: 'handle(): HandledStamp'
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php
+      branch: '8.0'
+      symbol_or_lines: 'handle(): SentStamp only when a sender is found'
+      verified_at: '2026-10-14'
+  - id: QST-hpn0a2ge2ah2
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-86vxgq9k86kd
+    version: 1
+    official_topic: Console
+    official_item: OIT-kbg00jqxxwhq
+    domain: symfony
+    subtopic: commands
+    language: en
+    difficulty: easy
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A command ends with `return Command::INVALID;`. Which facts about the exit-code
+      constants of Command hold? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - exit-code
+    choices:
+    - id: CHO-przns6cshk52
+      text: Command::SUCCESS is 0.
+      correct: true
+    - id: CHO-kxr8zm9g5n1t
+      text: Command::INVALID is 2.
+      correct: true
+    - id: CHO-2cds416q7mca
+      text: Command::FAILURE is -1.
+      correct: false
+      explanation: FAILURE is 1.
+    - id: CHO-8w2pqt095ehc
+      text: Command::ERROR exists, for exceptions.
+      correct: false
+      explanation: Command declares only SUCCESS, FAILURE and INVALID.
+    explanation: 'Read by reflection on Console 8.0.15: Command declares exactly SUCCESS = 0,
+      FAILURE = 1 and INVALID = 2. The integer returned by the command becomes the exit code
+      of the process.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+      branch: '8.0'
+      symbol_or_lines: SUCCESS, FAILURE, INVALID
+      verified_at: '2026-10-14'
+  - id: QST-6j988v4fwa7n
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-2e5yd7119yha
+    version: 1
+    official_topic: Console
+    official_item: OIT-cqs3m73y3rpy
+    domain: symfony
+    subtopic: events
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which events does ConsoleEvents declare? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - console-events
+    choices:
+    - id: CHO-vwx6jbaknkyv
+      text: ConsoleEvents::SIGNAL
+      correct: true
+    - id: CHO-g8yekbxz01xt
+      text: ConsoleEvents::TERMINATE
+      correct: true
+    - id: CHO-xfv265njr40d
+      text: ConsoleEvents::EXCEPTION
+      correct: false
+      explanation: An error is dispatched as ConsoleEvents::ERROR.
+    - id: CHO-md42nng7t3tn
+      text: ConsoleEvents::FINISH
+      correct: false
+      explanation: 'No such event: the last one is TERMINATE.'
+    explanation: 'Read by reflection on Console 8.0.15: ConsoleEvents declares COMMAND, SIGNAL,
+      TERMINATE and ERROR, plus ALIASES, which maps each event class to its name.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+      branch: '8.0'
+      symbol_or_lines: COMMAND, SIGNAL, TERMINATE, ERROR
+      verified_at: '2026-10-14'
+  - id: QST-zpyjs8dgyskb
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-9zm5ea8e1m2y
+    version: 1
+    official_topic: Miscellaneous
+    official_item: OIT-tjn6kyvyc2h9
+    domain: symfony
+    subtopic: filesystem
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which Filesystem calls throw an exception implementing IOExceptionInterface? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - io-exception
+    choices:
+    - id: CHO-2nm77gcvyv01
+      text: copy() with a source file that does not exist
+      correct: true
+    - id: CHO-mjcy126550wx
+      text: readFile() on a path that is a directory
+      correct: true
+    - id: CHO-kta28393qm6y
+      text: mkdir() on a directory that already exists
+      correct: false
+      explanation: mkdir() skips an existing directory without complaint.
+    - id: CHO-bctr3bbs8db4
+      text: remove() on a path that does not exist
+      correct: false
+      explanation: remove() ignores a missing path.
+    explanation: 'Executed with Filesystem 8.0.15: copy() of a missing source threw FileNotFoundException,
+      whose getPath() gives the missing path, and readFile() on a directory threw IOException.
+      Both implement IOExceptionInterface. mkdir() on an existing directory and remove() of
+      a missing path returned normally.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+      branch: '8.0'
+      symbol_or_lines: copy(), readFile(), mkdir(), remove()
+      verified_at: '2026-10-14'
+  - id: QST-htty0wd3bvec
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-hsn9hab7spvy
+    version: 1
+    official_topic: Miscellaneous
+    official_item: OIT-qkcr4bat6dsb
+    domain: symfony
+    subtopic: process
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A process is created with `new Process(['false'])`, a command that exits with
+      code 1. Which statements are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - timeout
+    choices:
+    - id: CHO-m4dr5vv5wspp
+      text: getTimeout() returns 60.0 before anything is configured.
+      correct: true
+    - id: CHO-x52xjvpw5vd7
+      text: run() returns 1 without throwing.
+      correct: true
+    - id: CHO-7a91r0rzzjbk
+      text: getIdleTimeout() returns 60.0 by default.
+      correct: false
+      explanation: 'The idle timeout is null by default: only the total timeout is set.'
+    - id: CHO-2gzmf6b5kd95
+      text: run() throws ProcessFailedException.
+      correct: false
+      explanation: Only mustRun() throws on a non-zero exit code.
+    explanation: 'Executed with Process 8.0.15: the default timeout is 60 seconds and the idle
+      timeout is null. run() returned the exit code 1; mustRun() threw ProcessFailedException
+      for the same command.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Process/Process.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Process/Process.php
+      branch: '8.0'
+      symbol_or_lines: '__construct(): timeout 60; run(); mustRun(); getIdleTimeout()'
+      verified_at: '2026-10-14'
+  - id: QST-8a3w8pct60kq
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-xntxjbxkapfz
+    version: 1
+    official_topic: Miscellaneous
+    official_item: OIT-a1anzcv85my3
+    domain: symfony
+    subtopic: finder
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A directory holds a.txt, sub/deep.txt, .hidden, a .git directory and ign.log,
+      which its .gitignore lists. Which entries does `(new Finder())->in($dir)` return? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - defaults
+    choices:
+    - id: CHO-tpwyvvs464yj
+      text: sub/deep.txt
+      correct: true
+    - id: CHO-42watzz5j10a
+      text: ign.log
+      correct: true
+    - id: CHO-25qznyc1ky3k
+      text: .hidden
+      correct: false
+      explanation: Dot files are ignored by default (ignoreDotFiles).
+    - id: CHO-4p7czhy8snch
+      text: .git/HEAD
+      correct: false
+      explanation: Version-control directories are ignored by default (ignoreVCS).
+    explanation: 'Executed with Finder 8.0.15: the search returned a.txt, ign.log, sub and sub/deep.txt.
+      It is recursive and returns files and directories; it skips dot files and VCS directories,
+      but it does not read .gitignore unless ignoreVCSIgnored(true) is called.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Finder.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Finder.php
+      branch: '8.0'
+      symbol_or_lines: IGNORE_VCS_FILES | IGNORE_DOT_FILES by default; ignoreVCSIgnored()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst
+      branch: '8.0'
+      symbol_or_lines: Version Control Files, Hidden files
+      verified_at: '2026-10-14'
+  - id: QST-99tq1nj7c9vx
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-yw73vkeyaqnd
+    version: 1
+    official_topic: Miscellaneous
+    official_item: OIT-qpjnpc56hjj0
+    domain: symfony
+    subtopic: clock
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A test builds `$clock = new MockClock('2026-01-01 00:00:00')`. Which calls make
+      a later `$clock->now()` return a different time? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-14'
+    tags:
+    - mock-clock
+    choices:
+    - id: CHO-tt70qzywyhxd
+      text: $clock->sleep(5)
+      correct: true
+    - id: CHO-faf4tna9s3pe
+      text: $clock->modify('+1 day')
+      correct: true
+    - id: CHO-0pcgev40417p
+      text: usleep(20000) in the test
+      correct: false
+      explanation: 'Real time passing has no effect: a MockClock never advances on its own.'
+    - id: CHO-bf71j353fqqv
+      text: calling $clock->now() once more first
+      correct: false
+      explanation: Reading the time does not move it.
+    explanation: 'Executed with Clock 8.0.15: two now() calls with a usleep() between them returned
+      the same time. sleep(5) moved it to 00:00:05 and modify("+1 day") to 2026-01-02 00:00:05.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/MockClock.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Clock/MockClock.php
+      branch: '8.0'
+      symbol_or_lines: sleep(), modify(), now()
+      verified_at: '2026-10-14'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst
+      branch: '8.0'
+      symbol_or_lines: MockClock
+      verified_at: '2026-10-14'
