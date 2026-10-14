@@ -135,6 +135,19 @@ final readonly class DocsGenerator
             }
         }
 
+        // The numbered mock exams (/examens): six disjoint sittings in the
+        // official format, plus the pool the page draws further sittings from.
+        // Skipped, like Mock 4 above, for the synthetic fixtures the generator
+        // is also run over, which hold a handful of questions. Not a way for the
+        // real bank to pass vacuously: ExamSeriesPayloadTest builds the series
+        // from the real bank and fails if it cannot, and the production smoke
+        // test fails on a missing exams.json.
+        if ([] !== $blueprint && PayloadBuilder::examSeriesFits($content, (int) $blueprint['official_constraints']['questions'])) {
+            $series = $this->payloads->examSeriesPayload($content, $blueprint);
+            PayloadBuilder::assertExamSeries($series, $content);
+            $written[] = $this->writeJson($dataDir.'/exams.json', $series);
+        }
+
         // The simulations hub: what each mock is for and when to sit it. It is
         // built from the two blueprints and carries no question at all, so the
         // page that explains Mock 4 cannot reveal any of it.

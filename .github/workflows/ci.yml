@@ -190,6 +190,12 @@ jobs:
       - name: Generate the documentation tree from canonical data
         run: php bin/cert build
 
+      # /examens: what the menu recommends, and that a drawn exam keeps the
+      # official count, the topic spread, one question per item, unseen first.
+      # Reads the exams.json the step above just wrote.
+      - name: The mock-exam menu recommends and draws as stated
+        run: node website/tools/verify-exams.mjs
+
       - name: The revision pages reach the published site
         run: |
           for page in roadmap calendar checkpoints readiness; do

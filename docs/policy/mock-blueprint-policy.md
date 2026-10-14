@@ -95,3 +95,29 @@ questions are not modified without a demonstrated anomaly.
 `HOLDOUT` is Mock 4's, entirely and by design (ADR-0005 Option A). Mocks 1, 2,
 3 and 5 **never** draw on it. Consequently none of them is unseen, and no §22
 readiness clause may be claimed from a score on one.
+
+## The numbered mock exams (/examens) — owner's request, 2026-10-14
+
+Verbatim: « Refait des examens blancs, les examens doivent être format symfony
+exam 8.0, je dois depuis menu choisir quel examen passer avec une
+recommandation 1 2 3 … 1000 ». The bank was measured before anything was
+promised: 637 English questions outside the holdout make at most **eight**
+disjoint 75-question exams, and **six** once every official topic keeps its
+share in every exam (Automated Tests carries 27 questions). The owner chose six
+disjoint exams plus free draws beyond, and kept Mocks 1 to 5.
+
+| | |
+|---|---|
+| Count, duration, language | 75 questions, 90 minutes, English — the `official_constraints` of the Mock 4 blueprint (§10), `OFFICIAL_FORMAT` |
+| Topic spread | each topic's share of the atomic official items, largest remainder — `TRAINING_DISTRIBUTION`; no official weighting is published |
+| Exams 1 to 6 | fixed at build time (`PayloadBuilder::examSeriesPayload`), sharing no question, never two questions on one item; dealt by difficulty within each topic, which makes them rise in estimated difficulty — the recommended order |
+| Exams 7 and up | drawn in the browser from the same pool and spread, the questions met least often first; the page states how many were already met |
+| Holdout | never used: Mock 4's alone |
+| Recommendation | the first fixed exam not yet finished, then the next draw |
+
+These questions are served by Practice and Exam Mode too, so no score here is
+an independent measure; only Mock 4 is. `PayloadBuilder::assertExamSeries`
+refuses a build whose exams share a question, miss the count, leave English or
+break the spread (`ExamSeriesPayloadTest` shows it refusing two broken series);
+`website/tools/verify-exams.mjs` checks the menu's recommendation and draws;
+the production smoke test checks `exams.json` again.

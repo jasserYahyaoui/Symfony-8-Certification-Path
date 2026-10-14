@@ -133,6 +133,28 @@ def main(argv):
                 f"{name} ships {len(ids)} questions, fewer than the {payload.get('question_count')} a sitting draws"
             )
 
+        # The numbered mock exams (/examens): six fixed exams of the official
+        # count that share no question, all English, all in the payload.
+        if "exams" in payload:
+            by_id = {q["id"]: q for q in payload["questions"]}
+            seen = set()
+            for exam in payload["exams"]:
+                qids = exam["question_ids"]
+                if len(qids) != payload.get("question_count"):
+                    problems.append(f"{name} exam {exam['number']} has {len(qids)} questions, not {payload.get('question_count')}")
+                if seen & set(qids):
+                    problems.append(f"{name} exam {exam['number']} shares questions with an earlier exam")
+                seen |= set(qids)
+                unknown = [i for i in qids if i not in by_id]
+                if unknown:
+                    problems.append(f"{name} exam {exam['number']} names {len(unknown)} question(s) the payload lacks")
+                if any(by_id[i].get("language") != "en" for i in qids if i in by_id):
+                    problems.append(f"{name} exam {exam['number']} carries a question not in English")
+            if len(payload["exams"]) != 6:
+                problems.append(f"{name} has {len(payload['exams'])} fixed exams, not 6")
+            if len(problems) == before:
+                print(f"ok  {name:<8} 6 fixed exams of {payload.get('question_count')} questions, disjoint, all English")
+
         if len(problems) == before:
             print(f"ok  {name:<8} {len(ids):>4} eligible, no holdout id or choice")
         else:
