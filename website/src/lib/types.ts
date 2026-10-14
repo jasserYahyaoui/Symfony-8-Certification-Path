@@ -163,3 +163,23 @@ export interface SimulationsPayload {
   not_official: string;
   mocks: SimulationEntry[];
 }
+
+/**
+ * exams.json — the numbered mock exams of /examens (owner, 2026-10-14). The
+ * count, duration and language are the official ones; the six fixed exams
+ * share no question; the pool is what further sittings are drawn from.
+ */
+export interface ExamSeriesPayload extends Payload {
+  question_count: number;
+  duration_minutes: number;
+  language: string;
+  format_label: string;
+  format_note: string;
+  distribution_label: string;
+  distribution_note: string;
+  not_unseen: string;
+  scoring_policy: string;
+  topic_spread: Record<string, number>;
+  exams: {number: number; question_ids: string[]}[];
+  items: Record<string, ItemIndexEntry>;
+}

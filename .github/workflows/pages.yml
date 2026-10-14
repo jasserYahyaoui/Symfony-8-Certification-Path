@@ -107,11 +107,11 @@ jobs:
                       "docs/revision/roadmap" "docs/revision/calendar" \
                       "docs/revision/checkpoints" "docs/revision/readiness" \
                       "calendar" \
-                      "practice" "exam" "simulations" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "progression" \
+                      "practice" "exam" "simulations" "mock-4" "mock-1" "mock-2" "mock-3" "mock-5" "examens" "progression" \
                       "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
                       "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json" \
-                      "data/comprehension.json"; do
+                      "data/exams.json" "data/comprehension.json"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
@@ -5263,8 +5263,9 @@ jobs:
           curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-2.json "$BASE_URL/data/mock-2.json"
           curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-3.json "$BASE_URL/data/mock-3.json"
           curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/mock-5.json "$BASE_URL/data/mock-5.json"
+          curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/exams.json "$BASE_URL/data/exams.json"
 
-          python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json /tmp/mock-1.json /tmp/mock-2.json /tmp/mock-3.json /tmp/mock-5.json || fail=1
+          python3 .github/scripts/holdout-smoke.py /tmp/practice.json /tmp/exam.json /tmp/mock-4.json /tmp/mock-1.json /tmp/mock-2.json /tmp/mock-3.json /tmp/mock-5.json /tmp/exams.json || fail=1
 
           # Lot 27. Practice Mode's feedback reads an item index Unit B added to
           # this payload. If it stops being emitted, two of the seven feedback

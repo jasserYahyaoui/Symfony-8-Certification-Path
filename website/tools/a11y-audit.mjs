@@ -316,6 +316,29 @@ const PAGES = [
   ['mock 2', '/mock-2'],
   ['mock 3', '/mock-3'],
   ['mock 5', '/mock-5'],
+  // The numbered mock exams (owner, 2026-10-14): the menu with no history,
+  // the menu after exam 1 (exam 2 recommended), a sitting, and its report.
+  ['examens', '/examens'],
+  ['examens — historique', '/examens', {
+    state: () => ({
+      schema_version: 4, attempts: [], practice_sessions: [], comprehension: [],
+      sessions: [{mode: 'blanc-1', question_count: 75, correct: 51, unanswered: 2, elapsed_seconds: 4800, timed_out: false, finished_at: '2026-10-14T10:00:00.000Z'}],
+      revision: {done: {}, settings: null},
+    }),
+    drive: async (page) => {
+      await page.getByText('Recommandé maintenant : Examen blanc 2.').waitFor();
+    },
+  }],
+  ['examens — en cours', '/examens', {drive: async (page) => {
+    await page.getByRole('button', {name: "Passer l'examen 1"}).click();
+    await page.locator('fieldset.certpath-question').waitFor();
+  }}],
+  ['examens — résultat', '/examens', {drive: async (page) => {
+    await page.getByRole('button', {name: "Passer l'examen 1"}).click();
+    await page.locator('fieldset.certpath-question').waitFor();
+    await page.getByRole('button', {name: 'Soumettre maintenant'}).click();
+    await page.locator('#results-heading').waitFor();
+  }}],
   ['progression', '/progression'],
   ['progression — historique', '/progression', {
     state: seedHistory,

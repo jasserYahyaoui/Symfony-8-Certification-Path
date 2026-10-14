@@ -26,13 +26,14 @@ export interface Attempt {
    * invent a series that never happened.
    */
   session_id?: string;
-  mode: 'practice' | 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5';
+  // `blanc-N` is numbered mock exam N of /examens (1 to 6 fixed, 7 and up drawn).
+  mode: 'practice' | 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5' | `blanc-${number}`;
 }
 
 export interface ExamSession {
   // 'mock' joined 'exam' when Mock 4 shipped. The shape is unchanged, so a
   // history written before it stays readable and needs no migration.
-  mode: 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5';
+  mode: 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5' | `blanc-${number}`;
   question_count: number;
   correct: number;
   unanswered: number;

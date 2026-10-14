@@ -113,6 +113,7 @@ const config: Config = {
           // text lives in the blueprints and is rendered on /simulations; these
           // labels condense it and are never a second source.
           items: [
+            {to: '/examens', label: 'Examens blancs 1 à 6 — format officiel'},
             {to: '/simulations', label: 'À quoi sert chaque mock, et quand'},
             {to: '/mock-1', label: 'Mock 1 — API, règles, vocabulaire'},
             {to: '/mock-2', label: 'Mock 2 — code et scénarios'},

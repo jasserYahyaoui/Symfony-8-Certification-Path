@@ -316,6 +316,213 @@ final class PayloadBuilder
         ];
     }
 
+    /** Fixed, question-disjoint sittings in the official format (owner, 2026-10-14). */
+    public const int EXAM_SERIES_SIZE = 6;
+
+    /**
+     * The numbered mock exams (/examens): official format, chosen from a menu.
+     *
+     * Owner's request, 2026-10-14: « refait des examens blancs, format symfony
+     * exam 8.0, je dois depuis menu choisir quel examen passer avec une
+     * recommandation 1 2 3 … ». Measured first: 637 English questions outside
+     * the holdout make at most eight disjoint 75-question exams, and six once
+     * every official topic keeps its share in every exam (Automated Tests has
+     * 27 questions). The owner chose six disjoint exams plus free draws beyond.
+     *
+     * - Count, duration and language come from the Mock 4 blueprint's
+     *   `official_constraints` (§10): 75 questions, 90 minutes, English.
+     * - The topic spread is TRAINING_DISTRIBUTION: each topic's share of the
+     *   atomic official items, by largest remainder. No official weighting is
+     *   published, and none is invented.
+     * - Exams 1 to 6 are fixed here, at build time, and share no question; no
+     *   exam asks two questions on one item. Within a topic the questions are
+     *   dealt by difficulty, so no exam gets all the hard ones.
+     * - The holdout is never used: it stays Mock 4's alone.
+     * - The payload also carries the whole eligible pool, from which the page
+     *   draws exam 7, 8, 9… preferring questions the learner has not seen.
+     *
+     * None of these questions is unseen: they are served by Practice and Exam
+     * Mode too. The payload says so, and the page repeats it.
+     *
+     * @param array<string, mixed> $mockFour the Mock 4 blueprint
+     *
+     * @return array<string, mixed>
+     */
+    public function examSeriesPayload(ContentSet $content, array $mockFour): array
+    {
+        $count = (int) $mockFour['official_constraints']['questions'];
+        $minutes = (int) $mockFour['official_constraints']['minutes'];
+
+        $eligible = array_values(array_filter(
+            $content->questions,
+            static fn (Question $q): bool => Pool::Holdout !== $q->pool && 'en' === $q->language->value,
+        ));
+        usort($eligible, static fn (Question $a, Question $b): int => [$a->officialTopic, $a->id->value] <=> [$b->officialTopic, $b->id->value]);
+
+        $spread = self::topicSpread($content, $count);
+        $exams = self::dealExams($eligible, $spread, self::EXAM_SERIES_SIZE);
+
+        return [
+            'generated_at' => gmdate('c'),
+            'pool' => 'VALIDATION+LEARNING',
+            'question_count' => $count,
+            'duration_minutes' => $minutes,
+            'language' => 'en',
+            'format_label' => 'OFFICIAL_FORMAT',
+            'format_note' => 'Count, duration and language are the published constraints of the Symfony 8.0 exam, as recorded in the Mock 4 blueprint.',
+            'distribution_label' => 'TRAINING_DISTRIBUTION',
+            'distribution_note' => 'No official weighting per topic is published. Each topic gets its share of the atomic official items.',
+            'not_unseen' => 'These questions are also served by Practice Mode and Exam Mode: a score here is training, not an independent measure. Only Mock 4 is kept unseen.',
+            'scoring_policy' => 'all-or-nothing',
+            'topic_spread' => $spread,
+            'exams' => $exams,
+            'items' => $this->itemIndex($content, $eligible),
+            'questions' => array_map($this->exportQuestion(...), $eligible),
+        ];
+    }
+
+    /** Whether the bank holds enough eligible questions to fill the series at all. */
+    public static function examSeriesFits(ContentSet $content, int $count): bool
+    {
+        $eligible = 0;
+        foreach ($content->questions as $q) {
+            if (Pool::Holdout !== $q->pool && 'en' === $q->language->value) {
+                ++$eligible;
+            }
+        }
+
+        return $eligible >= self::EXAM_SERIES_SIZE * $count;
+    }
+
+    /**
+     * Each official topic's share of $count, in proportion to its atomic
+     * official items, by largest remainder (ties broken by topic name).
+     *
+     * @return array<string, int>
+     */
+    public static function topicSpread(ContentSet $content, int $count): array
+    {
+        $items = [];
+        foreach ($content->matrix->items as $item) {
+            $items[$item->officialTopic] = ($items[$item->officialTopic] ?? 0) + 1;
+        }
+        ksort($items);
+        $total = array_sum($items);
+        $spread = [];
+        $remainders = [];
+        foreach ($items as $topic => $n) {
+            $exact = $n * $count / $total;
+            $spread[$topic] = (int) floor($exact);
+            $remainders[$topic] = $exact - floor($exact);
+        }
+        arsort($remainders);
+        foreach (array_slice(array_keys($remainders), 0, $count - array_sum($spread)) as $topic) {
+            ++$spread[$topic];
+        }
+        ksort($spread);
+
+        return $spread;
+    }
+
+    /**
+     * Deals $size disjoint exams: per topic, questions ordered by difficulty
+     * then by a stable hash of their id, each going to the exam with the fewest
+     * questions of that topic that does not yet ask on its item.
+     *
+     * @param list<Question>     $eligible
+     * @param array<string, int> $spread
+     *
+     * @return list<array{number: int, question_ids: list<string>}>
+     */
+    private static function dealExams(array $eligible, array $spread, int $size): array
+    {
+        $rank = ['easy' => 0, 'medium' => 1, 'hard' => 2];
+        $byTopic = [];
+        foreach ($eligible as $q) {
+            $byTopic[$q->officialTopic][] = $q;
+        }
+
+        $ids = array_fill(0, $size, []);
+        $itemsUsed = array_fill(0, $size, []);
+        foreach ($spread as $topic => $wanted) {
+            $pool = $byTopic[$topic] ?? [];
+            usort($pool, static fn (Question $a, Question $b): int => [$rank[$a->difficulty] ?? 1, sha1($a->id->value)] <=> [$rank[$b->difficulty] ?? 1, sha1($b->id->value)]);
+            $taken = array_fill(0, $size, 0);
+            foreach ($pool as $q) {
+                $best = null;
+                for ($e = 0; $e < $size; ++$e) {
+                    if ($taken[$e] >= $wanted || isset($itemsUsed[$e][$q->officialItemId])) {
+                        continue;
+                    }
+                    if (null === $best || $taken[$e] < $taken[$best]) {
+                        $best = $e;
+                    }
+                }
+                if (null === $best) {
+                    continue;
+                }
+                $ids[$best][] = $q->id->value;
+                $itemsUsed[$best][$q->officialItemId] = true;
+                ++$taken[$best];
+            }
+            if (min($taken) < $wanted) {
+                throw new \RuntimeException(\sprintf(
+                    'Topic "%s" cannot give %d questions to each of %d disjoint exams: it has %d eligible questions.',
+                    $topic, $wanted, $size, \count($pool),
+                ));
+            }
+        }
+
+        $exams = [];
+        foreach ($ids as $e => $list) {
+            $exams[] = ['number' => $e + 1, 'question_ids' => $list];
+        }
+
+        return $exams;
+    }
+
+    /**
+     * The guarantees the page and the learner rely on, checked at build time.
+     *
+     * @param array<string, mixed> $payload
+     */
+    public static function assertExamSeries(array $payload, ContentSet $content): void
+    {
+        $byId = [];
+        foreach ($payload['questions'] as $q) {
+            $byId[$q['id']] = $q;
+        }
+        $seen = [];
+        foreach ($payload['exams'] as $exam) {
+            $ids = $exam['question_ids'];
+            if (\count($ids) !== $payload['question_count']) {
+                throw new \LogicException(\sprintf('Exam %d has %d questions, not %d.', $exam['number'], \count($ids), $payload['question_count']));
+            }
+            $items = [];
+            $topics = [];
+            foreach ($ids as $id) {
+                if (isset($seen[$id])) {
+                    throw new \LogicException(\sprintf('Exams %d and %d share a question.', $seen[$id], $exam['number']));
+                }
+                $seen[$id] = $exam['number'];
+                $q = $byId[$id] ?? throw new \LogicException('An exam names a question the payload does not carry.');
+                if ('en' !== $q['language']) {
+                    throw new \LogicException(\sprintf('Exam %d carries a question that is not in English.', $exam['number']));
+                }
+                if (isset($items[$q['official_item']])) {
+                    throw new \LogicException(\sprintf('Exam %d asks twice on one item.', $exam['number']));
+                }
+                $items[$q['official_item']] = true;
+                $topics[$q['official_topic']] = ($topics[$q['official_topic']] ?? 0) + 1;
+            }
+            ksort($topics);
+            if ($topics !== $payload['topic_spread']) {
+                throw new \LogicException(\sprintf('Exam %d does not follow the topic spread.', $exam['number']));
+            }
+        }
+        self::assertNoHoldoutLeak($payload, $content);
+    }
+
     /**
      * The simulations hub (/simulations): what each mock is for, and when to sit it.
      *
