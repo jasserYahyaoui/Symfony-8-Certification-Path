@@ -137,3 +137,49 @@ facts:
     behavior_check: http-kernel.request-short-circuit
     content: [CRS-mpwjc4g3vmj7]
     forbidden: []
+  serializer.first-supporting-normalizer-wins:
+    finding: P1.5
+    official_item: OIT-fr58jzaj6jtb
+    statement: >-
+      The Serializer gives a value to the first normalizer, in order, that accepts it. ObjectNormalizer
+      listed before a specialised normalizer takes its objects, dates included. The framework registers
+      ObjectNormalizer at priority -1000, after autoconfigured normalizers (priority 0).
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    behavior_check: serializer.first-supporting-normalizer-wins
+    content: [CRS-3z96cp2s1dka, FLC-7pd9j9cfpxer, QST-1wg4b6eb9q3t, QST-t4t79qkyy0gh]
+    forbidden:
+      - "/le normaliseur le plus spécifique (est choisi|l'emporte)/iu"
+      - "/most specific normalizer (is chosen|wins)/iu"
+  serializer.denormalize-types-need-extractor:
+    finding: P1.5
+    official_item: OIT-fr58jzaj6jtb
+    statement: >-
+      Type checks during denormalization come from a property type extractor. Without one, PHP coercion
+      applies ("7" becomes 7 for an int); with one, NotNormalizableValueException. With
+      COLLECT_DENORMALIZATION_ERRORS, the errors are thrown together in a PartialDenormalizationException.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    behavior_check: serializer.denormalize-types-need-extractor
+    content: [CRS-3z96cp2s1dka, FLC-qqh239qh9bmb, QST-6w2q3s8tttm3, QST-fd1dm5jy2pyh]
+    forbidden: []
+  serializer.object-to-populate:
+    finding: P1.5
+    official_item: OIT-fr58jzaj6jtb
+    statement: OBJECT_TO_POPULATE fills and returns the given object; keys absent from the input leave their property untouched.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    behavior_check: serializer.object-to-populate
+    content: [CRS-3z96cp2s1dka, QST-9ydm1brz691j]
+    forbidden: []
+  serializer.context-options:
+    finding: P1.5
+    official_item: OIT-fr58jzaj6jtb
+    statement: skip_null_values omits null properties; datetime_format sets the date format, for one call.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php
+    behavior_check: serializer.context-options
+    content: [CRS-3z96cp2s1dka, FLC-d5w66y32a3ka, QST-hjv0ngsgvqxr]
+    forbidden: []

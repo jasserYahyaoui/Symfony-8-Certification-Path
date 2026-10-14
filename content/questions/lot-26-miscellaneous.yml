@@ -294,3 +294,186 @@ questions:
     symbol_or_lines: the ObjectNormalizer reads through PropertyAccess, properties and get/has/is/can
       methods; the Ignore attribute
     verified_at: '2026-09-12'
+- id: QST-1wg4b6eb9q3t
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-hkvn3vxj4fyb
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: normalizers
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: "What is the \"at\" entry of the JSON?\n\n```php\n$serializer = new Serializer(\n    [new ObjectNormalizer(),\
+    \ new DateTimeNormalizer()],\n    [new JsonEncoder()],\n);\n$event->at = new DateTimeImmutable('2026-01-02T03:04:05+00:00');\n\
+    echo $serializer->serialize($event, 'json');\n```"
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - normalizer
+  - order
+  choices:
+  - id: CHO-qnmfxc7yqthn
+    text: 'An object of the date''s getters: timezone, offset, timestamp, microsecond'
+    correct: true
+  - id: CHO-tzthc0n1ywrq
+    text: The string "2026-01-02T03:04:05+00:00", produced by DateTimeNormalizer
+    correct: false
+    explanation: That is the output when DateTimeNormalizer is listed before ObjectNormalizer.
+  - id: CHO-wt7yvhxcyrvb
+    text: A LogicException, because two normalizers both support the date
+    correct: false
+    explanation: 'No such check exists: the first normalizer that accepts the value wins.'
+  - id: CHO-t5n0wd7f94qt
+    text: null, because ObjectNormalizer does not traverse nested objects
+    correct: false
+    explanation: ObjectNormalizer normalizes nested objects recursively.
+  explanation: The Serializer asks its normalizers in order and keeps the first that accepts the value. ObjectNormalizer
+    accepts almost any object, so listed first it takes the date and exposes its getters. Executed with Serializer 8.0.15.
+    In the framework it carries priority -1000, after the specialised normalizers.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'getNormalizer(): the first normalizer whose supported types and supportsNormalization() accept the
+      value'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'serializer.normalizer.object: priority -1000, receives property_info'
+    verified_at: '2026-10-14'
+- id: QST-6w2q3s8tttm3
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-m8wfdy7569p8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: denormalization
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A test builds its own Serializer with new ObjectNormalizer() and no property type extractor. Order has a property
+    declared as public int $qty. What does deserializing {"qty":"7"} into Order produce in that test?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - denormalization
+  - types
+  choices:
+  - id: CHO-j166pkf4f84w
+    text: An Order whose qty is the int 7
+    correct: true
+  - id: CHO-jpf8gt9z5fw5
+    text: 'A NotNormalizableValueException: string given for an int'
+    correct: false
+    explanation: That is what happens with a type extractor, as the framework service has; without one, PHP coerces the
+      string.
+  - id: CHO-rkjxr8cdhhts
+    text: An Order whose qty keeps its default value
+    correct: false
+    explanation: The key is present, so the property is written.
+  - id: CHO-zanres64yv0k
+    text: A TypeError thrown by PHP and not caught by Symfony
+    correct: false
+    explanation: '"7" is a numeric string, which PHP coerces to int; a non-numeric string is turned into a NotNormalizableValueException.'
+  explanation: Type checks during denormalization come from the property type extractor. Without it, assignment follows
+    PHP coercion, so "7" becomes 7, while the framework service, which receives property_info, rejects the same input. Executed
+    with Serializer 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: SKIP_NULL_VALUES; validateAndDenormalize() type checks from the property type extractor
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'serializer.normalizer.object: priority -1000, receives property_info'
+    verified_at: '2026-10-14'
+- id: QST-hjv0ngsgvqxr
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-cf0sd5w3fzhe
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: context
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: Which statements about the context passed to serialize() are correct? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - context
+  choices:
+  - id: CHO-f1yy1akd52e6
+    text: skip_null_values set to true leaves out the properties whose value is null
+    correct: true
+  - id: CHO-3sb1ctm5dsgj
+    text: datetime_format set to 'Y-m-d' writes a date as 2026-01-02 rather than RFC 3339
+    correct: true
+  - id: CHO-a77663khhm7r
+    text: object_to_populate set to an object makes serialize() output that object instead
+    correct: false
+    explanation: object_to_populate is read when denormalizing, to fill an existing object.
+  - id: CHO-313vr3wddm65
+    text: groups set to ['Default'] keeps the properties that declare no group
+    correct: false
+    explanation: 'There is no implicit Default group in the Serializer: that request outputs nothing; only * keeps them.'
+  explanation: 'The third argument configures one call. Executed with Serializer 8.0.15: skip_null_values gave {"qty":1};
+    datetime_format Y-m-d gave "2026-01-02".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: SKIP_NULL_VALUES; validateAndDenormalize() type checks from the property type extractor
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: FORMAT_KEY = datetime_format
+    verified_at: '2026-10-14'

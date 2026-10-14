@@ -832,3 +832,168 @@ questions:
     branch: '8.0'
     symbol_or_lines: isCircularReference()
     verified_at: '2026-10-09'
+- id: QST-t4t79qkyy0gh
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-hkvn3vxj4fyb
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: In a Symfony application, an autoconfigured App\Serializer\MoneyNormalizer implements NormalizerInterface for
+    Money objects. Which statements hold? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-jg9et9zzzcw1
+    text: It is consulted before ObjectNormalizer, which is registered at priority -1000
+    correct: true
+  - id: CHO-987spcczg9kx
+    text: Its getSupportedTypes() lets the Serializer skip it for other types without asking it
+    correct: true
+  - id: CHO-t6bqsx7aagn6
+    text: ObjectNormalizer is consulted first because built-in normalizers come first
+    correct: false
+    explanation: 'Built-in does not mean first: ObjectNormalizer carries priority -1000, an autoconfigured one 0.'
+  - id: CHO-y74h8kty3de7
+    text: Symfony throws when two registered normalizers both support Money
+    correct: false
+    explanation: There is no such check; the first that accepts the value wins.
+  explanation: Autoconfiguration tags the service serializer.normalizer with no priority, so 0, above ObjectNormalizer at
+    -1000. getSupportedTypes() feeds the Serializer's cache, so a normalizer that does not declare a type is not asked.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'getNormalizer(): the first normalizer whose supported types and supportsNormalization() accept the
+      value'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'serializer.normalizer.object: priority -1000, receives property_info'
+    verified_at: '2026-10-14'
+- id: QST-9ydm1brz691j
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-m8wfdy7569p8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: $order is an Order with note 'keep' and qty 5. What does deserialize('{"qty":7}', Order::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE
+    => $order]) return?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-qqzesgdeqt7k
+    text: $order itself, qty now 7, note still 'keep'
+    correct: true
+  - id: CHO-m8yavnf9jawc
+    text: A new Order with qty 7 and note null
+    correct: false
+    explanation: OBJECT_TO_POPULATE fills the given object instead of creating one.
+  - id: CHO-0wrjqkvkqm0a
+    text: $order itself, qty now 7, note reset to null
+    correct: false
+    explanation: Keys absent from the input leave their property untouched.
+  - id: CHO-bym2ps1fbna3
+    text: A clone of $order with qty 7, leaving $order unchanged
+    correct: false
+    explanation: 'No clone is made: the same instance is returned.'
+  explanation: 'Executed with Serializer 8.0.15: the returned object is identical (===) to $order, qty is 7 and note keeps
+    "keep".'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: OBJECT_TO_POPULATE
+    verified_at: '2026-10-14'
+- id: QST-fd1dm5jy2pyh
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-cf0sd5w3fzhe
+  - OUT-m8wfdy7569p8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: With a property type extractor and COLLECT_DENORMALIZATION_ERRORS set to true, {"qty":"x","note":5} is deserialized
+    into Order (int $qty, ?string $note). What happens?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 65
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-14'
+  tags:
+  - serializer
+  choices:
+  - id: CHO-z3hqwj6wjfw0
+    text: A PartialDenormalizationException listing qty and note
+    correct: true
+  - id: CHO-s1d1jvjqgq72
+    text: A NotNormalizableValueException for qty, the first error
+    correct: false
+    explanation: That is the behaviour without COLLECT_DENORMALIZATION_ERRORS.
+  - id: CHO-ms52ga82arnz
+    text: An Order with the valid fields set and no exception at all
+    correct: false
+    explanation: Collected errors are still thrown, together, at the end.
+  - id: CHO-23sbpwvmnd3y
+    text: A TypeError from PHP when "x" is written to the int property
+    correct: false
+    explanation: The extractor checks types before any assignment.
+  explanation: 'Executed with Serializer 8.0.15: the exception''s getErrors() hold two NotNormalizableValueException, with
+    paths qty and note.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: SKIP_NULL_VALUES; validateAndDenormalize() type checks from the property type extractor
+    verified_at: '2026-10-14'

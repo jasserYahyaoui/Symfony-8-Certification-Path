@@ -175,7 +175,7 @@ mocks:
     - VALIDATION
     - LEARNING
     excludes: HOLDOUT
-  eligible_questions: 653
+  eligible_questions: 656
   weakness_evidence:
   - questions answered incorrectly, most recent first
   - official topics with the lowest success ratio

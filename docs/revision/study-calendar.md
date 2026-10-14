@@ -15,11 +15,11 @@ après l'épreuve, et celles-là ne peuvent pas être faites. Elles sont compté
 plutôt qu'effacées — c'est le coût de la date choisie, pas un détail de mise en
 page.
 
-| Révisions perdues après le 29 décembre 2026 | 30 (97 min) |
+| Révisions perdues après le 29 décembre 2026 | 32 (106 min) |
 |---|---|
 | dont J+30 | 22 |
-| dont J+45 | 2 |
-| dont J+60 | 6 |
+| dont J+45 | 3 |
+| dont J+60 | 7 |
 
 Les **J+30** pèsent le plus lourd : ce sont des révisions d'items vus en
 novembre, pas des rappels lointains. Si vous gagnez du temps, c'est là qu'il
@@ -998,26 +998,26 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Miscellaneous : PropertyAccess** (STANDARD) — 8 min · 795 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 41 min · 770 mots · 4 questions, 14 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Serializer** (STANDARD) — 45 min · 890 mots · 5 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Serializer** (DEEP) — 60 min · 1130 mots · 8 questions, 18 questions de compréhension, 14 flashcards
 - Révision **J+1** (12 min) — Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+7** (12 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+14** (11 min) — Console : Built-in helpers · Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+30** (12 min) — Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization · Security : Configuration
 
-*Budget du jour : 141 / 160 min*
+*Budget du jour : 156 / 160 min*
 
 ### Jeudi 10 décembre 2026
 
 - **Assessment lot-19 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-20 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+1** (18 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+1** (20 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+3** (12 min) — Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
 - Révision **J+7** (8 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+14** (6 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object
 - Révision **J+30** (12 min) — Security : Providers · Security : Firewalls · Security : Users · Security : Password hashers
 - Révision **J+45** (6 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container
 
-*Budget du jour : 122 / 160 min*
+*Budget du jour : 124 / 160 min*
 
 ### Vendredi 11 décembre 2026
 
@@ -1044,7 +1044,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Miscellaneous : Runtime
   - Miscellaneous : Serializer
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+3** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+3** (13 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+30** (10 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports
 - Révision **J+45** (9 min) — Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories
 - Révision **J+60** (6 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
@@ -1084,11 +1084,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 16 décembre 2026
 
-- Révision **J+7** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+7** (13 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+14** (9 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+30** (13 min) — Messenger : Retries and failures · Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle
 
-*Budget du jour : 34 / 160 min*
+*Budget du jour : 35 / 160 min*
 
 ### Jeudi 17 décembre 2026
 
@@ -1115,7 +1115,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 20 décembre 2026
 
-- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 653 questions hors holdout
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 656 questions hors holdout
 - Révision **J+30** (9 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables
 
 *Budget du jour : 220 / 220 min*
@@ -1137,10 +1137,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 23 décembre 2026
 
-- Révision **J+14** (9 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+14** (10 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
 - Révision **J+30** (8 min) — Console : Console component · Console : Built-in commands · Console : Custom commands
 
-*Budget du jour : 17 / 160 min*
+*Budget du jour : 18 / 160 min*
 
 ### Jeudi 24 décembre 2026
 

@@ -462,11 +462,22 @@ final class RefinementFrameworkRuleTest extends TestCase
      * DEEP on the same day (ADR-0008), so the corpus is 27/124/12, not
      * 27/125/11. Updating the constant without the counts would have kept the
      * test green while the published derivation described a corpus that no
-     * longer exists.
+     * longer exists. Serializer was promoted on 2026-10-14 (remediation P1.5):
+     * 27/123/13. The counts are checked against the matrix below, so the next
+     * promotion cannot leave this figure behind.
      */
     public function testThePublishedCorpusCeilingMatchesTheBudgets(): void
     {
-        self::assertSame(144_900, RevisionBudgetRule::corpusCeiling(27, 124, 12));
+        self::assertSame(145_200, RevisionBudgetRule::corpusCeiling(27, 123, 13));
+    }
+
+    public function testThePublishedLevelCountsAreTheMatrixCounts(): void
+    {
+        $counts = ['MINIMAL' => 0, 'STANDARD' => 0, 'DEEP' => 0];
+        foreach (\CertPath\Support\Project::locate()->loadContentSet()->matrix->items as $item) {
+            ++$counts[$item->contentLevel->value];
+        }
+        self::assertSame(['MINIMAL' => 27, 'STANDARD' => 123, 'DEEP' => 13], $counts);
     }
 
     /**

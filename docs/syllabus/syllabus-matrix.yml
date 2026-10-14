@@ -9396,12 +9396,16 @@ items:
     lot: lot-26
     chapter: null
     classification: OFFICIAL
-    content_level: STANDARD
+    content_level: DEEP
     content_level_justification: >-
-      Le raisonnement porte sur un découpage en deux responsabilités — normaliser puis encoder, la forme
-      normalisée n'étant un tableau que pour un objet — et sur la prévision de ce qui figure dans le résultat : une propriété
-      sans groupe disparaît dès qu'un groupe est demandé. Le nombre de normaliseurs et d'options du
-      composant n'est pas de la complexité, et les ponts tiers sont hors périmètre.
+      Promu STANDARD -> DEEP le 2026-10-14 (remédiation P1.5), sur les mécanismes et non sur un compteur.
+      Prévoir ce que produit une sérialisation exige de combiner quatre règles indépendantes, dont chacune
+      change seule le résultat : la forme normalisée dépend du normaliseur élu — tableau pour un objet,
+      chaîne pour une date ou une enum ; l'élection suit l'ordre des normaliseurs, et ObjectNormalizer
+      placé devant un normaliseur spécialisé l'avale ; groupes, Ignore et SerializedName n'agissent que si
+      les métadonnées sont branchées ; à la dénormalisation, le contrôle des types dépend d'un extracteur,
+      sans lequel PHP convertit en silence. Les erreurs naissent de leurs combinaisons, qu'un tableau de
+      définitions ne fait pas voir. Les ponts tiers restent hors périmètre.
     learning_outcomes:
       - id: OUT-g6j22cqpx1ga
         outcome: Séparer le rôle des normaliseurs de celui des encodeurs et prévoir la forme normalisée (tableau, chaîne, scalaire)
@@ -9413,12 +9417,18 @@ items:
         outcome: Prévoir l'effet d'une demande de groupe sur une propriété qui n'en déclare aucun
       - id: OUT-4bynfsdjvrc5
         outcome: Connaître le traitement des références circulaires et son seuil par défaut
+      - id: OUT-hkvn3vxj4fyb
+        outcome: Prévoir quel normaliseur traite une valeur selon leur ordre, et écrire un normaliseur dédié
+      - id: OUT-m8wfdy7569p8
+        outcome: Prévoir la dénormalisation — contrôle des types selon l'extracteur, erreurs collectées, objet à remplir
+      - id: OUT-cf0sd5w3fzhe
+        outcome: Régler un appel par le contexte — valeurs nulles omises, format des dates
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
-      dont au moins une en mode examen.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode examen,
+      et prévision sans support de la sortie d'un cas qui combine deux des règles.
     exclusion_boundaries: "Bridges to third-party services are not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -9432,10 +9442,16 @@ items:
       - "CRS-3z96cp2s1dka"
     flashcard_refs:
       - "FLC-50daktpqmkv9"
+      - "FLC-7pd9j9cfpxer"
+      - "FLC-qqh239qh9bmb"
+      - "FLC-d5w66y32a3ka"
     question_refs:
       - "QST-jyjz9an9yt07"
       - "QST-xeygxgdd5586"
       - "QST-0a0tb3jj6h5v"
+      - "QST-1wg4b6eb9q3t"
+      - "QST-6w2q3s8tttm3"
+      - "QST-hjv0ngsgvqxr"
     exercise_refs: []
     exam_refs: []
     prerequisites: []
