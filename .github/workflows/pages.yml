@@ -359,7 +359,7 @@ jobs:
           missing=""
           grep -aq '>Mémorisation<' /tmp/l2r-http-response || missing="$missing response:no-recall-heading"
           grep -aq '>Pièges<' /tmp/l2r-http-response || missing="$missing response:no-trap-heading"
-          grep -aq 'Le contrôleur rend, le runner émet' /tmp/l2r-http-response \
+          grep -aq 'Le controller rend, le runner émet' /tmp/l2r-http-response \
             || missing="$missing response:no-send-tip"
           grep -aq 'making it also safe to be embedded into HTML' /tmp/l2r-http-response \
             || missing="$missing response:no-json-encoding-card"
@@ -607,9 +607,9 @@ jobs:
           grep -aq '>Mémorisation<' /tmp/l3r-components || missing="$missing components:no-recall-heading"
           grep -aq '>Application<' /tmp/l3r-components || missing="$missing components:no-application-heading"
           grep -aq '>Pièges<' /tmp/l3r-components || missing="$missing components:no-trap-heading"
-          grep -aq 'deux clés distinctes' /tmp/l3r-components \
+          grep -aq 'deux keys distinctes' /tmp/l3r-components \
             || missing="$missing components:no-replace-provide-section"
-          grep -aq 'qui dément la définition' /tmp/l3r-components \
+          grep -aq 'qui dément la definition' /tmp/l3r-components \
             || missing="$missing components:no-phpunit-counterexample"
           grep -aq 'aucune bibliothèque tierce' /tmp/l3r-components \
             || missing="$missing components:no-phpunit-require"
@@ -635,7 +635,7 @@ jobs:
           grep -aq '>Mémorisation<' /tmp/l3r-codeorg || missing="$missing codeorg:no-recall-heading"
           grep -aq '>Application<' /tmp/l3r-codeorg || missing="$missing codeorg:no-application-heading"
           grep -aq '>Pièges<' /tmp/l3r-codeorg || missing="$missing codeorg:no-trap-heading"
-          grep -aq 'Les quatre accesseurs du noyau' /tmp/l3r-codeorg \
+          grep -aq 'Les quatre accesseurs du kernel' /tmp/l3r-codeorg \
             || missing="$missing codeorg:no-kernel-accessors-section"
           grep -aq 'getShareDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-share-dir"
           grep -aq 'getEnvDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-env-dir"
@@ -666,7 +666,7 @@ jobs:
             || missing="$missing reqhandling:no-exception-branch"
           grep -aq 'ControllerDoesNotReturnResponseException' /tmp/l3r-reqhandling \
             || missing="$missing reqhandling:no-view-exception"
-          grep -aq 'sur les trois chemins' /tmp/l3r-reqhandling \
+          grep -aq 'sur les trois paths' /tmp/l3r-reqhandling \
             || missing="$missing reqhandling:no-finish-request-guarantee"
           if [ -n "$missing" ]; then
             echo "::error::Lot 03 refinement missing from the Request handling page:$missing"
@@ -691,11 +691,11 @@ jobs:
             || missing="$missing exception:no-listener-priorities"
           grep -aq 'removeCspHeader' /tmp/l3r-exception \
             || missing="$missing exception:no-fourth-hook"
-          grep -aq 'vraie sous-requête' /tmp/l3r-exception \
+          grep -aq 'vraie sub-Request' /tmp/l3r-exception \
             || missing="$missing exception:no-sub-request-section"
           grep -aq 'WithHttpStatus' /tmp/l3r-exception \
             || missing="$missing exception:no-with-http-status"
-          grep -aq 'sans un seul écouteur' /tmp/l3r-exception \
+          grep -aq 'sans un seul listener' /tmp/l3r-exception \
             || missing="$missing exception:no-422-conclusion"
           if [ -n "$missing" ]; then
             echo "::error::Lot 03 refinement missing from the Exception handling page:$missing"
@@ -914,7 +914,7 @@ jobs:
           grep -aq '>Mémorisation<' /tmp/l3r-naming || missing="$missing naming:no-recall-heading"
           grep -aq '>Application<' /tmp/l3r-naming || missing="$missing naming:no-application-heading"
           grep -aq '>Pièges<' /tmp/l3r-naming || missing="$missing naming:no-trap-heading"
-          grep -aq 'méthode de collection' /tmp/l3r-naming \
+          grep -aq 'method de collection' /tmp/l3r-naming \
             || missing="$missing naming:no-method-naming-section"
           grep -aq 'getXXXs' /tmp/l3r-naming \
             || missing="$missing naming:no-irregular-all"
@@ -947,7 +947,7 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-understanding-heading"
           grep -aq '>Application<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-application-heading"
           grep -aq '>Pièges<' /tmp/l4r-httpkernel || missing="$missing httpkernel:no-trap-heading"
-          grep -aq 'dix-sept méthodes' /tmp/l4r-httpkernel \
+          grep -aq 'dix-sept methods' /tmp/l4r-httpkernel \
             || missing="$missing httpkernel:no-interface-table"
           grep -aq 'locateResource' /tmp/l4r-httpkernel \
             || missing="$missing httpkernel:no-kernelinterface-methods"
@@ -1135,7 +1135,7 @@ jobs:
           grep -aq '>Pièges<' /tmp/l4r-session || missing="$missing l4session:no-trap-heading"
           grep -aq 'getAttributeBag' /tmp/l4r-session \
             || missing="$missing l4session:no-shared-bag-access"
-          grep -aq 'sept méthodes' /tmp/l4r-session \
+          grep -aq 'sept methods' /tmp/l4r-session \
             || missing="$missing l4session:no-method-count"
           grep -aq 'destroy' /tmp/l4r-session \
             || missing="$missing l4session:no-destroy-argument"
@@ -1195,7 +1195,7 @@ jobs:
             || missing="$missing l4redirect:no-status-list"
           grep -aq 'InvalidArgumentException' /tmp/l4r-redirect \
             || missing="$missing l4redirect:no-constructor-exception"
-          grep -aq 'chemin absolu' /tmp/l4r-redirect \
+          grep -aq 'path absolu' /tmp/l4r-redirect \
             || missing="$missing l4redirect:no-absolute-path"
           if [ -n "$missing" ]; then
             echo "::error::Lot 04 refinement missing from the HTTP redirects page:$missing"
@@ -2268,7 +2268,7 @@ jobs:
             || missing="$missing l7upl:no-file-validator"
           grep -aq 'HttpFoundationRequestHandler' /tmp/l7r-upload \
             || missing="$missing l7upl:no-request-handler"
-          grep -aq 'chemin temporaire' /tmp/l7r-upload \
+          grep -aq 'path temporaire' /tmp/l7r-upload \
             || missing="$missing l7upl:no-temporary-path"
           if [ -n "$missing" ]; then
             echo "::error::Lot 07 refinement missing from the file upload page:$missing"
@@ -2477,7 +2477,7 @@ jobs:
             || missing="$missing l8con:no-financial-family"
           grep -aq 'Week' /tmp/l8r-constraints \
             || missing="$missing l8con:no-week"
-          grep -aq 'entier <code>0</code> passe' /tmp/l8r-constraints \
+          grep -aq 'int <code>0</code> passe' /tmp/l8r-constraints \
             || missing="$missing l8con:no-integer-zero"
           if [ -n "$missing" ]; then
             echo "::error::Lot 08 refinement missing from the built-in constraints page:$missing"
@@ -2607,7 +2607,7 @@ jobs:
             || missing="$missing l8vbd:no-message-template"
           grep -aq 'change pas la valeur fautive' /tmp/l8r-builder \
             || missing="$missing l8vbd:no-invalid-value-heading"
-          grep -aq 'Les dix méthodes' /tmp/l8r-builder \
+          grep -aq 'Les dix methods' /tmp/l8r-builder \
             || missing="$missing l8vbd:no-ten-methods"
           if [ -n "$missing" ]; then
             echo "::error::Lot 08 refinement missing from the violations builder page:$missing"
@@ -3181,7 +3181,7 @@ jobs:
             || missing="$missing l10acl:no-request-matcher"
           grep -aq 'should not be specified' /tmp/l10r-acl \
             || missing="$missing l10acl:no-matcher-error"
-          grep -aq 'chaîne de requête' /tmp/l10r-acl \
+          grep -aq 'chaîne de Request' /tmp/l10r-acl \
             || missing="$missing l10acl:no-query-string"
           if [ -n "$missing" ]; then
             echo "::error::Lot 10 refinement missing from the access control rules page:$missing"
@@ -3728,7 +3728,7 @@ jobs:
             || missing="$missing l13cl:no-redirect-default"
           grep -aqF -- 'stateless: true' /tmp/l13r-client-object \
             || missing="$missing l13cl:no-stateless-login"
-          grep -aqF -- 'deux objets conteneur' /tmp/l13r-client-object \
+          grep -aqF -- 'deux objects container' /tmp/l13r-client-object \
             || missing="$missing l13cl:no-container-reboot"
           if [ -n "$missing" ]; then
             echo "::error::Lot 13 refinement missing from the client page:$missing"
@@ -3776,7 +3776,7 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l13r-profiler-object-webprofiler-bundle || missing="$missing l13pr:no-understanding-heading"
           grep -aq '>Application<' /tmp/l13r-profiler-object-webprofiler-bundle || missing="$missing l13pr:no-application-heading"
           grep -aq '>Pièges<' /tmp/l13r-profiler-object-webprofiler-bundle || missing="$missing l13pr:no-trap-heading"
-          grep -aqF -- 'pas de profileur' /tmp/l13r-profiler-object-webprofiler-bundle \
+          grep -aqF -- 'pas de profiler' /tmp/l13r-profiler-object-webprofiler-bundle \
             || missing="$missing l13pr:no-missing-profiler"
           grep -aqF -- 'rien collecté' /tmp/l13r-profiler-object-webprofiler-bundle \
             || missing="$missing l13pr:no-uncollected"
@@ -3854,11 +3854,11 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-understanding-heading"
           grep -aq '>Application<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-application-heading"
           grep -aq '>Pièges<' /tmp/l13r-request-and-response-objects-introspection || missing="$missing l13rr:no-trap-heading"
-          grep -aqF -- 'Avant la première requête' /tmp/l13r-request-and-response-objects-introspection \
+          grep -aqF -- 'Avant la première Request' /tmp/l13r-request-and-response-objects-introspection \
             || missing="$missing l13rr:no-before-first-request"
-          grep -aqF -- 'Après une redirection' /tmp/l13r-request-and-response-objects-introspection \
+          grep -aqF -- 'Après un redirect' /tmp/l13r-request-and-response-objects-introspection \
             || missing="$missing l13rr:no-after-redirect"
-          grep -aqF -- 'la requête qui a redirigé' /tmp/l13r-request-and-response-objects-introspection \
+          grep -aqF -- 'la Request qui a redirigé' /tmp/l13r-request-and-response-objects-introspection \
             || missing="$missing l13rr:no-redirecting-request"
           if [ -n "$missing" ]; then
             echo "::error::Lot 13 refinement missing from the request and response introspection page:$missing"
@@ -3880,9 +3880,9 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l13r-handling-legacy-deprecated-code || missing="$missing l13dp:no-understanding-heading"
           grep -aq '>Application<' /tmp/l13r-handling-legacy-deprecated-code || missing="$missing l13dp:no-application-heading"
           grep -aq '>Pièges<' /tmp/l13r-handling-legacy-deprecated-code || missing="$missing l13dp:no-trap-heading"
-          grep -aqF -- 'reconnaître une dépréciation' /tmp/l13r-handling-legacy-deprecated-code \
+          grep -aqF -- 'reconnaître une deprecation' /tmp/l13r-handling-legacy-deprecated-code \
             || missing="$missing l13dp:no-markers-recap"
-          grep -aqF -- 'barre de débogage' /tmp/l13r-handling-legacy-deprecated-code \
+          grep -aqF -- 'debug toolbar' /tmp/l13r-handling-legacy-deprecated-code \
             || missing="$missing l13dp:no-debug-toolbar"
           grep -aqF -- 'failOnDeprecation' /tmp/l13r-handling-legacy-deprecated-code \
             || missing="$missing l13dp:no-phpunit-execution"
@@ -3962,7 +3962,7 @@ jobs:
             || missing="$missing l14cd:no-function-exists"
           grep -aqF -- 'Cache-Control' /tmp/l14r-code-debugging \
             || missing="$missing l14cd:no-lost-header"
-          grep -aqF -- 'réponse corrompue' /tmp/l14r-code-debugging \
+          grep -aqF -- 'Response corrompue' /tmp/l14r-code-debugging \
             || missing="$missing l14cd:no-corrupted-response"
           if [ -n "$missing" ]; then
             echo "::error::Lot 14 refinement missing from the code debugging page:$missing"
@@ -4010,7 +4010,7 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-understanding-heading"
           grep -aq '>Application<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-application-heading"
           grep -aq '>Pièges<' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors || missing="$missing l15wp:no-trap-heading"
-          grep -aqF -- 'HTML sans balise' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
+          grep -aqF -- 'HTML sans tag' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
             || missing="$missing l15wp:no-body-tag"
           grep -aqF -- '2 * 86400' /tmp/l15r-web-profiler-web-debug-toolbar-and-data-collectors \
             || missing="$missing l15wp:no-purge-threshold"
@@ -4040,7 +4040,7 @@ jobs:
             || missing="$missing l16in:no-classic-strtr"
           grep -aqF -- 'échappe rien' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
             || missing="$missing l16in:no-unescaped-tag"
-          grep -aqF -- 'paramètres compris' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
+          grep -aqF -- 'parameters compris' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
             || missing="$missing l16in:no-unescaped-parameters"
           if [ -n "$missing" ]; then
             echo "::error::Lot 16 refinement missing from the internationalization page:$missing"
@@ -4088,9 +4088,9 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l18r-cache || missing="$missing l18ca:no-understanding-heading"
           grep -aq '>Application<' /tmp/l18r-cache || missing="$missing l18ca:no-application-heading"
           grep -aq '>Pièges<' /tmp/l18r-cache || missing="$missing l18ca:no-trap-heading"
-          grep -aqF -- 'clé présente' /tmp/l18r-cache \
+          grep -aqF -- 'key présente' /tmp/l18r-cache \
             || missing="$missing l18ca:no-forced-recompute"
-          grep -aqF -- 'préfixe ses clés' /tmp/l18r-cache \
+          grep -aqF -- 'préfixe ses keys' /tmp/l18r-cache \
             || missing="$missing l18ca:no-namespace-prefix"
           grep -aqF -- 'FilesystemAdapter' /tmp/l18r-cache \
             || missing="$missing l18ca:no-shared-directory"
@@ -4114,7 +4114,7 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l19r-clock || missing="$missing l19ck:no-understanding-heading"
           grep -aq '>Application<' /tmp/l19r-clock || missing="$missing l19ck:no-application-heading"
           grep -aq '>Pièges<' /tmp/l19r-clock || missing="$missing l19ck:no-trap-heading"
-          grep -aqF -- 'autocâblage' /tmp/l19r-clock \
+          grep -aqF -- 'autowiring' /tmp/l19r-clock \
             || missing="$missing l19ck:no-autowiring"
           grep -aqF -- 'Required' /tmp/l19r-clock \
             || missing="$missing l19ck:no-required-attribute"
@@ -4194,7 +4194,7 @@ jobs:
           grep -aq '>Pièges<' /tmp/l21r-filesystem || missing="$missing l21fs:no-trap-heading"
           grep -aqF -- '0755' /tmp/l21r-filesystem \
             || missing="$missing l21fs:no-umask-mode"
-          grep -aqF -- 'sans chemin' /tmp/l21r-filesystem \
+          grep -aqF -- 'sans path' /tmp/l21r-filesystem \
             || missing="$missing l21fs:no-pathless-exception"
           grep -aqF -- 'cible est remplacée' /tmp/l21r-filesystem \
             || missing="$missing l21fs:no-overwrite"
@@ -4378,7 +4378,7 @@ jobs:
             || missing="$missing l26se:no-public-reach"
           grep -aqF -- 'contrairement au Validator' /tmp/l26r-serializer \
             || missing="$missing l26se:no-default-group"
-          grep -aqF -- 'propriétés sœurs' /tmp/l26r-serializer \
+          grep -aqF -- 'properties sœurs' /tmp/l26r-serializer \
             || missing="$missing l26se:no-sibling-repeat"
           if [ -n "$missing" ]; then
             echo "::error::Lot 26 refinement missing from the serializer page:$missing"
@@ -4552,7 +4552,7 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'dix-sept méthodes' /tmp/sp-sp04hk \
+          grep -aqF -- 'dix-sept methods' /tmp/sp-sp04hk \
             || missing="$missing sp04hk:no-seventeen-methods"
           grep -aqF -- 'ne doit rien à la' /tmp/sp-sp04hk \
             || missing="$missing sp04hk:no-private-not-reflection"
@@ -4608,7 +4608,7 @@ jobs:
           missing=""
           grep -aqF -- 'Cinq exceptions de HttpFoundation' /tmp/sp-sp04nf \
             || missing="$missing sp04nf:no-five-request-exceptions"
-          grep -aqF -- 'sur un corps invalide' /tmp/sp-sp04nf \
+          grep -aqF -- 'sur un body invalide' /tmp/sp-sp04nf \
             || missing="$missing sp04nf:no-json-400"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-04/generate-404-pages:$missing"
@@ -4624,7 +4624,7 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'recopiée sur un chemin' /tmp/sp-sp04rc \
+          grep -aqF -- 'recopiée sur un path' /tmp/sp-sp04rc \
             || missing="$missing sp04rc:no-copied-on-path"
           grep -aqF -- 'jamais une URL complète' /tmp/sp-sp04rc \
             || missing="$missing sp04rc:no-never-full-url"
@@ -4642,9 +4642,9 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'produit le chemin absolu' /tmp/sp-sp05tr \
+          grep -aqF -- 'produit le path absolu' /tmp/sp-sp05tr \
             || missing="$missing sp05tr:no-absolute-path"
-          grep -aqF -- 'un chemin sans hôte' /tmp/sp-sp05tr \
+          grep -aqF -- 'un path sans hôte' /tmp/sp-sp05tr \
             || missing="$missing sp05tr:no-hostless-path"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-05/trigger-redirects:$missing"
@@ -4735,7 +4735,7 @@ jobs:
           missing=""
           grep -aqF -- 'tout autre retour garde le' /tmp/sp-sp13cr \
             || missing="$missing sp13cr:no-other-return-keeps"
-          grep -aqF -- 'une fonction sans' /tmp/sp-sp13cr \
+          grep -aqF -- 'une function sans' /tmp/sp-sp13cr \
             || missing="$missing sp13cr:no-closure-without-return"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-13/crawler-object-cssselector-and-domcrawler-components:$missing"
@@ -4751,9 +4751,9 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'Pour un contrôleur invocable' /tmp/sp-sp13ri \
+          grep -aqF -- 'Pour un controller invocable' /tmp/sp-sp13ri \
             || missing="$missing sp13ri:no-invokable"
-          grep -aqF -- 'omet le nom de la méthode' /tmp/sp-sp13ri \
+          grep -aqF -- 'omet le nom de la method' /tmp/sp-sp13ri \
             || missing="$missing sp13ri:no-method-omitted"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-13/request-and-response-objects-introspection:$missing"
@@ -4789,7 +4789,7 @@ jobs:
           missing=""
           grep -aqF -- 'Bob reçoit la page' /tmp/sp-sp17hc \
             || missing="$missing sp17hc:no-bob-gets-alice"
-          grep -aqF -- 'Sinon, une requête' /tmp/sp-sp17hc \
+          grep -aqF -- 'Sinon, une Request' /tmp/sp-sp17hc \
             || missing="$missing sp17hc:no-otherwise-private"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included:$missing"
@@ -4891,9 +4891,9 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'devient une propriété adossée' /tmp/sp-sp01api \
+          grep -aqF -- 'devient une property adossée' /tmp/sp-sp01api \
             || missing="$missing sp01api:no-backed-property"
-          grep -aqF -- 'donc une classe enfant peut' /tmp/sp-sp01api \
+          grep -aqF -- 'donc une class enfant peut' /tmp/sp-sp01api \
             || missing="$missing sp01api:no-child-may-init"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-01/php-api-up-to-php-8-4-version:$missing"
@@ -4909,7 +4909,7 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'une classe fille peut donc' /tmp/sp-sp01oop \
+          grep -aqF -- 'une class fille peut donc' /tmp/sp-sp01oop \
             || missing="$missing sp01oop:no-child-may"
           grep -aqF -- 'implicite en 8.4' /tmp/sp-sp01oop \
             || missing="$missing sp01oop:no-implicit-84"
@@ -4963,9 +4963,9 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'qui ne peut porter aucun objet' /tmp/sp-sp01clos \
+          grep -aqF -- 'qui ne peut porter aucun object' /tmp/sp-sp01clos \
             || missing="$missing sp01clos:no-static-no-object"
-          grep -aqF -- 'seulement sa portée de classe' /tmp/sp-sp01clos \
+          grep -aqF -- 'seulement son scope de class' /tmp/sp-sp01clos \
             || missing="$missing sp01clos:no-scope-only"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-01/anonymous-functions-and-closures:$missing"
@@ -5017,7 +5017,7 @@ jobs:
             fail=1
           fi
           missing=""
-          grep -aqF -- 'même si la classe de' /tmp/sp-sp01trait \
+          grep -aqF -- 'même si la class de' /tmp/sp-sp01trait \
             || missing="$missing sp01trait:no-even-if-class"
           grep -aqF -- 'lui, le voit' /tmp/sp-sp01trait \
             || missing="$missing sp01trait:no-class-uses"
