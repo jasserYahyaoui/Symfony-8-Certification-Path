@@ -243,7 +243,7 @@ jobs:
           curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/l1page "$BASE_URL/docs/courses/lot-01/interfaces"
           missing=""
           grep -q 'surchargeables depuis 8.1' /tmp/l1page || missing="$missing constant-override"
-          grep -q 'ne peut pas satisfaire une propriété' /tmp/l1page || missing="$missing readonly-vs-set"
+          grep -q 'ne peut pas satisfaire une property' /tmp/l1page || missing="$missing readonly-vs-set"
           if [ -n "$missing" ]; then
             echo "::error::Lot 01 refinement missing from the published Interfaces page:$missing"
             fail=1
