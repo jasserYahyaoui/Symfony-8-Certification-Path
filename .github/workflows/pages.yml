@@ -5088,7 +5088,9 @@ jobs:
           elif [ "$(tr -cd '\000' < /tmp/nul-bcp | wc -c)" != "0" ]; then
             echo "::error::NUL bytes are back in lot-03/backward-compatibility-promise"
             fail=1
-          elif ! grep -aqF -- 'href="#points-clés"' /tmp/nul-bcp; then
+          # Since 2026-10-14 a course heading carries an explicit id
+          # (CourseUrl::sectionAnchor), so the key points are #s-points-cles.
+          elif ! grep -aqF -- 'href="#s-points-cles"' /tmp/nul-bcp || ! grep -aqF -- 'id="s-points-cles"' /tmp/nul-bcp; then
             echo "::error::The table-of-contents link to the key points of lot-03/backward-compatibility-promise is broken"
             fail=1
           else
