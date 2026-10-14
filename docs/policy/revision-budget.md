@@ -47,9 +47,13 @@ for the refinement work to come. The constraint that bounds them from above is
 the **full-corpus revision pass**:
 
 ```
-27 × 700  +  124 × 900  +  12 × 1200  =  144 900 body words
-144 900 / 250 words per minute        ≈  9.7 hours
+27 × 700  +  123 × 900  +  13 × 1200  =  145 200 body words
+145 200 / 250 words per minute        ≈  9.7 hours
 ```
+
+The counts moved twice by promotion, never by a raise: *HTTP request* on
+2026-09-16 (27/124/12, 144 900) and *Serializer* on 2026-10-14 (27/123/13,
+145 200) — see below.
 
 ### Why MINIMAL was raised on 2026-09-16 (ADR-0008)
 
@@ -103,8 +107,19 @@ derivation fixes is the shape of the claim: the whole corpus must stay
 revisable in about one long day, and the per-level budgets are that total
 distributed by how much each level was judged to need.
 
+**A second promotion, 2026-10-14: *Serializer*, `STANDARD` → `DEEP`.** The
+remediation of finding F1 corrected a false general rule (« always an array »)
+and then extended the item (P1.5): normalizer election order, a custom
+normalizer, type checks that depend on a property type extractor, collected
+denormalization errors, `OBJECT_TO_POPULATE`, and per-call context. Each is
+executed in `tools/behavior/checks/serializer.php`. The justification in the
+matrix names four independent rules that each change the output alone, and
+says the errors come from their combinations; it reads the same with the word
+counts removed, which is the test of good faith stated above. The budget was
+not touched; the course stayed at 900 words as STANDARD until the promotion.
+
 `RefinementFrameworkRuleTest::testThePublishedCorpusCeilingMatchesTheBudgets`
-asserts the 136 500 figure against the rule's own constants, so this document
+asserts the 145 200 figure against the rule's own constants, so this document
 and the code cannot drift apart.
 
 The corpus measured **65 477 body words** on 2026-09-08 — about 4.4 hours. On

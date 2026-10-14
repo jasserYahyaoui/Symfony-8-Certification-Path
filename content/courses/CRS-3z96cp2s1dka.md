@@ -2,10 +2,10 @@
 id: CRS-3z96cp2s1dka
 official_item: OIT-fr58jzaj6jtb
 title: "Serializer"
-content_level: STANDARD
+content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-13"
+reviewed_at: "2026-10-14"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst"
@@ -23,6 +23,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "normalize() — @return array|string|int|float|bool|\\ArrayObject|null"
     verified_at: "2026-10-13"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php"
+    branch: "8.0"
+    symbol_or_lines: "serializer.normalizer.object: priority -1000, receives property_info"
+    verified_at: "2026-10-14"
 ---
 
 ## Objectif
@@ -129,6 +134,45 @@ Il agit par le convertisseur de noms `MetadataAwareNameConverter`. Le service
 **sans** lui ignore l'attribut. Exécuté : `fullName` sans convertisseur,
 `full_name` avec.
 
+## Quel normaliseur agit ?
+
+Le `Serializer` interroge ses normaliseurs **dans l'ordre** et confie la valeur
+au **premier** dont `supportsNormalization()` répond vrai. `getSupportedTypes()`
+déclare les types visés, pour éviter les appels inutiles.
+
+Exécuté avec un `MoneyNormalizer` qui rend `"12.50 EUR"` :
+
+| Ordre | `price` dans le JSON |
+|---|---|
+| `[MoneyNormalizer, ObjectNormalizer]` | `"12.50 EUR"` |
+| `[ObjectNormalizer, MoneyNormalizer]` | `{"cents":1250,"currency":"EUR"}` |
+
+`ObjectNormalizer` accepte presque tout objet : placé devant, il avale aussi les
+dates. Le framework l'enregistre avec la priorité **−1000**, si bien qu'un
+normaliseur de l'application, autoconfiguré, passe avant lui.
+
+## Dénormaliser
+
+Le contrôle des types vient d'un **extracteur de types**, que le service du
+framework reçoit. Exécuté sur une propriété `int $qty` :
+
+| JSON | Sans extracteur | Avec extracteur |
+|---|---|---|
+| `{"qty":"7"}` | `7` : PHP convertit | `NotNormalizableValueException` |
+| `{"qty":"x"}` | `NotNormalizableValueException` | idem |
+
+`COLLECT_DENORMALIZATION_ERRORS` rassemble les erreurs dans une
+`PartialDenormalizationException` au lieu de s'arrêter à la première.
+
+`OBJECT_TO_POPULATE` remplit un objet existant : exécuté, `{"qty":7}` change
+`qty` et laisse `note` intact, et c'est bien le même objet qui est rendu.
+
+## Le contexte
+
+Le troisième argument règle **un** appel : `skip_null_values` retire les
+propriétés nulles, `datetime_format` change le format des dates — exécuté,
+`Y-m-d` rend `"2026-01-02"`.
+
 ## Les références circulaires
 
 Deux objets qui se pointent l'un l'autre feraient boucler la normalisation. Le
@@ -158,7 +202,10 @@ répété côte à côte n'est pas circulaire.
 **Normaliseur puis encodeur**, dans les deux sens — mais l'étape du milieu
 n'est un tableau que pour un objet : une date ou une enum deviennent une chaîne.
 
-**Plusieurs normaliseurs, un seul encodeur** par opération.
+**Plusieurs normaliseurs, un seul encodeur** par opération ; le **premier**
+normaliseur qui accepte la valeur l'emporte.
+
+**`"7"` pour un `int`** n'est refusé qu'avec un extracteur de types.
 
 **Une propriété sans groupe disparaît** dès qu'un groupe est demandé — si le
 normaliseur dispose de ses métadonnées.
@@ -175,6 +222,7 @@ groupe.
   chaîne pour une date ou une enum) ; encodeur = représentation ⇄ format.
 - `#[Ignore]` exclut partout, les groupes excluent au cas par cas.
 - `#[SerializedName]` renomme dans le format seul.
+- Ordre des normaliseurs ; types contrôlés par l'extracteur ; contexte par appel.
 - Référence circulaire : exception, seuil `1`, rappel possible.
 
 ## Sources officielles

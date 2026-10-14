@@ -55,8 +55,8 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
-| F7 | Too few multiple-answer questions | À FAIRE | P1.6 — baseline: 0 in VALIDATION and COMPREHENSION |
-| F8 | Unsourced "not examinable" restrictions | À FAIRE | P1.1–P1.5, P2.7 |
+| F7 | Too few multiple-answer questions | **EN COURS** — +1 LEARNING, +1 COMPREHENSION (P1.5); VALIDATION still 0 | P1.6 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer extended (P1.5, VÉRIFIÉ local); P1.1–P1.4, P2.7 À FAIRE | see P1.5 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -142,6 +142,39 @@ it before the rewrite would turn CI red.
 holdout, which this project has so far kept unread so that the owner, who has
 not taken Mock 4, can take it unseen. The owner chose to leave it untouched for
 now (« Owner decisions », 1).
+
+### P1.5 — Serializer extended (F8, part)
+
+Executed first, on Serializer 8.0.15 (`tools/behavior/checks/serializer.php`,
+four new checks, 14 facts in all):
+
+| Behaviour | Result |
+|---|---|
+| `[ObjectNormalizer, MoneyNormalizer]` vs the reverse | the first that accepts wins: `{"cents":1250,…}` vs `"12.50 EUR"`; ObjectNormalizer first also takes a date and exposes its getters |
+| `{"qty":"7"}` into `int $qty` | `7` without a type extractor (PHP coercion), `NotNormalizableValueException` with one |
+| `COLLECT_DENORMALIZATION_ERRORS` | one `PartialDenormalizationException`, paths `qty`, `note` |
+| `OBJECT_TO_POPULATE` | same instance returned, absent keys untouched |
+| `skip_null_values`, `datetime_format` | `{"qty":1}`, `"2026-01-02"` |
+
+Framework wiring read in `FrameworkBundle/Resources/config/serializer.php`
+(8.0): ObjectNormalizer at priority -1000 with `property_info`; autoconfigured
+normalizers are tagged without priority (`FrameworkExtension`).
+
+**Level: STANDARD → DEEP**, on the item: four independent rules each change the
+output alone (form by elected normalizer, election order, metadata wiring,
+extractor-dependent types). Recorded in the matrix justification and in
+`docs/policy/revision-budget.md`; the corpus ceiling becomes 27/123/13 =
+145 200, and a new test holds the published counts equal to the matrix.
+
+Content: three course sections (« Quel normaliseur agit ? », « Dénormaliser »,
+« Le contexte »), three outcomes (`OUT-hkvn3vxj4fyb`, `OUT-m8wfdy7569p8`,
+`OUT-cf0sd5w3fzhe`), three flashcards, three LEARNING questions (one
+multiple-answer, two `hard`), three COMPREHENSION questions (one
+multiple-answer). A first draft of the code question repeated the course's own
+Money example and CRS-001 refused it; it was rewritten as a transfer case (a
+date taken by ObjectNormalizer), not fenced to pass. Published figures moved
+with the bank: language policy 731 questions / 710 English / 274 of 275 hard in
+English; Mock 5 universe 656.
 
 ### P1.7 — Content metrics are not the learner (F5)
 

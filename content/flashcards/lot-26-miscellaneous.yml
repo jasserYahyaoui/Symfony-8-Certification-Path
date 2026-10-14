@@ -202,3 +202,69 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'The Serialization Process: Normalizers and Encoders'
     verified_at: '2026-10-03'
+- id: FLC-7pd9j9cfpxer
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: TRAP
+  front: 'Serializer construit avec [ObjectNormalizer, MoneyNormalizer] : qui normalise un objet Money ?'
+  back: ObjectNormalizer. Le premier normaliseur qui accepte la valeur l'emporte, et il accepte presque tout objet ; MoneyNormalizer
+    n'est jamais consulté. Dans le framework, ObjectNormalizer a la priorité -1000 et passe après les normaliseurs de l'application.
+  explanation: 'Exécuté sur Serializer 8.0.15 : price sort en {"cents":1250,"currency":"EUR"} au lieu de "12.50 EUR".'
+  memorization_justification: On croit le normaliseur le plus spécialisé choisi ; c'est le premier de la liste.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-14'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'getNormalizer(): the first normalizer whose supported types and supportsNormalization() accept the
+      value'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'serializer.normalizer.object: priority -1000, receives property_info'
+    verified_at: '2026-10-14'
+- id: FLC-qqh239qh9bmb
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: APPLICATION
+  front: 'Dénormaliser {"qty":"7"} vers une propriété int $qty : que se passe-t-il ?'
+  back: Cela dépend de l'extracteur de types. Sans lui, PHP convertit et qty vaut 7. Avec lui — ce que le service du framework
+    reçoit — NotNormalizableValueException.
+  explanation: Exécuté sur Serializer 8.0.15, avec et sans PropertyInfoExtractor(ReflectionExtractor).
+  memorization_justification: Le même appel réussit dans un test écrit à la main et échoue dans l'application.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-14'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: SKIP_NULL_VALUES; validateAndDenormalize() type checks from the property type extractor
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer.php
+    branch: '8.0'
+    symbol_or_lines: 'serializer.normalizer.object: priority -1000, receives property_info'
+    verified_at: '2026-10-14'
+- id: FLC-d5w66y32a3ka
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: RECALL
+  front: Quelles clés de contexte omettent les propriétés nulles, et fixent le format des dates ?
+  back: skip_null_values (AbstractObjectNormalizer::SKIP_NULL_VALUES) et datetime_format (DateTimeNormalizer::FORMAT_KEY).
+  explanation: 'Le contexte, troisième argument, ne règle que l''appel en cours. Exécuté : Y-m-d rend "2026-01-02".'
+  memorization_justification: Deux noms de clé à retrouver sans documentation.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-14'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractObjectNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: SKIP_NULL_VALUES; validateAndDenormalize() type checks from the property type extractor
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/DateTimeNormalizer.php
+    branch: '8.0'
+    symbol_or_lines: FORMAT_KEY = datetime_format
+    verified_at: '2026-10-14'
