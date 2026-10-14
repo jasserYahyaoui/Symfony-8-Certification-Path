@@ -483,5 +483,3 @@ await browser.close();
 server.close();
 console.log(`\nTOTAL VIOLATIONS: ${total}`);
 process.exit(total === 0 ? 0 : 1);
-
-// mirrors the audited zzz page
